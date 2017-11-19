@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							progressBar.css('width', number + '%');
 							progressBar.attr('aria-valuenow', number);
 							percentage.text(number);
-							
+
 							if (number === 100) {
 								dragZone.attr('data-state', 'installing');
 							}
@@ -293,7 +293,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 					<div class="bar bar-success"
 						style="width: 0;"
 						role="progressbar"
-						aria-valuenow="25"
+						aria-valuenow="0"
 						aria-valuemin="0"
 						aria-valuemax="100"
 					></div>
