@@ -415,7 +415,7 @@ class ComponentHelper
 	 *
 	 * @return  string  The component output
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function dispatchComponent(DispatcherInterface $dispatcher): string
 	{
@@ -536,7 +536,7 @@ class ComponentHelper
 	 *
 	 * @return  string  The name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getComponentName($object, string $alternativeName): string
 	{

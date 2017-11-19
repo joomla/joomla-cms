@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * A list of view levels containing the id and title of the view level
 	 *
 	 * @var    \stdClass[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $levels;
 

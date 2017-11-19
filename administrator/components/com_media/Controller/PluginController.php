@@ -21,7 +21,7 @@ use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
  *
  * This controller handles OAuth2 Callbacks
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PluginController extends BaseController
 {
@@ -36,7 +36,7 @@ class PluginController extends BaseController
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function oauthcallback()
 	{
@@ -144,7 +144,7 @@ class PluginController extends BaseController
 	 *
 	 * @return bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function containsPlugin($plugins, $pluginName)
 	{

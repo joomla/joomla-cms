@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for a command line output processor
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 interface ProcessorInterface
@@ -25,7 +25,7 @@ interface ProcessorInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function process($output);
 }

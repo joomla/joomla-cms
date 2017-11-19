@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
 /**
  * Default JSON controller class for the Joomla Installer controllers.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class JSONController extends BaseController
 {
@@ -32,7 +32,7 @@ abstract class JSONController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function sendJsonResponse($response)
 	{
@@ -68,7 +68,7 @@ abstract class JSONController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @see     Session::checkToken()
 	 */
 	public function checkValidToken()

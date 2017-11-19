@@ -15,7 +15,7 @@ use Joomla\CMS\Application\CLI\CliOutput;
 /**
  * Output handler for writing command line output to the stdout interface
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class Stdout extends CliOutput
@@ -29,7 +29,7 @@ class Stdout extends CliOutput
 	 * @return  $this
 	 *
 	 * @codeCoverageIgnore
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function out($text = '', $nl = true)
 	{

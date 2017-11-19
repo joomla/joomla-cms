@@ -207,7 +207,7 @@ class ArchiveModel extends ArticlesModel
 	*
 	* @return  string
 	*
-	* @since   __DEPLOY_VERSION__
+	* @since   4.0.0
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{

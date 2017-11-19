@@ -17,7 +17,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Checks model for the Joomla Core Installer.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ChecksModel extends BaseInstallationModel
 {

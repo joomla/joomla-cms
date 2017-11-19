@@ -884,7 +884,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Check if HTML5 localStorage enabled on the browser
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.localStorageEnabled = function() {
 		var test = 'joomla-cms';
@@ -900,7 +900,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Loads any needed polyfill for web components and async load any web components
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
 		var wc, polyfills = [];
@@ -1024,7 +1024,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 /**
  * Joomla! Custom events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 (function( window, Joomla ) {
 	"use strict";
@@ -1058,7 +1058,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * 	or:
 	 * 	Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to Window
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.dispatch = function(element, name, params) {
 		if (typeof element === 'string') {
@@ -1083,7 +1083,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param {String}       name      The event name
 	 * @param {Function}     callback  The event callback
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.listenOnce = function (element, name, callback) {
 		var onceCallback = function(event){

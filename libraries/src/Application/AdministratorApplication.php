@@ -473,7 +473,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  string  The component to access.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function findOption()
 	{

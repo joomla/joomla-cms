@@ -20,7 +20,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Media View Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MediaModel extends BaseDatabaseModel
 {
@@ -29,7 +29,7 @@ class MediaModel extends BaseDatabaseModel
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function getProviders()
 	{
