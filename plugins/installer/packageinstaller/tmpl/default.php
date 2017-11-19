@@ -276,12 +276,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 					<span class="uploading-text">
 						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOADING'); ?>
 					</span>
-					<span class="uploading-number">
-						0
-					</span>
-					<span class="uploading-symbol">
-						%
-					</span>
+					<span class="uploading-number">0</span><span class="uploading-symbol">%</span>
 				</p>
 			</div>
 			<div class="upload-actions">
