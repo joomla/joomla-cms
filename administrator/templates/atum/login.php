@@ -106,7 +106,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				</a>
 			</li>
 			<li class="nav-item">
-				<span class="text-white float-right">&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
+				<span class="text-white float-right">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
 			</li>
 		</ul>
 	</nav>
