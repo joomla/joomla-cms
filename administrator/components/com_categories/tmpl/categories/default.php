@@ -220,25 +220,25 @@ if ($saveOrder)
 									</td>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_published; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_unpublished; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_archived > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_archived > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_archived; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_trashed > 0) ? 'badge-inverse' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_trashed > 0) ? 'badge-inverse' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_trashed; ?></a>
 										</td>
 									<?php endif; ?>

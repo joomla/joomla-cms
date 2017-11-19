@@ -361,11 +361,13 @@ CREATE INDEX "#__content_idx_createdby" ON "#__content" ("created_by");
 CREATE INDEX "#__content_idx_featured_catid" ON "#__content" ("featured", "catid");
 CREATE INDEX "#__content_idx_language" ON "#__content" ("language");
 CREATE INDEX "#__content_idx_xreference" ON "#__content" ("xreference");
+CREATE INDEX "#__content_idx_alias" ON "#__content" ("alias");
 
 COMMENT ON COLUMN "#__content"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__content"."featured" IS 'Set if article is featured.';
 COMMENT ON COLUMN "#__content"."language" IS 'The language code for the article.';
 COMMENT ON COLUMN "#__content"."xreference" IS 'A reference to enable linkages to external data sets.';
+
 
 --
 -- Table structure for table `#__content_frontpage`
@@ -726,7 +728,6 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "checked_out" integer DEFAULT '0' NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "ordering" integer DEFAULT '0' NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" bigint DEFAULT '0' NOT NULL,

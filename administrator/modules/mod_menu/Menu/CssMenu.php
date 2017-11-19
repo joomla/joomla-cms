@@ -281,8 +281,14 @@ class CssMenu
 				}
 			}
 
-			// Exclude item if the component is not installed or disabled
-			if ($item->element && (!ComponentHelper::isInstalled($item->element) || !ComponentHelper::isEnabled($item->element)))
+			// Exclude item if is not enabled
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -366,6 +372,11 @@ class CssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
 			}
 
 			$item->text = JText::_($item->title);

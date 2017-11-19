@@ -10,14 +10,14 @@ namespace Joomla\Component\Newsfeeds\Site\View\Categories;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\Categories;
+use Joomla\CMS\MVC\View\CategoriesView;
 
 /**
  * Content categories view.
  *
  * @since  1.5
  */
-class HtmlView extends Categories
+class HtmlView extends CategoriesView
 {
 	/**
 	 * Language key for default page heading

@@ -24,6 +24,7 @@
 			<xs:enumeration value="default" />
 			<xs:enumeration value="edit" />
 			<xs:enumeration value="help" />
+			<xs:enumeration value="massmail" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="trueFalse">

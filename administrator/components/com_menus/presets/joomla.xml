@@ -103,6 +103,7 @@
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=mail"
+			scope="massmail"
 		/>
 	</menuitem>
 	<menuitem

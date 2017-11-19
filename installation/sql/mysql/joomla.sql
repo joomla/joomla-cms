@@ -353,7 +353,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
+  KEY `idx_xreference` (`xreference`),
+  KEY `idx_alias` (`alias`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -717,7 +718,6 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `checked_out` int(11) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
