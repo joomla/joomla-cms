@@ -47,10 +47,10 @@ if ($allowCustom)
 			var customTagPrefix = '#new#';
 
 			// Method to add tags pressing enter
-			$('" . $selector . "_chzn input').keyup(function(event) {
+			$('" . $selector . "_chzn input').keypress(function(event) {
 
 				// Tag is greater than the minimum required chars and enter pressed
-				if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
+				if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.charCode === 44)) {
 
 					// Search a highlighted result
 					var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
