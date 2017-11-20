@@ -350,9 +350,20 @@ class JUserTest extends TestCaseDatabase
 	public function testBind()
 	{
 		$array = array();
+		$username = 'ABCDEFGHILKMNOPQRSTUVZ';
 		$string = '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
 			. '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
 			. '1234567890123456789012345678901234567890';
+
+		$array['username'] = $username;
+		$array['password'] = $string;
+		$array['password2'] = $string;
+
+		$testUser = new JUser;
+		$result = $testUser->bind($array);
+		$this->assertTrue(
+			$result
+		);
 
 		$array['username'] = $string;
 		$array['password'] = $string;
@@ -360,7 +371,7 @@ class JUserTest extends TestCaseDatabase
 
 		$testUser = new JUser;
 		$result = $testUser->bind($array);
-		$this->assertTrue(
+		$this->assertFalse(
 			$result
 		);
 
@@ -374,7 +385,7 @@ class JUserTest extends TestCaseDatabase
 		$result = $testUser->bind($array);
 		$this->assertFalse(
 			$result
-		);
+		);		
 	}
 
 	/**
