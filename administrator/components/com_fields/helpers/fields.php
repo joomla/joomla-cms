@@ -107,6 +107,18 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
+		// Multilingual conditions for user fields
+		if ($context == 'com_users.user')
+		{
+			$app = JFactory::getApplication();
+
+			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+			{
+				$lang = $app->getLanguage()->getTag();
+				self::$fieldsCache->setState('filter.language', array('*', $lang));
+			}
+		}
+
 		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
