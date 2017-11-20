@@ -42,7 +42,7 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');

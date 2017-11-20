@@ -23,7 +23,7 @@ $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
-if ($saveOrder && $menuType)
+if ($saveOrder && $menuType && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
