@@ -47,7 +47,7 @@ if ($section === 'categories')
 	$component = 'com_categories';
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
