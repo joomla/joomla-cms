@@ -12,6 +12,7 @@ use Defuse\Crypto\Crypto as DefuseCrypto;
 use Defuse\Crypto\Key as DefuseKey;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
 use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
+use Defuse\Crypto\RuntimeTests;
 use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
 
@@ -37,7 +38,7 @@ class Crypto implements CipherInterface
 	public function decrypt($data, Key $key)
 	{
 		// Validate key.
-		if ($key->getType() != 'crypto')
+		if ($key->getType() !== 'crypto')
 		{
 			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
@@ -72,7 +73,7 @@ class Crypto implements CipherInterface
 	public function encrypt($data, Key $key)
 	{
 		// Validate key.
-		if ($key->getType() != 'crypto')
+		if ($key->getType() !== 'crypto')
 		{
 			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
 		}
@@ -112,5 +113,26 @@ class Crypto implements CipherInterface
 
 		// Create the new encryption key object.
 		return new Key('crypto', $public->saveToAsciiSafeString(), $public->getRawBytes());
+	}
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isSupported(): bool
+	{
+		try
+		{
+			RuntimeTests::runtimeTest();
+
+			return true;
+		}
+		catch (EnvironmentIsBrokenException $e)
+		{
+			return false;
+		}
 	}
 }

@@ -11,14 +11,14 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Tracks list controller class.
  *
  * @since  1.6
  */
-class TracksController extends Controller
+class TracksController extends BaseController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -35,7 +35,7 @@ class TracksController extends Controller
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -57,7 +57,7 @@ class TracksController extends Controller
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get the model.
-		/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 		$model = $this->getModel();
 
 		// Load the filter state.
@@ -108,7 +108,7 @@ class TracksController extends Controller
 		if ($view = $this->getView($vName, 'raw'))
 		{
 			// Get the model for the view.
-			/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);
 
 			// Load the filter state.

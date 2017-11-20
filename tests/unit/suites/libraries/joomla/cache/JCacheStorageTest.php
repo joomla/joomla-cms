@@ -143,7 +143,7 @@ class JCacheStorageTest extends TestCase
 		);
 
 		$this->assertLessThan(
-			isset($config->cachetime) ? $config->cachetime : 900,
+			$config->cachetime ?? 900,
 			abs($this->object->_now - time()),
 			'Unexpected value for configuration lifetime.'
 		);

@@ -253,7 +253,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('aurora', $template->template);
+		$this->assertEquals('cassiopeia', $template->template);
 	}
 
 	/**
@@ -360,12 +360,12 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('aurora');
+		$this->class->setTemplate('cassiopeia');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('aurora', $template->template);
+		$this->assertEquals('cassiopeia', $template->template);
 	}
 }

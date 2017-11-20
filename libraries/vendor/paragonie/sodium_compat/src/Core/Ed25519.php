@@ -42,7 +42,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
 
         /** @var string $pk */
         $pk = self::publickey_from_secretkey($seed);
-        $sk = self::substr($seed, 0, self::SEED_BYTES) . $pk;
+        $sk = $seed . $pk;
         return $sk;
     }
 
@@ -55,7 +55,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function secretkey($keypair)
     {
         if (self::strlen($keypair) !== self::KEYPAIR_BYTES) {
-            throw new RangeException('crypto_sign keypair seed must be 32 bytes long');
+            throw new RangeException('crypto_sign keypair must be 96 bytes long');
         }
         return self::substr($keypair, 0, 64);
     }
@@ -69,7 +69,7 @@ abstract class ParagonIE_Sodium_Core_Ed25519 extends ParagonIE_Sodium_Core_Curve
     public static function publickey($keypair)
     {
         if (self::strlen($keypair) !== self::KEYPAIR_BYTES) {
-            throw new RangeException('crypto_sign keypair seed must be 32 bytes long');
+            throw new RangeException('crypto_sign keypair must be 96 bytes long');
         }
         return self::substr($keypair, 64, 32);
     }

@@ -1,0 +1,198 @@
+// Header
+
+.container-header {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 20px;
+  background-color: $cassiopeia-template-color;
+  background-image: $cassiopeia-header-grad;
+  box-shadow: 0 5px 5px rgba(0,0,0,.03) inset;
+
+  header {
+    width: 100%;
+    max-width: 1155px;
+    padding: 0 ($cassiopeia-grid-gutter / 2);
+    margin: 0 auto;
+
+  }
+
+  nav {
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2) 4.5rem;
+
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 5.5rem;
+    }
+
+  }
+
+  .site-description {
+    font-size: 1rem;
+    color: $white-offset;
+  }
+
+  .navbar-brand {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    margin-right: auto;
+    font-size: 2rem;
+    color: $white-offset;
+
+    img {
+      width: 290px;
+      min-width: 290px;
+    }
+
+    a {
+      color: $white;
+    }
+
+    &:hover,
+    &:focus {
+      color: darken($white-offset, 6%);
+    }
+  }
+
+  .navbar-nav.flex-column {
+    flex-direction: row !important;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column !important;
+      margin-top: 20px;
+
+    }
+  }
+
+  .navbar-collapse {
+    flex-grow: 0;
+  }
+
+  .navbar-nav li {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &::after {
+      position: absolute;
+      right: 50%;
+      bottom: 0;
+      left: 50%;
+      display: block;
+      height: 2px;
+      margin: auto;
+      content: "";
+      background: transparent;
+      opacity: .2;
+      transition: all .2s ease, background-color .2s ease;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    &.active::after,
+    &:hover::after {
+      right: 2px;
+      left: 0;
+      background: $white;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: .25rem 0 0;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  .navbar-toggler {
+    color: $white-offset;
+    cursor: default;
+    border: 1px solid $white-offset;
+
+    .fa {
+      font-size: 24px;
+    }
+  }
+
+  .form-inline {
+    margin-left: 1.5rem;
+    @include media-breakpoint-down(md) {
+      margin: 1rem 0;
+    }
+  }
+
+}
+
+.container-title {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: $white;
+  background-color: $cassiopeia-template-color;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .page-title {
+    margin-bottom: 0;
+    font-size: 1.3rem;
+    font-weight: normal;
+
+    span {
+      position: relative;
+      top: 2px;
+      margin-right: 12px;
+      margin-left: 5px;
+      font-size: $h1-font-size;
+      color: lighten($cassiopeia-template-color, 10%);
+
+    }
+
+  }
+
+}
+
+.header-shadow {
+  display: none;
+
+  .container-banner + & {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    height: 180px;
+    content: "";
+    background-image: linear-gradient(0deg, rgba(0,0,0,.5) 0%, transparent 100%);
+
+  }
+
+}
+
+.header-shape-bottom {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  left: 0;
+  border-bottom: 20px solid #fafafa;
+  canvas {
+    display: block;
+    width: 100%;
+    visibility: hidden;
+  }
+  svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+}

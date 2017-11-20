@@ -52,83 +52,113 @@ class PlgContentFields extends JPlugin
 		// Register FieldsHelper
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
+		// Prepare the text
+		if (isset($item->text))
+		{
+			$item->text = $this->prepare($item->text, $context, $item);
+		}
+
+		// Prepare the intro text
+		if (isset($item->introtext))
+		{
+			$item->introtext = $this->prepare($item->introtext, $context, $item);
+		}
+	}
+
+	/**
+	 * Prepares the given string by parsing {field} and {fieldgroup} groups and replacing them.
+	 *
+	 * @param   string  $string   The text to prepare
+	 * @param   string  $context  The context of the content
+	 * @param   object  $item     The item object
+	 *
+	 * @return string
+	 *
+	 * @since  3.8.1
+	 */
+	private function prepare($string, $context, $item)
+	{
 		// Search for {field ID} or {fieldgroup ID} tags and put the results into $matches.
 		$regex = '/{(field|fieldgroup)\s+(.*?)}/i';
-		preg_match_all($regex, $item->text, $matches, PREG_SET_ORDER);
+		preg_match_all($regex, $string, $matches, PREG_SET_ORDER);
 
-		if ($matches)
+		if (!$matches)
 		{
-			$parts = FieldsHelper::extract($context);
+			return $string;
+		}
 
-			if (count($parts) < 2)
+		$parts = FieldsHelper::extract($context);
+
+		if (count($parts) < 2)
+		{
+			return $string;
+		}
+
+		$context    = $parts[0] . '.' . $parts[1];
+		$fields     = FieldsHelper::getFields($context, $item, true);
+		$fieldsById = array();
+		$groups     = array();
+
+		// Rearranging fields in arrays for easier lookup later.
+		foreach ($fields as $field)
+		{
+			$fieldsById[$field->id]     = $field;
+			$groups[$field->group_id][] = $field;
+		}
+
+		foreach ($matches as $i => $match)
+		{
+			// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
+			$explode = explode(',', $match[2]);
+			$id      = (int) $explode[0];
+			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
+			$output  = '';
+
+
+			if ($match[1] == 'field' && $id)
 			{
-				return;
-			}
-
-			$context    = $parts[0] . '.' . $parts[1];
-			$fields     = FieldsHelper::getFields($context, $item, true);
-			$fieldsById = array();
-			$groups     = array();
-
-			// Rearranging fields in arrays for easier lookup later.
-			foreach ($fields as $field)
-			{
-				$fieldsById[$field->id]     = $field;
-				$groups[$field->group_id][] = $field;
-			}
-
-			foreach ($matches as $i => $match)
-			{
-				// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
-				$explode = explode(',', $match[2]);
-				$id      = (int) $explode[0];
-				$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
-				$output  = '';
-
-
-				if ($match[1] == 'field' && $id)
+				if (isset($fieldsById[$id]))
 				{
-					if (isset($fieldsById[$id]))
-					{
-						$output = FieldsHelper::render(
-							$context,
-							'field.' . $layout,
-							array(
-								'item'    => $item,
-								'context' => $context,
-								'field'   => $fieldsById[$id]
-							)
-						);
-					}
+					$output = FieldsHelper::render(
+						$context,
+						'field.' . $layout,
+						array(
+							'item'    => $item,
+							'context' => $context,
+							'field'   => $fieldsById[$id]
+						)
+					);
+				}
+			}
+			else
+			{
+				if ($match[2] === '*')
+				{
+					$match[0]     = str_replace('*', '\*', $match[0]);
+					$renderFields = $fields;
 				}
 				else
 				{
-					if ($match[2] === '*')
-					{
-						$match[0]     = str_replace('*', '\*', $match[0]);
-						$renderFields = $fields;
-					}
-					else
-					{
-						$renderFields = isset($groups[$id]) ? $groups[$id] : '';
-					}
-
-					if ($renderFields)
-					{
-						$output = FieldsHelper::render(
-							$context,
-							'fields.' . $layout,
-							array(
-								'item'    => $item,
-								'context' => $context,
-								'fields'  => $renderFields
-							)
-						);
-					}
+					$renderFields = $groups[$id] ?? '';
 				}
 
-				$item->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $item->text, 1);
+				if ($renderFields)
+				{
+					$output = FieldsHelper::render(
+						$context,
+						'fields.' . $layout,
+						array(
+							'item'    => $item,
+							'context' => $context,
+							'fields'  => $renderFields
+						)
+					);
+				}
 			}
+
+			$string = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $string, 1);
 		}
+
+		return $string;
 	}
 }

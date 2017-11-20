@@ -222,7 +222,7 @@ class Document
 	 * Factory for creating JDocument API objects
 	 *
 	 * @var    FactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $factory;
 
@@ -230,7 +230,7 @@ class Document
 	 * Preload manager
 	 *
 	 * @var    PreloadManagerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadManager = null;
 
@@ -238,7 +238,7 @@ class Document
 	 * The supported preload types
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
 
@@ -340,9 +340,9 @@ class Document
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setFactory(FactoryInterface $factory)
+	public function setFactory(FactoryInterface $factory): self
 	{
 		$this->factory = $factory;
 
@@ -560,7 +560,7 @@ class Document
 			$attribs = array();
 
 			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+			$options['version'] = $argList[1] ?? 'auto';
 
 			// Old mime type parameter.
 			if (!empty($argList[2]))
@@ -751,7 +751,7 @@ class Document
 			$attribs = array();
 
 			// Old version parameter.
-			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+			$options['version'] = $argList[1] ?? 'auto';
 
 			// Old mime type parameter.
 			if (!empty($argList[2]))
@@ -951,9 +951,9 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setPreloadManager(PreloadManagerInterface $preloadManager)
+	public function setPreloadManager(PreloadManagerInterface $preloadManager): self
 	{
 		$this->preloadManager = $preloadManager;
 
@@ -965,9 +965,9 @@ class Document
 	 *
 	 * @return  PreloadManagerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getPreloadManager()
+	public function getPreloadManager(): PreloadManagerInterface
 	{
 		return $this->preloadManager;
 	}
@@ -1287,7 +1287,7 @@ class Document
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preloadAssets()
 	{

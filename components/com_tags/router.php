@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterBase;
 
 /**
  * Routing class from com_tags
  *
  * @since  3.3
  */
-class TagsRouter extends \JComponentRouterBase
+class TagsRouter extends RouterBase
 {
 	/**
 	 * Build the route for the com_tags component
@@ -32,7 +34,7 @@ class TagsRouter extends \JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params = \JComponentHelper::getParams('com_tags');
+		$params = ComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))

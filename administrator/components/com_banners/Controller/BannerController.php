@@ -10,7 +10,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class BannerController extends Form
+class BannerController extends FormController
 {
 	/**
 	 * The prefix to use with controller messages.

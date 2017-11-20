@@ -17,7 +17,7 @@ if ($item->language === '*')
 }
 elseif ($item->language_image)
 {
-	echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, null, true) . '&nbsp;' . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
+	echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', '', null, true) . '&nbsp;' . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
 }
 elseif ($item->language_title)
 {

@@ -305,42 +305,7 @@ final class ArrayHelper
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
-		// As of PHP 7, array_column() supports an array of objects so we'll use that
-		if (PHP_VERSION_ID >= 70000)
-		{
-			return array_column($array, $valueCol, $keyCol);
-		}
-
-		$result = [];
-
-		foreach ($array as $item)
-		{
-			// Convert object to array
-			$subject = is_object($item) ? static::fromObject($item) : $item;
-
-			/*
-			 * We process arrays (and objects already converted to array)
-			 * Only if the value column (if required) exists in this item
-			 */
-			if (is_array($subject) && (!isset($valueCol) || isset($subject[$valueCol])))
-			{
-				// Use whole $item if valueCol is null, else use the value column.
-				$value = isset($valueCol) ? $subject[$valueCol] : $item;
-
-				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
-				if (isset($keyCol) && isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
-				{
-					$key          = $subject[$keyCol];
-					$result[$key] = $value;
-				}
-				else
-				{
-					$result[] = $value;
-				}
-			}
-		}
-
-		return $result;
+		return array_column($array, $valueCol, $keyCol);
 	}
 
 	/**
@@ -728,20 +693,60 @@ final class ArrayHelper
 			$array = get_object_vars($array);
 		}
 
+		$result = [];
+
 		foreach ($array as $k => $v)
 		{
 			$key = $prefix ? $prefix . $separator . $k : $k;
 
 			if (is_object($v) || is_array($v))
 			{
-				$array = array_merge($array, static::flatten($v, $separator, $key));
+				$result[] = static::flatten($v, $separator, $key);
 			}
 			else
 			{
-				$array[$key] = $v;
+				$result[] = [$key => $v];
 			}
 		}
 
-		return $array;
+		return array_merge(...$result);
+	}
+
+	/**
+	 * Merge array recursively.
+	 *
+	 * @param   array  $args  Array list to be merge.
+	 *
+	 * @return  array  Merged array.
+	 *
+	 * @throws  \InvalidArgumentException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function mergeRecursive(...$args): array
+	{
+		$result = [];
+
+		foreach ($args as $i => $array)
+		{
+			if (!is_array($array))
+			{
+				throw new \InvalidArgumentException(sprintf('Argument #%d is not an array.', $i + 2));
+			}
+
+			foreach ($array as $key => &$value)
+			{
+				if (is_array($value) && isset($result[$key]) && is_array($result[$key]))
+				{
+					$result[$key] = static::mergeRecursive($result [$key], $value);
+				}
+				else
+				{
+					$result[$key] = $value;
+				}
+			}
+		}
+
+		return $result;
 	}
 }

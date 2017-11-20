@@ -45,10 +45,6 @@ extract($displayData);
  * @var   integer  $maxLength       The maximum length that the field shall accept.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
-
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 

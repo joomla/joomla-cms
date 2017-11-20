@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_mailto
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MailtoDispatcher extends Dispatcher
 {
@@ -24,7 +24,7 @@ class MailtoDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Mailto';
 
@@ -33,7 +33,7 @@ class MailtoDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{

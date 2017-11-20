@@ -208,7 +208,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 				{
 					if (is_array($params))
 					{
-						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], $params[1] ?? Priority::NORMAL);
 					}
 					else
 					{

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface defining a factory which can create JDocument objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface FactoryInterface
 {
@@ -25,9 +25,9 @@ interface FactoryInterface
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function createDocument($type = 'html', array $attributes = array());
+	public function createDocument(string $type = 'html', array $attributes = []): Document;
 
 	/**
 	 * Creates a new renderer object.
@@ -37,7 +37,7 @@ interface FactoryInterface
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function createRenderer(Document $document, $type);
+	public function createRenderer(Document $document, string $type): RendererInterface;
 }
