@@ -354,7 +354,7 @@ class JUserTest extends TestCaseDatabase
 		$string = '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
 			. '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
 			. '1234567890123456789012345678901234567890';
-		
+
 		$array['username'] = $string;
 		$array['password'] = $string;
 		$array['password2'] = $string;
@@ -385,7 +385,7 @@ class JUserTest extends TestCaseDatabase
 		$result = $testUser->bind($array);
 		$this->assertFalse(
 			$result
-		);		
+		);
 	}
 
 	/**
