@@ -202,10 +202,19 @@ class PlgContentPagebreak extends JPlugin
 			{
 				$t[] = $text[0];
 
-				$t[] = (string) JHtml::_($style . '.start', 'article' . $row->id . '-' . $style);
+				if ($style === 'tabs')
+				{
+					$t[] = (string) JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
+				}
+				else
+				{
+					$t[] = (string) JHtml::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
+				}
 
 				foreach ($text as $key => $subtext)
 				{
+					$index = 'article' . $row->id . '-' . $style . $key;
+
 					if ($key >= 1)
 					{
 						$match = $matches[$key - 1];
@@ -223,14 +232,37 @@ class PlgContentPagebreak extends JPlugin
 						{
 							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
+					}
 
-						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
+					if ($style === 'tabs')
+					{
+						$t[] = (string) JHtml::_('bootstrap.addTab', 'myTab', $index, $title);
+					}
+					else
+					{
+						$t[] = (string) JHtml::_('bootstrap.addSlide', 'myAccordion', $title, $index);
 					}
 
 					$t[] = (string) $subtext;
+
+					if ($style === 'tabs')
+					{
+						$t[] = (string) JHtml::_('bootstrap.endTab');
+					}
+					else
+					{
+						$t[] = (string) JHtml::_('bootstrap.endSlide');
+					}
 				}
 
-				$t[] = (string) JHtml::_($style . '.end');
+				if ($style === 'tabs')
+				{
+					$t[] = (string) JHtml::_('bootstrap.endTabSet');
+				}
+				else
+				{
+					$t[] = (string) JHtml::_('bootstrap.endAccordion');
+				}
 
 				$row->text = implode(' ', $t);
 			}
