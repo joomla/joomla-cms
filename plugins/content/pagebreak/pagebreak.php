@@ -290,7 +290,7 @@ class PlgContentPagebreak extends JPlugin
 		$showall = $input->getInt('showall', 0);
 
 		// TOC header.
-		$row->toc = '<div class="float-right article-index">';
+		$row->toc = '<div class="card float-right article-index"><div class="card-body">';
 
 		if ($this->params->get('article_index') == 1)
 		{
@@ -305,9 +305,10 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// TOC first Page link.
+		$liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
-		<li class="' . $class . '">
+		$row->toc .= '<ul class="nav flex-column">
+		<li class="' . $liClass . '">
 			<a href="'
 			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
 			. '" class="' . $class . '">' . $heading . '</a>
@@ -342,7 +343,7 @@ class PlgContentPagebreak extends JPlugin
 				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
 			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
@@ -351,13 +352,13 @@ class PlgContentPagebreak extends JPlugin
 		if ($this->params->get('showall'))
 		{
 			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
 			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
 				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
 
-		$row->toc .= '</ul></div>';
+		$row->toc .= '</ul></div></div>';
 	}
 
 	/**
