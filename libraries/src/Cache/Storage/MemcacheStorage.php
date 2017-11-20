@@ -41,10 +41,10 @@ class MemcacheStorage extends CacheStorage
 	/**
 	 * Whether platform key is used as suffix
 	 *
-	 * @var    string
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_platformKeyAsSuffix = true;
+	protected $platformKeyAsSuffix = true;
 
 	/**
 	 * Constructor

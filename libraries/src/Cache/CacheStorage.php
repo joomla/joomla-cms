@@ -83,15 +83,15 @@ class CacheStorage
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $_platformKey;
+	public $platformKey = '';
 
 	/**
 	 * Whether platform key is used as suffix
 	 *
-	 * @var    string
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_platformKeyAsSuffix = false;
+	protected $platformKeyAsSuffix = false;
 
 	/**
 	 * Constructor
@@ -110,7 +110,7 @@ class CacheStorage
 		$this->_locking     = isset($options['locking']) ? $options['locking'] : true;
 		$this->_lifetime    = isset($options['lifetime']) ? $options['lifetime'] * 60 : $config->get('cachetime') * 60;
 		$this->_now         = isset($options['now']) ? $options['now'] : time();
-		$this->_platformKey = isset($options['platformKey']) ? $options['platformKey'] : '';
+		$this->platformKey  = isset($options['platformKey']) ? $options['platformKey'] : '';
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
 		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
@@ -393,14 +393,14 @@ class CacheStorage
 
 		$cacheId = $this->_hash . '-cache-' . $group . '-' . $name;
 
-		if ($this->_platformKey !== '')
+		if ($this->platformKey !== '')
 		{
-			if ($this->_platformKeyAsSuffix)
+			if ($this->platformKeyAsSuffix)
 			{
-				return $cacheId . '-' . $this->_platformKey;
+				return $cacheId . '-' . $this->platformKey;
 			}
 
-			return $this->_platformKey . '-' . $cacheId;
+			return $this->platformKey . '-' . $cacheId;
 		}
 
 		return $cacheId;
