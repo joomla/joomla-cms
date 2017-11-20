@@ -168,7 +168,18 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+
 			<field 
+			       name="article_layout" 
+			       type="componentlayout"
+			       label="JFIELD_ALT_LAYOUT_ARTICLE_LABEL"
+			       description="JFIELD_ALT_COMPONENT_LAYOUT_ARTICLE_DESC"
+			       useglobal="true"
+			       extension="com_content" 
+			       view="article"
+			/>
+
+			<field
 				name="show_pagination_limit" 
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
