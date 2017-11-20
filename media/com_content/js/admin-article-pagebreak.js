@@ -11,7 +11,7 @@
 
 		if (!window.parent.Joomla.getOptions('xtd-pagebreak')) {
 			// Something went wrong!
-			window.parent.jModalClose();
+			parent.jQuery('#PageBreakModal').modal('hide');
 			return false;
 		}
 
@@ -19,13 +19,14 @@
 		/** don't know which attribute to use... **/
 		alt = document.getElementById('alt').value;
 
-		title  = (title != '') ? 'title="' + title + '"' : '';
-		alt    = (alt != '') ? 'alt="' + alt + '"' : '';
+		title = (title != '') ? 'title="' + title + '"' : '';
+		alt   = (alt != '') ? 'alt="' + alt + '"' : '';
 
 		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
+
+		parent.jQuery('#PageBreakModal').modal('hide');
 		return false;
 	};
 })();
