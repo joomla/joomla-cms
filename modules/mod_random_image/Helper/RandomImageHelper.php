@@ -17,9 +17,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Helper for mod_random_image
  *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @since  1.5
  */
 class RandomImageHelper
 {

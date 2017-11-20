@@ -123,7 +123,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

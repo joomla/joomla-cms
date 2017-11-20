@@ -167,7 +167,7 @@ class Authentication extends \JObject
 			{
 				if (empty($response->type))
 				{
-					$response->type = isset($plugin->_name) ? $plugin->_name : $plugin->name;
+					$response->type = $plugin->_name ?? $plugin->name;
 				}
 
 				break;

@@ -35,30 +35,40 @@ class PlgButtonArticle extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-
+		$input = JFactory::getApplication()->input;
 		$user  = JFactory::getUser();
 
-		if ($user->authorise('core.create', 'com_content')
-			|| $user->authorise('core.edit', 'com_content')
-			|| $user->authorise('core.edit.own', 'com_content'))
+		// Can create in any category (component permission) or at least in one category
+		$canCreateRecords = $user->authorise('core.create', 'com_content')
+			|| count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+
+		// Instead of checking edit on all records, we can use **same** check as the form editing view
+		$values = (array) JFactory::getApplication()->getUserState('com_content.edit.article.id');
+		$isEditingRecords = count($values);
+
+		// This ACL check is probably a double-check (form view already performed checks)
+		$hasAccess = $canCreateRecords || $isEditingRecords;
+		if (!$hasAccess)
 		{
-			$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
-				. JSession::getFormToken() . '=1&amp;editor=' . $name;
-
-			$button = new JObject;
-			$button->modal = true;
-			$button->class = 'btn btn-secondary';
-			$button->link = $link;
-			$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-			$button->name = 'file-add';
-			$button->options = array(
-				'height'     => '300px',
-				'width'      => '800px',
-				'bodyHeight' => '70',
-				'modalWidth' => '80',
-			);
-
-			return $button;
+			return;
 		}
+
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
+
+		$button = new JObject;
+		$button->modal = true;
+		$button->class = 'btn btn-secondary';
+		$button->link = $link;
+		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->name = 'file-add';
+		$button->options = array(
+			'height'     => '300px',
+			'width'      => '800px',
+			'bodyHeight' => '70',
+			'modalWidth' => '80',
+		);
+
+		return $button;
 	}
 }

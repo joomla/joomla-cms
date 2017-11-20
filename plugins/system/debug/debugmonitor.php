@@ -14,7 +14,7 @@ use Joomla\Database\QueryMonitorInterface;
 /**
  * Query monitor for the debug plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class DebugMonitor implements QueryMonitorInterface
 {
@@ -22,7 +22,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * The log of executed SQL statements call stacks by the database driver.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $callStacks = [];
 
@@ -30,7 +30,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * Flag if this monitor is collecting profile data
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $enabled;
 
@@ -38,7 +38,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * The log of executed SQL statements by the database driver.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $log = [];
 
@@ -46,7 +46,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * The log of executed SQL statements timings (start and stop microtimes) by the database driver.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $timings = [];
 
@@ -55,7 +55,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @param   boolean  $enabled  Flag if the monitor should collect profiler data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($enabled = false)
 	{
@@ -69,9 +69,9 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function startQuery($sql)
+	public function startQuery(string $sql)
 	{
 		if ($this->enabled)
 		{
@@ -85,7 +85,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function stopQuery()
 	{
@@ -101,7 +101,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCallStacks()
 	{
@@ -113,7 +113,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLog()
 	{
@@ -125,7 +125,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTimings()
 	{

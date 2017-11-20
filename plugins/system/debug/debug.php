@@ -107,7 +107,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $queryMonitor;
 
@@ -276,7 +276,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
+			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -485,7 +485,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "toggleContainer('dbg_container_" . $name . "');";
+		$js = "Joomla.toggleContainer('dbg_container_" . $name . "');";
 
 		$class = 'dbg-header';
 
@@ -552,7 +552,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
+					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
 
 					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
 
@@ -1315,7 +1315,7 @@ class PlgSystemDebug extends CMSPlugin
 				$html[] = '<div class="dbg-bar-spacer" style="width:' . $bar->pre . '%;"></div>';
 			}
 
-			$barClass = trim('bar dbg-bar progress-bar ' . (isset($bar->class) ? $bar->class : ''));
+			$barClass = trim('bar dbg-bar progress-bar ' . ($bar->class ?? ''));
 
 			if ($id !== null && $i == $id)
 			{
@@ -1476,7 +1476,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{

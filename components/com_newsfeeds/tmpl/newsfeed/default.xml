@@ -38,6 +38,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -48,6 +49,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -58,6 +60,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -68,6 +71,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -75,7 +79,7 @@
 
 			<field 
 				name="feed_character_count" 
-				type="text"
+				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				size="6"

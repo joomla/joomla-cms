@@ -20,26 +20,28 @@
 		<field
 			name="category_id"
 			type="category"
+			multiple="true"
+			class="multipleCategories"
 			extension="com_content"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+		/>
 
 		<field
 			name="access"
 			type="accesslevel"
+			multiple="true"
+			class="multipleAccessLevels"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
+		/>
 
 		<field
 			name="author_id"
 			type="author"
+			multiple="true"
+			class="multipleAuthors"
 			onchange="this.form.submit();"
 			>
-  			<option value="">JOPTION_SELECT_AUTHOR</option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
@@ -54,6 +56,8 @@
 		<field
 			name="tag"
 			type="tag"
+			multiple="true"
+			class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
 			>

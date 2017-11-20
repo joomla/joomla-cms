@@ -41,7 +41,7 @@ if (count($parts) > 1)
 	}
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_categories&task=categories.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -139,7 +139,6 @@ if ($saveOrder)
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php endif; ?>>
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
-								$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 								$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
 								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
@@ -188,7 +187,7 @@ if ($saveOrder)
 											<span class="icon-menu"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
+											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->lft; ?>">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
@@ -221,25 +220,25 @@ if ($saveOrder)
 									</td>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_published; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_unpublished; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_archived > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_archived > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_archived; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 										<td class="text-center btns hidden-sm-down">
-											<a class="badge <?php echo ($item->count_trashed > 0) ? 'badge-inverse' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level); ?>">
+											<a class="badge <?php echo ($item->count_trashed > 0) ? 'badge-inverse' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_trashed; ?></a>
 										</td>
 									<?php endif; ?>

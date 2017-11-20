@@ -1,0 +1,118 @@
+// CSS Grid
+
+/* autoprefixer: off */
+@supports (display: grid) {
+  .site-grid {
+    display: grid;
+    grid-template-areas:
+      ". head head head head ."
+      ". banner banner banner banner ."
+      ". top-a top-a top-a top-a ."
+      ". top-b top-b top-b top-b ."
+      ". main main main main ."
+      ". bot-a bot-a bot-a bot-a ."
+      ". bot-b bot-b bot-b bot-b ."
+      ". footer footer footer footer ."
+      ". debug debug debug debug .";
+    grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
+    grid-gap: 0 $cassiopeia-grid-gutter;
+
+    > [class^='container-'], > [class*=' container-'] {
+      width: auto;
+      max-width: none;
+      margin: 0 0 $cassiopeia-grid-gutter;
+    }
+
+    .container-top-a,
+    .container-top-b,
+    .container-bottom-a,
+    .container-bottom-b {
+      display: grid;
+      > div {
+        margin: 0;
+      }
+    }
+
+    .container-main {
+      margin: ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / -2) ($cassiopeia-grid-gutter / 2);
+    }
+
+    > .full-width {
+      grid-column: full-start / full-end;
+    }
+
+    @include media-breakpoint-down(xs) {
+      grid-template-areas:
+        ". head head head head ."
+        ". banner banner banner banner ."
+        ". main main main main ."
+        ". top-a top-a top-a top-a ."
+        ". top-b top-b top-b top-b ."
+        ". bot-a bot-a bot-a bot-a ."
+        ". bot-b bot-b bot-b bot-b ."
+        ". footer footer footer footer ."
+        ". debug debug debug debug .";
+    }
+
+    .container-header {
+      margin-top: 0;
+      margin-bottom: 20px;
+
+      + div:not(.container-banner) {
+        margin-top: $cassiopeia-grid-gutter;
+      }
+    }
+  }
+
+  .container-banner {
+    z-index: 5;
+    margin: -2rem 0 0;
+    padding: 0 ($cassiopeia-grid-gutter / 2);
+
+    p {
+      margin-bottom: 0;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: -3rem;
+    }
+
+  }
+
+}
+
+.container-header         { grid-area: head; }
+.container-banner         { grid-area: banner; }
+.container-top-a          { grid-area: top-a; }
+.container-top-b          { grid-area: top-b; }
+.container-main           { grid-area: main; }
+.container-component      { grid-area: comp; }
+.container-sidebar-left   { grid-area: side-l; }
+.container-sidebar-right  { grid-area: side-r; }
+.container-main-top       { grid-area: main-t; }
+.container-main-bottom    { grid-area: main-b; }
+.container-bradcrumbs     { grid-area: bread; }
+.container-bottom-a       { grid-area: bot-a; }
+.container-bottom-b       { grid-area: bot-b; }
+.container-footer         { grid-area: footer; }
+.system-debug             { grid-area: debug; }
+
+.container-component {
+  grid-column: auto 2fr;
+}
+
+.container-top-a,
+.container-top-b,
+.container-bottom-a,
+.container-bottom-b {
+  display: grid;
+  grid-gap: $cassiopeia-grid-gutter;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  @include media-breakpoint-down(md) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+  }
+}

@@ -63,39 +63,12 @@ final class Version
 	const EXTRA_VERSION = 'dev';
 
 	/**
-	 * Release version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 * @deprecated  4.0  Use separated version constants instead
-	 */
-	const RELEASE = '4.0';
-
-	/**
-	 * Maintenance version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 * @deprecated  4.0  Use separated version constants instead
-	 */
-	const DEV_LEVEL = '0-dev';
-
-	/**
 	 * Development status.
 	 *
 	 * @var    string
 	 * @since  3.5
 	 */
 	const DEV_STATUS = 'Development';
-
-	/**
-	 * Build number.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 * @deprecated  4.0
-	 */
-	const BUILD = '';
 
 	/**
 	 * Code name.
@@ -111,7 +84,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '31-March-2017';
+	const RELDATE = '19-November-2017';
 
 	/**
 	 * Release time.
@@ -119,7 +92,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '23:59';
+	const RELTIME = '16:34';
 
 	/**
 	 * Release timezone.
@@ -195,12 +168,9 @@ final class Version
 	{
 		$version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
-		// Has to be assigned to a variable to support PHP 5.3 and 5.4
-		$extraVersion = self::EXTRA_VERSION;
-
-		if (!empty($extraVersion))
+		if (!empty(self::EXTRA_VERSION))
 		{
-			$version .= '-' . $extraVersion;
+			$version .= '-' . self::EXTRA_VERSION;
 		}
 
 		return $version;
@@ -240,11 +210,11 @@ final class Version
 
 		if ($addVersion)
 		{
-			$component .= '/' . self::RELEASE;
+			$component .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($component ? ' ' . $component : '');
 	}
 
 	/**

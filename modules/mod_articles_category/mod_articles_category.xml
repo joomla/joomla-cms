@@ -59,7 +59,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
@@ -117,7 +117,7 @@
 
 				<field
 					name="levels"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_LABEL"
 					default="1"
 				/>
@@ -267,7 +267,7 @@
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_LABEL"
 					default="30"
 				/>
@@ -440,7 +440,7 @@
 
 				<field
 					name="introtext_limit"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					default="100"
 				/>
@@ -469,7 +469,7 @@
 
 				<field
 					name="readmore_limit"
-					type="text"
+					type="number"
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					default="15"
 				/>
@@ -503,7 +503,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

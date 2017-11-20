@@ -24,7 +24,7 @@ JHtml::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', 'relat
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . ($i++)); ?>
 			<div class="list-group">
 				<?php foreach ($list as $title => $item) : ?>
-					<?php $menutype = array('id' => $this->recordId, 'title' => isset($item->type) ? $item->type : $item->title, 'request' => $item->request); ?>
+					<?php $menutype = array('id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request); ?>
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo JText::_($item->description); ?>"
 						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">

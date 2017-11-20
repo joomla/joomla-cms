@@ -651,7 +651,7 @@ abstract class ToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{
@@ -680,7 +680,7 @@ abstract class ToolbarHelper
 			}
 
 			$options['group'] = true;
-			$altText = isset($button[2]) ? $button[2] : $validOptions[$button[0]];
+			$altText = $button[2] ?? $validOptions[$button[0]];
 			call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, $firstItem));
 
 			if (!$firstItem)

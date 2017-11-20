@@ -23,6 +23,33 @@ JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 JFactory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 JHtml::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
 
+// Ajax for parent items
+$script = "
+jQuery(document).ready(function ($){
+	// Menu type Login Form specific
+	$('#item-form').on('submit', function() {
+		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
+			// Login
+			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_url').val('');
+
+			}
+
+			// Logout
+			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_url').val('');
+			}
+		}
+	});
+});
+";
+
 $assoc = JLanguageAssociations::isEnabled();
 $input = JFactory::getApplication()->input;
 
@@ -49,6 +76,11 @@ $clientId = $this->state->get('item.client_id', 0);
 				if ($this->item->type == 'alias')
 				{
 					echo $this->form->renderFieldset('aliasoptions');
+				}
+
+				if ($this->item->type == 'separator')
+				{
+					echo $this->form->renderField('text_separator', 'params');
 				}
 
 				echo $this->form->renderFieldset('request');

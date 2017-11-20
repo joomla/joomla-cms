@@ -34,7 +34,7 @@
 					name="preview"
 					type="list"
 					label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
-					class="btn-group"
+					class="list"
 					default="tooltip"
 					>
 					<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>

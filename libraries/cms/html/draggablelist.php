@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating a sortable table list
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class JHtmlDraggablelist
 {
@@ -20,7 +20,7 @@ abstract class JHtmlDraggablelist
 	 * Array containing information for loaded files
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $loaded = array();
 
@@ -36,7 +36,7 @@ abstract class JHtmlDraggablelist
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  InvalidArgumentException
 	 */

@@ -26,7 +26,7 @@ $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 // The category object of the component
 $category = JCategories::getInstance(str_replace('com_', '', $component));
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_fields&task=fields.saveOrderAjax&tmpl=component';
 	JHtml::_('draggablelist.draggable');

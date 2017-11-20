@@ -64,9 +64,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
 
-// Register JArrayHelper due to JRegistry moved to composer's vendor folder
-JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
-
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
