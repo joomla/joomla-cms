@@ -719,6 +719,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `checked_out` int(11) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT '0',

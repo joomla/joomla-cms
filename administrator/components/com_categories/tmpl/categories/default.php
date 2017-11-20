@@ -41,7 +41,7 @@ if (count($parts) > 1)
 	}
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_categories&task=categories.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
