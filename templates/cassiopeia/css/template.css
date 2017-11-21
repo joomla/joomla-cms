@@ -8505,6 +8505,11 @@ legend {
 .form-control-feedback {
   display: block; }
 
+.jmodedit {
+  position: absolute;
+  top: 10px;
+  right: 10px; }
+
 .container-header {
   position: relative;
   z-index: 10;
@@ -8970,7 +8975,7 @@ joomla-alert {
 @supports (display: grid) {
   .site-grid {
     display: grid;
-    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
+    grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
     .site-grid > [class^='container-'], .site-grid > [class*=' container-'] {
@@ -8993,7 +8998,7 @@ joomla-alert {
       grid-column: full-start / full-end; }
     @media (max-width: 575px) {
       .site-grid {
-        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
+        grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". main main main main ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug ."; } }
     .site-grid .container-header {
       margin-top: 0;
       margin-bottom: 20px; }
