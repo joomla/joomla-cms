@@ -150,11 +150,11 @@ JFactory::getDocument()->addScriptDeclaration("
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
 				<span class="fa fa-check" aria-hidden="true"></span>
-				<?php echo JText::_('JSAVE') ?>
+				<?php echo JText::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('article.cancel')">
 				<span class="fa fa-times-cancel" aria-hidden="true"></span>
-				<?php echo JText::_('JCANCEL') ?>
+				<?php echo JText::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 				<?php echo $this->form->getInput('contenthistory'); ?>
