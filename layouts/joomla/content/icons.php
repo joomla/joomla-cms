@@ -21,10 +21,10 @@ $articleId = $displayData['item']->id;
 
 		<?php if ($canEdit || $displayData['params']->get('show_print_icon') || $displayData['params']->get('show_email_icon')) : ?>
 			<div class="btn-group float-right">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $articleId; ?>" aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="fa fa-cog" aria-hidden="true"></span>
-                </button>
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $articleId; ?>" aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fa fa-cog" aria-hidden="true"></span>
+				</button>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-<?php echo $articleId; ?>">
 					<?php if ($displayData['params']->get('show_print_icon')) : ?>
 						<?php echo JHtml::_('icon.print_popup', $displayData['item'], $displayData['params']); ?>
