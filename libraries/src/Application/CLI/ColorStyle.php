@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Class defining ANSI-color styles for command line output
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 final class ColorStyle
@@ -22,7 +22,7 @@ final class ColorStyle
 	 * Known colors
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static $knownColors = [
 		'black'   => 0,
@@ -39,7 +39,7 @@ final class ColorStyle
 	 * Known styles
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static $knownOptions = [
 		'bold'       => 1,
@@ -52,7 +52,7 @@ final class ColorStyle
 	 * Foreground base value
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static $fgBase = 30;
 
@@ -60,7 +60,7 @@ final class ColorStyle
 	 * Background base value
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static $bgBase = 40;
 
@@ -68,7 +68,7 @@ final class ColorStyle
 	 * Foreground color
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $fgColor = 0;
 
@@ -76,7 +76,7 @@ final class ColorStyle
 	 * Background color
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $bgColor = 0;
 
@@ -84,7 +84,7 @@ final class ColorStyle
 	 * Array of style options
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $options = [];
 
@@ -95,7 +95,7 @@ final class ColorStyle
 	 * @param   string  $bg       Background color.
 	 * @param   array   $options  Style options.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct(string $fg = '', string $bg = '', array $options = [])
@@ -154,7 +154,7 @@ final class ColorStyle
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __toString()
 	{
@@ -170,7 +170,7 @@ final class ColorStyle
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public static function fromString(string $string): self
@@ -218,7 +218,7 @@ final class ColorStyle
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getStyle(): string
 	{
@@ -247,7 +247,7 @@ final class ColorStyle
 	 *
 	 * @return  string[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getKnownColors(): array
 	{
@@ -259,7 +259,7 @@ final class ColorStyle
 	 *
 	 * @return  string[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getKnownOptions(): array
 	{

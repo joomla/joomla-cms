@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $assoc     = JLanguageAssociations::isEnabled();
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');

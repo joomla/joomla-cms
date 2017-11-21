@@ -15,7 +15,7 @@ use Joomla\Authentication\Password\BCryptHandler as BaseBCryptHandler;
 /**
  * Password handler for BCrypt hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class BCryptHandler extends BaseBCryptHandler implements CheckIfRehashNeededHandlerInterface
 {
@@ -26,7 +26,7 @@ class BCryptHandler extends BaseBCryptHandler implements CheckIfRehashNeededHand
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{

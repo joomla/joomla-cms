@@ -109,6 +109,11 @@ class GroupTable extends Table
 			}
 		}
 
+		if ($this->params === null)
+		{
+			$this->params = '{}';
+		}
+
 		return true;
 	}
 

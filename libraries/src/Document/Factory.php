@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Default factory for creating JDocument objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Factory implements FactoryInterface
 {
@@ -25,7 +25,7 @@ class Factory implements FactoryInterface
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createDocument(string $type = 'html', array $attributes = []): Document
 	{
@@ -71,7 +71,7 @@ class Factory implements FactoryInterface
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createRenderer(Document $document, string $type): RendererInterface
 	{

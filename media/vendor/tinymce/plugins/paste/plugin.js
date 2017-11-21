@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.paste.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.paste.alien.DetectProPlugin","tinymce.plugins.paste.api.Api","tinymce.plugins.paste.api.Commands","tinymce.plugins.paste.core.Clipboard","tinymce.plugins.paste.core.CutCopy","tinymce.plugins.paste.core.DragDrop","tinymce.plugins.paste.core.PrePostProcess","tinymce.plugins.paste.core.Quirks","tinymce.plugins.paste.ui.Buttons","global!tinymce.util.Tools.resolve","global!window","tinymce.plugins.paste.core.Actions","global!Image","global!navigator","tinymce.core.Env","tinymce.core.util.Delay","tinymce.core.util.Tools","tinymce.core.util.VK","tinymce.plugins.paste.api.Events","tinymce.plugins.paste.api.Settings","tinymce.plugins.paste.core.InternalHtml","tinymce.plugins.paste.core.Newlines","tinymce.plugins.paste.core.PasteBin","tinymce.plugins.paste.core.ProcessFilters","tinymce.plugins.paste.core.SmartPaste","tinymce.plugins.paste.core.Utils","global!setTimeout","tinymce.core.dom.RangeUtils","tinymce.plugins.paste.core.WordFilter","ephox.katamari.api.Fun","tinymce.core.html.Entities","tinymce.core.html.DomParser","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.Serializer","global!Array","global!Error"]
+["tinymce.plugins.paste.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.paste.alien.DetectProPlugin","tinymce.plugins.paste.api.Api","tinymce.plugins.paste.api.Commands","tinymce.plugins.paste.core.Clipboard","tinymce.plugins.paste.core.CutCopy","tinymce.plugins.paste.core.DragDrop","tinymce.plugins.paste.core.PrePostProcess","tinymce.plugins.paste.core.Quirks","tinymce.plugins.paste.ui.Buttons","global!tinymce.util.Tools.resolve","global!window","tinymce.plugins.paste.core.Actions","global!Image","global!navigator","tinymce.core.Env","tinymce.core.util.Delay","tinymce.core.util.Tools","tinymce.core.util.VK","tinymce.plugins.paste.api.Events","tinymce.plugins.paste.api.Settings","tinymce.plugins.paste.core.InternalHtml","tinymce.plugins.paste.core.Newlines","tinymce.plugins.paste.core.PasteBin","tinymce.plugins.paste.core.ProcessFilters","tinymce.plugins.paste.core.SmartPaste","tinymce.plugins.paste.core.Utils","global!setTimeout","tinymce.core.api.dom.RangeUtils","tinymce.plugins.paste.core.WordFilter","ephox.katamari.api.Fun","tinymce.core.html.Entities","tinymce.core.html.DomParser","tinymce.core.html.Node","tinymce.core.html.Schema","tinymce.core.html.Serializer","global!Array","global!Error"]
 jsc*/
 define(
   'ephox.katamari.api.Cell',
@@ -2389,7 +2389,7 @@ define(
  */
 
 define(
-  'tinymce.core.dom.RangeUtils',
+  'tinymce.core.api.dom.RangeUtils',
   [
     'global!tinymce.util.Tools.resolve'
   ],
@@ -2411,7 +2411,7 @@ define(
 define(
   'tinymce.plugins.paste.core.DragDrop',
   [
-    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.api.dom.RangeUtils',
     'tinymce.core.util.Delay',
     'tinymce.plugins.paste.api.Settings',
     'tinymce.plugins.paste.core.InternalHtml',
@@ -2905,19 +2905,19 @@ define(
     var userIsInformedState = Cell(false);
 
     PluginManager.add('paste', function (editor) {
-      var clipboard = new Clipboard(editor);
-      var quirks = Quirks.setup(editor);
-      var draggingInternallyState = Cell(false);
-
       if (DetectProPlugin.hasProPlugin(editor) === false) {
+        var clipboard = new Clipboard(editor);
+        var quirks = Quirks.setup(editor);
+        var draggingInternallyState = Cell(false);
+
         Buttons.register(editor, clipboard);
         Commands.register(editor, clipboard, userIsInformedState);
         PrePostProcess.setup(editor);
         CutCopy.register(editor);
         DragDrop.setup(editor, clipboard, draggingInternallyState);
-      }
 
-      return Api.get(clipboard, quirks);
+        return Api.get(clipboard, quirks);
+      }
     });
 
     return function () { };

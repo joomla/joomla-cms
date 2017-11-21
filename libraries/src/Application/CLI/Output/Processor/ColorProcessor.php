@@ -15,7 +15,7 @@ use Joomla\CMS\Application\CLI\ColorStyle;
 /**
  * Command line output processor supporting ANSI-colored output
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
 class ColorProcessor implements ProcessorInterface
@@ -24,7 +24,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Flag to remove color codes from the output
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $noColors = false;
 
@@ -32,7 +32,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Regex to match tags
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $tagFilter = '/<([a-z=;]+)>(.*?)<\/\\1>/s';
 
@@ -40,7 +40,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Regex used for removing color codes
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $stripFilter = '/<[\/]?[a-z=;]+>/';
 
@@ -48,7 +48,7 @@ class ColorProcessor implements ProcessorInterface
 	 * Array of ColorStyle objects
 	 *
 	 * @var    ColorStyle[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $styles = [];
 
@@ -57,7 +57,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @param   boolean  $noColors  Defines non-colored mode on construct
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($noColors = null)
 	{
@@ -83,7 +83,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addStyle($name, ColorStyle $style)
 	{
@@ -99,7 +99,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function stripColors($string)
 	{
@@ -113,7 +113,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function process($string)
 	{
@@ -150,7 +150,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function replaceColors($text, $tag, $match, ColorStyle $style)
 	{
@@ -166,7 +166,7 @@ class ColorProcessor implements ProcessorInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function addPredefinedStyles()
 	{

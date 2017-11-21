@@ -22,7 +22,7 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
  * Dispatchers are responsible for checking ACL of a component if appropriate and
  * choosing an appropriate controller (and if necessary, a task) and executing it.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class Dispatcher implements DispatcherInterface
 {
@@ -30,7 +30,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $option;
 
@@ -38,7 +38,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The extension namespace
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace;
 
@@ -46,7 +46,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The application instance
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -54,7 +54,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * The input instance
 	 *
 	 * @var    Input
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $input;
 
@@ -64,7 +64,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @param   CMSApplication  $app    The application instance
 	 * @param   Input           $input  The input instance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(CMSApplication $app, Input $input = null)
 	{
@@ -94,7 +94,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -108,7 +108,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -126,7 +126,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -171,7 +171,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  CMSApplication
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getApplication(): CMSApplication
 	{
@@ -187,7 +187,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @return  BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{

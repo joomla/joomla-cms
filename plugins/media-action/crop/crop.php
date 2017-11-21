@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Media Manager Crop Action
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
@@ -21,7 +21,7 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadJs()
 	{
@@ -35,7 +35,7 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadCss()
 	{

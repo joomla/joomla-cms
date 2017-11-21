@@ -37,7 +37,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * Output object
 	 *
 	 * @var    CliOutput
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $output;
 
@@ -45,7 +45,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * CLI Input object
 	 *
 	 * @var    CliInput
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $cliInput;
 
@@ -161,7 +161,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  CliOutput
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOutput()
 	{
@@ -173,7 +173,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  CliInput
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCliInput()
 	{
@@ -188,7 +188,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function out($text = '', $nl = true)
 	{
@@ -203,7 +203,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @return  string  The input string from standard input.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function in()
 	{
@@ -234,7 +234,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
@@ -251,7 +251,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  array  The system message queue.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMessageQueue()
 	{
@@ -265,7 +265,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function isClient($identifier)
 	{
@@ -277,7 +277,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  SessionInterface  The session object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSession()
 	{
@@ -291,7 +291,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  boolean
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli()

@@ -28,7 +28,7 @@ class HtmlView extends DefaultView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($tpl = null)
 	{

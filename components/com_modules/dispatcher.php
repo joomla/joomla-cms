@@ -15,7 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Dispatcher class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModulesDispatcher extends Dispatcher
 {
@@ -24,14 +24,14 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Modules';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -46,7 +46,7 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -72,7 +72,7 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{

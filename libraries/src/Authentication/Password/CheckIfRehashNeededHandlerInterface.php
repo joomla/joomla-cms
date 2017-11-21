@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserHelper;
 /**
  * Interface for a password handler which supports checking if the password requires rehashing
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CheckIfRehashNeededHandlerInterface
 {
@@ -28,7 +28,7 @@ interface CheckIfRehashNeededHandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool;
 }

@@ -15,7 +15,7 @@ use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
 /**
  * Password handler for Argon2i hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Argon2iHandler extends BaseArgon2iHandler implements CheckIfRehashNeededHandlerInterface
 {
@@ -26,7 +26,7 @@ class Argon2iHandler extends BaseArgon2iHandler implements CheckIfRehashNeededHa
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
