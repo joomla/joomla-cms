@@ -9,25 +9,32 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Helper\AuthenticationHelper;
+
 /** @var JDocumentHtml $this */
 
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
-$app              = JFactory::getApplication();
+$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$app              = Factory::getApplication();
 
 $fullWidth = 1;
 
 // Add JavaScript Frameworks
-JHtml::_('behavior.core');
+HTMLHelper::_('behavior.core');
 
 // Add template js
-JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
 // Alerts progressive enhancement
-JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Template color
 if ($this->params->get('templateColor'))
@@ -53,20 +60,20 @@ if ($this->params->get('templateColor'))
 }
 
 // Check for a custom CSS file
-JHtml::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
 // Check for a custom js file
-JHtml::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
 // Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
+HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 
 // Logo file or site title param
 $sitename = $app->get('sitename');
 
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -98,7 +105,7 @@ else
 			<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 				<p><?php echo $app->get('offline_message'); ?></p>
 			<?php elseif ($app->get('display_offline_message', 1) == 2) : ?>
-				<p><?php echo JText::_('JOFFLINE_MESSAGE'); ?></p>
+				<p><?php echo Text::_('JOFFLINE_MESSAGE'); ?></p>
 			<?php endif; ?>
 			<div class="logo-icon">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -114,25 +121,25 @@ else
 			</div>
 			<div class="login">
 				<jdoc:include type="message" />
-				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+				<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
-						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-						<input name="username" class="form-control" id="username" type="text" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>">
+						<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+						<input name="username" class="form-control" id="username" type="text" title="<?php echo Text::_('JGLOBAL_USERNAME'); ?>">
 
-						<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-						<input name="password" class="form-control" id="password" type="password" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
+						<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+						<input name="password" class="form-control" id="password" type="password" title="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 
 						<?php if (count($twofactormethods) > 1) : ?>
-						<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" class="form-control" id="secretkey" type="text" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
+						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+						<input name="secretkey" class="form-control" id="secretkey" type="text" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<?php endif; ?>
 
-						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN'); ?>">
+						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
 
 						<input type="hidden" name="option" value="com_users">
 						<input type="hidden" name="task" value="user.login">
-						<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>">
-						<?php echo JHtml::_('form.token'); ?>
+						<input type="hidden" name="return" value="<?php echo base64_encode(Uri::base()); ?>">
+						<?php echo HTMLHelper::_('form.token'); ?>
 					</fieldset>
 				</form>
 			</div>
