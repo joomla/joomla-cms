@@ -416,11 +416,15 @@ class InstallationModelSetup extends JModelBase
 			return false;
 		}
 
-		if ($data['admin_user'] === $data['admin_password'])
+		// Check that username and password are not the same
+		if (isset($data['admin_user']) && isset($data['admin_password']))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_MATCH_USERNAME'), 'warning');
+			if ($data['admin_user'] === $data['admin_password'])
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_MATCH_USERNAME'), 'warning');
 			
-			return false;
+				return false;
+			}
 		}
 
 		// Filter and validate the form data.
