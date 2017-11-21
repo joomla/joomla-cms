@@ -422,7 +422,7 @@ class InstallationModelSetup extends JModelBase
 			if ($data['admin_user'] === $data['admin_password'])
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_MATCH_USERNAME'), 'warning');
-			
+
 				return false;
 			}
 		}
