@@ -683,14 +683,11 @@ class User extends \JObject
 		}
 
 		// Make sure username and password are not the same
-		if (isset($array['username']))
+		if ($this->password_clear === $array['username'])
 		{
-			if ($this->password_clear === $array['username'])
-			{
-				$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_MATCH_USERNAME'));
+			$this->setError(\JText::_('JLIB_USER_ERROR_PASSWORD_MATCH_USERNAME'));
 
-				return false;
-			}
+			return false;
 		}
 
 		if (array_key_exists('params', $array))
