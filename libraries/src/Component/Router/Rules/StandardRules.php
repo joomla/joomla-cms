@@ -182,7 +182,7 @@ class StandardRules implements RulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		if (isset($query['Itemid'], $query['view']) === false)
+		if (!isset($query['Itemid'], $query['view']))
 		{
 			return;
 		}
@@ -190,7 +190,7 @@ class StandardRules implements RulesInterface
 		// Get the menu item belonging to the Itemid that has been found
 		$item = $this->router->menu->getItem($query['Itemid']);
 
-		if ($item === null)
+		if ($item === null || $item->component !== 'com_' . $this->router->getName())
 		{
 			return;
 		}
@@ -219,7 +219,7 @@ class StandardRules implements RulesInterface
 			}
 
 			// If item has no key set, we assume 0.
-			if (isset($item->query[$view->key]) === false)
+			if (!isset($item->query[$view->key]))
 			{
 				$item->query[$view->key] = 0;
 			}
