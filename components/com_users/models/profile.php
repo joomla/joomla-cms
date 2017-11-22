@@ -304,6 +304,14 @@ class UsersModelProfile extends JModelForm
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
+		$isUsernameCompliant = $this->getState('user.username.compliant');
+
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			// Prevent username change by browsers inspector
+			$data['username'] = JFactory::getUser()->get('username');
+		}
+
 		// Unset block and sendEmail so they do not get overwritten
 		unset($data['block'], $data['sendEmail']);
 
