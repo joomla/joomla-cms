@@ -134,7 +134,8 @@ class AdminModelProfile extends UsersModelUser
 
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
-			unset($data['username']);
+			// Prevent username change by browsers inspector
+			$data['username'] = JFactory::getUser()->get('username');
 		}
 
 		// Bind the data.
