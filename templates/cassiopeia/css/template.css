@@ -9390,3 +9390,7 @@ joomla-alert {
 
 .chzn-container-single {
   width: auto !important; }
+
+.chzn-container-multi {
+  width: 100% !important;
+  max-width: 240px; }
