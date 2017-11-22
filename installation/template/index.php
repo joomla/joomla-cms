@@ -41,6 +41,7 @@ JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -50,10 +51,9 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<div class="j-install">
-			<?php // Header ?>
 			<header class="j-header" role="banner">
 				<div class="j-header-logo">
-					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="<?php echo JText::_('INSTL_JOOMLA_LOGO'); ?>" class="logo" />
 				</div>
 				<div class="j-header-help">
 					<a href="#">
@@ -61,27 +61,24 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					</a>
 				</div>
 			</header>
-			<?php // Container ?>
 			<section class="j-container" role="main">
 				<div id="system-message-container">
 					<jdoc:include type="message" />
 				</div>
-				<div id="javascript-warning">
-					<noscript>
+				<noscript>
+					<div id="javascript-warning">
 						<joomla-alert level="danger text-center">
 							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
-					</noscript>
-				</div>
+					</div>
+				</noscript>
 				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
 					<jdoc:include type="component" />
 				</div>
 			</section>
 			<jdoc:include type="scripts" />
 			<footer class="j-footer">
-				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
-				is free software released under the
-				<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">GNU General Public License</a>
+				<?php echo JText::sprintf('INSTL_JOOMLA_IS_FREE_SOFTWARE', 'https://www.joomla.org', 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'); ?>
 			</footer>
 		</div>
 	</body>
