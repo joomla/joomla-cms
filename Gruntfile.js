@@ -811,7 +811,7 @@ window.errorLocale = {`;
 }`;
 
 		// Write the file
-		grunt.file.write('installation/template/js/error-locales.js', template);
+		grunt.file.write('templates/system/js/error-locales.js', template);
 	});
 
 };
