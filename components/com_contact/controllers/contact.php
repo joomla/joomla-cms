@@ -129,7 +129,7 @@ class ContactControllerContact extends JControllerForm
 
 		if (!$params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0), $params->get('sender', 0));
 		}
 
 		// Set the success message if it was a success
@@ -164,12 +164,13 @@ class ContactControllerContact extends JControllerForm
 	 * @param   array     $data                  The data to send in the email.
 	 * @param   stdClass  $contact               The user information to send the email to
 	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
+     * @param   boolean   $sender                Website owner receive the mail from: Null = $mailfrom (website), 1 = $name (user)
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $copy_email_activated, $sender = null)
 	{
 			$app = JFactory::getApplication();
 
@@ -183,8 +184,8 @@ class ContactControllerContact extends JControllerForm
 			$fromname = $app->get('fromname');
 			$sitename = $app->get('sitename');
 
-			$name    = $data['contact_name'];
 			$email   = JStringPunycode::emailToPunycode($data['contact_email']);
+            $name    = $data['contact_name'];
 			$subject = $data['contact_subject'];
 			$body    = $data['contact_message'];
 
@@ -209,7 +210,17 @@ class ContactControllerContact extends JControllerForm
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);
-			$mail->setSender(array($mailfrom, $fromname));
+
+			// Send the mail to the admin with senders mail address if $sender is set to 1
+			if($sender)
+			{
+				$mail->setSender(array($email, $name));
+			}
+			else
+			{
+				$mail->setSender(array($mailfrom, $fromname));
+			}
+
 			$mail->setSubject($sitename . ': ' . $subject);
 			$mail->setBody($body);
 			$sent = $mail->Send();
