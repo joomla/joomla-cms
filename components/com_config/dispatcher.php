@@ -26,4 +26,23 @@ class ConfigDispatcher extends Dispatcher
 	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Config';
+
+	/**
+	 * Method to check component access permission
+	 *
+	 * @since   4.0.0
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception|Notallowed
+	 */
+	protected function checkAccess()
+	{
+		parent::checkAccess();
+
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+	}
 }
