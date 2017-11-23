@@ -53,7 +53,7 @@ if ($saveOrder)
 
 $assoc = JLanguageAssociations::isEnabled();
 
-// Configure content stet renderer.
+// Configure content state button renderer.
 $publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
 
 // Configure featured button renderer.
