@@ -223,8 +223,8 @@ abstract class JHtmlJGrid
 				if ($tip)
 				{
 					$states[$key][1] = JText::_($states[$key][1]);
-					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
-					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
+					$states[$key][2] = JText::_($states[$key][2]) . '<br>' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br>' . $tip;
 					$states[$key][4] = true;
 				}
 			}
