@@ -12,7 +12,7 @@
 var sendTestMail = function() {
 
 	var email_data = {
-		smtpauth  : document.querySelector('[name="jform[smtpauth]"]').value,
+		smtpauth  : document.querySelector('[name="jform[smtpauth]"]:checked').value,
 		smtpuser  : document.querySelector('[name="jform[smtpuser]"]').value,
 		smtppass  : document.querySelector('[name="jform[smtppass]"]').value,
 		smtphost  : document.querySelector('[name="jform[smtphost]"]').value,
@@ -21,7 +21,7 @@ var sendTestMail = function() {
 		mailfrom  : document.querySelector('[name="jform[mailfrom]"]').value,
 		fromname  : document.querySelector('[name="jform[fromname]"]').value,
 		mailer    : document.querySelector('[name="jform[mailer]"]').value,
-		mailonline: document.querySelector('[name="jform[mailonline]"]').value
+		mailonline: document.querySelector('[name="jform[mailonline]"]:checked').value
 	};
 
 	// Remove js messages, if they exist.
@@ -37,7 +37,13 @@ var sendTestMail = function() {
 			onSuccess: function(response, xhr)
 			{
 				response = JSON.parse(response);
-				if (typeof response.messages == 'object' && response.messages !== null) {
+
+				if (response.error) {
+                    Joomla.renderMessages({error: [response.message]});
+                    return;
+				}
+
+				if (typeof response.messages === 'object' && response.messages !== null) {
 					Joomla.renderMessages(response.messages);
 				}
 			},

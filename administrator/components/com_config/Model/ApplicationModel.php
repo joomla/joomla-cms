@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access as JAccess;
 use Joomla\CMS\Access\Rules as JAccessRules;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
@@ -880,8 +882,8 @@ class ApplicationModel extends FormModel
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = \JFactory::getApplication();
-		$input = $app->input;
+		$app = Factory::getApplication();
+		$input = $app->input->json;
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
@@ -894,30 +896,30 @@ class ApplicationModel extends FormModel
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
 
-		$mail = \JFactory::getMailer();
+		$mail = Factory::getMailer();
 
 		// Prepare email and send try to send it
-		$mailSubject = \JText::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
-		$mailBody    = \JText::sprintf('COM_CONFIG_SENDMAIL_BODY', \JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)));
+		$mailSubject = Text::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
+		$mailBody    = Text::sprintf('COM_CONFIG_SENDMAIL_BODY', Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)));
 
 		if ($mail->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
 		{
-			$methodName = \JText::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
+			$methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
 
 			// If JMail send the mail using PHP Mail as fallback.
 			if ($mail->Mailer != $app->get('mailer'))
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
+				$app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
 			}
 			else
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
+				$app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
 			}
 
 			return true;
 		}
 
-		$app->enqueueMessage(\JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
+		$app->enqueueMessage(Text::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
 
 		return false;
 	}

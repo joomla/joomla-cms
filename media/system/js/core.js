@@ -494,7 +494,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
-		// For vannila XHR
+		// For vanilla XHR
 		else if (xhr.responseJSON && xhr.responseJSON.message)
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.responseJSON.message + '</em>' ];

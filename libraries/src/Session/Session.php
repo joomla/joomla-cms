@@ -11,6 +11,9 @@ namespace Joomla\CMS\Session;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Session\Session as BaseSession;
 
 /**
@@ -33,16 +36,22 @@ class Session extends BaseSession
 	 */
 	public static function checkToken($method = 'post')
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$token = static::getFormToken();
+
+		// Check from header first
+		if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum'))
+		{
+			return true;
+		}
 
 		if (!$app->input->$method->get($token, '', 'alnum'))
 		{
 			if ($app->getSession()->isNew())
 			{
 				// Redirect to login screen.
-				$app->enqueueMessage(\JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
-				$app->redirect(\JRoute::_('index.php'));
+				$app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
+				$app->redirect(Route::_('index.php'));
 
 				return true;
 			}
