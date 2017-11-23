@@ -196,7 +196,7 @@
 		clear: function () {
 			var self = this;
 			
-			if(self.searchField){
+			if (self.searchField) {
                 		self.searchField.value = '';
 			}
 			
