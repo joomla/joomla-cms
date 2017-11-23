@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Button;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -31,7 +33,7 @@ class ActionButton
 		'_default' => [
 			'value'     => '_default',
 			'task'      => '',
-			'icon'      => 'icon-question',
+			'icon'      => 'question',
 			'title'     => 'Unknown state',
 			'options'   => [
 				'disabled'  => false,
@@ -179,6 +181,7 @@ class ActionButton
 		);
 
 		$data['row'] = $row;
+		$data['icon'] = $this->fetchIconClass($data['icon']);
 
 		return LayoutHelper::render($this->layout, $data);
 	}
@@ -288,5 +291,24 @@ class ActionButton
 		$this->options->set($name, $value);
 
 		return $this;
+	}
+
+	/**
+	 * Method to get the CSS class name for an icon identifier
+	 *
+	 * Can be redefined in the final class
+	 *
+	 * @param   string  $identifier  Icon identification string
+	 *
+	 * @return  string  CSS class name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function fetchIconClass($identifier)
+	{
+		// It's an ugly hack, but this allows templates to define the icon classes for the toolbar
+		$layout = new FileLayout('joomla.button.iconclass');
+
+		return $layout->render(array('icon' => $identifier));
 	}
 }

@@ -58,8 +58,8 @@ $publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_
 
 // Configure featured button renderer.
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
-	->addState(0, 'articles.featured', 'icon-unfeatured', 'COM_CONTENT_UNFEATURED')
-	->addState(1, 'articles.unfeatured', 'icon-featured', 'COM_CONTENT_FEATURED');
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
