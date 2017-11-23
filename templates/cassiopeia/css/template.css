@@ -8505,6 +8505,11 @@ legend {
 .form-control-feedback {
   display: block; }
 
+.jmodedit {
+  position: absolute;
+  top: 10px;
+  right: 10px; }
+
 .container-header {
   position: relative;
   z-index: 10;
