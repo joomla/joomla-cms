@@ -22,16 +22,18 @@ $settings  = array();
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 	<fieldset>
-		<?php foreach ($this->form->getFieldset('user_name') as $field) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $field->label; ?>
-				</div>
-				<div class="controls">
-					<?php echo $field->input; ?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getlabel('name'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('name'); ?>
+					</div>
 				</div>
 			</div>
-		<?php endforeach; ?>
+		</div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
