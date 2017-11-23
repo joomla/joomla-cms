@@ -164,7 +164,7 @@ class ContactControllerContact extends JControllerForm
 	 * @param   array     $data                  The data to send in the email.
 	 * @param   stdClass  $contact               The user information to send the email to
 	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
-     * @param   boolean   $sender                Website owner receive the mail from: Null = $mailfrom (website), 1 = $name (user)
+	 * @param   boolean   $sender                Website owner receive the mail from: Null = $mailfrom (website), 1 = $name (user)
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
@@ -185,7 +185,7 @@ class ContactControllerContact extends JControllerForm
 			$sitename = $app->get('sitename');
 
 			$email   = JStringPunycode::emailToPunycode($data['contact_email']);
-            $name    = $data['contact_name'];
+			$name    = $data['contact_name'];
 			$subject = $data['contact_subject'];
 			$body    = $data['contact_message'];
 
