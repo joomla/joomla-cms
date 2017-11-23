@@ -21,10 +21,17 @@ $settings  = array();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
-
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
-
 	<fieldset>
+		<?php foreach ($this->form->getFieldset('user_name') as $field) : ?>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $field->label; ?>
+				</div>
+				<div class="controls">
+					<?php echo $field->input; ?>
+				</div>
+			</div>
+		<?php endforeach; ?>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
