@@ -124,13 +124,14 @@ class ActionButton
 	 *
 	 * @param   string|integer  $value  The value name we want to get.
 	 *
-	 * @return  array|null  Return state profile or NULL.
+	 * @return  array  Return state profile or NULL.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getState(string $value): array
 	{
-		return $this->states[$value] ?? null;
+		// php7.0 not allow nullable return value so we return empty array if not exists.
+		return $this->states[$value] ?? [];
 	}
 
 	/**
@@ -165,7 +166,7 @@ class ActionButton
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function render(string $value = null, string $row = null, array $options = []): string
+	public function render(string $value = '', string $row = null, array $options = []): string
 	{
 		$data = $this->getState($value);
 
@@ -244,7 +245,7 @@ class ActionButton
 	 */
 	public function getOptions(): array
 	{
-		return $this->options->toArray();
+		return (array) $this->options->toArray();
 	}
 
 	/**
@@ -306,7 +307,7 @@ class ActionButton
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fetchIconClass($identifier)
+	public function fetchIconClass(string $identifier): string
 	{
 		// It's an ugly hack, but this allows templates to define the icon classes for the toolbar
 		$layout = new FileLayout('joomla.button.iconclass');
