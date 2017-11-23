@@ -361,7 +361,7 @@ class ApiController extends BaseController
 	}
 
 	/**
-	 * Get the Adapter
+	 * Get the Adapter.
 	 *
 	 * @return  string
 	 *
@@ -369,11 +369,18 @@ class ApiController extends BaseController
 	 */
 	private function getAdapter()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[0];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 1)
+		{
+			return null;
+		}
+
+		return $parts[0];
 	}
 
 	/**
-	 * Get the Path
+	 * Get the Path.
 	 *
 	 * @return  string
 	 *
@@ -381,7 +388,14 @@ class ApiController extends BaseController
 	 */
 	private function getPath()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[1];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 2)
+		{
+			return null;
+		}
+
+		return $parts[1];
 	}
 
 }
