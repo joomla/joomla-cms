@@ -5,16 +5,16 @@
 
 Joomla = window.Joomla || {};
 
-jQuery(document).ready(function($) {
-	$('#extraction_method').change(function(e){
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('extraction_method').addEventListener('change', function(e){
 		extractionMethodHandler('#extraction_method', 'row_ftp');
 	});
-	$('#upload_method').change(function(e){
+	document.getElementById('upload_method').addEventListener('change', function(e){
 		extractionMethodHandler('#upload_method', 'upload_ftp');
 	});
 
-	$('button.submit').on('click', function() {
-		$('div.download_message').show();
+	document.querySelector('button.submit').addEventListener('click', function() {
+		document.querySelector('div.download_message').style.display = 'block';
 	});
 });
 
@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
 
 })();
 
-(function($, document, window) {
+(function(document, window) {
     /**
      * PreUpdateChecker
      *
@@ -115,34 +115,35 @@ jQuery(document).ready(function($) {
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
 
         // Grab all extensions based on the selector set in the config object
-        var $extensions = $(PreUpdateChecker.config.selector);
-        $extensions.each(function () {
+        var extensions = [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector));
+        extensions.forEach(function (el) {
             // Check compatibility for each extension, pass jQuery object and a callback
             // function after completing the request
-            PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
+            PreUpdateChecker.checkCompatibility(el, PreUpdateChecker.setResultView);
         });
-    }
+    };
 
     /**
      * Check the compatibility for a single extension.
      * Requests the server checking the compatibility based on the data set in the element's data attributes.
      *
-     * @param {Object} $extension
-     * @param {callable} callback
+     * @param {Object} extension
+     * @param {function} callback
      */
-    PreUpdateChecker.checkCompatibility = function ($extension, callback) {
+    PreUpdateChecker.checkCompatibility = function (extension, callback) {
         // Result object passed to the callback
         // Set to server error by default
         var extension = {
-            $element: $extension,
+            element: extension,
             state: PreUpdateChecker.STATE.SERVER_ERROR,
             compatibleVersion: 0
         };
 
+        // @TODO use Joomla.request
         // Request the server to check the compatiblity for the passed extension and joomla version
         $.getJSON(PreUpdateChecker.config.serverUrl, {
             'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
-            'extension-id': $extension.data('extensionId')
+            'extension-id': extension.data('extensionId')
         }).done(function(response) {
             // Extract the data from the JResponseJson object
             extension.state = response.data.state;
@@ -152,7 +153,7 @@ jQuery(document).ready(function($) {
             // Pass the retrieved data to the callback
             callback(extension);
         });
-    }
+    };
 
     /**
      * Set the result for a passed extensionData object containing state, jQuery object and compatible version
@@ -187,8 +188,9 @@ jQuery(document).ready(function($) {
                 html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
         }
         // Insert the generated html
-        extensionData.$element.html(html);
-    }
+        extensionData.element.innerHtml = html;
+    };
+
     // Run PreUpdateChecker on document ready
-    $(PreUpdateChecker.run);
-})(jQuery, document, window);
+    PreUpdateChecker.run();
+})(document, window);
