@@ -159,9 +159,7 @@ class JFormFieldFieldlayout extends JFormField
 
 			return implode($html);
 		}
-		else
-		{
-			return '';
-		}
+
+		return '';
 	}
 }
