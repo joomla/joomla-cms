@@ -65,6 +65,9 @@ echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
 
+echo "Download Libraries\n";
+system('composer install');
+
 chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
