@@ -11,7 +11,24 @@ defined('_JEXEC') or die;
 
 ?>
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>">
-<?php foreach ($this->results as $result) : ?>
+<?php foreach ($this->results as $result) : 
+
+/**
+  * display images in search results
+  */
+if (isset($result->image) )
+{
+$image = json_decode($result->image);
+$result->picture = $image->image_intro;
+}
+if (isset($result->picture) && $result->picture != '') 
+{
+?>
+<div style="float: left;margin: 0px 0px;"><img src="<?PHP $this->escape($result->picture); ?>" width="50" alt="" /></div>
+<?PHP	
+} 
+?>
+	
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count . '. '; ?>
 		<?php if ($result->href) : ?>
