@@ -75,6 +75,9 @@ class ActionButton
 	{
 		$this->options = new Registry($options);
 
+		// Replace some dynamic values
+		$this->states['_default']['title'] = Text::_('JLIB_HTML_UNKNOWN_STATE');
+
 		$this->preprocess();
 	}
 
@@ -212,7 +215,7 @@ class ActionButton
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getLayout():string
+	public function getLayout(): string
 	{
 		return $this->layout;
 	}
@@ -226,7 +229,7 @@ class ActionButton
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setLayout(string $layout)
+	public function setLayout(string $layout): self
 	{
 		$this->layout = $layout;
 

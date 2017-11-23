@@ -11,6 +11,7 @@ namespace Joomla\CMS\Button;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * The PublishedButton class.
@@ -28,10 +29,10 @@ class PublishedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(1, 'unpublish', 'icon-publish', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JPUBLISHED']);
-		$this->addState(0, 'publish', 'icon-unpublish', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JUNPUBLISHED']);
-		$this->addState(2, 'unpublish', 'icon-archive', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JARCHIVED']);
-		$this->addState(-2, 'publish', 'icon-trash', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JTRASHED']);
+		$this->addState(1, 'unpublish', 'publish', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JPUBLISHED']);
+		$this->addState(0, 'publish', 'unpublish', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JUNPUBLISHED']);
+		$this->addState(2, 'unpublish', 'archive', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JARCHIVED']);
+		$this->addState(-2, 'publish', 'trash', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JTRASHED']);
 	}
 
 	/**
@@ -71,42 +72,42 @@ class PublishedButton extends ActionButton
 
 				if ($publishUp)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, \JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 
 				if ($publishDown)
 				{
-					$tips[] = \JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, \JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_FINISHED', HTMLHelper::_('date', $publishDown, Text::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 
 				$tip = empty($tips) ? false : implode('<br>', $tips);
 
 				$default['title'] = $tip;
 
-				$default['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
+				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
 
 				if ($publishUp > $nullDate && $nowDate < $publishUp->toUnix())
 				{
-					$default['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
-					$default['icon'] = 'icon-pending';
+					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+					$default['icon'] = 'pending';
 				}
 
 				if ($publishDown > $nullDate && $nowDate > $publishDown->toUnix())
 				{
-					$default['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
-					$default['icon'] = 'icon-expired';
+					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+					$default['icon'] = 'expired';
 				}
 			}
 
 			$this->states[$value] = $default;
 
-			$html = parent::render($value, $row);
+			$html = parent::render($value, $row, $options);
 
 			$this->states[$value] = $bakState;
 
 			return $html;
 		}
 
-		return parent::render($value, $row);
+		return parent::render($value, $row, $options);
 	}
 }
