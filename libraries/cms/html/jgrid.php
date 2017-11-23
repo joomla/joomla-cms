@@ -196,7 +196,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', JHtml::_('date', $publish_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 			}
 
-			$tip = empty($tips) ? false : implode('<br />', $tips);
+			$tip = empty($tips) ? false : implode('<br>', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
