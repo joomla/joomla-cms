@@ -212,7 +212,7 @@ class ContactControllerContact extends JControllerForm
 			$mail->addReplyTo($email, $name);
 
 			// Send the mail to the admin with senders mail address if $sender is set to 1
-			if($sender)
+			if ($sender)
 			{
 				$mail->setSender(array($email, $name));
 			}
