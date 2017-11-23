@@ -39,8 +39,8 @@ var sendTestMail = function() {
 				response = JSON.parse(response);
 
 				if (response.error) {
-                    Joomla.renderMessages({error: [response.message]});
-                    return;
+					Joomla.renderMessages({error: [response.message]});
+					return;
 				}
 
 				if (typeof response.messages === 'object' && response.messages !== null) {

@@ -230,7 +230,7 @@ class ApplicationController extends BaseController
 
 		$result = $model->sendTestMail();
 
-		echo new JsonResponse($result);
+		echo new JsonResponse($result, null, !$result);
 
 		$this->app->close();
 	}
