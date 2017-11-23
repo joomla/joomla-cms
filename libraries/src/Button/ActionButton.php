@@ -170,7 +170,7 @@ class ActionButton
 	{
 		$data = $this->getState($value);
 
-		$data = $data ? : $this->getState('_default');
+		$data = $data ?: $this->getState('_default');
 
 		$data = ArrayHelper::mergeRecursive(
 			$this->getState('_default'),
@@ -221,7 +221,7 @@ class ActionButton
 	}
 
 	/**
-	 * Method to set property template
+	 * Method to set property template.
 	 *
 	 * @param   string  $layout The layout path.
 	 *
@@ -237,7 +237,7 @@ class ActionButton
 	}
 
 	/**
-	 * Method to get property Options
+	 * Method to get property options.
 	 *
 	 * @return  array
 	 *
@@ -249,7 +249,7 @@ class ActionButton
 	}
 
 	/**
-	 * Method to set property options
+	 * Method to set property options.
 	 *
 	 * @param   array  $options  The options of this button group.
 	 *
@@ -297,13 +297,13 @@ class ActionButton
 	}
 
 	/**
-	 * Method to get the CSS class name for an icon identifier
+	 * Method to get the CSS class name for an icon identifier.
 	 *
-	 * Can be redefined in the final class
+	 * Can be redefined in the final class.
 	 *
-	 * @param   string  $identifier  Icon identification string
+	 * @param   string  $identifier  Icon identification string.
 	 *
-	 * @return  string  CSS class name
+	 * @return  string  CSS class name.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
