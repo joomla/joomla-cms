@@ -296,13 +296,12 @@ class StandardRules implements RulesInterface
 							$segments[] = str_replace(':', '-', $segment);
 							$last_id    = (int) $id;
 						}
-						elseif ($view->parent === false
+						elseif ($view->parent_key !== false
+								|| $view->parent === false
 								|| $view->parent->key === false
 								|| $last_id === (int) $id)
 						{
 							/**
-							 * Note: To be more strict on J4 should be another test if ($view->parent_key !== false || ...)
-							 *
 							 * Check relations between views.
 							 *
 							 * If there is no view->parent_key and there is defined view->parent->key

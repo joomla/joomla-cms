@@ -110,13 +110,9 @@ abstract class RouterView extends RouterBase
 					{
 						$result[$view->name] = call_user_func_array($callable, array($query[$key], $query));
 					}
-					elseif ($view->key !== false && $oldKey !== false && isset($query[$oldKey]))
+					elseif ($key === false && $view->key !== false && $oldKey !== false && isset($query[$oldKey]))
 					{
-						/**
-						 * Note: To be more strict on J4 should be another test elseif ($key === false && ...
-						 *
-						 * For child view which has parent_key as false but URL should be build with parent menu item.
-						 */
+						// For child view which has parent_key as false but URL should be build with parent menu item.
 						$result[$view->name] = call_user_func_array($callable, array($query[$oldKey], $query));
 					}
 					else

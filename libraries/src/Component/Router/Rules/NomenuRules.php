@@ -282,7 +282,8 @@ class NomenuRules implements RulesInterface
 			{
 				$child = $views[$mainView->path[$i+1]];
 
-				if ($child->parent_key === false && $child->key !== false || ($child->nestable && $view->key === $child->key))
+				if ($child->parent_key === false && $child->key !== false
+					|| ($child->nestable && $view->key === $child->key))
 				{
 					// Do not process this view, child will do it as they work on the same path elements
 					continue;
