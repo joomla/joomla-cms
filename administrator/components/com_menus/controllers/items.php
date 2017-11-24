@@ -176,7 +176,7 @@ class MenusControllerItems extends JControllerAdmin
 		$this->setRedirect(
 			JRoute::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 			)
 		);
 	}
