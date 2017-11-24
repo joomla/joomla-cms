@@ -189,8 +189,8 @@ class MenusViewItems extends JViewLegacy
 							{
 								$titleParts[] = $vars['view'];
 							}
-
 						}
+
 						$value = implode(' » ', $titleParts);
 					}
 					else

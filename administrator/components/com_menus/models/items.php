@@ -469,7 +469,7 @@ class MenusModelItems extends JModelList
 	 * @param   string  $menuType  The menutype identifier for the menu
 	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
