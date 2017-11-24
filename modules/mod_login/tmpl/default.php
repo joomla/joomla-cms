@@ -19,6 +19,11 @@ JText::script('JSHOW');
 JText::script('JHIDE');
 ?>
 <form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="login-form">
+
+	<?php if ($params->get('pretext')) : ?>
+		<p><?php echo $params->get('pretext'); ?></p>
+	<?php endif; ?>
+
 	<div class="userdata">
 		<div class="form-group">
 			<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
@@ -96,4 +101,9 @@ JText::script('JHIDE');
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+
+	<?php if ($params->get('posttext')) : ?>
+		<p><?php echo $params->get('posttext'); ?></p>
+	<?php endif; ?>
+
 </form>
