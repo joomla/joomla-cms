@@ -37,7 +37,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC"
 					default="5"
@@ -110,7 +110,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
