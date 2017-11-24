@@ -186,7 +186,12 @@ if (typeof(Joomla) === 'undefined') {
 		$(document).ready(function() {
 			setUpShowon();
 
-			// Setup showon feature in the subform field
+            // Provide a way to parse an entire form that has been added to the DOM on the fly
+            $(document).on('subform-container-add', function(event, container) {
+                setUpShowon(container);
+            });
+
+            // Setup showon feature in the subform field
 			$(document).on('subform-row-add', function(event, row) {
 				var $row      = $(row),
 					$elements = $row.find('[data-showon]'),
