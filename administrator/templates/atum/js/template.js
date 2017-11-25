@@ -8,37 +8,10 @@
 
 Joomla = window.Joomla || {};
 
-(function() {
+(function(document) {
 	'use strict';
 
 	document.addEventListener('DOMContentLoaded', function() {
-
-		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
-		function closest(el, selector) {
-			var matchesFn;
-
-			// find vendor prefix
-			['matches', 'msMatchesSelector'].some(function(fn) {
-				if (typeof document.body[fn] == 'function') {
-					matchesFn = fn;
-					return true;
-				}
-				return false;
-			})
-
-			var parent;
-
-			// traverse parents
-			while (el) {
-				parent = el.parentElement;
-				if (parent && parent[matchesFn](selector)) {
-					return parent;
-				}
-				el = parent;
-			}
-
-			return null;
-		}
 
 		var wrapper = document.getElementById('wrapper'),
 		    sidebar = document.getElementById('sidebar-wrapper');
@@ -106,7 +79,7 @@ Joomla = window.Joomla || {};
 				if (elem) {
 					elem.classList.remove('child-open');
 				}
-				
+
 				// Save the sidebar state
 				if (Joomla.localStorageEnabled()) {
 					if (wrapper.classList.contains('closed')) {
@@ -116,7 +89,7 @@ Joomla = window.Joomla || {};
 					}
 				}
 			});
-			
+
 
 			/**
 			 * Sidebar Nav
@@ -149,7 +122,7 @@ Joomla = window.Joomla || {};
 				}
 				mainNav.classList.remove('child-open');
 			}
-			
+
 			// Child open toggle
 			var openToggle = function() {
 				var menuItem = this.parentNode;
@@ -176,7 +149,7 @@ Joomla = window.Joomla || {};
 			 	menuParents[i].addEventListener('keyup', openToggle);
 			}
 
-			// Menu close 
+			// Menu close
 			for (var i = 0; i < subMenuClose.length; i++) {
 				subMenuClose[i].addEventListener('click', function() {
 					var menuChildOpen = mainNav.querySelectorAll('.open');
@@ -184,7 +157,7 @@ Joomla = window.Joomla || {};
 					for (var i = 0; i < menuChildOpen.length; i++) {
 						menuChildOpen[i].classList.remove('open');
 					}
-					mainNav.classList.remove('child-open');	
+					mainNav.classList.remove('child-open');
 				});
 			}
 
@@ -192,7 +165,7 @@ Joomla = window.Joomla || {};
 			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
 			for (var i = 0; i < allLiEl.length; i++) {
 				// We care for enter and space
-				allLiEl[i].addEventListener('keyup', function(e) { 
+				allLiEl[i].addEventListener('keyup', function(e) {
 					if (e.keyCode == 32 || e.keyCode == 13) {
 						e.target.querySelector('a').click();
 					}
@@ -226,106 +199,6 @@ Joomla = window.Joomla || {};
 
 			if (document.getElementsByClassName('wrapper').length) {
 				document.getElementsByClassName('wrapper')[0].style.paddingLeft = '0';
-			}
-		}
-
-		/**
-		 * Turn radios into btn-group
-		 */
-		var container = document.querySelectorAll('.btn-group');
-		for (var i = 0; i < container.length; i++) {
-			var labels = container[i].querySelectorAll('label');
-			for (var j = 0; j < labels.length; j++) {
-				labels[j].classList.add('btn');
-				if ((j % 2) == 1) {
-					labels[j].classList.add('btn-outline-danger');
-				} else {
-					labels[j].classList.add('btn-outline-success');
-
-				}
-			}
-		}
-
-		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
-		if (btnNotActive) {
-			btnNotActive.addEventListener('click', function(event) {
-				var input = document.getElementById(event.target.getAttribute('for'));
-
-				if (input.getAttribute('checked') !== 'checked') {
-					var label = closest(event.target, '.btn-group').querySelector('label');
-					label.classList.remove('active');
-					label.classList.remove('btn-success');
-					label.classList.remove('btn-danger');
-					label.classList.remove('btn-primary');
-
-					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
-						if (!label.classList.contains('btn')) label.classList.add('btn');
-						if (input.value === '') {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-primary');
-						} else if (input.value === 0) {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-success');
-						} else {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-danger');
-						}
-					} else {
-						if (input.value === '') {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-primary');
-						} else if (input.value === 0) {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-danger');
-						} else {
-							label.classList.add('active');
-							label.classList.add('btn');
-							label.classList.add('btn-outline-success');
-						}
-					}
-					input.setAttribute('checked', true);
-					//input.dispatchEvent('change');
-				}
-			});
-		}
-
-		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
-		for (var i = 0, l = btsGrouped.length; l>i; i++) {
-			var self   = btsGrouped[i],
-			    attrId = self.id,
-			    label = document.querySelector('label[for=' + attrId + ']');
-			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
-				if (self.value === '') {
-					label.classList.add('active');
-					label.classList.add('btn');
-					label.classList.add('btn-outline-primary');
-				} else if (self.value === 0) {
-					label.classList.add('active');
-					label.classList.add('btn');
-					label.classList.add('btn-outline-success');
-				} else {
-					label.classList.add('active');
-					label.classList.add('btn');
-					label.classList.add('btn-outline-danger');
-				}
-			} else {
-				if (self.value === '') {
-					label.classList.add('active');
-					label.classList.add('btn-outline-primary');
-				} else if (self.value === 0) {
-					label.classList.add('active');
-					label.classList.add('btn');
-					label.classList.add('btn-outline-danger');
-				} else {
-					label.classList.add('active');
-					label.classList.add('btn');
-					label.classList.add('btn-outline-success');
-				}
 			}
 		}
 
@@ -379,4 +252,146 @@ Joomla = window.Joomla || {};
 			}
 		}
 	});
-})();
+
+	function initPageContentStuff (event) {
+		var target = event && event.target ? event.target : document;
+
+		/**
+		 * Turn radios into btn-group
+		 */
+		var container = target.querySelectorAll('.btn-group');
+		for (var i = 0; i < container.length; i++) {
+			var labels = container[i].querySelectorAll('label');
+			for (var j = 0; j < labels.length; j++) {
+				labels[j].classList.add('btn');
+				if ((j % 2) == 1) {
+					labels[j].classList.add('btn-outline-danger');
+				} else {
+					labels[j].classList.add('btn-outline-success');
+
+				}
+			}
+		}
+
+		var btnNotActive = target.querySelector('.btn-group label:not(.active)');
+		if (btnNotActive) {
+			btnNotActive.addEventListener('click', function(event) {
+				var input = document.getElementById(event.target.getAttribute('for'));
+
+				if (input.getAttribute('checked') !== 'checked') {
+					var label = closest(event.target, '.btn-group').querySelector('label');
+					label.classList.remove('active');
+					label.classList.remove('btn-success');
+					label.classList.remove('btn-danger');
+					label.classList.remove('btn-primary');
+
+					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+						if (!label.classList.contains('btn')) label.classList.add('btn');
+						if (input.value === '') {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-primary');
+						} else if (input.value === 0) {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-success');
+						} else {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-danger');
+						}
+					} else {
+						if (input.value === '') {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-primary');
+						} else if (input.value === 0) {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-danger');
+						} else {
+							label.classList.add('active');
+							label.classList.add('btn');
+							label.classList.add('btn-outline-success');
+						}
+					}
+					input.setAttribute('checked', true);
+					//input.dispatchEvent('change');
+				}
+			});
+		}
+
+		var btsGrouped = target.querySelectorAll('.btn-group input[checked=checked]');
+		for (var i = 0, l = btsGrouped.length; l>i; i++) {
+			var self   = btsGrouped[i],
+				attrId = self.id,
+				label = target.querySelector('label[for=' + attrId + ']');
+			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
+				if (self.value === '') {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-primary');
+				} else if (self.value === 0) {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
+				} else {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
+				}
+			} else {
+				if (self.value === '') {
+					label.classList.add('active');
+					label.classList.add('btn-outline-primary');
+				} else if (self.value === 0) {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-danger');
+				} else {
+					label.classList.add('active');
+					label.classList.add('btn');
+					label.classList.add('btn-outline-success');
+				}
+			}
+		}
+	}
+
+	/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
+	function closest(el, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] == 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		})
+
+		var parent;
+
+		// traverse parents
+		while (el) {
+			parent = el.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			el = parent;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Initialize at an initial page load
+	 */
+	document.addEventListener("DOMContentLoaded", initPageContentStuff);
+
+	/**
+	 * Initialize when a part of the page was updated
+	 */
+	document.addEventListener("joomla:updated", initPageContentStuff);
+
+})(document);
