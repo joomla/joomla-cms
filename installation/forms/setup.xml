@@ -20,6 +20,15 @@
 		/>
 
 		<field
+				name="admin_user"
+				type="text"
+				id="admin_user"
+				class="form-control"
+				label="INSTL_ADMIN_USER_DESC"
+				required="true"
+		/>
+
+		<field
 				name="admin_email"
 				type="email"
 				id="admin_email"
@@ -30,12 +39,9 @@
 		/>
 
 		<field
-				name="admin_user"
+				name="dummy_input"
 				type="text"
-				id="admin_user"
-				class="form-control"
-				label="INSTL_ADMIN_USER_DESC"
-				required="true"
+				id="dummy_input"
 		/>
 
 		<field
