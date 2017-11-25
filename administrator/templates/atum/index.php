@@ -39,7 +39,7 @@ if ($cpanel)
 {
 	HTMLHelper::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
 }
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
