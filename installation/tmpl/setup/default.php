@@ -57,6 +57,8 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getLabel('admin_email'); ?>
 					<?php echo $this->form->getInput('admin_email'); ?>
 				</div>
+				<div style="display: none;"> 
+					<?php echo $this->form->getInput('dummy_input'); ?>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
 					<?php echo $this->form->getInput('admin_password'); ?>
