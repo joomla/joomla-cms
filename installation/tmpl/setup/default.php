@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	<form action="index.php" method="post" id="adminForm" class="form-validate">
 		<fieldset id="installStep1" class="j-install-step active">
 			<legend class="j-install-step-header">
-				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SETUP_LOGIN_DATA'); ?>
+				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo JText::_('INSTL_SITE_INFO'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
@@ -46,7 +46,7 @@ defined('_JEXEC') or die;
 		</fieldset>
 		<fieldset id="installStep2" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-user" aria-hidden="true"></span> <?php echo JText::_('INSTL_LOGIN_DATA'); ?>
+				<span class="fa fa-user" aria-hidden="true"></span> <?php echo JText::_('INSTL_CREATE_USER_HEADER'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
@@ -74,27 +74,31 @@ defined('_JEXEC') or die;
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_type'); ?>
 					<?php echo $this->form->getInput('db_type'); ?>
-					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_TYPE_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_host'); ?>
 					<?php echo $this->form->getInput('db_host'); ?>
+					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_HOST_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_user'); ?>
 					<?php echo $this->form->getInput('db_user'); ?>
+					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_USER_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_pass'); ?>
 					<?php echo $this->form->getInput('db_pass'); ?>
+					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_PASSWORD_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_name'); ?>
 					<?php echo $this->form->getInput('db_name'); ?>
+					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_NAME_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_prefix'); ?>
 					<?php echo $this->form->getInput('db_prefix'); ?>
+					<p class="form-text text-muted small"><?php echo JText::_('INSTL_DATABASE_PREFIX_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php //echo $this->form->getLabel('db_old'); ?>

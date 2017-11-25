@@ -74,8 +74,8 @@
 				name="db_type"
 				type="databaseconnection"
 				id="db_type"
-				class="custom-select form-control"
-				label="INSTL_DATABASE_TYPE_DESC"
+				class="custom-select"
+				label="INSTL_DATABASE_TYPE_LABEL"
 				supported="mysqli,pdomysql,postgresql"
 				required="true"
 				default="mysqli"
@@ -86,7 +86,7 @@
 				type="text"
 				id="db_host"
 				class="form-control"
-				label="INSTL_DATABASE_HOST_DESC"
+				label="INSTL_DATABASE_HOST_LABEL"
 				default="localhost"
 				required="true"
 		/>
@@ -95,7 +95,7 @@
 				type="text"
 				id="db_user"
 				class="form-control"
-				label="INSTL_DATABASE_USER_DESC"
+				label="INSTL_DATABASE_USER_LABEL"
 				required="true"
 		/>
 		<field
@@ -103,7 +103,7 @@
 				type="password"
 				id="db_pass"
 				class="form-control"
-				label="INSTL_DATABASE_PASSWORD_DESC"
+				label="INSTL_DATABASE_PASSWORD_LABEL"
 				autocomplete="off"
 				filter="raw"
 		/>
@@ -112,7 +112,7 @@
 				type="text"
 				id="db_name"
 				class="form-control"
-				label="INSTL_DATABASE_NAME_DESC"
+				label="INSTL_DATABASE_NAME_LABEL"
 				required="true"
 				default="joomla_db"
 		/>
@@ -125,7 +125,7 @@
 				type="installation.prefix"
 				id="db_prefix"
 				class="form-control"
-				label="INSTL_DATABASE_PREFIX_DESC"
+				label="INSTL_DATABASE_PREFIX_LABEL"
 				required="true"
 				validate="prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"
