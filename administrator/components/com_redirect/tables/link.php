@@ -47,6 +47,7 @@ class RedirectTableLink extends JTable
 
 			return false;
 		}
+
 		// Check for NOT NULL.
 		if (empty($this->referer))
 		{
