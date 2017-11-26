@@ -331,7 +331,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
@@ -356,7 +358,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
@@ -381,7 +385,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanLoginAdminOptionSet()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
