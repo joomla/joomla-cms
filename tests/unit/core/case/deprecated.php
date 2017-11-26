@@ -78,31 +78,6 @@ trait TestCaseDeprecated
 		return $mockObject;
 	}
 
-	/**
-	 * Returns a mock object for the specified abstract class with all abstract
-	 * methods of the class mocked. Concrete methods are not mocked by default.
-	 * To mock concrete methods, use the 7th parameter ($mockedMethods).
-	 *
-	 * @param string $originalClassName
-	 * @param array  $arguments
-	 * @param string $mockClassName
-	 * @param bool   $callOriginalConstructor
-	 * @param bool   $callOriginalClone
-	 * @param bool   $callAutoload
-	 * @param array  $mockedMethods
-	 * @param bool   $cloneArguments
-	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 *
-	 * @throws Exception
-	 *
-	 * @deprecated  Use $this->getMockObjectGenerator()->getMockForAbstractClass() instead.
-	 */
-	public function getMockForAbstractClass($originalClassName, array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $mockedMethods = [], $cloneArguments = false)
-	{
-		return parent::getMockForAbstractClass(...func_get_args());
-	}
-
 	public static function assertTag($matcher, $actual, $message = '', $isHtml = true)
 	{
 		$dom     = \PHPUnit\Util\Xml::load($actual, $isHtml);

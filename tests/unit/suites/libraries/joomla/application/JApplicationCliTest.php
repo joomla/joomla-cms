@@ -112,7 +112,9 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMockForAbstractClass('JApplicationCli', array($mockInput, $mockConfig, null, null, $mockDispatcher));
+		$class = $this->getMockBuilder('JApplicationCli')
+			->setConstructorArgs([$mockInput, $mockConfig, null, null, $mockDispatcher])
+			->getMockForAbstractClass();
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
