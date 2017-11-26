@@ -45,7 +45,7 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -206,13 +206,22 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								</td>
 								<?php endif; ?>
 								<td class="small hidden-sm-down text-center">
-									<?php if ($item->created_by_alias) : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-										<?php echo $this->escape($item->author_name); ?></a>
-										<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php if ((int) $item->created_by != 0) : ?>
+										<?php if ($item->created_by_alias) : ?>
+                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+												<?php echo $this->escape($item->author_name); ?></a>
+                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+										<?php else : ?>
+                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+												<?php echo $this->escape($item->author_name); ?></a>
+										<?php endif; ?>
 									<?php else : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-										<?php echo $this->escape($item->author_name); ?></a>
+										<?php if ($item->created_by_alias) : ?>
+											<?php echo JText::_('JNONE'); ?>
+                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+										<?php else : ?>
+											<?php echo JText::_('JNONE'); ?>
+										<?php endif; ?>
 									<?php endif; ?>
 								</td>
 								<td class="small hidden-sm-down text-center">

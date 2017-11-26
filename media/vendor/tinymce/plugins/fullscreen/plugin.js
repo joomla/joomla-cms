@@ -266,9 +266,10 @@ define(
       window.scrollTo(pos.x, pos.y);
     };
 
-    var toggleFullscreen = function (editor, fullscreenInfo) {
+    var toggleFullscreen = function (editor, fullscreenState) {
       var body = document.body, documentElement = document.documentElement, editorContainerStyle;
       var editorContainer, iframe, iframeStyle;
+      var fullscreenInfo = fullscreenState.get();
 
       var resize = function () {
         DOM.setStyle(iframe, 'height', getWindowSize().h - (editorContainer.clientHeight - iframe.clientHeight));
@@ -306,9 +307,8 @@ define(
 
         resize();
 
+        fullscreenState.set(newFullScreenInfo);
         Events.fireFullscreenStateChanged(editor, true);
-
-        return newFullScreenInfo;
       } else {
         iframeStyle.width = fullscreenInfo.iframeWidth;
         iframeStyle.height = fullscreenInfo.iframeHeight;
@@ -329,9 +329,8 @@ define(
         DOM.unbind(window, 'resize', fullscreenInfo.resizeHandler);
         editor.off('remove', fullscreenInfo.removeHandler);
 
+        fullscreenState.set(null);
         Events.fireFullscreenStateChanged(editor, false);
-
-        return null;
       }
     };
 
@@ -359,7 +358,7 @@ define(
   function (Actions) {
     var register = function (editor, fullscreenState) {
       editor.addCommand('mceFullScreen', function () {
-        fullscreenState.set(Actions.toggleFullscreen(editor, fullscreenState.get()));
+        Actions.toggleFullscreen(editor, fullscreenState);
       });
     };
 
@@ -406,7 +405,6 @@ define(
 
       editor.addButton('fullscreen', {
         tooltip: 'Fullscreen',
-        shortcut: 'Ctrl+Shift+F',
         cmd: 'mceFullScreen',
         onPostRender: postRender(editor)
       });
@@ -417,6 +415,7 @@ define(
     };
   }
 );
+
 /**
  * Plugin.js
  *

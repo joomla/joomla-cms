@@ -19,7 +19,7 @@ use Joomla\CMS\Table\Table;
  * Uses the static getInstance function on the classes itself. Behavior of the old none
  * namespaced extension set up.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LegacyFactory implements MVCFactoryInterface
 {
@@ -33,7 +33,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
@@ -55,7 +55,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
@@ -98,7 +98,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = 'Table', array $config = array())

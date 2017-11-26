@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserHelper;
 /**
  * Password handler for MD5 hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Support for MD5 hashed passwords will be removed
  */
 class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
@@ -29,7 +29,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
@@ -44,7 +44,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hashPassword($plaintext, array $options = [])
 	{
@@ -59,7 +59,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function isSupported()
 	{
@@ -74,7 +74,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{

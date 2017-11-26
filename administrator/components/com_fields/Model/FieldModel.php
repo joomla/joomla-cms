@@ -339,7 +339,12 @@ class FieldModel extends AdminModel
 			if (property_exists($result, 'fieldparams'))
 			{
 				$registry = new Registry;
-				$registry->loadString($result->fieldparams);
+
+				if ($result->fieldparams)
+				{
+					$registry->loadString($result->fieldparams);
+				}
+
 				$result->fieldparams = $registry->toArray();
 			}
 
@@ -959,6 +964,12 @@ class FieldModel extends AdminModel
 			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
+			}
+
+			// Remove placeholder field on list fields
+			if ($dataObject->type == 'list')
+			{
+				$form->removeField('hint', 'params');
 			}
 		}
 

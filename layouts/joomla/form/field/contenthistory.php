@@ -54,12 +54,13 @@ echo JHtml::_(
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 	)
 );
 
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn" data-toggle="modal" title="<?php echo $label; ?>">
-	<span class="icon-archive" aria-hidden="true"></span><?php echo $label; ?>
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-secondary" data-toggle="modal" title="<?php echo $label; ?>">
+	<span class="fa fa-code-fork" aria-hidden="true"></span>
+	<?php echo $label; ?>
 </button>

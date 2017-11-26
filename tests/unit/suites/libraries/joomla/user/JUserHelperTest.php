@@ -341,7 +341,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::hashPassword
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @requires  PHP 7.2
 	 */
 	public function testHashPasswordArgon2i()

@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of PHP config options
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $phpOptions = null;
 
@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of PHP settings
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $phpSettings = null;
 
@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of Non-Core-Extensions
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $nonCoreExtensions = null;
 
@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $state;
 
@@ -271,7 +271,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{

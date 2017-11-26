@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.modern.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.modern.api.ThemeApi","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.modern.ui.Render","tinymce.themes.modern.ui.Resize","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","global!document","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.themes.modern.api.Settings","tinymce.themes.modern.modes.Iframe","tinymce.themes.modern.modes.Inline","tinymce.themes.modern.ui.ProgressState","tinymce.core.dom.DOMUtils","tinymce.themes.modern.api.Events","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.core.util.Delay","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","tinymce.themes.modern.ui.A11y","tinymce.themes.modern.ui.ContextToolbars","tinymce.themes.modern.ui.Menubar","tinymce.themes.modern.ui.Sidebar","tinymce.themes.modern.ui.SkinLoaded","tinymce.themes.modern.ui.Toolbar","tinymce.ui.data.Binding","tinymce.core.util.Observable","ephox.katamari.api.Option","global!String","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","tinymce.core.geom.Rect","global!Object","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Traverse","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.themes.modern.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.modern.api.ThemeApi","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.modern.ui.Render","tinymce.themes.modern.ui.Resize","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","global!document","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.themes.modern.api.Settings","tinymce.themes.modern.modes.Iframe","tinymce.themes.modern.modes.Inline","tinymce.themes.modern.ui.ProgressState","tinymce.core.dom.DOMUtils","tinymce.themes.modern.api.Events","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.core.util.Delay","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","tinymce.core.util.I18n","tinymce.themes.modern.ui.A11y","tinymce.themes.modern.ui.ContextToolbars","tinymce.themes.modern.ui.Menubar","tinymce.themes.modern.ui.Sidebar","tinymce.themes.modern.ui.SkinLoaded","tinymce.themes.modern.ui.Toolbar","tinymce.ui.data.Binding","tinymce.core.util.Observable","ephox.katamari.api.Option","global!String","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","tinymce.core.geom.Rect","global!Object","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Traverse","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc*/
 defineGlobal("global!window", window);
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
@@ -247,6 +247,10 @@ define(
       return skinUrl;
     };
 
+    var isSkinDisabled = function (editor) {
+      return editor.settings.skin === false;
+    };
+
     var isInline = function (editor) {
       return editor.getParam('inline', false);
     };
@@ -300,6 +304,7 @@ define(
       getMaxWidth: getMaxWidth,
       getMaxHeight: getMaxHeight,
       getSkinUrl: getSkinUrl,
+      isSkinDisabled: isSkinDisabled,
       isInline: isInline,
       getToolbars: getToolbars
     };
@@ -343,6 +348,26 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.ui.Factory');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.I18n',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.I18n');
   }
 );
 
@@ -722,9 +747,10 @@ define(
 
         if (DOM.getStyle(match.element, 'display', true) !== 'inline') {
           // We need to use these instead of the rect values since the style
-          // size properites might not be the same as the real size for a table
-          elementRect.w = match.element.clientWidth;
-          elementRect.h = match.element.clientHeight;
+          // size properites might not be the same as the real size for a table if it has a caption
+          var clientRect = match.element.getBoundingClientRect();
+          elementRect.w = clientRect.width;
+          elementRect.h = clientRect.height;
         }
 
         if (!editor.inline) {
@@ -1509,11 +1535,10 @@ define(
   'tinymce.themes.modern.ui.Menubar',
   [
     'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
     'tinymce.core.util.Tools',
     'tinymce.themes.modern.api.Settings'
   ],
-  function (Arr, Fun, Tools, Settings) {
+  function (Arr, Tools, Settings) {
     var defaultMenus = {
       file: { title: 'File', items: 'newdocument restoredraft | preview | print' },
       edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
@@ -1927,6 +1952,7 @@ define(
   [
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.ui.Factory',
+    'tinymce.core.util.I18n',
     'tinymce.core.util.Tools',
     'tinymce.themes.modern.api.Events',
     'tinymce.themes.modern.api.Settings',
@@ -1938,7 +1964,7 @@ define(
     'tinymce.themes.modern.ui.SkinLoaded',
     'tinymce.themes.modern.ui.Toolbar'
   ],
-  function (DOMUtils, Factory, Tools, Events, Settings, A11y, ContextToolbars, Menubar, Resize, Sidebar, SkinLoaded, Toolbar) {
+  function (DOMUtils, Factory, I18n, Tools, Events, Settings, A11y, ContextToolbars, Menubar, Resize, Sidebar, SkinLoaded, Toolbar) {
     var DOM = DOMUtils.DOM;
 
     var switchMode = function (panel) {
@@ -1974,8 +2000,10 @@ define(
     var render = function (editor, theme, args) {
       var panel, resizeHandleCtrl, startSize;
 
-      if (args.skinUiCss) {
+      if (Settings.isSkinDisabled(editor) === false && args.skinUiCss) {
         DOM.styleSheetLoader.load(args.skinUiCss, SkinLoaded.fireSkinLoaded(editor));
+      } else {
+        SkinLoaded.fireSkinLoaded(editor)();
       }
 
       panel = theme.panel = Factory.create({
@@ -2023,7 +2051,9 @@ define(
       }
 
       if (Settings.hasStatusbar(editor)) {
-        var brandingLabel = Settings.isBrandingEnabled(editor) ? { type: 'label', classes: 'branding', html: ' powered by <a href="https://www.tinymce.com/?utm_campaign=editor_referral&utm_medium=poweredby&utm_source=tinymce" rel="noopener" target="_blank">tinymce</a>' } : null;
+        var linkHtml = '<a href="https://www.tinymce.com/?utm_campaign=editor_referral&utm_medium=poweredby&utm_source=tinymce" rel="noopener" target="_blank">tinymce</a>';
+        var html = I18n.translate(['Powered by {0}', linkHtml]);
+        var brandingLabel = Settings.isBrandingEnabled(editor) ? { type: 'label', classes: 'branding', html: ' ' + html } : null;
 
         panel.add({
           type: 'panel', name: 'statusbar', classes: 'statusbar', layout: 'flow', border: '1 0 0 0', ariaRoot: true, items: [
@@ -3426,12 +3456,11 @@ define(
        * Binds a callback to the specified event. This event can both be
        * native browser events like "click" or custom ones like PostRender.
        *
-       * The callback function will have two parameters the first one being the control that received the event
-       * the second one will be the event object either the browsers native event object or a custom JS object.
+       * The callback function gets one parameter: either the browser's native event object or a custom JS object.
        *
        * @method on
        * @param {String} name Name of the event to bind. For example "click".
-       * @param {String/function} callback Callback function to execute ones the event occurs.
+       * @param {String/function} callback Callback function to execute once the event occurs.
        * @return {tinymce.ui.Collection} Current collection instance.
        */
       // on: function(name, callback) {}, -- Generated by code below
@@ -3544,6 +3573,7 @@ define(
     return Collection;
   }
 );
+
 /**
  * Binding.js
  *
@@ -7153,7 +7183,7 @@ define(
 
       editor.on('focus', function () {
         // Render only when the CSS file has been loaded
-        if (args.skinUiCss) {
+        if (Settings.isSkinDisabled(editor) === false && args.skinUiCss) {
           DOM.styleSheetLoader.load(args.skinUiCss, render, render);
         } else {
           render();
@@ -7171,8 +7201,10 @@ define(
       });
 
       // Preload skin css
-      if (args.skinUiCss) {
+      if (Settings.isSkinDisabled(editor) === false && args.skinUiCss) {
         DOM.styleSheetLoader.load(args.skinUiCss, SkinLoaded.fireSkinLoaded(editor));
+      } else {
+        SkinLoaded.fireSkinLoaded(editor)();
       }
 
       return {};
@@ -7326,13 +7358,12 @@ define(
 define(
   'tinymce.themes.modern.ui.Render',
   [
-    'tinymce.core.EditorManager',
     'tinymce.themes.modern.api.Settings',
     'tinymce.themes.modern.modes.Iframe',
     'tinymce.themes.modern.modes.Inline',
     'tinymce.themes.modern.ui.ProgressState'
   ],
-  function (EditorManager, Settings, Iframe, Inline, ProgressState) {
+  function (Settings, Iframe, Inline, ProgressState) {
     var renderUI = function (editor, theme, args) {
       var skinUrl = Settings.getSkinUrl(editor);
 
@@ -14108,11 +14139,16 @@ define(
       return Option.none();
     };
 
-    var toPt = function (fontSize) {
-      if (/[0-9.]+px$/.test(fontSize)) {
-        return Math.round(parseInt(fontSize, 10) * 72 / 96) + 'pt';
-      }
+    var round = function (number, precision) {
+      var factor = Math.pow(10, precision);
+      return Math.round(number * factor) / factor;
+    };
 
+    var toPt = function (fontSize, precision) {
+      if (/[0-9.]+px$/.test(fontSize)) {
+        // Round to the nearest 0.5
+        return round(parseInt(fontSize, 10) * 72 / 96, precision || 0) + 'pt';
+      }
       return fontSize;
     };
 
@@ -14293,7 +14329,7 @@ define(
   ],
   function (Tools, FontInfo) {
     var findMatchingValue = function (items, pt, px) {
-      var value ;
+      var value;
 
       Tools.each(items, function (item) {
         if (item.value === px) {
@@ -14311,12 +14347,17 @@ define(
         var self = this;
 
         editor.on('init nodeChange', function (e) {
-          var px, pt;
+          var px, pt, precision, match;
 
           px = FontInfo.getFontSize(editor.getBody(), e.element);
-          pt = FontInfo.toPt(px);
+          if (px) {
+            // checking for three digits after decimal point, should be precise enough
+            for (precision = 3; !match && precision >= 0; precision--) {
+              pt = FontInfo.toPt(px, precision);
+              match = findMatchingValue(items, pt, px);
+            }
+          }
 
-          var match = findMatchingValue(items, pt, px);
           self.value(match ? match : null);
 
           if (!match) {

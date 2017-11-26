@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 /**
  * Base Model for the installation model classes
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class BaseInstallationModel extends BaseDatabaseModel
 {

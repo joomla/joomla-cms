@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.lists.Plugin","tinymce.core.PluginManager","tinymce.plugins.lists.api.Api","tinymce.plugins.lists.api.Commands","tinymce.plugins.lists.core.Keyboard","tinymce.plugins.lists.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.lists.core.Delete","tinymce.plugins.lists.actions.Indent","tinymce.plugins.lists.actions.Outdent","tinymce.plugins.lists.actions.ToggleList","tinymce.core.util.VK","tinymce.plugins.lists.api.Settings","tinymce.core.util.Tools","tinymce.plugins.lists.core.NodeType","tinymce.plugins.lists.core.Selection","tinymce.core.dom.RangeUtils","tinymce.core.dom.TreeWalker","tinymce.core.dom.BookmarkManager","tinymce.core.dom.DOMUtils","tinymce.plugins.lists.core.Bookmark","tinymce.plugins.lists.core.NormalizeLists","tinymce.core.dom.DomQuery","tinymce.plugins.lists.core.SplitList","tinymce.plugins.lists.core.TextBlock","tinymce.plugins.lists.core.Range","tinymce.core.Env"]
+["tinymce.plugins.lists.Plugin","tinymce.core.PluginManager","tinymce.plugins.lists.api.Api","tinymce.plugins.lists.api.Commands","tinymce.plugins.lists.core.Keyboard","tinymce.plugins.lists.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.lists.core.Delete","tinymce.plugins.lists.actions.Indent","tinymce.plugins.lists.actions.Outdent","tinymce.plugins.lists.actions.ToggleList","tinymce.core.util.VK","tinymce.plugins.lists.api.Settings","tinymce.core.util.Tools","tinymce.plugins.lists.core.NodeType","tinymce.plugins.lists.core.Selection","tinymce.core.api.dom.RangeUtils","tinymce.core.dom.TreeWalker","tinymce.core.dom.BookmarkManager","tinymce.core.dom.DOMUtils","tinymce.plugins.lists.core.Bookmark","tinymce.plugins.lists.core.NormalizeLists","tinymce.core.dom.DomQuery","tinymce.plugins.lists.core.SplitList","tinymce.plugins.lists.core.TextBlock","tinymce.plugins.lists.core.Range","tinymce.core.Env"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -115,7 +115,7 @@ define(
  */
 
 define(
-  'tinymce.core.dom.RangeUtils',
+  'tinymce.core.api.dom.RangeUtils',
   [
     'global!tinymce.util.Tools.resolve'
   ],
@@ -251,6 +251,10 @@ define(
       return node && /^(LI|DT|DD)$/.test(node.nodeName);
     };
 
+    var isTableCellNode = function (node) {
+      return node && /^(TH|TD)$/.test(node.nodeName);
+    };
+
     var isBr = function (node) {
       return node && node.nodeName === 'BR';
     };
@@ -301,6 +305,7 @@ define(
       isTextNode: isTextNode,
       isListNode: isListNode,
       isListItemNode: isListItemNode,
+      isTableCellNode: isTableCellNode,
       isBr: isBr,
       isFirstChild: isFirstChild,
       isLastChild: isLastChild,
@@ -327,7 +332,7 @@ define(
 define(
   'tinymce.plugins.lists.core.Range',
   [
-    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.api.dom.RangeUtils',
     'tinymce.plugins.lists.core.NodeType'
   ],
   function (RangeUtils, NodeType) {
@@ -595,19 +600,37 @@ define(
   ],
   function (DomQuery, Tools, NodeType) {
     var getParentList = function (editor) {
-      return editor.dom.getParent(editor.selection.getStart(true), 'OL,UL,DL');
+      var selectionStart = editor.selection.getStart(true);
+
+      return editor.dom.getParent(selectionStart, 'OL,UL,DL', getClosestListRootElm(editor, selectionStart));
+    };
+
+    var isParentListSelected = function (parentList, selectedBlocks) {
+      return parentList && selectedBlocks.length === 1 && selectedBlocks[0] === parentList;
+    };
+
+    var findSubLists = function (parentList) {
+      return Tools.grep(parentList.querySelectorAll('ol,ul,dl'), function (elm) {
+        return NodeType.isListNode(elm);
+      });
     };
 
     var getSelectedSubLists = function (editor) {
       var parentList = getParentList(editor);
-      return Tools.grep(editor.selection.getSelectedBlocks(), function (elm) {
-        return NodeType.isListNode(elm) && parentList !== elm;
-      });
+      var selectedBlocks = editor.selection.getSelectedBlocks();
+
+      if (isParentListSelected(parentList, selectedBlocks)) {
+        return findSubLists(parentList);
+      } else {
+        return Tools.grep(selectedBlocks, function (elm) {
+          return NodeType.isListNode(elm) && parentList !== elm;
+        });
+      }
     };
 
     var findParentListItemsNodes = function (editor, elms) {
       var listItemsElms = Tools.map(elms, function (elm) {
-        var parentLi = editor.dom.getParent(elm, 'li,dd,dt', editor.getBody());
+        var parentLi = editor.dom.getParent(elm, 'li,dd,dt', getClosestListRootElm(editor, elm));
 
         return parentLi ? parentLi : elm;
       });
@@ -622,10 +645,18 @@ define(
       });
     };
 
+    var getClosestListRootElm = function (editor, elm) {
+      var parentTableCell = editor.dom.getParents(elm, 'TD,TH');
+      var root = parentTableCell.length > 0 ? parentTableCell[0] : editor.getBody();
+
+      return root;
+    };
+
     return {
       getParentList: getParentList,
       getSelectedSubLists: getSelectedSubLists,
-      getSelectedListItems: getSelectedListItems
+      getSelectedListItems: getSelectedListItems,
+      getClosestListRootElm: getClosestListRootElm
     };
   }
 );
@@ -906,7 +937,8 @@ define(
 
       if (listElements.length) {
         var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
-        var i, y, root = editor.getBody();
+        var i, y;
+        var root = Selection.getClosestListRootElm(editor, editor.selection.getStart(true));
 
         i = listElements.length;
         while (i--) {
@@ -992,8 +1024,8 @@ define(
       updateListAttrs(dom, el, detail);
     };
 
-    var getEndPointNode = function (editor, rng, start) {
-      var container, offset, root = editor.getBody();
+    var getEndPointNode = function (editor, rng, start, root) {
+      var container, offset;
 
       container = rng[start ? 'startContainer' : 'endContainer'];
       offset = rng[start ? 'startOffset' : 'endOffset'];
@@ -1018,11 +1050,11 @@ define(
       return container;
     };
 
-    var getSelectedTextBlocks = function (editor, rng) {
-      var textBlocks = [], root = editor.getBody(), dom = editor.dom;
+    var getSelectedTextBlocks = function (editor, rng, root) {
+      var textBlocks = [], dom = editor.dom;
 
-      var startNode = getEndPointNode(editor, rng, true);
-      var endNode = getEndPointNode(editor, rng, false);
+      var startNode = getEndPointNode(editor, rng, true, root);
+      var endNode = getEndPointNode(editor, rng, false, root);
       var block, siblings = [];
 
       for (var node = startNode; node; node = node.nextSibling) {
@@ -1071,6 +1103,7 @@ define(
 
     var applyList = function (editor, listName, detail) {
       var rng = editor.selection.getRng(true), bookmark, listItemName = 'LI';
+      var root = Selection.getClosestListRootElm(editor, editor.selection.getStart(true));
       var dom = editor.dom;
 
       detail = detail ? detail : {};
@@ -1087,7 +1120,7 @@ define(
 
       bookmark = Bookmark.createBookmark(rng);
 
-      Tools.each(getSelectedTextBlocks(editor, rng), function (block) {
+      Tools.each(getSelectedTextBlocks(editor, rng, root), function (block) {
         var listBlock, sibling;
 
         var hasCompatibleStyle = function (sib) {
@@ -1119,7 +1152,8 @@ define(
     };
 
     var removeList = function (editor) {
-      var bookmark = Bookmark.createBookmark(editor.selection.getRng(true)), root = editor.getBody();
+      var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
+      var root = Selection.getClosestListRootElm(editor, editor.selection.getStart(true));
       var listItems = Selection.getSelectedListItems(editor);
       var emptyListItems = Tools.grep(listItems, function (li) {
         return editor.dom.isEmpty(li);
@@ -1277,7 +1311,7 @@ define(
 define(
   'tinymce.plugins.lists.core.Delete',
   [
-    'tinymce.core.dom.RangeUtils',
+    'tinymce.core.api.dom.RangeUtils',
     'tinymce.core.dom.TreeWalker',
     'tinymce.core.util.VK',
     'tinymce.plugins.lists.actions.ToggleList',
@@ -1288,7 +1322,7 @@ define(
     'tinymce.plugins.lists.core.Selection'
   ],
   function (RangeUtils, TreeWalker, VK, ToggleList, Bookmark, NodeType, NormalizeLists, Range, Selection) {
-    var findNextCaretContainer = function (editor, rng, isForward) {
+    var findNextCaretContainer = function (editor, rng, isForward, root) {
       var node = rng.startContainer, offset = rng.startOffset;
       var nonEmptyBlocks, walker;
 
@@ -1301,7 +1335,7 @@ define(
         node = RangeUtils.getNode(node, offset);
       }
 
-      walker = new TreeWalker(node, editor.getBody());
+      walker = new TreeWalker(node, root);
 
       // Delete at <li>|<br></li> then jump over the bogus br
       if (isForward) {
@@ -1409,12 +1443,16 @@ define(
     var mergeBackward = function (editor, rng, fromLi, toLi) {
       var bookmark = Bookmark.createBookmark(rng);
       mergeLiElements(editor.dom, fromLi, toLi);
-      editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+      var resolvedBookmark = Bookmark.resolveBookmark(bookmark);
+      editor.selection.setRng(resolvedBookmark);
     };
 
     var backspaceDeleteFromListToListCaret = function (editor, isForward) {
       var dom = editor.dom, selection = editor.selection;
-      var li = dom.getParent(selection.getStart(), 'LI'), ul, rng, otherLi;
+      var selectionStartElm = selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var li = dom.getParent(selection.getStart(), 'LI', root);
+      var ul, rng, otherLi;
 
       if (li) {
         ul = li.parentNode;
@@ -1423,7 +1461,7 @@ define(
         }
 
         rng = Range.normalizeRange(selection.getRng(true));
-        otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward), 'LI');
+        otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward, root), 'LI', root);
 
         if (otherLi && otherLi !== li) {
           if (isForward) {
@@ -1443,8 +1481,8 @@ define(
       return false;
     };
 
-    var removeBlock = function (dom, block) {
-      var parentBlock = dom.getParent(block.parentNode, dom.isBlock);
+    var removeBlock = function (dom, block, root) {
+      var parentBlock = dom.getParent(block.parentNode, dom.isBlock, root);
 
       dom.remove(block);
       if (parentBlock && dom.isEmpty(parentBlock)) {
@@ -1454,15 +1492,17 @@ define(
 
     var backspaceDeleteIntoListCaret = function (editor, isForward) {
       var dom = editor.dom;
-      var block = dom.getParent(editor.selection.getStart(), dom.isBlock);
+      var selectionStartElm = editor.selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var block = dom.getParent(selectionStartElm, dom.isBlock, root);
 
       if (block && dom.isEmpty(block)) {
         var rng = Range.normalizeRange(editor.selection.getRng(true));
-        var otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward), 'LI');
+        var otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward, root), 'LI', root);
 
         if (otherLi) {
           editor.undoManager.transact(function () {
-            removeBlock(dom, block);
+            removeBlock(dom, block, root);
             ToggleList.mergeWithAdjacentLists(dom, otherLi.parentNode);
             editor.selection.select(otherLi, true);
             editor.selection.collapse(isForward);
@@ -1480,7 +1520,9 @@ define(
     };
 
     var backspaceDeleteRange = function (editor) {
-      var startListParent = editor.dom.getParent(editor.selection.getStart(), 'LI,DT,DD');
+      var selectionStartElm = editor.selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var startListParent = editor.dom.getParent(selectionStartElm, 'LI,DT,DD', root);
 
       if (startListParent || Selection.getSelectedListItems(editor).length > 0) {
         editor.undoManager.transact(function () {
@@ -1826,12 +1868,24 @@ define(
     'tinymce.plugins.lists.core.Selection'
   ],
   function (Tools, NodeType, Selection) {
+    var findIndex = function (list, predicate) {
+      for (var index = 0; index < list.length; index++) {
+        var element = list[index];
+
+        if (predicate(element)) {
+          return index;
+        }
+      }
+      return -1;
+    };
     var listState = function (editor, listName) {
       return function (e) {
         var ctrl = e.control;
 
         editor.on('NodeChange', function (e) {
-          var lists = Tools.grep(e.parents, NodeType.isListNode);
+          var tableCellIndex = findIndex(e.parents, NodeType.isTableCellNode);
+          var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
+          var lists = Tools.grep(parents, NodeType.isListNode);
           ctrl.active(lists.length > 0 && lists[0].nodeName === listName);
         });
       };

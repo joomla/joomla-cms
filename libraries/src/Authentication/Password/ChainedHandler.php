@@ -15,7 +15,7 @@ use Joomla\Authentication\Password\HandlerInterface;
 /**
  * Password handler supporting testing against a chain of handlers
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
 {
@@ -23,7 +23,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 * The password handlers in use by this chain.
 	 *
 	 * @var    HandlerInterface[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $handlers = [];
 
@@ -34,7 +34,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addHandler(HandlerInterface $handler)
 	{
@@ -48,7 +48,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
@@ -71,7 +71,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function hashPassword($plaintext, array $options = [])
@@ -84,7 +84,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function isSupported()
 	{
@@ -99,7 +99,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{
