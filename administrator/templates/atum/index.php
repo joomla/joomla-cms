@@ -35,10 +35,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 // Add JavaScript
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
-if ($cpanel)
-{
-	HTMLHelper::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
-}
 HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 // Load template CSS file

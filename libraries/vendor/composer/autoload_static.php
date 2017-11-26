@@ -25,7 +25,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -35,8 +34,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Util\\' => 22,
-            'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\WebLink\\' => 26,
@@ -101,14 +98,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Zend\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
-        ),
-        'Symfony\\Polyfill\\Util\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-util',
-        ),
-        'Symfony\\Polyfill\\Php56\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -924,6 +913,13 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Input\\Files' => __DIR__ . '/..' . '/joomla/input/src/Files.php',
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
+        'Joomla\\Input\\Tests\\CliTest' => __DIR__ . '/..' . '/joomla/input/Tests/CliTest.php',
+        'Joomla\\Input\\Tests\\CookieTest' => __DIR__ . '/..' . '/joomla/input/Tests/CookieTest.php',
+        'Joomla\\Input\\Tests\\FilesTest' => __DIR__ . '/..' . '/joomla/input/Tests/FilesTest.php',
+        'Joomla\\Input\\Tests\\FilterInputMock' => __DIR__ . '/..' . '/joomla/input/Tests/Stubs/FilterInputMock.php',
+        'Joomla\\Input\\Tests\\InputMocker' => __DIR__ . '/..' . '/joomla/input/Tests/InputMocker.php',
+        'Joomla\\Input\\Tests\\InputTest' => __DIR__ . '/..' . '/joomla/input/Tests/InputTest.php',
+        'Joomla\\Input\\Tests\\JsonTest' => __DIR__ . '/..' . '/joomla/input/Tests/JsonTest.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
         'Joomla\\OAuth1\\Client' => __DIR__ . '/..' . '/joomla/oauth1/src/Client.php',
         'Joomla\\OAuth2\\Client' => __DIR__ . '/..' . '/joomla/oauth2/src/Client.php',
@@ -1110,11 +1106,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
-        'Symfony\\Polyfill\\Php56\\Php56' => __DIR__ . '/..' . '/symfony/polyfill-php56/Php56.php',
-        'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
-        'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
-        'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
-        'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',
         'Zend\\Diactoros\\Exception\\DeprecatedMethodException' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Exception/DeprecatedMethodException.php',
