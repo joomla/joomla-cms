@@ -1170,8 +1170,8 @@ class PlgSystemDebug extends CMSPlugin
 						}
 					}
 
-					$htmlQuery = '<joomla-alert type="danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</joomla-alert>';
+					$htmlQuery = '<joomla-alert type="danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</joomla-alert>'
+						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
 				{
