@@ -84,7 +84,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertEquals(JVersion::RELEASE . '.' . JVersion::DEV_LEVEL, $this->object->getShortVersion());
+		$this->assertEquals(JVersion::MAJOR_VERSION . '.' . JVersion::MINOR_VERSION . '.' . JVersion::PATCH_VERSION . '-' . JVersion::EXTRA_VERSION, $this->object->getShortVersion());
 	}
 
 	/**

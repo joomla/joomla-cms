@@ -93,7 +93,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
+	 * @return  PHPUnit\DbUnit\Database\Connection
 	 *
 	 * @since   12.1
 	 */
@@ -112,7 +112,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\XmlDataSet
 	 *
 	 * @since   11.1
 	 */
