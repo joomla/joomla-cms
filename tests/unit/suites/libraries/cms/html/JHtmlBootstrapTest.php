@@ -85,13 +85,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -119,13 +113,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -153,13 +141,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -187,13 +169,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -227,13 +203,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -261,13 +231,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -313,13 +277,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -347,13 +305,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -381,9 +333,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
-			'Verify that popper.js is loaded'
+			'Verify that bootstrap.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -410,13 +362,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -474,13 +420,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -536,19 +476,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/system/js/bootstrap-init.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
