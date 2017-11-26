@@ -175,7 +175,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * @param   string  $file       File path
 	 * @param   string  $component  Component option as in URL
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -262,7 +262,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -377,7 +377,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   3.7.0
 	 */

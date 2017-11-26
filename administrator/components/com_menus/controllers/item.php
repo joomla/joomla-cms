@@ -172,7 +172,7 @@ class MenusControllerItem extends JControllerForm
 			$this->setRedirect(
 				JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 				)
 			);
 		}
@@ -484,8 +484,8 @@ class MenusControllerItem extends JControllerForm
 				// Redirect to the list screen.
 				$this->setRedirect(
 					JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 					)
 				);
 				break;
@@ -551,7 +551,7 @@ class MenusControllerItem extends JControllerForm
 		}
 
 		unset($data['request']);
-		
+
 		$data['type'] = $title;
 
 		if ($this->input->get('fieldtype') == 'type')
