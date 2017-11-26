@@ -64,9 +64,9 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<div class="tab-description alert alert-info">
+							<joomla-alert type="info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
-							</div>
+							</joomla-alert>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
