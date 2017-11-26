@@ -96,9 +96,7 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 				</li>
 				<?php endif; ?>
 		</ul>
-		<div id="noresultsfound" class="alert alert-no-items" style="display:none;">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+		<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php endif; ?>
 	</div>
 </div>
