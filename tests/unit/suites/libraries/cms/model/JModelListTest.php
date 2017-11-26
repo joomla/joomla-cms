@@ -134,7 +134,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->object->setState('list.ordering', 'enabled');
 		$this->object->setState('list.direction', 'ASC');
 
-		$expectedString = "com_mvc.listmodel:1:0:100:enabled:ASC";
+		$expectedString = "com_mvc.list:1:0:100:enabled:ASC";
 
 		$this->assertSame(md5($expectedString), $method->invokeArgs($this->object, array('1')));
 	}
