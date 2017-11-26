@@ -142,7 +142,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->assertEquals('unit', $files[0]->name);
 		$this->assertEquals('/unit', $files[0]->path);
 		$this->assertEquals('', $files[0]->extension);
-		$this->assertEquals(0, $files[0]->size);
+		$this->assertEquals('', $files[0]->size);
 		$this->assertNotEmpty($files[0]->create_date);
 		$this->assertNotEmpty($files[0]->modified_date);
 		$this->assertEquals('directory', $files[0]->mime_type);
