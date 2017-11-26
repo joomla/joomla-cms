@@ -244,7 +244,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter->createFile('unit.txt', '/', 'test');
 
 		// Check if the file exists
-		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+		$this->assertFileExists($this->root . 'unit.txt');
 
 		// Check if the contents is correct
 		$this->assertEquals('test', file_get_contents($this->root . 'unit.txt'));
@@ -267,7 +267,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter->updateFile('unit.txt', '/', 'test 2');
 
 		// Check if the file exists
-		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+		$this->assertFileExists($this->root . 'unit.txt');
 
 		// Check if the contents is correct
 		$this->assertEquals('test 2', file_get_contents($this->root . 'unit.txt'));

@@ -45,7 +45,7 @@ class TestDomhelper
 		}
 		if (!empty($unknown))
 		{
-			throw new PHPUnit_Framework_Exception(
+			throw new PHPUnit\Framework\Exception(
 				'Unknown key(s): ' . implode(', ', $unknown)
 			);
 		}
