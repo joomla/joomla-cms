@@ -11,6 +11,8 @@
  */
 trait TestCaseTrait
 {
+	use TestCaseDeprecated;
+
 	/**
 	 * @var         array  The list of errors expected to be encountered during the test.
 	 * @deprecated  13.1

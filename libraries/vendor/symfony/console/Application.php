@@ -127,15 +127,12 @@ class Application
         try {
             $e = null;
             $exitCode = $this->doRun($input, $output);
-        } catch (\Exception $x) {
-            $e = $x;
-        } catch (\Throwable $x) {
-            $e = new FatalThrowableError($x);
+        } catch (\Exception $e) {
         }
 
         if (null !== $e) {
-            if (!$this->catchExceptions || !$x instanceof \Exception) {
-                throw $x;
+            if (!$this->catchExceptions) {
+                throw $e;
             }
 
             if ($output instanceof ConsoleOutputInterface) {
@@ -457,14 +454,11 @@ class Application
     {
         $this->init();
 
-        if (isset($this->commands[$name])) {
-            $command = $this->commands[$name];
-        } elseif ($this->commandLoader && $this->commandLoader->has($name)) {
-            $command = $this->commandLoader->get($name);
-            $this->add($command);
-        } else {
+        if (!$this->has($name)) {
             throw new CommandNotFoundException(sprintf('The command "%s" does not exist.', $name));
         }
+
+        $command = $this->commands[$name];
 
         if ($this->wantHelps) {
             $this->wantHelps = false;
@@ -489,7 +483,7 @@ class Application
     {
         $this->init();
 
-        return isset($this->commands[$name]) || ($this->commandLoader && $this->commandLoader->has($name));
+        return isset($this->commands[$name]) || ($this->commandLoader && $this->commandLoader->has($name) && $this->add($this->commandLoader->get($name)));
     }
 
     /**
@@ -651,7 +645,7 @@ class Application
 
             $commands = $this->commands;
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name])) {
+                if (!isset($commands[$name]) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
@@ -668,7 +662,7 @@ class Application
 
         if ($this->commandLoader) {
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1)) {
+                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
@@ -1064,8 +1058,8 @@ class Application
      * Finds alternative of $name among $collection,
      * if nothing is found in $collection, try in $abbrevs.
      *
-     * @param string             $name       The string
-     * @param array|\Traversable $collection The collection
+     * @param string   $name       The string
+     * @param iterable $collection The collection
      *
      * @return string[] A sorted array of similar string
      */

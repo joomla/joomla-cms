@@ -575,7 +575,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertRegExp("/[\r|\n]+<\/div>/", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
@@ -631,7 +631,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertRegExp("/[\r|\n]+<\/div>/", JHtmlBootstrap::endTabSet());
 	}
 
 
