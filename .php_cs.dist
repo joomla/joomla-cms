@@ -17,6 +17,7 @@ $mainFinder = PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
+    ->setIndent("\t")
     ->setRules(
 	    array(
 		    // psr-1
@@ -58,6 +59,6 @@ return PhpCsFixer\Config::create()
 		    // contrib
 		    'concat_space' => ['spacing' => 'one'],
 		    'array_syntax' => ['syntax' => 'long'],
-        )
+      )
     )
     ->setFinder($mainFinder);
