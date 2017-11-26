@@ -50,6 +50,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -146,6 +147,7 @@ class NewsfeedsTableNewsfeed extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 

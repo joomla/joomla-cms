@@ -201,7 +201,7 @@ class FieldsHelper
 
 					if (is_array($value))
 					{
-						$value = implode($value, ' ');
+						$value = implode(' ', $value);
 					}
 
 					// Event allow plugins to modfify the output of the prepared field

@@ -226,7 +226,6 @@ class ModulesControllerModule extends JControllerForm
 
 			// Add path of forms directory
 			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
 		parent::save($key, $urlVar);

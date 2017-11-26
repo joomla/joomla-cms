@@ -67,7 +67,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 				function jSelectNewsfeed_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Newsfeed', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
