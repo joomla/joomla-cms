@@ -53,7 +53,7 @@ $fieldgroupTitle = JText::_($fields[0]->group_title); // We get the fieldgroup t
 
 ?>
 <table class="fields-container">
-	<caption><?php echo $fieldgroupTitle ?></caption>
+	<caption><?php echo $fieldgroupTitle; ?></caption>
 	<tbody>
 	<?php foreach ($fields as $field) : ?>
 		<?php // If the value is empty do nothing ?>
