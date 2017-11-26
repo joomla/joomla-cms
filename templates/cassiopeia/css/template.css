@@ -8679,7 +8679,8 @@ iframe {
     margin-left: auto; }
   .site > .full-width {
     max-width: none; }
-  .site .container-footer {
+  .site .container-footer,
+  .site .system-debug {
     display: block; }
 
 header {
