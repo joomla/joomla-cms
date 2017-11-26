@@ -14,7 +14,9 @@ use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
+use Joomla\CMS\Input\Cli as CMSCli;
 use Joomla\Input\Cli;
+use Joomla\Input\Input;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -60,7 +62,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
+	 * @param   Input                $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -76,7 +78,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(Cli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
+	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
 		DispatcherInterface $dispatcher = null, Container $container = null)
 	{
 		// Close the application if we are not executed from the command line.
@@ -89,6 +91,18 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;
+
+		if ($cliInput && !($cliInput instanceof CMSCli || $cliInput instanceof Cli))
+		{
+			throw new \InvalidArgumentException(
+				sprintf(
+					'The Input object must be a %s or %s object',
+					CMSCli::class,
+					Cli::class
+				)
+			);
+		}
+
 		$this->cliInput = $cliInput ?: new CliInput;
 
 		if ($dispatcher)
