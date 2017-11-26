@@ -42,7 +42,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
+				<joomla-alert type="warning"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></joomla-alert>
 			</div>
 		</li>
 	<?php endif; ?>

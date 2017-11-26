@@ -97,7 +97,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<div class="alert alert-info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+				<joomla-alert type="info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></joomla-alert>
 			<?php endif; ?>
 
 		</div>

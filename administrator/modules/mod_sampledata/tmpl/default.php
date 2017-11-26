@@ -52,6 +52,6 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endforeach; ?>
 		</div>
 	<?php else : ?>
-		<div class="alert"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></div>
+		<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 	<?php endif; ?>
 </div>

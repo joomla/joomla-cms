@@ -1170,8 +1170,8 @@ class PlgSystemDebug extends CMSPlugin
 						}
 					}
 
-					$htmlQuery = '<div class="alert alert-danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+					$htmlQuery = '<joomla-alert type="danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
+						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</joomla-alert>';
 				}
 				else
 				{
@@ -1222,7 +1222,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($total_duplicates)
 		{
-			$html[] = '<div class="alert alert-danger">'
+			$html[] = '<joomla-alert type="danger">'
 				. '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 
 			foreach ($duplicates as $dups)
@@ -1237,7 +1237,7 @@ class PlgSystemDebug extends CMSPlugin
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
 			}
 
-			$html[] = '</div>';
+			$html[] = '</joomla-alert>';
 		}
 
 		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
@@ -1851,10 +1851,10 @@ class PlgSystemDebug extends CMSPlugin
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
-			<div class="alert alert-warning">
+			<joomla-alert type="warning">
 				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
-			</div>
+			</joomla-alert>
 			<br>';
 		}
 

@@ -42,7 +42,7 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 		<ul class="treeselect">
 			<?php if (count($menuLinks)) : ?>
 				<?php $prevlevel = 0; ?>
-				<div class="alert alert-info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC')?></div>
+				<joomla-alert type="info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?></joomla-alert>
 				<li>
 				<?php
 				$params      = new Registry($this->item->params);

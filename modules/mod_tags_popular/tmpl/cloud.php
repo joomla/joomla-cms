@@ -17,7 +17,7 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 <div class="tagspopular tagscloud">
 <?php
 if (!count($list)) : ?>
-	<div class="alert alert-no-items"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></div>
+	<joomla-alert type="info"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></joomla-alert>
 <?php else :
 	// Find maximum and minimum count
 	$mincount = null;
