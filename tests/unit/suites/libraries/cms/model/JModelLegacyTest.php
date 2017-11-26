@@ -408,7 +408,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Test creating fixture with model in class name, currently reflects an inconsistency in the codebase
 		$this->fixture = JModelLegacy::getInstance('Room', 'RemodelModel');
-		$this->assertEquals('modelroom', $this->fixture->getName());
+
+		$this->assertEquals('room', $this->fixture->getName());
 		$this->assertEquals('com_remodel', TestReflection::getValue($this->fixture, 'option'));
 	}
 
