@@ -30,9 +30,6 @@ vendors:
     'mediaelement':
                   'version': '4.2.7'
                   'dependencies': ''
-    'masonry-layout':
-                  'version': '4.2.0'
-                  'dependencies': ''
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''

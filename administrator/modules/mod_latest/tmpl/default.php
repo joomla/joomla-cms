@@ -40,9 +40,7 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
-			<div class="col-md-12">
-				<joomla-alert type="warning"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></joomla-alert>
-			</div>
+			<joomla-alert type="warning"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		</li>
 	<?php endif; ?>
 </ul>
