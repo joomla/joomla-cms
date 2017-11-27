@@ -66,7 +66,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Input\\Input', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeEmpty('dispatcher', $this->class);
 
