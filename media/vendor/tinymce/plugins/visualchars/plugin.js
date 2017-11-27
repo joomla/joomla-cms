@@ -1252,6 +1252,7 @@ define(
 
     var register = function (editor) {
       editor.addButton('visualchars', {
+        active: false,
         title: 'Show invisible characters',
         cmd: 'mceVisualChars',
         onPostRender: toggleActiveState(editor)
