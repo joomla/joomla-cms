@@ -63,6 +63,6 @@ The <info>%command.name%</info> command removes old files which should have been
 
 <info>php %command.full_name%</info>
 EOF
-		);
+);
 	}
 }

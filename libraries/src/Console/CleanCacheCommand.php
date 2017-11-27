@@ -57,6 +57,6 @@ The <info>%command.name%</info> command cleans the system cache of expired entri
 
 <info>php %command.full_name%</info>
 EOF
-		);
+);
 	}
 }
