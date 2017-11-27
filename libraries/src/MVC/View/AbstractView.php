@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Base class for a Joomla View
@@ -154,7 +154,7 @@ abstract class AbstractView extends \JObject
 	 *
 	 * @param   string  $name  The name of the model (optional)
 	 *
-	 * @return  BaseModel  The model object
+	 * @return  BaseDatabaseModel  The model object
 	 *
 	 * @since   3.0
 	 */
@@ -175,10 +175,10 @@ abstract class AbstractView extends \JObject
 	 * referenced by the name without \JModel, eg. \JModelCategory is just
 	 * Category.
 	 *
-	 * @param   BaseModel  $model    The model to add to the view.
-	 * @param   boolean    $default  Is this the default model?
+	 * @param   BaseDatabaseModel  $model    The model to add to the view.
+	 * @param   boolean            $default  Is this the default model?
 	 *
-	 * @return  BaseModel  The added model.
+	 * @return  BaseDatabaseModel  The added model.
 	 *
 	 * @since   3.0
 	 */

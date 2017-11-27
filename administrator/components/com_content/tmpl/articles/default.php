@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\PublishedButton;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
@@ -42,13 +45,21 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+// Configure content state button renderer.
+$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
+
+// Configure featured button renderer.
+$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -160,8 +171,8 @@ $assoc = JLanguageAssociations::isEnabled();
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
+										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 									</div>
 								</td>
 								<td class="has-context">
@@ -195,13 +206,22 @@ $assoc = JLanguageAssociations::isEnabled();
 								</td>
 								<?php endif; ?>
 								<td class="small hidden-sm-down text-center">
-									<?php if ($item->created_by_alias) : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-										<?php echo $this->escape($item->author_name); ?></a>
-										<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php if ((int) $item->created_by != 0) : ?>
+										<?php if ($item->created_by_alias) : ?>
+                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+												<?php echo $this->escape($item->author_name); ?></a>
+                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+										<?php else : ?>
+                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+												<?php echo $this->escape($item->author_name); ?></a>
+										<?php endif; ?>
 									<?php else : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-										<?php echo $this->escape($item->author_name); ?></a>
+										<?php if ($item->created_by_alias) : ?>
+											<?php echo JText::_('JNONE'); ?>
+                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+										<?php else : ?>
+											<?php echo JText::_('JNONE'); ?>
+										<?php endif; ?>
 									<?php endif; ?>
 								</td>
 								<td class="small hidden-sm-down text-center">

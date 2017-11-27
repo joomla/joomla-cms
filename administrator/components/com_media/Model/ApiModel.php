@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -25,15 +25,15 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Api Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class ApiModel extends BaseModel
+class ApiModel extends BaseDatabaseModel
 {
 	/**
 	 * Holds available media file adapters.
 	 *
 	 * @var   ProviderManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $providerManager = null;
 
@@ -41,7 +41,7 @@ class ApiModel extends BaseModel
 	 * The available extensions.
 	 *
 	 * @var   string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $allowedExtensions = null;
 
@@ -50,7 +50,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @param   string  $name  Name of the provider
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @return AdapterInterface
 	 *
 	 * @throws \Exception
@@ -81,7 +81,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -124,7 +124,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -185,7 +185,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFolder()
 	 */
@@ -221,7 +221,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFile()
 	 */
@@ -262,7 +262,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::updateFile()
 	 */
@@ -286,7 +286,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::delete()
 	 */
@@ -314,7 +314,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
@@ -333,7 +333,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
@@ -350,7 +350,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return string  Permalink to the relative file
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws FileNotFoundException
 	 */
 	public function getUrl($adapter, $path)
@@ -374,7 +374,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function search($adapter, $needle, $path = '/', $recursive = true)
@@ -391,7 +391,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function getTemporaryUrl($adapter, $path)
@@ -412,7 +412,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isMediaFile($path)
 	{

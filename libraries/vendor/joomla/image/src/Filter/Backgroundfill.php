@@ -36,7 +36,7 @@ class Backgroundfill extends ImageFilter
 			throw new \InvalidArgumentException('No color value was given. Expected string or array.');
 		}
 
-		$colorCode = (!empty($options['color'])) ? $options['color'] : null;
+		$colorCode = $options['color'] ?? null;
 
 		// Get resource dimensions
 		$width = imagesx($this->handle);

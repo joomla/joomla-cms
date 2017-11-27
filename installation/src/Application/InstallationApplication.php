@@ -274,7 +274,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function executeController()
 	{
@@ -454,7 +454,7 @@ final class InstallationApplication extends CMSApplication
 		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
+			$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 		}
 		else
 		{

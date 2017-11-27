@@ -40,7 +40,7 @@ JLoader::registerAlias('JModelAdmin',                       '\\Joomla\\CMS\\MVC\
 JLoader::registerAlias('JModelForm',                        '\\Joomla\\CMS\\MVC\\Model\\FormModel', '5.0');
 JLoader::registerAlias('JModelItem',                        '\\Joomla\\CMS\\MVC\\Model\\ItemModel', '5.0');
 JLoader::registerAlias('JModelList',                        '\\Joomla\\CMS\\MVC\\Model\\ListModel', '5.0');
-JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\MVC\\Model\\BaseModel', '5.0');
+JLoader::registerAlias('JModelLegacy',                      '\\Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel', '5.0');
 JLoader::registerAlias('JViewCategories',                   '\\Joomla\\CMS\\MVC\\View\\CategoriesView', '5.0');
 JLoader::registerAlias('JViewCategory',                     '\\Joomla\\CMS\\MVC\\View\\CategoryView', '5.0');
 JLoader::registerAlias('JViewCategoryfeed',                 '\\Joomla\\CMS\\MVC\\View\\CategoryFeedView', '5.0');
@@ -84,6 +84,7 @@ JLoader::registerAlias('JLanguage',                         '\\Joomla\\CMS\\Lang
 JLoader::registerAlias('JLanguageHelper',                   '\\Joomla\\CMS\\Language\\LanguageHelper', '5.0');
 JLoader::registerAlias('JLanguageStemmer',                  '\\Joomla\\CMS\\Language\\LanguageStemmer', '5.0');
 JLoader::registerAlias('JLanguageMultilang',                '\\Joomla\\CMS\\Language\\Multilanguage', '5.0');
+JLoader::registerAlias('JText',                             '\\Joomla\\CMS\\Language\\Text', '5.0');
 JLoader::registerAlias('JLanguageTransliterate',            '\\Joomla\\CMS\\Language\\Transliterate', '5.0');
 JLoader::registerAlias('JLanguageStemmerPorteren',          '\\Joomla\\CMS\\Language\\Stemmer\\Porteren', '5.0');
 JLoader::registerAlias('JLanguageWrapperText',              '\\Joomla\\CMS\\Language\\Wrapper\\JTextWrapper', '4.0');
@@ -496,3 +497,19 @@ JLoader::registerAlias('JObject',                           '\\Joomla\\CMS\\Obje
 JLoader::registerAlias('JExtensionHelper',                  '\\Joomla\\CMS\\Extension\\ExtensionHelper', '5.0');
 
 JLoader::registerAlias('JHtml',                             '\\Joomla\\CMS\\HTML\\HTMLHelper', '5.0');
+
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliInput',       '\\Joomla\\CMS\\Application\\CLI\\CliInput', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\CliOutput',      '\\Joomla\\CMS\\Application\\CLI\\CliOutput', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\ColorStyle',     '\\Joomla\\CMS\\Application\\CLI\\ColorStyle', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Stdout', '\\Joomla\\CMS\\Application\\CLI\\Output\\Stdout', '5.0');
+JLoader::registerAlias('\\Joomla\\Application\\Cli\\Output\\Xml',    '\\Joomla\\CMS\\Application\\CLI\\Output\\Xml', '5.0');
+JLoader::registerAlias(
+	'\\Joomla\\Application\\Cli\\Output\\Processor\\ColorProcessor',
+	'\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ColorProcessor',
+	'5.0'
+);
+JLoader::registerAlias(
+	'\\Joomla\\Application\\Cli\\Output\\Processor\\ProcessorInterface',
+	'\\Joomla\\CMS\\Application\\CLI\\Output\\Processor\\ProcessorInterface',
+	'5.0'
+);

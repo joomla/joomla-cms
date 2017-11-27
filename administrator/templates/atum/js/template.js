@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -10,8 +10,6 @@ Joomla = window.Joomla || {};
 
 (function() {
 	'use strict';
-
-	document.addEventListener('DOMContentLoaded', function() {
 
 		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
 		function closest(el, selector) {
@@ -106,7 +104,7 @@ Joomla = window.Joomla || {};
 				if (elem) {
 					elem.classList.remove('child-open');
 				}
-				
+
 				// Save the sidebar state
 				if (Joomla.localStorageEnabled()) {
 					if (wrapper.classList.contains('closed')) {
@@ -116,7 +114,7 @@ Joomla = window.Joomla || {};
 					}
 				}
 			});
-			
+
 
 			/**
 			 * Sidebar Nav
@@ -149,7 +147,7 @@ Joomla = window.Joomla || {};
 				}
 				mainNav.classList.remove('child-open');
 			}
-			
+
 			// Child open toggle
 			var openToggle = function() {
 				var menuItem = this.parentNode;
@@ -176,7 +174,7 @@ Joomla = window.Joomla || {};
 			 	menuParents[i].addEventListener('keyup', openToggle);
 			}
 
-			// Menu close 
+			// Menu close
 			for (var i = 0; i < subMenuClose.length; i++) {
 				subMenuClose[i].addEventListener('click', function() {
 					var menuChildOpen = mainNav.querySelectorAll('.open');
@@ -184,7 +182,7 @@ Joomla = window.Joomla || {};
 					for (var i = 0; i < menuChildOpen.length; i++) {
 						menuChildOpen[i].classList.remove('open');
 					}
-					mainNav.classList.remove('child-open');	
+					mainNav.classList.remove('child-open');
 				});
 			}
 
@@ -192,7 +190,7 @@ Joomla = window.Joomla || {};
 			var allLiEl = sidebar.querySelectorAll('ul[role="menubar"] li');
 			for (var i = 0; i < allLiEl.length; i++) {
 				// We care for enter and space
-				allLiEl[i].addEventListener('keyup', function(e) { 
+				allLiEl[i].addEventListener('keyup', function(e) {
 					if (e.keyCode == 32 || e.keyCode == 13) {
 						e.target.querySelector('a').click();
 					}
@@ -378,5 +376,4 @@ Joomla = window.Joomla || {};
 				}
 			}
 		}
-	});
 })();

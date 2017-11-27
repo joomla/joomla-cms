@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Error\AbstractRenderer;
 /**
  * Cli error renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CliRenderer extends AbstractRenderer
 {
@@ -23,7 +23,7 @@ class CliRenderer extends AbstractRenderer
 	 * The format (type)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'cli';
 
@@ -34,7 +34,7 @@ class CliRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{
@@ -55,7 +55,7 @@ class CliRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getTrace(\Throwable $error): string
 	{

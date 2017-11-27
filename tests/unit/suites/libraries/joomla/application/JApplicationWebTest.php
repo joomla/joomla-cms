@@ -282,7 +282,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))

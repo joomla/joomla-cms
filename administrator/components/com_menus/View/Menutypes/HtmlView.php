@@ -25,7 +25,7 @@ class HtmlView extends BaseHtmlView
 	 * The menu type id
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $recordId;
 

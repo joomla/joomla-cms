@@ -304,6 +304,24 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests the JLoader::registerAlias method if the alias works ignoring cases
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function testAliasIgnoreCase()
+	{
+		// Normally register the class
+		JLoader::register('JLoaderAliasStub', JPATH_TEST_STUBS . '/loaderoveralias/jloaderaliasstub.php');
+
+		// Register the alias
+		JLoader::registerAlias('CASEinsensitiveALIAS', 'JLoaderAliasStub');
+
+		$this->assertTrue(class_exists('caseINSENSITIVEalias'));
+	}
+
+	/**
 	 * Tests the JLoader::load method.
 	 *
 	 * @return  void
@@ -325,7 +343,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadComponentClass()
 	{
@@ -338,7 +356,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadModuleClass()
 	{
@@ -351,7 +369,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadPluginClass()
 	{
@@ -364,7 +382,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadNotExistingExtensionClass()
 	{

@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 JHtml::_('behavior.core');
 
-$id     = isset($displayData['id']) ? $displayData['id'] : '';
+$id     = $displayData['id'] ?? '';
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>

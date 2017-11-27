@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Cleanup model for the Joomla Core Installer.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CleanupModel extends BaseInstallationModel
 {
@@ -23,7 +23,7 @@ class CleanupModel extends BaseInstallationModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function deleteInstallationFolder()
 	{

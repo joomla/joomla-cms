@@ -103,6 +103,7 @@
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=mail"
+			scope="massmail"
 		/>
 	</menuitem>
 	<menuitem
@@ -371,8 +372,15 @@
 		<menuitem
 			type="url"
 			target="_blank"
+			title="MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM"
+			link="special:custom-forum"
+			scope="help"
+		/>
+		<menuitem
+			type="url"
+			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM"
-			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
+			link="special:language-forum"
 			scope="help"
 		/>
 		<menuitem

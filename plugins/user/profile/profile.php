@@ -68,7 +68,7 @@ class PlgUserProfile extends JPlugin
 
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if (!isset($data->profile) && $userId > 0)
 			{
@@ -408,7 +408,10 @@ class PlgUserProfile extends JPlugin
 			$db = JFactory::getDbo();
 
 			// Sanitize the date
-			$data['profile']['dob'] = $this->date;
+			if (!empty($data['profile']['dob']))
+			{
+				$data['profile']['dob'] = $this->date;
+			}
 
 			$keys = array_keys($data['profile']);
 

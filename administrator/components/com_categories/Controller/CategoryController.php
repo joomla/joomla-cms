@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -170,14 +170,14 @@ class CategoryController extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   \Joomla\CMS\MVC\Model\BaseModel  $model      The data model object.
-	 * @param   array                            $validData  The validated data.
+	 * @param   \Joomla\CMS\MVC\Model\BaseDatabaseModel  $model      The data model object.
+	 * @param   array                                    $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postSaveHook(BaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

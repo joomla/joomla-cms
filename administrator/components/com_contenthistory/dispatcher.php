@@ -15,7 +15,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_contenthistory
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContenthistoryDispatcher extends Dispatcher
 {
@@ -24,14 +24,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Contenthistory';
 
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */

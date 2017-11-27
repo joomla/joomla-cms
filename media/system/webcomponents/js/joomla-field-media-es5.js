@@ -47,7 +47,7 @@ var _createClass = function () {
     function c() {
       return _classCallCheck(this, c), _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).apply(this, arguments));
     }return _inherits(c, b), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {
-        console.log(this.buttonClear);var a = this.querySelector(this.buttonSelect),
+        var a = this.querySelector(this.buttonSelect),
             b = this.querySelector(this.buttonClear);this.show = this.show.bind(this), this.modalClose = this.modalClose.bind(this), this.clearValue = this.clearValue.bind(this), this.setValue = this.setValue.bind(this), this.updatePreview = this.updatePreview.bind(this), a.addEventListener('click', this.show), b && b.addEventListener('click', this.clearValue), this.updatePreview();
       } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
         var a = this.querySelector(this.buttonClear);a.removeEventListener('click', self);
@@ -58,18 +58,18 @@ var _createClass = function () {
           return c.preventDefault(), c.stopPropagation(), a.selectedPath && b.setValue(a.selectedPath), b.modalClose(), !1;
         });
       } }, { key: 'modalClose', value: function modalClose() {
-        var b = this.querySelector(this.input);console.log(this), a.getImage(a.selectedFile, b, this), window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+        var b = this.querySelector(this.input);a.getImage(a.selectedFile, b, this), window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
       } }, { key: 'setValue', value: function setValue(a) {
         var b = window.jQuery(this.querySelector(this.input));b.val(a).trigger('change'), this.updatePreview();
       } }, { key: 'clearValue', value: function clearValue() {
         this.setValue('');
       } }, { key: 'updatePreview', value: function updatePreview() {
         if (-1 !== ['true', 'static'].indexOf(this.preview) && 'false' !== this.preview && this.preview) {
-          var a = this.querySelector(this.input),
-              b = a.value,
-              c = this.querySelector('.field-media-preview');if (!b) c.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';else {
-            c.innerHTML = '';var d = new Image();switch (this.type) {case 'image':
-                d.src = d.src = /http/.test(b) ? b : '/' + b;break;default:}c.style.width = this.previewWidth, c.appendChild(d);
+          var b = this.querySelector(this.input),
+              c = b.value,
+              d = this.querySelector('.field-media-preview');if (!c) d.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';else {
+            d.innerHTML = '';var e = new Image();switch (this.type) {case 'image':
+                e.src = e.src = /http/.test(c) ? c : a.getOptions('system.paths').rootFull + c;break;default:}d.style.width = this.previewWidth, d.appendChild(e);
           }
         }
       } }, { key: 'type', get: function get() {

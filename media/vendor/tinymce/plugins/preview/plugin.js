@@ -167,9 +167,14 @@ define(
       return parseInt(editor.getParam('plugin_preview_height', '500'), 10);
     };
 
+    var getContentStyle = function (editor) {
+      return editor.getParam('content_style', '');
+    };
+
     return {
       getPreviewDialogWidth: getPreviewDialogWidth,
-      getPreviewDialogHeight: getPreviewDialogHeight
+      getPreviewDialogHeight: getPreviewDialogHeight,
+      getContentStyle: getContentStyle
     };
   }
 );
@@ -186,13 +191,18 @@ define(
 define(
   'tinymce.plugins.preview.ui.IframeContent',
   [
-    'tinymce.core.util.Tools'
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.preview.api.Settings'
   ],
-  function (Tools) {
-    var injectIframeContent = function (editor, iframe, sandbox) {
-      var previewHtml, headHtml = '', encode = editor.dom.encode;
+  function (Tools, Settings) {
+    var getPreviewHtml = function (editor) {
+      var previewHtml, headHtml = '', encode = editor.dom.encode, contentStyle = Settings.getContentStyle(editor);
 
       headHtml += '<base href="' + encode(editor.documentBaseURI.getURI()) + '">';
+
+      if (contentStyle) {
+        headHtml += '<style type="text/css">' + contentStyle + '</style>';
+      }
 
       Tools.each(editor.contentCSS, function (url) {
         headHtml += '<link type="text/css" rel="stylesheet" href="' + encode(editor.documentBaseURI.toAbsolute(url)) + '">';
@@ -237,6 +247,12 @@ define(
         '</html>'
       );
 
+      return previewHtml;
+    };
+
+    var injectIframeContent = function (editor, iframe, sandbox) {
+      var previewHtml = getPreviewHtml(editor);
+
       if (!sandbox) {
         // IE 6-11 doesn't support data uris on iframes
         // so I guess they will have to be less secure since we can't sandbox on those
@@ -251,6 +267,7 @@ define(
     };
 
     return {
+      getPreviewHtml: getPreviewHtml,
       injectIframeContent: injectIframeContent
     };
   }

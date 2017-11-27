@@ -28,6 +28,7 @@
 @import "blocks/demo-styling";
 @import "blocks/footer";
 @import "blocks/form";
+@import "blocks/frontend-edit";
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
@@ -59,4 +60,8 @@
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
+}
+.chzn-container-multi {
+  width: 100% !important;
+  max-width: 240px;
 }

@@ -83,7 +83,7 @@ class PlgSystemCache extends JPlugin
 		{
 			JPluginHelper::importPlugin('pagecache');
 
-			$parts = JEventDispatcher::getInstance()->trigger('onPageCacheGetKey');
+			$parts = $this->app->triggerEvent('onPageCacheGetKey');
 			$parts[] = JUri::getInstance()->toString();
 
 			$key = md5(serialize($parts));
@@ -117,7 +117,7 @@ class PlgSystemCache extends JPlugin
 		// If any pagecache plugins return false for onPageCacheSetCaching, do not use the cache.
 		JPluginHelper::importPlugin('pagecache');
 
-		$results = JEventDispatcher::getInstance()->trigger('onPageCacheSetCaching');
+		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
 
 		if ($caching && $user->get('guest') && $app->input->getMethod() == 'GET')
@@ -226,7 +226,7 @@ class PlgSystemCache extends JPlugin
 		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
 		JPluginHelper::importPlugin('pagecache');
 
-		$results = JEventDispatcher::getInstance()->trigger('onPageCacheIsExcluded');
+		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
 
 		if (in_array(true, $results, true))
 		{

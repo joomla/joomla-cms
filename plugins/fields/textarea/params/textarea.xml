@@ -4,21 +4,21 @@
 		<fieldset name="fieldparams">
 			<field
 				name="rows"
-				type="text"
+				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
 				size="5"
 			/>
 
 			<field
 				name="cols"
-				type="text"
+				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 				size="5"
 			/>
 
 			<field
 				name="maxlength"
-				type="text"
+				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_MAXLENGTH_LABEL"
 				filter="integer"
 			/>

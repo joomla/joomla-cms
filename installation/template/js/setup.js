@@ -22,7 +22,6 @@ Joomla.setlanguage = function(form) {
 		perform: true,
 		onSuccess: function(response, xhr){
 			response = JSON.parse(response);
-			console.log(response)
 			Joomla.replaceTokens(response.token);
 
 			if (response.messages) {
@@ -34,7 +33,6 @@ Joomla.setlanguage = function(form) {
 				Joomla.loadingLayer("hide");
 			} else {
 				Joomla.loadingLayer("hide");
-				console.log(response.data.view)
 				Joomla.goToPage(response.data.view, true);
 			}
 		},
@@ -55,7 +53,7 @@ Joomla.checkInputs = function() {
 	document.getElementById('jform_admin_password2').value = document.getElementById('jform_admin_password').value;
 
 	var inputs = [].slice.call(document.querySelectorAll('input[type="password"], input[type="text"], input[type="email"], select')),
-	    state = true;
+		state = true;
 	inputs.forEach(function(item) {
 		if (!item.valid) state = false;
 	});
@@ -76,7 +74,7 @@ Joomla.checkDbCredentials = function() {
 	Joomla.loadingLayer("show");
 
 	var form = document.getElementById('adminForm'),
-	    data = Joomla.serialiseForm(form);
+		data = Joomla.serialiseForm(form);
 
 	Joomla.request({
 		method: "POST",
@@ -94,11 +92,10 @@ Joomla.checkDbCredentials = function() {
 				// You shall not pass, DB credentials error!!!!
 			} else {
 				Joomla.loadingLayer('hide');
-				// You shall pass
-				Joomla.install(['config'], form);
 
-				// If all good (we need some code here)
-				Joomla.goToPage('remove');
+				// Run the installer - we let this handle the redirect for now
+				// TODO: Convert to promises
+				Joomla.install(['config'], form);
 			}
 		},
 		onError:   function(xhr){
@@ -184,6 +181,7 @@ Joomla.checkDbCredentials = function() {
 
 		document.getElementById('setupButton').addEventListener('click', function(e) {
 			e.preventDefault();
+			e.stopPropagation();
 			Joomla.checkInputs();
 		})
 	}

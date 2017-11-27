@@ -24,13 +24,14 @@ if (isset($fieldsets['params']))
 	unset($fieldsets['params']);
 }
 
-$tmp          = isset($this->data->jcfields) ? $this->data->jcfields : array();
+$tmp          = $this->data->jcfields ?? array();
 $customFields = array();
 
 foreach ($tmp as $customField)
 {
 	$customFields[$customField->name] = $customField;
 }
+
 ?>
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
 	<?php $fields = $this->form->getFieldset($group); ?>
@@ -45,7 +46,9 @@ foreach ($tmp as $customField)
 			<dl class="dl-horizontal">
 				<?php foreach ($fields as $field) : ?>
 					<?php if (!$field->hidden && $field->type !== 'Spacer') : ?>
-						<dt><?php echo $field->title; ?></dt>
+						<dt>
+							<?php echo $field->title; ?>
+						</dt>
 						<dd>
 							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
 								<?php echo $customFields[$field->fieldname]->value ?: JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>

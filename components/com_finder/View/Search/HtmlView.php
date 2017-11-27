@@ -25,7 +25,7 @@ class HtmlView extends BaseHtmlView
 	 * The query indexer object
 	 *
 	 * @var    \FinderIndexerQuery
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $query;
 
@@ -54,7 +54,7 @@ class HtmlView extends BaseHtmlView
 	 * The suggested search query
 	 *
 	 * @var   string|false
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $suggested = false;
 
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * The explained (human-readable) search query
 	 *
 	 * @var   string|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $explained = null;
 
@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 

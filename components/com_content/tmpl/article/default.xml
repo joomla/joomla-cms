@@ -39,6 +39,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -49,6 +50,7 @@
 			type="list"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -59,6 +61,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -80,6 +83,7 @@
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option	value="1">JSHOW</option>
 			<option	value="0">JHIDE</option>
@@ -90,6 +94,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -100,6 +105,7 @@
 			type="list"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -110,6 +116,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -120,6 +127,7 @@
 			type="list"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -130,6 +138,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -140,6 +149,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -150,6 +160,7 @@
 			type="list"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -160,6 +171,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -170,6 +182,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -180,6 +193,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -190,6 +204,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -200,6 +215,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -211,6 +227,7 @@
 			label="JGLOBAL_SHOW_ICONS_LABEL"
 			description="JGLOBAL_SHOW_ICONS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -222,6 +239,7 @@
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -233,6 +251,7 @@
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -243,6 +262,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_HITS_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -253,6 +273,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_TAGS_LABEL"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -264,6 +285,7 @@
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>

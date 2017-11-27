@@ -28,7 +28,7 @@ $user = JFactory::getUser();
 		</div>
 	<?php endif; ?>
 </div>
-<div class="row grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": ".grid-sizer", "percentPosition": true }'>
+<div class="row">
 	<?php
 	$cols = 0;
 	foreach ($this->modules as $module)

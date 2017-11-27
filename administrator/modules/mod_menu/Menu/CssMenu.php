@@ -11,6 +11,7 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 defined('_JEXEC') or die;
 
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
@@ -241,10 +242,13 @@ class CssMenu
 	{
 		$result     = array();
 		$user       = Factory::getUser();
-		$authLevels = $user->getAuthorisedViewLevels();
 		$language   = Factory::getLanguage();
 
 		$noSeparator = true;
+
+		// Call preprocess for the menu items on plugins.
+		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
 
 		foreach ($items as $i => &$item)
 		{
@@ -254,11 +258,37 @@ class CssMenu
 				continue;
 			}
 
-			$item->scope = isset($item->scope) ? $item->scope : 'default';
-			$item->icon  = isset($item->icon) ? $item->icon : '';
+			$item->scope = $item->scope ?? 'default';
+			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
 			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
+			{
+				continue;
+			}
+
+			if (substr($item->link, 0, 8) === 'special:')
+			{
+				$special = substr($item->link, 8);
+
+				if ($special === 'language-forum')
+				{
+					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+				}
+				elseif ($special === 'custom-forum')
+				{
+					$item->link = $this->params->get('forum_url');
+				}
+			}
+
+			// Exclude item if is not enabled
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -269,21 +299,29 @@ class CssMenu
 			if ($item->element == 'com_categories')
 			{
 				parse_str($item->link, $query);
-				$assetName = isset($query['extension']) ? $query['extension'] : 'com_content';
+				$assetName = $query['extension'] ?? 'com_content';
 			}
 			elseif ($item->element == 'com_fields')
 			{
 				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
-			{
-				continue;
-			}
-
-			// Exclude if menu item set access level is not met
-			if ($item->access && !in_array($item->access, $authLevels))
 			{
 				continue;
 			}
@@ -334,6 +372,11 @@ class CssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
 			}
 
 			$item->text = JText::_($item->title);

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface defining a factory which can create Menu objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface MenuFactoryInterface
 {
@@ -25,7 +25,7 @@ interface MenuFactoryInterface
 	 *
 	 * @return  AbstractMenu
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createMenu(string $client, array $options = []): AbstractMenu;
 }
