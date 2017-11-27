@@ -165,7 +165,7 @@ class JApplicationBaseTest extends TestCase
 
 		// Validate the event was triggered
 		$this->assertSame([], $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
-		$this->assertTrue(in_array('onJApplicationBaseTriggerEvent', TestMockDispatcher::$triggered));
+		$this->assertTrue(in_array(new \Joomla\Event\Event('onJApplicationBaseTriggerEvent'), TestMockDispatcher::$triggered));
 	}
 
 	/**
