@@ -250,7 +250,8 @@
       if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
     }
     cm.operation(function() {
-      cm.replaceSelection("\n\n", null);
+      var linesep = cm.lineSeparator() || "\n";
+      cm.replaceSelection(linesep + linesep, null);
       cm.execCommand("goCharLeft");
       ranges = cm.listSelections();
       for (var i = 0; i < ranges.length; i++) {
@@ -298,7 +299,8 @@
                  (cur.ch <= 2 || cm.getRange(Pos(cur.line, cur.ch - 3), Pos(cur.line, cur.ch - 2)) != ch)) {
         curType = "addFour";
       } else if (identical) {
-        if (!CodeMirror.isWordChar(next) && enteringString(cm, cur, ch)) curType = "both";
+        var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
+        if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
         else return CodeMirror.Pass;
       } else if (opening && (cm.getLine(cur.line).length == cur.ch ||
                              isClosingBracket(next, pairs) ||
@@ -350,25 +352,10 @@
     return str.length == 2 ? str : null;
   }
 
-  // Project the token type that will exists after the given char is
-  // typed, and use it to determine whether it would cause the start
-  // of a string token.
-  function enteringString(cm, pos, ch) {
-    var line = cm.getLine(pos.line);
-    var token = cm.getTokenAt(pos);
-    if (/\bstring2?\b/.test(token.type) || stringStartsAfter(cm, pos)) return false;
-    var stream = new CodeMirror.StringStream(line.slice(0, pos.ch) + ch + line.slice(pos.ch), 4);
-    stream.pos = stream.start = token.start;
-    for (;;) {
-      var type1 = cm.getMode().token(stream, token.state);
-      if (stream.pos >= pos.ch + 1) return /\bstring2?\b/.test(type1);
-      stream.start = stream.pos;
-    }
-  }
-
   function stringStartsAfter(cm, pos) {
     var token = cm.getTokenAt(Pos(pos.line, pos.ch + 1))
-    return /\bstring/.test(token.type) && token.start == pos.ch
+    return /\bstring/.test(token.type) && token.start == pos.ch &&
+      (pos.ch == 0 || !/\bstring/.test(cm.getTokenTypeAt(pos)))
   }
 });
 
@@ -2229,7 +2216,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         for (var i = 1; i < lines.length - 1; i++)
           if (fold(doc.getLine(line + i)) != lines[i]) continue search
         var end = doc.getLine(line + lines.length - 1), endString = fold(end), lastLine = lines[lines.length - 1]
-        if (end.slice(0, lastLine.length) != lastLine) continue search
+        if (endString.slice(0, lastLine.length) != lastLine) continue search
         return {from: Pos(line, adjustPos(orig, string, cutFrom, fold) + ch),
                 to: Pos(line + lines.length - 1, adjustPos(end, endString, lastLine.length, fold))}
       }
@@ -2688,18 +2675,65 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     function detachVimMap(cm, next) {
-      if (this == CodeMirror.keyMap.vim)
+      if (this == CodeMirror.keyMap.vim) {
         CodeMirror.rmClass(cm.getWrapperElement(), "cm-fat-cursor");
+        if (cm.getOption("inputStyle") == "contenteditable" && document.body.style.caretColor != null) {
+          disableFatCursorMark(cm);
+          cm.getInputField().style.caretColor = "";
+        }
+      }
 
       if (!next || next.attach != attachVimMap)
         leaveVimMode(cm);
     }
     function attachVimMap(cm, prev) {
-      if (this == CodeMirror.keyMap.vim)
+      if (this == CodeMirror.keyMap.vim) {
         CodeMirror.addClass(cm.getWrapperElement(), "cm-fat-cursor");
+        if (cm.getOption("inputStyle") == "contenteditable" && document.body.style.caretColor != null) {
+          enableFatCursorMark(cm);
+          cm.getInputField().style.caretColor = "transparent";
+        }
+      }
 
       if (!prev || prev.attach != attachVimMap)
         enterVimMode(cm);
+    }
+
+    function fatCursorMarks(cm) {
+      var ranges = cm.listSelections(), result = []
+      for (var i = 0; i < ranges.length; i++) {
+        var range = ranges[i]
+        if (range.empty()) {
+          if (range.anchor.ch < cm.getLine(range.anchor.line).length) {
+            result.push(cm.markText(range.anchor, Pos(range.anchor.line, range.anchor.ch + 1),
+                                    {className: "cm-fat-cursor-mark"}))
+          } else {
+            var widget = document.createElement("span")
+            widget.textContent = "\u00a0"
+            widget.className = "cm-fat-cursor-mark"
+            result.push(cm.setBookmark(range.anchor, {widget: widget}))
+          }
+        }
+      }
+      return result
+    }
+
+    function updateFatCursorMark(cm) {
+      var marks = cm.state.fatCursorMarks
+      if (marks) for (var i = 0; i < marks.length; i++) marks[i].clear()
+      cm.state.fatCursorMarks = fatCursorMarks(cm)
+    }
+
+    function enableFatCursorMark(cm) {
+      cm.state.fatCursorMarks = fatCursorMarks(cm)
+      cm.on("cursorActivity", updateFatCursorMark)
+    }
+
+    function disableFatCursorMark(cm) {
+      var marks = cm.state.fatCursorMarks
+      if (marks) for (var i = 0; i < marks.length; i++) marks[i].clear()
+      cm.state.fatCursorMarks = null
+      cm.off("cursorActivity", updateFatCursorMark)
     }
 
     // Deprecated, simply setting the keymap works again.
@@ -4467,7 +4501,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         vimGlobalState.registerController.pushText(
             args.registerName, 'delete', text,
             args.linewise, vim.visualBlock);
-        return clipCursorToContent(cm, finalHead);
+        var includeLineBreak = vim.insertMode
+        return clipCursorToContent(cm, finalHead, includeLineBreak);
       },
       indent: function(cm, args, ranges) {
         var vim = cm.state.vim;
@@ -5677,7 +5712,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return cur;
     }
 
-    /**
+    /*
      * Returns the boundaries of the next word. If the cursor in the middle of
      * the word, then returns the boundaries of the current word, starting at
      * the cursor. If the cursor is at the start/end of a word, and we are going
@@ -6411,6 +6446,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var history = cm.doc.history.done;
         var event = history[history.length - 2];
         return event && event.ranges && event.ranges[0].head;
+      } else if (markName == '.') {
+        if (cm.doc.history.lastModTime == 0) {
+          return  // If no changes, bail out; don't bother to copy or reverse history array.
+        } else {
+          var changeHistory = cm.doc.history.done.filter(function(el){ if (el.changes !== undefined) { return el } });
+          changeHistory.reverse();
+          var lastEditPos = changeHistory[0].changes[0].to;
+        }
+        return lastEditPos;
       }
 
       var mark = vim.marks[markName];
@@ -7221,7 +7265,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       // so as to update the ". register as expected in real vim.
       var text = [];
       if (!isPlaying) {
-        var selLength = lastChange.inVisualBlock ? vim.lastSelection.visualBlock.height : 1;
+        var selLength = lastChange.inVisualBlock && vim.lastSelection ?
+            vim.lastSelection.visualBlock.height : 1;
         var changes = lastChange.changes;
         var text = [];
         var i = 0;
@@ -7689,7 +7734,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Pascal", mime: "text/x-pascal", mode: "pascal", ext: ["p", "pas"]},
     {name: "PEG.js", mime: "null", mode: "pegjs", ext: ["jsonld"]},
     {name: "Perl", mime: "text/x-perl", mode: "perl", ext: ["pl", "pm"]},
-    {name: "PHP", mime: "application/x-httpd-php", mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
+    {name: "PHP", mime: ["application/x-httpd-php", "text/x-php"], mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
     {name: "Pig", mime: "text/x-pig", mode: "pig", ext: ["pig"]},
     {name: "Plain Text", mime: "text/plain", mode: "null", ext: ["txt", "text", "conf", "def", "list", "log"]},
     {name: "PLSQL", mime: "text/x-plsql", mode: "sql", ext: ["pls"]},
