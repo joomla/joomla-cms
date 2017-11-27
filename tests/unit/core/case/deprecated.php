@@ -24,7 +24,8 @@ trait TestCaseDeprecated
 		self::assertTrue($matched, $message);
 	}
 
-	public static function assertNotTag($matcher, $actual, $message = '', $ishtml = true) {
+	public static function assertNotTag($matcher, $actual, $message = '', $ishtml = true)
+	{
 		$dom = \PHPUnit\Util\Xml::load($actual, $ishtml);
 		$tags = TestDomhelper::findNodes($dom, $matcher, $ishtml);
 		$matched = count($tags) > 0 && $tags[0] instanceof DOMNode;

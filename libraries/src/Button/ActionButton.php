@@ -130,7 +130,7 @@ class ActionButton
 	 */
 	public function getState(string $value): array
 	{
-		// php7.0 not allow nullable return value so we return empty array if not exists.
+		// PHP 7.0 does not allow nullable return values so we return empty array if not exists.
 		return $this->states[$value] ?? [];
 	}
 
@@ -223,7 +223,7 @@ class ActionButton
 	/**
 	 * Method to set property template.
 	 *
-	 * @param   string  $layout The layout path.
+	 * @param   string  $layout  The layout path.
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
@@ -267,8 +267,8 @@ class ActionButton
 	/**
 	 * Get an option value.
 	 *
-	 * @param  string  $name     The option name.
-	 * @param  mixed   $default  Default value if not exists.
+	 * @param   string  $name     The option name.
+	 * @param   mixed   $default  Default value if not exists.
 	 *
 	 * @return  mixed  Return option value or default value.
 	 *

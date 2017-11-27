@@ -336,6 +336,8 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Authentication\\Password\\MD5Handler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/MD5Handler.php',
         'Joomla\\CMS\\Authentication\\Password\\PHPassHandler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/PHPassHandler.php',
         'Joomla\\CMS\\Authentication\\Password\\SHA256Handler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/SHA256Handler.php',
+        'Joomla\\CMS\\Button\\ActionButton' => __DIR__ . '/../../..' . '/libraries/src/Button/ActionButton.php',
+        'Joomla\\CMS\\Button\\PublishedButton' => __DIR__ . '/../../..' . '/libraries/src/Button/PublishedButton.php',
         'Joomla\\CMS\\Cache\\Cache' => __DIR__ . '/../../..' . '/libraries/src/Cache/Cache.php',
         'Joomla\\CMS\\Cache\\CacheController' => __DIR__ . '/../../..' . '/libraries/src/Cache/CacheController.php',
         'Joomla\\CMS\\Cache\\CacheStorage' => __DIR__ . '/../../..' . '/libraries/src/Cache/CacheStorage.php',

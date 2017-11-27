@@ -84,6 +84,8 @@ return array(
     'Joomla\\CMS\\Authentication\\Password\\MD5Handler' => $baseDir . '/libraries/src/Authentication/Password/MD5Handler.php',
     'Joomla\\CMS\\Authentication\\Password\\PHPassHandler' => $baseDir . '/libraries/src/Authentication/Password/PHPassHandler.php',
     'Joomla\\CMS\\Authentication\\Password\\SHA256Handler' => $baseDir . '/libraries/src/Authentication/Password/SHA256Handler.php',
+    'Joomla\\CMS\\Button\\ActionButton' => $baseDir . '/libraries/src/Button/ActionButton.php',
+    'Joomla\\CMS\\Button\\PublishedButton' => $baseDir . '/libraries/src/Button/PublishedButton.php',
     'Joomla\\CMS\\Cache\\Cache' => $baseDir . '/libraries/src/Cache/Cache.php',
     'Joomla\\CMS\\Cache\\CacheController' => $baseDir . '/libraries/src/Cache/CacheController.php',
     'Joomla\\CMS\\Cache\\CacheStorage' => $baseDir . '/libraries/src/Cache/CacheStorage.php',
