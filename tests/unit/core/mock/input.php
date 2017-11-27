@@ -23,7 +23,7 @@ class TestMockInput
 	private static $inputs;
 
 	/**
-	 * @var    PHPUnit_Framework_TestCase
+	 * @var    \PHPUnit\Framework\TestCase
 	 * @since  3.4
 	 */
 	private static $test;
@@ -31,11 +31,11 @@ class TestMockInput
 	/**
 	 * Class contructor.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test  A test class.
+	 * @param   \PHPUnit\Framework\TestCase  $test  A test class.
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(PHPUnit_Framework_TestCase $test)
+	public function __construct(\PHPUnit\Framework\TestCase $test)
 	{
 		self::$inputs = array();
 		self::$test = $test;

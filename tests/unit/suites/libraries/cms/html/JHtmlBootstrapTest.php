@@ -85,13 +85,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -119,13 +113,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -153,13 +141,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -187,13 +169,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -227,13 +203,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -261,13 +231,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -313,13 +277,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -347,13 +305,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -381,9 +333,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
-			'Verify that popper.js is loaded'
+			'Verify that bootstrap.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -410,13 +362,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -474,13 +420,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -536,13 +476,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/popper/js/popper.min.js',
-			$document->_scripts,
-			'Verify that popper.js is loaded'
-		);
-
-		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -575,7 +509,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertRegExp("/[\r|\n]+<\/div>/", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
@@ -597,7 +531,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
@@ -631,7 +565,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertRegExp("/[\r|\n]+<\/div>/", JHtmlBootstrap::endTabSet());
 	}
 
 
