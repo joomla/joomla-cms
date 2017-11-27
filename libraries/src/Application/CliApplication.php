@@ -14,7 +14,6 @@ use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
-use Joomla\CMS\Input\Cli as CMSCli;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\DI\Container;
@@ -91,17 +90,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;
-
-		if ($cliInput && !($cliInput instanceof CMSCli || $cliInput instanceof Cli))
-		{
-			throw new \InvalidArgumentException(
-				sprintf(
-					'The Input object must be a %s or %s object',
-					CMSCli::class,
-					Cli::class
-				)
-			);
-		}
 
 		$this->cliInput = $cliInput ?: new CliInput;
 
