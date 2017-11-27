@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Sampledata - Blog Plugin
  *
  * @since  3.8.0
  */
-class PlgSampledataBlog extends JPlugin
+class PlgSampledataBlog extends CMSPlugin
 {
 	/**
 	 * Database object
@@ -104,14 +105,8 @@ class PlgSampledataBlog extends JPlugin
 		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/tables/');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models/', 'CategoriesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables/');
-
 		// Create "blog" category.
-		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
 		$catIds        = array();
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
@@ -207,7 +202,7 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
+		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -324,7 +319,7 @@ class PlgSampledataBlog extends JPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
-		$menuTable = JTable::getInstance('Type', 'JTableMenu');
+		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
 		$menuTypes = array();
 
 		for ($i = 0; $i <= 2; $i++)
@@ -368,9 +363,7 @@ class PlgSampledataBlog extends JPlugin
 
 		// Get MenuItemModel.
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models/', 'MenusModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
-		$this->menuItemModel = JModelLegacy::getInstance('Item', 'MenusModel');
+		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
 		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
@@ -620,9 +613,7 @@ class PlgSampledataBlog extends JPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/tables/');
-		$model  = JModelLegacy::getInstance('Module', 'ModulesModel');
+		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates
