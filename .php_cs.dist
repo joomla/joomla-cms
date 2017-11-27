@@ -58,7 +58,6 @@ return PhpCsFixer\Config::create()
 		    'no_whitespace_in_blank_line' => true,
 		    // contrib
 		    'concat_space' => ['spacing' => 'one'],
-		    'array_syntax' => ['syntax' => 'long'],
       )
     )
     ->setFinder($mainFinder);
