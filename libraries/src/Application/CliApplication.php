@@ -90,7 +90,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;
-
 		$this->cliInput = $cliInput ?: new CliInput;
 
 		if ($dispatcher)
