@@ -8796,6 +8796,7 @@ header {
     grid-row-end: span 4; }
   @media (max-width: 991px) {
     [class^='span-'], [class*=' span-'] {
+      grid-column-end: auto;
       grid-row-end: auto; } }
   [class^='container-'] [class^='span-'], [class^='container-'] [class*=' span-'], [class*=' container-'] [class^='span-'], [class*=' container-'] [class*=' span-'] {
     flex: 0 1 auto;

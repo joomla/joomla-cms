@@ -37,6 +37,7 @@
   }
   [class^='span-'], [class*=' span-'] {
     @include media-breakpoint-down(md) {
+      grid-column-end: auto;
       grid-row-end: auto;
     }
   }
