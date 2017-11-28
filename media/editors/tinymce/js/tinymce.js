@@ -39,6 +39,11 @@
 		 * @since 3.7.0
 		 */
 		setupEditor: function ( element, pluginOptions ) {
+			// Check whether the editor already has ben set
+			if (Joomla.editors.instances[element.id]) {
+				return;
+			}
+
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
 			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
 			    defaultOptions = tinyMCEOptions['default'] || {},
@@ -88,7 +93,7 @@
 
 			/** On save **/
 			document.getElementById(ed.id).form.addEventListener('submit', function() {
-        return Joomla.editors.instances[ed.targetElm.id].onSave();
+        		return Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 
@@ -96,16 +101,18 @@
 
 	Joomla.JoomlaTinyMCE = JoomlaTinyMCE;
 
-	// Init on DOMContentLoaded
+	/**
+	 * Initialize at an initial page load
+	 */
 	document.addEventListener('DOMContentLoaded', function () {
-		Joomla.JoomlaTinyMCE.setupEditors();
+		Joomla.JoomlaTinyMCE.setupEditors(document);
+	});
 
-		// Init in subform field
-		if(window.jQuery) {
-			jQuery(document).on('subform-row-add', function (event, row) {
-				Joomla.JoomlaTinyMCE.setupEditors(row);
-			});
-		}
+	/**
+	 * Initialize when a part of the page was updated
+	 */
+	document.addEventListener("joomla:updated", function(event){
+		Joomla.JoomlaTinyMCE.setupEditors(event.target);
 	});
 
 }(tinyMCE, Joomla, window, document));

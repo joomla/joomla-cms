@@ -7,19 +7,28 @@
  * Field switcher
  */
 
-(function() {
+!(function(document) {
 	"use strict";
 
-	document.addEventListener('DOMContentLoaded', function() {
+	function initSwitcher(event) {
+		var target = event && event.target ? event.target : document;
 
-		var switcher = document.querySelectorAll('.js-switcher');
+		var switchers = target.querySelectorAll('.js-switcher'),
+			switcher, nodes, parent;
 
-		for (var i = 0; i < switcher.length; i++) {
+		for (var i = 0; i < switchers.length; i++) {
+			switcher = switchers[i];
+
+			// Skip already initialized switcher
+			if (switcher.getAttribute('data-switcher-set')) {
+				continue;
+			}
+			switcher.setAttribute('data-switcher-set', '1');
+
+			nodes    = switcher.querySelectorAll('input');
+			parent   = nodes[1].parentNode;
 
 			// Add the initial active class
-			var nodes  = switcher[i].querySelectorAll('input'),
-				parent = nodes[1].parentNode;
-
 			if (nodes[1].checked) {
 				nodes[1].parentNode.classList.add('active');
 				parent.nextElementSibling.querySelector('.switcher-label-' + nodes[1].value).classList.add('active');
@@ -30,7 +39,7 @@
 			}
 
 			// Add the active class on click
-			switcher[i].addEventListener('click', function(event) {
+			switcher.addEventListener('click', function(event) {
 				var el     = event.target,
 					parent = el.parentNode,
 					spans  = parent.nextElementSibling.querySelectorAll('span');
@@ -49,8 +58,17 @@
 				parent.nextElementSibling.querySelector('.switcher-label-' + el.value).classList.add('active');
 
 			});
-
 		}
-	});
+	}
 
-})();
+	/**
+	 * Initialize at an initial page load
+	 */
+	document.addEventListener("DOMContentLoaded", initSwitcher);
+
+	/**
+	 * Initialize when a part of the page was updated
+	 */
+	document.addEventListener("joomla:updated", initSwitcher);
+
+})(document);

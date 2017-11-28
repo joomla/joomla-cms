@@ -8,7 +8,7 @@
 
 Joomla = window.Joomla || {};
 
-(function() {
+(function(document) {
 	'use strict';
 
 		/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
@@ -227,10 +227,13 @@ Joomla = window.Joomla || {};
 			}
 		}
 
+	function initPageContentStuff (event) {
+		var target = event && event.target ? event.target : document;
+
 		/**
 		 * Turn radios into btn-group
 		 */
-		var container = document.querySelectorAll('.btn-group');
+		var container = target.querySelectorAll('.btn-group');
 		for (var i = 0; i < container.length; i++) {
 			var labels = container[i].querySelectorAll('label');
 			for (var j = 0; j < labels.length; j++) {
@@ -244,7 +247,7 @@ Joomla = window.Joomla || {};
 			}
 		}
 
-		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
+		var btnNotActive = target.querySelector('.btn-group label:not(.active)');
 		if (btnNotActive) {
 			btnNotActive.addEventListener('click', function(event) {
 				var input = document.getElementById(event.target.getAttribute('for'));
@@ -292,11 +295,11 @@ Joomla = window.Joomla || {};
 			});
 		}
 
-		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
+		var btsGrouped = target.querySelectorAll('.btn-group input[checked=checked]');
 		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id,
-			    label = document.querySelector('label[for=' + attrId + ']');
+			    label = target.querySelector('label[for=' + attrId + ']');
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
 				if (self.value === '') {
 					label.classList.add('active');
@@ -326,6 +329,7 @@ Joomla = window.Joomla || {};
 				}
 			}
 		}
+	}
 
 		/**
 		 * Sticky Toolbar
@@ -376,4 +380,10 @@ Joomla = window.Joomla || {};
 				}
 			}
 		}
-})();
+
+	/**
+	 * Initialize when a part of the page was updated
+	 */
+	document.addEventListener("joomla:updated", initPageContentStuff);
+
+})(document);
