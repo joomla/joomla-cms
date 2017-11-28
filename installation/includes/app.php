@@ -48,4 +48,4 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
 
 // Instantiate and execute the application
-\Joomla\CMS\Factory::getContainer()->get('InstallationApplicationWeb')->execute();
+\Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();
