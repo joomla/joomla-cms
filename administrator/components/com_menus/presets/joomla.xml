@@ -289,6 +289,13 @@
 			/>
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -301,13 +308,6 @@
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
 			class="class:category"
-		/>
-		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
-			class="class:featured"
 		/>
 		<menuitem
 			type="separator"
