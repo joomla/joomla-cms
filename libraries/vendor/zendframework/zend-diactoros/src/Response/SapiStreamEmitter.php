@@ -1,9 +1,7 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -28,15 +26,9 @@ class SapiStreamEmitter implements EmitterInterface
      */
     public function emit(ResponseInterface $response, $maxBufferLength = 8192)
     {
-        if (headers_sent()) {
-            throw new RuntimeException('Unable to emit response; headers already sent');
-        }
-
-        $response = $this->injectContentLength($response);
-
-        $this->emitStatusLine($response);
+        $this->assertNoPreviousOutput();
         $this->emitHeaders($response);
-        $this->flush();
+        $this->emitStatusLine($response);
 
         $range = $this->parseContentRange($response->getHeaderLine('Content-Range'));
 

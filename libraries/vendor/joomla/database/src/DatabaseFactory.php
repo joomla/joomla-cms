@@ -137,7 +137,7 @@ class DatabaseFactory
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	public function getIterator($name, DatabaseDriver $db, $column = null, $class = '\\stdClass')
+	public function getIterator(string $name, DatabaseDriver $db, $column = null, string $class = '\\stdClass'): DatabaseIterator
 	{
 		// Derive the class name from the driver.
 		$iteratorClass = __NAMESPACE__ . '\\' . ucfirst($name) . '\\' . ucfirst($name) . 'Iterator';

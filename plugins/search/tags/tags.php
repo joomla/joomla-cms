@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\Component\Tags\Site\Model\Tag;
+use Joomla\Component\Tags\Site\Model\TagModel;
 
 /**
  * Tags search plugin.
@@ -154,7 +154,7 @@ class PlgSearchTags extends JPlugin
 
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
+				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->slug);
 				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;
@@ -170,7 +170,7 @@ class PlgSearchTags extends JPlugin
 		else
 		{
 			$final_items = $rows;
-			$tag_model = new Tag;
+			$tag_model = new TagModel;
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)

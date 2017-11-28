@@ -237,16 +237,16 @@ class HtmlDocument extends Document
 			return;
 		}
 
-		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
-		$this->description  = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
-		$this->link         = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags    = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
-		$this->_links       = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style       = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+		$this->title        = $data['title'] ?? $this->title;
+		$this->description  = $data['description'] ?? $this->description;
+		$this->link         = $data['link'] ?? $this->link;
+		$this->_metaTags    = $data['metaTags'] ?? $this->_metaTags;
+		$this->_links       = $data['links'] ?? $this->_links;
+		$this->_styleSheets = $data['styleSheets'] ?? $this->_styleSheets;
+		$this->_style       = $data['style'] ?? $this->_style;
+		$this->_scripts     = $data['scripts'] ?? $this->_scripts;
+		$this->_script      = $data['script'] ?? $this->_script;
+		$this->_custom      = $data['custom'] ?? $this->_custom;
 
 		if (isset($data['scriptText']) && !empty($data['scriptText']))
 		{
@@ -281,7 +281,7 @@ class HtmlDocument extends Document
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
 			? $this->description . $data['description']
 			: $this->description;
-		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
+		$this->link = $data['link'] ?? $this->link;
 
 		if (isset($data['metaTags']))
 		{
@@ -448,7 +448,7 @@ class HtmlDocument extends Document
 			return parent::$_buffer;
 		}
 
-		$title = (isset($attribs['title'])) ? $attribs['title'] : null;
+		$title = $attribs['title'] ?? null;
 
 		if (isset(parent::$_buffer[$type][$name][$title]))
 		{
@@ -510,8 +510,8 @@ class HtmlDocument extends Document
 			$args = func_get_args();
 			$options = array();
 			$options['type'] = $args[1];
-			$options['name'] = (isset($args[2])) ? $args[2] : null;
-			$options['title'] = (isset($args[3])) ? $args[3] : null;
+			$options['name'] = $args[2] ?? null;
+			$options['title'] = $args[3] ?? null;
 		}
 
 		parent::$_buffer[$options['type']][$options['name']][$options['title']] = $content;
@@ -687,7 +687,7 @@ class HtmlDocument extends Document
 	protected function _fetchTemplate($params = array())
 	{
 		// Check
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$directory = $params['directory'] ?? 'templates';
 		$filter = \JFilterInput::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
@@ -712,7 +712,7 @@ class HtmlDocument extends Document
 		// Assign the variables
 		$this->template = $template;
 		$this->baseurl = Uri::base(true);
-		$this->params = isset($params['params']) ? $params['params'] : new Registry;
+		$this->params = $params['params'] ?? new Registry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
@@ -741,7 +741,7 @@ class HtmlDocument extends Document
 			{
 				$type = $matches[1][$i];
 				$attribs = empty($matches[2][$i]) ? array() : \JUtility::parseAttributes($matches[2][$i]);
-				$name = isset($attribs['name']) ? $attribs['name'] : null;
+				$name = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
 				if ($type == 'module' || $type == 'modules')

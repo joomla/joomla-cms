@@ -33,8 +33,8 @@ class Xml implements FormatInterface
 	 */
 	public function objectToString($object, array $options = [])
 	{
-		$rootName = (isset($options['name'])) ? $options['name'] : 'registry';
-		$nodeName = (isset($options['nodeName'])) ? $options['nodeName'] : 'node';
+		$rootName = $options['name'] ?? 'registry';
+		$nodeName = $options['nodeName'] ?? 'node';
 
 		// Create the root node.
 		$root = simplexml_load_string('<' . $rootName . ' />');

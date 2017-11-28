@@ -218,8 +218,8 @@ class MenuHelper
 			if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 			{
 				$item->submenu    = array();
-				$item->class      = isset($item->img) ? $item->img : '';
-				$item->scope      = isset($item->scope) ? $item->scope : null;
+				$item->class      = $item->img ?? '';
+				$item->scope      = $item->scope ?? null;
 				$item->browserNav = $item->browserNav ? '_blank' : '';
 
 				$result[$item->parent_id][$item->id] = $item;
@@ -367,6 +367,11 @@ class MenuHelper
 		$item->params     = new Registry(trim($node->params));
 		$item->scope      = (string) $node['scope'] ?: 'default';
 		$item->submenu    = array();
+
+		if ($item->type == 'separator' && trim($item->title, '- '))
+		{
+			$item->params->set('text_separator', 1);
+		}
 
 		// Translate attributes for iterator values
 		foreach ($replace as $var => $val)

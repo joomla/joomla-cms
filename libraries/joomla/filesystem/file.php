@@ -592,7 +592,7 @@ class JFile
 			}
 			else
 			{
-				if (is_writeable($baseDir) && move_uploaded_file($src, $dest))
+				if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 				{
 					// Short circuit to prevent file permission errors
 					if ($pathObject->setPermissions($dest))

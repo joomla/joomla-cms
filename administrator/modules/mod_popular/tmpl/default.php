@@ -41,9 +41,7 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
-			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
-			</div>
+			<div class="alert alert-info w-100 mb-0"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
 		</li>
 	<?php endif; ?>
 </ul>

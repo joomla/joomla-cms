@@ -1,3 +1,5 @@
+import {notifications} from "./Notifications";
+
 const path = require('path');
 
 /**
@@ -18,23 +20,36 @@ class Api {
         }
 
         this._baseUrl = options.apiBaseUrl;
-        this._csrfToken = options.csrfToken;
+        this._csrfToken = Joomla.getOptions('csrf.token');
     }
 
     /**
      * Get the contents of a directory from the server
-     * @param dir
+     * @param {string}  dir  The directory path
+     * @param {number}  full whether or not the persistent url should be returned
      * @returns {Promise}
      */
-    getContents(dir) {
-        // Wrap the jquery call into a real promise
+    getContents(dir, full) {
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
-            const url = this._baseUrl + '&task=api.files&path=' + dir;
-            jQuery.getJSON(url)
-                .done((json) => resolve(this._normalizeArray(json.data)))
-                .fail((xhr, status, error) => {
+            // Do a check on full
+            if (["0", "1"].indexOf(full) !== -1) {
+                throw "Invalid parameter";
+            }
+
+            const url = this._baseUrl + '&task=api.files&path=' + dir + (full ? '&url=' + full : '');
+
+            Joomla.request({
+                url: url,
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    resolve(this._normalizeArray(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
                     reject(xhr)
-                })
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -45,20 +60,25 @@ class Api {
      * @returns {Promise.<T>}
      */
     createDirectory(name, parent) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
             const data = {[this._csrfToken]: '1', name: name};
-            jQuery.ajax({
+
+            Joomla.request({
                 url: url,
-                type: "POST",
+                method: 'POST',
                 data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => resolve(this._normalizeItem(json.data)))
-                .fail((xhr, status, error) => {
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
                     reject(xhr)
-                })
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -67,10 +87,11 @@ class Api {
      * @param name
      * @param parent
      * @param content base64 encoded string
+     * @param override boolean whether or not we should override existing files
      * @return {Promise.<T>}
      */
-    upload(name, parent, content) {
-        // Wrap the jquery call into a real promise
+    upload(name, parent, content, override) {
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             const url = this._baseUrl + '&task=api.files&path=' + parent;
             const data = {
@@ -78,16 +99,59 @@ class Api {
                 name: name,
                 content: content,
             };
-            jQuery.ajax({
+
+            // Append override
+            if (override === true) {
+                data.override = true;
+            }
+
+            Joomla.request({
                 url: url,
-                type: "POST",
+                method: 'POST',
                 data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => resolve(this._normalizeItem(json.data)))
-                .fail((xhr, status, error) => {
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
                     reject(xhr)
-                })
+                }
+            });
+
+        }).catch(this._handleError);
+    }
+
+    /**
+     * Rename an item
+     * @param path
+     * @param newName
+     * @return {Promise.<T>}
+     */
+    rename(path, newPath) {
+        // Wrap the ajax call into a real promise
+        return new Promise((resolve, reject) => {
+            const url = this._baseUrl + '&task=api.files&path=' + path;
+            const data = {
+                [this._csrfToken]: '1',
+                newPath: newPath,
+            };
+
+            Joomla.request({
+                url: url,
+                method: 'PUT',
+                data: JSON.stringify(data),
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: (response) => {
+                    notifications.success('COM_MEDIA_RENAME_SUCCESS');
+                    resolve(this._normalizeItem(JSON.parse(response).data))
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_RENAME_ERROR');
+                    reject(xhr)
+                }
+            });
+
         }).catch(this._handleError);
     }
 
@@ -97,22 +161,26 @@ class Api {
      * @return {Promise.<T>}
      */
     delete(path) {
-        // Wrap the jquery call into a real promise
+        // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
+
             const url = this._baseUrl + '&task=api.files&path=' + path;
-            const data = {
-                [this._csrfToken]: '1',
-            };
-            jQuery.ajax({
+            const data = {[this._csrfToken]: '1',};
+
+            Joomla.request({
                 url: url,
-                type: "DELETE",
+                method: 'DELETE',
                 data: JSON.stringify(data),
-                contentType: "application/json",
-            })
-                .done((json) => resolve())
-                .fail((xhr, status, error) => {
-                    reject(xhr)
-                })
+                headers: {'Content-Type': 'application/json'},
+                onSuccess: () => {
+                    notifications.success('COM_MEDIA_DELETE_SUCCESS');
+                    resolve();
+                },
+                onError: (xhr) => {
+                    notifications.error('COM_MEDIA_DELETE_ERROR');
+                    reject(xhr);
+                }
+            });
         }).catch(this._handleError);
     }
 
@@ -130,6 +198,10 @@ class Api {
 
         item.directory = path.dirname(item.path);
 
+        if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+            item.directory += '/';
+        }
+
         return item;
     }
 
@@ -140,7 +212,6 @@ class Api {
      * @private
      */
     _normalizeArray(data) {
-
         const directories = data.filter(item => (item.type === 'dir'))
             .map(directory => this._normalizeItem(directory));
         const files = data.filter(item => (item.type === 'file'))
@@ -160,16 +231,24 @@ class Api {
      * @TODO DN improve error handling
      */
     _handleError(error) {
-        alert(error.status + ' ' + error.statusText);
         switch (error.status) {
+            case 409:
+                // Handled in consumer
+                break;
             case 404:
+                notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
                 break;
             case 401:
+                notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+                break;
             case 403:
+                notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+                break;
             case 500:
-                window.location.href = window.location.pathname;
+                notifications.error('COM_MEDIA_SERVER_ERROR');
+                break;
             default:
-                window.location.href = window.location.pathname;
+                notifications.error('COM_MEDIA_ERROR');
         }
 
         throw error;

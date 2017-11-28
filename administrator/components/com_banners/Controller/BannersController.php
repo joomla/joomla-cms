@@ -54,7 +54,7 @@ class BannersController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -87,7 +87,7 @@ class BannersController extends AdminController
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Banners\Administrator\Model\Banner $model */
+			/** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
 			$model = $this->getModel();
 
 			// Change the state of the records.

@@ -15,7 +15,7 @@
  *
  * @see         http://robo.li/
  */
-require_once __DIR__ . '/tests/codeception/vendor/autoload.php';
+require_once __DIR__ . '/libraries/vendor/autoload.php';
 
 if (!defined('JPATH_BASE'))
 {
@@ -31,16 +31,21 @@ if (!defined('JPATH_BASE'))
  */
 class RoboFile extends \Robo\Tasks
 {
-	// Load tasks from composer, see composer.json
-	use \Joomla\Jorobo\Tasks\loadTasks;
-
 	/**
-	 * Path to the codeception tests folder
+	 * Path to the vendor folder
 	 *
 	 * @var   string
 	 * @since  3.7.3
 	 */
-	private $testsPath = 'tests/codeception/';
+	private $vendorPath = 'libraries/vendor/';
+
+	/**
+	 * Path to the tests
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
 
 	/**
 	 * Local configuration parameters
@@ -119,14 +124,14 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (empty($this->configuration->cmsPath))
 		{
-			return $this->testsPath . 'joomla-cms';
+			return 'test-install';
 		}
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
 			$this->say('CMS path written in local configuration does not exists or is not readable');
 
-			return $this->testsPath . 'joomla-cms';
+			return 'test-install';
 		}
 
 		return $this->configuration->cmsPath;
@@ -159,7 +164,7 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git'];
+		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git', 'test-install', 'libraries/vendor/codeception', 'libraries/vendor/behat', 'libraries/vendor/joomla-projects'];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
 
@@ -174,7 +179,7 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->say('Renaming htaccess.txt to .htaccess');
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms,g" -in-place tests/codeception/joomla-cms/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /test-install/joomla-cms,g" -in-place test-install/joomla-cms/.htaccess');
 		}
 	}
 
@@ -240,9 +245,9 @@ class RoboFile extends \Robo\Tasks
 	private function getComposer()
 	{
 		// Make sure we have Composer
-		if (!file_exists($this->testsPath . 'composer.phar'))
+		if (!file_exists($this->vendorPath . 'composer.phar'))
 		{
-			$this->_exec('curl -o ' . $this->testsPath . 'composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+			$this->_exec('curl -o ' . $this->vendorPath . 'composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
 		}
 	}
 
@@ -257,11 +262,11 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->isWindows())
 		{
-			$this->_exec($this->testsPath . "vendor/bin/selenium-server-standalone " . $this->getWebDriver() . ' >> selenium.log 2>&1 &');
+			$this->_exec($this->vendorPath . "bin/selenium-server-standalone " . $this->getWebDriver() . ' >> selenium.log 2>&1 &');
 		}
 		else
 		{
-			$this->_exec("START java.exe -jar " . $this->getWebDriver() . ' tests\codeception\vendor\joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
+			$this->_exec("START java.exe -jar " . $this->getWebDriver()  . ' ' . $this->vendorPath . 'joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
 		}
 
 		sleep(3);
@@ -284,22 +289,19 @@ class RoboFile extends \Robo\Tasks
 
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->getComposer();
-		$this->taskComposerInstall($this->testsPath . 'composer.phar')->run();
-
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
 		if ($this->isWindows())
 		{
-			$this->_exec('php ' . $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept') . ' build');
-			$pathToCodeception = $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept');
+			$this->_exec('php ' . $this->getWindowsPath($this->vendorPath . 'bin/codecept') . ' build');
+			$pathToCodeception = $this->getWindowsPath($this->vendorPath . 'bin/codecept');
 		}
 		else
 		{
-			$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
+			$this->_exec('php ' . $this->vendorPath . 'bin/codecept build');
 
-			$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
+			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
 		$this->taskCodecept($pathToCodeception)
@@ -336,7 +338,7 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$path = 'tests/codeception/vendor/bin/codecept';
+		$path = $this->vendorPath . 'bin/codecept';
 		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
 
 		if (!$pathToTestFile)
@@ -345,7 +347,7 @@ class RoboFile extends \Robo\Tasks
 
 			$iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
-					$this->testsPath . $suite,
+					$this->vendorPath . $suite,
 					RecursiveDirectoryIterator::SKIP_DOTS
 				),
 				RecursiveIteratorIterator::SELF_FIRST
@@ -377,7 +379,7 @@ class RoboFile extends \Robo\Tasks
 			$test       = $tests[$testNumber];
 		}
 
-		$pathToTestFile = $this->testsPath . $suite . '/' . $test;
+		$pathToTestFile = $this->vendorPath . 'joomla/test-system/' . $suite . '/' . $test;
 
 		// Loading the class to display the methods in the class
 
@@ -389,7 +391,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
-			require $this->testsPath . $suite . '/' . $test;
+			require $this->vendorPath . $suite . '/' . $test;
 
 			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
@@ -423,7 +425,7 @@ class RoboFile extends \Robo\Tasks
 			$pathToTestFile = $pathToTestFile . ':' . $method;
 		}
 
-		$testPathCodecept = $this->testsPath . 'vendor/bin/codecept';
+		$testPathCodecept = $this->vendorPath . 'bin/codecept';
 
 		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept) : $testPathCodecept)
 			->test($pathToTestFile)
@@ -550,7 +552,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents("tests/codeception/{$suite}.suite.yml"));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;

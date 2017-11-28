@@ -149,7 +149,7 @@ class ContentHistoryHelper extends CMSHelper
 		// Load history_limit config from extension.
 		$aliasParts = explode('.', $this->typeAlias);
 
-		$context = isset($aliasParts[1]) ? $aliasParts[1] : '';
+		$context = $aliasParts[1] ?? '';
 
 		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
 

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform CMS Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface ControllerInterface
 {
@@ -25,7 +25,7 @@ interface ControllerInterface
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */

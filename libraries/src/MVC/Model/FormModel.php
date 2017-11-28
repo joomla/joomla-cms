@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class FormModel extends BaseModel implements FormFactoryAwareInterface
+abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface
 {
 	use FormFactoryAwareTrait;
 
@@ -57,7 +57,7 @@ abstract class FormModel extends BaseModel implements FormFactoryAwareInterface
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
-		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
 			array(

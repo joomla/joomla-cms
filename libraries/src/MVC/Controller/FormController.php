@@ -10,8 +10,9 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -72,10 +73,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @param   array                 $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface   $factory  The factory.
-	 * @param   CmsApplication        $app      The JApplication for the dispatcher
-	 * @param   \JInput               $input    Input
-	 * @param   FormFactoryInterface  $formFactory  The form factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input* @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.0
 	 */
@@ -227,7 +227,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
-		$recordId = isset($data[$key]) ? $data[$key] : '0';
+		$recordId = $data[$key] ?? '0';
 
 		if ($recordId)
 		{
@@ -242,7 +242,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   BaseDatabaseModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -256,7 +256,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Build an array of item contexts to check
 		$contexts = array();
 
-		$option = isset($this->extension) ? $this->extension : $this->option;
+		$option = $this->extension ?? $this->option;
 
 		foreach ($cid as $id)
 		{
@@ -424,7 +424,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  BaseModel  The model.
+	 * @return  BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -519,14 +519,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   BaseModel  $model      The data model object.
-	 * @param   array      $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function postSaveHook(BaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 	}
 
@@ -872,7 +872,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		$recordId = $this->input->getInt($urlVar);
 
-		if (!$this->allowEdit($data, $key))
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
@@ -882,9 +886,6 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			);
 			$this->redirect();
 		}
-
-		// Populate the row id from the session.
-		$data[$key] = $recordId;
 
 		// The redirect url
 		$redirectUrl = \JRoute::_(

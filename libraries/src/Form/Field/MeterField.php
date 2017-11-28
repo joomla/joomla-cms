@@ -47,7 +47,7 @@ class MeterField extends \JFormField
 	 * The max value of the progress bar
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $max = 100;
 
@@ -55,7 +55,7 @@ class MeterField extends \JFormField
 	 * The striped class for the progress bar
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $striped;
 

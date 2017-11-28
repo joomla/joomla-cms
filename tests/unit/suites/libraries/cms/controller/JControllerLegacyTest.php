@@ -166,7 +166,7 @@ class JControllerLegacyTest extends TestCase
 
 		$paths = TestReflection::getValue($this->class, 'paths');
 
-		$this->assertTrue(is_array($paths['test']), 'The path type should be an array.');
+		$this->assertInternalType('array', $paths['test'], 'The path type should be an array.');
 
 		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['test'][0]),
@@ -188,7 +188,7 @@ class JControllerLegacyTest extends TestCase
 
 		$paths = TestReflection::getValue($this->class, 'paths');
 
-		$this->assertTrue(is_array($paths['view']), 'The path type should be an array.');
+		$this->assertInternalType('array', $paths['view'], 'The path type should be an array.');
 
 		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['view'][0]),

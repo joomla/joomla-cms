@@ -18,7 +18,7 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use nav instead
 ?>
-<ul<?php echo $id; ?> class="nav flex-column<?php echo $class_sfx; ?>">
+<ul<?php echo $id; ?> class="nav flex-column <?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
 	$class = 'nav-item';
