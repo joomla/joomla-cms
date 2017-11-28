@@ -501,7 +501,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		foreach ($iterator as $file => $pattern)
 		{
-			$element = str_replace(array($mainFolder . '/', '.xml'), '', $file);
+			$element = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
 			$manifestCache = Installer::parseXMLInstallFile($file);
 
 			$extension = Table::getInstance('extension');
