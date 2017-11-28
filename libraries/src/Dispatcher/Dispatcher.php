@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Factory;
@@ -187,7 +188,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  \Joomla\CMS\MVC\Controller\BaseController
+	 * @return  BaseController
 	 *
 	 * @since   4.0.0
 	 */
