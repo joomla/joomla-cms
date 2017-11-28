@@ -108,7 +108,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Make sure the postgresql extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('PHP extension pg_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('The pgsql extension for PHP is not installed or enabled.');
 		}
 
 		// Build the DSN for the connection.

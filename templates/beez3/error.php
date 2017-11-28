@@ -123,7 +123,7 @@ $navposition = $params->get('navposition');
 								<li><?php echo JText::_('JERROR_LAYOUT_SEARCH_ENGINE_OUT_OF_DATE_LISTING'); ?></li>
 								<li><?php echo JText::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 							</ul>
-							<?php if (JModuleHelper::getModule('search')) : ?>
+							<?php if (JModuleHelper::getModule('mod_search')) : ?>
 								<div id="searchbox">
 									<h3 class="unseen">
 										<?php echo JText::_('TPL_BEEZ3_SEARCH'); ?>
@@ -131,7 +131,7 @@ $navposition = $params->get('navposition');
 									<p>
 										<?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?>
 									</p>
-									<?php $module = JModuleHelper::getModule('search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
 									<?php echo JModuleHelper::renderModule($module); ?>
 								</div><!-- end searchbox -->
 							<?php endif; ?>

@@ -114,9 +114,6 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('category.id', $pk);
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', 0, 'int');
-		$this->setState('filter.tag', $value);
-
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
 		$menuParams = new Registry;
@@ -160,6 +157,9 @@ class ContentModelCategory extends JModelList
 		}
 
 		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+
+		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int');
+		$this->setState('filter.tag', $value);
 
 		// Optional filter text
 		$search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
