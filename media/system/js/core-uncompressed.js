@@ -324,6 +324,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			// Message class
 			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
 			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+			alertClass = (type == 'error') ? 'alert-error alert-danger' : alertClass;
 
 			messagesBox.className = 'alert ' + alertClass;
 
