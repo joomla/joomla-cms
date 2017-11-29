@@ -206,7 +206,7 @@ class StandardRules implements RulesInterface
 		{
 			$view = $views[$query['view']];
 
-			if ($view->key === false)
+			if (!$view->key)
 			{
 				unset($query['view']);
 
