@@ -203,11 +203,6 @@ class PlgSearchContent extends JPlugin
 							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
 						}
 
-						// this generates a dependent sub-query so do no use in MySQL prior to version 6.0 !
-						// $wheres2[] = 'a.id IN( '. (string) $subQuery.')';
-						// This doesn't gets around this problem
-						// $wheres2[] = 'a.id IN( SELECT item_id FROM ('. (string) $subQuery.') as temptable)';
-
 						if ($serverType == "mysql")
 						{
 
