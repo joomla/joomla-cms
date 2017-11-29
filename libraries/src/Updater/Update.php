@@ -90,20 +90,20 @@ class Update extends \JObject
 	protected $group;
 
 	/**
-	 * The mirrors name array
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected $mirrors = array();
-
-	/**
 	 * Update manifest `<downloads>` element
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $downloads;
+
+	/**
+	 * Update manifest `<downloadsource>` elements
+	 *
+	 * @var    \stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $downloadSources = array();
 
 	/**
 	 * Update manifest `<tags>` element
@@ -254,13 +254,6 @@ class Update extends \JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		// Change name if is mirror
-		if ($name == 'DOWNLOADURL' && isset($this->currentUpdate->downloadurl))
-		{
-			$name            = 'MIRROR' . count($this->mirrors);
-			$this->mirrors[] = strtolower($name);
-		}
-
 		$this->stack[] = $name;
 		$tag           = $this->_getStackLocation();
 
@@ -275,6 +268,20 @@ class Update extends \JObject
 			// This is a new update; create a current update
 			case 'UPDATE':
 				$this->currentUpdate = new \stdClass;
+				break;
+
+			// Handle the array of download sources
+			case 'DOWNLOADSOURCE':
+				$source = new \stdClass;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->downloadSources[] = $source;
+
 				break;
 
 			// Don't do anything
@@ -448,6 +455,15 @@ class Update extends \JObject
 		if ($tag == 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+
+			return;
+		}
+
+		if ($tag == 'downloadsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->downloadSources);
+			$source->url = $data;
 
 			return;
 		}
