@@ -406,7 +406,7 @@ class InstallerModelUpdate extends JModelList
 		}
 
 		$url     = $update->downloadurl->_data;
-		$mirrors = $update->get('mirrors', array());
+		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -415,15 +415,18 @@ class InstallerModelUpdate extends JModelList
 		}
 
 		$mirror = 0;
-		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($mirrors[$mirror]))
+
+		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
-			$name = $mirrors[$mirror];
-			$url  = $update->$name->_data;
+			$name = $sources[$mirror];
+			$url  = $name->url;
+
 			if ($extra_query)
 			{
 				$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
 				$url .= $extra_query;
 			}
+
 			$mirror++;
 		}
 

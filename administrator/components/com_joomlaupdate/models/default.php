@@ -251,9 +251,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$mirrors    = $updateInfo['object']->get('mirrors', array());
+		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
-
+var_dump($sources);die;
 		// Follow the Location headers until the actual download URL is known
 		while (isset($headers['Location']))
 		{
@@ -281,10 +281,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		{
 			// Not there, let's fetch it.
 			$mirror = 0;
-			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($mirrors[$mirror]))
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
-				$name       = $mirrors[$mirror];
-				$packageURL = $updateInfo['object']->$name->_data;
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
 				$mirror++;
 			}
 
@@ -298,10 +299,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			if (empty($filesize))
 			{
 				$mirror = 0;
-				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($mirrors[$mirror]))
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
-					$name       = $mirrors[$mirror];
-					$packageURL = $updateInfo['object']->$name->_data;
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
 					$mirror++;
 				}
 
