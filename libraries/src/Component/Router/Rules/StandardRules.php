@@ -196,7 +196,7 @@ class StandardRules implements RulesInterface
 		}
 
 		// Get menu item layout
-		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : 'default';
+		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
 
 		// Get all views for this component
 		$views = $this->router->getViews();
