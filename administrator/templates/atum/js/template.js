@@ -236,14 +236,14 @@ Joomla = window.Joomla || {};
 		var container = target.querySelectorAll('.btn-group');
 		for (var i = 0; i < container.length; i++) {
 			var labels = container[i].querySelectorAll('label');
-			for (var j = 0; j < labels.length; j++) {
-				labels[j].classList.add('btn');
-				if ((j % 2) == 1) {
-					labels[j].classList.add('btn-outline-danger');
-				} else {
-					labels[j].classList.add('btn-outline-success');
+			var inputValue = labels[j].firstElementChild.value;
+			if (inputValue == '' ) {
+				labels[j].classList.add('btn-outline-primary');
+			} else if (inputValue == 0 || inputValue == 'false') {
+				labels[j].classList.add('btn-outline-danger');
+			} else {
+				labels[j].classList.add('btn-outline-success');
 
-				}
 			}
 		}
 
@@ -305,7 +305,6 @@ Joomla = window.Joomla || {};
 					label.classList.add('active');
 					label.classList.add('btn');
 					label.classList.add('btn-outline-primary');
-					label.classList.remove('btn-outline-success');
 				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
@@ -319,7 +318,6 @@ Joomla = window.Joomla || {};
 				if (self.value === '') {
 					label.classList.add('active');
 					label.classList.add('btn-outline-primary');
-					label.classList.remove('btn-outline-success');
 				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
