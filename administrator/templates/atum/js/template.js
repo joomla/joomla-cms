@@ -305,6 +305,7 @@ Joomla = window.Joomla || {};
 					label.classList.add('active');
 					label.classList.add('btn');
 					label.classList.add('btn-outline-primary');
+					label.classList.remove('btn-outline-success');
 				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
@@ -318,6 +319,7 @@ Joomla = window.Joomla || {};
 				if (self.value === '') {
 					label.classList.add('active');
 					label.classList.add('btn-outline-primary');
+					label.classList.remove('btn-outline-success');
 				} else if (self.value === 0) {
 					label.classList.add('active');
 					label.classList.add('btn');
