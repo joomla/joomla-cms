@@ -34,6 +34,9 @@ $settings  = array();
 								<?php echo $field->label; ?>
 						</div>
 						<div class="controls">
+							<?php if ($field->type === 'Password')  : ?>
+								<?php // Disables autocomplete ?> <input autocomplete="off" style="display:none">
+							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
 					</div>

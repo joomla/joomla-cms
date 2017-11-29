@@ -79,9 +79,8 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 									<?php endif; ?>
 								</div>
 								<div class="controls">
-									<?php if ($field->fieldname === 'password1') : ?>
-										<?php // Disables autocomplete ?>
-										<input type="password" style="display:none">
+									<?php if ($field->type === 'Password')  : ?>
+										<?php // Disables autocomplete ?> <input autocomplete="off" style="display:none">
 									<?php endif; ?>
 									<?php echo $field->input; ?>
 								</div>
