@@ -22,29 +22,28 @@ var _createClass = function () {
     function b() {
       return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
     }return _inherits(b, a), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
-        this.adjustHeight = this.adjustHeight().bind(this);var a = document.createElement('iframe');a.setAttribute('name', this.name), a.setAttribute('src', this.src), a.setAttribute('width', this.width), a.setAttribute('height', this.height), a.setAttribute('scrolling', this.scrolling), a.setAttribute('frameborder', this.frameborder), a.setAttribute('class', this.useClass), a.innerText = this.noFrameText, this.autoHeight && a.addEventListener('load', this.adjustHeight, !1);
+        this.iframe = document.createElement('iframe'), this.iframe.setAttribute('name', this.name), this.iframe.setAttribute('src', this.src), this.iframe.setAttribute('width', this.width), this.iframe.setAttribute('height', this.height), this.iframe.setAttribute('scrolling', this.scrolling), this.iframe.setAttribute('frameborder', this.frameborder), this.iframe.setAttribute('class', this.useClass), this.iframe.innerText = this.noFrameText, this.autoHeight && this.iframe.addEventListener('load', this.adjustHeight.bind(this), !1), this.appendChild(this.iframe);
       } }, { key: 'adjustHeight', value: function adjustHeight() {
         var a = 0,
-            b = this.querySelector('iframe'),
-            c = 'contentDocument' in b ? b.contentDocument : b.contentWindow.document;a = c.body.scrollHeight, b.style.height = parseInt(a) + 60 + 'px';
+            b = this.iframe.contentWindow.document;a = b.body.scrollHeight, this.iframe.style.height = parseInt(a) + 60 + 'px';
       } }, { key: 'autoHeight', get: function get() {
-        return 'true' === this.getAttribute('auto-height');
+        return '1' === this.getAttribute('auto-height');
       } }, { key: 'name', get: function get() {
-        this.getAttribute('name');
+        return this.getAttribute('name');
       } }, { key: 'src', get: function get() {
         return this.getAttribute('src');
       } }, { key: 'width', get: function get() {
-        this.getAttribute('width');
+        return this.getAttribute('width');
       } }, { key: 'height', get: function get() {
-        this.getAttribute('height');
+        return this.getAttribute('height');
       } }, { key: 'scrolling', get: function get() {
-        this.getAttribute('scrolling');
+        return '1' === this.getAttribute('scrolling');
       } }, { key: 'frameborder', get: function get() {
-        this.getAttribute('frameborder');
+        return '1' === this.getAttribute('frameborder');
       } }, { key: 'useClass', get: function get() {
-        this.getAttribute('use-class');
+        return this.getAttribute('use-class');
       } }, { key: 'noFrameText', get: function get() {
-        this.getAttribute('no-frame-text');
+        return '1' === this.getAttribute('no-frame-text');
       } }], [{ key: 'observedAttributes', get: function get() {
         return ['autoHeight', 'name', 'src', 'width', 'height', 'scrolling', 'frameborder', 'useClass', 'noFrameText'];
       } }]), b;

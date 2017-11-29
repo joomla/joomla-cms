@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HtmlHelper::_('webcomponent', 'com_wrapper/webcomponents/joomla-iframe.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', ['joomla-iframe' => 'com_wrapper/webcomponents/joomla-iframe.min.js'], ['version' => 'auto', 'relative' => true]);
 ?>
 <joomla-iframe auto-height="<?php echo $load; ?>"
 	name="<?php echo $target; ?>"
