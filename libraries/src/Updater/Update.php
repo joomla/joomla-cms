@@ -100,7 +100,7 @@ class Update extends \JObject
 	/**
 	 * Update manifest `<downloadsource>` elements
 	 *
-	 * @var    \stdClass[]
+	 * @var    DownloadSource[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $downloadSources = array();
@@ -272,7 +272,7 @@ class Update extends \JObject
 
 			// Handle the array of download sources
 			case 'DOWNLOADSOURCE':
-				$source = new \stdClass;
+				$source = new DownloadSource;
 
 				foreach ($attrs as $key => $data)
 				{
