@@ -26,7 +26,7 @@ class PlgSearchContent extends JPlugin
 	public function onContentSearchAreas()
 	{
 		static $areas = array(
-		    'content' => 'JGLOBAL_ARTICLES'
+			'content' => 'JGLOBAL_ARTICLES'
 		);
 
 		return $areas;
@@ -109,8 +109,9 @@ class PlgSearchContent extends JPlugin
 
 					if ($serverType == "mysql")
 					{
-						// this generates a dependent sub-query so do no use in MySQL prior to version 6.0 !
-						// $wheres2[] = 'a.id IN( '. (string) $subQuery.')';
+						/* This generates a dependent sub-query so do no use in MySQL prior to version 6.0 !
+						* $wheres2[] = 'a.id IN( '. (string) $subQuery.')';
+						*/
 
 						$db->setQuery($subQuery);
 						$fieldids = $db->loadColumn();
@@ -358,8 +359,9 @@ class PlgSearchContent extends JPlugin
 					)
 					->order($order);
 
-				// Join over Fields is no longer neded
 				/*
+				 *  Join over Fields is no longer neded
+				 
 				  $query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
 				  ->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
 				  ->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
