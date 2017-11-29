@@ -275,7 +275,7 @@ class ContentModelArticles extends JModelList
 			: $categoryId;
 
 		// Case: Using both categories filter and by level filter
-		if (count($categoryId))
+		if (is_array($categoryId) && count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = JTable::getInstance('Category', 'JTable');
