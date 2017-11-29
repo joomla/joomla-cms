@@ -188,11 +188,22 @@ if ($saveOrder)
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->created_by_alias) : ?>
-									<?php echo $this->escape($item->author_name); ?>
-									<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<?php if ((int) $item->created_by != 0) : ?>
+									<?php if ($item->created_by_alias) : ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
+										<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php else : ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
+									<?php endif; ?>
 								<?php else : ?>
-									<?php echo $this->escape($item->author_name); ?>
+									<?php if ($item->created_by_alias) : ?>
+										<?php echo JText::_('JNONE'); ?>
+										<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+									<?php else : ?>
+										<?php echo JText::_('JNONE'); ?>
+									<?php endif; ?>
 								<?php endif; ?>
 							</td>
 							<td class="small hidden-phone">

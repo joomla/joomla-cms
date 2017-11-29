@@ -89,7 +89,8 @@ class JFormFieldMenutype extends JFormFieldList
 			function jSelectPosition_' . $this->id . '(name) {
 				document.getElementById("' . $this->id . '").value = name;
 			}
-		');
+		'
+		);
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id

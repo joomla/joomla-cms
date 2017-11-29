@@ -242,17 +242,10 @@ class JFormFieldCalendar extends JFormField
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
 		{
-			$app        = JFactory::getApplication();
-			$input      = $app->input;
-			$name_input = $input->get($this->name);
-
-			if (!empty($name_input))
-			{
-				$tz = date_default_timezone_get();
-				date_default_timezone_set('UTC');
-				$this->value = strftime($this->format, strtotime($this->value));
-				date_default_timezone_set($tz);
-			}
+			$tz = date_default_timezone_get();
+			date_default_timezone_set('UTC');
+			$this->value = strftime($this->format, strtotime($this->value));
+			date_default_timezone_set($tz);
 		}
 		else
 		{

@@ -104,7 +104,7 @@
 	}
 }
 
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	.navbar {
 		.admin-logo {
 			margin-right: 10px;
@@ -269,14 +269,14 @@ a.grid_true {
 	float: left;
 }
 
-@media (max-width: 979px) {
+@media (max-width: @lg-max) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: auto;
 		left: -20px;
 	}
 }
 
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	.j-sidebar-container {
 		position: relative;
 		padding: 0;
@@ -307,7 +307,7 @@ a.grid_true {
 }
 
 /* Modal batch */
-@media (min-width: 768px) {
+@media (min-width: @md) {
 	.row-fluid [class*="span"] {
 		margin-right: 15px;
 		margin-left: 0;
@@ -323,7 +323,7 @@ a.grid_true {
 }
 
 /* Extended Responsive Styles */
-@media (max-width: 480px) {
+@media (max-width: @sm-max) {
 	.btn-toolbar .btn-wrapper .btn {
 		width: 100% !important;
 		margin-right:0px;

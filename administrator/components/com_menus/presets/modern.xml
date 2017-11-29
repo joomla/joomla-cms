@@ -164,6 +164,7 @@
 			element="com_users"
 			link="index.php?option=com_users&amp;view=mail"
 			class="class:massmail"
+			scope="massmail"
 		/>
 	</menuitem>
 	<menuitem
@@ -209,7 +210,7 @@
 			sql_from="#__menu_types AS a"
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
-			sql_group="a.id"
+			sql_group="a.id, m.language, l.image"
 			sql_order="a.title ASC">
 			<menuitem
 				title="{sql:title}"

@@ -24,9 +24,9 @@ extract($displayData);
 	<?php if (!empty($buttons)) : ?>
 	<div class="btn-toolbar text-right">
 		<div class="btn-group">
-			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a><?php endif; ?>
-			<?php if (!empty($buttons['remove'])) : ?><a class="group-remove btn btn-mini button btn-danger"><span class="icon-minus"></span> </a><?php endif; ?>
-			<?php if (!empty($buttons['move'])) : ?><a class="group-move btn btn-mini button btn-primary"><span class="icon-move"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-mini button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['remove'])) : ?><a class="group-remove btn btn-mini button btn-danger" aria-label="<?php echo JText::_('JGLOBAL_FIELD_REMOVE'); ?>"><span class="icon-minus" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['move'])) : ?><a class="group-move btn btn-mini button btn-primary" aria-label="<?php echo JText::_('JGLOBAL_FIELD_MOVE'); ?>"><span class="icon-move" aria-hidden="true"></span> </a><?php endif; ?>
 		</div>
 	</div>
 	<?php endif; ?>
