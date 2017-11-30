@@ -473,13 +473,14 @@ class SiteRouter extends Router
 			return;
 		}
 
+		// Get Menu Item
+		$item = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
+
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$tmp       = trim(implode('/', $parts));
-
-		$item = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
 
 		// Build the application route
 		if ($item !== null && $query['option'] === $item->component)
