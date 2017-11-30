@@ -65,12 +65,6 @@ else
 	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
-// Header bottom margin
-$headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
-
-// Container
-$container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
-
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
 <!DOCTYPE html>
@@ -89,8 +83,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-	<div class="container-header full-width">
-		<header class="header">
+	<header class="container-header full-width">
+		<div class="wrapper">
 			<nav class="navbar navbar-expand-lg">
 				<div class="navbar-brand">
 					<a href="<?php echo $this->baseurl; ?>/">
@@ -114,70 +108,49 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				
-			</nav>
-			<?php if ($this->countModules('banner')) : ?>
-			<div class="container-banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
+			</div>
+		</nav>
+		<?php if ($this->countModules('banner')) : ?>
+		<div class="container-banner">
+			<jdoc:include type="modules" name="banner" style="xhtml" />
+		</div>
+		<?php endif; ?>
+		<div class="header-shadow"></div>
+		<div class="header-shape-bottom">
+			<canvas width="736" height="15"></canvas>
+			<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
+				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
+			</svg>
+		</div>
+	</header>
+
+	<jdoc:include type="modules" name="top" />
+
+	<main class="container-main">
+		<div class="wrapper">
+			<?php if ($this->countModules('sidebar-left')) : ?>
+			<div class="container-sidebar-left">
+				<jdoc:include type="modules" name="sidebar-left" style="default" />
 			</div>
 			<?php endif; ?>
-			<div class="header-shadow"></div>
-			<div class="header-shape-bottom">
-				<canvas width="736" height="15"></canvas>
-				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-				</svg>
+
+			<div class="container-component">
+				<jdoc:include type="modules" name="main-top" style="cardGrey" />
+				<jdoc:include type="message" />
+				<jdoc:include type="component" />
+				<jdoc:include type="modules" name="breadcrumbs" style="none" />
+				<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 			</div>
-		</header>
-	</div>
-	
-	<?php if ($this->countModules('top-a')) : ?>
-	<div class="container-top-a">
-		<jdoc:include type="modules" name="top-a" style="cardGrey" />
-	</div>
-	<?php endif; ?>
 
-	<?php if ($this->countModules('top-b')) : ?>
-	<div class="container-top-b">
-		<jdoc:include type="modules" name="top-b" style="card" />
-	</div>
-	<?php endif; ?>
-
-	<div class="container-main">
-
-		<?php if ($this->countModules('sidebar-left')) : ?>
-		<div class="container-sidebar-left">
-			<jdoc:include type="modules" name="sidebar-left" style="default" />
+			<?php if ($this->countModules('sidebar-right')) : ?>
+			<div class="container-sidebar-right">
+				<jdoc:include type="modules" name="sidebar-right" style="default" />
+			</div>
+			<?php endif; ?>
 		</div>
-		<?php endif; ?>
+	</main>
 
-		<div class="container-component">
-			<jdoc:include type="modules" name="main-top" style="cardGrey" />
-			<jdoc:include type="message" />
-			<jdoc:include type="component" />
-			<jdoc:include type="modules" name="breadcrumbs" style="none" />
-			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
-		</div>
-
-		<?php if ($this->countModules('sidebar-right')) : ?>
-		<div class="container-sidebar-right">
-			<jdoc:include type="modules" name="sidebar-right" style="default" />
-		</div>
-		<?php endif; ?>
-
-	</div>
-
-	<?php if ($this->countModules('bottom-a')) : ?>
-	<div class="container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
-	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('bottom-b')) : ?>
-	<div class="container-bottom-b">
-		<jdoc:include type="modules" name="bottom-b" style="card" />
-	</div>
-	<?php endif; ?>
+	<jdoc:include type="modules" name="bottom" />
 
 	<?php if ($this->countModules('footer')) : ?>
 	<footer class="container-footer footer">
