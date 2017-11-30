@@ -253,7 +253,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$packageURL = $updateInfo['object']->downloadurl->_data;
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
-var_dump($sources);die;
+
 		// Follow the Location headers until the actual download URL is known
 		while (isset($headers['Location']))
 		{
