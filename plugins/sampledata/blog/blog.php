@@ -625,7 +625,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'showtitle' => 0,
 				'params'    => array(
@@ -647,7 +647,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
@@ -670,7 +670,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
-				'position'  => 'position-7',
+				'position'  => 'sidebar-right',
 				'module'    => 'mod_syndicate',
 				'showtitle' => 0,
 				'params'    => array(
@@ -684,7 +684,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_archive',
 				'params'   => array(
 					'count'      => 10,
@@ -697,7 +697,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
 					'catid'      => $catids[0],
@@ -712,7 +712,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_category',
 				'params'   => array(
 					'mode'                         => 'normal',
@@ -779,7 +779,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-0',
+				'position' => 'search',
 				'module'   => 'mod_search',
 				'params'   => array(
 					'width'      => 20,
@@ -795,7 +795,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
 				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
 				'ordering'  => 1,
-				'position'  => 'position-3',
+				'position'  => 'main-top',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
@@ -813,7 +813,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_tags_popular',
 				'params'   => array(
 					'maximum'         => 8,
