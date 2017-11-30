@@ -131,7 +131,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			),
 			'7.2' => array(
 				'security' => '2019-11-30',
-				'eos'      => '2019-11-30'
+				'eos'      => '2020-11-30'
 			),
 		);
 
