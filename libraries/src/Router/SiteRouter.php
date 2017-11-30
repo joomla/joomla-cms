@@ -479,7 +479,7 @@ class SiteRouter extends Router
 		$parts     = $crouter->build($query);
 		$tmp       = trim(implode('/', $parts));
 
-		$item = isset($query['Itemid']) ? $this->menu->getItem($query['Itemid']) : null;
+		$item = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
 
 		// Build the application route
 		if ($item !== null && $query['option'] === $item->component)
