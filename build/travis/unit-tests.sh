@@ -27,8 +27,8 @@ psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 if [ $INSTALL_LIBSODIUM == "yes" ]; then
   wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
   tar xvfz libsodium-1.0.15.tar.gz
-  cd libsodium-1.0.15 && ./configure && make check && make install
-  pecl install libsodium
+  cd libsodium-1.0.15 && ./configure --prefix=$HOME/libsodium && make check && make install
+  PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH pecl install libsodium
 fi
 
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
