@@ -28,9 +28,9 @@ if [ $INSTALL_LIBSODIUM == "yes" ]; then
   wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
   tar xvfz libsodium-1.0.15.tar.gz
   cd libsodium-1.0.15 && ./configure && make check && make install
+  pecl install libsodium
 fi
 
-if [[ $INSTALL_LIBSODIUM == "yes" ]]; then pecl install libsodium; fi
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
 if [[ $INSTALL_MEMCACHED == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcached.ini"; fi
 if [[ $INSTALL_APC == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini"; fi
