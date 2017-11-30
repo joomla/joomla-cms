@@ -48,12 +48,12 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$serverType = $db->serverType;
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$tag = JFactory::getLanguage()->getTag();
+		$db		= JFactory::getDbo();
+		$serverType	= $db->serverType;
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
+		$groups		= implode(',', $user->getAuthorisedViewLevels());
+		$tag		= JFactory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
@@ -165,12 +165,10 @@ class PlgSearchContent extends JPlugin
 
 						if ($serverType == "mysql")
 						{
-
 							$db->setQuery($subQuery);
 							$fieldids = $db->loadColumn();
 							if (count($fieldids))
 							{
-
 								$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
 							}
 						}
@@ -206,12 +204,10 @@ class PlgSearchContent extends JPlugin
 
 					if ($serverType == "mysql")
 					{
-
 						$db->setQuery($subQuery);
 						$fieldids = $db->loadColumn();
 						if (count($fieldids))
 						{
-
 							$wheres[] = 'a.id IN(' . implode(",", $fieldids) . ')';
 						}
 					}
@@ -359,15 +355,7 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
-			/*
-			 *  Join over Fields is no longer neded
-
-			  $query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
-			  ->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
-			  ->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
-			  ->where('(f.state IS NULL OR f.state = 1)')
-			  ->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
-			 */
+			//Join over Fields is no longer neded
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
