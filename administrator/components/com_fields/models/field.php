@@ -741,6 +741,50 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
+	 * Searches for fields in the given context. The phrase parameter represents
+	 * the one from most of the search plugins.
+	 *
+	 * @param   string  $context  The context.
+	 * @param   string  $search   The search therm.
+	 * @param   string  $phrase   The phrase, can be exact, all or any.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function searchValues($context, $search, $phrase = 'all')
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+		$query->select('DISTINCT field_id, item_id')
+			->from($db->qn('#__fields_values') . ' fv')
+			->join('LEFT', $db->qn('#__fields') . ' f ON f.id = fv.field_id')
+			->where($db->qn('f.context') . ' = ' . $db->q($context));
+
+		switch ($phrase)
+		{
+			case 'exact':
+				$query->where('fv.value like '.$db->quote('%' . $db->escape($search, true) . '%', false));
+				break;
+
+			case 'all':
+			case 'any':
+			default:
+				$wheres = array();
+
+				foreach (explode(' ', $search) as $word)
+				{
+					$wheres[]  = 'LOWER(fv.value) LIKE LOWER(' . $db->quote('%' . $db->escape($word, true) . '%', false) . ')';
+				}
+
+				$query->where('(' . implode($phrase === 'all' ? ') AND (' : ') OR (', $wheres) . ')');
+		}
+
+		return $this->getDbo()->setQuery($query)->loadAssocList();
+	}
+
+	/**
 	 * Cleaning up the values for the given item on the context.
 	 *
 	 * @param   string  $context  The context.
