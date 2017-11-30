@@ -319,7 +319,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
-		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
 		$menuTypes = array();
 
 		for ($i = 0; $i <= 2; $i++)
