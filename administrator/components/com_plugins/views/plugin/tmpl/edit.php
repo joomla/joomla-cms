@@ -20,19 +20,16 @@ $this->fieldsets = $this->form->getFieldsets('params');
 $input = JFactory::getApplication()->input;
 
 // In case of modal
-$isModal  = $input->get('layout') == 'modal' ? true : false;
+$isModal  = $input->get('layout') === 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
 JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form')))
-		{
+	Joomla.submitbutton = function(task) {
+		if (task === 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 
-			if (task !== 'plugin.apply')
-			{
+			if (task !== 'plugin.apply') {
 				if (self !== top ) {
                         window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
                         window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
