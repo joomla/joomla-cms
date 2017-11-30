@@ -23,7 +23,11 @@ psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 # - ./build/travis/php-apache.sh
 # Enable additional PHP extensions
 
-# Installing libsodium code adapted from Google's verison at https://github.com/google/hat-backup/blob/master/travis-install-libsodium.sh
+# Following the documentation at https://paragonie.com/book/pecl-libsodium/read/00-intro.md#installing-libsodium-source . We install in a custom
+# directory because we're on sudo-less env and therefore cannot write into /usr/local/bin/ - so we do what google did with
+# https://github.com/google/hat-backup/blob/master/travis-install-libsodium.sh and install into home and pass in custom
+# pkg_config path - I'm not sure that we need to export LD_LIBRARY_PATH - but trying it from desperation as it was done in the
+# google repo
 if [ $INSTALL_LIBSODIUM == "yes" ]; then
   wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
   tar xvfz libsodium-1.0.15.tar.gz
