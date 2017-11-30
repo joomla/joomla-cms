@@ -55,7 +55,6 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
-					<?php // Disables autocomplete ?> <input autocomplete="off" style="display:none">
 					<?php echo $this->form->getInput('admin_password'); ?>
 				</div>
 				<div class="form-group">
