@@ -355,7 +355,7 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
-			//Join over Fields is no longer neded
+			// Join over Fields is no longer neded
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
