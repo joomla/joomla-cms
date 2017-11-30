@@ -23,8 +23,9 @@ psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 # - ./build/travis/php-apache.sh
 # Enable additional PHP extensions
 
+# Installing libsodium code adapted from Google's verison at https://github.com/google/hat-backup/blob/master/travis-install-libsodium.sh
 if [ $INSTALL_LIBSODIUM == "yes" ]; then
-  wget https://github.com/jedisct1/libsodium/releases/download/1.0.11/libsodium-1.0.15.tar.gz
+  wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
   tar xvfz libsodium-1.0.15.tar.gz
   cd libsodium-1.0.15
   ./configure --prefix=$HOME/libsodium
