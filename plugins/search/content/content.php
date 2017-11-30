@@ -89,7 +89,6 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
-				$wheres2[] = 'fv.value LIKE ' . $text;
 				$where     = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
@@ -108,12 +107,27 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(fv.value) LIKE LOWER(' . $word . ')';
 					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
 				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
+		}
+
+		// Load the field model
+		JLoader::import('joomla.application.component.model');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
+
+		$fieldModel = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$articles = $fieldModel->searchValues('com_content.article', $text, $phrase);
+
+		if ($articles)
+		{
+			$articleIds = array_map(function($a) {
+				return (int)$a['item_id'];
+			}, $articles);
+
+			$where .= ' OR a.id IN (' . implode(',', $articleIds) .')';
 		}
 
 		switch ($ordering)
@@ -178,13 +192,6 @@ class PlgSearchContent extends JPlugin
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
-
-			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
-				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
-				->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
-				->where('(f.state IS NULL OR f.state = 1)')
-				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
