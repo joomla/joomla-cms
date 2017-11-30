@@ -320,6 +320,7 @@ define(
       }
       return -1;
     };
+
     var listState = function (editor, listName) {
       return function (e) {
         var ctrl = e.control;
@@ -344,6 +345,7 @@ define(
 
     var addSplitButton = function (editor, id, tooltip, cmd, nodeName, styles) {
       editor.addButton(id, {
+        active: false,
         type: 'splitbutton',
         tooltip: tooltip,
         menu: ListStyles.toMenuItems(styles),
@@ -360,6 +362,7 @@ define(
 
     var addButton = function (editor, id, tooltip, cmd, nodeName, styles) {
       editor.addButton(id, {
+        active: false,
         type: 'button',
         tooltip: tooltip,
         onPostRender: listState(editor, nodeName),

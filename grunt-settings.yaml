@@ -30,14 +30,11 @@ vendors:
     'mediaelement':
                   'version': '4.2.7'
                   'dependencies': ''
-    'masonry-layout':
-                  'version': '4.2.0'
-                  'dependencies': ''
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.7.2'
+                  'version': '4.7.3'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -46,7 +43,7 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.31.0'
+                  'version': '5.32.0'
                   'dependencies': ''
     'cropperjs':
                   'version': '1.1.3'
