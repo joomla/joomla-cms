@@ -23,6 +23,7 @@ psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 # - ./build/travis/php-apache.sh
 # Enable additional PHP extensions
 
+if [[ $INSTALL_LIBSODIUM == "yes" ]]; then pecl install libsodium; fi
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
 if [[ $INSTALL_MEMCACHED == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcached.ini"; fi
 if [[ $INSTALL_APC == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/apc-$TRAVIS_PHP_VERSION.ini"; fi
