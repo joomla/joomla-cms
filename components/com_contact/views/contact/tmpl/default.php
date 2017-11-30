@@ -144,21 +144,16 @@ $tparams = $this->item->params;
 
 	<?php if ($tparams->get('show_links')) : ?>
 		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted)
-			{
-				echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-links'));
-				$accordionStarted = true;
-			}
-			?>
+			<?php if (!$accordionStarted) : ?>
+				<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-links')); ?>
+				<?php $accordionStarted = true; ?>
+			<?php endif; ?>
 		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted)
-			{
-				echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-links'));
-				$tabSetStarted = true;
-			}
-			?>
+			<?php if (!$tabSetStarted) : ?>
+				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-links')); ?>
+				<?php $tabSetStarted = true; ?>
+			<?php endif; ?>
 		<?php endif; ?>
-
 		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 
