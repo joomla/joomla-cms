@@ -964,8 +964,21 @@ abstract class FormField
 
 		if ($this->showon)
 		{
+			$parts = explode(':', $this->showon, 2);
+
+			if (strpos($parts[0], '.') !== false)
+			{
+				$extracts     = explode('.', $parts[0]);
+				$this->showon = array_pop($extracts) . ':' . $parts[1];
+				$group        = join('.', $extracts);
+			}
+			else
+			{
+				$group = $this->group;
+			}
+
 			$options['rel']           = ' data-showon=\'' .
-				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
