@@ -31,9 +31,9 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			if (task !== 'plugin.apply') {
 				if (self !== top ) {
-                        window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
-                        window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
-                }
+					window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
+					window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
+				}
 			}
 		}
 	};
