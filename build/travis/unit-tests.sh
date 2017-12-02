@@ -37,9 +37,8 @@ if [ $INSTALL_LIBSODIUM == "yes" ]; then
   tar xvfz 2.0.10.tar.gz
   cd libsodium-php-2.0.10
   phpize
-  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH ./configure --with-libsodium
-  make clean
-  make
+  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH ./configure --with-sodium
+  make install
 fi
 
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
