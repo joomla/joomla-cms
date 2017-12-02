@@ -57,6 +57,7 @@ class InstallationController extends JSONController
 		$r->view = 'setup';
 
 		// Check the form
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
 		if ($model->checkForm('setup') === false || $model->initialise('setup') === false)
 		{

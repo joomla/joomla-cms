@@ -302,7 +302,7 @@ class SetupModel extends BaseInstallationModel
 	 *
 	 * @param   array  $option  The options to use for configuration.
 	 *
-	 * @return  \JDatabaseDriver|boolean  Database object on success, boolean false on failure
+	 * @return  \Joomla\Database\DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
@@ -409,6 +409,8 @@ class SetupModel extends BaseInstallationModel
 
 			return false;
 		}
+
+		return false;
 	}
 
 	/**
