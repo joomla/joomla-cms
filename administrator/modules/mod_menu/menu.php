@@ -275,8 +275,14 @@ class JAdminCssMenu
 				}
 			}
 
-			// Exclude item if the component is not installed or disabled
-			if ($item->element && (!JComponentHelper::isInstalled($item->element) || !JComponentHelper::isEnabled($item->element)))
+			// Exclude item if is not enabled
+			if ($item->element && !JComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -360,6 +366,11 @@ class JAdminCssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
 			}
 
 			$item->text = JText::_($item->title);

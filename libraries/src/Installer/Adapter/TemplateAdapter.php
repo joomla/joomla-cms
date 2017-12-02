@@ -382,6 +382,7 @@ class TemplateAdapter extends InstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 		}
 
 		// Name might change in an update

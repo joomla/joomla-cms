@@ -48,7 +48,7 @@ $userFieldGroups    = array();
 			<?php endif; ?>
 
 			<?php if ($field->params->get('showlabel')) : ?>
-				<?php echo '<dt>' . $field->label . '</dt>'; ?>
+				<?php echo '<dt>' . JText::_($field->label) . '</dt>'; ?>
 			<?php endif; ?>
 
 			<?php echo '<dd>' . $field->value . '</dd>'; ?>

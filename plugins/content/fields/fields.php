@@ -31,9 +31,14 @@ class PlgContentFields extends JPlugin
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{
-		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		// If the item has a context, overwrite the existing one
+		if ($context == 'com_finder.indexer' && !empty($item->context))
 		{
+			$context = $item->context;
+		}
+		elseif ($context == 'com_finder.indexer')
+		{
+			// Don't run this plugin when the content is being indexed and we have no real context
 			return;
 		}
 

@@ -174,11 +174,11 @@ class MenusControllerItems extends JControllerAdmin
 		}
 
 		$this->setRedirect(
-				JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
-						)
-				);
+			JRoute::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+			)
+		);
 	}
 
 	/**
@@ -247,7 +247,6 @@ class MenusControllerItems extends JControllerAdmin
 				}
 
 				$this->setMessage(JText::plural($ntext, count($cid)), $messageType);
-
 			}
 			catch (Exception $e)
 			{

@@ -438,6 +438,9 @@ abstract class JLoader
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
+		// Trim leading and trailing backslashes from namespace, allowing "\Parent\Child", "Parent\Child\" and "\Parent\Child\" to be treated the same way.
+		$namespace = trim($namespace, '\\');
+
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
 		if ($reset || !isset(self::$namespaces[$type][$namespace]))
 		{
@@ -533,10 +536,10 @@ abstract class JLoader
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
-			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
-
-			if (strpos($class, $ns) === 0)
+			if (strpos($class, "{$ns}\\") === 0)
 			{
+				$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{

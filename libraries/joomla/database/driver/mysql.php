@@ -72,13 +72,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('Could not connect to MySQL.');
+			throw new JDatabaseExceptionUnsupported('Make sure the MySQL extension for PHP is installed and enabled.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL server.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -366,7 +366,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database.');
 		}
 
 		return true;
