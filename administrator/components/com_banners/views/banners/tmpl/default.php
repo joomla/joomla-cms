@@ -130,8 +130,8 @@ if ($saveOrder)
 									?>
 								</div>
 							</td>
-							<td class="nowrap has-context">
-								<div class="pull-left">
+							<td class="has-context">
+								<div class="pull-left break-word">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 									<?php endif; ?>
@@ -141,7 +141,7 @@ if ($saveOrder)
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
-									<span class="small">
+									<span class="small break-word">
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									</span>
 									<div class="small">
