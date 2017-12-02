@@ -73,7 +73,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -101,7 +101,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of elements filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
