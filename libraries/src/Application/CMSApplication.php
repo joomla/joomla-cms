@@ -472,8 +472,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  CmsApplication
 	 *
-	 * @since   3.2
-	 * @throws  \RuntimeException
+	 * @since       3.2
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
 	{
