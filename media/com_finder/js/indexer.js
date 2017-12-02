@@ -16,37 +16,29 @@ Joomla = window.Joomla || {};
 		var progress   = null;
 		var optimized  = false;
 		var path       = 'index.php?option=com_finder&tmpl=component&format=json';
+		var token      = '&' + document.getElementById('finder-indexer-token').getAttribute('name') + '=1';
 
 		var initialize = function() {
 			offset   = 0;
 			progress = 0;
-			path     = path + '&' + document.getElementById('finder-indexer-token').getAttribute('name') + '=1';
 
 			getRequest('indexer.start');
 		};
 
 		var getRequest = function (task) {
-			jQuery.ajax({
-				type : 'GET',
-				url : path,
-				data :  'task=' + task,
-				dataType : 'json',
-				success : handleResponse,
-				error : handleFailure
-			});
-			/* Joomla.request({
-				url:       path,
+			Joomla.request({
+				url:       path + '&task=' + task + token,
 				method:    'GET',
-				data:      {task: task},
+				data:      '',
 				perform:   true,
 				headers:   {'Content-Type': 'application/x-www-form-urlencoded'},
 				onSuccess: function(response, xhr) {
-					handleResponse(response);
+					handleResponse(JSON.parse(response));
 				},
 				onError: function(xhr) {
 					handleFailure(xhr);
 				}
-			}); */
+			});
 		};
 
 		var removeElement = function(el) {
@@ -161,7 +153,7 @@ Joomla = window.Joomla || {};
 					progressBar.style.width = progress + '%';
 					progressBar.setAttribute('aria-valuenow', progress);
 				}
-				if (message == msg) {
+				if (message === msg) {
 					removeElement('progress');
 					// TO-DO: Remove jQuery reference
 					window.parent.jQuery('#modal-archive', parent.document).modal('hide');
