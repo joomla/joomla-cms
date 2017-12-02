@@ -120,7 +120,7 @@ class StatsAdminHelper
 		// Include additional data defined by published system plugins
 		PluginHelper::importPlugin('system');
 
-		$arrays = (array) Factory::getApplication()->triggerEvent('onGetStats', array('mod_stats_admin'));
+		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
 
 		foreach ($arrays as $response)
 		{
