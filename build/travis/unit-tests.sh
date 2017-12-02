@@ -32,7 +32,14 @@ if [ $INSTALL_LIBSODIUM == "yes" ]; then
   wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
   tar xvfz libsodium-1.0.15.tar.gz
   cd libsodium-1.0.15 && ./configure --prefix=$HOME/libsodium && make check && make install
-  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH pecl install libsodium
+  cd ../
+  wget https://github.com/jedisct1/libsodium-php/archive/2.0.10.tar.gz
+  tar xvfz 2.0.10.tar.gz
+  cd 2.0.10
+  phpize
+  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH ./configure --with-libsodium
+  make clean
+  make
 fi
 
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
