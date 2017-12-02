@@ -40,7 +40,7 @@ class FeedHelper
 			$feed   = new FeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
