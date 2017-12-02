@@ -35,7 +35,7 @@ if [ $INSTALL_LIBSODIUM == "yes" ]; then
   cd ../
   wget https://github.com/jedisct1/libsodium-php/archive/2.0.10.tar.gz
   tar xvfz 2.0.10.tar.gz
-  cd 2.0.10
+  cd libsodium-php-2.0.10
   phpize
   LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH ./configure --with-libsodium
   make clean
