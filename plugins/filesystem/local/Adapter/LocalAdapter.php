@@ -11,11 +11,11 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Image\Image;
 use Joomla\CMS\Uri\Uri;
 
@@ -91,8 +91,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getFile($path = '/')
 	{
-		// Set up the path correctly
-		$basePath = \JPath::clean($this->rootPath . '/' . $path);
+		// Get the local path
+		$basePath = $this->getLocalPath($path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
@@ -128,8 +128,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function getFiles($path = '/')
 	{
-		// Set up the path correctly
-		$basePath = \JPath::clean($this->rootPath . '/' . $path);
+		// Get the local path
+		$basePath = $this->getLocalPath($path);
 
 		// Check if file exists
 		if (!file_exists($basePath))
@@ -195,7 +195,9 @@ class LocalAdapter implements AdapterInterface
 	{
 		$name = $this->getSafeName($name);
 
-		\JFolder::create($this->rootPath . $path . '/' . $name);
+		$localPath = $this->getLocalPath($path . '/' . $name);
+
+		\JFolder::create($localPath);
 
 		return $name;
 	}
@@ -219,9 +221,11 @@ class LocalAdapter implements AdapterInterface
 	{
 		$name = $this->getSafeName($name);
 
-		$this->checkContent($name, $path, $data);
+		$localPath = $this->getLocalPath($path . '/' . $name);
 
-		\JFile::write($this->rootPath . $path . '/' . $name, $data);
+		$this->checkContent($localPath, $data);
+
+		\JFile::write($localPath, $data);
 
 		return $name;
 	}
@@ -240,14 +244,16 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function updateFile($name, $path, $data)
 	{
-		if (!\JFile::exists($this->rootPath . $path . '/' . $name))
+		$localPath = $this->getLocalPath($path . '/' . $name);
+
+		if (!\JFile::exists($localPath))
 		{
 			throw new FileNotFoundException;
 		}
 
-		$this->checkContent($name, $path, $data);
+		$this->checkContent($localPath, $data);
 
-		\JFile::write($this->rootPath . $path . '/' . $name, $data);
+		\JFile::write($localPath, $data);
 	}
 
 
@@ -263,23 +269,25 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function delete($path)
 	{
-		if (is_file($this->rootPath . $path))
+		$localPath = $this->getLocalPath($path);
+
+		if (is_file($localPath))
 		{
-			if (!\JFile::exists($this->rootPath . $path))
+			if (!\JFile::exists($localPath))
 			{
 				throw new FileNotFoundException;
 			}
 
-			$success = \JFile::delete($this->rootPath . $path);
+			$success = \JFile::delete($localPath);
 		}
 		else
 		{
-			if (!\JFolder::exists($this->rootPath . $path))
+			if (!\JFolder::exists($localPath))
 			{
 				throw new FileNotFoundException;
 			}
 
-			$success = \JFolder::delete($this->rootPath . $path);
+			$success = \JFolder::delete($localPath);
 		}
 
 		if (!$success)
@@ -353,7 +361,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns a JDate with the correct Joomla timezone for the given date.
+	 * Returns a Date with the correct Joomla timezone for the given date.
 	 *
 	 * @param   string  $date  The date to create a JDate from
 	 *
@@ -403,8 +411,8 @@ class LocalAdapter implements AdapterInterface
 	public function copy($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath      = \JPath::clean($this->rootPath . $sourcePath, '/');
-		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
+		$sourcePath      = \JPath::clean($this->getLocalPath($sourcePath), '/');
+		$destinationPath = \JPath::clean($this->getLocalPath($destinationPath), '/');
 
 		if (!file_exists($sourcePath))
 		{
@@ -513,8 +521,8 @@ class LocalAdapter implements AdapterInterface
 	public function move($sourcePath, $destinationPath, $force = false)
 	{
 		// Get absolute paths from relative paths
-		$sourcePath      = \JPath::clean($this->rootPath . $sourcePath, '/');
-		$destinationPath = \JPath::clean($this->rootPath . $destinationPath, '/');
+		$sourcePath      = \JPath::clean($this->getLocalPath($sourcePath), '/');
+		$destinationPath = \JPath::clean($this->getLocalPath($destinationPath), '/');
 
 		if (!file_exists($sourcePath))
 		{
@@ -660,7 +668,7 @@ class LocalAdapter implements AdapterInterface
 	 */
 	public function search($path, $needle, $recursive)
 	{
-		$pattern = \JPath::clean($this->rootPath . '/' . $path . '/*' . $needle . '*');
+		$pattern = \JPath::clean($this->getLocalPath($path) . '/*' . $needle . '*');
 
 		if ($recursive)
 		{
@@ -768,8 +776,7 @@ class LocalAdapter implements AdapterInterface
 	/**
 	 * Performs various check if it is allowed to save the content with the given name.
 	 *
-	 * @param   string  $name          The filename
-	 * @param   string  $path          The path
+	 * @param   string  $localPath     The local path
 	 * @param   string  $mediaContent  The media content
 	 *
 	 * @return  void
@@ -777,13 +784,15 @@ class LocalAdapter implements AdapterInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	private function checkContent($name, $path, $mediaContent)
+	private function checkContent($localPath, $mediaContent)
 	{
+		$name = $this->getFileName($localPath);
+
 		// The helper
 		$helper = new MediaHelper;
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = \JPath::clean($this->rootPath . '/' . $path . '/' . uniqid() . '.' . \JFile::getExt($name));
+		$tmpFile = \JPath::clean(dirname($localPath) . '/' . uniqid() . '.' . \JFile::getExt($name));
 
 		if (!\JFile::write($tmpFile, $mediaContent))
 		{
@@ -817,5 +826,28 @@ class LocalAdapter implements AdapterInterface
 
 		// Return the last element
 		return array_pop($path);
+	}
+
+	/**
+	 * Returns the local filesystem path for the given path.
+	 *
+	 * Throws an InvalidPathException if the path is invalid.
+	 *
+	 * @param   string  $path The path
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidPathException
+	 */
+	private function getLocalPath($path)
+	{
+		try{
+			return \JPath::check($this->rootPath . '/' . $path);
+		}
+		catch (\Exception $e)
+		{
+			throw new InvalidPathException($e->getMessage());
+		}
 	}
 }

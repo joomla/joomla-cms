@@ -122,6 +122,22 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test LocalAdapter::getFile with an invalid path
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testGetFileIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the file from the root folder
+		$adapter->getFile('/..');
+	}
+
+	/**
 	 * Test LocalAdapter::getFiles
 	 *
 	 * @return  void
@@ -220,6 +236,22 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test LocalAdapter::getFiles with an invalid path
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testGetFilesIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the file from the root folder
+		$adapter->getFiles('../..');
+	}
+
+	/**
 	 * Test LocalAdapter::createFolder
 	 *
 	 * @return  void
@@ -254,6 +286,22 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Check if the file exists
 		$this->assertTrue(JFolder::exists($this->root . 'invalidname'));
+	}
+
+	/**
+	 * Test LocalAdapter::createFolder with an illegal path.
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testCreateFolderIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the files from the root folder
+		$adapter->createFolder('unit', '/../..');
 	}
 
 	/**
@@ -297,6 +345,21 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Check if the contents is correct
 		$this->assertEquals('test', file_get_contents($this->root . 'invalidname.txt'));
+	}
+
+	/**
+	 * Test LocalAdapter::createFile with an illegal path.
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testCreateFileIllegalName()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		$adapter->createFile('name.txt', '/../', 'test');
 	}
 
 	/**
