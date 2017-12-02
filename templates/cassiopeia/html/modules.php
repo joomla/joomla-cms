@@ -36,10 +36,10 @@ function modChrome_no($module, &$params, &$attribs)
 
 function modChrome_default($module, &$params, &$attribs)
 {
-	$modulePos	   = $module->position;
-	$moduleTag     = $params->get('module_tag', 'div');
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
-	$headerClass   = htmlspecialchars($params->get('header_class', ''));
+	$modulePos	 = $module->position;
+	$moduleTag   = $params->get('module_tag', 'div');
+	$headerTag   = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass = htmlspecialchars($params->get('header_class', ''));
 
 	if ($module->content)
 	{
@@ -61,10 +61,10 @@ function modChrome_default($module, &$params, &$attribs)
 
 function modChrome_cardGrey($module, &$params, &$attribs)
 {
-	$modulePos	   = $module->position;
-	$moduleTag     = $params->get('module_tag', 'div');
-	$headerTag     = htmlspecialchars($params->get('header_tag', 'h4'));
-	$headerClass   = htmlspecialchars($params->get('header_class', ''));
+	$modulePos	 = $module->position;
+	$moduleTag   = $params->get('module_tag', 'div');
+	$headerTag   = htmlspecialchars($params->get('header_tag', 'h4'));
+	$headerClass = htmlspecialchars($params->get('header_class', ''));
 
 	if ($module->content)
 	{

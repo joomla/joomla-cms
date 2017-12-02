@@ -12,15 +12,6 @@
 			/>
 
 			<field
-				name="bootstrap_size"
-				type="integer"
-				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
-				first="0"
-				last="12"
-				step="1"
-			/>
-
-			<field
 				name="header_tag"
 				type="headertag"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"

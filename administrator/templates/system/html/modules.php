@@ -25,13 +25,11 @@ function modChrome_html5($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag');
 	$headerTag      = htmlspecialchars($params->get('header_tag'), ENT_COMPAT, 'UTF-8');
 	$headerClass    = $params->get('header_class');
-	$bootstrapSize  = $params->get('bootstrap_size');
-	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
 	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 	if (!empty ($module->content))
 	{
-		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx}\">";
 
 		if ((bool) $module->showtitle)
 		{
