@@ -101,6 +101,34 @@ class PluginsHelper
 	}
 
 	/**
+	 * Returns an array of standard published state filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Parse the template file.
 	 *
 	 * @param   string  $templateBaseDir  Base path to the template directory.
