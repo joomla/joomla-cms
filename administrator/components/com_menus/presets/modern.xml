@@ -216,7 +216,7 @@
 			sql_group="a.id, m.language, l.image"
 			sql_order="a.title ASC">
 			<menuitem
-				title="{sql:title}"
+				title="{sql:title} "
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
