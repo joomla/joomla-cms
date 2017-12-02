@@ -218,12 +218,6 @@ class StandardRules implements RulesInterface
 				return;
 			}
 
-			// If item has no key set, we assume 0.
-			if (!isset($item->query[$view->key]))
-			{
-				$item->query[$view->key] = 0;
-			}
-
 			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
