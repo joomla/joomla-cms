@@ -164,7 +164,7 @@ class ContentRouter extends JComponentRouterView
 		{
 			$category = JCategories::getInstance($this->getName())->get($query['id']);
 
-			if (is_array($category))
+			if ($category)
 			{
 				foreach ($category->getChildren() as $child)
 				{
