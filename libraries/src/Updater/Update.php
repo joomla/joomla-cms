@@ -287,6 +287,26 @@ class Update extends \JObject
 			// Don't do anything
 			case 'UPDATES':
 				break;
+				
+			// The downloadurl tag may be multiple, so get it as an array
+			case 'DOWNLOADURL':
+				if (!isset($this->currentUpdate->downloadurl))
+				{
+					$this->currentUpdate->downloadurl = array();
+				}
+				
+				$new_element = new \stdClass;
+				$new_element->_data = '';
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$new_element->$key = $data;
+				}
+				
+				array_push($this->currentUpdate->downloadurl, $new_element);
+				
+				break;
 
 			// For everything else there's...the default!
 			default:
@@ -470,7 +490,22 @@ class Update extends \JObject
 
 		if (isset($this->currentUpdate->$tag))
 		{
-			$this->currentUpdate->$tag->_data .= $data;
+			// It's weird, but I ran into the situation where data contains only spaces
+			$data = trim($data);
+			
+			// The downloadurl is an array
+			if ($tag == 'downloadurl')
+			{
+				if (!empty($data))
+				{
+					end($this->currentUpdate->downloadurl);
+					$this->currentUpdate->downloadurl[key($this->currentUpdate->downloadurl)]->_data = $data;
+				}
+			}
+			else
+			{
+				$this->currentUpdate->$tag->_data .= $data;
+			}
 		}
 	}
 
@@ -529,7 +564,51 @@ class Update extends \JObject
 		}
 
 		xml_parser_free($this->xmlParser);
+		
+		// Why do I use this garbage code instead of Http instance? It's faster!
+		if (isset($this->currentUpdate->downloadurl))
+		{
+			$found = false;
+			
+			foreach ($this->currentUpdate->downloadurl as $downloadurl)
+			{
+				$url = $downloadurl->_data;
+				$headers = get_headers($url, 1);
+				$code_pattern = '#[0-9]{3}#';
+				$type_pattern = '#application/#';
 
+				while (isset($headers['Location']))
+				{
+					$url = $headers['Location'];
+					$headers    = get_headers($url, 1);
+				}
+				
+				preg_match($code_pattern, array_shift($headers), $matches);
+				$code = count($matches) ? $matches[0] : null;
+
+				if (is_array($headers['Content-Type']))
+				{
+					$found =  !empty(preg_grep($type_pattern, $headers['Content-Type']));
+				}
+				else
+				{
+					$found =  preg_match($type_pattern, $headers['Content-Type']);
+				}
+				
+				if ($found && ($code == 200 || $code == 310))
+				{
+					$this->currentUpdate->downloadurl = $downloadurl;
+					break;
+				}
+			}
+			
+			// Should we pass at least 1 downloadurl, even it's not working?
+			if (!$found)
+			{
+				$this->currentUpdate->downloadurl = $this->currentUpdate->downloadurl[0];
+			}
+		}
+		
 		return true;
 	}
 
