@@ -22,6 +22,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
+
 				<field
 					name="pretext"
 					type="textarea"
@@ -67,20 +68,9 @@
 				</field>
 
 				<field
-					name="greeting"
-					type="radio"
-					class="switcher"
-					label="MOD_LOGIN_FIELD_GREETING_LABEL"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="name"
 					type="radio"
-					class="switcher"
+					class="switcher switcher-primary"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					default="0"
 					showon="greeting:1"
@@ -88,28 +78,7 @@
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
 				</field>
-				
-				<field
-					name="profilelink"
-					type="radio"
-					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					class="switcher"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
 
-				<field
-					name="usetext"
-					type="radio"
-					class="switcher"
-					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
-					default="0"
-					>
-					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
-					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
-				</field>
 			</fieldset>
 
 			<fieldset name="advanced">
