@@ -69,9 +69,9 @@ class PlgSearchContent extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
 
-		$nullDate = $db->getNullDate();
-		$date     = JFactory::getDate();
-		$now      = $date->toSql();
+		$nullDate  = $db->getNullDate();
+		$date      = JFactory::getDate();
+		$now       = $date->toSql();
 
 		$text = trim($text);
 
@@ -254,18 +254,18 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			// SQLSRV changes.
-			$case_when = ' CASE WHEN ';
+			$case_when  = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
+			$a_id       = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
+			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
+			$c_id        = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
