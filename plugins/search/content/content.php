@@ -122,7 +122,7 @@ class PlgSearchContent extends JPlugin
 				}
 				else
 				{
-					$wheres2[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
+					$wheres2[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
 				}
 
 				$where = '(' . implode(') OR (', $wheres2) . ')';
@@ -174,7 +174,7 @@ class PlgSearchContent extends JPlugin
 						}
 						else
 						{
-							$wheres2[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
+							$wheres2[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
 						}
 					}
 					else
@@ -213,7 +213,7 @@ class PlgSearchContent extends JPlugin
 					}
 					else
 					{
-						$wheres[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
+						$wheres[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
 					}
 				}
 
