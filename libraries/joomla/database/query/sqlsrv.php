@@ -1045,4 +1045,21 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	{
 		return ' NEWID() ';
 	}
+
+	/**
+	 * Casts a value to an INT.
+	 *
+	 * Ensure that the castAsInteger() function is MSSQL compatible.
+	 *
+	 * Usage:
+	 * $query->castAsInteger($value);
+	 *
+	 * @return  string  The correct CAST function.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function castAsInteger($value)
+	{
+		return ' CAST(' . $value . ' AS INT) ';
+	}
 }
