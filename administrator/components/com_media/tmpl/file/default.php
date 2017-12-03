@@ -41,14 +41,6 @@ $config = [
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);
-JFactory::getDocument()->addStyleDeclaration("
-	.btn-group {
-		display: block;
-	}
-	.tab-pane {
-		background-color: #fafafa;
-		border-left: 1px solid #f0f0f0;
-	");
 
 ?>
 <div class="row">
