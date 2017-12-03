@@ -180,9 +180,8 @@ class PlgSearchContent extends JPlugin
 				->order($order);
 
 			// Join over Fields.
-			$query->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id'))
-				->join('LEFT', '#__fields AS f ON f.id = fv.field_id')
-				->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+			$query->join('LEFT', '#__fields AS f ON f.context = ' . $db->q('com_content.article'))
+				->join('LEFT', '#__fields_values AS fv ON fv.item_id = ' . $query->castAsChar('a.id') . ' AND fv.field_id = f.id')				
 				->where('(f.state IS NULL OR f.state = 1)')
 				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
