@@ -48,12 +48,12 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db		= JFactory::getDbo();
-		$serverType	= $db->serverType;
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$groups		= implode(',', $user->getAuthorisedViewLevels());
-		$tag		= JFactory::getLanguage()->getTag();
+		$db         = JFactory::getDbo();
+		$serverType = $db->serverType;
+		$app        = JFactory::getApplication();
+		$user       = JFactory::getUser();
+		$groups     = implode(',', $user->getAuthorisedViewLevels());
+		$tag        = JFactory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
@@ -115,6 +115,7 @@ class PlgSearchContent extends JPlugin
 
 					$db->setQuery($subQuery);
 					$fieldids = $db->loadColumn();
+
 					if (count($fieldids))
 					{
 						$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
@@ -167,6 +168,7 @@ class PlgSearchContent extends JPlugin
 						{
 							$db->setQuery($subQuery);
 							$fieldids = $db->loadColumn();
+
 							if (count($fieldids))
 							{
 								$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
@@ -206,6 +208,7 @@ class PlgSearchContent extends JPlugin
 					{
 						$db->setQuery($subQuery);
 						$fieldids = $db->loadColumn();
+
 						if (count($fieldids))
 						{
 							$wheres[] = 'a.id IN(' . implode(",", $fieldids) . ')';
