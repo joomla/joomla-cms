@@ -93,7 +93,7 @@ class PlgSearchContent extends JPlugin
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
-				$subQuery->select("CAST(cfv.item_id as integer)")
+				$subQuery->select("cfv.item_id")
 					->from("#__fields_values AS cfv")
 					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -122,7 +122,7 @@ class PlgSearchContent extends JPlugin
 				}
 				else
 				{
-					$wheres2[] = 'a.id IN( ' . (string) $subQuery . ')';
+					$wheres2[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
 				}
 
 				$where = '(' . implode(') OR (', $wheres2) . ')';
@@ -149,7 +149,7 @@ class PlgSearchContent extends JPlugin
 					{
 						// Join over Fields.
 						$subQuery = $db->getQuery(true);
-						$subQuery->select("CAST(cfv.item_id as integer)")
+						$subQuery->select("cfv.item_id")
 							->from("#__fields_values AS cfv")
 							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -174,7 +174,7 @@ class PlgSearchContent extends JPlugin
 						}
 						else
 						{
-							$wheres2[] = 'a.id IN( ' . (string) $subQuery . ')';
+							$wheres2[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
 						}
 					}
 					else
@@ -188,7 +188,7 @@ class PlgSearchContent extends JPlugin
 				{
 					// Join over Fields.
 					$subQuery = $db->getQuery(true);
-					$subQuery->select("CAST(cfv.item_id as integer)")
+					$subQuery->select("cfv.item_id")
 						->from("#__fields_values AS cfv")
 						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -213,7 +213,7 @@ class PlgSearchContent extends JPlugin
 					}
 					else
 					{
-						$wheres[] = 'a.id IN( ' . (string) $subQuery . ')';
+						$wheres[] = $subQuery->castAsChar('a.id').' IN( ' . (string) $subQuery . ')';
 					}
 				}
 
