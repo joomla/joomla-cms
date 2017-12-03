@@ -65,13 +65,13 @@ class PlgSearchContent extends JPlugin
 			return array();
 		}
 
-		$sContent = $this->params->get('search_content', 1);
+		$sContent  = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit = $this->params->def('search_limit', 50);
+		$limit     = $this->params->def('search_limit', 50);
 
 		$nullDate = $db->getNullDate();
-		$date = JFactory::getDate();
-		$now = $date->toSql();
+		$date     = JFactory::getDate();
+		$now      = $date->toSql();
 
 		$text = trim($text);
 
@@ -83,8 +83,8 @@ class PlgSearchContent extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2 = array();
+				$text      = $db->quote('%' . $db->escape($text, true) . '%', false);
+				$wheres2   = array();
 				$wheres2[] = 'a.title LIKE ' . $text;
 				$wheres2[] = 'a.introtext LIKE ' . $text;
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
@@ -93,7 +93,7 @@ class PlgSearchContent extends JPlugin
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
-				$subQuery->select("cfv.item_id")
+				$subQuery->select("CAST(cfv.item_id as integer)")
 					->from("#__fields_values AS cfv")
 					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -137,8 +137,8 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2 = array();
+					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
+					$wheres2   = array();
 					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
@@ -149,7 +149,7 @@ class PlgSearchContent extends JPlugin
 					{
 						// Join over Fields.
 						$subQuery = $db->getQuery(true);
-						$subQuery->select("cfv.item_id")
+						$subQuery->select("CAST(cfv.item_id as integer)")
 							->from("#__fields_values AS cfv")
 							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -188,7 +188,7 @@ class PlgSearchContent extends JPlugin
 				{
 					// Join over Fields.
 					$subQuery = $db->getQuery(true);
-					$subQuery->select("cfv.item_id")
+					$subQuery->select("CAST(cfv.item_id as integer)")
 						->from("#__fields_values AS cfv")
 						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
 						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
@@ -277,9 +277,9 @@ class PlgSearchContent extends JPlugin
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->where(
 					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
-					. 'AND c.access IN (' . $groups . ')'
-					. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
-					. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
+						. 'AND c.access IN (' . $groups . ')'
+						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
+						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
@@ -321,15 +321,15 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			// SQLSRV changes.
-			$case_when = ' CASE WHEN ';
+			$case_when  = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
+			$a_id       = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
+			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('c.id');
@@ -349,9 +349,9 @@ class PlgSearchContent extends JPlugin
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->where(
 					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
-					. ') AND c.access IN (' . $groups . ') '
-					. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
-					. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
+						. ') AND c.access IN (' . $groups . ') '
+						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
+						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->order($order);
 
