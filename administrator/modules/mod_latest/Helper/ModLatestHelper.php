@@ -131,6 +131,10 @@ abstract class ModLatestHelper
 			}
 		}
 
-		return Text::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count', 5), $title);
+		return Text::plural(
+			'MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+			(int) $params->get('count', 5),
+			$title
+		);
 	}
 }
