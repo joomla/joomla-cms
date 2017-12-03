@@ -230,4 +230,21 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
 		}
 	}
+
+	/**
+	 * Casts a value to an INTEGER.
+	 *
+	 * Ensure that the castAsInteger() function is MySQL compatible.
+	 *
+	 * Usage:
+	 * $query->castAsInteger($value);
+	 *
+	 * @return  string  The correct CAST function.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function castAsInteger($value)
+	{
+		return '('. $value . ' + 0) ';
+	}
 }
