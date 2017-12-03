@@ -29,6 +29,10 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
+$menu     = $app->getMenu()->getActive();
+
+if (is_object($menu))
+$pageclass = $menu->params->get('pageclass_sfx');
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
@@ -85,11 +89,11 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
-	. ($itemid ? ' itemid-' . $itemid : '');
+	. ($itemid ? ' itemid-' . $itemid : '')
+	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-
-	<div class="container-header full-width">
+ 	<div class="container-header full-width">
 		<header class="header">
 			<nav class="navbar navbar-expand-lg">
 				<div class="navbar-brand">
