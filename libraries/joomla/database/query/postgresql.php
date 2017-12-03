@@ -773,4 +773,21 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 		return $this;
 	}
+
+	/**
+	 * Casts a value to an INTEGER.
+	 *
+	 * Ensure that the castAsInteger() function is Postgresql compatible.
+	 *
+	 * Usage:
+	 * $query->castAsInteger($value);
+	 *
+	 * @return  string  The correct CAST function.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function castAsInteger($value)
+	{
+		return ' CAST(' . $value . ' AS INTEGER) ';
+	}
 }
