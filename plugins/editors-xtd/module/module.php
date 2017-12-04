@@ -54,10 +54,10 @@ class PlgButtonModule extends JPlugin
 			$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 			$button->name    = 'file-add';
 			$button->options = array(
-				'height'     => '300px',
-				'width'      => '800px',
-				'bodyHeight' => '70',
-				'modalWidth' => '80',
+				'height'     => 300,
+				'width'      => 800,
+				'bodyHeight' => 70,
+				'modalWidth' => 80,
 			);
 
 			return $button;

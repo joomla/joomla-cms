@@ -52,10 +52,10 @@ class PlgButtonContact extends JPlugin
 		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 		$button->name    = 'address';
 		$button->options = array(
-			'height' => '300px',
-			'width'  => '800px',
-			'bodyHeight'  => '70',
-			'modalWidth'  => '80',
+			'height'     => 300,
+			'width'      => 800,
+			'bodyHeight' => 70,
+			'modalWidth' => 80,
 		);
 
 			return $button;
