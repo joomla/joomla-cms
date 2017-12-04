@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
-			}	
+			}
 		}
 
 		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');

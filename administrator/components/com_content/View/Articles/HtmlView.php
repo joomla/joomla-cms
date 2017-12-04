@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
 			{
 				unset($this->activeFilters['language']);
 				$this->filterForm->removeField('language', 'filter');
-			}			
+			}
 		}
 		else
 		{
