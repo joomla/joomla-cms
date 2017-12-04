@@ -80,6 +80,7 @@
 				time24          : true,
 				showsOthers     : (parseInt(btn.getAttribute("data-show-others")) === 1) ? true : false,
 				showsTime       : true,
+				electric	: (parseInt(btn.getAttribute("data-electric")) === 0) ? false : true,
 				weekNumbers     : (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
 				showsTodayBtn   : true,
 				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
@@ -484,7 +485,7 @@
 			if (self.params.showsTime) {
 				this.dateClicked = false;
 			}
-			ev && this.callHandler();
+			ev && (self.params.electric || closing) && this.callHandler();
 		}
 
 		el.classList.remove("hilite");
