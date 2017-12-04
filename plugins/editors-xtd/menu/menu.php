@@ -52,10 +52,10 @@ class PlgButtonMenu extends JPlugin
 		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
 		$button->options = array(
-			'height' => '300px',
-			'width'  => '800px',
-			'bodyHeight'  => '70',
-			'modalWidth'  => '80',
+			'height'     => 300,
+			'width'      => 800,
+			'bodyHeight' => 70,
+			'modalWidth' => 80,
 		);
 
 		return $button;
