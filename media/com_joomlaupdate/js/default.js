@@ -5,11 +5,26 @@
 
 Joomla = window.Joomla || {};
 
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('extraction_method').addEventListener('change', function(e){
+		extractionMethodHandler('#extraction_method', 'row_ftp');
+	});
+	document.getElementById('upload_method').addEventListener('change', function(e){
+		extractionMethodHandler('#upload_method', 'upload_ftp');
+	});
+
+	document.querySelector('button.submit').addEventListener('click', function() {
+		document.querySelector('div.download_message').style.display = 'block';
+	});
+});
+
 (function() {
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'none' : 'table-row';
+
+		var el = document.querySelector(element);
+		var displayStyle = el.value === 'direct' ? 'none' : 'table-row';
 
 		document.getElementById(prefix + '_hostname').style.display = displayStyle;
 		document.getElementById(prefix + '_port').style.display = displayStyle;
@@ -61,7 +76,7 @@ Joomla = window.Joomla || {};
 
 })();
 
-(function($, document, window) {
+(function(document, window) {
     /**
      * PreUpdateChecker
      *
@@ -100,34 +115,35 @@ Joomla = window.Joomla || {};
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
 
         // Grab all extensions based on the selector set in the config object
-        var $extensions = $(PreUpdateChecker.config.selector);
-        $extensions.each(function () {
+        var extensions = [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector));
+        extensions.forEach(function (el) {
             // Check compatibility for each extension, pass jQuery object and a callback
             // function after completing the request
-            PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
+            PreUpdateChecker.checkCompatibility(el, PreUpdateChecker.setResultView);
         });
-    }
+    };
 
     /**
      * Check the compatibility for a single extension.
      * Requests the server checking the compatibility based on the data set in the element's data attributes.
      *
-     * @param {Object} $extension
-     * @param {callable} callback
+     * @param {Object} extension
+     * @param {function} callback
      */
-    PreUpdateChecker.checkCompatibility = function ($extension, callback) {
+    PreUpdateChecker.checkCompatibility = function (extension, callback) {
         // Result object passed to the callback
         // Set to server error by default
         var extension = {
-            $element: $extension,
+            element: extension,
             state: PreUpdateChecker.STATE.SERVER_ERROR,
             compatibleVersion: 0
         };
 
+        // @TODO use Joomla.request
         // Request the server to check the compatiblity for the passed extension and joomla version
         $.getJSON(PreUpdateChecker.config.serverUrl, {
             'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
-            'extension-id': $extension.data('extensionId')
+            'extension-id': extension.data('extensionId')
         }).done(function(response) {
             // Extract the data from the JResponseJson object
             extension.state = response.data.state;
@@ -137,7 +153,7 @@ Joomla = window.Joomla || {};
             // Pass the retrieved data to the callback
             callback(extension);
         });
-    }
+    };
 
     /**
      * Set the result for a passed extensionData object containing state, jQuery object and compatible version
@@ -172,8 +188,9 @@ Joomla = window.Joomla || {};
                 html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
         }
         // Insert the generated html
-        extensionData.$element.html(html);
-    }
+        extensionData.element.innerHtml = html;
+    };
+
     // Run PreUpdateChecker on document ready
-    $(PreUpdateChecker.run);
-})(jQuery, document, window);
+    PreUpdateChecker.run();
+})(document, window);
