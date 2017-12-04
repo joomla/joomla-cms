@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Associations component helper.
@@ -178,7 +177,7 @@ class AssociationsHelper extends JHelperContent
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = self::getContentLanguages();
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -445,7 +444,18 @@ class AssociationsHelper extends JHelperContent
 	 */
 	public static function getContentLanguages()
 	{
-		return LanguageHelper::getContentLanguages(array(0, 1));
+		$db = JFactory::getDbo();
+
+		// Get all content languages.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
+			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('published') . ' != -2')
+			->order($db->quoteName('ordering') . ' ASC');
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList('lang_code');
 	}
 
 	/**

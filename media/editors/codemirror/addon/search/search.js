@@ -54,7 +54,7 @@
 
   function getSearchCursor(cm, query, pos) {
     // Heuristic: if the query string is all lowercase, do a case insensitive search.
-    return cm.getSearchCursor(query, pos, {caseFold: queryCaseInsensitive(query), multiline: true});
+    return cm.getSearchCursor(query, pos, queryCaseInsensitive(query));
   }
 
   function persistentDialog(cm, text, deflt, onEnter, onKeyDown) {
@@ -117,7 +117,6 @@
     var state = getSearchState(cm);
     if (state.query) return findNext(cm, rev);
     var q = cm.getSelection() || state.lastQuery;
-    if (q instanceof RegExp && q.source == "x^") q = null
     if (persistent && cm.openDialog) {
       var hiding = null
       var searchNext = function(query, event) {
@@ -138,7 +137,8 @@
       };
       persistentDialog(cm, queryDialog, q, searchNext, function(event, query) {
         var keyName = CodeMirror.keyName(event)
-        var extra = cm.getOption('extraKeys'), cmd = (extra && extra[keyName]) || CodeMirror.keyMap[cm.getOption("keyMap")][keyName]
+        var cmd = CodeMirror.keyMap[cm.getOption("keyMap")][keyName]
+        if (!cmd) cmd = cm.getOption('extraKeys')[keyName]
         if (cmd == "findNext" || cmd == "findPrev" ||
           cmd == "findPersistentNext" || cmd == "findPersistentPrev") {
           CodeMirror.e_stop(event);

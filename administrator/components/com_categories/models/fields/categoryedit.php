@@ -65,7 +65,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to get the value.
+	 * @param   string  $name  The property name for which to the the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -85,7 +85,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to set the value.
+	 * @param   string  $name   The property name for which to the the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -141,16 +141,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
-		$oldCat = is_array($oldCat)
-			? (int) reset($oldCat)
-			: (int) $oldCat;
-
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
+			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft')
 			->from('#__categories AS a');
 
 		// Filter by the extension type
@@ -237,19 +232,28 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 
+			// Displays language code if not set to All
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language'))
+				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
+				->from($db->quoteName('#__categories'));
+
+			$db->setQuery($query);
+			$language = $db->loadResult();
+
 			if ($options[$i]->published == 1)
 			{
-				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 			}
 			else
 			{
-				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
+				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
 			}
 
-			// Displays language code if not set to All
-			if ($options[$i]->language !== '*')
+			if ($language !== '*')
 			{
-				$options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
+				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
 			}
 		}
 

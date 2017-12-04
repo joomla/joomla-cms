@@ -86,16 +86,16 @@ class JNode extends JObject
 	{
 		JLog::add('JNode::setParent() is deprecated.', JLog::WARNING, 'deprecated');
 
-		if ($parent instanceof JNode || $parent === null)
+		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
 
-			if ($this->_parent !== null)
+			if (!is_null($this->_parent))
 			{
 				unset($this->_parent->children[$hash]);
 			}
 
-			if ($parent !== null)
+			if (!is_null($parent))
 			{
 				$parent->_children[$hash] = & $this;
 			}

@@ -92,18 +92,15 @@ JHtml::_('script', 'user.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Adjusting content width
-$position7ModuleCount = $this->countModules('position-7');
-$position8ModuleCount = $this->countModules('position-8');
-
-if ($position7ModuleCount && $position8ModuleCount)
+if ($this->countModules('position-7') && $this->countModules('position-8'))
 {
 	$span = 'span6';
 }
-elseif ($position7ModuleCount && !$position8ModuleCount)
+elseif ($this->countModules('position-7') && !$this->countModules('position-8'))
 {
 	$span = 'span9';
 }
-elseif (!$position7ModuleCount && $position8ModuleCount)
+elseif (!$this->countModules('position-7') && $this->countModules('position-8'))
 {
 	$span = 'span9';
 }
@@ -174,7 +171,7 @@ else
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($position8ModuleCount) : ?>
+				<?php if ($this->countModules('position-8')) : ?>
 					<!-- Begin Sidebar -->
 					<div id="sidebar" class="span3">
 						<div class="sidebar-nav">
@@ -188,11 +185,10 @@ else
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
-					<div class="clearfix"></div>
 					<jdoc:include type="modules" name="position-2" style="none" />
 					<!-- End Content -->
 				</main>
-				<?php if ($position7ModuleCount) : ?>
+				<?php if ($this->countModules('position-7')) : ?>
 					<div id="aside" class="span3">
 						<!-- Begin Right Sidebar -->
 						<jdoc:include type="modules" name="position-7" style="well" />

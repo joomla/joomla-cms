@@ -42,7 +42,7 @@ $params = &$this->params;
 		<dd class="parent-category-name">
 			<?php	$title = $this->escape($item->parent_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
-			<?php if ($item->parent_slug && $params->get('link_parent_category')) : ?>
+			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -54,7 +54,7 @@ $params = &$this->params;
 		<dd class="category-name">
 			<?php	$title = $this->escape($item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
-			<?php if ($item->catslug && $params->get('link_category')) : ?>
+			<?php if ($params->get('link_category') && $item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -76,9 +76,10 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if (!empty($item->author) && $params->get('show_author')) : ?>
+<?php if ($params->get('show_author') && !empty($item->author )) : ?>
 	<dd class="createdby">
-		<?php $author = $item->created_by_alias ?: $item->author; ?>
+		<?php $author = $item->author; ?>
+		<?php $author = ($item->created_by_alias ?: $author);?>
 			<?php if (!empty($item->contact_link ) &&  $params->get('link_author') == true):?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $item->contact_link, $author)); ?>
 			<?php else :?>

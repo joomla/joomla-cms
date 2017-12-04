@@ -3,7 +3,7 @@
 
 	<field
 		name="id"
-		type="number"
+		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
@@ -13,7 +13,7 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		description="COM_CATEGORIES_FIELD_HITS_DESC"
 		default="0"

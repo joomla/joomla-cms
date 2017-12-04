@@ -112,11 +112,7 @@
     if (!severity) severity = "error";
     var tip = document.createElement("div");
     tip.className = "CodeMirror-lint-message-" + severity;
-    if (typeof ann.messageHTML != 'undefined') {
-        tip.innerHTML = ann.messageHTML;
-    } else {
-        tip.appendChild(document.createTextNode(ann.message));
-    }
+    tip.appendChild(document.createTextNode(ann.message));
     return tip;
   }
 
@@ -138,11 +134,7 @@
 
   function startLinting(cm) {
     var state = cm.state.lint, options = state.options;
-    /*
-     * Passing rules in `options` property prevents JSHint (and other linters) from complaining
-     * about unrecognized rules like `onUpdateLinting`, `delay`, `lintOnChange`, etc.
-     */
-    var passOptions = options.options || options;
+    var passOptions = options.options || options; // Support deprecated passing of `options` property in options
     var getAnnotations = options.getAnnotations || cm.getHelper(CodeMirror.Pos(0, 0), "lint");
     if (!getAnnotations) return;
     if (options.async || getAnnotations.async) {

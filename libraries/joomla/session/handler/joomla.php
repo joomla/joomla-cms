@@ -42,17 +42,11 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	public function __construct($options = array())
 	{
-		if (!headers_sent())
-		{
-			// Disable transparent sid support
-			ini_set('session.use_trans_sid', '0');
+		// Disable transparent sid support
+		ini_set('session.use_trans_sid', '0');
 
-			// Only allow the session ID to come from cookies and nothing else.
-			if ((int) ini_get('session.use_cookies') !== 1)
-			{
-				ini_set('session.use_only_cookies', 1);
-			}
-		}
+		// Only allow the session ID to come from cookies and nothing else.
+		ini_set('session.use_only_cookies', '1');
 
 		// Set options
 		$this->setOptions($options);
@@ -122,11 +116,6 @@ class JSessionHandlerJoomla extends JSessionHandlerNative
 	 */
 	protected function setCookieParams()
 	{
-		if (headers_sent())
-		{
-			return;
-		}
-
 		$cookie = session_get_cookie_params();
 
 		if ($this->force_ssl)

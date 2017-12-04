@@ -10,7 +10,7 @@
 		/>
 		<field
 			name="state"
-			type="redirect_status"
+			type="status"
 			label="COM_REDIRECT_FILTER_PUBLISHED"
 			description="COM_REDIRECT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"

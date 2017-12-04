@@ -23,7 +23,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="number"
+					type="text"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
 					description="MOD_LOGGED_FIELD_COUNT_DESC" 
 					default="5"

@@ -22,12 +22,7 @@
                  "Unclosed string", "Stopping, unable to continue" ];
 
   function validator(text, options) {
-    if (!window.JSHINT) {
-      if (window.console) {
-        window.console.error("Error: window.JSHINT not defined, CodeMirror JavaScript linting cannot run.");
-      }
-      return [];
-    }
+    if (!window.JSHINT) return [];
     JSHINT(text, options, options.globals);
     var errors = JSHINT.data().errors, result = [];
     if (errors) parseErrors(errors, result);

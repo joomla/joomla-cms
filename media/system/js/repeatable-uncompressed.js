@@ -437,10 +437,8 @@
         	// destroy chosen if any
         	if($.fn.chosen){
                 $row.find('select').each(function(){
-					var $el = $(this);
-					if ($el.data('chosen')) {
-						$el.chosen('destroy');
-						$el.addClass('here-was-chosen');
+                	if ($(this).data('chosen')) {
+                        $(this).chosen('destroy');
 					}
 				});
         	}
@@ -455,11 +453,6 @@
         // method for hack the scripts that can be related
         // to the one of field that in given $row
         self.fixScripts = function($row){
-
-			// Chosen.js
-			if ($.fn.chosen) {
-				$row.find('select.here-was-chosen').removeClass('here-was-chosen').chosen();
-			}
 
         	//color picker
         	$row.find('.minicolors').each(function() {

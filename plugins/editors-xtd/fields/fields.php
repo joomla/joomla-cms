@@ -35,12 +35,6 @@ class PlgButtonFields extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		// Check if com_fields is enabled
-		if (!JComponentHelper::isEnabled('com_fields'))
-		{
-			return;
-		}
-
 		// Register FieldsHelper
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 

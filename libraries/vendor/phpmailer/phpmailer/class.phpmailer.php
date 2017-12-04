@@ -31,7 +31,7 @@ class PHPMailer
      * The PHPMailer Version number.
      * @var string
      */
-    public $Version = '5.2.24';
+    public $Version = '5.2.23';
 
     /**
      * Email priority.
@@ -440,9 +440,9 @@ class PHPMailer
      *
      * Parameters:
      *   boolean $result        result of the send action
-     *   array   $to            email addresses of the recipients
-     *   array   $cc            cc email addresses
-     *   array   $bcc           bcc email addresses
+     *   string  $to            email address of the recipient
+     *   string  $cc            cc email addresses
+     *   string  $bcc           bcc email addresses
      *   string  $subject       the subject
      *   string  $body          the email body
      *   string  $from          email address of sender
@@ -1622,13 +1622,8 @@ class PHPMailer
 
         foreach ($hosts as $hostentry) {
             $hostinfo = array();
-            if (!preg_match(
-                '/^((ssl|tls):\/\/)*([a-zA-Z0-9\.-]*|\[[a-fA-F0-9:]+\]):?([0-9]*)$/',
-                trim($hostentry),
-                $hostinfo
-            )) {
+            if (!preg_match('/^((ssl|tls):\/\/)*([a-zA-Z0-9\.-]*):?([0-9]*)$/', trim($hostentry), $hostinfo)) {
                 // Not a valid host entry
-                $this->edebug('Ignoring invalid host: ' . $hostentry);
                 continue;
             }
             // $hostinfo[2]: optional ssl or tls prefix
@@ -1747,7 +1742,6 @@ class PHPMailer
             'dk' => 'da',
             'no' => 'nb',
             'se' => 'sv',
-            'sr' => 'rs'
         );
 
         if (isset($renamed_langcodes[$langcode])) {
@@ -2030,7 +2024,10 @@ class PHPMailer
     {
         $result = '';
 
-        $result .= $this->headerLine('Date', $this->MessageDate == '' ? self::rfcDate() : $this->MessageDate);
+        if ($this->MessageDate == '') {
+            $this->MessageDate = self::rfcDate();
+        }
+        $result .= $this->headerLine('Date', $this->MessageDate);
 
         // To be created automatically by mail()
         if ($this->SingleTo) {
@@ -4036,7 +4033,7 @@ class phpmailerException extends Exception
      */
     public function errorMessage()
     {
-        $errorMsg = '<strong>' . htmlspecialchars($this->getMessage()) . "</strong><br />\n";
+        $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />\n";
         return $errorMsg;
     }
 }

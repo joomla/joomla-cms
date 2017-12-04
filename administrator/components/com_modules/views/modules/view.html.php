@@ -39,7 +39,6 @@ class ModulesViewModules extends JViewLegacy
 		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->clientId      = $this->state->get('client_id');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -47,9 +46,12 @@ class ModulesViewModules extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !JModuleHelper::isAdminMultilang())
+		// We do not need the Page and the Language filters when filtering by administrator
+		if ($this->state->get('client_id') == 1)
 		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
 		}
@@ -174,26 +176,11 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		$this->state = $this->get('State');
-
-		if ($this->state->get('client_id') == 0)
+		if ($this->getLayout() == 'default')
 		{
-			if ($this->getLayout() == 'default')
-			{
-				return array(
-					'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => JText::_('JSTATUS'),
-					'a.title'        => JText::_('JGLOBAL_TITLE'),
-					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
-					'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
-					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-					'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => JText::_('JGRID_HEADING_ID')
-				);
-			}
-
 			return array(
+				'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published'    => JText::_('JSTATUS'),
 				'a.title'        => JText::_('JGLOBAL_TITLE'),
 				'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
 				'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
@@ -203,30 +190,15 @@ class ModulesViewModules extends JViewLegacy
 				'a.id'           => JText::_('JGRID_HEADING_ID')
 			);
 		}
-		else
-		{
-			if ($this->getLayout() == 'default')
-			{
-				return array(
-					'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => JText::_('JSTATUS'),
-					'a.title'        => JText::_('JGLOBAL_TITLE'),
-					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
-					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => JText::_('JGRID_HEADING_ID')
-				);
-			}
 
-			return array(
-					'a.title'        => JText::_('JGLOBAL_TITLE'),
-					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
-					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
-					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => JText::_('JGRID_HEADING_ID')
-			);
-		}
+		return array(
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
+			'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+			'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

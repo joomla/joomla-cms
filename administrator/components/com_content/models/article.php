@@ -525,7 +525,7 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Category
+		// Save New Categoryg
 		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();

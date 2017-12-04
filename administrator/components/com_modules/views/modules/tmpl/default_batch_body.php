@@ -33,19 +33,11 @@ $attr = array(
 <div class="container-fluid">
 	<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 	<div class="row-fluid">
-		<?php if ($clientId != 1) : ?>
-			<div class="control-group span6">
-				<div class="controls">
-					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
-				</div>
+		<div class="control-group span6">
+			<div class="controls">
+				<?php echo JHtml::_('batch.language'); ?>
 			</div>
-		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
-			<div class="control-group span6">
-				<div class="controls">
-					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		</div>
 		<div class="control-group span6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.access'); ?>

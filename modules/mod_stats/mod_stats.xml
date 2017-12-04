@@ -60,7 +60,7 @@
 
 				<field
 					name="increase"
-					type="number"
+					type="text"
 					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
 					description="MOD_STATS_FIELD_INCREASECOUNTER_DESC"
 					default="0"
@@ -95,7 +95,7 @@
 
 				<field
 					name="cache_time"
-					type="number"
+					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"

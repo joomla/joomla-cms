@@ -45,6 +45,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 */
 	protected $object;
 
+
 	/**
 	 * Code that the app closes with.
 	 *

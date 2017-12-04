@@ -184,9 +184,6 @@ class PlgAuthenticationJoomla extends JPlugin
 						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
-						$response->status        = JAuthentication::STATUS_FAILURE;
-						$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
-
 						return;
 					}
 				}

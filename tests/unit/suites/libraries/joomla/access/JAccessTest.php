@@ -10,7 +10,7 @@
 jimport('joomla.filesystem.path');
 
 /**
- * Test class for \Joomla\CMS\Access\Access.
+ * Test class for JAccess.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Access
@@ -19,7 +19,7 @@ jimport('joomla.filesystem.path');
 class JAccessTest extends TestCaseDatabase
 {
 	/**
-	 * @var    \Joomla\CMS\Access\Access
+	 * @var    JAccess
 	 * @since  11.1
 	 */
 	protected $object;
@@ -30,7 +30,7 @@ class JAccessTest extends TestCaseDatabase
 	protected $outputPath;
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAuthorisedViewLevels method.
+	 * Tests the JAccess::getAuthorisedViewLevels method.
 	 *
 	 * @return  void
 	 *
@@ -43,7 +43,7 @@ class JAccessTest extends TestCaseDatabase
 		$array1 = array(0 => 1, 1 => 1, 2 => 2, 3 => 3);
 
 		$this->assertThat(
-			\Joomla\CMS\Access\Access::getAuthorisedViewLevels(42),
+			JAccess::getAuthorisedViewLevels(42),
 			$this->equalTo($array1),
 			'Line:' . __Line__ . ' Super user gets Public (levels 1)'
 		);
@@ -84,7 +84,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::check method.
+	 * Tests the JAccess::check method.
 	 *
 	 * @param   integer  $userId   user id
 	 * @param   string   $action   action to test
@@ -100,7 +100,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
 
-		$this->assertThat(\Joomla\CMS\Access\Access::check($userId, $action, $assetId), $this->equalTo($result), $message);
+		$this->assertThat(JAccess::check($userId, $action, $assetId), $this->equalTo($result), $message);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::checkGroup method.
+	 * Tests the JAccess::checkGroup method.
 	 *
 	 * @param   integer  $groupId  group id
 	 * @param   string   $action   action to test
@@ -154,11 +154,11 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
-		$this->assertThat(\Joomla\CMS\Access\Access::checkGroup($groupId, $action, $assetId), $this->equalTo($result), $message);
+		$this->assertThat(JAccess::checkGroup($groupId, $action, $assetId), $this->equalTo($result), $message);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAssetRules method.
+	 * Tests the JAccess::getAssetRules method.
 	 *
 	 * @return  void
 	 *
@@ -166,7 +166,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
-		$ObjArrayJrules = \Joomla\CMS\Access\Access::getAssetRules(3, true);
+		$ObjArrayJrules = JAccess::getAssetRules(3, true);
 
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},' .
 			'"core.manage":{"7":1,"6":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},' .
@@ -175,7 +175,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAssetRules method.
+	 * Tests the JAccess::getAssetRules method.
 	 *
 	 * @return  void
 	 *
@@ -183,14 +183,14 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesValidFalse()
 	{
-		$ObjArrayJrules = \Joomla\CMS\Access\Access::getAssetRules(3, false);
+		$ObjArrayJrules = JAccess::getAssetRules(3, false);
 
 		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Non recursive rules from a valid asset. Line: ' . __LINE__);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAssetRules method.
+	 * Tests the JAccess::getAssetRules method.
 	 *
 	 * @return  void
 	 *
@@ -198,7 +198,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
-		$ObjArrayJrules = \Joomla\CMS\Access\Access::getAssetRules(1550, false);
+		$ObjArrayJrules = JAccess::getAssetRules(1550, false);
 
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
@@ -206,7 +206,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAssetRules method.
+	 * Tests the JAccess::getAssetRules method.
 	 *
 	 * @return  void
 	 *
@@ -214,7 +214,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesTextFalse()
 	{
-		$ObjArrayJrules = \Joomla\CMS\Access\Access::getAssetRules('testasset', false);
+		$ObjArrayJrules = JAccess::getAssetRules('testasset', false);
 
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
@@ -222,7 +222,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getAssetRules method.
+	 * Tests the JAccess::getAssetRules method.
 	 *
 	 * @return  void
 	 *
@@ -230,7 +230,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetAssetRulesTextTrue()
 	{
-		$ObjArrayJrules = \Joomla\CMS\Access\Access::getAssetRules('testasset', true);
+		$ObjArrayJrules = JAccess::getAssetRules('testasset', true);
 
 		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},' .
 			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
@@ -238,7 +238,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getGroupTitle method.
+	 * Tests the JAccess::getGroupTitle method.
 	 *
 	 * @return  void
 	 *
@@ -246,11 +246,11 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetGroupTitle()
 	{
-		$this->assertThat(\Joomla\CMS\Access\Access::getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
+		$this->assertThat(JAccess::getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getUsersByGroup method.
+	 * Tests the JAccess::getUsersByGroup method.
 	 *
 	 * @return  void
 	 *
@@ -259,11 +259,11 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetUsersByGroupSimple()
 	{
 		$array1 = array(0 => 42);
-		$this->assertThat(\Joomla\CMS\Access\Access::getUsersByGroup(8, true), $this->equalTo($array1), 'Get one user. Line: ' . __LINE__);
+		$this->assertThat(JAccess::getUsersByGroup(8, true), $this->equalTo($array1), 'Get one user. Line: ' . __LINE__);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getUsersByGroup method.
+	 * Tests the JAccess::getUsersByGroup method.
 	 *
 	 * @return  void
 	 *
@@ -272,11 +272,11 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetUsersByGroupTwoUsers()
 	{
 		$array3 = array(0 => 42, 1 => 43, 2 => 44);
-		$this->assertThat(\Joomla\CMS\Access\Access::getUsersByGroup(1, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
+		$this->assertThat(JAccess::getUsersByGroup(1, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getUsersByGroup method.
+	 * Tests the JAccess::getUsersByGroup method.
 	 *
 	 * @return  void
 	 *
@@ -285,11 +285,11 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetUsersByGroupInvalidGroup()
 	{
 		$array2 = array();
-		$this->assertThat(\Joomla\CMS\Access\Access::getUsersByGroup(15, false), $this->equalTo($array2), 'No group specified. Line: ' . __LINE__);
+		$this->assertThat(JAccess::getUsersByGroup(15, false), $this->equalTo($array2), 'No group specified. Line: ' . __LINE__);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getGroupsByUser method.
+	 * Tests the JAccess::getGroupsByUser method.
 	 *
 	 * @return  void
 	 *
@@ -298,20 +298,20 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetGroupsByUser()
 	{
 		$array1 = array(0 => 1, 1 => 8);
-		$this->assertThat(\Joomla\CMS\Access\Access::getGroupsByUser(42, true), $this->equalTo($array1));
+		$this->assertThat(JAccess::getGroupsByUser(42, true), $this->equalTo($array1));
 
 		$array2 = array(0 => 8);
-		$this->assertThat(\Joomla\CMS\Access\Access::getGroupsByUser(42, false), $this->equalTo($array2));
+		$this->assertThat(JAccess::getGroupsByUser(42, false), $this->equalTo($array2));
 
 		$this->markTestSkipped('Test is now failing with full test suite.');
 
-		$this->assertThat(\Joomla\CMS\Access\Access::getGroupsByUser(null), $this->equalTo(array(1)));
+		$this->assertThat(JAccess::getGroupsByUser(null), $this->equalTo(array(1)));
 
-		$this->assertThat(\Joomla\CMS\Access\Access::getGroupsByUser(null, false), $this->equalTo(array(1)));
+		$this->assertThat(JAccess::getGroupsByUser(null, false), $this->equalTo(array(1)));
 	}
 
 	/**
-	 * Data provider for the \Joomla\CMS\Access\Access::getActionsFromData method.
+	 * Data provider for the JAccess::getActionsFromData method.
 	 *
 	 * @return  array
 	 *
@@ -379,7 +379,7 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getActionsFromData method.
+	 * Tests the JAccess::getActionsFromData method.
 	 *
 	 * @param   string  $data      The XML string representing the actions.
 	 * @param   string  $xpath     The XPath query to extract the action elements.
@@ -393,11 +393,11 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
-		$this->assertThat(\Joomla\CMS\Access\Access::getActionsFromData($data, $xpath), $this->equalTo($expected), 'Line:' . __LINE__ . $msg);
+		$this->assertThat(JAccess::getActionsFromData($data, $xpath), $this->equalTo($expected), 'Line:' . __LINE__ . $msg);
 	}
 
 	/**
-	 * Tests the \Joomla\CMS\Access\Access::getActionsFromFile method.
+	 * Tests the JAccess::getActionsFromFile method.
 	 *
 	 * @return  void
 	 *
@@ -406,7 +406,7 @@ class JAccessTest extends TestCaseDatabase
 	public function testGetActionsFromFile()
 	{
 		$this->assertThat(
-			\Joomla\CMS\Access\Access::getActionsFromFile('/path/to/unexisting/file'),
+			JAccess::getActionsFromFile('/path/to/unexisting/file'),
 			$this->equalTo(false),
 			'Line:' . __LINE__ . ' Getting actions from an unexisting file must return false'
 		);
@@ -432,7 +432,7 @@ class JAccessTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			\Joomla\CMS\Access\Access::getActionsFromFile($this->outputPath . '/access.xml'),
+			JAccess::getActionsFromFile($this->outputPath . '/access.xml'),
 			$this->equalTo(
 				array(
 					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
@@ -480,9 +480,9 @@ class JAccessTest extends TestCaseDatabase
 		parent::setUp();
 
 		// Clear the static caches.
-		\Joomla\CMS\Access\Access::clearStatics();
+		JAccess::clearStatics();
 
-		$this->object = new \Joomla\CMS\Access\Access;
+		$this->object = new JAccess;
 
 		// Make some test files and folders
 		$this->outputPath = JPath::clean(JPATH_TESTS . '/tmp/access/' . uniqid());

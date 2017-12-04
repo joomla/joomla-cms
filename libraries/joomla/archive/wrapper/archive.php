@@ -15,7 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Archive
  * @since       3.4
- * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchiveWrapperArchive
 {
@@ -30,7 +29,6 @@ class JArchiveWrapperArchive
 	 * @see     JArchive::extract()
 	 * @since   3.4
 	 * @throws InvalidArgumentException
-	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public function extract($archivename, $extractdir)
 	{
@@ -46,7 +44,6 @@ class JArchiveWrapperArchive
 	 *
 	 * @see     JUserHelper::getAdapter()
 	 * @since   3.4
-	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
 	public function getAdapter($type)
 	{

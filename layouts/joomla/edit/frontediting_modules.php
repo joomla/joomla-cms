@@ -18,7 +18,6 @@ $menusEditing = $displayData['menusediting'];
 $parameters   = JComponentHelper::getParams('com_modules');
 $redirectUri  = '&return=' . urlencode(base64_encode(JUri::getInstance()->toString()));
 $target       = '_blank';
-$itemid       = JFactory::getApplication()->input->get('Itemid', '0', 'int');
 
 if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {
@@ -31,7 +30,7 @@ $editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=modul
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . '&Itemid=' . $itemid . $redirectUri;
+	$editUrl = JUri::base() . 'index.php?option=com_config&controller=config.display.modules&id=' . (int) $mod->id . $redirectUri;
 	$target  = '_self';
 }
 

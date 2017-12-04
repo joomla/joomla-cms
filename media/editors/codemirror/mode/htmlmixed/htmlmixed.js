@@ -133,11 +133,11 @@
         return state.token(stream, state);
       },
 
-      indent: function (state, textAfter, line) {
+      indent: function (state, textAfter) {
         if (!state.localMode || /^\s*<\//.test(textAfter))
           return htmlMode.indent(state.htmlState, textAfter);
         else if (state.localMode.indent)
-          return state.localMode.indent(state.localState, textAfter, line);
+          return state.localMode.indent(state.localState, textAfter);
         else
           return CodeMirror.Pass;
       },

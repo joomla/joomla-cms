@@ -184,12 +184,10 @@ class FieldsModelField extends JModelAdmin
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
 				$names = array();
-
 				foreach ($newParams as $param)
 				{
 					$names[] = $db->q($param['value']);
 				}
-
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
 					->where('value NOT IN (' . implode(',', $names) . ')');
@@ -197,8 +195,6 @@ class FieldsModelField extends JModelAdmin
 				$db->execute();
 			}
 		}
-
-		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -579,25 +575,32 @@ class FieldsModelField extends JModelAdmin
 		$needsInsert = false;
 		$needsUpdate = false;
 
-		$oldValue = $this->getFieldValue($fieldId, $itemId);
-		$value    = (array) $value;
-
-		if ($oldValue === null)
+		if ($field->default_value == $value)
 		{
-			// No records available, doing normal insert
-			$needsInsert = true;
-		}
-		elseif (count($value) == 1 && count((array) $oldValue) == 1)
-		{
-			// Only a single row value update can be done
-			$needsUpdate = true;
+			$needsDelete = true;
 		}
 		else
 		{
-			// Multiple values, we need to purge the data and do a new
-			// insert
-			$needsDelete = true;
-			$needsInsert = true;
+			$oldValue = $this->getFieldValue($fieldId, $itemId);
+			$value    = (array) $value;
+
+			if ($oldValue === null)
+			{
+				// No records available, doing normal insert
+				$needsInsert = true;
+			}
+			elseif (count($value) == 1 && count((array) $oldValue) == 1)
+			{
+				// Only a single row value update can be done
+				$needsUpdate = true;
+			}
+			else
+			{
+				// Multiple values, we need to purge the data and do a new
+				// insert
+				$needsDelete = true;
+				$needsInsert = true;
+			}
 		}
 
 		if ($needsDelete)
@@ -639,7 +642,6 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		$this->valueCache = array();
-		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -938,23 +940,15 @@ class FieldsModelField extends JModelAdmin
 
 			// Allow to override the default value label and description through the plugin
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
-
 			if (JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'label', $key);
 			}
 
 			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
-
 			if (JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
-			}
-
-			// Remove placeholder field on list fields
-			if ($dataObject->type == 'list')
-			{
-				$form->removeField('hint', 'params');
 			}
 		}
 

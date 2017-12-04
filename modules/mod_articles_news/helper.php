@@ -58,9 +58,6 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
-
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{

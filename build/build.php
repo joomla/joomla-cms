@@ -21,15 +21,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Version;
-
-if (version_compare(PHP_VERSION, '5.4', '<'))
-{
-	echo "The build script requires PHP 5.4.\n";
-
-	exit(1);
-}
-
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
@@ -38,14 +29,15 @@ $systemGit = trim(ob_get_clean());
 // Make sure file and folder permissions are set correctly
 umask(022);
 
-// Import the version class to set the version information
+// Import JVersion to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/src/Version.php';
+require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
 
 // Set version information for the build
-$version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-$release     = Version::PATCH_VERSION;
-$fullVersion = (new Version)->getShortVersion();
+$version     = JVersion::RELEASE;
+$release     = JVersion::DEV_LEVEL;
+$stability   = JVersion::DEV_STATUS;
+$fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
 $repo = dirname(__DIR__);
@@ -122,7 +114,6 @@ $doNotPackage = array(
 	'composer.lock',
 	'karma.conf.js',
 	'phpunit.xml.dist',
-	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
 	'codeception.yml',
@@ -147,7 +138,7 @@ $doNotPatch = array(
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
-$packageStability = str_replace(' ', '_', Version::DEV_STATUS);
+$packageStability = str_replace(' ', '_', $stability);
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)

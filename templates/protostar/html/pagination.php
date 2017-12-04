@@ -102,7 +102,7 @@ function pagination_list_render($list)
 	}
 	if ($currentPage >= $step)
 	{
-		if ($currentPage % $step === 0)
+		if ($currentPage % $step == 0)
 		{
 			$range = ceil($currentPage / $step) + 1;
 		}
@@ -112,18 +112,18 @@ function pagination_list_render($list)
 		}
 	}
 
-	$html  = '<nav role="navigation" aria-label="' . JText::_('JLIB_HTML_PAGINATION') . '">';
-	$html .= '<ul class="pagination-list">';
+	$html = '<ul class="pagination-list">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
 
 	foreach ($list['pages'] as $k => $page)
 	{
-		if ($k !== $currentPage && $k !== $range * $step - $step
-			&& ($k % $step === 0 || $k === $range * $step - ($step + 1))
-			&& in_array($k, range($range * $step - ($step + 1), $range * $step)))
+		if (in_array($k, range($range * $step - ($step + 1), $range * $step)))
 		{
-			$page['data'] = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $page['data']);
+			if (($k % $step == 0 || $k == $range * $step - ($step + 1)) && $k != $currentPage && $k != $range * $step - $step)
+			{
+				$page['data'] = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $page['data']);
+			}
 		}
 
 		$html .= $page['data'];
@@ -133,7 +133,6 @@ function pagination_list_render($list)
 	$html .= $list['end']['data'];
 
 	$html .= '</ul>';
-	$html .= '</nav>';
 	return $html;
 }
 
@@ -151,43 +150,37 @@ function pagination_item_active(&$item)
 	$class = '';
 
 	// Check for "Start" item
-	if ($item->text === JText::_('JLIB_HTML_START'))
+	if ($item->text == JText::_('JLIB_HTML_START'))
 	{
-		$display = '<span class="icon-first" aria-hidden="true"></span>';
-		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$display = '<span class="icon-first"></span>';
 	}
 
 	// Check for "Prev" item
-	if ($item->text === JText::_('JPREV'))
+	if ($item->text == JText::_('JPREV'))
 	{
-		$display = '<span class="icon-previous" aria-hidden="true"></span>';
-		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$display = '<span class="icon-previous"></span>';
 	}
 
 	// Check for "Next" item
-	if ($item->text === JText::_('JNEXT'))
+	if ($item->text == JText::_('JNEXT'))
 	{
-		$display = '<span class="icon-next" aria-hidden="true"></span>';
-		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$display = '<span class="icon-next"></span>';
 	}
 
 	// Check for "End" item
-	if ($item->text === JText::_('JLIB_HTML_END'))
+	if ($item->text == JText::_('JLIB_HTML_END'))
 	{
-		$display = '<span class="icon-last" aria-hidden="true"></span>';
-		$aria    = JText::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$display = '<span class="icon-last"></span>';
 	}
 
 	// If the display object isn't set already, just render the item with its text
 	if (!isset($display))
 	{
 		$display = $item->text;
-		$aria    = JText::sprintf('JLIB_HTML_GOTO_PAGE', $item->text);
 		$class   = ' class="hidden-phone"';
 	}
 
-	return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav" aria-label="' . $aria . '">' . $display . '</a></li>';
-
+	return '<li' . $class . '><a title="' . $item->text . '" href="' . $item->link . '" class="pagenav">' . $display . '</a></li>';
 }
 
 /**
@@ -202,35 +195,33 @@ function pagination_item_active(&$item)
 function pagination_item_inactive(&$item)
 {
 	// Check for "Start" item
-	if ($item->text === JText::_('JLIB_HTML_START'))
+	if ($item->text == JText::_('JLIB_HTML_START'))
 	{
-		return '<li class="disabled"><a><span class="icon-first" aria-hidden="true"></span></a></li>';
+		return '<li class="disabled"><a><span class="icon-first"></span></a></li>';
 	}
 
 	// Check for "Prev" item
-	if ($item->text === JText::_('JPREV'))
+	if ($item->text == JText::_('JPREV'))
 	{
-		return '<li class="disabled"><a><span class="icon-previous" aria-hidden="true"></span></a></li>';
+		return '<li class="disabled"><a><span class="icon-previous"></span></a></li>';
 	}
 
 	// Check for "Next" item
-	if ($item->text === JText::_('JNEXT'))
+	if ($item->text == JText::_('JNEXT'))
 	{
-		return '<li class="disabled"><a><span class="icon-next" aria-hidden="true"></span></a></li>';
+		return '<li class="disabled"><a><span class="icon-next"></span></a></li>';
 	}
 
 	// Check for "End" item
-	if ($item->text === JText::_('JLIB_HTML_END'))
+	if ($item->text == JText::_('JLIB_HTML_END'))
 	{
-		return '<li class="disabled"><a><span class="icon-last" aria-hidden="true"></span></a></li>';
+		return '<li class="disabled"><a><span class="icon-last"></span></a></li>';
 	}
 
 	// Check if the item is the active page
 	if (isset($item->active) && $item->active)
 	{
-		$aria = JText::sprintf('JLIB_HTML_PAGE_CURRENT', $item->text);
-
-		return '<li class="active hidden-phone"><a aria-current="true" aria-label="' . $aria . '">' . $item->text . '</a></li>';
+		return '<li class="active hidden-phone"><a>' . $item->text . '</a></li>';
 	}
 
 	// Doesn't match any other condition, render a normal item

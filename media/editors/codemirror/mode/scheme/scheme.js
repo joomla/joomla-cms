@@ -224,7 +224,7 @@ CodeMirror.defineMode("scheme", function () {
                             }
                         }
                     } else {
-                        stream.eatWhile(/[\w_\-!$%&*+\.\/:<=>?@\^~]/);
+                        stream.eatWhile(/[\w\$_\-!$%&*+\.\/:<=>?@\^~]/);
 
                         if (keywords && keywords.propertyIsEnumerable(stream.current())) {
                             returnType = BUILTIN;

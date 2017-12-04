@@ -112,7 +112,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
-
 				return false;
 			}
 
@@ -122,7 +121,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
-
 				return false;
 			}
 
@@ -349,7 +347,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
-
 			$data['published'] = 0;
 		}
 
@@ -489,7 +486,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$condition = array();
 		$condition[] = 'catid = ' . (int) $table->catid;
-
 		return $condition;
 	}
 
@@ -560,14 +556,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
-
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
 			if ($name == $table->name)
 			{
 				$name = StringHelper::increment($name);
 			}
-
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -577,7 +571,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  boolean
+	 * @return  bool
 	 *
 	 * @since   3.6.1
 	 */

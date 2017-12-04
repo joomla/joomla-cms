@@ -433,7 +433,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as a FinderIndexerResult object.
+	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -464,15 +464,14 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string               $text    The content to process.
-	 * @param   Registry             $params  The parameters object. [optional]
-	 * @param   FinderIndexerResult  $item    The item which get prepared. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null, FinderIndexerResult $item = null)
+	public static function prepareContent($text, $params = null)
 	{
 		static $loaded;
 
@@ -496,17 +495,6 @@ class FinderIndexerHelper
 		// Create a mock content object.
 		$content = JTable::getInstance('Content');
 		$content->text = $text;
-
-		if ($item)
-		{
-			$content->bind((array) $item);
-			$content->bind($item->getElements());
-		}
-
-		if ($item && !empty($item->context))
-		{
-			$content->context = $item->context;
-		}
 
 		// Fire the onContentPrepare event.
 		$dispatcher->trigger('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));

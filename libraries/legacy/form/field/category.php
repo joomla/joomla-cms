@@ -82,7 +82,7 @@ class JFormFieldCategory extends JFormFieldList
 					 * unless the item is already in that category.
 					 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 					 */
-					if ($user->authorise('core.create', $extension . '.category.' . $option->value) === false)
+					if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 					{
 						unset($options[$i]);
 					}

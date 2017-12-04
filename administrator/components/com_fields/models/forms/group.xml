@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"

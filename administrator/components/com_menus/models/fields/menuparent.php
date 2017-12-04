@@ -96,6 +96,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 			}
+
 		}
 
 		// Merge any additional options in the XML definition.

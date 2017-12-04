@@ -61,7 +61,7 @@ abstract class JArchiveTestCase extends \PHPUnit\Framework\TestCase
 	{
 		if (is_dir($this->outputPath))
 		{
-			// Delete files in output directory
+			// delete files in output directory
 			foreach (glob("{$this->outputPath}/*") as $file)
 			{
 				unlink($file);

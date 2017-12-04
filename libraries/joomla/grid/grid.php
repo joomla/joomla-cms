@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JGrid class to dynamically generate HTML tables
  *
- * @since       11.3
- * @deprecated  4.0 This class will be removed without any replacement
+ * @since  11.3
  */
 class JGrid
 {
