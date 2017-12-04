@@ -153,7 +153,7 @@ class JFormFieldList extends JFormField
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
-			
+
 			if ((string) $option['showon'])
 			{
 				$tmp['optionattr']   = " data-showon = '" .
