@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->addToolbar();
 			$this->sidebar = \JHtmlSidebar::render();
-	
+
 			// We do not need to filter by language when multilingual is disabled
 			if (!\JLanguageMultilang::isEnabled())
 			{
