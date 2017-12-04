@@ -66,9 +66,11 @@ if ($saveOrder && !empty($this->items))
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
-								</th>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -159,9 +161,11 @@ if ($saveOrder && !empty($this->items))
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<td class="small hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
+								<?php endif; ?>
 								<td class="hidden-sm-down text-center">
 									<?php echo $item->id; ?>
 								</td>
