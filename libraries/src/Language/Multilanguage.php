@@ -23,7 +23,7 @@ class Multilanguage
  	* @var    boolean
  	* @since  __DEPLOY_VERSION__
  	*/
-	 public static $enabled = false;
+	public static $enabled = false;
 
 	/**
 	 * Method to determine if the language filter plugin is enabled.
