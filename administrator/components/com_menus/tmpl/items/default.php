@@ -215,7 +215,7 @@ if ($menuType == '')
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 								</td>
 								<?php if (($this->state->get('filter.client_id') == 0) && (JLanguageMultilang::isEnabled())) : ?>
-								<td class="text-center hidden-sm-down">
+									<td class="text-center hidden-sm-down">
 										<?php if ($item->type == 'component') : ?>
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
 												<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
