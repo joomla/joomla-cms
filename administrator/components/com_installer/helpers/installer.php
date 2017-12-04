@@ -104,10 +104,10 @@ class InstallerHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT folder')
-			->from('#__extensions')
-			->where('folder != ' . $db->quote(''))
-			->order('folder');
+			    ->select('DISTINCT folder')
+			    ->from('#__extensions')
+			    ->where('folder != ' . $db->quote(''))
+			    ->order('folder');
 		$db->setQuery($query);
 		$folders = $db->loadColumn();
 
