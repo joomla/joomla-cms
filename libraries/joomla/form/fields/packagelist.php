@@ -88,10 +88,14 @@ class JFormFieldPackagelist extends JFormFieldList
 			    ->from('#__extensions AS a')
 			    ->where('a.type = ' . $db->quote('package'))
 			    ->order('a.name');
-		if (!empty($this->extensiontype)) {
+
+		if (!empty($this->extensiontype))
+		{
 			$query->where('EXISTS ( SELECT NULL FROM #__extensions AS b WHERE b.package_id = a.extension_id AND b.type = ' . $db->quote($this->extensiontype) . ')');
 		}
-		if (strlen($this->packageenabled)) {
+
+		if (strlen($this->packageenabled))
+		{
 			$query->where('a.enabled = ' . $db->quote($this->packageenabled));
 		}
 		$db->setQuery($query);
