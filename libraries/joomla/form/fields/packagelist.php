@@ -41,7 +41,7 @@ class JFormFieldPackagelist extends JFormFieldList
 	/**
 	 * Only packages with the given value of enabled field
 	 *
-	 * @var    float
+	 * @var    int
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $packageenabled = null;
