@@ -488,8 +488,8 @@ class FormHelper
 				}
 				else
 				{
-					$showOnParts = explode('.', $showOnPartBlocks[0]);
-					$field       = array_shift($showOnParts) . '[' . join('][', $showOnParts) . ']';
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
 				}
 			}
 			else
