@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	}
 ");
 ?>
-<div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
+<div class="edit item-page">
 	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>

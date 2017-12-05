@@ -19,6 +19,7 @@
 				keywords: $(this).attr('data-keywords') || '',
 				opacity:  $(this).attr('data-format') === 'rgba',
 				position: $(this).attr('data-position') || 'default',
+				swatches: $(this).attr('data-colors') ? $(this).attr('data-colors').split(",") : [],
 				theme: 'bootstrap'
 			});
 		});
