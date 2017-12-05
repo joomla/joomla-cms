@@ -41,6 +41,14 @@
       grid-row-end: auto;
     }
   }
+  [class^='span-col'], [class*=' span-col'] {
+    @include media-breakpoint-down(md) {
+      grid-column-end: span 2;
+    }
+    @include media-breakpoint-down(sm) {
+      grid-column-end: auto;
+    }
+  }
   [class^='container-'], [class*=' container-'] {
     [class^='span-'], [class*=' span-'] {
       flex: 0 1 auto;

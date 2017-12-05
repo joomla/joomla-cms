@@ -8803,6 +8803,12 @@ header {
     [class^='span-'], [class*=' span-'] {
       grid-column-end: auto;
       grid-row-end: auto; } }
+  @media (max-width: 991px) {
+    [class^='span-col'], [class*=' span-col'] {
+      grid-column-end: span 2; } }
+  @media (max-width: 767px) {
+    [class^='span-col'], [class*=' span-col'] {
+      grid-column-end: auto; } }
   [class^='container-'] [class^='span-'], [class^='container-'] [class*=' span-'], [class*=' container-'] [class^='span-'], [class*=' container-'] [class*=' span-'] {
     flex: 0 1 auto;
     max-width: none; } }
