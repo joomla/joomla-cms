@@ -102,22 +102,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
 					<?php
 					$href = null;
-					switch($item->type) {
+					switch ($item->type)
+					{
 						case 'package':
 							if (!empty($item->search_package_id) && $item->search_package_id == $item->extension_id) {
 							    // No link to current search package
 							    break;
 							}
-							$href='index.php?option=com_installer&view=manage&filter[package_id]=' . $item->extension_id;
+							$href = 'index.php?option=com_installer&view=manage&filter[package_id]=' . $item->extension_id;
 							break;
 						case 'plugin':
-							$href='index.php?option=com_plugins&task=plugin.edit&extension_id=' . $item->extension_id;
+							$href = 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . $item->extension_id;
 							break;
 						case 'template':
-							$href='index.php?option=com_templates&view=template&id=' . $item->extension_id;
+							$href = 'index.php?option=com_templates&view=template&id=' . $item->extension_id;
 							break;
 					}
-					if ($href !== null) {
+					if ($href !== null)
+					{
 						echo '<a href="' . $href . '">';
 					}
 					echo $item->name;
