@@ -147,7 +147,10 @@ class Menu extends Nested
 		// Verify that the alias is unique
 		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		$originalAlias = trim($this->alias);
+		$aliasDate   = \JFactory::getDate()->format('Y-m-d-H-i-s');
+		$systemTypes = array('url', 'heading', 'alias', 'separator');
+
+		$originalAlias = (empty($this->alias) && in_array($this->type, $systemTypes)) ? $aliasDate : trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
 		$this->alias   = ApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
 
