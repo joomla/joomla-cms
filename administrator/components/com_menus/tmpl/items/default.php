@@ -214,7 +214,7 @@ if ($menuType == '')
 								<td class="small hidden-sm-down text-center">
 									<?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
 								</td>
-								<?php if (($this->state->get('filter.client_id') == 0) && (JLanguageMultilang::isEnabled())) : ?>
+								<?php if ($this->state->get('filter.client_id') == 0) : ?>
 									<td class="text-center hidden-sm-down">
 										<?php if ($item->type == 'component') : ?>
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
@@ -251,7 +251,7 @@ if ($menuType == '')
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+								<?php if ($this->state->get('filter.client_id') == 0 && JLanguageMultilang::isEnabled()) : ?>
 									<td class="small hidden-sm-down text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
