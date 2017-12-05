@@ -33,7 +33,7 @@ class JFormFieldPackagelist extends JFormFieldList
 	/**
 	 * Only packages containing extensions of specified type
 	 *
-	 * @var    float
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extensiontype = null;
