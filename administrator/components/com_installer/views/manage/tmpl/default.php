@@ -123,7 +123,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						echo '<a href="' . $href . '">';
 					}
 					echo $item->name;
-					if ($href !== null) {
+					if ($href !== null)
+					{
 						echo '</a>';
 					}
 					?>
