@@ -38,10 +38,10 @@
 		</field>
 
 		<field
-				name="package_id"
-				type="packagelist"
-				extensiontype="plugin"
-				onchange="this.form.submit();"
+			name="package_id"
+			type="packagelist"
+			extensiontype="plugin"
+			onchange="this.form.submit();"
 		>
 			<option value="">JGLOBAL_FILTER_PACKAGE</option>
 		</field>
