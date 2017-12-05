@@ -176,7 +176,7 @@ class PlgSearchContent extends JPlugin
 						}
 						else
 						{
-							$wheres2[] = 'a.id IN( ' . (string) $subQuery . ')';
+							$wheres2[] = 'a.id IN(' . (string) $subQuery . ')';
 						}
 					}
 					else
@@ -216,7 +216,7 @@ class PlgSearchContent extends JPlugin
 					}
 					else
 					{
-						$wheres[] = 'a.id IN( ' . (string) $subQuery . ')';
+						$wheres[] = 'a.id IN(' . (string) $subQuery . ')';
 					}
 				}
 
