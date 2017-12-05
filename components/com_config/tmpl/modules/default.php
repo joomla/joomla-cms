@@ -156,7 +156,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</div>
 						</div>
 					<?php endif; ?>
-					
+
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('note'); ?>
