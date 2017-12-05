@@ -66,8 +66,8 @@ class JFormFieldPackagelist extends JFormFieldList
 
 		if ($return)
 		{
-			$this->extensiontype   = isset($this->element['extensiontype']) ? $this->element['extensiontype'] : null;
-			$this->packageenabled  = isset($this->element['packageenabled']) ? (int) $this->element['packageenabled'] : "1";
+			$this->extensiontype = isset($this->element['extensiontype']) ? $this->element['extensiontype'] : null;
+			$this->packageenabled = isset($this->element['packageenabled']) ? (int) $this->element['packageenabled'] : "1";
 		}
 
 		return $return;
