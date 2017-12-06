@@ -10,6 +10,11 @@ namespace Joomla\Component\Fields\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+/**
+ * Field table
+ *
+ * @since  3.7.0
+ */
 class Field extends FieldTable
 {
 }
