@@ -30,9 +30,8 @@
 				type="tag"
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
-				>
-				<option value="">JNONE</option>
-			</field>
+				multiple="true"
+			/>
 		</fieldset>
 	</fields>
 
