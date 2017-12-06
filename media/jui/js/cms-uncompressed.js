@@ -74,7 +74,7 @@ Joomla = window.Joomla || {};
 							return;
 						}
 						itemval = $field.val();
-					} 
+					}
 					else {
 						// select lists, textarea etc. Note that multiple-select list returns an Array here 
 						// se we can always tream 'itemval' as an array

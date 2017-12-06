@@ -125,7 +125,7 @@ class JFormFieldList extends JFormField
 				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
 				{
 					continue;
-				}				
+				}
 
 				// Requires adminlanguage
 				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
@@ -137,7 +137,7 @@ class JFormFieldList extends JFormField
 				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
-				}				
+				}
 			}
 
 			$value = (string) $option['value'];
