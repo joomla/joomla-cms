@@ -15,15 +15,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="version"
-					type="list"
-					label="PLG_RECAPTCHA_VERSION_LABEL"
-					default="2.0"
-					size="1"
-					>
-					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
-				</field>
 
 				<field
 					name="public_key"
