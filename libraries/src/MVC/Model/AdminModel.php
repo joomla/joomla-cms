@@ -1130,7 +1130,7 @@ abstract class AdminModel extends FormModel
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		if (is_array($data['tags']))
+		if (array_key_exists('tags', $data) && is_array($data['tags']))
 		{
 			$table->newTags = $data['tags'];
 		}

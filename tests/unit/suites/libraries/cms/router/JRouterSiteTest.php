@@ -185,7 +185,7 @@ class JRouterSiteTest extends TestCaseDatabase
 		$server3 = array(
 			'HTTP_HOST'       => '',
 			'SCRIPT_NAME'     => '',
-			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/deletefiles.php',
+			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/finder_indexer.php',
 			'PHP_SELF'        => '',
 			'REQUEST_URI'     => ''
 		);
@@ -201,7 +201,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'expUrl'  => 'blog/te st'
 			),
 			array(
-				'url'     => '/cli/deletefiles.php?var1=value1',
+				'url'     => '/cli/finder_indexer.php?var1=value1',
 				'server'  => $server3,
 				'expUrl'  => '?var1=value1'
 			)

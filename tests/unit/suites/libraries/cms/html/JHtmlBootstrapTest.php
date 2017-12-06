@@ -482,7 +482,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.js',
+			'/media/system/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -531,7 +531,7 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.min.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
 			$document->_scripts,
 			'Verify that bootstrap.min.js file is loaded'
 		);
