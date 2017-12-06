@@ -168,7 +168,7 @@ class JFormFieldList extends JFormField
 
 			if ((string) $option['showon'])
 			{
-				$tmp['optionattr']   = " data-showon = '" .
+				$tmp['optionattr'] = " data-showon='" .
 					json_encode(
 						JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
 						)
