@@ -112,9 +112,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<div id="noresultsfound" style="display:none;" class="alert alert-warning alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				</div>
+				<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">

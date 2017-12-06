@@ -43,7 +43,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<?php endforeach; ?>
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
-			<div class="alert alert-info w-100 mb-0"><?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></div>
+			<joomla-alert type="warning"><?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		</li>
 	<?php endif; ?>
 </ul>

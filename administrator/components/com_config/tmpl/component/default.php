@@ -58,9 +58,9 @@ JHtml::_('script', 'com_config/admin-application-default.min.js', ['relative' =>
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<div class="tab-description alert alert-info">
+							<joomla-alert type="info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
-							</div>
+							</joomla-alert>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
@@ -91,7 +91,7 @@ JHtml::_('script', 'com_config/admin-application-default.min.js', ['relative' =>
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<div class="alert alert-info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+				<joomla-alert type="info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></joomla-alert>
 			<?php endif; ?>
 
 		</div>
