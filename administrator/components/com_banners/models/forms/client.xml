@@ -3,7 +3,7 @@
 	<fieldset name="details" addfieldpath="/administrator/components/com_banners/models/fields">
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -37,6 +37,7 @@
 			description="COM_BANNERS_FIELD_EMAIL_DESC"
 			size="40"
 			validate="email"
+			required="true"
 		/>
 
 		<field

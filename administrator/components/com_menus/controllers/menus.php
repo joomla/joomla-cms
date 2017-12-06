@@ -92,7 +92,7 @@ class MenusControllerMenus extends JControllerLegacy
 				// Remove the items.
 				if (!$model->delete($cids))
 				{
-					$this->setMessage($model->getError(), 'error');
+					$this->setMessage($model->getError());
 				}
 				else
 				{

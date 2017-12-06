@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\Utilities\ArrayHelper;
 
 JTable::addIncludePath(__DIR__ . '/../tables');
 
@@ -18,7 +18,7 @@ JTable::addIncludePath(__DIR__ . '/../tables');
  *
  * @since  3.7.0
  */
-class ContactAssociationsHelper extends AssociationExtensionHelper
+class ContactAssociationsHelper extends JAssociationExtensionHelper
 {
 	/**
 	 * The extension name

@@ -92,6 +92,16 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
+	 * Destructor.
+	 *
+	 * @since   12.1
+	 */
+	public function __destruct()
+	{
+		$this->disconnect();
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -118,7 +128,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('The sqlsrv extension for PHP is not installed or enabled..');
+			throw new JDatabaseExceptionUnsupported('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
@@ -748,7 +758,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to SQL Server database.');
+			throw new JDatabaseExceptionConnecting('Could not connect to database');
 		}
 
 		return true;
@@ -963,18 +973,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($limit)
 		{
 			$total = $offset + $limit;
-
-			$position = stripos($query, 'SELECT');
-			$distinct = stripos($query, 'SELECT DISTINCT');
-
-			if ($position === $distinct)
-			{
-				$query = substr_replace($query, 'SELECT DISTINCT TOP ' . (int) $total, $position, 15);
-			}
-			else
-			{
-				$query = substr_replace($query, 'SELECT TOP ' . (int) $total, $position, 6);
-			}
+			$query = substr_replace($query, 'SELECT TOP ' . (int) $total, stripos($query, 'SELECT'), 6);
 		}
 
 		if (!$offset)

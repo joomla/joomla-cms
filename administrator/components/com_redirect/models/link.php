@@ -245,7 +245,6 @@ class RedirectModelLink extends JModelAdmin
 			{
 				$query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
 			}
-
 			$db->setQuery($query);
 
 			try

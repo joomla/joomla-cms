@@ -112,7 +112,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	 * @param   string   $input        Input string to test.
 	 * @param   string   $expected     Expected fetched string.
 	 * @param   mixed    $method       Method to override POST request
-	 * @param   boolean  $exception    True if a RuntimeException is expected based on invalid input
+	 * @param   boolean  $exception    True if an RuntimeException is expected based on invalid input
 	 * @param   boolean  $allowMethod  Allow or not to pass method in post request as parameter
 	 *
 	 * @return  void

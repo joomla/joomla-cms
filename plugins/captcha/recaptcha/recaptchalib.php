@@ -58,7 +58,6 @@ class JReCaptcha
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
 		}
-
 		$this->_secret = $secret;
 	}
 
@@ -72,14 +71,15 @@ class JReCaptcha
 	private function _encodeQS($data)
 	{
 		$req = '';
-
 		foreach ($data as $key => $value)
 		{
 			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
 		}
 
 		// Cut the last '&'
-		return substr($req, 0, strlen($req) - 1);
+		$req = substr($req, 0, strlen($req) - 1);
+
+		return $req;
 	}
 
 	/**
@@ -88,23 +88,14 @@ class JReCaptcha
 	 * @param string $path URL path to recaptcha server.
 	 * @param array  $data array of parameters to be sent.
 	 *
-	 * @return mixed JSON string or false on error
+	 * @return array response
 	 */
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
+		$http = JHttpFactory::getHttp();
 
-		try
-		{
-			$http   = JHttpFactory::getHttp();
-			$result = $http->get($path . '?' . $req)->body;
-		}
-		catch (RuntimeException $e)
-		{
-			return false;
-		}
-
-		return $result;
+		return $http->get($path . '?' . $req)->body;
 	}
 
 	/**
@@ -137,13 +128,6 @@ class JReCaptcha
 				'response' => $response
 			)
 		);
-
-		// Something is broken in submiting the http get request
-		if ($getResponse === false)
-		{
-			$recaptchaResponse->success = false;
-		}
-
 		$answers = json_decode($getResponse, true);
 		$recaptchaResponse = new JReCaptchaResponse();
 

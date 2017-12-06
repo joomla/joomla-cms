@@ -11,8 +11,8 @@
   else if (typeof define == "function" && define.amd) // AMD
     define(["../../lib/codemirror", "htmlhint"], mod);
   else // Plain browser env
-    mod(CodeMirror, window.HTMLHint);
-})(function(CodeMirror, HTMLHint) {
+    mod(CodeMirror);
+})(function(CodeMirror) {
   "use strict";
 
   var defaultRules = {
@@ -29,14 +29,7 @@
 
   CodeMirror.registerHelper("lint", "html", function(text, options) {
     var found = [];
-    if (HTMLHint && !HTMLHint.verify) HTMLHint = HTMLHint.HTMLHint;
-    if (!HTMLHint) HTMLHint = window.HTMLHint;
-    if (!HTMLHint) {
-      if (window.console) {
-          window.console.error("Error: HTMLHint not found, not defined on window, or not available through define/require, CodeMirror HTML linting cannot run.");
-      }
-      return found;
-    }
+    if (!window.HTMLHint) return found;
     var messages = HTMLHint.verify(text, options && options.rules || defaultRules);
     for (var i = 0; i < messages.length; i++) {
       var message = messages[i];

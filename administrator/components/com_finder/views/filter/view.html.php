@@ -20,8 +20,6 @@ class FinderViewFilter extends JViewLegacy
 	 * The filter object
 	 *
 	 * @var  FinderTableFilter
-	 *
-	 * @since  3.6.2
 	 */
 	protected $filter;
 
@@ -29,37 +27,22 @@ class FinderViewFilter extends JViewLegacy
 	 * The JForm object
 	 *
 	 * @var  JForm
-	 *
-	 * @since  3.6.2
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  JObject|boolean
-	 *
-	 * @since  3.6.2
+	 * @var  object
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  mixed
-	 *
-	 * @since  3.6.2
+	 * @var  object
 	 */
 	protected $state;
-
-	/**
-	 * The total indexed items
-	 *
-	 * @var  integer
-	 *
-	 * @since  3.8.0
-	 */
-	protected $total;
 
 	/**
 	 * Method to display the view.
@@ -131,16 +114,19 @@ class FinderViewFilter extends JViewLegacy
 		else
 		{
 			// Can't save the record if it's checked out.
-			// Since it's an existing record, check the edit permission.
-			if (!$checkedOut && $canDo->get('core.edit'))
+			if (!$checkedOut)
 			{
-				JToolbarHelper::apply('filter.apply');
-				JToolbarHelper::save('filter.save');
-
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+				// Since it's an existing record, check the edit permission.
+				if ($canDo->get('core.edit'))
 				{
-					JToolbarHelper::save2new('filter.save2new');
+					JToolbarHelper::apply('filter.apply');
+					JToolbarHelper::save('filter.save');
+
+					// We can save this record, but check the create permission to see if we can return to make a new one.
+					if ($canDo->get('core.create'))
+					{
+						JToolbarHelper::save2new('filter.save2new');
+					}
 				}
 			}
 

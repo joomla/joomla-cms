@@ -50,11 +50,11 @@
 		<field
 			name="menuitem"
 			type="menuitem"
-			label="COM_MODULES_OPTION_SELECT_MENU_ITEM"
+			label="COM_MODULES_OPTION_SELECT_PAGE"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
 			>
-			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
+			<option	value="">COM_MODULES_OPTION_SELECT_PAGE</option>
 			<option	value="-1">COM_MODULES_NONE</option>
 		</field>
 		<field

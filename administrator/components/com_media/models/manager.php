@@ -65,7 +65,6 @@ class MediaModelManager extends JModelLegacy
 		{
 			$base = COM_MEDIA_BASE;
 		}
-
 		// Corrections for windows paths
 		$base = str_replace(DIRECTORY_SEPARATOR, '/', $base);
 		$com_media_base_uni = str_replace(DIRECTORY_SEPARATOR, '/', COM_MEDIA_BASE);

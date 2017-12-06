@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_wrapper
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_wrapper
+ * @since       1.5
  */
 class ModWrapperHelper
 {

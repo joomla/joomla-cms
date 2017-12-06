@@ -10,8 +10,8 @@ set -e
 # Disable xdebug.
 phpenv config-rm xdebug.ini || echo "xdebug not available"
 
-# Make sure all dev dependencies are installed, ignore platform requirements because Travis is missing the LDAP tooling on all new images
-composer install --ignore-platform-reqs
+# Make sure all dev dependencies are installed
+composer install
 
 # Setup databases for testing
 mysql -u root -e 'create database joomla_ut;'

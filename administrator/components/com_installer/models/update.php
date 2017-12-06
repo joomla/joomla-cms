@@ -405,8 +405,7 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
-		$sources = $update->get('downloadSources', array());
+		$url = $update->downloadurl->_data;
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -414,21 +413,7 @@ class InstallerModelUpdate extends JModelList
 			$url .= $extra_query;
 		}
 
-		$mirror = 0;
-
-		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
-		{
-			$name = $sources[$mirror];
-			$url  = $name->url;
-
-			if ($extra_query)
-			{
-				$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
-				$url .= $extra_query;
-			}
-
-			$mirror++;
-		}
+		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
@@ -510,7 +495,6 @@ class InstallerModelUpdate extends JModelList
 
 			return false;
 		}
-
 		// Check the session for previously entered form data.
 		$data = $this->loadFormData();
 

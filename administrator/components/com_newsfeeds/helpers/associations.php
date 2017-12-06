@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\Utilities\ArrayHelper;
 
 JTable::addIncludePath(__DIR__ . '/../tables');
 
@@ -18,7 +18,7 @@ JTable::addIncludePath(__DIR__ . '/../tables');
  *
  * @since  3.7.0
  */
-class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
+class NewsfeedsAssociationsHelper extends JAssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -143,6 +143,7 @@ class NewsfeedsAssociationsHelper extends AssociationExtensionHelper
 
 		if (in_array($typeName, $this->itemTypes))
 		{
+
 			switch ($typeName)
 			{
 				case 'newsfeed':

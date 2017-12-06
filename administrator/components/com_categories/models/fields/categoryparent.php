@@ -14,8 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Category Parent field.
  *
- * @since       1.6
- * @deprecated  4.0  Use categoryedit instead.
+ * @since  1.6
  */
 class JFormFieldCategoryParent extends JFormFieldList
 {

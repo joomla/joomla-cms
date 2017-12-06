@@ -109,14 +109,13 @@ class TestMockSession
 	/**
 	 * Mocking the get method.
 	 *
-	 * @param   string  $key      The key to get.
-	 * @param   mixed   $default  The default value for the value.
+	 * @param   string  $key  The key to get.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   11.3
 	 */
-	public static function mockGet($key, $default = null)
+	public static function mockGet($key)
 	{
 		switch ($key)
 		{
@@ -131,6 +130,6 @@ class TestMockSession
 				return $user;
 		}
 
-		return $default;
+		return null;
 	}
 }

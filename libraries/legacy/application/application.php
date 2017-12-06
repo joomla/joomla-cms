@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\BaseApplication;
 use Joomla\Registry\Registry;
 
 JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
@@ -22,9 +21,9 @@ JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
  * and render() functions.
  *
  * @since       1.5
- * @deprecated  3.2  Use CMSApplication instead unless specified otherwise
+ * @deprecated  3.2  Use JApplicationCms instead unless specified otherwise
  */
-class JApplication extends BaseApplication
+class JApplication extends JApplicationBase
 {
 	/**
 	 * The client identifier.
@@ -351,12 +350,12 @@ class JApplication extends BaseApplication
 		 * We could validly start with something else (e.g. ftp), though this would
 		 * be unlikely and isn't supported by this API.
 		 */
-		if (stripos($url, 'http') !== 0)
+		if (!preg_match('#^http#i', $url))
 		{
 			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
-			if ($url[0] === '/')
+			if ($url[0] == '/')
 			{
 				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
@@ -536,7 +535,7 @@ class JApplication extends BaseApplication
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if ($registry !== null)
+		if (!is_null($registry))
 		{
 			return $registry->get($key, $default);
 		}
@@ -560,10 +559,12 @@ class JApplication extends BaseApplication
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if ($registry !== null)
+		if (!is_null($registry))
 		{
 			return $registry->set($key, $value);
 		}
+
+		return;
 	}
 
 	/**
@@ -574,7 +575,7 @@ class JApplication extends BaseApplication
 	 * @param   string  $default  The default value for the variable if not found. Optional.
 	 * @param   string  $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
-	 * @return  mixed  The request user state.
+	 * @return  The request user state.
 	 *
 	 * @since   1.5
 	 * @deprecated  3.2
@@ -679,7 +680,7 @@ class JApplication extends BaseApplication
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type === 'Cookie')
+			if ($response->type == 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -689,7 +690,7 @@ class JApplication extends BaseApplication
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
-				if (isset($response->length, $response->secure, $response->lifetime))
+				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
 				{
 					$options['length'] = $response->length;
 					$options['secure'] = $response->secure;
@@ -1013,7 +1014,8 @@ class JApplication extends BaseApplication
 		// Check to see the the session already exists.
 		$handler = $this->get('session_handler');
 
-		if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
+		if (($handler != 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1182,7 +1184,7 @@ class JApplication extends BaseApplication
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**

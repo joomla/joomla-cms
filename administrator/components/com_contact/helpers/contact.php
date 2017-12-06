@@ -195,12 +195,6 @@ class ContactHelper extends JHelperContent
 			$section = 'mail';
 		}
 
-		if (JFactory::getApplication()->isClient('site') && $section == 'category')
-		{
-			// The contact form needs to be the mail section
-			$section = 'contact';
-		}
-
 		if ($section != 'mail' && $section != 'contact')
 		{
 			// We don't know other sections

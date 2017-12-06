@@ -9,21 +9,18 @@
 
 defined('_JEXEC') or die;
 
-$app            = JFactory::getApplication();
+$app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 
-$showCategoryTitle            = $this->params->get('show_category_title') == 1;
-$showCategoryHeadingTitleText = $this->params->get('show_category_heading_title_text', 1) == 1;
-$pageSubHeading               = $this->params->get('page_subheading');
+$pageClass = $this->params->get('pageclass_sfx');
 ?>
 <section class="category-list<?php echo $this->pageclass_sfx;?>">
-<?php
-if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
-<?php if ($showPageHeading and ($showCategoryTitle === true or $pageSubHeading)) : ?>
+<?php if ($this->params->get('show_page_heading')) : ?>
+<?php if ($this->params->get('show_page_heading') and ($this->params->get('show_category_title') or $this->params->get('page_subheading'))) : ?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -31,16 +28,16 @@ if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
 </h1>
 <?php endif; ?>
 
-<?php if ($showCategoryTitle === true or $pageSubHeading) : ?>
+<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading')) : ?>
 <h2>
-	<?php echo $this->escape($pageSubHeading); ?>
-	<?php if ($showCategoryTitle === true)
+	<?php echo $this->escape($this->params->get('page_subheading')); ?>
+	<?php if ($this->params->get('show_category_title'))
 	{
 		echo '<span class="subheading-category">'.JHtml::_('content.prepare', $this->category->title, '', 'com_content.category.title').'</span>';
 	}
 	?>
 </h2>
-<?php if ($this->params->get('show_page_heading') and ($this->params->get('show_category_title', 1) or $pageSubHeading)) : ?>
+<?php if ($this->params->get('show_page_heading') and ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading'))) : ?>
 </hgroup>
 <?php endif; ?>
 <?php endif; ?>
@@ -50,7 +47,7 @@ if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
 	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
-	<?php if ($this->category->description && $this->params->get('show_description')) : ?>
+	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
@@ -58,25 +55,25 @@ if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
 <?php endif; ?>
 
 
-<?php if ($this->params->get('maxLevel') != 0 && is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0) : ?>
+<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
 		<div class="cat-children">
 
-	<?php if ($showCategoryTitle === true or $pageSubHeading)
+	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	{
 		echo '<h3>';
 	}
-	elseif ($showCategoryHeadingTitleText === true)
+	elseif ($this->params->get('show_category_heading_title_text', 1) == 1)
 	{
 		echo '<h2>';
 	} ?>
-    <?php if ($showCategoryHeadingTitleText === true) : ?>
+    <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
-	<?php if ($showCategoryTitle === true or $pageSubHeading)
+	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	{
 		echo '</h3>';
 	}
-	elseif ($showCategoryHeadingTitleText === true)
+	elseif ($this->params->get('show_category_heading_title_text', 1) == 1)
 	{
 		echo '</h2>';
 	} ?>

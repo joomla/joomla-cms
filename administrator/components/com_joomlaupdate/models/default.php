@@ -243,7 +243,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  boolean|string  False on failure, basename of the file in any other case.
+	 * @return  bool|string False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -251,7 +251,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
@@ -280,16 +279,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			$mirror = 0;
-
-			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
-			{
-				$name       = $sources[$mirror];
-				$packageURL = $name->url;
-				$mirror++;
-			}
-
-			return $download;
+			return $this->downloadPackage($packageURL, $target);
 		}
 		else
 		{
@@ -298,16 +288,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			if (empty($filesize))
 			{
-				$mirror = 0;
-
-				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
-				{
-					$name       = $sources[$mirror];
-					$packageURL = $name->url;
-					$mirror++;
-				}
-
-				return $download;
+				return $this->downloadPackage($packageURL, $target);
 			}
 
 			// Yes, it's there, skip downloading.
@@ -354,15 +335,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		try
-		{
-			$result = $http->get($url);
-		}
-		catch (RuntimeException $e)
-		{
-			return false;
-		}
-
+		$result = $http->get($url);
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
@@ -426,9 +399,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
 	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0',
-	'kickstart.setup.renamefiles' => array(),
-	'kickstart.setup.postrenamefiles' => false
+	'kickstart.setup.dryrun' => '0'
 ENDDATA;
 
 		if ($method != 'direct')
@@ -943,7 +914,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  boolean
+	 * @return  bool
 	 *
 	 * @since   3.6.0
 	 */
@@ -979,7 +950,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  boolean
+	 * @return  bool
 	 *
 	 * @since   3.6.0
 	 */

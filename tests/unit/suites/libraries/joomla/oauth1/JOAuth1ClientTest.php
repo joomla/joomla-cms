@@ -10,7 +10,6 @@
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
-include_once __DIR__ . '/../session/handler/array.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -200,13 +199,8 @@ class JOAuth1ClientTest extends TestCase
 			}
 			TestReflection::setValue($input, 'data', $data);
 
-			$memoryHandler = new JSessionHandlerArray;
-
 			// Get mock session
-			$mockSession = $this->getMockBuilder('JSession')
-				->setMethods(array( '_start', 'get'))
-				->setConstructorArgs(array('none', array(), $memoryHandler))
-				->getMock();
+			$mockSession = $this->getMockBuilder('JSession')->setMethods(array( '_start', 'get'))->getMock();
 
 			if ($fail)
 			{

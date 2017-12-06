@@ -44,10 +44,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 */
 	public function register()
 	{
-		if (!headers_sent())
-		{
-			ini_set('session.save_handler', 'wincache');
-		}
+		ini_set('session.save_handler', 'wincache');
 	}
 
 	/**

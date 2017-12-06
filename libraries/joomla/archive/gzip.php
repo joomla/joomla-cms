@@ -20,8 +20,7 @@ jimport('joomla.filesystem.file');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since       11.1
- * @deprecated  4.0 use the Joomla\Archive\Gzip class instead
+ * @since  11.1
  */
 class JArchiveGzip implements JArchiveExtractable
 {

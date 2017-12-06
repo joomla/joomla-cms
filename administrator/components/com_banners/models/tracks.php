@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Archive\Archive;
-
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
@@ -518,9 +516,7 @@ class BannersModelTracks extends JModelList
 					}
 				}
 
-				$archive = new Archive;
-
-				if (!$packager = $archive->getAdapter('zip'))
+				if (!$packager = JArchive::getAdapter('zip'))
 				{
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 

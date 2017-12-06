@@ -12,7 +12,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_plugins"
-			section="component" 
-		/>
+			section="component" />
 	</fieldset>
 </config>

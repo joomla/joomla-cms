@@ -14,7 +14,10 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 /**
  * Helper for mod_languages
  *
- * @since  1.6
+ * @package     Joomla.Site
+ * @subpackage  mod_languages
+ *
+ * @since       1.6.0
  */
 abstract class ModLanguagesHelper
 {

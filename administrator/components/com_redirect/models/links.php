@@ -193,7 +193,7 @@ class RedirectModelLinks extends JModelList
 	 *
 	 * @param   array  $batch_urls  Array of URLs to enter into the database
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function batchProcess($batch_urls)
 	{
@@ -214,7 +214,15 @@ class RedirectModelLinks extends JModelList
 
 		foreach ($batch_urls as $batch_url)
 		{
-			$old_url = $batch_url[0];
+			// Source URLs need to have the correct URL format to work properly
+			if (strpos($batch_url[0], JUri::root()) === false)
+			{
+				$old_url = JUri::root() . $batch_url[0];
+			}
+			else
+			{
+				$old_url = $batch_url[0];
+			}
 
 			// Destination URL can also be an external URL
 			if (!empty($batch_url[1]))

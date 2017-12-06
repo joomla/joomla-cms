@@ -22,14 +22,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
-					name="parentTag"
-					type="tag"
-					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
-					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
-					multiple="true"
-				/>
-
 				<field
 					name="maximum"
 					type="integer"
@@ -110,7 +102,7 @@
 			>
 				<field
 					name="minsize"
-					type="number"
+					type="text"
 					label="MOD_TAGS_POPULAR_FIELD_MINSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MINSIZE_DESC"
 					default="1"
@@ -119,7 +111,7 @@
 
 				<field
 					name="maxsize"
-					type="number"
+					type="text"
 					label="MOD_TAGS_POPULAR_FIELD_MAXSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MAXSIZE_DESC"
 					default="2"
@@ -156,7 +148,7 @@
 
 				<field
 					name="cache_time"
-					type="number"
+					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"

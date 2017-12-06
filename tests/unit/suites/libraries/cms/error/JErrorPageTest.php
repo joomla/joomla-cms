@@ -136,6 +136,6 @@ class JErrorPageTest extends TestCaseDatabase
 		JErrorPage::render($object);
 		$output = ob_get_clean();
 
-		$this->assertEquals('Error', $output);
+		$this->assertEquals('Error displaying the error page', $output);
 	}
 }

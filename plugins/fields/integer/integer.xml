@@ -40,6 +40,7 @@
 					description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
 					default="1"
 					size="5"
+					required="true"
 				/>
 	
 				<field
@@ -49,6 +50,7 @@
 					description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
 					default="100"
 					size="5"
+					required="true"
 				/>
 	
 				<field
@@ -58,6 +60,7 @@
 					description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
 					default="1"
 					size="5"
+					required="true"
 				/>
 			</fieldset>
 		</fields>

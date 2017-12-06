@@ -92,7 +92,7 @@ class JDatabaseQueryElement
 		}
 		else
 		{
-			$this->elements[] = $elements;
+			$this->elements = array_merge($this->elements, array($elements));
 		}
 	}
 

@@ -95,17 +95,11 @@ abstract class JSessionStorage
 	 */
 	public function register()
 	{
-		if (!headers_sent())
-		{
-			session_set_save_handler(
-				array($this, 'open'),
-				array($this, 'close'),
-				array($this, 'read'),
-				array($this, 'write'),
-				array($this, 'destroy'),
-				array($this, 'gc')
-			);
-		}
+		// Use this object as the session handler
+		session_set_save_handler(
+			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
+			array($this, 'destroy'), array($this, 'gc')
+		);
 	}
 
 	/**

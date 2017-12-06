@@ -276,7 +276,7 @@
 
 		<field
 			name="readmore_limit"
-			type="number"
+			type="text"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 			default="100"
@@ -364,10 +364,9 @@
 
 		<field
 			name="urls_position"
-			type="radio"
+			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -431,7 +430,7 @@
 
 		<field
 			name="history_limit"
-			type="number"
+			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
@@ -771,7 +770,7 @@
 
 		<field 
 			name="num_leading_articles"
-			type="number"
+			type="text"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 			default="1"			
@@ -779,7 +778,7 @@
 
 		<field 
 			name="num_intro_articles"
-			type="number"
+			type="text"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
 			default="4"
@@ -787,7 +786,7 @@
 
 		<field 
 			name="num_columns"
-			type="number"
+			type="text"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			description="JGLOBAL_NUM_COLUMNS_DESC"
 			default="2"
@@ -795,7 +794,7 @@
 
 		<field 
 			name="num_links"
-			type="number"
+			type="text"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			description="JGLOBAL_NUM_LINKS_DESC"
 			default="4"
@@ -929,10 +928,9 @@
 
 		<field 
 			name="list_show_votes"
-			type="voteradio"
+			type="votelist"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="1">JSHOW</option>
@@ -941,10 +939,9 @@
 
 		<field 
 			name="list_show_ratings"
-			type="voteradio"
+			type="votelist"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC"
-			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="1">JSHOW</option>
@@ -1088,32 +1085,6 @@
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="sef_advanced"
-			type="radio"
-			class="btn-group btn-group-yesno btn-group-reversed"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer"
-		>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			description="JGLOBAL_SEF_NOIDS_DESC"
-			showon="sef_advanced:1"
-			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
 		</field>
 
 		<field

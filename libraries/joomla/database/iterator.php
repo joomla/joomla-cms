@@ -51,7 +51,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	/**
 	 * A numeric or string key for the current database record.
 	 *
-	 * @var    int|string
+	 * @var    scalar
 	 * @since  12.1
 	 */
 	private $_key;
@@ -116,7 +116,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	/**
 	 * The key of the current element in the iterator.
 	 *
-	 * @return  int|string
+	 * @return  scalar
 	 *
 	 * @see     Iterator::key()
 	 * @since   12.1
