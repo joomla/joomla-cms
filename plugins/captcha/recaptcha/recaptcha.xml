@@ -41,7 +41,6 @@
 					type="list"
 					label="PLG_RECAPTCHA_THEME_LABEL"
 					default="light"
-					showon="version:2.0"
 					filter=""
 					>
 					<option value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
@@ -53,7 +52,6 @@
 					type="list"
 					label="PLG_RECAPTCHA_SIZE_LABEL"
 					default="normal"
-					showon="version:2.0"
 					filter=""
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
