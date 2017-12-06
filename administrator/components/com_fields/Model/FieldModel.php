@@ -401,7 +401,7 @@ class FieldModel extends AdminModel
 	 * @since   3.7.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
+	public function getTable($name = '', $prefix = '', $options = array())
 	{
 		// Default to text type
 		$table       = parent::getTable($name, $prefix, $options);
