@@ -137,15 +137,15 @@ Joomla = window.Joomla || {};
 				}
 			}
 
-			// If conditions are satisfied show the target field(s), else hide
-			// note that animations don't work on list options other than in Chrome
+			// If conditions are satisfied show the target field(s), else hide.
+			// Note that animations don't work on list options other than in Chrome.
 			if (animate && !target.is('option')) {
 				(showfield) ? target.slideDown() : target.slideUp();
 			} else {
 				target.toggle(showfield);
 				if (target.is('option')) {
 					target.attr('disabled', showfield ? false : true);
-					// if chosen active for the target select list then update it
+					// If chosen active for the target select list then update it
 					var parent = target.parent();
 					if ($('#' + parent.attr('id') + '_chzn').length) {
 						parent.trigger("liszt:updated");
