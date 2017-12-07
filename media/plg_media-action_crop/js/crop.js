@@ -11,31 +11,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 	"use strict";
 
 	var initCrop = function (mediaData) {
-		// Amend the layout
-		var tabContent = document.getElementById('myTabContent'),
-			pluginControls = document.getElementById('attrib-crop');
-
-		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
-		pluginControls.classList.add('col-md-3', 'p-4');
-
-		// Create the images for edit and preview
-		var baseContainer = document.getElementById('media-manager-edit-container'),
-			editContainer = document.createElement('div'),
-			previewContainer = document.createElement('div'),
-			imageSrc = document.createElement('img'),
-			imagePreview = document.createElement('img');
-
-		imageSrc.src = mediaData.contents;
-		imagePreview.src = mediaData.contents;
-		imagePreview.id = 'image-preview';
-		imageSrc.style.maxWidth = '100%';
-		imagePreview.style.maxWidth = '100%';
-
-		editContainer.appendChild(imageSrc);
-		baseContainer.appendChild(editContainer);
+		var image = document.getElementById('image-preview');
 
 		// Initiate the cropper
-		Joomla.MediaManager.Edit.crop.cropper = new Cropper(imageSrc, {
+		Joomla.MediaManager.Edit.crop.cropper = new Cropper(image, {
 			// viewMode: 1,
 			responsive: true,
 			restore: true,
@@ -45,8 +24,8 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 			rotatable: false,
 			autoCropArea: 1,
 			// scalable: false,
-			minContainerWidth: imageSrc.offsetWidth,
-			minContainerHeight: imageSrc.offsetHeight,
+			minContainerWidth: image.offsetWidth,
+			minContainerHeight: image.offsetHeight,
 			crop: function (e) {
 				document.getElementById('jform_crop_x').value = Math.round(e.detail.x);
 				document.getElementById('jform_crop_y').value = Math.round(e.detail.y);
