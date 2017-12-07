@@ -18,42 +18,42 @@
 		/>
 
 		<field
-				name="resize_width"
-				type="text"
-				label="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
-				hiddenLabel="true"
-				addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
-				addonAfter="px"
-				pattern="\d*\.?\d*"
+			name="resize_width"
+			type="text"
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
 
 		<field
-				name="resize_w"
-				type="range"
-				label=""
-				value="0"
+			name="resize_w"
+			type="range"
+			label=""
+			value="0"
 		/>
 
 		<field
-				type="spacer"
-				hr="true"
+			type="spacer"
+			hr="true"
 		/>
 
 		<field
-				name="resize_height"
-				type="text"
-				label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
-				hiddenLabel="true"
-				addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
-				addonAfter="px"
-				pattern="\d*\.?\d*"
+			name="resize_height"
+			type="text"
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
 
 		<field
-				name="resize_h"
-				type="range"
-				label=""
-				value="0"
+			name="resize_h"
+			type="range"
+			label=""
+			value="0"
 		/>
 	</fieldset>
 </form>
