@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing a download source given as part of an update's `<downloads>` element
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.3
  */
 class DownloadSource
 {
@@ -21,7 +21,7 @@ class DownloadSource
 	 * Defines a ZIP download package
 	 *
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	const FORMAT_ZIP = 'zip';
 
@@ -29,7 +29,7 @@ class DownloadSource
 	 * Defines a full package download type
 	 *
 	 * @const  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	const TYPE_FULL = 'full';
 
@@ -37,7 +37,7 @@ class DownloadSource
 	 * The download type
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	public $type = self::TYPE_FULL;
 
@@ -45,7 +45,7 @@ class DownloadSource
 	 * The download file's format
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	public $format = self::FORMAT_ZIP;
 
@@ -53,7 +53,7 @@ class DownloadSource
 	 * The URL to retrieve the package from
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	public $url;
 }

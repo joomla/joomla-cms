@@ -101,7 +101,7 @@ class Update extends \JObject
 	 * Update manifest `<downloadsource>` elements
 	 *
 	 * @var    DownloadSource[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.3
 	 */
 	protected $downloadSources = array();
 

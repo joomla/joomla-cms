@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package  None
  *
- * @since    __DEPLOY_VERSION__
+ * @since    3.8.3
  */
 class DummyClass
 {
