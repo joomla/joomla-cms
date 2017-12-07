@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<fieldset>
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 
-				<div class="alert alert-info"><p><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></p></div>
+				<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></joomla-alert>
 
 				<div class="control-group">
 					<div class="input-group">
