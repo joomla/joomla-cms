@@ -45,9 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>

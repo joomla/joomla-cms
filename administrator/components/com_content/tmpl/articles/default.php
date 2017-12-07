@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\PublishedButton;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
@@ -49,6 +52,14 @@ if ($saveOrder && !empty($this->items))
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+// Configure content state button renderer.
+$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
+
+// Configure featured button renderer.
+$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -65,9 +76,7 @@ $assoc = JLanguageAssociations::isEnabled();
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -160,8 +169,8 @@ $assoc = JLanguageAssociations::isEnabled();
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
+										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 									</div>
 								</td>
 								<td class="has-context">

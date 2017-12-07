@@ -195,7 +195,11 @@
 		},
 		clear: function () {
 			var self = this;
-
+			
+			if (self.searchField) {
+                		self.searchField.value = '';
+			}
+			
 			if (self.getFilterFields()) {
 				self.getFilterFields().forEach(function(i) {
 					i.value = '';
