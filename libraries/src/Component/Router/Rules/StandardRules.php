@@ -244,20 +244,14 @@ class StandardRules implements RulesInterface
 		$path  = array_reverse($this->router->getPath($query), true);
 		$found = false;
 
-		// Id of the last added segment
-		$last_id = 0;
-
 		foreach ($path as $element => $ids)
 		{
 			$view = $views[$element];
 
 			if ($found === false && $item && $item->query['view'] === $element)
 			{
-				if ($view->key)
-				{
-					// Get id from menu item
-					$last_id = (int) $item->query[$view->key];
-				}
+				// Id of the last added segment from menu item
+				$last_id = $view->key ? (int) $item->query[$view->key] : 0;
 
 				if ($view->nestable)
 				{
@@ -290,7 +284,7 @@ class StandardRules implements RulesInterface
 							$segments[] = str_replace(':', '-', $segment);
 							$last_id    = (int) $id;
 						}
-						elseif (($view->parent && !$view->parent->key) || $last_id === (int) $id)
+						elseif ($last_id === 0 || $last_id === (int) $id)
 						{
 							$found2 = true;
 						}
