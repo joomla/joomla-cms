@@ -302,12 +302,6 @@ class StandardRules implements RulesInterface
 				}
 			}
 
-			if ($view->name === $query['view'])
-			{
-				// Remove key from query
-				unset($query[$view->key]);
-			}
-
 			if ($view->parent_key)
 			{
 				// Remove parent key from query
