@@ -87,6 +87,11 @@ class PlgSystemFields extends JPlugin
 		{
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+			
+			// JSON encode value for complex fields
+			if(is_array($value)) {
+				$value = json_encode($value);
+			}
 
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
