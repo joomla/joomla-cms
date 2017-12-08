@@ -21,7 +21,7 @@ defined('JPATH_BASE') or die;
 				&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 			<?php else : ?>
 				<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-				&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+				&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 			<?php endif; ?>
 		<?php endif; ?>
 	<?php endforeach; ?>
