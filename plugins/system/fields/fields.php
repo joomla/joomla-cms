@@ -95,7 +95,7 @@ class PlgSystemFields extends JPlugin
 			{
 				$value = json_encode($value);
 			}
-			
+
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
 		}
