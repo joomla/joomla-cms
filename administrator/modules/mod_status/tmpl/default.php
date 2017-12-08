@@ -89,7 +89,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 					<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 				<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
-					. Session::getFormToken() . '=1') ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+					. Session::getFormToken() . '=1'); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
 			</div>
 		</li>
 
