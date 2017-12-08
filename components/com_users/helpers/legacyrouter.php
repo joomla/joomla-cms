@@ -66,6 +66,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 		static $remind;
 		static $resend;
 		static $reset;
+		static $delete;
 
 		// Get the relevant menu items if not loaded.
 		if (empty($items))
@@ -110,6 +111,12 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				if (empty($profile) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'profile')
 				{
 					$profile = $items[$i]->id;
+				}
+
+				// Check to see if we have found the delete menu item.
+				if (empty($delete) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'delete')
+				{
+					$delete = $items[$i]->id;
 				}
 			}
 
@@ -178,6 +185,17 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 
 				case 'registration':
 					if ($query['Itemid'] = $registration)
+					{
+						unset ($query['view']);
+					}
+					else
+					{
+						$query['Itemid'] = $default;
+					}
+					break;
+
+				case 'delete':
+					if ($query['Itemid'] = $delete)
 					{
 						unset ($query['view']);
 					}
