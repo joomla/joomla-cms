@@ -91,7 +91,8 @@ class PlgSystemFields extends JPlugin
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// JSON encode value for complex fields
-			if(is_array($value)) {
+			if (is_array($value))
+			{
 				$value = json_encode($value);
 			}
 			
