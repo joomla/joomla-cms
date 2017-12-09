@@ -13,7 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
 ?>
-<div class="remind<?php echo $this->pageclass_sfx; ?>">
+<div class="delete<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
@@ -21,7 +21,7 @@ JHtml::_('behavior.formvalidator');
 			</h1>
 		</div>
 	<?php endif; ?>
-	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=delete.delete'); ?>" method="post" class="form-validate form-horizontal well">
+	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=delete.delete'); ?>" method="post" class="form-validate form-horizontal well" onsubmit="return confirm('<?php echo JText::_('COM_USERS_DELETE_CONFIRM'); ?>');">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<p><?php echo JText::_($fieldset->label); ?></p>
