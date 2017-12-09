@@ -73,7 +73,6 @@ class UsersViewDelete extends JViewLegacy
 	{
 		$app   = JFactory::getApplication();
 		$menus = $app->getMenu();
-		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
