@@ -119,6 +119,7 @@ class TagField extends \JFormFieldList
 		$published = $this->element['published']?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
+		$lang      = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -126,29 +127,29 @@ class TagField extends \JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		// Limit Options in multilanguage
-		if ($app->isClient('site') && Multilanguage::isEnabled())
+		// Limit Options in multilanguage only when Multilanguage is enabled
+		if (Multilanguage::isEnabled())
 		{
-			$lang = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
-
-			if ($lang == 'current_language')
+			// First use language from Form
+			if (!empty($this->element['language']))
 			{
-				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+				$language = implode(',', $db->quote(explode(',', '*,' . $this->element['language'])));
+				$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 			}
-		}
-		// Filter language
-		elseif (!empty($this->element['language']))
-		{
-			if (strpos($this->element['language'], ',') !== false)
+			// Show all tags in backend because admin
+			elseif ($app->isClient('site'))
 			{
-				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+				// Second use current language in global configuration 
+				if ($lang == 'current_language')
+				{
+					$query->where($db->quoteName('a.language') . ' IN (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+				}
+				// Third use selected language in global configuration
+				elseif ($lang != 'all')
+				{
+					$query->where($db->quoteName('a.language') . ' IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+		    		}
 			}
-			else
-			{
-				$language = $db->quote($this->element['language']);
-			}
-
-			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		$query->where($db->qn('a.lft') . ' > 0');
