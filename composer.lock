@@ -344,12 +344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "8baa6193a4c9de3b5cf41ed0a0ba0e417be9c900"
+                "reference": "82f51fe9416c22389102eb04ae568889c5fcbd5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/8baa6193a4c9de3b5cf41ed0a0ba0e417be9c900",
-                "reference": "8baa6193a4c9de3b5cf41ed0a0ba0e417be9c900",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/82f51fe9416c22389102eb04ae568889c5fcbd5d",
+                "reference": "82f51fe9416c22389102eb04ae568889c5fcbd5d",
                 "shasum": ""
             },
             "require": {
@@ -389,7 +389,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-12-09T19:01:06+00:00"
+            "time": "2017-12-09T19:16:54+00:00"
         },
         {
             "name": "joomla/console",

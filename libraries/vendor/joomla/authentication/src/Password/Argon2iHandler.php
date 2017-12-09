@@ -81,7 +81,7 @@ class Argon2iHandler implements HandlerInterface
 		// Check if the sodium_compat polyfill is installed and look for compatibility through that
 		if (class_exists('\\ParagonIE_Sodium_Compat') && method_exists('\\ParagonIE_Sodium_Compat', 'crypto_pwhash_is_available'))
 		{
-			return ParagonIE_Sodium_Compat::crypto_pwhash_is_available();
+			return \ParagonIE_Sodium_Compat::crypto_pwhash_is_available();
 		}
 
 		// Check for support from the (lib)sodium extension
