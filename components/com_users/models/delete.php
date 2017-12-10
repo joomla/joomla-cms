@@ -161,12 +161,12 @@ class UsersModelDelete extends JModelForm
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JEventDispatcher::getInstance();
 		$table      = JTable::getInstance('User');
-		// Get users data for the users to delete.
+		// Get user's data for the user to delete.
 		$user_to_delete = JFactory::getUser($user->id);
-		
+
 		// Fire the before delete event.
 		$dispatcher->trigger('onUserBeforeDelete', array($table->getProperties()));
-		
+
 		if (!$table->delete($user->id))
 		{
 			$this->setError($table->getError());
