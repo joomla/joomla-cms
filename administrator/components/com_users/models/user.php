@@ -378,7 +378,7 @@ class UsersModelUser extends JModelAdmin
 					// Fire the before delete event.
 					$content = $dispatcher->trigger($this->event_before_delete, array($user_to_delete->getProperties(), $this->getError()));
 		
-					if ($content)
+					if ($content[0])
 					{
 						$this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_CONTENT'));
 					
