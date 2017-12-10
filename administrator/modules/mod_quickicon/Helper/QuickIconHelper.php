@@ -66,7 +66,7 @@ abstract class QuickIconHelper
 					),
 					array(
 						'link'   => Route::_('index.php?option=com_media'),
-						'image'  => 'fa fa-file-image-o',
+						'image'  => 'fa fa-image',
 						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
@@ -80,7 +80,7 @@ abstract class QuickIconHelper
 					),
 					array(
 						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-cube',
+						'image'  => 'fa fa-cubes',
 						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
