@@ -398,8 +398,8 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param   array    $user     Holds the user data
-	 * @param   string   $msg      Message
+	 * @param   array   $user  Holds the user data
+	 * @param   string  $msg   Message
 	 *
 	 * @return  boolean
 	 *
