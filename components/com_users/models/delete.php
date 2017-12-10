@@ -168,7 +168,7 @@ class UsersModelDelete extends JModelForm
 		// Fire the before delete event.
 		$content = $dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties(), $this->getError()));
 
-		if ($content)
+		if ($content[0])
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_CONTENT'));
 		
