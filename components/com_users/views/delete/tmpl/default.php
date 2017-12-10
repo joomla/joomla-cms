@@ -21,7 +21,7 @@ JHtml::_('behavior.formvalidator');
 			</h1>
 		</div>
 	<?php endif; ?>
-	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=delete.delete'); ?>" method="post" class="form-validate form-horizontal well" onsubmit="return confirm('<?php echo JText::_('COM_USERS_DELETE_CONFIRM'); ?>');">
+	<form id="user-deletion" action="<?php echo JRoute::_('index.php?option=com_users&task=delete.delete'); ?>" method="post" class="form-validate form-horizontal well" onsubmit="return confirm('<?php echo JText::_('COM_USERS_DELETE_CONFIRM'); ?>');">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<p><?php echo JText::_($fieldset->label); ?></p>
