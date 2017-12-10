@@ -392,4 +392,43 @@ class PlgUserJoomla extends JPlugin
 
 		return $instance;
 	}
+
+	/**
+	 * Check existence of content items for the user name
+	 *
+	 * Method is called before user data is deleted from the database
+	 *
+	 * @param   array    $user     Holds the user data
+	 * @param   string   $msg      Message
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onUserBeforeDelete($user, $msg)
+	{
+		
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('id'))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('created_by') . ' = ' . (int) $user['id']);
+		$this->db->setQuery($query);
+
+		try
+		{
+			$items = $this->db->loadRowList();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return true;
+		}
+
+		if (($items !== false) && (count($items) > 0 ))
+		{
+			return true;
+		}
+
+		return false;
+
+	}
 }
