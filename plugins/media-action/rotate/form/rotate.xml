@@ -35,6 +35,7 @@
 			value="0"
 			min="0"
 			max="360"
+			labelclass="d-none"
 		/>
 	</fieldset>
 </form>

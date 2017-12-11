@@ -32,6 +32,7 @@
 			type="range"
 			label=""
 			value="0"
+			labelclass="d-none"
 		/>
 
 		<field
@@ -54,6 +55,7 @@
 			type="range"
 			label=""
 			value="0"
+			labelclass="d-none"
 		/>
 	</fieldset>
 </form>
