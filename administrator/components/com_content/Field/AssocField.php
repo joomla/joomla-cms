@@ -1,6 +1,7 @@
 <?php
 /**
- * Joomla! Content Management System
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,8 +15,9 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Associations;
 
 /**
- * Form Field class for the Joomla Platform.
+ * Assoc Field class.
  * Supports a generic list of options.
+ * Displays only when Associations are enabled.
  *
  * @since  4.0
  */
@@ -45,14 +47,11 @@ class AssocField extends ListField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		$return = parent::setup($element, $value, $group);
-
 		if (!Associations::isEnabled())
 		{
 			return false;
 		}
 
-		return $return;
+		return parent::setup($element, $value, $group);
 	}
 }
-
