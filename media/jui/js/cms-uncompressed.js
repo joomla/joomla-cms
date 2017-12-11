@@ -148,10 +148,12 @@ if (typeof(Joomla) === 'undefined') {
 		}
 
 		/**
-		 * Method for setup the 'showon' feature, for the fields in given container
+		 * Method for setup the 'showon' feature, for the fields in given container.  Add it to Joomla object
+		 * so it can be called when adding a container to the DOM.
+		 *
 		 * @param {HTMLElement} container
 		 */
-		function setUpShowon(container) {
+		Joomla.setUpShowon = function (container) {
 			container = container || document;
 
 			var $showonFields = $(container).find('[data-showon]');
@@ -184,12 +186,7 @@ if (typeof(Joomla) === 'undefined') {
 		 * Initialize 'showon' feature
 		 */
 		$(document).ready(function() {
-			setUpShowon();
-
-            // Provide a way to parse an entire form that has been added to the DOM on the fly
-            $(document).on('subform-container-add', function(event, container) {
-                setUpShowon(container);
-            });
+			Joomla.setUpShowon();
 
             // Setup showon feature in the subform field
 			$(document).on('subform-row-add', function(event, row) {
@@ -209,7 +206,7 @@ if (typeof(Joomla) === 'undefined') {
 					$elm.attr('data-showon', showon);
 				}
 
-				setUpShowon(row);
+				Joomla.setUpShowon(row);
 			});
 		});
 
