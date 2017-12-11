@@ -364,7 +364,7 @@
 
 			<field
 				name="show_associations"
-				type="list"
+				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
 				>
