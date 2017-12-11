@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -324,6 +326,26 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language == '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{

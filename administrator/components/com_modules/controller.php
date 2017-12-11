@@ -35,7 +35,6 @@ class ModulesController extends JControllerLegacy
 		// For JSON requests
 		if ($document->getType() == 'json')
 		{
-
 			$view = new ModulesViewModule;
 
 			// Get/Create the model
@@ -45,6 +44,7 @@ class ModulesController extends JControllerLegacy
 				if (!$model->checkout($id))
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
+
 					return false;
 				}
 

@@ -296,6 +296,7 @@ class MenusModelItem extends JModelAdmin
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -688,9 +689,8 @@ class MenusModelItem extends JModelAdmin
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
-
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
 				$table->link = $link;
 			}
@@ -1491,7 +1491,8 @@ class MenusModelItem extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{

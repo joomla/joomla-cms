@@ -362,7 +362,7 @@ class LanguageHelper
 
 		$languages = $contentLanguages;
 
-		// B/C layer. Before __DEPLOY_VERSION__.
+		// B/C layer. Before 3.8.3.
 		if ($publishedStates === true)
 		{
 			$publishedStates = array(1);
