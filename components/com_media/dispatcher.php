@@ -76,7 +76,7 @@ class MediaDispatcher extends Dispatcher
 		// Access check
 		if (!$user->authorise('core.manage', 'com_media')
 			&& (!$asset || (!$user->authorise('core.edit', $asset)
-                        && !$user->authorise('core.create', 'com_media')
+			&& !$user->authorise('core.create', 'com_media')
 			&& !$user->authorise('core.create', $asset)
 			&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
 			&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
