@@ -37,6 +37,10 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		$fieldNode->setAttribute('hide_default', 'true');
+		if(JFactory::getApplication()->getIdentity()->authorise('core.create','com_media'))
+		{
+			$fieldNode->setAttribute('disabled', 'false');
+		}
 
 		return $fieldNode;
 	}
