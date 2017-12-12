@@ -130,21 +130,21 @@ class TagField extends \JFormFieldList
 		// Limit Options in multilanguage only when Multilanguage is enabled
 		if (Multilanguage::isEnabled())
 		{
-			// First use language from Form
+			// First use language from the Form
 			if (!empty($this->element['language']))
 			{
 				$language = implode(',', $db->quote(explode(',', '*,' . $this->element['language'])));
 				$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 			}
-			// Show all tags in backend because admin
+			// Show all tags in the backend
 			elseif ($app->isClient('site'))
 			{
-				// Second use current language in global configuration 
+				// Second use current language from global configuration 
 				if ($lang == 'current_language')
 				{
 					$query->where($db->quoteName('a.language') . ' IN (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 				}
-				// Third use selected language in global configuration
+				// Third use selected language from global configuration
 				elseif ($lang != 'all')
 				{
 					$query->where($db->quoteName('a.language') . ' IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
