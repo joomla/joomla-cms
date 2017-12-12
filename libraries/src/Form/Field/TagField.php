@@ -148,7 +148,7 @@ class TagField extends \JFormFieldList
 				elseif ($lang != 'all')
 				{
 					$query->where($db->quoteName('a.language') . ' IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-		    		}
+				}
 			}
 		}
 
