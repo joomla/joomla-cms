@@ -150,8 +150,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						);
 
 						?>
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
+						<?php if ($this->item->client_id == 0) : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php else : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+						<?php endif; ?>
+ 					</div>
 				</div>
 			</div>
 		</div>

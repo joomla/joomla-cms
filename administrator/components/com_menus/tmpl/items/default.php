@@ -85,7 +85,7 @@ if ($menuType == '')
 									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<?php if ($this->state->get('filter.client_id') == 0) : ?>
+							<?php if (($this->state->get('filter.client_id') == 0) && (JLanguageMultilang::isEnabled())) : ?>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
@@ -249,7 +249,7 @@ if ($menuType == '')
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+								<?php if ($this->state->get('filter.client_id') == 0 && JLanguageMultilang::isEnabled()) : ?>
 									<td class="small hidden-sm-down text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>

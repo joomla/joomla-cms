@@ -252,7 +252,7 @@ class ArticlesModel extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -687,7 +687,7 @@ class ArticlesModel extends ListModel
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if ($item->params->get('show_associations'))
+			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 			}

@@ -146,14 +146,17 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					</div>
 
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('language'); ?>
+					<?php if (\JLanguageMultilang::isEnabled()) : ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('language'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('language'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('language'); ?>
-						</div>
-					</div>
+					<?php endif; ?>
+
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('note'); ?>

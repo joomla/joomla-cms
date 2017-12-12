@@ -11,7 +11,7 @@ namespace Joomla\Authentication\Password;
 /**
  * Password handler for BCrypt hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2.0
  */
 class BCryptHandler implements HandlerInterface
 {
@@ -23,7 +23,7 @@ class BCryptHandler implements HandlerInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function hashPassword($plaintext, array $options = array())
 	{
@@ -35,7 +35,7 @@ class BCryptHandler implements HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public static function isSupported()
 	{
@@ -51,7 +51,7 @@ class BCryptHandler implements HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{

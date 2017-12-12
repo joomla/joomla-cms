@@ -182,8 +182,8 @@ abstract class FieldsPlugin extends CMSPlugin
 
 		if ($field->default_value !== '')
 		{
-			$defaultNode = $node->appendChild(new DOMElement('default'));
-			$defaultNode->appendChild(new DOMCdataSection($field->default_value));
+			$defaultNode = $node->appendChild(new \DOMElement('default'));
+			$defaultNode->appendChild(new \DOMCdataSection($field->default_value));
 		}
 
 		// Combine the two params

@@ -9,19 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-$app       = JFactory::getApplication();
-$form      = $displayData->getForm();
-$input     = $app->input;
-$component = $input->getCmd('option', 'com_content');
-
-if ($component === 'com_categories')
-{
-	$extension = $input->getCmd('extension', 'com_content');
-	$parts     = explode('.', $extension);
-	$component = $parts[0];
-}
-
-$saveHistory = JComponentHelper::getParams($component)->get('save_history', 0);
+$app    = JFactory::getApplication();
+$form   = $displayData->getForm();
+$input  = $app->input;
 
 $fields = $displayData->get('fields') ?: array(
 	array('parent', 'parent_id'),
@@ -38,12 +28,7 @@ $fields = $displayData->get('fields') ?: array(
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
-if (!$saveHistory)
-{
-	$hiddenFields[] = 'version_note';
-}
-
-if (!JLanguageMultilang::isEnabled())
+if (!JModuleHelper::isAdminMultilang())
 {
 	$hiddenFields[] = 'language';
 	$form->setFieldAttribute('language', 'default', '*');
