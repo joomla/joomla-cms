@@ -60,18 +60,25 @@ class CaptchaRule extends FormRule
 		}
 
 		// Test the value.
-		if (!$captcha->checkAnswer($value))
+		try
 		{
-			$error = $captcha->getError();
+			if (!$captcha->checkAnswer($value))
+			{
+				$error = $captcha->getError();
 
-			if ($error instanceof \Exception)
-			{
-				return $error;
+				if ($error instanceof \Exception)
+				{
+					return $error;
+				}
+				else
+				{
+					return new \JException($error);
+				}
 			}
-			else
-			{
-				return new \JException($error);
-			}
+		}
+		catch (\Exception $e)
+		{
+			return $e;
 		}
 
 		return true;
