@@ -99,6 +99,13 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
+
+			// We do not need to filter by language when multilingual is disabled
+			if (!\JLanguageMultilang::isEnabled())
+			{
+				unset($this->activeFilters['language']);
+				$this->filterForm->removeField('language', 'filter');
+			}
 		}
 
 		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');

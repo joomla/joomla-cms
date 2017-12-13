@@ -13,6 +13,7 @@ if (!empty($params->get('block-image')))
 {
 	JFactory::getDocument()->addStyleDeclaration(
 		'section.'.$params->get('block-position').' { 
+<<<<<<< HEAD
 			padding-top: 15px;
 			padding-bottom: 15px;
 			background-image: url(' . $params->get('block-image') . ');
@@ -21,6 +22,12 @@ if (!empty($params->get('block-image')))
 			padding-top: 7.5px;
 		}
 		'
+=======
+			padding-top: 7.5px;
+			padding-bottom: 7.5px;
+			background-image: url(' . $params->get('block-image') . ');
+		}'
+>>>>>>> fdb479d26d2959993fc088e88ed56de716d8ce40
 	);
 }
 

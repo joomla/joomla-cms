@@ -37,6 +37,22 @@
 				class="text"
 			/>
 
+			<field
+				name="blog_class_leading"
+				type="text"
+				label="JGLOBAL_BLOG_CLASS_LEADING"
+				useglobal="true"
+				size="3"
+			/>
+
+			<field
+				name="blog_class"
+				type="text"
+				label="JGLOBAL_BLOG_CLASS"
+				useglobal="true"
+				size="3"
+			/>
+
 			<field 
 				name="num_leading_articles" 
 				type="number"
@@ -69,15 +85,11 @@
 				size="3"
 			/>
 
-			<field 
-				name="multi_column_order" 
-				type="list"
-				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-				useglobal="true"
-				>
-				<option value="0">JGLOBAL_Down</option>
-				<option value="1">JGLOBAL_Across</option>
-			</field>
+			<field
+				name="spacer1"
+				type="spacer"
+				hr="true"
+			/>
 
 			<field 
 				name="orderby_pri" 
@@ -150,7 +162,10 @@
 			</field>
 	</fieldset>
 
-	<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+	<fieldset name="article"
+		label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+		addfieldprefix="Joomla\Component\Content\Administrator\Field"
+	>
 			<field 
 				name="show_title" 
 				type="list"
@@ -263,7 +278,7 @@
 
 			<field
 				name="show_associations"
-				type="list"
+				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
 				class="chzn-color"

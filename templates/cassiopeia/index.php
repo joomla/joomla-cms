@@ -108,11 +108,21 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
+<<<<<<< HEAD
 			</div>
 		</nav>
 		<?php if ($this->countModules('banner')) : ?>
 		<div class="container-banner">
 			<jdoc:include type="modules" name="banner" style="xhtml" />
+=======
+			</div>
+		</nav>
+		<?php if ($this->countModules('banner')) : ?>
+		<div class="container-banner">
+			<div class="wrapper">
+				<jdoc:include type="modules" name="banner" style="xhtml" />
+			</div>
+>>>>>>> fdb479d26d2959993fc088e88ed56de716d8ce40
 		</div>
 		<?php endif; ?>
 		<div class="header-shadow"></div>
@@ -154,14 +164,16 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 	<?php if ($this->countModules('footer')) : ?>
 	<footer class="container-footer footer">
-		<hr>
-		<p class="float-right">
-			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-			</a>
-		</p>
-		<jdoc:include type="modules" name="footer" style="none" />
+		<div class="wrapper">
+			<hr>
+			<p class="float-right">
+				<a href="#top" id="back-top" class="back-top">
+					<span class="icon-arrow-up-4" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+				</a>
+			</p>
+			<jdoc:include type="modules" name="footer" style="none" />
+		</div>
 	</footer>
 	<?php endif; ?>
 

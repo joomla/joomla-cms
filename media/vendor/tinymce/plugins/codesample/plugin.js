@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.codesample.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.codesample.api.Commands","tinymce.plugins.codesample.core.FilterContent","tinymce.plugins.codesample.core.LoadCss","tinymce.plugins.codesample.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.codesample.ui.Dialog","tinymce.plugins.codesample.util.Utils","tinymce.plugins.codesample.core.Prism","tinymce.plugins.codesample.api.Settings","tinymce.core.dom.DOMUtils","tinymce.plugins.codesample.core.CodeSample","tinymce.plugins.codesample.core.Languages"]
+["tinymce.plugins.codesample.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.codesample.api.Commands","tinymce.plugins.codesample.core.FilterContent","tinymce.plugins.codesample.core.LoadCss","tinymce.plugins.codesample.ui.Buttons","tinymce.plugins.codesample.ui.Dialog","tinymce.plugins.codesample.util.Utils","global!tinymce.util.Tools.resolve","tinymce.plugins.codesample.api.Settings","tinymce.plugins.codesample.core.CodeSample","tinymce.plugins.codesample.core.Languages","tinymce.plugins.codesample.core.Prism","tinymce.core.dom.DOMUtils"]
 jsc*/
 define(
   'ephox.katamari.api.Cell',
@@ -1550,9 +1550,11 @@ define(
     'tinymce.plugins.codesample.api.Commands',
     'tinymce.plugins.codesample.core.FilterContent',
     'tinymce.plugins.codesample.core.LoadCss',
-    'tinymce.plugins.codesample.ui.Buttons'
+    'tinymce.plugins.codesample.ui.Buttons',
+    'tinymce.plugins.codesample.ui.Dialog',
+    'tinymce.plugins.codesample.util.Utils'
   ],
-  function (Cell, PluginManager, Commands, FilterContent, LoadCss, Buttons) {
+  function (Cell, PluginManager, Commands, FilterContent, LoadCss, Buttons, Dialog, Utils) {
     var addedInlineCss = Cell(false);
 
     PluginManager.add('codesample', function (editor, pluginUrl) {
@@ -1564,6 +1566,12 @@ define(
 
       editor.on('init', function () {
         LoadCss.loadCss(editor, pluginUrl, addedInlineCss, addedCss);
+      });
+
+      editor.on('dblclick', function (ev) {
+        if (Utils.isCodeSample(ev.target)) {
+          Dialog.open(editor);
+        }
       });
     });
 

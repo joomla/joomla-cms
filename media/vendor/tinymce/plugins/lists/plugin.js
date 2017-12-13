@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.lists.Plugin","tinymce.core.PluginManager","tinymce.plugins.lists.api.Api","tinymce.plugins.lists.api.Commands","tinymce.plugins.lists.core.Keyboard","tinymce.plugins.lists.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.lists.core.Delete","tinymce.plugins.lists.actions.Indent","tinymce.plugins.lists.actions.Outdent","tinymce.plugins.lists.actions.ToggleList","tinymce.core.util.VK","tinymce.plugins.lists.api.Settings","tinymce.core.util.Tools","tinymce.plugins.lists.core.NodeType","tinymce.plugins.lists.core.Selection","tinymce.core.api.dom.RangeUtils","tinymce.core.dom.TreeWalker","tinymce.core.dom.BookmarkManager","tinymce.core.dom.DOMUtils","tinymce.plugins.lists.core.Bookmark","tinymce.plugins.lists.core.NormalizeLists","tinymce.core.dom.DomQuery","tinymce.plugins.lists.core.SplitList","tinymce.plugins.lists.core.TextBlock","tinymce.plugins.lists.core.Range","tinymce.core.Env"]
+["tinymce.plugins.lists.Plugin","tinymce.core.PluginManager","tinymce.plugins.lists.api.Api","tinymce.plugins.lists.api.Commands","tinymce.plugins.lists.core.Keyboard","tinymce.plugins.lists.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.lists.core.Delete","tinymce.plugins.lists.actions.Indent","tinymce.plugins.lists.actions.Outdent","tinymce.plugins.lists.actions.ToggleList","tinymce.core.util.VK","tinymce.plugins.lists.api.Settings","tinymce.core.util.Tools","tinymce.plugins.lists.core.NodeType","tinymce.plugins.lists.core.Selection","tinymce.core.api.dom.RangeUtils","tinymce.core.dom.TreeWalker","tinymce.core.api.dom.BookmarkManager","tinymce.core.dom.DOMUtils","tinymce.plugins.lists.core.Bookmark","tinymce.plugins.lists.core.NormalizeLists","tinymce.core.dom.DomQuery","tinymce.plugins.lists.core.SplitList","tinymce.plugins.lists.core.TextBlock","tinymce.plugins.lists.core.Range","tinymce.core.Env"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -175,7 +175,7 @@ define(
  */
 
 define(
-  'tinymce.core.dom.BookmarkManager',
+  'tinymce.core.api.dom.BookmarkManager',
   [
     'global!tinymce.util.Tools.resolve'
   ],
@@ -473,6 +473,10 @@ define(
           offset = nodeIndex(container);
           container = container.parentNode;
           DOM.remove(node);
+
+          if (!container.hasChildNodes() && DOM.isBlock(container)) {
+            container.appendChild(DOM.create('br'));
+          }
         }
 
         bookmark[start ? 'startContainer' : 'endContainer'] = container;
@@ -991,7 +995,7 @@ define(
 define(
   'tinymce.plugins.lists.actions.ToggleList',
   [
-    'tinymce.core.dom.BookmarkManager',
+    'tinymce.core.api.dom.BookmarkManager',
     'tinymce.core.util.Tools',
     'tinymce.plugins.lists.actions.Outdent',
     'tinymce.plugins.lists.core.Bookmark',
@@ -1033,6 +1037,10 @@ define(
       // Resolve node index
       if (container.nodeType === 1) {
         container = container.childNodes[Math.min(offset, container.childNodes.length - 1)] || container;
+      }
+
+      if (!start && NodeType.isBr(container.nextSibling)) {
+        container = container.nextSibling;
       }
 
       while (container.parentNode !== root) {
@@ -1101,6 +1109,15 @@ define(
       return textBlocks;
     };
 
+    var hasCompatibleStyle = function (dom, sib, detail) {
+      var sibStyle = dom.getStyle(sib, 'list-style-type');
+      var detailStyle = detail ? detail['list-style-type'] : '';
+
+      detailStyle = detailStyle === null ? '' : detailStyle;
+
+      return sibStyle === detailStyle;
+    };
+
     var applyList = function (editor, listName, detail) {
       var rng = editor.selection.getRng(true), bookmark, listItemName = 'LI';
       var root = Selection.getClosestListRootElm(editor, editor.selection.getStart(true));
@@ -1123,17 +1140,8 @@ define(
       Tools.each(getSelectedTextBlocks(editor, rng, root), function (block) {
         var listBlock, sibling;
 
-        var hasCompatibleStyle = function (sib) {
-          var sibStyle = dom.getStyle(sib, 'list-style-type');
-          var detailStyle = detail ? detail['list-style-type'] : '';
-
-          detailStyle = detailStyle === null ? '' : detailStyle;
-
-          return sibStyle === detailStyle;
-        };
-
         sibling = block.previousSibling;
-        if (sibling && NodeType.isListNode(sibling) && sibling.nodeName === listName && hasCompatibleStyle(sibling)) {
+        if (sibling && NodeType.isListNode(sibling) && sibling.nodeName === listName && hasCompatibleStyle(dom, sibling, detail)) {
           listBlock = sibling;
           block = dom.rename(block, listItemName);
           sibling.appendChild(block);
@@ -1911,12 +1919,14 @@ define(
 
       if (!hasPlugin(editor, 'advlist')) {
         editor.addButton('numlist', {
+          active: false,
           title: 'Numbered list',
           cmd: 'InsertOrderedList',
           onPostRender: listState(editor, 'OL')
         });
 
         editor.addButton('bullist', {
+          active: false,
           title: 'Bullet list',
           cmd: 'InsertUnorderedList',
           onPostRender: listState(editor, 'UL')
