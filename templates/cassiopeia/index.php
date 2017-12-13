@@ -108,13 +108,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-<<<<<<< HEAD
-			</div>
-		</nav>
-		<?php if ($this->countModules('banner')) : ?>
-		<div class="container-banner">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
-=======
 			</div>
 		</nav>
 		<?php if ($this->countModules('banner')) : ?>
@@ -122,7 +115,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<div class="wrapper">
 				<jdoc:include type="modules" name="banner" style="xhtml" />
 			</div>
->>>>>>> fdb479d26d2959993fc088e88ed56de716d8ce40
 		</div>
 		<?php endif; ?>
 		<div class="header-shadow"></div>
