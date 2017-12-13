@@ -44,6 +44,16 @@ class JFormFieldCalendar extends JFormField
 	protected $format;
 
 	/**
+	 * Is calendar electric?  
+	 * If true (default) then given date area is updated for each navigation
+	 * otherwise it is only updated only close
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $electric;
+	
+	/**
 	 * The filter.
 	 *
 	 * @var    integer
@@ -89,6 +99,7 @@ class JFormFieldCalendar extends JFormField
 		switch ($name)
 		{
 			case 'maxlength':
+			case 'electric':
 			case 'format':
 			case 'filter':
 			case 'timeformat':
@@ -128,6 +139,7 @@ class JFormFieldCalendar extends JFormField
 			case 'weeknumbers':
 			case 'showtime':
 			case 'filltable':
+			case 'electric':
 			case 'format':
 			case 'filter':
 			case 'minyear':
@@ -161,6 +173,7 @@ class JFormFieldCalendar extends JFormField
 		if ($return)
 		{
 			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
+			$this->electric	    = (string) $this->element['electric'] === "false"  ? 0 : 1;
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
 			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
@@ -293,6 +306,7 @@ class JFormFieldCalendar extends JFormField
 			'value'        => $this->value,
 			'maxLength'    => $this->maxlength,
 			'format'       => $this->format,
+			'electric'     => $this->electric,
 			'filter'       => $this->filter,
 			'todaybutton'  => ($this->todaybutton === 'true') ? 1 : 0,
 			'weeknumbers'  => ($this->weeknumbers === 'true') ? 1 : 0,
