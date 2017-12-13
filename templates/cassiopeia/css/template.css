@@ -8890,7 +8890,9 @@ header {
   .module-block.text-light .card {
     background-color: rgba(255, 255, 255, 0.075); }
   .module-block.full .wrapper {
-    max-width: 100% !important; }
+    max-width: 100% !important;
+    padding-left: 15px;
+    padding-right: 15px; }
   .module-block[class^='bg-'], .module-block[class*=' bg-'] {
     padding-top: 15px;
     padding-bottom: 15px; }

@@ -177,6 +177,8 @@
   &.full {
     .wrapper {
       max-width: 100% !important;
+      padding-left: $cassiopeia-grid-gutter;
+      padding-right: $cassiopeia-grid-gutter;
     }
   }
   &[class^='bg-'], &[class*=' bg-'] {
