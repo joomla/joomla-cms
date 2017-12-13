@@ -328,9 +328,9 @@ abstract class HTMLHelper
 		{
 			return array($file);
 		}
-		
+
 		$file = \JPath::clean($file, '/');
-		
+
 		// Extract extension and strip the file
 		$strip = \JFile::stripExt($file);
 		$ext   = \JFile::getExt($file);
