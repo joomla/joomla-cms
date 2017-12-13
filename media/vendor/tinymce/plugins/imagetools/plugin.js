@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.imagetools.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.imagetools.api.Commands","tinymce.plugins.imagetools.core.UploadSelectedImage","tinymce.plugins.imagetools.ui.Buttons","tinymce.plugins.imagetools.ui.ContextToolbar","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.imagetools.core.Actions","ephox.katamari.api.Fun","tinymce.plugins.imagetools.api.Settings","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","global!Array","global!Error","ephox.sand.api.URL","global!clearTimeout","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","ephox.sand.util.Global","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","global!setTimeout","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Resolve","ephox.katamari.api.Arr","ephox.sand.api.FileReader","ephox.sand.api.XMLHttpRequest","global!document","global!Image","tinymce.core.geom.Rect","tinymce.plugins.imagetools.core.LoadImage","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Global","ephox.katamari.api.Option","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
+["tinymce.plugins.imagetools.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.imagetools.api.Commands","tinymce.plugins.imagetools.core.UploadSelectedImage","tinymce.plugins.imagetools.ui.Buttons","tinymce.plugins.imagetools.ui.ContextToolbar","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.imagetools.core.Actions","ephox.katamari.api.Fun","tinymce.plugins.imagetools.api.Settings","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","ephox.imagetools.api.ResultConversions","global!Array","global!Error","ephox.sand.api.URL","global!clearTimeout","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","ephox.imagetools.util.ImageResult","ephox.sand.util.Global","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","global!setTimeout","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Canvas","ephox.imagetools.util.ImageSize","ephox.imagetools.util.Mime","ephox.imagetools.util.Promise","ephox.katamari.api.Option","ephox.sand.api.Blob","ephox.sand.api.FileReader","ephox.sand.api.Uint8Array","ephox.sand.api.Window","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Resolve","ephox.katamari.api.Arr","ephox.sand.api.XMLHttpRequest","global!document","global!Image","tinymce.core.geom.Rect","tinymce.plugins.imagetools.core.LoadImage","tinymce.plugins.imagetools.ui.CropRect","global!Object","ephox.katamari.api.Global","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK"]
 jsc*/
 define(
   'ephox.katamari.api.Cell',
@@ -157,6 +157,113 @@ define(
   }
 );
 
+define(
+  'ephox.imagetools.util.Canvas',
+  [
+  ],
+  function () {
+    function create(width, height) {
+      return resize(document.createElement('canvas'), width, height);
+    }
+
+    function clone(canvas) {
+      var tCanvas, ctx;
+      tCanvas = create(canvas.width, canvas.height);
+      ctx = get2dContext(tCanvas);
+      ctx.drawImage(canvas, 0, 0);
+      return tCanvas;
+    }
+
+    function get2dContext(canvas) {
+      return canvas.getContext("2d");
+    }
+
+    function get3dContext(canvas) {
+      var gl = null;
+      try {
+        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      }
+      catch (e) { }
+
+      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
+        gl = null;
+      }
+      return gl;
+    }
+
+    function resize(canvas, width, height) {
+      canvas.width = width;
+      canvas.height = height;
+
+      return canvas;
+    }
+
+    return {
+      create: create,
+      clone: clone,
+      resize: resize,
+      get2dContext: get2dContext,
+      get3dContext: get3dContext
+    };
+  });
+define(
+  'ephox.imagetools.util.ImageSize',
+  [
+  ],
+  function() {
+  function getWidth(image) {
+    return image.naturalWidth || image.width;
+  }
+
+  function getHeight(image) {
+    return image.naturalHeight || image.height;
+  }
+
+  return {
+    getWidth: getWidth,
+    getHeight: getHeight
+  };
+});
+define(
+  'ephox.imagetools.util.Mime',
+  [
+  ],
+  function () {
+    function getUriPathName(uri) {
+      var a = document.createElement('a');
+      a.href = uri;
+      return a.pathname;
+    }
+
+    function guessMimeType(uri) {
+      var parts, ext, mimes, matches;
+
+      if (uri.indexOf('data:') === 0) {
+        uri = uri.split(',');
+        matches = /data:([^;]+)/.exec(uri[0]);
+        return matches ? matches[1] : '';
+      } else {
+        mimes = {
+          'jpg': 'image/jpeg',
+          'jpeg': 'image/jpeg',
+          'png': 'image/png'
+        };
+
+        parts = getUriPathName(uri).split('.');
+        ext = parts[parts.length - 1];
+
+        if (ext) {
+          ext = ext.toLowerCase();
+        }
+        return mimes[ext];
+      }
+    }
+
+
+    return {
+      guessMimeType: guessMimeType
+    };
+  });
 /* eslint-disable */
 /* jshint ignore:start */
 
@@ -352,122 +459,494 @@ define(
 /* jshint ignore:end */
 /* eslint-enable */
 
+defineGlobal("global!Array", Array);
+defineGlobal("global!Error", Error);
 define(
-  'ephox.imagetools.util.Canvas',
+  'ephox.katamari.api.Fun',
+
   [
+    'global!Array',
+    'global!Error'
   ],
-  function () {
-    function create(width, height) {
-      return resize(document.createElement('canvas'), width, height);
-    }
 
-    function clone(canvas) {
-      var tCanvas, ctx;
-      tCanvas = create(canvas.width, canvas.height);
-      ctx = get2dContext(tCanvas);
-      ctx.drawImage(canvas, 0, 0);
-      return tCanvas;
-    }
+  function (Array, Error) {
 
-    function get2dContext(canvas) {
-      return canvas.getContext("2d");
-    }
+    var noop = function () { };
 
-    function get3dContext(canvas) {
-      var gl = null;
-      try {
-        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      }
-      catch (e) { }
+    var compose = function (fa, fb) {
+      return function () {
+        return fa(fb.apply(null, arguments));
+      };
+    };
 
-      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
-        gl = null;
-      }
-      return gl;
-    }
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
 
-    function resize(canvas, width, height) {
-      canvas.width = width;
-      canvas.height = height;
+    var identity = function (x) {
+      return x;
+    };
 
-      return canvas;
-    }
+    var tripleEquals = function(a, b) {
+      return a === b;
+    };
+
+    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+    var curry = function (f) {
+      // equivalent to arguments.slice(1)
+      // starting at 1 because 0 is the f, makes things tricky.
+      // Pay attention to what variable is where, and the -1 magic.
+      // thankfully, we have tests for this.
+      var args = new Array(arguments.length - 1);
+      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
+
+      return function () {
+        var newArgs = new Array(arguments.length);
+        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
+
+        var all = args.concat(newArgs);
+        return f.apply(null, all);
+      };
+    };
+
+    var not = function (f) {
+      return function () {
+        return !f.apply(null, arguments);
+      };
+    };
+
+    var die = function (msg) {
+      return function () {
+        throw new Error(msg);
+      };
+    };
+
+    var apply = function (f) {
+      return f();
+    };
+
+    var call = function(f) {
+      f();
+    };
+
+    var never = constant(false);
+    var always = constant(true);
+    
 
     return {
-      create: create,
-      clone: clone,
-      resize: resize,
-      get2dContext: get2dContext,
-      get3dContext: get3dContext
+      noop: noop,
+      compose: compose,
+      constant: constant,
+      identity: identity,
+      tripleEquals: tripleEquals,
+      curry: curry,
+      not: not,
+      die: die,
+      apply: apply,
+      call: call,
+      never: never,
+      always: always
     };
-  });
+  }
+);
+
+defineGlobal("global!Object", Object);
 define(
-  'ephox.imagetools.util.Mime',
+  'ephox.katamari.api.Option',
+
   [
+    'ephox.katamari.api.Fun',
+    'global!Object'
   ],
-  function () {
-    function getUriPathName(uri) {
-      var a = document.createElement('a');
-      a.href = uri;
-      return a.pathname;
-    }
 
-    function guessMimeType(uri) {
-      var parts, ext, mimes, matches;
+  function (Fun, Object) {
 
-      if (uri.indexOf('data:') === 0) {
-        uri = uri.split(',');
-        matches = /data:([^;]+)/.exec(uri[0]);
-        return matches ? matches[1] : '';
-      } else {
-        mimes = {
-          'jpg': 'image/jpeg',
-          'jpeg': 'image/jpeg',
-          'png': 'image/png'
-        };
+    var never = Fun.never;
+    var always = Fun.always;
 
-        parts = getUriPathName(uri).split('.');
-        ext = parts[parts.length - 1];
+    /**
+      Option objects support the following methods:
 
-        if (ext) {
-          ext = ext.toLowerCase();
+      fold :: this Option a -> ((() -> b, a -> b)) -> Option b
+
+      is :: this Option a -> a -> Boolean
+
+      isSome :: this Option a -> () -> Boolean
+
+      isNone :: this Option a -> () -> Boolean
+
+      getOr :: this Option a -> a -> a
+
+      getOrThunk :: this Option a -> (() -> a) -> a
+
+      getOrDie :: this Option a -> String -> a
+
+      or :: this Option a -> Option a -> Option a
+        - if some: return self
+        - if none: return opt
+
+      orThunk :: this Option a -> (() -> Option a) -> Option a
+        - Same as "or", but uses a thunk instead of a value
+
+      map :: this Option a -> (a -> b) -> Option b
+        - "fmap" operation on the Option Functor.
+        - same as 'each'
+
+      ap :: this Option a -> Option (a -> b) -> Option b
+        - "apply" operation on the Option Apply/Applicative.
+        - Equivalent to <*> in Haskell/PureScript.
+
+      each :: this Option a -> (a -> b) -> Option b
+        - same as 'map'
+
+      bind :: this Option a -> (a -> Option b) -> Option b
+        - "bind"/"flatMap" operation on the Option Bind/Monad.
+        - Equivalent to >>= in Haskell/PureScript; flatMap in Scala.
+
+      flatten :: {this Option (Option a))} -> () -> Option a
+        - "flatten"/"join" operation on the Option Monad.
+
+      exists :: this Option a -> (a -> Boolean) -> Boolean
+
+      forall :: this Option a -> (a -> Boolean) -> Boolean
+
+      filter :: this Option a -> (a -> Boolean) -> Option a
+
+      equals :: this Option a -> Option a -> Boolean
+
+      equals_ :: this Option a -> (Option a, a -> Boolean) -> Boolean
+
+      toArray :: this Option a -> () -> [a]
+
+    */
+
+    var none = function () { return NONE; };
+
+    var NONE = (function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+
+      // inlined from peanut, maybe a micro-optimisation?
+      var call = function (thunk) { return thunk(); };
+      var id = function (n) { return n; };
+      var noop = function () { };
+
+      var me = {
+        fold: function (n, s) { return n(); },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        or: id,
+        orThunk: call,
+        map: none,
+        ap: none,
+        each: noop,
+        bind: none,
+        flatten: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () { return []; },
+        toString: Fun.constant("none()")
+      };
+      if (Object.freeze) Object.freeze(me);
+      return me;
+    })();
+
+
+    /** some :: a -> Option a */
+    var some = function (a) {
+
+      // inlined from peanut, maybe a micro-optimisation?
+      var constant_a = function () { return a; };
+
+      var self = function () {
+        // can't Fun.constant this one
+        return me;
+      };
+
+      var map = function (f) {
+        return some(f(a));
+      };
+
+      var bind = function (f) {
+        return f(a);
+      };
+
+      var me = {
+        fold: function (n, s) { return s(a); },
+        is: function (v) { return a === v; },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        or: self,
+        orThunk: self,
+        map: map,
+        ap: function (optfab) {
+          return optfab.fold(none, function(fab) {
+            return some(fab(a));
+          });
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        flatten: constant_a,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(
+            never,
+            function (b) { return elementEq(a, b); }
+          );
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
         }
-        return mimes[ext];
-      }
-    }
+      };
+      return me;
+    };
 
+    /** from :: undefined|null|a -> Option a */
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
 
     return {
-      guessMimeType: guessMimeType
+      some: some,
+      none: none,
+      from: from
     };
-  });
+  }
+);
+
 define(
-  'ephox.imagetools.util.ImageSize',
+  'ephox.katamari.api.Global',
+
   [
   ],
-  function() {
-  function getWidth(image) {
-    return image.naturalWidth || image.width;
-  }
 
-  function getHeight(image) {
-    return image.naturalHeight || image.height;
+  function () {
+    // Use window object as the global if it's available since CSP will block script evals
+    if (typeof window !== 'undefined') {
+      return window;
+    } else {
+      return Function('return this;')();
+    }
   }
+);
 
-  return {
-    getWidth: getWidth,
-    getHeight: getHeight
-  };
-});
+
+define(
+  'ephox.katamari.api.Resolve',
+
+  [
+    'ephox.katamari.api.Global'
+  ],
+
+  function (Global) {
+    /** path :: ([String], JsObj?) -> JsObj */
+    var path = function (parts, scope) {
+      var o = scope !== undefined ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+        o = o[parts[i]];
+      return o;
+    };
+
+    /** resolve :: (String, JsObj?) -> JsObj */
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
+
+    /** step :: (JsObj, String) -> JsObj */
+    var step = function (o, part) {
+      if (o[part] === undefined || o[part] === null)
+        o[part] = {};
+      return o[part];
+    };
+
+    /** forge :: ([String], JsObj?) -> JsObj */
+    var forge = function (parts, target) {
+      var o = target !== undefined ? target : Global;      
+      for (var i = 0; i < parts.length; ++i)
+        o = step(o, parts[i]);
+      return o;
+    };
+
+    /** namespace :: (String, JsObj?) -> JsObj */
+    var namespace = function (name, target) {
+      var parts = name.split('.');
+      return forge(parts, target);
+    };
+
+    return {
+      path: path,
+      resolve: resolve,
+      forge: forge,
+      namespace: namespace
+    };
+  }
+);
+
+
+define(
+  'ephox.sand.util.Global',
+
+  [
+    'ephox.katamari.api.Resolve'
+  ],
+
+  function (Resolve) {
+    var unsafe = function (name, scope) {
+      return Resolve.resolve(name, scope);
+    };
+
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+
+      if (actual === undefined) throw name + ' not available on this browser';
+      return actual;
+    };
+
+    return {
+      getOrDie: getOrDie
+    };
+  }
+);
+define(
+  'ephox.sand.api.Blob',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/Blob
+     */
+    return function (parts, properties) {
+      var f = Global.getOrDie('Blob');
+      return new f(parts, properties);
+    };
+  }
+);
+define(
+  'ephox.sand.api.FileReader',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+     */
+    return function () {
+      var f = Global.getOrDie('FileReader');
+      return new f();
+    };
+  }
+);
+define(
+  'ephox.sand.api.Uint8Array',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * https://developer.mozilla.org/en-US/docs/Web/API/Uint8Array
+     *
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
+     */
+    return function (arr) {
+      var f = Global.getOrDie('Uint8Array');
+      return new f(arr);
+    };
+  }
+);
+define(
+  'ephox.sand.api.Window',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /******************************************************************************************
+     * BIG BIG WARNING: Don't put anything other than top-level window functions in here.
+     *
+     * Objects that are technically available as window.X should be in their own module X (e.g. Blob, FileReader, URL).
+     ******************************************************************************************
+     */
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
+     */
+    var requestAnimationFrame = function (callback) {
+      var f = Global.getOrDie('requestAnimationFrame');
+      f(callback);
+    };
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.atob
+     */
+    var atob = function (base64) {
+      var f = Global.getOrDie('atob');
+      return f(base64);
+    };
+
+    return {
+      atob: atob,
+      requestAnimationFrame: requestAnimationFrame
+    };
+  }
+);
+defineGlobal("global!Math", Math);
 define(
   'ephox.imagetools.util.Conversions',
   [
-    'ephox.imagetools.util.Promise',
     'ephox.imagetools.util.Canvas',
+    'ephox.imagetools.util.ImageSize',
     'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.ImageSize'
+    'ephox.imagetools.util.Promise',
+    'ephox.katamari.api.Option',
+    'ephox.sand.api.Blob',
+    'ephox.sand.api.FileReader',
+    'ephox.sand.api.Uint8Array',
+    'ephox.sand.api.Window',
+    'global!Array',
+    'global!Math'
   ],
-  function (Promise, Canvas, Mime, ImageSize) {
+  function (Canvas, ImageSize, Mime, Promise, Option, Blob, FileReader, Uint8Array, Window, Array, Math) {
     function loadImage(image) {
       return new Promise(function (resolve) {
         function loaded() {
@@ -508,7 +987,7 @@ define(
         }
 
         return imageToCanvas(image).then(function (canvas) {
-          return dataUriToBlob(canvas.toDataURL(Mime.guessMimeType(src)));
+          return canvasToBlob(canvas, Mime.guessMimeType(src));
         });
       });
     }
@@ -549,40 +1028,40 @@ define(
     }
 
     function dataUriToBlobSync(uri) {
-      var str, arr, i, matches, type, blobBuilder;
+      var data = uri.split(',');
 
-      uri = uri.split(',');
+      var matches = /data:([^;]+)/.exec(data[0]);
+      if (!matches) return Option.none();
 
-      matches = /data:([^;]+)/.exec(uri[0]);
-      if (matches) {
-        type = matches[1];
-      }
+      var mimetype = matches[1];
+      var base64 = data[1];
 
-      str = atob(uri[1]);
+      // al gore rhythm via http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+      var sliceSize = 1024;
+      var byteCharacters = Window.atob(base64);
+      var bytesLength = byteCharacters.length;
+      var slicesCount = Math.ceil(bytesLength / sliceSize);
+      var byteArrays = new Array(slicesCount);
 
-      if (window.WebKitBlobBuilder) {
-        /*globals WebKitBlobBuilder:false */
-        blobBuilder = new WebKitBlobBuilder();
+      for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
 
-        arr = new ArrayBuffer(str.length);
-        for (i = 0; i < arr.length; i++) {
-          arr[i] = str.charCodeAt(i);
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+          bytes[i] = byteCharacters[offset].charCodeAt(0);
         }
-
-        blobBuilder.append(arr);
-        return blobBuilder.getBlob(type);
+        byteArrays[sliceIndex] = Uint8Array(bytes);
       }
-
-      arr = new Uint8Array(str.length);
-      for (i = 0; i < arr.length; i++) {
-        arr[i] = str.charCodeAt(i);
-      }
-      return new Blob([arr], { type: type });
+      return Option.some(Blob(byteArrays, { type: mimetype }));
     }
 
     function dataUriToBlob(uri) {
-      return new Promise(function (resolve) {
-        resolve(dataUriToBlobSync(uri));
+      return new Promise(function (resolve, reject) {
+        dataUriToBlobSync(uri).fold(function () {
+          // uri isn't valid
+          reject('uri is not base64: ' + uri);
+        }, resolve);
       });
     }
 
@@ -634,48 +1113,99 @@ define(
       URL.revokeObjectURL(image.src);
     }
 
+    var isDataUrl = function (uri) {
+      var data = uri.split(',');
+
+      return /data:([^;]+)/.exec(data[0]) !== null;
+    };
+
     return {
       // used outside
       blobToImage: blobToImage,
-      // used outside
       imageToBlob: imageToBlob,
-      // used outside
       blobToDataUri: blobToDataUri,
-      // used outside
       blobToBase64: blobToBase64,
 
       // helper method
       imageToCanvas: imageToCanvas,
-      // helper method
       canvasToBlob: canvasToBlob,
-      // helper method
       revokeImageUrl: revokeImageUrl,
-      // helper method
       uriToBlob: uriToBlob,
-      // helper method
-      dataUriToBlobSync: dataUriToBlobSync
+      dataUriToBlobSync: dataUriToBlobSync,
+      isDataUrl: isDataUrl
     };
   });
 define(
+  'ephox.imagetools.api.BlobConversions',
+  [
+    'ephox.imagetools.util.Conversions'
+  ],
+  function (Conversions) {
+    var blobToImage = function (image) {
+      return Conversions.blobToImage(image);
+    };
+
+    var imageToBlob = function (blob) {
+      return Conversions.imageToBlob(blob);
+    };
+
+    var blobToDataUri = function (blob) {
+      return Conversions.blobToDataUri(blob);
+    };
+
+    var blobToBase64 = function (blob) {
+      return Conversions.blobToBase64(blob);
+    };
+
+    var dataUriToBlobSync = function (uri) {
+      return Conversions.dataUriToBlobSync(uri);
+    };
+
+    return {
+      // used outside
+      blobToImage: blobToImage,
+      imageToBlob: imageToBlob,
+      blobToDataUri: blobToDataUri,
+      blobToBase64: blobToBase64,
+      dataUriToBlobSync: dataUriToBlobSync
+    };
+  }
+);
+define(
   'ephox.imagetools.util.ImageResult',
   [
-    'ephox.imagetools.util.Promise',
+    'ephox.imagetools.util.Canvas',
     'ephox.imagetools.util.Conversions',
     'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.Canvas'
+    'ephox.imagetools.util.Promise',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option'
   ],
-  function (Promise, Conversions, Mime, Canvas) {
-    function create(canvas, initialType) {
-      function getType() {
-        return initialType;
-      }
+  function (Canvas, Conversions, Mime, Promise, Fun, Option) {
+    function create(canvas, blob, maybeUri) {
+      var initialType = blob.type;
+
+      var getType = Fun.constant(initialType);
 
       function toBlob(type, quality) {
-        return Conversions.canvasToBlob(canvas, type || initialType, quality);
+        // Shortcut to not lose the blob filename when we haven't edited the image
+        var resultType = type || initialType;
+        if (type === initialType && quality === undefined) {
+          return Promise.resolve(blob);
+        } else {
+          return Conversions.canvasToBlob(canvas, resultType, quality);
+        }
       }
 
-      function toDataURL(type, quality) {
-        return canvas.toDataURL(type || initialType, quality);
+      function toDataURL(_type, quality) {
+        var type = _type || initialType;
+        var canvasOutput = function () {
+          return canvas.toDataURL(type, quality);
+        };
+        return maybeUri.fold(canvasOutput, function (uri) {
+          // if we have data and aren't converting, use it - canvas tends to convert even when you tell it not to.
+          return (quality === undefined && type === initialType) ? uri : canvasOutput();
+        });
       }
 
       function toBase64(type, quality) {
@@ -703,95 +1233,63 @@ define(
           return result;
         })
         .then(function (canvas) {
-          return create(canvas, blob.type);
+          return Conversions.blobToDataUri(blob).then(function (uri) {
+            return create(canvas, blob, Option.some(uri));
+          });
         });
     }
 
     function fromCanvas(canvas, type) {
-      return new Promise(function (resolve) {
-        resolve(create(canvas, type));
+      return Conversions.canvasToBlob(canvas, type).then(function (blob) {
+        return create(canvas, blob, Option.none());
       });
     }
 
     function fromImage(image) {
       var type = Mime.guessMimeType(image.src);
       return Conversions.imageToCanvas(image).then(function (canvas) {
-        return create(canvas, type);
+        return Conversions.canvasToBlob(canvas, type).then(function (blob) {
+          return fromCanvas(canvas, blob, Option.none());
+        });
       });
+    }
+
+    /*
+      This copy doesn't support changing type or quality, but
+      it's used by TBIO on load which won't ask for changes.
+
+      TODO: Make toCanvas return a promise so this can be inlined with create above
+     */
+    var fromBlobAndUrlSync = function (blob, url) {
+      var backgroundCanvas = Option.none();
+      Conversions.blobToImage(blob).then(function (image) {
+        var result = Conversions.imageToCanvas(image);
+        Conversions.revokeImageUrl(image);
+        backgroundCanvas = Option.some(result);
+      });
+      return {
+        getType: Fun.constant(blob.type),
+        toBlob: function () {
+          return Promise.resolve(blob);
+        },
+        toDataURL: Fun.constant(url),
+        toBase64: function () {
+          return url.split(',')[1];
+        },
+        toCanvas: function () {
+          return backgroundCanvas.getOrDie('image has not loaded yet')
+        }
+      };
     }
 
     return {
       fromBlob: fromBlob,
       fromCanvas: fromCanvas,
-      fromImage: fromImage
+      fromImage: fromImage,
+      fromBlobAndUrlSync: fromBlobAndUrlSync
     };
   });
 
-define(
-  'ephox.imagetools.api.BlobConversions',
-  [
-    'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.ImageResult'
-  ],
-  function (Conversions, ImageResult) {
-    var blobToImage = function (image) {
-      return Conversions.blobToImage(image);
-    };
-
-    var imageToBlob = function (blob) {
-      return Conversions.imageToBlob(blob);
-    };
-
-    var blobToDataUri = function (blob) {
-      return Conversions.blobToDataUri(blob);
-    };
-
-    var blobToBase64 = function (blob) {
-      return Conversions.blobToBase64(blob);
-    };
-
-    var blobToImageResult = function(blob) {
-      return ImageResult.fromBlob(blob);
-    };
-
-    var dataUriToImageResult = function(uri) {
-      return Conversions.uriToBlob(uri).then(ImageResult.fromBlob);
-    };
-
-    var imageToImageResult = function(image) {
-      return ImageResult.fromImage(image);
-    };
-
-    var imageResultToBlob = function(ir, type, quality) {
-      return ir.toBlob(type, quality);
-    };
-
-    var imageResultToBlobSync = function(ir, type, quality) {
-      return Conversions.dataUriToBlobSync(ir.toDataURL(type, quality));
-    };
-
-    return {
-      // used outside
-      blobToImage: blobToImage,
-      // used outside
-      imageToBlob: imageToBlob,
-      // used outside
-      blobToDataUri: blobToDataUri,
-      // used outside
-      blobToBase64: blobToBase64,
-      // used outside
-      blobToImageResult: blobToImageResult,
-      // used outside
-      dataUriToImageResult: dataUriToImageResult,
-      // used outside
-      imageToImageResult: imageToImageResult,
-      // used outside
-      imageResultToBlob: imageResultToBlob,
-      // just in case
-      imageResultToBlobSync: imageResultToBlobSync
-    };
-  }
-);
 define(
   'ephox.imagetools.transformations.ColorMatrix',
   [
@@ -1429,193 +1927,54 @@ define(
     };
   }
 );
-defineGlobal("global!Array", Array);
-defineGlobal("global!Error", Error);
 define(
-  'ephox.katamari.api.Fun',
+  'ephox.imagetools.api.ResultConversions',
 
   [
-    'global!Array',
-    'global!Error'
+    'ephox.imagetools.util.ImageResult'
   ],
 
-  function (Array, Error) {
+  function (ImageResult) {
 
-    var noop = function () { };
-
-    var compose = function (fa, fb) {
-      return function () {
-        return fa(fb.apply(null, arguments));
-      };
+    var blobToImageResult = function (blob) {
+      return ImageResult.fromBlob(blob);
     };
 
-    var constant = function (value) {
-      return function () {
-        return value;
-      };
+    var fromBlobAndUrlSync = function (blob, uri) {
+      // we have no reason to doubt the uri is valid
+      return ImageResult.fromBlobAndUrlSync(blob, uri);
     };
 
-    var identity = function (x) {
-      return x;
+    var imageToImageResult = function (image) {
+      return ImageResult.fromImage(image);
+
     };
 
-    var tripleEquals = function(a, b) {
-      return a === b;
+    var imageResultToBlob = function (ir, type, quality) {
+      return ir.toBlob(type, quality);
     };
 
-    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-    var curry = function (f) {
-      // equivalent to arguments.slice(1)
-      // starting at 1 because 0 is the f, makes things tricky.
-      // Pay attention to what variable is where, and the -1 magic.
-      // thankfully, we have tests for this.
-      var args = new Array(arguments.length - 1);
-      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
-
-      return function () {
-        var newArgs = new Array(arguments.length);
-        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
-
-        var all = args.concat(newArgs);
-        return f.apply(null, all);
-      };
+    var imageResultToOriginalBlob = function (ir) {
+      // implementation detail - undefined type/quality returns original blob
+      return ir.toBlob();
     };
 
-    var not = function (f) {
-      return function () {
-        return !f.apply(null, arguments);
-      };
-    };
-
-    var die = function (msg) {
-      return function () {
-        throw new Error(msg);
-      };
-    };
-
-    var apply = function (f) {
-      return f();
-    };
-
-    var call = function(f) {
-      f();
-    };
-
-    var never = constant(false);
-    var always = constant(true);
-    
-
-    return {
-      noop: noop,
-      compose: compose,
-      constant: constant,
-      identity: identity,
-      tripleEquals: tripleEquals,
-      curry: curry,
-      not: not,
-      die: die,
-      apply: apply,
-      call: call,
-      never: never,
-      always: always
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Global',
-
-  [
-  ],
-
-  function () {
-    // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
-  }
-);
-
-
-define(
-  'ephox.katamari.api.Resolve',
-
-  [
-    'ephox.katamari.api.Global'
-  ],
-
-  function (Global) {
-    /** path :: ([String], JsObj?) -> JsObj */
-    var path = function (parts, scope) {
-      var o = scope !== undefined ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
-        o = o[parts[i]];
-      return o;
-    };
-
-    /** resolve :: (String, JsObj?) -> JsObj */
-    var resolve = function (p, scope) {
-      var parts = p.split('.');
-      return path(parts, scope);
-    };
-
-    /** step :: (JsObj, String) -> JsObj */
-    var step = function (o, part) {
-      if (o[part] === undefined || o[part] === null)
-        o[part] = {};
-      return o[part];
-    };
-
-    /** forge :: ([String], JsObj?) -> JsObj */
-    var forge = function (parts, target) {
-      var o = target !== undefined ? target : Global;      
-      for (var i = 0; i < parts.length; ++i)
-        o = step(o, parts[i]);
-      return o;
-    };
-
-    /** namespace :: (String, JsObj?) -> JsObj */
-    var namespace = function (name, target) {
-      var parts = name.split('.');
-      return forge(parts, target);
+    var imageResultToDataURL = function (ir, type, quality) {
+      return ir.toDataURL(type, quality);
     };
 
     return {
-      path: path,
-      resolve: resolve,
-      forge: forge,
-      namespace: namespace
+      // used outside
+      blobToImageResult: blobToImageResult,
+      fromBlobAndUrlSync: fromBlobAndUrlSync,
+      imageToImageResult: imageToImageResult,
+      imageResultToBlob: imageResultToBlob,
+      imageResultToOriginalBlob: imageResultToOriginalBlob,
+      imageResultToDataURL: imageResultToDataURL
     };
   }
 );
 
-
-define(
-  'ephox.sand.util.Global',
-
-  [
-    'ephox.katamari.api.Resolve'
-  ],
-
-  function (Resolve) {
-    var unsafe = function (name, scope) {
-      return Resolve.resolve(name, scope);
-    };
-
-    var getOrDie = function (name, scope) {
-      var actual = unsafe(name, scope);
-
-      if (actual === undefined) throw name + ' not available on this browser';
-      return actual;
-    };
-
-    return {
-      getOrDie: getOrDie
-    };
-  }
-);
 define(
   'ephox.sand.api.URL',
 
@@ -1823,195 +2182,6 @@ define(
       getImageSize: getImageSize,
       setImageSize: setImageSize,
       getNaturalImageSize: getNaturalImageSize
-    };
-  }
-);
-
-defineGlobal("global!Object", Object);
-define(
-  'ephox.katamari.api.Option',
-
-  [
-    'ephox.katamari.api.Fun',
-    'global!Object'
-  ],
-
-  function (Fun, Object) {
-
-    var never = Fun.never;
-    var always = Fun.always;
-
-    /**
-      Option objects support the following methods:
-
-      fold :: this Option a -> ((() -> b, a -> b)) -> Option b
-
-      is :: this Option a -> a -> Boolean
-
-      isSome :: this Option a -> () -> Boolean
-
-      isNone :: this Option a -> () -> Boolean
-
-      getOr :: this Option a -> a -> a
-
-      getOrThunk :: this Option a -> (() -> a) -> a
-
-      getOrDie :: this Option a -> String -> a
-
-      or :: this Option a -> Option a -> Option a
-        - if some: return self
-        - if none: return opt
-
-      orThunk :: this Option a -> (() -> Option a) -> Option a
-        - Same as "or", but uses a thunk instead of a value
-
-      map :: this Option a -> (a -> b) -> Option b
-        - "fmap" operation on the Option Functor.
-        - same as 'each'
-
-      ap :: this Option a -> Option (a -> b) -> Option b
-        - "apply" operation on the Option Apply/Applicative.
-        - Equivalent to <*> in Haskell/PureScript.
-
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
-
-      bind :: this Option a -> (a -> Option b) -> Option b
-        - "bind"/"flatMap" operation on the Option Bind/Monad.
-        - Equivalent to >>= in Haskell/PureScript; flatMap in Scala.
-
-      flatten :: {this Option (Option a))} -> () -> Option a
-        - "flatten"/"join" operation on the Option Monad.
-
-      exists :: this Option a -> (a -> Boolean) -> Boolean
-
-      forall :: this Option a -> (a -> Boolean) -> Boolean
-
-      filter :: this Option a -> (a -> Boolean) -> Option a
-
-      equals :: this Option a -> Option a -> Boolean
-
-      equals_ :: this Option a -> (Option a, a -> Boolean) -> Boolean
-
-      toArray :: this Option a -> () -> [a]
-
-    */
-
-    var none = function () { return NONE; };
-
-    var NONE = (function () {
-      var eq = function (o) {
-        return o.isNone();
-      };
-
-      // inlined from peanut, maybe a micro-optimisation?
-      var call = function (thunk) { return thunk(); };
-      var id = function (n) { return n; };
-      var noop = function () { };
-
-      var me = {
-        fold: function (n, s) { return n(); },
-        is: never,
-        isSome: never,
-        isNone: always,
-        getOr: id,
-        getOrThunk: call,
-        getOrDie: function (msg) {
-          throw new Error(msg || 'error: getOrDie called on none.');
-        },
-        or: id,
-        orThunk: call,
-        map: none,
-        ap: none,
-        each: noop,
-        bind: none,
-        flatten: none,
-        exists: never,
-        forall: always,
-        filter: none,
-        equals: eq,
-        equals_: eq,
-        toArray: function () { return []; },
-        toString: Fun.constant("none()")
-      };
-      if (Object.freeze) Object.freeze(me);
-      return me;
-    })();
-
-
-    /** some :: a -> Option a */
-    var some = function (a) {
-
-      // inlined from peanut, maybe a micro-optimisation?
-      var constant_a = function () { return a; };
-
-      var self = function () {
-        // can't Fun.constant this one
-        return me;
-      };
-
-      var map = function (f) {
-        return some(f(a));
-      };
-
-      var bind = function (f) {
-        return f(a);
-      };
-
-      var me = {
-        fold: function (n, s) { return s(a); },
-        is: function (v) { return a === v; },
-        isSome: always,
-        isNone: never,
-        getOr: constant_a,
-        getOrThunk: constant_a,
-        getOrDie: constant_a,
-        or: self,
-        orThunk: self,
-        map: map,
-        ap: function (optfab) {
-          return optfab.fold(none, function(fab) {
-            return some(fab(a));
-          });
-        },
-        each: function (f) {
-          f(a);
-        },
-        bind: bind,
-        flatten: constant_a,
-        exists: bind,
-        forall: bind,
-        filter: function (f) {
-          return f(a) ? me : NONE;
-        },
-        equals: function (o) {
-          return o.is(a);
-        },
-        equals_: function (o, elementEq) {
-          return o.fold(
-            never,
-            function (b) { return elementEq(a, b); }
-          );
-        },
-        toArray: function () {
-          return [a];
-        },
-        toString: function () {
-          return 'some(' + a + ')';
-        }
-      };
-      return me;
-    };
-
-    /** from :: undefined|null|a -> Option a */
-    var from = function (value) {
-      return value === null || value === undefined ? NONE : some(value);
-    };
-
-    return {
-      some: some,
-      none: none,
-      from: from
     };
   }
 );
@@ -2318,24 +2488,6 @@ define(
   }
 );
 define(
-  'ephox.sand.api.FileReader',
-
-  [
-    'ephox.sand.util.Global'
-  ],
-
-  function (Global) {
-    /*
-     * IE10 and above per
-     * https://developer.mozilla.org/en-US/docs/Web/API/FileReader
-     */
-    return function () {
-      var f = Global.getOrDie('FileReader');
-      return new f();
-    };
-  }
-);
-define(
   'ephox.sand.api.XMLHttpRequest',
 
   [
@@ -2588,7 +2740,6 @@ define(
   }
 );
 
-defineGlobal("global!Math", Math);
 defineGlobal("global!setTimeout", setTimeout);
 /**
  * ResolveGlobal.js
@@ -3325,8 +3476,8 @@ define(
 define(
   'tinymce.plugins.imagetools.ui.Dialog',
   [
-    'ephox.imagetools.api.BlobConversions',
     'ephox.imagetools.api.ImageTransformations',
+    'ephox.imagetools.api.ResultConversions',
     'ephox.sand.api.URL',
     'global!Math',
     'global!setTimeout',
@@ -3337,7 +3488,7 @@ define(
     'tinymce.plugins.imagetools.core.UndoStack',
     'tinymce.plugins.imagetools.ui.ImagePanel'
   ],
-  function (BlobConversions, ImageTransformations, URL, Math, setTimeout, DOMUtils, Factory, Promise, Tools, UndoStack, ImagePanel) {
+  function (ImageTransformations, ResultConversions, URL, Math, setTimeout, DOMUtils, Factory, Promise, Tools, UndoStack, ImagePanel) {
     function createState(blob) {
       return {
         blob: blob,
@@ -3436,7 +3587,7 @@ define(
       function crop() {
         var rect = imagePanel.selection();
 
-        BlobConversions.blobToImageResult(currentState.blob).
+        ResultConversions.blobToImageResult(currentState.blob).
           then(function (ir) {
             ImageTransformations.crop(ir, rect.x, rect.y, rect.w, rect.h).
               then(imageResultToBlob).
@@ -3453,7 +3604,7 @@ define(
         return function () {
           var state = tempState || currentState;
 
-          BlobConversions.blobToImageResult(state.blob).
+          ResultConversions.blobToImageResult(state.blob).
             then(function (ir) {
               fn.apply(this, [ir].concat(args)).then(imageResultToBlob).then(addTempState);
             });
@@ -3464,7 +3615,7 @@ define(
         var args = [].slice.call(arguments, 1);
 
         return function () {
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               fn.apply(this, [ir].concat(args)).then(imageResultToBlob).then(addBlobState);
             });
@@ -3570,7 +3721,7 @@ define(
         ]).hide().on('show', function () {
           disableUndoRedo();
 
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               return filter(ir);
             }).
@@ -3587,7 +3738,7 @@ define(
 
       function createVariableFilterPanel(title, filter, value, min, max) {
         function update(value) {
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               return filter(ir, value);
             }).
@@ -3630,7 +3781,7 @@ define(
           g = win.find('#g')[0].value();
           b = win.find('#b')[0].value();
 
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
           then(function (ir) {
             return filter(ir, r, g, b);
           }).
@@ -3864,6 +4015,7 @@ define(
   [
     'ephox.imagetools.api.BlobConversions',
     'ephox.imagetools.api.ImageTransformations',
+    'ephox.imagetools.api.ResultConversions',
     'ephox.katamari.api.Fun',
     'ephox.sand.api.URL',
     'global!clearTimeout',
@@ -3876,7 +4028,7 @@ define(
     'tinymce.plugins.imagetools.core.Proxy',
     'tinymce.plugins.imagetools.ui.Dialog'
   ],
-  function (BlobConversions, ImageTransformations, Fun, URL, clearTimeout, Delay, Promise, Tools, URI, Settings, ImageSize, Proxy, Dialog) {
+  function (BlobConversions, ImageTransformations, ResultConversions, Fun, URL, clearTimeout, Delay, Promise, Tools, URI, Settings, ImageSize, Proxy, Dialog) {
     var count = 0;
 
     var isEditableImage = function (editor, img) {
@@ -4017,7 +4169,7 @@ define(
       return function () {
         return editor._scanForImages().
           then(Fun.curry(findSelectedBlob, editor)).
-          then(BlobConversions.blobToImageResult).
+          then(ResultConversions.blobToImageResult).
           then(fn).
           then(function (imageResult) {
             return updateSelectedImage(editor, imageResult, false, imageUploadTimerState);
@@ -4076,7 +4228,7 @@ define(
 
         var openDialog = function (editor, imageResult) {
           return Dialog.edit(editor, imageResult).then(handleDialogBlob).
-            then(BlobConversions.blobToImageResult).
+            then(ResultConversions.blobToImageResult).
             then(function (imageResult) {
               return updateSelectedImage(editor, imageResult, true, imageUploadTimerState);
             }, function () {
@@ -4085,7 +4237,7 @@ define(
         };
 
         findSelectedBlob(editor).
-          then(BlobConversions.blobToImageResult).
+          then(ResultConversions.blobToImageResult).
           then(Fun.curry(openDialog, editor), function (error) {
             displayError(editor, error);
           });
@@ -4101,7 +4253,6 @@ define(
     };
   }
 );
-
 /**
  * Commands.js
  *

@@ -11,6 +11,9 @@ namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
@@ -51,34 +54,34 @@ abstract class QuickIconHelper
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-				\JFactory::getLanguage()->load('mod_quickicon');
+				Factory::getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
-						'link'   => \JRoute::_('index.php?option=com_content&task=article.add'),
+						'link'   => Route::_('index.php?option=com_content&task=article.add'),
 						'image'  => 'fa fa-pencil-square',
-						'text'   => \JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
+						'text'   => Text::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => \JRoute::_('index.php?option=com_media'),
-						'image'  => 'fa fa-file-image-o',
-						'text'   => \JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
+						'link'   => Route::_('index.php?option=com_media'),
+						'image'  => 'fa fa-image',
+						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
 					array(
-						'link'   => \JRoute::_('index.php?option=com_config'),
+						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
-						'text'   => \JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
-						'link'   => \JRoute::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-cube',
-						'text'   => \JText::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'link'   => Route::_('index.php?option=com_modules'),
+						'image'  => 'fa fa-cubes',
+						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
 					)
@@ -91,8 +94,8 @@ abstract class QuickIconHelper
 
 			// Include buttons defined by published quickicon plugins
 			PluginHelper::importPlugin('quickicon');
-			$app = \JFactory::getApplication();
-			$arrays = (array) $app->triggerEvent(
+
+			$arrays = (array) Factory::getApplication()->triggerEvent(
 				'onGetIcons',
 				new QuickIconsEvent('onGetIcons', ['context' => $context])
 			);

@@ -8,10 +8,22 @@
  */
 
 defined('_JEXEC') or die;
+
+if (!empty($params->get('block-image')))
+{
+	JFactory::getDocument()->addStyleDeclaration(
+		'section.'.$params->get('block-position').' { 
+			padding-top: 7.5px;
+			padding-bottom: 7.5px;
+			background-image: url(' . $params->get('block-image') . ');
+		}'
+	);
+}
+
 ?>
 
-<section class="container-modules <?php echo $params->get('position-class') ?>">
+<section id="<?php echo $params->get('block-id') ?>" class="module-block <?php echo $params->get('block-position') ?> <?php echo $params->get('block-class') ?>">
 	<div class="wrapper">
-		<?php echo JHtml::_('content.prepare', '{loadposition '.$params->get('position').'}') ?>
+		<?php echo JHtml::_('content.prepare', '{loadposition '.$params->get('block-position').'}') ?>
 	</div>
 </section>

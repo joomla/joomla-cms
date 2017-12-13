@@ -22,21 +22,27 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="position"
+					name="block-position"
 					type="text"
-					label="Module Position"
+					label="MOD_BLOCK_FIELD_BLOCK_MODULE_POSITION"
 				/>
 
 				<field
-					name="position-class"
+					name="block-class"
 					type="text"
-					label="Container Class"
+					label="MOD_BLOCK_FIELD_BLOCK_CLASS"
 				/>
 
 				<field
-					name="position-id"
+					name="block-id"
 					type="text"
-					label="Container ID"
+					label="MOD_BLOCK_FIELD_BLOCK_ID"
+				/>
+
+				<field
+					name="block-image"
+					type="media"
+					label="MOD_BLOCK_FIELD_BLOCK_IMAGE"
 				/>
 			</fieldset>
 		</fields>

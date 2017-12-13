@@ -380,7 +380,7 @@ define(
     };
 
     var getAnchorElement = function (editor, selectedElm) {
-      selectedElm = selectedElm || editor.selection.getStart();
+      selectedElm = selectedElm || editor.selection.getNode();
       if (isImageFigure(selectedElm)) {
         // for an image conained in a figure we look for a link inside the selected element
         return editor.dom.select('a[href]', selectedElm)[0];
@@ -1135,6 +1135,7 @@ define(
 
     var setupButtons = function (editor) {
       editor.addButton('link', {
+        active: false,
         icon: 'link',
         tooltip: 'Insert/edit link',
         onclick: Actions.openDialog(editor),
@@ -1142,6 +1143,7 @@ define(
       });
 
       editor.addButton('unlink', {
+        active: false,
         icon: 'unlink',
         tooltip: 'Remove link',
         onclick: Utils.unlink(editor),

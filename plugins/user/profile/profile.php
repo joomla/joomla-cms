@@ -428,15 +428,16 @@ class PlgUserProfile extends JPlugin
 			$db->setQuery($query);
 			$db->execute();
 
-			$query = $db->getQuery(true)
+			$query->clear()
 				->select($db->quoteName('ordering'))
 				->from($db->quoteName('#__user_profiles'))
 				->where($db->quoteName('user_id') . ' = ' . (int) $userId);
 			$db->setQuery($query);
 			$usedOrdering = $db->loadColumn();
 
-			$tuples = array();
 			$order = 1;
+			$query->clear()
+				->insert($db->qn('#__user_profiles'));
 
 			foreach ($data['profile'] as $k => $v)
 			{
@@ -445,12 +446,8 @@ class PlgUserProfile extends JPlugin
 					$order++;
 				}
 
-				$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
+				$query->values(implode(', ', $db->quote([$userId, 'profile.' . $k, json_encode($v), $order++])));
 			}
-
-			$query = $db->getQuery(true)
-				->insert($db->qn('#__user_profiles'))
-				->values($tuples);
 
 			$db->setQuery($query);
 			$db->execute();

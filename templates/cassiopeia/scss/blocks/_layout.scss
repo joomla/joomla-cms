@@ -27,7 +27,7 @@
 .wrapper {
   width: 100%;
   max-width: $cassiopeia-wrapper-width;
-  padding: 0 ($cassiopeia-grid-gutter / 2);
+  padding: ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
   margin: 0 auto;
 }
 
@@ -39,7 +39,9 @@ header {
   margin: -15px 0 -5px;
 }
 
-.container-modules {
+.container-modules, .module-block {
+  background-position: 50%;
+  background-size: cover;
   .wrapper {
     > div {
       flex: 1;
@@ -59,6 +61,8 @@ header {
 .container-main {
   .wrapper {
     display: flex;
+    padding-right: ($cassiopeia-grid-gutter / 2);
+    padding-left: ($cassiopeia-grid-gutter / 2);
     > div {
       margin: ($cassiopeia-grid-gutter / 2);
     }

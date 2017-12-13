@@ -28,12 +28,11 @@
 
   }
 
-  .container-modules {
+  .module-block {
     .wrapper {
       display: grid;
       grid-gap: $cassiopeia-grid-gutter;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      padding: ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
       > div {
         margin: 0;
       }

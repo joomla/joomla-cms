@@ -607,11 +607,12 @@ define(
           var index = y * width + x;
           if (index < charmap.length) {
             var chr = charmap[index];
-            var chrText = chr ? String.fromCharCode(parseInt(chr[0], 10)) : '&nbsp;';
+            var charCode = parseInt(chr[0], 10);
+            var chrText = chr ? String.fromCharCode(charCode) : '&nbsp;';
 
             gridHtml += (
               '<td title="' + chr[1] + '">' +
-              '<div tabindex="-1" title="' + chr[1] + '" role="button" data-chr="' + chrText + '">' +
+              '<div tabindex="-1" title="' + chr[1] + '" role="button" data-chr="' + charCode + '">' +
               chrText +
               '</div>' +
               '</td>'
@@ -674,7 +675,12 @@ define(
           if (/^(TD|DIV)$/.test(target.nodeName)) {
             var charDiv = getParentTd(target).firstChild;
             if (charDiv && charDiv.hasAttribute('data-chr')) {
-              Actions.insertChar(editor, charDiv.getAttribute('data-chr'));
+              var charCodeString = charDiv.getAttribute('data-chr');
+              var charCode = parseInt(charCodeString, 10);
+
+              if (!isNaN(charCode)) {
+                Actions.insertChar(editor, String.fromCharCode(charCode));
+              }
 
               if (!e.ctrlKey) {
                 win.close();

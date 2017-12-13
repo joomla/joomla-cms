@@ -1542,27 +1542,6 @@ define(
   ],
 
   function (Arr, Option, Element, NodeTypes, Error, document) {
-    /*
-     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
-     * instead of doing object lookup feature detection on every call
-     */
-    var STANDARD = 0;
-    var MSSTANDARD = 1;
-    var WEBKITSTANDARD = 2;
-    var FIREFOXSTANDARD = 3;
-
-    var selectorType = (function () {
-      var test = document.createElement('span');
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      return test.matches !== undefined ? STANDARD :
-             test.msMatchesSelector !== undefined ? MSSTANDARD :
-             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
-             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
-             -1;
-    })();
-
-
     var ELEMENT = NodeTypes.ELEMENT;
     var DOCUMENT = NodeTypes.DOCUMENT;
 
@@ -1572,10 +1551,10 @@ define(
 
       // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
       // Still check for the others, but do it last.
-      else if (selectorType === STANDARD) return elem.matches(selector);
-      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
-      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
-      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
+      else if (elem.matches !== undefined) return elem.matches(selector);
+      else if (elem.msMatchesSelector !== undefined) return elem.msMatchesSelector(selector);
+      else if (elem.webkitMatchesSelector !== undefined) return elem.webkitMatchesSelector(selector);
+      else if (elem.mozMatchesSelector !== undefined) return elem.mozMatchesSelector(selector);
       else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
     };
 
@@ -10368,9 +10347,11 @@ define(
 define(
   'tinymce.plugins.table.ui.Helpers',
   [
-    'tinymce.core.util.Tools'
+    'ephox.katamari.api.Fun',
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.table.alien.Util'
   ],
-  function (Tools) {
+  function (Fun, Tools, Util) {
 
     var buildListItems = function (inputList, itemCallback, startItems) {
       var appendItems = function (values, output) {
@@ -10398,21 +10379,27 @@ define(
       return appendItems(inputList, startItems || []);
     };
 
-    var updateStyleField = function (dom, win, isStyleCtrl) {
-      var data = win.toJSON();
+    var updateStyleField = function (editor, evt) {
+      var dom = editor.dom;
+      var rootControl = evt.control.rootControl;
+      var data = rootControl.toJSON();
       var css = dom.parseStyle(data.style);
 
-      if (isStyleCtrl) {
-        win.find('#borderStyle').value(css["border-style"] || '')[0].fire('select');
-        win.find('#borderColor').value(css["border-color"] || '')[0].fire('change');
-        win.find('#backgroundColor').value(css["background-color"] || '')[0].fire('change');
+      if (evt.control.name() === 'style') {
+        rootControl.find('#borderStyle').value(css["border-style"] || '')[0].fire('select');
+        rootControl.find('#borderColor').value(css["border-color"] || '')[0].fire('change');
+        rootControl.find('#backgroundColor').value(css["background-color"] || '')[0].fire('change');
+        rootControl.find('#width').value(css.width || '').fire('change');
+        rootControl.find('#height').value(css.height || '').fire('change');
       } else {
         css["border-style"] = data.borderStyle;
         css["border-color"] = data.borderColor;
         css["background-color"] = data.backgroundColor;
+        css.width = data.width ? Util.addSizeSuffix(data.width) : '';
+        css.height = data.height ? Util.addSizeSuffix(data.height) : '';
       }
 
-      win.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
+      rootControl.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
     };
 
     var extractAdvancedStyles = function (dom, elm) {
@@ -10436,23 +10423,16 @@ define(
     };
 
     var createStyleForm = function (editor) {
-      var onChange = function () {
-        updateStyleField(editor, this.parents().reverse()[0], this.name() == "style");
-      };
-
-      var createColorPickAction = function () {
+      var createColorPickAction = function (evt) {
         var colorPickerCallback = editor.settings.color_picker_callback;
         if (colorPickerCallback) {
-          return function () {
-            var self = this;
-            colorPickerCallback.call(
-              editor,
-              function (value) {
-                self.value(value).fire('change');
-              },
-              self.value()
-            );
-          };
+          return colorPickerCallback.call(
+            editor,
+            function (value) {
+              evt.control.value(value).fire('change');
+            },
+            evt.control.value()
+          );
         }
       };
 
@@ -10460,7 +10440,7 @@ define(
         title: 'Advanced',
         type: 'form',
         defaults: {
-          onchange: onChange
+          onchange: Fun.curry(updateStyleField, editor)
         },
         items: [
           {
@@ -10485,7 +10465,7 @@ define(
                 type: 'listbox',
                 name: 'borderStyle',
                 width: 90,
-                onselect: onChange,
+                onselect: Fun.curry(updateStyleField, editor),
                 values: [
                   { text: 'Select...', value: '' },
                   { text: 'Solid', value: 'solid' },
@@ -10504,13 +10484,13 @@ define(
                 label: 'Border color',
                 type: 'colorbox',
                 name: 'borderColor',
-                onaction: createColorPickAction()
+                onaction: createColorPickAction
               },
               {
                 label: 'Background color',
                 type: 'colorbox',
                 name: 'backgroundColor',
-                onaction: createColorPickAction()
+                onaction: createColorPickAction
               }
             ]
           }
@@ -10544,14 +10524,15 @@ define(
 define(
   'tinymce.plugins.table.ui.TableDialog',
   [
-    'tinymce.core.util.Tools',
+    'ephox.katamari.api.Fun',
     'tinymce.core.Env',
-    'tinymce.plugins.table.alien.Util',
-    'tinymce.plugins.table.actions.Styles',
+    'tinymce.core.util.Tools',
     'tinymce.plugins.table.actions.InsertTable',
+    'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Env, Util, Styles, InsertTable, Helpers) {
+  function (Fun, Env, Tools, InsertTable, Styles, Util, Helpers) {
 
     //Explore the layers of the table till we find the first layer of tds or ths
     function styleTDTH(dom, elm, name, value) {
@@ -10569,9 +10550,9 @@ define(
     var extractDataFromElement = function (editor, tableElm) {
       var dom = editor.dom;
       var data = {
-        width: Util.removePxSuffix(dom.getStyle(tableElm, 'width') || dom.getAttrib(tableElm, 'width')),
-        height: Util.removePxSuffix(dom.getStyle(tableElm, 'height') || dom.getAttrib(tableElm, 'height')),
-        cellspacing: Util.removePxSuffix(dom.getStyle(tableElm, 'border-spacing') || dom.getAttrib(tableElm, 'cellspacing')),
+        width: dom.getStyle(tableElm, 'width') || dom.getAttrib(tableElm, 'width'),
+        height: dom.getStyle(tableElm, 'height') || dom.getAttrib(tableElm, 'height'),
+        cellspacing: dom.getStyle(tableElm, 'border-spacing') || dom.getAttrib(tableElm, 'cellspacing'),
         cellpadding: dom.getAttrib(tableElm, 'data-mce-cell-padding') || dom.getAttrib(tableElm, 'cellpadding') || Styles.getTDTHOverallStyle(editor.dom, tableElm, 'padding'),
         border: dom.getAttrib(tableElm, 'data-mce-border') || dom.getAttrib(tableElm, 'border') || Styles.getTDTHOverallStyle(editor.dom, tableElm, 'border'),
         borderColor: dom.getAttrib(tableElm, 'data-mce-border-color'),
@@ -10645,17 +10626,16 @@ define(
       }
 
       attrs.style = dom.serializeStyle(styles);
-
       dom.setAttribs(tableElm, attrs);
     };
 
-    var onSubmitTableForm = function (editor, win, tableElm) {
+    var onSubmitTableForm = function (editor, tableElm, evt) {
       var dom = editor.dom;
       var captionElm;
       var data;
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      Helpers.updateStyleField(editor, evt);
+      data = evt.control.rootControl.toJSON();
 
       if (data["class"] === false) {
         delete data["class"];
@@ -10746,8 +10726,8 @@ define(
             items: (editor.settings.table_appearance_options !== false) ? [
               colsCtrl,
               rowsCtrl,
-              { label: 'Width', name: 'width' },
-              { label: 'Height', name: 'height' },
+              { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+              { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) },
               { label: 'Cell spacing', name: 'cellspacing' },
               { label: 'Cell padding', name: 'cellpadding' },
               { label: 'Border', name: 'border' },
@@ -10755,8 +10735,8 @@ define(
             ] : [
               colsCtrl,
               rowsCtrl,
-                { label: 'Width', name: 'width' },
-                { label: 'Height', name: 'height' }
+                { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+                { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) }
             ]
           },
 
@@ -10788,20 +10768,16 @@ define(
               type: 'form',
               items: generalTableForm
             },
-            Helpers.createStyleForm(dom)
+            Helpers.createStyleForm(editor)
           ],
-          onsubmit: function () {
-            onSubmitTableForm(editor, this, tableElm);
-          }
+          onsubmit: Fun.curry(onSubmitTableForm, editor, tableElm)
         });
       } else {
         editor.windowManager.open({
           title: "Table properties",
           data: data,
           body: generalTableForm,
-          onsubmit: function () {
-            onSubmitTableForm(editor, this, tableElm);
-          }
+          onsubmit: Fun.curry(onSubmitTableForm, editor, tableElm)
         });
       }
     };
@@ -10830,17 +10806,18 @@ define(
 define(
   'tinymce.plugins.table.ui.RowDialog',
   [
+    'ephox.katamari.api.Fun',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Util, Styles, Helpers) {
+  function (Fun, Tools, Styles, Util, Helpers) {
 
     var extractDataFromElement = function (editor, elm) {
       var dom = editor.dom;
       var data = {
-        height: Util.removePxSuffix(dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height')),
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
         scope: dom.getAttrib(elm, 'scope'),
         'class': dom.getAttrib(elm, 'class')
       };
@@ -10886,7 +10863,7 @@ define(
       }
     };
 
-    function onSubmitRowForm(editor, win, rows) {
+    function onSubmitRowForm(editor, rows, evt) {
       var dom = editor.dom;
       var data;
 
@@ -10902,8 +10879,8 @@ define(
         }
       }
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      Helpers.updateStyleField(editor, evt);
+      data = evt.control.rootControl.toJSON();
 
       editor.undoManager.transact(function () {
         Tools.each(rows, function (rowElm) {
@@ -11032,18 +11009,14 @@ define(
             },
             Helpers.createStyleForm(dom)
           ],
-          onsubmit: function () {
-            onSubmitRowForm(editor, this, rows);
-          }
+          onsubmit: Fun.curry(onSubmitRowForm, editor, rows)
         });
       } else {
         editor.windowManager.open({
           title: "Row properties",
           data: data,
           body: generalRowForm,
-          onsubmit: function () {
-            onSubmitRowForm(editor, this, rows);
-          }
+          onsubmit: Fun.curry(onSubmitRowForm, editor, rows)
         });
       }
     };
@@ -11072,18 +11045,19 @@ define(
 define(
   'tinymce.plugins.table.ui.CellDialog',
   [
+    'ephox.katamari.api.Fun',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Util, Styles, Helpers) {
+  function (Fun, Tools, Styles, Util, Helpers) {
 
     var extractDataFromElement = function (editor, elm) {
       var dom = editor.dom;
       var data = {
-        width: Util.removePxSuffix(dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width')),
-        height: Util.removePxSuffix(dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height')),
+        width: dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width'),
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
         scope: dom.getAttrib(elm, 'scope'),
         'class': dom.getAttrib(elm, 'class')
       };
@@ -11109,7 +11083,7 @@ define(
       return data;
     };
 
-    var onSubmitCellForm = function (editor, win, cells) {
+    var onSubmitCellForm = function (editor, cells, evt) {
       var dom = editor.dom;
       var data;
 
@@ -11125,8 +11099,7 @@ define(
         }
       }
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      data = evt.control.rootControl.toJSON();
 
       editor.undoManager.transact(function () {
         Tools.each(cells, function (cellElm) {
@@ -11154,7 +11127,7 @@ define(
 
           // Apply vertical alignment
           if (data.valign) {
-            Styles.applyVAlign(editor, cellElm, data.align);
+            Styles.applyVAlign(editor, cellElm, data.valign);
           }
         });
 
@@ -11163,7 +11136,7 @@ define(
     };
 
     var open = function (editor) {
-      var dom = editor.dom, cellElm, data, classListCtrl, cells = [];
+      var cellElm, data, classListCtrl, cells = [];
 
       // Get selected cells or the current cell
       cells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]');
@@ -11229,8 +11202,8 @@ define(
               maxWidth: 50
             },
             items: [
-              { label: 'Width', name: 'width' },
-              { label: 'Height', name: 'height' },
+              { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+              { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) },
               {
                 label: 'Cell type',
                 name: 'type',
@@ -11304,20 +11277,16 @@ define(
               type: 'form',
               items: generalCellForm
             },
-            Helpers.createStyleForm(dom)
+            Helpers.createStyleForm(editor)
           ],
-          onsubmit: function () {
-            onSubmitCellForm(editor, this, cells);
-          }
+          onsubmit: Fun.curry(onSubmitCellForm, editor, cells)
         });
       } else {
         editor.windowManager.open({
           title: "Cell properties",
           data: data,
           body: generalCellForm,
-          onsubmit: function () {
-            onSubmitCellForm(editor, this, cells);
-          }
+          onsubmit: Fun.curry(onSubmitCellForm, editor, cells)
         });
       }
     };
@@ -12576,10 +12545,19 @@ define(
     // than using the anchorNode and focusNode. I'm not sure if this behaviour is any
     // better or worse; it's just different.
     var readRange = function (selection) {
-      var rng = Option.from(selection.getRangeAt(0));
-      return rng.map(function (r) {
-        return Selection.range(Element.fromDom(r.startContainer), r.startOffset, Element.fromDom(r.endContainer), r.endOffset);
-      });
+      if (selection.rangeCount > 0) {
+        var firstRng = selection.getRangeAt(0);
+        var lastRng = selection.getRangeAt(selection.rangeCount - 1);
+
+        return Option.some(Selection.range(
+          Element.fromDom(firstRng.startContainer), 
+          firstRng.startOffset,
+          Element.fromDom(lastRng.endContainer),
+          lastRng.endOffset
+        ));
+      } else {
+        return Option.none();
+      }
     };
 
     var doGetExact = function (selection) {
@@ -12652,7 +12630,7 @@ define(
 
     var replace = function (win, selection, elements) {
       var rng = SelectionDirection.asLtrRange(win, selection);
-      var fragment = Fragment.fromElements(elements);
+      var fragment = Fragment.fromElements(elements, win.document);
       NativeRange.replaceWith(rng, fragment);
     };
 

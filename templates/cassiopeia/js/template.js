@@ -6,29 +6,30 @@
  * @since       4.0
  */
 
-(function() {
+(function(document) {
 	"use strict";
 
-	document.addEventListener('DOMContentLoaded', function() {
+	function initTemplate(event) {
+		var target = event && event.target ? event.target : document;
 
 		/**
 		 * Bootstrap tooltips
 		 */
-		jQuery('*[rel=tooltip]').tooltip({
+		jQuery(target).find('*[rel=tooltip]').tooltip({
 			html: true
 		});
 
 		/**
 		 * Prevent clicks on buttons within a disabled fieldset
 		 */
-		var fieldsets = document.querySelectorAll('fieldset.btn-group');
+		var fieldsets = target.querySelectorAll('fieldset.btn-group');
 		for (var i = 0; i < fieldsets.length; i++) {
 			var self = fieldsets[i];
-			if (self.getAttribute('disabled') ==  true) {
+			if (self.getAttribute('disabled') ===  true) {
 				self.style.pointerEvents = 'none';
 				var btns = self.querySelectorAll('.btn');
-				for (var i = 0; i < btns.length; i++) {
-					btns[i].classList.add('disabled');
+				for (var ib = 0; ib < btns.length; ib++) {
+					btns[ib].classList.add('disabled');
 				}
 			}
 		}
@@ -36,12 +37,12 @@
 		/**
 		 * Turn radios into btn-group
 		 */
-		var container = document.querySelectorAll('.btn-group');
+		var container = target.querySelectorAll('.btn-group');
 		for (var i = 0; i < container.length; i++) {
 			var labels = container[i].querySelectorAll('label');
 			for (var j = 0; j < labels.length; j++) {
 				labels[j].classList.add('btn');
-				if ((j % 2) == 1) {
+				if ((j % 2) === 1) {
 					labels[j].classList.add('btn-outline-danger');
 				} else {
 					labels[j].classList.add('btn-outline-success');
@@ -50,7 +51,7 @@
 			}
 		}
 
-		var btnNotActive = document.querySelector('.btn-group label:not(.active)');
+		var btnNotActive = target.querySelector('.btn-group label:not(.active)');
 		if (btnNotActive) {
 			btnNotActive.addEventListener('click', function(event) {
 				var label = event.target,
@@ -99,12 +100,12 @@
 			});
 		}
 
-		var btsGrouped = document.querySelectorAll('.btn-group input[checked=checked]');
+		var btsGrouped = target.querySelectorAll('.btn-group input[checked=checked]');
 		for (var i = 0, l = btsGrouped.length; l>i; i++) {
 			var self   = btsGrouped[i],
 			    attrId = self.id;
 			if (self.parentNode.parentNode.classList.contains('btn-group-reversed')) {
-				var label = document.querySelector('label[for=' + attrId + ']');
+				var label = target.querySelector('label[for=' + attrId + ']');
 				if (self.value == '') {
 					label.classList.add('active');
 					label.classList.add('btn');
@@ -119,7 +120,7 @@
 					label.classList.add('btn-outline-danger');
 				}
 			} else {
-				var label = document.querySelector('label[for=' + attrId + ']');
+				var label = target.querySelector('label[for=' + attrId + ']');
 				if (self.value == '') {
 					label.classList.add('active');
 					label.classList.add('btn-outline-primary');
@@ -134,6 +135,40 @@
 				}
 			}
 		}
+	}
+
+	/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
+	function closest(el, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] === 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		});
+
+		var parent;
+
+		// traverse parents
+		while (el) {
+			parent = el.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			el = parent;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Initialize at an initial page load
+	 */
+	document.addEventListener("DOMContentLoaded", function (event) {
+		initTemplate(event);
 
 		/**
 		 * Back to top
@@ -146,4 +181,10 @@
 			});
 		}
 	});
-})();
+
+	/**
+	 * Initialize when a part of the page was updated
+	 */
+	document.addEventListener("joomla:updated", initTemplate);
+
+})(document);

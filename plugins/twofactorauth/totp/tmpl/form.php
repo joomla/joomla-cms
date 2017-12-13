@@ -36,9 +36,7 @@ defined('_JEXEC') or die;
 			</a>
 		</li>
 	</ul>
-	<div class="alert alert-warning">
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN') ?>
-	</div>
+	<joomla-alert type="warning"><?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?></joomla-alert>
 </fieldset>
 
 <fieldset>
@@ -78,9 +76,7 @@ defined('_JEXEC') or die;
 		</p>
 	</div>
 
-	<div class="alert alert-info">
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET') ?>
-	</div>
+	<joomla-alert type="info"><?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?></joomla-alert>
 </fieldset>
 
 <?php if ($new_totp): ?>

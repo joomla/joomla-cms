@@ -60,6 +60,7 @@ $class        = ' class="form-control ' . trim('minicolors ' . $class) . ($valid
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
+$colors       = $colors ? ' data-colors="' . $colors . '"' : '';
 $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
@@ -83,6 +84,7 @@ JHtml::_('script', 'system/fields/color-field-adv-init.min.js', array('version' 
 	<?php echo $class; ?>
 	<?php echo $position; ?>
 	<?php echo $control; ?>
+	<?php echo $colors; ?>
 	<?php echo $readonly; ?>
 	<?php echo $disabled; ?>
 	<?php echo $required; ?>
