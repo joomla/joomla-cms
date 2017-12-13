@@ -328,7 +328,9 @@ abstract class HTMLHelper
 		{
 			return array($file);
 		}
-
+		
+		$file = \JPath::clean($file, '/');
+		
 		// Extract extension and strip the file
 		$strip = \JFile::stripExt($file);
 		$ext   = \JFile::getExt($file);
@@ -396,7 +398,7 @@ abstract class HTMLHelper
 				foreach ($files as $file)
 				{
 					// If the file is in the template folder
-					$path = \JPath::clean(JPATH_THEMES . "/$template/$folder/$file");
+					$path = JPATH_THEMES . "/$template/$folder/$file";
 
 					if (file_exists($path))
 					{
@@ -419,7 +421,7 @@ abstract class HTMLHelper
 								list($element, $file) = explode('/', $file, 2);
 
 								// Try to deal with plugins group in the media folder
-								$path = \JPath::clean(JPATH_ROOT . "/media/$extension/$element/$folder/$file");
+								$path = JPATH_ROOT . "/media/$extension/$element/$folder/$file";
 
 								if (file_exists($path))
 								{
@@ -429,7 +431,7 @@ abstract class HTMLHelper
 								}
 
 								// Try to deal with classical file in a media subfolder called element
-								$path = \JPath::clean(JPATH_ROOT . "/media/$extension/$folder/$element/$file");
+								$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
 
 								if (file_exists($path))
 								{
@@ -439,7 +441,7 @@ abstract class HTMLHelper
 								}
 
 								// Try to deal with system files in the template folder
-								$path = \JPath::clean(JPATH_THEMES . "/$template/$folder/$file");
+								$path = JPATH_THEMES . "/$template/$folder/system/$element/$file";
 
 								if (file_exists($path))
 								{
@@ -449,7 +451,7 @@ abstract class HTMLHelper
 								}
 
 								// Try to deal with system files in the media folder
-								$path = \JPath::clean(JPATH_ROOT . "/media/system/$folder/$element/$file");
+								$path = JPATH_ROOT . "/media/system/$folder/$element/$file";
 
 								if (file_exists($path))
 								{
@@ -461,7 +463,7 @@ abstract class HTMLHelper
 							else
 							{
 								// Try to deals in the extension media folder
-								$path = \JPath::clean(JPATH_ROOT . "/media/$extension/$folder/$file");
+								$path = JPATH_ROOT . "/media/$extension/$folder/$file";
 
 								if (file_exists($path))
 								{
@@ -471,7 +473,7 @@ abstract class HTMLHelper
 								}
 
 								// Try to deal with system files in the template folder
-								$path = \JPath::clean(JPATH_THEMES . "/$template/$folder/system/$file");
+								$path = JPATH_THEMES . "/$template/$folder/system/$file";
 
 								if (file_exists($path))
 								{
@@ -481,7 +483,7 @@ abstract class HTMLHelper
 								}
 
 								// Try to deal with system files in the media folder
-								$path = \JPath::clean(JPATH_ROOT . "/media/system/$folder/$file");
+								$path = JPATH_ROOT . "/media/system/$folder/$file";
 
 								if (file_exists($path))
 								{
@@ -494,7 +496,7 @@ abstract class HTMLHelper
 						// Try to deal with system files in the media folder
 						else
 						{
-							$path = \JPath::clean(JPATH_ROOT . "/media/system/$folder/$file");
+							$path = JPATH_ROOT . "/media/system/$folder/$file";
 
 							if (file_exists($path))
 							{
@@ -540,7 +542,7 @@ abstract class HTMLHelper
 				 */
 				foreach ($files as $file)
 				{
-					$path = \JPath::clean(JPATH_ROOT . "/$file");
+					$path = JPATH_ROOT . "/$file";
 
 					if (file_exists($path))
 					{
@@ -552,7 +554,7 @@ abstract class HTMLHelper
 			}
 		}
 
-		return \JPath::clean($includes);
+		return $includes;
 	}
 
 	/**
