@@ -229,7 +229,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		if (!Joomla.optionsStorage) {
 			Joomla.optionsStorage = options || {};
 		}
-        // Merge with existing
+		// Merge with existing
 		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
