@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="4.0" client="site" method="upgrade">
+	<name>mod_block</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2004</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>MOD_BLOCK_XML_DESCRIPTION</description>
+
+	<files>
+		<filename module="mod_block">mod_block.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_block.ini</language>
+		<language tag="en-GB">en-GB.mod_block.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="block-position"
+					type="text"
+					label="MOD_BLOCK_FIELD_BLOCK_MODULE_POSITION"
+				/>
+
+				<field
+					name="block-class"
+					type="text"
+					label="MOD_BLOCK_FIELD_BLOCK_CLASS"
+				/>
+
+				<field
+					name="block-id"
+					type="text"
+					label="MOD_BLOCK_FIELD_BLOCK_ID"
+				/>
+
+				<field
+					name="block-image"
+					type="media"
+					label="MOD_BLOCK_FIELD_BLOCK_IMAGE"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

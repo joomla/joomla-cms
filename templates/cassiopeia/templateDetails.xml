@@ -28,6 +28,7 @@
 		<position>banner</position>
 		<position>top-a</position>
 		<position>top-b</position>
+		<position>top</position>
 		<position>main-top</position>
 		<position>main-bottom</position>
 		<position>breadcrumbs</position>
@@ -35,6 +36,7 @@
 		<position>sidebar-right</position>
 		<position>bottom-a</position>
 		<position>bottom-b</position>
+		<position>bottom</position>
 		<position>footer</position>
 		<position>debug</position>
 	</positions>

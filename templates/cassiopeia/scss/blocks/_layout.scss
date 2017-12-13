@@ -8,7 +8,7 @@
   footer {
     display: flex;
     width: 100%;
-    max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+    max-width: $cassiopeia-wrapper-width;
     margin-right: auto;
     margin-left: auto;
   }
@@ -24,42 +24,52 @@
 
 }
 
+.wrapper {
+  width: 100%;
+  max-width: $cassiopeia-wrapper-width;
+  padding: 0 ($cassiopeia-grid-gutter / 2);
+  margin: 0 auto;
+}
+
 header {
   margin-bottom: 10px;
 }
 
 .container-banner {
-  display: block;
   margin: -15px 0 -5px;
 }
 
-.container-top-a,
-.container-top-b,
-.container-bottom-a,
-.container-bottom-b {
-  > div {
-    flex: 1;
-    margin: ($cassiopeia-grid-gutter / 2);
-  }
-
-  @include media-breakpoint-down(sm) {
-    flex-direction: column;
-
+.module-block {
+  .wrapper {
     > div {
-      flex: 0 1 auto;
+      flex: 1;
+      margin: ($cassiopeia-grid-gutter / 2);
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+
+      > div {
+        flex: 0 1 auto;
+      }
     }
   }
 }
 
 .container-main {
-  > div {
-    margin: ($cassiopeia-grid-gutter / 2);
+  .wrapper {
+    display: flex;
+    padding-right: 0;
+    padding-left: 0;
+    > div {
+      margin: ($cassiopeia-grid-gutter / 2);
+    }
   }
 
   @include media-breakpoint-down(sm) {
     flex-direction: column;
 
-    > div {
+    .wrapper > div {
       flex: 0 1 auto;
     }
   }
