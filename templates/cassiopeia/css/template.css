@@ -8695,15 +8695,17 @@ header {
 .container-banner {
   margin: -15px 0 -5px; }
 
-.module-block .wrapper > div {
-  flex: 1;
-  margin: 7.5px; }
-
-@media (max-width: 767px) {
-  .module-block .wrapper {
-    flex-direction: column; }
-    .module-block .wrapper > div {
-      flex: 0 1 auto; } }
+.module-block {
+  background-position: 50%;
+  background-size: cover; }
+  .module-block .wrapper > div {
+    flex: 1;
+    margin: 7.5px; }
+  @media (max-width: 767px) {
+    .module-block .wrapper {
+      flex-direction: column; }
+      .module-block .wrapper > div {
+        flex: 0 1 auto; } }
 
 .container-main .wrapper {
   display: flex;
