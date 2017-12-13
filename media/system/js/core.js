@@ -782,6 +782,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
+		/**
+		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
+		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
+ 		 */
+		if (destination === null) {
+			destination = {};
+		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
