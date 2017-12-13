@@ -239,11 +239,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
                      *
                      * Joomla.loadOptions({'joomla.jtext': null});
                      */
-                    if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object')
-                    {
+                    if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
                         Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
-                    }
-                    else {
+                    } else {
                         Joomla.optionsStorage[p] = options[p];
                     }
                 }
