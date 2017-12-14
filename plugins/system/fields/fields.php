@@ -501,7 +501,7 @@ class PlgSystemFields extends JPlugin
 	private function prepareTagItem($item)
 	{
 		// Map core fields
-		$item->id       = $item->core_content_id;
+		$item->id       = $item->content_item_id;
 		$item->language = $item->core_language;
 
 		// Also handle the catid
