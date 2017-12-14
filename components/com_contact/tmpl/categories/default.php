@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
+JHtml::_('behavior.core');
+
+// Add strings for translations in Javascript.
+JText::script('JGLOBAL_EXPAND_CATEGORIES');
+JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(function($) {
@@ -19,11 +24,17 @@ jQuery(function($) {
 		btn.on('click', function() {
 			btn.find('span').toggleClass('icon-plus');
 			btn.find('span').toggleClass('icon-minus');
+			if (btn.attr('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
+			{
+				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
+			} else {
+				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'));
+			}
 		});
 	});
 });");
 ?>
-<div class="categories-list<?php echo $this->pageclass_sfx; ?>">
+<div class="categories-list">
 	<?php
 		echo JLayoutHelper::render('joomla.content.categories_default', $this);
 		echo $this->loadTemplate('items');

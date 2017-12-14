@@ -25,7 +25,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var    \Joomla\CMS\Pagination\Pagination|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pagination = null;
 
@@ -41,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	 * The results of the search
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $results = array();
 
@@ -49,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	 * The select box lists for result filtering
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $lists = array();
 
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var  \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * The ordering for the query
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $ordering = '';
 
@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
 	 * The search phrase used (after sanity checks)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $searchword = '';
 
@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 	 * The raw search phrase used (before sanity checks)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $origkeyword = '';
 
@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 * The search phrase matching preference
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $searchphrase = '';
 
@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
 	 * for the filter options and the value should be the language constant to be used for translation.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $searchareas = '';
 
@@ -106,7 +106,7 @@ class HtmlView extends BaseHtmlView
 	 * The total number of results for the search query
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $total = 0;
 
@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	 * A translated error message to display to the user
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $error = '';
 
@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
 	 * The URL instance
 	 *
 	 * @var    \JUri|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $action = null;
 
@@ -262,6 +262,9 @@ class HtmlView extends BaseHtmlView
 			}
 
 			\JLoader::register('ContentHelperRoute', \JPATH_SITE . '/components/com_content/helpers/route.php');
+
+			// Make sure there are no slashes in the needle
+			$needle = str_replace('/', '\/', $needle);
 
 			for ($i = 0, $count = count($results); $i < $count; ++$i)
 			{

@@ -9,11 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+
 /** @var JDocumentHtml $this */
 
-$app   = JFactory::getApplication();
-$lang  = JFactory::getLanguage();
-$user  = JFactory::getUser();
+$app   = Factory::getApplication();
+$lang  = Factory::getLanguage();
 $input = $app->input;
 
 // Detecting Active Variables
@@ -23,33 +27,29 @@ $layout      = $input->get('layout', '');
 $task        = $input->get('task', '');
 $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
-$cpanel      = ($option === 'com_cpanel');
+$cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
 
 // Add JavaScript
-JHtml::_('bootstrap.framework');
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
-if ($cpanel)
-{
-	JHtml::_('script', 'media/vendor/masonry/js/masonry.pkgd.min.js', ['version' => 'auto']);
-}
-JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 // Load template CSS file
-JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -69,7 +69,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
-			<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
 
@@ -78,9 +78,9 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' :''; ?>>
+		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo JRoute::_('index.php'); ?>" aria-label="<?php echo JText::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<a href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
@@ -96,7 +96,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 					<div class="menu-collapse">
 						<a id="menu-collapse" class="menu-toggle" href="#">
 							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo JText::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
+							<span class="sr-only"><?php echo Text::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
 						</a>
 					</div>
 					<?php endif; ?>
@@ -110,7 +110,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<div class="container-fluid container-main">
 			<?php if (!$cpanel) : ?>
 				<?php // Subheader ?>
-				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ATUM_TOOLBAR'); ?>
+				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
 				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
 					<div id="subhead" class="subhead">

@@ -115,7 +115,7 @@ class Base32
 		preg_match_all('/.{8}/', $str, $chrs);
 		$chrs = array_map(array($this, '_mapcharset'), $chrs[0]);
 
-		return join('', $chrs);
+		return implode('', $chrs);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Base32
 		}
 
 		// Convert the base32 string back to a binary string
-		$str = join('', array_map(array($this, '_mapbin'), str_split($str)));
+		$str = implode('', array_map(array($this, '_mapbin'), str_split($str)));
 
 		// Remove the extra 0's we added
 		$str = preg_replace('/000(.{5})/', '$1', $str);

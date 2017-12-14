@@ -31,6 +31,21 @@ class VoteradioField extends \JFormFieldRadio
 	protected $type = 'Voteradio';
 
 	/**
+	 * Method to get the field Label.
+	 *
+	 * @return string The field label
+	 *
+	 * @throws \Exception
+	 *
+	 * @since  3.8.2
+	 */
+	public function getLabel()
+	{
+		// Requires vote plugin enabled
+		return \JPluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return array The field option objects.

@@ -2,10 +2,24 @@
 <form>
 	<fieldset name="Rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
 		<field
+			name="rotate_quality"
+			type="integer"
+			label="PLG_MEDIA-ACTION_ROTATE_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_ROTATE_QUALITY"
+			first="1"
+			last="100"
+			step="1"
+			default="80"
+		/>
+		<field
+			type="spacer"
+			hr="true"
+		/>
+		<field
 			name="rotate"
 			type="range"
 			label="Rotate"
-		    value="0"
+			value="0"
 		/>
 	</fieldset>
 </form>

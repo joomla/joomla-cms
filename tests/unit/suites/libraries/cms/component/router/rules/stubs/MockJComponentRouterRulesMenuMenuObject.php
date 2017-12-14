@@ -111,6 +111,37 @@ class MockJComponentRouterRulesMenuMenuObject
 			'component'    => 'com_content',
 			'parent_id'    => '0',
 			'query'        => array('option' => 'com_content', 'view' => 'featured'));
+
+
+		$this->items[52] = (object) array(
+			'id'           => '52',
+			'menutype'     => 'testmenu',
+			'title'        => 'Content Article',
+			'alias'        => 'content-article',
+			'route'        => 'content-article',
+			'link'         => 'index.php?option=com_content&view=article&id=1',
+			'type'         => 'component',
+			'level'        => '1',
+			'language'     => '*',
+			'component_id' => '22',
+			'component'    => 'com_content',
+			'parent_id'    => '0',
+			'query'        => array('option' => 'com_content', 'view' => 'article', 'id' => '1'));
+
+		$this->items[53] = (object) array(
+			'id'           => '53',
+			'menutype'     => 'testmenu',
+			'title'        => 'Content Article (2)',
+			'alias'        => 'content-article-2',
+			'route'        => 'content-article-2',
+			'link'         => 'index.php?option=com_content&view=article&id=1',
+			'type'         => 'component',
+			'level'        => '1',
+			'language'     => '*',
+			'component_id' => '22',
+			'component'    => 'com_content',
+			'parent_id'    => '0',
+			'query'        => array('option' => 'com_content', 'view' => 'article', 'id' => '1'));
 	}
 
 	/**
@@ -170,7 +201,7 @@ class MockJComponentRouterRulesMenuMenuObject
 	 */
 	public function getActive()
 	{
-		return (isset($this->items[$this->active]) ? $this->items[$this->active] : null);
+		return ($this->items[$this->active] ?? null);
 	}
 
 	/**

@@ -14,7 +14,7 @@ use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -24,13 +24,13 @@ jimport('joomla.filesystem.file');
  *
  * @since  2.5.4
  */
-class UpdateModel extends BaseModel
+class UpdateModel extends BaseDatabaseModel
 {
 	/**
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $updateInformation = null;
 
@@ -52,12 +52,12 @@ class UpdateModel extends BaseModel
 			// "Minor & Patch Release for Current version AND Next Major Release".
 			case 'sts':
 			case 'next':
-				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
+				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
 				break;
 
 			// "Testing"
 			case 'testing':
-				$updateURL = 'https://update.joomla.org/core/test/list_test.xml';
+				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
 				break;
 
 			// "Custom"
@@ -81,7 +81,7 @@ class UpdateModel extends BaseModel
 			 * case 'nochange':
 			 */
 			default:
-				$updateURL = 'https://update.joomla.org/core/list.xml';
+				$updateURL = 'https://update.joomla.org/core/test/next_major_list.xml';
 		}
 
 		$db = $this->getDbo();
@@ -435,7 +435,7 @@ ENDDATA;
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if ($writable)
 			{
@@ -474,7 +474,7 @@ ENDDATA;
 			}
 
 			// \Just in case the temp-directory was off-root, try using the default tmp directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{
@@ -510,7 +510,7 @@ ENDDATA;
 			}
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory.
-			$writable = @is_writeable($tempdir);
+			$writable = @is_writable($tempdir);
 
 			if (!$writable)
 			{
@@ -939,7 +939,7 @@ ENDDATA;
 	public function captiveLogin($credentials)
 	{
 		// Make sure the username matches
-		$username = isset($credentials['username']) ? $credentials['username'] : null;
+		$username = $credentials['username'] ?? null;
 		$user     = \JFactory::getUser();
 
 		if (strtolower($user->username) != strtolower($username))
@@ -1020,7 +1020,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1073,7 +1073,7 @@ ENDDATA;
 		if (version_compare($this->getUpdateInformation()['latest'], '4', '>='))
 		{
 			$option = new \stdClass;
-			$option->label  = sprintf(\JText::_('INSTL_DATABASE_SUPPORTED'), $this->getConfiguredDatabaseType());
+			$option->label  = \JText::sprintf('INSTL_DATABASE_SUPPORTED', $this->getConfiguredDatabaseType());
 			$option->state  = $this->isDatabaseTypeSupported();
 			$option->notice = null;
 			$options[]      = $option;
@@ -1111,13 +1111,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for mcrypt support
-		$option = new \stdClass;
-		$option->label  = \JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
-		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
-		$options[] = $option;
-
 		return $options;
 	}
 
@@ -1127,7 +1120,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1194,7 +1187,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1207,7 +1200,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1228,7 +1221,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1241,7 +1234,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1256,7 +1249,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1289,7 +1282,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1319,7 +1312,7 @@ ENDDATA;
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, 'JoomlaupdateModelDefault::isNonCoreExtension');
+		$rows = array_filter($rows, self::class . '::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{
@@ -1339,7 +1332,7 @@ ENDDATA;
 	 *
 	 * @return  bool  true if extension is not a core extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private static function isNonCoreExtension($extension)
 	{
@@ -1365,7 +1358,7 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
@@ -1397,7 +1390,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  URL or false
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getUpdateSiteLocation($extensionID)
 	{
@@ -1427,7 +1420,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1447,7 +1440,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function translateExtensionName(&$item)
 	{

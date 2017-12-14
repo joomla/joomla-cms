@@ -26,7 +26,7 @@ $user       = JFactory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$params     = isset($this->state->params) ? $this->state->params : new JObject;
+$params     = $this->state->params ?? new JObject;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -40,9 +40,7 @@ $params     = isset($this->state->params) ? $this->state->params : new JObject;
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped">
 						<thead>

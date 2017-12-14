@@ -62,13 +62,13 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.6
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 		$dataSet->addTable('jos_modules', JPATH_TEST_DATABASE . '/jos_modules.csv');
@@ -108,7 +108,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function eventCallback($event, array $args = [])
 	{

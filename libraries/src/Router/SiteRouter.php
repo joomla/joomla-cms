@@ -11,8 +11,10 @@ namespace Joomla\CMS\Router;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Cms\Uri\Uri as JUri;
 use Joomla\String\StringHelper;
@@ -58,7 +60,7 @@ class SiteRouter extends Router
 	 */
 	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: CMSApplication::getInstance('site');
+		$this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules

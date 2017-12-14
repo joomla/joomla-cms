@@ -11,7 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 
@@ -114,10 +114,10 @@ class GroupController extends FormController
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = \JFactory::getUser();
 
-		// Check general edit permission first.
-		if ($user->authorise('core.edit', $this->component))
+		// Zero record (parent_id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
 		{
-			return true;
+			return parent::allowEdit($data, $key);
 		}
 
 		// Check edit on the record asset (explicit or inherited)
@@ -147,14 +147,14 @@ class GroupController extends FormController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   BaseModel  $model      The data model object.
-	 * @param   array      $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function postSaveHook(BaseModel $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
 		$item = $model->getItem();
 

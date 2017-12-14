@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Helper for mod_login
@@ -54,9 +56,9 @@ abstract class LoginHelper
 			}
 		}
 
-		array_unshift($languages, \JHtml::_('select.option', '', \JText::_('JDEFAULTLANGUAGE')));
+		array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
-		return \JHtml::_('select.genericlist', $languages, 'lang', ' class="custom-select"', 'value', 'text', null);
+		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="advancedSelect" tabindex="4"', 'value', 'text', null);
 	}
 
 	/**

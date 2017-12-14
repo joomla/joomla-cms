@@ -21,7 +21,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $assoc     = JLanguageAssociations::isEnabled();
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -36,9 +36,7 @@ if ($saveOrder)
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="newsfeedList">
 						<thead>
@@ -69,9 +67,11 @@ if ($saveOrder)
 									<?php echo JHtml::_('searchtools.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
-								</th>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -157,9 +157,11 @@ if ($saveOrder)
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<td class="small hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
+								<?php endif; ?>
 								<td class="hidden-sm-down text-center">
 									<?php echo (int) $item->id; ?>
 								</td>

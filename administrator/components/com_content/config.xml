@@ -255,7 +255,7 @@
 
 		<field
 			name="readmore_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
@@ -402,7 +402,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="10"
@@ -718,28 +718,28 @@
 
 		<field
 			name="num_leading_articles"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			default="1"
 		/>
 
 		<field
 			name="num_intro_articles"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			default="4"
 		/>
 
 		<field
 			name="num_columns"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			default="2"
 		/>
 
 		<field
 			name="num_links"
-			type="text"
+			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			default="4"
 		/>

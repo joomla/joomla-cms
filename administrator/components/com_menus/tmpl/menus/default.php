@@ -42,9 +42,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="menuList">
 						<thead>
@@ -145,18 +143,20 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											</a>
 											<div class="dropdown-menu dropdown-menu-right">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-													<?php if ($canEdit) : ?>
+													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 															<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 													<?php else : ?>
-														<span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                        <a href="#" class="disabled" disabled="disabled">
+														    <span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                        </a>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
 										 </div>
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-											<?php if ($canEdit) : ?>
+											<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 												<?php echo JHtml::_(
 														'bootstrap.renderModal',

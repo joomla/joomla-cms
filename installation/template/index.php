@@ -11,23 +11,19 @@ defined('_JEXEC') or die;
 /** @var JDocumentHtml $this */
 
 // Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
-JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css');
+JHtml::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css', ['version' => 'auto']);
+JHtml::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
-// Load the JavaScript behaviors
-JHtml::_('bootstrap.framework');
-
+// Add scripts
+JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.core');
+JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
+JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['version' => 'auto', 'relative' => true]);
 
-// Add installation js
-JHtml::_('script', 'installation/template/js/installation.js', array('version' => 'auto'));
-
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css', array('version' => 'auto'));
+// Add script options
+$this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
 
 // Load JavaScript message titles
 JText::script('ERROR');
@@ -45,50 +41,48 @@ JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
-
-// Add script options
-$this->addScriptOptions('system.installation', array('url' => JRoute::_('index.php')));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<jdoc:include type="head" />
-		<script>
-			jQuery(function()
-			{
-				// Delay instantiation after document.formvalidation and other dependencies loaded
-				window.setTimeout(function(){
-					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
-				}, 500);
-			});
-		</script>
+		<jdoc:include type="metas" />
+		<jdoc:include type="styles" />
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
-		<?php // Header ?>
-		<div class="header">
-			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla">
-			<hr>
-			<h5>
-				<?php // Fix wrong display of Joomla!® in RTL language ?>
-				<?php $joomla  = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>' . (JFactory::getLanguage()->isRtl() ? '&#x200E;' : '') . '</sup>'; ?>
-				<?php $license = '<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>'; ?>
-				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
-			</h5>
-		</div>
-		<?php // Container ?>
-		<div class="container">
-			<jdoc:include type="message" />
-			<div id="javascript-warning">
-				<noscript>
-					<div class="alert alert-danger">
-						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
-					</div>
-				</noscript>
-			</div>
-			<div id="container-installation">
-				<jdoc:include type="component" />
-			</div>
-			<hr>
+		<div class="j-install">
+			<?php // Header ?>
+			<header class="j-header" role="banner">
+				<div class="j-header-logo">
+					<img src="<?php echo $this->baseurl; ?>/template/images/logo.svg" alt="Joomla" class="logo"/>
+				</div>
+				<div class="j-header-help">
+					<a href="#">
+						<span class="fa fa-lightbulb-o" aria-hidden="true"></span>
+					</a>
+				</div>
+			</header>
+			<?php // Container ?>
+			<section class="j-container" role="main">
+				<div id="system-message-container">
+					<jdoc:include type="message" />
+				</div>
+				<div id="javascript-warning">
+					<noscript>
+						<joomla-alert level="danger text-center">
+							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+						</joomla-alert>
+					</noscript>
+				</div>
+				<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo JUri::root(); ?>" style="display:none">
+					<jdoc:include type="component" />
+				</div>
+			</section>
+			<jdoc:include type="scripts" />
+			<footer class="j-footer">
+				<a href="https://www.joomla.org" target="_blank">Joomla!</a>
+				is free software released under the
+				<a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">GNU General Public License</a>
+			</footer>
 		</div>
 	</body>
 </html>

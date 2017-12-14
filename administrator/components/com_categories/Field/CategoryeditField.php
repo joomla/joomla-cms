@@ -58,7 +58,7 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->allowAdd = $this->element['allowAdd'] ?? '';
 		}
 
 		return $return;
@@ -142,6 +142,11 @@ class CategoryeditField extends \JFormFieldList
 			$oldCat = $this->form->getValue($name, 0);
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
+
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$oldCat = is_array($oldCat)
+			? (int) reset($oldCat)
+			: (int) $oldCat;
 
 		$db   = \JFactory::getDbo();
 		$user = \JFactory::getUser();
@@ -234,18 +239,13 @@ class CategoryeditField extends \JFormFieldList
 				}
 			}
 
-			if ($options[$i]->level != 0)
-			{
-				$options[$i]->level = $options[$i]->level -1;
-			}
-
 			if ($options[$i]->published == 1)
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
 			}
 			else
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
 			}
 
 			// Displays language code if not set to All

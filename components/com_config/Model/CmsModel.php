@@ -12,14 +12,14 @@ namespace Joomla\Component\Config\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Prototype admin model.
  *
  * @since  3.2
  */
-abstract class CmsModel extends BaseModel
+abstract class CmsModel extends BaseDatabaseModel
 {
 	/**
 	 * The model (base) name
@@ -220,7 +220,7 @@ abstract class CmsModel extends BaseModel
 		$conf = \JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
+			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
 			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		$cache = \JCache::getInstance('callback', $options);

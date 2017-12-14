@@ -82,7 +82,7 @@ class FeaturedModel extends ArticlesModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
+					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -194,6 +194,12 @@ class FeaturedModel extends ArticlesModel
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
+		}
+		elseif (is_array($authorId))
+		{
+			$authorId = ArrayHelper::toInteger($authorId);
+			$authorId = implode(',', $authorId);
+			$query->where('a.created_by IN (' . $authorId . ')');
 		}
 
 		// Filter by search in title.

@@ -137,7 +137,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					default="5"
 				/>
@@ -204,7 +204,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

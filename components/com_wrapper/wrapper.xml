@@ -21,6 +21,7 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_wrapper.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Wrapper</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>index.html</filename>
