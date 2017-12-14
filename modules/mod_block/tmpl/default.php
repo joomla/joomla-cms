@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 if (!empty($params->get('block-image')))
 {
 	JFactory::getDocument()->addStyleDeclaration(
-		'section.'.$params->get('block-position').' { 
+		'section.' . $params->get('block-position') . ' { 
 			padding-top: 15px;
 			padding-bottom: 15px;
 			background-image: url(' . $params->get('block-image') . ');
 		}
-		section.'.$params->get('block-position').' + main {
+		section.' . $params->get('block-position') . ' + main {
 			padding-top: 7.5px;
 		}
 		'
@@ -26,8 +26,8 @@ if (!empty($params->get('block-image')))
 
 ?>
 
-<section id="<?php echo $params->get('block-id') ?>" class="module-block <?php echo $params->get('block-position') ?> <?php echo $params->get('block-class') ?>">
+<section id="<?php echo $params->get('block-id'); ?>" class="module-block <?php echo $params->get('block-position'); ?> <?php echo $params->get('block-class'); ?>">
 	<div class="wrapper">
-		<?php echo JHtml::_('content.prepare', '{loadposition '.$params->get('block-position').'}') ?>
+		<?php echo JHtml::_('content.prepare', '{loadposition ' . $params->get('block-position') . '}'); ?>
 	</div>
 </section>
