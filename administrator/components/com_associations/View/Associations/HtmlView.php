@@ -72,7 +72,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->total         = $this->get('Total');
 
 		if (!Associations::isEnabled())
 		{
