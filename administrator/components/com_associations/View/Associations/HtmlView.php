@@ -72,6 +72,7 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->total         = $this->get('Total');
 
 		if (!Associations::isEnabled())
 		{
@@ -123,11 +124,6 @@ class HtmlView extends BaseHtmlView
 					$fields = $details['fields'];
 					$this->typeFields = $fields;
 				}
-
-				// Dynamic filter form.
-				// This selectors doesn't have to activate the filter bar.
-				unset($this->activeFilters['itemtype']);
-				unset($this->activeFilters['language']);
 
 				// Remove filters options depending on selected type.
 				if (empty($support['state']))
