@@ -300,7 +300,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 				// Redirect back to the edit screen.
 				$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
 				$this->setRedirect(JRoute::_($url, false));
-			break;
+				break;
 
 			default:
 
@@ -309,7 +309,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 				$id   = $app->input->get('id');
 				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 				$this->setRedirect(JRoute::_($url, false));
-			break;
+				break;
 		}
 	}
 
