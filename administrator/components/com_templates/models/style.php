@@ -382,7 +382,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  JTable  A database object
-	*/
+	 */
 	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
