@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.imagetools.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.imagetools.api.Commands","tinymce.plugins.imagetools.core.UploadSelectedImage","tinymce.plugins.imagetools.ui.Buttons","tinymce.plugins.imagetools.ui.ContextToolbar","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.imagetools.core.Actions","ephox.katamari.api.Fun","tinymce.plugins.imagetools.api.Settings","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","ephox.imagetools.api.ResultConversions","global!Array","global!Error","ephox.sand.api.URL","global!clearTimeout","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","ephox.imagetools.util.ImageResult","ephox.sand.util.Global","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","global!setTimeout","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Canvas","ephox.imagetools.util.ImageSize","ephox.imagetools.util.Mime","ephox.imagetools.util.Promise","ephox.katamari.api.Option","ephox.sand.api.Blob","ephox.sand.api.FileReader","ephox.sand.api.Uint8Array","ephox.sand.api.Window","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Resolve","ephox.katamari.api.Arr","ephox.sand.api.XMLHttpRequest","global!document","global!Image","tinymce.core.geom.Rect","tinymce.plugins.imagetools.core.LoadImage","tinymce.plugins.imagetools.ui.CropRect","global!Object","ephox.katamari.api.Global","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK"]
+["tinymce.plugins.imagetools.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.imagetools.api.Commands","tinymce.plugins.imagetools.core.UploadSelectedImage","tinymce.plugins.imagetools.ui.Buttons","tinymce.plugins.imagetools.ui.ContextToolbar","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.imagetools.core.Actions","ephox.katamari.api.Fun","tinymce.plugins.imagetools.api.Settings","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","ephox.imagetools.api.ResultConversions","global!Array","global!Error","ephox.sand.api.URL","global!clearTimeout","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.katamari.api.Option","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","ephox.imagetools.util.ImageResult","ephox.sand.util.Global","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","global!setTimeout","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Canvas","ephox.imagetools.util.ImageSize","ephox.imagetools.util.Promise","global!Object","ephox.sand.api.Blob","ephox.sand.api.FileReader","ephox.sand.api.Uint8Array","ephox.sand.api.Window","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Resolve","ephox.katamari.api.Arr","ephox.sand.api.XMLHttpRequest","global!document","global!Image","tinymce.core.geom.Rect","tinymce.plugins.imagetools.core.LoadImage","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Global","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK"]
 jsc*/
 define(
   'ephox.katamari.api.Cell',
@@ -224,46 +224,6 @@ define(
     getHeight: getHeight
   };
 });
-define(
-  'ephox.imagetools.util.Mime',
-  [
-  ],
-  function () {
-    function getUriPathName(uri) {
-      var a = document.createElement('a');
-      a.href = uri;
-      return a.pathname;
-    }
-
-    function guessMimeType(uri) {
-      var parts, ext, mimes, matches;
-
-      if (uri.indexOf('data:') === 0) {
-        uri = uri.split(',');
-        matches = /data:([^;]+)/.exec(uri[0]);
-        return matches ? matches[1] : '';
-      } else {
-        mimes = {
-          'jpg': 'image/jpeg',
-          'jpeg': 'image/jpeg',
-          'png': 'image/png'
-        };
-
-        parts = getUriPathName(uri).split('.');
-        ext = parts[parts.length - 1];
-
-        if (ext) {
-          ext = ext.toLowerCase();
-        }
-        return mimes[ext];
-      }
-    }
-
-
-    return {
-      guessMimeType: guessMimeType
-    };
-  });
 /* eslint-disable */
 /* jshint ignore:start */
 
@@ -473,6 +433,12 @@ define(
 
     var noop = function () { };
 
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
+
     var compose = function (fa, fb) {
       return function () {
         return fa(fb.apply(null, arguments));
@@ -533,10 +499,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -598,8 +565,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -749,11 +717,8 @@ define(
 
   function () {
     // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
 );
 
@@ -936,7 +901,6 @@ define(
   [
     'ephox.imagetools.util.Canvas',
     'ephox.imagetools.util.ImageSize',
-    'ephox.imagetools.util.Mime',
     'ephox.imagetools.util.Promise',
     'ephox.katamari.api.Option',
     'ephox.sand.api.Blob',
@@ -946,7 +910,7 @@ define(
     'global!Array',
     'global!Math'
   ],
-  function (Canvas, ImageSize, Mime, Promise, Option, Blob, FileReader, Uint8Array, Window, Array, Math) {
+  function (Canvas, ImageSize, Promise, Option, Blob, FileReader, Uint8Array, Window, Array, Math) {
     function loadImage(image) {
       return new Promise(function (resolve) {
         function loaded() {
@@ -962,47 +926,46 @@ define(
       });
     }
 
-    function imageToCanvas(image) {
-      return loadImage(image).then(function (image) {
-        var context, canvas;
-
-        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
-        context = Canvas.get2dContext(canvas);
-        context.drawImage(image, 0, 0);
-
-        return canvas;
-      });
-    }
-
     function imageToBlob(image) {
       return loadImage(image).then(function (image) {
         var src = image.src;
 
         if (src.indexOf('blob:') === 0) {
-          return blobUriToBlob(src);
+          return anyUriToBlob(src);
         }
 
         if (src.indexOf('data:') === 0) {
           return dataUriToBlob(src);
         }
 
-        return imageToCanvas(image).then(function (canvas) {
-          return canvasToBlob(canvas, Mime.guessMimeType(src));
-        });
+        return anyUriToBlob(src);
       });
     }
 
     function blobToImage(blob) {
-      return new Promise(function (resolve) {
+      return new Promise(function (resolve, reject) {
+        var blobUrl = URL.createObjectURL(blob);
+
         var image = new Image();
 
-        function loaded() {
+        var removeListeners = function () {
           image.removeEventListener('load', loaded);
+          image.removeEventListener('error', error);
+        };
+
+        function loaded() {
+          removeListeners();
           resolve(image);
         }
 
+        function error() {
+          removeListeners();
+          reject('Unable to load data of type ' + blob.type + ': ' + blobUrl);
+        }
+
         image.addEventListener('load', loaded);
-        image.src = URL.createObjectURL(blob);
+        image.addEventListener('error', error);
+        image.src = blobUrl;
 
         if (image.complete) {
           loaded();
@@ -1010,11 +973,13 @@ define(
       });
     }
 
-    function blobUriToBlob(url) {
+    function anyUriToBlob(url) {
       return new Promise(function (resolve) {
         var xhr = new XMLHttpRequest();
 
         xhr.open('GET', url, true);
+
+        // works with IE10+
         xhr.responseType = 'blob';
 
         xhr.onload = function () {
@@ -1067,7 +1032,7 @@ define(
 
     function uriToBlob(url) {
       if (url.indexOf('blob:') === 0) {
-        return blobUriToBlob(url);
+        return anyUriToBlob(url);
       }
 
       if (url.indexOf('data:') === 0) {
@@ -1089,6 +1054,28 @@ define(
       } else {
         return dataUriToBlob(canvas.toDataURL(type, quality));
       }
+    }
+
+    function canvasToDataURL(getCanvas, type, quality) {
+      type = type || 'image/png';
+      return getCanvas.then(function (canvas) {
+        return canvas.toDataURL(type, quality);
+      });
+    }
+
+    function blobToCanvas(blob) {
+      return blobToImage(blob).then(function (image) {
+        // we aren't retaining the image, so revoke the URL immediately
+        revokeImageUrl(image);
+
+        var context, canvas;
+
+        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
+        context = Canvas.get2dContext(canvas);
+        context.drawImage(image, 0, 0);
+
+        return canvas;
+      });
     }
 
     function blobToDataUri(blob) {
@@ -1113,34 +1100,28 @@ define(
       URL.revokeObjectURL(image.src);
     }
 
-    var isDataUrl = function (uri) {
-      var data = uri.split(',');
-
-      return /data:([^;]+)/.exec(data[0]) !== null;
-    };
-
     return {
       // used outside
       blobToImage: blobToImage,
       imageToBlob: imageToBlob,
       blobToDataUri: blobToDataUri,
       blobToBase64: blobToBase64,
+      dataUriToBlobSync: dataUriToBlobSync,
 
       // helper method
-      imageToCanvas: imageToCanvas,
       canvasToBlob: canvasToBlob,
-      revokeImageUrl: revokeImageUrl,
-      uriToBlob: uriToBlob,
-      dataUriToBlobSync: dataUriToBlobSync,
-      isDataUrl: isDataUrl
+      canvasToDataURL: canvasToDataURL,
+      blobToCanvas: blobToCanvas,
+      uriToBlob: uriToBlob
     };
   });
 define(
   'ephox.imagetools.api.BlobConversions',
   [
-    'ephox.imagetools.util.Conversions'
+    'ephox.imagetools.util.Conversions',
+    'ephox.katamari.api.Option'
   ],
-  function (Conversions) {
+  function (Conversions, Option) {
     var blobToImage = function (image) {
       return Conversions.blobToImage(image);
     };
@@ -1161,13 +1142,18 @@ define(
       return Conversions.dataUriToBlobSync(uri);
     };
 
+    var uriToBlob = function (uri) {
+      return Option.from(Conversions.uriToBlob(uri));
+    };
+
     return {
       // used outside
       blobToImage: blobToImage,
       imageToBlob: imageToBlob,
       blobToDataUri: blobToDataUri,
       blobToBase64: blobToBase64,
-      dataUriToBlobSync: dataUriToBlobSync
+      dataUriToBlobSync: dataUriToBlobSync,
+      uriToBlob: uriToBlob
     };
   }
 );
@@ -1176,44 +1162,47 @@ define(
   [
     'ephox.imagetools.util.Canvas',
     'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.Mime',
     'ephox.imagetools.util.Promise',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option'
+    'ephox.katamari.api.Fun'
   ],
-  function (Canvas, Conversions, Mime, Promise, Fun, Option) {
-    function create(canvas, blob, maybeUri) {
+  function (Canvas, Conversions, Promise, Fun) {
+    function create(getCanvas, blob, uri) {
       var initialType = blob.type;
 
       var getType = Fun.constant(initialType);
 
-      function toBlob(type, quality) {
-        // Shortcut to not lose the blob filename when we haven't edited the image
-        var resultType = type || initialType;
-        if (type === initialType && quality === undefined) {
-          return Promise.resolve(blob);
-        } else {
-          return Conversions.canvasToBlob(canvas, resultType, quality);
-        }
+      function toBlob() {
+        return Promise.resolve(blob);
       }
 
-      function toDataURL(_type, quality) {
-        var type = _type || initialType;
-        var canvasOutput = function () {
-          return canvas.toDataURL(type, quality);
-        };
-        return maybeUri.fold(canvasOutput, function (uri) {
-          // if we have data and aren't converting, use it - canvas tends to convert even when you tell it not to.
-          return (quality === undefined && type === initialType) ? uri : canvasOutput();
+      function toDataURL() {
+        return uri;
+      }
+
+      function toBase64() {
+        return uri.split(',')[1];
+      }
+
+      function toAdjustedBlob(type, quality) {
+        return getCanvas.then(function (canvas) {
+          return Conversions.canvasToBlob(canvas, type, quality);
         });
       }
 
-      function toBase64(type, quality) {
-        return toDataURL(type, quality).split(',')[1];
+      function toAdjustedDataURL(type, quality) {
+        return getCanvas.then(function (canvas) {
+          return Conversions.canvasToDataURL(canvas, type, quality);
+        });
+      }
+
+      function toAdjustedBase64(type, quality) {
+        return toAdjustedDataURL(type, quality).then(function (dataurl) {
+          return dataurl.split(',')[1];
+        });
       }
 
       function toCanvas() {
-        return Canvas.clone(canvas);
+        return getCanvas.then(Canvas.clone);
       }
 
       return {
@@ -1221,66 +1210,34 @@ define(
         toBlob: toBlob,
         toDataURL: toDataURL,
         toBase64: toBase64,
+        toAdjustedBlob: toAdjustedBlob,
+        toAdjustedDataURL: toAdjustedDataURL,
+        toAdjustedBase64: toAdjustedBase64,
         toCanvas: toCanvas
       };
     }
 
     function fromBlob(blob) {
-      return Conversions.blobToImage(blob)
-        .then(function (image) {
-          var result = Conversions.imageToCanvas(image);
-          Conversions.revokeImageUrl(image);
-          return result;
-        })
-        .then(function (canvas) {
-          return Conversions.blobToDataUri(blob).then(function (uri) {
-            return create(canvas, blob, Option.some(uri));
-          });
-        });
+      return Conversions.blobToDataUri(blob).then(function (uri) {
+        return create(Conversions.blobToCanvas(blob), blob, uri);
+      });
     }
 
     function fromCanvas(canvas, type) {
       return Conversions.canvasToBlob(canvas, type).then(function (blob) {
-        return create(canvas, blob, Option.none());
+        return create(Promise.resolve(canvas), blob, canvas.toDataURL());
       });
     }
 
     function fromImage(image) {
-      var type = Mime.guessMimeType(image.src);
-      return Conversions.imageToCanvas(image).then(function (canvas) {
-        return Conversions.canvasToBlob(canvas, type).then(function (blob) {
-          return fromCanvas(canvas, blob, Option.none());
-        });
+      return Conversions.imageToBlob(image).then(function (blob) {
+        return fromBlob(blob);
       });
     }
 
-    /*
-      This copy doesn't support changing type or quality, but
-      it's used by TBIO on load which won't ask for changes.
-
-      TODO: Make toCanvas return a promise so this can be inlined with create above
-     */
     var fromBlobAndUrlSync = function (blob, url) {
-      var backgroundCanvas = Option.none();
-      Conversions.blobToImage(blob).then(function (image) {
-        var result = Conversions.imageToCanvas(image);
-        Conversions.revokeImageUrl(image);
-        backgroundCanvas = Option.some(result);
-      });
-      return {
-        getType: Fun.constant(blob.type),
-        toBlob: function () {
-          return Promise.resolve(blob);
-        },
-        toDataURL: Fun.constant(url),
-        toBase64: function () {
-          return url.split(',')[1];
-        },
-        toCanvas: function () {
-          return backgroundCanvas.getOrDie('image has not loaded yet')
-        }
-      };
-    }
+      return create(Conversions.blobToCanvas(blob), blob, url);
+    };
 
     return {
       fromBlob: fromBlob,
@@ -1509,7 +1466,12 @@ define(
   ],
   function (Canvas, ImageResult, ColorMatrix) {
     function colorFilter(ir, matrix) {
-      var canvas = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyColorFilter(canvas, ir.getType(), matrix);
+      });
+    }
+
+    function applyColorFilter(canvas, type, matrix) {
       var context = Canvas.get2dContext(canvas);
       var pixels;
 
@@ -1538,11 +1500,16 @@ define(
       pixels = applyMatrix(context.getImageData(0, 0, canvas.width, canvas.height), matrix);
       context.putImageData(pixels, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function convoluteFilter(ir, matrix) {
-      var canvas = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyConvoluteFilter(canvas, ir.getType(), matrix);
+      });
+    }
+
+    function applyConvoluteFilter(canvas, type, matrix) {
       var context = Canvas.get2dContext(canvas);
       var pixelsIn, pixelsOut;
 
@@ -1604,12 +1571,11 @@ define(
       pixelsOut = applyMatrix(pixelsIn, pixelsOut, matrix);
       context.putImageData(pixelsOut, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function functionColorFilter(colorFn) {
-      return function (ir, value) {
-        var canvas = ir.toCanvas();
+      var filterImpl = function (canvas, type, value) {
         var context = Canvas.get2dContext(canvas);
         var pixels, i, lookup = new Array(256);
 
@@ -1632,7 +1598,13 @@ define(
         pixels = applyLookup(context.getImageData(0, 0, canvas.width, canvas.height), lookup);
         context.putImageData(pixels, 0, 0);
 
-        return ImageResult.fromCanvas(canvas, ir.getType());
+        return ImageResult.fromCanvas(canvas, type);
+      };
+
+      return function (ir, value) {
+        return ir.toCanvas().then(function (canvas) {
+          return filterImpl(canvas, ir.getType(), value);
+        });
       };
     }
 
@@ -1699,12 +1671,11 @@ define(
 define(
   'ephox.imagetools.transformations.ImageResizerCanvas',
   [
-    'ephox.imagetools.util.Promise',
-    'ephox.imagetools.util.Conversions',
     'ephox.imagetools.util.Canvas',
-    'ephox.imagetools.util.ImageSize'
+    'ephox.imagetools.util.ImageSize',
+    'ephox.imagetools.util.Promise'
   ],
-  function (Promise, Conversions, Canvas, ImageSize) {
+  function (Canvas, ImageSize, Promise) {
     /**
      * @method scale
      * @static
@@ -1767,7 +1738,11 @@ define(
   ],
   function (Canvas, ImageResult, ImageResizerCanvas) {
     function rotate(ir, angle) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyRotate(canvas, ir.getType(), angle);
+      });
+    }
+    function applyRotate(image, type, angle) {
       var canvas = Canvas.create(image.width, image.height);
       var context = Canvas.get2dContext(canvas);
       var translateX = 0, translateY = 0;
@@ -1790,11 +1765,15 @@ define(
       context.rotate(angle * Math.PI / 180);
       context.drawImage(image, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function flip(ir, axis) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyFlip(canvas, ir.getType(), axis);
+      });
+    }
+    function applyFlip(image, type, axis) {
       var canvas = Canvas.create(image.width, image.height);
       var context = Canvas.get2dContext(canvas);
 
@@ -1806,25 +1785,31 @@ define(
         context.drawImage(image, -canvas.width, 0);
       }
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function crop(ir, x, y, w, h) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyCrop(canvas, ir.getType(), x, y, w, h);
+      });
+    }
+    function applyCrop(image, type, x, y, w, h) {
       var canvas = Canvas.create(w, h);
       var context = Canvas.get2dContext(canvas);
 
       context.drawImage(image, -x, -y);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
 
     function resize(ir, w, h) {
-      return ImageResizerCanvas.scale(ir.toCanvas(), w, h)
-        .then(function (canvas) {
-          return ImageResult.fromCanvas(canvas, ir.getType());
-        });
+      return ir.toCanvas().then(function (canvas) {
+        return ImageResizerCanvas.scale(canvas, w, h)
+          .then(function (newCanvas) {
+            return ImageResult.fromCanvas(newCanvas, ir.getType());
+          });
+      });
     }
 
     return {
@@ -1951,16 +1936,20 @@ define(
     };
 
     var imageResultToBlob = function (ir, type, quality) {
-      return ir.toBlob(type, quality);
+      // Shortcut to not lose the blob filename when we aren't editing the image
+      if (type === undefined && quality === undefined) {
+        return imageResultToOriginalBlob(ir);
+      } else {
+        return ir.toAdjustedBlob(type, quality);
+      }
     };
 
     var imageResultToOriginalBlob = function (ir) {
-      // implementation detail - undefined type/quality returns original blob
       return ir.toBlob();
     };
 
-    var imageResultToDataURL = function (ir, type, quality) {
-      return ir.toDataURL(type, quality);
+    var imageResultToDataURL = function (ir) {
+      return ir.toDataURL();
     };
 
     return {
