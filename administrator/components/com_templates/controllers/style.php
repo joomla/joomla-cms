@@ -43,7 +43,7 @@ class TemplatesControllerStyle extends JControllerForm
 
 		$document = JFactory::getDocument();
 
-		if ($document->getType() == 'json')
+		if ($document->getType() === 'json')
 		{
 			$app   = JFactory::getApplication();
 			$lang  = JFactory::getLanguage();
