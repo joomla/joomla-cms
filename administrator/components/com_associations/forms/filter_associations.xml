@@ -24,7 +24,6 @@
 			type="text"
 			label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
 			hint="JSEARCH_FILTER"
-			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 
 		<field
