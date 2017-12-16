@@ -1110,6 +1110,41 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		element.addEventListener(name, onceCallback);
 	};
+
+	/**
+	 * Once listener. Add EventListener to the Element and auto-remove it after the event was dispatched.
+	 * Modified from: http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery
+	 *
+	 * @param {HTMLElement}  element  DOM element
+	 * @param {HTMLElement}  element  DOM element
+	 *
+	 * @since   4.0.0
+	 */
+	Joomla.closest = function(element, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] == 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		})
+
+		var parent;
+
+		// Traverse parents
+		while (element) {
+			parent = element.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			element = parent;
+		}
+
+		return null;
+	}
 })( window, Joomla );
 
 /**

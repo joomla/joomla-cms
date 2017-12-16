@@ -6,8 +6,10 @@
  * @since       4.0
  */
 
-(function(document) {
-	"use strict";
+Joomla = window.Joomla || {};
+
+(function(Joomla, document) {
+	'use strict';
 
 	function initTemplate(event) {
 		var target = event && event.target ? event.target : document;
@@ -58,13 +60,13 @@
 					input = document.getElementById(label.getAttribute('for'));
 
 				if (input.getAttribute('checked') !== 'checked') {
-					var label = closest(label, '.btn-group').querySelector('label');
+					var label = Joomla.closest(label, '.btn-group').querySelector('label');
 					label.classList.remove('active');
 					label.classList.remove('btn-success');
 					label.classList.remove('btn-danger');
 					label.classList.remove('btn-primary');
 
-					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+					if (Joomla.closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
 						if (!label.classList.contains('btn')) label.classList.add('btn');
 						if (input.value == '') {
 							label.classList.add('active');
@@ -137,37 +139,7 @@
 		}
 	}
 
-	/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
-	function closest(el, selector) {
-		var matchesFn;
-
-		// find vendor prefix
-		['matches', 'msMatchesSelector'].some(function(fn) {
-			if (typeof document.body[fn] === 'function') {
-				matchesFn = fn;
-				return true;
-			}
-			return false;
-		});
-
-		var parent;
-
-		// traverse parents
-		while (el) {
-			parent = el.parentElement;
-			if (parent && parent[matchesFn](selector)) {
-				return parent;
-			}
-			el = parent;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Initialize at an initial page load
-	 */
-	document.addEventListener("DOMContentLoaded", function (event) {
+	document.addEventListener('DOMContentLoaded', function (event) {
 		initTemplate(event);
 
 		/**
@@ -185,6 +157,6 @@
 	/**
 	 * Initialize when a part of the page was updated
 	 */
-	document.addEventListener("joomla:updated", initTemplate);
+	document.addEventListener('joomla:updated', initTemplate);
 
-})(document);
+})(Joomla, document);
