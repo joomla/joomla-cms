@@ -58,7 +58,7 @@ abstract class LoginHelper
 
 		array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
-		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="advancedSelect" tabindex="4"', 'value', 'text', null);
+		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="custom-select" tabindex="4"', 'value', 'text', null);
 	}
 
 	/**
