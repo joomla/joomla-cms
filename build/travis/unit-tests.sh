@@ -28,12 +28,18 @@ psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 # https://github.com/google/hat-backup/blob/master/travis-install-libsodium.sh and install into home and pass in custom
 # pkg_config path - I'm not sure that we need to export LD_LIBRARY_PATH - but trying it from desperation as it was done in the
 # google repo
-if [ $INSTALL_LIBSODIUM == "yes" ]; then
-  wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
-  tar xvfz libsodium-1.0.15.tar.gz
-  cd libsodium-1.0.15 && ./configure --prefix=$HOME/libsodium && make check && make install
-  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH pecl install libsodium
-fi
+#if [ $INSTALL_LIBSODIUM == "yes" ]; then
+#  wget https://github.com/jedisct1/libsodium/releases/download/1.0.15/libsodium-1.0.15.tar.gz
+#  tar xvfz libsodium-1.0.15.tar.gz
+#  cd libsodium-1.0.15 && ./configure --prefix=$HOME/libsodium && make check && make install
+#  cd ../
+#  wget https://github.com/jedisct1/libsodium-php/archive/2.0.10.tar.gz
+#  tar xvfz 2.0.10.tar.gz
+#  cd libsodium-php-2.0.10
+#  phpize
+#  LD_LIBRARY_PATH=$HOME/libsodium/lib:$LD_LIBRARY_PATH PKG_CONFIG_PATH=$HOME/libsodium/lib/pkgconfig:$PKG_CONFIG_PATH ./configure --with-sodium
+#  make install
+#fi
 
 if [[ $INSTALL_MEMCACHE == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcache.ini"; fi
 if [[ $INSTALL_MEMCACHED == "yes" ]]; then phpenv config-add "$BASE/build/travis/phpenv/memcached.ini"; fi

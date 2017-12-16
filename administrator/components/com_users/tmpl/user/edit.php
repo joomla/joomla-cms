@@ -77,13 +77,9 @@ $settings  = array();
 			<legend>
 				<?php echo JText::_('COM_USERS_USER_OTEPS'); ?>
 			</legend>
-			<div class="alert alert-info">
-				<?php echo JText::_('COM_USERS_USER_OTEPS_DESC'); ?>
-			</div>
+			<joomla-alert type="info"><?php echo JText::_('COM_USERS_USER_OTEPS_DESC'); ?></joomla-alert>
 			<?php if (empty($this->otpConfig->otep)) : ?>
-			<div class="alert alert-warning">
-				<?php echo JText::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
-			</div>
+				<joomla-alert type="warning"><?php echo JText::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?></joomla-alert>
 			<?php else : ?>
 			<?php foreach ($this->otpConfig->otep as $otep) : ?>
 			<span class="col-md-3">

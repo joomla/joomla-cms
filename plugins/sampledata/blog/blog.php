@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Sampledata - Blog Plugin
  *
  * @since  3.8.0
  */
-class PlgSampledataBlog extends JPlugin
+class PlgSampledataBlog extends CMSPlugin
 {
 	/**
 	 * Database object
@@ -104,14 +105,8 @@ class PlgSampledataBlog extends JPlugin
 		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/tables/');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models/', 'CategoriesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables/');
-
 		// Create "blog" category.
-		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
 		$catIds        = array();
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
@@ -207,7 +202,7 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
+		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -324,7 +319,7 @@ class PlgSampledataBlog extends JPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
-		$menuTable = JTable::getInstance('Type', 'JTableMenu');
+		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
 		$menuTypes = array();
 
 		for ($i = 0; $i <= 2; $i++)
@@ -368,9 +363,7 @@ class PlgSampledataBlog extends JPlugin
 
 		// Get MenuItemModel.
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models/', 'MenusModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
-		$this->menuItemModel = JModelLegacy::getInstance('Item', 'MenusModel');
+		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
 		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
@@ -548,7 +541,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'menutype'     => $menuTypes[1],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
-				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
+				'link'         => 'index.php?option=com_config&view=config',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
 				'access'       => 6,
@@ -561,7 +554,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'menutype'     => $menuTypes[1],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
-				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
+				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
 				'params'       => array(
@@ -620,9 +613,7 @@ class PlgSampledataBlog extends JPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/tables/');
-		$model  = JModelLegacy::getInstance('Module', 'ModulesModel');
+		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates
@@ -634,7 +625,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'showtitle' => 0,
 				'params'    => array(
@@ -655,7 +646,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
@@ -677,7 +668,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
-				'position'  => 'position-7',
+				'position'  => 'sidebar-right',
 				'module'    => 'mod_syndicate',
 				'showtitle' => 0,
 				'params'    => array(
@@ -691,7 +682,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_archive',
 				'params'   => array(
 					'count'      => 10,
@@ -704,7 +695,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
 					'catid'      => $catids[0],
@@ -719,7 +710,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_category',
 				'params'   => array(
 					'mode'                         => 'normal',
@@ -784,7 +775,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-0',
+				'position' => 'search',
 				'module'   => 'mod_search',
 				'params'   => array(
 					'width'      => 20,
@@ -800,7 +791,7 @@ class PlgSampledataBlog extends JPlugin
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
 				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
 				'ordering'  => 1,
-				'position'  => 'position-3',
+				'position'  => 'main-top',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
@@ -817,7 +808,7 @@ class PlgSampledataBlog extends JPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_tags_popular',
 				'params'   => array(
 					'maximum'         => 8,

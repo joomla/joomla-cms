@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e5f2783690b3db92921ff3707b45ed5",
+    "content-hash": "dcaadb543304832282ee62bbb908a606",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -344,12 +344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/authentication.git",
-                "reference": "54537e5c0379bd78006f81a7c8e3c8cde53508d8"
+                "reference": "82f51fe9416c22389102eb04ae568889c5fcbd5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/54537e5c0379bd78006f81a7c8e3c8cde53508d8",
-                "reference": "54537e5c0379bd78006f81a7c8e3c8cde53508d8",
+                "url": "https://api.github.com/repos/joomla-framework/authentication/zipball/82f51fe9416c22389102eb04ae568889c5fcbd5d",
+                "reference": "82f51fe9416c22389102eb04ae568889c5fcbd5d",
                 "shasum": ""
             },
             "require": {
@@ -389,7 +389,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2017-10-18T01:29:24+00:00"
+            "time": "2017-12-09T19:16:54+00:00"
         },
         {
             "name": "joomla/console",
@@ -1466,16 +1466,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.3.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "6b3a59ef127445564a00e261eb1e960b6292f494"
+                "reference": "9bfa05311d1851db0bbc2ad453c7083b9996b5b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/6b3a59ef127445564a00e261eb1e960b6292f494",
-                "reference": "6b3a59ef127445564a00e261eb1e960b6292f494",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/9bfa05311d1851db0bbc2ad453c7083b9996b5b4",
+                "reference": "9bfa05311d1851db0bbc2ad453c7083b9996b5b4",
                 "shasum": ""
             },
             "require": {
@@ -1486,7 +1486,8 @@
                 "phpunit/phpunit": "^3|^4|^5"
             },
             "suggest": {
-                "ext-libsodium": "Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
+                "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
+                "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
             },
             "type": "library",
             "autoload": {
@@ -1543,7 +1544,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2017-09-29T21:27:52+00:00"
+            "time": "2017-11-28T15:55:13+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
