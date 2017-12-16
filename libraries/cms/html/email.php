@@ -59,26 +59,17 @@ abstract class JHtmlEmail
 		$name   = @$mail[0];
 		$domain = @$mail[1];
 
-		// Pass the parameters to javascript
-		Factory::getDocument()->addScriptOptions('email-cloak', [
-			$rand => [
-				'linkable' => $mailto,
-				'isEmail'  => $email,
-				'properties' => [
-					'name'   => $name,
-					'domain' => $domain,
-					'text'   => $text,
-					'before' => $attribsBefore,
-					'after'  => $attribsAfter
-				]
-			]
-		]);
-
-		HTMLHelper::_('behavior.core');
-
 		// Include the email cloaking script
 		HTMLHelper::_('webcomponent', ['joomla-hidden-mail' => 'system/webcomponents/joomla-hidden-mail.js'], ['version' => 'auto', 'relative' => true]);
 
-		return '<joomla-hidden-mail id="cloak-' . $rand . '">' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
+		return '<joomla-hidden-mail
+			' . $attribsBefore . '
+			is-link="' . $mailto . '"
+			is-email="' . $email . '"
+			first="' . base64_encode($name) . '"
+			last="' . base64_encode($domain) . '"
+			text="' . base64_encode($text) . '"
+			' . $attribsAfter . '
+			>' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
 	}
 }
