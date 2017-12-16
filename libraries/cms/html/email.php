@@ -77,8 +77,8 @@ abstract class JHtmlEmail
 		HTMLHelper::_('behavior.core');
 
 		// Include the email cloaking script
-		HTMLHelper::_('script', 'system/email-cloak.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('webcomponent', ['joomla-hidden-mail' => 'system/webcomponents/joomla-hidden-mail.js'], ['version' => 'auto', 'relative' => true]);
 
-		return '<span id="cloak-' . $rand . '">' . Text::_('JLIB_HTML_CLOAKING') . '</span>';
+		return '<joomla-hidden-mail id="cloak-' . $rand . '">' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
 	}
 }
