@@ -51,9 +51,6 @@ abstract class JHtmlEmail
 			$mail = PunycodeHelper::emailToUTF8($mail);
 		}
 
-		// Random hash
-		$rand = md5($mail . mt_rand(1, 100000));
-
 		// Split email by @ symbol
 		$mail   = explode('@', $mail);
 		$name   = @$mail[0];
@@ -62,14 +59,12 @@ abstract class JHtmlEmail
 		// Include the email cloaking script
 		HTMLHelper::_('webcomponent', ['joomla-hidden-mail' => 'system/webcomponents/joomla-hidden-mail.js'], ['version' => 'auto', 'relative' => true]);
 
-		return '<joomla-hidden-mail
-			' . $attribsBefore . '
-			is-link="' . $mailto . '"
-			is-email="' . $email . '"
-			first="' . base64_encode($name) . '"
-			last="' . base64_encode($domain) . '"
-			text="' . base64_encode($text) . '"
-			' . $attribsAfter . '
-			>' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
+		return '<joomla-hidden-mail '
+			. $attribsBefore . ' is-link="'
+			. $mailto . '" is-email="'
+			. $email . '" first="'
+			. base64_encode($name) . '" last="'
+			. base64_encode($domain) . '" text="'
+			. base64_encode($text) . '" ' . $attribsAfter . ' >' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
 	}
 }

@@ -22,8 +22,13 @@ var _createClass = function () {
     function b() {
       return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
     }return _inherits(b, a), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
-        var a,
-            b = !1;'1' === this.getAttribute('is-link') ? a = '<a href="mailto:' + window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last')) + '">' : (b = !0, a = '<span>'), '1' === this.getAttribute('is-email') && (a += '' === this.getAttribute('text') ? window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last')) : window.atob(this.getAttribute('text'))), a += b ? '</span>' : '</a>', this.innerHTML = a;
+        var a;if ('1' === this.getAttribute('is-link')) {
+          a = document.createElement('a'), a.setAttribute('href', 'mailto:' + window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last')));for (var b, c = 0, d = this.attributes.length; c < d; ++c) {
+            if (b = this.attributes.item(c).nodeName, b) {
+              if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(b)) continue;var e = this.attributes.item(c).nodeValue;a.setAttribute(b, e);
+            }
+          }
+        } else a = document.createElement('span');'1' === this.getAttribute('is-email') && (a.innerText = '' === this.getAttribute('text') ? window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last')) : window.atob(this.getAttribute('text'))), this.innerText = '', this.appendChild(a);
       } }]), b;
   }(HTMLElement);customElements.define('joomla-hidden-mail', a);
 })();
