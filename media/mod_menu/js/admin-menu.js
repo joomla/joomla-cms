@@ -9,6 +9,32 @@ Joomla = window.Joomla || {};
 (function(Joomla, document) {
 	'use strict';
 
+	function closest(element, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] == 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		})
+
+		var parent;
+
+		// Traverse parents
+		while (element) {
+			parent = element.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			element = parent;
+		}
+
+		return null;
+	}
+
 	var wrapper = document.getElementById('wrapper');
 	var sidebar = document.getElementById('sidebar-wrapper');
 	var subhead = document.querySelector('.subhead');
@@ -105,7 +131,7 @@ Joomla = window.Joomla || {};
 				// Auto Expand First Level
 				if (!allLinks[i].parentNode.classList.contains('parent')) {
 					mainNav.classList.add('child-open');
-					var firstLevel = Joomla.closest(allLinks[i], '.collapse-level-1');
+					var firstLevel = closest(allLinks[i], '.collapse-level-1');
 						if (firstLevel) firstLevel.parentNode.classList.add('open');
 				}
 			}

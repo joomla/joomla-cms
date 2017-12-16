@@ -11,6 +11,32 @@ Joomla = window.Joomla || {};
 (function(Joomla, document) {
 	'use strict';
 
+	function closest(element, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] == 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		})
+
+		var parent;
+
+		// Traverse parents
+		while (element) {
+			parent = element.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			element = parent;
+		}
+
+		return null;
+	}
+
 	function initPageContentStuff(event) {
 		var target = event && event.target ? event.target : document;
 
@@ -37,13 +63,13 @@ Joomla = window.Joomla || {};
 				var input = document.getElementById(event.target.getAttribute('for'));
 
 				if (input.getAttribute('checked') !== 'checked') {
-					var label = Joomla.closest(event.target, '.btn-group').querySelector('label');
+					var label = closest(event.target, '.btn-group').querySelector('label');
 					label.classList.remove('active');
 					label.classList.remove('btn-success');
 					label.classList.remove('btn-danger');
 					label.classList.remove('btn-primary');
 
-					if (Joomla.closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
+					if (closest(label, '.btn-group').classList.contains('btn-group-reversed')) {
 						if (!label.classList.contains('btn')) label.classList.add('btn');
 						if (input.value === '') {
 							label.classList.add('active');
