@@ -1,0 +1,224 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0+",
+  "vendors": {
+    "awesomplete": {
+      "package": "awesomplete",
+      "name": "awesomplete",
+      "version": "1.1.2",
+      "dependencies": [],
+      "js": [
+        "vendor/awesomplete/awesomplete.js",
+        "vendor/awesomplete/awesomplete.min.js"
+      ],
+      "css": [
+        "vendor/awesomplete/awesomplete.css"
+      ]
+    },
+    "bootstrap": {
+      "package": "bootstrap",
+      "name": "bootstrap",
+      "version": "4.0.0-beta.2",
+      "dependencies": [],
+      "js": [
+        "vendor/bootstrap/bootstrap.js",
+        "vendor/bootstrap/bootstrap.min.js"
+      ],
+      "css": [
+        "vendor/bootstrap/bootstrap.css",
+        "vendor/bootstrap/bootstrap.min.css",
+        "vendor/bootstrap/bootstrap-grid.css",
+        "vendor/bootstrap/bootstrap-grid.min.css",
+        "vendor/bootstrap/bootstrap-reboot.css",
+        "vendor/bootstrap/bootstrap-reboot.min.css"
+      ]
+    },
+    "cropperjs": {
+      "package": "cropperjs",
+      "name": "cropperjs",
+      "version": "1.1.3",
+      "dependencies": [],
+      "js": [
+        "vendor/cropperjs/cropper.js",
+        "vendor/cropperjs/cropper.min.js"
+      ],
+      "css": [
+        "vendor/cropperjs/cropper.css",
+        "vendor/cropperjs/cropper.min.css"
+      ]
+    },
+    "diff": {
+      "package": "diff",
+      "name": "diff",
+      "version": "3.4.0",
+      "dependencies": [],
+      "js": [
+        "vendor/diff/diff.js",
+        "vendor/diff/diff.min.js"
+      ]
+    },
+    "dragula": {
+      "package": "dragula",
+      "name": "dragula",
+      "version": "3.7.2",
+      "dependencies": [],
+      "js": [
+        "vendor/dragula/dragula.js",
+        "vendor/dragula/dragula.min.js"
+      ],
+      "css": [
+        "vendor/dragula/dragula.css",
+        "vendor/dragula/dragula.min.css"
+      ]
+    },
+    "flying-focus-a11y": {
+      "package": "flying-focus-a11y",
+      "name": "flying-focus-a11y",
+      "version": "1.5.5",
+      "dependencies": [],
+      "js": [
+        "vendor/flying-focus-a11y/flying-focus.js"
+      ]
+    },
+    "font-awesome": {
+      "package": "font-awesome",
+      "name": "font-awesome",
+      "version": "4.7.0",
+      "dependencies": [],
+      "css": [
+        "vendor/font-awesome/font-awesome.css",
+        "vendor/font-awesome/font-awesome.min.css"
+      ]
+    },
+    "jquery": {
+      "package": "jquery",
+      "name": "jquery",
+      "version": "3.2.1",
+      "dependencies": [],
+      "js": [
+        "vendor/jquery/jquery.js",
+        "vendor/jquery/jquery.min.js"
+      ]
+    },
+    "jquery-migrate": {
+      "package": "jquery-migrate",
+      "name": "jquery-migrate",
+      "version": "1.4.1",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "vendor/jquery-migrate/jquery-migrate.js",
+        "vendor/jquery-migrate/jquery-migrate.min.js"
+      ]
+    },
+    "jquery-sortable": {
+      "package": "jquery-sortable",
+      "name": "jquery-sortable",
+      "version": "0.9.13",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "vendor/jquery-sortable/jquery-sortable.js",
+        "vendor/jquery-sortable/jquery-sortable-min.js"
+      ]
+    },
+    "jquery-ui-dist": {
+      "package": "jquery-ui-dist",
+      "name": "jquery-ui-dist",
+      "version": "1.12.1",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "vendor/jquery-ui-dist/jquery-ui.js",
+        "vendor/jquery-ui-dist/jquery-ui.min.js"
+      ],
+      "css": [
+        "vendor/jquery-ui-dist/jquery-ui.css",
+        "vendor/jquery-ui-dist/jquery-ui.min.css"
+      ]
+    },
+    "joomla-ui-custom-elements": {
+      "package": "joomla-ui-custom-elements",
+      "name": "joomla-ui-custom-elements",
+      "version": "0.0.9",
+      "dependencies": [],
+      "js": [
+        "vendor/joomla-ui-custom-elements/joomla-alert.js",
+        "vendor/joomla-ui-custom-elements/joomla-alert-es5.js",
+        "vendor/joomla-ui-custom-elements/joomla-alert-es5.min.js",
+        "vendor/joomla-ui-custom-elements/joomla-tab.js",
+        "vendor/joomla-ui-custom-elements/joomla-tab-es5.js",
+        "vendor/joomla-ui-custom-elements/joomla-tab-es5.min.js"
+      ]
+    },
+    "mediaelement": {
+      "package": "mediaelement",
+      "name": "mediaelement",
+      "version": "4.2.7",
+      "dependencies": [],
+      "js": [
+        "vendor/mediaelement/mediaelement.js",
+        "vendor/mediaelement/mediaelement.min.js",
+        "vendor/mediaelement/mediaelement-and-player.min.js",
+        "vendor/mediaelement/mediaelement-and-player.js"
+      ],
+      "css": [
+        "vendor/mediaelement/mediaelementplayer.css",
+        "vendor/mediaelement/mediaelementplayer.min.css",
+        "vendor/mediaelement/mediaelementplayer-legacy.min.css",
+        "vendor/mediaelement/mediaelementplayer-legacy.css"
+      ]
+    },
+    "punycode": {
+      "package": "punycode",
+      "name": "punycode",
+      "version": "1.4.1",
+      "dependencies": [],
+      "js": [
+        "vendor/punycode/punycode.js"
+      ]
+    },
+    "jquery-minicolors": {
+      "package": "@claviska/jquery-minicolors",
+      "name": "jquery-minicolors",
+      "version": "2.2.6",
+      "dependencies": [
+        "jquery"
+      ],
+      "js": [
+        "vendor/jquery-minicolors/jquery.minicolors.js",
+        "vendor/jquery-minicolors/jquery.minicolors.min.js"
+      ],
+      "css": [
+        "vendor/jquery-minicolors/jquery.minicolors.css"
+      ]
+    },
+    "masonry-layout": {
+      "package": "masonry-layout",
+      "name": "masonry-layout",
+      "version": "4.2.0",
+      "dependencies": [],
+      "js": [
+        "vendor/masonry-layout/masonry.pkgd.js",
+        "vendor/masonry-layout/masonry.pkgd.min.js"
+      ]
+    },
+    "codemirror": {
+      "package": "codemirror",
+      "name": "codemirror",
+      "version": "5.32.0",
+      "dependencies": []
+    },
+    "tinymce": {
+      "package": "tinymce",
+      "name": "tinymce",
+      "version": "4.7.3",
+      "dependencies": []
+    }
+  }
+}

@@ -687,14 +687,16 @@ iframe {
   padding: 0 15px; }
   .modal-header .close {
     width: 46px;
+    height: 46px;
     margin-top: 0;
     margin-right: -15px;
     font-size: 2rem;
-    line-height: 46px;
+    line-height: 1rem;
     border-left: 1px solid #ccc; }
 
 .modal-body {
-  padding: 0; }
+  padding: 0;
+  overflow-y: auto; }
 
 .modal-title {
   font-weight: normal;
@@ -1722,6 +1724,13 @@ joomla-alert {
 
 .com_config [class^='col-'] > fieldset {
   margin-bottom: 2rem; }
+
+@media (max-width: 1450px) {
+  .com_config .col-xl-6 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+    max-width: 100%; } }
 
 .com_cpanel .content {
   margin-top: 0; }

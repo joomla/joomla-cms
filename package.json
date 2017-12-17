@@ -8,15 +8,15 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "compile-js": "node build --compile-js",
-    "compile-sass": "node build --compile-css",
+    "compile-js": "node build --compilejs",
+    "compile-sass": "node build --compilecss",
     "update-dependencies": "node build --update",
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "dependencies": {
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0-beta.2",
-    "codemirror": "5.31.0",
+    "codemirror": "5.32.0",
     "cropperjs": "1.1.3",
     "diff": "3.4.0",
     "dragula": "3.7.2",
@@ -28,9 +28,9 @@
     "jquery-sortable": "0.9.13",
     "jquery-ui-dist": "1.12.1",
     "masonry-layout": "4.2.0",
-    "mediaelement": "4.2.6",
+    "mediaelement": "4.2.7",
     "punycode": "1.4.1",
-    "tinymce": "4.7.1",
+    "tinymce": "4.7.3",
     "@claviska/jquery-minicolors": "2.2.6"
   },
   "devDependencies": {
@@ -132,7 +132,7 @@
           "awesomplete.min.js.map": "js/awesomplete.min.js.map",
           "awesomplete.css.map": "css/awesomplete.css.map"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE"
       },
       "bootstrap": {
@@ -158,7 +158,7 @@
           "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
           "scss": "scss"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE"
       },
       "cropperjs": {
@@ -175,7 +175,7 @@
           "dist/cropper.js.map": "js/cropper.js.map",
           "dist/cropper.min.css.map": "css/cropper.min.css.map"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE"
       },
       "diff": {
@@ -184,7 +184,7 @@
           "dist/diff.js": "js/diff.js",
           "dist/diff.min.js": "js/diff.min.js"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE"
       },
       "dragula": {
@@ -197,7 +197,7 @@
           "dist/dragula.css": "css/dragula.css",
           "dist/dragula.min.css": "css/dragula.min.css"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "license"
       },
       "flying-focus-a11y": {
@@ -208,7 +208,7 @@
         "filesExtra": {
           "src/scss": "scss"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "MIT-LICENSE.txt"
       },
       "font-awesome": {
@@ -222,7 +222,7 @@
           "scss": "scss",
           "fonts": "fonts"
         },
-        "dependencies":[]
+        "dependencies": []
       },
       "jquery": {
         "name": "jquery",
@@ -236,7 +236,7 @@
         "include": [
           "jquery-migrate"
         ],
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE.txt"
       },
       "jquery-migrate": {
@@ -245,7 +245,9 @@
           "dist/jquery-migrate.js": "js/jquery-migrate.js",
           "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
         },
-        "dependencies":["jquery"],
+        "dependencies": [
+          "jquery"
+        ],
         "license": "LICENSE.txt"
       },
       "jquery-sortable": {
@@ -254,7 +256,9 @@
           "source/js/jquery-sortable.js": "js/jquery-sortable.js",
           "source/js/jquery-sortable-min.js": "js/jquery-sortable-min.js"
         },
-        "dependencies":["jquery"],
+        "dependencies": [
+          "jquery"
+        ],
         "license": "LICENSE"
       },
       "jquery-ui-dist": {
@@ -275,7 +279,9 @@
           "images/ui-icons_cc0000_256x240.png": "css/images/ui-icons_cc0000_256x240.png",
           "images/ui-icons_ffffff_256x240.png": "css/images/ui-icons_ffffff_256x240.png"
         },
-        "dependencies":["jquery"],
+        "dependencies": [
+          "jquery"
+        ],
         "license": "LICENSE.txt"
       },
       "joomla-ui-custom-elements": {
@@ -288,7 +294,7 @@
           "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
           "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE"
       },
       "mediaelement": {
@@ -314,14 +320,14 @@
           "build/mejs-controls.png": "css/mejs-controls.png",
           "build/mejs-controls.svg": "css/mejs-controls.svg"
         },
-        "dependencies":[]
+        "dependencies": []
       },
       "punycode": {
         "name": "punycode",
         "js": {
           "punycode.js": "js/punycode.js"
         },
-        "dependencies":[],
+        "dependencies": [],
         "license": "LICENSE-MIT.txt"
       },
       "@claviska/jquery-minicolors": {
@@ -336,7 +342,9 @@
         "filesExtra": {
           "jquery.minicolors.png": "css/jquery.minicolors.png"
         },
-        "dependencies":["jquery"],
+        "dependencies": [
+          "jquery"
+        ],
         "license": "LICENSE.md"
       },
       "masonry-layout": {
@@ -345,7 +353,7 @@
           "dist/masonry.pkgd.js": "js/masonry.pkgd.js",
           "dist/masonry.pkgd.min.js": "js/masonry.pkgd.min.js"
         },
-        "dependencies":[]
+        "dependencies": []
       },
       "codemirror": {
         "name": "codemirror",
