@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
- * Joomla! User delete content Plugin.
+ * Joomla! User delete contact Plugin.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -42,7 +42,7 @@ class PlgUserdeleteContact extends JPlugin
 		$this->loadLanguage();
 		
 		$response            = array();
-        $response['success'] = true;
+		$response['success'] = true;
 		$response['message'] = JText::_('PLG_USERDELETE_CONTACT_MESSAGE');
 
 		$query = $this->db->getQuery(true)
@@ -59,16 +59,15 @@ class PlgUserdeleteContact extends JPlugin
 		catch (JDatabaseExceptionExecuting $e)
 		{
 			return $response;
-
 		}
 
-		if (($items !== false) && (count($items) > 0 ))
+		if (($items !== false) && (count($items) > 0))
 		{
-            // The user have contacts
-            return $response;
+			// The user have contacts
+			return $response;
 		}
 
 		$response['success'] = false;
-        return $response;
+		return $response;
 	}
 }
