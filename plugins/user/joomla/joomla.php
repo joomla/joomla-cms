@@ -399,36 +399,36 @@ class PlgUserJoomla extends JPlugin
 	 * Method is called before user data is deleted from the database
 	 *
 	 * @param   array   $user  Holds the user data
-	 * @param   string  $msg   Message
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserBeforeDelete($user, $msg)
+	public function onUserBeforeDelete($user)
 	{
-		
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('id'))
-			->from($this->db->quoteName('#__content'))
-			->where($this->db->quoteName('created_by') . ' = ' . (int) $user['id']);
-		$this->db->setQuery($query);
+		JPluginHelper::importPlugin('userdelete');
+		$response             = array();
+		$response[0]          = new stdClass;
+		$response[0]->success = false;
+		$response[0]->message = 'delete';
 
-		try
+		// Trigger the userdelete events
+		$responses  = (array) $this->app->triggerEvent('onSystemUserBeforeDelete', array($user));
+
+		if (($responses !== false) && (count($responses) > 0 ))
 		{
-			$items = $this->db->loadRowList();
-		}
-		catch (JDatabaseExceptionExecuting $e)
-		{
-			return true;
+			foreach ($responses as $result)
+			{
+				if ($result['success'])
+				{
+					$i++;
+					$response[$i]->message = $result['message'];
+					$response[$i]->success = true;
+				}
+			}
+			
 		}
 
-		if (($items !== false) && (count($items) > 0 ))
-		{
-			return true;
-		}
-
-		return false;
-
+		return $response;
 	}
 }
