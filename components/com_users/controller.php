@@ -122,7 +122,7 @@ class UsersController extends JControllerLegacy
 					// If the user is not logged in, redirect to the login page.
 					$user = JFactory::getUser();
 
-					if ($user->get('guest') == 1)
+					if (($user->get('guest') == 1) && ($lName == 'default'))
 					{
 						// Redirect to login page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
