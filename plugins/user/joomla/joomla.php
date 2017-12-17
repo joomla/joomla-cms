@@ -426,7 +426,6 @@ class PlgUserJoomla extends JPlugin
 					$response[$i]->success = true;
 				}
 			}
-			
 		}
 
 		return $response;
