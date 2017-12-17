@@ -45,7 +45,6 @@ class UsersControllerDelete extends UsersController
 			if (!$model->getError())
 			{
 				$message = $this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_CONTENT'));
-				
 			}
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=delete', false), $message, 'warning');
 
@@ -55,7 +54,7 @@ class UsersControllerDelete extends UsersController
 		{
 			// The request succeeded.
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=delete&layout=complete', false));
-			
+
 			return true;
 		}
 	}
