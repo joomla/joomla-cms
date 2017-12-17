@@ -4,7 +4,7 @@ const Recurs = require("recursive-readdir");
 
 const rootPath = __dirname.replace('/build/build-modules-js', '');
 const dir = rootPath + '/installation/language';
-const dest = rootPath + '/installation/template/js';
+const dest = rootPath + '/templates/system/js';
 
 // Set the initial template
 let template = `/**
@@ -15,7 +15,7 @@ let template = `/**
  */
 
 /**
- * This file is auto generated. Please do not modify it directly, use \`node build --installation\`
+ * This file is auto generated. Please do not modify it directly, use \`node build --installer\`
  */
 window.errorLocale = {`;
 
