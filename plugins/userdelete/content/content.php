@@ -40,13 +40,13 @@ class PlgUserdeleteContent extends JPlugin
 	 */
 	public function onSystemUserBeforeDelete($user)
 	{
-        $this->loadLanguage();
+		$this->loadLanguage();
 
-        $response            = array();
-        $response['success'] = true;
-        $response['message'] = JText::_('PLG_USERDELETE_CONTENT_MESSAGE');
+		$response            = array();
+		$response['success'] = true;
+		$response['message'] = JText::_('PLG_USERDELETE_CONTENT_MESSAGE');
 
-        $query = $this->db->getQuery(true)
+		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('id'))
 			->from($this->db->quoteName('#__content'))
 			->where($this->db->quoteName('created_by') . ' = ' . (int) $user['id'])
@@ -59,16 +59,16 @@ class PlgUserdeleteContent extends JPlugin
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
-            return $response;
+			return $response;
 		}
 
-		if (($items !== false) && (count($items) > 0 ))
+		if (($items !== false) && (count($items) > 0))
 		{
-            // The user have contents
-            return $response;
+			// The user have contents
+			return $response;
 		}
 
-        $response['success'] = false;
-        return $response;
+		$response['success'] = false;
+		return $response;
 	}
 }
