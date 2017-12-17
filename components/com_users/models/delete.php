@@ -150,7 +150,7 @@ class UsersModelDelete extends JModelForm
 			return false;
 		}
 
-        // Check if I am a Super Admin
+		// Check if I am a Super Admin
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_SUPERUSER'));
@@ -160,8 +160,9 @@ class UsersModelDelete extends JModelForm
 
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JEventDispatcher::getInstance();
-		$table = JTable::getInstance('User');
-		// Get users data for the users to delete.
+		$table      = JTable::getInstance('User');
+
+		// Get user data for the user to delete.
 		$user_to_delete = JFactory::getUser($user->id);
 		
 		// Fire the before delete events.
