@@ -36,23 +36,26 @@ class UsersControllerDelete extends UsersController
 		// Submit the user delete request.
 		$return	= $model->processDeleteRequest($data);
 
-		// Check for a hard error.
+		// Check for errors.
 		if ($return == false)
 		{
+			$message = JText::sprintf('COM_USERS_DELETE_REQUEST_FAILED', $model->getError());
 			// The request failed.
 			// Go back to the request form.
-			$message = JText::sprintf('COM_USERS_DELETE_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=delete', false), $message, 'notice');
+			if (!$model->getError())
+			{
+				$message = $this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_CONTENT'));
+				
+			}
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=delete', false), $message, 'warning');
 
 			return false;
 		}
 		else
 		{
 			// The request succeeded.
-			// Proceed to step two.
-			$message = JText::_('COM_USERS_DELETE_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false), $message);
-
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=delete&layout=complete', false));
+			
 			return true;
 		}
 	}
