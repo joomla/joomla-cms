@@ -6,8 +6,36 @@
  * @since       4.0
  */
 
-(function(document) {
-	"use strict";
+Joomla = window.Joomla || {};
+
+(function(Joomla, document) {
+	'use strict';
+
+	function closest(element, selector) {
+		var matchesFn;
+
+		// find vendor prefix
+		['matches', 'msMatchesSelector'].some(function(fn) {
+			if (typeof document.body[fn] == 'function') {
+				matchesFn = fn;
+				return true;
+			}
+			return false;
+		})
+
+		var parent;
+
+		// Traverse parents
+		while (element) {
+			parent = element.parentElement;
+			if (parent && parent[matchesFn](selector)) {
+				return parent;
+			}
+			element = parent;
+		}
+
+		return null;
+	}
 
 	function initTemplate(event) {
 		var target = event && event.target ? event.target : document;
@@ -137,37 +165,7 @@
 		}
 	}
 
-	/** http://stackoverflow.com/questions/18663941/finding-closest-element-without-jquery */
-	function closest(el, selector) {
-		var matchesFn;
-
-		// find vendor prefix
-		['matches', 'msMatchesSelector'].some(function(fn) {
-			if (typeof document.body[fn] === 'function') {
-				matchesFn = fn;
-				return true;
-			}
-			return false;
-		});
-
-		var parent;
-
-		// traverse parents
-		while (el) {
-			parent = el.parentElement;
-			if (parent && parent[matchesFn](selector)) {
-				return parent;
-			}
-			el = parent;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Initialize at an initial page load
-	 */
-	document.addEventListener("DOMContentLoaded", function (event) {
+	document.addEventListener('DOMContentLoaded', function (event) {
 		initTemplate(event);
 
 		/**
@@ -185,6 +183,6 @@
 	/**
 	 * Initialize when a part of the page was updated
 	 */
-	document.addEventListener("joomla:updated", initTemplate);
+	document.addEventListener('joomla:updated', initTemplate);
 
-})(document);
+})(Joomla, document);
