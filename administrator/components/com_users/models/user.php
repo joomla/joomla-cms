@@ -385,7 +385,7 @@ class UsersModelUser extends JModelAdmin
 						{
 							JFactory::getApplication()->enqueueMessage($result->message, 'error');
 							$proceed = false;
-					    }
+						}
 					}
 
 					if (!$proceed)
