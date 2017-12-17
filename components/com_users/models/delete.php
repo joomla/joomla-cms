@@ -186,7 +186,6 @@ class UsersModelDelete extends JModelForm
 		if (!$table->delete($user->id))
 		{
 			$this->setError($table->getError());
-		
 			return false;
 		}
 		else
