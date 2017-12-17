@@ -150,7 +150,7 @@ class UsersModelDelete extends JModelForm
 			return false;
 		}
 
-        	// Check if I am a SuperUser
+        // Check if I am a Super Admin
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_SUPERUSER'));
@@ -160,18 +160,25 @@ class UsersModelDelete extends JModelForm
 
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JEventDispatcher::getInstance();
-		$table      = JTable::getInstance('User');
-
-		// Get user's data for the user to delete.
+		$table = JTable::getInstance('User');
+		// Get users data for the users to delete.
 		$user_to_delete = JFactory::getUser($user->id);
-
-		// Fire the before delete event.
-		$content = $dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties(), $this->getError()));
-
-		if ($content[0])
-		{
-			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_DELETE_CONTENT'));
 		
+		// Fire the before delete events.
+		$content = $dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties()));
+		$proceed = true;
+
+		foreach($content[0] as $result)					
+		{
+			if ($result->success)
+			{
+				JFactory::getApplication()->enqueueMessage($result->message, 'error');
+				$proceed = false;
+			}
+		}
+
+		if (!$proceed)
+		{
 			return false;
 		}
 
@@ -181,9 +188,11 @@ class UsersModelDelete extends JModelForm
 		
 			return false;
 		}
-
-		// Trigger the after delete event.
-		$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
+		else
+		{
+			// Trigger the after delete event.
+			$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
+		}
 
 		return true;
 	}
