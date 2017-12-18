@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
@@ -83,8 +85,8 @@ class ContentModelArchive extends ContentModelArticles
 	{
 		$params           = $this->state->params;
 		$app              = JFactory::getApplication('site');
-		$catids           = $app->input->getVar('catid', array());
-		$catids           = array_values(array_diff($catids, array('')));
+		$catids           = ArrayHelper::toInteger($app->input->get('catid', array(), 'array'));
+		$catids           = array_values(array_diff($catids, array(0)));
 		$articleOrderDate = $params->get('order_date');
 
 		// Create a new query object.
@@ -125,7 +127,7 @@ class ContentModelArchive extends ContentModelArticles
 			$query->where($query->year($queryDate) . ' = ' . $year);
 		}
 
-		if (count($catids)>0)
+		if (count($catids) > 0)
 		{
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
 		}
