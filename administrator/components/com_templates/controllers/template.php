@@ -296,14 +296,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		switch ($task)
 		{
 			case 'apply':
-
 				// Redirect back to the edit screen.
 				$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
 				$this->setRedirect(JRoute::_($url, false));
 				break;
 
 			default:
-
 				// Redirect to the list screen.
 				$file = base64_encode('home');
 				$id   = $app->input->get('id');
