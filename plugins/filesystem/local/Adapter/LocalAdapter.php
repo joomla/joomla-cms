@@ -812,7 +812,7 @@ class LocalAdapter implements AdapterInterface
 	/**
 	 * Returns the file name of the given path.
 	 *
-	 * @param   string  $path The path
+	 * @param   string  $path  The path
 	 *
 	 * @return  string
 	 *
@@ -833,7 +833,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * Throws an InvalidPathException if the path is invalid.
 	 *
-	 * @param   string  $path The path
+	 * @param   string  $path  The path
 	 *
 	 * @return  string
 	 *
@@ -842,7 +842,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getLocalPath($path)
 	{
-		try{
+		try
+		{
 			return \JPath::check($this->rootPath . '/' . $path);
 		}
 		catch (\Exception $e)
