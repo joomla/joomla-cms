@@ -423,6 +423,7 @@ class PlgUserJoomla extends JPlugin
 				if ($result['success'])
 				{
 					$i++;
+					$response[$i]          = new stdClass;
 					$response[$i]->message = $result['message'];
 					$response[$i]->success = true;
 				}
