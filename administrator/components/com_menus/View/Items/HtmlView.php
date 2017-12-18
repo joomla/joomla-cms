@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	 * Array used for displaying the levels filter
 	 *
 	 * @return  \stdClass[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $f_levels;
 
@@ -57,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
 	 * The sidebar markup
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 
@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 	 * Ordering of the items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $ordering;
 
@@ -189,7 +189,7 @@ class HtmlView extends BaseHtmlView
 								}
 							}
 
-							$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+							$vars['layout'] = $vars['layout'] ?? 'default';
 
 							// Attempt to load the layout xml file.
 							// If Alternative Menu Item, get template folder for layout file
@@ -280,6 +280,13 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->addToolbar();
 			$this->sidebar = \JHtmlSidebar::render();
+
+			// We do not need to filter by language when multilingual is disabled
+			if (!\JLanguageMultilang::isEnabled())
+			{
+				unset($this->activeFilters['language']);
+				$this->filterForm->removeField('language', 'filter');
+			}
 		}
 		else
 		{

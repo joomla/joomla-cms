@@ -1,5 +1,7 @@
 // Global
 
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400'); // @TODO - Move to script tag once webfontloader added to core.js
+
 html {
   font-size: $font-size-root;
 }
@@ -27,4 +29,8 @@ h6 {
 small,
 .small {
   font-size: $font-size-sm;
+}
+
+dd {
+  margin-bottom: 0;
 }

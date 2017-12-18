@@ -18,16 +18,7 @@
 		/>
 
 		<field
-			name="email"
-			type="email"
-			label="JGLOBAL_EMAIL"
-			required="true"
-			size="30"
-			validate="email"
-		/>
-
-		<field
-			name="password" 
+			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
 			autocomplete="off"
@@ -50,6 +41,15 @@
 			size="30"
 			validate="equals"
 			field="password"
+		/>
+
+		<field
+			name="email"
+			type="email"
+			label="JGLOBAL_EMAIL"
+			required="true"
+			size="30"
+			validate="email"
 		/>
 
 		<field
@@ -90,7 +90,7 @@
 
 		<field
 			name="resetCount"
-			type="text"
+			type="number"
 			label="COM_USERS_USER_FIELD_RESETCOUNT_LABEL"
 			class="readonly"
 			default="0"
@@ -132,7 +132,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 				class="readonly"
 			default="0"

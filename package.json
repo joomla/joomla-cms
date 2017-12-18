@@ -8,12 +8,13 @@
   },
   "scripts": {
     "compile-js": "grunt uglify:allJs",
+    "compile-elements": "grunt createElements",
     "compile-sass": "grunt sass:dist",
     "update-dependencies": "grunt default",
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
   "dependencies": {
-    "autoprefixer": "^7.1.5",
+    "autoprefixer": "^7.1.6",
     "grunt": "latest",
     "grunt-babel": "latest",
     "grunt-browserify": "latest",

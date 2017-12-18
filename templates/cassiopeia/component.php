@@ -9,16 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var JDocumentHtml $this */
 
 // Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+HTMLHelper::_('bootstrap.framework');
 
 // Add Stylesheets
-JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
-//JHtml::_('bootstrap.loadCss', false, $this->direction);
+//HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

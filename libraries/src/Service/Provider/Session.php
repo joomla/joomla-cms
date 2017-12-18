@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,16 +12,15 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
-use JFactory;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
-use Joomla\Session\Storage\RuntimeStorage;
-use Joomla\CMS\Session\Validator\AddressValidator;
-use Joomla\CMS\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
-use Memcache;
+use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Session\Validator\AddressValidator;
+use Joomla\Session\Validator\ForwardedValidator;
 use Memcached;
 use Redis;
 use RuntimeException;
@@ -51,8 +50,8 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = JFactory::getConfig();
-					$app    = JFactory::getApplication();
+					$config = Factory::getConfig();
+					$app    = Factory::getApplication();
 
 					// Generate a session name.
 					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
@@ -81,16 +80,6 @@ class Session implements ServiceProviderInterface
 
 					switch ($handlerType)
 					{
-						case 'apc':
-							if (!Handler\ApcHandler::isSupported())
-							{
-								throw new RuntimeException('APC is not supported on this system.');
-							}
-
-							$handler = new Handler\ApcHandler;
-
-							break;
-
 						case 'apcu':
 							if (!Handler\ApcuHandler::isSupported())
 							{
@@ -102,7 +91,7 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(JFactory::getDbo());
+							$handler = new Handler\DatabaseHandler(Factory::getDbo());
 
 							break;
 
@@ -136,25 +125,6 @@ class Session implements ServiceProviderInterface
 
 							ini_set('session.save_path', "$host:$port");
 							ini_set('session.save_handler', 'memcached');
-
-							break;
-
-						case 'memcache':
-							if (!Handler\MemcacheHandler::isSupported())
-							{
-								throw new RuntimeException('Memcache is not supported on this system.');
-							}
-
-							$host = $config->get('session_memcache_server_host', 'localhost');
-							$port = $config->get('session_memcache_server_port', 11211);
-
-							$memcache = new Memcache($config->get('session_memcache_server_id', 'joomla_cms'));
-							$memcache->addserver($host, $port);
-
-							$handler = new Handler\MemcacheHandler($memcache, array('ttl' => $lifetime));
-
-							ini_set('session.save_path', "$host:$port");
-							ini_set('session.save_handler', 'memcache');
 
 							break;
 

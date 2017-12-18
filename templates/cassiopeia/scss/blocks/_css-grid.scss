@@ -4,7 +4,6 @@
 @supports (display: grid) {
   .site-grid {
     display: grid;
-
     grid-template-areas:
       ". head head head head ."
       ". banner banner banner banner ."
@@ -18,7 +17,7 @@
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
-    > div {
+    > [class^='container-'], > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 $cassiopeia-grid-gutter;
@@ -28,6 +27,7 @@
     .container-top-b,
     .container-bottom-a,
     .container-bottom-b {
+      display: grid;
       > div {
         margin: 0;
       }
@@ -54,8 +54,9 @@
         ". debug debug debug debug .";
     }
 
-    header {
-      margin-bottom: 0;
+    .container-header {
+      margin-top: 0;
+      margin-bottom: 20px;
 
       + div:not(.container-banner) {
         margin-top: $cassiopeia-grid-gutter;
@@ -64,16 +65,23 @@
   }
 
   .container-banner {
-    margin: 0 0 $cassiopeia-grid-gutter;
+    z-index: 5;
+    margin: -2rem 0 0;
+    padding: 0 ($cassiopeia-grid-gutter / 2);
 
     p {
       margin-bottom: 0;
     }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: -3rem;
+    }
+
   }
 
 }
 
-header                    { grid-area: head; }
+.container-header         { grid-area: head; }
 .container-banner         { grid-area: banner; }
 .container-top-a          { grid-area: top-a; }
 .container-top-b          { grid-area: top-b; }

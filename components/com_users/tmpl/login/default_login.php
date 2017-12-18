@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 $usersConfig = JComponentHelper::getParams('com_users');
 
 ?>
-<div class="login<?php echo $this->pageclass_sfx; ?>">
+<div class="login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -68,10 +68,16 @@ $usersConfig = JComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-			<div  class="control-group">
-				<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
-				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"></div>
-			</div>
+				<div  class="control-group">
+					<div class="control-label">
+						<label for="remember">
+							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+						</label>
+					</div>
+					<div class="controls">
+						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
+					</div>
+				</div>
 			<?php endif; ?>
 
 			<div class="control-group">

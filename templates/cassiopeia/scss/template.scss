@@ -28,11 +28,13 @@
 @import "blocks/demo-styling";
 @import "blocks/footer";
 @import "blocks/form";
+@import "blocks/frontend-edit";
 @import "blocks/header";
 @import "blocks/icons";
 @import "blocks/iframe";
 @import "blocks/layout";
 @import "blocks/modals";
+@import "blocks/modifiers";
 @import "blocks/switcher";
 @import "blocks/utilities";
 @import "blocks/css-grid"; // Last to allow fallback
@@ -58,4 +60,8 @@
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
+}
+.chzn-container-multi {
+  width: 100% !important;
+  max-width: 240px;
 }

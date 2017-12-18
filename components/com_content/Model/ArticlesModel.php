@@ -206,7 +206,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -220,6 +220,7 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
+				$query->select('fp.ordering');
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 			}
 			else
@@ -229,12 +230,13 @@ class ArticlesModel extends ListModel
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
+			$query->select('fp.ordering');
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
-			->select('c.published, c.published AS parents_published')
+			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
@@ -250,7 +252,7 @@ class ArticlesModel extends ListModel
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -270,7 +272,7 @@ class ArticlesModel extends ListModel
 		{
 			// If category is archived then article has to be published or archived.
 			// If categogy is published then article has to be archived.
-			$query->where('(c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2)');
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
 		elseif (is_numeric($published))
 		{
@@ -685,7 +687,7 @@ class ArticlesModel extends ListModel
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if ($item->params->get('show_associations'))
+			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 			}

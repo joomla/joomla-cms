@@ -411,16 +411,30 @@ class AdministratorApplication extends CMSApplication
 		// Safety check for when configuration.php root_user is in use.
 		$rootUser = $this->get('root_user');
 
-		if (property_exists('\JConfig', 'root_user')
-			&& (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('\JConfig', 'root_user'))
 		{
-			$this->enqueueMessage(
-				\JText::sprintf(
-					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
-				),
-				'notice'
-			);
+			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
+			{
+				$this->enqueueMessage(
+					\JText::sprintf(
+						'JWARNING_REMOVE_ROOT_USER',
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
+			// Show this message to superusers too
+			elseif (\JFactory::getUser()->authorise('core.admin'))
+			{
+				$this->enqueueMessage(
+					\JText::sprintf(
+						'JWARNING_REMOVE_ROOT_USER_ADMIN',
+						$rootUser,
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
 		}
 
 		parent::render();
@@ -459,7 +473,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  string  The component to access.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function findOption()
 	{

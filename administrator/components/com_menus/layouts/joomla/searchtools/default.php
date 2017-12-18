@@ -27,12 +27,12 @@ if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Ht
 
 // Set some basic options
 $customOptions = array(
-	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
-	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
+	'filtersHidden'       => $data['options']['filtersHidden'] ?? empty($data['view']->activeFilters),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
-	'totalResults'        => isset($data['options']['totalResults']) ? $data['options']['totalResults'] : -1,
-	'noResultsText'       => isset($data['options']['noResultsText']) ? $data['options']['noResultsText'] : JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
+	'totalResults'        => $data['options']['totalResults'] ?? -1,
+	'noResultsText'       => $data['options']['noResultsText'] ?? JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
 );
 
 $data['options'] = array_merge($customOptions, $data['options']);

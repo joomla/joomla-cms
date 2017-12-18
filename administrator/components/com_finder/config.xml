@@ -30,7 +30,7 @@
 
 		<field
 			name="description_length"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 			size="5"
 			default="255"
@@ -222,7 +222,7 @@
 
 		<field
 			name="memory_table_limit"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
 			size="10"
 			default="30000"
@@ -231,7 +231,7 @@
 
 		<field
 			name="title_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			size="5"
 			default="1.7"
@@ -239,7 +239,7 @@
 
 		<field
 			name="text_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			size="5"
 			default="0.7"
@@ -247,7 +247,7 @@
 
 		<field
 			name="meta_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			size="5"
 			default="1.2"
@@ -255,7 +255,7 @@
 
 		<field
 			name="path_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			size="5"
 			default="2.0"
@@ -263,7 +263,7 @@
 
 		<field
 			name="misc_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			size="5"
 			default="0.3"

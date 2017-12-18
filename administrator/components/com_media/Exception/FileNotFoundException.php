@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Media file not found exception.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FileNotFoundException extends \Exception
 {

@@ -233,7 +233,7 @@ class FieldModel extends AdminModel
 		$types = \FieldsHelper::getFieldTypes();
 
 		// Check if type exists
-		if (!key_exists($data['type'], $types))
+		if (!array_key_exists($data['type'], $types))
 		{
 			return true;
 		}
@@ -339,7 +339,12 @@ class FieldModel extends AdminModel
 			if (property_exists($result, 'fieldparams'))
 			{
 				$registry = new Registry;
-				$registry->loadString($result->fieldparams);
+
+				if ($result->fieldparams)
+				{
+					$registry->loadString($result->fieldparams);
+				}
+
 				$result->fieldparams = $registry->toArray();
 			}
 
@@ -396,7 +401,7 @@ class FieldModel extends AdminModel
 	 * @since   3.7.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
+	public function getTable($name = 'Field', $prefix = 'Administrator', $options = array())
 	{
 		// Default to text type
 		$table       = parent::getTable($name, $prefix, $options);
@@ -668,7 +673,7 @@ class FieldModel extends AdminModel
 	{
 		$values = $this->getFieldValues(array($fieldId), $itemId);
 
-		if (key_exists($fieldId, $values))
+		if (array_key_exists($fieldId, $values))
 		{
 			return $values[$fieldId];
 		}
@@ -697,7 +702,7 @@ class FieldModel extends AdminModel
 		$key = md5(serialize($fieldIds) . $itemId);
 
 		// Fill the cache when it doesn't exist
-		if (!key_exists($key, $this->valueCache))
+		if (!array_key_exists($key, $this->valueCache))
 		{
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
@@ -716,7 +721,7 @@ class FieldModel extends AdminModel
 			foreach ($rows as $row)
 			{
 				// If there are multiple values for a field, create an array
-				if (key_exists($row->field_id, $data))
+				if (array_key_exists($row->field_id, $data))
 				{
 					// Transform it to an array
 					if (!is_array($data[$row->field_id]))
@@ -959,6 +964,12 @@ class FieldModel extends AdminModel
 			if (\JFactory::getLanguage()->hasKey($key))
 			{
 				$form->setFieldAttribute('default_value', 'description', $key);
+			}
+
+			// Remove placeholder field on list fields
+			if ($dataObject->type == 'list')
+			{
+				$form->removeField('hint', 'params');
 			}
 		}
 

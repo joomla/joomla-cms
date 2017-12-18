@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Exception class defining an error for a missing route
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.0
  */
 class RouteNotFoundException extends \InvalidArgumentException
 {
@@ -24,7 +24,7 @@ class RouteNotFoundException extends \InvalidArgumentException
 	 * @param   integer     $code      The Exception code.
 	 * @param   \Exception  $previous  The previous exception used for the exception chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function __construct($message = '', $code = 404, \Exception $previous = null)
 	{
