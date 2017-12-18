@@ -120,8 +120,14 @@ class MediaHelper
 
 		if ($params->get('check_mime', 1))
 		{
+			$allowedMime = $params->get(
+				'upload_mime',
+				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+					'application/pdf,application/powerpoint,text/plain,application/x-zip'
+			);
+
 			// Get the mime type configuration
-			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime', 'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip')));
+			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
 			// Mime should be available and in the whitelist
 			return !empty($mime) && in_array($mime, $allowedMime);
@@ -189,8 +195,14 @@ class MediaHelper
 			return false;
 		}
 
-		$filetype  = array_pop($filetypes);
-		$allowable = array_map('trim', explode(',', $params->get('upload_extensions', 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS')));
+		$filetype = array_pop($filetypes);
+
+		$allowable = $params->get(
+			'upload_extensions',
+			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,'.
+				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+		);
+		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
