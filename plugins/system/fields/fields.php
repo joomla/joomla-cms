@@ -320,6 +320,15 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
@@ -397,7 +406,18 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
 		$item->jcfields = array();
@@ -467,5 +487,29 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }
