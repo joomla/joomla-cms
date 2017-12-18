@@ -15,4 +15,5 @@ defined('_JEXEC') or die;
  * @since  4.0.0
  */
 class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
-{}
+{
+}
