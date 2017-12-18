@@ -49,7 +49,8 @@ class PlgUserdeleteContact extends JPlugin
 			->select($this->db->quoteName('id'))
 			->from($this->db->quoteName('#__contact_details'))
 			->where($this->db->quoteName('created_by') . ' = ' . (int) $user['id'])
-			->orWhere($this->db->quoteName('modified_by') . ' = ' . (int) $user['id']);
+			->orWhere($this->db->quoteName('modified_by') . ' = ' . (int) $user['id'])
+			->orWhere($this->db->quoteName('user_id') . ' = ' . (int) $user['id']);
 		$this->db->setQuery($query);
 
 		try
