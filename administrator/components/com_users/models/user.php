@@ -379,7 +379,7 @@ class UsersModelUser extends JModelAdmin
 					$content = $dispatcher->trigger($this->event_before_delete, array($user_to_delete->getProperties()));
 					$proceed = true;
 
-					foreach($content[0] as $result)					
+					foreach ($content[0] as $result)					
 					{
 						if ($result->success)
 						{
