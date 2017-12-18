@@ -407,6 +407,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserBeforeDelete($user)
 	{
 		JPluginHelper::importPlugin('userdelete');
+		$i                    = 0;
 		$response             = array();
 		$response[0]          = new stdClass;
 		$response[0]->success = false;
@@ -415,7 +416,7 @@ class PlgUserJoomla extends JPlugin
 		// Trigger the userdelete events
 		$responses  = (array) $this->app->triggerEvent('onSystemUserBeforeDelete', array($user));
 
-		if (($responses !== false) && (count($responses) > 0 ))
+		if (($responses !== false) && (count($responses) > 0))
 		{
 			foreach ($responses as $result)
 			{
