@@ -114,17 +114,17 @@ class PlgSystemRemember extends JPlugin
 		{
 			return true;
 		}
-		
+
 		// Irrelevant, because password was not changed by user
 		if ($data['password_clear'] == '')
 		{
 			return true;
 		}
-		
+
 		/*
 		 * But now, we need to do something 
 		 * Delete all tokens for this user!
-		*/
+		 */
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__user_keys')
@@ -132,7 +132,7 @@ class PlgSystemRemember extends JPlugin
 		try
 		{
 			$db->setQuery($query)->execute();
-		}		
+		}
 		catch (RuntimeException $e)
 		{
 			// Log an alert for the site admin
@@ -142,8 +142,8 @@ class PlgSystemRemember extends JPlugin
 				'security'
 			);
 		}
-		
+
 		return true;
 	}
-	
+
 }
