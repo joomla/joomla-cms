@@ -53,7 +53,7 @@ class JFormFieldFilters extends JFormField
 		$html[] = '		<th>';
 		$html[] = '			<span class="acl-action">' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
-		$html[] = '		<th>';	
+		$html[] = '		<th>';
 		$html[] = '			<span class="acl-action">' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
