@@ -121,29 +121,7 @@ class UsersModelDelete extends JModelForm
 		}
 
 		// Check the user id for the given email address.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('id') . ' = ' . (int) JFactory::getUser()->id)
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
-
-		// Get the user id.
-		$db->setQuery($query);
-
-		try
-		{
-			$user = $db->loadObject();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
-
-			return false;
-		}
-
-		// Check for a user.
-		if (empty($user))
+		if (JFactory::getUser()->email !== $data['email'])
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -163,7 +141,7 @@ class UsersModelDelete extends JModelForm
 		$table      = JTable::getInstance('User');
 
 		// Get user data for the user to delete.
-		$user_to_delete = JFactory::getUser($user->id);
+		$user_to_delete = JFactory::getUser(JFactory::getUser()->id);
 		
 		// Fire the before delete events.
 		$content = $dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties()));
@@ -183,7 +161,7 @@ class UsersModelDelete extends JModelForm
 			return false;
 		}
 
-		if (!$table->delete($user->id))
+		if (!$table->delete(JFactory::getUser()->id))
 		{
 			$this->setError($table->getError());
 
