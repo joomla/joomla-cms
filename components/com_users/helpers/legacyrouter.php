@@ -195,7 +195,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 					break;
 
 				case 'delete':
-					if ($query['Itemid'] == $delete)
+					if ($query['Itemid'] = $delete)
 					{
 						unset ($query['view']);
 					}
