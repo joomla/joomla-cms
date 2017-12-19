@@ -69,9 +69,9 @@ interface AdapterInterface
 	public function getFiles($path = '/');
 
 	/**
-	 * Returns a resource to download the path.
+	 * Returns a resource for the given path.
 	 *
-	 * @param   string  $path  The path to download
+	 * @param   string  $path  The path
 	 *
 	 * @return  resource
 	 *
