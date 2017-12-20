@@ -14,7 +14,7 @@ JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_temp
 JFormHelper::loadFieldClass('list');
 
 /**
- * Template Location field. 
+ * Template Location field.
  *
  * @since  3.5
  */
