@@ -156,8 +156,8 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// If there is no option in query then add the default item id
-		if (!isset($query['option']))
+		// If there is no view and task in query then add the default item id
+		if (!isset($query['view']) && !isset($query['task']))
 		{
 			// If not found, return language specific home link
 			$default = $this->router->menu->getDefault($language);
