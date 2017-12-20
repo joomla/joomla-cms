@@ -15,7 +15,7 @@
 		 * ... for the new objects in the markup being added to the DOM, and do ...
 		 *
 		 * Joomla.addOptions();
-		 * Joomla.Event.dispatch('joomla:updated')
+		 * Joomla.Event.dispatch(document, 'joomla:updated')
 		 *
 		 * ... or directly add the options, for instance by parsing a JSON string their AJAX code has returned ...
 		 *
@@ -24,7 +24,7 @@
 		 * ... which is then returned to their Javascript handler ...
 		 *
 		 * Joomla.addOptions(JSON.parse(scriptOptions));
-		 * Joomla.Event.dispatch('joomla:updated')
+		 * Joomla.Event.dispatch(document, 'joomla:updated')
 		 */
 
 		let accordion = Joomla.getOptions('bootstrap.accordion', null),
