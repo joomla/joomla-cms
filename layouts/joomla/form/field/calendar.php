@@ -127,7 +127,7 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 			data-only-months-nav="<?php echo $singleheader; ?>"
 			<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 			<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-			title="<?php echo JText::_('JLIB_HTML_BEHAVIOUR_OPEN_CALENDAR'); ?>"
+			title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
 		><span class="icon-calendar" aria-hidden="true"></span></button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
