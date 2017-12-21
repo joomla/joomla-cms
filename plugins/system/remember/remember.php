@@ -137,7 +137,7 @@ class PlgSystemRemember extends JPlugin
 		{
 			// Log an alert for the site admin
 			JLog::add(
-				sprintf('Failed to delete cookie token for user %s with the following error: %s', $results[0]->user_id, $e->getMessage()),
+				sprintf('Failed to delete cookie token for user %s with the following error: %s', $user['username'], $e->getMessage()),
 				JLog::WARNING,
 				'security'
 			);
@@ -145,5 +145,4 @@ class PlgSystemRemember extends JPlugin
 
 		return true;
 	}
-
 }
