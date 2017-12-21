@@ -7,11 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// @deprecated  4.0 without replacement only used in hathor
+
 defined('_JEXEC') or die;
 
 /**
  * View Module positions class.
- * 
+ *
  * @since  1.6
  */
 class ModulesViewPositions extends JViewLegacy

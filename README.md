@@ -15,8 +15,8 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.7 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.7_version_history).
-* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
+* Joomla! 3.8 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_3.8_version_history).
+* Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/staging).
 
 What is Joomla?
 ---------------------
@@ -71,7 +71,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here);
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
 * Post questions at [our forums](https://forum.joomla.org);
-* [Joomla Resources Directory](https://resources.joomla.org/) (JRD).
+* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 ---------------------
@@ -82,9 +82,9 @@ Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 
 Do you want to improve Joomla?
 --------------------
-* Where to [request a feature](https://issues.joomla.org/)?
-* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org/)?
-* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
+* Where to [request a feature](https://issues.joomla.org)?
+* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
 * Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 

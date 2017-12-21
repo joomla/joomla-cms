@@ -34,7 +34,7 @@ class TagsController extends JControllerLegacy
 		$vName = $this->input->get('view', 'tags');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'tags'))
+		if ($user->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'tags'))
 		{
 			$cachable = false;
 		}

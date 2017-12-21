@@ -63,8 +63,12 @@ class JSessionStorageMemcache extends JSessionStorage
 		if (!empty($this->_servers) && isset($this->_servers[0]))
 		{
 			$serverConf = current($this->_servers);
-			ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
-			ini_set('session.save_handler', 'memcache');
+
+			if (!headers_sent())
+			{
+				ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+				ini_set('session.save_handler', 'memcache');
+			}
 		}
 	}
 

@@ -47,7 +47,7 @@ extract($displayData);
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
+JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
@@ -68,5 +68,5 @@ $attributes = array(
 <input type="tel" name="<?php
 echo $name; ?>" <?php
 echo !empty($class) ? ' class="' . $class . '"' : ''; ?> id="<?php
-echo $id; ?> " value="<?php
+echo $id; ?>" value="<?php
 echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />

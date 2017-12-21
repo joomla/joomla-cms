@@ -29,7 +29,7 @@ class TagsControllerTag extends JControllerForm
 	{
 		$user = JFactory::getUser();
 
-		return ($user->authorise('core.create', 'com_tags'));
+		return $user->authorise('core.create', 'com_tags');
 	}
 
 	/**

@@ -118,14 +118,19 @@ class ModulesControllerModule extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Check general edit permission first.
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
+		{
+			return parent::allowEdit($data, $key);
+		}
+
+		// Check edit on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
 
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	/**
@@ -221,7 +226,6 @@ class ModulesControllerModule extends JControllerForm
 
 			// Add path of forms directory
 			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
 		parent::save($key, $urlVar);

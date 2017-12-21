@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Site
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 class ModMenuHelper
 {
@@ -135,12 +133,13 @@ class ModMenuHelper
 
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
 					// when the cause of that is found the argument should be removed
-					$item->title        = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
-					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->anchor_rel = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->menu_image   = $item->params->get('menu_image', '') ?
+					$item->title          = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_css     = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_title   = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_rel     = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->menu_image     = $item->params->get('menu_image', '') ?
 						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
+					$item->menu_image_css = htmlspecialchars($item->params->get('menu_image_css', ''), ENT_COMPAT, 'UTF-8', false);
 				}
 
 				if (isset($items[$lastitem]))

@@ -65,7 +65,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 
 		// Check if we have a username and password
-		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
+		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
 			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;
@@ -191,7 +191,7 @@ class PlgAuthenticationGMail extends JPlugin
 			foreach ($localUsers as $localUser)
 			{
 				// Local user exists with same username but different email address
-				if ($email != $localUser->email)
+				if ($email !== $localUser->email)
 				{
 					$response->status        = JAuthentication::STATUS_FAILURE;
 					$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));

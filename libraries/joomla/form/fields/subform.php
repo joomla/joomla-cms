@@ -69,7 +69,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -94,7 +94,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -203,10 +203,10 @@ class JFormFieldSubform extends JFormField
 			$this->value = json_decode($this->value, true);
 		}
 
-		if (!$this->formsource)
+		if (!$this->formsource && $element->form)
 		{
 			// Set the formsource parameter from the content of the node
-			$this->formsource = $element->children()->saveXML();
+			$this->formsource = $element->form->saveXML();
 		}
 
 		return true;
@@ -221,7 +221,7 @@ class JFormFieldSubform extends JFormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();

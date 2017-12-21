@@ -44,6 +44,7 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'parent_id', 'a.parent_id',
 				'a.ordering'
 			);
 
@@ -89,9 +90,6 @@ class MenusModelItems extends JModelList
 		{
 			$this->context .= '.' . $forcedLanguage;
 		}
-
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
-		$this->setState('filter.parent_id', $parentId);
 
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -155,6 +153,18 @@ class MenusModelItems extends JModelList
 			$app->setUserState($this->context . '.menutype', $menuType);
 			$this->setState('menutypetitle', $cMenu->title);
 			$this->setState('menutypeid', $cMenu->id);
+		}
+		// This menutype does not exist, leave client id unchanged but reset menutype and pagination
+		else
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', $menuType);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
 		}
 
 		// Client id filter
@@ -456,10 +466,10 @@ class MenusModelItems extends JModelList
 	/**
 	 * Get the client id for a menu
 	 *
-	 * @param   string  $menuType  The menutype identifier for the menu
-	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 * @param   string   $menuType  The menutype identifier for the menu
+	 * @param   boolean  $check     Flag whether to perform check against ACL as well as existence
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
@@ -478,12 +488,16 @@ class MenusModelItems extends JModelList
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+				JLog::add(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), JLog::ERROR, 'jerror');
+
+				return false;
 			}
 			// Check if menu type is valid against ACL.
 			elseif (!JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+				JLog::add(JText::_('JERROR_ALERTNOAUTHOR'), JLog::ERROR, 'jerror');
+
+				return false;
 			}
 		}
 
