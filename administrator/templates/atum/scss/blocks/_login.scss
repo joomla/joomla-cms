@@ -3,25 +3,20 @@
 .view-login {
   background: $atum-template-color;
 
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 330px;
-    margin-top: -240px;
-    margin-left: -165px;
+  .login-initial {
+    display: none;
+  }
 
-    @include media-breakpoint-only(xs) {
-      top: 10px;
-      width: 320px;
-      margin-top: 0 !important;
-      margin-left: -160px;
+  .login {
+    width: 320px;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 15px;
     }
-
   }
 
   .login-logo {
-    margin: 0 0 3rem;
+    margin: 0 0 2rem;
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -35,15 +30,11 @@
     font-weight: 300;
   }
 
-  .forgot {
-    text-align: center;
-  }
-
   .card-img-top {
     max-width: 100%;
   }
 
-  .navbar {
+  .nav {
 
     p,
     a {
@@ -51,21 +42,6 @@
       color: $white;
     }
 
-  }
-
-  .navbar-fixed-bottom {
-    bottom: 10px;
-    text-align: center;
-  }
-
-  .login-joomla {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    width: 24px;
-    height: 24px;
-    margin-left: -12px;
-    font-size: 22px;
   }
 
   .btn {
