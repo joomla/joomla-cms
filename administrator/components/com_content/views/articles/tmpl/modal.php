@@ -136,15 +136,14 @@ if (!empty($editor))
 								. ' data-language="' . $this->escape($lang) . '"';
 							?>
 							<a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
-								<?php echo $this->escape($item->title); ?>
-							</a>
-							<span class="small" title="<?php echo $this->escape($item->path); ?>">
- 									<?php if (empty($item->note)) : ?>
- 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
- 									<?php else : ?>
- 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
- 									<?php endif; ?>
- 								</span>
+								<?php echo $this->escape($item->title); ?></a>
+							<span class="small">
+								<?php if (empty($item->note)) : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								<?php else : ?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+								<?php endif; ?>
+ 							</span>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
