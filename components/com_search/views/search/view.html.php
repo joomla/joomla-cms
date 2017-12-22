@@ -204,7 +204,7 @@ class SearchViewSearch extends JViewLegacy
 	}
 
 	/**
-	 * Method to display a view.
+	 * Method to control the highlighting of keywords
 	 *
 	 * @param   string  $string       text to be searched
 	 * @param   string  $needle       text to search for
@@ -214,7 +214,6 @@ class SearchViewSearch extends JViewLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-
 	public function highLight($string, $needle, $searchWords)
 	{
 		$hl1            = '<span class="highlight">';
