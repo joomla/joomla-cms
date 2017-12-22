@@ -306,7 +306,7 @@ class PlgUserProfile extends JPlugin
 				}
 				// Remove the field if it is disabled in registration and profile
 				elseif ($this->params->get('register-require_' . $field, 1) == 0
-				&& $this->params->get('profile-require_' . $field, 1) == 0)
+					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
 				}
