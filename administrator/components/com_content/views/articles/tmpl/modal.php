@@ -137,7 +137,7 @@ if (!empty($editor))
 							?>
 							<a class="select-link" href="javascript:void(0)" <?php echo $attribs; ?>>
 								<?php echo $this->escape($item->title); ?></a>
-							<span class="small">
+							<span class="small break-word">
 								<?php if (empty($item->note)) : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
