@@ -115,6 +115,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 									<?php echo $this->escape($item->title); ?>
 								</a>
+								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+									<?php if (empty($item->note)) : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
+								</span>
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
