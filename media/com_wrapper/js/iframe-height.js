@@ -1,7 +1,7 @@
 function iFrameHeight()
 {
     var height = 0;
-    var iframe = document.querySelectorAll('*[id^="blockrandom"]');
+    var iframe = document.getElementById('blockrandom');
     var doc    = 'contentDocument' in iframe ? iframe.contentDocument : iframe.contentWindow.document;
 
     if (!document.all)
