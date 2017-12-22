@@ -1974,7 +1974,6 @@ table th[class*="span"],
 	border-bottom: 1px solid #fff;
 }
 .dropdown-menu .menuitem-group {
-	height: 1px;
 	margin: 4px 1px;
 	overflow: hidden;
 	border-top: 1px solid #eee;
@@ -1983,7 +1982,7 @@ table th[class*="span"],
 	color: #555;
 	text-transform: capitalize;
 	font-size: 95%;
-	padding: 2px 0 24px;
+	padding: 3px 20px;
 }
 .dropdown-menu > li > a {
 	display: block;
@@ -8183,6 +8182,9 @@ body .navbar-fixed-top {
 		padding: 9px 9px 0 9px;
 	}
 }
+.navbar-search .search-query {
+	background: rgba(255,255,255,0.3);
+}
 @media (max-width: 979px) {
 	.navbar .nav {
 		font-size: 13px;
@@ -8206,10 +8208,6 @@ body .navbar-fixed-top {
 .nav-collapse .nav li a,
 .dropdown-menu a {
 	background-image: none;
-}
-.nav-collapse .dropdown-menu > li > span {
-	display: block;
-	padding: 3px 20px;
 }
 .nav-collapse .dropdown-menu > li img {
 	max-width: none;
