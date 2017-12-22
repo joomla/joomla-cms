@@ -27,7 +27,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="controls">
-			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+			<label id="batch-choose-action-lbl" class="control-label" for="batch-group-id">
 				<?php echo JText::_('COM_USERS_BATCH_GROUP'); ?>
 			</label>
 			<div id="batch-choose-action" class="combo controls">
