@@ -300,8 +300,7 @@ class PlgUserProfile extends JPlugin
 			if ($name === 'com_users.user')
 			{
 				// Toggle whether the field is required.
-				if ($this->params->get('profile-require_' . $field, 1) > 0
-					&& $this->params->get('register-require_' . $field, 1) > 0)
+				if ($this->params->get('profile-require_' . $field, 1) > 0)
 				{
 					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
 				}
