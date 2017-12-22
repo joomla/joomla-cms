@@ -46,6 +46,8 @@ extract($displayData);
 
 if ($meter)
 {
+	JHtml::_('script', 'system/passwordstrength.js', array('version' => 'auto', 'relative' => true, 'framework' => true));
+
 	// Load script on document load.
 	JFactory::getDocument()->addScriptDeclaration(
 		"

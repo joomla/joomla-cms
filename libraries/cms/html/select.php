@@ -159,7 +159,10 @@ abstract class JHtmlSelect
 	{
 		// Log deprecated message
 		JLog::add(
-			'JHtmlSelect::suggestionlist() is deprecated. Create the <datalist> tag directly instead.',
+			sprintf(
+				'%s() is deprecated. Create the <datalist> tag directly instead.',
+				__METHOD__
+			),
 			JLog::WARNING,
 			'deprecated'
 		);

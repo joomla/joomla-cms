@@ -32,6 +32,11 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
 		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
 		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
+			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
+		<?php else : ?>
+			title="<?php echo $this->escape($this->params->get('page_title')); ?>"
+		<?php endif; ?>
 		class="wrapper<?php echo $this->pageclass_sfx; ?>">
 		<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 	</iframe>

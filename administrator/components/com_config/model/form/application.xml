@@ -197,7 +197,6 @@
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			min="1"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -598,7 +597,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			required="true"
 			size="5"
 		/>
 
@@ -923,6 +921,20 @@
 		/>
 
 		<field
+			name="session_redis_persist"
+			type="radio"
+			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			showon="session_handler:redis"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="session_redis_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
@@ -948,6 +960,17 @@
 		/>
 
 		<field
+			name="session_redis_server_auth"
+			type="password"
+			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
+			filter="raw"
+			showon="session_handler:redis"
+			autocomplete="off"
+			size="30"
+		/>
+
+		<field
 			name="session_redis_server_db"
 			type="number"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
@@ -965,7 +988,6 @@
 			min="1"
 			max="16383"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"

@@ -1180,7 +1180,7 @@ class Document
 	 * @return  DocumentRenderer
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
