@@ -187,7 +187,11 @@ $assoc = JLanguageAssociations::isEnabled();
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
 								<span class="small break-word">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php if (empty($item->note)) : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
