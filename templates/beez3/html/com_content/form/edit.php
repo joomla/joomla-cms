@@ -243,7 +243,7 @@ endif;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('version_note'); ?>
-				</div			
+				</div>		
 			<?php endif; ?>
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 			<div class="control-group">
