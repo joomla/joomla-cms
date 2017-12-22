@@ -23,7 +23,7 @@ abstract class ModTagssimilarHelper
 	 *
 	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed  Results array / null
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
@@ -35,7 +35,7 @@ abstract class ModTagssimilarHelper
 		// This module does not apply to list views in general at this point.
 		if ($option === 'com_tags' || $view === 'category' || $option === 'com_users')
 		{
-			return;
+			return array();
 		}
 
 		$db         = JFactory::getDbo();
@@ -54,7 +54,7 @@ abstract class ModTagssimilarHelper
 
 		if (!$tagsToMatch || $tagsToMatch === null)
 		{
-			return;
+			return array();
 		}
 
 		$tagCount = substr_count($tagsToMatch, ',') + 1;

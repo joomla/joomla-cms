@@ -50,16 +50,18 @@ class CollectionAdapter extends UpdateAdapter
 	protected $pop_parent = 0;
 
 	/**
-	 * @var array A list of discovered update sites
+	 * A list of discovered update sites
+	 *
+	 * @var  array
 	 */
-	protected $update_sites;
+	protected $update_sites = array();
 
 	/**
 	 * A list of discovered updates
 	 *
-	 * @var array
+	 * @var  array
 	 */
-	protected $updates;
+	protected $updates = array();
 
 	/**
 	 * Gets the reference to the current direct parent

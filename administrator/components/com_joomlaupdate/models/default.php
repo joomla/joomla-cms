@@ -266,6 +266,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
@@ -294,7 +295,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			return $this->downloadPackage($packageURL, $target);
+			$mirror = 0;
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+			{
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
+				$mirror++;
+			}
+
+			return $download;
 		}
 		else
 		{
@@ -303,7 +313,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			if (empty($filesize))
 			{
-				return $this->downloadPackage($packageURL, $target);
+				$mirror = 0;
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+				{
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
+					$mirror++;
+				}
+
+				return $download;
 			}
 
 			// Yes, it's there, skip downloading.
@@ -350,7 +369,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$result = $http->get($url);
+		try
+		{
+			$result = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
