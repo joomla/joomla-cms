@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::registerAlias('JRegistry',                         '\\Joomla\\Registry\\Registry', '5.0');
-JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '5.0');
+JLoader::registerAlias('JRegistryFormat',                   '\\Joomla\\Registry\\AbstractRegistryFormat', '4.0');
 JLoader::registerAlias('JRegistryFormatIni',                '\\Joomla\\Registry\\Format\\Ini', '5.0');
 JLoader::registerAlias('JRegistryFormatJson',               '\\Joomla\\Registry\\Format\\Json', '5.0');
 JLoader::registerAlias('JRegistryFormatPhp',                '\\Joomla\\Registry\\Format\\Php', '5.0');
