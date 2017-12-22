@@ -95,7 +95,7 @@ class NewsfeedsModelCategories extends JModelList
 	 */
 	public function getItems()
 	{
-		if (!empty($this->_items))
+		if (!is_array($this->_items))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
