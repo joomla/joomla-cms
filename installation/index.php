@@ -19,8 +19,8 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
 	die(
 		str_replace(
-			['{{PHP_VERSION}}', '{{BASEPATH}}'],
-			[JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'],
+			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
+			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
 			file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
 		)
 	);
