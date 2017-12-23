@@ -102,13 +102,14 @@ if ($saveOrder)
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', true); ?>
+											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 										</div>
 									</td>
 									<td>
 										<?php if ($canEdit) : ?>
-											<a href="<?php echo $edit; ?>">
-												<?php echo $item->title; ?>
+											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+											<a href="<?php echo $edit; ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<?php echo $editIcon; ?><?php echo $item->title; ?>
 											</a>
 										<?php else: ?>
 											<?php echo $item->title; ?>

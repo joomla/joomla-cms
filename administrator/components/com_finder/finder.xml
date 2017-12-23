@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_FINDER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Finder</namespace>
 	<menu link="option=com_finder">COM_FINDER</menu>
 	<files folder="site">
 		<filename>controller.php</filename>

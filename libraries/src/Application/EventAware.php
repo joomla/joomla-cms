@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Trait for application classes which dispatch events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait EventAware
 {
@@ -26,7 +26,7 @@ trait EventAware
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the dispatcher has not been set.
 	 */
 	abstract public function getDispatcher();
@@ -36,7 +36,7 @@ trait EventAware
 	 *
 	 * @return  LoggerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	abstract public function getLogger();
 
@@ -48,7 +48,7 @@ trait EventAware
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function registerEvent($event, callable $handler)
 	{
@@ -78,7 +78,7 @@ trait EventAware
 	 *
 	 * @return  array  An array of results from each function call. Note this will be an empty array if no dispatcher is set.
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @throws      \InvalidArgumentException
 	 * @deprecated  5.0
 	 */

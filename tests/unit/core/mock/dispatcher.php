@@ -7,6 +7,7 @@
  */
 
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 
 /**
  * Class to mock DispatcherInterface.
@@ -35,7 +36,7 @@ class TestMockDispatcher
 	/**
 	 * Creates and instance of the mock DispatcherInterface object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test      A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test      A test object.
 	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
@@ -68,6 +69,7 @@ class TestMockDispatcher
 			$mockObject, array(
 				// An additional 'test' method for confirming this object is successfully mocked.
 				'test' => 'ok',
+				'addListener' => true
 			)
 		);
 
@@ -88,24 +90,31 @@ class TestMockDispatcher
 	/**
 	 * Callback for the DispatcherInterface register method.
 	 *
-	 * @param   string  $event  Name of the event to register handler for.
-	 * @param   array   $args   An array of arguments.
+	 * @param   string|EventInterface  $event Name of the event to register handler for.
+	 * @param   array                  $args  An array of arguments.
 	 *
-	 * @return  array  An array of results from each function call.
+	 * @return  EventInterface  Return original event object.
 	 *
 	 * @since   11.3
 	 */
 	public static function mockDispatch($event, $args = [])
 	{
+		if (!$event instanceof EventInterface)
+		{
+			$event = new \Joomla\Event\Event($event);
+		}
+
 		// Track the events that were triggered, in order.
 		self::$triggered[] = $event;
 
-		if (!empty(self::$handlers[$event]))
+		if (!empty(self::$handlers[$event->getName()]))
 		{
-			return self::$handlers[$event];
+			self::$handlers[$event->getName()];
+
+			return $event;
 		}
 
-		return array();
+		return $event;
 	}
 
 	/**

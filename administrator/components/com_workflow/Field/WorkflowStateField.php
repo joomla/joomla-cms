@@ -11,13 +11,15 @@ namespace Joomla\Component\Workflow\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\GroupedlistField;
 
 /**
  * Workflow States field.
  *
  * @since  __DEPLOY_VERSION__
  */
-class WorkflowStateField extends \JFormFieldGroupedList
+class WorkflowStateField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -26,6 +28,42 @@ class WorkflowStateField extends \JFormFieldGroupedList
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'WorkflowState';
+
+	/**
+	 * The extension where we're
+	 *
+	 * @var     string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $extension = 'com_content';
+
+	/**
+	 * Show only the states which has an item attached
+	 *
+	 * @var     boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $activeonly = false;
+
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		$success = parent::setup($element, $value, $group);
+
+		if ($success)
+		{
+			if (strlen($element['extension']))
+			{
+				$this->extension =  (string) $element['extension'];
+			}
+
+			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
+			{
+				$this->activeonly =  true;
+			}
+		}
+
+		return $success;
+	}
 
 	/**
 	 * Method to get the field option groups.
@@ -42,12 +80,22 @@ class WorkflowStateField extends \JFormFieldGroupedList
 
 		// Select distinct states for existing articles
 		$query
-			->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
-			->select($db->qn(['ws.title', 'w.title', 'w.id'], ['workflow_state_title', 'workflow_title', 'workflow_id']))
-			->from($db->qn('#__workflow_associations', 'wa'))
-			->innerJoin($db->qn('#__workflow_states', 'ws') . ' ON (' . $db->qn('wa.state_id') . ' = ' . $db->qn('ws.id') . ')')
-			->innerJoin($db->qn('#__workflows', 'w') . ' ON (' . $db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id') . ')')
-			->order($db->qn('w.ordering'));
+				->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
+				->select($db->qn(['ws.title', 'w.title', 'w.id'], ['workflow_state_title', 'workflow_title', 'workflow_id']))
+				->from($db->qn('#__workflow_states', 'ws'))
+				->from($db->qn('#__workflows', 'w'))
+				->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
+				->where($db->qn('w.extension') . ' = ' . $db->q($this->extension))
+				->order($db->qn('w.ordering'));
+
+		if ($this->activeonly)
+		{
+			$query
+					->from($db->qn('#__workflow_associations', 'wa'))
+					->where($db->qn('wa.state_id') . ' = ' . $db->qn('ws.id'))
+					->where($db->qn('wa.extension') . ' = ' . $db->q($this->extension));
+
+		}
 
 		$states = $db->setQuery($query)->loadObjectList();
 
@@ -64,7 +112,7 @@ class WorkflowStateField extends \JFormFieldGroupedList
 				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = \JHtml::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
+			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
 		}
 
 		// Merge any additional options in the XML definition.

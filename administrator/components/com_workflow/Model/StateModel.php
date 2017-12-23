@@ -34,13 +34,13 @@ class StateModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function populateState()
 	{
 		parent::populateState();
 
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
@@ -118,17 +118,23 @@ class StateModel extends AdminModel
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
 	 * @since  __DEPLOY_VERSION__
-	 * @throws  \UnexpectedValueException
 	 */
 	protected function canDelete($record)
 	{
-		if (!\JFactory::getUser()->authorise('core.delete', 'com_workflows'))
+		if (empty($record->id) || $record->published != -2)
 		{
-			throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+
+		if (!Factory::getUser()->authorise('core.delete', $extension . '.state.' . (int) $record->id))
+		{
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+			return false;
+		}
 
 		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
 
@@ -146,6 +152,31 @@ class StateModel extends AdminModel
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function canEditState($record)
+	{
+		$user = Factory::getUser();
+		$app = Factory::getApplication();
+		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
+
+		// Check for existing workflow.
+		if (!empty($record->id))
+		{
+			return $user->authorise('core.edit.state', $extension . '.state.' . (int) $record->id);
+		}
+
+		// Default to component settings if workflow isn't known.
+		return $user->authorise('core.edit.state', $extension);
 	}
 
 	/**
@@ -170,6 +201,16 @@ class StateModel extends AdminModel
 			)
 		);
 
+		if (empty($form))
+		{
+			return false;
+		}
+
+		if ($loadData)
+		{
+			$data = $this->loadFormData();
+		}
+
 		$item = $this->getItem($form->getValue('id'));
 
 		// Deactivate switcher if default
@@ -178,6 +219,17 @@ class StateModel extends AdminModel
 		{
 			$form->setValue('default', null, 1);
 			$form->setFieldAttribute('default', 'readonly', 'true');
+		}
+
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data))
+		{
+			// Disable fields for display.
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
 		return $form;

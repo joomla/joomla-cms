@@ -154,6 +154,7 @@ abstract class FormModel extends BaseForm
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
 
 		// Solution until JForm supports splqueue
+		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		\JForm::addFormPath(JPATH_COMPONENT . '/model/form');

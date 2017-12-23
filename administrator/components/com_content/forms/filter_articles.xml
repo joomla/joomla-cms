@@ -15,6 +15,7 @@
 				label="COM_CONTENT_STATES"
 				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 				onchange="this.form.submit();"
+				activeonly="true"
 		>
 			<option value="">COM_CONTENT_SELECT_STATE</option>
 		</field>
@@ -55,7 +56,9 @@
 			multiple="true"
 			class="multipleAuthors"
 			onchange="this.form.submit();"
-		/>
+			>
+			<option value="0">JNONE</option>
+		</field>
 
 		<field
 			name="language"
@@ -113,8 +116,8 @@
 			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>
 			<option value="a.created_by DESC">JAUTHOR_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.created ASC">JDATE_ASC</option>
 			<option value="a.created DESC">JDATE_DESC</option>
 			<option value="a.modified ASC">COM_CONTENT_MODIFIED_ASC</option>

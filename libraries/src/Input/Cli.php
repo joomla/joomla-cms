@@ -186,7 +186,7 @@ class Cli extends Input
 					foreach ($chars as $char)
 					{
 						$key = $char;
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 						$out[$key] = $value;
 					}
 

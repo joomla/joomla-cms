@@ -24,22 +24,21 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
 
 				<field
 					name="state"
-					type="sql"
+					type="workflowstate"
 					multiple="true"
 					size="5"
-					label="MOD_ARTICLES_CHOOSE_STATE"
-					sql_select="id, title"
-				    sql_from="#__workflow_states"
-				    key_field="id"
-				    value_field="title"
-				/>
+					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"
+					addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+					default="4"
+				>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">
@@ -68,7 +67,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

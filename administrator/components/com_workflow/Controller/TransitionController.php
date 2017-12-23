@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 
@@ -62,6 +63,55 @@ class TransitionController extends FormController
 		{
 			$this->extension = $this->input->get('extension');
 		}
+	}
+
+	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowAdd($data = array())
+	{
+		$user = Factory::getUser();
+
+		return $user->authorise('core.create', $this->extension);
+	}
+
+	/**
+	 * Method to check if you can edit a record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
+		$user = Factory::getUser();
+
+		// Check "edit" permission on record asset (explicit or inherited)
+		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))
+		{
+			return true;
+		}
+
+		// Check "edit own" permission on record asset (explicit or inherited)
+		if ($user->authorise('core.edit.own', $this->extension . '.transition.' . $recordId))
+		{
+			// Need to do a lookup from the model to get the owner
+			$record = $this->getModel()->getItem($recordId);
+
+			return !empty($record) && $record->created_by == $user->id;
+		}
+
+		return false;
 	}
 
 	/**

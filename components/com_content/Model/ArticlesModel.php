@@ -45,7 +45,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'condition', 's.condition',
+				'state_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -200,14 +200,14 @@ class ArticlesModel extends ListModel
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
 				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND s.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE s.condition END as state,' .
+				'CASE WHEN c.published = 2 AND ws.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE ws.condition END as state,' .
 				// Use created if modified is 0
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -221,6 +221,7 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
+				$query->select('fp.ordering');
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 			}
 			else
@@ -230,16 +231,21 @@ class ArticlesModel extends ListModel
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
+			$query->select('fp.ordering');
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
-		$query
-			->select($db->qn("s.condition"))
-			->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
+		// Join over the states.
+		$query->select('wa.state_id AS state_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
+			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
-			->select('c.published, c.published AS parents_published')
+			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
@@ -271,10 +277,16 @@ class ArticlesModel extends ListModel
 		// Filter by published state
 		$condition = $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if (is_numeric($condition) && $condition == 2)
+		{
+			// If category is archived then article has to be published or archived.
+			// If categogy is published then article has to be archived.
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
+		}
+		elseif (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where("c.published = 1 AND s.condition = " . $db->quote($condition));
+			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
 		}
 		elseif (is_array($condition))
 		{
@@ -288,7 +300,7 @@ class ArticlesModel extends ListModel
 			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND s.condition IN (' . $condition . ')');
+			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
 		}
 
 		// Filter by featured state
@@ -690,7 +702,7 @@ class ArticlesModel extends ListModel
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if ($item->params->get('show_associations'))
+			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 			}

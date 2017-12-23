@@ -35,6 +35,12 @@ class PlgButtonFields extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
+		// Check if com_fields is enabled
+		if (!JComponentHelper::isEnabled('com_fields'))
+		{
+			return;
+		}
+
 		// Register FieldsHelper
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -58,7 +64,12 @@ class PlgButtonFields extends JPlugin
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
 		$button->name    = 'puzzle';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->options = array(
+			'height'     => '300px',
+			'width'      => '800px',
+			'bodyHeight' => '70',
+			'modalWidth' => '80',
+		);
 
 		return $button;
 	}

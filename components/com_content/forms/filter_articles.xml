@@ -10,17 +10,13 @@
 		/>
 
 		<field
-				name="condition"
-				type="list"
-				label="COM_WORKFLOW_CONDITION"
-				description="COM_WORKFLOW_CONDITION_DESC"
-				onchange="this.form.submit();"
-		        default="3"
-		>
-			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
-			<option value="1">COM_WORKFLOW_TRASHED</option>
-			<option value="2">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="3">COM_WORKFLOW_PUBLISHED</option>
+			name="published"
+			type="status"
+			label="COM_CONTENT_FILTER_PUBLISHED"
+			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
@@ -28,10 +24,33 @@
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			multiple="true"
+			class="multipleCategories"
 			extension="com_content"
 			onchange="this.form.submit();"
+			published="0,1,2"
+		/>
+
+		<field
+			name="access"
+			type="accesslevel"
+			label="JOPTION_FILTER_ACCESS"
+			description="JOPTION_FILTER_ACCESS_DESC"
+			multiple="true"
+			class="multipleAccessLevels"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			multiple="true"
+			class="multipleAuthors"
+			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
@@ -46,26 +65,6 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-		</field>
-
-		<field
-			name="access"
-			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
-
-		<field
-			name="author_id"
-			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
 		</field>
 
 		<field
@@ -84,11 +83,11 @@
 			type="tag"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
+			multiple="true"
+			class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 	</fields>
 	<fields name="list">
 		<field
@@ -114,8 +113,8 @@
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>
 			<option value="a.created_by DESC">JAUTHOR_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.created ASC">JDATE_ASC</option>
 			<option value="a.created DESC">JDATE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

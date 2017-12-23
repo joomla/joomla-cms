@@ -36,12 +36,12 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					default="5"
 				/>
 
-					<field
+				<field
 					name="show_front"
 					type="radio"
 					class="switcher"
@@ -101,11 +101,11 @@
 					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
-					/>
+				/>
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
 					default="30"
 					showon="date_filtering:relative"
@@ -138,7 +138,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

@@ -17,7 +17,7 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 <div class="tagspopular tagscloud">
 <?php
 if (!count($list)) : ?>
-	<div class="alert alert-no-items"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></div>
+	<joomla-alert type="info"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></joomla-alert>
 <?php else :
 	// Find maximum and minimum count
 	$mincount = null;
@@ -43,7 +43,7 @@ if (!count($list)) : ?>
 		endif;
 ?>
 		<span class="tag">
-			<a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . '-' . $item->alias)); ?>">
+			<a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
 				<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
 			<?php if ($display_count) : ?>
 				<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>

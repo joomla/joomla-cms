@@ -13,11 +13,8 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '4.0.0-beta'
-                  'dependencies': 'jquery, popper.js'
-    'popper.js':
-                  'version': '1.11.1'
-                  'dependencies': ''
+                  'version': '4.0.0-beta.2'
+                  'dependencies': 'jquery'
     'font-awesome':
                   'version': '4.7.0'
                   'dependencies': ''
@@ -31,16 +28,13 @@ vendors:
                   'version': '1.12.1'
                   'dependencies': 'jquery'
     'mediaelement':
-                  'version': '4.2.6'
-                  'dependencies': ''
-    'masonry-layout':
-                  'version': '4.2.0'
+                  'version': '4.2.7'
                   'dependencies': ''
     'punycode':
                   'version': '1.4.1'
                   'dependencies': ''
     'tinymce':
-                  'version': '4.6.7'
+                  'version': '4.7.4'
                   'dependencies': ''
     'awesomplete':
                   'version': '1.1.2'
@@ -49,16 +43,16 @@ vendors:
                   'version': '3.7.2'
                   'dependencies': ''
     'codemirror':
-                  'version': '5.30.0'
+                  'version': '5.32.0'
                   'dependencies': ''
     'cropperjs':
-                  'version': '1.0.0'
+                  'version': '1.1.3'
                   'dependencies': ''
     'flying-focus-a11y':
                   'version': '1.5.5'
                   'dependencies': ''
     'diff':
-                  'version': '3.3.0'
+                  'version': '3.4.0'
                   'dependencies': ''
     'wicked-good-xpath':
                   'version': '1.3.0'
@@ -66,6 +60,14 @@ vendors:
     'joomla-ui-custom-elements':
                   'version': '0.0.9'
                   'dependencies': ''
+
+webcomponents:
+          'field-media':
+                'css': 'media/system/webcomponents/css'
+                'js': 'media/system/webcomponents/js'
+          'field-user':
+                'css': 'media/system/webcomponents/css'
+                'js': 'media/system/webcomponents/js'
 
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
@@ -85,6 +87,7 @@ CmAddons:
             - 'addon/scroll/simplescrollbars.js'
             - 'addon/selection/active-line.js'
             - 'keymap/vim.js'
+            - 'mode/meta.js'
         css:
             - 'addon/display/fullscreen.css'
             - 'addon/fold/foldgutter.css'

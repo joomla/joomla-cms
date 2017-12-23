@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_cache
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CacheDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class CacheDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Cache';
 }

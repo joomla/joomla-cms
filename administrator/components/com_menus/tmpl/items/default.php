@@ -23,7 +23,7 @@ $ordering  = ($listOrder == 'a.lft');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
-if ($saveOrder && $menuType)
+if ($saveOrder && $menuType && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -48,9 +48,7 @@ if ($menuType == '')
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="itemList">
 						<thead>
@@ -87,7 +85,7 @@ if ($menuType == '')
 									<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<?php if ($this->state->get('filter.client_id') == 0) : ?>
+							<?php if (($this->state->get('filter.client_id') == 0) && (JLanguageMultilang::isEnabled())) : ?>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
@@ -251,7 +249,7 @@ if ($menuType == '')
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($this->state->get('filter.client_id') == 0) : ?>
+								<?php if ($this->state->get('filter.client_id') == 0 && JLanguageMultilang::isEnabled()) : ?>
 									<td class="small hidden-sm-down text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>

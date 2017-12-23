@@ -233,10 +233,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
-					Joomla.optionsStorage[p] = options[p];
-				}
-			}
-		}
+					/**
+					 * If both existing and new options are objects, merge them with Joomla.extend().  But test for new
+					 * option being null, as null is an object, but we want to allow clearing of options with ...
+					 *
+					 * Joomla.loadOptions({'joomla.jtext': null});
+					 */
+					if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
+						Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
+					} else {
+						Joomla.optionsStorage[p] = options[p];
+					}
+	            }
+            }
+        }
 	};
 
 	/**
@@ -661,38 +671,51 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 	};
 
-	/**
-	 * USED IN: all over :)
-	 *
-	 * @param id
-	 * @param task
-	 * @return
-	 *
-	 * @deprecated 4.0  Use Joomla.listItemTask() instead
-	 */
-	window.listItemTask = function ( id, task ) {
-		var f = document.adminForm,
-		    i = 0, cbx,
-		    cb = f[ id ];
+    /**
+     * USED IN: all over :)
+     *
+     * @param id
+     * @param task
+     * @return
+     *
+     * @deprecated 4.0  Use Joomla.listItemTask() instead
+     */
+    window.listItemTask = function ( id, task ) {
+        return Joomla.listItemTask( id, task );
+    };
 
-		if ( !cb ) return false;
+    /**
+     * USED IN: all over :)
+     *
+     * @param  {string}  id    The id
+     * @param  {string}  task  The task
+     *
+     * @return {boolean}
+     */
+    Joomla.listItemTask = function ( id, task ) {
+        var f = document.adminForm,
+            i = 0, cbx,
+            cb = f[ id ];
 
-		while ( true ) {
-			cbx = f[ 'cb' + i ];
+        if ( !cb ) return false;
 
-			if ( !cbx ) break;
+        while ( true ) {
+            cbx = f[ 'cb' + i ];
 
-			cbx.checked = false;
+            if ( !cbx ) break;
 
-			i++;
-		}
+            cbx.checked = false;
 
-		cb.checked = true;
-		f.boxchecked.value = 1;
-		window.submitform( task );
+            i++;
+        }
 
-		return false;
-	};
+        cb.checked = true;
+        f.boxchecked.value = 1;
+        window.submitform( task );
+
+        return false;
+    };
+
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *
@@ -827,6 +850,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
+		/**
+		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
+		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
+ 		 */
+		if (destination === null) {
+			destination = {};
+		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
@@ -874,9 +904,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			data:    null,
 			perform: true
 		}, options);
-
-		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method.toUpperCase();
 
 		// Set up XMLHttpRequest instance
 		try{
@@ -944,7 +971,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Check if HTML5 localStorage enabled on the browser
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.localStorageEnabled = function() {
 		var test = 'joomla-cms';
@@ -960,7 +987,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Loads any needed polyfill for web components and async load any web components
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
 		var wc, polyfills = [];
@@ -1084,7 +1111,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 /**
  * Joomla! Custom events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 (function( window, Joomla ) {
 	"use strict";
@@ -1118,7 +1145,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * 	or:
 	 * 	Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to Window
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.dispatch = function(element, name, params) {
 		if (typeof element === 'string') {
@@ -1143,7 +1170,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param {String}       name      The event name
 	 * @param {Function}     callback  The event callback
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.listenOnce = function (element, name, callback) {
 		var onceCallback = function(event){

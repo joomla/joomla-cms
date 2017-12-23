@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
+    instances[i] = dem(ids[i]);
+  callback.apply(null, instances);
 };
 
 var ephox = {};
@@ -76,13 +76,154 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minificiation when using a lot of global references
+// this helps with minification when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.imagetools.Plugin","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.Tools","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","global!tinymce.util.Tools.resolve","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Arr","ephox.katamari.api.Fun","tinymce.core.geom.Rect","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Option","global!Array","global!Error","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK","global!Object"]
+["tinymce.plugins.imagetools.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.imagetools.api.Commands","tinymce.plugins.imagetools.core.UploadSelectedImage","tinymce.plugins.imagetools.ui.Buttons","tinymce.plugins.imagetools.ui.ContextToolbar","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.imagetools.core.Actions","ephox.katamari.api.Fun","tinymce.plugins.imagetools.api.Settings","ephox.imagetools.api.BlobConversions","ephox.imagetools.api.ImageTransformations","ephox.imagetools.api.ResultConversions","global!Array","global!Error","ephox.sand.api.URL","global!clearTimeout","tinymce.core.util.Delay","tinymce.core.util.Promise","tinymce.core.util.URI","tinymce.plugins.imagetools.core.ImageSize","tinymce.plugins.imagetools.core.Proxy","tinymce.plugins.imagetools.ui.Dialog","ephox.imagetools.util.Conversions","ephox.katamari.api.Option","ephox.imagetools.transformations.Filters","ephox.imagetools.transformations.ImageTools","ephox.imagetools.util.ImageResult","ephox.sand.util.Global","tinymce.plugins.imagetools.core.Errors","tinymce.plugins.imagetools.core.Utils","global!Math","global!setTimeout","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.plugins.imagetools.core.UndoStack","tinymce.plugins.imagetools.ui.ImagePanel","ephox.imagetools.util.Canvas","ephox.imagetools.util.ImageSize","ephox.imagetools.util.Promise","global!Object","ephox.sand.api.Blob","ephox.sand.api.FileReader","ephox.sand.api.Uint8Array","ephox.sand.api.Window","ephox.imagetools.transformations.ColorMatrix","ephox.imagetools.transformations.ImageResizerCanvas","ephox.katamari.api.Resolve","ephox.katamari.api.Arr","ephox.sand.api.XMLHttpRequest","global!document","global!Image","tinymce.core.geom.Rect","tinymce.plugins.imagetools.core.LoadImage","tinymce.plugins.imagetools.ui.CropRect","ephox.katamari.api.Global","global!String","tinymce.core.dom.DomQuery","tinymce.core.util.Observable","tinymce.core.util.VK"]
 jsc*/
+define(
+  'ephox.katamari.api.Cell',
+
+  [
+  ],
+
+  function () {
+    var Cell = function (initial) {
+      var value = initial;
+
+      var get = function () {
+        return value;
+      };
+
+      var set = function (v) {
+        value = v;
+      };
+
+      var clone = function () {
+        return Cell(get());
+      };
+
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    return Cell;
+  }
+);
+
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.PluginManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.Tools',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.Tools');
+  }
+);
+
+define(
+  'ephox.imagetools.util.Canvas',
+  [
+  ],
+  function () {
+    function create(width, height) {
+      return resize(document.createElement('canvas'), width, height);
+    }
+
+    function clone(canvas) {
+      var tCanvas, ctx;
+      tCanvas = create(canvas.width, canvas.height);
+      ctx = get2dContext(tCanvas);
+      ctx.drawImage(canvas, 0, 0);
+      return tCanvas;
+    }
+
+    function get2dContext(canvas) {
+      return canvas.getContext("2d");
+    }
+
+    function get3dContext(canvas) {
+      var gl = null;
+      try {
+        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      }
+      catch (e) { }
+
+      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
+        gl = null;
+      }
+      return gl;
+    }
+
+    function resize(canvas, width, height) {
+      canvas.width = width;
+      canvas.height = height;
+
+      return canvas;
+    }
+
+    return {
+      create: create,
+      clone: clone,
+      resize: resize,
+      get2dContext: get2dContext,
+      get3dContext: get3dContext
+    };
+  });
+define(
+  'ephox.imagetools.util.ImageSize',
+  [
+  ],
+  function() {
+  function getWidth(image) {
+    return image.naturalWidth || image.width;
+  }
+
+  function getHeight(image) {
+    return image.naturalHeight || image.height;
+  }
+
+  return {
+    getWidth: getWidth,
+    getHeight: getHeight
+  };
+});
 /* eslint-disable */
 /* jshint ignore:start */
 
@@ -278,122 +419,498 @@ define(
 /* jshint ignore:end */
 /* eslint-enable */
 
+defineGlobal("global!Array", Array);
+defineGlobal("global!Error", Error);
 define(
-  'ephox.imagetools.util.Canvas',
+  'ephox.katamari.api.Fun',
+
   [
+    'global!Array',
+    'global!Error'
   ],
-  function () {
-    function create(width, height) {
-      return resize(document.createElement('canvas'), width, height);
-    }
 
-    function clone(canvas) {
-      var tCanvas, ctx;
-      tCanvas = create(canvas.width, canvas.height);
-      ctx = get2dContext(tCanvas);
-      ctx.drawImage(canvas, 0, 0);
-      return tCanvas;
-    }
+  function (Array, Error) {
 
-    function get2dContext(canvas) {
-      return canvas.getContext("2d");
-    }
+    var noop = function () { };
 
-    function get3dContext(canvas) {
-      var gl = null;
-      try {
-        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      }
-      catch (e) { }
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
 
-      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
-        gl = null;
-      }
-      return gl;
-    }
+    var compose = function (fa, fb) {
+      return function () {
+        return fa(fb.apply(null, arguments));
+      };
+    };
 
-    function resize(canvas, width, height) {
-      canvas.width = width;
-      canvas.height = height;
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
 
-      return canvas;
-    }
+    var identity = function (x) {
+      return x;
+    };
+
+    var tripleEquals = function(a, b) {
+      return a === b;
+    };
+
+    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+    var curry = function (f) {
+      // equivalent to arguments.slice(1)
+      // starting at 1 because 0 is the f, makes things tricky.
+      // Pay attention to what variable is where, and the -1 magic.
+      // thankfully, we have tests for this.
+      var args = new Array(arguments.length - 1);
+      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
+
+      return function () {
+        var newArgs = new Array(arguments.length);
+        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
+
+        var all = args.concat(newArgs);
+        return f.apply(null, all);
+      };
+    };
+
+    var not = function (f) {
+      return function () {
+        return !f.apply(null, arguments);
+      };
+    };
+
+    var die = function (msg) {
+      return function () {
+        throw new Error(msg);
+      };
+    };
+
+    var apply = function (f) {
+      return f();
+    };
+
+    var call = function(f) {
+      f();
+    };
+
+    var never = constant(false);
+    var always = constant(true);
+
 
     return {
-      create: create,
-      clone: clone,
-      resize: resize,
-      get2dContext: get2dContext,
-      get3dContext: get3dContext
+      noop: noop,
+      noarg: noarg,
+      compose: compose,
+      constant: constant,
+      identity: identity,
+      tripleEquals: tripleEquals,
+      curry: curry,
+      not: not,
+      die: die,
+      apply: apply,
+      call: call,
+      never: never,
+      always: always
     };
-  });
+  }
+);
+
+defineGlobal("global!Object", Object);
 define(
-  'ephox.imagetools.util.Mime',
+  'ephox.katamari.api.Option',
+
   [
+    'ephox.katamari.api.Fun',
+    'global!Object'
   ],
-  function () {
-    function getUriPathName(uri) {
-      var a = document.createElement('a');
-      a.href = uri;
-      return a.pathname;
-    }
 
-    function guessMimeType(uri) {
-      var parts, ext, mimes, matches;
+  function (Fun, Object) {
 
-      if (uri.indexOf('data:') === 0) {
-        uri = uri.split(',');
-        matches = /data:([^;]+)/.exec(uri[0]);
-        return matches ? matches[1] : '';
-      } else {
-        mimes = {
-          'jpg': 'image/jpeg',
-          'jpeg': 'image/jpeg',
-          'png': 'image/png'
-        };
+    var never = Fun.never;
+    var always = Fun.always;
 
-        parts = getUriPathName(uri).split('.');
-        ext = parts[parts.length - 1];
+    /**
+      Option objects support the following methods:
 
-        if (ext) {
-          ext = ext.toLowerCase();
+      fold :: this Option a -> ((() -> b, a -> b)) -> Option b
+
+      is :: this Option a -> a -> Boolean
+
+      isSome :: this Option a -> () -> Boolean
+
+      isNone :: this Option a -> () -> Boolean
+
+      getOr :: this Option a -> a -> a
+
+      getOrThunk :: this Option a -> (() -> a) -> a
+
+      getOrDie :: this Option a -> String -> a
+
+      or :: this Option a -> Option a -> Option a
+        - if some: return self
+        - if none: return opt
+
+      orThunk :: this Option a -> (() -> Option a) -> Option a
+        - Same as "or", but uses a thunk instead of a value
+
+      map :: this Option a -> (a -> b) -> Option b
+        - "fmap" operation on the Option Functor.
+        - same as 'each'
+
+      ap :: this Option a -> Option (a -> b) -> Option b
+        - "apply" operation on the Option Apply/Applicative.
+        - Equivalent to <*> in Haskell/PureScript.
+
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
+
+      bind :: this Option a -> (a -> Option b) -> Option b
+        - "bind"/"flatMap" operation on the Option Bind/Monad.
+        - Equivalent to >>= in Haskell/PureScript; flatMap in Scala.
+
+      flatten :: {this Option (Option a))} -> () -> Option a
+        - "flatten"/"join" operation on the Option Monad.
+
+      exists :: this Option a -> (a -> Boolean) -> Boolean
+
+      forall :: this Option a -> (a -> Boolean) -> Boolean
+
+      filter :: this Option a -> (a -> Boolean) -> Option a
+
+      equals :: this Option a -> Option a -> Boolean
+
+      equals_ :: this Option a -> (Option a, a -> Boolean) -> Boolean
+
+      toArray :: this Option a -> () -> [a]
+
+    */
+
+    var none = function () { return NONE; };
+
+    var NONE = (function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+
+      // inlined from peanut, maybe a micro-optimisation?
+      var call = function (thunk) { return thunk(); };
+      var id = function (n) { return n; };
+      var noop = function () { };
+
+      var me = {
+        fold: function (n, s) { return n(); },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        or: id,
+        orThunk: call,
+        map: none,
+        ap: none,
+        each: noop,
+        bind: none,
+        flatten: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () { return []; },
+        toString: Fun.constant("none()")
+      };
+      if (Object.freeze) Object.freeze(me);
+      return me;
+    })();
+
+
+    /** some :: a -> Option a */
+    var some = function (a) {
+
+      // inlined from peanut, maybe a micro-optimisation?
+      var constant_a = function () { return a; };
+
+      var self = function () {
+        // can't Fun.constant this one
+        return me;
+      };
+
+      var map = function (f) {
+        return some(f(a));
+      };
+
+      var bind = function (f) {
+        return f(a);
+      };
+
+      var me = {
+        fold: function (n, s) { return s(a); },
+        is: function (v) { return a === v; },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        or: self,
+        orThunk: self,
+        map: map,
+        ap: function (optfab) {
+          return optfab.fold(none, function(fab) {
+            return some(fab(a));
+          });
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        flatten: constant_a,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(
+            never,
+            function (b) { return elementEq(a, b); }
+          );
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
         }
-        return mimes[ext];
-      }
-    }
+      };
+      return me;
+    };
 
+    /** from :: undefined|null|a -> Option a */
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
 
     return {
-      guessMimeType: guessMimeType
+      some: some,
+      none: none,
+      from: from
     };
-  });
+  }
+);
+
 define(
-  'ephox.imagetools.util.ImageSize',
+  'ephox.katamari.api.Global',
+
   [
   ],
-  function() {
-  function getWidth(image) {
-    return image.naturalWidth || image.width;
-  }
 
-  function getHeight(image) {
-    return image.naturalHeight || image.height;
+  function () {
+    // Use window object as the global if it's available since CSP will block script evals
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
+);
 
-  return {
-    getWidth: getWidth,
-    getHeight: getHeight
-  };
-});
+
+define(
+  'ephox.katamari.api.Resolve',
+
+  [
+    'ephox.katamari.api.Global'
+  ],
+
+  function (Global) {
+    /** path :: ([String], JsObj?) -> JsObj */
+    var path = function (parts, scope) {
+      var o = scope !== undefined ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+        o = o[parts[i]];
+      return o;
+    };
+
+    /** resolve :: (String, JsObj?) -> JsObj */
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
+
+    /** step :: (JsObj, String) -> JsObj */
+    var step = function (o, part) {
+      if (o[part] === undefined || o[part] === null)
+        o[part] = {};
+      return o[part];
+    };
+
+    /** forge :: ([String], JsObj?) -> JsObj */
+    var forge = function (parts, target) {
+      var o = target !== undefined ? target : Global;      
+      for (var i = 0; i < parts.length; ++i)
+        o = step(o, parts[i]);
+      return o;
+    };
+
+    /** namespace :: (String, JsObj?) -> JsObj */
+    var namespace = function (name, target) {
+      var parts = name.split('.');
+      return forge(parts, target);
+    };
+
+    return {
+      path: path,
+      resolve: resolve,
+      forge: forge,
+      namespace: namespace
+    };
+  }
+);
+
+
+define(
+  'ephox.sand.util.Global',
+
+  [
+    'ephox.katamari.api.Resolve'
+  ],
+
+  function (Resolve) {
+    var unsafe = function (name, scope) {
+      return Resolve.resolve(name, scope);
+    };
+
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+
+      if (actual === undefined) throw name + ' not available on this browser';
+      return actual;
+    };
+
+    return {
+      getOrDie: getOrDie
+    };
+  }
+);
+define(
+  'ephox.sand.api.Blob',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/Blob
+     */
+    return function (parts, properties) {
+      var f = Global.getOrDie('Blob');
+      return new f(parts, properties);
+    };
+  }
+);
+define(
+  'ephox.sand.api.FileReader',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+     */
+    return function () {
+      var f = Global.getOrDie('FileReader');
+      return new f();
+    };
+  }
+);
+define(
+  'ephox.sand.api.Uint8Array',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * https://developer.mozilla.org/en-US/docs/Web/API/Uint8Array
+     *
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
+     */
+    return function (arr) {
+      var f = Global.getOrDie('Uint8Array');
+      return new f(arr);
+    };
+  }
+);
+define(
+  'ephox.sand.api.Window',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /******************************************************************************************
+     * BIG BIG WARNING: Don't put anything other than top-level window functions in here.
+     *
+     * Objects that are technically available as window.X should be in their own module X (e.g. Blob, FileReader, URL).
+     ******************************************************************************************
+     */
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
+     */
+    var requestAnimationFrame = function (callback) {
+      var f = Global.getOrDie('requestAnimationFrame');
+      f(callback);
+    };
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.atob
+     */
+    var atob = function (base64) {
+      var f = Global.getOrDie('atob');
+      return f(base64);
+    };
+
+    return {
+      atob: atob,
+      requestAnimationFrame: requestAnimationFrame
+    };
+  }
+);
+defineGlobal("global!Math", Math);
 define(
   'ephox.imagetools.util.Conversions',
   [
-    'ephox.imagetools.util.Promise',
     'ephox.imagetools.util.Canvas',
-    'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.ImageSize'
+    'ephox.imagetools.util.ImageSize',
+    'ephox.imagetools.util.Promise',
+    'ephox.katamari.api.Option',
+    'ephox.sand.api.Blob',
+    'ephox.sand.api.FileReader',
+    'ephox.sand.api.Uint8Array',
+    'ephox.sand.api.Window',
+    'global!Array',
+    'global!Math'
   ],
-  function (Promise, Canvas, Mime, ImageSize) {
+  function (Canvas, ImageSize, Promise, Option, Blob, FileReader, Uint8Array, Window, Array, Math) {
     function loadImage(image) {
       return new Promise(function (resolve) {
         function loaded() {
@@ -409,47 +926,46 @@ define(
       });
     }
 
-    function imageToCanvas(image) {
-      return loadImage(image).then(function (image) {
-        var context, canvas;
-
-        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
-        context = Canvas.get2dContext(canvas);
-        context.drawImage(image, 0, 0);
-
-        return canvas;
-      });
-    }
-
     function imageToBlob(image) {
       return loadImage(image).then(function (image) {
         var src = image.src;
 
         if (src.indexOf('blob:') === 0) {
-          return blobUriToBlob(src);
+          return anyUriToBlob(src);
         }
 
         if (src.indexOf('data:') === 0) {
           return dataUriToBlob(src);
         }
 
-        return imageToCanvas(image).then(function (canvas) {
-          return dataUriToBlob(canvas.toDataURL(Mime.guessMimeType(src)));
-        });
+        return anyUriToBlob(src);
       });
     }
 
     function blobToImage(blob) {
-      return new Promise(function (resolve) {
+      return new Promise(function (resolve, reject) {
+        var blobUrl = URL.createObjectURL(blob);
+
         var image = new Image();
 
-        function loaded() {
+        var removeListeners = function () {
           image.removeEventListener('load', loaded);
+          image.removeEventListener('error', error);
+        };
+
+        function loaded() {
+          removeListeners();
           resolve(image);
         }
 
+        function error() {
+          removeListeners();
+          reject('Unable to load data of type ' + blob.type + ': ' + blobUrl);
+        }
+
         image.addEventListener('load', loaded);
-        image.src = URL.createObjectURL(blob);
+        image.addEventListener('error', error);
+        image.src = blobUrl;
 
         if (image.complete) {
           loaded();
@@ -457,11 +973,13 @@ define(
       });
     }
 
-    function blobUriToBlob(url) {
+    function anyUriToBlob(url) {
       return new Promise(function (resolve) {
         var xhr = new XMLHttpRequest();
 
         xhr.open('GET', url, true);
+
+        // works with IE10+
         xhr.responseType = 'blob';
 
         xhr.onload = function () {
@@ -475,46 +993,46 @@ define(
     }
 
     function dataUriToBlobSync(uri) {
-      var str, arr, i, matches, type, blobBuilder;
+      var data = uri.split(',');
 
-      uri = uri.split(',');
+      var matches = /data:([^;]+)/.exec(data[0]);
+      if (!matches) return Option.none();
 
-      matches = /data:([^;]+)/.exec(uri[0]);
-      if (matches) {
-        type = matches[1];
-      }
+      var mimetype = matches[1];
+      var base64 = data[1];
 
-      str = atob(uri[1]);
+      // al gore rhythm via http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+      var sliceSize = 1024;
+      var byteCharacters = Window.atob(base64);
+      var bytesLength = byteCharacters.length;
+      var slicesCount = Math.ceil(bytesLength / sliceSize);
+      var byteArrays = new Array(slicesCount);
 
-      if (window.WebKitBlobBuilder) {
-        /*globals WebKitBlobBuilder:false */
-        blobBuilder = new WebKitBlobBuilder();
+      for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
 
-        arr = new ArrayBuffer(str.length);
-        for (i = 0; i < arr.length; i++) {
-          arr[i] = str.charCodeAt(i);
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+          bytes[i] = byteCharacters[offset].charCodeAt(0);
         }
-
-        blobBuilder.append(arr);
-        return blobBuilder.getBlob(type);
+        byteArrays[sliceIndex] = Uint8Array(bytes);
       }
-
-      arr = new Uint8Array(str.length);
-      for (i = 0; i < arr.length; i++) {
-        arr[i] = str.charCodeAt(i);
-      }
-      return new Blob([arr], { type: type });
+      return Option.some(Blob(byteArrays, { type: mimetype }));
     }
 
     function dataUriToBlob(uri) {
-      return new Promise(function (resolve) {
-        resolve(dataUriToBlobSync(uri));
+      return new Promise(function (resolve, reject) {
+        dataUriToBlobSync(uri).fold(function () {
+          // uri isn't valid
+          reject('uri is not base64: ' + uri);
+        }, resolve);
       });
     }
 
     function uriToBlob(url) {
       if (url.indexOf('blob:') === 0) {
-        return blobUriToBlob(url);
+        return anyUriToBlob(url);
       }
 
       if (url.indexOf('data:') === 0) {
@@ -536,6 +1054,28 @@ define(
       } else {
         return dataUriToBlob(canvas.toDataURL(type, quality));
       }
+    }
+
+    function canvasToDataURL(getCanvas, type, quality) {
+      type = type || 'image/png';
+      return getCanvas.then(function (canvas) {
+        return canvas.toDataURL(type, quality);
+      });
+    }
+
+    function blobToCanvas(blob) {
+      return blobToImage(blob).then(function (image) {
+        // we aren't retaining the image, so revoke the URL immediately
+        revokeImageUrl(image);
+
+        var context, canvas;
+
+        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
+        context = Canvas.get2dContext(canvas);
+        context.drawImage(image, 0, 0);
+
+        return canvas;
+      });
     }
 
     function blobToDataUri(blob) {
@@ -563,103 +1103,25 @@ define(
     return {
       // used outside
       blobToImage: blobToImage,
-      // used outside
       imageToBlob: imageToBlob,
-      // used outside
       blobToDataUri: blobToDataUri,
-      // used outside
       blobToBase64: blobToBase64,
+      dataUriToBlobSync: dataUriToBlobSync,
 
-      // helper method
-      imageToCanvas: imageToCanvas,
       // helper method
       canvasToBlob: canvasToBlob,
-      // helper method
-      revokeImageUrl: revokeImageUrl,
-      // helper method
-      uriToBlob: uriToBlob,
-      // helper method
-      dataUriToBlobSync: dataUriToBlobSync
+      canvasToDataURL: canvasToDataURL,
+      blobToCanvas: blobToCanvas,
+      uriToBlob: uriToBlob
     };
   });
-define(
-  'ephox.imagetools.util.ImageResult',
-  [
-    'ephox.imagetools.util.Promise',
-    'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.Canvas'
-  ],
-  function (Promise, Conversions, Mime, Canvas) {
-    function create(canvas, initialType) {
-      function getType() {
-        return initialType;
-      }
-
-      function toBlob(type, quality) {
-        return Conversions.canvasToBlob(canvas, type || initialType, quality);
-      }
-
-      function toDataURL(type, quality) {
-        return canvas.toDataURL(type || initialType, quality);
-      }
-
-      function toBase64(type, quality) {
-        return toDataURL(type, quality).split(',')[1];
-      }
-
-      function toCanvas() {
-        return Canvas.clone(canvas);
-      }
-
-      return {
-        getType: getType,
-        toBlob: toBlob,
-        toDataURL: toDataURL,
-        toBase64: toBase64,
-        toCanvas: toCanvas
-      };
-    }
-
-    function fromBlob(blob) {
-      return Conversions.blobToImage(blob)
-        .then(function (image) {
-          var result = Conversions.imageToCanvas(image);
-          Conversions.revokeImageUrl(image);
-          return result;
-        })
-        .then(function (canvas) {
-          return create(canvas, blob.type);
-        });
-    }
-
-    function fromCanvas(canvas, type) {
-      return new Promise(function (resolve) {
-        resolve(create(canvas, type));
-      });
-    }
-
-    function fromImage(image) {
-      var type = Mime.guessMimeType(image.src);
-      return Conversions.imageToCanvas(image).then(function (canvas) {
-        return create(canvas, type);
-      });
-    }
-
-    return {
-      fromBlob: fromBlob,
-      fromCanvas: fromCanvas,
-      fromImage: fromImage
-    };
-  });
-
 define(
   'ephox.imagetools.api.BlobConversions',
   [
     'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.ImageResult'
+    'ephox.katamari.api.Option'
   ],
-  function (Conversions, ImageResult) {
+  function (Conversions, Option) {
     var blobToImage = function (image) {
       return Conversions.blobToImage(image);
     };
@@ -676,48 +1138,115 @@ define(
       return Conversions.blobToBase64(blob);
     };
 
-    var blobToImageResult = function(blob) {
-      return ImageResult.fromBlob(blob);
+    var dataUriToBlobSync = function (uri) {
+      return Conversions.dataUriToBlobSync(uri);
     };
 
-    var dataUriToImageResult = function(uri) {
-      return Conversions.uriToBlob(uri).then(ImageResult.fromBlob);
-    };
-
-    var imageToImageResult = function(image) {
-      return ImageResult.fromImage(image);
-    };
-
-    var imageResultToBlob = function(ir, type, quality) {
-      return ir.toBlob(type, quality);
-    };
-
-    var imageResultToBlobSync = function(ir, type, quality) {
-      return Conversions.dataUriToBlobSync(ir.toDataURL(type, quality));
+    var uriToBlob = function (uri) {
+      return Option.from(Conversions.uriToBlob(uri));
     };
 
     return {
       // used outside
       blobToImage: blobToImage,
-      // used outside
       imageToBlob: imageToBlob,
-      // used outside
       blobToDataUri: blobToDataUri,
-      // used outside
       blobToBase64: blobToBase64,
-      // used outside
-      blobToImageResult: blobToImageResult,
-      // used outside
-      dataUriToImageResult: dataUriToImageResult,
-      // used outside
-      imageToImageResult: imageToImageResult,
-      // used outside
-      imageResultToBlob: imageResultToBlob,
-      // just in case
-      imageResultToBlobSync: imageResultToBlobSync
+      dataUriToBlobSync: dataUriToBlobSync,
+      uriToBlob: uriToBlob
     };
   }
 );
+define(
+  'ephox.imagetools.util.ImageResult',
+  [
+    'ephox.imagetools.util.Canvas',
+    'ephox.imagetools.util.Conversions',
+    'ephox.imagetools.util.Promise',
+    'ephox.katamari.api.Fun'
+  ],
+  function (Canvas, Conversions, Promise, Fun) {
+    function create(getCanvas, blob, uri) {
+      var initialType = blob.type;
+
+      var getType = Fun.constant(initialType);
+
+      function toBlob() {
+        return Promise.resolve(blob);
+      }
+
+      function toDataURL() {
+        return uri;
+      }
+
+      function toBase64() {
+        return uri.split(',')[1];
+      }
+
+      function toAdjustedBlob(type, quality) {
+        return getCanvas.then(function (canvas) {
+          return Conversions.canvasToBlob(canvas, type, quality);
+        });
+      }
+
+      function toAdjustedDataURL(type, quality) {
+        return getCanvas.then(function (canvas) {
+          return Conversions.canvasToDataURL(canvas, type, quality);
+        });
+      }
+
+      function toAdjustedBase64(type, quality) {
+        return toAdjustedDataURL(type, quality).then(function (dataurl) {
+          return dataurl.split(',')[1];
+        });
+      }
+
+      function toCanvas() {
+        return getCanvas.then(Canvas.clone);
+      }
+
+      return {
+        getType: getType,
+        toBlob: toBlob,
+        toDataURL: toDataURL,
+        toBase64: toBase64,
+        toAdjustedBlob: toAdjustedBlob,
+        toAdjustedDataURL: toAdjustedDataURL,
+        toAdjustedBase64: toAdjustedBase64,
+        toCanvas: toCanvas
+      };
+    }
+
+    function fromBlob(blob) {
+      return Conversions.blobToDataUri(blob).then(function (uri) {
+        return create(Conversions.blobToCanvas(blob), blob, uri);
+      });
+    }
+
+    function fromCanvas(canvas, type) {
+      return Conversions.canvasToBlob(canvas, type).then(function (blob) {
+        return create(Promise.resolve(canvas), blob, canvas.toDataURL());
+      });
+    }
+
+    function fromImage(image) {
+      return Conversions.imageToBlob(image).then(function (blob) {
+        return fromBlob(blob);
+      });
+    }
+
+    var fromBlobAndUrlSync = function (blob, url) {
+      return create(Conversions.blobToCanvas(blob), blob, url);
+    };
+
+    return {
+      fromBlob: fromBlob,
+      fromCanvas: fromCanvas,
+      fromImage: fromImage,
+      fromBlobAndUrlSync: fromBlobAndUrlSync
+    };
+  });
+
 define(
   'ephox.imagetools.transformations.ColorMatrix',
   [
@@ -937,7 +1466,12 @@ define(
   ],
   function (Canvas, ImageResult, ColorMatrix) {
     function colorFilter(ir, matrix) {
-      var canvas = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyColorFilter(canvas, ir.getType(), matrix);
+      });
+    }
+
+    function applyColorFilter(canvas, type, matrix) {
       var context = Canvas.get2dContext(canvas);
       var pixels;
 
@@ -966,11 +1500,16 @@ define(
       pixels = applyMatrix(context.getImageData(0, 0, canvas.width, canvas.height), matrix);
       context.putImageData(pixels, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function convoluteFilter(ir, matrix) {
-      var canvas = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyConvoluteFilter(canvas, ir.getType(), matrix);
+      });
+    }
+
+    function applyConvoluteFilter(canvas, type, matrix) {
       var context = Canvas.get2dContext(canvas);
       var pixelsIn, pixelsOut;
 
@@ -1032,12 +1571,11 @@ define(
       pixelsOut = applyMatrix(pixelsIn, pixelsOut, matrix);
       context.putImageData(pixelsOut, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function functionColorFilter(colorFn) {
-      return function (ir, value) {
-        var canvas = ir.toCanvas();
+      var filterImpl = function (canvas, type, value) {
         var context = Canvas.get2dContext(canvas);
         var pixels, i, lookup = new Array(256);
 
@@ -1060,7 +1598,13 @@ define(
         pixels = applyLookup(context.getImageData(0, 0, canvas.width, canvas.height), lookup);
         context.putImageData(pixels, 0, 0);
 
-        return ImageResult.fromCanvas(canvas, ir.getType());
+        return ImageResult.fromCanvas(canvas, type);
+      };
+
+      return function (ir, value) {
+        return ir.toCanvas().then(function (canvas) {
+          return filterImpl(canvas, ir.getType(), value);
+        });
       };
     }
 
@@ -1127,12 +1671,11 @@ define(
 define(
   'ephox.imagetools.transformations.ImageResizerCanvas',
   [
-    'ephox.imagetools.util.Promise',
-    'ephox.imagetools.util.Conversions',
     'ephox.imagetools.util.Canvas',
-    'ephox.imagetools.util.ImageSize'
+    'ephox.imagetools.util.ImageSize',
+    'ephox.imagetools.util.Promise'
   ],
-  function (Promise, Conversions, Canvas, ImageSize) {
+  function (Canvas, ImageSize, Promise) {
     /**
      * @method scale
      * @static
@@ -1195,7 +1738,11 @@ define(
   ],
   function (Canvas, ImageResult, ImageResizerCanvas) {
     function rotate(ir, angle) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyRotate(canvas, ir.getType(), angle);
+      });
+    }
+    function applyRotate(image, type, angle) {
       var canvas = Canvas.create(image.width, image.height);
       var context = Canvas.get2dContext(canvas);
       var translateX = 0, translateY = 0;
@@ -1218,11 +1765,15 @@ define(
       context.rotate(angle * Math.PI / 180);
       context.drawImage(image, 0, 0);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function flip(ir, axis) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyFlip(canvas, ir.getType(), axis);
+      });
+    }
+    function applyFlip(image, type, axis) {
       var canvas = Canvas.create(image.width, image.height);
       var context = Canvas.get2dContext(canvas);
 
@@ -1234,25 +1785,31 @@ define(
         context.drawImage(image, -canvas.width, 0);
       }
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
     function crop(ir, x, y, w, h) {
-      var image = ir.toCanvas();
+      return ir.toCanvas().then(function (canvas) {
+        return applyCrop(canvas, ir.getType(), x, y, w, h);
+      });
+    }
+    function applyCrop(image, type, x, y, w, h) {
       var canvas = Canvas.create(w, h);
       var context = Canvas.get2dContext(canvas);
 
       context.drawImage(image, -x, -y);
 
-      return ImageResult.fromCanvas(canvas, ir.getType());
+      return ImageResult.fromCanvas(canvas, type);
     }
 
 
     function resize(ir, w, h) {
-      return ImageResizerCanvas.scale(ir.toCanvas(), w, h)
-        .then(function (canvas) {
-          return ImageResult.fromCanvas(canvas, ir.getType());
-        });
+      return ir.toCanvas().then(function (canvas) {
+        return ImageResizerCanvas.scale(canvas, w, h)
+          .then(function (newCanvas) {
+            return ImageResult.fromCanvas(newCanvas, ir.getType());
+          });
+      });
     }
 
     return {
@@ -1355,47 +1912,93 @@ define(
     };
   }
 );
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
-  'tinymce.core.Env',
+  'ephox.imagetools.api.ResultConversions',
+
   [
-    'global!tinymce.util.Tools.resolve'
+    'ephox.imagetools.util.ImageResult'
   ],
-  function (resolve) {
-    return resolve('tinymce.Env');
+
+  function (ImageResult) {
+
+    var blobToImageResult = function (blob) {
+      return ImageResult.fromBlob(blob);
+    };
+
+    var fromBlobAndUrlSync = function (blob, uri) {
+      // we have no reason to doubt the uri is valid
+      return ImageResult.fromBlobAndUrlSync(blob, uri);
+    };
+
+    var imageToImageResult = function (image) {
+      return ImageResult.fromImage(image);
+
+    };
+
+    var imageResultToBlob = function (ir, type, quality) {
+      // Shortcut to not lose the blob filename when we aren't editing the image
+      if (type === undefined && quality === undefined) {
+        return imageResultToOriginalBlob(ir);
+      } else {
+        return ir.toAdjustedBlob(type, quality);
+      }
+    };
+
+    var imageResultToOriginalBlob = function (ir) {
+      return ir.toBlob();
+    };
+
+    var imageResultToDataURL = function (ir) {
+      return ir.toDataURL();
+    };
+
+    return {
+      // used outside
+      blobToImageResult: blobToImageResult,
+      fromBlobAndUrlSync: fromBlobAndUrlSync,
+      imageToImageResult: imageToImageResult,
+      imageResultToBlob: imageResultToBlob,
+      imageResultToOriginalBlob: imageResultToOriginalBlob,
+      imageResultToDataURL: imageResultToDataURL
+    };
   }
 );
 
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
-  'tinymce.core.PluginManager',
+  'ephox.sand.api.URL',
+
   [
-    'global!tinymce.util.Tools.resolve'
+    'ephox.sand.util.Global'
   ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
+
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/URL.createObjectURL
+     *
+     * Also Safari 6.1+
+     * Safari 6.0 has 'webkitURL' instead, but doesn't support flexbox so we
+     * aren't supporting it anyway
+     */
+    var url = function () {
+      return Global.getOrDie('URL');
+    };
+
+    var createObjectURL = function (blob) {
+      return url().createObjectURL(blob);
+    };
+
+    var revokeObjectURL = function (u) {
+      url().revokeObjectURL(u);
+    };
+
+    return {
+      createObjectURL: createObjectURL,
+      revokeObjectURL: revokeObjectURL
+    };
   }
 );
-
+defineGlobal("global!clearTimeout", clearTimeout);
 /**
  * ResolveGlobal.js
  *
@@ -1447,17 +2050,17 @@ define(
  */
 
 define(
-  'tinymce.core.util.Tools',
+  'tinymce.core.util.URI',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.util.Tools');
+    return resolve('tinymce.util.URI');
   }
 );
 
 /**
- * ResolveGlobal.js
+ * Settings.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1467,12 +2070,22 @@ define(
  */
 
 define(
-  'tinymce.core.util.URI',
+  'tinymce.plugins.imagetools.api.Settings',
   [
-    'global!tinymce.util.Tools.resolve'
   ],
-  function (resolve) {
-    return resolve('tinymce.util.URI');
+  function () {
+    var getToolbarItems = function (editor) {
+      return editor.getParam('imagetools_toolbar', 'rotateleft rotateright | flipv fliph | crop editimage imageoptions');
+    };
+
+    var getProxyUrl = function (editor) {
+      return editor.getParam('imagetools_proxy');
+    };
+
+    return {
+      getToolbarItems: getToolbarItems,
+      getProxyUrl: getProxyUrl
+    };
   }
 );
 
@@ -1558,288 +2171,6 @@ define(
       getImageSize: getImageSize,
       setImageSize: setImageSize,
       getNaturalImageSize: getNaturalImageSize
-    };
-  }
-);
-
-defineGlobal("global!Array", Array);
-defineGlobal("global!Error", Error);
-define(
-  'ephox.katamari.api.Fun',
-
-  [
-    'global!Array',
-    'global!Error'
-  ],
-
-  function (Array, Error) {
-
-    var noop = function () { };
-
-    var compose = function (fa, fb) {
-      return function () {
-        return fa(fb.apply(null, arguments));
-      };
-    };
-
-    var constant = function (value) {
-      return function () {
-        return value;
-      };
-    };
-
-    var identity = function (x) {
-      return x;
-    };
-
-    var tripleEquals = function(a, b) {
-      return a === b;
-    };
-
-    // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-    var curry = function (f) {
-      // equivalent to arguments.slice(1)
-      // starting at 1 because 0 is the f, makes things tricky.
-      // Pay attention to what variable is where, and the -1 magic.
-      // thankfully, we have tests for this.
-      var args = new Array(arguments.length - 1);
-      for (var i = 1; i < arguments.length; i++) args[i-1] = arguments[i];
-
-      return function () {
-        var newArgs = new Array(arguments.length);
-        for (var j = 0; j < newArgs.length; j++) newArgs[j] = arguments[j];
-
-        var all = args.concat(newArgs);
-        return f.apply(null, all);
-      };
-    };
-
-    var not = function (f) {
-      return function () {
-        return !f.apply(null, arguments);
-      };
-    };
-
-    var die = function (msg) {
-      return function () {
-        throw new Error(msg);
-      };
-    };
-
-    var apply = function (f) {
-      return f();
-    };
-
-    var call = function(f) {
-      f();
-    };
-
-    var never = constant(false);
-    var always = constant(true);
-    
-
-    return {
-      noop: noop,
-      compose: compose,
-      constant: constant,
-      identity: identity,
-      tripleEquals: tripleEquals,
-      curry: curry,
-      not: not,
-      die: die,
-      apply: apply,
-      call: call,
-      never: never,
-      always: always
-    };
-  }
-);
-
-defineGlobal("global!Object", Object);
-define(
-  'ephox.katamari.api.Option',
-
-  [
-    'ephox.katamari.api.Fun',
-    'global!Object'
-  ],
-
-  function (Fun, Object) {
-
-    var never = Fun.never;
-    var always = Fun.always;
-
-    /**
-      Option objects support the following methods:
-
-      fold :: this Option a -> ((() -> b, a -> b)) -> Option b
-
-      is :: this Option a -> a -> Boolean
-
-      isSome :: this Option a -> () -> Boolean
-
-      isNone :: this Option a -> () -> Boolean
-
-      getOr :: this Option a -> a -> a
-
-      getOrThunk :: this Option a -> (() -> a) -> a
-
-      getOrDie :: this Option a -> String -> a
-
-      or :: this Option a -> Option a -> Option a
-        - if some: return self
-        - if none: return opt
-
-      orThunk :: this Option a -> (() -> Option a) -> Option a
-        - Same as "or", but uses a thunk instead of a value
-
-      map :: this Option a -> (a -> b) -> Option b
-        - "fmap" operation on the Option Functor.
-        - same as 'each'
-
-      ap :: this Option a -> Option (a -> b) -> Option b
-        - "apply" operation on the Option Apply/Applicative.
-        - Equivalent to <*> in Haskell/PureScript.
-
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
-
-      bind :: this Option a -> (a -> Option b) -> Option b
-        - "bind"/"flatMap" operation on the Option Bind/Monad.
-        - Equivalent to >>= in Haskell/PureScript; flatMap in Scala.
-
-      flatten :: {this Option (Option a))} -> () -> Option a
-        - "flatten"/"join" operation on the Option Monad.
-
-      exists :: this Option a -> (a -> Boolean) -> Boolean
-
-      forall :: this Option a -> (a -> Boolean) -> Boolean
-
-      filter :: this Option a -> (a -> Boolean) -> Option a
-
-      equals :: this Option a -> Option a -> Boolean
-
-      equals_ :: this Option a -> (Option a, a -> Boolean) -> Boolean
-
-      toArray :: this Option a -> () -> [a]
-
-    */
-
-    var none = function () { return NONE; };
-
-    var NONE = (function () {
-      var eq = function (o) {
-        return o.isNone();
-      };
-
-      // inlined from peanut, maybe a micro-optimisation?
-      var call = function (thunk) { return thunk(); };
-      var id = function (n) { return n; };
-      var noop = function () { };
-
-      var me = {
-        fold: function (n, s) { return n(); },
-        is: never,
-        isSome: never,
-        isNone: always,
-        getOr: id,
-        getOrThunk: call,
-        getOrDie: function (msg) {
-          throw new Error(msg || 'error: getOrDie called on none.');
-        },
-        or: id,
-        orThunk: call,
-        map: none,
-        ap: none,
-        each: noop,
-        bind: none,
-        flatten: none,
-        exists: never,
-        forall: always,
-        filter: none,
-        equals: eq,
-        equals_: eq,
-        toArray: function () { return []; },
-        toString: Fun.constant("none()")
-      };
-      if (Object.freeze) Object.freeze(me);
-      return me;
-    })();
-
-
-    /** some :: a -> Option a */
-    var some = function (a) {
-
-      // inlined from peanut, maybe a micro-optimisation?
-      var constant_a = function () { return a; };
-
-      var self = function () {
-        // can't Fun.constant this one
-        return me;
-      };
-
-      var map = function (f) {
-        return some(f(a));
-      };
-
-      var bind = function (f) {
-        return f(a);
-      };
-
-      var me = {
-        fold: function (n, s) { return s(a); },
-        is: function (v) { return a === v; },
-        isSome: always,
-        isNone: never,
-        getOr: constant_a,
-        getOrThunk: constant_a,
-        getOrDie: constant_a,
-        or: self,
-        orThunk: self,
-        map: map,
-        ap: function (optfab) {
-          return optfab.fold(none, function(fab) {
-            return some(fab(a));
-          });
-        },
-        each: function (f) {
-          f(a);
-        },
-        bind: bind,
-        flatten: constant_a,
-        exists: bind,
-        forall: bind,
-        filter: function (f) {
-          return f(a) ? me : NONE;
-        },
-        equals: function (o) {
-          return o.is(a);
-        },
-        equals_: function (o, elementEq) {
-          return o.fold(
-            never,
-            function (b) { return elementEq(a, b); }
-          );
-        },
-        toArray: function () {
-          return [a];
-        },
-        toString: function () {
-          return 'some(' + a + ')';
-        }
-      };
-      return me;
-    };
-
-    /** from :: undefined|null|a -> Option a */
-    var from = function (value) {
-      return value === null || value === undefined ? NONE : some(value);
-    };
-
-    return {
-      some: some,
-      none: none,
-      from: from
     };
   }
 );
@@ -2107,6 +2438,14 @@ define(
       return copy;
     };
 
+    var head = function (xs) {
+      return xs.length === 0 ? Option.none() : Option.some(xs[0]);
+    };
+
+    var last = function (xs) {
+      return xs.length === 0 ? Option.none() : Option.some(xs[xs.length - 1]);
+    };
+
     return {
       map: map,
       each: each,
@@ -2131,7 +2470,27 @@ define(
       mapToObject: mapToObject,
       pure: pure,
       sort: sort,
-      range: range
+      range: range,
+      head: head,
+      last: last
+    };
+  }
+);
+define(
+  'ephox.sand.api.XMLHttpRequest',
+
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /*
+     * IE8 and above per
+     * https://developer.mozilla.org/en/docs/XMLHttpRequest
+     */
+    return function () {
+      var f = Global.getOrDie('XMLHttpRequest');
+      return new f();
     };
   }
 );
@@ -2148,10 +2507,12 @@ define(
 define(
   'tinymce.plugins.imagetools.core.Utils',
   [
+    'ephox.sand.api.FileReader',
+    'ephox.sand.api.XMLHttpRequest',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Tools'
   ],
-  function (Promise, Tools) {
+  function (FileReader, XMLHttpRequest, Promise, Tools) {
     var isValue = function (obj) {
       return obj !== null && obj !== undefined;
     };
@@ -2368,7 +2729,7 @@ define(
   }
 );
 
-defineGlobal("global!Math", Math);
+defineGlobal("global!setTimeout", setTimeout);
 /**
  * ResolveGlobal.js
  *
@@ -2456,7 +2817,7 @@ define(
       }
 
       function canRedo() {
-        return index != -1 && index < data.length - 1;
+        return index !== -1 && index < data.length - 1;
       }
 
       return {
@@ -2471,6 +2832,8 @@ define(
   }
 );
 
+defineGlobal("global!document", document);
+defineGlobal("global!Image", Image);
 /**
  * ResolveGlobal.js
  *
@@ -2488,6 +2851,43 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.geom.Rect');
+  }
+);
+
+/**
+ * LoadImage.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.core.LoadImage',
+  [
+    'tinymce.core.util.Promise'
+  ],
+  function (Promise) {
+    var loadImage = function (image) {
+      return new Promise(function (resolve) {
+        var loaded = function () {
+          image.removeEventListener('load', loaded);
+          resolve(image);
+        };
+
+        if (image.complete) {
+          resolve(image);
+        } else {
+          image.addEventListener('load', loaded);
+        }
+      });
+    };
+
+    return {
+      loadImage: loadImage
+    };
   }
 );
 
@@ -2630,7 +3030,7 @@ define(
           h = 20;
         }
 
-        rect = currentRect = Rect.clamp({ x: x, y: y, w: w, h: h }, clampRect, handle.name == 'move');
+        rect = currentRect = Rect.clamp({ x: x, y: y, w: w, h: h }, clampRect, handle.name === 'move');
         rect = getRelativeRect(clampRect, rect);
 
         instance.fire('updateRect', { rect: rect });
@@ -2688,7 +3088,7 @@ define(
           var activeHandle;
 
           Tools.each(handles, function (handle) {
-            if (e.target.id == id + '-' + handle.name) {
+            if (e.target.id === id + '-' + handle.name) {
               activeHandle = handle;
               return false;
             }
@@ -2837,28 +3237,16 @@ define(
 define(
   'tinymce.plugins.imagetools.ui.ImagePanel',
   [
+    'global!document',
+    'global!Image',
     'tinymce.core.geom.Rect',
     'tinymce.core.ui.Factory',
     'tinymce.core.util.Promise',
     'tinymce.core.util.Tools',
+    'tinymce.plugins.imagetools.core.LoadImage',
     'tinymce.plugins.imagetools.ui.CropRect'
   ],
-  function (Rect, Factory, Promise, Tools, CropRect) {
-    function loadImage(image) {
-      return new Promise(function (resolve) {
-        function loaded() {
-          image.removeEventListener('load', loaded);
-          resolve(image);
-        }
-
-        if (image.complete) {
-          resolve(image);
-        } else {
-          image.addEventListener('load', loaded);
-        }
-      });
-    }
-
+  function (document, Image, Rect, Factory, Promise, Tools, LoadImage, CropRect) {
     var create = function (settings) {
       var Control = Factory.get('Control');
       var ImagePanel = Control.extend({
@@ -2893,7 +3281,7 @@ define(
 
           img.src = url;
 
-          loadImage(img).then(function () {
+          LoadImage.loadImage(img).then(function () {
             var rect, $img, lastRect = self.state.get('viewRect');
 
             $img = self.$el.find('img');
@@ -2910,7 +3298,7 @@ define(
             self.state.set('viewRect', rect);
             self.state.set('rect', Rect.inflate(rect, -20, -20));
 
-            if (!lastRect || lastRect.w != rect.w || lastRect.h != rect.h) {
+            if (!lastRect || lastRect.w !== rect.w || lastRect.h !== rect.h) {
               self.zoomFit();
             }
 
@@ -3077,9 +3465,11 @@ define(
 define(
   'tinymce.plugins.imagetools.ui.Dialog',
   [
-    'ephox.imagetools.api.BlobConversions',
     'ephox.imagetools.api.ImageTransformations',
+    'ephox.imagetools.api.ResultConversions',
+    'ephox.sand.api.URL',
     'global!Math',
+    'global!setTimeout',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.ui.Factory',
     'tinymce.core.util.Promise',
@@ -3087,7 +3477,7 @@ define(
     'tinymce.plugins.imagetools.core.UndoStack',
     'tinymce.plugins.imagetools.ui.ImagePanel'
   ],
-  function (BlobConversions, ImageTransformations, Math, DOMUtils, Factory, Promise, Tools, UndoStack, ImagePanel) {
+  function (ImageTransformations, ResultConversions, URL, Math, setTimeout, DOMUtils, Factory, Promise, Tools, UndoStack, ImagePanel) {
     function createState(blob) {
       return {
         blob: blob,
@@ -3122,7 +3512,7 @@ define(
         newHeight = parseInt(heightCtrl.value(), 10);
 
         if (win.find('#constrain')[0].checked() && width && height && newWidth && newHeight) {
-          if (e.control.settings.name == 'w') {
+          if (e.control.settings.name === 'w') {
             newHeight = Math.round(newWidth * ratioW);
             heightCtrl.value(newHeight);
           } else {
@@ -3159,7 +3549,7 @@ define(
       function switchPanel(targetPanel) {
         return function () {
           var hidePanels = Tools.grep(panels, function (panel) {
-            return panel.settings.name != targetPanel;
+            return panel.settings.name !== targetPanel;
           });
 
           Tools.each(hidePanels, function (panel) {
@@ -3186,7 +3576,7 @@ define(
       function crop() {
         var rect = imagePanel.selection();
 
-        BlobConversions.blobToImageResult(currentState.blob).
+        ResultConversions.blobToImageResult(currentState.blob).
           then(function (ir) {
             ImageTransformations.crop(ir, rect.x, rect.y, rect.w, rect.h).
               then(imageResultToBlob).
@@ -3203,7 +3593,7 @@ define(
         return function () {
           var state = tempState || currentState;
 
-          BlobConversions.blobToImageResult(state.blob).
+          ResultConversions.blobToImageResult(state.blob).
             then(function (ir) {
               fn.apply(this, [ir].concat(args)).then(imageResultToBlob).then(addTempState);
             });
@@ -3214,7 +3604,7 @@ define(
         var args = [].slice.call(arguments, 1);
 
         return function () {
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               fn.apply(this, [ir].concat(args)).then(imageResultToBlob).then(addBlobState);
             });
@@ -3320,7 +3710,7 @@ define(
         ]).hide().on('show', function () {
           disableUndoRedo();
 
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               return filter(ir);
             }).
@@ -3337,7 +3727,7 @@ define(
 
       function createVariableFilterPanel(title, filter, value, min, max) {
         function update(value) {
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
             then(function (ir) {
               return filter(ir, value);
             }).
@@ -3380,7 +3770,7 @@ define(
           g = win.find('#g')[0].value();
           b = win.find('#b')[0].value();
 
-          BlobConversions.blobToImageResult(currentState.blob).
+          ResultConversions.blobToImageResult(currentState.blob).
           then(function (ir) {
             return filter(ir, r, g, b);
           }).
@@ -3421,7 +3811,7 @@ define(
         { type: 'spacer', flex: 1 },
         { text: 'Apply', subtype: 'primary', onclick: crop }
       ]).hide().on('show hide', function (e) {
-        imagePanel.toggleCropRect(e.type == 'show');
+        imagePanel.toggleCropRect(e.type === 'show');
       }).on('show', disableUndoRedo);
 
       function toggleConstrain(e) {
@@ -3600,6 +3990,421 @@ define(
 );
 
 /**
+ * Actions.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.core.Actions',
+  [
+    'ephox.imagetools.api.BlobConversions',
+    'ephox.imagetools.api.ImageTransformations',
+    'ephox.imagetools.api.ResultConversions',
+    'ephox.katamari.api.Fun',
+    'ephox.sand.api.URL',
+    'global!clearTimeout',
+    'tinymce.core.util.Delay',
+    'tinymce.core.util.Promise',
+    'tinymce.core.util.Tools',
+    'tinymce.core.util.URI',
+    'tinymce.plugins.imagetools.api.Settings',
+    'tinymce.plugins.imagetools.core.ImageSize',
+    'tinymce.plugins.imagetools.core.Proxy',
+    'tinymce.plugins.imagetools.ui.Dialog'
+  ],
+  function (BlobConversions, ImageTransformations, ResultConversions, Fun, URL, clearTimeout, Delay, Promise, Tools, URI, Settings, ImageSize, Proxy, Dialog) {
+    var count = 0;
+
+    var isEditableImage = function (editor, img) {
+      var selectorMatched = editor.dom.is(img, 'img:not([data-mce-object],[data-mce-placeholder])');
+
+      return selectorMatched && (isLocalImage(editor, img) || isCorsImage(editor, img) || editor.settings.imagetools_proxy);
+    };
+
+    var displayError = function (editor, error) {
+      editor.notificationManager.open({
+        text: error,
+        type: 'error'
+      });
+    };
+
+    var getSelectedImage = function (editor) {
+      return editor.selection.getNode();
+    };
+
+    var extractFilename = function (editor, url) {
+      var m = url.match(/\/([^\/\?]+)?\.(?:jpeg|jpg|png|gif)(?:\?|$)/i);
+      if (m) {
+        return editor.dom.encode(m[1]);
+      }
+      return null;
+    };
+
+    var createId = function () {
+      return 'imagetools' + count++;
+    };
+
+    var isLocalImage = function (editor, img) {
+      var url = img.src;
+
+      return url.indexOf('data:') === 0 || url.indexOf('blob:') === 0 || new URI(url).host === editor.documentBaseURI.host;
+    };
+
+    var isCorsImage = function (editor, img) {
+      return Tools.inArray(editor.settings.imagetools_cors_hosts, new URI(img.src).host) !== -1;
+    };
+
+    var getApiKey = function (editor) {
+      return editor.settings.api_key || editor.settings.imagetools_api_key;
+    };
+
+    var imageToBlob = function (editor, img) {
+      var src = img.src, apiKey;
+
+      if (isCorsImage(editor, img)) {
+        return Proxy.getUrl(img.src, null);
+      }
+
+      if (!isLocalImage(editor, img)) {
+        src = Settings.getProxyUrl(editor);
+        src += (src.indexOf('?') === -1 ? '?' : '&') + 'url=' + encodeURIComponent(img.src);
+        apiKey = getApiKey(editor);
+        return Proxy.getUrl(src, apiKey);
+      }
+
+      return BlobConversions.imageToBlob(img);
+    };
+
+    var findSelectedBlob = function (editor) {
+      var blobInfo;
+      blobInfo = editor.editorUpload.blobCache.getByUri(getSelectedImage(editor).src);
+      if (blobInfo) {
+        return Promise.resolve(blobInfo.blob());
+      }
+
+      return imageToBlob(editor, getSelectedImage(editor));
+    };
+
+    var startTimedUpload = function (editor, imageUploadTimerState) {
+      var imageUploadTimer = Delay.setEditorTimeout(editor, function () {
+        editor.editorUpload.uploadImagesAuto();
+      }, editor.settings.images_upload_timeout || 30000);
+
+      imageUploadTimerState.set(imageUploadTimer);
+    };
+
+    var cancelTimedUpload = function (imageUploadTimerState) {
+      clearTimeout(imageUploadTimerState.get());
+    };
+
+    var updateSelectedImage = function (editor, ir, uploadImmediately, imageUploadTimerState) {
+      return ir.toBlob().then(function (blob) {
+        var uri, name, blobCache, blobInfo, selectedImage;
+
+        blobCache = editor.editorUpload.blobCache;
+        selectedImage = getSelectedImage(editor);
+        uri = selectedImage.src;
+
+        if (editor.settings.images_reuse_filename) {
+          blobInfo = blobCache.getByUri(uri);
+          if (blobInfo) {
+            uri = blobInfo.uri();
+            name = blobInfo.name();
+          } else {
+            name = extractFilename(editor, uri);
+          }
+        }
+
+        blobInfo = blobCache.create({
+          id: createId(),
+          blob: blob,
+          base64: ir.toBase64(),
+          uri: uri,
+          name: name
+        });
+
+        blobCache.add(blobInfo);
+
+        editor.undoManager.transact(function () {
+          function imageLoadedHandler() {
+            editor.$(selectedImage).off('load', imageLoadedHandler);
+            editor.nodeChanged();
+
+            if (uploadImmediately) {
+              editor.editorUpload.uploadImagesAuto();
+            } else {
+              cancelTimedUpload(imageUploadTimerState);
+              startTimedUpload(editor, imageUploadTimerState);
+            }
+          }
+
+          editor.$(selectedImage).on('load', imageLoadedHandler);
+
+          editor.$(selectedImage).attr({
+            src: blobInfo.blobUri()
+          }).removeAttr('data-mce-src');
+        });
+
+        return blobInfo;
+      });
+    };
+
+    var selectedImageOperation = function (editor, imageUploadTimerState, fn) {
+      return function () {
+        return editor._scanForImages().
+          then(Fun.curry(findSelectedBlob, editor)).
+          then(ResultConversions.blobToImageResult).
+          then(fn).
+          then(function (imageResult) {
+            return updateSelectedImage(editor, imageResult, false, imageUploadTimerState);
+          }, function (error) {
+            displayError(editor, error);
+          });
+      };
+    };
+
+    var rotate = function (editor, imageUploadTimerState, angle) {
+      return function () {
+        return selectedImageOperation(editor, imageUploadTimerState, function (imageResult) {
+          var size = ImageSize.getImageSize(getSelectedImage(editor));
+
+          if (size) {
+            ImageSize.setImageSize(getSelectedImage(editor), {
+              w: size.h,
+              h: size.w
+            });
+          }
+
+          return ImageTransformations.rotate(imageResult, angle);
+        })();
+      };
+    };
+
+    var flip = function (editor, imageUploadTimerState, axis) {
+      return function () {
+        return selectedImageOperation(editor, imageUploadTimerState, function (imageResult) {
+          return ImageTransformations.flip(imageResult, axis);
+        })();
+      };
+    };
+
+    var editImageDialog = function (editor, imageUploadTimerState) {
+      return function () {
+        var img = getSelectedImage(editor), originalSize = ImageSize.getNaturalImageSize(img);
+
+        var handleDialogBlob = function (blob) {
+          return new Promise(function (resolve) {
+            BlobConversions.blobToImage(blob).
+              then(function (newImage) {
+                var newSize = ImageSize.getNaturalImageSize(newImage);
+
+                if (originalSize.w !== newSize.w || originalSize.h !== newSize.h) {
+                  if (ImageSize.getImageSize(img)) {
+                    ImageSize.setImageSize(img, newSize);
+                  }
+                }
+
+                URL.revokeObjectURL(newImage.src);
+                resolve(blob);
+              });
+          });
+        };
+
+        var openDialog = function (editor, imageResult) {
+          return Dialog.edit(editor, imageResult).then(handleDialogBlob).
+            then(ResultConversions.blobToImageResult).
+            then(function (imageResult) {
+              return updateSelectedImage(editor, imageResult, true, imageUploadTimerState);
+            }, function () {
+              // Close dialog
+            });
+        };
+
+        findSelectedBlob(editor).
+          then(ResultConversions.blobToImageResult).
+          then(Fun.curry(openDialog, editor), function (error) {
+            displayError(editor, error);
+          });
+      };
+    };
+
+    return {
+      rotate: rotate,
+      flip: flip,
+      editImageDialog: editImageDialog,
+      isEditableImage: isEditableImage,
+      cancelTimedUpload: cancelTimedUpload
+    };
+  }
+);
+/**
+ * Commands.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.api.Commands',
+  [
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.imagetools.core.Actions'
+  ],
+  function (Tools, Actions) {
+    var register = function (editor, imageUploadTimerState) {
+      Tools.each({
+        mceImageRotateLeft: Actions.rotate(editor, imageUploadTimerState, -90),
+        mceImageRotateRight: Actions.rotate(editor, imageUploadTimerState, 90),
+        mceImageFlipVertical: Actions.flip(editor, imageUploadTimerState, 'v'),
+        mceImageFlipHorizontal: Actions.flip(editor, imageUploadTimerState, 'h'),
+        mceEditImage: Actions.editImageDialog(editor, imageUploadTimerState)
+      }, function (fn, cmd) {
+        editor.addCommand(cmd, fn);
+      });
+    };
+
+    return {
+      register: register
+    };
+  }
+);
+
+/**
+ * Plugin.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.core.UploadSelectedImage',
+  [
+    'tinymce.plugins.imagetools.core.Actions'
+  ],
+  function (Actions) {
+    var setup = function (editor, imageUploadTimerState, lastSelectedImageState) {
+      editor.on('NodeChange', function (e) {
+        var lastSelectedImage = lastSelectedImageState.get();
+
+        // If the last node we selected was an image
+        // And had a source that doesn't match the current blob url
+        // We need to attempt to upload it
+        if (lastSelectedImage && lastSelectedImage.src !== e.element.src) {
+          Actions.cancelTimedUpload(imageUploadTimerState);
+          editor.editorUpload.uploadImagesAuto();
+          lastSelectedImageState.set(null);
+        }
+
+        // Set up the lastSelectedImage
+        if (Actions.isEditableImage(editor, e.element)) {
+          lastSelectedImageState.set(e.element);
+        }
+      });
+    };
+
+    return {
+      setup: setup
+    };
+  }
+);
+
+/**
+ * Buttons.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.ui.Buttons',
+  [
+  ],
+  function () {
+    var register = function (editor) {
+      editor.addButton('rotateleft', {
+        title: 'Rotate counterclockwise',
+        cmd: 'mceImageRotateLeft'
+      });
+
+      editor.addButton('rotateright', {
+        title: 'Rotate clockwise',
+        cmd: 'mceImageRotateRight'
+      });
+
+      editor.addButton('flipv', {
+        title: 'Flip vertically',
+        cmd: 'mceImageFlipVertical'
+      });
+
+      editor.addButton('fliph', {
+        title: 'Flip horizontally',
+        cmd: 'mceImageFlipHorizontal'
+      });
+
+      editor.addButton('editimage', {
+        title: 'Edit image',
+        cmd: 'mceEditImage'
+      });
+
+      editor.addButton('imageoptions', {
+        title: 'Image options',
+        icon: 'options',
+        cmd: 'mceImage'
+      });
+    };
+
+    return {
+      register: register
+    };
+  }
+);
+
+/**
+ * ContextToolbar.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.imagetools.ui.ContextToolbar',
+  [
+    'ephox.katamari.api.Fun',
+    'tinymce.plugins.imagetools.api.Settings',
+    'tinymce.plugins.imagetools.core.Actions'
+  ],
+  function (Fun, Settings, Actions) {
+    var register = function (editor) {
+      editor.addContextToolbar(
+        Fun.curry(Actions.isEditableImage, editor),
+        Settings.getToolbarItems(editor)
+      );
+    };
+
+    return {
+      register: register
+    };
+  }
+);
+
+/**
  * Plugin.js
  *
  * Released under LGPL License.
@@ -3612,319 +4417,24 @@ define(
 define(
   'tinymce.plugins.imagetools.Plugin',
   [
-    'ephox.imagetools.api.BlobConversions',
-    'ephox.imagetools.api.ImageTransformations',
-    'tinymce.core.Env',
+    'ephox.katamari.api.Cell',
     'tinymce.core.PluginManager',
-    'tinymce.core.util.Delay',
-    'tinymce.core.util.Promise',
-    'tinymce.core.util.Tools',
-    'tinymce.core.util.URI',
-    'tinymce.plugins.imagetools.core.ImageSize',
-    'tinymce.plugins.imagetools.core.Proxy',
-    'tinymce.plugins.imagetools.ui.Dialog'
+    'tinymce.plugins.imagetools.api.Commands',
+    'tinymce.plugins.imagetools.core.UploadSelectedImage',
+    'tinymce.plugins.imagetools.ui.Buttons',
+    'tinymce.plugins.imagetools.ui.ContextToolbar'
   ],
-  function (
-    BlobConversions, ImageTransformations, Env, PluginManager, Delay, Promise, Tools,
-    URI, ImageSize, Proxy, Dialog
-  ) {
-    var plugin = function (editor) {
-      var count = 0, imageUploadTimer, lastSelectedImage;
+  function (Cell, PluginManager, Commands, UploadSelectedImage, Buttons, ContextToolbar) {
+    PluginManager.add('imagetools', function (editor) {
+      var imageUploadTimerState = Cell(0);
+      var lastSelectedImageState = Cell(null);
 
-      if (!Env.fileApi) {
-        return;
-      }
+      Commands.register(editor, imageUploadTimerState);
+      Buttons.register(editor);
+      ContextToolbar.register(editor);
 
-      function displayError(error) {
-        editor.notificationManager.open({
-          text: error,
-          type: 'error'
-        });
-      }
-
-      function getSelectedImage() {
-        return editor.selection.getNode();
-      }
-
-      function extractFilename(url) {
-        var m = url.match(/\/([^\/\?]+)?\.(?:jpeg|jpg|png|gif)(?:\?|$)/i);
-        if (m) {
-          return editor.dom.encode(m[1]);
-        }
-        return null;
-      }
-
-      function createId() {
-        return 'imagetools' + count++;
-      }
-
-      function isLocalImage(img) {
-        var url = img.src;
-
-        return url.indexOf('data:') === 0 || url.indexOf('blob:') === 0 || new URI(url).host === editor.documentBaseURI.host;
-      }
-
-      function isCorsImage(img) {
-        return Tools.inArray(editor.settings.imagetools_cors_hosts, new URI(img.src).host) !== -1;
-      }
-
-      function getApiKey() {
-        return editor.settings.api_key || editor.settings.imagetools_api_key;
-      }
-
-      function imageToBlob(img) {
-        var src = img.src, apiKey;
-
-        if (isCorsImage(img)) {
-          return Proxy.getUrl(img.src, null);
-        }
-
-        if (!isLocalImage(img)) {
-          src = editor.settings.imagetools_proxy;
-          src += (src.indexOf('?') === -1 ? '?' : '&') + 'url=' + encodeURIComponent(img.src);
-          apiKey = getApiKey();
-          return Proxy.getUrl(src, apiKey);
-        }
-
-        return BlobConversions.imageToBlob(img);
-      }
-
-      function findSelectedBlob() {
-        var blobInfo;
-        blobInfo = editor.editorUpload.blobCache.getByUri(getSelectedImage().src);
-        if (blobInfo) {
-          return Promise.resolve(blobInfo.blob());
-        }
-
-        return imageToBlob(getSelectedImage());
-      }
-
-      function startTimedUpload() {
-        imageUploadTimer = Delay.setEditorTimeout(editor, function () {
-          editor.editorUpload.uploadImagesAuto();
-        }, editor.settings.images_upload_timeout || 30000);
-      }
-
-      function cancelTimedUpload() {
-        clearTimeout(imageUploadTimer);
-      }
-
-      function updateSelectedImage(ir, uploadImmediately) {
-        return ir.toBlob().then(function (blob) {
-          var uri, name, blobCache, blobInfo, selectedImage;
-
-          blobCache = editor.editorUpload.blobCache;
-          selectedImage = getSelectedImage();
-          uri = selectedImage.src;
-
-          if (editor.settings.images_reuse_filename) {
-            blobInfo = blobCache.getByUri(uri);
-            if (blobInfo) {
-              uri = blobInfo.uri();
-              name = blobInfo.name();
-            } else {
-              name = extractFilename(uri);
-            }
-          }
-
-          blobInfo = blobCache.create({
-            id: createId(),
-            blob: blob,
-            base64: ir.toBase64(),
-            uri: uri,
-            name: name
-          });
-
-          blobCache.add(blobInfo);
-
-          editor.undoManager.transact(function () {
-            function imageLoadedHandler() {
-              editor.$(selectedImage).off('load', imageLoadedHandler);
-              editor.nodeChanged();
-
-              if (uploadImmediately) {
-                editor.editorUpload.uploadImagesAuto();
-              } else {
-                cancelTimedUpload();
-                startTimedUpload();
-              }
-            }
-
-            editor.$(selectedImage).on('load', imageLoadedHandler);
-
-            editor.$(selectedImage).attr({
-              src: blobInfo.blobUri()
-            }).removeAttr('data-mce-src');
-          });
-
-          return blobInfo;
-        });
-      }
-
-      function selectedImageOperation(fn) {
-        return function () {
-          return editor._scanForImages().
-            then(findSelectedBlob).
-            then(BlobConversions.blobToImageResult).
-            then(fn).
-            then(updateSelectedImage, displayError);
-        };
-      }
-
-      function rotate(angle) {
-        return function () {
-          return selectedImageOperation(function (imageResult) {
-            var size = ImageSize.getImageSize(getSelectedImage());
-
-            if (size) {
-              ImageSize.setImageSize(getSelectedImage(), {
-                w: size.h,
-                h: size.w
-              });
-            }
-
-            return ImageTransformations.rotate(imageResult, angle);
-          })();
-        };
-      }
-
-      function flip(axis) {
-        return function () {
-          return selectedImageOperation(function (imageResult) {
-            return ImageTransformations.flip(imageResult, axis);
-          })();
-        };
-      }
-
-      function editImageDialog() {
-        var img = getSelectedImage(), originalSize = ImageSize.getNaturalImageSize(img);
-
-        var handleDialogBlob = function (blob) {
-          return new Promise(function (resolve) {
-            BlobConversions.blobToImage(blob).
-              then(function (newImage) {
-                var newSize = ImageSize.getNaturalImageSize(newImage);
-
-                if (originalSize.w != newSize.w || originalSize.h != newSize.h) {
-                  if (ImageSize.getImageSize(img)) {
-                    ImageSize.setImageSize(img, newSize);
-                  }
-                }
-
-                URL.revokeObjectURL(newImage.src);
-                resolve(blob);
-              });
-          });
-        };
-
-        var openDialog = function (imageResult) {
-          return Dialog.edit(editor, imageResult).then(handleDialogBlob).
-            then(BlobConversions.blobToImageResult).
-            then(function (imageResult) {
-              return updateSelectedImage(imageResult, true);
-            }, function () {
-              // Close dialog
-            });
-        };
-
-        findSelectedBlob().
-          then(BlobConversions.blobToImageResult).
-          then(openDialog, displayError);
-      }
-
-      function addButtons() {
-        editor.addButton('rotateleft', {
-          title: 'Rotate counterclockwise',
-          cmd: 'mceImageRotateLeft'
-        });
-
-        editor.addButton('rotateright', {
-          title: 'Rotate clockwise',
-          cmd: 'mceImageRotateRight'
-        });
-
-        editor.addButton('flipv', {
-          title: 'Flip vertically',
-          cmd: 'mceImageFlipVertical'
-        });
-
-        editor.addButton('fliph', {
-          title: 'Flip horizontally',
-          cmd: 'mceImageFlipHorizontal'
-        });
-
-        editor.addButton('editimage', {
-          title: 'Edit image',
-          cmd: 'mceEditImage'
-        });
-
-        editor.addButton('imageoptions', {
-          title: 'Image options',
-          icon: 'options',
-          cmd: 'mceImage'
-        });
-
-        /*
-        editor.addButton('crop', {
-          title: 'Crop',
-          onclick: startCrop
-        });
-        */
-      }
-
-      function addEvents() {
-        editor.on('NodeChange', function (e) {
-          // If the last node we selected was an image
-          // And had a source that doesn't match the current blob url
-          // We need to attempt to upload it
-          if (lastSelectedImage && lastSelectedImage.src != e.element.src) {
-            cancelTimedUpload();
-            editor.editorUpload.uploadImagesAuto();
-            lastSelectedImage = undefined;
-          }
-
-          // Set up the lastSelectedImage
-          if (isEditableImage(e.element)) {
-            lastSelectedImage = e.element;
-          }
-        });
-      }
-
-      function isEditableImage(img) {
-        var selectorMatched = editor.dom.is(img, 'img:not([data-mce-object],[data-mce-placeholder])');
-
-        return selectorMatched && (isLocalImage(img) || isCorsImage(img) || editor.settings.imagetools_proxy);
-      }
-
-      function addToolbars() {
-        var toolbarItems = editor.settings.imagetools_toolbar;
-
-        if (!toolbarItems) {
-          toolbarItems = 'rotateleft rotateright | flipv fliph | crop editimage imageoptions';
-        }
-
-        editor.addContextToolbar(
-          isEditableImage,
-          toolbarItems
-        );
-      }
-
-      Tools.each({
-        mceImageRotateLeft: rotate(-90),
-        mceImageRotateRight: rotate(90),
-        mceImageFlipVertical: flip('v'),
-        mceImageFlipHorizontal: flip('h'),
-        mceEditImage: editImageDialog
-      }, function (fn, cmd) {
-        editor.addCommand(cmd, fn);
-      });
-
-      addButtons();
-      addToolbars();
-      addEvents();
-    };
-
-    PluginManager.add('imagetools', plugin);
+      UploadSelectedImage.setup(editor, imageUploadTimerState, lastSelectedImageState);
+    });
 
     return function () { };
   }

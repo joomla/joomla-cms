@@ -1,0 +1,101 @@
+// Layout
+
+.site {
+  background-color: #fafafa;
+  > div,
+  header > nav,
+  .container-banner,
+  footer {
+    display: flex;
+    width: 100%;
+    max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  > .full-width {
+    max-width: none;
+  }
+
+  .container-footer,
+  .system-debug {
+    display: block;
+  }
+
+}
+
+header {
+  margin-bottom: 10px;
+}
+
+.container-banner {
+  display: block;
+  margin: -15px 0 -5px;
+}
+
+.container-top-a,
+.container-top-b,
+.container-bottom-a,
+.container-bottom-b {
+  > div {
+    flex: 1;
+    margin: ($cassiopeia-grid-gutter / 2);
+  }
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+
+    > div {
+      flex: 0 1 auto;
+    }
+  }
+}
+
+.container-main {
+  > div {
+    margin: ($cassiopeia-grid-gutter / 2);
+  }
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+
+    > div {
+      flex: 0 1 auto;
+    }
+  }
+}
+
+.container-component {
+  flex: 1;
+
+  > div:not(#system-message-container) {
+    margin-bottom: $cassiopeia-grid-gutter;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.container-sidebar-left,
+.container-sidebar-right, {
+  flex: 0 0 auto;
+  width: calc(25% - #{$cassiopeia-grid-gutter});
+
+  > div {
+    margin-bottom: $cassiopeia-grid-gutter;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: calc(100% - #{$cassiopeia-grid-gutter});
+    order: 1;
+  }
+}
+
+.system-debug {
+  display: block;
+}

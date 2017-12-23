@@ -29,7 +29,7 @@ $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->ex
 $afterDisplayContent = trim(implode("\n", $results));
 
 ?>
-<div class="container-fluid blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
+<div class="blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -71,18 +71,20 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-		<div class="row items-leading clearfix">
+		<div class="blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
-				<div class="col leading-<?php echo $leadingcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?>"
+				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php
-					$this->item = &$item;
-					echo $this->loadTemplate('item');
-					?>
+					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
+						<?php
+						$this->item = & $item;
+						echo $this->loadTemplate('item');
+						?>
+					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
-		</div><!-- end items-leading -->
+		</div>
 	<?php endif; ?>
 
 	<?php
@@ -91,27 +93,19 @@ $afterDisplayContent = trim(implode("\n", $results));
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
+		<div class="blog-items <?php echo $this->params->get('blog_class'); ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
-			<?php $rowcount = ((int) $key % (int) $this->columns) + 1; ?>
-			<?php if ($rowcount === 1) : ?>
-				<?php $row = $counter / $this->columns; ?>
-				<div class="row items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row clearfix">
-			<?php endif; ?>
-			<div class="col-md-<?php echo round(12 / $this->columns); ?>">
-				<div class="item column-<?php echo $rowcount; ?><?php echo $item->condition == 2 ? ' system-unpublished' : null; ?>"
-					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+			<div class="blog-item"
+				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 					<?php
-					$this->item = &$item;
+					$this->item = & $item;
 					echo $this->loadTemplate('item');
 					?>
 				</div>
-				<!-- end item -->
-				<?php $counter++; ?>
-			</div><!-- end span -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
-				</div><!-- end row -->
-			<?php endif; ?>
+			</div>
 		<?php endforeach; ?>
+		</div>
 	<?php endif; ?>
 
 	<?php if (!empty($this->link_items)) : ?>

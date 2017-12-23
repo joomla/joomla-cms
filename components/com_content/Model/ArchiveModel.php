@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 /**
  * Content Component Archive Model
@@ -47,7 +47,7 @@ class ArchiveModel extends ArticlesModel
 		$app = Factory::getApplication();
 
 		// Add archive properties
-		$params = $this->state->params;
+		$params = $this->state->get('params');
 
 		// Filter on archived articles
 		$this->setState('filter.condition', 1);
@@ -61,7 +61,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Get list limit
 		$itemid = $app->input->get('Itemid', 0, 'int');
-		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
 		$this->setState('list.limit', $limit);
 
 		// Set the archive ordering
@@ -85,7 +85,8 @@ class ArchiveModel extends ArticlesModel
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = Factory::getApplication('site');
+
+		$app              = \JFactory::getApplication('site');
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
 		$states           = $app->input->getVar('state', array());
@@ -124,7 +125,7 @@ class ArchiveModel extends ArticlesModel
 
 		if (count($states) > 0)
 		{
-			$query->where($db->qn('a.state') . ' IN (' . implode(', ', $states) . ')');
+			$query->where($db->qn('state_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		return $query;
@@ -220,7 +221,7 @@ class ArchiveModel extends ArticlesModel
 	*
 	* @return  string
 	*
-	* @since   __DEPLOY_VERSION__
+	* @since   4.0.0
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{

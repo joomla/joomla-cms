@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.6.7</version>
+	<version>4.7.4</version>
 	<creationDate>2005-2017</creationDate>
 	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
@@ -44,14 +44,14 @@
 
 				<field
 					name="html_height"
-					type="text"
+					type="number"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 					default="550"
 				/>
 
 				<field
 					name="html_width"
-					type="text"
+					type="number"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 					default=""
 				/>

@@ -2,40 +2,71 @@
 <form>
 	<fieldset name="crop" label="PLG_MEDIA-ACTION_CROP_LABEL">
 		<field
+			name="crop_quality"
+			type="integer"
+			label="PLG_MEDIA-ACTION_CROP_QUALITY"
+			addonBefore="PLG_MEDIA-ACTION_CROP_QUALITY"
+			first="1"
+			last="100"
+			step="1"
+			default="80"
+		/>
+
+		<field
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
 			name="crop_x"
 			type="text"
-			pattern="\d*\.?\d*"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_X"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_X"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
+
 		<field
 			name="crop_y"
 			type="text"
-			pattern="\d*\.?\d*"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_Y"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_Y"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
+
 		<field
 			name="crop_width"
 			type="text"
-			pattern="\d*\.?\d*"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_WIDTH"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
+
 		<field
 			name="crop_height"
 			type="text"
-			pattern="\d*\.?\d*"
 			label="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_CROP_PARAM_HEIGHT"
+			addonAfter="px"
+			pattern="\d*\.?\d*"
 		/>
 
-		<field name="aspectRatio"
-		       type="radio"
-		       class="list"
-		       default=""
-		>
-			<option value="1.7777777777777777">aspectRatio: 16 / 9</option>
-			<option value="1.3333333333333333">aspectRatio: 4 / 3</option>
-			<option value="0.6666666666666666">aspectRatio: 2 / 3</option>
-
+		<field 
+			name="aspectRatio"
+			type="radio"
+			hiddenLabel="true"
+			class="btn-group btn-group-ratio"
+			default=""
+			>
+			<option value="1.7777777777777777">16 / 9</option>
+			<option value="1.3333333333333333">4 / 3</option>
+			<option value="0.6666666666666666">2 / 3</option>
 		</field>
-
 	</fieldset>
 </form>
