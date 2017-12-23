@@ -934,7 +934,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Session\\Handler\\MemcachedHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/MemcachedHandler.php',
         'Joomla\\Session\\Handler\\RedisHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/RedisHandler.php',
         'Joomla\\Session\\Handler\\WincacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/WincacheHandler.php',
-        'Joomla\\Session\\Handler\\XCacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/XCacheHandler.php',
         'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/src/Session.php',
         'Joomla\\Session\\SessionEvent' => __DIR__ . '/..' . '/joomla/session/src/SessionEvent.php',
         'Joomla\\Session\\SessionInterface' => __DIR__ . '/..' . '/joomla/session/src/SessionInterface.php',

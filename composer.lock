@@ -1203,12 +1203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "a4de4562b2498960e53e38a03fa7d13a5d69bf20"
+                "reference": "7983c5d9296098fdca0aeef8842c6e9cc76558e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/a4de4562b2498960e53e38a03fa7d13a5d69bf20",
-                "reference": "a4de4562b2498960e53e38a03fa7d13a5d69bf20",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/7983c5d9296098fdca0aeef8842c6e9cc76558e8",
+                "reference": "7983c5d9296098fdca0aeef8842c6e9cc76558e8",
                 "shasum": ""
             },
             "require": {
@@ -1256,7 +1256,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2017-08-18T01:18:47+00:00"
+            "time": "2017-12-21T00:35:20+00:00"
         },
         {
             "name": "joomla/string",
