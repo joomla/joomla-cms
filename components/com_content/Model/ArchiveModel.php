@@ -47,7 +47,7 @@ class ArchiveModel extends ArticlesModel
 		$app = Factory::getApplication();
 
 		// Add archive properties
-		$params = $this->state->params;
+		$params = $this->state->get('params');
 
 		// Filter on archived articles
 		$this->setState('filter.condition', 1);
@@ -61,7 +61,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Get list limit
 		$itemid = $app->input->get('Itemid', 0, 'int');
-		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
+		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
 		$this->setState('list.limit', $limit);
 
 		// Set the archive ordering
@@ -125,7 +125,7 @@ class ArchiveModel extends ArticlesModel
 
 		if (count($states) > 0)
 		{
-			$query->where($db->qn('a.state') . ' IN (' . implode(', ', $states) . ')');
+			$query->where($db->qn('state_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		return $query;

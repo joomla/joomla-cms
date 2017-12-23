@@ -45,7 +45,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'condition', 's.condition',
+				'state_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -200,7 +200,7 @@ class ArticlesModel extends ListModel
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
 				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND s.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE s.condition END as state,' .
+				'CASE WHEN c.published = 2 AND ws.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE ws.condition END as state,' .
 				// Use created if modified is 0
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
@@ -235,9 +235,13 @@ class ArticlesModel extends ListModel
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
-		$query
-			->select($db->qn("s.condition"))
-			->join('LEFT', '#__workflow_states AS s ON s.id = a.state');
+		// Join over the states.
+		$query->select('wa.state_id AS state_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
+			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
@@ -282,7 +286,7 @@ class ArticlesModel extends ListModel
 		elseif (is_numeric($condition))
 		{
 			// Category has to be published
-			$query->where("c.published = 1 AND s.condition = " . $db->quote($condition));
+			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
 		}
 		elseif (is_array($condition))
 		{
@@ -296,7 +300,7 @@ class ArticlesModel extends ListModel
 			$condition = implode(',', $condition);
 
 			// Category has to be published
-			$query->where('c.published = 1 AND s.condition IN (' . $condition . ')');
+			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
 		}
 
 		// Filter by featured state
