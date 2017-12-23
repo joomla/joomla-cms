@@ -63,7 +63,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   11.1
+	 * @since   4.0.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null, Container $container = null)
 	{
