@@ -499,7 +499,7 @@ class ArticlesModel extends ListModel
 
 				foreach ($transitions as $key => $transition)
 				{
-					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition['value']))
+					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
 					}

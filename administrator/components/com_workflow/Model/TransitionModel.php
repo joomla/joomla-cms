@@ -26,6 +26,73 @@ use Joomla\CMS\MVC\Model\AdminModel;
 class TransitionModel extends AdminModel
 {
 	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function populateState()
+	{
+		parent::populateState();
+
+		$app       = Factory::getApplication();
+		$context   = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', 'com_content', 'cmd');
+
+		$this->setState('filter.extension', $extension);
+	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function canDelete($record)
+	{
+		if (empty($record->id) || $record->published != -2)
+		{
+			return false;
+		}
+
+		$app = Factory::getApplication();
+		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', 'com_content', 'cmd');
+
+		return Factory::getUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
+	}
+
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function canEditState($record)
+	{
+		$user = Factory::getUser();
+		$app = Factory::getApplication();
+		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', 'com_content', 'cmd');
+
+		// Check for existing workflow.
+		if (!empty($record->id))
+		{
+			return $user->authorise('core.edit.state', $extension . '.transition.' . (int) $record->id);
+		}
+
+		// Default to component settings if workflow isn't known.
+		return $user->authorise('core.edit.state', $extension);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -106,6 +173,26 @@ class TransitionModel extends AdminModel
 				'load_data' => $loadData
 			)
 		);
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		if ($loadData)
+		{
+			$data = $this->loadFormData();
+		}
+
+		if (!$this->canEditState((object) $data))
+		{
+			// Disable fields for display.
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('published', 'filter', 'unset');
+		}
 
 		return $form;
 	}

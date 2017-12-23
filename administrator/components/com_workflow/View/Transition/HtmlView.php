@@ -10,10 +10,11 @@ namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
 
 /**
  * View class to add or edit Workflow
@@ -22,6 +23,14 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * The model state
+	 *
+	 * @var     object
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $state;
+
 	/**
 	 * From object to generate fields
 	 *
@@ -79,12 +88,14 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$this->app = \JFactory::getApplication();
+		$this->app = Factory::getApplication();
 		$this->input = $this->app->input;
 
 		// Get the Data
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->extension  = $this->state->get('filter.extension');
 
 		// Get the ID of workflow
 		$this->workflowID = $this->input->getCmd("workflow_id");
@@ -111,16 +122,53 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		Factory::getApplication()->input->set('hidemainmenu', true);
+
+		$user       = Factory::getUser();
+		$userId     = $user->id;
+		$isNew      = empty($this->item->id);
+
+		$canDo = StateHelper::getActions($this->extension, 'transition', $this->item->id);
+
 		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_TRANSITION_ADD') : \JText::_('COM_WORKFLOW_TRANSITION_EDIT'), 'address');
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
-		ToolbarHelper::saveGroup(
-			[
-				['apply', 'transition.apply'],
-				['save', 'transition.save'],
-				['save2new', 'transition.save2new']
-			],
-			'btn-success'
-		);
+
+		$toolbarButtons = [];
+
+		if ($isNew)
+		{
+			// For new records, check the create permission.
+			if ($canDo->get('core.edit'))
+			{
+				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save'], ['save2new', 'transition.save2new']];
+			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+		}
+		else
+		{
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+			if ($itemEditable)
+			{
+				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save']];
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'transition.save2new'];
+				}
+			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+		}
+
 		ToolbarHelper::cancel('transition.cancel');
 		ToolbarHelper::divider();
 	}

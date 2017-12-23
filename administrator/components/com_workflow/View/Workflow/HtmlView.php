@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -60,13 +61,6 @@ class HtmlView extends BaseHtmlView
 	protected $extension;
 
 	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var  \JObject
-	 */
-	protected $canDo;
-
-	/**
 	 * Display item view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -81,10 +75,7 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
-		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension  = $this->state->get('filter.extension');
-
-		$this->canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -108,30 +99,53 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$isNew      = ($this->item->id == 0);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = $this->canDo;
+		$user       = Factory::getUser();
+		$userId     = $user->id;
+		$isNew      = empty($this->item->id);
+
+		$canDo = WorkflowHelper::getActions($this->extension, 'workflow', $this->item->id);
 
 		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_WORKFLOWS_ADD') : \JText::_('COM_WORKFLOW_WORKFLOWS_EDIT'), 'address');
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
+		$toolbarButtons = [];
 
-		if (!$isNew)
+		if ($isNew)
 		{
-			// If an existing item, can save to a copy.
-			if ($canDo->get('core.create'))
+			// For new records, check the create permission.
+			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['save2copy', 'workflow.save2copy'];
+				$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
 			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+		}
+		else
+		{
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+			if ($itemEditable)
+			{
+				$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save']];
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'workflow.save2new'];
+				}
+			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 		}
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
-
 		ToolbarHelper::cancel('workflow.cancel');
-		ToolbarHelper::help('JHELP_WORKFLOW_EDIT');
 	}
 }
