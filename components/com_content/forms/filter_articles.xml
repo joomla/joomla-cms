@@ -10,17 +10,13 @@
 		/>
 
 		<field
-				name="condition"
-				type="list"
-				label="COM_WORKFLOW_CONDITION"
-				description="COM_WORKFLOW_CONDITION_DESC"
-				onchange="this.form.submit();"
-		        default="3"
-		>
-			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
-			<option value="1">COM_WORKFLOW_TRASHED</option>
-			<option value="2">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="3">COM_WORKFLOW_PUBLISHED</option>
+			name="published"
+			type="status"
+			label="COM_CONTENT_FILTER_PUBLISHED"
+			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field

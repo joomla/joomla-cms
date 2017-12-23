@@ -273,7 +273,13 @@ class ArticlesModel extends ListModel
 		// Filter by published state
 		$condition = $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if (is_numeric($condition) && $condition == 2)
+		{
+			// If category is archived then article has to be published or archived.
+			// If categogy is published then article has to be archived.
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
+		}
+		elseif (is_numeric($condition))
 		{
 			// Category has to be published
 			$query->where("c.published = 1 AND s.condition = " . $db->quote($condition));
