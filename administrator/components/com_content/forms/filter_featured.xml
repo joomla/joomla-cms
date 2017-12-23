@@ -15,6 +15,7 @@
 				label="COM_CONTENT_STATES"
 				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 				onchange="this.form.submit();"
+				activeonly="true"
 		>
 			<option value="">COM_CONTENT_SELECT_STATE</option>
 		</field>
