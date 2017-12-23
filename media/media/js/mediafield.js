@@ -135,8 +135,12 @@
 			}
 		} else {
 			// Reset tooltip and preview
-			this.$containerPreview.popover('destroy');
-			this.$input.tooltip('destroy');
+			try {
+				this.$containerPreview.popover('destroy');
+				this.$input.tooltip('destroy');
+			} catch(err) {
+				// Doing this so that jQueryUI tooltips and popover can exist alongside Bootstrap.
+			}
 
 			var value = this.$input.val();
 
