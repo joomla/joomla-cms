@@ -44,7 +44,7 @@ CodeMirror.defineMode("d", function(config, parserConfig) {
     }
     if (ch == "/") {
       if (stream.eat("+")) {
-        state.tokenize = tokenNestedComment;
+        state.tokenize = tokenComment;
         return tokenNestedComment(stream, state);
       }
       if (stream.eat("*")) {

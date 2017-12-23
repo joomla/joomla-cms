@@ -923,7 +923,7 @@ But after they are produced,
 	{
 		if ($throw)
 		{
-			$this->expectException($throw);
+			$this->setExpectedException($throw);
 		}
 
 		foreach ($sources as $path => $content)

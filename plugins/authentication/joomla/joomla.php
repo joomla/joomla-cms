@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\Component\Users\Administrator\Model\User;
 
 /**
  * Joomla Authentication plugin
@@ -104,7 +104,8 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-			$model = new UserModel(array('ignore_request' => true));
+			/** @var \Joomla\Component\Users\Administrator\Model\User $model */
+			$model = new User(array('ignore_request' => true));
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
@@ -183,9 +184,6 @@ class PlgAuthenticationJoomla extends JPlugin
 						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
-						$response->status        = JAuthentication::STATUS_FAILURE;
-						$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
-
 						return;
 					}
 				}

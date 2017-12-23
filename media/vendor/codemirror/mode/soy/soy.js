@@ -87,7 +87,7 @@
           kindTag: [],
           soyState: [],
           templates: null,
-          variables: prepend(null, 'ij'),
+          variables: null,
           scopes: null,
           indent: 0,
           quoteKind: null,
@@ -128,34 +128,8 @@
             } else {
               stream.skipToEnd();
             }
-            if (!state.scopes) {
-              var paramRe = /@param\??\s+(\S+)/g;
-              var current = stream.current();
-              for (var match; (match = paramRe.exec(current)); ) {
-                state.variables = prepend(state.variables, match[1]);
-              }
-            }
             return "comment";
 
-          case "string":
-            var match = stream.match(/^.*?(["']|\\[\s\S])/);
-            if (!match) {
-              stream.skipToEnd();
-            } else if (match[1] == state.quoteKind) {
-              state.quoteKind = null;
-              state.soyState.pop();
-            }
-            return "string";
-        }
-
-        if (stream.match(/^\/\*/)) {
-          state.soyState.push("comment");
-          return "comment";
-        } else if (stream.match(stream.sol() || (state.soyState.length && last(state.soyState) != "literal") ? /^\s*\/\/.*/ : /^\s+\/\/.*/)) {
-          return "comment";
-        }
-
-        switch (last(state.soyState)) {
           case "templ-def":
             if (match = stream.match(/^\.?([\w]+(?!\.[\w]+)*)/)) {
               state.templates = prepend(state.templates, match[1]);
@@ -213,7 +187,6 @@
             if (stream.match(/^\/?}/)) {
               if (state.tag == "/template" || state.tag == "/deltemplate") {
                 popscope(state);
-                state.variables = prepend(null, 'ij');
                 state.indent = 0;
               } else {
                 if (state.tag == "/for" || state.tag == "/foreach") {
@@ -261,15 +234,30 @@
               return this.token(stream, state);
             }
             return tokenUntil(stream, state, /\{\/literal}/);
+
+          case "string":
+            var match = stream.match(/^.*?(["']|\\[\s\S])/);
+            if (!match) {
+              stream.skipToEnd();
+            } else if (match[1] == state.quoteKind) {
+              state.quoteKind = null;
+              state.soyState.pop();
+            }
+            return "string";
         }
 
-        if (stream.match(/^\{literal}/)) {
+        if (stream.match(/^\/\*/)) {
+          state.soyState.push("comment");
+          return "comment";
+        } else if (stream.match(stream.sol() ? /^\s*\/\/.*/ : /^\s+\/\/.*/)) {
+          return "comment";
+        } else if (stream.match(/^\{literal}/)) {
           state.indent += config.indentUnit;
           state.soyState.push("literal");
           return "keyword";
 
-        // A tag-keyword must be followed by whitespace, comment or a closing tag.
-        } else if (match = stream.match(/^\{([\/@\\]?\w+\??)(?=[\s\}]|\/[/*])/)) {
+        // A tag-keyword must be followed by whitespace or a closing tag.
+        } else if (match = stream.match(/^\{([\/@\\]?\w+\??)(?=[\s\}])/)) {
           if (match[1] != "/switch")
             state.indent += (/^(\/|(else|elseif|ifempty|case|fallbackmsg|default)$)/.test(match[1]) && state.tag != "switch" ? 1 : 2) * config.indentUnit;
           state.tag = match[1];
@@ -286,18 +274,18 @@
           state.soyState.push("tag");
           if (state.tag == "template" || state.tag == "deltemplate") {
             state.soyState.push("templ-def");
-          } else if (state.tag == "call" || state.tag == "delcall") {
+          }
+          if (state.tag == "call" || state.tag == "delcall") {
             state.soyState.push("templ-ref");
-          } else if (state.tag == "let") {
+          }
+          if (state.tag == "let") {
             state.soyState.push("var-def");
-          } else if (state.tag == "for" || state.tag == "foreach") {
+          }
+          if (state.tag == "for" || state.tag == "foreach") {
             state.scopes = prepend(state.scopes, state.variables);
             state.soyState.push("var-def");
-          } else if (state.tag == "namespace") {
-            if (!state.scopes) {
-              state.variables = prepend(null, 'ij');
-            }
-          } else if (state.tag.match(/^@(?:param\??|inject)/)) {
+          }
+          if (state.tag.match(/^@(?:param\??|inject)/)) {
             state.soyState.push("param-def");
           }
           return "keyword";

@@ -83,7 +83,7 @@ class HttpFactory
 		foreach ($availableAdapters as $adapter)
 		{
 			/** @var $class TransportInterface */
-			$class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter);
+			$class = 'Joomla\\Http\\Transport\\' . ucfirst($adapter);
 
 			if (class_exists($class))
 			{

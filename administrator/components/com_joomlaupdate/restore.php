@@ -1349,7 +1349,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		if ($directory != $rootDir)
 		{
 			// Is this an unwritable directory?
-			if (!is_writable($directory))
+			if (!is_writeable($directory))
 			{
 				$this->postProcEngine->chmod($directory, 0755);
 			}
@@ -4185,7 +4185,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			}
 		}
 
-		$filename = $this->fileHeader->realFile ?? $this->fileHeader->file;
+		$filename = isset($this->fileHeader->realFile) ? $this->fileHeader->realFile : $this->fileHeader->file;
 
 		if (!AKFactory::get('kickstart.setup.dryrun', '0'))
 		{

@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
-$html = HTMLHelper::_('icons.buttons', $buttons);
+$html = JHtml::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<div class="quick-icons">
-		<?php echo $html; ?>
-	</div>
-<?php endif; ?>
+<div class="quick-icons">
+	<?php echo $html;?>
+</div>
+<?php endif;?>

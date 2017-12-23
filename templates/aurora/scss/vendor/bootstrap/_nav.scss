@@ -1,0 +1,78 @@
+// Tabs
+
+.nav.nav-tabs {
+  padding: 0;
+  margin: 0;
+  background-color: $aurora-tabs-header-bg;
+  border: 1px solid $aurora-border-color;
+  border-bottom: 0;
+  border-radius: $border-radius $border-radius 0 0;
+  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0,0,0,.15), 0 -4px 0 rgba(0,0,0,.05) inset, $aurora-box-shadow;
+
+  .nav-item {
+    margin-bottom: 0;
+    margin-left: 0;
+
+    &:first-of-type .nav-link {
+
+      &.active {
+        border-radius: $border-radius 0 0;
+        box-shadow: -1px 0 1px -1px rgba(0,0,0,.06), inset -2px 0 1px -1px rgba(0,0,0,.08), inset 0 1px 0 rgba(0,0,0,.02);
+      }
+
+    }
+
+    &:last-of-type .nav-link {
+      box-shadow: -1px 0 0 rgba(0,0,0,.05), 1px 0 0 rgba(0, 0, 0, .05);
+
+      &.active {
+        box-shadow: inset 2px 0 1px -1px rgba(0,0,0,.08), inset -2px 0 1px -1px rgba(0,0,0,.08), inset 0 1px 0 rgba(0,0,0,.02);
+      }
+
+    }
+
+  }
+
+  .nav-link {
+    position: relative;
+    padding: .75em 1em;
+    color: $aurora-template-color;
+    border: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: -1px 0 0 rgba(0,0,0,.05);
+
+    &.active {
+      background-color: $aurora-tabs-active-bg;
+      background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.05) 100%);
+      border-right: 0;
+      border-left: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      box-shadow: inset 2px 0 1px -1px rgba(0,0,0,.08), inset -2px 0 1px -1px rgba(0,0,0,.08), inset 0 1px 0 rgba(0,0,0,.02);
+
+      &::after {
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        left: 0;
+        height: 5px;
+        content: "";
+        background-color: $aurora-tabs-active-highlight;
+        opacity: .8;
+      }
+
+    }
+
+  }
+
+}
+
+.nav-tabs + .tab-content {
+  padding: 15px;
+  background: $white-offset;
+  border: 1px solid;
+  border-color: $aurora-border-color;
+  border-radius: 0 0 $border-radius $border-radius;
+  box-shadow: $aurora-box-shadow;
+}

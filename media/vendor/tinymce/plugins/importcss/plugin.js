@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,12 +76,12 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.importcss.Plugin","tinymce.core.PluginManager","tinymce.plugins.importcss.api.Api","tinymce.plugins.importcss.core.ImportCss","global!tinymce.util.Tools.resolve","tinymce.core.dom.DOMUtils","tinymce.core.EditorManager","tinymce.core.Env","tinymce.core.util.Tools","tinymce.plugins.importcss.api.Settings"]
+["tinymce.plugins.importcss.Plugin","tinymce.core.EditorManager","tinymce.core.dom.DOMUtils","tinymce.core.Env","tinymce.core.PluginManager","tinymce.core.util.Tools","global!tinymce.util.Tools.resolve"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -95,12 +95,12 @@ defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
  */
 
 define(
-  'tinymce.core.PluginManager',
+  'tinymce.core.EditorManager',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.PluginManager');
+    return resolve('tinymce.EditorManager');
   }
 );
 
@@ -135,12 +135,12 @@ define(
  */
 
 define(
-  'tinymce.core.EditorManager',
+  'tinymce.core.Env',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.EditorManager');
+    return resolve('tinymce.Env');
   }
 );
 
@@ -155,12 +155,12 @@ define(
  */
 
 define(
-  'tinymce.core.Env',
+  'tinymce.core.PluginManager',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.Env');
+    return resolve('tinymce.PluginManager');
   }
 );
 
@@ -185,7 +185,7 @@ define(
 );
 
 /**
- * Settings.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -194,272 +194,231 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
-define(
-  'tinymce.plugins.importcss.api.Settings',
-  [
-  ],
-  function () {
-    var shouldMergeClasses = function (editor) {
-      return editor.getParam('importcss_merge_classes');
-    };
-
-    var shouldImportExclusive = function (editor) {
-      return editor.getParam('importcss_exclusive');
-    };
-
-    var getSelectorConverter = function (editor) {
-      return editor.getParam('importcss_selector_converter');
-    };
-
-    var getSelectorFilter = function (editor) {
-      return editor.getParam('importcss_selector_filter');
-    };
-
-    var getCssGroups = function (editor) {
-      return editor.getParam('importcss_groups');
-    };
-
-    var shouldAppend = function (editor) {
-      return editor.getParam('importcss_append');
-    };
-
-    var getFileFilter = function (editor) {
-      return editor.getParam('importcss_file_filter');
-    };
-
-    return {
-      shouldMergeClasses: shouldMergeClasses,
-      shouldImportExclusive: shouldImportExclusive,
-      getSelectorConverter: getSelectorConverter,
-      getSelectorFilter: getSelectorFilter,
-      getCssGroups: getCssGroups,
-      shouldAppend: shouldAppend,
-      getFileFilter: getFileFilter
-    };
-  }
-);
 /**
- * ImportCss.js
+ * This class contains all core logic for the importcss plugin.
  *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
+ * @class tinymce.importcss.Plugin
+ * @private
  */
-
 define(
-  'tinymce.plugins.importcss.core.ImportCss',
+  'tinymce.plugins.importcss.Plugin',
   [
-    'tinymce.core.dom.DOMUtils',
     'tinymce.core.EditorManager',
+    'tinymce.core.dom.DOMUtils',
     'tinymce.core.Env',
-    'tinymce.core.util.Tools',
-    'tinymce.plugins.importcss.api.Settings'
+    'tinymce.core.PluginManager',
+    'tinymce.core.util.Tools'
   ],
-  function (DOMUtils, EditorManager, Env, Tools, Settings) {
-    var removeCacheSuffix = function (url) {
-      var cacheSuffix = Env.cacheSuffix;
+  function (EditorManager, DOMUtils, Env, PluginManager, Tools) {
+    PluginManager.add('importcss', function (editor) {
+      var self = this, each = Tools.each;
 
-      if (typeof url === 'string') {
-        url = url.replace('?' + cacheSuffix, '').replace('&' + cacheSuffix, '');
+      function removeCacheSuffix(url) {
+        var cacheSuffix = Env.cacheSuffix;
+
+        if (typeof url == 'string') {
+          url = url.replace('?' + cacheSuffix, '').replace('&' + cacheSuffix, '');
+        }
+
+        return url;
       }
 
-      return url;
-    };
+      function isSkinContentCss(href) {
+        var settings = editor.settings, skin = settings.skin !== false ? settings.skin || 'lightgray' : false;
 
-    var isSkinContentCss = function (editor, href) {
-      var settings = editor.settings, skin = settings.skin !== false ? settings.skin || 'lightgray' : false;
+        if (skin) {
+          var skinUrl = settings.skin_url;
 
-      if (skin) {
-        var skinUrl = settings.skin_url ? editor.documentBaseURI.toAbsolute(settings.skin_url) : EditorManager.baseURL + '/skins/' + skin;
-        return href === skinUrl + '/content' + (editor.inline ? '.inline' : '') + '.min.css';
+          if (skinUrl) {
+            skinUrl = editor.documentBaseURI.toAbsolute(skinUrl);
+          } else {
+            skinUrl = EditorManager.baseURL + '/skins/' + skin;
+          }
+
+          return href === skinUrl + '/content' + (editor.inline ? '.inline' : '') + '.min.css';
+        }
+
+        return false;
       }
 
-      return false;
-    };
+      function compileFilter(filter) {
+        if (typeof filter == "string") {
+          return function (value) {
+            return value.indexOf(filter) !== -1;
+          };
+        } else if (filter instanceof RegExp) {
+          return function (value) {
+            return filter.test(value);
+          };
+        }
 
-    var compileFilter = function (filter) {
-      if (typeof filter === "string") {
-        return function (value) {
-          return value.indexOf(filter) !== -1;
-        };
-      } else if (filter instanceof RegExp) {
-        return function (value) {
-          return filter.test(value);
-        };
+        return filter;
       }
 
-      return filter;
-    };
+      function getSelectors(doc, fileFilter) {
+        var selectors = [], contentCSSUrls = {};
 
-    var getSelectors = function (editor, doc, fileFilter) {
-      var selectors = [], contentCSSUrls = {};
+        function append(styleSheet, imported) {
+          var href = styleSheet.href, rules;
 
-      function append(styleSheet, imported) {
-        var href = styleSheet.href, rules;
+          href = removeCacheSuffix(href);
 
-        href = removeCacheSuffix(href);
+          if (!href || !fileFilter(href, imported) || isSkinContentCss(href)) {
+            return;
+          }
 
-        if (!href || !fileFilter(href, imported) || isSkinContentCss(editor, href)) {
+          each(styleSheet.imports, function (styleSheet) {
+            append(styleSheet, true);
+          });
+
+          try {
+            rules = styleSheet.cssRules || styleSheet.rules;
+          } catch (e) {
+            // Firefox fails on rules to remote domain for example:
+            // @import url(//fonts.googleapis.com/css?family=Pathway+Gothic+One);
+          }
+
+          each(rules, function (cssRule) {
+            if (cssRule.styleSheet) {
+              append(cssRule.styleSheet, true);
+            } else if (cssRule.selectorText) {
+              each(cssRule.selectorText.split(','), function (selector) {
+                selectors.push(Tools.trim(selector));
+              });
+            }
+          });
+        }
+
+        each(editor.contentCSS, function (url) {
+          contentCSSUrls[url] = true;
+        });
+
+        if (!fileFilter) {
+          fileFilter = function (href, imported) {
+            return imported || contentCSSUrls[href];
+          };
+        }
+
+        try {
+          each(doc.styleSheets, function (styleSheet) {
+            append(styleSheet);
+          });
+        } catch (e) {
+          // Ignore
+        }
+
+        return selectors;
+      }
+
+      function defaultConvertSelectorToFormat(selectorText) {
+        var format;
+
+        // Parse simple element.class1, .class1
+        var selector = /^(?:([a-z0-9\-_]+))?(\.[a-z0-9_\-\.]+)$/i.exec(selectorText);
+        if (!selector) {
           return;
         }
 
-        Tools.each(styleSheet.imports, function (styleSheet) {
-          append(styleSheet, true);
-        });
+        var elementName = selector[1];
+        var classes = selector[2].substr(1).split('.').join(' ');
+        var inlineSelectorElements = Tools.makeMap('a,img');
 
-        try {
-          rules = styleSheet.cssRules || styleSheet.rules;
-        } catch (e) {
-          // Firefox fails on rules to remote domain for example:
-          // @import url(//fonts.googleapis.com/css?family=Pathway+Gothic+One);
+        // element.class - Produce block formats
+        if (selector[1]) {
+          format = {
+            title: selectorText
+          };
+
+          if (editor.schema.getTextBlockElements()[elementName]) {
+            // Text block format ex: h1.class1
+            format.block = elementName;
+          } else if (editor.schema.getBlockElements()[elementName] || inlineSelectorElements[elementName.toLowerCase()]) {
+            // Block elements such as table.class and special inline elements such as a.class or img.class
+            format.selector = elementName;
+          } else {
+            // Inline format strong.class1
+            format.inline = elementName;
+          }
+        } else if (selector[2]) {
+          // .class - Produce inline span with classes
+          format = {
+            inline: 'span',
+            title: selectorText.substr(1),
+            classes: classes
+          };
         }
 
-        Tools.each(rules, function (cssRule) {
-          if (cssRule.styleSheet) {
-            append(cssRule.styleSheet, true);
-          } else if (cssRule.selectorText) {
-            Tools.each(cssRule.selectorText.split(','), function (selector) {
-              selectors.push(Tools.trim(selector));
-            });
-          }
-        });
-      }
-
-      Tools.each(editor.contentCSS, function (url) {
-        contentCSSUrls[url] = true;
-      });
-
-      if (!fileFilter) {
-        fileFilter = function (href, imported) {
-          return imported || contentCSSUrls[href];
-        };
-      }
-
-      try {
-        Tools.each(doc.styleSheets, function (styleSheet) {
-          append(styleSheet);
-        });
-      } catch (e) {
-        // Ignore
-      }
-
-      return selectors;
-    };
-
-    var defaultConvertSelectorToFormat = function (editor, selectorText) {
-      var format;
-
-      // Parse simple element.class1, .class1
-      var selector = /^(?:([a-z0-9\-_]+))?(\.[a-z0-9_\-\.]+)$/i.exec(selectorText);
-      if (!selector) {
-        return;
-      }
-
-      var elementName = selector[1];
-      var classes = selector[2].substr(1).split('.').join(' ');
-      var inlineSelectorElements = Tools.makeMap('a,img');
-
-      // element.class - Produce block formats
-      if (selector[1]) {
-        format = {
-          title: selectorText
-        };
-
-        if (editor.schema.getTextBlockElements()[elementName]) {
-          // Text block format ex: h1.class1
-          format.block = elementName;
-        } else if (editor.schema.getBlockElements()[elementName] || inlineSelectorElements[elementName.toLowerCase()]) {
-          // Block elements such as table.class and special inline elements such as a.class or img.class
-          format.selector = elementName;
+        // Append to or override class attribute
+        if (editor.settings.importcss_merge_classes !== false) {
+          format.classes = classes;
         } else {
-          // Inline format strong.class1
-          format.inline = elementName;
+          format.attributes = { "class": classes };
         }
-      } else if (selector[2]) {
-        // .class - Produce inline span with classes
-        format = {
-          inline: 'span',
-          title: selectorText.substr(1),
-          classes: classes
-        };
+
+        return format;
       }
 
-      // Append to or override class attribute
-      if (Settings.shouldMergeClasses(editor) !== false) {
-        format.classes = classes;
-      } else {
-        format.attributes = { "class": classes };
-      }
-
-      return format;
-    };
-
-    var getGroupsBySelector = function (groups, selector) {
-      return Tools.grep(groups, function (group) {
-        return !group.filter || group.filter(selector);
-      });
-    };
-
-    var compileUserDefinedGroups = function (groups) {
-      return Tools.map(groups, function (group) {
-        return Tools.extend({}, group, {
-          original: group,
-          selectors: {},
-          filter: compileFilter(group.filter),
-          item: {
-            text: group.title,
-            menu: []
-          }
+      function getGroupsBySelector(groups, selector) {
+        return Tools.grep(groups, function (group) {
+          return !group.filter || group.filter(selector);
         });
-      });
-    };
-
-    var isExclusiveMode = function (editor, group) {
-      // Exclusive mode can only be disabled when there are groups allowing the same style to be present in multiple groups
-      return group === null || Settings.shouldImportExclusive(editor) !== false;
-    };
-
-    var isUniqueSelector = function (editor, selector, group, globallyUniqueSelectors) {
-      return !(isExclusiveMode(editor, group) ? selector in globallyUniqueSelectors : selector in group.selectors);
-    };
-
-    var markUniqueSelector = function (editor, selector, group, globallyUniqueSelectors) {
-      if (isExclusiveMode(editor, group)) {
-        globallyUniqueSelectors[selector] = true;
-      } else {
-        group.selectors[selector] = true;
-      }
-    };
-
-    var convertSelectorToFormat = function (editor, plugin, selector, group) {
-      var selectorConverter;
-
-      if (group && group.selector_converter) {
-        selectorConverter = group.selector_converter;
-      } else if (Settings.getSelectorConverter(editor)) {
-        selectorConverter = Settings.getSelectorConverter(editor);
-      } else {
-        selectorConverter = function () {
-          return defaultConvertSelectorToFormat(editor, selector, group);
-        };
       }
 
-      return selectorConverter.call(plugin, selector, group);
-    };
+      function compileUserDefinedGroups(groups) {
+        return Tools.map(groups, function (group) {
+          return Tools.extend({}, group, {
+            original: group,
+            selectors: {},
+            filter: compileFilter(group.filter),
+            item: {
+              text: group.title,
+              menu: []
+            }
+          });
+        });
+      }
 
-    var setup = function (editor) {
+      function isExclusiveMode(editor, group) {
+        // Exclusive mode can only be disabled when there are groups allowing the same style to be present in multiple groups
+        return group === null || editor.settings.importcss_exclusive !== false;
+      }
+
+      function isUniqueSelector(selector, group, globallyUniqueSelectors) {
+        return !(isExclusiveMode(editor, group) ? selector in globallyUniqueSelectors : selector in group.selectors);
+      }
+
+      function markUniqueSelector(selector, group, globallyUniqueSelectors) {
+        if (isExclusiveMode(editor, group)) {
+          globallyUniqueSelectors[selector] = true;
+        } else {
+          group.selectors[selector] = true;
+        }
+      }
+
+      function convertSelectorToFormat(plugin, selector, group) {
+        var selectorConverter, settings = editor.settings;
+
+        if (group && group.selector_converter) {
+          selectorConverter = group.selector_converter;
+        } else if (settings.importcss_selector_converter) {
+          selectorConverter = settings.importcss_selector_converter;
+        } else {
+          selectorConverter = defaultConvertSelectorToFormat;
+        }
+
+        return selectorConverter.call(plugin, selector, group);
+      }
+
       editor.on('renderFormatsMenu', function (e) {
-        var globallyUniqueSelectors = {};
-        var selectorFilter = compileFilter(Settings.getSelectorFilter(editor)), ctrl = e.control;
-        var groups = compileUserDefinedGroups(Settings.getCssGroups(editor));
+        var settings = editor.settings, globallyUniqueSelectors = {};
+        var selectorFilter = compileFilter(settings.importcss_selector_filter), ctrl = e.control;
+        var groups = compileUserDefinedGroups(settings.importcss_groups);
 
         var processSelector = function (selector, group) {
-          if (isUniqueSelector(editor, selector, group, globallyUniqueSelectors)) {
-            markUniqueSelector(editor, selector, group, globallyUniqueSelectors);
+          if (isUniqueSelector(selector, group, globallyUniqueSelectors)) {
+            markUniqueSelector(selector, group, globallyUniqueSelectors);
 
-            var format = convertSelectorToFormat(editor, editor.plugins.importcss, selector, group);
+            var format = convertSelectorToFormat(self, selector, group);
             if (format) {
               var formatName = format.name || DOMUtils.DOM.uniqueId();
               editor.formatter.register(formatName, format);
@@ -474,11 +433,11 @@ define(
           return null;
         };
 
-        if (!Settings.shouldAppend(editor)) {
+        if (!editor.settings.importcss_append) {
           ctrl.items().remove();
         }
 
-        Tools.each(getSelectors(editor, e.doc || editor.getDoc(), compileFilter(Settings.getFileFilter(editor))), function (selector) {
+        each(getSelectors(e.doc || editor.getDoc(), compileFilter(settings.importcss_file_filter)), function (selector) {
           if (selector.indexOf('.mce-') === -1) {
             if (!selectorFilter || selectorFilter(selector)) {
               var selectorGroups = getGroupsBySelector(groups, selector);
@@ -500,7 +459,7 @@ define(
           }
         });
 
-        Tools.each(groups, function (group) {
+        each(groups, function (group) {
           if (group.item.menu.length > 0) {
             ctrl.add(group.item);
           }
@@ -508,66 +467,9 @@ define(
 
         e.control.renderNew();
       });
-    };
 
-    return {
-      defaultConvertSelectorToFormat: defaultConvertSelectorToFormat,
-      setup: setup
-    };
-  }
-);
-/**
- * Api.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.importcss.api.Api',
-  [
-    'tinymce.plugins.importcss.core.ImportCss'
-  ],
-  function (ImportCss) {
-    var get = function (editor) {
-      var convertSelectorToFormat = function (selectorText) {
-        return ImportCss.defaultConvertSelectorToFormat(editor, selectorText);
-      };
-
-      return {
-        convertSelectorToFormat: convertSelectorToFormat
-      };
-    };
-
-    return {
-      get: get
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.importcss.Plugin',
-  [
-    'tinymce.core.PluginManager',
-    'tinymce.plugins.importcss.api.Api',
-    'tinymce.plugins.importcss.core.ImportCss'
-  ],
-  function (PluginManager, Api, ImportCss) {
-    PluginManager.add('importcss', function (editor) {
-      ImportCss.setup(editor);
-      return Api.get(editor);
+      // Expose default convertSelectorToFormat implementation
+      self.convertSelectorToFormat = defaultConvertSelectorToFormat;
     });
 
     return function () { };

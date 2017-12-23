@@ -48,14 +48,14 @@ class Key
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(string $type, string $private, string $public)
+	public function __construct($type, $private, $public)
 	{
 		// Set the key type.
-		$this->type = $type;
+		$this->type = (string) $type;
 
 		// Set the public/private key strings.
-		$this->private = $private;
-		$this->public  = $public;
+		$this->private = (string) $private;
+		$this->public  = (string) $public;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPrivate(): string
+	public function getPrivate()
 	{
 		return $this->private;
 	}
@@ -77,7 +77,7 @@ class Key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getPublic(): string
+	public function getPublic()
 	{
 		return $this->public;
 	}
@@ -89,7 +89,7 @@ class Key
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getType(): string
+	public function getType()
 	{
 		return $this->type;
 	}

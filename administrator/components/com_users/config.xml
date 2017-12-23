@@ -201,7 +201,7 @@
 
 		<field
 			name="history_limit"
-			type="number"
+			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="5"
@@ -268,7 +268,7 @@
 		<field
 			name="sef_advanced"
 			type="radio"
-			class="switcher switcher-primary"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			filter="integer"

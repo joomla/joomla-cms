@@ -267,7 +267,7 @@ abstract class AbstractUri implements UriInterface
 	 */
 	public function getPort()
 	{
-		return $this->port;
+		return (isset($this->port)) ? $this->port : null;
 	}
 
 	/**
@@ -303,7 +303,7 @@ abstract class AbstractUri implements UriInterface
 	 */
 	public function isSsl()
 	{
-		return strtolower($this->getScheme()) === 'https';
+		return $this->getScheme() == 'https';
 	}
 
 	/**

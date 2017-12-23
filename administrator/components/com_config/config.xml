@@ -9,7 +9,6 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_CONFIG_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Config</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>config.php</filename>

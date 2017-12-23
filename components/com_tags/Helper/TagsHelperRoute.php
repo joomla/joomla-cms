@@ -148,7 +148,7 @@ class TagsHelperRoute extends RouteHelper
 	{
 		$app      = \JFactory::getApplication();
 		$menus    = $app->getMenu('site');
-		$language = $needles['language'] ?? '*';
+		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)

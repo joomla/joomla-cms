@@ -16,7 +16,10 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_users_latest
  *
- * @since  1.6
+ * @package     Joomla.Site
+ * @subpackage  mod_users_latest
+ *
+ * @since       1.6
  */
 class UsersLatestHelper
 {

@@ -14,17 +14,16 @@ JHtml::_('behavior.keepalive');
 $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods();
 
 ?>
-
-<joomla-alert type="warning">
+<div class="alert alert-warning">
 	<h4 class="alert-heading">
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
 	</h4>
 	<p>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', JFactory::getConfig()->get('sitename')); ?>
 	</p>
-</joomla-alert>
+</div>
 
-<hr>
+<hr/>
 
 <form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline center">
 	<fieldset class="loginform">

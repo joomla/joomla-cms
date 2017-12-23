@@ -5,7 +5,7 @@
 
   .nav-header {
     font-weight: $font-weight-bold;
-    color: $gray-900;
+    color: $gray-dark;
   }
 
   li {
@@ -93,7 +93,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: $gray-700;
+      color: $gray;
     }
 
   }

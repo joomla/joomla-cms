@@ -2,7 +2,6 @@
 
 html,
 body {
-  height: 100%;
   font-size: $font-size-root;
 }
 
@@ -26,5 +25,5 @@ h1 {
 
 small,
 .small {
-  font-size: $font-size-sm;
+  font-size: $font-size-small;
 }

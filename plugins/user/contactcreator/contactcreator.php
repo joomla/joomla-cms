@@ -69,7 +69,7 @@ class PlgUserContactCreator extends JPlugin
 
 		if (empty($categoryId))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
+			JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
 
 			return false;
 		}
@@ -122,7 +122,7 @@ class PlgUserContactCreator extends JPlugin
 			}
 		}
 
-		JFactory::getApplication()->enqueueMessage(JText::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
+		JError::raiseWarning('', JText::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'));
 
 		return false;
 	}

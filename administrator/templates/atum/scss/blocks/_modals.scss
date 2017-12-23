@@ -8,10 +8,10 @@
 
   .btn-primary:not([href]),
   .btn-success:not([href]) {
-    color: #fff;
+    color: $btn-primary-color;
 
     &:hover {
-      color: #fff;
+      color: $btn-primary-color;
     }
 
   }
@@ -23,11 +23,10 @@
 
   .close {
     width: $modal-header-height;
-    height: $modal-header-height;
     margin-top: 0;
     margin-right: -15px;
     font-size: 2rem;
-    line-height: 1rem;
+    line-height: $modal-header-height;
     border-left: 1px solid $atum-border-color;
   }
 
@@ -35,7 +34,6 @@
 
 .modal-body {
   padding: 0;
-  overflow-y: auto;
 }
 
 .modal-title {

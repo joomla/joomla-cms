@@ -1,6 +1,6 @@
 <template>
     <li class="media-tree-item" :class="{active: isActive}">
-        <a @click.stop.prevent="onItemClick()">
+        <a @click.stop.prevent="toggleItem()">
             <span class="item-icon"><span :class="iconClass"></span></span>
             <span class="item-name">{{ item.name }}</span>
         </a>
@@ -11,12 +11,9 @@
 </template>
 
 <script>
-    import navigable from "../../mixins/navigable";
-
     export default {
         name: 'media-tree-item',
         props: ['item'],
-        mixins: [navigable],
         computed: {
             /* Whether or not the item is active */
             isActive () {
@@ -39,9 +36,9 @@
             }
         },
         methods: {
-            /* Handle the on item click event */
-            onItemClick () {
-                this.navigateTo(this.item.path);
+            /* Toggle an item open state */
+            toggleItem () {
+                this.$store.dispatch('getContents', this.item.path);
             }
         }
     }

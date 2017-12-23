@@ -26,8 +26,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function test__constructDefaultBehaviour()
 	{
-		$object = $this->getMockBuilder('JApplicationBase')
-			->getMockForAbstractClass();
+		$object = $this->getMockForAbstractClass('JApplicationBase');
 
 		$this->assertAttributeInstanceOf('JInput', 'input', $object);
 		$this->assertAttributeInstanceOf('Joomla\Registry\Registry', 'config', $object);
@@ -42,9 +41,7 @@ class JApplicationBaseTest extends TestCase
 	{
 		$mockInput  = $this->getMockBuilder('JInput')->getMock();
 		$mockConfig = $this->getMockBuilder('Joomla\Registry\Registry')->getMock();
-		$object     = $this->getMockBuilder('JApplicationBase')
-			->setConstructorArgs([$mockInput, $mockConfig])
-			->getMockForAbstractClass();
+		$object     = $this->getMockForAbstractClass('JApplicationBase', array($mockInput, $mockConfig));
 
 		$this->assertAttributeSame($mockInput, 'input', $object);
 		$this->assertAttributeSame($mockConfig, 'config', $object);
@@ -165,7 +162,7 @@ class JApplicationBaseTest extends TestCase
 
 		// Validate the event was triggered
 		$this->assertSame([], $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
-		$this->assertTrue(in_array(new \Joomla\Event\Event('onJApplicationBaseTriggerEvent'), TestMockDispatcher::$triggered));
+		$this->assertTrue(in_array('onJApplicationBaseTriggerEvent', TestMockDispatcher::$triggered));
 	}
 
 	/**
@@ -193,8 +190,7 @@ class JApplicationBaseTest extends TestCase
 		parent::setUp();
 
 		// Create the class object to be tested.
-		$this->class = $this->getMockBuilder('JApplicationBase')
-			->getMockForAbstractClass();
+		$this->class = $this->getMockForAbstractClass('JApplicationBase');
 	}
 
 	/**

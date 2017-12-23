@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Messages\Administrator\Model\Message;
 
 /**
  * Example Content Plugin
@@ -87,7 +87,7 @@ class PlgContentJoomla extends JPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = new MessageModel;
+				$model_message = new Message;
 				$result = $model_message->save($message);
 			}
 		}
@@ -153,7 +153,7 @@ class PlgContentJoomla extends JPlugin
 				{
 					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 						. JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-					JFactory::getApplication()->enqueueMessage($msg, 'error');
+					JError::raiseWarning(403, $msg);
 					$result = false;
 				}
 
@@ -170,7 +170,7 @@ class PlgContentJoomla extends JPlugin
 					{
 						$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 							. JText::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-						JFactory::getApplication()->enqueueMessage($msg, 'error');
+						JError::raiseWarning(403, $msg);
 						$result = false;
 					}
 				}
@@ -207,7 +207,7 @@ class PlgContentJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JError::raiseWarning(500, $e->getMessage());
 
 			return false;
 		}
@@ -258,7 +258,7 @@ class PlgContentJoomla extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				JError::raiseWarning(500, $e->getMessage());
 
 				return false;
 			}

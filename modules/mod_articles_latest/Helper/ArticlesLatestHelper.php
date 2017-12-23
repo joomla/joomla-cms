@@ -15,9 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Component\Content\Site\Model\Articles;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_latest
@@ -42,7 +42,7 @@ abstract class ArticlesLatestHelper
 		$user = Factory::getUser();
 
 		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
+		$model = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();

@@ -1,73 +1,54 @@
 .media-infobar {
+  background-color: #fafafa;
+  overflow: hidden;
   position: absolute;
-  top: ($toolbar-height + 1px);
   right: 0;
+  top: 49px;
   bottom: 0;
   z-index: 4;
   float: none;
+  padding: 0;
   width: 25%;
-  padding: $gutter-width;
-  overflow: hidden;
-  background-color: $info-bg;
-  border-left: 1px solid $border-color;
+  border-left: 1px solid #ccc;
+  padding: 15px;
   h2 {
-    padding: 0 $gutter-width;
-    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
-    font-weight: normal;
-    line-height: $info-title-height;
-    background-color: $info-title-bg;
+    padding: 0 15px;
+    margin: -15px -15px 15px;
+    background-color: rgba(0, 0, 0, 0.015);
     border-bottom: 1px solid #eee;
-  }
-  dl {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -($col-gutter-width / 2);
-    margin-left: -($col-gutter-width / 2);
-  }
-  dt, dd {
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: ($col-gutter-width / 2);
-    padding-left: ($col-gutter-width / 2);
+    font-weight: normal;
+    line-height: 3.6rem;
   }
   dt {
-    flex: 0 0 $info-dt-width;
-    max-width: $info-dt-width;
+    color: rgba(0, 0, 0, 0.54);
     font-weight: normal;
-    color: rgba(0, 0, 0, .54);
-  }
-  dd {
-    flex: 0 0 $info-dd-width;
-    max-width: $info-dd-width;
   }
 }
 
 .infobar-close {
   position: absolute;
-  top: 0;
   right: 0;
-  z-index: 2;
-  padding: 0 $gutter-width;
+  top: 0;
+  padding: 0 15px;
+  color: #ccc;
   font-size: 2.6rem;
-  line-height: $info-title-height;
-  color: $info-close-color;
+  line-height: 3.6rem;
   text-indent: 0;
   text-shadow: none;
   &:hover {
-    color: $info-close-color-hover;
+    color: #aaa;
     cursor: pointer;
   }
 }
 
 .placeholder-icon.fa {
   display: block;
-  width: 4rem;
-  height: 4rem;
-  margin: 20px auto 15px;
-  font-size: 2rem;
-  line-height: calc(4rem - 4px);
-  color: #ccc;
   border: 2px solid #ccc;
   border-radius: 50%;
+  color: #ccc;
+  font-size: 2rem;
+  height: 4rem;
+  line-height: calc(4rem - 4px);
+  margin: 20px auto 15px;
+  width: 4rem;
 }

@@ -118,7 +118,7 @@ class JTableTest extends TestCaseDatabase
 				),
 				'checked_out_time' => (object) array(
 					'Field' => 'checked_out_time',
-					'Type' => 'DATETIME',
+					'Type' => 'TEXT',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''
@@ -132,14 +132,14 @@ class JTableTest extends TestCaseDatabase
 				),
 				'publish_up' => (object) array(
 					'Field' => 'publish_up',
-					'Type' => 'DATETIME',
+					'Type' => 'TEXT',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''
 				),
 				'publish_down' => (object) array(
 					'Field' => 'publish_down',
-					'Type' => 'DATETIME',
+					'Type' => 'TEXT',
 					'Null' => 'NO',
 					'Default' => '\'0000-00-00 00:00:00\'',
 					'Key' => ''
@@ -204,7 +204,7 @@ class JTableTest extends TestCaseDatabase
 		$expected = array(
 			'/dummy/',
 			'dir/not/exist',
-			realpath(JPATH_PLATFORM . '/src/Table')
+			realpath(JPATH_PLATFORM . '/src/CMS/Table')
 		);
 
 		// Add dummy paths
@@ -368,13 +368,13 @@ class JTableTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   12.3
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_dbtest_composite', __DIR__ . '/stubs/jos_dbtest_composite.csv');
 		$dataSet->addTable('jos_assets', __DIR__ . '/stubs/jos_assets_composite.csv');

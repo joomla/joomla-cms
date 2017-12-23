@@ -11,12 +11,8 @@ namespace Joomla\Module\Latest\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Component\Content\Administrator\Model\Articles;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 /**
  * Helper for mod_latest
@@ -28,14 +24,14 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   Registry       &$params  The module parameters.
-	 * @param   ArticlesModel  $model    The model.
+	 * @param   Registry  &$params  The module parameters.
+	 * @param   Articles  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(Registry &$params, ArticlesModel $model)
+	public static function getList(Registry &$params, Articles $model)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
@@ -87,7 +83,7 @@ abstract class ModLatestHelper
 
 		if ($error = $model->getError())
 		{
-			throw new \Exception($error, 500);
+			\JError::raiseError(500, $error);
 
 			return false;
 		}
@@ -95,11 +91,13 @@ abstract class ModLatestHelper
 		// Set the links
 		foreach ($items as &$item)
 		{
-			$item->link = '';
-
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+			}
+			else
+			{
+				$item->link = '';
 			}
 		}
 
@@ -117,24 +115,26 @@ abstract class ModLatestHelper
 	{
 		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
-		$type  = $params->get('ordering') === 'c_dsc' ? '_CREATED' : '_MODIFIED';
-		$title = '';
+		$type  = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
 
 		if ($catid)
 		{
-			$category = Categories::getInstance('Content')->get($catid);
-			$title    = Text::_('MOD_POPULAR_UNEXISTING');
+			$category = \JCategories::getInstance('Content')->get($catid);
 
 			if ($category)
 			{
 				$title = $category->title;
 			}
+			else
+			{
+				$title = \JText::_('MOD_POPULAR_UNEXISTING');
+			}
+		}
+		else
+		{
+			$title = '';
 		}
 
-		return Text::plural(
-			'MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
-			(int) $params->get('count', 5),
-			$title
-		);
+		return \JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

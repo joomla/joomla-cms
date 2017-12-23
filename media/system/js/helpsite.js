@@ -32,7 +32,7 @@ var resetHelpSiteList = function() {
 				document.getElementById(select_id).innerHTML = '';
 
 				// Build options
-				response.data.forEach(function(item) {
+				response.forEach(function(item) {
 					if (item.value !== '' || showDefault === 'true') {
 						node = document.createElement('option');
 						node.value = item.value;

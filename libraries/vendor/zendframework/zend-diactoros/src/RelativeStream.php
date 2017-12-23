@@ -1,7 +1,9 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -46,9 +48,7 @@ final class RelativeStream implements StreamInterface
      */
     public function __toString()
     {
-        if ($this->isSeekable()) {
-            $this->seek(0);
-        }
+        $this->seek(0);
         return $this->getContents();
     }
 

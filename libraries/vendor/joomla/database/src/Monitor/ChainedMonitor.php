@@ -48,7 +48,7 @@ class ChainedMonitor implements QueryMonitorInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function startQuery(string $sql)
+	public function startQuery($sql)
 	{
 		foreach ($this->monitors as $monitor)
 		{

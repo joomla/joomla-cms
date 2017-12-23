@@ -19,7 +19,10 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_login
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_login
+ *
+ * @since       1.5
  */
 class LoginHelper
 {

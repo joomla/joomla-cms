@@ -40,8 +40,8 @@ class JCryptCipherSodiumTest extends TestCase
 	 *
 	 * @param   string  $data  The decrypted data to validate
 	 *
-	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::decrypt
-	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::encrypt
+	 * @covers        SodiumCipher::decrypt
+	 * @covers        SodiumCipher::encrypt
 	 * @dataProvider  dataStrings
 	 */
 	public function testDataEncryptionAndDecryption($data)
@@ -65,7 +65,7 @@ class JCryptCipherSodiumTest extends TestCase
 	/**
 	 * @testdox  Validates keys are correctly generated
 	 *
-	 * @covers   Joomla\CMS\Crypt\Cipher\SodiumCipher::generateKey
+	 * @covers   SodiumCipher::generateKey
 	 */
 	public function testGenerateKey()
 	{

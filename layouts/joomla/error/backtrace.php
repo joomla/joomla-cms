@@ -17,7 +17,7 @@ if (!$backtraceList)
 	return;
 }
 
-$class = $displayData['class'] ?? 'table table-striped table-bordered';
+$class = isset($displayData['class']) ? $displayData['class'] : 'table table-striped table-bordered';
 ?>
 <table cellpadding="0" cellspacing="0" class="Table <?php echo $class ?>">
 	<tr>

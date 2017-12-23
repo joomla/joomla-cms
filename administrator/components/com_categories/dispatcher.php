@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_categories
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class CategoriesDispatcher extends Dispatcher
 {
@@ -25,7 +25,7 @@ class CategoriesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Categories';
 }

@@ -63,7 +63,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  array
 	 */
-	public function all(): array
+	public function all()
 	{
 		return $this->data;
 	}
@@ -96,7 +96,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  string
 	 */
-	private function generateId(): string
+	private function generateId()
 	{
 		return hash('sha256', uniqid(mt_rand()));
 	}
@@ -109,7 +109,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  mixed  Value of a variable
 	 */
-	public function get(string $name, $default)
+	public function get($name, $default)
 	{
 		if (!$this->isStarted())
 		{
@@ -129,7 +129,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  string  The session ID
 	 */
-	public function getId(): string
+	public function getId()
 	{
 		return $this->id;
 	}
@@ -139,7 +139,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  string  The session name
 	 */
-	public function getName(): string
+	public function getName()
 	{
 		return $this->name;
 	}
@@ -151,7 +151,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  boolean  True if the variable exists
 	 */
-	public function has(string $name): bool
+	public function has($name)
 	{
 		if (!$this->isStarted())
 		{
@@ -166,7 +166,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  boolean
 	 */
-	public function isActive(): bool
+	public function isActive()
 	{
 		return $this->active = $this->started;
 	}
@@ -176,7 +176,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  boolean
 	 */
-	public function isStarted(): bool
+	public function isStarted()
 	{
 		return $this->started;
 	}
@@ -188,14 +188,14 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  mixed  The value from session or NULL if not set
 	 */
-	public function remove(string $name)
+	public function remove($name)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = $this->data[$name] ?? null;
+		$old = isset($this->data[$name]) ? $this->data[$name] : null;
 
 		unset($this->data[$name]);
 
@@ -214,7 +214,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @see     session_regenerate_id()
 	 */
-	public function regenerate(bool $destroy = false): bool
+	public function regenerate($destroy = false)
 	{
 		if ($destroy)
 		{
@@ -232,14 +232,14 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  mixed  Old value of a variable.
 	 */
-	public function set(string $name, $value = null)
+	public function set($name, $value = null)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = $this->data[$name] ?? null;
+		$old = isset($this->data[$name]) ? $this->data[$name] : null;
 
 		$this->data[$name] = $value;
 
@@ -255,7 +255,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @throws  \LogicException
 	 */
-	public function setId(string $id)
+	public function setId($id)
 	{
 		if ($this->isActive())
 		{
@@ -276,7 +276,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @throws  \LogicException
 	 */
-	public function setName(string $name)
+	public function setName($name)
 	{
 		if ($this->isActive())
 		{

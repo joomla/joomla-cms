@@ -103,13 +103,19 @@ legend {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: $brand-danger;
+  border-color: $brand-danger;
 }
 .valid {
-  border-color: theme-color("success");
+  border-color: $brand-success;
 }
 
 .form-control-feedback {
   display: block;
+}
+
+// Possibly temporary until Bootstrap support it themselves
+.custom-select[multiple] {
+  height: auto;
+  background: none;
 }

@@ -37,19 +37,8 @@ JFactory::getDocument()->addScriptDeclaration(
 			// Fire this function any time an editor is created.
 			cm.defineInitHook(function (editor)
 			{
-				// Try to set up the mode
-				var mode = cm.findModeByName(editor.options.mode || '');
-
-				if (mode)
-				{
-					cm.autoLoadMode(editor, mode.mode);
-					editor.setOption('mode', mode.mime);
-				}
-				else
-				{
-					cm.autoLoadMode(editor, editor.options.mode);
-				}
-
+				// Load the editor mode (typically 'htmlmixed').
+				cm.autoLoadMode(editor, editor.options.mode);
 				// Handle gutter clicks (place or remove a marker).
 				editor.on("gutterClick", function (ed, n, gutter) {
 					if (gutter != "CodeMirror-markergutter") { return; }
@@ -57,7 +46,6 @@ JFactory::getDocument()->addScriptDeclaration(
 						hasMarker = !!info.gutterMarkers && !!info.gutterMarkers["CodeMirror-markergutter"];
 					ed.setGutterMarker(n, "CodeMirror-markergutter", hasMarker ? null : makeMarker());
 				});
-
 				// jQuery's ready function.
 				$(function () {
 					// Some browsers do something weird with the fieldset which doesn't work well with CodeMirror. Fix it.

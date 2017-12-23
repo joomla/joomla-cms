@@ -86,7 +86,7 @@ class ApcuHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported(): bool
+	public static function isSupported()
 	{
 		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
 

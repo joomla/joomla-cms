@@ -14,13 +14,13 @@ matrix:
   fast_finish: true
   include:
     - php: 7.0
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="yes"
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: 7.1
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="yes"
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: 7.2
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="no"
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
     - php: nightly
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="no"
+      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no"
   allow_failures:
     - php: 7.2
     - php: nightly

@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\Router\RouterBase;
-
 /**
  * Routing class from com_finder
  *
  * @since  3.3
  */
-class FinderRouter extends RouterBase
+class FinderRouter extends \JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_finder component

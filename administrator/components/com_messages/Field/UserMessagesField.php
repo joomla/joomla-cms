@@ -53,7 +53,7 @@ class UserMessagesField extends \JFormFieldUser
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			\JError::raiseNotice(500, $e->getMessage());
 
 			return null;
 		}

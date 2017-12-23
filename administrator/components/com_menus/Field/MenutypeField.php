@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
+use Joomla\Component\Menus\Administrator\Model\Menutypes;
 use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
@@ -74,7 +74,7 @@ class MenutypeField extends \JFormFieldList
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = new MenutypesModel(array('ignore_request' => true));
+				$model = new Menutypes(array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();

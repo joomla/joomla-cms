@@ -30,7 +30,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+					</div>
 					<?php else : ?>
 					<table class="table table-striped" id="manageList">
 						<thead>

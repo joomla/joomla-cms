@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,34 +76,14 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.code.Plugin","tinymce.core.PluginManager","tinymce.plugins.code.api.Commands","tinymce.plugins.code.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.code.ui.Dialog","tinymce.plugins.code.api.Settings","tinymce.plugins.code.core.Content","tinymce.core.dom.DOMUtils"]
+["tinymce.plugins.code.Plugin","tinymce.core.dom.DOMUtils","tinymce.core.PluginManager","global!tinymce.util.Tools.resolve"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
 /**
  * ResolveGlobal.js
  *
@@ -125,7 +105,7 @@ define(
 );
 
 /**
- * Settings.js
+ * ResolveGlobal.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -135,177 +115,15 @@ define(
  */
 
 define(
-  'tinymce.plugins.code.api.Settings',
+  'tinymce.core.PluginManager',
   [
-    'tinymce.core.dom.DOMUtils'
+    'global!tinymce.util.Tools.resolve'
   ],
-  function (DOMUtils) {
-    var getMinWidth = function (editor) {
-      return editor.getParam('code_dialog_width', 600);
-    };
-
-    var getMinHeight = function (editor) {
-      return editor.getParam('code_dialog_height', Math.min(DOMUtils.DOM.getViewPort().h - 200, 500));
-    };
-
-    return {
-      getMinWidth: getMinWidth,
-      getMinHeight: getMinHeight
-    };
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
   }
 );
-/**
- * Content.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
 
-define(
-  'tinymce.plugins.code.core.Content',
-  [
-  ],
-  function () {
-    var setContent = function (editor, html) {
-      // We get a lovely "Wrong document" error in IE 11 if we
-      // don't move the focus to the editor before creating an undo
-      // transation since it tries to make a bookmark for the current selection
-      editor.focus();
-
-      editor.undoManager.transact(function () {
-        editor.setContent(html);
-      });
-
-      editor.selection.setCursorLocation();
-      editor.nodeChanged();
-    };
-
-    var getContent = function (editor) {
-      return editor.getContent({ source_view: true });
-    };
-
-    return {
-      setContent: setContent,
-      getContent: getContent
-    };
-  }
-);
-/**
- * Dialog.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.code.ui.Dialog',
-  [
-    'tinymce.plugins.code.api.Settings',
-    'tinymce.plugins.code.core.Content'
-  ],
-  function (Settings, Content) {
-    var open = function (editor) {
-      var minWidth = Settings.getMinWidth(editor);
-      var minHeight = Settings.getMinHeight(editor);
-
-      var win = editor.windowManager.open({
-        title: 'Source code',
-        body: {
-          type: 'textbox',
-          name: 'code',
-          multiline: true,
-          minWidth: minWidth,
-          minHeight: minHeight,
-          spellcheck: false,
-          style: 'direction: ltr; text-align: left'
-        },
-        onSubmit: function (e) {
-          Content.setContent(editor, e.data.code);
-        }
-      });
-
-      // Gecko has a major performance issue with textarea
-      // contents so we need to set it when all reflows are done
-      win.find('#code').value(Content.getContent(editor));
-    };
-
-    return {
-      open: open
-    };
-  }
-);
-/**
- * Commands.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.code.api.Commands',
-  [
-    'tinymce.plugins.code.ui.Dialog'
-  ],
-  function (Dialog) {
-    var register = function (editor) {
-      editor.addCommand('mceCodeEditor', function () {
-        Dialog.open(editor);
-      });
-    };
-
-    return {
-      register: register
-    };
-  }
-);
-/**
- * Buttons.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.code.ui.Buttons',
-  [
-    'tinymce.plugins.code.ui.Dialog'
-  ],
-  function (Dialog) {
-    var register = function (editor) {
-      editor.addButton('code', {
-        icon: 'code',
-        tooltip: 'Source code',
-        onclick: function () {
-          Dialog.open(editor);
-        }
-      });
-
-      editor.addMenuItem('code', {
-        icon: 'code',
-        text: 'Source code',
-        onclick: function () {
-          Dialog.open(editor);
-        }
-      });
-    };
-
-    return {
-      register: register
-    };
-  }
-);
 /**
  * Plugin.js
  *
@@ -316,19 +134,66 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
+/**
+ * This class contains all core logic for the code plugin.
+ *
+ * @class tinymce.code.Plugin
+ * @private
+ */
 define(
   'tinymce.plugins.code.Plugin',
   [
-    'tinymce.core.PluginManager',
-    'tinymce.plugins.code.api.Commands',
-    'tinymce.plugins.code.ui.Buttons'
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.PluginManager'
   ],
-  function (PluginManager, Commands, Buttons) {
+  function (DOMUtils, PluginManager) {
     PluginManager.add('code', function (editor) {
-      Commands.register(editor);
-      Buttons.register(editor);
+      function showDialog() {
+        var win = editor.windowManager.open({
+          title: "Source code",
+          body: {
+            type: 'textbox',
+            name: 'code',
+            multiline: true,
+            minWidth: editor.getParam("code_dialog_width", 600),
+            minHeight: editor.getParam("code_dialog_height", Math.min(DOMUtils.DOM.getViewPort().h - 200, 500)),
+            spellcheck: false,
+            style: 'direction: ltr; text-align: left'
+          },
+          onSubmit: function (e) {
+            // We get a lovely "Wrong document" error in IE 11 if we
+            // don't move the focus to the editor before creating an undo
+            // transation since it tries to make a bookmark for the current selection
+            editor.focus();
 
-      return {};
+            editor.undoManager.transact(function () {
+              editor.setContent(e.data.code);
+            });
+
+            editor.selection.setCursorLocation();
+            editor.nodeChanged();
+          }
+        });
+
+        // Gecko has a major performance issue with textarea
+        // contents so we need to set it when all reflows are done
+        win.find('#code').value(editor.getContent({ source_view: true }));
+      }
+
+      editor.addCommand("mceCodeEditor", showDialog);
+
+      editor.addButton('code', {
+        icon: 'code',
+        tooltip: 'Source code',
+        onclick: showDialog
+      });
+
+      editor.addMenuItem('code', {
+        icon: 'code',
+        text: 'Source code',
+        context: 'tools',
+        onclick: showDialog
+      });
     });
 
     return function () { };

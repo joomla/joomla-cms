@@ -24,7 +24,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="number"
+					type="text"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
@@ -56,7 +56,7 @@
 
 				<field
 					name="cache_time"
-					type="number"
+					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

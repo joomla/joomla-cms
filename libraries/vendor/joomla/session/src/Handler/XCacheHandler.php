@@ -90,7 +90,7 @@ class XCacheHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported(): bool
+	public static function isSupported()
 	{
 		// XCache is not supported on CLI
 		return extension_loaded('xcache') && php_sapi_name() != 'cli';

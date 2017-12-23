@@ -12,10 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
-JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
-JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
-JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
@@ -58,7 +54,9 @@ if ($saveOrder)
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -81,11 +79,9 @@ if ($saveOrder)
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
@@ -179,29 +175,16 @@ if ($saveOrder)
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
 								<td class="small hidden-sm-down text-center">
-									<?php if ((int) $item->created_by != 0) : ?>
-										<?php if ($item->created_by_alias) : ?>
-                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-										<?php endif; ?>
+									<?php if ($item->created_by_alias) : ?>
+										<?php echo $this->escape($item->author_name); ?>
+										<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
 									<?php else : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<?php echo JText::_('JNONE'); ?>
-                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<?php echo JText::_('JNONE'); ?>
-										<?php endif; ?>
+										<?php echo $this->escape($item->author_name); ?>
 									<?php endif; ?>
 								</td>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<td class="small hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
-								<?php endif; ?>
+								<td class="small hidden-sm-down text-center">
+									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								</td>
 								<td class="nowrap small hidden-sm-down text-center">
 									<?php
 									$date = $item->{$orderingColumn};

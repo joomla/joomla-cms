@@ -14,6 +14,6 @@
  * @subpackage  Model
  * @since       12.1
  */
-class BaseDatabaseModel extends JModelBase
+class BaseModel extends JModelBase
 {
 }

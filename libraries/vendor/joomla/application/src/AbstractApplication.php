@@ -8,8 +8,6 @@
 
 namespace Joomla\Application;
 
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Psr\Log\LoggerAwareInterface;
@@ -22,9 +20,9 @@ use Psr\Log\NullLogger;
  *
  * @since  1.0
  */
-abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAwareInterface
+abstract class AbstractApplication implements LoggerAwareInterface
 {
-	use LoggerAwareTrait, DispatcherAwareTrait;
+	use LoggerAwareTrait;
 
 	/**
 	 * The application configuration object.
@@ -82,29 +80,6 @@ abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAw
 	}
 
 	/**
-	 * Dispatches an application event if the dispatcher has been set.
-	 *
-	 * @param   string  $eventName  The event to dispatch.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function dispatchEvent(string $eventName)
-	{
-		try
-		{
-			$dispatcher = $this->getDispatcher();
-		}
-		catch (\UnexpectedValueException $exception)
-		{
-			return;
-		}
-
-		$dispatcher->dispatch($eventName, new Event\ApplicationEvent($eventName, $this));
-	}
-
-	/**
 	 * Method to run the application routines.
 	 *
 	 * Most likely you will want to instantiate a controller and execute it, or perform some sort of task directly.
@@ -124,12 +99,12 @@ abstract class AbstractApplication implements LoggerAwareInterface, DispatcherAw
 	 */
 	public function execute()
 	{
-		$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
+		// @event onBeforeExecute
 
 		// Perform application routines.
 		$this->doExecute();
 
-		$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+		// @event onAfterExecute
 	}
 
 	/**

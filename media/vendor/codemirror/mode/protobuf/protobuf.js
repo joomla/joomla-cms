@@ -19,8 +19,7 @@
     "package", "message", "import", "syntax",
     "required", "optional", "repeated", "reserved", "default", "extensions", "packed",
     "bool", "bytes", "double", "enum", "float", "string",
-    "int32", "int64", "uint32", "uint64", "sint32", "sint64", "fixed32", "fixed64", "sfixed32", "sfixed64",
-    "option", "service", "rpc", "returns"
+    "int32", "int64", "uint32", "uint64", "sint32", "sint64", "fixed32", "fixed64", "sfixed32", "sfixed64"
   ];
   var keywords = wordRegexp(keywordArray);
 

@@ -42,8 +42,7 @@ module.exports = function(grunt) {
 			puny          : 'media/vendor/punycode/js',
 			codemirror    : 'media/vendor/codemirror',
 			adminTemplate : 'administrator/templates/atum',
-			installTemplate : 'installation/template',
-			siteTemplate  : 'templates/cassiopeia',
+			siteTemplate  : 'templates/aurora',
 			node_module   : 'build/assets_tmp/node_modules/',
 		},
 
@@ -53,7 +52,7 @@ module.exports = function(grunt) {
 				src: [
 					'media/vendor/jquery/js/*',
 					'media/vendor/bootstrap/**',
-					'media/vendor/popper/**',
+					'media/vendor/tether/**',
 					'media/vendor/jcrop/**',
 					'media/vendor/dragula/**',
 					'media/vendor/font-awesome/**',
@@ -68,6 +67,7 @@ module.exports = function(grunt) {
 					'media/vendor/flying-focus-a11y/*',
 					'media/vendor/diff/**',
 					'media/vendor/polyfills/**',
+					'media/vendor/masonry-layout/js/**',
 				],
 				expand: true,
 				options: {
@@ -139,33 +139,33 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>jquery/dist/', src: ['*', '!(core.js)'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
 					// jQuery js migrate files
 					{ expand: true, cwd: '<%= folder.node_module %>jquery-migrate/dist/', src: ['**'], dest: 'media/vendor/jquery/js/', filter: 'isFile'},
-					// Bootastrap js files
+					//Bootastrap js files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/js/', src: ['**'], dest: 'media/vendor/bootstrap/js/', filter: 'isFile'},
-					// Bootastrap scss files
+					//Bootastrap scss files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/scss/', src: ['**'], dest: 'media/vendor/bootstrap/scss/', filter: 'isFile'},
-					// Bootastrap css files
+					//Bootastrap css files
 					{ expand: true, cwd: '<%= folder.node_module %>bootstrap/dist/css/', src: ['**'], dest: 'media/vendor/bootstrap/css/', filter: 'isFile'},
-					// Popper js files
-					{ expand: true, cwd: '<%= folder.node_module %>popper.js/dist/umd/', src: ['*.js'], dest: 'media/vendor/popper/js/', filter: 'isFile'},
+					//Teether js files
+					{ expand: true, cwd: '<%= folder.node_module %>tether/dist/js/', src: ['**'], dest: 'media/vendor/tether/js/', filter: 'isFile'},
 					// Punycode js files
 					{ expand: true, cwd: '<%= folder.node_module %>punycode/', src: ['punycode.js', 'LICENSE-MIT.txt'], dest: 'media/vendor/punycode/js/', filter: 'isFile'},
 					// Cropperjs css files
 					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.css'], dest: 'media/vendor/cropperjs/css/', filter: 'isFile'},
 					// Cropperjs js files
 					{ expand: true, cwd: '<%= folder.node_module %>cropperjs/dist', src: ['*.js'], dest: 'media/vendor/cropperjs/js/', filter: 'isFile'},
-					// Font Awesome css files
+					//Font Awesome css files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/css/', src: ['**'], dest: 'media/vendor/font-awesome/css/', filter: 'isFile'},
-					// Font Awesome scss files
+					//Font Awesome scss files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/scss/', src: ['**'], dest: 'media/vendor/font-awesome/scss/', filter: 'isFile'},
-					// Font Awesome fonts files
+					//Font Awesome fonts files
 					{ expand: true, cwd: '<%= folder.node_module %>font-awesome/fonts/', src: ['**'], dest: 'media/vendor/font-awesome/fonts/', filter: 'isFile'},
-					// TinyMCE plugins
+					// tinyMCE plugins
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/plugins/', src: ['**'], dest: 'media/vendor/tinymce/plugins/', filter: 'isFile'},
-					// TinyMCE skins
+					// tinyMCE skins
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/skins/', src: ['**'], dest: 'media/vendor/tinymce/skins/', filter: 'isFile'},
-					// TinyMCE themes
+					// tinyMCE themes
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/themes/', src: ['**'], dest: 'media/vendor/tinymce/themes/', filter: 'isFile'},
-					// TinyMCE js files
+					// tinyMCE js files
 					{ expand: true, cwd: '<%= folder.node_module %>tinymce/', src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'], dest: 'media/vendor/tinymce/', filter: 'isFile'},
 					// Code mirror addon files
 					{ expand: true, cwd: '<%= folder.node_module %>codemirror/addon/', src: ['**'], dest: 'media/vendor/codemirror/addon/', filter: 'isFile'},
@@ -205,6 +205,8 @@ module.exports = function(grunt) {
 					{ expand: true, cwd: '<%= folder.node_module %>diff/dist', src: ['*.js'], dest: 'media/vendor/diff/js/', filter: 'isFile'},
 					// XPath polyfill js files
 					{ expand: false, src: '<%= folder.node_module %>wicked-good-xpath/dist/wgxpath.install.js', dest: 'media/vendor/polyfills/js/polyfill-wgxpath.js', filter: 'isFile'},
+					// Masonry js files
+					{ expand: true, cwd: '<%= folder.node_module %>masonry-layout/dist', src: ['*.js'], dest: 'media/vendor/masonry/js/', filter: 'isFile'},
 
 					// Licenses
 					{ src: ['<%= folder.node_module %>jquery/LICENSE.txt'], dest: 'media/vendor/jquery/LICENSE.txt'},
@@ -220,10 +222,12 @@ module.exports = function(grunt) {
 					{ src: ['<%= folder.node_module %>wicked-good-xpath/LICENSE'], dest: 'media/vendor/polyfills/wicked-good-xpath-LICENSE'},
 				]
 			},
-			webcomponents: {
+			polyfills: {
 				files: [
+					// Joomla UI custom elements polyfills
+					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/polyfills', src: ['**'], dest: 'media/system/js/polyfills/webcomponents', filter: 'isFile'},
 					// Joomla UI custom elements js files
-					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist', src: ['**'], dest: 'media/vendor/joomla-custom-elements/', filter: 'isFile'},
+					{ expand: true, cwd: '<%= folder.node_module %>joomla-ui-custom-elements/dist/js', src: ['**'], dest: 'media/system/webcomponents/', filter: 'isFile'},
 				]
 			}
 		},
@@ -236,7 +240,6 @@ module.exports = function(grunt) {
 					sourceMap: true // SHOULD BE FALSE FOR DIST
 				},
 				files: {
-					'<%= folder.adminTemplate %>/css/template.css': '<%= folder.adminTemplate %>/scss/template.scss',
 					'<%= folder.siteTemplate %>/css/template.css' : '<%= folder.siteTemplate %>/scss/template.scss',
 				}
 			},
@@ -395,7 +398,12 @@ module.exports = function(grunt) {
 				processors: [
 					require('autoprefixer')({
 						browsers: [
-							settings.Browsers
+							'Chrome >= ' + settings.Browsers.Chrome,
+							'Firefox >= ' + settings.Browsers.Firefox,
+							'Edge >= ' + settings.Browsers.Edge,
+							'Explorer >= ' + settings.Browsers.Explorer,
+							'Safari >= ' + settings.Browsers.Safari,
+							'Opera >= ' + settings.Browsers.Opera
 						]
 					})
 				],
@@ -444,20 +452,6 @@ module.exports = function(grunt) {
 					dest: '<%= folder.siteTemplate %>/css',
 				}]
 			},
-			installTemplate: {
-				files: [{
-					expand: true,
-					matchBase: true,
-					ext: '.min.css',
-					cwd: '<%= folder.installTemplate %>/css',
-					src: [
-						'*.css',
-						'!*.min.css',
-						'!theme/*.css'
-					],
-					dest: '<%= folder.installTemplate %>/css',
-				}]
-			},
 			admin: {
 				files: [{
 					expand: true,
@@ -478,7 +472,6 @@ module.exports = function(grunt) {
 		watch: {
 			siteTemplate: {
 				files: [
-					'<%= folder.adminTemplate %>/**/*.scss',
 					'<%= folder.siteTemplate %>/**/*.scss',
 					'media/system/scss/**/*.scss',
 				],
@@ -497,221 +490,17 @@ module.exports = function(grunt) {
 		}
 	});
 
-	/**
-	 * Webcomponents polyfills start
-	 */
-	grunt.registerTask('polyfills-wc', 'Create a copy of the polyfills', () => {
-		// Copy polyfills in the system/polyfills directory
-		if (grunt.file.exists('node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js')) {
-			let polyfills = ['webcomponents-hi-ce', 'webcomponents-hi-sd-ce', 'webcomponents-hi', 'webcomponents-lite', 'webcomponents-sd-ce'];
-
-			polyfills.forEach((polyfill) => {
-				// Put a copy of webcomponentjs polyfills in the dist folder
-				grunt.config.set('copy.' + polyfill + '.files', [{
-					src: 'node_modules/@webcomponents/webcomponentsjs/' + polyfill + '.js',
-					dest: 'media/system/js/polyfills/webcomponents/' + polyfill + '.js'
-				}]);
-
-				grunt.task.run('copy:' + polyfill);
-
-				// Put a copy of webcomponentjs polyfills maps in the dist folder
-				grunt.config.set('copy.' + polyfill + '-map.files', [{
-					src: 'node_modules/@webcomponents/webcomponentsjs/' + polyfill + '.js.map',
-					dest: 'media/system/js/polyfills/webcomponents/' + polyfill + '.js.map'
-				}]);
-
-				grunt.task.run('copy:' + polyfill + '-map');
-			})
-
-
-			// Patch the Custom Element Polyfill to add the WebComponentsReady event
-			grunt.registerTask('patchCE', 'Patch Custom Elements Polyfill', () => {
-				// Patch the Custom Element polyfill
-				console.log(grunt.file.read('node_modules/@webcomponents/custom-elements/custom-elements.min.js'))
-				if (grunt.file.exists('node_modules/@webcomponents/custom-elements/custom-elements.min.js')) {
-					let ce = grunt.file.read('node_modules/@webcomponents/custom-elements/custom-elements.min.js');
-					console.log(ce)
-					ce = ce.replace('//# sourceMappingURL=custom-elements.min.js.map', `
-(function(){
-	window.WebComponents = window.WebComponents || {};
-	requestAnimationFrame(function() {
-		window.WebComponents.ready= true;
-		document.dispatchEvent(new CustomEvent("WebComponentsReady", { bubbles:true }) );
-	})
-})();
-//# sourceMappingURL=custom-elements.js.map`);
-
-					grunt.file.write('media/system/js/polyfills/webcomponents/webcomponents-ce.js', ce);
-				}
-			});
-
-			// Copy the Custom Elements polyfill map
-			grunt.config.set('copy.ce-map.files', [{
-				src: 'node_modules/@webcomponents/custom-elements/custom-elements.min.js.map',
-				dest: 'media/system/js/polyfills/webcomponents/webcomponents-ce.js.map'
-			}]);
-
-			grunt.registerTask('all-ce', ['patchCE', 'copy:ce-map']);
-			// grunt.task.run('copy:ce-map');
-			grunt.task.run('all-ce');
-		}
-
-		// Uglify the polyfills
-		grunt.config.set('uglify.polyfills-js.files', [{
-			src: ['!media/system/js/polyfills/webcomponents/*.min.js', 'media/system/js/polyfills/webcomponents/*.js'],
-			dest: '',
-			ext: '.min.js',
-			expand: true
-		}]);
-
-		grunt.task.run('uglify:polyfills-js');
-	});
-	/**
-	 * Webcomponents polyfills end
-	 */
-
-	/**
-	 * Custom Elements start
-	 */
-	// Compile the css
-	grunt.registerTask('compile-ce', 'Compile css files', () => {
-		const compileCss = (element) => {
-			if (grunt.file.exists('build/webcomponents/scss/' + element + '/' + element + '.scss')) {
-				// Compile the css files
-				grunt.config.set('sass.' + element + '.files', [{
-					src: 'build/webcomponents/scss/' + element + '/' + element + '.scss',
-					dest: settings.webcomponents[element].css + '/joomla-' + element + '.css'
-				}]);
-
-				grunt.task.run('sass:' + element);
-
-				// Autoprefix the CSS files
-				grunt.config.set('postcss.' + element + '.files', [{
-					map: false,
-					processors: [
-						require('autoprefixer')({
-							browsers: [
-								`grunt.settings.browsers`,
-							]
-						})
-					],
-					src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
-				}]);
-
-				grunt.task.run('postcss:' + element);
-
-				// Autoprefix the CSS files
-				grunt.config.set('cssmin.' + element + '.files', [{
-					src: settings.webcomponents[element].css + '/joomla-' + element + '.css',
-					dest: settings.webcomponents[element].css + '/joomla-' + element + '.min.css'
-				}]);
-
-				grunt.task.run('cssmin:' + element);
-			}
-		};
-
-		console.info('Build the custom elements stylesheets')
-		for (name in settings.webcomponents) {
-			compileCss(name);
-		}
-	});
-
-	// Create the Custom Elements
-	grunt.registerTask('createElements', 'Create the Custom Elemets', () => {
-		// Create the custom element
-		const createElement = (element) => {
-			let tmpJs = '';
-
-			if (grunt.file.exists('build/webcomponents/js/' + element + '/' + element + '.js')) {
-				// Repeat
-				tmpJs = grunt.file.read('build/webcomponents/js/' + element + '/' + element + '.js');
-				grunt.file.write('build/webcomponents/js/' + element + '/' + element + '_es6.js', tmpJs);
-
-				// Browserify the ES5 Element
-				grunt.config.set('browserify.options', {
-					"transform": [
-						[
-							"babelify",
-							{
-								"presets": [
-									"es2015",
-									"minify"
-								],
-								"plugins": [
-									"static-fs"
-								]
-							}
-						]
-					]
-				});
-
-				// As custom elements (plain Js and css)
-				grunt.config.set('browserify.' + element + '.files', [{
-					dest: settings.webcomponents[element].js + '/joomla-' + element + '-es5.js',
-					src: 'build/webcomponents/js/' + element + '/' + element + '_es6.js',
-				}]);
-
-				grunt.task.run('browserify:' + element);
-
-				// Uglify the scripts
-				grunt.config.set('uglify.' + element + '-js' + '.files', [{
-					src: [settings.webcomponents[element].js + '/joomla-' + element + '-es5.js', '!' + settings.webcomponents[element].js +'/joomla-' + element + '.min.js'],
-					dest: '',
-					ext: '.min.js',
-					expand: true
-				}]);
-
-				grunt.task.run('uglify:' + element + '-js');
-
-				// Put an ES6 copy in the dist folder
-				grunt.config.set('copy.' + element + '-es6' + '.files', [{
-					src: 'build/webcomponents/js/' + element + '/' + element + '_es6.js',
-					dest: settings.webcomponents[element].js + '/joomla-' + element + '.js'
-				}]);
-
-				grunt.task.run('copy:' + element + '-es6');
-
-				// Uglify the ES6 script
-				grunt.config.set('uglify.' + element + '-es6' + '.files', [{
-					src: settings.webcomponents[element].js + '/joomla-' + element + '.js',
-					dest: settings.webcomponents[element].js +'/joomla-' + element + '.min.js',
-				}]);
-
-				grunt.task.run('uglify:' + element + '-es6');
-
-				// Remove the temporary file
-				grunt.registerTask('deleteTmpCE', 'Delete temp files', () => {
-					if (grunt.file.exists('build/webcomponents/js/' + element + '/' + element + '_es6.js')) {
-						grunt.file.delete('build/webcomponents/js/' + element + '/' + element + '_es6.js');
-					}
-				});
-
-				grunt.task.run('deleteTmpCE');
-			}
-		};
-
-		console.info('Build the custom Elements')
-		for (name in settings.webcomponents) {
-			createElement(name);
-		}
-	});
-	/**
-	 * Custom Elements end
-	 */
-
 	// Load required modules
-	grunt.loadNpmTasks('grunt-babel');
-	grunt.loadNpmTasks('grunt-browserify');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-postcss-x');
-	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-scss-lint');
+	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-shell');
+	grunt.loadNpmTasks('grunt-postcss');
 
 	grunt.registerTask('default',
 		[
@@ -723,7 +512,7 @@ module.exports = function(grunt) {
 			'sass:admin',
 			'clean:allMinJs',
 			'uglify:allJs',
-			'copy:webcomponents',
+			'copy:polyfills',
 			'cssmin:allCss',
 			'postcss:site',
 			'postcss:admin',
@@ -734,8 +523,6 @@ module.exports = function(grunt) {
 			'clean:temp'
 		]
 	);
-
-	grunt.registerTask('webcomponents', ['polyfills-wc', 'compile-ce', 'createElements']);
 
 	grunt.registerTask('updateXML', 'Update XML for tinyMCE and Codemirror', function() {
 		// Update the XML files for tinyMCE and Codemirror
@@ -808,7 +595,7 @@ window.errorLocale = {`;
 }`;
 
 		// Write the file
-		grunt.file.write('templates/system/js/error-locales.js', template);
+		grunt.file.write('installation/template/js/error-locales.js', template);
 	});
 
 };

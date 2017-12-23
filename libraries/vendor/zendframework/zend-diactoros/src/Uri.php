@@ -1,7 +1,9 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -23,14 +25,14 @@ use Psr\Http\Message\UriInterface;
 class Uri implements UriInterface
 {
     /**
-     * Sub-delimiters used in user info, query strings and fragments.
+     * Sub-delimiters used in query strings and fragments.
      *
      * @const string
      */
     const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
 
     /**
-     * Unreserved characters used in user info, paths, query strings, and fragments.
+     * Unreserved characters used in paths, query strings, and fragments.
      *
      * @const string
      */
@@ -164,10 +166,6 @@ class Uri implements UriInterface
     }
 
     /**
-     * Retrieve the user-info part of the URI.
-     *
-     * This value is percent-encoded, per RFC 3986 Section 3.2.1.
-     *
      * {@inheritdoc}
      */
     public function getUserInfo()
@@ -234,7 +232,7 @@ class Uri implements UriInterface
 
         if ($scheme === $this->scheme) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -244,11 +242,6 @@ class Uri implements UriInterface
     }
 
     /**
-     * Create and return a new instance containing the provided user credentials.
-     *
-     * The value will be percent-encoded in the new instance, but with measures
-     * taken to prevent double-encoding.
-     *
      * {@inheritdoc}
      */
     public function withUserInfo($user, $password = null)
@@ -268,14 +261,14 @@ class Uri implements UriInterface
             ));
         }
 
-        $info = $this->filterUserInfoPart($user);
+        $info = $user;
         if ($password) {
-            $info .= ':' . $this->filterUserInfoPart($password);
+            $info .= ':' . $password;
         }
 
         if ($info === $this->userInfo) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -299,7 +292,7 @@ class Uri implements UriInterface
 
         if ($host === $this->host) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -326,7 +319,7 @@ class Uri implements UriInterface
 
         if ($port === $this->port) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         if ($port !== null && $port < 1 || $port > 65535) {
@@ -369,7 +362,7 @@ class Uri implements UriInterface
 
         if ($path === $this->path) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -399,7 +392,7 @@ class Uri implements UriInterface
 
         if ($query === $this->query) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -425,7 +418,7 @@ class Uri implements UriInterface
 
         if ($fragment === $this->fragment) {
             // Do nothing if no change was made.
-            return $this;
+            return clone $this;
         }
 
         $new = clone $this;
@@ -450,7 +443,7 @@ class Uri implements UriInterface
         }
 
         $this->scheme    = isset($parts['scheme']) ? $this->filterScheme($parts['scheme']) : '';
-        $this->userInfo  = isset($parts['user']) ? $this->filterUserInfoPart($parts['user']) : '';
+        $this->userInfo  = isset($parts['user']) ? $parts['user'] : '';
         $this->host      = isset($parts['host']) ? $parts['host'] : '';
         $this->port      = isset($parts['port']) ? $parts['port'] : null;
         $this->path      = isset($parts['path']) ? $this->filterPath($parts['path']) : '';
@@ -555,23 +548,6 @@ class Uri implements UriInterface
     }
 
     /**
-     * Filters a part of user info in a URI to ensure it is properly encoded.
-     *
-     * @param string $part
-     * @return string
-     */
-    private function filterUserInfoPart($part)
-    {
-        // Note the addition of `%` to initial charset; this allows `|` portion
-        // to match and thus prevent double-encoding.
-        return preg_replace_callback(
-            '/(?:[^%' . self::CHAR_UNRESERVED . self::CHAR_SUB_DELIMS . ']+|%(?![A-Fa-f0-9]{2}))/u',
-            [$this, 'urlEncodeChar'],
-            $part
-        );
-    }
-
-    /**
      * Filters the path of a URI to ensure it is properly encoded.
      *
      * @param string $path
@@ -580,7 +556,7 @@ class Uri implements UriInterface
     private function filterPath($path)
     {
         $path = preg_replace_callback(
-            '/(?:[^' . self::CHAR_UNRESERVED . ')(:@&=\+\$,\/;%]+|%(?![A-Fa-f0-9]{2}))/u',
+            '/(?:[^' . self::CHAR_UNRESERVED . ':@&=\+\$,\/;%]+|%(?![A-Fa-f0-9]{2}))/u',
             [$this, 'urlEncodeChar'],
             $path
         );
@@ -648,7 +624,7 @@ class Uri implements UriInterface
     /**
      * Filter a fragment value to ensure it is properly encoded.
      *
-     * @param string $fragment
+     * @param null|string $fragment
      * @return string
      */
     private function filterFragment($fragment)

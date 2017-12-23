@@ -228,7 +228,7 @@ abstract class JHtmlModules
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		// Pop the first item off the array if it's blank

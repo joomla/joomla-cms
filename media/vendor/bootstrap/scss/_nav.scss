@@ -5,7 +5,6 @@
 
 .nav {
   display: flex;
-  flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -13,17 +12,19 @@
 
 .nav-link {
   display: block;
-  padding: $nav-link-padding-y $nav-link-padding-x;
+  padding: $nav-link-padding;
 
   @include hover-focus {
     text-decoration: none;
   }
 
-  // Disabled state lightens text
+  // Disabled state lightens text and removes hover/tab effects
   &.disabled {
-    color: $nav-link-disabled-color;
+    color: $nav-disabled-link-color;
+    cursor: $cursor-disabled;
   }
 }
+
 
 //
 // Tabs
@@ -45,7 +46,7 @@
     }
 
     &.disabled {
-      color: $nav-link-disabled-color;
+      color: $nav-disabled-link-color;
       background-color: transparent;
       border-color: transparent;
     }
@@ -53,9 +54,9 @@
 
   .nav-link.active,
   .nav-item.show .nav-link {
-    color: $nav-tabs-link-active-color;
-    background-color: $nav-tabs-link-active-bg;
-    border-color: $nav-tabs-link-active-border-color $nav-tabs-link-active-border-color $nav-tabs-link-active-bg;
+    color: $nav-tabs-active-link-hover-color;
+    background-color: $nav-tabs-active-link-hover-bg;
+    border-color: $nav-tabs-active-link-hover-border-color $nav-tabs-active-link-hover-border-color $nav-tabs-active-link-hover-bg;
   }
 
   .dropdown-menu {
@@ -77,9 +78,10 @@
   }
 
   .nav-link.active,
-  .show > .nav-link {
-    color: $nav-pills-link-active-color;
-    background-color: $nav-pills-link-active-bg;
+  .nav-item.show .nav-link {
+    color: $nav-pills-active-link-color;
+    cursor: default;
+    background-color: $nav-pills-active-link-bg;
   }
 }
 
@@ -97,8 +99,7 @@
 
 .nav-justified {
   .nav-item {
-    flex-basis: 0;
-    flex-grow: 1;
+    flex: 1 1 100%;
     text-align: center;
   }
 }

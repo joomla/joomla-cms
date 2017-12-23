@@ -201,12 +201,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function execute()
 	{
-		$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
+		// @event onBeforeExecute
 
 		// Perform application routines.
 		$this->doExecute();
 
-		$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+		// @event onAfterExecute
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
 		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
@@ -214,12 +214,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 			$this->compress();
 		}
 
-		$this->dispatchEvent(ApplicationEvents::BEFORE_RESPOND);
+		// @event onBeforeRespond
 
 		// Send the application response.
 		$this->respond();
 
-		$this->dispatchEvent(ApplicationEvents::AFTER_RESPOND);
+		// @event onAfterRespond
 	}
 
 	/**
@@ -664,7 +664,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getResponse(): ResponseInterface
+	public function getResponse()
 	{
 		return $this->response;
 	}
@@ -689,7 +689,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	/**
 	 * Check if a given value can be successfully mapped to a valid http status value
 	 *
-	 * @param   string|int  $value  The given status as int or string
+	 * @param   string  $value  The given status as int or string
 	 *
 	 * @return string
 	 *
@@ -705,20 +705,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 		}
 
 		return 'HTTP/1.1 ' . $code;
-	}
-
-	/**
-	 * Check if the value is a valid HTTP 1.1 status code
-	 *
-	 * @param   int  $code  The potential status code
-	 *
-	 * @return  bool
-	 *
-	 * @since  1.8.1
-	 */
-	public function isValidHttpStatus($code)
-	{
-		return array_key_exists($code, $this->responseMap);
 	}
 
 	/**
@@ -912,7 +898,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 			$requestUri = $this->input->server->getString('REQUEST_URI', '');
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
+			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($requestUri))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
 				$path = dirname($this->input->server->getString('PHP_SELF', ''));

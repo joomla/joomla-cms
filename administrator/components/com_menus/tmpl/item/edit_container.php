@@ -42,7 +42,7 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 		<ul class="treeselect">
 			<?php if (count($menuLinks)) : ?>
 				<?php $prevlevel = 0; ?>
-				<joomla-alert type="info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?></joomla-alert>
+				<div class="alert alert-info"><?php echo JText::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC')?></div>
 				<li>
 				<?php
 				$params      = new Registry($this->item->params);
@@ -96,7 +96,9 @@ JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'r
 				</li>
 				<?php endif; ?>
 		</ul>
-		<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<div id="noresultsfound" class="alert alert-no-items" style="display:none;">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
 		<?php endif; ?>
 	</div>
 </div>

@@ -9,14 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\OutputFilter;
-
 // Check if feed URL has been set
 if (empty ($rssurl))
 {
-	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
+	echo '<div>' . JText::_('MOD_FEED_ERR_NO_URL') . '</div>';
 
 	return;
 }
@@ -27,7 +23,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = Factory::getLanguage();
+	$lang      = JFactory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
@@ -59,8 +55,8 @@ else
 
 	if ($feed != false) :
 		// Image handling
-		$iUrl   = $feed->image ?? null;
-		$iTitle = $feed->imagetitle ?? null;
+		$iUrl   = isset($feed->image) ? $feed->image : null;
+		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
@@ -110,7 +106,7 @@ else
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
-							$text = OutputFilter::stripImages($text);
+							$text = JFilterOutput::stripImages($text);
 							// Strip HTML
 							$text = strip_tags($text);
 							echo str_replace('&apos;', "'", $text);

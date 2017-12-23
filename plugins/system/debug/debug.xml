@@ -137,11 +137,11 @@
 					type="radio"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
+					class="btn-group btn-group-yesno"
 					default="1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 

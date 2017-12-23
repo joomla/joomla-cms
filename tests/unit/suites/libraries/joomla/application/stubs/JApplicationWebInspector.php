@@ -43,7 +43,7 @@ class JApplicationWebInspector extends JApplicationWeb
 
 	/**
 	 * @var     integer  The user identifier.
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $userId = 0;
 
@@ -122,7 +122,7 @@ class JApplicationWebInspector extends JApplicationWeb
 	 *
 	 * @return  string  Hashed var name
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getFormToken($forceNew = false)
 	{

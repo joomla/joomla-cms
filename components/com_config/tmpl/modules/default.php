@@ -63,10 +63,10 @@ JFactory::getDocument()->addScriptDeclaration("
 
 			<div>
 				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title'] ?></span>
+				<span class="badge badge-default"><?php echo $this->item['title'] ?></span>
 				&nbsp;&nbsp;
 				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module'] ?></span>
+				<span class="badge badge-default"><?php echo $this->item['module'] ?></span>
 			</div>
 			<hr>
 
@@ -146,17 +146,14 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					</div>
 
-					<?php if (\JLanguageMultilang::isEnabled()) : ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('language'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('language'); ?>
-							</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('language'); ?>
 						</div>
-					<?php endif; ?>
-
+						<div class="controls">
+							<?php echo $this->form->getInput('language'); ?>
+						</div>
+					</div>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('note'); ?>

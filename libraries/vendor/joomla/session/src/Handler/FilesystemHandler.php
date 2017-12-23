@@ -26,9 +26,12 @@ class FilesystemHandler extends \SessionHandler implements HandlerInterface
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */
-	public function __construct(string $path = '')
+	public function __construct($path = null)
 	{
-		$path = $path ?: ini_get('session.save_path');
+		if (null === $path)
+		{
+			$path = ini_get('session.save_path');
+		}
 
 		// If the path is still empty, then we can't use this handler
 		if (empty($path))
@@ -58,11 +61,8 @@ class FilesystemHandler extends \SessionHandler implements HandlerInterface
 			}
 		}
 
-		if (!headers_sent())
-		{
-			ini_set('session.save_path', $path);
-			ini_set('session.save_handler', 'files');
-		}
+		ini_set('session.save_path', $path);
+		ini_set('session.save_handler', 'files');
 	}
 
 	/**
@@ -72,7 +72,7 @@ class FilesystemHandler extends \SessionHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported(): bool
+	public static function isSupported()
 	{
 		return true;
 	}

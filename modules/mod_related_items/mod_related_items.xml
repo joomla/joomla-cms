@@ -35,7 +35,7 @@
 
 				<field
 					name="maximum"
-					type="number"
+					type="text"
 					label="MOD_RELATED_FIELD_MAX_LABEL"
 					default="5"
 				/>
@@ -67,7 +67,7 @@
 
 				<field
 					name="cache_time"
-					type="number"
+					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

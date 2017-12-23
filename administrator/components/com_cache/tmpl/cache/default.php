@@ -11,6 +11,27 @@ defined('_JEXEC') or die;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+JText::script('COM_CACHE_RESOURCE_INTENSIVE_WARNING');
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(pressbutton)
+	{
+		if (pressbutton == "purge")
+		{
+			if (confirm(Joomla.JText._("COM_CACHE_RESOURCE_INTENSIVE_WARNING")))
+			{
+				Joomla.submitform(pressbutton);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		Joomla.submitform(pressbutton);
+	};
+');
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -51,11 +72,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						foreach ($this->data as $folder => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" onclick="Joomla.isChecked(this.checked);">
+									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);">
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">
-										<strong><?php echo $this->escape($item->group); ?></strong>
+										<strong><?php echo $item->group; ?></strong>
 									</label>
 								</td>
 								<td class="text-center">

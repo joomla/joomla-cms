@@ -9,6 +9,4 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
-
-require ModuleHelper::getLayoutPath('mod_multilangstatus', $params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath('mod_multilangstatus', $params->get('layout', 'default'));

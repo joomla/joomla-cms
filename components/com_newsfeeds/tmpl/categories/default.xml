@@ -32,7 +32,6 @@
 				type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -65,7 +64,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -76,7 +74,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -87,7 +84,6 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -107,7 +103,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -118,7 +113,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -129,7 +123,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -155,7 +148,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -166,7 +158,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -178,7 +169,6 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				id="show_cat_items"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -200,7 +190,6 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -211,7 +200,6 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -223,7 +211,6 @@
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				id="show_headings"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -235,7 +222,6 @@
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 				id="show_articles"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -247,7 +233,6 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 				id="show_link"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -258,7 +243,6 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -270,7 +254,6 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -284,7 +267,6 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -295,7 +277,6 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -306,7 +287,6 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -314,7 +294,7 @@
 
 			<field 
 				name="feed_character_count" 
-				type="number"
+				type="text"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				size="6"

@@ -202,7 +202,7 @@ class DatabaseHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported(): bool
+	public static function isSupported()
 	{
 		return interface_exists(DatabaseInterface::class);
 	}

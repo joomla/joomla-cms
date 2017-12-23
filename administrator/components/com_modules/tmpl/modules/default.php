@@ -16,8 +16,7 @@ $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering');
-
-if ($saveOrder && !empty($this->items))
+if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -57,7 +56,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if (($clientId === 0) && (JLanguageMultilang::isEnabled())) : ?>
+						<?php if ($clientId === 0) : ?>
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
@@ -150,7 +149,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-secondary">
+								<span class="badge badge-default">
 									<?php echo JText::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
@@ -166,7 +165,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if (($clientId === 0) && (JLanguageMultilang::isEnabled())) : ?>
+						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>

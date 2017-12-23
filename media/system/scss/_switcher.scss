@@ -18,22 +18,22 @@
   transition: border .4s ease 0s, box-shadow .4s ease 0s;
 
   &.active {
-    background-color: theme-color("success");
-    border-color: theme-color("success");
-    box-shadow: 0 0 0 16px theme-color("success") inset;
+    background-color: $brand-success;
+    border-color: $brand-success;
+    box-shadow: 0 0 0 16px $brand-success inset;
     transition: border .4s ease 0s, box-shadow .4s ease 0s, background-color 1.2s ease 0s;
   }
 
   &.switcher-danger.active {
-    background-color: theme-color("danger");
-    border-color: theme-color("danger");
-    box-shadow: 0 0 0 16px theme-color("danger") inset;
+    background-color: $brand-danger;
+    border-color: $brand-danger;
+    box-shadow: 0 0 0 16px $brand-danger inset;
   }
 
   &.switcher-primary.active {
-    background-color: theme-color("primary");
-    border-color: theme-color("primary");
-    box-shadow: 0 0 0 16px theme-color("primary") inset;
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+    box-shadow: 0 0 0 16px $brand-primary inset;
   }
 
   input {
@@ -82,7 +82,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    color: $gray-400;
+    color: $grey;
     visibility: hidden;
     opacity: 0;
     transition: all .2s ease-in-out;

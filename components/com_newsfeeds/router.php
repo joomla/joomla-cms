@@ -9,50 +9,40 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Component\Router\RouterView;
-use Joomla\CMS\Component\Router\RouterViewConfiguration;
-use Joomla\CMS\Component\Router\Rules\MenuRules;
-use Joomla\CMS\Component\Router\Rules\NomenuRules;
-use Joomla\CMS\Component\Router\Rules\StandardRules;
-use Joomla\CMS\Menu\AbstractMenu;
-
-
 /**
  * Routing class from com_newsfeeds
  *
  * @since  3.3
  */
-class NewsfeedsRouter extends RouterView
+class NewsfeedsRouter extends \JComponentRouterView
 {
 	protected $noIDs = false;
 
 	/**
 	 * Newsfeeds Component router constructor
 	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
+	 * @param   \JApplicationCms  $app   The application object
+	 * @param   \JMenu            $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		$params = ComponentHelper::getParams('com_newsfeeds');
+		$params = \JComponentHelper::getParams('com_newsfeeds');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new RouterViewConfiguration('categories');
+		$categories = new \JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new RouterViewConfiguration('category');
+		$category = new \JComponentRouterViewconfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
 		$this->registerView($category);
-		$newsfeed = new RouterViewConfiguration('newsfeed');
+		$newsfeed = new \JComponentRouterViewconfiguration('newsfeed');
 		$newsfeed->setKey('id')->setParent($category, 'catid');
 		$this->registerView($newsfeed);
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new MenuRules($this));
-		$this->attachRule(new StandardRules($this));
-		$this->attachRule(new NomenuRules($this));
+		$this->attachRule(new \JComponentRouterRulesMenu($this));
+		$this->attachRule(new \JComponentRouterRulesStandard($this));
+		$this->attachRule(new \JComponentRouterRulesNomenu($this));
 	}
 
 	/**

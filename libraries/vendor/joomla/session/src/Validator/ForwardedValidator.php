@@ -58,7 +58,7 @@ class ForwardedValidator implements ValidatorInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function validate(bool $restart = false)
+	public function validate($restart = false)
 	{
 		if ($restart)
 		{

@@ -9,7 +9,7 @@
 
 use Joomla\Registry\Registry;
 
-JLoader::register('BaseDatabaseModel', __DIR__ . '/stubs/tbase.php');
+JLoader::register('BaseModel', __DIR__ . '/stubs/tbase.php');
 
 /**
  * Tests for the JViewBase class.
@@ -21,7 +21,7 @@ JLoader::register('BaseDatabaseModel', __DIR__ . '/stubs/tbase.php');
 class JModelBaseTest extends TestCase
 {
 	/**
-	 * @var    BaseDatabaseModel
+	 * @var    BaseModel
 	 * @since  12.1
 	 */
 	private $_instance;
@@ -41,7 +41,7 @@ class JModelBaseTest extends TestCase
 		// @codingStandardsIgnoreEnd
 
 		$state = new Registry(array('foo' => 'bar'));
-		$class = new BaseDatabaseModel($state);
+		$class = new BaseModel($state);
 		$this->assertEquals($state, $class->getState(), 'Checks state injection.');
 	}
 
@@ -97,7 +97,7 @@ class JModelBaseTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->_instance = new BaseDatabaseModel;
+		$this->_instance = new BaseModel;
 	}
 
 	/**

@@ -4,6 +4,7 @@
 
   .content {
     margin-top: 0;
+    background: none;
   }
 
   .card {
@@ -30,12 +31,12 @@
 
       > .published {
         padding-left: .9rem;
-        border-left: 5px solid theme-color("success");
+        border-left: 5px solid $brand-success;
       }
 
       > .unpublished {
         padding-left: .9rem;
-        border-left: 5px solid theme-color("danger");
+        border-left: 5px solid $brand-danger;
       }
 
       &:first-of-type {
@@ -65,7 +66,7 @@
     margin-right: - $card-spacer-x;
     margin-bottom: 0;
     margin-left: - $card-spacer-x;
-    font-size: $h5-font-size;
+    font-size: $font-size-h5;
     color: $atum-template-color;
     background-color: $atum-card-title-bg;
     border-bottom: 1px solid rgba(0,0,0,.125);
@@ -84,7 +85,7 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: $gray-700;
+      color: $gray;
       text-align: center;
       background-color: $atum-card-title-icon-bg;
       border-left: 1px solid $atum-border-color;

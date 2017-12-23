@@ -30,8 +30,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="info"><?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></joomla-alert>
-						<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-info">
+						<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+					</div>
+
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 					<?php else : ?>
 					<table class="table table-striped">
 						<thead>
@@ -77,7 +82,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 								</td>
 								<td>
-									<label for="cb<?php echo $i; ?>">
+									<label for="cb<?php echo $i;?>">
 										<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
 									</label>
 								</td>

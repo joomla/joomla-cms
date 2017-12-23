@@ -1,0 +1,30 @@
+// Global
+
+html {
+  font-size: $font-size-root;
+}
+body {
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
+  background: #fff;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
+small,
+.small {
+  font-size: $font-size-small;
+}

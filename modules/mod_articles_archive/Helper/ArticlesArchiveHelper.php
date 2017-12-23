@@ -16,7 +16,9 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_articles_archive
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_archive
+ * @since       1.5
  */
 class ArticlesArchiveHelper
 {

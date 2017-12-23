@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,34 +76,13 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.template.Plugin","tinymce.core.PluginManager","tinymce.plugins.template.api.Commands","tinymce.plugins.template.core.FilterContent","tinymce.plugins.template.ui.Buttons","global!tinymce.util.Tools.resolve","ephox.katamari.api.Fun","tinymce.plugins.template.core.Templates","tinymce.core.util.Tools","tinymce.plugins.template.api.Settings","tinymce.plugins.template.core.DateTimeHelper","tinymce.plugins.template.ui.Dialog","global!Array","global!Error","tinymce.core.util.XHR","tinymce.core.dom.DOMUtils"]
+["tinymce.plugins.template.Plugin","ephox.katamari.api.Fun","tinymce.core.dom.DOMUtils","tinymce.core.PluginManager","tinymce.core.util.JSON","tinymce.core.util.Tools","tinymce.core.util.XHR","tinymce.plugins.template.core.DateTimeHelper","tinymce.plugins.template.core.Templates","global!Array","global!Error","global!tinymce.util.Tools.resolve"]
 jsc*/
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
 define(
@@ -117,12 +96,6 @@ define(
   function (Array, Error) {
 
     var noop = function () { };
-
-    var noarg = function (f) {
-      return function () {
-        return f();
-      };
-    };
 
     var compose = function (fa, fb) {
       return function () {
@@ -184,11 +157,10 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-
+    
 
     return {
       noop: noop,
-      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -201,6 +173,67 @@ define(
       never: never,
       always: always
     };
+  }
+);
+
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.DOMUtils',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.dom.DOMUtils');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.PluginManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.JSON',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.JSON');
   }
 );
 
@@ -244,112 +277,13 @@ define(
   }
 );
 
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.DOMUtils',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.dom.DOMUtils');
-  }
-);
-
-/**
- * Settings.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.template.api.Settings',
-  [
-    'tinymce.core.dom.DOMUtils'
-  ],
-  function (DOMUtils) {
-    var getCreationDateClasses = function (editor) {
-      return editor.getParam('template_cdate_classes', 'cdate');
-    };
-
-    var getModificationDateClasses = function (editor) {
-      return editor.getParam('template_mdate_classes', 'mdate');
-    };
-
-    var getSelectedContentClasses = function (editor) {
-      return editor.getParam('template_selected_content_classes', 'selcontent');
-    };
-
-    var getPreviewReplaceValues = function (editor) {
-      return editor.getParam('template_preview_replace_values');
-    };
-
-    var getTemplateReplaceValues = function (editor) {
-      return editor.getParam('template_replace_values');
-    };
-
-    var getTemplates = function (editorSettings) {
-      return editorSettings.templates;
-    };
-
-    var getCdateFormat = function (editor) {
-      return editor.getParam('template_cdate_format', editor.getLang('template.cdate_format'));
-    };
-
-    var getMdateFormat = function (editor) {
-      return editor.getParam("template_mdate_format", editor.getLang("template.mdate_format"));
-    };
-
-    var getDialogWidth = function (editor) {
-      return editor.getParam('template_popup_width', 600);
-    };
-
-    var getDialogHeight = function (editor) {
-      return Math.min(DOMUtils.DOM.getViewPort().h, editor.getParam('template_popup_height', 500));
-    };
-
-    return {
-      getCreationDateClasses: getCreationDateClasses,
-      getModificationDateClasses: getModificationDateClasses,
-      getSelectedContentClasses: getSelectedContentClasses,
-      getPreviewReplaceValues: getPreviewReplaceValues,
-      getTemplateReplaceValues: getTemplateReplaceValues,
-      getTemplates: getTemplates,
-      getCdateFormat: getCdateFormat,
-      getMdateFormat: getMdateFormat,
-      getDialogWidth: getDialogWidth,
-      getDialogHeight: getDialogHeight
-    };
-  }
-);
-
-
-/**
- * DateTimeHelper.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
   'tinymce.plugins.template.core.DateTimeHelper',
+
   [
+
   ],
+
   function () {
     var addZeros = function (value, len) {
       value = "" + value;
@@ -397,35 +331,26 @@ define(
   }
 );
 
-/**
- * Templates.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
   'tinymce.plugins.template.core.Templates',
+
   [
     'tinymce.core.util.Tools',
     'tinymce.core.util.XHR',
-    'tinymce.plugins.template.api.Settings',
     'tinymce.plugins.template.core.DateTimeHelper'
   ],
-  function (Tools, XHR, Settings, DateTimeHelper) {
+
+  function (Tools, XHR, DateTimeHelper) {
     var createTemplateList = function (editorSettings, callback) {
       return function () {
-        var templateList = Settings.getTemplates(editorSettings);
+        var templateList = editorSettings.templates;
 
-        if (typeof templateList === 'function') {
+        if (typeof templateList == "function") {
           templateList(callback);
           return;
         }
 
-        if (typeof templateList === 'string') {
+        if (typeof templateList == "string") {
           XHR.send({
             url: templateList,
             success: function (text) {
@@ -438,8 +363,8 @@ define(
       };
     };
 
-    var replaceTemplateValues = function (editor, html, templateValues) {
-      Tools.each(templateValues, function (v, k) {
+    var replaceTemplateValues = function (editor, html, templateValuesOptionName) {
+      Tools.each(editor.getParam(templateValuesOptionName), function (v, k) {
         if (typeof v === 'function') {
           v = v(k);
         }
@@ -451,12 +376,12 @@ define(
     };
 
     var replaceVals = function (editor, e) {
-      var dom = editor.dom, vl = Settings.getTemplateReplaceValues(editor);
+      var dom = editor.dom, vl = editor.getParam('template_replace_values');
 
       Tools.each(dom.select('*', e), function (e) {
         Tools.each(vl, function (v, k) {
           if (dom.hasClass(e, k)) {
-            if (typeof vl[k] === 'function') {
+            if (typeof vl[k] == 'function') {
               vl[k](e);
             }
           }
@@ -471,7 +396,7 @@ define(
     var insertTemplate = function (editor, ui, html) {
       var el, n, dom = editor.dom, sel = editor.selection.getContent();
 
-      html = replaceTemplateValues(editor, html, Settings.getTemplateReplaceValues(editor));
+      html = replaceTemplateValues(editor, html, 'template_replace_values');
       el = dom.create('div', null, html);
 
         // Find template element within div
@@ -482,18 +407,18 @@ define(
       }
 
       Tools.each(dom.select('*', el), function (n) {
-        // Replace cdate
-        if (hasClass(n, Settings.getCreationDateClasses(editor).replace(/\s+/g, '|'))) {
-          n.innerHTML = DateTimeHelper.getDateTime(editor, Settings.getCdateFormat(editor));
+          // Replace cdate
+        if (hasClass(n, editor.getParam('template_cdate_classes', 'cdate').replace(/\s+/g, '|'))) {
+          n.innerHTML = DateTimeHelper.getDateTime(editor, editor.getParam("template_cdate_format", editor.getLang("template.cdate_format")));
         }
 
-        // Replace mdate
-        if (hasClass(n, Settings.getModificationDateClasses(editor).replace(/\s+/g, '|'))) {
-          n.innerHTML = DateTimeHelper.getDateTime(editor, Settings.getMdateFormat(editor));
+          // Replace mdate
+        if (hasClass(n, editor.getParam('template_mdate_classes', 'mdate').replace(/\s+/g, '|'))) {
+          n.innerHTML = DateTimeHelper.getDateTime(editor, editor.getParam("template_mdate_format", editor.getLang("template.mdate_format")));
         }
 
-        // Replace selection
-        if (hasClass(n, Settings.getSelectedContentClasses(editor).replace(/\s+/g, '|'))) {
+          // Replace selection
+        if (hasClass(n, editor.getParam('template_selected_content_classes', 'selcontent').replace(/\s+/g, '|'))) {
           n.innerHTML = sel;
         }
       });
@@ -514,7 +439,7 @@ define(
 );
 
 /**
- * Commands.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -523,86 +448,28 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
+/**
+ * This class contains all core logic for the code plugin.
+ *
+ * @class tinymce.template.Plugin
+ * @private
+ */
 define(
-  'tinymce.plugins.template.api.Commands',
+  'tinymce.plugins.template.Plugin',
   [
     'ephox.katamari.api.Fun',
-    'tinymce.plugins.template.core.Templates'
-  ],
-  function (Fun, Templates) {
-    var register = function (editor) {
-      editor.addCommand('mceInsertTemplate', Fun.curry(Templates.insertTemplate, editor));
-    };
-
-    return {
-      register: register
-    };
-  }
-);
-/**
- * FilterContent.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.template.core.FilterContent',
-  [
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.PluginManager',
+    'tinymce.core.util.JSON',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.template.api.Settings',
+    'tinymce.core.util.XHR',
     'tinymce.plugins.template.core.DateTimeHelper',
     'tinymce.plugins.template.core.Templates'
   ],
-  function (Tools, Settings, DateTimeHelper, Templates) {
-    var setup = function (editor) {
-      editor.on('PreProcess', function (o) {
-        var dom = editor.dom, dateFormat = Settings.getMdateFormat(editor);
+  function (Fun, DOMUtils, PluginManager, JSON, Tools, XHR, DateTimeHelper, Templates) {
 
-        Tools.each(dom.select('div', o.node), function (e) {
-          if (dom.hasClass(e, 'mceTmpl')) {
-            Tools.each(dom.select('*', e), function (e) {
-              if (dom.hasClass(e, editor.getParam('template_mdate_classes', 'mdate').replace(/\s+/g, '|'))) {
-                e.innerHTML = DateTimeHelper.getDateTime(editor, dateFormat);
-              }
-            });
-
-            Templates.replaceVals(editor, e);
-          }
-        });
-      });
-    };
-
-    return {
-      setup: setup
-    };
-  }
-);
-/**
- * Dialog.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.template.ui.Dialog',
-  [
-    'tinymce.core.dom.DOMUtils',
-    'tinymce.core.util.Tools',
-    'tinymce.core.util.XHR',
-    'tinymce.plugins.template.api.Settings',
-    'tinymce.plugins.template.core.Templates'
-  ],
-  function (DOMUtils, Tools, XHR, Settings, Templates) {
     var insertIframeHtml = function (editor, win, html) {
-      if (html.indexOf('<html>') === -1) {
+      if (html.indexOf('<html>') == -1) {
         var contentCssLinks = '';
 
         Tools.each(editor.contentCSS, function (url) {
@@ -612,7 +479,7 @@ define(
         });
 
         var bodyClass = editor.settings.body_class || '';
-        if (bodyClass.indexOf('=') !== -1) {
+        if (bodyClass.indexOf('=') != -1) {
           bodyClass = editor.getParam('body_class', '', 'hash');
           bodyClass = bodyClass[editor.id] || '';
         }
@@ -630,7 +497,7 @@ define(
               );
       }
 
-      html = Templates.replaceTemplateValues(editor, html, Settings.getPreviewReplaceValues(editor));
+      html = Templates.replaceTemplateValues(editor, html, 'template_preview_replace_values');
 
       var doc = win.find('iframe')[0].getEl().contentWindow.document;
       doc.open();
@@ -638,167 +505,127 @@ define(
       doc.close();
     };
 
-    var open = function (editor, templateList) {
-      var win, values = [], templateHtml;
+    PluginManager.add('template', function (editor) {
+      function showDialog(templateList) {
+        var win, values = [], templateHtml;
 
-      if (!templateList || templateList.length === 0) {
-        var message = editor.translate('No templates defined.');
-        editor.notificationManager.open({ text: message, type: 'info' });
-        return;
-      }
-
-      Tools.each(templateList, function (template) {
-        values.push({
-          selected: !values.length,
-          text: template.title,
-          value: {
-            url: template.url,
-            content: template.content,
-            description: template.description
-          }
-        });
-      });
-
-      var onSelectTemplate = function (e) {
-        var value = e.control.value();
-
-        if (value.url) {
-          XHR.send({
-            url: value.url,
-            success: function (html) {
-              templateHtml = html;
-              insertIframeHtml(editor, win, templateHtml);
-            }
-          });
-        } else {
-          templateHtml = value.content;
-          insertIframeHtml(editor, win, templateHtml);
+        if (!templateList || templateList.length === 0) {
+          var message = editor.translate('No templates defined.');
+          editor.notificationManager.open({ text: message, type: 'info' });
+          return;
         }
 
-        win.find('#description')[0].text(e.control.value().description);
-      };
+        Tools.each(templateList, function (template) {
+          values.push({
+            selected: !values.length,
+            text: template.title,
+            value: {
+              url: template.url,
+              content: template.content,
+              description: template.description
+            }
+          });
+        });
 
-      win = editor.windowManager.open({
-        title: 'Insert template',
-        layout: 'flex',
-        direction: 'column',
-        align: 'stretch',
-        padding: 15,
-        spacing: 10,
-        items: [
-          {
-            type: 'form',
-            flex: 0,
-            padding: 0,
-            items: [
-              {
-                type: 'container',
-                label: 'Templates',
-                items: {
-                  type: 'listbox',
-                  label: 'Templates',
-                  name: 'template',
-                  values: values,
-                  onselect: onSelectTemplate
-                }
+        var onSelectTemplate = function (e) {
+          var value = e.control.value();
+
+          if (value.url) {
+            XHR.send({
+              url: value.url,
+              success: function (html) {
+                templateHtml = html;
+                insertIframeHtml(editor, win, templateHtml);
               }
-            ]
-          },
-          {
-            type: 'label',
-            name: 'description',
-            label: 'Description',
-            text: '\u00a0'
-          },
-          {
-            type: 'iframe',
-            flex: 1,
-            border: 1
+            });
+          } else {
+            templateHtml = value.content;
+            insertIframeHtml(editor, win, templateHtml);
           }
-        ],
 
-        onsubmit: function () {
-          Templates.insertTemplate(editor, false, templateHtml);
-        },
+          win.find('#description')[0].text(e.control.value().description);
+        };
 
-        minWidth: Settings.getDialogWidth(editor),
-        minHeight: Settings.getDialogHeight(editor)
-      });
+        win = editor.windowManager.open({
+          title: 'Insert template',
+          layout: 'flex',
+          direction: 'column',
+          align: 'stretch',
+          padding: 15,
+          spacing: 10,
+          items: [
+            {
+              type: 'form',
+              flex: 0,
+              padding: 0,
+              items: [
+                {
+                  type: 'container',
+                  label: 'Templates',
+                  items: {
+                    type: 'listbox',
+                    label: 'Templates',
+                    name: 'template',
+                    values: values,
+                    onselect: onSelectTemplate
+                  }
+                }
+              ]
+            },
+            {
+              type: 'label',
+              name: 'description',
+              label: 'Description',
+              text: '\u00a0'
+            },
+            {
+              type: 'iframe',
+              flex: 1,
+              border: 1
+            }
+          ],
 
-      win.find('listbox')[0].fire('select');
-    };
+          onsubmit: function () {
+            Templates.insertTemplate(editor, false, templateHtml);
+          },
 
-    return {
-      open: open
-    };
-  }
-);
-/**
- * Buttons.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+          minWidth: Math.min(DOMUtils.DOM.getViewPort().w, editor.getParam('template_popup_width', 600)),
+          minHeight: Math.min(DOMUtils.DOM.getViewPort().h, editor.getParam('template_popup_height', 500))
+        });
 
-define(
-  'tinymce.plugins.template.ui.Buttons',
-  [
-    'tinymce.plugins.template.core.Templates',
-    'tinymce.plugins.template.ui.Dialog'
-  ],
-  function (Templates, Dialog) {
-    var showDialog = function (editor) {
-      return function (templates) {
-        Dialog.open(editor, templates);
-      };
-    };
+        win.find('listbox')[0].fire('select');
+      }
 
-    var register = function (editor) {
+      editor.addCommand('mceInsertTemplate', Fun.curry(Templates.insertTemplate, editor));
+
       editor.addButton('template', {
         title: 'Insert template',
-        onclick: Templates.createTemplateList(editor.settings, showDialog(editor))
+        onclick: Templates.createTemplateList(editor.settings, showDialog)
       });
 
       editor.addMenuItem('template', {
         text: 'Template',
-        onclick: Templates.createTemplateList(editor.settings, showDialog(editor)),
-        icon: 'template',
+        onclick: Templates.createTemplateList(editor.settings, showDialog),
         context: 'insert'
       });
-    };
 
-    return {
-      register: register
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+      editor.on('PreProcess', function (o) {
+        var dom = editor.dom;
 
-define(
-  'tinymce.plugins.template.Plugin',
-  [
-    'tinymce.core.PluginManager',
-    'tinymce.plugins.template.api.Commands',
-    'tinymce.plugins.template.core.FilterContent',
-    'tinymce.plugins.template.ui.Buttons'
-  ],
-  function (PluginManager, Commands, FilterContent, Buttons) {
-    PluginManager.add('template', function (editor) {
-      Buttons.register(editor);
-      Commands.register(editor);
-      FilterContent.setup(editor);
+        Tools.each(dom.select('div', o.node), function (e) {
+          if (dom.hasClass(e, 'mceTmpl')) {
+            Tools.each(dom.select('*', e), function (e) {
+              if (dom.hasClass(e, editor.getParam('template_mdate_classes', 'mdate').replace(/\s+/g, '|'))) {
+                e.innerHTML = DateTimeHelper.getDateTime(editor, editor.getParam("template_mdate_format", editor.getLang("template.mdate_format")));
+              }
+            });
+
+            Templates.replaceVals(editor, e);
+          }
+        });
+      });
     });
+
 
     return function () { };
   }

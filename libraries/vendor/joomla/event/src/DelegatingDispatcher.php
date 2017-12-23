@@ -46,7 +46,7 @@ final class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addListener(string $eventName, callable $callback, int $priority = 0): bool
+	public function addListener($eventName, callable $callback, $priority = 0)
 	{
 		return $this->dispatcher->addListener($eventName, $callback, $priority);
 	}
@@ -61,7 +61,7 @@ final class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch(string $name, EventInterface $event = null): EventInterface
+	public function dispatch($name, EventInterface $event = null)
 	{
 		return $this->dispatcher->dispatch($name, $event);
 	}
@@ -76,7 +76,7 @@ final class DelegatingDispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeListener(string $eventName, callable $listener)
+	public function removeListener($eventName, callable $listener)
 	{
 		$this->dispatcher->removeListener($eventName, $listener);
 	}

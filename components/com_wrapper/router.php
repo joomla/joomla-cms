@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\Router\RouterBase;
-
 /**
  * Routing class from com_wrapper
  *
  * @since  3.3
  */
-class WrapperRouter extends RouterBase
+class WrapperRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_wrapper component

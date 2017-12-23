@@ -9,22 +9,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\CMSPlugin;
-
 /**
  * Sampledata - Blog Plugin
  *
- * @since  3.8.0
+ * @since  __DEPLOY_VERSION__
  */
-class PlgSampledataBlog extends CMSPlugin
+class PlgSampledataBlog extends JPlugin
 {
 	/**
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -33,7 +30,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -42,7 +39,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -51,7 +48,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @var    MenusModelItem
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $menuItemModel;
 
@@ -60,11 +57,11 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onSampledataGetOverview()
 	{
-		$data              = new stdClass;
+		$data = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
 		$data->description = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
@@ -75,11 +72,11 @@ class PlgSampledataBlog extends CMSPlugin
 	}
 
 	/**
-	 * First step to enter the sampledata. Content.
+	 * First step to enter the sampledata.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
@@ -101,46 +98,35 @@ class PlgSampledataBlog extends CMSPlugin
 		$access = (int) $this->app->get('access', 1);
 		$user   = JFactory::getUser();
 
-		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+		// Add Include Paths.
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/tables/');
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models/', 'CategoriesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables/');
 
 		// Create "blog" category.
-		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
+		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
 		$catIds        = array();
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
-		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
-
-		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) == ''))
-		{
-			$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
-			JFactory::getConfig()->set('unicodeslugs', $unicode);
-		}
-
 		$category      = array(
-			'title'           => $categoryTitle . $langSuffix,
-			'parent_id'       => 1,
+			'title'           => $categoryTitle,
+			'parent_id'       => 0,
 			'id'              => 0,
 			'published'       => 1,
 			'access'          => $access,
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => $alias . $langSuffix,
+			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
 			'associations'    => array(),
 			'description'     => '',
-			'language'        => $language,
+			'language'        => '*',
 			'params'          => '',
 		);
 
 		try
 		{
-			if (!$categoryModel->save($category))
-			{
-				throw new Exception($categoryModel->getError());
-			}
+			$categoryModel->save($category);
 		}
 		catch (Exception $e)
 		{
@@ -156,38 +142,25 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Create "help" category.
 		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
-		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
-
-		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) == ''))
-		{
-			$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
-			JFactory::getConfig()->set('unicodeslugs', $unicode);
-		}
-
 		$category      = array(
-			'title'           => $categoryTitle . $langSuffix,
-			'parent_id'       => 1,
+			'title'           => $categoryTitle,
+			'parent_id'       => 0,
 			'id'              => 0,
 			'published'       => 1,
 			'access'          => $access,
 			'created_user_id' => $user->id,
 			'extension'       => 'com_content',
 			'level'           => 1,
-			'alias'           => $alias . $langSuffix,
+			'alias'           => JApplicationHelper::stringURLSafe($categoryTitle),
 			'associations'    => array(),
 			'description'     => '',
-			'language'        => $language,
+			'language'        => '*',
 			'params'          => '',
 		);
 
 		try
 		{
-			if (!$categoryModel->save($category))
-			{
-				throw new Exception($categoryModel->getError());
-			}
+			$categoryModel->save($category);
 		}
 		catch (Exception $e)
 		{
@@ -202,8 +175,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
-		$articles     = array(
+		$articleModel  = JModelLegacy::getInstance('Article', 'ContentModel');
+		$articles = array(
 			array(
 				'catid'    => $catIds[1],
 				'ordering' => 2,
@@ -234,9 +207,7 @@ class PlgSampledataBlog extends CMSPlugin
 		foreach ($articles as $i => $article)
 		{
 			// Set values from language strings.
-			$title                = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
-			$alias                = JApplicationHelper::stringURLSafe($title);
-			$article['title']     = $title . $langSuffix;
+			$article['title']     = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
 			$article['introtext'] = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
 			$article['fulltext']  = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
@@ -244,16 +215,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
 			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
-
-			// Set unicodeslugs if alias is empty
-			if (trim(str_replace('-', '', $alias) == ''))
-			{
-				$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-				$article['alias'] = JApplicationHelper::stringURLSafe($article['title']);
-				JFactory::getConfig()->set('unicodeslugs', $unicode);
-			}
-
-			$article['language']        = $language;
+			$article['language']        = '*';
 			$article['associations']    = array();
 			$article['state']           = 1;
 			$article['featured']        = 0;
@@ -284,7 +246,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$this->app->setUserState('sampledata.blog.articles', $ids);
 		$this->app->setUserState('sampledata.blog.articles.catids', $catIds);
 
-		$response          = new stdClass;
+		$response = new stdClass;
 		$response->success = true;
 		$response->message = JText::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
@@ -296,7 +258,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
@@ -307,33 +269,27 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!JComponentHelper::isEnabled('com_menus'))
 		{
-			$response            = array();
+			$response = array();
 			$response['success'] = true;
 			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
 
 			return $response;
 		}
 
-		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
-
 		// Create the menu types.
-		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
+		$menuTable = JTable::getInstance('Type', 'JTableMenu');
 		$menuTypes = array();
 
 		for ($i = 0; $i <= 2; $i++)
 		{
 			$menu = array(
 				'id'          => 0,
-				'title'       => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+				'title'       => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE'),
 				'description' => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
 			);
 
-			// Calculate menutype. The number of characters allowed is 24.
-			$type = JHtml::_('string.truncate', $menu['title'], 23, true, false);
-
-			$menu['menutype'] = $i . $type;
+			// Calculate menutype.
+			$menu['menutype'] = JApplicationHelper::stringURLSafe($menu['title']);
 
 			$menuTable->load();
 			$menuTable->bind($menu);
@@ -363,18 +319,29 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Get MenuItemModel.
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models/', 'MenusModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+		$this->menuItemModel = JModelLegacy::getInstance('Item', 'MenusModel');
 
-		// Get previously entered categories ids
-		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
+		// Unset current "Home" menuitem since we set a new one.
+		$menuItemTable = JTable::getInstance('Menu', 'MenusTable');
+		$menuItemTable->load(
+			array(
+				'home' => 1,
+				'language' => '*',
+			)
+		);
+		$menuItemTable->home = 0;
+		$menuItemTable->store();
 
 		// Insert menuitems level 1.
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=9',
 				'component_id' => 22,
+				'home'         => 1,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
@@ -436,7 +403,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
-					'catid'             => $catids[0],
+					'catid'             => 9,
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
 					'secure'            => 0,
@@ -541,7 +508,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[1],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
-				'link'         => 'index.php?option=com_config&view=config',
+				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
 				'access'       => 6,
@@ -554,7 +521,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[1],
 				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
-				'link'         => 'index.php?option=com_config&view=templates',
+				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
 				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => 23,
 				'params'       => array(
@@ -590,7 +557,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
@@ -608,24 +575,20 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
-		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
-
 		// Add Include Paths.
-		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/tables/');
+		$model  = JModelLegacy::getInstance('Module', 'ModulesModel');
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
-		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
-
 		$modules = array(
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'top-a',
+				'position'  => 'position-1',
 				'module'    => 'mod_menu',
 				'showtitle' => 0,
 				'params'    => array(
@@ -647,7 +610,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'top-a',
+				'position'  => 'position-1',
 				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
@@ -670,7 +633,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
-				'position'  => 'sidebar-right',
+				'position'  => 'position-7',
 				'module'    => 'mod_syndicate',
 				'showtitle' => 0,
 				'params'    => array(
@@ -684,7 +647,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
-				'position' => 'sidebar-right',
+				'position' => 'position-7',
 				'module'   => 'mod_articles_archive',
 				'params'   => array(
 					'count'      => 10,
@@ -697,10 +660,10 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
-				'position' => 'sidebar-right',
+				'position' => 'position-7',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
-					'catid'      => $catids[0],
+					'catid'      => ['9'],
 					'count'      => 5,
 					'show_front' => 1,
 					'layout'     => '_:default',
@@ -712,7 +675,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
-				'position' => 'sidebar-right',
+				'position' => 'position-7',
 				'module'   => 'mod_articles_category',
 				'params'   => array(
 					'mode'                         => 'normal',
@@ -720,7 +683,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_front'                   => 'show',
 					'count'                        => 6,
 					'category_filtering_type'      => 1,
-					'catid'                        => $catids[0],
+					'catid'                        => ['9'],
 					'show_child_category_articles' => 0,
 					'levels'                       => 1,
 					'author_filtering_type'        => 1,
@@ -779,7 +742,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
-				'position' => 'search',
+				'position' => 'position-0',
 				'module'   => 'mod_search',
 				'params'   => array(
 					'width'      => 20,
@@ -795,7 +758,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
 				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
 				'ordering'  => 1,
-				'position'  => 'main-top',
+				'position'  => 'position-3',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
@@ -813,7 +776,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-right',
+				'position' => 'position-7',
 				'module'   => 'mod_tags_popular',
 				'params'   => array(
 					'maximum'         => 8,
@@ -877,36 +840,33 @@ class PlgSampledataBlog extends CMSPlugin
 				'module'    => 'mod_feed',
 				'client_id' => 1,
 				'params'    => array(
-					'rssurl'         => 'https://www.joomla.org/announcements/release-news.feed',
-					'rssrtl'         => 0,
-					'rsstitle'       => 1,
-					'rssdesc'        => 1,
-					'rssimage'       => 1,
-					'rssitems'       => 3,
-					'rssitemdesc'    => 1,
-					'word_count'     => 0,
-					'layout'         => '_:default',
-					'cache'          => 1,
-					'cache_time'     => 900,
-					'module_tag'     => 'div',
-					'bootstrap_size' => 0,
-					'header_tag'     => 'h3',
-					'style'          => 0,
+					'rssurl'          => 'https://www.joomla.org/announcements/release-news.feed',
+					'rssrtl'          => 0,
+					'rsstitle'        => 1,
+					'rssdesc'         => 1,
+					'rssimage'        => 1,
+					'rssitems'        => 3,
+					'rssitemdesc'     => 1,
+					'word_count'      => 0,
+					'layout'          => '_:default',
+					'cache'           => 1,
+					'cache_time'      => 900,
+					'module_tag'      => 'div',
+					'bootstrap_size'  => 0,
+					'header_tag'      => 'h3',
+					'style'           => 0,
 				),
 			),
 		);
 
 		foreach ($modules as $module)
 		{
-			// Append language suffix to title.
-			$module['title'] .= $langSuffix;
-
 			// Set values which are always the same.
-			$module['id']         = 0;
-			$module['asset_id']   = 0;
-			$module['language']   = $language;
-			$module['note']       = '';
-			$module['published']  = 1;
+			$module['id']              = 0;
+			$module['asset_id']        = 0;
+			$module['language']        = '*';
+			$module['note'] = '';
+			$module['published'] = 1;
 			$module['assignment'] = 0;
 
 			if (!isset($module['content']))
@@ -955,7 +915,7 @@ class PlgSampledataBlog extends CMSPlugin
 	 *
 	 * @return  array  IDs of the inserted menuitems.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @throws  Exception
 	 */
@@ -964,10 +924,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
 		$user    = JFactory::getUser();
-
-		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		foreach ($menuItems as $menuItem)
 		{
@@ -978,26 +934,13 @@ class PlgSampledataBlog extends CMSPlugin
 			$menuItem['id']              = 0;
 			$menuItem['created_user_id'] = $user->id;
 			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['title']);
-
-			// Set unicodeslugs if alias is empty
-			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
-			{
-				$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-				$menuItem['alias'] = JApplicationHelper::stringURLSafe($menuItem['title']);
-				JFactory::getConfig()->set('unicodeslugs', $unicode);
-			}
-
-			// Append language suffix to title.
-			$menuItem['title'] .= $langSuffix;
-
 			$menuItem['published']       = 1;
-			$menuItem['language']        = $language;
+			$menuItem['language']        = '*';
 			$menuItem['note']            = '';
 			$menuItem['img']             = '';
 			$menuItem['associations']    = array();
 			$menuItem['client_id']       = 0;
 			$menuItem['level']           = $level;
-			$menuItem['home']            = 0;
 
 			// Set browserNav to default if not set
 			if (!isset($menuItem['browserNav']))
@@ -1021,6 +964,12 @@ class PlgSampledataBlog extends CMSPlugin
 			if (!isset($menuItem['template_style_id']))
 			{
 				$menuItem['template_style_id'] = 0;
+			}
+
+			// Set home if not set
+			if (!isset($menuItem['home']))
+			{
+				$menuItem['home'] = 0;
 			}
 
 			// Set parent_id to root (1) if not set

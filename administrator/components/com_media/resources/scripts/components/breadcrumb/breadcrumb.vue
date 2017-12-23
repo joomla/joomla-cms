@@ -1,35 +1,22 @@
 <template>
-    <ol class="media-breadcrumb">
-        <li class="media-breadcrumb-item" v-for="crumb in crumbs">
-            <a @click.stop.prevent="onCrumbClick(crumb)">{{ crumb.name }}</a>
+    <ol class="media-breadcrumb breadcrumb mr-auto">
+        <li class="breadcrumb-item">
+            <a @click.stop.prevent="goTo('/')">Home</a>
+        </li>
+        <li class="breadcrumb-item" v-for="crumb in crumbs">
+            <a @click.stop.prevent="goTo(crumb.path)">{{ crumb.name }}</a>
         </li>
     </ol>
 </template>
 
 <script>
-    import navigable from "../../mixins/navigable";
-
     export default {
         name: 'media-breadcrumb',
-        mixins: [navigable],
         computed: {
             /* Get the crumbs from the current directory path */
-            crumbs() {
+            crumbs () {
                 const items = [];
-
-                const parts = this.$store.state.selectedDirectory.split('/');
-
-                // Add the drive as first element
-                if (parts) {
-                    const drive = this.findDrive(parts[0]);
-
-                    if (drive) {
-                        items.push(drive);
-                        parts.shift();
-                    }
-                }
-
-                parts
+                this.$store.state.selectedDirectory.split('/')
                     .filter(crumb => crumb.length !== 0)
                     .forEach(crumb => {
                         items.push({
@@ -46,23 +33,10 @@
             }
         },
         methods: {
-            /* Handle the on crumb click event */
-            onCrumbClick: function (crumb) {
-                this.navigateTo(crumb.path);
+            /* Go to a path */
+            goTo: function (path) {
+                this.$store.dispatch('getContents', path);
             },
-            findDrive: function (adapter) {
-                let driveObject = null;
-
-                this.$store.state.disks.forEach(disk => {
-                    disk.drives.forEach(drive => {
-                        if (drive.root.startsWith(adapter)) {
-                            driveObject = {name: drive.displayName, path: drive.root};
-                        }
-                    });
-                });
-
-                return driveObject;
-            }
         },
     }
 </script>
