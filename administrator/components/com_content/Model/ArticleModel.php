@@ -187,8 +187,10 @@ class ArticleModel extends AdminModel
 		// Get state information
 		$state = new StateTable($this->_db);
 
-		if (!$state->load($value))
+		if (empty($value) || !$state->load($value))
 		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
 			return false;
 		}
 

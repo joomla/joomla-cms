@@ -301,7 +301,7 @@ class WorkflowHelper extends ContentHelper
 	 */
 	public static function updateAssociationOfItemIdList($itemIds, $stateId, $extension = 'com_content')
 	{
-		if (empty($pks))
+		if (empty($itemIds))
 		{
 			return false;
 		}

@@ -374,6 +374,7 @@ class ContentHelper extends \JHelperContent
 			$query->update($db->qn('#__content'))
 				->set($db->qn('state') . '=' . (int) $condition)
 				->where($db->qn('id') . ' IN (' . implode(', ', $pks) . ')');
+
 			$db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
