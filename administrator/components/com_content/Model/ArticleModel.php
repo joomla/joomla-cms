@@ -177,6 +177,13 @@ class ArticleModel extends AdminModel
 	 */
 	protected function batchWorkflowState($value, $pks, $contexts)
 	{
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.execute.transition', 'com_content'))
+		{
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+		}
+
 		// Get state information
 		$state = new StateTable($this->_db);
 

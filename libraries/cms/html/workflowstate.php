@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class working with workflow states select lists
  *
@@ -29,7 +32,7 @@ abstract class JHtmlWorkflowState
 	public static function existing($options)
 	{
 		// Get the database object and a new query object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.
@@ -54,11 +57,11 @@ abstract class JHtmlWorkflowState
 				$workflowStates[$workflowStateKey] = array();
 			}
 
-			$workflowStates[$workflowStateKey][] = \JHtml::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
+			$workflowStates[$workflowStateKey][] = HTMLHelper::_('select.option', $state->workflow_state_id, $state->workflow_state_title);
 		}
 
 		$prefix[] = array(
-			\JHtml::_('select.option', null, $options['title'])
+			HTMLHelper::_('select.option', '', $options['title'])
 		);
 
 		return array_merge($prefix, $workflowStates);
