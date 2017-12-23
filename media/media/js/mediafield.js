@@ -134,13 +134,13 @@
 				}
 			}
 		} else {
-            // Reset tooltip and preview
-            try{
-                this.$containerPreview.popover('destroy');
-                this.$input.tooltip('destroy');
-            } catch(err){
-                // Doing this so that jQueryUI tooltips and popover can exist alongside Bootstrap.
-            }
+			// Reset tooltip and preview
+			try {
+				this.$containerPreview.popover('destroy');
+				this.$input.tooltip('destroy');
+			} catch(err) {
+				// Doing this so that jQueryUI tooltips and popover can exist alongside Bootstrap.
+			}
 
 			var value = this.$input.val();
 
