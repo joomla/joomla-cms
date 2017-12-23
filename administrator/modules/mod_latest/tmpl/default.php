@@ -16,7 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 <ul class="list-group list-group-flush">
 	<?php if (count($list)) : ?>
 		<?php foreach ($list as $i => $item) : ?>
-			<li class="d-flex justify-content-start list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
+			<li class="d-flex justify-content-start list-group-item <?php echo $item->state_condition == '1' ? 'published' : 'unpublished'; ?>">
 				<div class="fg-1">
 					<?php if ($item->checked_out) : ?>
 						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
