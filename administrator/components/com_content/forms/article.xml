@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field 
 			name="id" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly" 
 			size="10" 
@@ -201,7 +201,7 @@
 
 		<field 
 			name="hits" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_HITS"
 			class="readonly" 
 			size="6"
@@ -358,7 +358,7 @@
 
 			<field
 				name="show_associations"
-				type="list"
+				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
 				>

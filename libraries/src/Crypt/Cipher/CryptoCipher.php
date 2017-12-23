@@ -123,4 +123,25 @@ class CryptoCipher implements CipherInterface
 
 		return new Key('crypto', $private, $public);
 	}
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isSupported(): bool
+	{
+		try
+		{
+			\Crypto::runtimeTest();
+
+			return true;
+		}
+		catch (\CryptoTestFailedException $e)
+		{
+			return false;
+		}
+	}
 }

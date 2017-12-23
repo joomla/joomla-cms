@@ -19,7 +19,7 @@
 class JAuthenticationTest extends TestCase
 {
 	/**
-	 * @var       JAuthentication
+	 * @var    JAuthentication
 	 * @since  11.1
 	 */
 	protected $object;
@@ -54,7 +54,7 @@ class JAuthenticationTest extends TestCase
 		// Mock the event dispatcher.
 		$dispatcher = $this->getMockDispatcher();
 		$dispatcher->expects($this->any())
-			->method('triggerEvent')
+			->method('dispatch')
 			->willReturnCallback(array($this, 'mockTrigger'));
 
 		// Mock the authentication plugin

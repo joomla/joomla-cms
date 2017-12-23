@@ -60,7 +60,7 @@ class PasswordField extends FormField
 	 * Whether to attach a password strength meter or not.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $force = false;
 

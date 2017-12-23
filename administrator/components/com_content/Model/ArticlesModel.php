@@ -107,6 +107,9 @@ class ArticlesModel extends ListModel
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
+		$condition = $this->getUserStateFromRequest($this->context . '.filter.condition', 'filter_condition', '');
+		$this->setState('filter.condition', $condition);
+
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
@@ -314,30 +317,37 @@ class ArticlesModel extends ListModel
 
 		$query->where($db->qn('wa.extension') . '=' . $db->quote('com_content'));
 
-		// Filter by a single or group of categories.
-		$baselevel  = 1;
+		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id');
+		$level = $this->getState('filter.level');
 
-		if (is_numeric($categoryId))
-		{
-			$categoryTable = \JTable::getInstance('Category', '\JTable');
-			$categoryTable->load($categoryId);
-			$rgt       = $categoryTable->rgt;
-			$lft       = $categoryTable->lft;
-			$baselevel = (int) $categoryTable->level;
-			$query->where('c.lft >= ' . (int) $lft)
-				->where('c.rgt <= ' . (int) $rgt);
-		}
-		elseif (is_array($categoryId))
+		$categoryId = $categoryId && !is_array($categoryId)
+			? array($categoryId)
+			: $categoryId;
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			$categoryTable = \JTable::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+
+			$query->where(implode(' OR ', $subCatItemsWhere));
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
-			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
+			$query->where('c.level <= ' . (int) $level);
 		}
 
 		// Filter by author
@@ -489,7 +499,7 @@ class ArticlesModel extends ListModel
 
 				foreach ($transitions as $key => $transition)
 				{
-					if (!$user->authorise('transition.run', 'com_content.transition.' . (int) $transition['value']))
+					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
 					}

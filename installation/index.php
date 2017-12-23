@@ -17,7 +17,13 @@ define('JOOMLA_MINIMUM_PHP', '7.0');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
-	die(str_replace('{{PHP_VERSION}}', JOOMLA_MINIMUM_PHP, file_get_contents(dirname(__FILE__) . '/template/incompatible.html')));
+	die(
+		str_replace(
+			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
+			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
+			file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
+		)
+	);
 }
 
 /**
@@ -27,4 +33,4 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 define('_JEXEC', 1);
 
 // Run the application - All executable code should be triggered through this file
-require_once dirname(__FILE__) . '/application/app.php';
+require_once dirname(__FILE__) . '/includes/app.php';

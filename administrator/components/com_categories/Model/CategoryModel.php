@@ -59,7 +59,7 @@ class CategoryModel extends AdminModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -583,7 +583,7 @@ class CategoryModel extends AdminModel
 		if ($assoc)
 		{
 			// Adding self to the association
-			$associations = isset($data['associations']) ? $data['associations'] : array();
+			$associations = $data['associations'] ?? array();
 
 			// Unset any invalid associations
 			$associations = ArrayHelper::toInteger($associations);
@@ -987,7 +987,7 @@ class CategoryModel extends AdminModel
 
 			// If we a copying children, the Old ID will turn up in the parents list
 			// otherwise it's a new top level item
-			$this->table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			$this->table->parent_id = $parents[$oldParentId] ?? $parentId;
 
 			// Set the new location in the tree for the node.
 			$this->table->setLocation($this->table->parent_id, 'last-child');

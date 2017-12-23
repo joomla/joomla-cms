@@ -1,38 +1,56 @@
 .media-infobar {
   background-color: #fafafa;
-  overflow: hidden;
-  position: absolute;
+  top: 47px;
   right: 0;
-  top: 49px;
   bottom: 0;
   z-index: 4;
-  float: none;
-  padding: 0;
   width: 25%;
-  border-left: 1px solid #ccc;
   padding: 15px;
+  overflow: hidden;
+  position: absolute;
+  float: none;
+  border-left: 1px solid #ccc;
   h2 {
     padding: 0 15px;
     margin: -15px -15px 15px;
-    background-color: rgba(0, 0, 0, 0.015);
-    border-bottom: 1px solid #eee;
     font-weight: normal;
     line-height: 3.6rem;
+    background-color: rgba(0, 0, 0, .015);
+    border-bottom: 1px solid #eee;
+  }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -7.5px;
+    margin-left: -7.5px;
+  }
+  dt, dd {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 7.5px;
+    padding-left: 7.5px;
   }
   dt {
-    color: rgba(0, 0, 0, 0.54);
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
     font-weight: normal;
+    color: rgba(0, 0, 0, .54);
+  }
+  dd {
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
   }
 }
 
 .infobar-close {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
   padding: 0 15px;
-  color: #ccc;
   font-size: 2.6rem;
   line-height: 3.6rem;
+  color: #ccc;
   text-indent: 0;
   text-shadow: none;
   &:hover {
@@ -43,12 +61,12 @@
 
 .placeholder-icon.fa {
   display: block;
+  width: 4rem;
+  height: 4rem;
+  margin: 20px auto 15px;
+  font-size: 2rem;
+  line-height: calc(4rem - 4px);
+  color: #ccc;
   border: 2px solid #ccc;
   border-radius: 50%;
-  color: #ccc;
-  font-size: 2rem;
-  height: 4rem;
-  line-height: calc(4rem - 4px);
-  margin: 20px auto 15px;
-  width: 4rem;
 }

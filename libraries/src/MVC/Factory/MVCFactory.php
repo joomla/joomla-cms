@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Factory to create MVC objects based on a namespace.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MVCFactory implements MVCFactoryInterface
 {
@@ -41,7 +41,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string                   $namespace    The namespace.
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($namespace, CMSApplicationInterface $application)
 	{
@@ -56,9 +56,9 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
@@ -87,7 +87,7 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array())
@@ -116,7 +116,7 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = '', array $config = array())
@@ -153,7 +153,7 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  string|null  The class name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getClassName($suffix, $prefix)
 	{

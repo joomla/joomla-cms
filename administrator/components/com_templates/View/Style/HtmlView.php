@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $canDo;
 
@@ -69,6 +69,12 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
+		if ((!\JLanguageMultilang::isEnabled()) && ($this->item->client_id == 0))
+		{
+			$this->form->setFieldAttribute('home', 'type', 'radio');
+			$this->form->setFieldAttribute('home', 'class', 'switcher');
 		}
 
 		$this->addToolbar();

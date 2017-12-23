@@ -256,7 +256,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = ($document === null) ? \JFactory::getDocument() : $document;
+		$this->document = $document ?? \JFactory::getDocument();
 
 		return $this;
 	}
@@ -276,7 +276,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
+		$this->language = $language ?? \JFactory::getLanguage();
 
 		return $this;
 	}

@@ -61,13 +61,13 @@ class JUserHelperTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   12.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
@@ -332,6 +332,29 @@ class JUserHelperTest extends TestCaseDatabase
 			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$2y$'),
 			0,
 			'Joomla currently hashes passwords using BCrypt, verify the correct prefix is present'
+		);
+	}
+
+	/**
+	 * Testing hashPassword() for argon2i hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @requires  PHP 7.2
+	 */
+	public function testHashPasswordArgon2i()
+	{
+		if (!defined('PASSWORD_ARGON2I'))
+		{
+			$this->markTestSkipped('Argon2i algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2I), '$argon2i'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
 		);
 	}
 

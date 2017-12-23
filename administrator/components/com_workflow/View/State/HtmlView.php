@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\State;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StateHelper;
@@ -54,13 +55,6 @@ class HtmlView extends BaseHtmlView
 	protected $extension;
 
 	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var  \JObject
-	 */
-	protected $canDo;
-
-	/**
 	 * Display item view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -71,19 +65,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Get the Data
-		$this->state      = $this->get('State');
-		$this->form       = $this->get('Form');
-		$this->item       = $this->get('Item');
-		$this->extension  = $this->state->get('filter.extension');
-
-		$this->canDo      = StateHelper::getActions($this->extension, 'state', $this->item->id);
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
+
+		// Get the Data
+		$this->state      = $this->get('State');
+		$this->form       = $this->get('Form');
+		$this->item       = $this->get('Item');
+		$this->extension  = $this->state->get('filter.extension');
 
 		// Set the toolbar
 		$this->addToolBar();
@@ -101,29 +93,54 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$isNew      = ($this->item->id == 0);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = $this->canDo;
+		$user       = Factory::getUser();
+		$userId     = $user->id;
+		$isNew      = empty($this->item->id);
+
+		$canDo = StateHelper::getActions($this->extension, 'state', $this->item->id);
 
 		ToolbarHelper::title(empty($this->item->id) ? \JText::_('COM_WORKFLOW_STATE_ADD') : \JText::_('COM_WORKFLOW_STATE_EDIT'), 'address');
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save'], ['save2new', 'state.save2new']];
+		$toolbarButtons = [];
 
-		if (!$isNew)
+		if ($isNew)
 		{
-			// If an existing item, can save to a copy.
-			if ($canDo->get('core.create'))
+			// For new records, check the create permission.
+			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['save2copy', 'state.save2copy'];
+				$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save'], ['save2new', 'state.save2new']];
 			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
+		}
+		else
+		{
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+
+			if ($itemEditable)
+			{
+				$toolbarButtons = [['apply', 'state.apply'], ['save', 'state.save']];
+
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					$toolbarButtons[] = ['save2new', 'state.save2new'];
+				}
+			}
+
+			ToolbarHelper::saveGroup(
+				$toolbarButtons,
+				'btn-success'
+			);
 		}
 
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
-
 		ToolbarHelper::cancel('state.cancel');
+		ToolbarHelper::divider();
 	}
 }

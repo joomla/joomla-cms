@@ -5,7 +5,7 @@
 
 Joomla = window.Joomla || {};
 
-(function(Joomla) {
+(function(Joomla, document) {
 	'use strict';
 
 	/**
@@ -19,11 +19,11 @@ Joomla = window.Joomla || {};
 	 * @param {int}     h       The height of the new window
 	 * @param {string}  scroll  The vertical/horizontal scroll bars
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
-	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
-		var winl = ( screen.width - w ) / 2,
-		    wint = ( screen.height - h ) / 2,
+	Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
+		var winl = (screen.width - w) / 2,
+		    wint = (screen.height - h) / 2,
 		    winprops = 'height=' + h +
 			    ',width=' + w +
 			    ',top=' + wint +
@@ -31,8 +31,41 @@ Joomla = window.Joomla || {};
 			    ',scrollbars=' + scroll +
 			    ',resizable';
 
-		window.open( mypage, myname, winprops ).window.focus();
+		window.open(mypage, myname, winprops).window.focus();
 	};
+
+	Joomla.processScrollInit = function() {
+		var subhead = document.getElementById('subhead');
+
+		if (subhead) {
+			navTop = document.querySelector('.subhead').offsetHeight;
+
+			// Only apply the scrollspy when the toolbar is not collapsed
+			if (document.body.clientWidth > 480) {
+				document.querySelector('.subhead-collapse').style.height = document.querySelector('.subhead').style.height;
+				subhead.style.width = 'auto';
+			}
+		}
+	}
+
+	Joomla.processScroll = function() {
+		var subhead = document.getElementById('subhead');
+
+		if (subhead) {
+			var scrollTop = (window.pageYOffset || subhead.scrollTop)  - (subhead.clientTop || 0);
+
+			if (scrollTop >= navTop && !isFixed) {
+				isFixed = true;
+				subhead.classList.add('subhead-fixed');
+			} else if (scrollTop <= navTop && isFixed) {
+				isFixed = false;
+				subhead.classList.remove('subhead-fixed');
+			}
+		}
+	}
+
+	var navTop;
+	var isFixed = false;
 
 	document.addEventListener('DOMContentLoaded', function() {
 		/**
@@ -47,5 +80,15 @@ Joomla = window.Joomla || {};
 		if (toolbarOptions && !toolbarHelp) {
 			toolbarOptions.classList.add('ml-auto');
 		}
+
+		/**
+		 * Sticky Toolbar
+		 */
+		Joomla.processScrollInit();
+		Joomla.processScroll();
+
+		document.addEventListener('resize', Joomla.processScrollInit, false);
+		document.addEventListener('scroll', Joomla.processScroll);
+
 	});
-})(Joomla);
+})(Joomla, document);

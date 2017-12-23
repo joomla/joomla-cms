@@ -31,9 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-info alert-no-items">
-							<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
-						</div>
+						<joomla-alert type="info"><?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></joomla-alert>
 					<?php else : ?>
 						<table class="table table-striped">
 							<thead>
@@ -79,7 +77,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php
 								$client          = $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 								$manifest        = json_decode($item->manifest_cache);
-								$current_version = isset($manifest->version) ? $manifest->version : JText::_('JLIB_UNKNOWN');
+								$current_version = $manifest->version ?? JText::_('JLIB_UNKNOWN');
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td>

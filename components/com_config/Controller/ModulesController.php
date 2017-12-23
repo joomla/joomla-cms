@@ -11,7 +11,9 @@ namespace Joomla\Component\Config\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -99,7 +101,7 @@ class ModulesController extends BaseController
 
 		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
 
-		$app = \Joomla\CMS\Application\CmsApplication::getInstance('administrator');
+		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
 		$dispatcher      = new \ModulesDispatcher($app, $this->input);
 

@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::callMethodFromHelper($this->extension, "addSubmenu", "transitions");
+		WorkflowHelper::callMethodFromHelper($this->extension, 'addSubmenu', 'transitions');
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
@@ -130,13 +130,13 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions($this->extension, "workflow", $this->workflowID);
+		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
 		$workflow = !empty($this->state->get('active_workflow', '')) ? $this->state->get('active_workflow', '') . ': ' : '';
 
-		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_STATES_LIST', $this->escape($workflow)), 'address contact');
+		ToolbarHelper::title(\JText::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
 
-		if ($canDo->get("core.create"))
+		if ($canDo->get('core.create'))
 		{
 			ToolbarHelper::addNew('transition.add');
 		}
@@ -147,7 +147,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::unpublishList('transitions.unpublish');
 		}
 
-		if ($this->state->get("filter.published") === "-2" && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(\JText::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		}

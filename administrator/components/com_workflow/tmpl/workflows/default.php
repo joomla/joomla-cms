@@ -135,13 +135,14 @@ $userId = $user->id;
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', true); ?>
+										<?php echo JHtml::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
 								<td>
-									<?php if ($canEdit) : ?>
-										<a href="<?php echo $edit; ?>">
-											<?php echo $item->title; ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
+										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+										<a href="<?php echo $edit; ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<?php echo $editIcon; ?><?php echo $item->title; ?>
 										</a>
 									<?php else: ?>
 										<?php echo $item->title; ?>
@@ -151,7 +152,7 @@ $userId = $user->id;
 									<a href="<?php echo $states; ?>"><?php echo \JText::_('COM_WORKFLOW_MANAGE'); ?></a>
 								</td>
 								<td class="text-center hidden-sm-down">
-									<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', true); ?>
+									<?php echo JHtml::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns hidden-sm-down">
 									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_WORKFLOW_COUNT_STATES'); ?>" href="<?php echo JRoute::_('index.php?option=com_workflow&view=states&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">

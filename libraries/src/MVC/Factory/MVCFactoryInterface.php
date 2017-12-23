@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Factory to create MVC objects.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface MVCFactoryInterface
 {
@@ -24,9 +24,9 @@ interface MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = array());
@@ -41,7 +41,7 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createView($name, $prefix = '', $type = '', array $config = array());
@@ -55,7 +55,7 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = '', array $config = array());

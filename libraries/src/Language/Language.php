@@ -839,8 +839,8 @@ class Language
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($filename);
-			$contents = str_replace('_QQ_', '"\""', $contents);
-			$strings = @parse_ini_string($contents);
+			$contents = str_replace('"_QQ_"', '\\"', $contents);
+			$strings  = @parse_ini_string($contents, INI_SCANNER_RAW);
 		}
 		else
 		{
@@ -1308,7 +1308,7 @@ class Language
 	{
 		if (!isset($this->locale))
 		{
-			$locale = str_replace(' ', '', isset($this->metadata['locale']) ? $this->metadata['locale'] : '');
+			$locale = str_replace(' ', '', $this->metadata['locale'] ?? '');
 
 			if ($locale)
 			{

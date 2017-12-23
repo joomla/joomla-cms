@@ -107,7 +107,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $queryMonitor;
 
@@ -276,7 +276,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
+			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -485,7 +485,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "toggleContainer('dbg_container_" . $name . "');";
+		$js = "Joomla.toggleContainer('dbg_container_" . $name . "');";
 
 		$class = 'dbg-header';
 
@@ -552,7 +552,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
+					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
 
 					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
 
@@ -1170,7 +1170,7 @@ class PlgSystemDebug extends CMSPlugin
 						}
 					}
 
-					$htmlQuery = '<div class="alert alert-danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
+					$htmlQuery = '<joomla-alert type="danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</joomla-alert>'
 						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
@@ -1222,7 +1222,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($total_duplicates)
 		{
-			$html[] = '<div class="alert alert-danger">'
+			$html[] = '<joomla-alert type="danger">'
 				. '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 
 			foreach ($duplicates as $dups)
@@ -1237,7 +1237,7 @@ class PlgSystemDebug extends CMSPlugin
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
 			}
 
-			$html[] = '</div>';
+			$html[] = '</joomla-alert>';
 		}
 
 		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
@@ -1315,7 +1315,7 @@ class PlgSystemDebug extends CMSPlugin
 				$html[] = '<div class="dbg-bar-spacer" style="width:' . $bar->pre . '%;"></div>';
 			}
 
-			$barClass = trim('bar dbg-bar progress-bar ' . (isset($bar->class) ? $bar->class : ''));
+			$barClass = trim('bar dbg-bar progress-bar ' . ($bar->class ?? ''));
 
 			if ($id !== null && $i == $id)
 			{
@@ -1476,7 +1476,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{
@@ -1851,10 +1851,10 @@ class PlgSystemDebug extends CMSPlugin
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
-			<div class="alert alert-warning">
+			<joomla-alert type="warning">
 				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
-			</div>
+			</joomla-alert>
 			<br>';
 		}
 

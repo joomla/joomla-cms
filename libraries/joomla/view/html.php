@@ -47,7 +47,7 @@ abstract class JViewHtml extends JViewBase
 		parent::__construct($model);
 
 		// Setup dependencies.
-		$this->paths = isset($paths) ? $paths : $this->loadPaths();
+		$this->paths = $paths ?? $this->loadPaths();
 	}
 
 	/**

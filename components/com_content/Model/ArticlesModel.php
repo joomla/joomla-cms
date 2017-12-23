@@ -207,7 +207,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -221,6 +221,7 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
+				$query->select('fp.ordering');
 				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 			}
 			else
@@ -230,6 +231,7 @@ class ArticlesModel extends ListModel
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
+			$query->select('fp.ordering');
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
@@ -243,7 +245,7 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
-			->select('c.published, c.published AS parents_published')
+			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
@@ -275,7 +277,13 @@ class ArticlesModel extends ListModel
 		// Filter by published state
 		$condition = $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if (is_numeric($condition) && $condition == 2)
+		{
+			// If category is archived then article has to be published or archived.
+			// If categogy is published then article has to be archived.
+			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
+		}
+		elseif (is_numeric($condition))
 		{
 			// Category has to be published
 			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
@@ -694,7 +702,7 @@ class ArticlesModel extends ListModel
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
-			if ($item->params->get('show_associations'))
+			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 			}

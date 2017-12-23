@@ -10,7 +10,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5
  */
-class InstallModel extends BaseModel
+class InstallModel extends BaseDatabaseModel
 {
 	/**
 	 * @var \Joomla\CMS\Table\Table Table object

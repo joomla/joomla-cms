@@ -8,10 +8,12 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.0"
+            "php": "7.0.8"
         },
         "preferred-install": {
             "joomla/application": "dist",
+            "joomla/authentication": "dist",
+            "joomla/console": "dist",
             "joomla/controller": "dist",
             "joomla/crypt": "dist",
             "joomla/data": "dist",
@@ -20,6 +22,7 @@
             "joomla/event": "dist",
             "joomla/http": "dist",
             "joomla/image": "dist",
+            "joomla/ldap": "dist",
             "joomla/oauth1": "dist",
             "joomla/oauth2": "dist",
             "joomla/mediawiki": "dist",
@@ -27,7 +30,8 @@
             "joomla/session": "dist",
             "joomla/string": "dist",
             "joomla/uri": "dist",
-            "joomla/utilities": "dist"
+            "joomla/utilities": "dist",
+            "symfony/console": "dist"
         },
         "vendor-dir": "libraries/vendor"
     },
@@ -46,6 +50,8 @@
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~1.1.5",
+        "joomla/authentication": "~2.0@dev",
+        "joomla/console": "~2.0@dev",
         "joomla/controller": "~2.0@dev",
         "joomla/crypt": "~2.0@dev",
         "joomla/data": "~2.0@dev",
@@ -55,7 +61,7 @@
         "joomla/filter": "^1.3.2",
         "joomla/http": "~2.0@dev",
         "joomla/image": "~2.0@dev",
-        "joomla/ldap": "~1.1",
+        "joomla/ldap": "~2.0@dev",
         "joomla/oauth1": "~2.0@dev",
         "joomla/oauth2": "~2.0@dev",
         "joomla/registry": "~2.0@dev",
@@ -63,22 +69,24 @@
         "joomla/string": "~2.0@dev",
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
+        "defuse/php-encryption": "~2.1",
         "fig/link-util": "~1.0",
-        "ircmaxell/password-compat": "1.*",
-        "paragonie/random_compat": "~2.0",
-        "paragonie/sodium_compat": "~1.2",
-        "phpmailer/phpmailer": "~6.0@rc",
+        "google/recaptcha": "~1.1",
+        "paragonie/sodium_compat": "~1.4",
+        "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
-        "symfony/polyfill-php56": "~1.0",
+        "symfony/console": "3.4.*@dev",
         "symfony/web-link": "3.3.*",
         "symfony/yaml": "3.3.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.35",
-        "phpunit/dbunit": "~1.3",
+        "phpunit/phpunit": "~6.0",
+        "phpunit/dbunit": "~3.0",
+        "phpunit/phpunit-dom-assertions": "~2.0",
         "joomla/mediawiki": "dev-master",
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
+        "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla/test-system": "dev-master"
     }
 }

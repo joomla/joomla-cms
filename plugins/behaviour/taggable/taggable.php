@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * This plugin supersedes JHelperObserverTags.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgBehaviourTaggable extends JPlugin
 {
@@ -29,7 +29,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
 	 *                                          (this list is not meant to be comprehensive).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -45,7 +45,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
 	{
@@ -88,7 +88,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableBeforeStore(CmsEvent\Table\BeforeStoreEvent $event)
 	{
@@ -115,7 +115,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = $table->newTags ?? array();
 
 		if (empty($newTags))
 		{
@@ -134,7 +134,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
@@ -173,7 +173,7 @@ class PlgBehaviourTaggable extends JPlugin
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
-		$newTags = isset($table->newTags) ? $table->newTags : array();
+		$newTags = $table->newTags ?? array();
 
 		if (empty($newTags))
 		{
@@ -201,7 +201,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
@@ -238,7 +238,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableSetNewTags(CmsEvent\Table\SetNewTagsEvent $event)
 	{
@@ -281,7 +281,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
 	{
@@ -309,7 +309,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
 	{
@@ -350,7 +350,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @internal
 	 */

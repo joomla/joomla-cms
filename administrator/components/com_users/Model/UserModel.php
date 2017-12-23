@@ -42,7 +42,7 @@ class UserModel extends AdminModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -916,7 +916,7 @@ class UserModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = new Groups(array('ignore_request' => true));
+			$model = new GroupsModel(array('ignore_request' => true));
 
 			return $model->getItems();
 		}

@@ -10,7 +10,7 @@ namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5
  */
-class SearchModel extends BaseModel
+class SearchModel extends BaseDatabaseModel
 {
 	/**
 	 * Search data array
