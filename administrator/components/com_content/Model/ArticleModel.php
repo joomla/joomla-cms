@@ -11,10 +11,13 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -162,6 +165,48 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
+	 * Batch change workflow state or current.
+	 *
+	 * @param   integer  $value     The workflow state ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchWorkflowState($value, $pks, $contexts)
+	{
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.execute.transition', 'com_content'))
+		{
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+		}
+
+		// Get state information
+		$state = new StateTable($this->_db);
+
+		if (empty($value) || !$state->load($value))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		if (empty($pks))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		// Update content state value and workflow associations
+		return ContentHelper::updateContentState($pks, $state->condition)
+				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value);
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -174,7 +219,7 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$state = new \Joomla\Component\Workflow\Administrator\Table\StateTable($this->_db);
+			$state = new StateTable($this->_db);
 
 			$workflowAssociation = WorkflowHelper::getAssociatedEntry((int) $record->id);
 

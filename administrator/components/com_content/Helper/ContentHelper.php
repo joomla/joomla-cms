@@ -348,4 +348,40 @@ class ContentHelper extends \JHelperContent
 			)
 		);
 	}
+
+	/**
+	 * Method to change state of multiple ids
+	 *
+	 * @param   int  $pks         Array of IDs
+	 * @param   int  $condition  Condition of the workflow state
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateContentState($pks, $condition)
+	{
+		if (empty($pks))
+		{
+			return false;
+		}
+
+		try
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->update($db->qn('#__content'))
+				->set($db->qn('state') . '=' . (int) $condition)
+				->where($db->qn('id') . ' IN (' . implode(', ', $pks) . ')');
+
+			$db->setQuery($query)->execute();
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }

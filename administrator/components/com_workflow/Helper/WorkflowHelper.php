@@ -276,10 +276,48 @@ class WorkflowHelper extends ContentHelper
 				->update($db->qn('#__workflow_associations'))
 				->set($db->qn('state_id') . '=' . (int) $stateId)
 				->where($db->qn('item_id') . '=' . (int) $itemId)
+				->where($db->qn('extension') . '=' . $db->quote($extension));
+
+			$db->setQuery($query)->execute();
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates multiple associations in the workflow_associations table to a given state
+	 *
+	 * @param   array   $itemIds      ids of content
+	 * @param   int     $stateId      id of state
+	 * @param   string  $extension    extension type
+	 *
+	 * @return boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function updateAssociationOfItemIdList($itemIds, $stateId, $extension = 'com_content')
+	{
+		if (empty($itemIds))
+		{
+			return false;
+		}
+
+		try
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query
+				->update($db->qn('#__workflow_associations'))
+				->set($db->qn('state_id') . '=' . (int) $stateId)
+				->where($db->qn('item_id') . ' IN (' . implode(', ', $itemIds) . ')')
 				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
