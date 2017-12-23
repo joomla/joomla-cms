@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
+
+$user = \Joomla\CMS\Factory::getUser();
 ?>
 
 <div class="container">
@@ -31,6 +33,7 @@ $published = $this->state->get('filter.published');
 				</div>
 			</div>
 		<?php endif; ?>
+		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
         <div class="form-group col-md-6">
             <div class="controls">
 				<?php
@@ -38,5 +41,6 @@ $published = $this->state->get('filter.published');
 				echo JLayoutHelper::render('joomla.html.batch.workflowstate', $displayData); ?>
             </div>
         </div>
+		<?php endif; ?>
 	</div>
 </div>

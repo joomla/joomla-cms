@@ -324,8 +324,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 					</table>
 					<?php // Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', 'com_content')
-						&& $user->authorise('core.edit', 'com_content')
-						&& $user->authorise('core.execute.transition', 'com_content')) : ?>
+						&& $user->authorise('core.edit', 'com_content')) : ?>
 						<?php echo JHtml::_(
 							'bootstrap.renderModal',
 							'collapseModal',

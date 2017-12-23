@@ -179,7 +179,7 @@ class ArticleModel extends AdminModel
 	{
 		$user = Factory::getUser();
 
-		if (!$user->authorise('core.execute.transition', 'com_content'))
+		if (!$user->authorise('core.admin', 'com_content'))
 		{
 			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
 		}
