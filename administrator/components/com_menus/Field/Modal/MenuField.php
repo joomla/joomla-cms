@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Menus\Administrator\Field\Modal;
+namespace Joomla\Component\Menus\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
@@ -101,7 +101,6 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
-				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -161,7 +160,7 @@ class MenuField extends FormField
 
 		// Add the modal field script to the document head.
 		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -218,7 +217,7 @@ class MenuField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 
@@ -243,7 +242,7 @@ class MenuField extends FormField
 		{
 			$html .= '<span class="input-group">';
 		}
-
+		
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)

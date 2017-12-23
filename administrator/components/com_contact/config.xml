@@ -5,6 +5,7 @@
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+		addfieldpath="/administrator/components/com_fields/models/fields"
 		>
 
 		<field
@@ -40,7 +41,7 @@
 
 		<field
 			name="history_limit"
-			type="number"
+			type="text"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			default="10"
 			filter="integer"
@@ -95,10 +96,9 @@
 		<field
 			name="show_name"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -107,10 +107,9 @@
 		<field
 			name="show_position"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -119,10 +118,9 @@
 		<field
 			name="show_email"
 			type="radio"
+			class="switcher"
 			label="JGLOBAL_EMAIL"
 			default="0"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -132,21 +130,20 @@
 			name="add_mailto_link"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
-			class="switcher"
-			showon="show_info:1[AND]show_email:1"
+			class="btn-group btn-group-yesno"
+			showon="show_email:1"
 			default="1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
 			name="show_street_address"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -155,10 +152,9 @@
 		<field
 			name="show_suburb"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -167,10 +163,9 @@
 		<field
 			name="show_state"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -179,10 +174,9 @@
 		<field
 			name="show_postcode"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -191,10 +185,9 @@
 		<field
 			name="show_country"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -203,10 +196,9 @@
 		<field
 			name="show_telephone"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -215,10 +207,9 @@
 		<field
 			name="show_mobile"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -227,10 +218,9 @@
 		<field
 			name="show_fax"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -239,10 +229,9 @@
 		<field
 			name="show_webpage"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -251,10 +240,9 @@
 		<field
 			name="show_image"
 			type="radio"
+			class="switcher"
 			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
 			default="1"
-			class="switcher"
-			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -265,7 +253,7 @@
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			default=""
-			showon="show_info:1[AND]show_image:1"
+			showon="show_image:1"
 		/>
 
 		<field
@@ -342,7 +330,6 @@
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			multiple="true"
 			context="com_users.user"
-			addfieldprefix="Joomla\Component\Fields\Administrator\Field"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -870,9 +857,9 @@
 		<field
 			name="show_email_copy"
 			type="radio"
-			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-			default="0"
 			class="switcher"
+			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
+			default="1"
 			showon="show_email_form:1"
 			>
 			<option value="0">JHIDE</option>
@@ -977,7 +964,7 @@
 		<field
 			name="sef_advanced"
 			type="radio"
-			class="switcher switcher-primary"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			filter="integer"
@@ -990,13 +977,13 @@
 			name="sef_ids"
 			type="radio"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
-			class="switcher"
+			class="btn-group btn-group-yesno"
 			default="0"
 			showon="sef_advanced:1"
 			filter="integer"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field

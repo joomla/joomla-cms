@@ -15,7 +15,7 @@ use Joomla\CMS\Installer\Installer as JInstaller;
 /**
  * Joomla! namespace map updater.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgExtensionNamespacemap extends JPlugin
 {
@@ -51,7 +51,7 @@ class PlgExtensionNamespacemap extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -71,7 +71,7 @@ class PlgExtensionNamespacemap extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $removed)
 	{
@@ -92,7 +92,7 @@ class PlgExtensionNamespacemap extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
@@ -111,7 +111,7 @@ class PlgExtensionNamespacemap extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onExtensionAfterSave($installer, $eid)
 	{

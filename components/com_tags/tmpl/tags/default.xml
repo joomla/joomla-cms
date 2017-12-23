@@ -41,7 +41,7 @@
 			
 			<field
 				name="tag_columns"
-				type="number"
+				type="text"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
 				default="4"
 				filter="integer"
@@ -61,7 +61,6 @@
 				name="all_tags_show_description_image" 
 				type="list"
 				label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
-				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -102,7 +101,6 @@
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -112,7 +110,6 @@
 				name="all_tags_show_tag_description" 
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
-				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -121,7 +118,7 @@
 
 			<field
 				name="all_tags_tag_maximum_characters"
-				type="number"
+				type="text"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				filter="integer"
 			/>
@@ -131,7 +128,6 @@
 				type="list"
 				label="JGLOBAL_HITS"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -144,7 +140,7 @@
 			
 			<field
 				name="maximum"
-				type="number"
+				type="text"
 				label="COM_TAGS_LIST_MAX_LABEL"
 				default="200"
 				filter="integer"
@@ -156,7 +152,6 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -167,7 +162,6 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -178,7 +172,6 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -190,7 +183,6 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -203,7 +195,6 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

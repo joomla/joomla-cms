@@ -11,7 +11,6 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /**
  * Helper for mod_menu
@@ -56,7 +55,7 @@ abstract class MenuHelper
 		catch (\RuntimeException $e)
 		{
 			$result = array();
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'error');
 		}
 
 		return $result;

@@ -13,11 +13,11 @@
 }
 
 .icon-publish {
-  color: theme-color("success");
+  color: $brand-success;
 }
 
 .icon-unpublish {
-  color: theme-color("danger");
+  color: $brand-danger;
 }
 
 
@@ -26,7 +26,6 @@
   text-align: center;
   background-color: transparent;
   border: 0;
-
   span {
     width: 26px;
     height: 26px;
@@ -37,27 +36,27 @@
     border-radius: 50%;
   }
   .icon-publish {
-    color: theme-color("success");
-    border-color: theme-color("success");
+    color: $brand-success;
+    border-color: $brand-success;
   }
   .icon-featured {
-    color: theme-color("warning");
-    border-color: theme-color("warning");
+    color: $brand-warning;
+    border-color: $brand-warning;
   }
   .icon-unpublish {
-    color: theme-color("danger");
-    border-color: theme-color("danger");
+    color: $brand-danger;
+    border-color: $brand-danger;
   }
   .icon-archive {
-    color: $gray-700;
-    border-color: $gray-700;
+    color: $gray;
+    border-color: $gray;
   }
   .icon-checkedout {
     width: auto;
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: $gray-700;
+    color: $gray;
     border: 0;
   }
 }

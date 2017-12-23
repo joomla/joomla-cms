@@ -1,6 +1,8 @@
 .pagination {
   display: flex;
-  @include list-unstyled();
+  // 1-2: Disable browser default list styles
+  padding-left: 0; // 1
+  list-style: none; // 2
   @include border-radius();
 }
 
@@ -21,14 +23,15 @@
     z-index: 2;
     color: $pagination-active-color;
     background-color: $pagination-active-bg;
-    border-color: $pagination-active-border-color;
+    border-color: $pagination-active-border;
   }
 
   &.disabled .page-link {
     color: $pagination-disabled-color;
     pointer-events: none;
+    cursor: $cursor-disabled; // While `pointer-events: none` removes the cursor in modern browsers, we provide a disabled cursor as a fallback.
     background-color: $pagination-disabled-bg;
-    border-color: $pagination-disabled-border-color;
+    border-color: $pagination-disabled-border;
   }
 }
 
@@ -36,7 +39,7 @@
   position: relative;
   display: block;
   padding: $pagination-padding-y $pagination-padding-x;
-  margin-left: -$pagination-border-width;
+  margin-left: -1px;
   line-height: $pagination-line-height;
   color: $pagination-color;
   background-color: $pagination-bg;
@@ -46,7 +49,7 @@
     color: $pagination-hover-color;
     text-decoration: none;
     background-color: $pagination-hover-bg;
-    border-color: $pagination-hover-border-color;
+    border-color: $pagination-hover-border;
   }
 }
 

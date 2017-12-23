@@ -33,10 +33,6 @@
 
   }
 
-  button:first-of-type {
-    margin: 0;
-  }
-
   .btn-group-sm > .btn,
   .btn-sm {
     padding: 0 .8rem;
@@ -45,7 +41,6 @@
 
   .btn-sm {
     padding: 0 10px;
-    font-size: .875rem;
     line-height: $atum-toolbar-line-height;
     color: $body-color;
     background-color: $white-offset;
@@ -63,62 +58,62 @@
       margin: 0 6px 0 -10px;
       line-height: $atum-toolbar-line-height;
       color: inherit;
-      background-color: $gray-200;
+      background-color: $gray-lighter;
       border-right: 1px solid $atum-border-color;
       border-radius: 3px 0 0 3px;
     }
 
     &:hover {
-      background-color: $gray-200;
+      background-color: $gray-lighter;
       border-color: $atum-border-color;
     }
 
   }
 
   .btn-primary,
-  .btn-outline-primary {
+.btn-outline-primary {
 
     [class^="icon-"],
     [class*=" icon-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("primary");
+      color: $brand-primary;
     }
 
   }
 
   .btn-success,
-  .btn-outline-success {
+.btn-outline-success {
 
     [class^="icon-"],
     [class*=" icon-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("success");
+      color: $brand-success;
     }
 
   }
 
   .btn-info,
-  .btn-outline-info {
+.btn-outline-info {
 
     [class^="icon-"],
     [class*=" icon-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("info");
+      color: $brand-info;
     }
 
   }
 
   .btn-danger,
-  .btn-outline-danger {
+.btn-outline-danger {
 
     [class^="icon-"],
     [class*=" icon-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("danger");
+      color: $brand-danger;
     }
 
   }
@@ -130,7 +125,7 @@
     [class*=" icon-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("warning");
+      color: $brand-warning;
     }
 
   }
@@ -138,7 +133,7 @@
   .btn-success:not(.dropdown-toggle) {
     width: 140px;
     color: $white-offset;
-    background-color: theme-color("success");
+    background-color: $brand-success;
     border-color: rgba(0,0,0,.2);
 
     [class^="icon-"],
@@ -155,14 +150,14 @@
     }
 
     &:hover {
-      background-color: darken(theme-color("success"), 10%);
+      background-color: darken($brand-success, 10%);
     }
 
   }
 
   .btn-success.dropdown-toggle {
-    background: darken(theme-color("success"), 12%);
-    border-color: darken(theme-color("success"), 12%);
+    background: darken($brand-success, 12%);
+    border-color: darken($brand-success, 12%);
 
     &::after {
       color: $white-offset;
@@ -178,6 +173,7 @@
     margin-left: .8rem;
   }
 
+
   &.subhead-fixed {
     position: fixed;
     top: 0;
@@ -185,7 +181,6 @@
     z-index: 9;
     padding-top: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid $gray-500;
   }
 
 }

@@ -48,11 +48,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Generic submit form
 	 *
-	 * @param  {String}  task      The given task
-	 * @param  {node}    form      The form element
-	 * @param  {bool}    validate  The form element
+	 * @param {String} task      The string to translate
+	 * @param {node}   form      The form element
+	 * @param {bool}   validate  The form element
 	 *
-	 * @returns  {void}
+	 * @returns {null}
 	 */
 	Joomla.submitform = function(task, form, validate) {
 
@@ -89,9 +89,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Can be overriden by the component to add custom logic
 	 *
-	 * @param  {bool}  task  The given task
+	 * @param {bool}  task  The given task
 	 *
-	 * @returns {void}
+	 * @returns {null}
 	 */
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
@@ -178,8 +178,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Get script(s) options
 	 *
-	 * @param  {String}  key  Name in Storage
-	 * @param  {mixed}   def  Default value if nothing found
+	 * @param {String}  key  Name in Storage
+	 * @param {mixed}   def  Default value if nothing found
 	 *
 	 * @return {mixed}
 	 *
@@ -197,7 +197,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Load new options from given options object or from Element
 	 *
-	 * @param  {Object|undefined}  options  The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
 	 *
 	 * @since 3.7.0
 	 */
@@ -233,20 +233,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
-					/**
-					 * If both existing and new options are objects, merge them with Joomla.extend().  But test for new
-					 * option being null, as null is an object, but we want to allow clearing of options with ...
-					 *
-					 * Joomla.loadOptions({'joomla.jtext': null});
-					 */
-					if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
-						Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
-					} else {
-						Joomla.optionsStorage[p] = options[p];
-					}
-	            }
-            }
-        }
+					Joomla.optionsStorage[p] = options[p];
+				}
+			}
+		}
 	};
 
 	/**
@@ -277,11 +267,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Verifies if the string is in a valid email format
 	 *
-	 * @param  {string}  text  The text for validation
+	 * @param {string}  text  The text for validation
 	 *
-	 * @return {boolean}
+	 * @return boolean
 	 *
-	 * @deprecated  4.0 No replacement. Use formvalidator
+	 * @deprecated  4.0 Use formvalidator
 	 */
 	Joomla.isEmail = function( text ) {
 		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
@@ -466,9 +456,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   {object}  xhr         XHR object.
-	 * @param   {string}  textStatus  Type of error that occurred.
-	 * @param   {string}  error       Textual portion of the HTTP status.
+	 * @param   {object}  xhr          XHR object.
+	 * @param   {string}  textStatus   Type of error that occurred.
+	 * @param   {string}  error        Textual portion of the HTTP status.
 	 *
 	 * @return  {object}  JavaScript object containing the system error message.
 	 *
@@ -528,10 +518,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * administrator/components/com_languages/helpers/html/languages.php
 	 * libraries/joomla/html/html/grid.php
 	 *
-	 * @param  {boolean}  isitchecked  Flag for checked
-	 * @param  {node}     form         The form
+	 * @param {boolean}  isitchecked  Flag for checked
+	 * @param {node}     form         The form
 	 *
-	 * @return  {void}
+	 * @return {void}
 	 */
 	Joomla.isChecked = function( isitchecked, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -588,7 +578,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param srcListName
 	 * @return
 	 *
-	 * @deprecated  4.0 No replacement
+	 * @TODO deprecate it in 3.x and remove it in 4.0
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
@@ -601,55 +591,44 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 	};
 
-    /**
-     * USED IN: all over :)
-     *
-     * @param id
-     * @param task
-     * @return
-     *
-     * @deprecated 4.0  Use Joomla.listItemTask() instead
-     */
-    window.listItemTask = function ( id, task ) {
-        return Joomla.listItemTask( id, task );
-    };
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param id
+	 * @param task
+	 * @return
+	 *
+	 * @TODO deprecate it in 3.x and rename it Joomla.listItemTask in 4.0
+	 */
+	window.listItemTask = function ( id, task ) {
+		var f = document.adminForm,
+		    i = 0, cbx,
+		    cb = f[ id ];
 
-    /**
-     * USED IN: all over :)
-     *
-     * @param  {string}  id    The id
-     * @param  {string}  task  The task
-     *
-     * @return {boolean}
-     */
-    Joomla.listItemTask = function ( id, task ) {
-        var f = document.adminForm,
-            i = 0, cbx,
-            cb = f[ id ];
+		if ( !cb ) return false;
 
-        if ( !cb ) return false;
+		while ( true ) {
+			cbx = f[ 'cb' + i ];
 
-        while ( true ) {
-            cbx = f[ 'cb' + i ];
+			if ( !cbx ) break;
 
-            if ( !cbx ) break;
+			cbx.checked = false;
 
-            cbx.checked = false;
+			i++;
+		}
 
-            i++;
-        }
+		cb.checked = true;
+		f.boxchecked.value = 1;
+		window.submitform( task );
 
-        cb.checked = true;
-        f.boxchecked.value = 1;
-        window.submitform( task );
-
-        return false;
-    };
-
+		return false;
+	};
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *
-	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+	 *
+	 * @TODO remove it in 4.0
 	 */
 	window.submitbutton = function ( pressbutton ) {
 		Joomla.submitbutton( pressbutton );
@@ -658,7 +637,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Submit the admin form
 	 *
-	 * @deprecated 4.0  Use Joomla.submitform() instead.
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+	 *
+	 * @TODO remove it in 4.0
 	 */
 	window.submitform = function ( pressbutton ) {
 		Joomla.submitform(pressbutton);
@@ -669,7 +650,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * There's a better way to do this now, can we try to kill it?
 	 *
-	 * @deprecated 4.0  No replacement
+	 * @TODO remove it in 4.0
 	 */
 	window.saveorder = function ( n, task ) {
 		window.checkAll_button( n, task );
@@ -684,7 +665,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * @return  void
 	 *
-	 * @deprecated 4.0  No replacement
+	 * @TODO deprecate it in 3.x and rename it Joomla.checkAll_button (or remove it) in 4.0
 	 */
 	window.checkAll_button = function ( n, task ) {
 		task = task ? task : 'saveorder';
@@ -780,13 +761,6 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
-		/**
-		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
-		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
- 		 */
-		if (destination === null) {
-			destination = {};
-		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
@@ -835,6 +809,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			perform: true
 		}, options);
 
+		// Use POST for send the data
+		options.method = options.data ? 'POST' : options.method.toUpperCase();
+
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
@@ -845,7 +822,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method !== 'GET') {
+			if (options.method === 'POST') {
 				var token = Joomla.getOptions('csrf.token', '');
 
 				if (token) {
@@ -901,7 +878,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Check if HTML5 localStorage enabled on the browser
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	Joomla.localStorageEnabled = function() {
 		var test = 'joomla-cms';
@@ -917,7 +894,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Loads any needed polyfill for web components and async load any web components
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	Joomla.WebComponents = function() {
 		var wc, polyfills = [];
@@ -964,6 +941,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 						} else {
 							el.src = wc[p];
 						}
+					} else if (wc[p].match(/\.html/)) {
+						el = document.createElement('link');
+						if (checkES6()) {
+							// Browser is not ES6!
+							if (wc[p].match(/\.min\.html/)) {
+								el.setAttribute('href', wc[p].replace(/\.min\.html/, '-es5.min.html'));
+							} else {
+								el.setAttribute('href', wc[p].replace(/\.html/, '-es5.html'));
+							}
+						} else {
+							el.src = wc[p];
+						}
+
+						el.setAttribute('rel', 'import');
 					}
 					if (el) {
 						document.head.appendChild(el);
@@ -992,8 +983,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		if (polyfills.length) {
-			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]');
-
+			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]')
 			if (!script) {
 				name = "core.js";
 				script = document.querySelector('script[src*="' + name + '"]')
@@ -1013,7 +1003,12 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 
 			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
-			document.head.appendChild(newScript);
+
+			if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {
+				document.write(newScript.outerHTML);
+			} else {
+				document.head.insertAdjacentElement('beforeend', newScript);
+			}
 
 			document.addEventListener('WebComponentsReady', function () {
 				loadWC(wc);
@@ -1041,7 +1036,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 /**
  * Joomla! Custom events
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 (function( window, Joomla ) {
 	"use strict";
@@ -1075,7 +1070,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * 	or:
 	 * 	Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to Window
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	Joomla.Event.dispatch = function(element, name, params) {
 		if (typeof element === 'string') {
@@ -1100,7 +1095,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param {String}       name      The event name
 	 * @param {Function}     callback  The event callback
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	Joomla.Event.listenOnce = function (element, name, callback) {
 		var onceCallback = function(event){

@@ -88,7 +88,7 @@ class JHtmlFormTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testCsrf()
 	{

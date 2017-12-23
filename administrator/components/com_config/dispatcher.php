@@ -17,7 +17,7 @@ JLoader::discover('ConfigHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helper');
 /**
  * Dispatcher class for com_config
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ConfigDispatcher extends Dispatcher
 {
@@ -26,7 +26,7 @@ class ConfigDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Config';
 }

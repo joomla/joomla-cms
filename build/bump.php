@@ -36,7 +36,7 @@ function usage($command)
 const PHP_TAB = "\t";
 
 // File paths.
-$versionFile      = '/libraries/src/Version.php';
+$versionFile      = '/libraries/src/Joomla/CMS/Version.php';
 
 $coreXmlFiles     = array(
 			'/administrator/manifests/files/joomla.xml',
@@ -59,14 +59,14 @@ $readMeFiles = array(
 			'/README.txt',
 			);
 
-// Change copyright date exclusions. Some systems may try to scan the .git directory, exclude it.
+// Change copyright date exclusions.
 $directoryLoopExcludeDirectories = array(
-			'/.git',
 			'/libraries/vendor/',
 			'/libraries/phputf8/',
 			'/libraries/php-encryption/',
 			'/libraries/phpass/',
 			'/libraries/idna_convert/',
+			'/libraries/fof/',
 			);
 
 $directoryLoopExcludeFiles = array(
@@ -153,7 +153,7 @@ $version = array(
 		'major'      => $versionSubParts[0],
 		'minor'      => $versionSubParts[1],
 		'patch'      => $versionSubParts[2],
-		'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
+		'extra'      => !empty($versionParts[2]) ? $versionParts[2] : (!empty($versionParts[1]) ? $versionParts[1] : ''),
 		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
 		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
 		'dev_status' => $dev_status,

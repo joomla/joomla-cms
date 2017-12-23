@@ -31,13 +31,13 @@ class JRouterSiteTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 
@@ -185,7 +185,7 @@ class JRouterSiteTest extends TestCaseDatabase
 		$server3 = array(
 			'HTTP_HOST'       => '',
 			'SCRIPT_NAME'     => '',
-			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/finder_indexer.php',
+			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/deletefiles.php',
 			'PHP_SELF'        => '',
 			'REQUEST_URI'     => ''
 		);
@@ -201,7 +201,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'expUrl'  => 'blog/te st'
 			),
 			array(
-				'url'     => '/cli/finder_indexer.php?var1=value1',
+				'url'     => '/cli/deletefiles.php?var1=value1',
 				'server'  => $server3,
 				'expUrl'  => '?var1=value1'
 			)

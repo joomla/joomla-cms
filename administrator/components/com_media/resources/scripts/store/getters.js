@@ -33,16 +33,3 @@ export const getSelectedDirectoryFiles = (state, getters) => {
         file => (file.directory === state.selectedDirectory)
     );
 }
-
-/**
- * Whether or not all items of the current directory are selected
- * @param state
- * @param getters
- * @returns Array
- */
-export const getSelectedDirectoryContents = (state, getters) => {
-    return [
-        ...getters.getSelectedDirectoryDirectories,
-        ...getters.getSelectedDirectoryFiles,
-    ];
-}

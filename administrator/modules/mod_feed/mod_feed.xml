@@ -67,7 +67,7 @@
 
 				<field
 					name="rssitems"
-					type="number"
+					type="text"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 				/>
@@ -110,7 +110,7 @@
 
 				<field
 					name="cache_time"
-					type="number"
+					type="text"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
  					default="900"
 				/>

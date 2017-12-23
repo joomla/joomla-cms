@@ -111,7 +111,7 @@ class ArticleField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 

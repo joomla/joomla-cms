@@ -148,10 +148,9 @@ class Stream extends AbstractTransport
 		$streamOptions = [
 			'http' => $options,
 			'ssl'  => [
-				'verify_peer'      => true,
-				'verify_depth'     => 5,
-				'verify_peer_name' => true,
-			],
+				'verify_peer'  => true,
+				'verify_depth' => 5,
+			]
 		];
 
 		// The cacert may be a file or path

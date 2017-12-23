@@ -22,7 +22,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function setUp()
 	{
@@ -98,7 +98,7 @@ class JLogTest extends \PHPUnit\Framework\TestCase
 	public function testAddLoggerAutoInstantiationInvalidLogger()
 	{
 		// We are expecting an InvalidArgumentException to be thrown since we are trying to add a bogus logger.
-		$this->expectException('RuntimeException');
+		$this->setExpectedException('RuntimeException');
 
 		JLog::setInstance(null);
 

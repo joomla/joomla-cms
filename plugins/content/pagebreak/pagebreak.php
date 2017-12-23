@@ -202,19 +202,10 @@ class PlgContentPagebreak extends JPlugin
 			{
 				$t[] = $text[0];
 
-				if ($style === 'tabs')
-				{
-					$t[] = (string) JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
-				}
-				else
-				{
-					$t[] = (string) JHtml::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
-				}
+				$t[] = (string) JHtml::_($style . '.start', 'article' . $row->id . '-' . $style);
 
 				foreach ($text as $key => $subtext)
 				{
-					$index = 'article' . $row->id . '-' . $style . $key;
-
 					if ($key >= 1)
 					{
 						$match = $matches[$key - 1];
@@ -232,37 +223,14 @@ class PlgContentPagebreak extends JPlugin
 						{
 							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
-					}
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) JHtml::_('bootstrap.addTab', 'myTab', $index, $title);
-					}
-					else
-					{
-						$t[] = (string) JHtml::_('bootstrap.addSlide', 'myAccordion', $title, $index);
+						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
 					}
 
 					$t[] = (string) $subtext;
-
-					if ($style === 'tabs')
-					{
-						$t[] = (string) JHtml::_('bootstrap.endTab');
-					}
-					else
-					{
-						$t[] = (string) JHtml::_('bootstrap.endSlide');
-					}
 				}
 
-				if ($style === 'tabs')
-				{
-					$t[] = (string) JHtml::_('bootstrap.endTabSet');
-				}
-				else
-				{
-					$t[] = (string) JHtml::_('bootstrap.endAccordion');
-				}
+				$t[] = (string) JHtml::_($style . '.end');
 
 				$row->text = implode(' ', $t);
 			}
@@ -284,13 +252,13 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createToc(&$row, &$matches, &$page)
 	{
-		$heading = $row->title ?? JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 		$input = JFactory::getApplication()->input;
 		$limitstart = $input->getUInt('limitstart', 0);
 		$showall = $input->getInt('showall', 0);
 
 		// TOC header.
-		$row->toc = '<div class="card float-right article-index"><div class="card-body">';
+		$row->toc = '<div class="float-right article-index">';
 
 		if ($this->params->get('article_index') == 1)
 		{
@@ -305,10 +273,9 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// TOC first Page link.
-		$liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul class="nav flex-column">
-		<li class="' . $liClass . '">
+		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
+		<li class="' . $class . '">
 			<a href="'
 			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
 			. '" class="' . $class . '">' . $heading . '</a>
@@ -343,7 +310,7 @@ class PlgContentPagebreak extends JPlugin
 				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
 			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
 			$i++;
@@ -352,13 +319,13 @@ class PlgContentPagebreak extends JPlugin
 		if ($this->params->get('showall'))
 		{
 			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
+			$liClass   = ($limitstart === $i - 1) ? ' class="active"' : '';
 			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
 				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
 		}
 
-		$row->toc .= '</ul></div></div>';
+		$row->toc .= '</ul></div>';
 	}
 
 	/**

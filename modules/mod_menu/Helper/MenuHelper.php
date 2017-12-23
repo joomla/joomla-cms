@@ -17,7 +17,9 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_menu
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  mod_menu
+ * @since       1.5
  */
 class MenuHelper
 {

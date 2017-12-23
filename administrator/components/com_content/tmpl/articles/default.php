@@ -9,16 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Button\ActionButton;
-use Joomla\CMS\Button\PublishedButton;
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
-JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
-JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
-JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
 
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
@@ -45,21 +38,13 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder && !empty($this->items))
+if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
 }
 
 $assoc = JLanguageAssociations::isEnabled();
-
-// Configure content state button renderer.
-$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
-
-// Configure featured button renderer.
-$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
-	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
-	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -76,7 +61,9 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -105,11 +92,9 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+								</th>
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
@@ -171,8 +156,8 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
-										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<td class="has-context">
@@ -206,29 +191,18 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								</td>
 								<?php endif; ?>
 								<td class="small hidden-sm-down text-center">
-									<?php if ((int) $item->created_by != 0) : ?>
-										<?php if ($item->created_by_alias) : ?>
-                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-                                            <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-										<?php endif; ?>
+									<?php if ($item->created_by_alias) : ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
+										<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php else : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<?php echo JText::_('JNONE'); ?>
-                                            <div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<?php echo JText::_('JNONE'); ?>
-										<?php endif; ?>
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+										<?php echo $this->escape($item->author_name); ?></a>
 									<?php endif; ?>
 								</td>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<td class="small hidden-sm-down text-center">
-										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-									</td>
-								<?php endif; ?>
+								<td class="small hidden-sm-down text-center">
+									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								</td>
 								<td class="nowrap small hidden-sm-down text-center">
 									<?php
 									$date = $item->{$orderingColumn};

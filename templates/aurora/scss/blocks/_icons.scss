@@ -1,0 +1,21 @@
+// Icons
+
+.icon-back::before {
+  content: "\e008";
+}
+
+.icon-crop::before {
+  content: "\f125";
+}
+
+.icon-white {
+  color: $white-offset;
+}
+
+.icon-publish {
+  color: $brand-success;
+}
+
+.icon-unpublish {
+  color: $brand-danger;
+}

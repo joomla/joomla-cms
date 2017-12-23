@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_languages
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class LanguagesDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class LanguagesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Languages';
 }

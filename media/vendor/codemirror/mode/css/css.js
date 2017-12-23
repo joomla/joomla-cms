@@ -383,8 +383,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         style = style[0];
       }
       override = style;
-      if (type != "comment")
-        state.state = states[state.state](type, stream, state);
+      state.state = states[state.state](type, stream, state);
       return override;
     },
 
@@ -410,7 +409,6 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     electricChars: "}",
     blockCommentStart: "/*",
     blockCommentEnd: "*/",
-    blockCommentContinue: " * ",
     lineComment: lineComment,
     fold: "brace"
   };

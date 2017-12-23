@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <div class="card mb-2">
-	<div class="card-body">
+	<div class="card-block">
 		<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>
 	</div>
 </div>

@@ -1,7 +1,9 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * Zend Framework (http://framework.zend.com/)
+ *
+ * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -148,18 +150,24 @@ class Server
      * If provided a $finalHandler, that callable will be used for
      * incomplete requests.
      *
+     * Output buffering is enabled prior to invoking the attached
+     * callback; any output buffered will be sent prior to any
+     * response body content.
+     *
      * @param null|callable $finalHandler
      */
     public function listen(callable $finalHandler = null)
     {
         $callback = $this->callback;
 
+        ob_start();
+        $bufferLevel = ob_get_level();
+
         $response = $callback($this->request, $this->response, $finalHandler);
         if (! $response instanceof ResponseInterface) {
             $response = $this->response;
         }
-
-        $this->getEmitter()->emit($response);
+        $this->getEmitter()->emit($response, $bufferLevel);
     }
 
     /**

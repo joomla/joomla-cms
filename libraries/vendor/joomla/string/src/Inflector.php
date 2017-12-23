@@ -127,7 +127,7 @@ class Inflector
 	 * @since   1.0
 	 * @throws  InvalidArgumentException
 	 */
-	private function addRule($data, string $ruleType)
+	private function addRule($data, $ruleType)
 	{
 		if (is_string($data))
 		{
@@ -155,7 +155,7 @@ class Inflector
 	 *
 	 * @since   1.0
 	 */
-	private function getCachedPlural(string $singular)
+	private function getCachedPlural($singular)
 	{
 		$singular = StringHelper::strtolower($singular);
 
@@ -177,7 +177,7 @@ class Inflector
 	 *
 	 * @since   1.0
 	 */
-	private function getCachedSingular(string $plural)
+	private function getCachedSingular($plural)
 	{
 		return array_search(StringHelper::strtolower($plural), $this->cache);
 	}
@@ -195,7 +195,7 @@ class Inflector
 	 *
 	 * @since   1.0
 	 */
-	private function matchRegexRule(string $word, string $ruleType)
+	private function matchRegexRule($word, $ruleType)
 	{
 		// Cycle through the regex rules.
 		foreach ($this->rules[$ruleType] as $regex => $replacement)
@@ -222,11 +222,11 @@ class Inflector
 	 *
 	 * @since   1.0
 	 */
-	private function setCache(string $singular, string $plural = '')
+	private function setCache($singular, $plural = null)
 	{
 		$singular = StringHelper::strtolower($singular);
 
-		if ($plural === '')
+		if ($plural === null)
 		{
 			$plural = $singular;
 		}
@@ -243,7 +243,7 @@ class Inflector
 	 *
 	 * @param   mixed  $data  A string or an array of strings to add.
 	 *
-	 * @return  $this
+	 * @return  Inflector  Returns this object to support chaining.
 	 *
 	 * @since   1.0
 	 */
@@ -260,11 +260,11 @@ class Inflector
 	 * @param   string  $singular  The singular form of the word.
 	 * @param   string  $plural    The plural form of the word. If omitted, it is assumed the singular and plural are identical.
 	 *
-	 * @return  $this
+	 * @return  Inflector  Returns this object to support chaining.
 	 *
 	 * @since   1.0
 	 */
-	public function addWord($singular, $plural = '')
+	public function addWord($singular, $plural = null)
 	{
 		$this->setCache($singular, $plural);
 
@@ -276,7 +276,7 @@ class Inflector
 	 *
 	 * @param   mixed  $data  A string or an array of regex rules to add.
 	 *
-	 * @return  $this
+	 * @return  Inflector  Returns this object to support chaining.
 	 *
 	 * @since   1.0
 	 */
@@ -292,7 +292,7 @@ class Inflector
 	 *
 	 * @param   mixed  $data  A string or an array of regex rules to add.
 	 *
-	 * @return  $this
+	 * @return  Inflector  Returns this object to support chaining.
 	 *
 	 * @since   1.0
 	 */
@@ -308,7 +308,7 @@ class Inflector
 	 *
 	 * @param   boolean  $new  If true (default is false), returns a new instance regardless if one exists. This argument is mainly used for testing.
 	 *
-	 * @return  static
+	 * @return  Inflector
 	 *
 	 * @since   1.0
 	 */
@@ -338,7 +338,7 @@ class Inflector
 	 */
 	public function isCountable($word)
 	{
-		return in_array($word, $this->rules['countable']);
+		return (boolean) in_array($word, $this->rules['countable']);
 	}
 
 	/**

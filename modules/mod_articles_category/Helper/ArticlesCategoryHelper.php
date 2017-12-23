@@ -17,16 +17,19 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Component\Content\Site\Model\ArticleModel;
-use Joomla\Component\Content\Site\Model\CategoriesModel;
+use Joomla\Component\Content\Site\Model\Articles;
+use Joomla\Component\Content\Site\Model\Article;
+use Joomla\Component\Content\Site\Model\Categories;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_category
  *
- * @since  1.6
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_category
+ *
+ * @since       1.6
  */
 abstract class ArticlesCategoryHelper
 {
@@ -42,7 +45,7 @@ abstract class ArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = new ArticlesModel(array('ignore_request' => true));
+		$articles = new Articles(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();
@@ -91,7 +94,7 @@ abstract class ArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = new ArticleModel(array('ignore_request' => true));
+									$article = new Article(array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -138,7 +141,7 @@ abstract class ArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = new CategoriesModel(array('ignore_request' => true));
+				$categories = new Categories(array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);

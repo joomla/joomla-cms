@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,46 +76,13 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.textpattern.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.textpattern.api.Api","tinymce.plugins.textpattern.api.Settings","tinymce.plugins.textpattern.core.Keyboard","global!tinymce.util.Tools.resolve","tinymce.core.util.Delay","tinymce.core.util.VK","tinymce.plugins.textpattern.core.KeyHandler","tinymce.plugins.textpattern.core.Formatter","global!document","tinymce.core.dom.TreeWalker","tinymce.core.util.Tools","tinymce.plugins.textpattern.core.Patterns"]
+["tinymce.plugins.textpattern.Plugin","tinymce.core.PluginManager","tinymce.core.util.Delay","tinymce.core.util.VK","tinymce.plugins.textpattern.core.Formatter","tinymce.plugins.textpattern.core.KeyHandler","tinymce.plugins.textpattern.core.Settings","global!tinymce.util.Tools.resolve","tinymce.core.dom.TreeWalker","tinymce.core.util.Tools","tinymce.plugins.textpattern.core.Patterns"]
 jsc*/
-define(
-  'ephox.katamari.api.Cell',
-
-  [
-  ],
-
-  function () {
-    var Cell = function (initial) {
-      var value = initial;
-
-      var get = function () {
-        return value;
-      };
-
-      var set = function (v) {
-        value = v;
-      };
-
-      var clone = function () {
-        return Cell(get());
-      };
-
-      return {
-        get: get,
-        set: set,
-        clone: clone
-      };
-    };
-
-    return Cell;
-  }
-);
-
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
  * ResolveGlobal.js
@@ -134,83 +101,6 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.PluginManager');
-  }
-);
-
-/**
- * Api.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.textpattern.api.Api',
-  [
-  ],
-  function () {
-    var get = function (patternsState) {
-      var setPatterns = function (newPatterns) {
-        patternsState.set(newPatterns);
-      };
-
-      var getPatterns = function () {
-        return patternsState.get();
-      };
-
-      return {
-        setPatterns: setPatterns,
-        getPatterns: getPatterns
-      };
-    };
-
-    return {
-      get: get
-    };
-  }
-);
-/**
- * Settings.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.textpattern.api.Settings',
-  [
-  ],
-  function () {
-    var defaultPatterns = [
-      { start: '*', end: '*', format: 'italic' },
-      { start: '**', end: '**', format: 'bold' },
-      { start: '***', end: '***', format: ['bold', 'italic'] },
-      { start: '#', format: 'h1' },
-      { start: '##', format: 'h2' },
-      { start: '###', format: 'h3' },
-      { start: '####', format: 'h4' },
-      { start: '#####', format: 'h5' },
-      { start: '######', format: 'h6' },
-      { start: '1. ', cmd: 'InsertOrderedList' },
-      { start: '* ', cmd: 'InsertUnorderedList' },
-      { start: '- ', cmd: 'InsertUnorderedList' }
-    ];
-
-    var getPatterns = function (editorSettings) {
-      return editorSettings.textpattern_patterns !== undefined ?
-        editorSettings.textpattern_patterns :
-        defaultPatterns;
-    };
-
-    return {
-      getPatterns: getPatterns
-    };
   }
 );
 
@@ -254,7 +144,6 @@ define(
   }
 );
 
-defineGlobal("global!document", document);
 /**
  * ResolveGlobal.js
  *
@@ -294,16 +183,6 @@ define(
     return resolve('tinymce.util.Tools');
   }
 );
-
-/**
- * Patterns.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
 
 define(
   'tinymce.plugins.textpattern.core.Patterns',
@@ -370,116 +249,87 @@ define(
   }
 );
 
-/**
- * Formatter.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
   'tinymce.plugins.textpattern.core.Formatter',
+
   [
-    'global!document',
     'tinymce.core.dom.TreeWalker',
     'tinymce.core.util.Tools',
     'tinymce.plugins.textpattern.core.Patterns'
   ],
-  function (document, TreeWalker, Tools, Patterns) {
-    var splitContainer = function (container, pattern, endOffset, startOffset, space) {
+
+  function (TreeWalker, Tools, Patterns) {
+    var splitContainer = function (container, pattern, offset, startOffset, delta) {
 
       // Split text node and remove start/end from text node
       container = startOffset > 0 ? container.splitText(startOffset) : container;
-      container.splitText(endOffset - startOffset + pattern.end.length);
+      container.splitText(offset - startOffset - delta);
       container.deleteData(0, pattern.start.length);
       container.deleteData(container.data.length - pattern.end.length, pattern.end.length);
 
       return container;
     };
 
-    var patternFromRng = function (patterns, rng, space) {
-      if (rng.collapsed === false) {
+    // Handles inline formats like *abc* and **abc**
+    var applyInlineFormat = function (editor, patterns, space) {
+      var selection, dom, rng, container, offset, startOffset, text, patternRng, pattern, delta, format;
+
+      selection = editor.selection;
+      dom = editor.dom;
+
+      if (!selection.isCollapsed()) {
         return;
       }
 
-      var container = rng.startContainer;
-      var text = container.data;
-      var delta = space === true ? 1 : 0;
+      rng = selection.getRng(true);
+      container = rng.startContainer;
+      offset = rng.startOffset;
+      text = container.data;
+      delta = space === true ? 1 : 0;
 
-      if (container.nodeType !== 3) {
+      if (container.nodeType != 3) {
         return;
       }
 
       // Find best matching end
-      var endPattern = Patterns.findEndPattern(patterns, text, rng.startOffset, delta);
-      if (endPattern === undefined) {
+      pattern = Patterns.findEndPattern(patterns, text, offset, delta);
+      if (pattern === undefined) {
         return;
       }
 
       // Find start of matched pattern
-      var endOffset = text.lastIndexOf(endPattern.end, rng.startOffset - delta);
-      var startOffset = text.lastIndexOf(endPattern.start, endOffset - endPattern.end.length);
-      endOffset = text.indexOf(endPattern.end, startOffset + endPattern.start.length);
+      // TODO: Might need to improve this if there is nested formats
+      startOffset = Math.max(0, offset - delta);
+      startOffset = text.lastIndexOf(pattern.start, startOffset - pattern.end.length - 1);
 
       if (startOffset === -1) {
         return;
       }
 
       // Setup a range for the matching word
-      var patternRng = document.createRange();
+      patternRng = dom.createRng();
       patternRng.setStart(container, startOffset);
-      patternRng.setEnd(container, endOffset + endPattern.end.length);
+      patternRng.setEnd(container, offset - delta);
+      pattern = Patterns.findPattern(patterns, patternRng.toString());
 
-      var startPattern = Patterns.findPattern(patterns, patternRng.toString());
-
-      if (endPattern === undefined || startPattern !== endPattern || (container.data.length <= endPattern.start.length + endPattern.end.length)) {
+      if (!pattern || !pattern.end) {
         return;
       }
 
-      return {
-        pattern: endPattern,
-        startOffset: startOffset,
-        endOffset: endOffset
-      };
-    };
+      // If container match doesn't have anything between start/end then do nothing
+      if (container.data.length <= pattern.start.length + pattern.end.length) {
+        return;
+      }
 
-    var splitAndApply = function (editor, container, found, space) {
-      var formatArray = Tools.isArray(found.pattern.format) ? found.pattern.format : [found.pattern.format];
-      var validFormats = Tools.grep(formatArray, function (formatName) {
-        var format = editor.formatter.get(formatName);
-        return format && format[0].inline;
-      });
-
-      if (validFormats.length !== 0) {
+      format = editor.formatter.get(pattern.format);
+      if (format && format[0].inline) {
         editor.undoManager.transact(function () {
-          container = splitContainer(container, found.pattern, found.endOffset, found.startOffset, space);
-          formatArray.forEach(function (format) {
-            editor.formatter.apply(format, {}, container);
-          });
+          container = splitContainer(container, pattern, offset, startOffset, delta);
+          editor.formatter.apply(pattern.format, {}, container);
         });
 
         return container;
       }
-    };
-
-    // Handles inline formats like *abc* and **abc**
-    var doApplyInlineFormat = function (editor, patterns, space) {
-      var rng = editor.selection.getRng(true);
-      var foundPattern = patternFromRng(patterns, rng, space);
-
-      if (foundPattern) {
-        return splitAndApply(editor, rng.startContainer, foundPattern, space);
-      }
-    };
-
-    var applyInlineFormatSpace = function (editor, patterns) {
-      return doApplyInlineFormat(editor, patterns, true);
-    };
-    var applyInlineFormatEnter = function (editor, patterns) {
-      return doApplyInlineFormat(editor, patterns, false);
     };
 
     // Handles block formats like ##abc or 1. abc
@@ -497,7 +347,7 @@ define(
       if (textBlockElm) {
         walker = new TreeWalker(textBlockElm, textBlockElm);
         while ((node = walker.next())) {
-          if (node.nodeType === 3) {
+          if (node.nodeType == 3) {
             firstTextNode = node;
             break;
           }
@@ -513,11 +363,11 @@ define(
           container = rng.startContainer;
           offset = rng.startOffset;
 
-          if (firstTextNode === container) {
+          if (firstTextNode == container) {
             offset = Math.max(0, offset - pattern.start.length);
           }
 
-          if (Tools.trim(firstTextNode.data).length === pattern.start.length) {
+          if (Tools.trim(firstTextNode.data).length == pattern.start.length) {
             return;
           }
 
@@ -544,35 +394,25 @@ define(
     };
 
     return {
-      patternFromRng: patternFromRng,
-      applyInlineFormatSpace: applyInlineFormatSpace,
-      applyInlineFormatEnter: applyInlineFormatEnter,
+      applyInlineFormat: applyInlineFormat,
       applyBlockFormat: applyBlockFormat
     };
   }
 );
 
-/**
- * KeyHandler.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
   'tinymce.plugins.textpattern.core.KeyHandler',
+
   [
     'tinymce.core.util.VK',
     'tinymce.plugins.textpattern.core.Formatter'
   ],
+
   function (VK, Formatter) {
     function handleEnter(editor, patterns) {
-      var wrappedTextNode, rng;
+      var rng, wrappedTextNode;
 
-      wrappedTextNode = Formatter.applyInlineFormatEnter(editor, patterns);
+      wrappedTextNode = Formatter.applyInlineFormat(editor, patterns, false);
       if (wrappedTextNode) {
         rng = editor.dom.createRng();
         rng.setStart(wrappedTextNode, wrappedTextNode.data.length);
@@ -586,7 +426,7 @@ define(
     function handleInlineKey(editor, patterns) {
       var wrappedTextNode, lastChar, lastCharNode, rng, dom;
 
-      wrappedTextNode = Formatter.applyInlineFormatSpace(editor, patterns);
+      wrappedTextNode = Formatter.applyInlineFormat(editor, patterns, true);
       if (wrappedTextNode) {
         dom = editor.dom;
         lastChar = wrappedTextNode.data.slice(-1);
@@ -596,7 +436,11 @@ define(
           wrappedTextNode.deleteData(wrappedTextNode.data.length - 1, 1);
           lastCharNode = dom.doc.createTextNode(lastChar);
 
-          dom.insertAfter(lastCharNode, wrappedTextNode.parentNode);
+          if (wrappedTextNode.nextSibling) {
+            dom.insertAfter(lastCharNode, wrappedTextNode.nextSibling);
+          } else {
+            wrappedTextNode.parentNode.appendChild(lastCharNode);
+          }
 
           rng = dom.createRng();
           rng.setStart(lastCharNode, 1);
@@ -635,54 +479,37 @@ define(
   }
 );
 
-/**
- * Keyboard.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
-  'tinymce.plugins.textpattern.core.Keyboard',
+  'tinymce.plugins.textpattern.core.Settings',
   [
-    'tinymce.core.util.Delay',
-    'tinymce.core.util.VK',
-    'tinymce.plugins.textpattern.core.KeyHandler'
   ],
-  function (Delay, VK, KeyHandler) {
-    var setup = function (editor, patternsState) {
-      var charCodes = [',', '.', ';', ':', '!', '?'];
-      var keyCodes = [32];
+  function () {
+    var defaultPatterns = [
+      { start: '*', end: '*', format: 'italic' },
+      { start: '**', end: '**', format: 'bold' },
+      { start: '#', format: 'h1' },
+      { start: '##', format: 'h2' },
+      { start: '###', format: 'h3' },
+      { start: '####', format: 'h4' },
+      { start: '#####', format: 'h5' },
+      { start: '######', format: 'h6' },
+      { start: '1. ', cmd: 'InsertOrderedList' },
+      { start: '* ', cmd: 'InsertUnorderedList' },
+      { start: '- ', cmd: 'InsertUnorderedList' }
+    ];
 
-      editor.on('keydown', function (e) {
-        if (e.keyCode === 13 && !VK.modifierPressed(e)) {
-          KeyHandler.handleEnter(editor, patternsState.get());
-        }
-      }, true);
-
-      editor.on('keyup', function (e) {
-        if (KeyHandler.checkKeyCode(keyCodes, e)) {
-          KeyHandler.handleInlineKey(editor, patternsState.get());
-        }
-      });
-
-      editor.on('keypress', function (e) {
-        if (KeyHandler.checkCharCode(charCodes, e)) {
-          Delay.setEditorTimeout(editor, function () {
-            KeyHandler.handleInlineKey(editor, patternsState.get());
-          });
-        }
-      });
+    var getPatterns = function (editorSettings) {
+      return editorSettings.textpattern_patterns !== undefined ?
+        editorSettings.textpattern_patterns :
+        defaultPatterns;
     };
 
     return {
-      setup: setup
+      getPatterns: getPatterns
     };
   }
 );
+
 /**
  * Plugin.js
  *
@@ -693,22 +520,54 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
+/**
+ * This class contains all core logic for the code plugin.
+ *
+ * @class tinymce.textpattern.Plugin
+ * @private
+ */
 define(
   'tinymce.plugins.textpattern.Plugin',
   [
-    'ephox.katamari.api.Cell',
     'tinymce.core.PluginManager',
-    'tinymce.plugins.textpattern.api.Api',
-    'tinymce.plugins.textpattern.api.Settings',
-    'tinymce.plugins.textpattern.core.Keyboard'
+    'tinymce.core.util.Delay',
+    'tinymce.core.util.VK',
+    'tinymce.plugins.textpattern.core.Formatter',
+    'tinymce.plugins.textpattern.core.KeyHandler',
+    'tinymce.plugins.textpattern.core.Settings'
   ],
-  function (Cell, PluginManager, Api, Settings, Keyboard) {
+  function (PluginManager, Delay, VK, Formatter, KeyHandler, Settings) {
     PluginManager.add('textpattern', function (editor) {
-      var patternsState = Cell(Settings.getPatterns(editor.settings));
+      var patterns = Settings.getPatterns(editor.settings);
+      var charCodes = [',', '.', ';', ':', '!', '?'];
+      var keyCodes = [32];
 
-      Keyboard.setup(editor, patternsState);
+      editor.on('keydown', function (e) {
+        if (e.keyCode === 13 && !VK.modifierPressed(e)) {
+          KeyHandler.handleEnter(editor, patterns);
+        }
+      }, true);
 
-      return Api.get(patternsState);
+      editor.on('keyup', function (e) {
+        if (KeyHandler.checkKeyCode(keyCodes, e)) {
+          KeyHandler.handleInlineKey(editor, patterns);
+        }
+      });
+
+      editor.on('keypress', function (e) {
+        if (KeyHandler.checkCharCode(charCodes, e)) {
+          Delay.setEditorTimeout(editor, function () {
+            KeyHandler.handleInlineKey(editor, patterns);
+          });
+        }
+      });
+
+      this.setPatterns = function (newPatterns) {
+        patterns = newPatterns;
+      };
+      this.getPatterns = function () {
+        return patterns;
+      };
     });
 
     return function () { };

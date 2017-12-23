@@ -161,7 +161,7 @@ class StatsHelper
 				{
 					$rows[$i]        = new \stdClass;
 					$rows[$i]->title = $row['title'];
-					$rows[$i]->icon  = $row['icon'] ?? 'info';
+					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
 					$rows[$i]->data  = $row['data'];
 					$i++;
 				}

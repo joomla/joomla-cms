@@ -18,20 +18,8 @@
 .navbar {
   position: relative;
   display: flex;
-  flex-wrap: wrap; // allow us to do the line break for collapsing content
-  align-items: center;
-  justify-content: space-between; // space out brand from logo
+  flex-direction: column;
   padding: $navbar-padding-y $navbar-padding-x;
-
-  // Because flex properties aren't inherited, we need to redeclare these first
-  // few properities so that content nested within behave properly.
-  > .container,
-  > .container-fluid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-  }
 }
 
 
@@ -41,10 +29,10 @@
 
 .navbar-brand {
   display: inline-block;
-  padding-top: $navbar-brand-padding-y;
-  padding-bottom: $navbar-brand-padding-y;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
   margin-right: $navbar-padding-x;
-  font-size: $navbar-brand-font-size;
+  font-size: $font-size-lg;
   line-height: inherit;
   white-space: nowrap;
 
@@ -69,11 +57,6 @@
     padding-right: 0;
     padding-left: 0;
   }
-
-  .dropdown-menu {
-    position: static;
-    float: none;
-  }
 }
 
 
@@ -83,8 +66,8 @@
 
 .navbar-text {
   display: inline-block;
-  padding-top: $nav-link-padding-y;
-  padding-bottom: $nav-link-padding-y;
+  padding-top:    .425rem;
+  padding-bottom: .425rem;
 }
 
 
@@ -93,19 +76,9 @@
 // Custom styles for responsive collapsing and toggling of navbar contents.
 // Powered by the collapse Bootstrap JavaScript plugin.
 
-// When collapsed, prevent the toggleable navbar contents from appearing in
-// the default flexbox row orienation. Requires the use of `flex-wrap: wrap`
-// on the `.navbar` parent.
-.navbar-collapse {
-  flex-basis: 100%;
-  flex-grow: 1;
-  // For always expanded or extra full navbars, ensure content aligns itself
-  // properly vertically. Can be easily overridden with flex utilities.
-  align-items: center;
-}
-
 // Button for toggling the navbar when in its collapsed state
 .navbar-toggler {
+  align-self: flex-start; // Prevent toggler from growing to full width when it's the only visible navbar child
   padding: $navbar-toggler-padding-y $navbar-toggler-padding-x;
   font-size: $navbar-toggler-font-size;
   line-height: 1;
@@ -130,37 +103,46 @@
   background-size: 100% 100%;
 }
 
-// Generate series of `.navbar-expand-*` responsive classes for configuring
+// Use `position` on the toggler to prevent it from being auto placed as a flex
+// item and allow easy placement.
+.navbar-toggler-left {
+  position: absolute;
+  left: $navbar-padding-x;
+}
+.navbar-toggler-right {
+  position: absolute;
+  right: $navbar-padding-x;
+}
+
+// Generate series of `.navbar-toggleable-*` responsive classes for configuring
 // where your navbar collapses.
-.navbar-expand {
+.navbar-toggleable {
   @each $breakpoint in map-keys($grid-breakpoints) {
     $next: breakpoint-next($breakpoint, $grid-breakpoints);
-    $infix: breakpoint-infix($next, $grid-breakpoints);
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
     &#{$infix} {
       @include media-breakpoint-down($breakpoint) {
-        > .container,
-        > .container-fluid {
+        .navbar-nav {
+          .dropdown-menu {
+            position: static;
+            float: none;
+          }
+        }
+
+        > .container {
           padding-right: 0;
           padding-left: 0;
         }
       }
 
       @include media-breakpoint-up($next) {
-        flex-flow: row nowrap;
-        justify-content: flex-start;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
 
         .navbar-nav {
           flex-direction: row;
-
-          .dropdown-menu {
-            position: absolute;
-          }
-
-          .dropdown-menu-right {
-            right: 0;
-            left: auto; // Reset the default from `.dropdown-menu`
-          }
 
           .nav-link {
             padding-right: .5rem;
@@ -169,27 +151,21 @@
         }
 
         // For nesting containers, have to redeclare for alignment purposes
-        > .container,
-        > .container-fluid {
+        > .container {
+          display: flex;
           flex-wrap: nowrap;
+          align-items: center;
         }
 
+        // scss-lint:disable ImportantRule
         .navbar-collapse {
-          display: flex !important;  // stylelint-disable-line declaration-no-important
-
-          // Changes flex-bases to auto because of an IE10 bug
-          flex-basis: auto;
+          display: flex !important;
+          width: 100%;
         }
+        // scss-lint:enable ImportantRule
 
         .navbar-toggler {
           display: none;
-        }
-
-        .dropup {
-          .dropdown-menu {
-            top: auto;
-            bottom: 100%;
-          }
         }
       }
     }
@@ -203,7 +179,8 @@
 
 // Dark links against a light background
 .navbar-light {
-  .navbar-brand {
+  .navbar-brand,
+  .navbar-toggler {
     color: $navbar-light-active-color;
 
     @include hover-focus {
@@ -224,83 +201,68 @@
       }
     }
 
-    .show > .nav-link,
+    .open > .nav-link,
     .active > .nav-link,
-    .nav-link.show,
+    .nav-link.open,
     .nav-link.active {
       color: $navbar-light-active-color;
     }
   }
 
   .navbar-toggler {
-    color: $navbar-light-color;
-    border-color: $navbar-light-toggler-border-color;
+    border-color: $navbar-light-toggler-border;
   }
 
   .navbar-toggler-icon {
-    background-image: $navbar-light-toggler-icon-bg;
+    background-image: $navbar-light-toggler-bg;
   }
 
   .navbar-text {
     color: $navbar-light-color;
-    a {
-      color: $navbar-light-active-color;
-
-      @include hover-focus {
-        color: $navbar-light-active-color;
-      }
-    }
   }
 }
 
 // White links against a dark background
-.navbar-dark {
-  .navbar-brand {
-    color: $navbar-dark-active-color;
+.navbar-inverse {
+  .navbar-brand,
+  .navbar-toggler {
+    color: $navbar-inverse-active-color;
 
     @include hover-focus {
-      color: $navbar-dark-active-color;
+      color: $navbar-inverse-active-color;
     }
   }
 
   .navbar-nav {
     .nav-link {
-      color: $navbar-dark-color;
+      color: $navbar-inverse-color;
 
       @include hover-focus {
-        color: $navbar-dark-hover-color;
+        color: $navbar-inverse-hover-color;
       }
 
       &.disabled {
-        color: $navbar-dark-disabled-color;
+        color: $navbar-inverse-disabled-color;
       }
     }
 
-    .show > .nav-link,
+    .open > .nav-link,
     .active > .nav-link,
-    .nav-link.show,
+    .nav-link.open,
     .nav-link.active {
-      color: $navbar-dark-active-color;
+      color: $navbar-inverse-active-color;
     }
   }
 
   .navbar-toggler {
-    color: $navbar-dark-color;
-    border-color: $navbar-dark-toggler-border-color;
+    border-color: $navbar-inverse-toggler-border;
   }
 
   .navbar-toggler-icon {
-    background-image: $navbar-dark-toggler-icon-bg;
+    background-image: $navbar-inverse-toggler-bg;
   }
 
   .navbar-text {
-    color: $navbar-dark-color;
-    a {
-      color: $navbar-dark-active-color;
-
-      @include hover-focus {
-        color: $navbar-dark-active-color;
-      }
-    }
+    color: $navbar-inverse-color;
   }
 }

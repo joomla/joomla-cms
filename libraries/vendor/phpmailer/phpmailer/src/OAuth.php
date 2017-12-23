@@ -1,10 +1,11 @@
 <?php
+
 /**
  * PHPMailer - PHP email creation and transport class.
- * PHP Version 5.5.
+ * PHP Version 5.5
  *
+ * @package   PHPMailer
  * @see       https://github.com/PHPMailer/PHPMailer/ The PHPMailer GitHub project
- *
  * @author    Marcus Bointon (Synchro/coolbru) <phpmailer@synchromedia.co.uk>
  * @author    Jim Jagielski (jimjag) <jimjag@gmail.com>
  * @author    Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
@@ -21,15 +22,15 @@
 namespace PHPMailer\PHPMailer;
 
 use League\OAuth2\Client\Grant\RefreshToken;
-use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Provider\AbstractProvider;
 
 /**
  * OAuth - OAuth2 authentication wrapper class.
- * Uses the oauth2-client package from the League of Extraordinary Packages.
+ * Uses the oauth2-client package from the League of Extraordinary Packages
  *
  * @see     http://oauth2-client.thephpleague.com
- *
+ * @package PHPMailer
  * @author  Marcus Bointon (Synchro/coolbru) <phpmailer@synchromedia.co.uk>
  */
 class OAuth
@@ -81,7 +82,7 @@ class OAuth
      * OAuth constructor.
      *
      * @param array $options Associative array containing
-     *                       `provider`, `userName`, `clientSecret`, `clientId` and `refreshToken` elements
+     *   `provider`, `userName`, `clientSecret`, `clientId` and `refreshToken` elements
      */
     public function __construct($options)
     {
@@ -99,7 +100,7 @@ class OAuth
      */
     protected function getGrant()
     {
-        return new RefreshToken();
+        return new RefreshToken;
     }
 
     /**
@@ -123,10 +124,9 @@ class OAuth
     public function getOauth64()
     {
         // Get a new token if it's not available or has expired
-        if (null === $this->oauthToken or $this->oauthToken->hasExpired()) {
+        if (is_null($this->oauthToken) or $this->oauthToken->hasExpired()) {
             $this->oauthToken = $this->getToken();
         }
-
         return base64_encode(
             'user=' .
             $this->oauthUserEmail .

@@ -237,7 +237,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
              */
             ++$j12;
             if ($j12 & 0xf0000000) {
-                throw new SodiumException('Overflow');
+                throw new Exception('Overflow');
             }
 
             /*

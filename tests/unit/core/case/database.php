@@ -6,8 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
+if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
+{
+	require_once 'PHPUnit/Extensions/Database/TestCase.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
+	require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
+}
 
 /**
  * Abstract test case class for database testing.
@@ -15,18 +20,18 @@ use Joomla\Database\DatabaseDriver;
  * @package  Joomla.Test
  * @since    12.1
  */
-abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
+abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 {
 	use TestCaseTrait;
 
 	/**
-	 * @var    DatabaseDriver  The active database driver being used for the tests.
+	 * @var    JDatabaseDriver  The active database driver being used for the tests.
 	 * @since  12.1
 	 */
 	protected static $driver;
 
 	/**
-	 * @var    DatabaseDriver  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
 	private static $_stash;
@@ -68,8 +73,8 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 		}
 
 		// Setup the factory pointer for the driver and stash the old one.
-		self::$_stash = Factory::$database;
-		Factory::$database = static::$driver;
+		self::$_stash = JFactory::$database;
+		JFactory::$database = static::$driver;
 	}
 
 	/**
@@ -81,7 +86,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	 */
 	public static function tearDownAfterClass()
 	{
-		Factory::$database = self::$_stash;
+		JFactory::$database = self::$_stash;
 
 		if (static::$driver !== null)
 		{
@@ -93,7 +98,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the default database connection for running the tests.
 	 *
-	 * @return  PHPUnit\DbUnit\Database\Connection
+	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
 	 * @since   12.1
 	 */
@@ -112,7 +117,7 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  \PHPUnit\DbUnit\DataSet\XmlDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
 	 * @since   11.1
 	 */
@@ -124,17 +129,17 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the database operation executed in test setup.
 	 *
-	 * @return  \PHPUnit\DbUnit\Operation\Composite
+	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
 	 * @since   12.1
 	 */
 	protected function getSetUpOperation()
 	{
 		// Required given the use of InnoDB contraints.
-		return new \PHPUnit\DbUnit\Operation\Composite(
+		return new PHPUnit_Extensions_Database_Operation_Composite(
 			array(
-				\PHPUnit\DbUnit\Operation\Factory::DELETE_ALL(),
-				\PHPUnit\DbUnit\Operation\Factory::INSERT()
+				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
+				PHPUnit_Extensions_Database_Operation_Factory::INSERT()
 			)
 		);
 	}
@@ -142,14 +147,14 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	/**
 	 * Returns the database operation executed in test cleanup.
 	 *
-	 * @return  \PHPUnit\DbUnit\Operation\Operation
+	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
 	 * @since   12.1
 	 */
 	protected function getTearDownOperation()
 	{
 		// Required given the use of InnoDB contraints.
-		return \PHPUnit\DbUnit\Operation\Factory::DELETE_ALL();
+		return PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
 	}
 
 	/**
@@ -161,14 +166,14 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	 */
 	protected function restoreFactoryState()
 	{
-		Factory::$application = $this->_stashedFactoryState['application'];
-		Factory::$config = $this->_stashedFactoryState['config'];
-		Factory::$container = $this->_stashedFactoryState['container'];
-		Factory::$dates = $this->_stashedFactoryState['dates'];
-		Factory::$session = $this->_stashedFactoryState['session'];
-		Factory::$language = $this->_stashedFactoryState['language'];
-		Factory::$document = $this->_stashedFactoryState['document'];
-		Factory::$mailer = $this->_stashedFactoryState['mailer'];
+		JFactory::$application = $this->_stashedFactoryState['application'];
+		JFactory::$config = $this->_stashedFactoryState['config'];
+		JFactory::$container = $this->_stashedFactoryState['container'];
+		JFactory::$dates = $this->_stashedFactoryState['dates'];
+		JFactory::$session = $this->_stashedFactoryState['session'];
+		JFactory::$language = $this->_stashedFactoryState['language'];
+		JFactory::$document = $this->_stashedFactoryState['document'];
+		JFactory::$mailer = $this->_stashedFactoryState['mailer'];
 	}
 
 	/**
@@ -180,14 +185,14 @@ abstract class TestCaseDatabase extends PHPUnit\DbUnit\TestCase
 	 */
 	protected function saveFactoryState()
 	{
-		$this->_stashedFactoryState['application'] = Factory::$application;
-		$this->_stashedFactoryState['config'] = Factory::$config;
-		$this->_stashedFactoryState['container'] = Factory::$container;
-		$this->_stashedFactoryState['dates'] = Factory::$dates;
-		$this->_stashedFactoryState['session'] = Factory::$session;
-		$this->_stashedFactoryState['language'] = Factory::$language;
-		$this->_stashedFactoryState['document'] = Factory::$document;
-		$this->_stashedFactoryState['mailer'] = Factory::$mailer;
+		$this->_stashedFactoryState['application'] = JFactory::$application;
+		$this->_stashedFactoryState['config'] = JFactory::$config;
+		$this->_stashedFactoryState['container'] = JFactory::$container;
+		$this->_stashedFactoryState['dates'] = JFactory::$dates;
+		$this->_stashedFactoryState['session'] = JFactory::$session;
+		$this->_stashedFactoryState['language'] = JFactory::$language;
+		$this->_stashedFactoryState['document'] = JFactory::$document;
+		$this->_stashedFactoryState['mailer'] = JFactory::$mailer;
 	}
 
 	/**

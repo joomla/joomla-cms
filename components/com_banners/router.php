@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\Router\RouterBase;
-
 /**
  * Routing class from com_banners
  *
  * @since  3.3
  */
-class BannersRouter extends RouterBase
+class BannersRouter extends JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_banners component

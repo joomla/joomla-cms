@@ -244,7 +244,7 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-secondary';
+				$labelClass  = 'badge-association';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -279,7 +279,7 @@ class AssociationsHelper extends ContentHelper
 			$text    = strtoupper($language->sef);
 
 			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass;
+			$classes = 'hasPopover badge ' . $labelClass . ' badge-' . $language->sef;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
@@ -669,7 +669,7 @@ class AssociationsHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $result;

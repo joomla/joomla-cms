@@ -135,13 +135,13 @@ class JApplicationSiteTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
@@ -253,7 +253,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('cassiopeia', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 
 	/**
@@ -360,12 +360,12 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('cassiopeia');
+		$this->class->setTemplate('aurora');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('cassiopeia', $template->template);
+		$this->assertEquals('aurora', $template->template);
 	}
 }

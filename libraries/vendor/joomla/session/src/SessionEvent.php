@@ -33,7 +33,7 @@ class SessionEvent extends Event
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $name, SessionInterface $session)
+	public function __construct($name, SessionInterface $session)
 	{
 		parent::__construct($name);
 
@@ -47,7 +47,7 @@ class SessionEvent extends Event
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getSession(): SessionInterface
+	public function getSession()
 	{
 		return $this->session;
 	}

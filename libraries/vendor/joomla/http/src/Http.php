@@ -56,15 +56,15 @@ class Http
 
 		$this->options = $options;
 
-		if (!$transport)
+		if (!isset($transport))
 		{
 			$transport = (new HttpFactory)->getAvailableDriver($this->options);
+		}
 
-			// Ensure the transport is a TransportInterface instance or bail out
-			if (!($transport instanceof TransportInterface))
-			{
-				throw new \InvalidArgumentException('A valid TransportInterface object was not set.');
-			}
+		// Ensure the transport is a TransportInterface instance or bail out
+		if (!($transport instanceof TransportInterface))
+		{
+			throw new \InvalidArgumentException('A valid TransportInterface object was not set.');
 		}
 
 		$this->transport = $transport;
@@ -82,7 +82,7 @@ class Http
 	 */
 	public function getOption($key, $default = null)
 	{
-		return $this->options[$key] ?? $default;
+		return isset($this->options[$key]) ? $this->options[$key] : $default;
 	}
 
 	/**
@@ -245,12 +245,10 @@ class Http
 	 */
 	public function sendRequest(RequestInterface $request)
 	{
-		$data = $request->getBody()->getContents();
-
 		return $this->makeTransportRequest(
 			$request->getMethod(),
 			new Uri((string) $request->getUri()),
-			empty($data) ? null : $data,
+			$request->getBody()->getContents(),
 			$request->getHeaders()
 		);
 	}

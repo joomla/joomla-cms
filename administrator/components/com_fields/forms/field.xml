@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -266,7 +266,7 @@
 				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
-				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
+				<option value="0">JNO</option>
 			</field>
 		</fieldset>
 	</fields>

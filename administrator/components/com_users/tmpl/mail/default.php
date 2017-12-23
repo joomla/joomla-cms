@@ -39,11 +39,7 @@ $comUserParams = JComponentHelper::getParams('com_users');
 					<div class="controls">
 						<?php echo $this->form->getInput('message'); ?>
 						<?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
-							<div class="mt-1 card">
-								<div class="card-body">
-									<?php echo $comUserParams->get('mailBodySuffix'); ?>
-								</div>
-							</div>
+							<div class="mt-1 card card-block"><?php echo $comUserParams->get('mailBodySuffix'); ?></div>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -52,28 +48,26 @@ $comUserParams = JComponentHelper::getParams('com_users');
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-light">
-				<div class="card-body">
-					<div class="control-group">
-						<?php echo $this->form->getInput('recurse'); ?>
-						<?php echo $this->form->getLabel('recurse'); ?>
-					</div>
-					<div class="control-group">
-						<?php echo $this->form->getInput('mode'); ?>
-						<?php echo $this->form->getLabel('mode'); ?>
-					</div>
-					<div class="control-group">
-						<?php echo $this->form->getInput('disabled'); ?>
-						<?php echo $this->form->getLabel('disabled'); ?>
-					</div>
-					<div class="control-group">
-						<?php echo $this->form->getInput('bcc'); ?>
-						<?php echo $this->form->getLabel('bcc'); ?>
-					</div>
-					<div class="control-group">
-						<?php echo $this->form->getLabel('group'); ?>
-						<?php echo $this->form->getInput('group'); ?>
-					</div>
+			<div class="card card-block card-light">
+				<div class="control-group">
+					<?php echo $this->form->getInput('recurse'); ?>
+					<?php echo $this->form->getLabel('recurse'); ?>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getInput('mode'); ?>
+					<?php echo $this->form->getLabel('mode'); ?>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getInput('disabled'); ?>
+					<?php echo $this->form->getLabel('disabled'); ?>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getInput('bcc'); ?>
+					<?php echo $this->form->getLabel('bcc'); ?>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getLabel('group'); ?>
+					<?php echo $this->form->getInput('group'); ?>
 				</div>
 			</div>
 		</div>

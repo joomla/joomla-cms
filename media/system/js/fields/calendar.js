@@ -582,7 +582,7 @@
 		var cell = null,
 			row  = null,
 			cal  = this,
-			hh   = function (text, cs, navtype, node, styles, classes, attributes) {
+			hh   = function (text, cs, navtype, node, styles, classes, dataAttr) {
 				node = node ? node : "td";
 				styles = styles ? styles : {};
 				cell = createElement(node, row);
@@ -594,8 +594,8 @@
 				for (var key in styles) {
 					cell.style[key] = styles[key];
 				}
-				for (var key in attributes) {
-					cell.setAttribute(key, attributes[key]);
+				for (var key in dataAttr) {
+					cell.setAttribute(key, dataAttr[key]);
 				}
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
 					cell.className += " nav";
@@ -784,7 +784,7 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"data-action": "clear"});
 
 		if (!this.inputField.hasAttribute('required')) {
 			var savea = row.querySelector('[data-action="clear"]');
@@ -804,7 +804,7 @@
 		}
 
 		if (this.params.showsTodayBtn) {
-			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
+			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"data-action": "today"});
 
 			var todaya = this.wrapper.querySelector('[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -816,7 +816,7 @@
 			});
 		}
 
-		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
+		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"data-action": "exit"});
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();

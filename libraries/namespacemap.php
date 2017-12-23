@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Class JNamespaceMap
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class JNamespacePsr4Map
 {
@@ -19,16 +19,26 @@ class JNamespacePsr4Map
 	 * Path to the autoloader
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	protected $file = '';
+
+	/**
+	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct()
+	{
+		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	}
 
 	/**
 	 * Check if the file exists
 	 *
 	 * @return  bool
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function exists()
 	{
@@ -45,7 +55,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function ensureMapFileExists()
 	{
@@ -62,7 +72,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  bool
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function create()
 	{
@@ -96,7 +106,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  bool
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function load()
 	{
@@ -130,7 +140,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function writeNamespaceFile($elements)
 	{
@@ -161,7 +171,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  mixed|false
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getNamespacedExtensions()
 	{

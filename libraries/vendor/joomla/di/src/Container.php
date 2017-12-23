@@ -177,7 +177,7 @@ class Container implements ContainerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isShared(string $resourceName): bool
+	public function isShared($resourceName)
 	{
 		return $this->hasFlag($resourceName, 'isShared', true);
 	}
@@ -191,7 +191,7 @@ class Container implements ContainerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isProtected(string $resourceName): bool
+	public function isProtected($resourceName)
 	{
 		return $this->hasFlag($resourceName, 'isProtected', true);
 	}
@@ -208,7 +208,7 @@ class Container implements ContainerInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  KeyNotFoundException
 	 */
-	private function hasFlag(string $resourceName, string $method, bool $default = true): bool
+	private function hasFlag($resourceName, $method, $default = true)
 	{
 		$key = $this->resolveAlias($resourceName);
 
@@ -507,9 +507,12 @@ class Container implements ContainerInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  KeyNotFoundException
 	 */
-	public function getResource(string $key, bool $bail = false)
+	public function getResource($key, $bail = false)
 	{
-		if (isset($this->resources[$key]))
+		$key = $this->resolveAlias($key);
+		$raw = $this->getRaw($key);
+
+		if ($raw === null)
 		{
 			return $this->resources[$key];
 		}

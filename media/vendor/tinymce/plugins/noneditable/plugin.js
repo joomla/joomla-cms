@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,12 +76,12 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.noneditable.Plugin","tinymce.core.PluginManager","tinymce.plugins.noneditable.core.FilterContent","global!tinymce.util.Tools.resolve","tinymce.core.util.Tools","tinymce.plugins.noneditable.api.Settings"]
+["tinymce.plugins.noneditable.Plugin","tinymce.core.PluginManager","tinymce.core.util.Tools","global!tinymce.util.Tools.resolve"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -125,7 +125,7 @@ define(
 );
 
 /**
- * Settings.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -134,117 +134,83 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
-define(
-  'tinymce.plugins.noneditable.api.Settings',
-  [
-  ],
-  function () {
-    var getNonEditableClass = function (editor) {
-      return editor.getParam('noneditable_noneditable_class', 'mceNonEditable');
-    };
-
-    var getEditableClass = function (editor) {
-      return editor.getParam('noneditable_editable_class', 'mceEditable');
-    };
-
-    var getNonEditableRegExps = function (editor) {
-      var nonEditableRegExps = editor.getParam('noneditable_regexp', []);
-
-      if (nonEditableRegExps && nonEditableRegExps.constructor === RegExp) {
-        return [nonEditableRegExps];
-      } else {
-        return nonEditableRegExps;
-      }
-    };
-
-    return {
-      getNonEditableClass: getNonEditableClass,
-      getEditableClass: getEditableClass,
-      getNonEditableRegExps: getNonEditableRegExps
-    };
-  }
-);
 /**
- * FilterContent.js
+ * This class contains all core logic for the noneditable plugin.
  *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
+ * @class tinymce.noneditable.Plugin
+ * @private
  */
-
 define(
-  'tinymce.plugins.noneditable.core.FilterContent',
+  'tinymce.plugins.noneditable.Plugin',
   [
-    'tinymce.core.util.Tools',
-    'tinymce.plugins.noneditable.api.Settings'
+    'tinymce.core.PluginManager',
+    'tinymce.core.util.Tools'
   ],
-  function (Tools, Settings) {
-    var hasClass = function (checkClassName) {
-      return function (node) {
-        return (' ' + node.attr('class') + ' ').indexOf(checkClassName) !== -1;
-      };
-    };
+  function (PluginManager, Tools) {
+    PluginManager.add('noneditable', function (editor) {
+      var editClass, nonEditClass, nonEditableRegExps, contentEditableAttrName = 'contenteditable';
 
-    var replaceMatchWithSpan = function (editor, content, cls) {
-      return function (match) {
-        var args = arguments, index = args[args.length - 2];
-        var prevChar = index > 0 ? content.charAt(index - 1) : '';
+      function hasClass(checkClassName) {
+        return function (node) {
+          return (" " + node.attr("class") + " ").indexOf(checkClassName) !== -1;
+        };
+      }
 
-        // Is value inside an attribute then don't replace
-        if (prevChar === '"') {
-          return match;
-        }
+      function convertRegExpsToNonEditable(e) {
+        var i = nonEditableRegExps.length, content = e.content, cls = Tools.trim(nonEditClass);
 
-        // Is value inside a contentEditable='false' tag
-        if (prevChar === '>') {
-          var findStartTagIndex = content.lastIndexOf('<', index);
-          if (findStartTagIndex !== -1) {
-            var tagHtml = content.substring(findStartTagIndex, index);
-            if (tagHtml.indexOf('contenteditable="false"') !== -1) {
-              return match;
+        function replaceMatchWithSpan(match) {
+          var args = arguments, index = args[args.length - 2];
+          var prevChar = index > 0 ? content.charAt(index - 1) : '';
+
+          // Is value inside an attribute then don't replace
+          if (prevChar === '"') {
+            return match;
+          }
+
+          // Is value inside a contentEditable="false" tag
+          if (prevChar === '>') {
+            var findStartTagIndex = content.lastIndexOf('<', index);
+            if (findStartTagIndex !== -1) {
+              var tagHtml = content.substring(findStartTagIndex, index);
+              if (tagHtml.indexOf('contenteditable="false"') !== -1) {
+                return match;
+              }
             }
           }
+
+          return (
+            '<span class="' + cls + '" data-mce-content="' + editor.dom.encode(args[0]) + '">' +
+            editor.dom.encode(typeof args[1] === "string" ? args[1] : args[0]) + '</span>'
+          );
         }
 
-        return (
-          '<span class="' + cls + '" data-mce-content="' + editor.dom.encode(args[0]) + '">' +
-          editor.dom.encode(typeof args[1] === 'string' ? args[1] : args[0]) + '</span>'
-        );
-      };
-    };
+        // Don't replace the variables when raw is used for example on undo/redo
+        if (e.format == "raw") {
+          return;
+        }
 
-    var convertRegExpsToNonEditable = function (editor, nonEditableRegExps, e) {
-      var i = nonEditableRegExps.length, content = e.content;
+        while (i--) {
+          content = content.replace(nonEditableRegExps[i], replaceMatchWithSpan);
+        }
 
-      // Don't replace the variables when raw is used for example on undo/redo
-      if (e.format === 'raw') {
-        return;
+        e.content = content;
       }
 
-      while (i--) {
-        content = content.replace(nonEditableRegExps[i], replaceMatchWithSpan(editor, content, Settings.getNonEditableClass(editor)));
-      }
-
-      e.content = content;
-    };
-
-    var setup = function (editor) {
-      var editClass, nonEditClass, contentEditableAttrName = 'contenteditable';
-
-      editClass = ' ' + Tools.trim(Settings.getEditableClass(editor)) + ' ';
-      nonEditClass = ' ' + Tools.trim(Settings.getNonEditableClass(editor)) + ' ';
+      editClass = " " + Tools.trim(editor.getParam("noneditable_editable_class", "mceEditable")) + " ";
+      nonEditClass = " " + Tools.trim(editor.getParam("noneditable_noneditable_class", "mceNonEditable")) + " ";
 
       var hasEditClass = hasClass(editClass);
       var hasNonEditClass = hasClass(nonEditClass);
-      var nonEditableRegExps = Settings.getNonEditableRegExps(editor);
+
+      nonEditableRegExps = editor.getParam("noneditable_regexp");
+      if (nonEditableRegExps && !nonEditableRegExps.length) {
+        nonEditableRegExps = [nonEditableRegExps];
+      }
 
       editor.on('PreInit', function () {
-        if (nonEditableRegExps.length > 0) {
-          editor.on('BeforeSetContent', function (e) {
-            convertRegExpsToNonEditable(editor, nonEditableRegExps, e);
-          });
+        if (nonEditableRegExps) {
+          editor.on('BeforeSetContent', convertRegExpsToNonEditable);
         }
 
         editor.parser.addAttributeFilter('class', function (nodes) {
@@ -254,9 +220,9 @@ define(
             node = nodes[i];
 
             if (hasEditClass(node)) {
-              node.attr(contentEditableAttrName, 'true');
+              node.attr(contentEditableAttrName, "true");
             } else if (hasNonEditClass(node)) {
-              node.attr(contentEditableAttrName, 'false');
+              node.attr(contentEditableAttrName, "false");
             }
           }
         });
@@ -270,8 +236,8 @@ define(
               continue;
             }
 
-            if (nonEditableRegExps.length > 0 && node.attr('data-mce-content')) {
-              node.name = '#text';
+            if (nonEditableRegExps && node.attr('data-mce-content')) {
+              node.name = "#text";
               node.type = 3;
               node.raw = true;
               node.value = node.attr('data-mce-content');
@@ -281,32 +247,6 @@ define(
           }
         });
       });
-    };
-
-    return {
-      setup: setup
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.noneditable.Plugin',
-  [
-    'tinymce.core.PluginManager',
-    'tinymce.plugins.noneditable.core.FilterContent'
-  ],
-  function (PluginManager, FilterContent) {
-    PluginManager.add('noneditable', function (editor) {
-      FilterContent.setup(editor);
     });
 
     return function () { };

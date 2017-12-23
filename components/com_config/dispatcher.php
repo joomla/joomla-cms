@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_config
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ConfigDispatcher extends Dispatcher
 {
@@ -23,26 +23,7 @@ class ConfigDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Config';
-
-	/**
-	 * Method to check component access permission
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception|Notallowed
-	 */
-	protected function checkAccess()
-	{
-		parent::checkAccess();
-
-		if (!$this->app->getIdentity()->authorise('core.admin'))
-		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
 }

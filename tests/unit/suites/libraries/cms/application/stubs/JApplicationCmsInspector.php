@@ -14,7 +14,7 @@
  * @subpackage  Application
  * @since       3.2
  */
-class JApplicationCmsInspector extends \Joomla\CMS\Application\CMSApplication
+class JApplicationCmsInspector extends JApplicationCms
 {
 	/**
 	 * @var     boolean  True to mimic the headers already being sent.

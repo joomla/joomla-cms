@@ -18,7 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Validates YAML files syntax and outputs encountered errors.
@@ -52,7 +51,6 @@ class LintCommand extends Command
             ->setDescription('Lints a file and outputs encountered errors')
             ->addArgument('filename', null, 'A file or a directory or STDIN')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format', 'txt')
-            ->addOption('parse-tags', null, InputOption::VALUE_NONE, 'Parse custom tags')
             ->setHelp(<<<EOF
 The <info>%command.name%</info> command lints a YAML file and outputs to STDOUT
 the first encountered syntax error.
@@ -81,14 +79,13 @@ EOF
         $filename = $input->getArgument('filename');
         $this->format = $input->getOption('format');
         $this->displayCorrectFiles = $output->isVerbose();
-        $flags = $input->getOption('parse-tags') ? Yaml::PARSE_CUSTOM_TAGS : 0;
 
         if (!$filename) {
             if (!$stdin = $this->getStdin()) {
                 throw new \RuntimeException('Please provide a filename or pipe file content to STDIN.');
             }
 
-            return $this->display($io, array($this->validate($stdin, $flags)));
+            return $this->display($io, array($this->validate($stdin)));
         }
 
         if (!$this->isReadable($filename)) {
@@ -97,13 +94,13 @@ EOF
 
         $filesInfo = array();
         foreach ($this->getFiles($filename) as $file) {
-            $filesInfo[] = $this->validate(file_get_contents($file), $flags, $file);
+            $filesInfo[] = $this->validate(file_get_contents($file), $file);
         }
 
         return $this->display($io, $filesInfo);
     }
 
-    private function validate($content, $flags, $file = null)
+    private function validate($content, $file = null)
     {
         $prevErrorHandler = set_error_handler(function ($level, $message, $file, $line) use (&$prevErrorHandler) {
             if (E_USER_DEPRECATED === $level) {
@@ -114,7 +111,7 @@ EOF
         });
 
         try {
-            $this->getParser()->parse($content, Yaml::PARSE_CONSTANT | $flags);
+            $this->getParser()->parse($content);
         } catch (ParseException $e) {
             return array('file' => $file, 'valid' => false, 'message' => $e->getMessage());
         } finally {
@@ -151,7 +148,7 @@ EOF
             }
         }
 
-        if (0 === $erroredFiles) {
+        if ($erroredFiles === 0) {
             $io->success(sprintf('All %d YAML files contain valid syntax.', $countFiles));
         } else {
             $io->warning(sprintf('%d YAML files have valid syntax and %d contain errors.', $countFiles - $erroredFiles, $erroredFiles));

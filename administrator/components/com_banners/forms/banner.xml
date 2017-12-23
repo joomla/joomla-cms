@@ -4,7 +4,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
@@ -312,14 +312,14 @@
 
 			<field
 				name="width"
-				type="number"
+				type="text"
 				label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				class="input-mini validate-numeric"
 			/>
 
 			<field
 				name="height"
-				type="number"
+				type="text"
 				label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				class="input-mini validate-numeric"
 			/>

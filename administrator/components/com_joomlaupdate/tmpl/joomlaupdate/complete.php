@@ -14,7 +14,9 @@ defined('_JEXEC') or die;
 	<legend>
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?>
 	</legend>
-	<joomla-alert type="success"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?></joomla-alert>
+	<p class="alert alert-success">
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?>
+	</p>
 </fieldset>
 <form action="<?php echo JRoute::_('index.php?option=com_joomlaupdate'); ?>" method="post" id="adminForm">
 	<input type="hidden" name="task" value="">

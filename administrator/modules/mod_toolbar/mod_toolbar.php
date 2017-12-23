@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Toolbar\Toolbar;
+$toolbar = JToolbar::getInstance('toolbar')->render('toolbar');
 
-$toolbar = Toolbar::getInstance('toolbar')->render('toolbar');
-
-require ModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));
+require JModuleHelper::getLayoutPath('mod_toolbar', $params->get('layout', 'default'));

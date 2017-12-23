@@ -89,6 +89,10 @@
 							$('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});
 							$('.iframe').css('max-height', maxModalBodyHeight-modalBodyPadding);
 						}
+					} else {
+						if (modalHeight > maxModalHeight){
+							$('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});
+						}
 					}
 				}).on('hide.bs.modal', function () {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});

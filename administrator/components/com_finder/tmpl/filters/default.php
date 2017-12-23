@@ -43,7 +43,9 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
+				<div class="alert alert-warning alert-no-items">
+					<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
+				</div>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>

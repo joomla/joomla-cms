@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\Router\RouterBase;
-
 /**
  * Routing class from com_search
  *
  * @since  3.3
  */
-class SearchRouter extends RouterBase
+class SearchRouter extends \JComponentRouterBase
 {
 	/**
 	 * Build the route for the com_search component
@@ -34,6 +32,15 @@ class SearchRouter extends RouterBase
 		if (isset($query['view']))
 		{
 			unset($query['view']);
+		}
+
+		// Fix up search for URL
+		$total = count($segments);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			// Urlencode twice because it is decoded once after redirect
+			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
 		}
 
 		return $segments;

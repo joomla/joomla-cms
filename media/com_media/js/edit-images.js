@@ -39,19 +39,16 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
 		for (var i = 0, l = links.length; i < l; i++){
-			if (!links[i].classList.contains('active')) {
-				continue;
+
+			if (links[i].classList.contains('active')) {
+				Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Deactivate();
+				if (!current || (current && current !== true)) {
+					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
+				} else {
+					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.current);
+				}
+				break;
 			}
-
-			Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Deactivate();
-
-			var data = Joomla.MediaManager.Edit.current;
-			if (!current || (current && current !== true)) {
-				data = Joomla.MediaManager.Edit.original;
-			}
-
-			activate(links[i].hash.replace('#attrib-', ''), data);
-			break;
 		}
 	};
 
@@ -82,7 +79,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 	// Customize the buttons
 	Joomla.submitbutton = function(task) {
-		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension,
+		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg',
 		    pathName = window.location.pathname.replace(/&view=file.*/g, ''),
 			name = options.uploadPath.split('/').pop(),
 			forUpload = {
@@ -95,15 +92,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 		forUpload[options.csrfToken] = "1";
 
-		var fileDirectory = uploadPath.split('/');
-		fileDirectory.pop();
-		fileDirectory = fileDirectory.join('/');
-
-		// If we are in root add a backslash
-		if (fileDirectory.endsWith(':')) {
-			fileDirectory = fileDirectory + '/';
-		}
-
 		switch (task) {
 			case 'apply':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -111,10 +99,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 				break;
 			case 'save':
 				Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-				window.location = pathName + '?option=com_media&path=' + fileDirectory;
+				window.location = pathName + '?option=com_media';
 				break;
 			case 'cancel':
-				window.location = pathName + '?option=com_media&path=' + fileDirectory;
+				window.location = pathName + '?option=com_media&path=' + uploadPath;
 				break;
 			case 'reset':
 				Joomla.MediaManager.Edit.Reset('initial');
@@ -185,68 +173,33 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		var func = function() {
 			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
-			if (!links.length) {
-				return;
+			if (links.length) {
+				// Couple the tabs with the plugin objects
+				for (var i = 0, l = links.length; i < l; i++){
+					jQuery(links[i]).on('shown.bs.tab', function(event) {
+						var data, contents;
+						if (event.relatedTarget) {
+							Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].Deactivate();
+
+							// Clear the DOM
+							document.getElementById('media-manager-edit-container').innerHTML = '';
+						}
+
+						if (!contents in Joomla.MediaManager.Edit.current) {
+							data = Joomla.MediaManager.Edit.original;
+						} else {
+							data = Joomla.MediaManager.Edit.current;
+						}
+
+						Joomla.MediaManager.Edit[event.target.hash.replace('#attrib-', '').toLowerCase()].Activate(data);
+					});
+				}
+
+				// Activate the first plugin
+				Joomla.MediaManager.Edit[links[0].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
 			}
-
-			// Couple the tabs with the plugin objects
-			for (var i = 0, l = links.length; i < l; i++){
-				jQuery(links[i]).on('shown.bs.tab', function(event) {
-					if (event.relatedTarget) {
-						Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].Deactivate();
-
-						// Clear the DOM
-						document.getElementById('media-manager-edit-container').innerHTML = '';
-					}
-
-					var contents;
-					var data = Joomla.MediaManager.Edit.current;;
-					if (!contents in Joomla.MediaManager.Edit.current) {
-						data = Joomla.MediaManager.Edit.original;
-					}
-
-					activate(event.target.hash.replace('#attrib-', ''), data);
-				});
-			}
-
-			activate(links[0].hash.replace('#attrib-', ''), Joomla.MediaManager.Edit.original);
 		};
 
 		setTimeout(func, 100); // jQuery...
 	});
-
-	var activate = function(name, data) {
-		// Amend the layout
-		var tabContent = document.getElementById('myTabContent'),
-			pluginControls = document.getElementById('attrib-' + name);
-
-		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
-		pluginControls.classList.add('col-md-3', 'p-4');
-
-		// Create the images for edit and preview
-		var baseContainer = document.getElementById('media-manager-edit-container'),
-			editContainer = document.createElement('div'),
-			previewContainer = document.createElement('div'),
-			imageSrc = document.createElement('img'),
-			imagePreview = document.createElement('img');
-
-		baseContainer.innerHTML = '';
-
-		imageSrc.src = data.contents;
-		imageSrc.id = 'image-source';
-		imageSrc.style.maxWidth = '100%';
-		imagePreview.src = data.contents;
-		imagePreview.id = 'image-preview';
-		imagePreview.style.maxWidth = '100%';
-		editContainer.style.display = 'none';
-
-		editContainer.appendChild(imageSrc);
-		baseContainer.appendChild(editContainer);
-
-		previewContainer.appendChild(imagePreview);
-		baseContainer.appendChild(previewContainer);
-
-		// Activate the first plugin
-		Joomla.MediaManager.Edit[name.toLowerCase()].Activate(data);
-	};
 })();

@@ -8,13 +8,13 @@
  */
 defined('_JEXEC') or die;
 
-if (!array_key_exists('field', $displayData))
+if (!key_exists('field', $displayData))
 {
 	return;
 }
 
 $field     = $displayData['field'];
-$label     = JText::_($field->label);
+$label     = $field->label;
 $value     = $field->value;
 $class     = $field->params->get('render_class');
 $showLabel = $field->params->get('showlabel');

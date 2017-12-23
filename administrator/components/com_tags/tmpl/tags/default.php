@@ -47,7 +47,7 @@ if ($section === 'categories')
 	$component = 'com_categories';
 }
 
-if ($saveOrder && !empty($this->items))
+if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -60,7 +60,9 @@ if ($saveOrder && !empty($this->items))
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-warning alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="categoryList">
 				<thead>
@@ -106,11 +108,9 @@ if ($saveOrder && !empty($this->items))
 						<th style="width:10%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<?php if (JLanguageMultilang::isEnabled()) : ?>
-							<th style="width:10%" class="nowrap hidden-sm-down text-center">
-								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
-							</th>
-						<?php endif; ?>
+						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+						</th>
 						<th style="width:5%" class="nowrap hidden-sm-down text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -209,36 +209,34 @@ if ($saveOrder && !empty($this->items))
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<td class="text-center btns hidden-sm-down">
-								<a class="badge <?php echo $item->count_published > 0 ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1'); ?>">
+								<a class="badge <?php echo $item->count_published > 0 ? 'badge-success' : 'badge-default'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<td class="text-center btns hidden-sm-down">
-								<a class="badge <?php echo $item->count_unpublished > 0 ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0'); ?>">
+								<a class="badge <?php echo $item->count_unpublished > 0 ? 'badge-danger' : 'badge-default'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<td class="text-center btns hidden-sm-down">
-								<a class="badge <?php echo $item->count_archived > 0 ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
+								<a class="badge <?php echo $item->count_archived > 0 ? 'badge-info' : 'badge-default'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<td class="text-center btns hidden-sm-down">
-								<a class="badge <?php echo $item->count_trashed > 0 ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2'); ?>">
+								<a class="badge <?php echo $item->count_trashed > 0 ? 'badge-danger' : 'badge-default'; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
-						<?php endif; ?>
+						<?php endif;?>
 						<td class="small hidden-sm-down text-center">
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
-						<?php if (JLanguageMultilang::isEnabled()) : ?>
-							<td class="small nowrap hidden-sm-down text-center">
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-							</td>
-						<?php endif; ?>
+						<td class="small nowrap hidden-sm-down text-center">
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+						</td>
 						<td class="hidden-sm-down text-center">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?></span>

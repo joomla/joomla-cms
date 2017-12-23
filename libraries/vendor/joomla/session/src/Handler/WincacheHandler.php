@@ -24,10 +24,7 @@ class WincacheHandler extends \SessionHandler implements HandlerInterface
 	 */
 	public function __construct()
 	{
-		if (!headers_sent())
-		{
-			ini_set('session.save_handler', 'wincache');
-		}
+		ini_set('session.save_handler', 'wincache');
 	}
 
 	/**
@@ -37,7 +34,7 @@ class WincacheHandler extends \SessionHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported(): bool
+	public static function isSupported()
 	{
 		return extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1");
 	}

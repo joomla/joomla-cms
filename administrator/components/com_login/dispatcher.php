@@ -15,7 +15,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_login
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class LoginDispatcher extends Dispatcher
 {
@@ -24,7 +24,7 @@ class LoginDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Login';
 
@@ -34,7 +34,7 @@ class LoginDispatcher extends Dispatcher
 	 * @param   CMSApplication  $app    The application for the dispatcher
 	 * @param   \JInput         $input  The input object
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(CMSApplication $app, \JInput $input = null)
 	{

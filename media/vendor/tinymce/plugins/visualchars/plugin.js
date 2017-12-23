@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,46 +76,13 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.visualchars.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.visualchars.api.Api","tinymce.plugins.visualchars.api.Commands","tinymce.plugins.visualchars.core.Keyboard","tinymce.plugins.visualchars.ui.Buttons","global!tinymce.util.Tools.resolve","tinymce.plugins.visualchars.core.Actions","tinymce.core.util.Delay","tinymce.plugins.visualchars.core.VisualChars","tinymce.plugins.visualchars.api.Events","tinymce.plugins.visualchars.core.Data","tinymce.plugins.visualchars.core.Nodes","ephox.katamari.api.Arr","ephox.sugar.api.node.Element","ephox.sugar.api.node.Node","ephox.katamari.api.Option","global!Array","global!Error","global!String","ephox.katamari.api.Fun","global!console","global!document","ephox.sugar.api.node.NodeTypes","tinymce.plugins.visualchars.core.Html","global!Object"]
+["tinymce.plugins.visualchars.Plugin","tinymce.core.PluginManager","tinymce.core.util.Delay","ephox.katamari.api.Arr","ephox.sugar.api.node.Element","tinymce.plugins.visualchars.core.VisualChars","global!tinymce.util.Tools.resolve","ephox.katamari.api.Option","global!Array","global!Error","global!String","ephox.katamari.api.Fun","global!console","global!document","tinymce.plugins.visualchars.core.Data","tinymce.plugins.visualchars.core.Nodes","ephox.sugar.api.node.Node","global!Object","ephox.sugar.api.node.NodeTypes","tinymce.plugins.visualchars.core.Html"]
 jsc*/
-define(
-  'ephox.katamari.api.Cell',
-
-  [
-  ],
-
-  function () {
-    var Cell = function (initial) {
-      var value = initial;
-
-      var get = function () {
-        return value;
-      };
-
-      var set = function (v) {
-        value = v;
-      };
-
-      var clone = function () {
-        return Cell(get());
-      };
-
-      return {
-        get: get,
-        set: set,
-        clone: clone
-      };
-    };
-
-    return Cell;
-  }
-);
-
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
  * ResolveGlobal.js
@@ -138,7 +105,7 @@ define(
 );
 
 /**
- * Api.js
+ * ResolveGlobal.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -148,102 +115,15 @@ define(
  */
 
 define(
-  'tinymce.plugins.visualchars.api.Api',
+  'tinymce.core.util.Delay',
   [
+    'global!tinymce.util.Tools.resolve'
   ],
-  function () {
-    var get = function (toggleState) {
-      var isEnabled = function () {
-        return toggleState.get();
-      };
-
-      return {
-        isEnabled: isEnabled
-      };
-    };
-
-    return {
-      get: get
-    };
+  function (resolve) {
+    return resolve('tinymce.util.Delay');
   }
 );
-/**
- * Events.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
 
-define(
-  'tinymce.plugins.visualchars.api.Events',
-  [
-  ],
-  function () {
-    var fireVisualChars = function (editor, state) {
-      return editor.fire('VisualChars', { state: state });
-    };
-
-    return {
-      fireVisualChars: fireVisualChars
-    };
-  }
-);
-/**
- * Data.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.core.Data',
-  [
-  ],
-  function () {
-    var charMap = {
-      '\u00a0': 'nbsp',
-      '\u00ad': 'shy'
-    };
-
-    var charMapToRegExp = function (charMap, global) {
-      var key, regExp = '';
-
-      for (key in charMap) {
-        regExp += key;
-      }
-
-      return new RegExp('[' + regExp + ']', global ? 'g' : '');
-    };
-
-    var charMapToSelector = function (charMap) {
-      var key, selector = '';
-
-      for (key in charMap) {
-        if (selector) {
-          selector += ',';
-        }
-        selector += 'span.mce-' + charMap[key];
-      }
-
-      return selector;
-    };
-
-    return {
-      charMap: charMap,
-      regExp: charMapToRegExp(charMap),
-      regExpGlobal: charMapToRegExp(charMap, true),
-      selector: charMapToSelector(charMap),
-      charMapToRegExp: charMapToRegExp,
-      charMapToSelector: charMapToSelector
-    };
-  }
-);
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
 define(
@@ -257,12 +137,6 @@ define(
   function (Array, Error) {
 
     var noop = function () { };
-
-    var noarg = function (f) {
-      return function () {
-        return f();
-      };
-    };
 
     var compose = function (fa, fb) {
       return function () {
@@ -324,11 +198,10 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-
+    
 
     return {
       noop: noop,
-      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -390,9 +263,8 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> undefined
-        - similar to 'map', but doesn't return a value.
-        - intended for clarity when performing side effects.
+      each :: this Option a -> (a -> b) -> Option b
+        - same as 'map'
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -797,14 +669,6 @@ define(
       return copy;
     };
 
-    var head = function (xs) {
-      return xs.length === 0 ? Option.none() : Option.some(xs[0]);
-    };
-
-    var last = function (xs) {
-      return xs.length === 0 ? Option.none() : Option.some(xs[xs.length - 1]);
-    };
-
     return {
       map: map,
       each: each,
@@ -829,9 +693,7 @@ define(
       mapToObject: mapToObject,
       pure: pure,
       sort: sort,
-      range: range,
-      head: head,
-      last: last
+      range: range
     };
   }
 );
@@ -842,13 +704,12 @@ define(
 
   [
     'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Option, Error, console, document) {
+  function (Fun, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -879,20 +740,69 @@ define(
       };
     };
 
-    var fromPoint = function (doc, x, y) {
-      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
-    };
-
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom,
-      fromPoint: fromPoint
+      fromDom: fromDom
     };
   }
 );
 
+/**
+ * Plugin.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+define(
+  'tinymce.plugins.visualchars.core.Data',
+
+  [
+  ],
+
+  function () {
+    var charMap = {
+      '\u00a0': 'nbsp',
+      '\u00ad': 'shy'
+    };
+
+    var charMapToRegExp = function (charMap, global) {
+      var key, regExp = '';
+
+      for (key in charMap) {
+        regExp += key;
+      }
+
+      return new RegExp('[' + regExp + ']', global ? 'g' : '');
+    };
+
+    var charMapToSelector = function (charMap) {
+      var key, selector = '';
+
+      for (key in charMap) {
+        if (selector) {
+          selector += ',';
+        }
+        selector += 'span.mce-' + charMap[key];
+      }
+
+      return selector;
+    };
+
+    return {
+      charMap: charMap,
+      regExp: charMapToRegExp(charMap),
+      regExpGlobal: charMapToRegExp(charMap, true),
+      selector: charMapToSelector(charMap),
+      charMapToRegExp: charMapToRegExp,
+      charMapToSelector: charMapToSelector
+    };
+  }
+);
 define(
   'ephox.sugar.api.node.NodeTypes',
 
@@ -964,34 +874,24 @@ define(
   }
 );
 
-/**
- * Html.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
 define(
   'tinymce.plugins.visualchars.core.Html',
   [
     'tinymce.plugins.visualchars.core.Data'
   ],
-  function (Data) {
-    var wrapCharWithSpan = function (value) {
-      return '<span data-mce-bogus="1" class="mce-' + Data.charMap[value] + '">' + value + '</span>';
-    };
+    function (Data) {
+      var wrapCharWithSpan = function (value) {
+        return '<span data-mce-bogus="1" class="mce-' + Data.charMap[value] + '">' + value + '</span>';
+      };
 
-    return {
-      wrapCharWithSpan: wrapCharWithSpan
-    };
-  }
+      return {
+        wrapCharWithSpan: wrapCharWithSpan
+      };
+    }
 );
 
 /**
- * Nodes.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1002,6 +902,7 @@ define(
 
 define(
   'tinymce.plugins.visualchars.core.Nodes',
+
   [
     'ephox.katamari.api.Arr',
     'ephox.sugar.api.node.Element',
@@ -1009,6 +910,7 @@ define(
     'tinymce.plugins.visualchars.core.Data',
     'tinymce.plugins.visualchars.core.Html'
   ],
+
   function (Arr, Element, Node, Data, Html) {
     var isMatch = function (n) {
       return Node.isText(n) &&
@@ -1053,7 +955,7 @@ define(
   }
 );
 /**
- * VisualChars.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1064,6 +966,7 @@ define(
 
 define(
   'tinymce.plugins.visualchars.core.VisualChars',
+
   [
     'tinymce.plugins.visualchars.core.Data',
     'tinymce.plugins.visualchars.core.Nodes',
@@ -1071,6 +974,7 @@ define(
     'ephox.sugar.api.node.Element',
     'ephox.sugar.api.node.Node'
   ],
+
   function (Data, Nodes, Arr, Element, Node) {
     var show = function (editor, rootElm) {
       var node, div;
@@ -1110,180 +1014,11 @@ define(
       editor.selection.moveToBookmark(bookmark);
     };
 
+
     return {
       show: show,
       hide: hide,
       toggle: toggle
-    };
-  }
-);
-/**
- * Actions.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.core.Actions',
-  [
-    'tinymce.plugins.visualchars.api.Events',
-    'tinymce.plugins.visualchars.core.VisualChars'
-  ],
-  function (Events, VisualChars) {
-    var toggleVisualChars = function (editor, toggleState) {
-      var body = editor.getBody(), selection = editor.selection, bookmark;
-
-      toggleState.set(!toggleState.get());
-      Events.fireVisualChars(editor, toggleState.get());
-
-      bookmark = selection.getBookmark();
-
-      if (toggleState.get() === true) {
-        VisualChars.show(editor, body);
-      } else {
-        VisualChars.hide(editor, body);
-      }
-
-      selection.moveToBookmark(bookmark);
-    };
-
-    return {
-      toggleVisualChars: toggleVisualChars
-    };
-  }
-);
-/**
- * Commands.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.api.Commands',
-  [
-    'tinymce.plugins.visualchars.core.Actions'
-  ],
-  function (Actions) {
-    var register = function (editor, toggleState) {
-      editor.addCommand('mceVisualChars', function () {
-        Actions.toggleVisualChars(editor, toggleState);
-      });
-    };
-
-    return {
-      register: register
-    };
-  }
-);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Delay',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Delay');
-  }
-);
-
-/**
- * Keyboard.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.core.Keyboard',
-  [
-    'tinymce.core.util.Delay',
-    'tinymce.plugins.visualchars.core.VisualChars'
-  ],
-  function (Delay, VisualChars) {
-    var setup = function (editor, toggleState) {
-      var debouncedToggle = Delay.debounce(function () {
-        VisualChars.toggle(editor);
-      }, 300);
-
-      if (editor.settings.forced_root_block !== false) {
-        editor.on('keydown', function (e) {
-          if (toggleState.get() === true) {
-            e.keyCode === 13 ? VisualChars.toggle(editor) : debouncedToggle();
-          }
-        });
-      }
-    };
-
-    return {
-      setup: setup
-    };
-  }
-);
-/**
- * Buttons.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.visualchars.ui.Buttons',
-  [
-  ],
-  function () {
-    var toggleActiveState = function (editor) {
-      return function (e) {
-        var ctrl = e.control;
-
-        editor.on('VisualChars', function (e) {
-          ctrl.active(e.state);
-        });
-      };
-    };
-
-    var register = function (editor) {
-      editor.addButton('visualchars', {
-        active: false,
-        title: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState(editor)
-      });
-
-      editor.addMenuItem('visualchars', {
-        text: 'Show invisible characters',
-        cmd: 'mceVisualChars',
-        onPostRender: toggleActiveState(editor),
-        selectable: true,
-        context: 'view',
-        prependToContext: true
-      });
-    };
-
-    return {
-      register: register
     };
   }
 );
@@ -1296,26 +1031,71 @@ define(
  * License: http://www.tinymce.com/license
  * Contributing: http://www.tinymce.com/contributing
  */
-
 define(
   'tinymce.plugins.visualchars.Plugin',
   [
-    'ephox.katamari.api.Cell',
     'tinymce.core.PluginManager',
-    'tinymce.plugins.visualchars.api.Api',
-    'tinymce.plugins.visualchars.api.Commands',
-    'tinymce.plugins.visualchars.core.Keyboard',
-    'tinymce.plugins.visualchars.ui.Buttons'
+    'tinymce.core.util.Delay',
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Element',
+    'tinymce.plugins.visualchars.core.VisualChars'
   ],
-  function (Cell, PluginManager, Api, Commands, Keyboard, Buttons) {
+  function (PluginManager, Delay, Arr, Element, VisualChars) {
     PluginManager.add('visualchars', function (editor) {
-      var toggleState = Cell(false);
+      var self = this, state;
 
-      Commands.register(editor, toggleState);
-      Buttons.register(editor);
-      Keyboard.setup(editor, toggleState);
+      var toggleActiveState = function () {
+        var self = this;
 
-      return Api.get(toggleState);
+        editor.on('VisualChars', function (e) {
+          self.active(e.state);
+        });
+      };
+
+      var debouncedToggle = Delay.debounce(function () {
+        VisualChars.toggle(editor);
+      }, 300);
+
+      if (editor.settings.forced_root_block !== false) {
+        editor.on('keydown', function (e) {
+          if (self.state === true) {
+            e.keyCode === 13 ? VisualChars.toggle(editor) : debouncedToggle();
+          }
+        });
+      }
+
+      editor.addCommand('mceVisualChars', function () {
+        var body = editor.getBody(), selection = editor.selection, bookmark;
+
+        state = !state;
+        self.state = state;
+        editor.fire('VisualChars', { state: state });
+
+        bookmark = selection.getBookmark();
+
+        if (state === true) {
+          VisualChars.show(editor, body);
+        } else {
+          VisualChars.hide(editor, body);
+        }
+
+        selection.moveToBookmark(bookmark);
+      });
+
+      editor.addButton('visualchars', {
+        title: 'Show invisible characters',
+        cmd: 'mceVisualChars',
+        onPostRender: toggleActiveState
+      });
+
+      editor.addMenuItem('visualchars', {
+        text: 'Show invisible characters',
+        cmd: 'mceVisualChars',
+        onPostRender: toggleActiveState,
+        selectable: true,
+        context: 'view',
+        prependToContext: true
+      });
     });
 
     return function () {};

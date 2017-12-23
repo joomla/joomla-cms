@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>">
 
 <div class="card mb-2">
-	<div class="card-body">
+	<div class="card-block">
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>
 	</div>
 </div>
@@ -36,7 +36,9 @@ defined('_JEXEC') or die;
 			</a>
 		</li>
 	</ul>
-	<joomla-alert type="warning"><?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?></joomla-alert>
+	<div class="alert alert-warning">
+		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN') ?>
+	</div>
 </fieldset>
 
 <fieldset>
@@ -76,7 +78,9 @@ defined('_JEXEC') or die;
 		</p>
 	</div>
 
-	<joomla-alert type="info"><?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?></joomla-alert>
+	<div class="alert alert-info">
+		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET') ?>
+	</div>
 </fieldset>
 
 <?php if ($new_totp): ?>

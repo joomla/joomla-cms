@@ -24,7 +24,7 @@ abstract class JHtmlForm
 	 *
 	 * @var    array
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $loaded = array();
 
@@ -59,7 +59,7 @@ abstract class JHtmlForm
 	 *
 	 * @return  void
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function csrf($name = 'csrf.token')
 	{

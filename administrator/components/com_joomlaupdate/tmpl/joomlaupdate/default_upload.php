@@ -15,12 +15,12 @@ JHtml::_('behavior.core');
 JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
-<joomla-alert type="info">
+<div class="alert alert-info">
 	<p>
 		<span class="icon icon-info" aria-hidden="true"></span>
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 	</p>
-</joomla-alert>
+</div>
 
 <?php if (count($this->warnings)) : ?>
 <fieldset>

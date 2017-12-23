@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Controller\Controller;
 use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
  * Dispatcher class for com_contenthistory
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ContenthistoryDispatcher extends Dispatcher
 {
@@ -25,14 +25,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Contenthistory';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -46,7 +46,7 @@ class ContenthistoryDispatcher extends Dispatcher
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -65,14 +65,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  BaseController
+	 * @return  Controller
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController(string $name, string $client = '', array $config = array()): BaseController
+	public function getController($name, $client = null, $config = array())
 	{
 		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-
+		
 		return parent::getController($name, $client, $config);
 	}
 }

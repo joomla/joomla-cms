@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Fields Modal Field
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldField extends FormField
 {
@@ -27,7 +27,7 @@ class FieldField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput ()
 	{
@@ -114,7 +114,7 @@ class FieldField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JError::raiseWarning(500, $e->getMessage());
 			}
 		}
 

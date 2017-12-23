@@ -59,7 +59,7 @@ class ContenttypesField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			\JError::raiseWarning(500, $db->getMessage());
 		}
 
 		// Translate.

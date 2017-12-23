@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_content
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsDispatcher extends Dispatcher
 {
@@ -23,14 +23,14 @@ class FieldsDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Fields';
 
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

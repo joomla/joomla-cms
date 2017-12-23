@@ -20,7 +20,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
-if ($saveOrder && !empty($this->items))
+if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_banners&task=banners.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -38,7 +38,9 @@ if ($saveOrder && !empty($this->items))
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
@@ -67,11 +69,9 @@ if ($saveOrder && !empty($this->items))
 								<th style="width:10%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
+								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+								</th>
 								<th style="width:5%" class="nowrap hidden-sm-down text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -156,11 +156,9 @@ if ($saveOrder && !empty($this->items))
 										<?php echo $item->clicks; ?> -
 										<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 									</td>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
-										<td class="small nowrap hidden-sm-down text-center">
-											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-										</td>
-									<?php endif; ?>
+									<td class="small nowrap hidden-sm-down text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
 									<td class="hidden-sm-down text-center">
 										<?php echo $item->id; ?>
 									</td>

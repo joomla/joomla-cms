@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,8 +85,8 @@
 		}
 
 		// Turn on the progress container
-		$('.sampledata-progress-' + type).removeClass('d-none');
-		$el.data('processed', true);
+		$('.sampledata-progress-' + type).show();
+		$el.data('processed', true)
 
 		inProgress = true;
 		sampledataAjax(type, steps, 1);

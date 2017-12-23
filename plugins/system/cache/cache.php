@@ -36,7 +36,7 @@ class PlgSystemCache extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -65,31 +65,8 @@ class PlgSystemCache extends JPlugin
 			$this->app = JFactory::getApplication();
 		}
 
-		$this->_cache = JCache::getInstance('page', $options);
-	}
-
-	/**
-	 * Get a cache key for the current page based on the url and possible other factors.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.7
-	 */
-	protected function getCacheKey()
-	{
-		static $key;
-
-		if (!$key)
-		{
-			JPluginHelper::importPlugin('pagecache');
-
-			$parts = $this->app->triggerEvent('onPageCacheGetKey');
-			$parts[] = JUri::getInstance()->toString();
-
-			$key = md5(serialize($parts));
-		}
-
-		return $key;
+		$this->_cache     = JCache::getInstance('page', $options);
+		$this->_cache_key = JUri::getInstance()->toString();
 	}
 
 	/**
@@ -114,18 +91,12 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		// If any pagecache plugins return false for onPageCacheSetCaching, do not use the cache.
-		JPluginHelper::importPlugin('pagecache');
-
-		$results = $this->app->triggerEvent('onPageCacheSetCaching');
-		$caching = !in_array(false, $results, true);
-
-		if ($caching && $user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
 
-		$data = $this->_cache->get($this->getCacheKey());
+		$data = $this->_cache->get($this->_cache_key);
 
 		if ($data !== false)
 		{
@@ -169,7 +140,7 @@ class PlgSystemCache extends JPlugin
 		if ($user->get('guest') && !$this->isExcluded())
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
-			$this->_cache->store(null, $this->getCacheKey());
+			$this->_cache->store(null, $this->_cache_key);
 		}
 	}
 
@@ -221,16 +192,6 @@ class PlgSystemCache extends JPlugin
 					}
 				}
 			}
-		}
-
-		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
-		JPluginHelper::importPlugin('pagecache');
-
-		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
-
-		if (in_array(true, $results, true))
-		{
-			return true;
 		}
 
 		return false;

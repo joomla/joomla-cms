@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Component\Content\Administrator\Model\Articles;
 use Joomla\Registry\Registry;
 
 /**
@@ -27,12 +25,12 @@ abstract class PopularHelper
 	/**
 	 * Get a list of the most popular articles.
 	 *
-	 * @param   Registry       &$params  The module parameters.
-	 * @param   ArticlesModel  $model    The model.
+	 * @param   Registry  &$params  The module parameters.
+	 * @param   Articles  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList(Registry &$params, ArticlesModel $model)
+	public static function getList(Registry &$params, Articles $model)
 	{
 		$user = Factory::getUser();
 
@@ -75,7 +73,7 @@ abstract class PopularHelper
 
 		if ($error = $model->getError())
 		{
-			throw new \Exception($error, 500);
+			\JError::raiseError(500, $error);
 
 			return false;
 		}
@@ -83,11 +81,13 @@ abstract class PopularHelper
 		// Set the links
 		foreach ($items as &$item)
 		{
-			$item->link = '';
-
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+			}
+			else
+			{
+				$item->link = '';
 			}
 		}
 
@@ -105,19 +105,25 @@ abstract class PopularHelper
 	{
 		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
-		$title = '';
 
 		if ($catid)
 		{
 			$category = Categories::getInstance('Content')->get($catid);
-			$title    = Text::_('MOD_POPULAR_UNEXISTING');
 
 			if ($category)
 			{
 				$title = $category->title;
 			}
+			else
+			{
+				$title = \JText::_('MOD_POPULAR_UNEXISTING');
+			}
+		}
+		else
+		{
+			$title = '';
 		}
 
-		return Text::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count', 5), $title);
+		return \JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

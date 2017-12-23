@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Administrator Menu Presets list field.
  *
- * @since  3.8.0
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldMenuPreset extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldMenuPreset extends JFormFieldList
 	 *
 	 * @var     string
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $type = 'MenuPreset';
 
@@ -34,7 +34,7 @@ class JFormFieldMenuPreset extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since  3.8.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{

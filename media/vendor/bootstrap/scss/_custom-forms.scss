@@ -1,3 +1,5 @@
+// scss-lint:disable PropertyCount
+
 // Embedded icons from Open Iconic.
 // Released under MIT and copyright 2014 Waybury.
 // https://useiconic.com/open
@@ -13,6 +15,7 @@
   min-height: (1rem * $line-height-base);
   padding-left: $custom-control-gutter;
   margin-right: $custom-control-spacer-x;
+  cursor: pointer;
 }
 
 .custom-control-input {
@@ -21,29 +24,31 @@
   opacity: 0;
 
   &:checked ~ .custom-control-indicator {
-    color: $custom-control-indicator-checked-color;
-    @include gradient-bg($custom-control-indicator-checked-bg);
-    @include box-shadow($custom-control-indicator-checked-box-shadow);
+    color: $custom-control-checked-indicator-color;
+    background-color: $custom-control-checked-indicator-bg;
+    @include box-shadow($custom-control-checked-indicator-box-shadow);
   }
 
   &:focus ~ .custom-control-indicator {
     // the mixin is not used here to make sure there is feedback
-    box-shadow: $custom-control-indicator-focus-box-shadow;
+    box-shadow: $custom-control-focus-indicator-box-shadow;
   }
 
   &:active ~ .custom-control-indicator {
-    color: $custom-control-indicator-active-color;
-    @include gradient-bg($custom-control-indicator-active-bg);
-    @include box-shadow($custom-control-indicator-active-box-shadow);
+    color: $custom-control-active-indicator-color;
+    background-color: $custom-control-active-indicator-bg;
+    @include box-shadow($custom-control-active-indicator-box-shadow);
   }
 
   &:disabled {
     ~ .custom-control-indicator {
-      background-color: $custom-control-indicator-disabled-bg;
+      cursor: $custom-control-disabled-cursor;
+      background-color: $custom-control-disabled-indicator-bg;
     }
 
     ~ .custom-control-description {
-      color: $custom-control-description-disabled-color;
+      color: $custom-control-disabled-description-color;
+      cursor: $custom-control-disabled-cursor;
     }
   }
 }
@@ -74,17 +79,17 @@
 
 .custom-checkbox {
   .custom-control-indicator {
-    @include border-radius($custom-checkbox-indicator-border-radius);
+    @include border-radius($custom-checkbox-radius);
   }
 
   .custom-control-input:checked ~ .custom-control-indicator {
-    background-image: $custom-checkbox-indicator-icon-checked;
+    background-image: $custom-checkbox-checked-icon;
   }
 
   .custom-control-input:indeterminate ~ .custom-control-indicator {
-    background-color: $custom-checkbox-indicator-indeterminate-bg;
-    background-image: $custom-checkbox-indicator-icon-indeterminate;
-    @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
+    background-color: $custom-checkbox-indeterminate-bg;
+    background-image: $custom-checkbox-indeterminate-icon;
+    @include box-shadow($custom-checkbox-indeterminate-box-shadow);
   }
 }
 
@@ -94,11 +99,11 @@
 
 .custom-radio {
   .custom-control-indicator {
-    border-radius: $custom-radio-indicator-border-radius;
+    border-radius: $custom-radio-radius;
   }
 
   .custom-control-input:checked ~ .custom-control-indicator {
-    background-image: $custom-radio-indicator-icon-checked;
+    background-image: $custom-radio-checked-icon;
   }
 }
 
@@ -131,7 +136,8 @@
 .custom-select {
   display: inline-block;
   max-width: 100%;
-  height: $input-height;
+  $select-border-width: ($border-width * 2);
+  height: calc(#{$input-height} + #{$select-border-width});
   padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
   line-height: $custom-select-line-height;
   color: $custom-select-color;
@@ -139,12 +145,10 @@
   background: $custom-select-bg $custom-select-indicator no-repeat right $custom-select-padding-x center;
   background-size: $custom-select-bg-size;
   border: $custom-select-border-width solid $custom-select-border-color;
-  @if $enable-rounded {
-    border-radius: $custom-select-border-radius;
-  } @else {
-    border-radius: 0;
-  }
-  appearance: none;
+  @include border-radius($custom-select-border-radius);
+  // Use vendor prefixes as `appearance` isn't part of the CSS spec.
+  -moz-appearance: none;
+  -webkit-appearance: none;
 
   &:focus {
     border-color: $custom-select-focus-border-color;
@@ -162,13 +166,9 @@
     }
   }
 
-  &[multiple] {
-    height: auto;
-    background-image: none;
-  }
-
   &:disabled {
     color: $custom-select-disabled-color;
+    cursor: $cursor-disabled;
     background-color: $custom-select-disabled-bg;
   }
 
@@ -179,10 +179,14 @@
 }
 
 .custom-select-sm {
-  height: $custom-select-height-sm;
   padding-top: $custom-select-padding-y;
   padding-bottom: $custom-select-padding-y;
-  font-size: $custom-select-font-size-sm;
+  font-size: $custom-select-sm-font-size;
+
+  // &:not([multiple]) {
+  //   height: 26px;
+  //   min-height: 26px;
+  // }
 }
 
 
@@ -196,6 +200,7 @@
   max-width: 100%;
   height: $custom-file-height;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .custom-file-input {
@@ -203,10 +208,11 @@
   max-width: 100%;
   height: $custom-file-height;
   margin: 0;
+  filter: alpha(opacity = 0);
   opacity: 0;
 
   &:focus ~ .custom-file-control {
-    box-shadow: $custom-file-focus-box-shadow;
+    @include box-shadow($custom-file-focus-box-shadow);
   }
 }
 
@@ -217,7 +223,7 @@
   left: 0;
   z-index: 5;
   height: $custom-file-height;
-  padding: $custom-file-padding-y $custom-file-padding-x;
+  padding: $custom-file-padding-x $custom-file-padding-y;
   line-height: $custom-file-line-height;
   color: $custom-file-color;
   pointer-events: none;
@@ -228,7 +234,7 @@
   @include box-shadow($custom-file-box-shadow);
 
   @each $lang, $text in map-get($custom-file-text, placeholder) {
-    &:lang(#{$lang}):empty::after {
+    &:lang(#{$lang})::after {
       content: $text;
     }
   }
@@ -241,10 +247,10 @@
     z-index: 6;
     display: block;
     height: $custom-file-height;
-    padding: $custom-file-padding-y $custom-file-padding-x;
+    padding: $custom-file-padding-x $custom-file-padding-y;
     line-height: $custom-file-line-height;
     color: $custom-file-button-color;
-    @include gradient-bg($custom-file-button-bg);
+    background-color: $custom-file-button-bg;
     border: $custom-file-border-width solid $custom-file-border-color;
     @include border-radius(0 $custom-file-border-radius $custom-file-border-radius 0);
   }

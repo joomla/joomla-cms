@@ -32,7 +32,12 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array();
+	protected $modeAlias = array(
+			'html' => 'htmlmixed',
+			'ini'  => 'properties',
+			'json' => array('name' => 'javascript', 'json' => true),
+			'scss' => 'css',
+		);
 
 	/**
 	 * Initialises the Editor.
@@ -89,6 +94,75 @@ class PlgEditorCodemirror extends JPlugin
 		ob_end_clean();
 
 		JFactory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
+	}
+
+	/**
+	 * Copy editor content to form field.
+	 *
+	 * @param   string  $id  The id of the editor field.
+	 *
+	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Code executes directly on submit
+	 */
+	public function onSave($id)
+	{
+		return sprintf('document.getElementById(%1$s).value = Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
+	}
+
+	/**
+	 * Get the editor content.
+	 *
+	 * @param   string  $id  The id of the editor field.
+	 *
+	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
+	 */
+	public function onGetContent($id)
+	{
+		return sprintf('Joomla.editors.instances[%1$s].getValue();', json_encode((string) $id));
+	}
+
+	/**
+	 * Set the editor content.
+	 *
+	 * @param   string  $id       The id of the editor field.
+	 * @param   string  $content  The content to set.
+	 *
+	 * @return  string  Javascript
+	 *
+	 * @deprecated 4.0 Use directly the returned code
+	 */
+	public function onSetContent($id, $content)
+	{
+		return sprintf('Joomla.editors.instances[%1$s].setValue(%2$s);', json_encode((string) $id), json_encode((string) $content));
+	}
+
+	/**
+	 * Adds the editor specific insert method.
+	 *
+	 * @return  void
+	 *
+	 * @deprecated 4.0 Code is loaded in the init script
+	 */
+	public function onGetInsertMethod()
+	{
+		static $done = false;
+
+		// Do this only once.
+		if ($done)
+		{
+			return true;
+		}
+
+		$done = true;
+
+		JFactory::getDocument()->addScriptDeclaration("
+		;function jInsertEditorText(text, editor) { Joomla.editors.instances[editor].replaceSelection(text); }
+		");
+
+		return true;
 	}
 
 	/**
@@ -167,7 +241,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Load the syntax mode.
 		$syntax = $this->params->get('syntax', 'html');
-		$options->mode = $this->modeAlias[$syntax] ?? $syntax;
+		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
 
 		// Load the theme if specified.
 		if ($theme = $this->params->get('theme'))

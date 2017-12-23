@@ -4,9 +4,7 @@ scss_files:
 
 exclude:
   - "scss/_normalize.scss"
-  - "templates/cassiopeia/scss/blocks/_css-grid.scss"
-  - "templates/cassiopeia/scss/blocks/_modifiers.scss"
-  - "media/vendor/bootstrap/scss/**/*.scss"
+  - "templates/aurora/scss/blocks/_css-grid.scss"
 
 plugin_directories: ['.scss-linters']
 

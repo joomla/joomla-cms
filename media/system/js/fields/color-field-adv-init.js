@@ -1,38 +1,23 @@
-/**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+jQuery(document).ready(function ($){
 
-!(function(document, $) {
-	"use strict";
-
-	function initMinicolorsField (event) {
-		$(event.target).find('.minicolors').each(function() {
+	function initMinicolors(event, container) {
+		$(container || document).find('.minicolors').each(function() {
 			$(this).minicolors({
 				control: $(this).attr('data-control') || 'hue',
 				format: $(this).attr('data-validate') === 'color'
 					? 'hex'
 					: ($(this).attr('data-format') === 'rgba'
-					? 'rgb'
-					: $(this).attr('data-format'))
+						? 'rgb'
+						: $(this).attr('data-format'))
 					|| 'hex',
 				keywords: $(this).attr('data-keywords') || '',
-				opacity:  $(this).attr('data-format') === 'rgba',
+				opacity: $(this).attr('data-format') === 'rgba' ? true : false || false,
 				position: $(this).attr('data-position') || 'default',
-				swatches: $(this).attr('data-colors') ? $(this).attr('data-colors').split(",") : [],
 				theme: 'bootstrap'
 			});
 		});
 	}
 
-	/**
-	 * Initialize at an initial page load
-	 */
-	document.addEventListener("DOMContentLoaded", initMinicolorsField);
-
-	/**
-	 * Initialize when a part of the page was updated
-	 */
-	document.addEventListener("joomla:updated", initMinicolorsField);
-
-})(document, jQuery);
+	initMinicolors();
+	$(document).on('subform-row-add', initMinicolors);
+});

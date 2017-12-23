@@ -10,12 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
-use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_content
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ModulesDispatcher extends Dispatcher
 {
@@ -24,14 +23,14 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Modules';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -46,7 +45,7 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function dispatch()
 	{
@@ -70,11 +69,11 @@ class ModulesDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  \Joomla\CMS\MVC\Controller\BaseController
+	 * @return  \Joomla\CMS\Controller\Controller
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getController(string $name, string $client = '', array $config = array()): BaseController
+	public function getController($name, $client = null, $config = array())
 	{
 		if ($this->input->get('task') === 'module.orderPosition')
 		{

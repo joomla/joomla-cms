@@ -1,19 +1,19 @@
-// stylelint-disable declaration-no-important
+//
+// Contextual backgrounds
+//
 
-@each $color, $value in $theme-colors {
-  @include bg-variant(".bg-#{$color}", $value);
+.bg-faded {
+  background-color: darken($body-bg, 3%);
 }
 
-@if $enable-gradients {
-  @each $color, $value in $theme-colors {
-    @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
-  }
-}
+@include bg-variant('.bg-primary', $brand-primary);
 
-.bg-white {
-  background-color: $white !important;
-}
+@include bg-variant('.bg-success', $brand-success);
 
-.bg-transparent {
-  background-color: transparent !important;
-}
+@include bg-variant('.bg-info', $brand-info);
+
+@include bg-variant('.bg-warning', $brand-warning);
+
+@include bg-variant('.bg-danger', $brand-danger);
+
+@include bg-variant('.bg-inverse', $brand-inverse);

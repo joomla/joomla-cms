@@ -218,7 +218,7 @@ class MenusHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JError::raiseWarning(500, $e->getMessage());
 
 			return false;
 		}
@@ -245,7 +245,7 @@ class MenusHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JError::raiseWarning(500, $e->getMessage());
 
 				return false;
 			}
@@ -310,7 +310,7 @@ class MenusHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
@@ -385,7 +385,7 @@ class MenusHelper
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function installPreset($preset, $menutype)
 	{
@@ -410,7 +410,7 @@ class MenusHelper
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function installPresetItems(&$items, $menutype, $parent = 1)
 	{
@@ -425,8 +425,6 @@ class MenusHelper
 			$components = $db->setQuery($query)->loadObjectList();
 			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
 		}
-
-		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
 
 		foreach ($items as &$item)
 		{
@@ -455,20 +453,6 @@ class MenusHelper
 			}
 			elseif ($item->type == 'url' || $item->type == 'component')
 			{
-				if (substr($item->link, 0, 8) === 'special:')
-				{
-					$special = substr($item->link, 8);
-
-					if ($special === 'language-forum')
-					{
-						$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
-					}
-					elseif ($special === 'custom-forum')
-					{
-						$item->link = '';
-					}
-				}
-
 				// Try to match an existing record to have minimum collision for a link
 				$keys  = array(
 					'menutype'  => $menutype,

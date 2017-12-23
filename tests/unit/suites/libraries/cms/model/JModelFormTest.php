@@ -35,8 +35,7 @@ class JModelFormTest extends TestCase
 		$this->saveFactoryState();
 
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockBuilder('JModelForm')
-			->getMockForAbstractClass();
+		$this->object = $this->getMockForAbstractClass('JModelForm');
 		$mockApp = $this->getMockCmsApp();
 		$mockApp->expects($this->any())
 			->method('getDispatcher')

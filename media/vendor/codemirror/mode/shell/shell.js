@@ -102,7 +102,7 @@ CodeMirror.defineMode('shell', function() {
         }
         escaped = !escaped && next === '\\';
       }
-      if (end) state.tokens.shift();
+      if (end || !escaped) state.tokens.shift();
       return style;
     };
   };
@@ -135,8 +135,5 @@ CodeMirror.defineMode('shell', function() {
 });
 
 CodeMirror.defineMIME('text/x-sh', 'shell');
-// Apache uses a slightly different Media Type for Shell scripts
-// http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
-CodeMirror.defineMIME('application/x-sh', 'shell');
 
 });

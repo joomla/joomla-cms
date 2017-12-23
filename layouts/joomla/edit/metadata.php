@@ -17,7 +17,7 @@ $fieldSets = $form->getFieldsets('metadata');
 
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-		<joomla-alert type="info"><?php echo $this->escape(JText::_($fieldSet->description)); ?></joomla-alert>
+		<p class="alert alert-info"><?php echo $this->escape(JText::_($fieldSet->description)); ?></p>
 	<?php endif; ?>
 
 	<?php

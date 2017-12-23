@@ -83,7 +83,7 @@ class JRouterAdministratorTest extends TestCase
 		$uri = JUri::getInstance('http://localhost');
 
 		$vars = $this->object->parse($uri);
-		$this->assertInternalType('array', $vars);
+		$this->assertTrue(is_array($vars));
 	}
 
 	/**

@@ -20,37 +20,35 @@
 
 				var inputGroup = passwordInputs[i].parentNode.querySelector('.input-group-addon');
 
-				if (inputGroup) {
-					inputGroup.addEventListener('click', function(e) {
+				inputGroup.addEventListener('click', function(e) {
 
-						var target = this.querySelector('.fa'),
-							input  = this.parentNode.querySelector('input'),
-							srText = target.nextElementSibling;
+					var target = this.querySelector('.fa'),
+					    input  = this.parentNode.querySelector('input'),
+					    srText = target.nextElementSibling;
 
-						if (target.classList.contains('fa-eye')) {
-							// Update the icon class
-							target.classList.remove('fa-eye');
-							target.classList.add('fa-eye-slash');
+					if (target.classList.contains('fa-eye')) {
+						// Update the icon class
+						target.classList.remove('fa-eye');
+						target.classList.add('fa-eye-slash');
 
-							// Update the input type
-							input.type = 'text';
+						// Update the input type
+						input.type = 'text';
 
-							// Updat the text for screenreaders
-							srText.innerText = Joomla.JText._('JSHOW');
-						}
-						else {
-							// Update the icon class
-							target.classList.add('fa-eye');
-							target.classList.remove('fa-eye-slash');
+						// Updat the text for screenreaders
+						srText.innerText = Joomla.JText._('JSHOW');
+					}
+					else {
+						// Update the icon class
+						target.classList.add('fa-eye');
+						target.classList.remove('fa-eye-slash');
 
-							// Update the input type
-							input.type = 'password';
+						// Update the input type
+						input.type = 'password';
 
-							// Updat the text for screenreaders
-							srText.innerText = Joomla.JText._('JHIDE');
-						}
-					});
-				}
+						// Updat the text for screenreaders
+						srText.innerText = Joomla.JText._('JHIDE');
+					}
+				});
 
 			}
 

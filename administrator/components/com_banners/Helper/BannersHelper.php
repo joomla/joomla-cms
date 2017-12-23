@@ -85,7 +85,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JError::raiseWarning(500, $e->getMessage());
 
 			return false;
 		}
@@ -146,7 +146,7 @@ class BannersHelper extends ContentHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JError::raiseWarning(500, $db->getMessage());
 
 				return false;
 			}
@@ -180,7 +180,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JError::raiseWarning(500, $e->getMessage());
 		}
 
 		array_unshift($options, \JHtml::_('select.option', '0', \JText::_('COM_BANNERS_NO_CLIENT')));

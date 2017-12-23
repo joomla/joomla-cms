@@ -50,7 +50,6 @@ abstract class MenusHtmlMenus
 				->from('#__menu as m')
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('m.id != ' . $itemid)
 				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
@@ -73,7 +72,7 @@ abstract class MenusHtmlMenus
 					$text    = strtoupper($item->lang_sef);
 					$url     = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$classes = 'hasPopover badge badge-association badge-' . $item->lang_sef;
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
@@ -252,6 +251,6 @@ abstract class MenusHtmlMenus
 
 		$show_menu = $registry->get('menu_show');
 
-		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
+		return ($show_menu === 0) ? '<span class="badge badge-default">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }

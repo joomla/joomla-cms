@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_finder
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class FinderDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $namespace = 'Joomla\\Component\\Finder';
 }

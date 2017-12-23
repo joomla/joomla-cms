@@ -31,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
 $saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
 
-if ($saveOrder && !empty($this->items))
+if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component';
 	JHtml::_('draggablelist.draggable');
@@ -49,7 +49,9 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning alert-no-items">
+						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table table-striped" id="groupList">
 						<thead>
@@ -69,11 +71,9 @@ if ($saveOrder && !empty($this->items))
 								<th style="width:10%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:5%" class="nowrap hidden-sm-down">
-										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
+								<th style="width:5%" class="nowrap hidden-sm-down">
+									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+								</th>
 								<th style="width:1%" class="nowrap hidden-sm-down">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -138,11 +138,9 @@ if ($saveOrder && !empty($this->items))
 									<td class="small hidden-sm-down">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
-									<?php if (JLanguageMultilang::isEnabled()) : ?>
-										<td class="small nowrap hidden-sm-down">
-											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-										</td>
-									<?php endif; ?>
+									<td class="small nowrap hidden-sm-down">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
 									<td class="text-center hidden-sm-down">
 										<span><?php echo (int) $item->id; ?></span>
 									</td>

@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances[i] = dem(ids[i]);
-  callback.apply(null, instances);
+    instances.push(dem(ids[i]));
+  callback.apply(null, callback);
 };
 
 var ephox = {};
@@ -76,47 +76,34 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minification when using a lot of global references
+// this helps with minificiation when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.codesample.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.codesample.api.Commands","tinymce.plugins.codesample.core.FilterContent","tinymce.plugins.codesample.core.LoadCss","tinymce.plugins.codesample.ui.Buttons","tinymce.plugins.codesample.ui.Dialog","tinymce.plugins.codesample.util.Utils","global!tinymce.util.Tools.resolve","tinymce.plugins.codesample.api.Settings","tinymce.plugins.codesample.core.CodeSample","tinymce.plugins.codesample.core.Languages","tinymce.plugins.codesample.core.Prism","tinymce.core.dom.DOMUtils"]
+["tinymce.plugins.codesample.Plugin","tinymce.core.Env","tinymce.core.PluginManager","tinymce.plugins.codesample.core.Prism","tinymce.plugins.codesample.ui.Dialog","tinymce.plugins.codesample.util.Utils","global!tinymce.util.Tools.resolve","tinymce.core.dom.DOMUtils"]
 jsc*/
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
 define(
-  'ephox.katamari.api.Cell',
-
+  'tinymce.core.Env',
   [
+    'global!tinymce.util.Tools.resolve'
   ],
-
-  function () {
-    var Cell = function (initial) {
-      var value = initial;
-
-      var get = function () {
-        return value;
-      };
-
-      var set = function (v) {
-        value = v;
-      };
-
-      var clone = function () {
-        return Cell(get());
-      };
-
-      return {
-        get: get,
-        set: set,
-        clone: clone
-      };
-    };
-
-    return Cell;
+  function (resolve) {
+    return resolve('tinymce.Env');
   }
 );
 
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
  * ResolveGlobal.js
  *
@@ -137,66 +124,6 @@ define(
   }
 );
 
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.DOMUtils',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.dom.DOMUtils');
-  }
-);
-
-/**
- * Settings.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.codesample.api.Settings',
-  [
-    'tinymce.core.dom.DOMUtils'
-  ],
-  function (DOMUtils) {
-    var getContentCss = function (editor) {
-      return editor.settings.codesample_content_css;
-    };
-
-    var getLanguages = function (editor) {
-      return editor.settings.codesample_languages;
-    };
-
-    var getDialogMinWidth = function (editor) {
-      return Math.min(DOMUtils.DOM.getViewPort().w, editor.getParam('codesample_dialog_width', 800));
-    };
-
-    var getDialogMinHeight = function (editor) {
-      return Math.min(DOMUtils.DOM.getViewPort().w, editor.getParam('codesample_dialog_height', 650));
-    };
-
-    return {
-      getContentCss: getContentCss,
-      getLanguages: getLanguages,
-      getDialogMinWidth: getDialogMinWidth,
-      getDialogMinHeight: getDialogMinHeight
-    };
-  }
-);
 /**
  * Prism.js
  *
@@ -1145,7 +1072,7 @@ define(
 /*eslint-enable */
 
 /**
- * Utils.js
+ * ResolveGlobal.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1155,12 +1082,38 @@ define(
  */
 
 define(
+  'tinymce.core.dom.DOMUtils',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.dom.DOMUtils');
+  }
+);
+
+/**
+ * Utils.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+/**
+ * Various utility functions.
+ *
+ * @class tinymce.codesample.Utils
+ * @private
+ */
+define(
   'tinymce.plugins.codesample.util.Utils',
   [
   ],
   function () {
     function isCodeSample(elm) {
-      return elm && elm.nodeName === 'PRE' && elm.className.indexOf('language-') !== -1;
+      return elm && elm.nodeName == 'PRE' && elm.className.indexOf('language-') !== -1;
     }
 
     function trimArg(predicateFn) {
@@ -1176,7 +1129,7 @@ define(
   }
 );
 /**
- * CodeSample.js
+ * Dialog.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1185,77 +1138,23 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
+/**
+ * Contains all dialog logic.
+ *
+ * @class tinymce.codesample.Dialog
+ * @private
+ */
 define(
-  'tinymce.plugins.codesample.core.CodeSample',
+  'tinymce.plugins.codesample.ui.Dialog',
   [
     'tinymce.core.dom.DOMUtils',
     'tinymce.plugins.codesample.core.Prism',
     'tinymce.plugins.codesample.util.Utils'
   ],
   function (DOMUtils, Prism, Utils) {
-    var getSelectedCodeSample = function (editor) {
-      var node = editor.selection.getNode();
+    var DOM = DOMUtils.DOM;
 
-      if (Utils.isCodeSample(node)) {
-        return node;
-      }
-
-      return null;
-    };
-
-    var insertCodeSample = function (editor, language, code) {
-      editor.undoManager.transact(function () {
-        var node = getSelectedCodeSample(editor);
-
-        code = DOMUtils.DOM.encode(code);
-
-        if (node) {
-          editor.dom.setAttrib(node, 'class', 'language-' + language);
-          node.innerHTML = code;
-          Prism.highlightElement(node);
-          editor.selection.select(node);
-        } else {
-          editor.insertContent('<pre id="__new" class="language-' + language + '">' + code + '</pre>');
-          editor.selection.select(editor.$('#__new').removeAttr('id')[0]);
-        }
-      });
-    };
-
-    var getCurrentCode = function (editor) {
-      var node = getSelectedCodeSample(editor);
-
-      if (node) {
-        return node.textContent;
-      }
-
-      return '';
-    };
-
-    return {
-      getSelectedCodeSample: getSelectedCodeSample,
-      insertCodeSample: insertCodeSample,
-      getCurrentCode: getCurrentCode
-    };
-  }
-);
-/**
- * Languages.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.codesample.core.Languages',
-  [
-    'tinymce.plugins.codesample.api.Settings',
-    'tinymce.plugins.codesample.core.CodeSample'
-  ],
-  function (Settings, CodeSample) {
-    var getLanguages = function (editor) {
+    function getLanguages(editor) {
       var defaultLanguages = [
         { text: 'HTML/XML', value: 'markup' },
         { text: 'JavaScript', value: 'javascript' },
@@ -1269,12 +1168,50 @@ define(
         { text: 'C++', value: 'cpp' }
       ];
 
-      var customLanguages = Settings.getLanguages(editor);
+      var customLanguages = editor.settings.codesample_languages;
       return customLanguages ? customLanguages : defaultLanguages;
-    };
+    }
 
-    var getCurrentLanguage = function (editor) {
-      var matches, node = CodeSample.getSelectedCodeSample(editor);
+    function insertCodeSample(editor, language, code) {
+      editor.undoManager.transact(function () {
+        var node = getSelectedCodeSample(editor);
+
+        code = DOM.encode(code);
+
+        if (node) {
+          editor.dom.setAttrib(node, 'class', 'language-' + language);
+          node.innerHTML = code;
+          Prism.highlightElement(node);
+          editor.selection.select(node);
+        } else {
+          editor.insertContent('<pre id="__new" class="language-' + language + '">' + code + '</pre>');
+          editor.selection.select(editor.$('#__new').removeAttr('id')[0]);
+        }
+      });
+    }
+
+    function getSelectedCodeSample(editor) {
+      var node = editor.selection.getNode();
+
+      if (Utils.isCodeSample(node)) {
+        return node;
+      }
+
+      return null;
+    }
+
+    function getCurrentCode(editor) {
+      var node = getSelectedCodeSample(editor);
+
+      if (node) {
+        return node.textContent;
+      }
+
+      return '';
+    }
+
+    function getCurrentLanguage(editor) {
+      var matches, node = getSelectedCodeSample(editor);
 
       if (node) {
         matches = node.className.match(/language-(\w+)/);
@@ -1282,44 +1219,14 @@ define(
       }
 
       return '';
-    };
+    }
 
-    return {
-      getLanguages: getLanguages,
-      getCurrentLanguage: getCurrentLanguage
-    };
-  }
-);
-/**
- * Dialog.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.codesample.ui.Dialog',
-  [
-    'tinymce.plugins.codesample.api.Settings',
-    'tinymce.plugins.codesample.core.CodeSample',
-    'tinymce.plugins.codesample.core.Languages'
-  ],
-  function (Settings, CodeSample, Languages) {
     return {
       open: function (editor) {
-        var minWidth = Settings.getDialogMinWidth(editor);
-        var minHeight = Settings.getDialogMinHeight(editor);
-        var currentLanguage = Languages.getCurrentLanguage(editor);
-        var currentLanguages = Languages.getLanguages(editor);
-        var currentCode = CodeSample.getCurrentCode(editor);
-
         editor.windowManager.open({
           title: "Insert/Edit code sample",
-          minWidth: minWidth,
-          minHeight: minHeight,
+          minWidth: Math.min(DOM.getViewPort().w, editor.getParam('codesample_dialog_width', 800)),
+          minHeight: Math.min(DOM.getViewPort().h, editor.getParam('codesample_dialog_height', 650)),
           layout: 'flex',
           direction: 'column',
           align: 'stretch',
@@ -1329,8 +1236,8 @@ define(
               name: 'language',
               label: 'Language',
               maxWidth: 200,
-              value: currentLanguage,
-              values: currentLanguages
+              value: getCurrentLanguage(editor),
+              values: getLanguages(editor)
             },
 
             {
@@ -1342,12 +1249,12 @@ define(
               flex: 1,
               style: 'direction: ltr; text-align: left',
               classes: 'monospace',
-              value: currentCode,
+              value: getCurrentCode(editor),
               autofocus: true
             }
           ],
           onSubmit: function (e) {
-            CodeSample.insertCodeSample(editor, e.data.language, e.data.code);
+            insertCodeSample(editor, e.data.language, e.data.code);
           }
         });
       }
@@ -1355,7 +1262,7 @@ define(
   }
 );
 /**
- * Commands.js
+ * Plugin.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -1364,52 +1271,62 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
+/**
+ * This class contains all core logic for the codesample plugin.
+ *
+ * @class tinymce.codesample.Plugin
+ * @private
+ */
 define(
-  'tinymce.plugins.codesample.api.Commands',
+  'tinymce.plugins.codesample.Plugin',
   [
+    'tinymce.core.Env',
+    'tinymce.core.PluginManager',
+    'tinymce.plugins.codesample.core.Prism',
     'tinymce.plugins.codesample.ui.Dialog',
     'tinymce.plugins.codesample.util.Utils'
   ],
-  function (Dialog, Utils) {
-    var register = function (editor) {
-      editor.addCommand('codesample', function () {
-        var node = editor.selection.getNode();
-        if (editor.selection.isCollapsed() || Utils.isCodeSample(node)) {
-          Dialog.open(editor);
-        } else {
-          editor.formatter.toggle('code');
+  function (Env, PluginManager, Prism, Dialog, Utils) {
+    var addedInlineCss, trimArg = Utils.trimArg;
+
+    PluginManager.add('codesample', function (editor, pluginUrl) {
+      var $ = editor.$, addedCss;
+
+      if (!Env.ceFalse) {
+        return;
+      }
+
+      // Todo: use a proper css loader here
+      function loadCss() {
+        var linkElm, contentCss = editor.settings.codesample_content_css;
+
+        if (editor.inline && addedInlineCss) {
+          return;
         }
-      });
-    };
 
-    return {
-      register: register
-    };
-  }
-);
-/**
- * FilterContent.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+        if (!editor.inline && addedCss) {
+          return;
+        }
 
-define(
-  'tinymce.plugins.codesample.core.FilterContent',
-  [
-    'tinymce.plugins.codesample.core.Prism',
-    'tinymce.plugins.codesample.util.Utils'
-  ],
-  function (Prism, Utils) {
-    var setup = function (editor) {
-      var $ = editor.$;
+        if (editor.inline) {
+          addedInlineCss = true;
+        } else {
+          addedCss = true;
+        }
+
+        if (contentCss !== false) {
+          linkElm = editor.dom.create('link', {
+            rel: 'stylesheet',
+            href: contentCss ? contentCss : pluginUrl + '/css/prism.css'
+          });
+
+          editor.getDoc().getElementsByTagName('head')[0].appendChild(linkElm);
+        }
+      }
 
       editor.on('PreProcess', function (e) {
         $('pre[contenteditable=false]', e.node).
-          filter(Utils.trimArg(Utils.isCodeSample)).
+          filter(trimArg(Utils.isCodeSample)).
           each(function (idx, elm) {
             var $elm = $(elm), code = elm.textContent;
 
@@ -1424,7 +1341,7 @@ define(
       });
 
       editor.on('SetContent', function () {
-        var unprocessedCodeSamples = $('pre').filter(Utils.trimArg(Utils.isCodeSample)).filter(function (idx, elm) {
+        var unprocessedCodeSamples = $('pre').filter(trimArg(Utils.isCodeSample)).filter(function (idx, elm) {
           return elm.contentEditable !== "false";
         });
 
@@ -1443,136 +1360,22 @@ define(
           });
         }
       });
-    };
 
-    return {
-      setup: setup
-    };
-  }
-);
-/**
- * LoadCss.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+      editor.addCommand('codesample', function () {
+        var node = editor.selection.getNode();
+        if (editor.selection.isCollapsed() || Utils.isCodeSample(node)) {
+          Dialog.open(editor);
+        } else {
+          editor.formatter.toggle('code');
+        }
+      });
 
-define(
-  'tinymce.plugins.codesample.core.LoadCss',
-  [
-    'tinymce.plugins.codesample.api.Settings'
-  ],
-  function (Settings) {
-    // Todo: use a proper css loader here
-    var loadCss = function (editor, pluginUrl, addedInlineCss, addedCss) {
-      var linkElm, contentCss = Settings.getContentCss(editor);
-
-      if (editor.inline && addedInlineCss.get()) {
-        return;
-      }
-
-      if (!editor.inline && addedCss.get()) {
-        return;
-      }
-
-      if (editor.inline) {
-        addedInlineCss.set(true);
-      } else {
-        addedCss.set(true);
-      }
-
-      if (contentCss !== false) {
-        linkElm = editor.dom.create('link', {
-          rel: 'stylesheet',
-          href: contentCss ? contentCss : pluginUrl + '/css/prism.css'
-        });
-
-        editor.getDoc().getElementsByTagName('head')[0].appendChild(linkElm);
-      }
-    };
-
-    return {
-      loadCss: loadCss
-    };
-  }
-);
-/**
- * Buttons.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.codesample.ui.Buttons',
-  [
-  ],
-  function () {
-    var register = function (editor) {
       editor.addButton('codesample', {
         cmd: 'codesample',
         title: 'Insert/Edit code sample'
       });
 
-      editor.addMenuItem('codesample', {
-        cmd: 'codesample',
-        text: 'Code sample',
-        icon: 'codesample'
-      });
-    };
-
-    return {
-      register: register
-    };
-  }
-);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.plugins.codesample.Plugin',
-  [
-    'ephox.katamari.api.Cell',
-    'tinymce.core.PluginManager',
-    'tinymce.plugins.codesample.api.Commands',
-    'tinymce.plugins.codesample.core.FilterContent',
-    'tinymce.plugins.codesample.core.LoadCss',
-    'tinymce.plugins.codesample.ui.Buttons',
-    'tinymce.plugins.codesample.ui.Dialog',
-    'tinymce.plugins.codesample.util.Utils'
-  ],
-  function (Cell, PluginManager, Commands, FilterContent, LoadCss, Buttons, Dialog, Utils) {
-    var addedInlineCss = Cell(false);
-
-    PluginManager.add('codesample', function (editor, pluginUrl) {
-      var addedCss = Cell(false);
-
-      FilterContent.setup(editor);
-      Buttons.register(editor);
-      Commands.register(editor);
-
-      editor.on('init', function () {
-        LoadCss.loadCss(editor, pluginUrl, addedInlineCss, addedCss);
-      });
-
-      editor.on('dblclick', function (ev) {
-        if (Utils.isCodeSample(ev.target)) {
-          Dialog.open(editor);
-        }
-      });
+      editor.on('init', loadCss);
     });
 
     return function () { };

@@ -22,7 +22,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getName(): string;
+	public function getName();
 
 	/**
 	 * Set the session name
@@ -33,7 +33,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setName(string $name);
+	public function setName($name);
 
 	/**
 	 * Get the session ID
@@ -42,7 +42,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getId(): string;
+	public function getId();
 
 	/**
 	 * Set the session ID
@@ -53,7 +53,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setId(string $id);
+	public function setId($id);
 
 	/**
 	 * Check if the session is active
@@ -62,7 +62,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isActive(): bool;
+	public function isActive();
 
 	/**
 	 * Check if the session is started
@@ -71,7 +71,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isStarted(): bool;
+	public function isStarted();
 
 	/**
 	 * Get data from the session store
@@ -83,7 +83,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function get(string $name, $default);
+	public function get($name, $default);
 
 	/**
 	 * Set data into the session store
@@ -95,7 +95,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function set(string $name, $value);
+	public function set($name, $value);
 
 	/**
 	 * Check whether data exists in the session store
@@ -106,7 +106,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function has(string $name): bool;
+	public function has($name);
 
 	/**
 	 * Unset a variable from the session store
@@ -117,7 +117,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove(string $name);
+	public function remove($name);
 
 	/**
 	 * Clears all variables from the session store
@@ -135,7 +135,7 @@ interface StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function all(): array;
+	public function all();
 
 	/**
 	 * Start a session
@@ -159,7 +159,7 @@ interface StorageInterface
 	 * @see     session_regenerate_id()
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function regenerate(bool $destroy = false): bool;
+	public function regenerate($destroy = false);
 
 	/**
 	 * Writes session data and ends session

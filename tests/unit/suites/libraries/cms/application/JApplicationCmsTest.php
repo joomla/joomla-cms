@@ -140,13 +140,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
@@ -182,6 +182,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function test__constructDependancyInjection()
 	{
+		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
+		}
+
 		$mockInput = $this->getMockInput();
 
 		$config = new Registry;
@@ -213,9 +218,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testExecuteWithoutDocument()
 	{
 		$this->class->execute();
-
-		// Nothing happened, we just assert TRUE to pass test.
-		self::assertTrue(true);
 	}
 
 	/**

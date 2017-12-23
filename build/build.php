@@ -40,7 +40,7 @@ umask(022);
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/src/Version.php';
+require_once dirname(__DIR__) . '/libraries/src/Joomla/CMS/Version.php';
 
 // Set version information for the build
 $version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
@@ -106,7 +106,6 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
-	'dev',
 	'.appveyor.yml',
 	'.drone.yml',
 	'.github',
@@ -115,7 +114,6 @@ $doNotPackage = array(
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
-	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
@@ -128,12 +126,11 @@ $doNotPackage = array(
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'scss-lint-report.xml',
-	'scss-lint.yml',
+	'sccs-lint.yml',
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
 	'drone-package.json',
-	'package.json',
 	'codeception.yml',
 	'Jenkinsfile',
 	'jenkins-phpunit.xml',

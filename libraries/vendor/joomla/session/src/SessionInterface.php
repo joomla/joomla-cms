@@ -42,7 +42,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setName(string $name);
+	public function setName($name);
 
 	/**
 	 * Get the session ID
@@ -62,7 +62,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setId(string $id);
+	public function setId($id);
 
 	/**
 	 * Check if the session is active
@@ -135,7 +135,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove(string $name);
+	public function remove($name);
 
 	/**
 	 * Clears all variables from the session store

@@ -156,6 +156,11 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
+		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		{
+			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
+		}
+
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInput')
 					->setMethods(array('test'))
@@ -282,7 +287,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->expectException('RuntimeException');
+			$this->setExpectedException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))
@@ -605,7 +610,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   11.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{
+	{	
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 

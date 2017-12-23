@@ -205,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is a setTransliterator, this test is wrong
+		// Only if there is an setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
@@ -298,9 +298,8 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getPluralSuffixesCallback()
+		$this->assertTrue(
+			is_callable($lang->getPluralSuffixesCallback())
 		);
 	}
 
@@ -317,14 +316,12 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		};
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getPluralSuffixesCallback()
+		$this->assertTrue(
+			is_callable($lang->getPluralSuffixesCallback())
 		);
 
-		$this->assertInternalType(
-			'callable',
-			$lang->setPluralSuffixesCallback($function1)
+		$this->assertTrue(
+			is_callable($lang->setPluralSuffixesCallback($function1))
 		);
 
 		$get = $lang->getPluralSuffixesCallback();
@@ -392,9 +389,8 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getIgnoredSearchWordsCallback()
+		$this->assertTrue(
+			is_callable($lang->getIgnoredSearchWordsCallback())
 		);
 	}
 
@@ -411,15 +407,13 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		};
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getIgnoredSearchWordsCallback()
+		$this->assertTrue(
+			is_callable($lang->getIgnoredSearchWordsCallback())
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertInternalType(
-			'callable',
-			$lang->setIgnoredSearchWordsCallback($function1)
+		$this->assertTrue(
+			is_callable($lang->setIgnoredSearchWordsCallback($function1))
 		);
 
 		$get = $lang->getIgnoredSearchWordsCallback();
@@ -487,9 +481,8 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getLowerLimitSearchWordCallback()
+		$this->assertTrue(
+			is_callable($lang->getLowerLimitSearchWordCallback())
 		);
 	}
 
@@ -506,15 +499,13 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		};
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getLowerLimitSearchWordCallback()
+		$this->assertTrue(
+			is_callable($lang->getLowerLimitSearchWordCallback())
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertInternalType(
-			'callable',
-			$lang->setLowerLimitSearchWordCallback($function1)
+		$this->assertTrue(
+			is_callable($lang->setLowerLimitSearchWordCallback($function1))
 		);
 
 		$get = $lang->getLowerLimitSearchWordCallback();
@@ -582,9 +573,8 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getUpperLimitSearchWordCallback()
+		$this->assertTrue(
+			is_callable($lang->getUpperLimitSearchWordCallback())
 		);
 	}
 
@@ -601,15 +591,13 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		};
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getUpperLimitSearchWordCallback()
+		$this->assertTrue(
+			is_callable($lang->getUpperLimitSearchWordCallback())
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertInternalType(
-			'callable',
-			$lang->setUpperLimitSearchWordCallback($function1)
+		$this->assertTrue(
+			is_callable($lang->setUpperLimitSearchWordCallback($function1))
 		);
 
 		$get = $lang->getUpperLimitSearchWordCallback();
@@ -677,9 +665,8 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getSearchDisplayedCharactersNumberCallback()
+		$this->assertTrue(
+			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
 		);
 	}
 
@@ -696,15 +683,13 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		};
 		$lang = new JLanguage('');
 
-		$this->assertInternalType(
-			'callable',
-			$lang->getSearchDisplayedCharactersNumberCallback()
+		$this->assertTrue(
+			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertInternalType(
-			'callable',
-			$lang->setSearchDisplayedCharactersNumberCallback($function1)
+		$this->assertTrue(
+			is_callable($lang->setSearchDisplayedCharactersNumberCallback($function1))
 		);
 
 		$get = $lang->getSearchDisplayedCharactersNumberCallback();

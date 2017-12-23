@@ -128,7 +128,7 @@ abstract class JHtmlJquery
 	 *
 	 * @throws  \InvalidArgumentException
 	 *
-	 * @since   3.8.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function token($name = 'csrf.token')
 	{
