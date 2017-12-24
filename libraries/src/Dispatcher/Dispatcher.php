@@ -94,9 +94,9 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Load the language
 	 *
-	 * @since   4.0.0
-	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	protected function loadLanguage()
 	{
@@ -108,9 +108,9 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   4.0.0
-	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	protected function checkAccess()
 	{

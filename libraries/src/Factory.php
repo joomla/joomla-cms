@@ -205,7 +205,7 @@ abstract class Factory
 	 *
 	 * @since   4.0
 	 */
-	public static function getContainer()
+	public static function getContainer(): Container
 	{
 		if (!self::$container)
 		{
@@ -512,7 +512,7 @@ abstract class Factory
 	 *
 	 * @since   4.0
 	 */
-	protected static function createContainer()
+	protected static function createContainer(): Container
 	{
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
