@@ -1,38 +1,39 @@
 !(function(Joomla, document) {
 	"use strict";
 
-	function _initBootstrap () {
+	function _initBootstrap (event) {
 
 		/**
-		 * Get the options with Joomla.getOptions().
-		 *
-		 * As this function can be re-run from a joomla:updated event, we need to clear each one after we've done the
-		 * bootstrap init, so we don't re-run init on update.  Do this with Joomla.loadOptions({'bootstrap.foo': null}).
+		 * As this function can be re-run from a joomla:updated event, we need to target the init at either the event's
+		 * target container, or the document (default on DOMContentLoaded).
 		 *
 		 * If an extension needs to initialize bootstrap objects added on the fly to the DOM, they would need to add
 		 * the new options by either having the ...
 		 * <script type="application/json" class="joomla-script-options new">{...}</script>
 		 * ... for the new objects in the markup being added to the DOM, and do ...
 		 *
-		 * Joomla.addOptions();
-		 * Joomla.Event.dispatch(document, 'joomla:updated')
+		 * Joomla.loadOptions();
+		 * Joomla.Event.dispatch(container, 'joomla:updated')
 		 *
-		 * ... or directly add the options, for instance by parsing a JSON string their AJAX code has returned ...
+		 * ... where 'container' is the content they are adding, or directly add the options, for instance by parsing
+		 * a JSON string their AJAX code has returned ...
 		 *
 		 * Somewhere in their AJAX handling that builds the new form ...
 		 * $scriptOptions = json_encode(\JFactory::getDocument()->getScriptOptions());
 		 * ... which is then returned to their Javascript handler ...
 		 *
 		 * Joomla.addOptions(JSON.parse(scriptOptions));
-		 * Joomla.Event.dispatch(document, 'joomla:updated')
+		 * Joomla.Event.dispatch(container, 'joomla:updated')
 		 */
 
-		let accordion = Joomla.getOptions('bootstrap.accordion', null),
+		let target = event && event.target ? event.target : document,
+			$target = $(target),
+			accordion = Joomla.getOptions('bootstrap.accordion', null),
 			alert = Joomla.getOptions('bootstrap.alert', null),
 			button = Joomla.getOptions('bootstrap.button', null),
 			carousel = Joomla.getOptions('bootstrap.carousel', null),
 			dropdown = Joomla.getOptions('bootstrap.dropdown', null),
-			modal = $('.joomla-modal'),
+			modal = $target.find('.joomla-modal'),
 			popover = Joomla.getOptions('bootstrap.popover', null),
 			scrollspy = Joomla.getOptions('bootstrap.scrollspy', null),
 			tabs = Joomla.getOptions('bootstrap.tabs', null),
@@ -41,7 +42,7 @@
 		/** Accordion **/
 		if (accordion) {
 			$.each(accordion, function(index, value) {
-				$('#' + index).collapse(
+				$target.find('#' + index).collapse(
 					{
 						parent:value.parent,
 						toggle:value.toggle
@@ -51,49 +52,39 @@
 					.on("hideme", new Function(value.onHide)())
 					.on("hidden", new Function(value.onHidden)());
 			});
-
-			Joomla.loadOptions({'bootstrap.accordion': null})
 		}
 
 		/** Alert **/
 		if (alert) {
 			$.each(alert, function(index, value) {
-				$('#' + index).alert();
+				$target.find('#' + index).alert();
 			});
-
-			Joomla.loadOptions({'bootstrap.alert': null})
 		}
 
 		/** Button **/
 		if (button) {
 			$.each(button, function(index, value) {
-				$('#' + index).button();
+				$target.find('#' + index).button();
 			});
-
-			Joomla.loadOptions({'bootstrap.button': null})
 		}
 
 		/** Carousel **/
 		if (carousel) {
 			$.each(carousel, function(index, value) {
-				$('#' + index).carousel(
+				$target.find('#' + index).carousel(
 					{
 						interval: value.interval ? value.interval : 5000,
 						pause: value.pause ? value.pause : 'hover'
 					}
 				);
 			});
-
-			Joomla.loadOptions({'bootstrap.carousel': null})
 		}
 
 		/** Dropdown menu **/
 		if (dropdown) {
 			$.each(dropdown, function(index, value) {
-				$('#' + index).dropdown();
+				$target.find('#' + index).dropdown();
 			});
-
-			Joomla.loadOptions({'bootstrap.dropdown': null})
 		}
 
 		/** Modals **/
@@ -102,9 +93,7 @@
 				let $self = $(this);
 
 				/*
-				 * As we don't have Joomal options for modals, we need to remove any previously added events, in case
-				 * we are being called from joomla:updated event, so we don't add multiple event handlers.  Use the
-				 * namespace option for off().
+				 * Just to be sure we never double-dip, remove any .bs-modal events first
 				 */
 				$self.off('.bs.modal');
 
@@ -141,26 +130,21 @@
 		if (popover) {
 			$.each(popover, function(index, value) {
 				value.constraints = [value.constraints];
-				$(index).popover(value);
+				$target.find(index).popover(value);
 			});
-
-			Joomla.loadOptions({'bootstrap.popover': null})
 		}
 
 		/** Scrollspy **/
 		if (scrollspy) {
 			$.each(scrollspy, function(index, value) {
-				$('#' + index).scrollspy(value);
+				$target.find('#' + index).scrollspy(value);
 			});
-
-			Joomla.loadOptions({'bootstrap.scrollspy': null})
 		}
 
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
-
-				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
+				$target.find('#' + index + 'Content .tab-pane').each(function(i, v) {
 					if ($(v).data('node')) {
 						let attribs = $(v).data('node').split('['),
 							classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';
@@ -169,22 +153,18 @@
 					}
 				});
 			});
-
-			Joomla.loadOptions({'bootstrap.tabs': null})
 		}
 
 		/** Tooltip **/
 		if (tooltip) {
 			$.each(tooltip, function(index, value) {
 				value.constraints = [value.constraints];
-				$(index).tooltip(value)
+				$target.find(index).tooltip(value)
 					.on("show.bs.tooltip", new Function(value.onShow)())
 					.on("shown.bs.tooltip", new Function(value.onShown)())
 					.on("hide.bs.tooltip", new Function(value.onHide)())
 					.on("hidden.bs.tooltip", new Function(value.onHidden)());
 			});
-
-			Joomla.loadOptions({'bootstrap.tooltip': null})
 		}
 	};
 
