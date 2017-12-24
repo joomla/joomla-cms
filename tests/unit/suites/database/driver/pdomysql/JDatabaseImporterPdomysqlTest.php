@@ -56,6 +56,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 
 		// Set up the database object mock.
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverPdomysql')
+			->setMethods(array(
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -65,6 +66,10 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'quote',
 						'setQuery',
 					))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->dbo->expects(
 			$this->any()

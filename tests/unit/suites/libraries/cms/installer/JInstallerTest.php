@@ -196,6 +196,8 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		// Build the mock object.
 		$adapterMock  = $this->getMockBuilder('test')
+			->setMethods(array('_rollback_testtype'))
+			->getMock();
 
 		$adapterMock->expects($this->once())
 			->method('_rollback_testtype')

@@ -47,6 +47,7 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 	public function setup()
 	{
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysqli')
+			->setMethods(array(
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -56,6 +57,10 @@ class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 						'quote',
 						'setQuery',
 					))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->dbo->expects(
 			$this->any()
