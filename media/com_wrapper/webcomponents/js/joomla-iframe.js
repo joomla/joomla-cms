@@ -1,47 +1,46 @@
 (() => {
 	class JoomlaIframe extends HTMLElement {
 		static get observedAttributes() {
-			return ['autoHeight', 'name', 'src', 'width', 'height', 'scrolling', 'frameborder', 'useClass', 'noFrameText'];
+			return ['iframe-auto-height', 'iframe-name', 'iframe-src', 'iframe-width', 'iframe-height', 'iframe-scrolling', 'iframe-border', 'iframe-class', 'iframe-title'];
 		}
 
-		get autoHeight() { return (this.getAttribute('auto-height') === '1'); }
-		get name() { return this.getAttribute('name'); }
-		get src() { return this.getAttribute('src'); }
-		get width() { return this.getAttribute('width'); }
-		get height() { return this.getAttribute('height'); }
-		get scrolling() { return (this.getAttribute('scrolling') === '1'); }
-		get frameborder() { return (this.getAttribute('frameborder') === '1'); }
-		get useClass() { return this.getAttribute('use-class'); }
-		get noFrameText() { return (this.getAttribute('no-frame-text') === '1'); }
+		get iframeAutoHeight() { return (this.getAttribute('iframe-auto-height') === '1'); }
+		get iframeName() { return this.getAttribute('iframe-name'); }
+		get iframeSrc() { return this.getAttribute('iframe-src'); }
+		get iframeWidth() { return this.getAttribute('iframe-width'); }
+		get iframeHeight() { return this.getAttribute('iframe-height'); }
+		get iframeScrolling() { return (this.getAttribute('iframe-scrolling') === '1'); }
+		get iframeBorder() { return (this.getAttribute('iframe-border') === '1'); }
+		get iframeClass() { return this.getAttribute('iframe-class'); }
+		get iframeTitle() { return this.getAttribute('iframe-title'); }
+
 
 		connectedCallback() {
-			// this.adjustHeight = this.adjustHeight().bind(this);
 			this.iframe = document.createElement('iframe');
 
-			this.iframe.setAttribute('name', this.name);
-			this.iframe.setAttribute('src', this.src);
-			this.iframe.setAttribute('width', this.width);
-			this.iframe.setAttribute('height', this.height);
-			this.iframe.setAttribute('scrolling', this.scrolling);
-			this.iframe.setAttribute('frameborder', this.frameborder);
-			this.iframe.setAttribute('class', this.useClass);
-			this.iframe.innerText = this.noFrameText;
+			this.iframe.setAttribute('name', this.iframeName);
+			this.iframe.setAttribute('src', this.iframeSrc);
+			this.iframe.setAttribute('width', this.iframeWidth);
+			this.iframe.setAttribute('height', this.iframeHeight);
+			this.iframe.setAttribute('scrolling', this.iframeScrolling);
+			this.iframe.setAttribute('frameborder', this.iframeBorder);
+			this.iframe.setAttribute('class', this.iframeClass);
+			this.iframe.setAttribute('title', this.iframeTitle);
 
+			// Generate a random unique ID
+			this.iframe.setAttribute('id', 'iframe-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5));
 
-
-			if (this.autoHeight) {
+			if (this.iframeAutoHeight) {
 				this.iframe.addEventListener('load', this.adjustHeight.bind(this), false);
 			}
 
 			this.appendChild(this.iframe);
-
 		}
 
 		adjustHeight() {
-			let height = 0;
 			const doc    = this.iframe.contentWindow.document;
-			height = doc.body.scrollHeight;
-			this.iframe.style.height = parseInt(height) + 60 + 'px';
+			const height = doc.body.scrollHeight || 0;
+			this.iframe.setAttribute('height', (height + 60) + 'px');
 		}
 	}
 

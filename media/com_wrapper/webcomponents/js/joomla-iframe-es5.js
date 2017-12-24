@@ -22,30 +22,30 @@ var _createClass = function () {
     function b() {
       return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
     }return _inherits(b, a), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
-        this.iframe = document.createElement('iframe'), this.iframe.setAttribute('name', this.name), this.iframe.setAttribute('src', this.src), this.iframe.setAttribute('width', this.width), this.iframe.setAttribute('height', this.height), this.iframe.setAttribute('scrolling', this.scrolling), this.iframe.setAttribute('frameborder', this.frameborder), this.iframe.setAttribute('class', this.useClass), this.iframe.innerText = this.noFrameText, this.autoHeight && this.iframe.addEventListener('load', this.adjustHeight.bind(this), !1), this.appendChild(this.iframe);
+        this.iframe = document.createElement('iframe'), this.iframe.setAttribute('name', this.iframeName), this.iframe.setAttribute('src', this.iframeSrc), this.iframe.setAttribute('width', this.iframeWidth), this.iframe.setAttribute('height', this.iframeHeight), this.iframe.setAttribute('scrolling', this.iframeScrolling), this.iframe.setAttribute('frameborder', this.iframeBorder), this.iframe.setAttribute('class', this.iframeClass), this.iframe.setAttribute('title', this.iframeTitle), this.iframe.setAttribute('id', 'iframe-' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5)), this.iframeAutoHeight && this.iframe.addEventListener('load', this.adjustHeight.bind(this), !1), this.appendChild(this.iframe);
       } }, { key: 'adjustHeight', value: function adjustHeight() {
-        var a = 0,
-            b = this.iframe.contentWindow.document;a = b.body.scrollHeight, this.iframe.style.height = parseInt(a) + 60 + 'px';
-      } }, { key: 'autoHeight', get: function get() {
-        return '1' === this.getAttribute('auto-height');
-      } }, { key: 'name', get: function get() {
-        return this.getAttribute('name');
-      } }, { key: 'src', get: function get() {
-        return this.getAttribute('src');
-      } }, { key: 'width', get: function get() {
-        return this.getAttribute('width');
-      } }, { key: 'height', get: function get() {
-        return this.getAttribute('height');
-      } }, { key: 'scrolling', get: function get() {
-        return '1' === this.getAttribute('scrolling');
-      } }, { key: 'frameborder', get: function get() {
-        return '1' === this.getAttribute('frameborder');
-      } }, { key: 'useClass', get: function get() {
-        return this.getAttribute('use-class');
-      } }, { key: 'noFrameText', get: function get() {
-        return '1' === this.getAttribute('no-frame-text');
+        var a = this.iframe.contentWindow.document,
+            b = a.body.scrollHeight || 0;this.iframe.setAttribute('height', b + 60 + 'px');
+      } }, { key: 'iframeAutoHeight', get: function get() {
+        return '1' === this.getAttribute('iframe-auto-height');
+      } }, { key: 'iframeName', get: function get() {
+        return this.getAttribute('iframe-name');
+      } }, { key: 'iframeSrc', get: function get() {
+        return this.getAttribute('iframe-src');
+      } }, { key: 'iframeWidth', get: function get() {
+        return this.getAttribute('iframe-width');
+      } }, { key: 'iframeHeight', get: function get() {
+        return this.getAttribute('iframe-height');
+      } }, { key: 'iframeScrolling', get: function get() {
+        return '1' === this.getAttribute('iframe-scrolling');
+      } }, { key: 'iframeBorder', get: function get() {
+        return '1' === this.getAttribute('iframe-border');
+      } }, { key: 'iframeClass', get: function get() {
+        return this.getAttribute('iframe-class');
+      } }, { key: 'iframeTitle', get: function get() {
+        return this.getAttribute('iframe-title');
       } }], [{ key: 'observedAttributes', get: function get() {
-        return ['autoHeight', 'name', 'src', 'width', 'height', 'scrolling', 'frameborder', 'useClass', 'noFrameText'];
+        return ['iframe-auto-height', 'iframe-name', 'iframe-src', 'iframe-width', 'iframe-height', 'iframe-scrolling', 'iframe-border', 'iframe-class', 'iframe-title'];
       } }]), b;
   }(HTMLElement);customElements.define('joomla-iframe', a);
 })();

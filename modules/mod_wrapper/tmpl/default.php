@@ -14,22 +14,24 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('webcomponent', ['joomla-iframe' => 'com_wrapper/webcomponents/joomla-iframe.min.js'], ['version' => 'auto', 'relative' => true]);
 ?>
-<joomla-iframe auto-height="<?php echo $load; ?>"
-	name="<?php echo $target; ?>"
-	title="<?php echo $ititle; ?>"
-	src="<?php echo $url; ?>"
-	width="<?php echo $width; ?>"
-	height="<?php echo $height; ?>"
-	scrolling="<?php echo $scroll; ?>"
-	frameborder="<?php echo $frameborder; ?>"
-	use-class="wrapper"
-	no-frame-text="<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>">
-	<noscript><iframe name="<?php echo $target; ?>"
+<joomla-iframe iframe-auto-height="<?php echo $load; ?>"
+		iframe-name="<?php echo $target; ?>"
+		iframe-src="<?php echo $url; ?>"
+		iframe-width="<?php echo $width; ?>"
+		iframe-height="<?php echo $height; ?>"
+		iframe-scrolling="<?php echo $scroll; ?>"
+		iframe-border="<?php echo $frameborder; ?>"
+		iframe-title="<?php echo $title; ?>"
+		iframe-class="wrapper">
+	<noscript>
+		<iframe name="<?php echo $target; ?>"
+				id="blockrandom-<?php echo $id; ?>"
+				title="<?php echo $name; ?>"
 				src="<?php echo $url; ?>"
 				width="<?php echo $width; ?>"
 				height="<?php echo $height; ?>"
 				scrolling="<?php echo $scroll; ?>"
 				frameborder="<?php echo $frameborder; ?>"
-				class="wrapper"><?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?></iframe>
+				class="wrapper"></iframe>
 	</noscript>
 </joomla-iframe>
