@@ -1180,9 +1180,9 @@ class ComponentAdapter extends InstallerAdapter
 			->set('component_id = ' . $db->quote($component_id))
 			->where('type = ' . $db->quote('component'))
 			->where('('
-					. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
-					. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
-					. ')');
+				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
+				. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
+				. ')');
 
 		if (isset($clientId))
 		{
