@@ -112,7 +112,6 @@ class MockJComponentRouterRulesMenuMenuObject
 			'parent_id'    => '0',
 			'query'        => array('option' => 'com_content', 'view' => 'featured'));
 
-
 		$this->items[52] = (object) array(
 			'id'           => '52',
 			'menutype'     => 'testmenu',
