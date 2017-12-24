@@ -1177,8 +1177,8 @@ class ComponentAdapter extends InstallerAdapter
 		// to use the new component id.
 		$query = $db->getQuery(true)
 			->update('#__menu')
-			->set('component_id = ' . $db->quoteName($component_id))
-			->where('type = ' . $db->quoteName('component'))
+			->set('component_id = ' . $db->quote($component_id))
+			->where('type = ' . $db->quote('component'))
 			->where('('
 					. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
 					. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
