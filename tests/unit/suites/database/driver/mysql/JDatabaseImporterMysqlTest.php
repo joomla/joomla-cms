@@ -61,7 +61,6 @@ class JDatabaseImporterMysqlTest extends TestCase
 	protected function setUp()
 	{
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysql')
-					->setMethods(array(
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -71,10 +70,6 @@ class JDatabaseImporterMysqlTest extends TestCase
 						'quote',
 						'setQuery',
 					))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
 
 		$this->dbo
 			->expects($this->any())

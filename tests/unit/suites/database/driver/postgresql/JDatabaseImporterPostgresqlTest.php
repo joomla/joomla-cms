@@ -32,7 +32,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	{
 		// Set up the database object mock.
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverPostgresql')
-					->setMethods(array(
 						'getErrorNum',
 						'getPrefix',
 						'getTableColumns',
@@ -48,16 +47,10 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'quote',
 						'setQuery',
 					))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
 
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getPrefix')
-		->will(
 			$this->returnValue(
 				'jos_'
 			)
@@ -66,8 +59,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableColumns')
-		->will(
 			$this->returnValue(
 				array(
 					'id' => (object) array(
@@ -91,8 +82,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableKeys')
-		->will(
 			$this->returnValue(
 				array(
 					(object) array(
@@ -115,8 +104,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getVersion')
-		->will(
 			$this->returnValue(
 				'7.1.2'
 			)
@@ -135,8 +122,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('getTableSequences')
-		->will(
 			$this->returnValue(
 			array(
 					(object) array(
@@ -158,8 +143,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quoteName')
-		->will(
 			$this->returnCallback(
 				array($this, 'callbackQuoteName')
 			)
@@ -168,8 +151,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('quote')
-		->will(
 			$this->returnCallback(
 				array($this, 'callbackQuote')
 			)
@@ -178,8 +159,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('setQuery')
-		->will(
 			$this->returnCallback(
 				array($this, 'callbackSetQuery')
 			)
@@ -188,8 +167,6 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('loadObjectList')
-		->will(
 			$this->returnCallback(
 				array($this, 'callbackLoadObjectList')
 			)

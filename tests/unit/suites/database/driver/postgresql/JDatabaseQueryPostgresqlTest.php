@@ -164,7 +164,6 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			->innerJoin('b ON b.id = a.id')
 			->where('b.id = 1')
 			->group('a.id')
-				->having('COUNT(a.id) > 3')
 			->order('a.id');
 
 		$this->assertEquals(
