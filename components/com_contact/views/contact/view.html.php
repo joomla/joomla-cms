@@ -76,7 +76,7 @@ class ContactViewContact extends JViewLegacy
 
 		$this->form = $this->get('Form');
 
-		 $params = $state->get('params');
+		$params = $state->get('params');
 
 		$temp = clone $params;
 
