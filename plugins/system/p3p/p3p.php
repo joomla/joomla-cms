@@ -32,7 +32,7 @@ class PlgSystemP3p extends JPlugin
 		$header = trim($header);
 
 		// Bail out on empty header (why would anyone do that?!).
-		if ( empty($header) )
+		if (empty($header))
 		{
 			return;
 		}

@@ -199,7 +199,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$reCaptcha = new JReCaptcha($privatekey);
 				$response  = $reCaptcha->verifyResponse($remoteip, $response);
 
-				if ( !isset($response->success) || !$response->success)
+				if (!isset($response->success) || !$response->success)
 				{
 					// @todo use exceptions here
 					if (is_array($response->errorCodes))
