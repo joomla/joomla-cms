@@ -64,27 +64,27 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->method('getTableColumns')
 			->willReturn(
 				array(
-					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'id' => (object) array(
+					'Field'      => 'id',
+					'Type'       => 'int(11) unsigned',
+					'Collation'  => null,
+					'Null'       => 'NO',
+					'Key'        => 'PRI',
+					'Default'    => '',
+					'Extra'      => 'auto_increment',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
-					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+				'title' => (object) array(
+					'Field'      => 'title',
+					'Type'       => 'varchar(255)',
+					'Collation'  => 'utf8_general_ci',
+					'Null'       => 'NO',
+					'Key'        => '',
+					'Default'    => '',
+					'Extra'      => '',
+					'Privileges' => 'select,insert,update,references',
+					'Comment'    => '',
 					),
 				)
 			);
@@ -95,19 +95,19 @@ class JDatabaseExporterMysqlTest extends TestCase
 			->willReturn(
 				array(
 				(object) array(
-					'Table' => 'jos_test',
-					'Non_unique' => '0',
-					'Key_name' => 'PRIMARY',
+					'Table'        => 'jos_test',
+					'Non_unique'   => '0',
+					'Key_name'     => 'PRIMARY',
 					'Seq_in_index' => '1',
-					'Column_name' => 'id',
-					'Collation' => 'A',
-					'Cardinality' => '2695',
-					'Sub_part' => '',
-					'Packed' => '',
-					'Null' => '',
-					'Index_type' => 'BTREE',
-					'Comment' => '',
-				)
+					'Column_name'  => 'id',
+					'Collation'    => 'A',
+					'Cardinality'  => '2695',
+					'Sub_part'     => '',
+					'Packed'       => '',
+					'Null'         => '',
+					'Index_type'   => 'BTREE',
+					'Comment'      => '',
+					)
 				)
 			);
 
