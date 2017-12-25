@@ -906,7 +906,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		}
 
 		/*
-		 * find how many rows have description='testRollbackSp' :
+		 * Find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
