@@ -60,7 +60,7 @@ class PlgSystemLog extends JPlugin
 		{
 			JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);
 		}
-		catch (Exception $e) 
+		catch (Exception $e)
 		{
 			// If the log file is unwriteable during login then we should not go to the error page
 			return;

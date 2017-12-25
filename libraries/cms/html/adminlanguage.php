@@ -45,9 +45,9 @@ abstract class JHtmlAdminLanguage
 			{
 				$languages[$tag] = $language['nativeName'];
 			}
-			
+
 			ksort($languages);
-			
+
 			static::$items = $languages;
 		}
 
