@@ -470,7 +470,6 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$this->assertEquals($objArr[3], self::$driver->loadNextObject());
 
 		// Last call to free cursor, asserting that returns false
-
 		$this->assertFalse(self::$driver->loadNextObject());
 	}
 
@@ -604,7 +603,6 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
 		// Last call to free cursor, asserting that returns false
-
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -887,7 +885,6 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		self::$driver->setQuery($queryIns)->execute();
 
 		// Create savepoint only if is passed by data provider
-
 		if (!is_null($toSavepoint))
 		{
 			self::$driver->transactionStart((boolean) $toSavepoint);
@@ -909,7 +906,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		}
 
 		/*
-		 find how many rows have description='testRollbackSp' :
+		 * find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
