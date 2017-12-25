@@ -1465,6 +1465,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
+
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 

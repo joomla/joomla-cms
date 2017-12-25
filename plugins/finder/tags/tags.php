@@ -101,6 +101,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -185,6 +186,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		{
 			$this->itemStateChange($pks, $value);
 		}
+
 		// Handle when the plugin is disabled
 		if ($context === 'com_plugins.plugin' && $value === 0)
 		{

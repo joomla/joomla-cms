@@ -125,6 +125,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}

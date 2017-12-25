@@ -183,6 +183,7 @@ class PlgSearchContent extends JPlugin
 					{
 						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
 					}
+
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
@@ -305,6 +306,7 @@ class PlgSearchContent extends JPlugin
 				$list = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))
@@ -429,6 +431,7 @@ class PlgSearchContent extends JPlugin
 				$results = array_merge($results, (array) $new_row);
 			}
 		}
+
 		return $results;
 	}
 
