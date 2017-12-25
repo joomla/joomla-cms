@@ -958,6 +958,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 							}
 						}
 
+
 						break;
 
 					// Should I restore permissions?
@@ -4632,6 +4633,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		}
 
 		debugMsg('*' . ftell($this->fp) . ' IS START OF ' . $this->fileHeader->file . ' (' . $this->fileHeader->compressed . ' bytes)');
+
 
 		// Decide filetype -- Check for directories
 		$this->fileHeader->type = 'file';
