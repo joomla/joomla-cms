@@ -43,7 +43,8 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'quoteName',
 						'loadObjectList',
 						'setQuery',
-					))
+				)
+			)
 			->setConstructorArgs(array())
 			->setMockClassName('')
 			->disableOriginalConstructor()
@@ -54,18 +55,18 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 		)
 			->method('getPrefix')
 			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+				$this->returnValue(
+					'jos_'
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableColumns')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Field' => 'id',
 						'Type' => 'int(11) unsigned',
@@ -88,17 +89,17 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'Privileges' => 'select,insert,update,references',
 						'Comment' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableKeys')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Table' => 'jos_test',
 						'Non_unique' => '0',
@@ -113,39 +114,39 @@ class JDatabaseExporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'Index_type' => 'BTREE',
 						'Comment' => '',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quoteName')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('setQuery')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('loadObjectList')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
 	}
 
 	/**

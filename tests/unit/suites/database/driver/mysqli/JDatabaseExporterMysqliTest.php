@@ -79,7 +79,8 @@ class JDatabaseExporterMysqliTest extends TestCase
 					'Index_type' => 'BTREE',
 					'Comment' => '',
 				)
-			));
+				)
+			);
 
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')

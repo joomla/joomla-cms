@@ -65,7 +65,8 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'loadObjectList',
 						'quote',
 						'setQuery',
-					))
+				)
+			)
 			->setConstructorArgs(array())
 			->setMockClassName('')
 			->disableOriginalConstructor()
@@ -76,18 +77,18 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 		)
 			->method('getPrefix')
 			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+				$this->returnValue(
+					'jos_'
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableColumns')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'int(11) unsigned',
@@ -110,17 +111,17 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'Privileges' => 'select,insert,update,references',
 						'Comment' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableKeys')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Table' => 'jos_test',
 						'Non_unique' => '0',
@@ -135,49 +136,49 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 						'Index_type' => 'BTREE',
 						'Comment' => '',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quoteName')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quote')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuote')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuote')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('setQuery')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('loadObjectList')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
 	}
 
 	/**
@@ -798,7 +799,6 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 				$this->identicalTo($instance),
 				'setDbo must return an object to support chaining.'
 			);
-
 		}
 		catch (PHPUnit_Framework_Error $e)
 		{

@@ -47,7 +47,8 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'loadObjectList',
 						'quote',
 						'setQuery',
-					))
+				)
+			)
 			->setConstructorArgs(array())
 			->setMockClassName('')
 			->disableOriginalConstructor()
@@ -58,18 +59,18 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		)
 			->method('getPrefix')
 			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+				$this->returnValue(
+					'jos_'
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableColumns')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'integer',
@@ -84,17 +85,17 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'Default' => 'NULL',
 						'Comments' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableKeys')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Index' => 'jos_dbtest_pkey',
 						'is_primary' => 'TRUE',
@@ -107,9 +108,9 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'is_unique' => 'FALSE',
 						'Query' => 'CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		// Check if database is at least 9.1.0
 		$this->dbo->expects(
@@ -117,10 +118,10 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		)
 			->method('getVersion')
 			->will(
-			$this->returnValue(
-				'7.1.2'
-			)
-		);
+				$this->returnValue(
+					'7.1.2'
+				)
+			);
 
 		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
 		{
@@ -128,7 +129,8 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		}
 		else
 		{
-			/* Older version */
+			// Older version
+
 			$start_val = null;
 		}
 
@@ -137,8 +139,8 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		)
 			->method('getTableSequences')
 			->will(
-			$this->returnValue(
-			array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Name' => 'jos_dbtest_id_seq',
 						'Schema' => 'public',
@@ -151,49 +153,49 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'Increment' => '1',
 						'Cycle_option' => 'NO',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quoteName')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quote')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuote')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuote')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('setQuery')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('loadObjectList')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
 	}
 
 	/**

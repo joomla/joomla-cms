@@ -9,11 +9,11 @@
 
 /**
  * Test class for JDatabaseQueryMysqli.
-*
-* @package     Joomla.UnitTest
-* @subpackage  Database
-* @since       3.7.0
-*/
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       3.7.0
+ */
 class JDatabaseQueryMysqliTest extends TestCase
 {
 	/**
