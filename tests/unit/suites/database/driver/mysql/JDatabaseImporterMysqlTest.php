@@ -62,14 +62,14 @@ class JDatabaseImporterMysqlTest extends TestCase
 	{
 		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysql')
 			->setMethods(array(
-						'getErrorNum',
-						'getPrefix',
-						'getTableColumns',
-						'getTableKeys',
-						'quoteName',
-						'loadObjectList',
-						'quote',
-						'setQuery',
+				'getErrorNum',
+				'getPrefix',
+				'getTableColumns',
+				'getTableKeys',
+				'quoteName',
+				'loadObjectList',
+				'quote',
+				'setQuery',
 				)
 			)
 			->setConstructorArgs(array())
@@ -91,27 +91,27 @@ class JDatabaseImporterMysqlTest extends TestCase
 				$this->returnValue(
 					array(
 					'id' => (object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
+						'Field'      => 'id',
+						'Type'       => 'int(11) unsigned',
+						'Collation'  => null,
+						'Null'       => 'NO',
+						'Key'        => 'PRI',
+						'Default'    => '',
+						'Extra'      => 'auto_increment',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
+						'Comment'    => '',
+						),
 					'title' => (object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
+						'Field'      => 'title',
+						'Type'       => 'varchar(255)',
+						'Collation'  => 'utf8_general_ci',
+						'Null'       => 'NO',
+						'Key'        => '',
+						'Default'    => '',
+						'Extra'      => '',
 						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
-					),
+						'Comment'    => '',
+						),
 					)
 				)
 			);
@@ -123,19 +123,19 @@ class JDatabaseImporterMysqlTest extends TestCase
 				$this->returnValue(
 					array(
 					(object) array(
-						'Table' => 'jos_test',
-						'Non_unique' => '0',
-						'Key_name' => 'PRIMARY',
+						'Table'        => 'jos_test',
+						'Non_unique'   => '0',
+						'Key_name'     => 'PRIMARY',
 						'Seq_in_index' => '1',
-						'Column_name' => 'id',
-						'Collation' => 'A',
-						'Cardinality' => '2695',
-						'Sub_part' => '',
-						'Packed' => '',
-						'Null' => '',
-						'Index_type' => 'BTREE',
-						'Comment' => '',
-					)
+						'Column_name'  => 'id',
+						'Collation'    => 'A',
+						'Cardinality'  => '2695',
+						'Sub_part'     => '',
+						'Packed'       => '',
+						'Null'         => '',
+						'Index_type'   => 'BTREE',
+						'Comment'      => '',
+						)
 					)
 				)
 			);
