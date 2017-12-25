@@ -281,7 +281,6 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		);
 
 		// Not only type field
-
 		$id             = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
@@ -802,7 +801,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		}
 
 		/*
-		 Find how many rows have description='testRollbackSp' :
+		 * Find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
