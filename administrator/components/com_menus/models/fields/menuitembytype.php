@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Administrator
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
