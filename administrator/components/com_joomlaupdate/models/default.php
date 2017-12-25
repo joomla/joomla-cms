@@ -363,7 +363,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			return false;
 		}
 
-
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
 			return false;
