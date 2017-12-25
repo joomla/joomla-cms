@@ -543,7 +543,6 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$this->assertEquals($rowArr[3], self::$driver->loadNextRow());
 
 		// Last call to free cursor, asserting that returns false
-
 		$this->assertFalse(self::$driver->loadNextRow());
 	}
 
@@ -851,7 +850,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		}
 
 		/*
-		 find how many rows have description='testRollbackSp' :
+		 * find how many rows have description='testRollbackSp' :
 		 *   - 0 if a savepoint doesn't exist
 		 *   - 1 if a savepoint exists
 		 */
