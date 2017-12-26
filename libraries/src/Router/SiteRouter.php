@@ -627,6 +627,7 @@ class SiteRouter extends Router
 		{
 			// Make sure any menu vars are used if no others are specified
 			$query = $uri->getQuery(true);
+
 			if ($this->_mode != 1
 				&& isset($query['Itemid'])
 				&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))

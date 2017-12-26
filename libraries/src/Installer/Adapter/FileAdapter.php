@@ -514,6 +514,7 @@ class FileAdapter extends InstallerAdapter
 
 			return false;
 		}
+
 		$id = $db->loadResult();
 
 		if (empty($id))

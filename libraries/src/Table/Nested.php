@@ -313,6 +313,7 @@ class Nested extends Table
 		{
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		$k = $this->_tbl_key;
@@ -338,6 +339,7 @@ class Nested extends Table
 		{
 			$this->_logtable(false);
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Cannot move the node to be a child of itself.
@@ -428,6 +430,7 @@ class Nested extends Table
 			{
 				$this->_logtable(false);
 			}
+
 			// @codeCoverageIgnoreEnd
 
 			// Get the reposition data for re-inserting the node after the found root.
@@ -738,6 +741,7 @@ class Nested extends Table
 			echo "\n" . get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		/*
@@ -777,6 +781,7 @@ class Nested extends Table
 					{
 						$this->_logtable(false);
 					}
+
 					// @codeCoverageIgnoreEnd
 				}
 				// We have a real node set as a location reference.
@@ -881,6 +886,7 @@ class Nested extends Table
 			{
 				$this->_logtable();
 			}
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -1481,6 +1487,7 @@ class Nested extends Table
 					{
 						$this->_logtable();
 					}
+
 					// @codeCoverageIgnoreEnd
 				}
 
@@ -1726,6 +1733,7 @@ class Nested extends Table
 				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
 				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		return $data;
@@ -1799,6 +1807,7 @@ class Nested extends Table
 			{
 				$this->_logtable();
 			}
+
 			// @codeCoverageIgnoreEnd
 		}
 		catch (\Exception $e)

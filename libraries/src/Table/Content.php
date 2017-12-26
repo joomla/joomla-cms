@@ -273,6 +273,7 @@ class Content extends Table
 					$clean_keys[] = trim($key);
 				}
 			}
+
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $clean_keys);
 		}
