@@ -20,8 +20,7 @@ $input = $app->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-$this->form->setFieldAttribute('created', 'default', date("Y-m-d H:i:s"));
-$this->form->setFieldAttribute('modified', 'default', date("Y-m-d H:i:s"));
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_workflow&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">

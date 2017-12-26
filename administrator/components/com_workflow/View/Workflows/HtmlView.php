@@ -89,17 +89,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
-		}
-
 		$this->state         	= $this->get('State');
 		$this->workflows    	= $this->get('Items');
 		$this->pagination    	= $this->get('Pagination');
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
 
 		$this->extension = $this->state->get('filter.extension');
 

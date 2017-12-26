@@ -179,6 +179,9 @@ class WorkflowModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		$form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
+		$form->setFieldAttribute('modified', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
+
 		return $form;
 	}
 

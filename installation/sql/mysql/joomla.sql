@@ -2162,8 +2162,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, NOW(), 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, NOW(), 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2204,11 +2204,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_states` (
 -- Dumping data for table `#__workflow_states`
 --
 
-INSERT INTO `#__workflow_states` (`id`, `asset_id`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 'Unpublished', '', '0', 0),
-(2, 58, 1, 1, 'Published', '', '1', 1),
-(3, 59, 1, 1, 'Trashed', '', '-2', 0),
-(4, 60, 1, 1, 'Archived', '', '1', 0);
+INSERT INTO `#__workflow_states` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
+(1, 57, 1, 1, 1, 'Unpublished', '', '0', 0),
+(2, 58, 2, 1, 1, 'Published', '', '1', 1),
+(3, 59, 3, 1, 1, 'Trashed', '', '-2', 0),
+(4, 60, 4, 1, 1, 'Archived', '', '1', 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -2236,16 +2236,16 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `title`, `description`, `from_state_id`, `to_state_id`, `workflow_id`) VALUES
-(1, 61, 1, 'Unpublish', '', 2, 1, 1),
-(2, 62, 1, 'Unpublish', '', 3, 1, 1),
-(3, 63, 1, 'Unpublish', '', 4, 1, 1),
-(4, 64, 1, 'Publish', '', 1, 2, 1),
-(5, 65, 1, 'Publish', '', 3, 2, 1),
-(6, 66, 1, 'Publish', '', 4, 2, 1),
-(7, 67, 1, 'Trash', '', 1, 3, 1),
-(8, 68, 1, 'Trash', '', 2, 3, 1),
-(9, 69, 1, 'Trash', '', 4, 3, 1),
-(10, 70, 1, 'Archive', '', 1, 4, 1),
-(11, 71, 1, 'Archive', '', 2, 4, 1),
-(12, 72, 1, 'Archive', '', 3, 4, 1);
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_state_id`, `to_state_id`) VALUES
+(1, 61, 1, 1, 1, 'Unpublish', '', 2, 1),
+(2, 62, 1, 2, 1, 'Unpublish', '', 3, 1),
+(3, 63, 1, 3, 1, 'Unpublish', '', 4, 1),
+(4, 64, 1, 4, 1, 'Publish', '', 1, 2),
+(5, 65, 1, 5, 1, 'Publish', '', 3, 2),
+(6, 66, 1, 6, 1, 'Publish', '', 4, 2),
+(7, 67, 1, 7, 1, 'Trash', '', 1, 3),
+(8, 68, 1, 8, 1, 'Trash', '', 2, 3),
+(9, 69, 1, 9, 1, 'Trash', '', 4, 3),
+(10, 70, 1, 10, 1, 'Archive', '', 1, 4),
+(11, 71, 1, 11, 1, 'Archive', '', 2, 4),
+(12, 72, 1, 12, 1, 'Archive', '', 3, 4);

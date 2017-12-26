@@ -646,7 +646,7 @@ class ArticleModel extends AdminModel
 				->select($db->qn("id"))
 				->select($db->qn("condition"))
 				->from($db->qn("#__workflow_states"))
-				->where($db->qn("default") . '=' . 1);
+				->where($db->qn("default") . ' = 1');
 
 			if (is_numeric($workflowId) && $workflowId !== '0')
 			{
@@ -658,13 +658,13 @@ class ArticleModel extends AdminModel
 					->select($db->qn("id"))
 					->from($db->qn("#__workflows"))
 					->where($db->qn("default") . '=1');
-				$db->setQuery($queryWorkflow);
-				$workflow = $db->loadResult();
+
+				$workflow = (int) $db->setQuery($queryWorkflow)->loadResult();
+
 				$query->where($db->qn("workflow_id") . '=' . $workflow);
 			}
 
-			$db->setQuery($query);
-			$workflowState = $db->loadObject();
+			$workflowState = $db->setQuery($query)->loadObject();
 
 			$data['state'] = $workflowState->condition;
 			$data['workflow_state'] = $workflowState->id;
