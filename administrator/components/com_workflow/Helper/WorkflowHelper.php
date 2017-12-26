@@ -93,10 +93,10 @@ class WorkflowHelper extends ContentHelper
 		$query = $db->getQuery(true);
 
 		$query
-			->select($db->quoteName(array('id', 'title'), array('value', $fieldName)))
+			->select($db->quoteName(['id', 'title'], array('value', $fieldName)))
 			->from($db->quoteName('#__workflow_states'))
 			->where($db->quoteName('workflow_id') . ' = ' . (int) $workflowID)
-			->where($db->quoteName('published') . ' =1');
+			->where($db->quoteName('published') . ' = 1');
 
 		return (string) $query;
 	}
@@ -150,25 +150,26 @@ class WorkflowHelper extends ContentHelper
 		$query
 			->select($select)
 			->from($db->quoteName('#__workflow_transitions', 'tran'))
-			->where($db->qn('tran.id') . '=' . $db->quote($transitionId))
-			->andWhere($db->qn('tran.published') . '=1');
+			->where($db->qn('tran.id') . ' = ' . $db->quote($transitionId))
+			->andWhere($db->qn('tran.published') . ' = 1');
 
 		$transitionResult = $db->setQuery($query)->loadObject();
 
 		$associateEntry = self::getAssociatedEntry($pk);
 
-		if ($associateEntry->state_id != $transitionResult->from_state_id) return false;
+		if ($associateEntry->state_id != $transitionResult->from_state_id)
+		{
+			return false;
+		}
 
-		$updated = self::callMethodFromHelper($extension, 'updateAfterTransaction', $transitionResult->to_state_id);
-
-		if ($updated) return true;
-
-		if (self::updateAssociationByItemId($pk, $transitionResult->to_state_id, $extension))
+		// If it can handle by itself, let's do it
+		if (self::callMethodFromHelper($extension, 'updateAfterTransaction', $transitionResult->to_state_id))
 		{
 			return true;
 		}
 
-		return false;
+		// Use default handling
+		return self::updateAssociationByItemId($pk, $transitionResult->to_state_id, $extension);
 	}
 
 	/**
@@ -190,9 +191,7 @@ class WorkflowHelper extends ContentHelper
 			->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
 			->values((int) $itemId . ', ' . (int) $stateId . ', ' . $db->quote($extension));
 
-		$db->setQuery($query);
-
-		$db->execute();
+		$db->setQuery($query)->execute();
 	}
 
 	/**
@@ -214,11 +213,9 @@ class WorkflowHelper extends ContentHelper
 			->select('*')
 			->from($db->qn('#__workflow_associations'))
 			->where($db->qn('item_id') . '=' . (int) $itemId)
-			->andWhere($db->qn('extension') . '=' . $db->quote($extension));
+			->where($db->qn('extension') . '=' . $db->quote($extension));
 
-		$db->setQuery($query);
-
-		return $db->loadObject();
+		return $db->setQuery($query)->loadObject();
 	}
 
 	/**
@@ -243,8 +240,7 @@ class WorkflowHelper extends ContentHelper
 				->where($db->qn('item_id') . 'IN (' . implode(',', $pks) . ')')
 				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
 
-			$db->setQuery($query);
-			$db->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (\Exception $e)
 		{
