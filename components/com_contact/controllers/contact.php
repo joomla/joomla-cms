@@ -129,7 +129,7 @@ class ContactControllerContact extends JControllerForm
 
 		if (!$params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy'));
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
 		}
 
 		// Set the success message if it was a success
@@ -193,16 +193,17 @@ class ContactControllerContact extends JControllerForm
 			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			// Load the custom fields
-			if ($data['com_fields'] && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
+			if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 			{
 				$output = FieldsHelper::render(
-							'com_contact.mail',
-							'fields.render',
-							array('context' => 'com_contact.mail', 'item' => $contact, 'fields' => $fields)
+					'com_contact.mail',
+					'fields.render',
+					array('context' => 'com_contact.mail', 'item' => $contact, 'fields' => $fields)
 				);
+
 				if ($output)
 				{
-					$body  .= "\r\n\r\n" . $output;
+					$body .= "\r\n\r\n" . $output;
 				}
 			}
 

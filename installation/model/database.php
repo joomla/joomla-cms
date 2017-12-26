@@ -177,7 +177,7 @@ class InstallationModelDatabase extends JModelBase
 		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
-			
+
 			// When all checks have been passed we don't need to do this here again.
 			if ($remoteDbFileTestsPassed === false)
 			{
@@ -238,7 +238,7 @@ class InstallationModelDatabase extends JModelBase
 				{
 					// Add the general message
 					JFactory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
-					
+
 					JFactory::getApplication()->enqueueMessage(
 						JText::sprintf(
 							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',

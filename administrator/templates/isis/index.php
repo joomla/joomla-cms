@@ -45,6 +45,9 @@ JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang
 // Load custom.css
 JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
+JHtml::_('stylesheet', 'responsive.css', array('version' => 'auto', 'relative' => true));
+
+
 // Detecting Active Variables
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');

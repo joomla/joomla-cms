@@ -183,7 +183,6 @@ class PlgSearchCategories extends JPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-
 				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);

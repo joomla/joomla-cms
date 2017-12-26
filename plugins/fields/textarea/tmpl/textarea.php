@@ -15,4 +15,4 @@ if ($value == '')
 	return;
 }
 
-echo JHTML::_('content.prepare', $value);
+echo JHtml::_('content.prepare', $value);

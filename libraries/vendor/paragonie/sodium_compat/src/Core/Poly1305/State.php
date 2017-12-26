@@ -157,10 +157,10 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
         $r3 = (int) $this->r[3];
         $r4 = (int) $this->r[4];
 
-        $s1 = self::mul($r1, 5);
-        $s2 = self::mul($r2, 5);
-        $s3 = self::mul($r3, 5);
-        $s4 = self::mul($r4, 5);
+        $s1 = self::mul($r1, 5, 3);
+        $s2 = self::mul($r2, 5, 3);
+        $s3 = self::mul($r3, 5, 3);
+        $s4 = self::mul($r4, 5, 3);
 
         $h0 = $this->h[0];
         $h1 = $this->h[1];
@@ -184,6 +184,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
                 self::mul($h3, $s2) +
                 self::mul($h4, $s1)
             );
+
             $d1 = (
                 self::mul($h0, $r1) +
                 self::mul($h1, $r0) +
@@ -217,7 +218,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
             );
 
             /* (partial) h %= p */
-                                 $c = $d0 >> 26;
+            $c = $d0 >> 26;
             $h0 = $d0 & 0x3ffffff;
             $d1 += $c;
             $c = $d1 >> 26;
@@ -231,7 +232,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
             $d4 += $c;
             $c = $d4 >> 26;
             $h4 = $d4 & 0x3ffffff;
-            $h0 += (int) self::mul($c, 5);
+            $h0 += (int) self::mul($c, 5, 3);
             $c = $h0 >> 26;
             $h0 &= 0x3ffffff;
             $h1 += $c;
@@ -296,13 +297,13 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
         $h4 += $c;
         $c = $h4 >> 26;
         $h4 &= 0x3ffffff;
-        $h0 += self::mul($c, 5);
+        $h0 += self::mul($c, 5, 3);
         $c = $h0 >> 26;
         $h0 &= 0x3ffffff;
         $h1 += $c;
 
         /* compute h + -p */
-        $g0 = $h0 +  5;
+        $g0 = $h0 + 5;
         $c = $g0 >> 26;
         $g0 &= 0x3ffffff;
         $g1 = $h1 + $c;

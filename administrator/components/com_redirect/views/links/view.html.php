@@ -54,6 +54,7 @@ class RedirectViewLinks extends JViewLegacy
 		$this->state                = $this->get('State');
 		$this->filterForm           = $this->get('FilterForm');
 		$this->activeFilters        = $this->get('ActiveFilters');
+		$this->params               = JComponentHelper::getParams('com_redirect');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -135,7 +136,7 @@ class RedirectViewLinks extends JViewLegacy
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
-			if ($state->get('filter.state') != -1 )
+			if ($state->get('filter.state') != -1)
 			{
 				JToolbarHelper::divider();
 

@@ -15,6 +15,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);

@@ -55,7 +55,7 @@ class JViewLegacyTest extends TestCase
 
 	/**
 	 * $_SERVER variable
-	 * 
+	 *
 	 * @var   array
 	 */
 	protected $server;

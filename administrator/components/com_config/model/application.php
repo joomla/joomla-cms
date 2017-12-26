@@ -659,7 +659,6 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-
 		// All checks done.
 		$result = array(
 			'text'    => '',

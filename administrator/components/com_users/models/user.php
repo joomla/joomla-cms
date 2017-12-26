@@ -113,7 +113,7 @@ class UsersModelUser extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$pluginParams = new Registry;
-		
+
 		if (JPluginHelper::isEnabled('user', 'joomla'))
 		{
 			$plugin = JPluginHelper::getPlugin('user', 'joomla');

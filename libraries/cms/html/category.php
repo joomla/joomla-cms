@@ -55,7 +55,7 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user access level
 			$query->where('a.access IN (' . $groups . ')');
 
@@ -160,7 +160,7 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user level.
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
