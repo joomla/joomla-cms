@@ -252,7 +252,7 @@ class Browser
 
 				if (strpos($version[1], '.') !== false)
 				{
-					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+					list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 				}
 				else
 				{
@@ -264,7 +264,7 @@ class Browser
 			{
 				$this->setBrowser('opera');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
 				/**
 				 * Due to changes in Opera UA, we need to check Version/xx.yy,
@@ -282,7 +282,7 @@ class Browser
 			{
 				$this->setBrowser('opera');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('/Chrome[\/ ]([0-9.]+)/i', $this->agent, $version)
 				|| preg_match('/CrMo[\/ ]([0-9.]+)/i', $this->agent, $version)
@@ -290,7 +290,7 @@ class Browser
 			{
 				$this->setBrowser('chrome');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
 				|| strpos($this->lowerAgent, 'palmsource') !== false
@@ -313,7 +313,7 @@ class Browser
 
 				if (strpos($version[1], '.') !== false)
 				{
-					list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+					list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 				}
 				else
 				{
@@ -361,7 +361,7 @@ class Browser
 			{
 				$this->setBrowser('firefox');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Lynx\/([0-9]+)|', $this->agent, $version))
 			{
@@ -419,7 +419,7 @@ class Browser
 			{
 				$this->setBrowser('mozilla');
 
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 		}
 	}
@@ -475,7 +475,7 @@ class Browser
 	{
 		if (preg_match('|Version[/ ]([0-9.]+)|', $this->agent, $version))
 		{
-			list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+			list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
 			return;
 		}
@@ -595,7 +595,7 @@ class Browser
 	public function isViewable($mimetype)
 	{
 		$mimetype = strtolower($mimetype);
-		list ($type, $subtype) = explode('/', $mimetype);
+		list($type, $subtype) = explode('/', $mimetype);
 
 		if (!empty($this->accept))
 		{
