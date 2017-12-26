@@ -270,7 +270,6 @@ class Browser
 				 * Due to changes in Opera UA, we need to check Version/xx.yy,
 				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/
 				 */
-
 				if ($this->majorVersion == 9 && $this->minorVersion >= 80)
 				{
 					$this->identifyBrowserVersion();
