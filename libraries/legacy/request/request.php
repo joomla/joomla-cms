@@ -272,7 +272,7 @@ class JRequest
 	}
 
 	/**
-	 * Cmd (Word and Integer0 filter
+	 * Cmd (Word and Integer) filter
 	 *
 	 * Fetches and returns a given filtered variable. The cmd
 	 * filter only allows the characters [A-Za-z0-9.-_]. This is

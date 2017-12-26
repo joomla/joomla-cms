@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -86,6 +88,12 @@ class PlgSystemFields extends JPlugin
 			if (array_key_exists($field->name, $data['com_fields']))
 			{
 				$value = $data['com_fields'][$field->name];
+
+			// JSON encode value for complex fields
+			if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+			{
+				$value = json_encode($value);
+			}
 
 				$model->setFieldValue($field->id, $item->id, $value);
 			}
@@ -196,6 +204,7 @@ class PlgSystemFields extends JPlugin
 			{
 				$data['catid'] = $data['id'];
 			}
+
 			if (is_object($data) && isset($data->id))
 			{
 				$data->catid = $data->id;
@@ -309,12 +318,41 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
 		}
 
 		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language == '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{
@@ -366,7 +404,18 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
 		$item->jcfields = array();
@@ -436,5 +485,29 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }

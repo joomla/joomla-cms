@@ -42,7 +42,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		if (!$langName)
 		{
-			// If a language only exists in frontend, it's meta data cannot be
+			// If a language only exists in frontend, its metadata cannot be
 			// loaded in backend at the moment, so fall back to the language tag.
 			$langName = $language;
 		}
@@ -105,7 +105,7 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
-		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+		$opposite_filename = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$opposite_strings = LanguagesHelper::parseFile($opposite_filename);
 		$result->both = isset($opposite_strings[$pk]) && ($opposite_strings[$pk] == $strings[$pk]);

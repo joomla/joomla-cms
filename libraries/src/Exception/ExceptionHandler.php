@@ -146,7 +146,7 @@ class ExceptionHandler
 			header('HTTP/1.1 500 Internal Server Error');
 		}
 
-		$message = 'Error displaying the error page';
+		$message = 'Error';
 
 		if ($isException)
 		{

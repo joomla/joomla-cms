@@ -44,7 +44,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-mini button btn-success"><span class="icon-plus"></span> </a>
+					<a class="group-add btn btn-mini button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus" aria-hidden="true"></span> </a>
 				</div>
 			</div>
 			<?php endif; ?>

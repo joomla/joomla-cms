@@ -99,7 +99,7 @@ class JPluginHelperTest extends TestCaseDatabase
 			'plg_content_loadmodule should return loadmodule as the name'
 		);
 	}
-	
+
 	/**
 	 * Test JPluginHelper::getPlugin with a whole plugin group
 	 *

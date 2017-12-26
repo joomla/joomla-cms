@@ -26,6 +26,14 @@ abstract class FieldsPlugin extends JPlugin
 	 */
 	public function onCustomFieldsGetTypes()
 	{
+		// Cache filesystem access / checks
+		static $types_cache = array();
+
+		if (isset($types_cache[$this->_type . $this->_name]))
+		{
+			return $types_cache[$this->_type . $this->_name];
+		}
+
 		$types = array();
 
 		// The root of the plugin
@@ -84,7 +92,8 @@ abstract class FieldsPlugin extends JPlugin
 			$types[] = $data;
 		}
 
-		// Return the data
+		// Add to cache and return the data
+		$types_cache[$this->_type . $this->_name] = $types;
 		return $types;
 	}
 

@@ -17,6 +17,7 @@ if (JFactory::getApplication()->isClient('site'))
 // Load needed scripts
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Scripts for the modules xtd-button

@@ -184,7 +184,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 		$this->assertThat(
 			self::$driver->getVersion(),
 			$this->isType('string'),
-		'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
+			'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
 		);
 	}
 

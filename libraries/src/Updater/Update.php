@@ -98,6 +98,14 @@ class Update extends \JObject
 	protected $downloads;
 
 	/**
+	 * Update manifest `<downloadsource>` elements
+	 *
+	 * @var    DownloadSource[]
+	 * @since  3.8.3
+	 */
+	protected $downloadSources = array();
+
+	/**
 	 * Update manifest `<tags>` element
 	 *
 	 * @var    string
@@ -260,6 +268,20 @@ class Update extends \JObject
 			// This is a new update; create a current update
 			case 'UPDATE':
 				$this->currentUpdate = new \stdClass;
+				break;
+
+			// Handle the array of download sources
+			case 'DOWNLOADSOURCE':
+				$source = new DownloadSource;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->downloadSources[] = $source;
+
 				break;
 
 			// Don't do anything
@@ -433,6 +455,15 @@ class Update extends \JObject
 		if ($tag == 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+
+			return;
+		}
+
+		if ($tag == 'downloadsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->downloadSources);
+			$source->url = $data;
 
 			return;
 		}

@@ -323,17 +323,17 @@ class LanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   boolean  $checkPublished  Check if the content language is published.
-	 * @param   boolean  $checkInstalled  Check if the content language is installed.
-	 * @param   string   $pivot           The pivot of the returning array.
-	 * @param   string   $orderField      Field to order the results.
-	 * @param   string   $orderDirection  Direction to order the results.
+	 * @param   array    $publishedStates  Array with the content language published states. Empty array for all.
+	 * @param   boolean  $checkInstalled   Check if the content language is installed.
+	 * @param   string   $pivot            The pivot of the returning array.
+	 * @param   string   $orderField       Field to order the results.
+	 * @param   string   $orderDirection   Direction to order the results.
 	 *
 	 * @return  array  Array of the content languages.
 	 *
 	 * @since   3.7.0
 	 */
-	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
+	public static function getContentLanguages($publishedStates = array(1), $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
 		$orderDirection = null)
 	{
 		static $contentLanguages = null;
@@ -362,12 +362,22 @@ class LanguageHelper
 
 		$languages = $contentLanguages;
 
-		// Check if the language is published, if needed.
-		if ($checkPublished)
+		// B/C layer. Before 3.8.3.
+		if ($publishedStates === true)
+		{
+			$publishedStates = array(1);
+		}
+		elseif ($publishedStates === false)
+		{
+			$publishedStates = array();
+		}
+
+		// Check the language published state, if needed.
+		if (count($publishedStates) > 0)
 		{
 			foreach ($languages as $key => $language)
 			{
-				if ((int) $language->published === 0)
+				if (!in_array((int) $language->published, $publishedStates, true))
 				{
 					unset($languages[$key]);
 				}

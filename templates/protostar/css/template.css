@@ -2019,7 +2019,6 @@ table th[class*="span"],
 	border-bottom: 1px solid #fff;
 }
 .dropdown-menu .menuitem-group {
-	height: 1px;
 	margin: 4px 1px;
 	overflow: hidden;
 	border-top: 1px solid #eee;
@@ -2028,7 +2027,7 @@ table th[class*="span"],
 	color: #555;
 	text-transform: capitalize;
 	font-size: 95%;
-	padding: 2px 0 24px;
+	padding: 3px 20px;
 }
 .dropdown-menu > li > a {
 	display: block;
@@ -4833,6 +4832,10 @@ a.badge:focus {
 	}
 	.dl-horizontal dd {
 		margin-left: 0;
+	}
+	.dropdown-menu .menuitem-group {
+		background-color: #10223e;
+		color: #eee;
 	}
 	.container {
 		width: auto;

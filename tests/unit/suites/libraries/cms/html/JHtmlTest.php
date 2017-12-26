@@ -178,8 +178,8 @@ class JHtmlTest extends TestCase
 	{
 		// Build the mock object.
 		$registered = $this->getMockBuilder('MyHtmlClass')
-					->setMethods(array('mockFunction'))
-					->getMock();
+			->setMethods(array('mockFunction'))
+			->getMock();
 
 		// Test that we can register the method
 		$this->assertTrue(
@@ -210,8 +210,8 @@ class JHtmlTest extends TestCase
 	{
 		// Build the mock object to Register a method so we can unregister it.
 		$registered = $this->getMockBuilder('MyHtmlClass')
-					->setMethods(array('mockFunction'))
-					->getMock();
+			->setMethods(array('mockFunction'))
+			->getMock();
 
 		JHtml::register('prefix.unregister.testfunction', array($registered, 'mockFunction'));
 
@@ -237,8 +237,8 @@ class JHtmlTest extends TestCase
 	{
 		// Build the mock object.
 		$registered = $this->getMockBuilder('MyHtmlClass')
-					->setMethods(array('mockFunction'))
-					->getMock();
+			->setMethods(array('mockFunction'))
+			->getMock();
 
 		// Test that we can register the method.
 		JHtml::register('prefix.isregistered.method', array($registered, 'mockFunction'));
