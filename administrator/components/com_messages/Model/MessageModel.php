@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Messages\Administrator\Model\ConfigModel;
 
 /**
  * Private Message model.
@@ -311,7 +312,7 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new Config(array('ignore_request' => true));
+		$model  = new ConfigModel(array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 

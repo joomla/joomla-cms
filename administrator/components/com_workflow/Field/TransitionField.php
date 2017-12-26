@@ -64,11 +64,12 @@ class TransitionField extends \JFormFieldList
 		if (count($items))
 		{
 			$user = Factory::getUser();
-			array_filter(
+
+			$items = array_filter(
 				$items,
 				function ($item) use ($user, $extension)
 				{
-					return $user->authorise('core.run', $extension . '.transition.' . $item->value);
+					return $user->authorise('core.execute.transition', $extension . '.transition.' . $item->value);
 				}
 			);
 
