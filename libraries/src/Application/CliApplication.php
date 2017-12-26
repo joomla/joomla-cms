@@ -60,6 +60,7 @@ class CliApplication extends BaseApplication
 		{
 			$this->close();
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// If an input object is given use it.

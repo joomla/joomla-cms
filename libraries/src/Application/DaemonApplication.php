@@ -124,6 +124,7 @@ class DaemonApplication extends CliApplication
 			\JLog::add('The POSIX extension for PHP is not available.', \JLog::ERROR);
 			throw new \RuntimeException('The POSIX extension for PHP is not available.');
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.

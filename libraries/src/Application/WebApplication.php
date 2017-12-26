@@ -456,6 +456,7 @@ class WebApplication extends BaseApplication
 				{
 					continue;
 				}
+
 				// @codeCoverageIgnoreEnd
 
 				// Attempt to gzip encode the data with an optimal level 4.
@@ -468,6 +469,7 @@ class WebApplication extends BaseApplication
 				{
 					continue;
 				}
+
 				// @codeCoverageIgnoreEnd
 
 				// Set the encoding headers.
@@ -713,13 +715,16 @@ class WebApplication extends BaseApplication
 
 		// Create an array of duplicate header names
 		$keys = false;
+
 		if ($this->response->headers)
 		{
 			$names = array();
+
 			foreach ($this->response->headers as $key => $header)
 			{
 				$names[$key] = $header['name'];
 			}
+
 			// Find existing headers by name
 			$keys = array_keys($names, $name);
 		}
@@ -736,6 +741,7 @@ class WebApplication extends BaseApplication
 		 * If ($keys && !in_array...) it's a multiple value header
 		 */
 		$single = in_array($name, $this->singleValueResponseHeaders);
+
 		if ($value && (!$keys || ($keys && ($replace || !$single))))
 		{
 			// Add the header to the internal array.
@@ -785,6 +791,7 @@ class WebApplication extends BaseApplication
 		{
 			// Creating an array of headers, making arrays of headers with multiple values
 			$val = array();
+
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
@@ -796,7 +803,7 @@ class WebApplication extends BaseApplication
 				}
 				else
 				{
-					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
+					$val[$header['name']] = !isset($val[$header['name']]) ? $header['value'] : implode(', ', array($val[$header['name']], $header['value']));
 					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
@@ -1237,6 +1244,7 @@ class WebApplication extends BaseApplication
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
