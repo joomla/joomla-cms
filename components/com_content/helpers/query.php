@@ -115,6 +115,7 @@ class ContentHelperQuery
 
 			case 'vote' :
 				$orderby = 'a.id DESC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count DESC ';
@@ -123,6 +124,7 @@ class ContentHelperQuery
 
 			case 'rvote' :
 				$orderby = 'a.id ASC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count ASC ';
@@ -131,6 +133,7 @@ class ContentHelperQuery
 
 			case 'rank' :
 				$orderby = 'a.id DESC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating DESC ';
@@ -139,6 +142,7 @@ class ContentHelperQuery
 
 			case 'rrank' :
 				$orderby = 'a.id ASC ';
+
 				if (JPluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating ASC ';

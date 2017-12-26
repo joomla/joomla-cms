@@ -117,6 +117,7 @@ class ConfigControllerModulesSave extends JControllerBase
 				{
 					$redirect = JUri::base();
 				}
+
 				$this->app->redirect($redirect);
 				break;
 		}

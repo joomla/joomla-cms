@@ -46,7 +46,6 @@ class UsersControllerUser extends UsersController
 		{
 			if (JLanguageMultilang::isEnabled())
 			{
-
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('language')

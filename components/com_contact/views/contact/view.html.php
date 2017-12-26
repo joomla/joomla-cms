@@ -373,6 +373,7 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		$this->_prepareDocument();
+
 		return parent::display($tpl);
 	}
 

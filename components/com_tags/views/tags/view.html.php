@@ -274,6 +274,7 @@ class TagsViewTags extends JViewLegacy
 			{
 				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
+
 			$this->document->setTitle($title);
 		}
 
