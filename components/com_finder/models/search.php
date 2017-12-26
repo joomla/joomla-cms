@@ -965,6 +965,7 @@ class FinderModelSearch extends JModelList
 		 * Iterate through the mapping groups and load the excluded links ids
 		 * from each mapping table.
 		 */
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
