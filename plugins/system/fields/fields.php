@@ -89,11 +89,11 @@ class PlgSystemFields extends JPlugin
 			{
 				$value = $data['com_fields'][$field->name];
 
-			// JSON encode value for complex fields
-			if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
-			{
-				$value = json_encode($value);
-			}
+				// JSON encode value for complex fields
+				if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+				{
+					$value = json_encode($value);
+				}
 
 				$model->setFieldValue($field->id, $item->id, $value);
 			}

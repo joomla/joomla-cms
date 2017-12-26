@@ -232,7 +232,7 @@ class Form
 				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
 			// Auto-inject values.
-			elseif ($ensure_values && ($fieldInstance = $this->getField($name, $group)) && !empty($fieldInstance->ensure_value))
+			elseif ($ensure_values && ($fieldInstance = $this->getField($name, $group)) && !empty($fieldInstance->ensureValue))
 			{
 				$output->set($key, null);
 			}

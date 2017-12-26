@@ -57,9 +57,9 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 * Checkboxes field should always have any value.
 	 *
 	 * @var    boolean
-	 * @since  3.8.1
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $ensure_value = true;
+	public $ensureValue = true;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
