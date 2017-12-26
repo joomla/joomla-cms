@@ -240,6 +240,13 @@ class InstallerModelDatabase extends InstallerModel
 
 		$tables = $this->getDbo()->getTableList();
 
+		$prefix = $this->getDbo()->getPrefix();
+
+		$tables = array_filter($tables, function($table) use($prefix)
+		{
+			return strpos($table, $prefix) === 0;
+		});
+
 		$app->setUserState('installer.dump.' . $hash . '.tables', $tables);
 		$app->setUserState('installer.dump.' . $hash . '.num_tables', count($tables));
 	}
