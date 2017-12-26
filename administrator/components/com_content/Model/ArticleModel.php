@@ -656,6 +656,12 @@ class ArticleModel extends AdminModel
 
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
+
+			// No transition for new articles
+			if (isset($data['transition']))
+			{
+				unset($data['transition']);
+			}
 		}
 		// Calculate new status depending on transition
 		elseif (!empty($data['transition']))
@@ -1124,7 +1130,7 @@ class ArticleModel extends AdminModel
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change state event.
-		\JFactory::getApplication()->triggerEvent($this->event_change_state, array($context, [$pk], $value));
+		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $value]);
 
 		return true;
 	}
