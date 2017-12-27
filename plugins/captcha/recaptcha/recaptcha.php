@@ -82,6 +82,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
+		if ($class == '')
+		{
+			$class = 'class="required"';
+		}
+
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
