@@ -30,6 +30,7 @@ if ($checkCreateEdit)
 	$isEditingRecords = count($values);
 
 	$hasAccess = $canCreateRecords || $isEditingRecords;
+
 	if (!$hasAccess)
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
