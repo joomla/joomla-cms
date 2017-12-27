@@ -93,7 +93,7 @@ abstract class JHtmlTabs
 			// When use storage is set and value is false - By default we allow to use storage
 			$opt['useStorage'] = !(isset($params['useCookie']) && !$params['useCookie']);
 
-			$options = JHtml::getJSObject($opt);
+			$options = json_encode($opt);
 
 			$js = '	window.addEvent(\'domready\', function(){
 						$$(\'dl#' . $group . '.tabs\').each(function(tabs){

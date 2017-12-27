@@ -1160,7 +1160,7 @@ abstract class HTMLHelper
 			}
 			else
 			{
-				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
+				$elements[] = $key . ': ' . json_encode(is_object($v) ? get_object_vars($v) : $v);
 			}
 		}
 
