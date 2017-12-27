@@ -68,6 +68,9 @@ webcomponents:
           'field-user':
                 'css': 'media/system/webcomponents/css'
                 'js': 'media/system/webcomponents/js'
+          'field-subform':
+                'css': 'media/system/webcomponents/css'
+                'js': 'media/system/webcomponents/js'
 
 ## DO NOT EDIT THE FOLLOWING LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
 CmAddons:
