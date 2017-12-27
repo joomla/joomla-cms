@@ -29,18 +29,18 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
+	//JHtml::_('jquery.ui', array('core', 'sortable'));
+	//JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-field-subform.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 }
-
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
-<div class="row">
+
 	<div class="subform-repeatable-wrapper subform-layout">
-		<div class="subform-repeatable"
-			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
-			data-repeatable-element="div.subform-repeatable-group" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+		<joomla-field-subform class="subform-repeatable"
+			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
+			repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
@@ -54,10 +54,10 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
+		<template class="subform-repeatable-template-section" style="display: none;">
 		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
-		</script>
+		</template>
 		<?php endif; ?>
-		</div>
+		</joomla-field-subform>
 	</div>
-</div>
+
