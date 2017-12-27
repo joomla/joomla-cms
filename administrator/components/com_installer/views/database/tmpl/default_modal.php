@@ -50,7 +50,7 @@ $js = "
 						{
 							progress.removeClass('bar-primary bar-primary').addClass('bar-success');
 
-							location.href = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + hash;
+							location.href = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + data.data.hash;
 						}
 					}
 				}).
