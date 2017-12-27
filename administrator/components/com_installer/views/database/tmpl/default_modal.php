@@ -48,7 +48,7 @@ $js = "
 						}
 						else
 						{
-							progress.removeClass('bar-primary bar-primary').addClass('bar-success');
+							progress.removeClass('bar-primary bar-danger').addClass('bar-success');
 
 							location.href = 'index.php?option=com_installer&view=database&task=database.download&format=raw&hash=' + data.data.hash;
 						}
