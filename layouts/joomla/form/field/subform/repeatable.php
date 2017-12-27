@@ -29,8 +29,8 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	//JHtml::_('jquery.ui', array('core', 'sortable'));
-	//JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
+	JHtml::_('script', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.3/lib/draggable.bundle.js', array('version' => 'auto'));
+	JHtml::_('script', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.3/lib/sortable.js', array('version' => 'auto'));
 	JHtml::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-field-subform.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 }
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';

@@ -58,6 +58,14 @@
                     this.removeRow(row);
                 }
             });
+
+            // Sorting
+            if (this.buttonMove) {
+                new Sortable.default(this.containerWithRows, {
+                    draggable: this.repeatableElement,
+                    handle: this.buttonMove
+                });
+            }
         }
 
         /**
