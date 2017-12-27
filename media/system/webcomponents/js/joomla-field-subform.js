@@ -52,7 +52,6 @@
                 // Check actine, with extra check for nested joomla-field-subform
                 if (btnAdd && closest(btnAdd, 'joomla-field-subform') === that) {
                     let row = closest(btnAdd, that.repeatableElement);
-                    console.log(row);
                     this.addRow(row);
                 } else if (btnRem && closest(btnRem, 'joomla-field-subform') === that) {
                     let row = closest(btnRem, that.repeatableElement);
@@ -110,7 +109,12 @@
             }
 
             // Make a new row from the template
-            let tmpEl = document.createElement('div');
+            let tmpEl;
+            if (this.containerWithRows.nodeName === 'TBODY' || this.containerWithRows.nodeName === 'TABLE') {
+                tmpEl = document.createElement('tbody');
+            } else {
+                tmpEl = document.createElement('div');
+            }
             tmpEl.innerHTML = this.template;
             let row = tmpEl.children[0];
 
