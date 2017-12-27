@@ -1,3 +1,8 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 ;(function(customElements){
     "use strict";
 
@@ -13,7 +18,6 @@
         get maximum()           { return this.getAttribute('maximum'); }
 
         connectedCallback () {
-            console.dir(this);
             let that = this;
 
             // Get the rows container
@@ -89,7 +93,7 @@
             }
 
             if (!this.template) {
-                throw new Error('The row template are required to subform element work')
+                throw new Error('The row template are required to subform element to work')
             }
         }
 
@@ -122,9 +126,16 @@
             // fix names and id`s, and reset values
             this.fixUniqueAttributes(row, count);
 
-            // @TODO Tell about the new row
-            //this.$container.trigger('subform-row-add', $row);
-            //Joomla.Event.dispatch($row.get(0), 'joomla:updated');
+            // Tell about the new row
+            this.dispatchEvent(new CustomEvent('subform-row-add', {
+                detail:     {row: row},
+                bubbles:    true
+            }));
+
+            if (window.Joomla) {
+                Joomla.Event.dispatch(row, 'joomla:updated');
+            }
+
             return row;
         }
 
@@ -135,13 +146,19 @@
         removeRow (row) {
             // Count how much we have
             const count = this.getRows().length;
-            if(count <= this.minimum){
+            if (count <= this.minimum){
                 return;
             }
 
-            // @TODO: tell everyoune about the row will be removed
-            //this.$container.trigger('subform-row-remove', $row);
-            //Joomla.Event.dispatch($row.get(0), 'joomla:removed');
+            // Tell about the row will be removed
+            this.dispatchEvent(new CustomEvent('subform-row-remove', {
+                detail:     {row: row},
+                bubbles:    true
+            }));
+
+            if (window.Joomla) {
+                Joomla.Event.dispatch(row, 'joomla:removed');
+            }
 
             row.parentNode.removeChild(row);
         }
@@ -152,10 +169,91 @@
          * @param {Number} count
          */
         fixUniqueAttributes(row, count) {
-            console.log(row, count);
+            this.lastRowNum++;
+            count = count || 0;
+
+            let group    = row.getAttribute('data-group'), // current group name
+                basename = row.getAttribute('data-base-name'), // group base name, without count
+                countnew = Math.max(this.lastRowNum, count + 1),
+                groupnew = basename + countnew; // new group name
+
+            this.lastRowNum = countnew;
+            row.setAttribute('data-group', groupnew);
+
+            // Fix inputs that have a "name" attribute
+            let haveName = row.querySelectorAll('[name]'),
+                ids = {}; // Collect id for fix checkboxes and radio
+
+            for (let i = 0, l = haveName.length; i < l; i++) {
+                let $el     = haveName[i],
+                    name    = $el.getAttribute('name'),
+                    id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
+                    nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
+                    idNew   = id.replace(group, groupnew), // Count new id
+                    countMulti = 0,  // count for multiple radio/checkboxes
+                    forOldAttr = id; // Fix "for" in the labels
+
+                if ($el.type === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
+                    // Recount id
+                    countMulti = ids[id] ? ids[id].length : 0;
+                    if (!countMulti) {
+                        // Set the id for fieldset and group label
+                        let fieldset = closest($el, 'fieldset.checkboxes'),
+                            elLbl = row.querySelector('label[for="' + id + '"]');
+
+                        if (fieldset) {
+                            fieldset.setAttribute('id', idNew);
+                        }
+
+                        if (elLbl) {
+                            elLbl.setAttribute('for', idNew);
+                            elLbl.setAttribute('id', idNew + '-lbl');
+                        }
+                    }
+                    forOldAttr = forOldAttr + countMulti;
+                    idNew = idNew + countMulti;
+                }
+                else if ($el.type === 'radio') { // <input type="radio"> fix
+                    // Recount id
+                    countMulti = ids[id] ? ids[id].length : 0;
+                    if (!countMulti) {
+                        // Set the id for fieldset and group label
+                        let fieldset = closest($el, 'fieldset.radio'),
+                            elLbl = row.querySelector('label[for="' + id + '"]');
+
+                        if (fieldset) {
+                            fieldset.setAttribute('id', idNew);
+                        }
+
+                        if (elLbl) {
+                            elLbl.setAttribute('for', idNew);
+                            elLbl.setAttribute('id', idNew + '-lbl');
+                        }
+                    }
+                    forOldAttr = forOldAttr + countMulti;
+                    idNew = idNew + countMulti;
+                }
+
+                // Cache already used id
+                if (ids[id]) {
+                    ids[id].push(true);
+                } else {
+                    ids[id] = [true];
+                }
+
+                // Replace the name to new one
+                $el.setAttribute('name', nameNew);
+                $el.setAttribute('id', idNew);
+
+                // Guess there a label for this input
+                let lbl = row.querySelector('label[for="' + forOldAttr + '"]');
+                if (lbl) {
+                    lbl.setAttribute('for', idNew);
+                    lbl.setAttribute('id', idNew + '-lbl');
+                }
+            }
         }
     }
-
 
     customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
