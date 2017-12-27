@@ -56,7 +56,7 @@ class StateModel extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	4.0
+	 * @since	__DEPLOY_VERSION__
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{

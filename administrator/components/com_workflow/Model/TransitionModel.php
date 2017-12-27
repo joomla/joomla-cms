@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\String\StringHelper;
 
 /**
  * The first example class, this is in the same
@@ -107,6 +108,7 @@ class TransitionModel extends AdminModel
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
+		$input		= $app->input;
 
 		if ($pk > 0)
 		{
@@ -149,7 +151,45 @@ class TransitionModel extends AdminModel
 			$data['workflow_id'] = $workflowID;
 		}
 
+		if ($input->get('task') == 'save2copy')
+		{
+			$origTable = clone $this->getTable();
+
+			// Alter the title for save as copy
+			if ($origTable->load(['title' => $data['title']]))
+			{
+				list($title) = $this->generateNewTitle(0, '', $data['title']);
+				$data['title'] = $title;
+			}
+
+			$data['published'] = 0;
+		}
+
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to change the title
+	 *
+	 * @param   integer  $category_id  The id of the category.
+	 * @param   string   $alias        The alias.
+	 * @param   string   $title        The title.
+	 *
+	 * @return	array  Contains the modified title and alias.
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
+	protected function generateNewTitle($category_id, $alias, $title)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+
+		while ($table->load(array('title' => $title)))
+		{
+			$title = StringHelper::increment($title);
+		}
+
+		return array($title, $alias);
 	}
 
 	/**
