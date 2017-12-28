@@ -1102,7 +1102,7 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		/*
+		/**
 		 * Load the sort ordering.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
@@ -1136,7 +1136,7 @@ class FinderModelSearch extends JModelList
 				break;
 		}
 
-		/*
+		/**
 		 * Load the sort direction.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow to be inverted.
