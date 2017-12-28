@@ -289,7 +289,10 @@ class UsersControllerUser extends UsersController
 		}
 
 		// Logout and redirect
-		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));
+		$this->setRedirect(
+			'index.php?option=com_users&task=user.logout&'
+			. JSession::getFormToken() . '=1&return=' . urlencode(base64_encode($url))
+		);
 	}
 
 	/**

@@ -41,9 +41,9 @@ class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 		// Get returnUri
 		$returnUri = $this->input->post->get('return', null, 'base64');
 
-		if (!empty($returnUri))
+		if ($returnUri)
 		{
-			$this->redirect = base64_decode(urldecode($returnUri));
+			$this->redirect = base64_decode($returnUri);
 		}
 		else
 		{
