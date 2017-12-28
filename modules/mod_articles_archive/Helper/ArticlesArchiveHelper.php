@@ -34,7 +34,7 @@ class ArticlesArchiveHelper
 	 */
 	public static function getList(&$params)
 	{
-		// Get app
+		// Get application
 		$app = Factory::getApplication();
 
 		// Get database
