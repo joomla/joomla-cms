@@ -40,9 +40,7 @@ class PluginsViewPlugins extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -94,13 +92,13 @@ class PluginsViewPlugins extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'enabled' => JText::_('JSTATUS'),
-				'name' => JText::_('JGLOBAL_TITLE'),
-				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
-				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
-				'access' => JText::_('JGRID_HEADING_ACCESS'),
-				'extension_id' => JText::_('JGRID_HEADING_ID')
+			'ordering'     => JText::_('JGRID_HEADING_ORDERING'),
+			'enabled'      => JText::_('JSTATUS'),
+			'name'         => JText::_('JGLOBAL_TITLE'),
+			'folder'       => JText::_('COM_PLUGINS_FOLDER_HEADING'),
+			'element'      => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
+			'access'       => JText::_('JGRID_HEADING_ACCESS'),
+			'extension_id' => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

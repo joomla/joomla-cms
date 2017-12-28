@@ -14,7 +14,7 @@ JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banner
 JFormHelper::loadFieldClass('list');
 
 /**
- * Bannerclient Field class for the Joomla Framework.
+ * Bannerclient field.
  *
  * @since  1.6
  */

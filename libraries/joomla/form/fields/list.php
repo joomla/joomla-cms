@@ -118,7 +118,13 @@ class JFormFieldList extends JFormField
 					continue;
 				}
 
-				// Requires vote plugin enabled
+				// Requires adminlanguage
+				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
+				{
+					continue;
+				}
+
+				// Requires vote plugin
 				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
@@ -209,7 +215,7 @@ class JFormFieldList extends JFormField
 
 		return $options;
 	}
-	
+
 	/**
 	 * Method to add an option to the list field.
 	 *
@@ -225,13 +231,32 @@ class JFormFieldList extends JFormField
 		if ($text && $this->element instanceof SimpleXMLElement)
 		{
 			$child = $this->element->addChild('option', $text);
-	
+
 			foreach ($attributes as $name => $value)
 			{
 				$child->addAttribute($name, $value);
 			}
 		}
-	
+
 		return $this;
+	}
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to get the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.7.0
+	 */
+	public function __get($name)
+	{
+		if ($name == 'options')
+		{
+			return $this->getOptions();
+		}
+
+		return parent::__get($name);
 	}
 }

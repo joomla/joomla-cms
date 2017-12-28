@@ -157,6 +157,7 @@ class ContentViewArticle extends JViewLegacy
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
+
 				return;
 			}
 		}
@@ -210,7 +211,7 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return  void.
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{

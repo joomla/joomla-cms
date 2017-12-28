@@ -30,12 +30,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties',
-			'json' => array('name' => 'javascript', 'json' => true),
-			'scss' => 'css',
-		);
+	protected $modeAlias = array();
 
 	/**
 	 * Initialises the Editor.
@@ -78,7 +73,7 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			if (isset($fontInfo->url))
 			{
-				$doc->addStylesheet($fontInfo->url);
+				$doc->addStyleSheet($fontInfo->url);
 			}
 
 			if (isset($fontInfo->css))
@@ -195,6 +190,12 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Options for the CodeMirror constructor.
 		$options = new stdClass;
+
+		// Is field readonly?
+		if (!empty($params['readonly']))
+		{
+			$options->readOnly = 'nocursor';
+		}
 
 		// Should we focus on the editor on load?
 		$options->autofocus = (boolean) $this->params->get('autoFocus', true);

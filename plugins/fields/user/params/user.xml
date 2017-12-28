@@ -2,9 +2,17 @@
 <form>
 	<field
 		name="default_value"
-		type="textarea"
-		filter="raw"
+		type="user"
 		label="PLG_FIELDS_USER_DEFAULT_VALUE_LABEL"
 		description="PLG_FIELDS_USER_DEFAULT_VALUE_DESC"
 	/>
+	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
+		<fieldset name="basic">
+			<field
+				name="show_on"
+				type="hidden"
+				filter="unset"
+			/>
+		</fieldset>
+	</fields>
 </form>

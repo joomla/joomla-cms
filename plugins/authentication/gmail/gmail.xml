@@ -25,7 +25,7 @@
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
 					default="0"
-				>
+					>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
 					<option value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
@@ -47,7 +47,7 @@
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -59,6 +59,7 @@
 					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
 					size="20"
 				/>
+
 				<field
 					name="backendLogin"
 					type="radio"
@@ -66,7 +67,7 @@
 					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 				</field>

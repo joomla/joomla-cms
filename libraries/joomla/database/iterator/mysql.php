@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database iterator.
  *
- * @see         http://dev.mysql.com/doc/
+ * @link        http://dev.mysql.com/doc/
  * @since       12.1
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */

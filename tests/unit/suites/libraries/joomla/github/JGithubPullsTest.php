@@ -4,7 +4,7 @@
  * @subpackage  Github
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -82,10 +82,7 @@ class JGithubPullsTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->response);
-		unset($this->object);
+		unset($this->options, $this->client, $this->response, $this->object);
 		parent::tearDown();
 	}
 

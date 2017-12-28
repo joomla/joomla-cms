@@ -21,7 +21,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	/**
 	 * Method to update a record.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -62,7 +62,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	/**
 	 * Method to duplicate URLs in records.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
@@ -132,7 +132,8 @@ class RedirectControllerLinks extends JControllerAdmin
 		{
 			if (!empty($batch_urls_line))
 			{
-				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+				$params = JComponentHelper::getParams('com_redirect');
+				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
 			}
 		}
 
@@ -175,5 +176,4 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
 	}
-
 }

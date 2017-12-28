@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('radio');
 
 /**
- * Sample data Form Field class.
+ * Install Sample Data field.
  *
  * @since  1.6
  */
@@ -38,11 +38,11 @@ class InstallationFormFieldSample extends JFormFieldRadio
 		$type    = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
-		if ($type == 'mysqli' || $type == 'pdomysql')
+		if ($type === 'mysqli' || $type === 'pdomysql')
 		{
 			$type = 'mysql';
 		}
-		elseif ($type == 'sqlsrv')
+		elseif ($type === 'sqlsrv')
 		{
 			$type = 'sqlazure';
 		}

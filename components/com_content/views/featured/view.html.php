@@ -31,14 +31,14 @@ class ContentViewFeatured extends JViewLegacy
 	protected $link_items = array();
 
 	protected $columns = 1;
-	
+
 	/**
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * Execute and display a template script.
@@ -163,7 +163,7 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @return  void.
+	 * @return  void
 	 */
 	protected function _prepareDocument()
 	{

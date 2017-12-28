@@ -87,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::_($item->update_site_name); ?>
 								<br />
 								<span class="small break-word">
-									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
+									<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
 								</span>
 							</label>
 						</td>

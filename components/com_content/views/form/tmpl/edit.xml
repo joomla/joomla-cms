@@ -12,14 +12,16 @@
 		<fieldset name="basic"
 			addfieldpath="/administrator/components/com_categories/models/fields"
 		>
-			<field name="enable_category"
+			<field 
+				name="enable_category"
 				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
-				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -28,7 +30,6 @@
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				required="true"
 				select="true"
 				new="true"
 				edit="true"
@@ -36,13 +37,34 @@
 				showon="enable_category:1"
 			/>
 
-
 			<field
 				name="redirect_menuitem"
 				type="modal_menu"
 				label="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_LABEL"
 				description="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_DESC"
-			>
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="custom_cancel_redirect"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="cancel_redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_DESC"
+				showon="custom_cancel_redirect:1"
+				>
 				<option value="">JDEFAULT</option>
 			</field>
 		</fieldset>

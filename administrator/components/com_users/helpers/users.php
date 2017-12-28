@@ -54,16 +54,6 @@ class UsersHelper
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTES'),
-				'index.php?option=com_users&view=notes',
-				$vName == 'notes'
-			);
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories'
-			);
 		}
 
 		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
@@ -79,6 +69,18 @@ class UsersHelper
 				$vName == 'fields.groups'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTES'),
+			'index.php?option=com_users&view=notes',
+			$vName == 'notes'
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_users',
+			$vName == 'categories'
+		);
 	}
 
 	/**

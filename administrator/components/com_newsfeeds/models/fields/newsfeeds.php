@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * News Feed List field.
  *
  * @since  1.6
  */

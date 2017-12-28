@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Database
- * @see         http://dev.mysql.com/doc/
+ * @link        https://dev.mysql.com/doc/
  * @since       3.4
  */
 class JDatabaseIteratorPdomysql extends JDatabaseIteratorPdo

@@ -4,9 +4,9 @@
 		<field
 			name="language"
 			type="installation.language"
+			label="INSTL_LANGUAGE_LABEL"
 			id="language"
 			class="chzn-select-deselect"
-			label="INSTL_LANGUAGE_LABEL"
 			size="20"
 			default="en-GB"
 			onchange="Install.setlanguage();"
@@ -15,18 +15,18 @@
 		<field
 			name="site_name"
 			type="text"
+			label="INSTL_SITE_NAME_LABEL"
 			id="site_name"
 			class="inputbox"
-			label="INSTL_SITE_NAME_LABEL"
 			required="true"
 		/>
 
 		<field
 			name="admin_email"
 			type="email"
+			label="INSTL_ADMIN_EMAIL_LABEL"
 			id="admin_email"
 			class="inputbox"
-			label="INSTL_ADMIN_EMAIL_LABEL"
 			validate="email"
 			required="true"
 		/>
@@ -34,18 +34,18 @@
 		<field
 			name="admin_user"
 			type="text"
+			label="INSTL_ADMIN_USER_LABEL"
 			id="admin_user"
 			class="inputbox"
-			label="INSTL_ADMIN_USER_LABEL"
 			required="true"
 		/>
 
 		<field
 			name="admin_password"
 			type="password"
+			label="INSTL_ADMIN_PASSWORD_LABEL"
 			id="admin_password"
 			class="inputbox"
-			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
 			filter="raw"
 			autocomplete="off"
@@ -54,9 +54,9 @@
 		<field
 			name="admin_password2"
 			type="password"
+			label="INSTL_ADMIN_PASSWORD2_LABEL"
 			id="admin_password2"
 			class="inputbox"
-			label="INSTL_ADMIN_PASSWORD2_LABEL"
 			required="true"
 			filter="raw"
 			validate="equals"
@@ -67,21 +67,21 @@
 		<field
 			name="site_metadesc"
 			type="textarea"
+			label="INSTL_SITE_METADESC_LABEL"
 			id="site_metadesc"
 			class="text_area noResize"
-			label="INSTL_SITE_METADESC_LABEL"
 			rows="3"
 		/>
 
 		<field
 			name="site_offline"
 			type="radio"
+			label="INSTL_SITE_OFFLINE_LABEL"
 			id="site_offline"
 			class="btn-group"
 			default="0"
-			label="INSTL_SITE_OFFLINE_LABEL"
 			filter="integer"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

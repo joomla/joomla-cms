@@ -165,7 +165,7 @@ class TagsViewTags extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && ($menu->query['option'] != 'com_tags'))
+		if ($menu && $menu->query['option'] !== 'com_tags')
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}
@@ -274,6 +274,7 @@ class TagsViewTags extends JViewLegacy
 			{
 				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
+
 			$this->document->setTitle($title);
 		}
 

@@ -22,16 +22,16 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-				name="multiple"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
+					name="multiple"
+					type="radio"
+					label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
+					description="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

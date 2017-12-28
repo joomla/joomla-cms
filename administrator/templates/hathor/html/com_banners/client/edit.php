@@ -39,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<li><?php echo $this->form->getLabel('email'); ?>
 				<?php echo $this->form->getInput('email'); ?></li>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<li><?php echo $this->form->getLabel('state'); ?>
 					<?php echo $this->form->getInput('state'); ?></li>
 				<?php endif; ?>

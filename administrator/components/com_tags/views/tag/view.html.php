@@ -44,9 +44,7 @@ class TagsViewTag extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		$input->set('hidemainmenu', true);
@@ -104,7 +102,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				JToolbarHelper::apply('tag.apply');
 				JToolbarHelper::save('tag.save');
-	
+
 				if ($canDo->get('core.create'))
 				{
 					JToolbarHelper::save2new('tag.save2new');

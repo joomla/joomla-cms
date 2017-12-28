@@ -60,7 +60,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 */
 	public function connect()
 	{
-		return true;
+		return;
 	}
 
 	/**

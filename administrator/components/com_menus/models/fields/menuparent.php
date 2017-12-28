@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the Joomla Framework.
+ * Menu Parent field.
  *
  * @since  1.6
  */
@@ -96,7 +96,6 @@ class JFormFieldMenuParent extends JFormFieldList
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 			}
-
 		}
 
 		// Merge any additional options in the XML definition.

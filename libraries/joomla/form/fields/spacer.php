@@ -104,4 +104,20 @@ class JFormFieldSpacer extends JFormField
 	{
 		return $this->getLabel();
 	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since   3.7.3
+	 */
+	public function renderField($options = array())
+	{
+		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] . ' field-spacer';
+
+		return parent::renderField($options);
+	}
 }

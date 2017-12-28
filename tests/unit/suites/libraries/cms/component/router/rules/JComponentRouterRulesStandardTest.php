@@ -4,7 +4,7 @@
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/../stubs/ComContentRouter.php';
@@ -15,15 +15,15 @@ require_once __DIR__ . '/stubs/MockJComponentRouterRulesMenuMenuObject.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Component
- * @since       __DEPLOY_VERSION__
+ * @since       3.7.0
  */
-class JComponentRouterRulesStandardTest extends TestCaseDatabase {
-
+class JComponentRouterRulesStandardTest extends TestCaseDatabase
+{
 	/**
 	 * Object under test
 	 *
 	 * @var    JComponentRouterRulesStandard
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $object;
 
@@ -32,7 +32,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getDataSet()
 	{
@@ -52,7 +52,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function setUp()
 	{
@@ -92,7 +92,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function tearDown()
 	{
@@ -107,7 +107,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 * @return  void
 	 *
 	 * @covers  JComponentRouterRulesStandard::__construct
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function testConstruct()
 	{
@@ -120,7 +120,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestBuild()
 	{
@@ -183,15 +183,42 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 					'view' => 'form',
 					'Itemid' => 263
 				),
-				// TODO: I think this might be a bug? I think view should be unset whatever the status of the layout
 				array(
 					'option' => 'com_content',
-					'view' => 'form',
 					'Itemid' => 263
 				),
 				array(
 				),
 				'Error building a URL for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'form',
+					'layout' => 'edit',
+					'Itemid' => 263
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 263
+				),
+				array(
+				),
+				'Error building a URL with layout=edit for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'featured',
+					'Itemid' => 262
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 262
+				),
+				array(
+				),
+				'Error building a URL for featured that has a menu item without a key'
 			),
 			array(
 				array(
@@ -218,7 +245,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @covers        JComponentRouterRulesStandard::build
 	 * @dataProvider  dataTestBuild
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testBuild($query, $expectedQuery, $expectedSegments, $error)
 	{
@@ -233,7 +260,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function dataTestParse()
 	{
@@ -277,7 +304,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase {
 	 *
 	 * @covers        JComponentRouterRulesStandard::parse
 	 * @dataProvider  dataTestParse
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.7.0
 	 */
 	public function testParse($segments, $expectedVars, $activeMenu, $error)
 	{

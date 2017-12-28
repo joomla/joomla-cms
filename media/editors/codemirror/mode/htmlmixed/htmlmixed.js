@@ -14,7 +14,7 @@
   var defaultTags = {
     script: [
       ["lang", /(javascript|babel)/i, "javascript"],
-      ["type", /^(?:text|application)\/(?:x-)?(?:java|ecma)script$|^$/i, "javascript"],
+      ["type", /^(?:text|application)\/(?:x-)?(?:java|ecma)script$|^module$|^$/i, "javascript"],
       ["type", /./, "text/plain"],
       [null, null, "javascript"]
     ],
@@ -133,11 +133,11 @@
         return state.token(stream, state);
       },
 
-      indent: function (state, textAfter) {
+      indent: function (state, textAfter, line) {
         if (!state.localMode || /^\s*<\//.test(textAfter))
           return htmlMode.indent(state.htmlState, textAfter);
         else if (state.localMode.indent)
-          return state.localMode.indent(state.localState, textAfter);
+          return state.localMode.indent(state.localState, textAfter, line);
         else
           return CodeMirror.Pass;
       },

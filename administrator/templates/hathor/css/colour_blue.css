@@ -1440,6 +1440,12 @@ a img.calendar {
 .icon-48-tags {
 	background-image: url(../images/header/icon-48-tags.png);
 }
+.icon-48-assoc {
+	background-image: url(../images/header/icon-48-assoc.png);
+}
+.icon-48-puzzle {
+	background-image: url(../images/header/icon-48-puzzle.png);
+}
 div.message {
 	border: 1px solid #738498;
 	color: #2c2c2c;

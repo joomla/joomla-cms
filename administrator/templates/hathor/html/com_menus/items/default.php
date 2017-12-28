@@ -23,7 +23,7 @@ $ordering  = ($listOrder == 'a.lft');
 $canOrder  = $user->authorise('core.edit.state', 'com_menus');
 $saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
 $menutypeid	= (int) $this->state->get('menutypeid');
-$assoc     = JLanguageAssociations::isEnabled();
+$assoc     = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;;
 ?>
 
 <?php // Set up the filter bar. ?>
@@ -63,7 +63,7 @@ $assoc     = JLanguageAssociations::isEnabled();
             		<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_published" id="filter_published">
+			<select name="filter[published]" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
@@ -71,7 +71,7 @@ $assoc     = JLanguageAssociations::isEnabled();
             		<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_access" id="filter_access">
+			<select name="filter[access]" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
@@ -79,7 +79,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
-			<select name="filter_language" id="filter_language">
+			<select name="filter[language]" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
@@ -151,7 +151,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
-					<?php if ($canEdit) : ?>
+					<?php if ($canEdit && !$item->protected) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id='.(int) $item->id);?>">
 							<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>
@@ -195,7 +195,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
 						<?php if ($item->language == '*' || $item->home == '0'):?>
-							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
+							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange  && !$item->protected);?>
 						<?php elseif ($canChange):?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1'); ?>">
 								<?php if ($item->language_image) : ?>

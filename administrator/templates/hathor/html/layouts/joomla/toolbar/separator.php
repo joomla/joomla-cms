@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$class = (empty($displayData['style'])) ? 'spacer' : $displayData['style'];
+$class = empty($displayData['style']) ? 'spacer' : $displayData['style'];
 $style = $displayData['style'];
 
 ?>

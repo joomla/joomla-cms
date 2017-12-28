@@ -29,7 +29,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div class="row-fluid">
 		<!-- Begin Content -->
 
-		<div class="btn-toolbar">
+		<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.save.config.apply')">
 					<span class="icon-ok"></span> <?php echo JText::_('JSAVE') ?>

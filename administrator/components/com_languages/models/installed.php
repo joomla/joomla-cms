@@ -74,6 +74,7 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'name',
+				'nativeName',
 				'language',
 				'author',
 				'published',
@@ -279,6 +280,7 @@ class LanguagesModelInstalled extends JModelList
 		if ($limit !== 0)
 		{
 			$start = (int) $this->getState('list.start', 0);
+
 			return array_slice($installedLanguages, $start, $limit);
 		}
 

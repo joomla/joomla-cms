@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Association\AssociationExtensionHelper;
 
 /**
  * Menu associations helper.
  *
  * @since  3.7.0
  */
-class MenusAssociationsHelper extends JAssociationExtensionHelper
+class MenusAssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -55,7 +55,6 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @since   3.7.0
 	 */
-
 	public function getAssociations($typeName, $id)
 	{
 		$type = $this->getType($typeName);
@@ -131,7 +130,6 @@ class MenusAssociationsHelper extends JAssociationExtensionHelper
 
 		if (in_array($typeName, $this->itemTypes))
 		{
-
 			switch ($typeName)
 			{
 				case 'item':

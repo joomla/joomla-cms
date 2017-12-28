@@ -4,17 +4,11 @@
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  *
  */
 
 // @deprecated  4.0  Deprecated without replacement
-
-// Make sure we're being called from the command line, not a web interface
-if (PHP_SAPI !== 'cli')
-{
-	die('This is a command line only application.');
-}
 
 // We are a valid entry point.
 define('_JEXEC', 1);

@@ -49,7 +49,7 @@ abstract class ModLoginHelper
 
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="advancedSelect"', 'value', 'text', null);
+		return JHtml::_('select.genericlist', $languages, 'lang', 'class="advancedSelect" tabindex="4"', 'value', 'text', null);
 	}
 
 	/**

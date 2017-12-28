@@ -33,13 +33,13 @@ install:
           $VC = "vc14"
           $PHPBuild = "x64"
         }
-    - cinst -y sqlite
+    - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
     - ps: >-
         If ($env:PHP -eq "1") {
           If ($env:php_ver_target -eq "5.6") {
-            appveyor DownloadFile https://files.nette.org/misc/php-sqlsrv.zip
+            appveyor-retry appveyor DownloadFile https://cdn.joomla.org/ci/php-sqlsrv.zip
             7z x -y php-sqlsrv.zip > $null
             copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
@@ -83,7 +83,7 @@ install:
         If ($env:PHP -eq "1") {
           If ($env:php_ver_target -eq "5.6") {$wincache = "1.3.7.12"} Else {$wincache = "2.0.0.8"}
           cd c:\tools\php\ext
-          appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
+          appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/wincache/$($wincache)/php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip
           7z x -y php_wincache-$($wincache)-$($env:php_ver_target)-nts-$($VC)-$($PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
           cd c:\tools\php}
@@ -91,6 +91,7 @@ install:
     - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
+    - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms

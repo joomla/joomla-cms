@@ -70,7 +70,7 @@ class PlgUserProfile extends JPlugin
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			if (!isset($data->profile) and $userId > 0)
+			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
@@ -148,7 +148,7 @@ class PlgUserProfile extends JPlugin
 			// Convert website URL to utf8 for display
 			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
 
-			if (substr($value, 0, 4) === 'http')
+			if (strpos($value, 'http') === 0)
 			{
 				return '<a href="' . $value . '">' . $value . '</a>';
 			}
@@ -334,6 +334,14 @@ class PlgUserProfile extends JPlugin
 			}
 		}
 
+		// Drop the profile form entirely if there aren't any fields to display.
+		$remainingfields = $form->getGroup('profile');
+
+		if (!count($remainingfields))
+		{
+			$form->removeGroup('profile');
+		}
+
 		return true;
 	}
 
@@ -364,25 +372,24 @@ class PlgUserProfile extends JPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
+
 			if (JDate::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
+
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
-		if (($task === 'register') && $tosenabled && $tosarticle && ($option === 'com_users'))
+		// Check that the tos is checked.
+		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
-			// Check that the tos is checked.
-			if (!$data['profile']['tos'])
-			{
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
-			}
+			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
 
 		return true;
@@ -406,22 +413,46 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
-				// Sanitize the date
-				$data['profile']['dob'] = $this->date;
-
 				$db = JFactory::getDbo();
+
+				// Sanitize the date
+				if (!empty($data['profile']['dob']))
+				{
+					$data['profile']['dob'] = $this->date;
+				}
+
+				$keys = array_keys($data['profile']);
+
+				foreach ($keys as &$key)
+				{
+					$key = 'profile.' . $key;
+					$key = $db->quote($key);
+				}
+
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__user_profiles'))
 					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+					->where($db->quoteName('profile_key') . ' IN (' . implode(',', $keys) . ')');
 				$db->setQuery($query);
 				$db->execute();
+
+				$query = $db->getQuery(true)
+					->select($db->quoteName('ordering'))
+					->from($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
+				$db->setQuery($query);
+				$usedOrdering = $db->loadColumn();
 
 				$tuples = array();
 				$order = 1;
 
 				foreach ($data['profile'] as $k => $v)
 				{
+					while (in_array($order, $usedOrdering))
+					{
+						$order++;
+					}
+
 					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
 				}
 

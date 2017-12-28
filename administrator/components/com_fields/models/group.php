@@ -16,6 +16,23 @@ defined('_JEXEC') or die;
 class FieldsModelGroup extends JModelAdmin
 {
 	/**
+	 * @var null|string
+	 *
+	 * @since   3.7.0
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -203,10 +220,34 @@ class FieldsModelGroup extends JModelAdmin
 
 		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+		// Extract the component name
+		$component = $parts[0];
+
+		// Extract the optional section name
+		$section = (count($parts) > 1) ? $parts[1] : null;
+
 		if ($parts)
 		{
 			// Set the access control rules field component value.
-			$form->setFieldAttribute('rules', 'component', $parts[0]);
+			$form->setFieldAttribute('rules', 'component', $component);
+		}
+
+		if ($section !== null)
+		{
+			// Looking first in the component models/forms folder
+			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+
+			if (file_exists($path))
+			{
+				$lang = JFactory::getLanguage();
+				$lang->load($component, JPATH_BASE, null, false, true);
+				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+				if (!$form->loadFile($path, false))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			}
 		}
 	}
 

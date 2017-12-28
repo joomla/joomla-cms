@@ -18,6 +18,7 @@ if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'moda
 	if (!JFactory::getUser()->authorise('core.create', 'com_menus'))
 	{
 		$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+
 		return;
 	}
 }

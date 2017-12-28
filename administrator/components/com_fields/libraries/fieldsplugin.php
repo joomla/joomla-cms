@@ -26,6 +26,14 @@ abstract class FieldsPlugin extends JPlugin
 	 */
 	public function onCustomFieldsGetTypes()
 	{
+		// Cache filesystem access / checks
+		static $types_cache = array();
+
+		if (isset($types_cache[$this->_type . $this->_name]))
+		{
+			return $types_cache[$this->_type . $this->_name];
+		}
+
 		$types = array();
 
 		// The root of the plugin
@@ -73,10 +81,19 @@ abstract class FieldsPlugin extends JPlugin
 				$data['path'] = $path;
 			}
 
+			$path = $root . '/rules';
+
+			// Add the path when it exists
+			if (file_exists($path))
+			{
+				$data['rules'] = $path;
+			}
+
 			$types[] = $data;
 		}
 
-		// Return the data
+		// Add to cache and return the data
+		$types_cache[$this->_type . $this->_name] = $types;
 		return $types;
 	}
 
@@ -116,9 +133,7 @@ abstract class FieldsPlugin extends JPlugin
 	}
 
 	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element must implement the JFormDomfieldinterface.
+	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -152,20 +167,18 @@ abstract class FieldsPlugin extends JPlugin
 		$node = $parent->appendChild(new DOMElement('field'));
 
 		// Set the attributes
-		$node->setAttribute('name', $field->alias);
+		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
-		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
-		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
 
-		// Set the disabled state based on the parameter and the permission
-		if ($field->params->get('disabled', 0))
+		if ($field->default_value !== '')
 		{
-			$node->setAttribute('disabled', 'true');
+			$defaultNode = $node->appendChild(new DOMElement('default'));
+			$defaultNode->appendChild(new DOMCdataSection($field->default_value));
 		}
 
 		// Combine the two params
@@ -181,7 +194,7 @@ abstract class FieldsPlugin extends JPlugin
 				$param = count($param) == count($param, COUNT_RECURSIVE) ? implode(',', $param) : '';
 			}
 
-			if ($param === '' || !is_string($param))
+			if ($param === '' || (!is_string($param) && !is_numeric($param)))
 			{
 				continue;
 			}

@@ -46,7 +46,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if (JFactory::getDocument()->getType() !== 'html' || $input->get('tmpl', '', 'cmd') === 'component')
+		if ($input->get('tmpl', '', 'cmd') === 'component' || JFactory::getDocument()->getType() !== 'html')
 		{
 			return true;
 		}

@@ -91,9 +91,9 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with an article or category that is attached to a menu item?
-		if (($menuItem instanceof stdClass)
+		if ($menuItem !== null
 			&& $menuItem->query['view'] == $query['view']
-			&& isset($query['id'])
+			&& isset($menuItem->query['id'], $query['id'])
 			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);

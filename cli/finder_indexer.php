@@ -18,12 +18,6 @@
  *                           Purges and rebuilds the index (search filters are preserved).
  */
 
-// Make sure we're being called from the command line, not a web interface
-if (PHP_SAPI !== 'cli')
-{
-	die('This is a command line only application.');
-}
-
 // We are a valid entry point.
 const _JEXEC = 1;
 

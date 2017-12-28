@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver supporting PDO based connections
  *
- * @see    https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
  * @since  3.4
  */
 class JDatabaseDriverPdomysql extends JDatabaseDriverPdo

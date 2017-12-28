@@ -9,11 +9,11 @@
 
 /**
  * Test class for JDatabaseQuerySqlsrv.
-*
-* @package     Joomla.UnitTest
-* @subpackage  Database
-* @since       11.3
-*/
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.3
+ */
 class JDatabaseQuerySqlsrvTest extends TestCase
 {
 	/**
@@ -59,8 +59,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->dbo);
-		unset($this->_instance);
+		unset($this->dbo, $this->_instance);
 		parent::tearDown();
 	}
 
@@ -74,7 +73,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'			=> array('2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"),
 			'Subtract date'		=> array('2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"),
 			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"),
@@ -193,7 +192,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__splitSqlExpression()
 	{
@@ -261,7 +260,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  JDatabaseQuerySqlsrv
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__fixSelectAliases()
 	{
@@ -332,13 +331,13 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT + + + id'
-			. ", - +- +-a . [id_9]"
-			. ", - +- +-a. [id_9]"
-			. ", - +- +-a .[id_9]"
-			. ", - +- +-a.[id_9]"
-			. ", + - + ix"
-			. ", ++ ix"
-		);
+				. ", - +- +-a . [id_9]"
+				. ", - +- +-a. [id_9]"
+				. ", - +- +-a .[id_9]"
+				. ", - +- +-a.[id_9]"
+				. ", + - + ix"
+				. ", ++ ix"
+			);
 
 		$expected = array(
 			'DISTINCT +++ id',
@@ -360,10 +359,10 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT - + + + [a] . id'
-			. ", [a] . [id_9]"
-			. ", c + /**/ + [a].[b]"
-			. ", [a].[b] + c"
-		);
+				. ", [a] . [id_9]"
+				. ", c + /**/ + [a].[b]"
+				. ", [a].[b] + c"
+			);
 
 		$expected = array(
 			'DISTINCT -+++ [a]. id AS [columnAlias0]',
@@ -382,8 +381,8 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT +id'
-			. ", ''+a . id_9 'alias'"
-		);
+				. ", ''+a . id_9 'alias'"
+			);
 
 		$expected = array(
 			'DISTINCT + id',
@@ -403,7 +402,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  JDatabaseQuerySqlsrv
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function test__fixGroupColumns()
 	{

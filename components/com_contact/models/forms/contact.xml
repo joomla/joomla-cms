@@ -7,6 +7,7 @@
 			label="COM_CONTACT_CONTACT_REQUIRED"
 			class="text"
 		/>
+
 		<field
 			name="contact_name"
 			type="text"
@@ -17,6 +18,7 @@
 			filter="string"
 			required="true"
 		/>
+
 		<field
 			name="contact_email"
 			type="email"
@@ -29,6 +31,7 @@
 			autocomplete="email"
 			required="true"
 		/>
+
 		<field
 			name="contact_subject"
 			type="text"
@@ -40,6 +43,7 @@
 			validate="contactemailsubject"
 			required="true"
 		/>
+
 		<field
 			name="contact_message"
 			type="textarea"
@@ -52,6 +56,7 @@
 			validate="contactemailmessage"
 			required="true"
 		/>
+
 		<field
 			name="contact_email_copy"
 			type="checkbox"
@@ -61,6 +66,7 @@
 			default="0"
 		/>
 	</fieldset>
+
 	<fieldset name="captcha">
 		<field
 			name="captcha"

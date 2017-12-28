@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('List');
 /**
  * Text Filters form field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.7.0
  */
 class JFormFieldConfigComponents extends JFormFieldList
 {
@@ -24,7 +24,7 @@ class JFormFieldConfigComponents extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	__DEPLOY_VERSION__
+	 * @since	3.7.0
 	 */
 	public $type = 'ConfigComponents';
 
@@ -33,7 +33,7 @@ class JFormFieldConfigComponents extends JFormFieldList
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{

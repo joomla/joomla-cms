@@ -62,6 +62,7 @@ class AssociationsViewAssociation extends JViewLegacy
 	 * @return  void
 	 *
 	 * @since   3.7.0
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -69,17 +70,36 @@ class AssociationsViewAssociation extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
-
-			return false;
 		}
 
 		$this->app  = JFactory::getApplication();
 		$this->form = $this->get('Form');
 		$input      = $this->app->input;
-
 		$this->referenceId = $input->get('id', 0, 'int');
 
-		list($extensionName, $typeName) = explode('.', $input->get('itemtype'));
+		list($extensionName, $typeName) = explode('.', $input->get('itemtype', '', 'string'));
+
+		$extension = AssociationsHelper::getSupportedExtension($extensionName);
+		$types     = $extension->get('types');
+
+		if (array_key_exists($typeName, $types))
+		{
+			$this->type          = $types[$typeName];
+			$this->typeSupports  = array();
+			$details             = $this->type->get('details');
+			$this->save2copy     = false;
+
+			if (array_key_exists('support', $details))
+			{
+				$support = $details['support'];
+				$this->typeSupports = $support;
+			}
+
+			if (!empty($this->typeSupports['save2copy']))
+			{
+				$this->save2copy = true;
+			}
+		}
 
 		$this->extensionName = $extensionName;
 		$this->typeName      = $typeName;
@@ -114,7 +134,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
 			$task                   = $typeName . '.' . $this->targetAction;
-			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task= ' . $task . ' &id=' . (int) $this->targetId);
+			$this->defaultTargetSrc = JRoute::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 
@@ -134,7 +154,7 @@ class AssociationsViewAssociation extends JViewLegacy
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 
@@ -171,23 +191,26 @@ class AssociationsViewAssociation extends JViewLegacy
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract');
+		JToolbarHelper::title(JText::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', JText::_($this->extensionName), JText::_($languageKey)), 'contract assoc');
 
 		$bar = JToolbar::getInstance('toolbar');
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white"></span>'
+			. 'class="btn btn-small btn-success"><span class="icon-apply icon-white" aria-hidden="true"></span>'
 			. JText::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
-		JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
+		{
+			JToolBarHelper::custom('copy', 'copy.png', '', 'COM_ASSOCIATIONS_COPY_REFERENCE', false);
+		}
 
 		JToolbarHelper::cancel('association.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::help('JHELP_COMPONENTS_ASSOCIATIONS_EDIT');

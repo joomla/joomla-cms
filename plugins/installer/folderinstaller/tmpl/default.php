@@ -25,7 +25,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 		else
 		{
-			jQuery("#loading").css("display", "block");
+			JoomlaInstaller.showLoading();
 			form.installtype.value = "folder"
 			form.submit();
 		}

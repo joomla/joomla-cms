@@ -83,9 +83,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($list as $item) : ?>
 			<li>
 				<?php if ($params->get('link_titles') == 1) : ?>
-					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-						<?php echo $item->title; ?>
-					</a>
+					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>"><?php echo $item->title; ?></a>
 				<?php else : ?>
 					<?php echo $item->title; ?>
 				<?php endif; ?>

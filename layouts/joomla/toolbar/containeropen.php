@@ -9,4 +9,4 @@
 
 defined('JPATH_BASE') or die;
 ?>
-<div class="btn-toolbar" id="<?php echo $displayData['id']; ?>">
+<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>" id="<?php echo $displayData['id']; ?>">

@@ -4,7 +4,7 @@
  * @subpackage  Toolbar
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -77,9 +77,7 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->toolbar);
-		unset($this->object);
+		unset($this->backupServer, $this->toolbar, $this->object);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -95,7 +93,7 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 	public function testFetchButton()
 	{
 		$html = "<button onclick=\"Joomla.popupWindow('help/en-GB/JHELP_CONTENT_ARTICLE_MANAGER.html', 'JHELP', 700, 500, 1)\" rel=\"help\" class=\"btn btn-small\">\n"
-			. "\t<span class=\"icon-question-sign\"></span>\n"
+			. "\t<span class=\"icon-question-sign\" aria-hidden=\"true\"></span>\n"
 			. "\tJTOOLBAR_HELP</button>\n";
 
 		$this->assertEquals(
