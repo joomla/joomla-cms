@@ -75,8 +75,8 @@ $attributes = array(
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 
-$addonBeforeHtml = '<span class="input-group-addon">' . JText::_($addonBefore) . '</span>';
-$addonAfterHtml  = '<span class="input-group-addon">' . JText::_($addonAfter) . '</span>';
+$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . JText::_($addonBefore) . '</span></span>';
+$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . JText::_($addonAfter) . '</span></span>';
 ?>
 
 <?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>

@@ -23,7 +23,7 @@
     "grunt-contrib-concat": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-uglify": "latest",
     "grunt-cli": "latest",
     "grunt-fetch-pages": "^2.0.0",
     "grunt-postcss-x": "latest",
