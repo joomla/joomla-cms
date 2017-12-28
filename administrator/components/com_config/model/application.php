@@ -120,7 +120,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
+		if (isset($data['force_ssl']) && (int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
 			try
 			{
