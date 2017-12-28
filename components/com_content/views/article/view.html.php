@@ -139,7 +139,7 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		/*
+		/**
 		 * Check for no 'access-view' and empty fulltext,
 		 * - Redirect guest users to login
 		 * - Deny access to logged users with 403 code
