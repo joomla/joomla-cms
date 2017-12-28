@@ -797,19 +797,9 @@ class Session implements \IteratorAggregate
 			return false;
 		}
 
-		// Keep session config
-		$cookie = session_get_cookie_params();
-
-		// Re-register the session store after a session has been destroyed, to avoid PHP bug
-		$this->_store->register();
-
-		// Restore config
-		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
-
 		// Restart session with new id
 		$this->_handler->regenerate(true, null);
-		$this->_handler->start();
-
+		
 		return true;
 	}
 
