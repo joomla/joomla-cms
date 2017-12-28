@@ -184,12 +184,13 @@ class ContentViewCategory extends JViewCategory
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($this->category->title)
+		if ($this->category->title && strpos($menu->link, 'view=categories&id='))
 		{
 			$this->params->def('page_heading', $this->category->title);
-			$title =  $title ?: $this->category->title;
+			$title = $title ?: $this->category->title;
+			$this->params->set('page_title', $title);
 		}
-		elseif ($menu)
+		else
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
