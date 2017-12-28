@@ -9,8 +9,13 @@
 
 defined('_JEXEC') or die;
 
+$input  = JFactory::getApplication()->input;
+$option = $input->getCmd('option');
+$view   = $input->getCmd('view');
+$id     = $input->getInt('id');
+
 foreach ($list as $item) : ?>
-	<li <?php if ($_SERVER['REQUEST_URI'] === JRoute::_(ContentHelperRoute::getCategoryRoute($item->id), false)) echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
+	<li <?php if ($id == $item->id && $view == 'category' && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 		<?php echo $item->title; ?>
