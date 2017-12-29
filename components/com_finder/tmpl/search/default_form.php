@@ -37,12 +37,12 @@ if ($this->params->get('show_autosuggest', 1))
 				<span class="input-group-append">
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
-                        <span class="fa fa-search icon-white"></span>
+                        <span class="fa fa-search icon-white" aria-hidden="true"></span>
                         <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
                     </button>
 				<?php else : ?>
 					<button name="Search" type="submit" class="btn btn-primary disabled">
-                        <span class="fa fa-search icon-white"></span>
+                        <span class="fa fa-search icon-white" aria-hidden="true"></span>
                         <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
                     </button>
 				<?php endif; ?>
