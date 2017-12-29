@@ -69,7 +69,7 @@ else
 		$iUrl   = $feed->image ?? null;
 		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;"  class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))

@@ -17,6 +17,6 @@ $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
 
 BannersHelper::updateReset();
-$list = ModBannersHelper::getList($params);
+$list = &ModBannersHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));
