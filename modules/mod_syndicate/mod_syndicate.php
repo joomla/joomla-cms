@@ -21,6 +21,6 @@ if ($link === null)
 	return;
 }
 
-$text            = htmlspecialchars($params->get('text'), ENT_COMPAT, 'UTF-8');
+$text = htmlspecialchars($params->get('text'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_syndicate', $params->get('layout', 'default'));
