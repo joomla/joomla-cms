@@ -11,9 +11,6 @@ namespace Joomla\CMS\Http;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\CMS\Http\Http;
-use Joomla\CMS\Http\TransportInterface;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * HTTP factory class.
