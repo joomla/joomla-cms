@@ -68,14 +68,13 @@ form .form-no-margin {
 .card .custom-select {
   width: 100%;
 }
+.form-inline .custom-select {
+  width: auto;
+}
 
 td .form-control {
   display: inline-block;
   width: auto;
-}
-
-legend {
-  margin-bottom: 1.1rem;
 }
 
 .checkboxes {
@@ -86,11 +85,6 @@ legend {
     margin-left: 0;
   }
 
-}
-
-.form-check {
-  padding-top: 5px;
-  margin-bottom: 0;
 }
 
 .modal label {
