@@ -34,7 +34,7 @@ if ($this->params->get('show_autosuggest', 1))
 			</label>
 			<div class="input-group">
 				<input type="text" name="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
-				<span class="input-group-btn">
+				<span class="input-group-append">
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
                         <span class="fa fa-search icon-white"></span>
