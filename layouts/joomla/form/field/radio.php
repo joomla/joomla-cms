@@ -47,9 +47,8 @@ extract($displayData);
  *     %3 - value
  *     %4 = any other attributes
  */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-$dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
+$format      = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 ?>
 <?php // START SWITCHER ?>
@@ -99,7 +98,13 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 	<?php // END SWITCHER ?>
 <?php else: ?>
 	<?php // START RADIO TOGGLE ?>
-	<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
+	<?php
+		$isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
+		$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
+		$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
+		$btnClass    = $isBtnGroup ? 'class="btn btn-secondary"' : 'class="form-check"';
+	?>
+	<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class) . $classToggle; ?>"
 		<?php echo $disabled ? 'disabled' : ''; ?>
 		<?php echo $required ? 'required aria-required="true"' : ''; ?>
 		<?php echo $autofocus ? 'autofocus' : ''; ?>
@@ -110,7 +115,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 				<?php
 				// Initialize some option attributes.
 				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
+				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : $btnClass;
 				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
 				// Initialize some JavaScript option attributes.
@@ -118,7 +123,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				$attributes = array_filter(array($checked, null, $disabled, $onchange, $onclick));
 				?>
 				<?php if ($required) : ?>
 					<?php $attributes[] = 'required aria-required="true"'; ?>
