@@ -31,9 +31,11 @@ JText::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-					<span class="input-group-addon">
-						<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
-						<label for="modlgn-username" class="sr-only"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+					<span class="input-group-append">
+						<span class="input-group-text">
+							<span class="fa fa-user" aria-hidden="true"></span>
+							<label for="modlgn-username" class="sr-only"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						</span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -46,9 +48,11 @@ JText::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>">
-					<span class="input-group-addon">
-						<span class="fa fa-eye" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+					<span class="input-group-append">
+						<span class="input-group-text">
+							<span class="fa fa-eye" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+						</span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -61,13 +65,12 @@ JText::script('JHIDE');
 			<div class="form-group">
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-group">
-						<span class="input-group-addon">
-							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>"></span>
-							<label for="modlgn-secretkey" class="sr-only"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-						</span>
 						<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-addon hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help"></span>
+						<span class="input-group-append">
+							<span class="input-group-text hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+								<span class="fa fa-star" aria-hidden="true"></span>
+								<label for="modlgn-secretkey" class="sr-only"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
+							</span>
 						</span>
 					</div>
 				<?php else : ?>
