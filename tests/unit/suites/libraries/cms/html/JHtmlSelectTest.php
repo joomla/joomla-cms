@@ -96,15 +96,23 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			// 						$translate = false)
 			array(
 				"<div class=\"controls\">\n\t" .
-				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" >Yes\n\t" .
-				"</label>\n\t" .
-				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" >No\n\t" .
-				"</label>\n\t" .
-				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" >Maybe\n\t" .
-				"</label>\n" .
+				
+				"<div class=\"form-check form-check-inline\">\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" class=\"form-check-input\">\n\t\n\t" .
+				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"form-check-label\">Yes</label>\n\t\n\t" .
+				"</div>\n\t" .
+				
+				"<div class=\"form-check form-check-inline\">\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" class=\"form-check-input\">\n\t\n\t" .
+				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"form-check-labe\">No</label>\n\t\n\t" .
+				"</div>\n\t" .
+				
+				"<div class=\"form-check form-check-inline\">\n\t" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" class=\"form-check-input\">\n\t\n\t" .
+				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"form-check-labe\">Maybe</label>\n\t\n\t" .
+				"</div>\n\t" .
+				
+				
 				"</div>\n",
 				array(
 					array(
@@ -125,12 +133,14 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			),
 			array(
 				"<div class=\"controls\">\n\t" .
-				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\">FOO\n\t" .
-				"</label>\n\t" .
-				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\">BAR\n\t" .
-				"</label>\n" .
+				"<div class=\"form-check form-check-inline\">\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\">\n\t\n\t" .
+				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">FOO</label>\n\t\n\t" .
+				"</div>\n\t" .
+				"<div class=\"form-check form-check-inline\">\n\t" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\">\n\t\n\t" .
+				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">BAR</label>\n\t\n\t" .
+				"</div>\n\t" .
 				"</div>\n",
 				array(
 					array(
