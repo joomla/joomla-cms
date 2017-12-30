@@ -133,8 +133,7 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 				"<label for=\"fooId\" class=\"form-check-label\" id=\"fooId-lbl\">FOO</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" class=\"form-check-input\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\"
-				value=\"bar\" onchange=\"jsfunc();\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" onchange=\"jsfunc();\">" .
 				"<label for=\"myFooBarListNamebar\" class=\"form-check-label\" id=\"myFooBarListNamebar-lbl\">BAR</label>" .
 				"</div>" .
 				"</div>",
