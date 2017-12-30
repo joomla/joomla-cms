@@ -799,7 +799,7 @@ class Session implements \IteratorAggregate
 
 		// Restart session with new id
 		$this->_handler->regenerate(true, null);
-		
+
 		return true;
 	}
 
