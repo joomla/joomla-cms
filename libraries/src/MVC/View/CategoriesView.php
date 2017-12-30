@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -56,7 +58,7 @@ class CategoriesView extends HtmlView
 		$items  = $this->get('Items');
 		$parent = $this->get('Parent');
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -66,14 +68,7 @@ class CategoriesView extends HtmlView
 			return false;
 		}
 
-		if ($items === false)
-		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
-
-			return false;
-		}
-
-		if ($parent == false)
+		if ($items === false || $parent === false)
 		{
 			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
@@ -106,11 +101,8 @@ class CategoriesView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
-		$menus = $app->getMenu();
-
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -121,36 +113,6 @@ class CategoriesView extends HtmlView
 			$this->params->def('page_heading', \JText::_($this->pageHeading));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
+		$this->setDocumentHeadDatas();
 	}
 }

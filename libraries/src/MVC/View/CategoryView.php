@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Factory;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -107,8 +109,8 @@ class CategoryView extends HtmlView
 	 */
 	public function commonCategoryDisplay()
 	{
-		$app    = \JFactory::getApplication();
-		$user   = \JFactory::getUser();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -123,20 +125,13 @@ class CategoryView extends HtmlView
 		$children    = $this->get('Children');
 		$parent      = $this->get('Parent');
 
-		if ($category == false)
-		{
-			return \JError::raiseError(404, \JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		if ($parent == false)
+		if ($category == false || $parent == false)
 		{
 			return \JError::raiseError(404, \JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
-		$groups = $user->getAuthorisedViewLevels();
-
-		if (!in_array($category->access, $groups))
+		if (!in_array($category->access, $user->getAuthorisedViewLevels()))
 		{
 			return \JError::raiseError(403, \JText::_('JERROR_ALERTNOAUTHOR'));
 		}
@@ -165,6 +160,7 @@ class CategoryView extends HtmlView
 		if ($this->runPlugins)
 		{
 			\JPluginHelper::importPlugin('content');
+			$dispatcher = \JEventDispatcher::getInstance();
 
 			foreach ($items as $itemElement)
 			{
@@ -173,8 +169,6 @@ class CategoryView extends HtmlView
 
 				// For some plugins.
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
-
-				$dispatcher = \JEventDispatcher::getInstance();
 
 				$dispatcher->trigger('onContentPrepare', array($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
 
@@ -251,13 +245,11 @@ class CategoryView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app           = \JFactory::getApplication();
-		$menus         = $app->getMenu();
+		$app           = Factory::getApplication();
 		$this->pathway = $app->getPathway();
-		$title         = null;
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$this->menu = $menus->getActive();
+		$this->menu = $app->getMenu()->getActive();
 
 		if ($this->menu)
 		{
@@ -268,37 +260,7 @@ class CategoryView extends HtmlView
 			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
+		$this->setDocumentHeadDatas();
 	}
 
 	/**
