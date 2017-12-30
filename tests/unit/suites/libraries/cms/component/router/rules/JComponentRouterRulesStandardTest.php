@@ -82,6 +82,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 		$router->registerView($featured);
 		$form = new JComponentRouterViewconfiguration('form');
 		$router->registerView($form);
+		$router->sefAdvanced = true;
 
 		$this->object = new JComponentRouterRulesStandard($router);
 	}

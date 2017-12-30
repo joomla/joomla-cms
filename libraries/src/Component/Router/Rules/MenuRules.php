@@ -69,6 +69,7 @@ class MenuRules implements RulesInterface
 		 */
 		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
 		{
+			// Just use the supplied menu item
 			return;
 		}
 
@@ -156,12 +157,29 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+		// Add active item id to legacy routing for B/C
+		if (empty($this->router->sefAdvanced))
 		{
-			$query['Itemid'] = $active->id;
-			return;
+			// Check if the active menuitem matches the requested language
+			if ($active && $active->component === 'com_' . $this->router->getName()
+				&& ($language === '*'
+				|| in_array($active->language, array('*', $language))
+				|| !\JLanguageMultilang::isEnabled()))
+			{
+				$query['Itemid'] = $active->id;
+				return;
+			}
+		}
+		else
+		{
+			// Modern routing does not use active menu to build new URL
+			unset($query['Itemid']);
+
+			if (isset($query['view']))
+			{
+				// If query contains a view then does not need default Itemid
+				return;
+			}
 		}
 
 		// If not found, return language specific home link
