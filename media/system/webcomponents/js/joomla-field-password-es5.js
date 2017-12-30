@@ -32,19 +32,19 @@ var _createClass = function () {
   }(),
       c = function (a) {
     function c() {
-      _classCallCheck(this, c);var a = _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).call(this));if (!window.Joomla) throw new Error('Joomla API is not iniatiated!');if (!a.querySelector('input')) throw new Error('Joomla Password field requires an input element!');return a;
+      _classCallCheck(this, c);var a = _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).call(this));if (!window.Joomla) throw new Error('Joomla API is not iniatiated!');if (a.input = a.querySelector('input'), !a.input) throw new Error('Joomla Password field requires an input element!');return a;
     }return _inherits(c, a), _createClass(c, [{ key: 'minLength', get: function get() {
-        parseInt(this.input.getAttribute('min-length'));
+        return parseInt(this.getAttribute('min-length'));
       } }, { key: 'minIntegers', get: function get() {
-        parseInt(this.input.getAttribute('min-integers'));
+        return parseInt(this.getAttribute('min-integers'));
       } }, { key: 'minSymbols', get: function get() {
-        parseInt(this.input.getAttribute('min-symbols'));
+        return parseInt(this.getAttribute('min-symbols'));
       } }, { key: 'minUppercase', get: function get() {
-        parseInt(this.input.getAttribute('min-uppercase'));
+        return parseInt(this.getAttribute('min-uppercase'));
       } }, { key: 'minLowercase', get: function get() {
-        parseInt(this.input.getAttribute('min-lowercase'));
+        return parseInt(this.getAttribute('min-lowercase'));
       } }, { key: 'reveal', get: function get() {
-        this.input.getAttribute('reveal');
+        return this.getAttribute('view');
       } }], [{ key: 'observedAttributes', get: function get() {
         return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal'];
       } }]), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {
@@ -59,9 +59,7 @@ var _createClass = function () {
             });
           }
         }
-      } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
-        this.buttonSelect.removeEventListener('click', this), this.modal.removeEventListener('hide', this);
-      } }, { key: 'setValue', value: function setValue() {
+      } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {} }, { key: 'setValue', value: function setValue() {
         this.getMeter.bind(this);
       } }, { key: 'getMeter', value: function getMeter() {
         var a = document.querySelector('.progress-bar'),

@@ -55,12 +55,12 @@
 			return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal'];
 		}
 
-		get minLength() { parseInt(this.input.getAttribute('min-length')); }
-		get minIntegers() { parseInt(this.input.getAttribute('min-integers')); }
-		get minSymbols() { parseInt(this.input.getAttribute('min-symbols')); }
-		get minUppercase() { parseInt(this.input.getAttribute('min-uppercase')); }
-		get minLowercase() { parseInt(this.input.getAttribute('min-lowercase')); }
-		get reveal() { this.input.getAttribute('reveal'); }
+		get minLength() { return parseInt(this.getAttribute('min-length')); }
+		get minIntegers() { return parseInt(this.getAttribute('min-integers')); }
+		get minSymbols() { return parseInt(this.getAttribute('min-symbols')); }
+		get minUppercase() { return parseInt(this.getAttribute('min-uppercase')); }
+		get minLowercase() { return parseInt(this.getAttribute('min-lowercase')); }
+		get reveal() { return this.getAttribute('view'); }
 
 		// attributeChangedCallback(attr, oldValue, newValue) {}
 
@@ -71,7 +71,9 @@
 				throw new Error('Joomla API is not iniatiated!')
 			}
 
-			if (!this.querySelector('input')) {
+			this.input = this.querySelector('input');
+
+			if (!this.input) {
 				throw new Error('Joomla Password field requires an input element!')
 			}
 		}
@@ -165,8 +167,7 @@
 		}
 
 		disconnectedCallback() {
-			this.buttonSelect.removeEventListener('click', this);
-			this.modal.removeEventListener('hide', this);
+
 		}
 
 		// Sets the value

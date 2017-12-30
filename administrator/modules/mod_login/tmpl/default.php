@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', ['joomla-field-password' => 'system/webcomponents/joomla-field-password.js'], ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('JSHOW');
@@ -48,24 +48,23 @@ Text::script('JHIDE');
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="text-white" for="mod-login-password">
-				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
-			</label>
-			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-lock" aria-hidden="true"></span>
+			<joomla-field-password view="true">
+				<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+				<div class="input-group">
+					<input
+						name="passwd"
+						id="mod-login-password"
+						type="password"
+						class="form-control input-full"
+						required="required"
+	                    tabindex="2"
+	                >
+					<span class="input-group-addon">
+						<span class="fa fa-eye" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
 					</span>
-				</span>
-				<input
-					name="passwd"
-					id="mod-login-password"
-					type="password"
-					class="form-control input-full"
-					required="required"
-				>
-			</div>
+				</div>
+			</joomla-field-password>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>

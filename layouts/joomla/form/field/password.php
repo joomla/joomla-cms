@@ -50,7 +50,6 @@ extract($displayData);
 if ($meter)
 {
 	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('webcomponents', 'system/webcomponents/joomla-field-password.js', ['version' => 'auto', 'relative' => true]);
 
 	$class = 'js-password-strength ' . $class;
 
@@ -59,6 +58,8 @@ if ($meter)
 		$class = $class . ' meteredPassword';
 	}
 }
+
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-password.js', ['version' => 'auto', 'relative' => true]);
 
 // @TODO pass these as attributes
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE', true);
