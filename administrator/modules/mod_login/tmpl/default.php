@@ -21,8 +21,10 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('webcomponent', ['joomla-field-password' => 'system/webcomponents/joomla-field-password.js'], ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE', true);
+Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE', true);
+Text::script('JSHOW', true);
+Text::script('JHIDE', true);
 
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
@@ -48,7 +50,7 @@ Text::script('JHIDE');
 			</div>
 		</div>
 		<div class="form-group">
-			<joomla-field-password view="true">
+			<joomla-field-password view="true" min-length="2">
 				<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 				<div class="input-group">
 					<input
