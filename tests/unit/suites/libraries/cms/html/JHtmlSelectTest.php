@@ -95,20 +95,20 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			// Function parameters array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 			// 						$translate = false)
 			array(
-				"<div class=\"controls\">\n\t" .
-				"<div class=\"form-check form-check-inline\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" class=\"form-check-input\">\n\t\n\t" .
-				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"form-check-label\">Yes</label>\n\t" .
-				"</div>\n\t" .
-				"<div class=\"form-check form-check-inline\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" class=\"form-check-input\">\n\t\n\t" .
-				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"form-check-label\">No</label>\n\t" .
-				"</div>\n\t" .
-				"<div class=\"form-check form-check-inline\">\n\t\n\t" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" class=\"form-check-input\">\n\t\n\t" .
-				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"form-check-label\">Maybe</label>\n\t" .
-				"</div>\n" .
-				"</div>\n",
+				"<div class=\"controls\">" .
+				"<div class=\"form-check form-check-inline\">" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" class=\"form-check-input\">" .
+				"<label for=\"yesId\" id=\"yesId-lbl\" class=\"form-check-label\">Yes</label>" .
+				"</div>" .
+				"<div class=\"form-check form-check-inline\">" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" class=\"form-check-input\">" .
+				"<label for=\"myRadioListName0\" id=\"myRadioListName0-lbl\" class=\"form-check-label\">No</label>" .
+				"</div>" .
+				"<div class=\"form-check form-check-inline\">" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" class=\"form-check-input\">" .
+				"<label for=\"myRadioListName-1\" id=\"myRadioListName-1-lbl\" class=\"form-check-label\">Maybe</label>" .
+				"</div>" .
+				"</div>",
 				array(
 					array(
 						'value' => '1',
