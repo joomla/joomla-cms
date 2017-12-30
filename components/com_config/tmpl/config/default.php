@@ -43,13 +43,13 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<div id="page-site" class="tab-pane active">
 		<div class="row">
-			<div class="col-lg-6">
+			<div class="col-md-12">
 				<?php echo $this->loadTemplate('site'); ?>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-md-12">
 				<?php echo $this->loadTemplate('seo'); ?>
 			</div>
-			<div class="col-lg-6">
+			<div class="col-md-12">
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</div>
 		</div>
