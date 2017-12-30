@@ -46,6 +46,17 @@ else
 
 // Container
 $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
+
+$scriptOptions = [
+	"system.paths" => [
+		'root'     => JUri::root(true),
+		'rootFull' => JUri::root(),
+		'base'     => JUri::base(true),
+	],
+	"webcomponents" => [
+		"joomla-alert" => Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js',
+	]
+];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -69,19 +80,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 	<?php endif; ?>
 
 	<?php // Web Components and Custom Elements are loaded based on the client capabilities ?>
-	<script type="application/json" class="joomla-script-options new">
-		{
-			"system.paths": {
-				"root":<?php echo json_encode(Uri::root(true)); ?>,
-				"rootFull":<?php echo json_encode(Uri::root()); ?>,
-				"base":"\/"
-			},
-			"webcomponents":{
-				"joomla-alert":<?php echo json_encode(Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js'); ?>
-
-			}
-		}
-	</script>
+	<script type="application/json" class="joomla-script-options new"><?php echo json_encode($scriptOptions); ?></script>
 
 	<script src="<?php echo $this->baseurl; ?>/media/system/js/core.min.js"></script>
 	<script src="<?php echo $this->baseurl . '/templates/' . $this->template . '/js/template.js'; ?>"></script>

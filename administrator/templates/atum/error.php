@@ -34,6 +34,17 @@ $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
+
+$scriptOptions = [
+	"system.paths" => [
+		'root'     => JUri::root(true),
+		'rootFull' => JUri::root(),
+		'base'     => JUri::base(true),
+	],
+	"webcomponents" => [
+		"joomla-alert" => Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js',
+	]
+];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -60,19 +71,7 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 	<?php endif; ?>
 
 	<?php // Web Components and Custom Elements are loaded based on the client capabilities ?>
-	<script type="application/json" class="joomla-script-options new">
-		{
-			"system.paths": {
-				"root":<?php echo json_encode(Uri::root(true)); ?>,
-				"rootFull":<?php echo json_encode(Uri::root()); ?>,
-				"base":"\/administrator"
-			},
-			"webcomponents":{
-				"joomla-alert":<?php echo json_encode(Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js'); ?>
-
-			}
-		}
-	</script>
+	<script type="application/json" class="joomla-script-options new"><?php echo json_encode($scriptOptions); ?></script>
 
 	<script src="<?php echo Uri::root(); ?>media/system/js/core.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
