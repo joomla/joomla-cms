@@ -50,6 +50,7 @@ $scriptOptions = [
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta charset="utf-8">
+	<base href="<?php echo JUri::root(); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1c3d5c">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
@@ -80,9 +81,9 @@ $scriptOptions = [
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 
 	<noscript>
-		<div class="alert alert-danger" role="alert">
+		<joomla-alert type="danger" style="display:block; opacity:1;">
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-		</div>
+		</joomla-alert>
 	</noscript>
 
 	<?php // Wrapper ?>
