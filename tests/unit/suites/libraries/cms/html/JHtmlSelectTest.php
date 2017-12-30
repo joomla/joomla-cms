@@ -127,16 +127,16 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 				"myRadioListName"
 			),
 			array(
-				"<div class=\"controls\">\n\t" .
-				"<div class=\"form-check form-check-inline\">\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"i am radio\" onchange=\"jsfunc();\">\n\t\n\t" .
-				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"radio\">FOO</label>\n\t\n\t" .
-				"</div>\n\t" .
-				"<div class=\"form-check form-check-inline\">\n\t" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"i am radio\" onchange=\"jsfunc();\">\n\t\n\t" .
-				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"radio\">BAR</label>\n\t\n\t" .
-				"</div>\n\t" .
-				"</div>\n",
+				"<div class=\"controls\">" .
+				"<div class=\"form-check form-check-inline\">" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"form-check-input\" onchange=\"jsfunc();\">" .
+				"<label for=\"fooId\" id=\"fooId-lbl\" class=\"form-check-label\">FOO</label>" .
+				"</div>" .
+				"<div class=\"form-check form-check-inline\">" .
+				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"form-check-input\" onchange=\"jsfunc();\">" .
+				"<label for=\"myFooBarListNamebar\" id=\"myFooBarListNamebar-lbl\" class=\"form-check-label\">BAR</label>" .
+				"</div>" .
+				"</div>",
 				array(
 					array(
 						'key' => 'foo',
@@ -150,7 +150,7 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 				),
 				"myFooBarListName",
 				array(
-					'class' => 'i am radio',
+					'class' => 'form-check-input',
 					'onchange' => 'jsfunc();',
 				),
 				'key',
