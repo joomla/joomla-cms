@@ -114,7 +114,7 @@ class PostgresqlChangeItem extends ChangeItem
 					break;
 				case 'SET' :
 					$isNullable = $this->fixQuote('NO');
-	
+
 					if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
 					{
 						$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
