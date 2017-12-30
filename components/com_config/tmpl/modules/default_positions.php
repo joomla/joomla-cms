@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;;
 
-JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0));
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
