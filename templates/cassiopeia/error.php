@@ -115,12 +115,6 @@ $scriptOptions = [
 		</nav>
 	</header>
 
-	<noscript>
-		<joomla-alert type="danger" style="display:block; opacity:1;">
-			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-		</joomla-alert>
-	</noscript>
-
 	<div class="container-main">
 
 		<div class="container-component">
