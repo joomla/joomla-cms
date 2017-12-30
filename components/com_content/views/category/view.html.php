@@ -212,16 +212,29 @@ class ContentViewCategory extends JViewCategory
 			$title = $this->category->title;
 		}
 
-		$this->params->set('page_title', $title);
+		$this->document->setTitle($title);
 
 		if ($this->category->metadesc)
 		{
-			$this->params->set('menu-meta_description', $this->category->metadesc);
+			$this->document->setDescription($this->category->metadesc);
+		}
+		elseif ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
 
 		if ($this->category->metakey)
 		{
-			$this->params->set('keywords', $this->category->metakey);
+			$this->document->setMetadata('keywords', $this->category->metakey);
+		}
+		elseif ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
 		if (!is_object($this->category->metadata))
@@ -229,14 +242,20 @@ class ContentViewCategory extends JViewCategory
 			$this->category->metadata = new Registry($this->category->metadata);
 		}
 
-		$mdata = $this->category->metadata->toArray();
-
-		if ($app->get('MetaAuthor') == '1' && $this->category->get('author', ''))
+		if (($app->get('MetaAuthor') == '1') && $this->category->get('author', ''))
 		{
-			$mdata['author'] = $this->category->get('author', '');
+			$this->document->setMetaData('author', $this->category->get('author', ''));
 		}
 
-		$this->params->set('metadata', $mdata);
+		$mdata = $this->category->metadata->toArray();
+
+		foreach ($mdata as $k => $v)
+		{
+			if ($v)
+			{
+				$this->document->setMetadata($k, $v);
+			}
+		}
 
 		return parent::display($tpl);
 	}
