@@ -134,7 +134,8 @@ class PostgresqlChangeItem extends ChangeItem
 						. ' WHERE a.attnum > 0 AND pgc.oid = a.attrelid'
 						. ' AND pg_table_is_visible(pgc.oid) AND NOT a.attisdropped'
 						. ' AND pgc.relname = ' . $this->fixQuote($wordArray[2])
-						. ' AND a.attname = ' . $this->fixQuote($wordArray[5]);
+						. ' AND a.attname = ' . $this->fixQuote($wordArray[5])
+						. ' AND def.adsrc is null';
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
 					$this->checkQueryExpected = 1;
 					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
