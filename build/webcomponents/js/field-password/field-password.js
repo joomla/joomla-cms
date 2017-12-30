@@ -52,7 +52,7 @@
 
 	class JoomlaFieldPassword extends HTMLElement {
 		static get observedAttributes() {
-			return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal'];
+			return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal', 'text-show', 'text-hide', 'text-complete', 'text-incomplete'];
 		}
 
 		get minLength() { return parseInt(this.getAttribute('min-length') || 0); }
@@ -61,6 +61,10 @@
 		get minUppercase() { return parseInt(this.getAttribute('min-uppercase') || 0); }
 		get minLowercase() { return parseInt(this.getAttribute('min-lowercase') || 0); }
 		get reveal() { return this.getAttribute('reveal') || false; }
+		get showText() { return this.getAttribute('text-show') || 'Show'; }
+		get hideText() { return this.getAttribute('text-hide') || 'Hide'; }
+		get completeText() { return this.getAttribute('text-complete') || 'Password meets site\'s requirements'; }
+		get incompleteText() { return this.getAttribute('text-incomplete') || 'Password does not meet site\'s requirements'; }
 
 		// attributeChangedCallback(attr, oldValue, newValue) {}
 
@@ -76,6 +80,9 @@
 			if (!this.input) {
 				throw new Error('Joomla Password field requires an input element!')
 			}
+
+			this.meterLabel = ''
+			this.meter = ''
 		}
 
 		connectedCallback() {
@@ -102,25 +109,19 @@
 				const meter = document.createElement('div');
 				meter.setAttribute('class', 'progress');
 
-				const meter2 = document.createElement('div');
-				meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
-				meter2.style.width = 0 + initialVal;
-				meter2.max         = 100;
-				meter2.setAttribute('aria-describedby', 'password-' + i);
-				meter.appendChild(meter2);
+				this.meter = document.createElement('div');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
+				this.meter.style.width = 0 + initialVal;
+				this.meter.max = 100;
+				this.meter.setAttribute('aria-describedby', 'password-' + i);
+				meter.appendChild(this.meter);
 
-				const label = document.createElement('div');
-				label.setAttribute('class', 'text-xs-center');
-				label.setAttribute('id', 'password-' + i);
+				this.meterLabel = document.createElement('div');
+				this.meterLabel.setAttribute('class', 'text-xs-center');
+				this.meterLabel.setAttribute('id', 'password-' + i);
 
-				if (this.querySelector('.input-group')) {
-					el = this.querySelector('.input-group')
-				} else {
-					el = this;
-				}
-
-				el.insertAdjacentElement('afterEnd', label);
-				el.insertAdjacentElement('afterEnd', meter);
+				this.insertAdjacentElement('afterEnd', this.meterLabel);
+				this.insertAdjacentElement('afterEnd', meter);
 
 				/** Add a data attribute for the required **/
 				if (this.input.value.length > 0) {
@@ -140,42 +141,61 @@
 			}
 
 			if (this.reveal === 'true') {
-				const inputGroup = this.querySelector('.input-group-addon');
+				const parent = document.createElement('span');
+				const firstSpan = document.createElement('span');
+				const secondSpan = document.createElement('span');
 
-				if (inputGroup) {
-					const that = this;
-					// @TODO Remove Font awesome dependency
-					// @TODO Remove Bootstrap dependency
-					// @TODO Simplify the HTML (eg create what's needed automatically)
-					inputGroup.addEventListener('click', function (e) {
+				parent.classList.add('input-group-addon');
+				firstSpan.setAttribute('class', 'fa fa-eye');
+				firstSpan.setAttribute('aria-hidden', 'true');
+				secondSpan.setAttribute('class', 'sr-only');
+				secondSpan.innerText = this.showText;
 
-						const target = that.querySelector('.fa');
-						const srText = target.nextElementSibling;
+				parent.appendChild(firstSpan);
+				parent.appendChild(secondSpan);
 
-						if (target.classList.contains('fa-eye')) {
-							// Update the icon class
-							target.classList.remove('fa-eye');
-							target.classList.add('fa-eye-slash');
+				let groupInput = this.querySelector('.input-group');
 
-							// Update the input type
-							that.input.type = 'text';
+				if (!groupInput) {
+					groupInput = document.createElement('div');
+					groupInput.classList.add('input-group');
 
-							// Update the text for screenreaders
-							srText.innerText = window.Joomla.JText._('JSHOW');
-						}
-						else {
-							// Update the icon class
-							target.classList.add('fa-eye');
-							target.classList.remove('fa-eye-slash');
-
-							// Update the input type
-							that.input.type = 'password';
-
-							// Update the text for screenreaders
-							srText.innerText = window.Joomla.JText._('JHIDE');
-						}
-					});
+					groupInput.appendChild(this.input);
+					this.appendChild(groupInput);
 				}
+
+				groupInput.appendChild(parent);
+
+				const that = this;
+
+				this.input = this.querySelector('input');
+
+				// @TODO Remove Font awesome dependency
+				// @TODO Remove Bootstrap dependency
+				firstSpan.addEventListener('click', () => {
+
+					if (firstSpan.classList.contains('fa-eye')) {
+						// Update the icon class
+						firstSpan.classList.remove('fa-eye');
+						firstSpan.classList.add('fa-eye-slash');
+
+						// Update the input type
+						that.input.type = 'text';
+
+						// Update the text for screenreaders
+						secondSpan.innerText = that.showText;
+					} else {
+						// Update the icon class
+						firstSpan.classList.add('fa-eye');
+						firstSpan.classList.remove('fa-eye-slash');
+
+						// Update the input type
+						that.input.type = 'password';
+
+						// Update the text for screenreaders
+						secondSpan.innerText = that.hideText;
+					}
+				});
 			}
 		}
 
@@ -185,7 +205,10 @@
 
 		/** Method to check the input and set the meter **/
 		getMeter() {
-			const meter = document.querySelector('.progress-bar');
+
+			if (!this.meter || !this.meterLabel) {
+				return;
+			}
 
 			const strength = new PasswordStrength({
 				lowercase: this.minLowercase ? this.minLowercase : 0,
@@ -195,38 +218,36 @@
 				length   : this.minLength ? this.minLength : 4
 			});
 
-			const score = strength.getScore(this.input.value),
-			      i     = meter.getAttribute('aria-describedby'),
-			      label = this.querySelector('#' + i);
+			const score = strength.getScore(this.input.value);
 
 			if (score > 79) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
-				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+				this.meterLabel.innerHTML = this.completeText;
 			}
 			if (score > 64 && score < 80) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
-				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+				this.meterLabel.innerHTML = this.incompleteText;
 			}
 			if (score > 50 && score < 65) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
-				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+				this.meterLabel.innerHTML = this.incompleteText;
 			}
 			if (score > 40 && score < 51) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
-				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
+				this.meterLabel.innerHTML = this.incompleteText;
 			}
 			if (score < 41) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-danger');
-				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-danger');
+				this.meterLabel.innerHTML = this.incompleteText;
 			}
 			if (score === 100) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success');
 			}
-			meter.style.width = score + '%';
+			this.meter.style.width = score + '%';
 
 			if (!this.input.value.length) {
-				meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated');
-				label.innerHTML = '';
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated');
+				this.meterLabel.innerHTML = '';
 				this.input.setAttribute('required', '');
 			}
 		}

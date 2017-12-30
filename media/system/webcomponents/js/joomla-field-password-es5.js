@@ -32,7 +32,7 @@ var _createClass = function () {
   }(),
       c = function (a) {
     function c() {
-      _classCallCheck(this, c);var a = _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).call(this));if (!window.Joomla) throw new Error('Joomla API is not iniatiated!');if (a.input = a.querySelector('input'), !a.input) throw new Error('Joomla Password field requires an input element!');return a;
+      _classCallCheck(this, c);var a = _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).call(this));if (!window.Joomla) throw new Error('Joomla API is not iniatiated!');if (a.input = a.querySelector('input'), !a.input) throw new Error('Joomla Password field requires an input element!');return a.meterLabel = '', a.meter = '', a;
     }return _inherits(c, a), _createClass(c, [{ key: 'minLength', get: function get() {
         return parseInt(this.getAttribute('min-length') || 0);
       } }, { key: 'minIntegers', get: function get() {
@@ -45,28 +45,33 @@ var _createClass = function () {
         return parseInt(this.getAttribute('min-lowercase') || 0);
       } }, { key: 'reveal', get: function get() {
         return this.getAttribute('reveal') || !1;
+      } }, { key: 'showText', get: function get() {
+        return this.getAttribute('text-show') || 'Show';
+      } }, { key: 'hideText', get: function get() {
+        return this.getAttribute('text-hide') || 'Hide';
+      } }, { key: 'completeText', get: function get() {
+        return this.getAttribute('text-complete') || 'Password meets site\'s requirements';
+      } }, { key: 'incompleteText', get: function get() {
+        return this.getAttribute('text-incomplete') || 'Password does not meet site\'s requirements';
       } }], [{ key: 'observedAttributes', get: function get() {
-        return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal'];
+        return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal', 'text-show', 'text-hide', 'text-complete', 'text-incomplete'];
       } }]), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {
         if (this.minLength && 0 < this.minLength || this.minIntegers && 0 < this.minIntegers || this.minSymbols && 0 < this.minSymbols || this.minUppercase && 0 < this.minUppercase || this.minLowercase && 0 < this.minLowercase) {
-          var a,
-              b = '',
-              c = '';this.input.value.length || (b = ' bg-danger', c = 0);var d = Math.random().toString(36).substr(2, 9),
-              e = document.createElement('div');e.setAttribute('class', 'progress');var f = document.createElement('div');f.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + b), f.style.width = 0 + c, f.max = 100, f.setAttribute('aria-describedby', 'password-' + d), e.appendChild(f);var g = document.createElement('div');g.setAttribute('class', 'text-xs-center'), g.setAttribute('id', 'password-' + d), a = this.querySelector('.input-group') ? this.querySelector('.input-group') : this, a.insertAdjacentElement('afterEnd', g), a.insertAdjacentElement('afterEnd', e), 0 < this.input.value.length && this.input.setAttribute('required', ''), this.input.addEventListener('keyup', this.getMeter.bind(this)), this.setAttribute('validation-handler', 'password-strength_' + Math.random().toString(36).substr(2, 9)), document.formvalidator && document.formvalidator.setHandler(this.getAttribute('validation-handler'), this.handler.bind(this));
+          var a = '',
+              b = '';this.input.value.length || (a = ' bg-danger', b = 0);var c = Math.random().toString(36).substr(2, 9),
+              d = document.createElement('div');d.setAttribute('class', 'progress'), this.meter = document.createElement('div'), this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + a), this.meter.style.width = 0 + b, this.meter.max = 100, this.meter.setAttribute('aria-describedby', 'password-' + c), d.appendChild(this.meter), this.meterLabel = document.createElement('div'), this.meterLabel.setAttribute('class', 'text-xs-center'), this.meterLabel.setAttribute('id', 'password-' + c), this.insertAdjacentElement('afterEnd', this.meterLabel), this.insertAdjacentElement('afterEnd', d), 0 < this.input.value.length && this.input.setAttribute('required', ''), this.input.addEventListener('keyup', this.getMeter.bind(this)), this.setAttribute('validation-handler', 'password-strength_' + Math.random().toString(36).substr(2, 9)), document.formvalidator && document.formvalidator.setHandler(this.getAttribute('validation-handler'), this.handler.bind(this));
         }if ('true' === this.reveal) {
-          var h = this.querySelector('.input-group-addon');if (h) {
-            var i = this;h.addEventListener('click', function () {
-              var a = i.querySelector('.fa'),
-                  b = a.nextElementSibling;a.classList.contains('fa-eye') ? (a.classList.remove('fa-eye'), a.classList.add('fa-eye-slash'), i.input.type = 'text', b.innerText = window.Joomla.JText._('JSHOW')) : (a.classList.add('fa-eye'), a.classList.remove('fa-eye-slash'), i.input.type = 'password', b.innerText = window.Joomla.JText._('JHIDE'));
-            });
-          }
+          var e = document.createElement('span'),
+              f = document.createElement('span'),
+              g = document.createElement('span');e.classList.add('input-group-addon'), f.setAttribute('class', 'fa fa-eye'), f.setAttribute('aria-hidden', 'true'), g.setAttribute('class', 'sr-only'), g.innerText = this.showText, e.appendChild(f), e.appendChild(g);var h = this.querySelector('.input-group');h || (h = document.createElement('div'), h.classList.add('input-group'), h.appendChild(this.input), this.appendChild(h)), h.appendChild(e);var i = this;this.input = this.querySelector('input'), f.addEventListener('click', function () {
+            f.classList.contains('fa-eye') ? (f.classList.remove('fa-eye'), f.classList.add('fa-eye-slash'), i.input.type = 'text', g.innerText = i.showText) : (f.classList.add('fa-eye'), f.classList.remove('fa-eye-slash'), i.input.type = 'password', g.innerText = i.hideText);
+          });
         }
       } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {} }, { key: 'getMeter', value: function getMeter() {
-        var a = document.querySelector('.progress-bar'),
-            c = new b({ lowercase: this.minLowercase ? this.minLowercase : 0, uppercase: this.minUppercase ? this.minUppercase : 0, numbers: this.minIntegers ? this.minIntegers : 0, special: this.minSymbols ? this.minSymbols : 0, length: this.minLength ? this.minLength : 4 }),
-            d = c.getScore(this.input.value),
-            e = a.getAttribute('aria-describedby'),
-            f = this.querySelector('#' + e);79 < d && (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), f.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE')), 64 < d && 80 > d && (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), f.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE')), 50 < d && 65 > d && (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), f.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE')), 40 < d && 51 > d && (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), f.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE')), 41 > d && (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-danger'), f.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE')), 100 === d && a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success'), a.style.width = d + '%', this.input.value.length || (a.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated'), f.innerHTML = '', this.input.setAttribute('required', ''));
+        if (this.meter && this.meterLabel) {
+          var a = new b({ lowercase: this.minLowercase ? this.minLowercase : 0, uppercase: this.minUppercase ? this.minUppercase : 0, numbers: this.minIntegers ? this.minIntegers : 0, special: this.minSymbols ? this.minSymbols : 0, length: this.minLength ? this.minLength : 4 }),
+              c = a.getScore(this.input.value);79 < c && (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), this.meterLabel.innerHTML = this.completeText), 64 < c && 80 > c && (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), this.meterLabel.innerHTML = this.incompleteText), 50 < c && 65 > c && (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), this.meterLabel.innerHTML = this.incompleteText), 40 < c && 51 > c && (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning'), this.meterLabel.innerHTML = this.incompleteText), 41 > c && (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-danger'), this.meterLabel.innerHTML = this.incompleteText), 100 === c && this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-success'), this.meter.style.width = c + '%', this.input.value.length || (this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated'), this.meterLabel.innerHTML = '', this.input.setAttribute('required', ''));
+        }
       } }, { key: 'handler', value: function handler(a) {
         var c = new b({ lowercase: this.minLowercase ? this.minLowercase : 0, uppercase: this.minUppercase ? this.minUppercase : 0, numbers: this.minIntegers ? this.minIntegers : 0, special: this.minSymbols ? this.minSymbols : 0, length: this.minLength ? this.minLength : 4 });return 100 === c.getScore(a);
       } }]), c;
