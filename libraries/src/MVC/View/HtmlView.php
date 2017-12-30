@@ -8,6 +8,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -744,8 +748,8 @@ class HtmlView extends \JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		$component = \JApplicationHelper::getComponentName();
-		$app = \JFactory::getApplication();
+		$component = ApplicationHelper::getComponentName();
+		$app       = Factory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -871,5 +875,68 @@ class HtmlView extends \JObject
 		}
 
 		$this->document->setTitle($title);
+	}
+
+	/**
+	 * Method to add some document head data from view's $params property
+	 *
+	 * @return void
+	 *
+	 * @since 3.9.0
+	 */
+	protected function setDocumentHeadDatas()
+	{
+		if (isset($this->params) && $this->params instanceof Registry)
+		{
+			/* @var Registry $params */
+			$params = $this->params;
+			$app    = Factory::getApplication();
+
+			$title = $params->get('page_title');
+
+			// Check for empty title and add site name if param is set
+			if (empty($title))
+			{
+				$title = $app->get('sitename');
+			}
+			elseif ($app->get('sitename_pagetitles', 0) == 1)
+			{
+				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			}
+			elseif ($app->get('sitename_pagetitles', 0) == 2)
+			{
+				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			}
+
+			$this->document->setTitle($title);
+
+			if ($params->get('menu-meta_description'))
+			{
+				$this->document->setDescription($params->get('menu-meta_description'));
+			}
+
+			if ($params->get('menu-meta_keywords'))
+			{
+				$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+			}
+
+			if ($params->get('robots'))
+			{
+				$this->document->setMetadata('robots', $params->get('robots'));
+			}
+
+			$metaData = $this->params->get('metadata');
+
+			if (is_array($metaData))
+			{
+				// Remove empty value
+				$metaData = array_filter($metaData);
+
+				foreach ($metaData as $k => $v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}
+		}
 	}
 }
