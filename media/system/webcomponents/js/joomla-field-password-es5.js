@@ -44,7 +44,7 @@ var _createClass = function () {
       } }, { key: 'minLowercase', get: function get() {
         return parseInt(this.getAttribute('min-lowercase') || 0);
       } }, { key: 'reveal', get: function get() {
-        return this.getAttribute('view');
+        return this.getAttribute('reveal') || !1;
       } }], [{ key: 'observedAttributes', get: function get() {
         return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal'];
       } }]), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {

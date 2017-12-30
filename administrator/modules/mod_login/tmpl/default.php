@@ -50,7 +50,7 @@ Text::script('JHIDE', true);
 			</div>
 		</div>
 		<div class="form-group">
-			<joomla-field-password view="true" min-length="2">
+			<joomla-field-password reveal="true" min-length="2">
 				<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 				<div class="input-group">
 					<input

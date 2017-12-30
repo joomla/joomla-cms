@@ -60,7 +60,7 @@
 		get minSymbols() { return parseInt(this.getAttribute('min-symbols') || 0); }
 		get minUppercase() { return parseInt(this.getAttribute('min-uppercase') || 0); }
 		get minLowercase() { return parseInt(this.getAttribute('min-lowercase') || 0); }
-		get reveal() { return this.getAttribute('view'); }
+		get reveal() { return this.getAttribute('reveal') || false; }
 
 		// attributeChangedCallback(attr, oldValue, newValue) {}
 
@@ -79,7 +79,6 @@
 		}
 
 		connectedCallback() {
-
 			// Meter is enabled
 			// @TODO Remove Bootstrap dependency
 			if (this.minLength && this.minLength > 0
@@ -119,7 +118,6 @@
 				} else {
 					el = this;
 				}
-
 
 				el.insertAdjacentElement('afterEnd', label);
 				el.insertAdjacentElement('afterEnd', meter);
