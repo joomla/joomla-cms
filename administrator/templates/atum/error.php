@@ -59,12 +59,22 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/polyfills/webcomponents-ce.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/js/joomla-alert-es5.min.js"></script>
+	<?php // Web Components and Custom Elements are loaded based on the client capabilities ?>
+	<script type="application/json" class="joomla-script-options new">
+		{
+			"system.paths": {
+				"root":<?php echo json_encode(Uri::root(true)); ?>,
+				"rootFull":<?php echo json_encode(Uri::root()); ?>,
+				"base":"\/administrator"
+			},
+			"webcomponents":{
+				"joomla-alert":<?php echo json_encode(Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js'); ?>
+
+			}
+		}
+	</script>
+
 	<script src="<?php echo Uri::root(); ?>media/system/js/core.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/system/js/bootstrap-init.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 

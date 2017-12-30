@@ -41,13 +41,6 @@ Joomla = window.Joomla || {};
 		var target = event && event.target ? event.target : document;
 
 		/**
-		 * Bootstrap tooltips
-		 */
-		jQuery(target).find('*[rel=tooltip]').tooltip({
-			html: true
-		});
-
-		/**
 		 * Prevent clicks on buttons within a disabled fieldset
 		 */
 		var fieldsets = target.querySelectorAll('fieldset.btn-group');
