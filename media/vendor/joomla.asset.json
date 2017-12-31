@@ -116,34 +116,6 @@
         "vendor/jquery-migrate/jquery-migrate.min.js"
       ]
     },
-    "jquery-sortable": {
-      "package": "jquery-sortable",
-      "name": "jquery-sortable",
-      "version": "0.9.13",
-      "dependencies": [
-        "jquery"
-      ],
-      "js": [
-        "vendor/jquery-sortable/jquery-sortable.js",
-        "vendor/jquery-sortable/jquery-sortable-min.js"
-      ]
-    },
-    "jquery-ui": {
-      "package": "jquery-ui-dist",
-      "name": "jquery-ui",
-      "version": "1.12.1",
-      "dependencies": [
-        "jquery"
-      ],
-      "js": [
-        "vendor/jquery-ui/jquery-ui.core.js",
-        "vendor/jquery-ui/jquery-ui.core.min.js"
-      ],
-      "css": [
-        "vendor/jquery-ui/jquery-ui.css",
-        "vendor/jquery-ui/jquery-ui.min.css"
-      ]
-    },
     "joomla-custom-elements": {
       "package": "joomla-ui-custom-elements",
       "name": "joomla-custom-elements",

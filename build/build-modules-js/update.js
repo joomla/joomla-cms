@@ -13,6 +13,7 @@ cleanVendors = () => {
 	// Let's keep some tinyMCE folders
 	fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/langs'), Path.join(rootPath, 'build/tiny_langs'));
 	fsExtra.copySync(Path.join(rootPath, 'media/vendor/tinymce/templates'), Path.join(rootPath, 'build/tiny_templates'));
+	fsExtra.copySync(Path.join(rootPath, 'media/vendor/jquery-ui'), Path.join(rootPath, 'build/jquery-ui'));
 
 	fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
 	fsExtra.removeSync(Path.join(rootPath, 'media/system/js/polyfills'));
@@ -20,8 +21,10 @@ cleanVendors = () => {
 	// Restore and erase the tmp folders
 	fsExtra.copySync(Path.join(rootPath, 'build/tiny_langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
 	fsExtra.copySync(Path.join(rootPath, 'build/tiny_templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
+	fsExtra.copySync(Path.join(rootPath, 'build/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
 	fsExtra.removeSync(Path.join(rootPath, 'build/tiny_langs'));
 	fsExtra.removeSync(Path.join(rootPath, 'build/tiny_templates'));
+	fsExtra.removeSync(Path.join(rootPath, 'build/jquery-ui'));
 
 	console.log(Chalk.blue('/media/vendor has been removed.'));
 };

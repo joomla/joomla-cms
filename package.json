@@ -252,40 +252,6 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
-      "jquery-sortable": {
-        "name": "jquery-sortable",
-        "js": {
-          "source/js/jquery-sortable.js": "js/jquery-sortable.js",
-          "source/js/jquery-sortable-min.js": "js/jquery-sortable-min.js"
-        },
-        "dependencies": [
-          "jquery"
-        ],
-        "licenseFilename": "LICENSE"
-      },
-      "jquery-ui-dist": {
-        "name": "jquery-ui",
-        "js": {
-          "jquery-ui.js": "js/jquery-ui.core.js",
-          "jquery-ui.min.js": "js/jquery-ui.core.min.js"
-        },
-        "css": {
-          "jquery-ui.css": "css/jquery-ui.css",
-          "jquery-ui.min.css": "css/jquery-ui.min.css"
-        },
-        "filesExtra": {
-          "images/ui-icons_444444_256x240.png": "css/images/ui-icons_444444_256x240.png",
-          "images/ui-icons_555555_256x240.png": "css/images/ui-icons_555555_256x240.png",
-          "images/ui-icons_777620_256x240.png": "css/images/ui-icons_777620_256x240.png",
-          "images/ui-icons_777777_256x240.png": "css/images/ui-icons_777777_256x240.png",
-          "images/ui-icons_cc0000_256x240.png": "css/images/ui-icons_cc0000_256x240.png",
-          "images/ui-icons_ffffff_256x240.png": "css/images/ui-icons_ffffff_256x240.png"
-        },
-        "dependencies": [
-          "jquery"
-        ],
-        "licenseFilename": "LICENSE.txt"
-      },
       "joomla-ui-custom-elements": {
         "name": "joomla-custom-elements",
         "js": {
