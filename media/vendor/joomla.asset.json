@@ -20,7 +20,7 @@
     "bootstrap": {
       "package": "bootstrap",
       "name": "bootstrap",
-      "version": "4.0.0-beta.2",
+      "version": "4.0.0-beta.3",
       "dependencies": [],
       "js": [
         "vendor/bootstrap/bootstrap.js",
@@ -217,7 +217,7 @@
     "tinymce": {
       "package": "tinymce",
       "name": "tinymce",
-      "version": "4.7.3",
+      "version": "4.7.4",
       "dependencies": []
     }
   }
