@@ -114,7 +114,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<div class="control-group">
 					<div class="input-group">
 						<?php echo $this->form->getInput('searchstring'); ?>
-						<span class="input-group-btn">
+						<span class="input-group-append">
 							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 								<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 							</button>

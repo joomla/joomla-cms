@@ -26,47 +26,50 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 
 <hr>
 
-<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="form-inline text-center">
+<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
 	<fieldset class="loginform">
 		<div class="control-group">
 			<div class="controls">
-				<div class="input-prepend input-append">
-					<span class="input-group-addon">
-						<span class="icon-user hasTooltip" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" aria-hidden="true"></span>
-						<label for="mod-login-username" class="sr-only">
-							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
-						</label>
-					</span>
+				<div class="input-group">
 					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<span class="input-group-append">
+						<span class="input-group-text">
+							<span class="fa fa-user" aria-hidden="true"></span>
+							<label for="mod-login-username" class="sr-only">
+								<?php echo JText::_('JGLOBAL_USERNAME'); ?>
+							</label>
+						</span>
+					</span>
 				</div>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<div class="input-prepend input-append">
-					<span class="input-group-addon">
-						<span class="icon-lock hasTooltip" title="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" aria-hidden="true"></span>
-						<label for="mod-login-password" class="sr-only">
-							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
-						</label>
-					</span>
+				<div class="input-addon">
 					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<span class="input-group-append">
+						<span class="input-group-text">
+							<span class="fa fa-lock" aria-hidden="true"></span>
+							<label for="mod-login-password" class="sr-only">
+								<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+							</label>
+						</span>
+					</span>
 				</div>
 			</div>
 		</div>
 		<?php if (count($twofactormethods) > 1) : ?>
 			<div class="control-group">
 				<div class="controls">
-					<div class="input-prepend input-append">
-						<span class="input-group-addon">
-							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" aria-hidden="true"></span>
-							<label for="mod-login-secretkey" class="sr-only">
-								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
-							</label>
-						</span>
+					<div class="input-group">
 						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15">
-						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help" aria-hidden="true"></span>
+						<span class="input-group-append">
+							<span class="input-group-text hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+								<span class="fa fa-star" aria-hidden="true"></span>
+								<label for="mod-login-secretkey" class="sr-only">
+									<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+								</label>
+							</span>
 						</span>
 					</div>
 				</div>

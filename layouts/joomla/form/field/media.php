@@ -144,9 +144,9 @@ $url    = ($readonly ? ''
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<div class="input-group-btn">
+			<div class="input-group-append">
 				<a class="btn btn-secondary button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><span class="icon-remove" aria-hidden="true"></span></a>
+				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><span class="fa fa-times" aria-hidden="true"></span></a>
 			</div>
 		<?php endif; ?>
 	</div>
