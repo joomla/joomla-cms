@@ -516,7 +516,7 @@ abstract class JHtmlBehavior
 		{
 			$terms[$i] = JFilterOutput::stringJSSafe($term);
 		}
-		
+
 		JFactory::getDocument()->addScriptOptions('highlighter',
 			[
 				'start'     => $start,
