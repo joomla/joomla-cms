@@ -104,7 +104,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 		</nav>
 	</header>
 
-	<div class="container-main">
+	<div class="grid-child container-main">
 
 		<div class="container-component">
 			<h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
@@ -152,7 +152,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 
 	</div>
 
-	<footer class="container-footer footer">
+	<footer class="grid-child container-footer footer">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
