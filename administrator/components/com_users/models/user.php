@@ -86,15 +86,7 @@ class UsersModelUser extends JModelAdmin
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new JHelperTags;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
