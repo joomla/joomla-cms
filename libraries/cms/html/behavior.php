@@ -516,26 +516,16 @@ abstract class JHtmlBehavior
 		{
 			$terms[$i] = JFilterOutput::stringJSSafe($term);
 		}
-
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration("
-			jQuery(function ($) {
-				var start = document.getElementById('" . $start . "');
-				var end = document.getElementById('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
-					return true;
-				}
-				highlighter = new Joomla.Highlighter({
-					startElement: start,
-					endElement: end,
-					className: '" . $className . "',
-					onlyWords: false,
-					tag: '" . $tag . "'
-				}).highlight([\"" . implode('","', $terms) . "\"]);
-				$(start).remove();
-				$(end).remove();
-			});
-		");
+		
+		JFactory::getDocument()->addScriptOptions('highlighter',
+			[
+				'start'     => $start,
+				'end'       => $end,
+				'className' => $className,
+				'tag'       => $tag,
+				'terms'     => implode('","', $terms),
+			]
+		);
 
 		static::$loaded[__METHOD__][$sig] = true;
 
