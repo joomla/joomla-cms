@@ -9,5 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-JLog::add('The layout joomla.content.info_block.block is deprecated, use joomla.content.info_block instead.', JLog::WARNING, 'deprecated');
-echo JLayoutHelper::render('joomla.content.info_block', $displayData);
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Layout\LayoutHelper;
+
+Log::add('The layout joomla.content.info_block.block is deprecated, use joomla.content.info_block instead.', Log::WARNING, 'deprecated');
+echo LayoutHelper::render('joomla.content.info_block', $displayData);
