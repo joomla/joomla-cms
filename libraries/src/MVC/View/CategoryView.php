@@ -125,7 +125,7 @@ class CategoryView extends HtmlView
 		$children    = $this->get('Children');
 		$parent      = $this->get('Parent');
 
-		if ($category == false || $parent == false)
+		if ($category === false || $parent === false)
 		{
 			return \JError::raiseError(404, \JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
