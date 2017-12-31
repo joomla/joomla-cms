@@ -24,7 +24,9 @@
       "dependencies": [],
       "js": [
         "vendor/bootstrap/bootstrap.js",
-        "vendor/bootstrap/bootstrap.min.js"
+        "vendor/bootstrap/bootstrap.min.js",
+        "vendor/bootstrap/bootstrap.bundle.js",
+        "vendor/bootstrap/bootstrap.bundle.min.js"
       ],
       "css": [
         "vendor/bootstrap/bootstrap.css",
@@ -126,34 +128,34 @@
         "vendor/jquery-sortable/jquery-sortable-min.js"
       ]
     },
-    "jquery-ui-dist": {
+    "jquery-ui": {
       "package": "jquery-ui-dist",
-      "name": "jquery-ui-dist",
+      "name": "jquery-ui",
       "version": "1.12.1",
       "dependencies": [
         "jquery"
       ],
       "js": [
-        "vendor/jquery-ui-dist/jquery-ui.js",
-        "vendor/jquery-ui-dist/jquery-ui.min.js"
+        "vendor/jquery-ui/jquery-ui.core.js",
+        "vendor/jquery-ui/jquery-ui.core.min.js"
       ],
       "css": [
-        "vendor/jquery-ui-dist/jquery-ui.css",
-        "vendor/jquery-ui-dist/jquery-ui.min.css"
+        "vendor/jquery-ui/jquery-ui.css",
+        "vendor/jquery-ui/jquery-ui.min.css"
       ]
     },
-    "joomla-ui-custom-elements": {
+    "joomla-custom-elements": {
       "package": "joomla-ui-custom-elements",
-      "name": "joomla-ui-custom-elements",
+      "name": "joomla-custom-elements",
       "version": "0.0.9",
       "dependencies": [],
       "js": [
-        "vendor/joomla-ui-custom-elements/joomla-alert.js",
-        "vendor/joomla-ui-custom-elements/joomla-alert-es5.js",
-        "vendor/joomla-ui-custom-elements/joomla-alert-es5.min.js",
-        "vendor/joomla-ui-custom-elements/joomla-tab.js",
-        "vendor/joomla-ui-custom-elements/joomla-tab-es5.js",
-        "vendor/joomla-ui-custom-elements/joomla-tab-es5.min.js"
+        "vendor/joomla-custom-elements/joomla-alert.js",
+        "vendor/joomla-custom-elements/joomla-alert-es5.js",
+        "vendor/joomla-custom-elements/joomla-alert-es5.min.js",
+        "vendor/joomla-custom-elements/joomla-tab.js",
+        "vendor/joomla-custom-elements/joomla-tab-es5.js",
+        "vendor/joomla-custom-elements/joomla-tab-es5.min.js"
       ]
     },
     "mediaelement": {
@@ -183,29 +185,19 @@
         "vendor/punycode/punycode.js"
       ]
     },
-    "jquery-minicolors": {
+    "minicolors": {
       "package": "@claviska/jquery-minicolors",
-      "name": "jquery-minicolors",
+      "name": "minicolors",
       "version": "2.2.6",
       "dependencies": [
         "jquery"
       ],
       "js": [
-        "vendor/jquery-minicolors/jquery.minicolors.js",
-        "vendor/jquery-minicolors/jquery.minicolors.min.js"
+        "vendor/minicolors/jquery-minicolors.js",
+        "vendor/minicolors/jquery.minicolors.min.js"
       ],
       "css": [
-        "vendor/jquery-minicolors/jquery.minicolors.css"
-      ]
-    },
-    "masonry-layout": {
-      "package": "masonry-layout",
-      "name": "masonry-layout",
-      "version": "4.2.0",
-      "dependencies": [],
-      "js": [
-        "vendor/masonry-layout/masonry.pkgd.js",
-        "vendor/masonry-layout/masonry.pkgd.min.js"
+        "vendor/minicolors/jquery.minicolors.css"
       ]
     },
     "codemirror": {

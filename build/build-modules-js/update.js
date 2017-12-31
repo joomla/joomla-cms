@@ -194,6 +194,15 @@ copyFiles = (options) => {
 					});
 				}
 			});
+
+			// Copy the license if exists
+			if (options.settings.vendors[packageName].licenseFilename &&
+					fs.existsSync(Path.join(rootPath, 'node_modules/' + packageName) + '/' + options.settings.vendors[packageName].licenseFilename)
+			) {
+				let dest  = Path.join(mediaVendorPath, vendorName);
+				fsExtra.copySync(Path.join(rootPath, 'node_modules/' + packageName) + '/' + options.settings.vendors[packageName].licenseFilename, dest + '/' + options.settings.vendors[packageName].licenseFilename);
+			}
+
 		}
 
 		registry.vendors[vendorName] = registryItem;
