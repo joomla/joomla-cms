@@ -882,7 +882,7 @@ class HtmlView extends \JObject
 	 *
 	 * @return void
 	 *
-	 * @since 3.9.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function setDocumentHeadDatas()
 	{
