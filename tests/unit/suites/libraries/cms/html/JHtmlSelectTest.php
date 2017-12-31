@@ -97,15 +97,15 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			array(
 				"<div class=\"controls\">" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" class=\"form-check-input\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"yesId\" value=\"1\">" .
 				"<label for=\"yesId\" class=\"form-check-label\" id=\"yesId-lbl\">Yes</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" class=\"form-check-input\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\">" .
 				"<label for=\"myRadioListName0\" class=\"form-check-label\" id=\"myRadioListName0-lbl\">No</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" class=\"form-check-input\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\">" .
 				"<label for=\"myRadioListName-1\" class=\"form-check-label\" id=\"myRadioListName-1-lbl\">Maybe</label>" .
 				"</div>" .
 				"</div>",
@@ -129,11 +129,11 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			array(
 				"<div class=\"controls\">" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" class=\"form-check-input\" onchange=\"jsfunc();\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myFooBarListName\" id=\"fooId\" value=\"foo\" onchange=\"jsfunc();\">" .
 				"<label for=\"fooId\" class=\"form-check-label\" id=\"fooId-lbl\">FOO</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" class=\"form-check-input\" onchange=\"jsfunc();\">" .
+				"<input type=\"radio\" class=\"form-check-input\" name=\"myFooBarListName\" id=\"myFooBarListNamebar\" value=\"bar\" onchange=\"jsfunc();\">" .
 				"<label for=\"myFooBarListNamebar\" class=\"form-check-label\" id=\"myFooBarListNamebar-lbl\">BAR</label>" .
 				"</div>" .
 				"</div>",
@@ -150,7 +150,6 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 				),
 				"myFooBarListName",
 				array(
-					'class' => 'form-check-input',
 					'onchange' => 'jsfunc();',
 				),
 				'key',
