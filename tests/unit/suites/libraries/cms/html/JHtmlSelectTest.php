@@ -97,15 +97,15 @@ class JHtmlSelectTest extends \PHPUnit\Framework\TestCase
 			array(
 				"<div class=\"controls\">" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" >" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"yesId\" value=\"1\" class=\"form-check-input\" >" .
 				"<label for=\"yesId\" class=\"form-check-label\" id=\"yesId-lbl\">Yes</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" >" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName0\" value=\"0\" class=\"form-check-input\" >" .
 				"<label for=\"myRadioListName0\" class=\"form-check-label\" id=\"myRadioListName0-lbl\">No</label>" .
 				"</div>" .
 				"<div class=\"form-check form-check-inline\">" .
-				"<input type=\"radio\" class=\"form-check-input\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" >" .
+				"<input type=\"radio\" name=\"myRadioListName\" id=\"myRadioListName-1\" value=\"-1\" class=\"form-check-input\" >" .
 				"<label for=\"myRadioListName-1\" class=\"form-check-label\" id=\"myRadioListName-1-lbl\">Maybe</label>" .
 				"</div>" .
 				"</div>",
