@@ -268,26 +268,38 @@ class ContentViewCategory extends JViewCategory
 	protected function prepareDocument()
 	{
 		parent::prepareDocument();
+
 		$menu = $this->menu;
-		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $this->category->id))
+		// Find category id from active menu item
+		if ($menu
+			&& $menu->component == 'com_content'
+			&& isset($menu->query['view'], $menu->query['id'])
+			&& in_array($menu->query['view'], array('categories', 'category')))
 		{
-			$path = array(array('title' => $this->category->title, 'link' => ''));
-			$category = $this->category->getParent();
+			$menuCategoryId = $menu->query['id'];
+		}
+		else
+		{
+			$menuCategoryId = 0;
+		}
 
-			while (($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
-			{
-				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
-				$category = $category->getParent();
-			}
+		// Build path from current category until we found matching category from active menu item or root category
+		$path     = array(array('title' => $this->category->title, 'link' => ''));
+		$category = $this->category;
 
-			$path = array_reverse($path);
+		// Add category link to pathway until the the category meets the category in active menu or root category is found
+		while ($category && $category->id != $menuCategoryId && $category->id > 1)
+		{
+			$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
+			$category = $category->getParent();
+		}
 
-			foreach ($path as $item)
-			{
-				$this->pathway->addItem($item['title'], $item['link']);
-			}
+		$path = array_reverse($path);
+
+		foreach ($path as $item)
+		{
+			$this->pathway->addItem($item['title'], $item['link']);
 		}
 
 		parent::addFeed();
