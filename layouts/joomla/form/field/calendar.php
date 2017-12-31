@@ -112,7 +112,7 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
-		<span class="input-group-btn">
+		<span class="input-group-append">
 			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
 				id="<?php echo $id; ?>_btn"
 				data-inputfield="<?php echo $id; ?>"
@@ -128,7 +128,7 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 				data-only-months-nav="<?php echo $singleheader; ?>"
 				<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-			><span class="fa fa-calendar"></span></button>
+			><span class="fa fa-calendar" aria-hidden="true"></span></button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
