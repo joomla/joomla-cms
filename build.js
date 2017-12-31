@@ -6,6 +6,8 @@ const installer = require('./build/build-modules-js/installation.js');
 const update = require('./build/build-modules-js/update.js');
 const css = require('./build/build-modules-js/compilescss.js');
 const Js = require('./build/build-modules-js/compilejs.js');
+const CEscss = require('./build/build-modules-js/compilecescss.js');
+const CEjs = require('./build/build-modules-js/compilecejs.js');
 
 // The settings
 const options = require('./package.json');
@@ -16,6 +18,8 @@ Program
 	.option('--update', 'Updates the vendor scripts')
 	.option('--compilejs, --compilejs path', 'Compiles ES6 to ES5 scripts')
 	.option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
+	.option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
+	.option('--compilecescss, --compilecescss path', 'Compiles/traspiles all the custom elements files')
 	.option('--installer', 'Creates the language file for installer error page')
 	.on('--help', () => {
 		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
@@ -58,4 +62,14 @@ if (Program['compilecss']) {
 // Compress/transpile the javascript files
 if (Program['compilejs']) {
 	Js.js(options, Program.args[0])
+}
+
+// Compress/transpile the Custom Elements files
+if (Program['compilecescss']) {
+	CEscss.compileCEscss(options, Program.args[0])
+}
+
+// Compress/transpile the Custom Elements files
+if (Program['compilecejs']) {
+	CEjs.compileCEjs(options, Program.args[0])
 }
