@@ -286,9 +286,8 @@ class ContentViewCategory extends JViewCategory
 
 		// Build path from current category until we found matching category from active menu item or root category
 		$path     = array(array('title' => $this->category->title, 'link' => ''));
-		$category = $this->category;
-
-		// Add category link to pathway until the category in active menu item or root category is found
+		$category = $this->category;		
+		
 		while ($category && $category->id != $menuCategoryId && $category->id > 1)
 		{
 			$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
