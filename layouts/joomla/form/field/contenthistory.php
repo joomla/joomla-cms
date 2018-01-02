@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * -----------------
@@ -44,7 +47,7 @@ defined('JPATH_BASE') or die;
  */
 extract($displayData);
 
-echo JHtml::_(
+echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
@@ -55,7 +58,7 @@ echo JHtml::_(
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
 		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 	)
 );
 
