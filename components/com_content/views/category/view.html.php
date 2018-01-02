@@ -79,7 +79,7 @@ class ContentViewCategory extends JViewCategory
 		$numLeading = $params->def('num_leading_articles', 1);
 		$numIntro   = $params->def('num_intro_articles', 4);
 		$numLinks   = $params->def('num_links', 4);
-		$this->vote = JPluginHelper::isEnabled('content', 'vote');
+		$this->vote = PluginHelper::isEnabled('content', 'vote');
 
 		PluginHelper::importPlugin('content');
 		$dispatcher = JEventDispatcher::getInstance();
