@@ -52,7 +52,7 @@ Joomla = window.Joomla || {};
 
 		Joomla.request({
 			url: options.url,
-			method: 'POST',
+			method: 'GET',
 			perform: true,
 			headers: {'Content-Type': 'application/json'},
 			data: 'type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
@@ -101,7 +101,7 @@ Joomla = window.Joomla || {};
 		var type  = el.getAttribute('data-type');
 		var steps = el.getAttribute('data-steps');
 
-		// Check whether the work in progress or we alredy proccessed with current item
+		// Check whether the work in progress or we already processed with current item
 		if (inProgress) {
 			return;
 		}
