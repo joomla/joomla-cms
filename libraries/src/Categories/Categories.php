@@ -260,16 +260,20 @@ class Categories
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
 				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
-				$query->innerJoin($db->quoteName('#__categories', 'c')
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
 					. ' ON (s.lft < c.lft AND c.lft < s.rgt AND c.language IN ('
 					. $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . '))'
-					. ' OR (c.lft <= s.lft AND s.rgt <= c.rgt)');
+					. ' OR (c.lft <= s.lft AND s.rgt <= c.rgt)'
+				);
 			}
 			else
 			{
-				$query->innerJoin($db->quoteName('#__categories', 'c')
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
 					. ' ON (s.lft <= c.lft AND c.lft < s.rgt)'
-					. ' OR (c.lft < s.lft AND s.rgt < c.rgt)');
+					. ' OR (c.lft < s.lft AND s.rgt < c.rgt)'
+				);
 			}
 		}
 		else
