@@ -9,5 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-JLog::add('The layout joomla.tinymce.buttons is deprecated, use joomla.editors.buttons instead.', JLog::WARNING, 'deprecated');
-echo JLayoutHelper::render('joomla.editors.buttons', $displayData);
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+
+Log::add('The layout joomla.tinymce.buttons is deprecated, use joomla.editors.buttons instead.', Log::WARNING, 'deprecated');
+echo LayoutHelper::render('joomla.editors.buttons', $displayData);
