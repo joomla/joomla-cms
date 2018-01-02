@@ -68,6 +68,9 @@ form .form-no-margin {
 .custom-select {
   max-width: 240px;
 }
+.form-inline .custom-select {
+  width: auto;
+}
 
 td .form-control {
   display: inline-block;

@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 extract($displayData);
 
 /**
@@ -55,7 +57,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-JHtml::_('script', 'system/fields/moduleorder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'system/fields/moduleorder.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div
 	id="parent_<?php echo $id; ?>"

@@ -1,7 +1,7 @@
 // CSS Grid
 
-/* autoprefixer: off */
 @supports (display: grid) {
+  /* autoprefixer: off */
   .site-grid {
     display: grid;
     grid-template-areas:
@@ -100,6 +100,7 @@
 .system-debug             { grid-area: debug; }
 
 .container-component {
+  /* autoprefixer: off */
   grid-column: auto 2fr;
 }
 
@@ -107,6 +108,7 @@
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
+  /* autoprefixer: off */
   display: grid;
   grid-gap: $cassiopeia-grid-gutter;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
