@@ -34,11 +34,23 @@ $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
+
+$scriptOptions = [
+	"system.paths" => [
+		'root'     => JUri::root(true),
+		'rootFull' => JUri::root(),
+		'base'     => JUri::base(true),
+	],
+	"webcomponents" => [
+		"joomla-alert" => Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js',
+	]
+];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta charset="utf-8">
+	<base href="<?php echo JUri::root(); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#1c3d5c">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
@@ -59,21 +71,19 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/polyfills/webcomponents-ce.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/js/joomla-alert-es5.min.js"></script>
+	<?php // Web Components and Custom Elements are loaded based on the client capabilities ?>
+	<script type="application/json" class="joomla-script-options new"><?php echo json_encode($scriptOptions); ?></script>
+
 	<script src="<?php echo Uri::root(); ?>media/system/js/core.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="<?php echo Uri::root(); ?>media/system/js/bootstrap-init.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 
 	<noscript>
-		<div class="alert alert-danger" role="alert">
+		<joomla-alert type="danger" style="display:block; opacity:1;">
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-		</div>
+		</joomla-alert>
 	</noscript>
 
 	<?php // Wrapper ?>

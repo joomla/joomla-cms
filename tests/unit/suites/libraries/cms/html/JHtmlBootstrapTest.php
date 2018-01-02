@@ -85,9 +85,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -113,9 +113,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -141,9 +141,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -169,9 +169,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -203,9 +203,9 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -231,9 +231,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -277,9 +277,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -305,9 +305,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -333,9 +333,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -362,9 +362,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -420,9 +420,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -476,9 +476,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
@@ -531,9 +531,9 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
