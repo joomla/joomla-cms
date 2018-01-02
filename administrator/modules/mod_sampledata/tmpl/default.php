@@ -15,16 +15,20 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', false, true);
+HTMLHelper::_('script', 'mod_sampledata/sampledata-process.min.js', false, true);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-Factory::getDocument()->addScriptDeclaration('
-	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
-		modSampledataIconProgress = "' . Uri::root(true) . '/media/system/images/ajax-loader.gif";
-');
+Factory::getDocument()->addScriptOptions(
+	'sample-data',
+	[
+		'url' => 'index.php?option=com_ajax&format=json&group=sampledata',
+		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
+	]
+);
+
 ?>
 <?php if ($items) : ?>
 	<ul class="list-group list-group-flush">
@@ -35,7 +39,7 @@ Factory::getDocument()->addScriptDeclaration('
 						<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
-					<a href="#" class="btn btn-primary btn-sm" onclick="sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+					<a href="#" class="btn btn-primary btn-sm" onclick="Joomla.sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></a>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
@@ -48,7 +52,7 @@ Factory::getDocument()->addScriptDeclaration('
 			</li>
 			<?php // Progress messages ?>
 			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
-				<ul class="unstyled"></ul>
+				<ul class="list-unstyled"></ul>
 			</li>
 		<?php endforeach; ?>
 	</ul>
