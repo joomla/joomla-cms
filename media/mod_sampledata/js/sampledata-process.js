@@ -52,13 +52,10 @@ Joomla = window.Joomla || {};
 
 		Joomla.request({
 			url: options.url,
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				type: type,
-				plugin: 'SampledataApplyStep' + step,
-				step: step
-			},
+			method: 'POST',
+			perform: true,
+			headers: {'Content-Type': 'application/json'},
+			data: 'type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
 			onSuccess: function(response, xhr) {
 				// Remove loader image
 				var loader = list.querySelector('.loader-image');
