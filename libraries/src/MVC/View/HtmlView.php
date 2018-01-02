@@ -884,7 +884,7 @@ class HtmlView extends \JObject
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected function setDocumentHeadDatas()
+	protected function setDocumentHeadData()
 	{
 		if (isset($this->params) && $this->params instanceof Registry)
 		{

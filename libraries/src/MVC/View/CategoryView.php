@@ -260,7 +260,7 @@ class CategoryView extends HtmlView
 			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
 		}
 
-		$this->setDocumentHeadDatas();
+		$this->setDocumentHeadData();
 	}
 
 	/**
