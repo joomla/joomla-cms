@@ -8799,17 +8799,15 @@ iframe {
 .modal iframe {
   width: 100%; }
 
+.grid-child {
+  display: flex;
+  width: 100%;
+  max-width: 1140px;
+  margin-right: auto;
+  margin-left: auto; }
+
 .site {
   background-color: #fafafa; }
-  .site > div,
-  .site header > nav,
-  .site .container-banner,
-  .site footer {
-    display: flex;
-    width: 100%;
-    max-width: 1140px;
-    margin-right: auto;
-    margin-left: auto; }
   .site > .full-width {
     max-width: none; }
   .site .container-footer,
@@ -9112,7 +9110,8 @@ joomla-alert {
     grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". main main main main ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 15px; }
-    .site-grid > [class^='container-'], .site-grid > [class*=' container-'] {
+    .site-grid > [class^='container-'],
+    .site-grid > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 15px; }
