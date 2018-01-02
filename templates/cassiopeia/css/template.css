@@ -9033,22 +9033,18 @@ form .form-no-margin .control-group .control-label {
 .card .custom-select {
   width: 100%; }
 
+.form-inline .custom-select {
+  width: auto; }
+
 td .form-control {
   display: inline-block;
   width: auto; }
-
-legend {
-  margin-bottom: 1.1rem; }
 
 .checkboxes {
   padding-top: 5px; }
   .checkboxes .checkbox input {
     position: static;
     margin-left: 0; }
-
-.form-check {
-  padding-top: 5px;
-  margin-bottom: 0; }
 
 .modal label {
   width: 100%; }
