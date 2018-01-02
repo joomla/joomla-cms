@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 
 				$output .= '<div class="input-group">';
 				$output .= $input;
-				$output .= '<span class="input-group-btn">';
+				$output .= '<span class="input-group-append">';
 				$output .= $btn_output;
 				$output .= '</span>';
 				$output .= '</div>';

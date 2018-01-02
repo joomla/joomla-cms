@@ -109,8 +109,8 @@ if (!$readonly)
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 		<?php if (!$readonly) : ?>
-			<span class="input-group-btn">
-					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user icon-white"></span></a>
+			<span class="input-group-append">
+					<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="fa fa-user icon-white" aria-hidden="true"></span></a>
 				<?php echo JHtml::_(
 					'bootstrap.renderModal',
 					'userModal_' . $id,

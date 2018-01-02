@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Helper\ModuleHelper;
 
 /** @var JDocumentHtml $this */
@@ -33,9 +34,6 @@ $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $hidden      = $app->input->get('hidemainmenu');
 $logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
-
-// Alerts
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -46,6 +44,7 @@ HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 
 	<link href="<?php echo 'templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/css/joomla-alert.min.css" rel="stylesheet">
 	<link href="<?php echo 'templates/' . $this->template . '/css/bootstrap.min.css'; ?>" rel="stylesheet">
 	<link href="<?php echo 'templates/' . $this->template . '/css/font-awesome.min.css'; ?>" rel="stylesheet">
 	<link href="<?php echo 'templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
@@ -60,7 +59,12 @@ HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="/media/system/js/core.min.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/polyfills/webcomponents-ce.min.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/js/joomla-alert-es5.min.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/system/js/core.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/vendor/jquery/js/jquery.min.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo Uri::root(); ?>media/system/js/bootstrap-init.min.js"></script>
 	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 

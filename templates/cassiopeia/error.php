@@ -30,8 +30,6 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
@@ -57,6 +55,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 
 	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo $this->baseurl; ?>/media/vendor/joomla-custom-elements/css/joomla-alert.min.css" rel="stylesheet">
 	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
 
 	<?php $userCss = $this->baseurl . '/templates/' . $this->template . '/css/user.css'; ?>
@@ -69,10 +68,12 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 		<link href="<?php echo $langCss; ?>" rel="stylesheet">
 	<?php endif; ?>
 
-	<script src="/media/system/js/core.min.js"></script>
-	<script src="/media/vendor/jquery/js/jquery.min.js"></script>
-	<script src="/media/vendor/tether/js/tether.min.js"></script>
-	<script src="/media/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/vendor/joomla-custom-elements/polyfills/webcomponents-ce.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/vendor/joomla-custom-elements/js/joomla-alert-es5.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/system/js/core.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/vendor/jquery/js/jquery.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/media/system/js/bootstrap-init.min.js"></script>
 	<script src="<?php echo $this->baseurl . '/templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 
@@ -104,7 +105,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 		</nav>
 	</header>
 
-	<div class="container-main">
+	<div class="grid-child container-main">
 
 		<div class="container-component">
 			<h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
@@ -152,7 +153,7 @@ $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 
 	</div>
 
-	<footer class="container-footer footer">
+	<footer class="grid-child container-footer footer">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">

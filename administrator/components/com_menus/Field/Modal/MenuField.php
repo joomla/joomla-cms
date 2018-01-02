@@ -248,7 +248,7 @@ class MenuField extends FormField
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select menu item button

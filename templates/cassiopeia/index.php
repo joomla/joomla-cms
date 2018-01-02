@@ -91,9 +91,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
- 	<div class="container-header full-width">
+ 	<div class="grid-child container-header full-width">
 		<header class="header">
-			<nav class="navbar navbar-expand-lg">
+			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
 					<a href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
@@ -119,7 +119,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
-			<div class="container-banner">
+			<div class="grid-child container-banner">
 				<jdoc:include type="modules" name="banner" style="xhtml" />
 			</div>
 			<?php endif; ?>
@@ -134,18 +134,18 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	
 	<?php if ($this->countModules('top-a')) : ?>
-	<div class="container-top-a">
+	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="cardGrey" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('top-b')) : ?>
-	<div class="container-top-b">
+	<div class="grid-child container-top-b">
 		<jdoc:include type="modules" name="top-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<div class="container-main">
+	<div class="grid-child container-main">
 
 		<?php if ($this->countModules('sidebar-left')) : ?>
 		<div class="container-sidebar-left">
@@ -170,19 +170,19 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
-	<div class="container-bottom-a">
+	<div class="grid-child container-bottom-a">
 		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('bottom-b')) : ?>
-	<div class="container-bottom-b">
+	<div class="grid-child container-bottom-b">
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer')) : ?>
-	<footer class="container-footer footer">
+	<footer class="grid-child container-footer footer">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
