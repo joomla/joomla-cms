@@ -17,7 +17,8 @@
     grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 270px)) [main-end] minmax(0, 1fr) [full-end];
     grid-gap: 0 $cassiopeia-grid-gutter;
 
-    > [class^='container-'], > [class*=' container-'] {
+    > [class^='container-'],
+    > [class*=' container-'] {
       width: auto;
       max-width: none;
       margin: 0 0 $cassiopeia-grid-gutter;
@@ -28,6 +29,7 @@
     .container-bottom-a,
     .container-bottom-b {
       display: grid;
+
       > div {
         margin: 0;
       }
@@ -114,6 +116,7 @@
   @include media-breakpoint-down(md) {
     grid-template-columns: 1fr 1fr;
   }
+
   @include media-breakpoint-down(sm) {
     grid-template-columns: 1fr;
   }

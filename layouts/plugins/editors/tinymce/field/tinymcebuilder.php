@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -51,18 +55,19 @@ extract($displayData);
  * @var   JLayoutFile  $this       Context
  */
 
-JHtml::_('behavior.core');
-JHtml::_('jquery.ui', array('core', 'sortable'));
-JHtml::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-JHtml::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('jquery.ui', array('core', 'sortable'));
+HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
+HTMLHelper::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
 {
-	JHtml::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+	HTMLHelper::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
 }
 
-JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
+Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
+	array(
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
@@ -73,7 +78,7 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 ?>
 <div id="joomla-tinymce-builder">
 
-	<p><?php echo JText::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
+	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
 
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
@@ -89,15 +94,16 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 				</div>
 			</div>
+
 		</div>
 	</div>
 
 	<hr>
-	<p><?php echo JText::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
+	<p><?php echo Text::_('PLG_TINY_SET_TARGET_PANEL_DESCRIPTION'); ?></p>
 
 	<?php // Render tabs for each set ?>
 	<ul class="nav nav-tabs" id="set-tabs">
-		<?php foreach ( $setsNames as $num => $title ) :
+		<?php foreach ($setsNames as $num => $title) :
 			$isActive = $num === $setsAmount - 1;
 		?>
 		<li class="nav-item">
@@ -115,7 +121,7 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 			'medium'   => 'btn-info',
 			'advanced' => 'btn-warning',
 		);
-		foreach ( $setsNames as $num => $title ) :
+		foreach ($setsNames as $num => $title) :
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$num]['menu'])
@@ -151,13 +157,13 @@ JFactory::getDocument()->addScriptOptions('plg_editors_tinymce_builder', array(
 						?>
 						<button type="button" class="btn <?php echo $btnClass; ?> button-action"
 							data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
+							<?php echo Text::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
 					<?php endforeach; ?>
 
 						<button type="button" class="btn btn-danger button-action"
 							 data-action="clearPane" data-set="<?php echo $num; ?>">
-							<?php echo JText::_('JCLEAR'); ?></button>
+							<?php echo Text::_('JCLEAR'); ?></button>
 					</div>
 				</div>
 
