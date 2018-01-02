@@ -114,8 +114,7 @@ class PostgresqlChangeItem extends ChangeItem
 					break;
 				case 'SET' :
 					$isNullable = $this->fixQuote('NO');
-
-					if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
+					if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL;')
 					{
 						$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
 							. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
@@ -125,21 +124,46 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->checkQueryExpected = 1;
 						$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
 					}
+
+					if (strtoupper($wordArray[6] . ' ' . $wordArray[7]) === 'SET DEFAULT')
+					{
+						$string = str_replace(';', '', $wordArray[8]);
+						$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
+							. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND (CASE (position(' . $this->db->quote('::') . ' in column_default))'
+							. ' WHEN 0 THEN '
+							. '	column_default = ' . $this->db->quote($string)
+							. ' ELSE '
+							. ' substring(column_default, 1, (position('. $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
+							. ' END)';
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 1;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $this->fixQuote($wordArray[8]));
+					}
 					break;
+					
 				case 'DROP' :
-					$isNullable = $this->fixQuote('NO');
-					$result = 'Select  a.attnum as num, a.attname as name, def.adsrc as default'
-						. ' FROM pg_attribute a JOIN pg_class pgc ON pgc.oid = a.attrelid'
-						. ' LEFT JOIN pg_attrdef def ON (a.attrelid = def.adrelid AND a.attnum = def.adnum)'
-						. ' WHERE a.attnum > 0 AND pgc.oid = a.attrelid'
-						. ' AND pg_table_is_visible(pgc.oid) AND NOT a.attisdropped'
-						. ' AND pgc.relname = ' . $this->fixQuote($wordArray[2])
-						. ' AND a.attname = ' . $this->fixQuote($wordArray[5])
-						. ' AND def.adsrc is null';
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
-					break;
+					if ($wordArray[7] === 'DEFAULT')
+					{
+						$isNullable = $this->fixQuote('NO');
+						$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND column_default IS NULL';
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->checkQueryExpected = 1;
+						$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'DEFAULT');
+					}
+
+					if ($wordArray[7] . ' ' . $wordArray[8] === 'NOT NULL;')
+					{
+						$isNullable = $this->fixQuote('NO');
+						$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND is_nullable = ' . $isNullable;
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 0;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NOT NULL');
+					}
 				}
 			}
 		}
