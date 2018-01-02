@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var $displayData array */
 $backtraceList = $displayData['backtrace'];
 
