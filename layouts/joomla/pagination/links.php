@@ -9,9 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
-$list = $displayData['list'];
+$list  = $displayData['list'];
 $pages = $list['pages'];
 
 $options = new Registry($displayData['options']);
@@ -22,8 +24,8 @@ $showLimitStart = $options->get('showLimitStart', true);
 
 // Calculate to display range of pages
 $currentPage = 1;
-$range = 1;
-$step = 5;
+$range       = 1;
+$step        = 5;
 
 if (!empty($pages['pages']))
 {
@@ -49,22 +51,22 @@ if ($currentPage >= $step)
 }
 ?>
 
-<div class="pagination pagination-toolbar clearfix" style="text-align: center;">
+<div class="pagination pagination-toolbar text-center">
 
 	<?php if ($showLimitBox) : ?>
 		<div class="limit float-right">
-			<?php echo JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
+			<?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($showPagesLinks && (!empty($pages))) : ?>
 		<ul class="pagination-list">
 			<?php
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['start']);
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
+				echo LayoutHelper::render('joomla.pagination.link', $pages['start']);
+				echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 			<?php foreach ($pages['pages'] as $k => $page) : ?>
 
-				<?php $output = JLayoutHelper::render('joomla.pagination.link', $page); ?>
+				<?php $output = LayoutHelper::render('joomla.pagination.link', $page); ?>
 				<?php if (in_array($k, range($range * $step - ($step + 1), $range * $step), true)) : ?>
 					<?php if (($k % $step === 0 || $k === $range * $step - ($step + 1)) && $k !== $currentPage && $k !== $range * $step - $step) : ?>
 						<?php $output = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $output); ?>
@@ -74,8 +76,8 @@ if ($currentPage >= $step)
 				<?php echo $output; ?>
 			<?php endforeach; ?>
 			<?php
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['next']);
-				echo JLayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
+				echo LayoutHelper::render('joomla.pagination.link', $pages['next']);
+				echo LayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
 		</ul>
 	<?php endif; ?>
 
