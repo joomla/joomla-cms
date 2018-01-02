@@ -65,8 +65,8 @@ form .form-no-margin {
   width: 380px;
 }
 
-.card .custom-select {
-  width: 100%;
+.custom-select {
+  max-width: 240px;
 }
 .form-inline .custom-select {
   width: auto;

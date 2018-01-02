@@ -9030,8 +9030,8 @@ form .form-no-margin .control-group .control-label {
 .spacer hr {
   width: 380px; }
 
-.card .custom-select {
-  width: 100%; }
+.custom-select {
+  max-width: 240px; }
 
 .form-inline .custom-select {
   width: auto; }
