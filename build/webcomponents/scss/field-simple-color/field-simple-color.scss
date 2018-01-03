@@ -37,6 +37,9 @@ joomla-field-simple-color {
     vertical-align: middle;
   }
 
+  .nocolor {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3ggRDQENU0dyawAAACZJREFUGNNjPHXqDAMSMDY2ROYyMeAFNJVm/Pv3LzL/7Nnzg8VpAKebCGpIIxHBAAAAAElFTkSuQmCC') !important;
+  }
   .simplecolors-panel .swatch {
     margin: 0 4px 4px 0;
   }
