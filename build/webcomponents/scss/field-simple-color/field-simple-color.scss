@@ -51,16 +51,17 @@ joomla-field-simple-color {
     display: block;
   }
   .simplecolors-panel {
-    display: none;
     position: absolute;
     z-index: 12;
+    display: none;
     float: left;
     padding: 6px 2px 2px 6px;
     margin: 1px 0 0;
     background-color: #fff;
+    background-clip: padding-box;
     border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-    background-clip: padding-box;
   }
 }
+
