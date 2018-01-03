@@ -1,11 +1,11 @@
 joomla-field-simple-color {
   display: block;
 
-  & .hidden {
+  .hidden {
     display: none;
   }
 
-  & .sr-only {
+  .sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -19,21 +19,22 @@ joomla-field-simple-color {
   button {
     width: 20px;
     height: 20px;
-    border: solid 1px #CCC;
+    border: solid 1px #ccc;
     vertical-align: middle;
     border-radius: 3px;
     overflow: hidden;
     background: none;
     -webkit-appearence: none;
   }
-  button.btn-close {
+
+  .btn-close {
     width: auto;
-    margin-top: -4px;
     padding: 0 6px;
-    text-align: center;
-    vertical-align: middle;
+    margin-top: -4px;
     font-size: 1rem;
     line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
   }
 
   .simplecolors-panel .swatch {
@@ -42,24 +43,24 @@ joomla-field-simple-color {
 
   .swatch:hover,
   .swatch.active {
-    border-color: rgba(82, 168, 236, 0.8);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+    border-color: rgba(82, 168, 236, .8);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82, 168, 236, .6);
   }
 
   .simplecolors-panel[data-open=""] {
-    display:block;
+    display: block;
   }
   .simplecolors-panel {
-    display:none;
+    display: none;
     position: absolute;
     z-index: 12;
-    float:left;
+    float: left;
     padding: 6px 2px 2px 6px;
     margin: 1px 0 0;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
     background-clip: padding-box;
   }
 }

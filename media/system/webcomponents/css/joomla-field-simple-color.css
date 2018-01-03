@@ -14,20 +14,20 @@ joomla-field-simple-color {
   joomla-field-simple-color button {
     width: 20px;
     height: 20px;
-    border: solid 1px #CCC;
+    border: solid 1px #ccc;
     vertical-align: middle;
     border-radius: 3px;
     overflow: hidden;
     background: none;
     -webkit-appearence: none; }
-  joomla-field-simple-color button.btn-close {
+  joomla-field-simple-color .btn-close {
     width: auto;
-    margin-top: -4px;
     padding: 0 6px;
-    text-align: center;
-    vertical-align: middle;
+    margin-top: -4px;
     font-size: 1rem;
-    line-height: 1.5; }
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle; }
   joomla-field-simple-color .simplecolors-panel .swatch {
     margin: 0 4px 4px 0; }
   joomla-field-simple-color .swatch:hover,
@@ -43,8 +43,8 @@ joomla-field-simple-color {
     float: left;
     padding: 6px 2px 2px 6px;
     margin: 1px 0 0;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     background-clip: padding-box; }
