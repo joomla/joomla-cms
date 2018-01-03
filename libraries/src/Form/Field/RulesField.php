@@ -309,8 +309,9 @@ class RulesField extends FormField
 				$html[] = '</td>';
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
+				$html[] = '<div class="d-flex align-items-center">';
 
-				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="custom-select novalidate"'
+				$html[] = '<select onchange="Joomla.sendPermissions.call(this, event)" data-chosen="true" class="custom-select mr-1 novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . strip_tags(\JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', \JText::_($action->title), trim($group->text))) . '">';
@@ -338,6 +339,7 @@ class RulesField extends FormField
 				$html[] = '</select>&#160; ';
 
 				$html[] = '<span id="icon_' . $this->id . '_' . $action->name . '_' . $group->value . '"' . '></span>';
+				$html[] = '</div>';
 				$html[] = '</td>';
 
 				// Build the Calculated Settings column.
@@ -354,7 +356,7 @@ class RulesField extends FormField
 				if ($isSuperUserGroup)
 				{
 					$result['class'] = 'badge badge-success';
-					$result['text'] = '<span class="icon-lock icon-white"></span>' . \JText::_('JLIB_RULES_ALLOWED_ADMIN');
+					$result['text'] = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>' . \JText::_('JLIB_RULES_ALLOWED_ADMIN');
 				}
 				// Not super user.
 				else
@@ -412,7 +414,7 @@ class RulesField extends FormField
 					elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 					{
 						$result['class'] = 'badge badge-danger';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . \JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+						$result['text']  = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>' . \JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 				}
 
