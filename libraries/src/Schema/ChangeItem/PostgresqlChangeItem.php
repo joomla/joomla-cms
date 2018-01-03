@@ -133,10 +133,10 @@ class PostgresqlChangeItem extends ChangeItem
 								. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 								. ' AND (CASE (position(' . $this->db->quote('::') . ' in column_default))'
 								. ' WHEN 0 THEN '
-							. '	column_default = ' . $this->db->quote($string)
-							. ' ELSE '
-							. ' substring(column_default, 1, (position(' . $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
-							. ' END)';
+								. '	column_default = ' . $this->db->quote($string)
+								. ' ELSE '
+								. ' substring(column_default, 1, (position(' . $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
+								. ' END)';
 
 							$this->queryType = 'CHANGE_COLUMN_TYPE';
 							$this->checkQueryExpected = 1;
