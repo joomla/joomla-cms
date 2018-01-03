@@ -55,7 +55,8 @@
 				el.setAttribute('class', clss);
 				el.style.backgroundColor = color;
 				el.setAttribute('type', 'button');
-				el.innerHTML = `<span class="sr-only">${this.textColor} ${color.replace('#', '').split('').join(', ')}</span>`;
+				const a11yColor = color === 'transparent' ? this.textTransp : this.textColor + ' ' +color.replace('#', '').split('').join(', ');
+				el.innerHTML = `<span class="sr-only">${a11yColor}</span>`;
 
 				this.buttons.push(el)
 			});
@@ -116,12 +117,13 @@
 		}
 
 		static get observedAttributes() {
-			return ['text-select', 'text-color'];
+			return ['text-select', 'text-color', 'text-close', 'text-transparent'];
 		}
 
 		get textSelect() { return this.getAttribute('text-select'); }
 		get textColor() { return this.getAttribute('text-color'); }
 		get textClose() { return this.getAttribute('text-close'); }
+		get textTransp() { return this.getAttribute('text-transparent'); }
 
 		// Show the panel
 		show() {

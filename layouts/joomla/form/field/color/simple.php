@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-extract($displayData);
+extract($displayData, null);
 
 /**
  * Layout variables
@@ -54,10 +54,9 @@ $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 
 HTMLHelper::_('webcomponent', ['joomla-field-simple-color' => 'system/webcomponents/joomla-field-simple-color.min.js'], ['version' => 'auto', 'relative' => true]);
-// @TODO create proper strings
 ?>
 
-<joomla-field-simple-color text-select="Select a color" text-color="Color with hexadecimal value of " text-close="Close">
+<joomla-field-simple-color text-select="<?php echo Text::_('JFIELD_COLOR_SELECT'); ?>" text-color="<?php echo Text::_('JFIELD_COLOR_VALUE'); ?>" text-close="<?php echo Text::_('JCLOSE'); ?>" text-transparent="<?php echo Text::_('JFIELD_COLOR_TRANSPARENT'); ?>">
 	<select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
 	echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 	echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
