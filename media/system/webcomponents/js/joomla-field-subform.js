@@ -274,6 +274,7 @@
             // dragstart event to initiate mouse dragging
             this.addEventListener('dragstart', function(event) {
                 // Make sure we handle correct children
+                // @TODO: make sure the target is a row, not any other element !!!
                 if (closest(event.target, 'joomla-field-subform') !== that) {
                     return;
                 }
@@ -289,6 +290,7 @@
             });
 
             this.addEventListener('dragover', function(event) {
+                // @TODO: Make sure the target is correct container or row from this container
                 if (item) {
                     event.preventDefault();
                 }
@@ -306,7 +308,11 @@
                 }
 
                 that.containerWithRows.appendChild(item);
+            });
 
+            // dragend event to clean-up after drop or abort
+            // which fires whether or not the drop target was valid
+            this.addEventListener('dragend', function() {
                 item = null;
             });
         }
