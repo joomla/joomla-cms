@@ -56,7 +56,7 @@ var _createClass = function () {
       } }, { key: 'keyEvents', value: function keyEvents(b) {
         (b.keyCode === a.ENTER || b.keyCode === a.SPACE) && (b.preventDefault(), this.newActive = this.inputs[1].classList.contains('active') ? 0 : 1, this.switch.bind(this)());
       } }]), c;
-  }(HTMLElement);customElements.define('joomla-switcher', b);
+  }(HTMLElement);customElements.define('joomla-field-switcher', b);
 })();
 
 },{}]},{},[1]);

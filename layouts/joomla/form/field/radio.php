@@ -57,14 +57,14 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
 	<?php HTMLHelper::_('webcomponent',
-			['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
-			['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]); ?>		
+			['joomla-field-switcher' => 'system/webcomponents/joomla-field-switcher.min.js'],
+			['relative' => true, 'version' => 'auto']); ?>
 	<?php
 	// Set the type of switcher
 	$type = str_replace('switcher switcher-', '', trim($class));
 	$type = $type === 'switcher' ? '' : 'type="' . $type . '"';
 	?>
-	<joomla-switcher
+	<joomla-field-switcher
 		id="<?php echo $id; ?>"
 		<?php echo $type; ?>
 		off-text="<?php echo $options[0]->text; ?>"
@@ -88,7 +88,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 			<?php endforeach; ?>
 		<?php endif; ?>
-	</joomla-switcher>
+	</joomla-field-switcher>
 	<?php // END SWITCHER ?>
 <?php else: ?>
 	<?php // START RADIO TOGGLE ?>

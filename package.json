@@ -13,7 +13,8 @@
     "update-dependencies": "grunt default",
     "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "autoprefixer": "^7.2.3",
     "grunt": "latest",
     "grunt-babel": "latest",
@@ -23,23 +24,22 @@
     "grunt-contrib-concat": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-uglify": "latest",
     "grunt-cli": "latest",
     "grunt-fetch-pages": "^2.0.0",
     "grunt-postcss-x": "latest",
     "grunt-sass": "latest",
     "grunt-scss-lint": "^0.5.0",
     "grunt-shell": "latest",
-    "ini": "latest"
-  },
-  "devDependencies": {
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "ini": "latest",
     "@polymer/test-fixture": "latest",
     "@webcomponents/custom-elements": "latest",
     "@webcomponents/webcomponentsjs": "latest",
     "babel-eslint": "^7.2.3",
     "babel-minify": "latest",
     "babel-plugin-static-fs": "latest",
-    "babel-preset-es2015": "latest",
+    "babel-preset-es2015": "^6.24.1",
     "babelify": "latest",
     "browserify": "*",
     "eslint": "latest",
