@@ -627,7 +627,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$uri = new JUri($this->app->getUserState('users.login.form.return'));
 
 					// Get Itemid from SEF or home page
-					$query = $this->app::getRouter()->parse($uri);
+					$query = $this->app->getRouter()->parse($uri);
 
 					// Check, if the login form contains a menu item redirection.
 					if (!empty($query['Itemid']))
