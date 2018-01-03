@@ -311,7 +311,7 @@ class RulesField extends FormField
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 				$html[] = '<div class="d-flex align-items-center">';
 
-				$html[] = '<select onchange="Joomla.sendPermissions.call(this, event)" data-chosen="true" class="custom-select mr-1 novalidate"'
+				$html[] = '<select onchange="Joomla.sendPermissions.call(this, event)" class="custom-select mr-1 novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . strip_tags(\JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', \JText::_($action->title), trim($group->text))) . '">';
