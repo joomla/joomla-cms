@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.min.js', false, true);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
@@ -47,7 +46,7 @@ Factory::getDocument()->addScriptOptions(
 			<?php // Progress bar ?>
 			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">
 				<div class="progress">
-					<div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar"></div>
+					<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
 				</div>
 			</li>
 			<?php // Progress messages ?>

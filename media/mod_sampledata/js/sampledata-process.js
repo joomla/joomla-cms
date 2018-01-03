@@ -51,32 +51,37 @@ Joomla = window.Joomla || {};
 		document.querySelector('.sampledata-progress-' + type + ' ul').appendChild(list);
 
 		Joomla.request({
-			url: options.url,
+			url: options.url + '&type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
 			method: 'GET',
 			perform: true,
-			headers: {'Content-Type': 'application/json'},
-			data: 'type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
 			onSuccess: function(response, xhr) {
+				var response = JSON.parse(response);
 				// Remove loader image
 				var loader = list.querySelector('.loader-image');
 				loader.parentNode.removeChild(loader);
 
 				if (response.success && response.data && response.data.length > 0) {
-					var success, value, resultClass;
-					var progress = document.querySelector('.sampledata-progress-' + type + ' progress');
+					var success, value, progressClass;
+					var progress = document.querySelector('.sampledata-progress-' + type + ' .progress-bar');
 
 					// Display all messages that we got
 					for (var i = 0, l = response.data.length; i < l; i++) {
 						value   = response.data[i];
 						success = value.success;
-						resultClass = success ? 'success' : 'error';
+						progressClass = success ? 'bg-success' : 'bg-danger';
 
 						// Display success alert
-						Joomla.renderMessages({resultClass: [value.message]}, '.sampledata-steps-' + type + '-' + step);
+						if (success) {
+							Joomla.renderMessages({success: [value.message]}, '.sampledata-steps-' + type + '-' + step);
+						} else {
+							Joomla.renderMessages({error: [value.message]}, '.sampledata-steps-' + type + '-' + step);
+						}
 					}
 
 					// Update progress
-					progress.value = step/steps;
+					progress.innerText = step + '/' + steps;
+					progress.style.width = (step/steps) * 100 + '%';
+					progress.classList.add(progressClass);
 
 					// Move on next step
 					if (success) {
