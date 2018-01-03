@@ -56,10 +56,7 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
-	<?php HTMLHelper::_('webcomponent',
-			['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
-			['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
-	?>		
+	<?php HTMLHelper::_('webcomponent', ['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]); ?>		
 	<?php
 	// Set the type of switcher
 	$type = str_replace('switcher switcher-', '', trim($class));
