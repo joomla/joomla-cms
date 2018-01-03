@@ -61,10 +61,7 @@
 
             // Sorting
             if (this.buttonMove) {
-                new Sortable.default(this.containerWithRows, {
-                    draggable: this.repeatableElement,
-                    handle: this.buttonMove
-                });
+                this.setUpDragSort();
             }
         }
 
@@ -264,6 +261,54 @@
                     lbl.setAttribute('id', idNew + '-lbl');
                 }
             }
+        }
+
+        /**
+         * Use of HTML Drag and Drop API
+         * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+         */
+        setUpDragSort() {
+            let that = this,
+                item = null; // storing the dragging item reference
+
+            // dragstart event to initiate mouse dragging
+            this.addEventListener('dragstart', function(event) {
+                // Make sure we handle correct children
+                if (closest(event.target, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // Set active item
+                item = event.target;
+
+                // We don't need the transfer data, but we have to define something
+                // otherwise the drop action won't work at all in firefox
+                // most browsers support the proper mime-type syntax, eg. "text/plain"
+                // but we have to use this incorrect syntax for the benefit of IE10+
+                event.dataTransfer.setData('text', '');
+            });
+
+            this.addEventListener('dragover', function(event) {
+                if (item) {
+                    event.preventDefault();
+                }
+            });
+
+            // Handle drop action
+            this.addEventListener('drop', function(event) {
+                if (!item) return;
+
+                // Make sure the target is/in the correct container
+                if (event.target !== that.containerWithRows
+                    && (that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows)) {
+                    item = null;
+                    return;
+                }
+
+                that.containerWithRows.appendChild(item);
+
+                item = null;
+            });
         }
     }
 

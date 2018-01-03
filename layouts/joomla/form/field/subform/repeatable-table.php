@@ -29,8 +29,6 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	JHtml::_('script', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.3/lib/draggable.bundle.js', array('version' => 'auto'));
-	JHtml::_('script', 'https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.3/lib/sortable.js', array('version' => 'auto'));
 	JHtml::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-field-subform.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 }
 

@@ -21,7 +21,8 @@ extract($displayData);
 
 ?>
 
-<div class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
+<div class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>"
+	<?php echo (!empty($buttons['move'])) ? 'draggable="true"' : ''; ?>>
 	<?php if (!empty($buttons)) : ?>
 	<div class="btn-toolbar text-right">
 		<div class="btn-group">
