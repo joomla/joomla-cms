@@ -17,7 +17,7 @@ require_once __DIR__ . '/../stubs/JComponentRouterViewInspector.php';
  * @subpackage  Component
  * @since       3.4
  */
-class JComponentRouterRulesNomenuTest extends TestCase
+class JComponentRouterRulesNomenuTest extends TestCaseDatabase
 {
 	/**
 	 * Object under test
@@ -26,6 +26,25 @@ class JComponentRouterRulesNomenuTest extends TestCase
 	 * @since  3.4
 	 */
 	protected $object;
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
+		$dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
+
+		return $dataSet;
+	}
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -97,12 +116,43 @@ class JComponentRouterRulesNomenuTest extends TestCase
 		$this->assertEquals(array(), $segments);
 		$this->assertEquals(array('option' => 'com_content', 'view' => 'featured'), $vars);
 
-		// Check if a view with ID is properly parsed
-		$segments = array('category', '23-the-question');
+		/**
+		 * Check if a view with exists ID is properly parsed
+		 * Note: only segment from first category level is available for categories view
+		 */
+		$segments = array('categories', '14-sample-data-articles');
 		$vars = array('option' => 'com_content');
 		$this->object->parse($segments, $vars);
 		$this->assertEquals(array(), $segments);
-		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '23:the-question'), $vars);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14'), $vars);
+
+		// Check if a view with exists ID is properly parsed
+		$segments = array('category', '14-sample-data-articles');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '14'), $vars);
+
+		// Check if a view with not exists ID is properly parsed
+		$segments = array('category', '1499-sample-data-articles');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array('1499-sample-data-articles'), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category'), $vars);
+
+		// Check if a nested view with identifier is properly parsed
+		$segments = array('category', '14-sample-data-articles', '19-joomla', '20-extensions', '22-modules', '64-articles-modules');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '64'), $vars);
+
+		// Check if a single view with identifier in nested parent is properly parsed
+		$segments = array('article', '14-sample-data-articles', '19-joomla', '8-beginners');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'article', 'id' => '8', 'catid' => '19'), $vars);
 
 		// Check if a view that normally has an ID but which is missing is properly parsed
 		$segments = array('category');
@@ -111,15 +161,57 @@ class JComponentRouterRulesNomenuTest extends TestCase
 		$this->assertEquals(array(), $segments);
 		$this->assertEquals(array('option' => 'com_content', 'view' => 'category'), $vars);
 
-		// Test if the rule is properly skipped when a menu item is set
+		// Test noIDs
 		$router = $this->object->get('router');
+		$router->set('noIDs', true);
+
+		/**
+		 * Check if a view with exists ID is properly parsed
+		 * Note: only segment from first category level is available for categories view now
+		 */
+		$segments = array('categories', 'sample-data-articles');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'categories', 'id' => '14'), $vars);
+
+		// Check if a view with exists ID is properly parsed
+		$segments = array('category', 'sample-data-articles');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '14'), $vars);
+
+		// Check if a view with not exists ID is properly parsed
+		$segments = array('category', 'unknown-sample-data-articles');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array('unknown-sample-data-articles'), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category'), $vars);
+
+		// Check if a nested view with identifier is properly parsed
+		$segments = array('category', 'sample-data-articles', 'joomla', 'extensions', 'modules', 'articles-modules');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'category', 'id' => '64'), $vars);
+
+		// Check if a single view with identifier in nested parent is properly parsed
+		$segments = array('article', 'sample-data-articles', 'joomla', 'beginners');
+		$vars = array('option' => 'com_content');
+		$this->object->parse($segments, $vars);
+		$this->assertEquals(array(), $segments);
+		$this->assertEquals(array('option' => 'com_content', 'view' => 'article', 'id' => '8', 'catid' => '19'), $vars);
+
+		// Test if the rule is properly skipped when a menu item is set
 		$router->menu->expects($this->any())
 			->method('getActive')
 			->will($this->returnValue(new stdClass));
-		$segments = array('article', '42:the-answer');
+
+		$segments = array('category', 'sample-data-articles');
 		$vars = array('option' => 'com_content');
 		$this->object->parse($segments, $vars);
-		$this->assertEquals(array('article', '42:the-answer'), $segments);
+		$this->assertEquals(array('category', 'sample-data-articles'), $segments);
 		$this->assertEquals(array('option' => 'com_content'), $vars);
 	}
 
@@ -159,5 +251,50 @@ class JComponentRouterRulesNomenuTest extends TestCase
 		$this->object->build($query, $segments);
 		$this->assertEquals(array('option' => 'com_content'), $query);
 		$this->assertEquals(array('article', '42-the-answer'), $segments);
+
+		// Test if a nested view with identifier is properly build
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '64:articles-modules');
+		$segments = array();
+		$this->object->build($query, $segments);
+		$this->assertEquals(array('option' => 'com_content'), $query);
+		$this->assertEquals(
+			array('category', '14-sample-data-articles', '19-joomla', '20-extensions', '22-modules', '64-articles-modules'),
+			$segments
+		);
+
+		// Test if a single view with identifier in nested parent is properly build
+		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '8:beginners', 'catid' => '19:joomla');
+		$segments = array();
+		$this->object->build($query, $segments);
+		$this->assertEquals(array('option' => 'com_content'), $query);
+		$this->assertEquals(array('article', '14-sample-data-articles', '19-joomla', '8-beginners'), $segments);
+
+		// Test noIDs
+		$router = $this->object->get('router');
+		$router->set('noIDs', true);
+
+		// Test if a single view with identifier is properly build
+		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '42:the-answer');
+		$segments = array();
+		$this->object->build($query, $segments);
+		$this->assertEquals(array('option' => 'com_content'), $query);
+		$this->assertEquals(array('article', 'the-answer'), $segments);
+
+		// Test if a nested view with identifier is properly build
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '64:articles-modules');
+		$segments = array();
+		$this->object->build($query, $segments);
+		$this->assertEquals(array('option' => 'com_content'), $query);
+		$this->assertEquals(
+			array('category', 'sample-data-articles', 'joomla', 'extensions', 'modules', 'articles-modules'),
+			$segments
+		);
+
+		// Test if a single view with identifier in nested parent is properly build
+		$query = array('option' => 'com_content', 'view' => 'article', 'id' => '8:beginners', 'catid' => '19:joomla');
+		$segments = array();
+		$this->object->build($query, $segments);
+		$this->assertEquals(array('option' => 'com_content'), $query);
+		$this->assertEquals(array('article', 'sample-data-articles', 'joomla', 'beginners'), $segments);
 	}
 }
