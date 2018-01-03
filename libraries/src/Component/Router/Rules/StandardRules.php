@@ -190,7 +190,9 @@ class StandardRules implements RulesInterface
 		// Get the menu item belonging to the Itemid that has been found
 		$item = $this->router->menu->getItem($query['Itemid']);
 
-		if ($item === null || $item->component !== 'com_' . $this->router->getName())
+		if ($item === null
+			|| $item->component !== 'com_' . $this->router->getName()
+			|| !isset($item->query['view']))
 		{
 			return;
 		}
@@ -202,7 +204,7 @@ class StandardRules implements RulesInterface
 		$views = $this->router->getViews();
 
 		// Return directly when the URL of the Itemid is identical with the URL to build
-		if (isset($item->query['view']) && $item->query['view'] === $query['view'])
+		if ($item->query['view'] === $query['view'])
 		{
 			$view = $views[$query['view']];
 
@@ -248,11 +250,8 @@ class StandardRules implements RulesInterface
 		{
 			$view = $views[$element];
 
-			if ($found === false && $item && $item->query['view'] === $element)
+			if ($found === false && $item->query['view'] === $element)
 			{
-				// Id of the last added segment from menu item
-				$last_id = $view->key ? (int) $item->query[$view->key] : 0;
-
 				if ($view->nestable)
 				{
 					$found = true;
@@ -282,9 +281,8 @@ class StandardRules implements RulesInterface
 						if ($found2)
 						{
 							$segments[] = str_replace(':', '-', $segment);
-							$last_id    = (int) $id;
 						}
-						elseif ($last_id === 0 || $last_id === (int) $id)
+						elseif ((int) $item->query[$view->key] === (int) $id)
 						{
 							$found2 = true;
 						}
@@ -293,12 +291,10 @@ class StandardRules implements RulesInterface
 				elseif ($ids === true)
 				{
 					$segments[] = $element;
-					$last_id    = 0;
 				}
 				else
 				{
 					$segments[] = str_replace(':', '-', current($ids));
-					$last_id    = (int) key($ids);
 				}
 			}
 
