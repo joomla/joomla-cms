@@ -626,8 +626,11 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Retrieves the Itemid from a login form.
 					$uri = new JUri($this->app->getUserState('users.login.form.return'));
 
+					// Workaround for php5 parse error T_PAAMAYIM_NEKUDOTAYIM
+					$app = $this->app;
+
 					// Get Itemid from SEF or home page
-					$query = $this->app::getRouter()->parse($uri);
+					$query = $app::getRouter()->parse($uri);
 
 					// Check, if the login form contains a menu item redirection.
 					if (!empty($query['Itemid']))
