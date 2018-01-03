@@ -21,14 +21,6 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 class DisplayController extends BaseController
 {
 	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $default_view = 'banners';
-
-	/**
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
