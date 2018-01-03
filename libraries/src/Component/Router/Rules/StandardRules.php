@@ -241,65 +241,72 @@ class StandardRules implements RulesInterface
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path   = array_reverse($this->router->getPath($query), true);
-		$found  = false;
-		$found2 = false;
+		$path  = array_reverse($this->router->getPath($query), true);
+		$found = false;
 
-		for ($i = 0, $j = count($path); $i < $j; $i++)
+		foreach ($path as $element => $ids)
 		{
-			reset($path);
-			$view = key($path);
+			$view = $views[$element];
 
-			if ($found)
+			if ($found === false && $item && $item->query['view'] === $element)
 			{
-				$ids = array_shift($path);
+				// Id of the last added segment from menu item
+				$last_id = $view->key ? (int) $item->query[$view->key] : 0;
 
-				if ($views[$view]->nestable)
+				if ($view->nestable)
 				{
+					$found = true;
+				}
+				elseif ($view->children)
+				{
+					$found = true;
+
+					continue;
+				}
+			}
+
+			if ($found === false)
+			{
+				// Jump to the next view
+				continue;
+			}
+
+			if ($ids)
+			{
+				if ($view->nestable)
+				{
+					$found2 = false;
+
 					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
 							$segments[] = str_replace(':', '-', $segment);
+							$last_id    = (int) $id;
 						}
-						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
+						elseif ($last_id === 0 || $last_id === (int) $id)
 						{
 							$found2 = true;
 						}
 					}
 				}
-				elseif (is_bool($ids))
+				elseif ($ids === true)
 				{
-					$segments[] = $views[$view]->name;
+					$segments[] = $element;
+					$last_id    = 0;
 				}
 				else
 				{
-					$segments[] = str_replace(':', '-', array_shift($ids));
-				}
-			}
-			elseif ($item->query['view'] !== $view)
-			{
-				array_shift($path);
-			}
-			else
-			{
-				if (!$views[$view]->nestable)
-				{
-					array_shift($path);
-				}
-				else
-				{
-					$i--;
-					$found2 = false;
-				}
-
-				if (count($views[$view]->children))
-				{
-					$found = true;
+					$segments[] = str_replace(':', '-', current($ids));
+					$last_id    = (int) key($ids);
 				}
 			}
 
-			unset($query[$views[$view]->parent_key]);
+			if ($view->parent_key)
+			{
+				// Remove parent key from query
+				unset($query[$view->parent_key]);
+			}
 		}
 
 		if ($found)
