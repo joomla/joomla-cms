@@ -135,7 +135,7 @@ class PostgresqlChangeItem extends ChangeItem
 								. ' WHEN 0 THEN '
 							. '	column_default = ' . $this->db->quote($string)
 							. ' ELSE '
-							. ' substring(column_default, 1, (position('. $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
+							. ' substring(column_default, 1, (position(' . $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
 							. ' END)';
 
 							$this->queryType = 'CHANGE_COLUMN_TYPE';
