@@ -203,17 +203,18 @@ abstract class ChangeItem
 				// Still render the error message from the Exception object
 				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				$this->checkStatus = -2;
+
 				return $this->checkStatus;
 			}
 
 			if (count($rows) === $this->checkQueryExpected)
 			{
 				$this->checkStatus = 1;
+
 				return $this->checkStatus;
 			}
 
 			$this->checkStatus = -2;
-
 		}
 
 		return $this->checkStatus;
