@@ -6,6 +6,16 @@
 ;(function(customElements){
     "use strict";
 
+    // Find matchesFn with vendor prefix
+    let matchesFn = 'matches';
+    ['matches', 'msMatchesSelector'].some(function(fn) {
+        if (typeof document.body[fn] === 'function') {
+            matchesFn = fn;
+            return true;
+        }
+        return false;
+    });
+
     class JoomlaFieldSubform extends HTMLElement {
 
         // Attribute getters
@@ -266,10 +276,138 @@
         /**
          * Use of HTML Drag and Drop API
          * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+         * https://www.sitepoint.com/accessible-drag-drop/
          */
         setUpDragSort() {
-            let that = this,
-                item = null; // storing the dragging item reference
+            let that = this; // Self reference
+
+            // Storing the selections data
+            let selections = {items: []};
+
+            // function for selecting an item
+            function addSelection(item) {
+                // Set this item's grabbed state
+                item.setAttribute('aria-grabbed', 'true');
+
+                // Add it to the items array
+                selections.items.push(item);
+            }
+
+            // function for unselecting an item
+            function removeSelection(item) {
+                // Reset this item's grabbed state
+                item.setAttribute('aria-grabbed', 'false');
+
+                // Then find and remove this item from the existing items array
+                for(let len = selections.items.length, i = 0; i < len; i ++) {
+                    if (selections.items[i] === item) {
+                        selections.items.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            // function for resetting all selections
+            function clearSelections() {
+                if (!selections.items.length) {
+                    return;
+                }
+
+                // Reset the grabbed state on every selected item
+                for (let len = selections.items.length, i = 0; i < len; i ++) {
+                    selections.items[i].setAttribute('aria-grabbed', 'false');
+                }
+
+                selections.items = [];
+            }
+
+            // mousedown event to implement single selection
+            this.addEventListener('mousedown', function(event) {
+                // @TODO: Ignore INPUT elements !!!
+                let row = closest(event.target, that.repeatableElement);
+
+                // Make sure we handle correct children
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // If the multiple selection modifier is not pressed
+                // and the item's grabbed state is currently false
+                if (!hasModifier(event) && row.getAttribute('aria-grabbed') === 'false') {
+                    clearSelections();
+                    addSelection(row);
+                } else if(!hasModifier(event)) {
+                    clearSelections();
+                }
+            });
+
+            // mouseup event to implement multiple selection
+            this.addEventListener('mouseup', function(event) {
+                // @TODO: Ignore INPUT elements !!!
+                let row = closest(event.target, that.repeatableElement);
+
+                // Make sure we handle correct children
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // If the element is a draggable item
+                // and the multipler selection modifier is pressed
+                if (hasModifier(event)) {
+                    // If the item's grabbed state is currently true
+                    if (row.getAttribute('aria-grabbed') === 'true') {
+                        removeSelection(row);
+                    } else {
+                        addSelection(row);
+                    }
+                }
+
+                console.log(selections);
+            });
+
+            // keydown event to implement selection and abort
+            this.addEventListener('keydown', function(event) {
+                if (event.keyCode !== 27 && event.keyCode !== 32) {
+                    return;
+                }
+
+                // @TODO: Ignore INPUT elements !!!
+                let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+
+                // Make sure we handle correct children
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // If the element is a grabbable item
+                if (row.getAttribute('aria-grabbed')) {
+                    // Space is the selection or unselection keystroke
+                    if (event.keyCode === 32) {
+                        // If the multiple selection modifier is pressed
+                        if (hasModifier(event)) {
+                            if (row.getAttribute('aria-grabbed') === 'true') {
+                                removeSelection(row);
+                            } else {
+                                addSelection(row);
+                            }
+                        }
+                        //else [if the multiple selection modifier is not pressed]
+                        //and the item's grabbed state is currently false
+                        else if (row.getAttribute('aria-grabbed') === 'false') {
+                            clearSelections();
+                            addSelection(row);
+                        }
+
+                        // Prevent default to supress any native actions
+                        event.preventDefault();
+                    }
+                }
+
+                // Escape is the abort keystroke (for any target element)
+                if (event.keyCode === 27) {
+                    clearSelections();
+                }
+            });
 
             // dragstart event to initiate mouse dragging
             this.addEventListener('dragstart', function(event) {
@@ -320,18 +458,15 @@
 
     customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
+    /**
+     * Helper to find a closest parent element
+     *
+     * @param {HTMLElement} element
+     * @param {String}      selector
+     *
+     * @returns {HTMLElement|null}
+     */
     function closest(element, selector) {
-        let matchesFn;
-
-        // find vendor prefix
-        ['matches', 'msMatchesSelector'].some(function(fn) {
-            if (typeof document.body[fn] === 'function') {
-                matchesFn = fn;
-                return true;
-            }
-            return false;
-        });
-
         let parent;
 
         // Traverse parents
@@ -344,6 +479,16 @@
         }
 
         return null;
+    }
+
+    /**
+     * Helper for testing whether a selection modifier is pressed
+     * @param {Event} event
+     *
+     * @returns {boolean|*}
+     */
+    function hasModifier(event) {
+        return (event.ctrlKey || event.metaKey || event.shiftKey);
     }
 
 })(customElements);
