@@ -112,6 +112,7 @@ class PostgresqlChangeItem extends ChangeItem
 						$this->queryType = 'CHANGE_COLUMN_TYPE';
 						$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
 						break;
+
 					case 'SET' :
 						$isNullable = $this->fixQuote('NO');
 						if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL;')
@@ -136,6 +137,7 @@ class PostgresqlChangeItem extends ChangeItem
 							. ' ELSE '
 							. ' substring(column_default, 1, (position('. $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
 							. ' END)';
+
 							$this->queryType = 'CHANGE_COLUMN_TYPE';
 							$this->checkQueryExpected = 1;
 							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $this->fixQuote($wordArray[8]));
@@ -149,6 +151,7 @@ class PostgresqlChangeItem extends ChangeItem
 							$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
 								. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 								. ' AND column_default IS NULL';
+
 							$this->queryType = 'CHANGE_COLUMN_TYPE';
 							$this->checkQueryExpected = 1;
 							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'DEFAULT');
@@ -160,6 +163,7 @@ class PostgresqlChangeItem extends ChangeItem
 							$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
 								. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
 								. ' AND is_nullable = ' . $isNullable;
+
 							$this->queryType = 'CHANGE_COLUMN_TYPE';
 							$this->checkQueryExpected = 0;
 							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NOT NULL');
