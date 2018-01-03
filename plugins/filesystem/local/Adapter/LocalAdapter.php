@@ -822,7 +822,7 @@ class LocalAdapter implements AdapterInterface
 	private function getFileName($path)
 	{
 		// Basename does not work here as it strips out certain characters like upper case umlaut u
-		$path = explode(DIRECTORY_SEPARATOR, $path);
+		$path = explode('/', $path);
 
 		// Return the last element
 		return array_pop($path);
