@@ -1,6 +1,6 @@
 /**
- * @copyright       Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 Joomla = window.Joomla || {};
@@ -72,56 +72,51 @@ Joomla = window.Joomla || {};
 		Joomla.removeMessages();
 
 		// Ajax request
-		Joomla.request(
-			{
-				url:    document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
-				method: 'POST',
-				data:    JSON.stringify(permissionData),
-				perform: true,
-				headers: {'Content-Type': 'application/json'},
-				onSuccess: function(response, xhr)
-				{
-					// @todo this needs a try/catch
+		Joomla.request({
+			url:    document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
+			method: 'POST',
+			data:    JSON.stringify(permissionData),
+			perform: true,
+			headers: {'Content-Type': 'application/json'},
+			onSuccess: function(response, xhr) {
+				try {
 					response = JSON.parse(response);
-
-					icon.removeAttribute('class');
-
-					if (response.data) {
-						// Check if everything is OK
-						if (response.data.result === 'true') {
-							icon.setAttribute('class', 'fa fa-check');
-
-							var badgeSpan = target.parentNode.parentNode.querySelector('span');
-							alert(badgeSpan)
-							badgeSpan.removeAttribute('class');
-							badgeSpan.setAttribute('class', response.data['class']);
-							badgeSpan.innerHTML = response.data.text;
-						}
-					}
-
-					// Render messages, if any. There are only message in case of errors.
-					if (typeof response.messages === 'object' && response.messages !== null) {
-						Joomla.renderMessages(response.messages);
-
-						if (response.data && response.data.result === true)
-						{
-							icon.setAttribute('class', 'fa fa-check');
-						} else {
-							icon.setAttribute('class', 'fa fa-times');
-						}
-					}
-				},
-				onError: function(xhr)
-				{
-					// Remove the spinning icon.
-					icon.removeAttribute('style');
-
-					Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
-
-					icon.setAttribute('class', 'fa fa-times');
+				} catch(e) {
+					console.log(e)
 				}
+
+				icon.removeAttribute('class');
+
+				// Check if everything is OK
+				if (response.data && response.data.result === true) {
+					icon.setAttribute('class', 'fa fa-check');
+
+					var badgeSpan = target.parentNode.parentNode.nextElementSibling.querySelector('span');
+					badgeSpan.removeAttribute('class');
+					badgeSpan.setAttribute('class', response.data['class']);
+					badgeSpan.innerHTML = response.data.text;
+				}
+
+				// Render messages, if any. There are only message in case of errors.
+				if (typeof response.messages === 'object' && response.messages !== null) {
+					Joomla.renderMessages(response.messages);
+
+					if (response.data && response.data.result === true) {
+						icon.setAttribute('class', 'fa fa-check');
+					} else {
+						icon.setAttribute('class', 'fa fa-times');
+					}
+				}
+			},
+			onError: function(xhr) {
+				// Remove the spinning icon.
+				icon.removeAttribute('style');
+
+				Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
+
+				icon.setAttribute('class', 'fa fa-times');
 			}
-		);
+		});
 	}
 
 	/**
