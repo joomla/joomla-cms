@@ -6,6 +6,11 @@
 ;(function(customElements){
     "use strict";
 
+    const KEYCODE = {
+        SPACE: 32,
+        ESC: 27,
+    };
+
     // Find matchesFn with vendor prefix
     let matchesFn = 'matches';
     ['matches', 'msMatchesSelector'].some(function(fn) {
@@ -280,89 +285,34 @@
          */
         setUpDragSort() {
             let that = this; // Self reference
+            let item = null; // Storing the selected item
 
-            // Storing the selections data
-            let selections = {items: []};
-
-            // function for selecting an item
-            function addSelection(item) {
-                // Set this item's grabbed state
-                item.setAttribute('aria-grabbed', 'true');
-
-                // Add it to the items array
-                selections.items.push(item);
+            // Helper method to test whether Handler was clicked
+            function getMoveHandler(element) {
+                return !element.form // This need to test whether the element is :input
+                        && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
             }
 
-            // function for unselecting an item
-            function removeSelection(item) {
-                // Reset this item's grabbed state
-                item.setAttribute('aria-grabbed', 'false');
-
-                // Then find and remove this item from the existing items array
-                for(let len = selections.items.length, i = 0; i < len; i ++) {
-                    if (selections.items[i] === item) {
-                        selections.items.splice(i, 1);
-                        break;
-                    }
-                }
-            }
-
-            // function for resetting all selections
-            function clearSelections() {
-                if (!selections.items.length) {
-                    return;
-                }
-
-                // Reset the grabbed state on every selected item
-                for (let len = selections.items.length, i = 0; i < len; i ++) {
-                    selections.items[i].setAttribute('aria-grabbed', 'false');
-                }
-
-                selections.items = [];
-            }
-
-            // mousedown event to implement single selection
             this.addEventListener('mousedown', function(event) {
-                // @TODO: Ignore INPUT elements !!!
-                let row = closest(event.target, that.repeatableElement);
+                // Check for .move button
+                let handler = getMoveHandler(event.target),
+                    row = handler ? closest(handler, that.repeatableElement) : null;
 
-                // Make sure we handle correct children
                 if (!row || closest(row, 'joomla-field-subform') !== that) {
                     return;
                 }
 
-                // If the multiple selection modifier is not pressed
-                // and the item's grabbed state is currently false
-                if (!hasModifier(event) && row.getAttribute('aria-grabbed') === 'false') {
-                    clearSelections();
-                    addSelection(row);
-                } else if(!hasModifier(event)) {
-                    clearSelections();
-                }
+                row.setAttribute('draggable', 'true');
+                row.setAttribute('aria-grabbed', 'true');
+                item = row;
             });
 
-            // mouseup event to implement multiple selection
             this.addEventListener('mouseup', function(event) {
-                // @TODO: Ignore INPUT elements !!!
-                let row = closest(event.target, that.repeatableElement);
-
-                // Make sure we handle correct children
-                if (!row || closest(row, 'joomla-field-subform') !== that) {
-                    return;
+                if (item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
                 }
-
-                // If the element is a draggable item
-                // and the multipler selection modifier is pressed
-                if (hasModifier(event)) {
-                    // If the item's grabbed state is currently true
-                    if (row.getAttribute('aria-grabbed') === 'true') {
-                        removeSelection(row);
-                    } else {
-                        addSelection(row);
-                    }
-                }
-
-                console.log(selections);
             });
 
             // keydown event to implement selection and abort
@@ -411,24 +361,13 @@
 
             // dragstart event to initiate mouse dragging
             this.addEventListener('dragstart', function(event) {
-                // Make sure we handle correct children
-                // @TODO: make sure the target is a row, not any other element !!!
-                if (closest(event.target, 'joomla-field-subform') !== that) {
-                    return;
+                if (item) {
+                    // This need to work in Firefox and IE10+
+                    event.dataTransfer.setData('text', '');
                 }
-
-                // Set active item
-                item = event.target;
-
-                // We don't need the transfer data, but we have to define something
-                // otherwise the drop action won't work at all in firefox
-                // most browsers support the proper mime-type syntax, eg. "text/plain"
-                // but we have to use this incorrect syntax for the benefit of IE10+
-                event.dataTransfer.setData('text', '');
             });
 
             this.addEventListener('dragover', function(event) {
-                // @TODO: Make sure the target is correct container or row from this container
                 if (item) {
                     event.preventDefault();
                 }
@@ -445,13 +384,48 @@
                     return;
                 }
 
-                that.containerWithRows.appendChild(item);
+                // Find a place where to drop
+                if (event.target === that.containerWithRows) {
+                    // This is the rows container, drop after
+                    that.containerWithRows.appendChild(item);
+                } else {
+                    // Find a hovered row, and replace it
+                    let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+
+                    if (row) {
+                        // Check whether it is a last element
+                        let isLast = true, nextSibling = row.nextSibling;
+                        while (nextSibling) {
+                            if (nextSibling.nodeType === nextSibling.ELEMENT_NODE
+                                && nextSibling[matchesFn](that.repeatableElement)) {
+
+                                isLast = false;
+                                break;
+                            }
+                            nextSibling = nextSibling.nextSibling;
+                        }
+
+                        if (!isLast) {
+                            row.parentNode.insertBefore(item, row);
+                        } else {
+                            row.parentNode.appendChild(item);
+                        }
+                    }
+                }
+
+                item.setAttribute('draggable', 'false');
+                item.setAttribute('aria-grabbed', 'false');
+                item = null;
             });
 
             // dragend event to clean-up after drop or abort
             // which fires whether or not the drop target was valid
             this.addEventListener('dragend', function() {
-                item = null;
+                if (item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
             });
         }
     }
