@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -296,8 +298,8 @@ class SQLField extends \JFormFieldList
 		// Add header.
 		if (!empty($header))
 		{
-			$header_title = \JText::_($header);
-			$options[] = \JHtml::_('select.option', '', $header_title);
+			$header_title = Text::_($header);
+			$options[] = HTMLHelper::_('select.option', '', $header_title);
 		}
 
 		// Build the field options.
@@ -307,11 +309,11 @@ class SQLField extends \JFormFieldList
 			{
 				if ($this->translate == true)
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, \JText::_($item->$value));
+					$options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
 				}
 				else
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, $item->$value);
+					$options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
 				}
 			}
 		}

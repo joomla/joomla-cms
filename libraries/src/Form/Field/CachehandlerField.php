@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -46,7 +47,7 @@ class CachehandlerField extends \JFormFieldList
 		// Convert to name => name array.
 		foreach (Cache::getStores() as $store)
 		{
-			$options[] = \JHtml::_('select.option', $store, \JText::_('JLIB_FORM_VALUE_CACHE_' . $store), 'value', 'text');
+			$options[] = HTMLHelper::_('select.option', $store, \JText::_('JLIB_FORM_VALUE_CACHE_' . $store), 'value', 'text');
 		}
 
 		$options = array_merge(parent::getOptions(), $options);

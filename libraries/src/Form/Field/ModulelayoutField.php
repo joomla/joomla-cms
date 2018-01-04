@@ -14,6 +14,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Folder;
+use Joomla\Filesystem\Path;
 
 \JLoader::import('joomla.filesystem.folder');
 
@@ -111,7 +115,7 @@ class ModulelayoutField extends FormField
 			$templates = $db->loadObjectList('element');
 
 			// Build the search paths for module layouts.
-			$module_path = \JPath::clean($client->path . '/modules/' . $module . '/tmpl');
+			$module_path = Path::clean($client->path . '/modules/' . $module . '/tmpl');
 
 			// Prepare array of component layouts
 			$module_layouts = array();
@@ -120,7 +124,7 @@ class ModulelayoutField extends FormField
 			$groups = array();
 
 			// Add the layout options from the module path.
-			if (is_dir($module_path) && ($module_layouts = \JFolder::files($module_path, '^[^_]*\.php$')))
+			if (is_dir($module_path) && ($module_layouts = Folder::files($module_path, '^[^_]*\.php$')))
 			{
 				// Create the group for the module
 				$groups['_'] = array();
@@ -133,7 +137,7 @@ class ModulelayoutField extends FormField
 					// Add an option to the module group
 					$value = basename($file, '.php');
 					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? \JText::_($key) : $value;
-					$groups['_']['items'][] = \JHtml::_('select.option', '_:' . $value, $text);
+					$groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
 				}
 			}
 
@@ -146,10 +150,10 @@ class ModulelayoutField extends FormField
 					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
 						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
-					$template_path = \JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
+					$template_path = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = \JFolder::files($template_path, '^[^_]*\.php$')))
+					if (is_dir($template_path) && ($files = Folder::files($template_path, '^[^_]*\.php$')))
 					{
 						foreach ($files as $i => $file)
 						{
@@ -173,8 +177,8 @@ class ModulelayoutField extends FormField
 								// Add an option to the template group
 								$value = basename($file, '.php');
 								$text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
-									? \JText::_($key) : $value;
-								$groups[$template->element]['items'][] = \JHtml::_('select.option', $template->element . ':' . $value, $text);
+									? Text::_($key) : $value;
+								$groups[$template->element]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
 							}
 						}
 					}
@@ -192,7 +196,7 @@ class ModulelayoutField extends FormField
 			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = \JHtml::_(
+			$html[] = HTMLHelper::_(
 				'select.groupedlist', $groups, $this->name,
 				array('id' => $this->id, 'group.id' => 'id', 'list.attr' => $attr, 'list.select' => $selected)
 			);

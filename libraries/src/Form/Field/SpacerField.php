@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -81,7 +83,7 @@ class SpacerField extends FormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				$label .= ' title="' . \JHtml::_('tooltipText', trim($text, ':'), \JText::_($this->description), 0) . '"';
+				$label .= ' title="' . HTMLHelper::_('tooltipText', trim($text, ':'), Text::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 /**
@@ -142,19 +143,19 @@ class PluginsField extends ListField
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
 				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
-				$options[$i]->text = \JText::_($item->text);
+				$options[$i]->text = Text::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.
 				if ($useGlobal && isset($parentOptions[0]) && $item->value === $globalValue)
 				{
-					$text                   = \JText::_($extension);
-					$parentOptions[0]->text = \JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
+					$text                   = Text::_($extension);
+					$parentOptions[0]->text = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
 				}
 			}
 		}
 		else
 		{
-			Log::add(\JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
+			Log::add(Text::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
 		}
 
 		return array_merge($parentOptions, $options);

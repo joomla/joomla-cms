@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 
 /**
  * Field to select Content History from a modal list.
@@ -48,7 +49,7 @@ class ContenthistoryField extends FormField
 
 		$typeId = Table::getInstance('Contenttype')->getTypeId($this->element['data-typeAlias']);
 		$itemId = $this->form->getValue('id');
-		$label  = \JText::_('JTOOLBAR_VERSIONS');
+		$label  = Text::_('JTOOLBAR_VERSIONS');
 
 		$link   = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
 			. $this->id . '&amp;item_id=' . $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias='
