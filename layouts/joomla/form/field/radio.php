@@ -94,6 +94,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 	<?php // START RADIO TOGGLE ?>
 	<?php
 		$isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
+		$isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
 		$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
 		$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
 		$btnClass    = $isBtnGroup ? 'btn btn-secondary' : 'form-check';
@@ -113,6 +114,19 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 					$optionClass = !empty($option->class) ? $option->class : $btnClass;
 					$optionClass .= $checked ? ' active' : '';
 					$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+
+					// Set the button classes for the yes/no group
+					if ($isBtnYesNo)
+					{
+						if ($i === 0)
+						{
+							$optionClass = 'btn btn-outline-danger';
+						}
+						else
+						{
+							$optionClass = 'btn btn-outline-success';
+						}
+					}
 
 					// Initialize some JavaScript option attributes.
 					$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
