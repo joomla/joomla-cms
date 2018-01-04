@@ -858,7 +858,7 @@ class HtmlView extends \JObject
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -890,25 +890,8 @@ class HtmlView extends \JObject
 		{
 			/* @var Registry $params */
 			$params = $this->params;
-			$app    = Factory::getApplication();
 
-			$title = $params->get('page_title');
-
-			// Check for empty title and add site name if param is set
-			if (empty($title))
-			{
-				$title = $app->get('sitename');
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 1)
-			{
-				$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 2)
-			{
-				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-			}
-
-			$this->document->setTitle($title);
+			$this->setDocumentTitle($params->get('page_title'));
 
 			if ($params->get('menu-meta_description'))
 			{
