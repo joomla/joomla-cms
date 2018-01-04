@@ -12,6 +12,7 @@ Joomla = window.Joomla || {};
 	 * Function to send Permissions via Ajax to Com-Config Application Controller
 	 */
 	Joomla.sendPermissions = function(event) {
+		var target = event.target;
 		// Set the icon while storing the values
 		var icon = document.getElementById('icon_' + this.id);
 		icon.removeAttribute('class');
@@ -19,13 +20,13 @@ Joomla = window.Joomla || {};
 
 		// Get values and prepare GET-Parameter
 		var asset     = 'not',
-			component = Joomla.getUrlParam('component'),
-			extension = Joomla.getUrlParam('extension'),
-			option    = Joomla.getUrlParam('option'),
-			view      = Joomla.getUrlParam('view'),
-			title     = component,
-			value     = this.value,
-			context   = '';
+		    component = Joomla.getUrlParam('component'),
+		    extension = Joomla.getUrlParam('extension'),
+		    option    = Joomla.getUrlParam('option'),
+		    view      = Joomla.getUrlParam('view'),
+		    title     = component,
+		    value     = this.value,
+		    context   = '';
 
 		if (document.getElementById('jform_context')) {
 			context = document.getElementById('jform_context').value;
@@ -57,7 +58,7 @@ Joomla = window.Joomla || {};
 		}
 
 		var id                  = this.id.replace('jform_rules_', ''),
-			lastUnderscoreIndex = id.lastIndexOf('_');
+		    lastUnderscoreIndex = id.lastIndexOf('_');
 
 		var permissionData = {
 			comp   : asset,
@@ -71,49 +72,56 @@ Joomla = window.Joomla || {};
 		Joomla.removeMessages();
 
 		// Ajax request
-		// TO-DO: Move to Joomla.request
-		jQuery.ajax({
-			method: 'POST',
-			url: document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
-			data: permissionData,
-			datatype: 'json'
-		})
-		.fail(function (jqXHR, textStatus, error) {
-			// Remove the spinning icon.
-			icon.removeAttribute('style');
-
-			Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
-
-			icon.setAttribute('class', 'fa fa-times');
-		})
-		.done(function (response) {
-			// Remove the spinning icon.
-			icon.removeAttribute('style');
-
-			if (response.data) {
-				// Check if everything is OK
-				if (response.data.result == true) {
-					icon.setAttribute('class', 'fa fa-check');
-
-					var badgeSpan = event.target.parentNode.parentNode.nextElementSibling.querySelector('span');
-					badgeSpan.removeAttribute('class');
-					badgeSpan.setAttribute('class', response.data['class']);
-					badgeSpan.innerHTML = response.data.text;
-				}
-			}
-
-			// Render messages, if any. There are only message in case of errors.
-			if (typeof response.messages == 'object' && response.messages !== null) {
-				Joomla.renderMessages(response.messages);
-
-				if (response.data && response.data.result == true)
+		Joomla.request(
+			{
+				url:    document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
+				method: 'POST',
+				data:    JSON.stringify(permissionData),
+				perform: true,
+				headers: {'Content-Type': 'application/json'},
+				onSuccess: function(response, xhr)
 				{
-					icon.setAttribute('class', 'fa fa-check');
-				} else {
+					// @todo this needs a try/catch
+					response = JSON.parse(response);
+
+					icon.removeAttribute('class');
+
+					if (response.data) {
+						// Check if everything is OK
+						if (response.data.result === 'true') {
+							icon.setAttribute('class', 'fa fa-check');
+
+							var badgeSpan = target.parentNode.parentNode.querySelector('span');
+							alert(badgeSpan)
+							badgeSpan.removeAttribute('class');
+							badgeSpan.setAttribute('class', response.data['class']);
+							badgeSpan.innerHTML = response.data.text;
+						}
+					}
+
+					// Render messages, if any. There are only message in case of errors.
+					if (typeof response.messages === 'object' && response.messages !== null) {
+						Joomla.renderMessages(response.messages);
+
+						if (response.data && response.data.result === true)
+						{
+							icon.setAttribute('class', 'fa fa-check');
+						} else {
+							icon.setAttribute('class', 'fa fa-times');
+						}
+					}
+				},
+				onError: function(xhr)
+				{
+					// Remove the spinning icon.
+					icon.removeAttribute('style');
+
+					Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
+
 					icon.setAttribute('class', 'fa fa-times');
 				}
 			}
-		});
+		);
 	}
 
 	/**
