@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Make thing clear
  *
@@ -29,7 +32,7 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	JHtml::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-field-subform.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+	HTMLHelper::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-field-subform.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 }
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
@@ -46,7 +49,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus icon-white" aria-hidden="true"></span> </a>
+					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
 				</div>
 			</div>
 			<?php endif; ?>

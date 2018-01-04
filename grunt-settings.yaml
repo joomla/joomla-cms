@@ -13,7 +13,7 @@ vendors:
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '4.0.0-beta.2'
+                  'version': '4.0.0-beta.3'
                   'dependencies': 'jquery'
     'font-awesome':
                   'version': '4.7.0'
