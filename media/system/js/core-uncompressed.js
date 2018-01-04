@@ -149,44 +149,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
-	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 * Proxy old Joomla.JText to Joomla.Text
 	 *
-	 * @type {{}}
-	 *
-	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
-	 *
-	 * @deprecated 4.0 Use Joomla.Text
+	 * @deprecated 5.0 Use Joomla.Text
 	 */
-	Joomla.JText = {
-		strings: Joomla.Text.strings,
-
-		/**
-		 * Translates a string into the current language.
-		 *
-		 * @param {String} key   The string to translate
-		 * @param {String} def   Default string
-		 *
-		 * @returns {String}
-		 */
-		'_': function(key, def) {
-			console.warn('Joomla.JText._() is deprecated, use Joomla.Text._()');
-
-			return Joomla.Text._(key, def);
-		},
-
-		/**
-		 * Load new strings in to Joomla.JText
-		 *
-		 * @param {Object} object  Object with new strings
-		 *
-		 * @returns {Joomla.Text}
-		 */
-		load: function(object) {
-			console.warn('Joomla.JText.load() is deprecated, use Joomla.JText.load()');
-
-			return Joomla.Text.load(object);
-		}
-	};
+	Joomla.JText = Joomla.Text;
 
 	/**
 	 * Joomla options storage
