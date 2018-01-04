@@ -3,7 +3,8 @@
 	<fieldset 
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
-	>
+		description="COM_REDIRECT_ADVANCED_OPTIONS_FIELDSET_DESC">
+
 		<field
 			name="mode"
 			type="radio"
