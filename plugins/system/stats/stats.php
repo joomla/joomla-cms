@@ -97,7 +97,6 @@ class PlgSystemStats extends JPlugin
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
 
-		JHtml::_('jquery.framework');
 		JHtml::_('script', 'plg_system_stats/stats.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
