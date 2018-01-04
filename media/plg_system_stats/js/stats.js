@@ -19,21 +19,22 @@ Joomla = window.Joomla || {};
 		var messageContainer = document.getElementById('system-message-container');
 		var globalContainer  = messageContainer.querySelector('.js-pstats-alert');
 		var detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
+		var details = messageContainer.querySelector('.js-pstats-btn-details');
+		var always  = messageContainer.querySelector('.js-pstats-btn-allow-always');
+		var once    = messageContainer.querySelector('.js-pstats-btn-allow-once');
+		var never   = messageContainer.querySelector('.js-pstats-btn-allow-never');
 
-		globalContainer.addEventListener('joomla.alert.show', function() {
-			var details = messageContainer.querySelector('.js-pstats-btn-details');
-			var always  = messageContainer.querySelector('.js-pstats-btn-allow-always');
-			var once    = messageContainer.querySelector('.js-pstats-btn-allow-once');
-			var never   = messageContainer.querySelector('.js-pstats-btn-allow-never');
-
-			// Show details about the information being sent
-			details.addEventListener('click', function(event) {
+		// Show details about the information being sent
+		document.addEventListener('click', function(event) {
+			if (event.target.classList.contains('js-pstats-btn-details')) {
 				event.preventDefault();
 				detailsContainer.style.display = 'table';
-			});
+			}
+		});
 
-			// Always allow
-			always.addEventListener('click', function(event) {
+		// Always allow
+		document.addEventListener('click', function(event) {
+			if (event.target.classList.contains('js-pstats-btn-allow-always')) {
 				event.preventDefault();
 
 				// Remove message
@@ -42,10 +43,12 @@ Joomla = window.Joomla || {};
 				data.plugin = 'sendAlways';
 
 				Joomla.getJson(data);
-			});
+			}
+		});
 
-			// Allow once
-			once.addEventListener('click', function(event) {
+		// Allow once
+		document.addEventListener('click', function(event) {
+			if (event.target.classList.contains('js-pstats-btn-allow-once')) {
 				event.preventDefault();
 
 				// Remove message
@@ -55,10 +58,12 @@ Joomla = window.Joomla || {};
 				data.plugin = 'sendOnce';
 
 				Joomla.getJson(data);
-			});
+			}
+		});
 
-			// Never allow
-			never.addEventListener('click', function(event) {
+		// Never allow
+		document.addEventListener('click', function(event) {
+			if (event.target.classList.contains('js-pstats-btn-allow-never')) {
 				event.preventDefault();
 
 				// Remove message
@@ -68,7 +73,7 @@ Joomla = window.Joomla || {};
 				data.plugin = 'sendNever';
 
 				Joomla.getJson(data);
-			});
+			}
 		});
 	}
 
@@ -94,7 +99,7 @@ Joomla = window.Joomla || {};
 		});
 	}
 
-	document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('joomla:updated', function() {
 		data.plugin = 'sendStats';
 		Joomla.initStatsEvents();
 	});
