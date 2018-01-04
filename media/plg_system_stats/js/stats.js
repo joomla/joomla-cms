@@ -1,93 +1,102 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * stats javascript behavior
- *
- * To allow users to accept & configure stats sending
- *
- * @package     Joomla
- * @since       3.5.0
- * @version  1.0
- */
+Joomla = window.Joomla || {};
 
-(function ($) {
-	$(document).ready(function () {
-		var ajaxData = {
-			'option' : 'com_ajax',
-			'group'  : 'system',
-			'plugin' : 'renderStatsMessage',
-			'format' : 'raw'
-			},
-			messageContainer = $('#system-message-container');
+(function(Joomla, document) {
+	'use strict';
 
-		/**
-		 * Initialise events for the message container
-		 *
-		 * @return  void
-		 */
-		function initStatsEvents()
-		{
-			var globalContainer = messageContainer.find('.js-pstats-alert'),
-				detailsContainer = messageContainer.find('.js-pstats-data-details');
+	var data = {
+		'option' : 'com_ajax',
+		'group'  : 'system',
+		'plugin' : 'renderStatsMessage',
+		'format' : 'raw'
+	};
+
+	Joomla.initStatsEvents = function() {
+		var messageContainer = document.getElementById('system-message-container');
+		var globalContainer  = messageContainer.querySelector('.js-pstats-alert');
+		var detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
+
+		globalContainer.addEventListener('joomla.alert.show', function() {
+			var details = messageContainer.querySelector('.js-pstats-btn-details');
+			var always  = messageContainer.querySelector('.js-pstats-btn-allow-always');
+			var once    = messageContainer.querySelector('.js-pstats-btn-allow-once');
+			var never   = messageContainer.querySelector('.js-pstats-btn-allow-never');
 
 			// Show details about the information being sent
-			messageContainer.on('click', '.js-pstats-btn-details', function(e){
-				detailsContainer.toggle(200);
-				e.preventDefault();
+			details.addEventListener('click', function(event) {
+				event.preventDefault();
+				detailsContainer.style.display = 'table';
 			});
 
 			// Always allow
-			messageContainer.on('click', '.js-pstats-btn-allow-always', function(e){
+			always.addEventListener('click', function(event) {
+				event.preventDefault();
 
 				// Remove message
-				globalContainer.hide(200);
-				detailsContainer.remove();
-				ajaxData.plugin = 'sendAlways';
+				globalContainer.style.display = 'none';
+				detailsContainer.parentNode.removeChild(detailsContainer);
+				data.plugin = 'sendAlways';
 
-				$.getJSON('index.php', ajaxData, function(response){});
-				e.preventDefault();
+				Joomla.getJson(data);
 			});
 
 			// Allow once
-			messageContainer.on('click', '.js-pstats-btn-allow-once', function(e){
+			once.addEventListener('click', function(event) {
+				event.preventDefault();
 
 				// Remove message
-				globalContainer.hide(200);
-				detailsContainer.remove();
+				globalContainer.style.display = 'none';
+				detailsContainer.parentNode.removeChild(detailsContainer);
 
-				ajaxData.plugin = 'sendOnce';
+				data.plugin = 'sendOnce';
 
-				$.getJSON('index.php', ajaxData, function(response){});
-				e.preventDefault();
+				Joomla.getJson(data);
 			});
 
 			// Never allow
-			messageContainer.on('click', '.js-pstats-btn-allow-never', function(e){
+			never.addEventListener('click', function(event) {
+				event.preventDefault();
 
 				// Remove message
-				globalContainer.hide(200);
-				detailsContainer.remove();
+				globalContainer.style.display = 'none';
+				detailsContainer.parentNode.removeChild(detailsContainer);
 
-				ajaxData.plugin = 'sendNever';
+				data.plugin = 'sendNever';
 
-				$.getJSON('index.php', ajaxData, function(response){});
-				e.preventDefault();
+				Joomla.getJson(data);
 			});
-		}
+		});
+	}
 
-		ajaxData.plugin = 'sendStats';
+	Joomla.getJson = function(data) {
+		var messageContainer = document.getElementById('system-message-container');
+		Joomla.request({
+			url: 'index.php?option=' + data.option + '&group=' + data.group + '&plugin=' + data.plugin +  '&format=' + data.format,
+			method: 'GET',
+			perform: true,
+			headers: {'Content-Type': 'application/json'},
+			onSuccess: function(response, xhr) {
+				response = JSON.parse(response);
+				if (response && response.html) {
+					messageContainer.appendChild(response.html);
+					messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
 
-		$.getJSON('index.php', ajaxData, function(response){
-			if (response && response.html) {
-				messageContainer
-					.append(response.html)
-					.find('.js-pstats-alert').show(200);
-
-				initStatsEvents();
+					Joomla.initStatsEvents();
+				}
+			},
+			onError: function(xhr) {
+				// error
 			}
 		});
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		data.plugin = 'sendStats';
+		Joomla.initStatsEvents();
 	});
-})(jQuery);
+
+})(Joomla, document);
