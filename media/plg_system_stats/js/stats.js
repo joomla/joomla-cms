@@ -89,7 +89,7 @@ Joomla = window.Joomla || {};
 				try {
 					response = JSON.parse(response);
 				} catch(e) {
-					console.log(e);
+					throw new Error(e);
 				}
 
 				if (response && response.html) {
