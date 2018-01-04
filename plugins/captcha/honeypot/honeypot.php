@@ -24,7 +24,7 @@ class PlgCaptchaHoneypot extends JPlugin
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
-	 * @since  2.5
+	 * @since  3.9
 	 */
 	public function onDisplay()
 	{
@@ -41,7 +41,7 @@ class PlgCaptchaHoneypot extends JPlugin
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
-	 * @since  2.5
+	 * @since  3.9
 	 */
 	public function onCheckAnswer()
 	{

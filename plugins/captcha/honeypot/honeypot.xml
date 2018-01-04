@@ -22,11 +22,11 @@
 			<fieldset name="basic">
 
 				<field
-						name="fieldname"
-						label="PLG_CAPTCHA_HONEYPOT_FIELDNAME_LABEL"
-						description="PLG_CAPTCHA_HONEYPOT_FIELDNAME_DESC"
-						type="text"
-						default="repeatmail"
+					name="fieldname"
+					label="PLG_CAPTCHA_HONEYPOT_FIELDNAME_LABEL"
+					description="PLG_CAPTCHA_HONEYPOT_FIELDNAME_DESC"
+					type="text"
+					default="repeatmail"
 				/>
 			</fieldset>
 		</fields>
