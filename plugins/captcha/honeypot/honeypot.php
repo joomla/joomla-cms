@@ -30,7 +30,7 @@ class PlgCaptchaHoneypot extends JPlugin
 	{
 		$doc = JFactory::getDocument();
 /*		$doc->addStyleDeclaration('body label[for="' . $this->params->get("fieldname")  . '"], body label[for="jform_captcha"], body label[for="jform_captcha"] + span.optional, body #' . $this->params->get("fieldname")  . ' {display: none;  visibility: hidden; }');*/
-		return '<input id="' . $this->params->get("fieldname")  . '" name="' . $this->params->get("fieldname")  . '" size="40" type="text" />';
+		return '<input id="' . $this->params->get("fieldname")  . '" name="' . $this->params->get("fieldname")  . '" size="40" type="text" autocomplete="false" autofill="off" />';
 	}
 
 
