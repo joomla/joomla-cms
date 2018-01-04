@@ -48,12 +48,16 @@ class RadioField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
+		// Switch the layouts
+		$this->layout = strpos(trim($this->element['class']), 'switcher') === 0 ? $this->layout . '.switcher' : $this->layout . '.buttons';
+
 		if (empty($this->layout))
 		{
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
 	}
 
 	/**
