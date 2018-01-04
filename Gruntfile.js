@@ -30,6 +30,20 @@ module.exports = function(grunt) {
 	// Build the package.json and assets.php for all 3rd Party assets
 	grunt.file.write('build/assets_tmp/package.json', preText + vendorsTxt.substring(0, vendorsTxt.length - 1) + postText);
 
+	// Load required modules
+	grunt.loadNpmTasks('grunt-babel');
+	grunt.loadNpmTasks('grunt-browserify');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-uglify-es');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-postcss-x');
+	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-scss-lint');
+	grunt.loadNpmTasks('grunt-shell');
+
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
@@ -698,20 +712,6 @@ module.exports = function(grunt) {
 	/**
 	 * Custom Elements end
 	 */
-
-	// Load required modules
-	grunt.loadNpmTasks('grunt-babel');
-	grunt.loadNpmTasks('grunt-browserify');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-postcss-x');
-	grunt.loadNpmTasks('grunt-sass');
-	grunt.loadNpmTasks('grunt-scss-lint');
-	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('default',
 		[
