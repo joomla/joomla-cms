@@ -23,9 +23,9 @@
 
 				<field
 					name="fieldname"
+					type="text"
 					label="PLG_CAPTCHA_HONEYPOT_FIELDNAME_LABEL"
 					description="PLG_CAPTCHA_HONEYPOT_FIELDNAME_DESC"
-					type="text"
 					default="repeatmail"
 				/>
 			</fieldset>
