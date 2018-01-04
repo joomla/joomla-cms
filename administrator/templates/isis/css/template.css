@@ -7407,6 +7407,7 @@ fieldset.checkboxes li {
 .controls input[type="email"],
 .controls select,
 .controls textarea {
+
 	max-width: 100%;
 }
 .controls .btn-group > .btn {
@@ -9086,4 +9087,10 @@ input:focus,
 		-moz-column-count: auto;
 		column-count: auto;
 	}
+}
+
+.form-inline-header {
+	margin: 5px 0;
+	white-space: nowrap;
+	max-width: 99%;
 }
