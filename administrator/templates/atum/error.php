@@ -61,7 +61,6 @@ HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/
 	<?php endif; ?>
 
 	<script src="/media/system/js/core.min.js"></script>
-	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
