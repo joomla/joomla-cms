@@ -290,7 +290,7 @@ class Categories
 		if ($this->_options['countItems'] == 1)
 		{
 			$subQuery = $db->getQuery(true)
-				->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems')
+				->select('COUNT(i.' . $db->quoteName($this->_key) . ')')
 				->from($db->quoteName($this->_table, 'i'))
 				->where('i.' . $db->quoteName($this->_field) . ' = c.id');
 
