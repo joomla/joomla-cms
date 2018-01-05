@@ -26,9 +26,11 @@ class EmailRule extends FormRule
 	 *
 	 * @var    string
 	 * @since  11.1
-	 * @link   http://www.w3.org/TR/html-markup/input.email.html
+	 * @link   https://www.w3.org/TR/html/sec-forms.html#email-state-typeemail
 	 */
-	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+	//protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+	protected $regex = "^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])"
+			. "?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
