@@ -96,7 +96,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 		$isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
 		$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
 		$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
-		$btnClass    = $isBtnGroup ? 'btn btn-secondary' : 'form-check';
+		$btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 	?>
 	<fieldset>
 		<div id="<?php echo $id; ?>" class="<?php echo trim($class) . $classToggle; ?>"
@@ -109,15 +109,12 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 				<?php foreach ($options as $i => $option) : ?>
 					<?php
 					// Initialize some option attributes.
-					$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 					$optionClass = !empty($option->class) ? $option->class : $btnClass;
-					$optionClass .= $checked ? ' active' : '';
-					$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
 					// Set the button classes for the yes/no group
 					if ($isBtnYesNo)
 					{
-						if ($i === 0)
+						if ($option->value === "0")
 						{
 							$optionClass = 'btn btn-outline-danger';
 						}
@@ -126,6 +123,10 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 							$optionClass = 'btn btn-outline-success';
 						}
 					}
+
+					$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
+					$optionClass .= $checked ? ' active' : '';
+					$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
 					// Initialize some JavaScript option attributes.
 					$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
