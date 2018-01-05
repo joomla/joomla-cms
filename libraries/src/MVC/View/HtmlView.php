@@ -905,7 +905,7 @@ class HtmlView extends \JObject
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
 
-		$metaData = $this->params->get('metadata');
+		$metaData = $params->get('metadata');
 
 		if (is_array($metaData))
 		{
