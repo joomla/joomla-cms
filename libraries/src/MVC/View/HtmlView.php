@@ -880,45 +880,41 @@ class HtmlView extends \JObject
 	/**
 	 * Method to add some document head data from view's $params property
 	 *
-	 * @return void
+	 * @param   Registry  $params  The view menu parameters
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function setDocumentHeadData()
+	protected function setDocumentHeadData(Registry $params)
 	{
-		if (isset($this->params) && $this->params instanceof Registry)
+		$this->setDocumentTitle($params->get('page_title'));
+
+		if ($params->get('menu-meta_description'))
 		{
-			/* @var Registry $params */
-			$params = $this->params;
+			$this->document->setDescription($params->get('menu-meta_description'));
+		}
 
-			$this->setDocumentTitle($params->get('page_title'));
+		if ($params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+		}
 
-			if ($params->get('menu-meta_description'))
+		if ($params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $params->get('robots'));
+		}
+
+		$metaData = $this->params->get('metadata');
+
+		if (is_array($metaData))
+		{
+			// Remove empty value
+			$metaData = array_filter($metaData);
+
+			foreach ($metaData as $k => $v)
 			{
-				$this->document->setDescription($params->get('menu-meta_description'));
-			}
-
-			if ($params->get('menu-meta_keywords'))
-			{
-				$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
-			}
-
-			if ($params->get('robots'))
-			{
-				$this->document->setMetadata('robots', $params->get('robots'));
-			}
-
-			$metaData = $this->params->get('metadata');
-
-			if (is_array($metaData))
-			{
-				// Remove empty value
-				$metaData = array_filter($metaData);
-
-				foreach ($metaData as $k => $v)
-				{
-					$this->document->setMetadata($k, $v);
-				}
+				$this->document->setMetadata($k, $v);
 			}
 		}
 	}
