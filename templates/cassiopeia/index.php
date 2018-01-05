@@ -116,7 +116,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				
+
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
 			<div class="grid-child container-banner">
@@ -132,7 +132,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		</header>
 	</div>
-	
+
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="cardGrey" />
@@ -156,6 +156,16 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<div class="container-component">
 			<jdoc:include type="modules" name="main-top" style="cardGrey" />
 			<jdoc:include type="message" />
+			<?php
+			foreach($params->get('positionsMiddle', array()) as $position) {
+				if (empty($position->position) || !$this->countModules($position->position))
+				{
+					continue;
+				}
+
+				echo '<jdoc:include type="modules" name="' . $position->position . '" style="none" />'.PHP_EOL;
+			}
+			?>
 			<jdoc:include type="component" />
 			<jdoc:include type="modules" name="breadcrumbs" style="none" />
 			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />

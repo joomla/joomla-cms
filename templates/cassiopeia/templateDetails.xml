@@ -46,23 +46,23 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
-					name="logoFile" 
-					type="media" 
+					name="logoFile"
+					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
 				/>
 
 				<field
-					name="siteTitle" 
-					type="text" 
+					name="siteTitle"
+					type="text"
 					default=""
 					label="JGLOBAL_TITLE"
 					filter="string"
 				/>
 
 				<field
-					name="siteDescription" 
-					type="text" 
+					name="siteDescription"
+					type="text"
 					default=""
 					label="JGLOBAL_DESCRIPTION"
 					filter="string"
@@ -79,6 +79,50 @@
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
 				</field>
 
+			</fieldset>
+			<fieldset name="layout">
+				<field
+					name="positionsTop"
+					type="subform"
+					multiple="true"
+					layout="joomla.form.field.subform.repeatable-table"
+					label="Top positions"
+				>
+					<form>
+						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
+						<field name="class" type="text" label="Class" />
+						<field name="id" type="text" label="ID" filter="cmd"/>
+						<field name="style" type="text" label="Style" />
+					</form>
+				</field>
+				<field
+						name="positionsMiddle"
+						type="subform"
+						multiple="true"
+						layout="joomla.form.field.subform.repeatable-table"
+						label="Middle positions"
+				>
+					<form>
+						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
+						<field name="class" type="text" label="Class" />
+						<field name="id" type="text" label="ID" filter="cmd"/>
+						<field name="style" type="text" label="Style" />
+					</form>
+				</field>
+				<field
+						name="positionsBottom"
+						type="subform"
+						multiple="true"
+						layout="joomla.form.field.subform.repeatable-table"
+						label="Bottom positions"
+				>
+					<form>
+						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
+						<field name="class" type="text" label="Class" />
+						<field name="id" type="text" label="ID" filter="cmd"/>
+						<field name="style" type="text" label="Style" />
+					</form>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
