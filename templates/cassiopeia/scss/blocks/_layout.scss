@@ -1,5 +1,13 @@
 // Layout
 
+.grid-child {
+  display: flex;
+  width: 100%;
+  max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .site {
   background-color: #fafafa;
   > div,
@@ -12,7 +20,6 @@
     margin-right: auto;
     margin-left: auto;
   }
-
   > .full-width {
     max-width: none;
   }

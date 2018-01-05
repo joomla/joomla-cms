@@ -82,7 +82,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($itemid ? ' itemid-' . $itemid : '');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-
 	<header class="container-header full-width">
 		<div class="wrapper">
 			<nav class="navbar navbar-expand-lg">
@@ -135,7 +134,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<jdoc:include type="modules" name="sidebar-left" style="default" />
 			</div>
 			<?php endif; ?>
-
 			<div class="container-component">
 				<jdoc:include type="modules" name="main-top" style="cardGrey" />
 				<jdoc:include type="message" />

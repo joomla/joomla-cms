@@ -78,7 +78,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		);
 
 		JHtml::_('behavior.core');
-		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Add the icon to the result array
 		$result = $event->getArgument('result', []);

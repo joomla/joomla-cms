@@ -1,9 +1,8 @@
 // CSS Grid
 
-/* autoprefixer: off */
 @supports (display: grid) {
+  /* autoprefixer: off */
   .site-grid {
-
     .container-header {
       margin-top: 0;
       margin-bottom: 20px;
@@ -47,5 +46,3 @@
   }
 
 }
-
-

@@ -21,7 +21,7 @@
 			var option = $(this);
 			var color = option.val();
 			if (option.text() == '-') {
-				list += '<br />';
+				list += '<br>';
 			} else {
 				var clss = 'simplecolors-swatch';
 				if (color == 'none') {

@@ -8,6 +8,9 @@
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Filter\OutputFilter;
+
 ?>
-<h2 class="nav-header"><?php echo JFilterOutput::ampReplace(JText::_($displayData)); ?></h2>
+<h2 class="nav-header"><?php echo OutputFilter::ampReplace(JText::_($displayData)); ?></h2>
 <ul class="j-links-group nav nav-list">
