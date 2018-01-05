@@ -10,6 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="card-block">
+<p class="card-text">
 	<?php echo JText::_('MOD_LOGGED_NO_SESSION_METADATA'); ?>
-</div>
+</p>
