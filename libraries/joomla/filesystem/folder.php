@@ -232,6 +232,14 @@ abstract class JFolder
 				if (IS_WIN)
 				{
 					$obdSeparator = ';';
+					
+					/*	
+					Issue #18523
+					If open_basedir path contains CAPITAL letters
+					Windows is case insensitive
+					*/
+					$obd = utf8_strtolower($obd);
+					$path = utf8_strtolower($path);
 				}
 				else
 				{
