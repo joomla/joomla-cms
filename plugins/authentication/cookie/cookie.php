@@ -83,7 +83,6 @@ class PlgAuthenticationCookie extends JPlugin
 		{
 			// Destroy the cookie in the browser.
 			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
-			JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
 			Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
 			return false;
