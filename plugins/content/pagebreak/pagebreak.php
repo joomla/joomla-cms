@@ -80,7 +80,7 @@ class PlgContentPagebreak extends JPlugin
 			{
 				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
-
+			
 			return true;
 		}
 
@@ -180,9 +180,12 @@ class PlgContentPagebreak extends JPlugin
 				// Page text.
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
-
-				// $row->text .= '<br />';
-				$row->text .= '<div class="pager">';
+			
+				// page counter
+				$row->text .= '<div class="pagenavbar">';
+				$row->text .= '<div class="pagenavcounter">';
+				$row->text .= $pageNav->getPagesCounter();
+				$row->text .= '</div>';
 
 				// Adds navigation between pages to bottom of text.
 				if ($hasToc)
@@ -355,11 +358,7 @@ class PlgContentPagebreak extends JPlugin
 			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_next);
 
 			// Next >>
-			$next = '<a href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
-		}
-		else
-		{
-			$next = JText::_('JNEXT');
+			$next = '<a class="next_page" href="' . $link_next . '">' . JText::_( 'Next Page' ) . $pnSpace . JText::_('JGLOBAL_GT') . '</a>';
 		}
 
 		if ($page > 0)
@@ -367,15 +366,11 @@ class PlgContentPagebreak extends JPlugin
 			$page_prev = $page - 1 === 0 ? '' : $page - 1;
 
 			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . $page_prev);
-
+	
 			// << Prev
-			$prev = '<a href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
-		}
-		else
-		{
-			$prev = JText::_('JPREV');
+			$prev = '<a class="prev_page" href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . $pnSpace . JText::_( 'Prev Page' ) . '</a>';
 		}
 
-		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next . '</li></ul>';
+	  $row->text .= $prev . $next;
 	}
 }
