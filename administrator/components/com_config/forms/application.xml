@@ -821,18 +821,6 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 
 		<field
-			name="shared_session"
-			type="radio"
-			class="switcher"
-			default="0"
-			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
-			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			filter="boolean">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="session_handler"
 			type="sessionhandler"
 			default="filesystem"
@@ -848,38 +836,6 @@
 			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
 			filter="path"
 			showon="session_handler:filesystem" />
-
-		<field
-			name="session_filesystem_path"
-			type="text"
-			default=""
-			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
-			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
-			filter="path"
-			showon="session_handler:filesystem" />
-
-		<field
-			name="session_memcache_server_host"
-			type="text"
-			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
-			default="localhost"
-			filter="string"
-			showon="session_handler:memcache"
-			size="25"
-		/>
-
-		<field
-			name="session_memcache_server_port"
-			type="number"
-			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			showon="session_handler:memcache"
-			min="1"
-			max="65535"
-			default="11211"
-			validate="number"
-			filter="integer"
-			size="5"
-		/>
 
 		<field
 			name="session_memcached_server_host"

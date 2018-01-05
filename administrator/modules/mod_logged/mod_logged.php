@@ -13,8 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Logged\Administrator\Helper\LoggedHelper;
 
-$users = LoggedHelper::getList($params);
-
 if ($params->get('automatic_title', 0))
 {
 	$module->title = LoggedHelper::getTitle($params);
