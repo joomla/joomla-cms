@@ -2017,8 +2017,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// Escape HTML in session vars
-		$json = str_replace('<', '&lt;', $json);
-		$json = str_replace('>', '&gt;', $json);
+		$json = htmlentities($json);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
