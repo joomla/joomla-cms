@@ -146,9 +146,16 @@
                 this.containerWithRows.append(row);
             }
 
-            //add marker that it is new
+            // Add dragable attributes
+            if (this.buttonMove) {
+                row.setAttribute('draggable', 'false');
+                row.setAttribute('aria-grabbed', 'false');
+                row.setAttribute('tabindex', '0');
+            }
+
+            // Marker that it is new
             row.setAttribute('data-new', '1');
-            // fix names and id`s, and reset values
+            // Fix names and id`s, and reset values
             this.fixUniqueAttributes(row, count);
 
             // Tell about the new row
@@ -287,6 +294,16 @@
         setUpDragSort() {
             let that = this; // Self reference
             let item = null; // Storing the selected item
+
+            // Find all existing rows and add dragable attributes
+            for (let ir = 0, lr = that.containerWithRows.children.length; ir < lr; ir++) {
+                let childRow = that.containerWithRows.children[ir];
+                if (!childRow[matchesFn](that.repeatableElement)) continue;
+
+                childRow.setAttribute('draggable', 'false');
+                childRow.setAttribute('aria-grabbed', 'false');
+                childRow.setAttribute('tabindex', '0');
+            }
 
             // Helper method to test whether Handler was clicked
             function getMoveHandler(element) {

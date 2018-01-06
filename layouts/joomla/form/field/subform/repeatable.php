@@ -36,11 +36,6 @@ if ($multiple)
 }
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
-<style>
-	[aria-grabbed="true"]{
-		border: 1px solid;
-	}
-</style>
 
 	<div class="subform-repeatable-wrapper subform-layout">
 		<joomla-field-subform class="subform-repeatable"
