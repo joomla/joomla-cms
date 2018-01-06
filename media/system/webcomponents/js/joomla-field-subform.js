@@ -412,6 +412,7 @@
                     }
 
                     event.preventDefault();
+                    item = null;
                 }
             });
 
