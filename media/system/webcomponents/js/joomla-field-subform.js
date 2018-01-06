@@ -9,6 +9,7 @@
     const KEYCODE = {
         SPACE: 32,
         ESC: 27,
+        ENTER: 13
     };
 
     // Find matchesFn with vendor prefix
@@ -317,45 +318,83 @@
 
             // keydown event to implement selection and abort
             this.addEventListener('keydown', function(event) {
-                if (event.keyCode !== 27 && event.keyCode !== 32) {
+                if ((event.keyCode !== KEYCODE.ESC && event.keyCode !== KEYCODE.SPACE && event.keyCode !== KEYCODE.ENTER)
+                    || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
                     return;
                 }
 
-                // @TODO: Ignore INPUT elements !!!
-                let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+                let row = event.target;
 
                 // Make sure we handle correct children
                 if (!row || closest(row, 'joomla-field-subform') !== that) {
                     return;
                 }
 
-                // If the element is a grabbable item
-                if (row.getAttribute('aria-grabbed')) {
-                    // Space is the selection or unselection keystroke
-                    if (event.keyCode === 32) {
-                        // If the multiple selection modifier is pressed
-                        if (hasModifier(event)) {
-                            if (row.getAttribute('aria-grabbed') === 'true') {
-                                removeSelection(row);
-                            } else {
-                                addSelection(row);
-                            }
-                        }
-                        //else [if the multiple selection modifier is not pressed]
-                        //and the item's grabbed state is currently false
-                        else if (row.getAttribute('aria-grabbed') === 'false') {
-                            clearSelections();
-                            addSelection(row);
+                // Space is the selection or unselection keystroke
+                if (event.keyCode === KEYCODE.SPACE && hasModifier(event)) {
+                    // Unselect previously selected
+                    if (row.getAttribute('aria-grabbed') === 'true') {
+                        row.setAttribute('draggable', 'false');
+                        row.setAttribute('aria-grabbed', 'false');
+                        item = null;
+                    }
+                    // Select new
+                    else {
+                        // If there was previously selected
+                        if (item) {
+                            item.setAttribute('draggable', 'false');
+                            item.setAttribute('aria-grabbed', 'false');
+                            item = null;
                         }
 
-                        // Prevent default to supress any native actions
-                        event.preventDefault();
+                        // Mark new selection
+                        row.setAttribute('draggable', 'true');
+                        row.setAttribute('aria-grabbed', 'true');
+                        item = row;
                     }
+
+                    // Prevent default to suppress any native actions
+                    event.preventDefault();
                 }
 
+
                 // Escape is the abort keystroke (for any target element)
-                if (event.keyCode === 27) {
-                    clearSelections();
+                if (event.keyCode === KEYCODE.ESC && item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
+
+                // Enter, to place selected item in selected position
+                if (event.keyCode === KEYCODE.ENTER && item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+
+                    // Do nothing here
+                    if (row === item) {
+                        item = null;
+                        return;
+                    }
+
+                    // Move the item to selected position
+                    let isRowBefore = false;
+                    if (item.parentNode === row.parentNode) {
+                        for (let cur = item; cur; cur = cur.previousSibling) {
+                            if (cur === row) {
+                                isRowBefore = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isRowBefore) {
+                        row.parentNode.insertBefore(item, row);
+                    }
+                    else {
+                        row.parentNode.insertBefore(item, row.nextSibling);
+                    }
+
+                    event.preventDefault();
                 }
             });
 
