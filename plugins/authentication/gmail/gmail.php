@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
 
 /**
