@@ -362,6 +362,9 @@
             // dragstart event to initiate mouse dragging
             this.addEventListener('dragstart', function(event) {
                 if (item) {
+                    // We going to move the row
+                    event.dataTransfer.effectAllowed = 'move';
+
                     // This need to work in Firefox and IE10+
                     event.dataTransfer.setData('text', '');
                 }
@@ -373,49 +376,33 @@
                 }
             });
 
-            // Handle drop action
-            this.addEventListener('drop', function(event) {
-                if (!item) return;
-
-                // Make sure the target is/in the correct container
-                if (event.target !== that.containerWithRows
-                    && (that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows)) {
-                    item = null;
+            // Handle drag action, move element to hovered position
+            this.addEventListener('dragenter', function(event) {
+                // Make sure the target in the correct container
+                if (!item || that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows) {
                     return;
                 }
 
-                // Find a place where to drop
-                if (event.target === that.containerWithRows) {
-                    // This is the rows container, drop after
-                    that.containerWithRows.appendChild(item);
-                } else {
-                    // Find a hovered row, and replace it
-                    let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+                // Find a hovered row, and replace it
+                let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+                if (!row) return;
 
-                    if (row) {
-                        // Check whether it is a last element
-                        let isLast = true, nextSibling = row.nextSibling;
-                        while (nextSibling) {
-                            if (nextSibling.nodeType === nextSibling.ELEMENT_NODE
-                                && nextSibling[matchesFn](that.repeatableElement)) {
-
-                                isLast = false;
-                                break;
-                            }
-                            nextSibling = nextSibling.nextSibling;
-                        }
-
-                        if (!isLast) {
-                            row.parentNode.insertBefore(item, row);
-                        } else {
-                            row.parentNode.appendChild(item);
+                let isRowBefore = false;
+                if (item.parentNode === row.parentNode) {
+                    for (let cur = item; cur; cur = cur.previousSibling) {
+                        if (cur === row) {
+                            isRowBefore = true;
+                            break;
                         }
                     }
                 }
 
-                item.setAttribute('draggable', 'false');
-                item.setAttribute('aria-grabbed', 'false');
-                item = null;
+                if (isRowBefore) {
+                    row.parentNode.insertBefore(item, row);
+                }
+                else {
+                    row.parentNode.insertBefore(item, row.nextSibling);
+                }
             });
 
             // dragend event to clean-up after drop or abort
