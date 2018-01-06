@@ -455,16 +455,19 @@ class BaseController implements ControllerInterface
 			$this->setPath('view', $this->basePath . '/views');
 		}
 
-		// Set the default view.
-		if (array_key_exists('default_view', $config))
+		// Set the default view
+		if (empty($this->default_view))
 		{
-			$this->default_view = $config['default_view'];
+			if (array_key_exists('default_view', $config))
+			{
+				$this->default_view = $config['default_view'];
+			}
+			else
+			{
+				$this->default_view = $this->getName();
+			}
 		}
-		elseif (empty($this->default_view))
-		{
-			$this->default_view = $this->getName();
-		}
-
+		
 		$this->factory = $factory ? : new LegacyFactory;
 	}
 
