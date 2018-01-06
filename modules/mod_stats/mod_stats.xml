@@ -29,8 +29,8 @@
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -40,8 +40,8 @@
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -51,8 +51,8 @@
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
