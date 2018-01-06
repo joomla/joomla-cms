@@ -14,6 +14,7 @@ use Joomla\CMS\Http\Response;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
 
@@ -22,7 +23,7 @@ use Joomla\CMS\Authentication\Authentication;
  *
  * @since  1.5
  */
-class PlgAuthenticationGMail extends JPlugin
+class PlgAuthenticationGMail extends CMSPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject

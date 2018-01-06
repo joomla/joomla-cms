@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Event as CmsEvent;
@@ -21,7 +22,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * @since  4.0.0
  */
-class PlgBehaviourTaggable extends JPlugin
+class PlgBehaviourTaggable extends CMSPlugin
 {
 	/**
 	 * Constructor

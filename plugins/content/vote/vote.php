@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -16,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5
  */
-class PlgContentVote extends JPlugin
+class PlgContentVote extends CMSPlugin
 {
 	/**
 	 * Application object

@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -20,7 +21,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.5
  */
-class PlgContentPagenavigation extends JPlugin
+class PlgContentPagenavigation extends CMSPlugin
 {
 	/**
 	 * If in the article view and the parameter is enabled shows the page navigation

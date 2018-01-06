@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  3.2
  */
-class PlgContentContact extends JPlugin
+class PlgContentContact extends CMSPlugin
 {
 	/**
 	 * Database object

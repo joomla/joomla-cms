@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory; 
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\ModuleHelper;
 
 /**
@@ -18,7 +19,7 @@ use Joomla\CMS\Helper\ModuleHelper;
  *
  * @since  1.5
  */
-class PlgContentLoadmodule extends JPlugin
+class PlgContentLoadmodule extends CMSPlugin
 {
 	protected static $modules = array();
 

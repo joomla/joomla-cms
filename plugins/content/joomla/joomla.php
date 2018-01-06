@@ -14,6 +14,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 
@@ -22,7 +23,7 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
  *
  * @since  1.6
  */
-class PlgContentJoomla extends JPlugin
+class PlgContentJoomla extends CMSPlugin
 {
 	/**
 	 * Example after save content method

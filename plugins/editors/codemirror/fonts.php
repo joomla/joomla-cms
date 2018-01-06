@@ -11,8 +11,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of fonts
@@ -21,7 +23,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormFieldList
+class JFormFieldFonts extends ListField
 {
 	/**
 	 * The form field type.

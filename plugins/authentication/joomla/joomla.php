@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
@@ -23,7 +24,7 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
  *
  * @since  1.5
  */
-class PlgAuthenticationJoomla extends JPlugin
+class PlgAuthenticationJoomla extends CMSPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject

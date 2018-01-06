@@ -13,6 +13,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
@@ -24,7 +25,7 @@ use Joomla\CMS\Authentication\Authentication;
  * @note   Code based on http://jaspan.com/improved_persistent_login_cookie_best_practice
  *         and http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
-class PlgAuthenticationCookie extends JPlugin
+class PlgAuthenticationCookie extends CMSPlugin
 {
 	/**
 	 * Application object

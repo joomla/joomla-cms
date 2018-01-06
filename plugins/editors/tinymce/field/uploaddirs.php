@@ -10,11 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Field\FolderlistField;
 
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('folderlist');
+FormHelper::loadFieldClass('folderlist');
 
 /**
  * Generates the list of directories  available for drag and drop upload.
@@ -23,7 +25,7 @@ JFormHelper::loadFieldClass('folderlist');
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldUploaddirs extends JFormFieldFolderList
+class JFormFieldUploaddirs extends FolderlistField
 {
 	protected $type = 'uploaddirs';
 

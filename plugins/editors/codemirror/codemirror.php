@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\Event\Event;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -21,7 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  1.6
  */
-class PlgEditorCodemirror extends JPlugin
+class PlgEditorCodemirror extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.

@@ -11,13 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Email cloack plugin class.
  *
  * @since  1.5
  */
-class PlgContentEmailcloak extends JPlugin
+class PlgContentEmailcloak extends CMSPlugin
 {
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -21,7 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldTinymceBuilder extends JFormField
+class JFormFieldTinymceBuilder extends FormField
 {
 	/**
 	 * The form field type.

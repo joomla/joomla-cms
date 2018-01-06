@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
 
 /**
@@ -18,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
  *
  * @since  1.5
  */
-class PlgEditorNone extends JPlugin
+class PlgEditorNone extends CMSPlugin
 {
 	/**
 	 * Method to handle the onInitEditor event.

@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Pagination\Pagination;
 
 jimport('joomla.utilities.utility');
@@ -34,7 +35,7 @@ jimport('joomla.utilities.utility');
  *
  * @since  1.6
  */
-class PlgContentPagebreak extends JPlugin
+class PlgContentPagebreak extends CMSPlugin
 {
 	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point

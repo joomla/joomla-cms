@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -17,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-class PlgContentFinder extends JPlugin
+class PlgContentFinder extends CMSPlugin
 {
 	/**
 	 * Smart Search after save content method.

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Ldap\LdapClient;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
 
@@ -19,7 +20,7 @@ use Joomla\CMS\Authentication\Authentication;
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends JPlugin
+class PlgAuthenticationLdap extends CMSPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
