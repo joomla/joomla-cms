@@ -467,7 +467,7 @@ class BaseController implements ControllerInterface
 				$this->default_view = $this->getName();
 			}
 		}
-		
+
 		$this->factory = $factory ? : new LegacyFactory;
 	}
 
