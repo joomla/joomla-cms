@@ -35,7 +35,7 @@ Factory::getDocument()->addScriptOptions(
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
 					<div class="mr-2">
-						<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span>
+						<span class="fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<a href="#" class="btn btn-primary btn-sm" onclick="Joomla.sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
