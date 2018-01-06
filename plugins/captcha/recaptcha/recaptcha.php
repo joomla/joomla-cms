@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Factory;
 use ReCaptcha\ReCaptcha;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 
 /**
  * Recaptcha Plugin.
@@ -45,15 +48,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new Exception(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		// Load callback first for browser compatibility
-		JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
-		JHtml::_(
+		HTMLHelper::_(
 			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag()
+			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
 		);
 
 		return true;
@@ -91,7 +94,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '2.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
@@ -112,19 +115,19 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);

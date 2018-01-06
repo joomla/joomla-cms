@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Component\ComponentHelper;
+
 jimport('joomla.form.helper');
 
 JFormHelper::loadFieldClass('folderlist');
@@ -43,7 +46,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		$return = parent::setup($element, $value, $group);
 
 		// Get the path in which to search for file options.
-		$this->directory   = JComponentHelper::getParams('com_media')->get('image_path');
+		$this->directory   = ComponentHelper::getParams('com_media')->get('image_path');
 		$this->recursive   = true;
 		$this->hideDefault = true;
 
@@ -83,7 +86,7 @@ class JFormFieldUploaddirs extends JFormFieldFolderList
 		}
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

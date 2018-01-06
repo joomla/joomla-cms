@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 jimport('joomla.form.helper');
 
 JFormHelper::loadFieldClass('list');
@@ -40,7 +42,7 @@ class JFormFieldSkins extends JFormFieldList
 		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
+			$options[] = HTMLHelper::_('select.option', $i, $dir);
 		}
 
 		$options = array_merge(parent::getOptions(), $options);
@@ -66,7 +68,7 @@ class JFormFieldSkins extends JFormFieldList
 		);
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

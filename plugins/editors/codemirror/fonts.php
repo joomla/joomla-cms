@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -43,7 +45,7 @@ class JFormFieldFonts extends JFormFieldList
 
 		foreach ($fonts as $key => $info)
 		{
-			$options[] = JHtml::_('select.option', $key, $info->name);
+			$options[] = HTMLHelper::_('select.option', $key, $info->name);
 		}
 
 		// Merge any additional options in the XML definition.

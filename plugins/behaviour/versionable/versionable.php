@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Event as CmsEvent;
 
 /**
@@ -68,7 +71,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		$table->contenthistoryHelper = new JHelperContenthistory($typeAlias);
+		$table->contenthistoryHelper = new ContentHistoryHelper($typeAlias);
 		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -93,7 +96,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof JTableInterface))
+		if (!is_object($table) || !($table instanceof TableInterface))
 		{
 			return;
 		}
@@ -118,7 +121,7 @@ class PlgBehaviourVersionable extends JPlugin
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->store($table);
 		}
@@ -157,7 +160,7 @@ class PlgBehaviourVersionable extends JPlugin
 		$table->contenthistoryHelper->typeAlias = $typeAlias;
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->deleteHistory($table);
 		}
@@ -175,7 +178,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(JTableInterface &$table)
+	protected function parseTypeAlias(TableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{
