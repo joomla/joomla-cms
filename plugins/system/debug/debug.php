@@ -2013,8 +2013,12 @@ class PlgSystemDebug extends JPlugin
 		// In PHP 5.4.0 or later we have pretty print option.
 		if (version_compare(PHP_VERSION, '5.4', '>='))
 		{
-			$json = json_encode($json, JSON_PRETTY_PRINT);
+			$json = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 		}
+
+		// Escape HTML in session vars
+		$json = str_replace('<', '&lt;', $json);
+		$json = str_replace('>', '&gt;', $json);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
