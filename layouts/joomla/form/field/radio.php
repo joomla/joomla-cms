@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 extract($displayData);
 
 /**
@@ -54,48 +56,40 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
-	<?php JHtml::_('script', 'system/fields/switcher.js', array('version' => 'auto', 'relative' => true)); ?>
-	<fieldset id="<?php echo $id; ?>"
-		<?php echo $disabled ? 'disabled' : ''; ?>
-		<?php echo $required ? 'required aria-required="true"' : ''; ?>>
+	<?php HTMLHelper::_('webcomponent',
+			['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
+			['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]
+	); ?>
+	<?php
+	// Set the type of switcher
+	$type = str_replace('switcher switcher-', '', trim($class));
+	$type = $type === 'switcher' ? '' : 'type="' . $type . '"';
+	?>
+	<joomla-switcher
+		id="<?php echo $id; ?>"
+		<?php echo $type; ?>
+		off-text="<?php echo $options[0]->text; ?>"
+		on-text="<?php echo $options[1]->text; ?>"
+		<?php echo $disabled ? 'disabled' : '';?>>
 
 		<?php if (!empty($options)) : ?>
-			<span <?php echo $class ? 'class="js-switcher ' . $class . '"' : 'class="js-switcher"'; ?>>
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
 				// Initialize some option attributes.
-				$checked     = ((string) $option->value == $value) ? 'checked="checked"' : '';
-
-				// Only add the switcher class to the first element
-				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-				if ($i == 0)
-				{
-					$optionClass = !empty($option->class) ? 'class="active ' . $option->class . '"' : 'class="active"';
-				}
-
-				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+				$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
+				$active  = ((string) $option->value == $value) ? 'class="active"' : '';
 
 				// Initialize some JavaScript option attributes.
-				$onclick     = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-				$onchange    = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-				$oid         = $id . $i;
-				$ovalue      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes  = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+				$oid        = $id . $i;
+				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+				$attributes = array_filter(array($checked, $active, null, $onchange, $onclick));
 				?>
-				<?php if ($required) : ?>
-					<?php $attributes[] = 'required aria-required="true"'; ?>
-				<?php endif; ?>
 				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 			<?php endforeach; ?>
-				<span class="switch"></span>
-		</span>
-			<span class="switcher-labels">
-			<?php foreach ($options as $i => $option) : ?>
-				<span class="switcher-label-<?php echo $option->value; ?>"><?php echo $option->text; ?></span>
-			<?php endforeach; ?>
-		</span>
 		<?php endif; ?>
-	</fieldset>
+	</joomla-switcher>
 	<?php // END SWITCHER ?>
 <?php else: ?>
 	<?php // START RADIO TOGGLE ?>

@@ -9,7 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
-$app    = JFactory::getApplication();
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+
+$app    = Factory::getApplication();
 $form   = $displayData->getForm();
 $input  = $app->input;
 
@@ -28,7 +31,7 @@ $fields = $displayData->get('fields') ?: array(
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
-if (!JModuleHelper::isAdminMultilang())
+if (!ModuleHelper::isAdminMultilang())
 {
 	$hiddenFields[] = 'language';
 	$form->setFieldAttribute('language', 'default', '*');
