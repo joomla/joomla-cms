@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Ldap\LdapClient;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
 
 /**
