@@ -108,8 +108,80 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
-					$wheres2[] = 'LOWER(fv.value) LIKE LOWER(' . $word . ')';
-					$wheres[]  = implode(' OR ', $wheres2);
+
+					if ($phrase === 'all')
+					{
+						// Join over Fields.
+						$subQuery = $db->getQuery(true);
+						$subQuery->select("cfv.item_id")
+							->from("#__fields_values AS cfv")
+							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
+							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+							->where('(f.state IS NULL OR f.state = 1)')
+							->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
+							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
+
+						// Filter by language.
+						if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+						{
+							$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
+						}
+
+						if ($serverType == "mysql")
+						{
+							$db->setQuery($subQuery);
+							$fieldids = $db->loadColumn();
+
+							if (count($fieldids))
+							{
+								$wheres2[] = 'a.id IN(' . implode(",", $fieldids) . ')';
+							}
+						}
+						else
+						{
+							$wheres2[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
+						}
+					}
+					else
+					{
+						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
+					}
+
+					$wheres[] = implode(' OR ', $wheres2);
+				}
+
+				if ($phrase === 'any')
+				{
+					// Join over Fields.
+					$subQuery = $db->getQuery(true);
+					$subQuery->select("cfv.item_id")
+						->from("#__fields_values AS cfv")
+						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
+						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+						->where('(f.state IS NULL OR f.state = 1)')
+						->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
+						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
+
+					// Filter by language.
+					if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+					{
+						$subQuery->where('(f.language IS NULL OR f.language in (' . $db->quote($tag) . ',' . $db->quote('*') . '))');
+					}
+
+					if ($serverType == "mysql")
+					{
+						$db->setQuery($subQuery);
+						$fieldids = $db->loadColumn();
+
+						if (count($fieldids))
+						{
+							$wheres[] = 'a.id IN(' . implode(",", $fieldids) . ')';
+						}
+					}
+					else
+					{
+						$wheres[] = $subQuery->castAsChar('a.id') . ' IN( ' . (string) $subQuery . ')';
+					}
 				}
 
 				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';

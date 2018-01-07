@@ -350,7 +350,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$result = $http->get($url);
+		try
+		{
+			$result = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
