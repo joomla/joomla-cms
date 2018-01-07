@@ -10,7 +10,7 @@
  */
 
 define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function ($) {
-	describe('sendPermissions', function () {
+	describe('Joomla.sendPermissions', function () {
 		beforeAll(function() {
 			jasmine.Ajax.install();
 
@@ -18,15 +18,13 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			removeFn = Joomla.removeMessages;
 			jtxtFn = Joomla.JText._;
 			ajxerrFn = Joomla.ajaxErrorsMessages;
-			scrollFn = window.scrollTo;
 
 			Joomla.JText._ = jasmine.createSpy('_');
 			Joomla.renderMessages = jasmine.createSpy('renderMessages');
 			Joomla.removeMessages = jasmine.createSpy('removeMessages');
 			Joomla.ajaxErrorsMessages = jasmine.createSpy('ajaxErrorsMessages');
-			window.scrollTo = jasmine.createSpy('scrollTo');
 
-			sendPermissions(event);
+			Joomla.sendPermissions(event);
 		});
 
 		afterAll(function () {
@@ -35,7 +33,6 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			Joomla.renderMessages = renderFn;
 			Joomla.removeMessages = removeFn;
 			Joomla.ajaxErrorsMessages = ajxerrFn;
-			window.scrollTo = scrollFn;
 			Joomla.JText._ = jtxtFn;
 		});
 
@@ -51,7 +48,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			var $spanContainer = $('#ajax-test');
         
 			beforeAll(function() {
-				sendPermissions(event);
+				Joomla.sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
 				request.respondWith(responses.success);
 			});
@@ -75,15 +72,11 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			it("should call Joomla.renderMessages({})", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith({});
 			});
-
-			it("should call window.scrollTo(0, 0)", function() {
-				expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
-			});
 		});
 
 		describe("on success with resp.data.result !== 'true' & resp.messages an object", function() {
 			beforeAll(function() {
-				sendPermissions(event);
+				Joomla.sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
 				responses.success.responseText = '{"data": {"result": false}, "messages": {}}';
 				request.respondWith(responses.success);
@@ -96,15 +89,11 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			it("should call Joomla.renderMessages({})", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith({});
 			});
-
-			it("should call window.scrollTo(0, 0)", function() {
-				expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
-			});
 		});
 
 		describe("on failure", function() {
 			beforeAll(function() {
-				sendPermissions(event);
+				Joomla.sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
 				request.respondWith(responses.fail);
 			});
@@ -115,10 +104,6 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			
 			it("should call Joomla.renderMessages(undefined)", function() {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith(undefined);
-			});
-
-			it("should call window.scrollTo(0, 0)", function() {
-				expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
 			});
         
 			it("should set attribute class in icon to fa fa-times", function() {
