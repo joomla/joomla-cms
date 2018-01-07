@@ -61,19 +61,33 @@
             this.prepareTemplate();
 
             // Bind buttons
-            this.addEventListener('click', function(event) {
-                let btnAdd = closest(event.target, that.buttonAdd);
-                let btnRem = closest(event.target, that.buttonRemove);
+            if (this.buttonAdd || this.buttonRemove) {
+                this.addEventListener('click', function(event) {
+                    let btnAdd = that.buttonAdd ? closest(event.target, that.buttonAdd) : null;
+                    let btnRem = that.buttonRemove ? closest(event.target, that.buttonRemove) : null;
 
-                // Check actine, with extra check for nested joomla-field-subform
-                if (btnAdd && closest(btnAdd, 'joomla-field-subform') === that) {
-                    let row = closest(btnAdd, that.repeatableElement);
-                    this.addRow(row);
-                } else if (btnRem && closest(btnRem, 'joomla-field-subform') === that) {
-                    let row = closest(btnRem, that.repeatableElement);
-                    this.removeRow(row);
-                }
-            });
+                    // Check actine, with extra check for nested joomla-field-subform
+                    if (btnAdd && closest(btnAdd, 'joomla-field-subform') === that) {
+                        let row = closest(btnAdd, that.repeatableElement);
+                        that.addRow(row);
+                    } else if (btnRem && closest(btnRem, 'joomla-field-subform') === that) {
+                        let row = closest(btnRem, that.repeatableElement);
+                        that.removeRow(row);
+                    }
+                });
+
+                this.addEventListener('keydown', function(event) {
+                    if (event.keyCode !== KEYCODE.SPACE) return;
+                    let isAdd = that.buttonAdd && event.target[matchesFn](that.buttonAdd);
+                    let isRem = that.buttonRemove && event.target[matchesFn](that.buttonRemove);
+
+                    if ((isAdd || isRem) && closest(event.target, 'joomla-field-subform') === that) {
+                        let row = closest(event.target, that.repeatableElement);
+                        isAdd ? that.addRow(row) : that.removeRow(row);
+                        event.preventDefault();
+                    }
+                });
+            }
 
             // Sorting
             if (this.buttonMove) {
@@ -296,9 +310,9 @@
             let item = null; // Storing the selected item
 
             // Find all existing rows and add dragable attributes
-            for (let ir = 0, lr = that.containerWithRows.children.length; ir < lr; ir++) {
-                let childRow = that.containerWithRows.children[ir];
-                if (!childRow[matchesFn](that.repeatableElement)) continue;
+            let rows = this.getRows();
+            for (let ir = 0, lr = rows.length; ir < lr; ir++) {
+                let childRow = rows[ir];
 
                 childRow.setAttribute('draggable', 'false');
                 childRow.setAttribute('aria-grabbed', 'false');
