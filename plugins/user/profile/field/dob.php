@@ -9,7 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('calendar');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Layout\FileLayout;
+
+FormHelper::loadFieldClass('calendar');
 
 /**
  * Provides input for "Date of Birth" field
@@ -41,17 +46,17 @@ class JFormFieldDob extends JFormFieldCalendar
 
 		// Get the info text from the XML element, defaulting to empty.
 		$text  = $this->element['info'] ? (string) $this->element['info'] : '';
-		$text  = $this->translateLabel ? JText::_($text) : $text;
+		$text  = $this->translateLabel ? Text::_($text) : $text;
 
 		if ($text)
 		{
-			$app    = JFactory::getApplication();
+			$app    = Factory::getApplication();
 			$view   = $app->input->getString('view', '');
 
 			// Only display the tip when editing profile
 			if ($view === 'registration' || $view === 'profile' || $app->isClient('administrator'))
 			{
-				$layout = new JLayoutFile('plugins.user.profile.fields.dob');
+				$layout = new FileLayout('plugins.user.profile.fields.dob');
 				$info   = $layout->render(array('text' => $text));
 				$label  = $info . $label;
 			}
