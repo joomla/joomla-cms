@@ -10,7 +10,7 @@
  */
 
 define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function ($) {
-	describe('Joomla.sendPermissions', function () {
+	describe('Joomla.sendPermissions', function() {
 		beforeAll(function() {
 			jasmine.Ajax.install();
 
@@ -27,7 +27,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			Joomla.sendPermissions(event);
 		});
 
-		afterAll(function () {
+		afterAll(function() {
 			jasmine.Ajax.uninstall();
 			
 			Joomla.renderMessages = renderFn;
@@ -44,7 +44,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			expect(Joomla.removeMessages).toHaveBeenCalled();
 		});
 
-		describe("on success with resp.data.result == 'true' & resp.messages an object", function() {
+		describe("on success with resp.data.result === true & resp.messages an object", function() {
 			var $spanContainer = $('#ajax-test');
         
 			beforeAll(function() {
