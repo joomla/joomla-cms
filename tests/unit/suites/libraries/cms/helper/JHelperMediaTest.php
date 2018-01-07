@@ -176,7 +176,7 @@ class JHelperMediaTest extends TestCaseDatabase
 	 */
 	public function testCanUpload($file, $expected)
 	{
-	    $canUpload = $this->object->canUpload($file);
+		$canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
 	}
 

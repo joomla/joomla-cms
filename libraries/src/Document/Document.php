@@ -147,7 +147,7 @@ class Document
 	/**
 	 * Array of scripts options
 	 *
-	 *  @var    array
+	 * @var    array
 	 */
 	protected $scriptOptions = array();
 

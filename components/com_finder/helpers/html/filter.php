@@ -148,6 +148,7 @@ abstract class JHtmlFilter
 
 			// Translate node titles if possible.
 			$lang = JFactory::getLanguage();
+
 			foreach ($nodes as $nk => $nv)
 			{
 				if (trim($nv->parent_title, '**') === 'Language')
@@ -159,6 +160,7 @@ abstract class JHtmlFilter
 					$key = FinderHelperLanguage::branchPlural($nv->title);
 					$title = $lang->hasKey($key) ? JText::_($key) : $nv->title;
 				}
+
 				$nodes[$nk]->title = $title;
 			}
 
@@ -194,8 +196,10 @@ abstract class JHtmlFilter
 				$html .= '</div>';
 				$html .= '</div>';
 			}
+
 			$html .= JHtml::_('bootstrap.endSlide');
 		}
+
 		$html .= JHtml::_('bootstrap.endAccordion');
 
 		return $html;
@@ -340,6 +344,7 @@ abstract class JHtmlFilter
 
 				// Translate branch nodes if possible.
 				$language = JFactory::getLanguage();
+
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
 					if (trim($node->parent_title, '**') === 'Language')
@@ -351,6 +356,7 @@ abstract class JHtmlFilter
 						$key = FinderHelperLanguage::branchPlural($node->title);
 						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
 					}
+
 					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
@@ -361,6 +367,7 @@ abstract class JHtmlFilter
 			// Store the data in cache.
 			$cache->store($branches, $cacheId);
 		}
+
 		$html = '';
 
 		// Add the dates if enabled.
@@ -379,6 +386,7 @@ abstract class JHtmlFilter
 			{
 				continue;
 			}
+
 			$active = null;
 
 			// Check if the branch is in the filter.

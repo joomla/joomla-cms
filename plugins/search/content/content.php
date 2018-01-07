@@ -277,6 +277,7 @@ class PlgSearchContent extends JPlugin
 				$list = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))

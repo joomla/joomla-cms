@@ -205,6 +205,7 @@ class PlgSystemFields extends JPlugin
 			{
 				$data['catid'] = $data['id'];
 			}
+
 			if (is_object($data) && isset($data->id))
 			{
 				$data->catid = $data->id;

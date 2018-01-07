@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Wrapper view class.
- * 
+ *
  * @since  1.5
  */
 class WrapperViewWrapper extends JViewLegacy
