@@ -6,6 +6,22 @@
 ;(function(customElements){
     "use strict";
 
+    const KEYCODE = {
+        SPACE: 32,
+        ESC: 27,
+        ENTER: 13
+    };
+
+    // Find matchesFn with vendor prefix
+    let matchesFn = 'matches';
+    ['matches', 'msMatchesSelector'].some(function(fn) {
+        if (typeof document.body[fn] === 'function') {
+            matchesFn = fn;
+            return true;
+        }
+        return false;
+    });
+
     class JoomlaFieldSubform extends HTMLElement {
 
         // Attribute getters
@@ -61,10 +77,7 @@
 
             // Sorting
             if (this.buttonMove) {
-                new Sortable.default(this.containerWithRows, {
-                    draggable: this.repeatableElement,
-                    handle: this.buttonMove
-                });
+                this.setUpDragSort();
             }
         }
 
@@ -133,9 +146,16 @@
                 this.containerWithRows.append(row);
             }
 
-            //add marker that it is new
+            // Add dragable attributes
+            if (this.buttonMove) {
+                row.setAttribute('draggable', 'false');
+                row.setAttribute('aria-grabbed', 'false');
+                row.setAttribute('tabindex', '0');
+            }
+
+            // Marker that it is new
             row.setAttribute('data-new', '1');
-            // fix names and id`s, and reset values
+            // Fix names and id`s, and reset values
             this.fixUniqueAttributes(row, count);
 
             // Tell about the new row
@@ -265,22 +285,206 @@
                 }
             }
         }
+
+        /**
+         * Use of HTML Drag and Drop API
+         * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+         * https://www.sitepoint.com/accessible-drag-drop/
+         */
+        setUpDragSort() {
+            let that = this; // Self reference
+            let item = null; // Storing the selected item
+
+            // Find all existing rows and add dragable attributes
+            for (let ir = 0, lr = that.containerWithRows.children.length; ir < lr; ir++) {
+                let childRow = that.containerWithRows.children[ir];
+                if (!childRow[matchesFn](that.repeatableElement)) continue;
+
+                childRow.setAttribute('draggable', 'false');
+                childRow.setAttribute('aria-grabbed', 'false');
+                childRow.setAttribute('tabindex', '0');
+            }
+
+            // Helper method to test whether Handler was clicked
+            function getMoveHandler(element) {
+                return !element.form // This need to test whether the element is :input
+                && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
+            }
+
+            this.addEventListener('mousedown', function(event) {
+                // Check for .move button
+                let handler = getMoveHandler(event.target),
+                    row = handler ? closest(handler, that.repeatableElement) : null;
+
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                row.setAttribute('draggable', 'true');
+                row.setAttribute('aria-grabbed', 'true');
+                item = row;
+            });
+
+            this.addEventListener('mouseup', function(event) {
+                if (item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
+            });
+
+            // keydown event to implement selection and abort
+            this.addEventListener('keydown', function(event) {
+                if ((event.keyCode !== KEYCODE.ESC && event.keyCode !== KEYCODE.SPACE && event.keyCode !== KEYCODE.ENTER)
+                    || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
+                    return;
+                }
+
+                let row = event.target;
+
+                // Make sure we handle correct children
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // Space is the selection or unselection keystroke
+                if (event.keyCode === KEYCODE.SPACE && hasModifier(event)) {
+                    // Unselect previously selected
+                    if (row.getAttribute('aria-grabbed') === 'true') {
+                        row.setAttribute('draggable', 'false');
+                        row.setAttribute('aria-grabbed', 'false');
+                        item = null;
+                    }
+                    // Select new
+                    else {
+                        // If there was previously selected
+                        if (item) {
+                            item.setAttribute('draggable', 'false');
+                            item.setAttribute('aria-grabbed', 'false');
+                            item = null;
+                        }
+
+                        // Mark new selection
+                        row.setAttribute('draggable', 'true');
+                        row.setAttribute('aria-grabbed', 'true');
+                        item = row;
+                    }
+
+                    // Prevent default to suppress any native actions
+                    event.preventDefault();
+                }
+
+
+                // Escape is the abort keystroke (for any target element)
+                if (event.keyCode === KEYCODE.ESC && item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
+
+                // Enter, to place selected item in selected position
+                if (event.keyCode === KEYCODE.ENTER && item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+
+                    // Do nothing here
+                    if (row === item) {
+                        item = null;
+                        return;
+                    }
+
+                    // Move the item to selected position
+                    let isRowBefore = false;
+                    if (item.parentNode === row.parentNode) {
+                        for (let cur = item; cur; cur = cur.previousSibling) {
+                            if (cur === row) {
+                                isRowBefore = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isRowBefore) {
+                        row.parentNode.insertBefore(item, row);
+                    }
+                    else {
+                        row.parentNode.insertBefore(item, row.nextSibling);
+                    }
+
+                    event.preventDefault();
+                    item = null;
+                }
+            });
+
+            // dragstart event to initiate mouse dragging
+            this.addEventListener('dragstart', function(event) {
+                if (item) {
+                    // We going to move the row
+                    event.dataTransfer.effectAllowed = 'move';
+
+                    // This need to work in Firefox and IE10+
+                    event.dataTransfer.setData('text', '');
+                }
+            });
+
+            this.addEventListener('dragover', function(event) {
+                if (item) {
+                    event.preventDefault();
+                }
+            });
+
+            // Handle drag action, move element to hovered position
+            this.addEventListener('dragenter', function(event) {
+                // Make sure the target in the correct container
+                if (!item || that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows) {
+                    return;
+                }
+
+                // Find a hovered row, and replace it
+                let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+                if (!row) return;
+
+                let isRowBefore = false;
+                if (item.parentNode === row.parentNode) {
+                    for (let cur = item; cur; cur = cur.previousSibling) {
+                        if (cur === row) {
+                            isRowBefore = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isRowBefore) {
+                    row.parentNode.insertBefore(item, row);
+                }
+                else {
+                    row.parentNode.insertBefore(item, row.nextSibling);
+                }
+            });
+
+            // dragend event to clean-up after drop or abort
+            // which fires whether or not the drop target was valid
+            this.addEventListener('dragend', function() {
+                if (item) {
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
+            });
+        }
     }
 
     customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
+    /**
+     * Helper to find a closest parent element
+     *
+     * @param {HTMLElement} element
+     * @param {String}      selector
+     *
+     * @returns {HTMLElement|null}
+     */
     function closest(element, selector) {
-        let matchesFn;
-
-        // find vendor prefix
-        ['matches', 'msMatchesSelector'].some(function(fn) {
-            if (typeof document.body[fn] === 'function') {
-                matchesFn = fn;
-                return true;
-            }
-            return false;
-        });
-
         let parent;
 
         // Traverse parents
@@ -293,6 +497,16 @@
         }
 
         return null;
+    }
+
+    /**
+     * Helper for testing whether a selection modifier is pressed
+     * @param {Event} event
+     *
+     * @returns {boolean|*}
+     */
+    function hasModifier(event) {
+        return (event.ctrlKey || event.metaKey || event.shiftKey);
     }
 
 })(customElements);

@@ -20,15 +20,18 @@ var _createClass = function () {
 }(function (a) {
   'use strict';
   function b(a, b) {
-    var c;['matches', 'msMatchesSelector'].some(function (a) {
-      return !('function' != typeof document.body[a]) && (c = a, !0);
-    });for (var d; a;) {
-      if (d = a.parentElement, d && d[c](b)) return d;a = d;
+    for (var c; a;) {
+      if (c = a.parentElement, c && c[e](b)) return c;a = c;
     }return null;
-  }var c = function (a) {
-    function c() {
-      return _classCallCheck(this, c), _possibleConstructorReturn(this, (c.__proto__ || Object.getPrototypeOf(c)).apply(this, arguments));
-    }return _inherits(c, a), _createClass(c, [{ key: 'connectedCallback', value: function connectedCallback() {
+  }function c(a) {
+    return a.ctrlKey || a.metaKey || a.shiftKey;
+  }var d = { SPACE: 32, ESC: 27, ENTER: 13 },
+      e = 'matches';['matches', 'msMatchesSelector'].some(function (a) {
+    return !('function' != typeof document.body[a]) && (e = a, !0);
+  });var f = function (a) {
+    function f() {
+      return _classCallCheck(this, f), _possibleConstructorReturn(this, (f.__proto__ || Object.getPrototypeOf(f)).apply(this, arguments));
+    }return _inherits(f, a), _createClass(f, [{ key: 'connectedCallback', value: function connectedCallback() {
         var a = this;if (this.containerWithRows = this, this.rowsContainer) for (var c = this.querySelectorAll(this.rowsContainer), d = 0, e = c.length; d < e; d++) {
           if (b(c[d], 'joomla-field-subform') === this) {
             this.containerWithRows = c[d];break;
@@ -40,7 +43,7 @@ var _createClass = function () {
           } else if (e && b(e, 'joomla-field-subform') === a) {
             var g = b(e, a.repeatableElement);this.removeRow(g);
           }
-        }), this.buttonMove && new Sortable.default(this.containerWithRows, { draggable: this.repeatableElement, handle: this.buttonMove });
+        }), this.buttonMove && this.setUpDragSort();
       } }, { key: 'getRows', value: function getRows() {
         for (var a = this.containerWithRows.children, b = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches', c = [], d = 0, e = a.length; d < e; d++) {
           a[d][b](this.repeatableElement) && c.push(a[d]);
@@ -50,7 +53,7 @@ var _createClass = function () {
           return a.classList.contains('subform-repeatable-template-section');
         });if (a[0] && (this.template = a[0].innerHTML), !this.template) throw new Error('The row template are required to subform element to work');
       } }, { key: 'addRow', value: function addRow(a) {
-        var b = this.getRows().length;if (b >= this.maximum) return null;var c;c = 'TBODY' === this.containerWithRows.nodeName || 'TABLE' === this.containerWithRows.nodeName ? document.createElement('tbody') : document.createElement('div'), c.innerHTML = this.template;var d = c.children[0];return a ? a.parentNode.insertBefore(d, a.nextSibling) : this.containerWithRows.append(d), d.setAttribute('data-new', '1'), this.fixUniqueAttributes(d, b), this.dispatchEvent(new CustomEvent('subform-row-add', { detail: { row: d }, bubbles: !0 })), window.Joomla && Joomla.Event.dispatch(d, 'joomla:updated'), d;
+        var b = this.getRows().length;if (b >= this.maximum) return null;var c;c = 'TBODY' === this.containerWithRows.nodeName || 'TABLE' === this.containerWithRows.nodeName ? document.createElement('tbody') : document.createElement('div'), c.innerHTML = this.template;var d = c.children[0];return a ? a.parentNode.insertBefore(d, a.nextSibling) : this.containerWithRows.append(d), this.buttonMove && (d.setAttribute('draggable', 'false'), d.setAttribute('aria-grabbed', 'false'), d.setAttribute('tabindex', '0')), d.setAttribute('data-new', '1'), this.fixUniqueAttributes(d, b), this.dispatchEvent(new CustomEvent('subform-row-add', { detail: { row: d }, bubbles: !0 })), window.Joomla && Joomla.Event.dispatch(d, 'joomla:updated'), d;
       } }, { key: 'removeRow', value: function removeRow(a) {
         var b = this.getRows().length;b <= this.minimum || (this.dispatchEvent(new CustomEvent('subform-row-remove', { detail: { row: a }, bubbles: !0 })), window.Joomla && Joomla.Event.dispatch(a, 'joomla:removed'), a.parentNode.removeChild(a));
       } }, { key: 'fixUniqueAttributes', value: function fixUniqueAttributes(a, c) {
@@ -76,6 +79,43 @@ var _createClass = function () {
             }r += q, p += q;
           }j[n] ? j[n].push(!0) : j[n] = [!0], l.setAttribute('name', o), l.setAttribute('id', p);var w = a.querySelector('label[for="' + r + '"]');w && (w.setAttribute('for', p), w.setAttribute('id', p + '-lbl'));
         }
+      } }, { key: 'setUpDragSort', value: function setUpDragSort() {
+        function a(a) {
+          return !a.form && a[e](that.buttonMove) ? a : b(a, that.buttonMove);
+        }for (var f, g = this, h = 0, i = g.containerWithRows.children.length; h < i; h++) {
+          f = g.containerWithRows.children[h], f[e](g.repeatableElement) && (f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), f.setAttribute('tabindex', '0'));
+        }this.addEventListener('mousedown', function (c) {
+          var d = a(c.target),
+              e = d ? b(d, that.repeatableElement) : null;e && b(e, 'joomla-field-subform') === that && (e.setAttribute('draggable', 'true'), e.setAttribute('aria-grabbed', 'true'), item = e);
+        }), this.addEventListener('mouseup', function () {
+          item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null);
+        }), this.addEventListener('keydown', function (a) {
+          if ((a.keyCode === d.ESC || a.keyCode === d.SPACE || a.keyCode === d.ENTER) && !a.target.form && a.target[e](that.repeatableElement)) {
+            var f = a.target;if (f && b(f, 'joomla-field-subform') === that && (a.keyCode === d.SPACE && c(a) && ('true' === f.getAttribute('aria-grabbed') ? (f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), item = null) : (item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), f.setAttribute('draggable', 'true'), f.setAttribute('aria-grabbed', 'true'), item = f), a.preventDefault()), a.keyCode === d.ESC && item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), a.keyCode === d.ENTER && item)) {
+              if (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), f === item) return void (item = null);var g = !1;if (item.parentNode === f.parentNode) for (var h = item; h; h = h.previousSibling) {
+                if (h === f) {
+                  g = !0;break;
+                }
+              }g ? f.parentNode.insertBefore(item, f) : f.parentNode.insertBefore(item, f.nextSibling), a.preventDefault(), item = null;
+            }
+          }
+        }), this.addEventListener('dragstart', function (a) {
+          item && (a.dataTransfer.effectAllowed = 'move', a.dataTransfer.setData('text', ''));
+        }), this.addEventListener('dragover', function (a) {
+          item && a.preventDefault();
+        }), this.addEventListener('dragenter', function (a) {
+          if (item && (!that.rowsContainer || b(a.target, that.rowsContainer) === that.containerWithRows)) {
+            var c = a.target[e](that.repeatableElement) ? a.target : b(a.target, that.repeatableElement);if (c) {
+              var d = !1;if (item.parentNode === c.parentNode) for (var f = item; f; f = f.previousSibling) {
+                if (f === c) {
+                  d = !0;break;
+                }
+              }d ? c.parentNode.insertBefore(item, c) : c.parentNode.insertBefore(item, c.nextSibling);
+            }
+          }
+        }), this.addEventListener('dragend', function () {
+          item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null);
+        });
       } }, { key: 'buttonAdd', get: function get() {
         return this.getAttribute('button-add');
       } }, { key: 'buttonRemove', get: function get() {
@@ -90,8 +130,8 @@ var _createClass = function () {
         return this.getAttribute('minimum');
       } }, { key: 'maximum', get: function get() {
         return this.getAttribute('maximum');
-      } }]), c;
-  }(HTMLElement);a.define('joomla-field-subform', c);
+      } }]), f;
+  }(HTMLElement);a.define('joomla-field-subform', f);
 })(customElements);
 
 },{}]},{},[1]);

@@ -308,7 +308,7 @@
             // Helper method to test whether Handler was clicked
             function getMoveHandler(element) {
                 return !element.form // This need to test whether the element is :input
-                        && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
+                && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
             }
 
             this.addEventListener('mousedown', function(event) {
