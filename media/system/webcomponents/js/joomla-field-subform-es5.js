@@ -32,18 +32,25 @@ var _createClass = function () {
     function f() {
       return _classCallCheck(this, f), _possibleConstructorReturn(this, (f.__proto__ || Object.getPrototypeOf(f)).apply(this, arguments));
     }return _inherits(f, a), _createClass(f, [{ key: 'connectedCallback', value: function connectedCallback() {
-        var a = this;if (this.containerWithRows = this, this.rowsContainer) for (var c = this.querySelectorAll(this.rowsContainer), d = 0, e = c.length; d < e; d++) {
-          if (b(c[d], 'joomla-field-subform') === this) {
-            this.containerWithRows = c[d];break;
+        var a = this;if (this.containerWithRows = this, this.rowsContainer) for (var c = this.querySelectorAll(this.rowsContainer), f = 0, g = c.length; f < g; f++) {
+          if (b(c[f], 'joomla-field-subform') === this) {
+            this.containerWithRows = c[f];break;
           }
-        }this.lastRowNum = this.getRows().length, this.template = '', this.prepareTemplate(), this.addEventListener('click', function (c) {
-          var d = b(c.target, a.buttonAdd),
-              e = b(c.target, a.buttonRemove);if (d && b(d, 'joomla-field-subform') === a) {
-            var f = b(d, a.repeatableElement);this.addRow(f);
+        }this.lastRowNum = this.getRows().length, this.template = '', this.prepareTemplate(), (this.buttonAdd || this.buttonRemove) && (this.addEventListener('click', function (c) {
+          var d = a.buttonAdd ? b(c.target, a.buttonAdd) : null,
+              e = a.buttonRemove ? b(c.target, a.buttonRemove) : null;if (d && b(d, 'joomla-field-subform') === a) {
+            var f = b(d, a.repeatableElement);a.addRow(f);
           } else if (e && b(e, 'joomla-field-subform') === a) {
-            var g = b(e, a.repeatableElement);this.removeRow(g);
+            var g = b(e, a.repeatableElement);a.removeRow(g);
           }
-        }), this.buttonMove && this.setUpDragSort();
+        }), this.addEventListener('keydown', function (c) {
+          if (c.keyCode === d.SPACE) {
+            var f = a.buttonAdd && c.target[e](a.buttonAdd),
+                g = a.buttonRemove && c.target[e](a.buttonRemove);if ((f || g) && b(c.target, 'joomla-field-subform') === a) {
+              var h = b(c.target, a.repeatableElement);f ? a.addRow(h) : a.removeRow(h), c.preventDefault();
+            }
+          }
+        })), this.buttonMove && this.setUpDragSort();
       } }, { key: 'getRows', value: function getRows() {
         for (var a = this.containerWithRows.children, b = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches', c = [], d = 0, e = a.length; d < e; d++) {
           a[d][b](this.repeatableElement) && c.push(a[d]);
@@ -82,8 +89,8 @@ var _createClass = function () {
       } }, { key: 'setUpDragSort', value: function setUpDragSort() {
         function a(a) {
           return !a.form && a[e](that.buttonMove) ? a : b(a, that.buttonMove);
-        }for (var f, g = this, h = 0, i = g.containerWithRows.children.length; h < i; h++) {
-          f = g.containerWithRows.children[h], f[e](g.repeatableElement) && (f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), f.setAttribute('tabindex', '0'));
+        }for (var f, g = this, h = this.getRows(), i = 0, j = h.length; i < j; i++) {
+          f = h[i], f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), f.setAttribute('tabindex', '0');
         }this.addEventListener('mousedown', function (c) {
           var d = a(c.target),
               e = d ? b(d, that.repeatableElement) : null;e && b(e, 'joomla-field-subform') === that && (e.setAttribute('draggable', 'true'), e.setAttribute('aria-grabbed', 'true'), item = e);
