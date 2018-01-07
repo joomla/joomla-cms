@@ -194,7 +194,7 @@ class ContentModelArchive extends ContentModelArticles
 	 * Gets the archived articles years
 	 *
 	 * @return   array
-	 * 
+	 *
 	 * @since    3.6.0
 	 */
 	public function getYears()
@@ -213,6 +213,7 @@ class ContentModelArchive extends ContentModelArticles
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 }

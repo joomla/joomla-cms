@@ -18,6 +18,7 @@ if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 	if (!JFactory::getUser()->authorise('core.create', 'com_contact'))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+
 		return;
 	}
 

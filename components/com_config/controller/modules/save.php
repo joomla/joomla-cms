@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerModulesSave extends JControllerBase
 {
 	/**
@@ -117,6 +117,7 @@ class ConfigControllerModulesSave extends JControllerBase
 				{
 					$redirect = JUri::base();
 				}
+
 				$this->app->redirect($redirect);
 				break;
 		}

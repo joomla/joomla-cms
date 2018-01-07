@@ -390,16 +390,6 @@ function initElements()
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
 
-		$('fieldset.btn-group').each(function() {
-			var $self = $(this);
-			// Handle disabled, prevent clicks on the container, and add disabled style to each button
-			if ($self.prop('disabled'))
-			{
-				$self.css('pointer-events', 'none').off('click');
-				$self.find('.btn').addClass('disabled');
-			}
-		});
-
 		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);

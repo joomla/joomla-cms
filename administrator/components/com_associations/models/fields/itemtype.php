@@ -26,7 +26,7 @@ class JFormFieldItemType extends JFormFieldGroupedList
 	 * @since  3.7.0
 	 */
 	protected $type = 'ItemType';
-	
+
 	/**
 	 * Method to get the field input markup.
 	 *
