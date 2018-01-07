@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_SYNDICATE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Syndicate</namespace>
 	<files>
 		<filename module="mod_syndicate">mod_syndicate.php</filename>
 		<folder>tmpl</folder>

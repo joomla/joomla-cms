@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_VERSION_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Version</namespace>
 	<files>
 		<filename module="mod_version">mod_version.php</filename>
 		<folder>language</folder>
