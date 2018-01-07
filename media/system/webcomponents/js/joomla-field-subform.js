@@ -33,7 +33,9 @@
         get minimum()           { return this.getAttribute('minimum'); }
         get maximum()           { return this.getAttribute('maximum'); }
 
-        connectedCallback () {
+        constructor() {
+            super();
+
             let that = this;
 
             // Get the rows container
@@ -63,16 +65,26 @@
             // Bind buttons
             if (this.buttonAdd || this.buttonRemove) {
                 this.addEventListener('click', function(event) {
-                    let btnAdd = that.buttonAdd ? closest(event.target, that.buttonAdd) : null;
-                    let btnRem = that.buttonRemove ? closest(event.target, that.buttonRemove) : null;
+                    let btnAdd = null, btnRem = null;
+
+                    if (that.buttonAdd) {
+                        btnAdd = event.target[matchesFn](that.buttonAdd) ? event.target : closest(event.target, that.buttonAdd);
+                    }
+
+                    if (that.buttonRemove) {
+                        btnRem = event.target[matchesFn](that.buttonRemove) ? event.target : closest(event.target, that.buttonRemove);
+                    }
 
                     // Check actine, with extra check for nested joomla-field-subform
                     if (btnAdd && closest(btnAdd, 'joomla-field-subform') === that) {
                         let row = closest(btnAdd, that.repeatableElement);
+                        row = closest(row, 'joomla-field-subform') === that ? row : null;
                         that.addRow(row);
+                        event.preventDefault();
                     } else if (btnRem && closest(btnRem, 'joomla-field-subform') === that) {
                         let row = closest(btnRem, that.repeatableElement);
                         that.removeRow(row);
+                        event.preventDefault();
                     }
                 });
 
@@ -83,7 +95,12 @@
 
                     if ((isAdd || isRem) && closest(event.target, 'joomla-field-subform') === that) {
                         let row = closest(event.target, that.repeatableElement);
-                        isAdd ? that.addRow(row) : that.removeRow(row);
+                        row = closest(row, 'joomla-field-subform') === that ? row : null;
+                        if (isRem && row) {
+                            that.removeRow(row);
+                        } else if (isAdd) {
+                            that.addRow(row)
+                        }
                         event.preventDefault();
                     }
                 });
