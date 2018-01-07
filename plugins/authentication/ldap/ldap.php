@@ -10,16 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Ldap\LdapClient;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Authentication\Authentication;
 
 /**
  * LDAP Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationLdap extends CMSPlugin
+class PlgAuthenticationLdap extends JPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -47,8 +44,8 @@ class PlgAuthenticationLdap extends CMSPlugin
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{
-			$response->status = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return false;
 		}
@@ -63,8 +60,8 @@ class PlgAuthenticationLdap extends CMSPlugin
 
 		if (!$ldap->connect())
 		{
-			$response->status = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_NO_CONNECT');
+			$response->status = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
 
 			return;
 		}
@@ -106,14 +103,14 @@ class PlgAuthenticationLdap extends CMSPlugin
 					}
 					else
 					{
-						$response->status = Authentication::STATUS_FAILURE;
-						$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+						$response->status = JAuthentication::STATUS_FAILURE;
+						$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 					}
 				}
 				else
 				{
-					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_NO_BIND');
+					$response->status = JAuthentication::STATUS_FAILURE;
+					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
 				}
 			}	break;
 
@@ -135,19 +132,19 @@ class PlgAuthenticationLdap extends CMSPlugin
 				}
 				else
 				{
-					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+					$response->status = JAuthentication::STATUS_FAILURE;
+					$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 				}
 			}	break;
 		}
 
 		if (!$success)
 		{
-			$response->status = Authentication::STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 
 			if ($response->error_message === '')
 			{
-				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
@@ -173,7 +170,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 			}
 
 			// Were good - So say so.
-			$response->status        = Authentication::STATUS_SUCCESS;
+			$response->status        = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 

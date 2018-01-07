@@ -9,15 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
-
 /**
  * Vote plugin.
  *
  * @since  1.5
  */
-class PlgContentVote extends CMSPlugin
+class PlgContentVote extends JPlugin
 {
 	/**
 	 * Application object
@@ -124,7 +121,7 @@ class PlgContentVote extends CMSPlugin
 		$this->loadLanguage();
 
 		// Get the path for the rating summary layout file
-		$path = PluginHelper::getLayoutPath('content', 'vote', 'rating');
+		$path = JPluginHelper::getLayoutPath('content', 'vote', 'rating');
 
 		// Render the layout
 		ob_start();
@@ -134,7 +131,7 @@ class PlgContentVote extends CMSPlugin
 		if ($this->app->input->getString('view', '') === 'article' && $row->state == 1)
 		{
 			// Get the path for the voting form layout file
-			$path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
+			$path = JPluginHelper::getLayoutPath('content', 'vote', 'vote');
 
 			// Render the layout
 			ob_start();

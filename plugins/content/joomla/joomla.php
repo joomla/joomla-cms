@@ -9,13 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 
 /**
@@ -23,7 +16,7 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
  *
  * @since  1.6
  */
-class PlgContentJoomla extends CMSPlugin
+class PlgContentJoomla extends JPlugin
 {
 	/**
 	 * Example after save content method
@@ -59,7 +52,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -73,12 +66,12 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = Factory::getUser();
+		$user = JFactory::getUser();
 
 		// Messaging for new items
 
-		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getConfig()->get('debug_lang');
+		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = JFactory::getConfig()->get('debug_lang');
 		$result = true;
 
 		foreach ($users as $user_id)
@@ -86,8 +79,8 @@ class PlgContentJoomla extends CMSPlugin
 			if ($user_id != $user->id)
 			{
 				// Load language for messaging
-				$receiver = User::getInstance($user_id);
-				$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+				$receiver = JUser::getInstance($user_id);
+				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 				$lang->load('com_content');
 				$message = array(
 					'user_id_to' => $user_id,
@@ -126,7 +119,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$extension = Factory::getApplication()->input->getString('extension');
+		$extension = JFactory::getApplication()->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;
@@ -158,9 +151,9 @@ class PlgContentJoomla extends CMSPlugin
 				// Show error if items are found in the category
 				if ($count > 0)
 				{
-					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-					Factory::getApplication()->enqueueMessage($msg, 'error');
+					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+						. JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
+					JFactory::getApplication()->enqueueMessage($msg, 'error');
 					$result = false;
 				}
 
@@ -175,9 +168,9 @@ class PlgContentJoomla extends CMSPlugin
 					}
 					elseif ($count > 0)
 					{
-						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-						Factory::getApplication()->enqueueMessage($msg, 'error');
+						$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+							. JText::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
+						JFactory::getApplication()->enqueueMessage($msg, 'error');
 						$result = false;
 					}
 				}
@@ -199,7 +192,7 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Count the items in this category
@@ -214,7 +207,7 @@ class PlgContentJoomla extends CMSPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -235,7 +228,7 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Create subquery for list of child categories
 		$childCategoryTree = $data->getTree();
@@ -265,7 +258,7 @@ class PlgContentJoomla extends CMSPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -292,7 +285,7 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
@@ -301,7 +294,7 @@ class PlgContentJoomla extends CMSPlugin
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
-		$cctable = new CoreContent($db);
+		$cctable = new JTableCorecontent($db);
 		$cctable->publish($ccIds, $value);
 
 		return true;

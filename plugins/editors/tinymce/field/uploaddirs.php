@@ -9,14 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\Field\FolderlistField;
-
 jimport('joomla.form.helper');
 
-FormHelper::loadFieldClass('folderlist');
+JFormHelper::loadFieldClass('folderlist');
 
 /**
  * Generates the list of directories  available for drag and drop upload.
@@ -25,7 +20,7 @@ FormHelper::loadFieldClass('folderlist');
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldUploaddirs extends FolderlistField
+class JFormFieldUploaddirs extends JFormFieldFolderList
 {
 	protected $type = 'uploaddirs';
 
@@ -48,7 +43,7 @@ class JFormFieldUploaddirs extends FolderlistField
 		$return = parent::setup($element, $value, $group);
 
 		// Get the path in which to search for file options.
-		$this->directory   = ComponentHelper::getParams('com_media')->get('image_path');
+		$this->directory   = JComponentHelper::getParams('com_media')->get('image_path');
 		$this->recursive   = true;
 		$this->hideDefault = true;
 
@@ -88,7 +83,7 @@ class JFormFieldUploaddirs extends FolderlistField
 		}
 
 		// Create a regular list.
-		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
+		$html[] = JHtml::_('select.genericlist', $options, $this->name, 'class="custom-select"', 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

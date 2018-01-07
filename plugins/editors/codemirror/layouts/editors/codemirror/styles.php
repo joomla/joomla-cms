@@ -10,9 +10,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
 $params     = $displayData->params;
 $fontFamily = $displayData->fontFamily ?? 'monospace';
 $fontSize   = $params->get('fontSize', 13) . 'px;';
@@ -32,9 +29,9 @@ $g                   = hexdec($color{3} . $color{4});
 $b                   = hexdec($color{5} . $color{6});
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-HTMLHelper::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
 
-Factory::getDocument()->addStyleDeclaration(
+JFactory::getDocument()->addStyleDeclaration(
 <<<CSS
 		.CodeMirror {
 			font-family: $fontFamily;

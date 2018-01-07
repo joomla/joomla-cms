@@ -10,16 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Plain Textarea Editor Plugin
  *
  * @since  1.5
  */
-class PlgEditorNone extends CMSPlugin
+class PlgEditorNone extends JPlugin
 {
 	/**
 	 * Method to handle the onInitEditor event.
@@ -31,7 +28,7 @@ class PlgEditorNone extends CMSPlugin
 	 */
 	public function onInit()
 	{
-		HTMLHelper::_('script', 'editors/none/editor-none.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'editors/none/editor-none.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -106,7 +103,7 @@ class PlgEditorNone extends CMSPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
-			return LayoutHelper::render('joomla.editors.buttons', $buttons);
+			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 	}
 }
