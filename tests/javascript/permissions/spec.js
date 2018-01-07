@@ -74,7 +74,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			});
 		});
 
-		describe("on success with resp.data.result !== 'true' & resp.messages an object", function() {
+		describe("on success with resp.data.result !== true & resp.messages an object", function() {
 			beforeAll(function() {
 				Joomla.sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
