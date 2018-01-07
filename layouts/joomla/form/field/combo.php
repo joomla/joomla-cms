@@ -11,6 +11,8 @@ defined('JPATH_BASE') or die;
 
 extract($displayData);
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Layout variables
  * -----------------
@@ -40,7 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 
-JHtml::_('behavior.combobox');
+HTMLHelper::_('behavior.combobox');
 
 $attr .= !empty($class) ? ' class="awesomplete form-control ' . $class . '"' : ' class="awesomplete form-control"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
