@@ -8,6 +8,12 @@
  */
 
 defined('_JEXEC') or die;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Version;
+
 
 /**
  * Support for the "Install from Web" tab
@@ -16,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  System.webinstaller
  * @since       3.2
  */
-class PlgInstallerWebinstaller extends JPlugin
+class PlgInstallerWebinstaller extends CMSPlugin
 {
 	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
 
@@ -30,9 +36,9 @@ class PlgInstallerWebinstaller extends JPlugin
 	
 	public function onInstallerViewBeforeFirstTab()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
  
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$lang->load('plg_installer_webinstaller', JPATH_ADMINISTRATOR);
 		if (!$this->params->get('tab_position', 0)) {
 			$this->getChanges();
@@ -47,11 +53,11 @@ class PlgInstallerWebinstaller extends JPlugin
 		$installfrom = $this->getInstallFrom();
 		$installfromon = $installfrom ? 1 : 0;
 
-		$document = JFactory::getDocument();
-		$ver = new JVersion;
+		$document = Factory::getDocument();
+		$ver = new Version;
 
-		JHtml::_('script', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
-		JHtml::_('stylesheet', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
+		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
 
 		$installer = new JInstaller();
 		$manifest = $installer->isManifest(JPATH_PLUGINS . DIRECTORY_SEPARATOR . 'installer' . DIRECTORY_SEPARATOR . 'webinstaller' . DIRECTORY_SEPARATOR . 'webinstaller.xml');
@@ -59,14 +65,14 @@ class PlgInstallerWebinstaller extends JPlugin
 		$apps_base_url = addslashes($this->appsBaseUrl);
 		$apps_installat_url = base64_encode(JURI::current(true) . '?option=com_installer&view=install');
 		$apps_installfrom_url = addslashes($installfrom);
-		$apps_product = base64_encode(JVersion::PRODUCT);
-		$apps_release = base64_encode(JVersion::MAJOR_VERSION . JVersion::MINOR_VERSION . JVersion::PATCH_VERSION);
-		$apps_dev_level = base64_encode(JVersion::PATCH_VERSION);
-		$btntxt = JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
+		$apps_product = base64_encode(Version::PRODUCT);
+		$apps_release = base64_encode(Version::MAJOR_VERSION . Version::MINOR_VERSION . Version::PATCH_VERSION);
+		$apps_dev_level = base64_encode(Version::PATCH_VERSION);
+		$btntxt = Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
 		$pv = base64_encode($manifest->version);
-		$updatestr1 = JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true);
-		$obsoletestr = JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_OBSOLETE', true);
-		$updatestr2 = JText::_('JLIB_INSTALLER_UPDATE', true);
+		$updatestr1 = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true);
+		$obsoletestr = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_OBSOLETE', true);
+		$updatestr2 = Text::_('JLIB_INSTALLER_UPDATE', true);
 
 		$javascript = <<<END
 var apps_base_url = '$apps_base_url',
@@ -115,7 +121,7 @@ END;
 
 	private function isRTL() {
 		if (is_null($this->_rtl)) {
-			$document = JFactory::getDocument();
+			$document = Factory::getDocument();
 			$this->_rtl = strtolower($document->direction) == 'rtl' ? 1 : 0;
 		}
 		return $this->_rtl;
@@ -125,7 +131,7 @@ END;
 	{
 		if (is_null($this->_installfrom))
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 
 			$field = new SimpleXMLElement('<field></field>');
@@ -153,29 +159,29 @@ END;
 			$dir = ' dir="ltr"';
 		}
 
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'web', JText::_('COM_INSTALLER_INSTALL_FROM_WEB', true)); ?>
+		echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'web', Text::_('COM_INSTALLER_INSTALL_FROM_WEB', true)); ?>
 			<div id="jed-container" class="tab-pane">
 				<div class="well" id="web-loader">
-					<h2><?php echo JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+					<h2><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
 				</div>
 				<div class="alert alert-error" id="web-loader-error" style="display:none">
-					<a class="close" data-dismiss="alert">×</a><?php echo JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
+					<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
 				</div>
 			</div>
 
 			<fieldset class="uploadform" id="uploadform-web" style="display:none"<?php echo $dir; ?>>
 				<div class="control-group">
-					<strong><?php echo JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
-					<span id="uploadform-web-name-label"><?php echo JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br />
-					<?php echo JText::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?>: <span id="uploadform-web-url"></span>
+					<strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
+					<span id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br />
+					<?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?>: <span id="uploadform-web-url"></span>
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
-					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+					<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
+					<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
 
-		<?php echo JHtml::_('bootstrap.endTab');
+		<?php echo HTMLHelper::_('bootstrap.endTab');
 
 	}
 }
