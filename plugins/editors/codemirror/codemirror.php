@@ -11,18 +11,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * CodeMirror Editor Plugin.
  *
  * @since  1.6
  */
-class PlgEditorCodemirror extends CMSPlugin
+class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -57,19 +52,19 @@ class PlgEditorCodemirror extends CMSPlugin
 		$done = true;
 
 		// Most likely need this later
-		$doc = Factory::getDocument();
+		$doc = JFactory::getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
-		PluginHelper::importPlugin('editors_codemirror');
+		JPluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
-		Factory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
 
 		$displayData = (object) array('params'  => $this->params);
 
 		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
-		LayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
+		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
 		$font = $this->params->get('fontFamily', 0);
@@ -90,10 +85,10 @@ class PlgEditorCodemirror extends CMSPlugin
 
 		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
 		ob_start();
-		LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
+		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		Factory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
 	}
 
 	/**
@@ -179,7 +174,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->theme = $theme;
 
-			HTMLHelper::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			JHtml::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
 		// Special options for tagged modes (xml/html).
@@ -219,11 +214,11 @@ class PlgEditorCodemirror extends CMSPlugin
 			);
 
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		$results = Factory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$results = JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
 
-		$results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
 
-		foreach (Factory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		foreach (JFactory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
 			$results[] = $result;
 		}
@@ -277,7 +272,7 @@ class PlgEditorCodemirror extends CMSPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
-			$return .= LayoutHelper::render('joomla.editors.buttons', $buttons);
+			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
 		return $return;

@@ -9,11 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Event as CmsEvent;
 
 /**
@@ -23,7 +19,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * @since  4.0.0
  */
-class PlgBehaviourVersionable extends CMSPlugin
+class PlgBehaviourVersionable extends JPlugin
 {
 	/**
 	 * Constructor
@@ -72,7 +68,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		$table->contenthistoryHelper = new ContentHistoryHelper($typeAlias);
+		$table->contenthistoryHelper = new JHelperContenthistory($typeAlias);
 		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -97,7 +93,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof TableInterface))
+		if (!is_object($table) || !($table instanceof JTableInterface))
 		{
 			return;
 		}
@@ -122,7 +118,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->store($table);
 		}
@@ -161,7 +157,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 		$table->contenthistoryHelper->typeAlias = $typeAlias;
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->deleteHistory($table);
 		}
@@ -179,7 +175,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(TableInterface &$table)
+	protected function parseTypeAlias(JTableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{

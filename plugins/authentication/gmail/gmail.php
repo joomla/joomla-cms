@@ -9,20 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Http\Response;
-use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Authentication\Authentication;
 
 /**
  * GMail Authentication Plugin
  *
  * @since  1.5
  */
-class PlgAuthenticationGMail extends CMSPlugin
+class PlgAuthenticationGMail extends JPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -41,7 +35,7 @@ class PlgAuthenticationGMail extends CMSPlugin
 		$this->loadLanguage();
 
 		// No backend authentication
-		if (Factory::getApplication()->isClient('administrator') && !$this->params->get('backendLogin', 0))
+		if (JFactory::getApplication()->isClient('administrator') && !$this->params->get('backendLogin', 0))
 		{
 			return;
 		}
@@ -59,13 +53,13 @@ class PlgAuthenticationGMail extends CMSPlugin
 
 		try
 		{
-			$http = HttpFactory::getHttp($transportParams, 'curl');
+			$http = JHttpFactory::getHttp($transportParams, 'curl');
 		}
 		catch (RuntimeException $e)
 		{
-			$response->status        = Authentication::STATUS_FAILURE;
+			$response->status        = JAuthentication::STATUS_FAILURE;
 			$response->type          = 'GMail';
-			$response->error_message = Text::sprintf('JGLOBAL_AUTH_FAILED', Text::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED'));
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED'));
 
 			return;
 		}
@@ -74,8 +68,8 @@ class PlgAuthenticationGMail extends CMSPlugin
 		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
 			$response->type          = 'GMail';
-			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::sprintf('JGLOBAL_AUTH_FAILED', Text::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
 			return;
 		}
@@ -86,8 +80,8 @@ class PlgAuthenticationGMail extends CMSPlugin
 		if (in_array($credentials['username'], $blacklist))
 		{
 			$response->type          = 'GMail';
-			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::sprintf('JGLOBAL_AUTH_FAILED', Text::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_USER_BLACKLISTED'));
 
 			return;
 		}
@@ -128,7 +122,7 @@ class PlgAuthenticationGMail extends CMSPlugin
 		catch (Exception $e)
 		{
 			// If there was an error in the request then create a 'false' dummy response.
-			$result = new Response;
+			$result = new JHttpResponse;
 			$result = $result->withStatus(500);
 		}
 
@@ -137,16 +131,16 @@ class PlgAuthenticationGMail extends CMSPlugin
 		switch ($code)
 		{
 			case 200 :
-				$message = Text::_('JGLOBAL_AUTH_ACCESS_GRANTED');
+				$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
 				$success = true;
 				break;
 
 			case 401 :
-				$message = Text::_('JGLOBAL_AUTH_ACCESS_DENIED');
+				$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
 				break;
 
 			default :
-				$message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
+				$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
 				break;
 		}
 
@@ -154,8 +148,8 @@ class PlgAuthenticationGMail extends CMSPlugin
 
 		if (!$success)
 		{
-			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::sprintf('JGLOBAL_AUTH_FAILED', $message);
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
 
 			return;
 		}
@@ -180,7 +174,7 @@ class PlgAuthenticationGMail extends CMSPlugin
 		}
 
 		// Extra security checks with existing local accounts
-		$db                  = Factory::getDbo();
+		$db                  = JFactory::getDbo();
 		$localUsernameChecks = array(strstr($email, '@', true), $email);
 
 		$query = $db->getQuery(true)
@@ -199,8 +193,8 @@ class PlgAuthenticationGMail extends CMSPlugin
 				// Local user exists with same username but different email address
 				if ($email !== $localUser->email)
 				{
-					$response->status        = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::sprintf('JGLOBAL_AUTH_FAILED', Text::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));
+					$response->status        = JAuthentication::STATUS_FAILURE;
+					$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));
 
 					return;
 				}
@@ -209,8 +203,8 @@ class PlgAuthenticationGMail extends CMSPlugin
 					// Existing user disabled locally
 					if ($localUser->block || !empty($localUser->activation))
 					{
-						$response->status        = Authentication::STATUS_FAILURE;
-						$response->error_message = Text::_('JGLOBAL_AUTH_ACCESS_DENIED');
+						$response->status        = JAuthentication::STATUS_FAILURE;
+						$response->error_message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
 
 						return;
 					}
@@ -222,16 +216,16 @@ class PlgAuthenticationGMail extends CMSPlugin
 				}
 			}
 		}
-		elseif (Factory::getApplication()->isClient('administrator'))
+		elseif (JFactory::getApplication()->isClient('administrator'))
 		{
 			// We wont' allow backend access without local account
-			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JERROR_LOGIN_DENIED');
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::_('JERROR_LOGIN_DENIED');
 
 			return;
 		}
 
-		$response->status        = Authentication::STATUS_SUCCESS;
+		$response->status        = JAuthentication::STATUS_SUCCESS;
 		$response->error_message = '';
 		$response->email         = $email;
 
