@@ -42,6 +42,12 @@ extract($displayData, null);
  * @var   array    $options         Options available for this field.
  */
 
+// If there are no options don't render anything
+if (empty($options))
+{
+	return '';
+}
+
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -51,7 +57,6 @@ extract($displayData, null);
  */
 $format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-$dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
 
 HTMLHelper::_('webcomponent',
 	['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
@@ -69,16 +74,11 @@ $attribs = [
 	'on-text="' . $options[1]->text . '"',
 ];
 
-if (isset($disabled))
+if (!empty($disabled))
 {
 	$attribs[] = 'disabled';
 }
 
-// If there are no options don't render anything
-if (empty($options))
-{
-	return '';
-}
 ?>
 <joomla-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>

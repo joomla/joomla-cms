@@ -42,6 +42,12 @@ extract($displayData, null);
  * @var   array    $options         Options available for this field.
  */
 
+// If there are no options don't render anything
+if (empty($options))
+{
+	return '';
+}
+
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -59,31 +65,26 @@ $attribs = [
 	'class="' . trim($class . ' radio') . '"',
 ];
 
-if (isset($disabled))
+if (!empty($disabled))
 {
 	$attribs[] = 'disabled';
 }
 
-if (isset($required))
+if (!empty($required))
 {
 	$attribs[] = 'required aria-required="true"';
 }
 
-if (isset($autofocus))
+if (!empty($autofocus))
 {
 	$attribs[] = 'autofocus';
 }
 
-if (isset($dataToggle))
+if (!empty($dataToggle))
 {
 	$attribs[] = $dataToggle;
 }
 
-// If there are no options don't render anything
-if (empty($options))
-{
-	return '';
-}
 ?>
 <fieldset <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>

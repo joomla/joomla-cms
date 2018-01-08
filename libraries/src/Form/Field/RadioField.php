@@ -37,7 +37,36 @@ class RadioField extends \JFormFieldList
 	 * @var    string
 	 * @since  3.5
 	 */
-	protected $layout = 'joomla.form.field.radio';
+	protected $layout = 'joomla.form.field.radio.buttons';
+
+	/**
+	 * Method to attach a Form object to the field.
+	 *
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		if (!parent::setup($element, $value, $group))
+		{
+			return false;
+		}
+
+		// The layout for Switcher
+		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
+		{
+			$this->layout = 'joomla.form.field.radio.switcher';
+		}
+
+		return true;
+	}
 
 	/**
 	 * Method to get the radio button field input markup.
@@ -48,9 +77,6 @@ class RadioField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// Switch the layouts
-		$this->layout = strpos(trim($this->element['class']), 'switcher') === 0 ? $this->layout . '.switcher' : $this->layout . '.buttons';
-
 		if (empty($this->layout))
 		{
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
