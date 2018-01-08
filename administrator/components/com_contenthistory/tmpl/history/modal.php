@@ -41,23 +41,23 @@ JHtml::_('script', 'com_contenthistory/admin-history-modal.min.js', array('versi
 	<div class="btn-group float-right mb-3">
 		<button id="toolbar-load" type="submit" class="btn btn-secondary hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl); ?>">
 			<span class="icon-upload" aria-hidden="true"></span>
-			<span class="d-none d-md-table-cell"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
+			<span class="d-none d-md-inline"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
 		</button>
 		<button id="toolbar-preview" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
 			<span class="icon-search" aria-hidden="true"></span>
-			<span class="d-none d-md-table-cell"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
+			<span class="d-none d-md-inline"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span>
 		</button>
 		<button id="toolbar-compare" type="button" class="btn btn-secondary hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1'); ?>">
 			<span class="icon-zoom-in" aria-hidden="true"></span>
-			<span class="d-none d-md-table-cell"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
+			<span class="d-none d-md-inline"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
 		</button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn btn-secondary pointer hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
 			<span class="icon-lock" aria-hidden="true"></span>
-			<span class="d-none d-md-table-cell"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
+			<span class="d-none d-md-inline"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
 		</button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn btn-secondary pointer hasTooltip" aria-label="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
 			<span class="icon-delete" aria-hidden="true"></span>
-			<span class="d-none d-md-table-cell"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span>
+			<span class="d-none d-md-inline"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span>
 		</button>
 	</div>
 
