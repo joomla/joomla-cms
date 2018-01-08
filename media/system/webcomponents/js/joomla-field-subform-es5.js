@@ -77,27 +77,30 @@ var _createClass = function () {
       } }, { key: 'removeRow', value: function removeRow(a) {
         var b = this.getRows().length;b <= this.minimum || (this.dispatchEvent(new CustomEvent('subform-row-remove', { detail: { row: a }, bubbles: !0 })), window.Joomla && Joomla.Event.dispatch(a, 'joomla:removed'), a.parentNode.removeChild(a));
       } }, { key: 'fixUniqueAttributes', value: function fixUniqueAttributes(a, c) {
-        this.lastRowNum++, c = c || 0;var d = a.getAttribute('data-group'),
-            e = a.getAttribute('data-base-name'),
-            f = Math.max(this.lastRowNum, c + 1),
-            g = e + f;this.lastRowNum = f, a.setAttribute('data-group', g);for (var h = a.querySelectorAll('[name]'), j = {}, k = 0, i = h.length; k < i; k++) {
-          var l = h[k],
-              m = l.getAttribute('name'),
-              n = m.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''),
-              o = m.replace('[' + d + '][', '[' + g + ']['),
-              p = n.replace(d, g),
-              q = 0,
-              r = n;if ('checkbox' === l.type && m.match(/\[\]$/)) {
-            if (q = j[n] ? j[n].length : 0, !q) {
-              var s = b(l, 'fieldset.checkboxes'),
-                  t = a.querySelector('label[for="' + n + '"]');s && s.setAttribute('id', p), t && (t.setAttribute('for', p), t.setAttribute('id', p + '-lbl'));
-            }r += q, p += q;
+        var d = this;this.lastRowNum++, c = c || 0;var e = a.getAttribute('data-group'),
+            f = a.getAttribute('data-base-name'),
+            g = Math.max(this.lastRowNum, c + 1),
+            h = f + g;this.lastRowNum = g, a.setAttribute('data-group', h);var j = a.querySelectorAll('[name]'),
+            k = {};j = [].slice.call(j).filter(function (a) {
+          return b(a, 'joomla-field-subform') === d;
+        });for (var m = 0, i = j.length; m < i; m++) {
+          var l = j[m],
+              n = l.getAttribute('name'),
+              o = n.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''),
+              p = n.replace('[' + e + '][', '[' + h + ']['),
+              q = o.replace(e, h),
+              r = 0,
+              s = o;if ('checkbox' === l.type && n.match(/\[\]$/)) {
+            if (r = k[o] ? k[o].length : 0, !r) {
+              var t = b(l, 'fieldset.checkboxes'),
+                  u = a.querySelector('label[for="' + o + '"]');t && t.setAttribute('id', q), u && (u.setAttribute('for', q), u.setAttribute('id', q + '-lbl'));
+            }s += r, q += r;
           } else if ('radio' === l.type) {
-            if (q = j[n] ? j[n].length : 0, !q) {
-              var u = b(l, 'fieldset.radio'),
-                  v = a.querySelector('label[for="' + n + '"]');u && u.setAttribute('id', p), v && (v.setAttribute('for', p), v.setAttribute('id', p + '-lbl'));
-            }r += q, p += q;
-          }j[n] ? j[n].push(!0) : j[n] = [!0], l.setAttribute('name', o), l.setAttribute('id', p);var w = a.querySelector('label[for="' + r + '"]');w && (w.setAttribute('for', p), w.setAttribute('id', p + '-lbl'));
+            if (r = k[o] ? k[o].length : 0, !r) {
+              var v = b(l, 'fieldset.radio'),
+                  w = a.querySelector('label[for="' + o + '"]');v && v.setAttribute('id', q), w && (w.setAttribute('for', q), w.setAttribute('id', q + '-lbl'));
+            }s += r, q += r;
+          }k[o] ? k[o].push(!0) : k[o] = [!0], l.setAttribute('name', p), l.setAttribute('id', q);var x = a.querySelector('label[for="' + s + '"]');x && (x.setAttribute('for', q), x.setAttribute('id', q + '-lbl'));
         }
       } }, { key: 'setUpDragSort', value: function setUpDragSort() {
         function a(a) {

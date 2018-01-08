@@ -247,6 +247,11 @@
             let haveName = row.querySelectorAll('[name]'),
                 ids = {}; // Collect id for fix checkboxes and radio
 
+            // Filter out nested
+            haveName = [].slice.call(haveName).filter(el => {
+                return closest(el, 'joomla-field-subform') === this;
+            });
+
             for (let i = 0, l = haveName.length; i < l; i++) {
                 let $el     = haveName[i],
                     name    = $el.getAttribute('name'),
