@@ -202,23 +202,18 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 					}
 					break;
 
-				default:
 				case 'profile':
-					if (!empty($query['view']))
+					if ($profile)
 					{
-						$segments[] = $query['view'];
-					}
-
-					unset ($query['view']);
-
-					if ($query['Itemid'] = $profile)
-					{
-						unset ($query['view']);
+						$query['Itemid'] = $profile;
 					}
 					else
 					{
 						$query['Itemid'] = $default;
+						$segments[] = $query['view'];
 					}
+
+					unset ($query['view']);
 
 					// Only append the user id if not "me".
 					$user = JFactory::getUser();
