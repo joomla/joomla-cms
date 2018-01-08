@@ -36,8 +36,14 @@ Joomla = window.Joomla || {};
 
 	Joomla.processScrollInit = function() {
 		var subhead = document.getElementById('subhead');
+		var wrapper = document.getElementById('wrapper');
 
 		if (subhead) {
+			// Fix toolbar and footer width for edit views
+			if (wrapper.classList.contains('wrapper0')) {
+				subhead.style.left = 0;
+			}
+
 			navTop = document.querySelector('.subhead').offsetHeight;
 
 			// Only apply the scrollspy when the toolbar is not collapsed

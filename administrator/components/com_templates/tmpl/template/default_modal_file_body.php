@@ -56,7 +56,7 @@ $input = JFactory::getApplication()->input;
 							<div class="input-group">
 								<input type="file" name="files" class="form-control" required>
 								<?php echo JHtml::_('form.token'); ?>
-								<span class="input-group-btn">
+								<span class="input-group-append">
 									<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 								</span>
 							</div>
