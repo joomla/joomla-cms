@@ -30,28 +30,41 @@ var _createClass = function () {
     return !('function' != typeof document.body[a]) && (e = a, !0);
   });var f = function (a) {
     function f() {
-      return _classCallCheck(this, f), _possibleConstructorReturn(this, (f.__proto__ || Object.getPrototypeOf(f)).apply(this, arguments));
-    }return _inherits(f, a), _createClass(f, [{ key: 'connectedCallback', value: function connectedCallback() {
-        var a = this;if (this.containerWithRows = this, this.rowsContainer) for (var c = this.querySelectorAll(this.rowsContainer), f = 0, g = c.length; f < g; f++) {
-          if (b(c[f], 'joomla-field-subform') === this) {
-            this.containerWithRows = c[f];break;
+      _classCallCheck(this, f);var a = _possibleConstructorReturn(this, (f.__proto__ || Object.getPrototypeOf(f)).call(this)),
+          c = a;if (a.containerWithRows = a, a.rowsContainer) for (var g = a.querySelectorAll(a.rowsContainer), h = 0, i = g.length; h < i; h++) {
+        if (b(g[h], 'joomla-field-subform') === a) {
+          a.containerWithRows = g[h];break;
+        }
+      }return a.lastRowNum = a.getRows().length, a.template = '', a.prepareTemplate(), (a.buttonAdd || a.buttonRemove) && (a.addEventListener('click', function (a) {
+        var d = null,
+            f = null;if (c.buttonAdd && (d = a.target[e](c.buttonAdd) ? a.target : b(a.target, c.buttonAdd)), c.buttonRemove && (f = a.target[e](c.buttonRemove) ? a.target : b(a.target, c.buttonRemove)), d && b(d, 'joomla-field-subform') === c) {
+          var g = b(d, c.repeatableElement);g = b(g, 'joomla-field-subform') === c ? g : null, c.addRow(g), a.preventDefault();
+        } else if (f && b(f, 'joomla-field-subform') === c) {
+          var h = b(f, c.repeatableElement);c.removeRow(h), a.preventDefault();
+        }
+      }), a.addEventListener('keydown', function (a) {
+        if (a.keyCode === d.SPACE) {
+          var f = c.buttonAdd && a.target[e](c.buttonAdd),
+              g = c.buttonRemove && a.target[e](c.buttonRemove);if ((f || g) && b(a.target, 'joomla-field-subform') === c) {
+            var h = b(a.target, c.repeatableElement);h = b(h, 'joomla-field-subform') === c ? h : null, g && h ? c.removeRow(h) : f && c.addRow(h), a.preventDefault();
           }
-        }this.lastRowNum = this.getRows().length, this.template = '', this.prepareTemplate(), (this.buttonAdd || this.buttonRemove) && (this.addEventListener('click', function (c) {
-          var d = a.buttonAdd ? b(c.target, a.buttonAdd) : null,
-              e = a.buttonRemove ? b(c.target, a.buttonRemove) : null;if (d && b(d, 'joomla-field-subform') === a) {
-            var f = b(d, a.repeatableElement);a.addRow(f);
-          } else if (e && b(e, 'joomla-field-subform') === a) {
-            var g = b(e, a.repeatableElement);a.removeRow(g);
-          }
-        }), this.addEventListener('keydown', function (c) {
-          if (c.keyCode === d.SPACE) {
-            var f = a.buttonAdd && c.target[e](a.buttonAdd),
-                g = a.buttonRemove && c.target[e](a.buttonRemove);if ((f || g) && b(c.target, 'joomla-field-subform') === a) {
-              var h = b(c.target, a.repeatableElement);f ? a.addRow(h) : a.removeRow(h), c.preventDefault();
-            }
-          }
-        })), this.buttonMove && this.setUpDragSort();
-      } }, { key: 'getRows', value: function getRows() {
+        }
+      })), a.buttonMove && a.setUpDragSort(), a;
+    }return _inherits(f, a), _createClass(f, [{ key: 'buttonAdd', get: function get() {
+        return this.getAttribute('button-add');
+      } }, { key: 'buttonRemove', get: function get() {
+        return this.getAttribute('button-remove');
+      } }, { key: 'buttonMove', get: function get() {
+        return this.getAttribute('button-move');
+      } }, { key: 'rowsContainer', get: function get() {
+        return this.getAttribute('rows-container');
+      } }, { key: 'repeatableElement', get: function get() {
+        return this.getAttribute('repeatable-element');
+      } }, { key: 'minimum', get: function get() {
+        return this.getAttribute('minimum');
+      } }, { key: 'maximum', get: function get() {
+        return this.getAttribute('maximum');
+      } }]), _createClass(f, [{ key: 'getRows', value: function getRows() {
         for (var a = this.containerWithRows.children, b = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches', c = [], d = 0, e = a.length; d < e; d++) {
           a[d][b](this.repeatableElement) && c.push(a[d]);
         }return result;
@@ -89,21 +102,28 @@ var _createClass = function () {
       } }, { key: 'setUpDragSort', value: function setUpDragSort() {
         function a(a) {
           return !a.form && a[e](that.buttonMove) ? a : b(a, that.buttonMove);
-        }for (var f, g = this, h = this.getRows(), i = 0, j = h.length; i < j; i++) {
-          f = h[i], f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), f.setAttribute('tabindex', '0');
-        }this.addEventListener('mousedown', function (c) {
-          var d = a(c.target),
-              e = d ? b(d, that.repeatableElement) : null;e && b(e, 'joomla-field-subform') === that && (e.setAttribute('draggable', 'true'), e.setAttribute('aria-grabbed', 'true'), item = e);
+        }function f(a, b) {
+          var c = !1;if (a.parentNode === b.parentNode) for (var d = a; d; d = d.previousSibling) {
+            if (d === b) {
+              c = !0;break;
+            }
+          }c ? b.parentNode.insertBefore(a, b) : b.parentNode.insertBefore(a, b.nextSibling);
+        }for (var g, h = this, i = this.getRows(), j = 0, k = i.length; j < k; j++) {
+          g = i[j], g.setAttribute('draggable', 'false'), g.setAttribute('aria-grabbed', 'false'), g.setAttribute('tabindex', '0');
+        }this.addEventListener('touchstart', function (c) {
+          touched = !0;var d = a(c.target),
+              e = d ? b(d, that.repeatableElement) : null;e && b(e, 'joomla-field-subform') === that && (item ? (e !== item && f(item, e), item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null) : (e.setAttribute('draggable', 'true'), e.setAttribute('aria-grabbed', 'true'), item = e), c.preventDefault());
+        }), this.addEventListener('mousedown', function (c) {
+          if (!touched) {
+            var d = a(c.target),
+                e = d ? b(d, that.repeatableElement) : null;e && b(e, 'joomla-field-subform') === that && (e.setAttribute('draggable', 'true'), e.setAttribute('aria-grabbed', 'true'), item = e);
+          }
         }), this.addEventListener('mouseup', function () {
-          item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null);
+          item && !touched && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null);
         }), this.addEventListener('keydown', function (a) {
           if ((a.keyCode === d.ESC || a.keyCode === d.SPACE || a.keyCode === d.ENTER) && !a.target.form && a.target[e](that.repeatableElement)) {
-            var f = a.target;if (f && b(f, 'joomla-field-subform') === that && (a.keyCode === d.SPACE && c(a) && ('true' === f.getAttribute('aria-grabbed') ? (f.setAttribute('draggable', 'false'), f.setAttribute('aria-grabbed', 'false'), item = null) : (item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), f.setAttribute('draggable', 'true'), f.setAttribute('aria-grabbed', 'true'), item = f), a.preventDefault()), a.keyCode === d.ESC && item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), a.keyCode === d.ENTER && item)) {
-              if (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), f === item) return void (item = null);var g = !1;if (item.parentNode === f.parentNode) for (var h = item; h; h = h.previousSibling) {
-                if (h === f) {
-                  g = !0;break;
-                }
-              }g ? f.parentNode.insertBefore(item, f) : f.parentNode.insertBefore(item, f.nextSibling), a.preventDefault(), item = null;
+            var g = a.target;if (g && b(g, 'joomla-field-subform') === that && (a.keyCode === d.SPACE && c(a) && ('true' === g.getAttribute('aria-grabbed') ? (g.setAttribute('draggable', 'false'), g.setAttribute('aria-grabbed', 'false'), item = null) : (item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), g.setAttribute('draggable', 'true'), g.setAttribute('aria-grabbed', 'true'), item = g), a.preventDefault()), a.keyCode === d.ESC && item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null), a.keyCode === d.ENTER && item)) {
+              if (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), g === item) return void (item = null);f(item, g), a.preventDefault(), item = null;
             }
           }
         }), this.addEventListener('dragstart', function (a) {
@@ -112,31 +132,11 @@ var _createClass = function () {
           item && a.preventDefault();
         }), this.addEventListener('dragenter', function (a) {
           if (item && (!that.rowsContainer || b(a.target, that.rowsContainer) === that.containerWithRows)) {
-            var c = a.target[e](that.repeatableElement) ? a.target : b(a.target, that.repeatableElement);if (c) {
-              var d = !1;if (item.parentNode === c.parentNode) for (var f = item; f; f = f.previousSibling) {
-                if (f === c) {
-                  d = !0;break;
-                }
-              }d ? c.parentNode.insertBefore(item, c) : c.parentNode.insertBefore(item, c.nextSibling);
-            }
+            var c = a.target[e](that.repeatableElement) ? a.target : b(a.target, that.repeatableElement);c && f(item, c);
           }
         }), this.addEventListener('dragend', function () {
           item && (item.setAttribute('draggable', 'false'), item.setAttribute('aria-grabbed', 'false'), item = null);
         });
-      } }, { key: 'buttonAdd', get: function get() {
-        return this.getAttribute('button-add');
-      } }, { key: 'buttonRemove', get: function get() {
-        return this.getAttribute('button-remove');
-      } }, { key: 'buttonMove', get: function get() {
-        return this.getAttribute('button-move');
-      } }, { key: 'rowsContainer', get: function get() {
-        return this.getAttribute('rows-container');
-      } }, { key: 'repeatableElement', get: function get() {
-        return this.getAttribute('repeatable-element');
-      } }, { key: 'minimum', get: function get() {
-        return this.getAttribute('minimum');
-      } }, { key: 'maximum', get: function get() {
-        return this.getAttribute('maximum');
       } }]), f;
   }(HTMLElement);a.define('joomla-field-subform', f);
 })(customElements);
