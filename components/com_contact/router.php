@@ -41,7 +41,7 @@ class ContactRouter extends RouterView
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new RouterViewConfiguration('category');
-		$category->setKey('id')->setParent($categories, 'catid')->setNestable();
+		$category->setKey('id')->setParent($categories)->setNestable();
 		$this->registerView($category);
 		$contact = new RouterViewConfiguration('contact');
 		$contact->setKey('id')->setParent($category, 'catid');

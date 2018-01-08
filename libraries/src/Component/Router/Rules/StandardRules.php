@@ -104,7 +104,7 @@ class StandardRules implements RulesInterface
 				}
 				else
 				{
-					// The router is not complete. The get<View>Key() method is missing.
+					// The router is not complete. The get<View>Id() method is missing.
 					return;
 				}
 			}
@@ -182,13 +182,21 @@ class StandardRules implements RulesInterface
 	 */
 	public function build(&$query, &$segments)
 	{
-		// Get the menu item belonging to the Itemid that has been found
-		$item = $this->router->menu->getItem($query['Itemid']);
-
-		if (!isset($query['view']))
+		if (!isset($query['Itemid'], $query['view']))
 		{
 			return;
 		}
+
+		// Get the menu item belonging to the Itemid that has been found
+		$item = $this->router->menu->getItem($query['Itemid']);
+
+		if ($item === null || $item->component !== 'com_' . $this->router->getName())
+		{
+			return;
+		}
+
+		// Get menu item layout
+		$mLayout = isset($item->query['layout']) ? $item->query['layout'] : 'default';
 
 		// Get all views for this component
 		$views = $this->router->getViews();
@@ -198,7 +206,25 @@ class StandardRules implements RulesInterface
 		{
 			$view = $views[$query['view']];
 
-			if (isset($item->query[$view->key], $query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
+			if ($view->key === false)
+			{
+				unset($query['view']);
+
+				if (isset($query['layout']) && $mLayout === $query['layout'])
+				{
+					unset($query['layout']);
+				}
+
+				return;
+			}
+
+			// If item has no key set, we assume 0.
+			if (!isset($item->query[$view->key]))
+			{
+				$item->query[$view->key] = 0;
+			}
+
+			if (isset($query[$view->key]) && $item->query[$view->key] == (int) $query[$view->key])
 			{
 				unset($query[$view->key]);
 
@@ -211,89 +237,114 @@ class StandardRules implements RulesInterface
 
 				unset($query['view']);
 
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
+				if (isset($query['layout']) && $mLayout === $query['layout'])
 				{
 					unset($query['layout']);
 				}
 
 				return;
 			}
-
-			if (!$view->key)
-			{
-				if (isset($item->query['layout']) && isset($query['layout']) && $item->query['layout'] === $query['layout'])
-				{
-					unset($query['view'], $query['layout']);
-					return;
-				}
-			}
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path   = array_reverse($this->router->getPath($query), true);
-		$found  = false;
-		$found2 = false;
+		$path  = array_reverse($this->router->getPath($query), true);
+		$found = false;
 
-		for ($i = 0, $j = count($path); $i < $j; $i++)
+		// Id of the last added segment
+		$last_id = 0;
+
+		foreach ($path as $element => $ids)
 		{
-			reset($path);
-			$view = key($path);
+			$view = $views[$element];
 
-			if ($found)
+			if ($found === false && $item && $item->query['view'] === $element)
 			{
-				$ids = array_shift($path);
-
-				if ($views[$view]->nestable)
+				if ($view->key !== false)
 				{
+					// Get id from menu item
+					$last_id = (int) $item->query[$view->key];
+				}
+
+				if ($view->nestable)
+				{
+					$found = true;
+				}
+				elseif ($view->children)
+				{
+					$found = true;
+
+					continue;
+				}
+			}
+
+			if ($found === false)
+			{
+				// Jump to the next view
+				continue;
+			}
+
+			if ($ids)
+			{
+				if ($view->nestable)
+				{
+					$found2 = false;
+
 					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
 							$segments[] = str_replace(':', '-', $segment);
+							$last_id    = (int) $id;
 						}
-						elseif ((int) $item->query[$views[$view]->key] == (int) $id)
+						elseif ($view->parent_key !== false
+								|| $view->parent === false
+								|| $view->parent->key === false
+								|| $last_id === (int) $id)
 						{
+							/**
+							 * Check relations between views.
+							 *
+							 * If there is no view->parent_key and there is defined view->parent->key
+							 * then this view has relative segments,
+							 * this means this view has to skip segments added in parent view until last_id == id.
+							 */
 							$found2 = true;
 						}
 					}
 				}
-				elseif (is_bool($ids))
+				elseif ($ids === true)
 				{
-					$segments[] = $views[$view]->name;
+					$segments[] = $element;
+					$last_id    = 0;
 				}
 				else
 				{
-					$segments[] = str_replace(':', '-', array_shift($ids));
-				}
-			}
-			elseif ($item->query['view'] !== $view)
-			{
-				array_shift($path);
-			}
-			else
-			{
-				if (!$views[$view]->nestable)
-				{
-					array_shift($path);
-				}
-				else
-				{
-					$i--;
-					$found2 = false;
-				}
-
-				if (count($views[$view]->children))
-				{
-					$found = true;
+					$segments[] = str_replace(':', '-', current($ids));
+					$last_id    = (int) key($ids);
 				}
 			}
 
-			unset($query[$views[$view]->parent_key]);
+			if ($view->name === $query['view'])
+			{
+				// Remove key from query
+				unset($query[$view->key]);
+			}
+
+			if ($view->parent_key !== false)
+			{
+				// Remove parent key from query
+				unset($query[$view->parent_key]);
+			}
 		}
 
 		if ($found)
 		{
-			unset($query['layout'], $query[$views[$query['view']]->key], $query['view']);
+			unset($query[$views[$query['view']]->key], $query['view']);
+
+			if (isset($query['layout']) && $mLayout === $query['layout'])
+			{
+				unset($query['layout']);
+			}
 		}
 	}
 }

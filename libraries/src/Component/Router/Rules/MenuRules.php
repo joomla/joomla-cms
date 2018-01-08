@@ -69,6 +69,7 @@ class MenuRules implements RulesInterface
 		 */
 		if (isset($query['Itemid']) && ($active === null || $query['Itemid'] != $active->id))
 		{
+			// Just use the supplied menu item
 			return;
 		}
 
@@ -156,11 +157,11 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+		unset($query['Itemid']);
+
+		if (isset($query['view']))
 		{
-			$query['Itemid'] = $active->id;
+			// If query contains a view then does not need default Itemid
 			return;
 		}
 

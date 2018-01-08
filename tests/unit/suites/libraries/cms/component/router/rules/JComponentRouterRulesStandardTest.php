@@ -82,6 +82,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 		$router->registerView($featured);
 		$form = new JComponentRouterViewconfiguration('form');
 		$router->registerView($form);
+		$router->sefAdvanced = true;
 
 		$this->object = new JComponentRouterRulesStandard($router);
 	}
@@ -183,15 +184,42 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 					'view' => 'form',
 					'Itemid' => 263
 				),
-				// TODO: I think this might be a bug? I think view should be unset whatever the status of the layout
 				array(
 					'option' => 'com_content',
-					'view' => 'form',
 					'Itemid' => 263
 				),
 				array(
 				),
 				'Error building a URL for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'form',
+					'layout' => 'edit',
+					'Itemid' => 263
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 263
+				),
+				array(
+				),
+				'Error building a URL with layout=edit for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'featured',
+					'Itemid' => 262
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 262
+				),
+				array(
+				),
+				'Error building a URL for featured that has a menu item without a key'
 			),
 			array(
 				array(
