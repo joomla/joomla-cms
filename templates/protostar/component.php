@@ -34,7 +34,7 @@ JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<jdoc:include type="head" />
 </head>
-<body class="contentpane modal">
+<body class="contentpane modal <?php echo ($this->direction == 'rtl' ? ' rtl' : ''); ?>">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>
