@@ -56,10 +56,12 @@ class FieldsHelper
 			{
 				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
 
-				if ($section)
+				if (!$section)
 				{
-					$parts[1] = $section;
+					return null;
 				}
+
+				$parts[1] = $section;
 			}
 		}
 
@@ -278,6 +280,9 @@ class FieldsHelper
 		{
 			return true;
 		}
+
+		// Mark in the form that it is processed by com_fields
+		$form->load('<form><field type="hidden" name="processed-by-fields" default="1" fieldset="basic"/></form>');
 
 		$context = $parts[0] . '.' . $parts[1];
 

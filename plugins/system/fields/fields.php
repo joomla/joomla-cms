@@ -50,6 +50,14 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
+		$formInput = JFactory::getApplication()->input->get('jform', array(), 'array');
+
+		// Check if it is a form we have processed
+		if (!$formInput || empty($formInput['processed-by-fields']))
+		{
+			return;
+		}
+
 		// Create correct context for category
 		if ($context == 'com_categories.category')
 		{
@@ -125,14 +133,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$user = JFactory::getUser($userData['id']);
-
-		$task = JFactory::getApplication()->input->getCmd('task');
-
-		// Skip fields save when we activate a user, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock')))
-		{
-			return true;
-		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
