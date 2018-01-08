@@ -40,22 +40,22 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 					<th class="title">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:15%" class="nowrap hidden-sm-down">
+					<th style="width:15%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:10%" class="nowrap hidden-sm-down">
+					<th style="width:10%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:1%" class="nowrap hidden-sm-down">
+					<th style="width:1%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -86,26 +86,26 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small d-none d-md-table-cell">
 						<?php if ($item->position) : ?>
 						<a class="js-position-insert btn btn-sm btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small d-none d-md-table-cell">
 						<?php echo $item->name; ?>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small d-none d-md-table-cell">
 						<?php echo $item->pages; ?>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small d-none d-md-table-cell">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="small hidden-sm-down">
+					<td class="small d-none d-md-table-cell">
 						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
-					<td class="hidden-sm-down">
+					<td class="d-none d-md-table-cell">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>

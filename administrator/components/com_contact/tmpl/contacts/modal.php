@@ -57,10 +57,10 @@ if (!empty($editor))
 						<th style="width:10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:1%" class="nowrap">
@@ -123,10 +123,10 @@ if (!empty($editor))
 								<?php echo $item->linked_user; ?>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td align="text-center">
