@@ -176,7 +176,7 @@
             } else {
                 this.containerWithRows.append(row);
             }
-            console.log(after, this.containerWithRows);
+
             // Add dragable attributes
             if (this.buttonMove) {
                 row.setAttribute('draggable', 'false');
@@ -186,7 +186,7 @@
 
             // Marker that it is new
             row.setAttribute('data-new', '1');
-            // Fix names and id`s, and reset values
+            // Fix names and ids, and reset values
             this.fixUniqueAttributes(row, count);
 
             // Tell about the new row
@@ -325,6 +325,7 @@
         setUpDragSort() {
             let that = this; // Self reference
             let item = null; // Storing the selected item
+            let touched = false; // We have a touch events
 
             // Find all existing rows and add dragable attributes
             let rows = this.getRows();
@@ -342,7 +343,62 @@
                 && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
             }
 
+            // Touch interaction:
+            // - a touch of "move button" mark a row dragable / "selected", or deselect previous selected
+            // - a touch of "move button" in the destination row will move a selected row to a new position
+            this.addEventListener('touchstart', function(event) {
+                touched = true;
+
+                // Check for .move button
+                let handler = getMoveHandler(event.target),
+                    row = handler ? closest(handler, that.repeatableElement) : null;
+
+                if (!row || closest(row, 'joomla-field-subform') !== that) {
+                    return;
+                }
+
+                // First selection
+                if (!item) {
+                    row.setAttribute('draggable', 'true');
+                    row.setAttribute('aria-grabbed', 'true');
+                    item = row;
+                }
+                // Second selection
+                else {
+                    // Move to selected position
+                    if (row !== item) {
+                        let isRowBefore = false;
+                        if (item.parentNode === row.parentNode) {
+                            for (let cur = item; cur; cur = cur.previousSibling) {
+                                if (cur === row) {
+                                    isRowBefore = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (isRowBefore) {
+                            row.parentNode.insertBefore(item, row);
+                        }
+                        else {
+                            row.parentNode.insertBefore(item, row.nextSibling);
+                        }
+                    }
+
+                    item.setAttribute('draggable', 'false');
+                    item.setAttribute('aria-grabbed', 'false');
+                    item = null;
+                }
+
+                event.preventDefault();
+            });
+
+            // Mouse interaction
+            // - mouse down, enable "draggable" and allow to drag the row,
+            // - mouse up, disable "draggable"
             this.addEventListener('mousedown', function(event) {
+                if (touched) return;
+
                 // Check for .move button
                 let handler = getMoveHandler(event.target),
                     row = handler ? closest(handler, that.repeatableElement) : null;
@@ -357,14 +413,19 @@
             });
 
             this.addEventListener('mouseup', function(event) {
-                if (item) {
+                if (item && !touched) {
                     item.setAttribute('draggable', 'false');
                     item.setAttribute('aria-grabbed', 'false');
                     item = null;
                 }
             });
 
-            // keydown event to implement selection and abort
+            // Keyboard interaction
+            // - "tab" to navigate to needed row,
+            // - modifier (ctr,alt,shift) + "space" select the row,
+            // - "tab" to select destination,
+            // - "enter" to place selected row in to destination
+            // - "esc" to cancel selection
             this.addEventListener('keydown', function(event) {
                 if ((event.keyCode !== KEYCODE.ESC && event.keyCode !== KEYCODE.SPACE && event.keyCode !== KEYCODE.ENTER)
                     || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
