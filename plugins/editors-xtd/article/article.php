@@ -41,7 +41,6 @@ class PlgButtonArticle extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$input = Factory::getApplication()->input;
 		$user  = Factory::getUser();
 
 		// Can create in any category (component permission) or at least in one category

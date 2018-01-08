@@ -14,14 +14,12 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Language\Text;
 
-JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
-
 /**
  * Fields Sql Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsSql extends FieldsListPlugin
+class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
