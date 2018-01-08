@@ -708,11 +708,6 @@ class PlgEditorTinymce extends JPlugin
 				{
 					switch ($button->get('name'))
 					{
-						case 'pictures':
-							$externalPlugins[JText::_('PLG_IMAGE_BUTTON_IMAGE')] = JUri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
-							$btnNative[] = str_replace(' ', '', $button->get('text'));
-							\JFactory::getDocument()->addScriptOptions('xtd-' . strtolower(JText::_('PLG_IMAGE_BUTTON_IMAGE')), $button->get('options'));
-							break;
 						default:
 							// Set some vars
 							$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
