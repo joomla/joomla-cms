@@ -9,13 +9,17 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * ---------------------
  * None
  */
 
-JFactory::getDocument()->addScriptDeclaration(
+Factory::getDocument()->addScriptDeclaration(
 	'
 		jQuery(document).ready(function($){
 			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
@@ -35,10 +39,10 @@ JFactory::getDocument()->addScriptDeclaration(
 			'
 );
 ?>
-<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
-	<?php echo JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
+<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
+	<?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
 </label>
 <select name="batch[language_id]" class="custom-select" id="batch-language-id">
-	<option value=""><?php echo JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE'); ?></option>
-	<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text'); ?>
+	<option value=""><?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE'); ?></option>
+	<?php echo HTMLHelper::_('select.options', HTMLHelper::_('contentlanguage.existing', true, true), 'value', 'text'); ?>
 </select>
