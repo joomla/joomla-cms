@@ -343,6 +343,26 @@
                 && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
             }
 
+            // Helper method to mover row to selected position
+            function switchRowPositions(src, dest) {
+                let isRowBefore = false;
+                if (src.parentNode === dest.parentNode) {
+                    for (let cur = src; cur; cur = cur.previousSibling) {
+                        if (cur === dest) {
+                            isRowBefore = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isRowBefore) {
+                    dest.parentNode.insertBefore(src, dest);
+                }
+                else {
+                    dest.parentNode.insertBefore(src, dest.nextSibling);
+                }
+            }
+
             // Touch interaction:
             // - a touch of "move button" mark a row dragable / "selected", or deselect previous selected
             // - a touch of "move button" in the destination row will move a selected row to a new position
@@ -367,22 +387,7 @@
                 else {
                     // Move to selected position
                     if (row !== item) {
-                        let isRowBefore = false;
-                        if (item.parentNode === row.parentNode) {
-                            for (let cur = item; cur; cur = cur.previousSibling) {
-                                if (cur === row) {
-                                    isRowBefore = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (isRowBefore) {
-                            row.parentNode.insertBefore(item, row);
-                        }
-                        else {
-                            row.parentNode.insertBefore(item, row.nextSibling);
-                        }
+                        switchRowPositions(item, row);
                     }
 
                     item.setAttribute('draggable', 'false');
@@ -486,22 +491,7 @@
                     }
 
                     // Move the item to selected position
-                    let isRowBefore = false;
-                    if (item.parentNode === row.parentNode) {
-                        for (let cur = item; cur; cur = cur.previousSibling) {
-                            if (cur === row) {
-                                isRowBefore = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (isRowBefore) {
-                        row.parentNode.insertBefore(item, row);
-                    }
-                    else {
-                        row.parentNode.insertBefore(item, row.nextSibling);
-                    }
+                    switchRowPositions(item, row);
 
                     event.preventDefault();
                     item = null;
@@ -536,22 +526,7 @@
                 let row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
                 if (!row) return;
 
-                let isRowBefore = false;
-                if (item.parentNode === row.parentNode) {
-                    for (let cur = item; cur; cur = cur.previousSibling) {
-                        if (cur === row) {
-                            isRowBefore = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (isRowBefore) {
-                    row.parentNode.insertBefore(item, row);
-                }
-                else {
-                    row.parentNode.insertBefore(item, row.nextSibling);
-                }
+                switchRowPositions(item, row);
             });
 
             // dragend event to clean-up after drop or abort
