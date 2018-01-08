@@ -58,16 +58,12 @@
 		/>
 
 		<field
-				name="state"
-				type="list"
-				label="COM_WORKFLOW_CONDITION"
-				description="COM_WORKFLOW_CONDITION_DESC"
-				onchange="this.form.submit();"
-		        default="3"
+			name="transition"
+			type="transition"
+			component="com_content"
+			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+			label="COM_CONTENT_TRANSITION"
 		>
-			<option value="1">COM_WORKFLOW_TRASHED</option>
-			<option value="2">COM_WORKFLOW_UNPUBLISHED</option>
-			<option value="3">COM_WORKFLOW_PUBLISHED</option>
 		</field>
 
 		<field
