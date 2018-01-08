@@ -72,7 +72,10 @@ class ContactViewContact extends JViewLegacy
 		$item = $this->get('Item');
 		$state = $this->get('State');
 
-		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+		if (empty($item->catid))
+		{
+			$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+		}
 
 		$this->form = $this->get('Form');
 
