@@ -14,8 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Layout\FileLayout;
 
-FormHelper::loadFieldClass('calendar');
-
 /**
  * Provides input for "Date of Birth" field
  *
@@ -23,7 +21,7 @@ FormHelper::loadFieldClass('calendar');
  * @subpackage  User.profile
  * @since       3.3.7
  */
-class JFormFieldDob extends JFormFieldCalendar
+class JFormFieldDob extends \Joomla\CMS\Form\Field\CalendarField
 {
 	/**
 	 * The form field type.

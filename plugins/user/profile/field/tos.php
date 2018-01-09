@@ -16,14 +16,12 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 
-FormHelper::loadFieldClass('radio');
-
 /**
  * Provides input for TOS
  *
  * @since  2.5.5
  */
-class JFormFieldTos extends JFormFieldRadio
+class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 {
 	/**
 	 * The form field type.
