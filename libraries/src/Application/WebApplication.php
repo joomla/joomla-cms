@@ -729,7 +729,7 @@ class WebApplication extends BaseApplication
 			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
 		}
 
-		/**
+		/*
 		 * If no keys found, safe to insert (!$keys)
 		 * If ($keys && $replace) it's a replacement and previous have been deleted
 		 * If ($keys && !in_array...) it's a multiple value header
@@ -792,7 +792,6 @@ class WebApplication extends BaseApplication
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					$status = $this->getHttpStatusValue($header['value']);
-
 					$this->header($status, true, (int) $header['value']);
 				}
 				else
