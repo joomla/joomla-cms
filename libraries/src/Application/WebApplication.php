@@ -451,7 +451,7 @@ class WebApplication extends BaseApplication
 			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-						if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
 				{
 					continue;
 				}
@@ -461,7 +461,7 @@ class WebApplication extends BaseApplication
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
-						if ($gzdata === false)
+				if ($gzdata === false)
 				{
 					continue;
 				}
