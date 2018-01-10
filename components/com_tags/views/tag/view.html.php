@@ -92,7 +92,7 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->event = new stdClass;
 
 				// For some plugins.
-				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
 				$dispatcher = JEventDispatcher::getInstance();
 

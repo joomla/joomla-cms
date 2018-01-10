@@ -56,6 +56,7 @@ class PlgSystemLog extends JPlugin
 		}
 
 		JLog::addLogger(array(), JLog::INFO);
+
 		try
 		{
 			JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);

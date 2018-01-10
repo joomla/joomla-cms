@@ -83,6 +83,7 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
+
 			try
 			{
 				$users = $db->loadResult();
@@ -97,6 +98,7 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
+
 			try
 			{
 				$items = $db->loadResult();

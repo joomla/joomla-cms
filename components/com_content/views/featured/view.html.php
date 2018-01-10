@@ -38,7 +38,7 @@ class ContentViewFeatured extends JViewLegacy
 	 * @var    JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * Execute and display a template script.
