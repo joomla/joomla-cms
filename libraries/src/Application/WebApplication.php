@@ -451,26 +451,22 @@ class WebApplication extends BaseApplication
 			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
-				// @codeCoverageIgnoreStart
-				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+						if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
 				{
 					continue;
 				}
 
-				// @codeCoverageIgnoreEnd
 
 				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
-				// @codeCoverageIgnoreStart
-				if ($gzdata === false)
+						if ($gzdata === false)
 				{
 					continue;
 				}
 
-				// @codeCoverageIgnoreEnd
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
@@ -937,7 +933,6 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if the connection is valid and normal.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     connection_status()
 	 * @since   11.3
 	 */
@@ -952,7 +947,6 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if the headers have already been sent.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     headers_sent()
 	 * @since   11.3
 	 */
@@ -1083,7 +1077,6 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @see     header()
 	 * @since   11.3
 	 */
@@ -1235,7 +1228,6 @@ class WebApplication extends BaseApplication
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -1244,8 +1236,6 @@ class WebApplication extends BaseApplication
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
