@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Filesystem;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Text;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * A Unified Diff Format Patcher class

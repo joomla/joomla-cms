@@ -8,11 +8,11 @@
 
 namespace Joomla\CMS\Filesystem;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
 use Joomla\CMS\Crypt\Crypt;
-
-defined('JPATH_PLATFORM') or die;
 
 if (!defined('JPATH_ROOT'))
 {

@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Filesystem;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
@@ -15,8 +17,6 @@ use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Language\Text;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * A Folder handling class

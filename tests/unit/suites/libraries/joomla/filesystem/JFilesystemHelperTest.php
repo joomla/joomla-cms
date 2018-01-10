@@ -61,7 +61,7 @@ class JFilesystemHelperTest extends \PHPUnit\Framework\TestCase
 		$streams = JFilesystemHelper::getJStreams();
 
 		$this->assertEquals(
-			array('String'),
+			array('string'),
 			$streams
 		);
 	}
@@ -76,7 +76,7 @@ class JFilesystemHelperTest extends \PHPUnit\Framework\TestCase
 	public function testIsJoomlaStream()
 	{
 		$this->assertTrue(
-			JFilesystemHelper::isJoomlaStream('String')
+			JFilesystemHelper::isJoomlaStream('string')
 		);
 
 		$this->assertFalse(
