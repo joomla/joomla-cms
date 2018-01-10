@@ -227,7 +227,7 @@ class Browser
 		{
 			$this->_setPlatform();
 
-			/**
+			/*
 			 * Determine if mobile. Note: Some Handhelds have their screen resolution in the
 			 * user agent string, which we can use to look for mobile agents.
 			 */
@@ -242,7 +242,7 @@ class Browser
 				$this->mobile = true;
 			}
 
-			/**
+			/*
 			 * We have to check for Edge as the first browser, because Edge has something like:
 			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
 			 */
@@ -266,7 +266,7 @@ class Browser
 
 				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 
-				/**
+				/*
 				 * Due to changes in Opera UA, we need to check Version/xx.yy,
 				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/
 				 */
