@@ -2223,7 +2223,14 @@ class Form
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException(sprintf('%s() could not load file', __METHOD__));
+					if (JDEBUG)
+					{
+						throw new \RuntimeException(sprintf('%s() could not load file ' . $data, __METHOD__));
+					}
+					else
+					{
+						throw new \RuntimeException(sprintf('%s() could not load file', __METHOD__));
+					}
 				}
 			}
 		}
