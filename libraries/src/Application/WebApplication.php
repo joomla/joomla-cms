@@ -456,7 +456,6 @@ class WebApplication extends BaseApplication
 					continue;
 				}
 
-
 				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
@@ -466,7 +465,6 @@ class WebApplication extends BaseApplication
 				{
 					continue;
 				}
-
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);

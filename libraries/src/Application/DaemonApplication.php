@@ -404,7 +404,6 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-
 	 * @since   11.1
 	 */
 	public function restart()
@@ -418,7 +417,6 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-
 	 * @since   11.1
 	 */
 	public function stop()
@@ -665,7 +663,6 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-
 	 * @since   11.1
 	 */
 	protected function gc()
@@ -846,7 +843,6 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  integer  The child process exit code.
 	 *
-
 	 * @see     pcntl_wexitstatus()
 	 * @since   11.3
 	 */
@@ -863,7 +859,6 @@ class DaemonApplication extends CliApplication
 	 *                   failure, a -1 will be returned in the parent's context, no child process
 	 *                   will be created, and a PHP error is raised.
 	 *
-
 	 * @see     pcntl_fork()
 	 * @since   11.3
 	 */
@@ -883,7 +878,6 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True on success.
 	 *
-
 	 * @see     pcntl_signal()
 	 * @since   11.3
 	 */
@@ -902,7 +896,6 @@ class DaemonApplication extends CliApplication
 	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
 	 *                   was provided as an option (on wait3-available systems) and no child was available.
 	 *
-
 	 * @see     pcntl_wait()
 	 * @since   11.3
 	 */
