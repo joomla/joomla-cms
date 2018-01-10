@@ -55,7 +55,6 @@ class CliApplication extends BaseApplication
 	public function __construct(Cli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
-
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
