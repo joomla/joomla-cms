@@ -439,6 +439,9 @@ class LocalAdapter implements AdapterInterface
 			$this->copyFile($sourcePath, $destinationPath, $force);
 		}
 
+		//get relative path
+		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
+
 		return $destinationPath;
 	}
 
@@ -546,6 +549,9 @@ class LocalAdapter implements AdapterInterface
 		{
 			$this->moveFile($sourcePath, $destinationPath, $force);
 		}
+
+		//get relative path
+		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
 
 		return $destinationPath;
 	}
