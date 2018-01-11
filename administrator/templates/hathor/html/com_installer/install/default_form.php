@@ -110,14 +110,14 @@ JFactory::getDocument()->addStyleDeclaration(
 ?>
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty( $this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
-	<?php endif;?>
+		<?php if (!empty( $this->sidebar)) : ?>
+			<div id="j-sidebar-container" class="span2">
+				<?php echo $this->sidebar; ?>
+			</div>
+			<div id="j-main-container" class="span10">
+		<?php else : ?>
+			<div id="j-main-container">
+		<?php endif;?>
 
 		<?php if ($this->showJedAndWebInstaller && !$this->showMessage) : ?>
 			<div class="alert j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333; clear:both;">
@@ -148,7 +148,6 @@ JFactory::getDocument()->addStyleDeclaration(
 			<?php if (!$tabs) : ?>
 				<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 			<?php endif; ?>
-
 
 			<input type="hidden" name="type" value="" />
 			<input type="hidden" name="installtype" value="upload" />
