@@ -116,7 +116,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) :?>
- 	</dl>
+	 </dl>
 <?php endif; ?>
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>

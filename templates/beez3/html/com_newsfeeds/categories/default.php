@@ -21,7 +21,7 @@ JHtml::_('behavior.caption');
 
 	<?php if ($this->params->get('show_base_description')) : ?>
 	<?php 	//If there is a description in the menu parameters use that; ?>
-	       		<?php if ($this->params->get('categories_description')) : ?>
+				   <?php if ($this->params->get('categories_description')) : ?>
 		 <div class="category-desc base-desc">
 			<?php echo  JHtml::_('content.prepare', $this->params->get('categories_description'), '', 'com_newsfeeds.categories'); ?>
 			</div>

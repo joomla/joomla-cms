@@ -69,7 +69,7 @@ if ($showPageHeading = $this->params->get('show_page_heading')) : ?>
 	{
 		echo '<h2>';
 	} ?>
-    <?php if ($showCategoryHeadingTitleText === true) : ?>
+	<?php if ($showCategoryHeadingTitleText === true) : ?>
 		<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
 	<?php if ($showCategoryTitle === true or $pageSubHeading)
