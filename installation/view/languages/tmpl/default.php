@@ -69,8 +69,8 @@ $version = new JVersion;
 		<table class="table table-striped table-condensed">
 			<thead>
 					<tr>
-						<th width="1%" class="center">
-							&nbsp;
+						<th width="1%" class="center">&nbsp;
+							
 						</th>
 						<th>
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
@@ -98,7 +98,7 @@ $version = new JVersion;
 						</td>
 						<td>
 							<?php echo $language->code; ?>
-						  </td>
+						</td>
 						<td class="center">
 						<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>

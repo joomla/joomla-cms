@@ -39,7 +39,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 		else
 		{
-		    JoomlaInstaller.showLoading();
+			JoomlaInstaller.showLoading();
 			form.installtype.value = 'folder';
 			form.submit();
 		}
