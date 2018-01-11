@@ -98,7 +98,7 @@ $version = new JVersion;
 						</td>
 						<td>
 							<?php echo $language->code; ?>
-  						</td>
+						  </td>
 						<td class="center">
 						<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 						<?php // Display a Note if language pack version is not equal to Joomla version ?>
