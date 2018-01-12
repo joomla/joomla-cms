@@ -226,7 +226,7 @@ class PlgContentLoadmodule extends JPlugin
 		self::$modules[$id] = '';
 		$document = JFactory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModuleid($id);
+		$modules  = JModuleHelper::getModuleById($id);
 		$params   = array('style' => $style);
 		ob_start();
 	
