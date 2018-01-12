@@ -14,16 +14,16 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state', 'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
-$menutypeid	= (int) $this->state->get('menutypeid');
-$assoc     = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
+$user       = JFactory::getUser();
+$app        = JFactory::getApplication();
+$userId     = $user->get('id');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$ordering   = ($listOrder == 'a.lft');
+$canOrder   = $user->authorise('core.edit.state', 'com_menus');
+$saveOrder  = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$menutypeid = (int) $this->state->get('menutypeid');
+$assoc      = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
 ?>
 
 <?php // Set up the filter bar. ?>
