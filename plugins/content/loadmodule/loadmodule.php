@@ -53,7 +53,10 @@ class PlgContentLoadmodule extends JPlugin
 
 		// Expression to search for(modules)
 		$regexmod = '/{loadmodule\s(.*?)}/i';
-		$stylemod = $this->params->def('style', 'none');
+		
+		// Expression to search for(id)
+		$regexmodid = '/{loadmoduleid\s(.*?)}/i';
+		$stylemod   = $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
 		// $matches[0] is full pattern match, $matches[1] is the position
@@ -116,6 +119,26 @@ class PlgContentLoadmodule extends JPlugin
 				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
 				$stylemod = $this->params->def('style', 'none');
 			}
+		}
+
+		// Find all instances of plugin and put in $matchesmodid for loadmoduleid
+		preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+		// If no matches, skip this
+		if ($matchesmodid)
+		{
+			foreach ($matchesmodid as $match)
+			{
+				$matcheslist = explode('id:', $match[1]);
+
+				$id     = trim($matcheslist[1]);
+
+				$output = $this->_loadid($id);
+
+				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$style = $this->params->def('style', 'none');
+			}
+
 		}
 	}
 
@@ -186,5 +209,31 @@ class PlgContentLoadmodule extends JPlugin
 		self::$mods[$module] = ob_get_clean();
 
 		return self::$mods[$module];
+	}
+
+	/**
+	 * Loads and renders the module
+	 *
+	 * @param   string  $id       The id of the module
+	 * @param   string  $style    The style assigned to the module
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _loadid($id, $style = 'none')
+	{
+		self::$modules[$id] = '';
+		$document = JFactory::getDocument();
+		$renderer = $document->loadRenderer('module');
+		$modules  = JModuleHelper::getModuleid($id);
+		$params   = array('style' => $style);
+		ob_start();
+	
+		echo $renderer->render($modules->module, $params);
+
+		self::$modules[$id] = ob_get_clean();
+
+		return self::$modules[$id];
 	}
 }
