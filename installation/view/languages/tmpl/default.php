@@ -69,8 +69,8 @@ $version = new JVersion;
 		<table class="table table-striped table-condensed">
 			<thead>
 					<tr>
-						<th width="1%" class="center">&nbsp;
-							
+						<th width="1%" class="center">
+							&nbsp;
 						</th>
 						<th>
 							<?php echo JText::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
