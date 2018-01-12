@@ -655,7 +655,7 @@ abstract class ModuleHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function &getModuleid($id, $title = null)
+	public static function &getModuleById($id, $title = null)
 	{
 		$app = \JFactory::getApplication();
 		$result = null;
