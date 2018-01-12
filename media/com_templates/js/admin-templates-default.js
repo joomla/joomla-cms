@@ -50,11 +50,11 @@
 
 				event.target.classList.add('selected');
 
-				var listElsAddressToAdd = document.querySelectorAll('#fileModal input.address');
+				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
 
-				for(var i = 0; i < listElsAddressToAdd.length; i++ ) {
-					listElsAddressToAdd[i].value = event.target.getAttribute('data-id');
-				}
+				listElsAddressToAdd.forEach(function(element) {
+				  element.value = event.target.getAttribute('data-id');
+				});
 			});
 		}
 
@@ -70,11 +70,11 @@
 
 				event.target.classList.add('selected');
 
-				var listElsAddressToAdd = document.querySelectorAll('#fileModal input.address');
+				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
 
-				for(var i = 0; i < listElsAddressToAdd.length; i++ ) {
-					listElsAddressToAdd[i].value = event.target.getAttribute('data-id');
-				}
+				listElsAddressToAdd.forEach(function(element) {
+				  element.value = event.target.getAttribute('data-id');
+				});
 			});
 		}
 
