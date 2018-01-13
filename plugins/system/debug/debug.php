@@ -69,10 +69,10 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Holds total amount of executed queries.
 	 *
-	 * @var    int
+	 * @var    array
 	 * @since  3.2
 	 */
-	private $totalQueries = 0;
+	private $totalQueries = array();
 
 	/**
 	 * Application object.
@@ -81,14 +81,6 @@ class PlgSystemDebug extends JPlugin
 	 * @since  3.3
 	 */
 	protected $app;
-
-	/**
-	 * Database object.
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.8.0
-	 */
-	protected $db;
 
 	/**
 	 * Container for callback functions to be triggered when rendering the console.
@@ -126,12 +118,6 @@ class PlgSystemDebug extends JPlugin
 		if (!$this->app)
 		{
 			$this->app = JFactory::getApplication();
-		}
-
-		// Get the db if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->db)
-		{
-			$this->db = JFactory::getDbo();
 		}
 
 		$this->debugLang = $this->app->get('debug_lang');
@@ -176,8 +162,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// Prepare disconnect handler for SQL profiling.
-		$db = $this->db;
-		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+		JDatabaseDriver::addDefaultDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
 
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
@@ -457,7 +442,7 @@ class PlgSystemDebug extends JPlugin
 
 		$class = 'dbg-header' . $status;
 
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h2>' . $title . '</h2></a></div>';
 
 		// @todo set with js.. ?
 		$style = ' style="display: none;"';
@@ -489,7 +474,7 @@ class PlgSystemDebug extends JPlugin
 
 		$class = 'dbg-header';
 
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h2>' . $title . '</h2></a></div>';
 
 		// @todo set with js.. ?
 		$style = ' style="display: none;"';
@@ -554,7 +539,7 @@ class PlgSystemDebug extends JPlugin
 				{
 					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
 
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
+					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h2>' . $sKey . '</h2></a></div>';
 
 					// @todo set with js.. ?
 					$style = ' style="display: none;"';
@@ -724,21 +709,27 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
-		$db = $this->db;
+		$dbs = JDatabaseDriver::getInstances();
 
-		//  fix  for support custom shutdown function via register_shutdown_function().
-		$db->disconnect();
-
-		$log = $db->getLog();
-
-		if ($log)
+		foreach ($dbs as $signature => $db)
 		{
+
+			//  fix  for support custom shutdown function via register_shutdown_function().
+			$db->disconnect();
+
+			$log = $db->getLog();
+
+			if (!$log)
+			{
+				continue;
+			}
+
 			$timings = $db->getTimings();
 
 			if ($timings)
 			{
 				$totalQueryTime = 0.0;
-				$lastStart      = null;
+				$lastStart = null;
 
 				foreach ($timings as $k => $v)
 				{
@@ -810,7 +801,52 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayQueries()
 	{
-		$db  = $this->db;
+		$mainDb = JFactory::getDbo();
+		$dbs = JDatabaseDriver::getInstances();
+
+		$html = array();
+		$count = 0;
+
+		foreach ($dbs as $signature => $db)
+		{
+			if (count($dbs) > 1)
+			{
+				$toggleId = 'dbg_container_query_' . $count;
+				$js = "toggleContainer('" . $toggleId . "');";
+				if ($db === $mainDb)
+				{
+					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION_PRIMARY', $db->getDatabase());
+				}
+				else
+				{
+					$count++;
+					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION', $count, $db->getDatabase());
+				}
+
+				$html[] = '<div class="dbg-subheader" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+
+				$html[] = '<div  style="display: none;" class="dbg-container" id="' . $toggleId . '">';
+				$html[] = $this->displayQueriesDb($db, $signature, $count);
+				$html[] = '</div>';
+			}
+			else
+			{
+				$html[] = $this->displayQueriesDb($db, $signature, $count);
+			}
+		}
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Display logged queries for an individual database.
+	 *
+	 * @return  string
+	 *
+	 * @since   2.5
+	 */
+	protected function displayQueriesDb($db, $signature, $count)
+	{
 		$log = $db->getLog();
 
 		if (!$log)
@@ -828,6 +864,7 @@ class PlgSystemDebug extends JPlugin
 
 		$timing  = array();
 		$maxtime = 0;
+		$html = array();
 
 		if (isset($timings[0]))
 		{
@@ -883,9 +920,9 @@ class PlgSystemDebug extends JPlugin
 				$hasWarnings          = false;
 				$hasWarningsInProfile = false;
 
-				if (isset($this->explains[$id]))
+				if (isset($this->explains[$signature][$id]))
 				{
-					$explain = $this->tableToHtml($this->explains[$id], $hasWarnings);
+					$explain = $this->tableToHtml($this->explains[$signature][$id], $hasWarnings);
 				}
 				else
 				{
@@ -895,9 +932,9 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (isset($this->sqlShowProfileEach[$id]) && $db->getServerType() === 'mysql')
+				if (isset($this->sqlShowProfileEach[$signature][$id]) && $db->getServerType() === 'mysql')
 				{
-					$profileTable = $this->sqlShowProfileEach[$id];
+					$profileTable = $this->sqlShowProfileEach[$signature][$id];
 					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 				}
 
@@ -1035,7 +1072,7 @@ class PlgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($query);
+			$text = $this->highlightQuery($query, $db);
 
 			if ($timings && isset($timings[$id * 2 + 1]))
 			{
@@ -1135,23 +1172,23 @@ class PlgSystemDebug extends JPlugin
 				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
 
 				$htmlAccordions = JHtml::_(
-					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
-						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '',
+					'bootstrap.startAccordion', 'dbg_query_' . $count . '_' . $id, array(
+						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $count . '_' . $id) : '',
 					)
 				);
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
+				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $count . '_' . $id)
 					. $info[$id]->explain
 					. JHtml::_('bootstrap.endSlide');
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, $title, 'dbg_query_profile_' . $id)
+				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, $title, 'dbg_query_profile_' . $count . '_' . $id)
 					. $htmlProfile
 					. JHtml::_('bootstrap.endSlide');
 
 				// Call stack and back trace.
 				if (isset($callStacks[$id]))
 				{
-					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
+					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $count . '_' . $id)
 						. $this->renderCallStack($callStacks[$id])
 						. JHtml::_('bootstrap.endSlide');
 				}
@@ -1168,7 +1205,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						if ($dup != $id)
 						{
-							$dups[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+							$dups[] = '<a class="alert-link" href="#dbg-query-' . $count . '_' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 						}
 					}
 
@@ -1180,7 +1217,7 @@ class PlgSystemDebug extends JPlugin
 					$htmlQuery = '<pre>' . $text . '</pre>';
 				}
 
-				$list[] = '<a name="dbg-query-' . ($id + 1) . '"></a>'
+				$list[] = '<a name="dbg-query-' . $count . '_' . ($id + 1) . '"></a>'
 					. $htmlTiming
 					. $htmlBar
 					. $htmlQuery
@@ -1212,14 +1249,12 @@ class PlgSystemDebug extends JPlugin
 			$labelClass = 'label-warning';
 		}
 
-		if ($this->totalQueries === 0)
+		if (!array_key_exists($signature, $this->totalQueries))
 		{
-			$this->totalQueries = $db->getCount();
+			$this->totalQueries[$signature] = $db->getCount();
 		}
 
-		$html = array();
-
-		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
+		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries[$signature])
 			. sprintf(' <span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br />';
 
 		if ($total_duplicates)
@@ -1233,7 +1268,7 @@ class PlgSystemDebug extends JPlugin
 
 				foreach ($dups as $dup)
 				{
-					$links[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+					$links[] = '<a class="alert-link" href="#dbg-query-' . $count . '_' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
@@ -1267,7 +1302,7 @@ class PlgSystemDebug extends JPlugin
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query, $db), $occurrences)
 					. '</pre>';
 			}
 
@@ -1285,7 +1320,7 @@ class PlgSystemDebug extends JPlugin
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query, $db), $occurrences)
 					. '</pre>';
 			}
 
@@ -1465,7 +1500,6 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
-
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 
@@ -1483,9 +1517,12 @@ class PlgSystemDebug extends JPlugin
 	 */
 	public function mysqlDisconnectHandler(&$db)
 	{
+		$dbs = JDatabaseDriver::getInstances();
+		$signature = array_search($db, $dbs);
+
 		$db->setDebug(false);
 
-		$this->totalQueries = $db->getCount();
+		$this->totalQueries[$signature] = $db->getCount();
 
 		$dbVersion5037 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.0.37', '>=');
 
@@ -1509,18 +1546,18 @@ class PlgSystemDebug extends JPlugin
 						{
 							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100).
 							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) $qn['Query_ID']);
-							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+							$this->sqlShowProfileEach[$signature][(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
 						}
 					}
 				}
 				else
 				{
-					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
+					$this->sqlShowProfileEach[$signature][0] = array(array('Error' => 'MySql have_profiling = off'));
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
+				$this->sqlShowProfileEach[$signature][0] = array(array('Error' => $e->getMessage()));
 			}
 		}
 
@@ -1537,11 +1574,11 @@ class PlgSystemDebug extends JPlugin
 					try
 					{
 						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
-						$this->explains[$k] = $db->loadAssocList();
+						$this->explains[$signature][$k] = $db->loadAssocList();
 					}
 					catch (Exception $e)
 					{
-						$this->explains[$k] = array(array('Error' => $e->getMessage()));
+						$this->explains[$signature][$k] = array(array('Error' => $e->getMessage()));
 					}
 				}
 			}
@@ -1712,7 +1749,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   2.5
 	 */
-	protected function highlightQuery($query)
+	protected function highlightQuery($query, $db)
 	{
 		$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|CASE)\b#i';
 
@@ -1729,7 +1766,7 @@ class PlgSystemDebug extends JPlugin
 			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'               => '<span class="dbg-command">$1</span>',
 
 			// Tables are identified by the prefix.
-			'/(' . $this->db->getPrefix() . '[a-z_0-9]+)/' => '<span class="dbg-table">$1</span>',
+			'/(' . $db->getPrefix() . '[a-z_0-9]+)/' => '<span class="dbg-table">$1</span>',
 
 		);
 
@@ -2041,17 +2078,21 @@ class PlgSystemDebug extends JPlugin
 
 		// Get the queries from log.
 		$current = '';
-		$db      = $this->db;
-		$log     = $db->getLog();
-		$timings = $db->getTimings();
+		$dbs = JDatabaseDriver::getInstances();
 
-		foreach ($log as $id => $query)
+		foreach ($dbs as $signature => $db)
 		{
-			if (isset($timings[$id * 2 + 1]))
+			$log     = $db->getLog();
+			$timings = $db->getTimings();
+
+			foreach ($log as $id => $query)
 			{
-				$temp    = str_replace('`', '', $log[$id]);
-				$temp    = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
-				$current .= $temp . ";\n";
+				if (isset($timings[$id * 2 + 1]))
+				{
+					$temp    = str_replace('`', '', $log[$id]);
+					$temp    = str_replace(array("\t", "\n", "\r\n"), ' ', $temp);
+					$current .= $temp . ";\n";
+				}
 			}
 		}
 
