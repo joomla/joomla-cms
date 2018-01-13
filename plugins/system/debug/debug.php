@@ -841,7 +841,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Display logged queries for an individual database.
 	 *
-	 * @param   object   $db      	  JDatabaseDriver instance.
+	 * @param   object   $db         JDatabaseDriver instance.
 	 * @param   string   $signature  JDatabaseDriver signature.
 	 * @param   integer  $count      Count of databases processed - joomla default driver = 0
 	 *
