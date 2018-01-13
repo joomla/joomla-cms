@@ -426,7 +426,7 @@ class RulesField extends FormField
 		}
 
 		$html[] = '</div></div>';
-		$html[] = '<div class="alert alert-warning">';
+		$html[] = '<joomla-alert type="warning">';
 
 		if ($section === 'component' || !$section)
 		{
@@ -437,7 +437,7 @@ class RulesField extends FormField
 			$html[] = \JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
 		}
 
-		$html[] = '</div>';
+		$html[] = '</joomla-alert>';
 
 		return implode("\n", $html);
 	}

@@ -1,9 +1,7 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-diactoros for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @see       https://github.com/zendframework/zend-diactoros for the canonical source repository
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md New BSD License
  */
 
@@ -23,19 +21,13 @@ class SapiEmitter implements EmitterInterface
      * body content via the output buffer.
      *
      * @param ResponseInterface $response
-     * @param null|int $maxBufferLevel Maximum output buffering level to unwrap.
      */
-    public function emit(ResponseInterface $response, $maxBufferLevel = null)
+    public function emit(ResponseInterface $response)
     {
-        if (headers_sent()) {
-            throw new RuntimeException('Unable to emit response; headers already sent');
-        }
+        $this->assertNoPreviousOutput();
 
-        $response = $this->injectContentLength($response);
-
-        $this->emitStatusLine($response);
         $this->emitHeaders($response);
-        $this->flush($maxBufferLevel);
+        $this->emitStatusLine($response);
         $this->emitBody($response);
     }
 

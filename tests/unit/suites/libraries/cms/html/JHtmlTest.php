@@ -120,7 +120,7 @@ class JHtmlTest extends TestCase
 		JHtml::addIncludePath(array(__DIR__ . '/testfiles'));
 
 		// Test a class that doesn't exist.
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException('InvalidArgumentException');
 
 		$this->assertFalse(
 			JHtml::_('empty.anything')
@@ -140,7 +140,7 @@ class JHtmlTest extends TestCase
 		JHtml::addIncludePath(array(__DIR__ . '/testfiles'));
 
 		// Test a file that doesn't exist.
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException('InvalidArgumentException');
 
 		$this->assertFalse(
 			JHtml::_('nofile.anything')
@@ -160,7 +160,7 @@ class JHtmlTest extends TestCase
 		JHtml::addIncludePath(array(__DIR__ . '/testfiles'));
 
 		// Test a method that doesn't exist.
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException('InvalidArgumentException');
 
 		$this->assertFalse(
 			JHtml::_('inspector.nomethod')

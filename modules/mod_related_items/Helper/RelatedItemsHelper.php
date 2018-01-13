@@ -40,8 +40,8 @@ abstract class RelatedItemsHelper
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
-		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = BaseDatabaseModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
+		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
 
 		if ($articles === false)
 		{
@@ -62,7 +62,7 @@ abstract class RelatedItemsHelper
 		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now      = JFactory::getDate()->toSql();
+		$now      = \JFactory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
 
@@ -182,7 +182,7 @@ abstract class RelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = \JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

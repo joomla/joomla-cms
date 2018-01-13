@@ -34,7 +34,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<div class="filter-search btn-group float-left">
 						<div class="input-group">
 							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
-							<div class="input-group-btn">
+							<div class="input-group-append">
 								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
 								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
 							</div>
@@ -46,9 +46,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					</div>
 				</div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="overrideList">
 						<thead>

@@ -50,8 +50,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -61,13 +61,13 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 				/>
@@ -79,8 +79,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 			</fieldset>
@@ -110,7 +110,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
  					default="900"
 				/>

@@ -33,9 +33,9 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public static function getSubscribedEvents()
+	public static function getSubscribedEvents(): array
 	{
 		return [
 			'onGetIcons' => 'getCoreUpdateNotification',
@@ -51,7 +51,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCoreUpdateNotification(QuickIconsEvent $event)
 	{
@@ -78,7 +78,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		);
 
 		JHtml::_('behavior.core');
-		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Add the icon to the result array
 		$result = $event->getArgument('result', []);

@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractEvent;
 /**
  * Event object to retrieve OAuthCallbacks.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class OAuthCallbackEvent extends AbstractEvent
 {
@@ -24,7 +24,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * The event context.
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $context = null;
 
@@ -32,7 +32,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 * The event input.
 	 *
 	 * @var \JInput
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $input = null;
 
@@ -41,7 +41,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getContext()
 	{
@@ -55,7 +55,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setContext($context)
 	{
@@ -67,7 +67,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 *
 	 * @return \JInput
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getInput()
 	{
@@ -81,7 +81,7 @@ class OAuthCallbackEvent extends AbstractEvent
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setInput($input)
 	{

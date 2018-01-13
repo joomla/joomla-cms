@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
 		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		if ($item->params->get('show_associations'))
+		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
 			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 		}
@@ -225,25 +225,6 @@ class HtmlView extends BaseHtmlView
 
 		PluginHelper::importPlugin('content');
 		\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
-
-		// Check if the intro text needs to be processed as well
-		if ($item->introtext && strpos($item->text, $item->introtext) !== 0)
-		{
-			// Save the old text of the article
-			$text = $item->text;
-
-			// Set the intro text as new text
-			$item->text = $item->introtext;
-
-			// Trigger the event with the introtext
-			\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
-
-			// Set the prepared intro text back
-			$item->introtext = $item->text;
-
-			// Restore the original text variable
-			$item->text = $text;
-		}
 
 		$item->event = new \stdClass;
 		$results = \JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));

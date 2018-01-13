@@ -201,12 +201,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function execute()
 	{
-		// @event onBeforeExecute
+		$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
 
 		// Perform application routines.
 		$this->doExecute();
 
-		// @event onAfterExecute
+		$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
 		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
@@ -214,12 +214,12 @@ abstract class AbstractWebApplication extends AbstractApplication
 			$this->compress();
 		}
 
-		// @event onBeforeRespond
+		$this->dispatchEvent(ApplicationEvents::BEFORE_RESPOND);
 
 		// Send the application response.
 		$this->respond();
 
-		// @event onAfterRespond
+		$this->dispatchEvent(ApplicationEvents::AFTER_RESPOND);
 	}
 
 	/**

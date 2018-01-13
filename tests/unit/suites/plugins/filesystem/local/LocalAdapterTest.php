@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
  *
  * @package     Joomla.UnitTest
  * @subpackage  com_media
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 class LocalAdapterTest extends TestCaseDatabase
 {
@@ -27,7 +27,7 @@ class LocalAdapterTest extends TestCaseDatabase
 
 	/**
 	 * The image folder path related to root
-	 * 
+	 *
 	 * @var string
 	 */
 	private $imagePath = null;
@@ -39,9 +39,11 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		$this->saveFactoryState();
+
 		// Set up the application and session
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session     = $this->getMockSession();
+		JFactory::$session     = $this->getMockSession(['get.user.id' => 1]);
 
 		// Register the needed classes
 		JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
@@ -52,6 +54,8 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->imagePath = 'tmp/test/';
 		$this->root      = JPath::clean(JPATH_TESTS . '/tmp/test/');
 		JFolder::create($this->root);
+
+		JFactory::$application->getConfig()->set('root_user', 1);
 	}
 
 	/**
@@ -61,6 +65,8 @@ class LocalAdapterTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
 		// Delete the temp root folder
 		JFolder::delete($this->root);
 	}
@@ -102,7 +108,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 *
 	 * @return  void
 	 */
@@ -113,6 +119,22 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Fetch the file from the root folder
 		$adapter->getFile('invalid');
+	}
+
+	/**
+	 * Test LocalAdapter::getFile with an invalid path
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testGetFileIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the file from the root folder
+		$adapter->getFile('/..');
 	}
 
 	/**
@@ -142,7 +164,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$this->assertEquals('unit', $files[0]->name);
 		$this->assertEquals('/unit', $files[0]->path);
 		$this->assertEquals('', $files[0]->extension);
-		$this->assertEquals(0, $files[0]->size);
+		$this->assertEquals('', $files[0]->size);
 		$this->assertNotEmpty($files[0]->create_date);
 		$this->assertNotEmpty($files[0]->modified_date);
 		$this->assertEquals('directory', $files[0]->mime_type);
@@ -200,7 +222,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * Test LocalAdapter::getFiles with an invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 *
 	 * @return  void
 	 */
@@ -211,6 +233,22 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		// Fetch the file from the root folder
 		$adapter->getFiles('invalid');
+	}
+
+	/**
+	 * Test LocalAdapter::getFiles with an invalid path
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testGetFilesIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the file from the root folder
+		$adapter->getFiles('../..');
 	}
 
 	/**
@@ -231,6 +269,42 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Test LocalAdapter::createFolder with an invalid file name.
+	 *
+	 * @return  void
+	 */
+	public function testCreateFolderInvalidName()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the files from the root folder
+		$name = $adapter->createFolder('invalid"name', '/');
+
+		// Check if the illegal characters are stripped
+		$this->assertEquals('invalidname', $name);
+
+		// Check if the file exists
+		$this->assertTrue(JFolder::exists($this->root . 'invalidname'));
+	}
+
+	/**
+	 * Test LocalAdapter::createFolder with an illegal path.
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testCreateFolderIllegalPath()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the files from the root folder
+		$adapter->createFolder('unit', '/../..');
+	}
+
+	/**
 	 * Test LocalAdapter::createFile
 	 *
 	 * @return  void
@@ -244,10 +318,48 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter->createFile('unit.txt', '/', 'test');
 
 		// Check if the file exists
-		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+		$this->assertFileExists($this->root . 'unit.txt');
 
 		// Check if the contents is correct
 		$this->assertEquals('test', file_get_contents($this->root . 'unit.txt'));
+	}
+
+	/**
+	 * Test LocalAdapter::createFile with an invalid file name.
+	 *
+	 * @return  void
+	 */
+	public function testCreateFileInvalidName()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		// Fetch the files from the root folder
+		$name = $adapter->createFile('invalid"name.txt', '/', 'test');
+
+		// Check if the illegal characters are stripped
+		$this->assertEquals('invalidname.txt', $name);
+
+		// Check if the file exists
+		$this->assertTrue(file_exists($this->root . 'invalidname.txt'));
+
+		// Check if the contents is correct
+		$this->assertEquals('test', file_get_contents($this->root . 'invalidname.txt'));
+	}
+
+	/**
+	 * Test LocalAdapter::createFile with an illegal path.
+	 *
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\InvalidPathException
+	 *
+	 * @return  void
+	 */
+	public function testCreateFileIllegalName()
+	{
+		// Create the adapter
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		$adapter->createFile('name.txt', '/../', 'test');
 	}
 
 	/**
@@ -267,7 +379,7 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter->updateFile('unit.txt', '/', 'test 2');
 
 		// Check if the file exists
-		$this->assertTrue(file_exists($this->root . 'unit.txt'));
+		$this->assertFileExists($this->root . 'unit.txt');
 
 		// Check if the contents is correct
 		$this->assertEquals('test 2', file_get_contents($this->root . 'unit.txt'));
@@ -276,7 +388,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 *
 	 * @return  void
 	 */
@@ -317,7 +429,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * Test LocalAdapter::getFile with an invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 *
 	 * @return  void
 	 */
@@ -382,6 +494,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 * LocalAdapter::copy with a file without force condition
 	 * When destination already has a file with same name it will throw an exception
 	 *
+	 * @expectedException \Exception
 	 * @return void
 	 */
 	public function testFileCopyWithoutForce()
@@ -394,7 +507,6 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'src');
 		JFile::write($this->root . 'src/test-src.txt', 'test 2');
 
-		$this->setExpectedException('Exception');
 		$adapter->copy('test-src.txt', 'src/test-src.txt');
 	}
 
@@ -424,7 +536,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * LocalAdapter::copy with invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 * @return void
 	 */
 	public function testFileCopyInvalidPath()
@@ -433,8 +545,26 @@ class LocalAdapterTest extends TestCaseDatabase
 
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('\Joomla\Component\Media\Administrator\Adapter\FileNotFoundException');
 		$adapter->copy('invalid', 'invalid');
+	}
+
+	/**
+	 * LocalAdapter::copy with a file which has an invalid name.
+	 *
+	 * @return void
+	 */
+	public function testFileCopyInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+
+		$this->cleanRootFolder();
+
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+
+		// Test file copy
+		$adapter->copy('test-src.txt', 'src/test-"dest.txt');
+		$this->assertTrue(JFile::exists($this->root . 'src/test-dest.txt'));
 	}
 
 	/**
@@ -462,7 +592,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	 * LocalAdapter::copy with a folder without force condition
 	 * When destination has the same folder, it will throw an exception
 	 *
-	 * @expectedException Exception
+	 * @expectedException \Exception
 	 * @return void
 	 */
 	public function testFolderCopyWithoutForce()
@@ -479,7 +609,6 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::copy($this->root . 'src', $this->root . 'dest/some/src', '', true);
 
 		// Test folder copy without force
-		$this->setExpectedException('Exception');
 		$adapter->copy('src', 'dest/some/src');
 	}
 
@@ -528,6 +657,27 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::copy with a folder
+	 *
+	 * @return void
+	 */
+	public function testFolderCopyInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFile::write($this->root . 'test-src.txt', 'test');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar.txt', 'bar');
+
+		// Test Folder copy
+		$adapter->copy('src', 'dest"invalid');
+		$this->assertTrue(JFolder::exists($this->root . 'destinvalid'));
+		$this->assertTrue(JFile::exists($this->root . 'destinvalid/bar.txt'));
+	}
+
+	/**
 	 * LocalAdapter::move with a file
 	 *
 	 * @return void
@@ -571,7 +721,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * LocalAdapter::move with a file, without force
 	 *
-	 * @expectedException Exception
+	 * @expectedException \Exception
 	 * @return void
 	 */
 	public function testMoveFileWithoutForce()
@@ -586,7 +736,6 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
 		// Test file move without force
-		$this->setExpectedException('Exception');
 		$adapter->move('src/some-text', 'dest/some-text');
 	}
 
@@ -615,6 +764,27 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::move a file with an invalid name
+	 *
+	 * @return void
+	 */
+	public function testMoveFileInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		// Make some mock folders in the root
+		JFile::write($this->root . 'src-text.txt', 'some text here');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar-test.txt', 'bar');
+
+		// Test file move
+		$adapter->move('src-text.txt', 'dest-"text.txt');
+		$this->assertTrue(JFile::exists($this->root . 'dest-text.txt'));
+		$this->assertFalse(JFile::exists('src-text.txt'));
+	}
+
+	/**
 	 * LocalAdapter::move with a folder
 	 *
 	 * @return void
@@ -637,7 +807,7 @@ class LocalAdapterTest extends TestCaseDatabase
 	/**
 	 * LocalAdapter::move with a folder without force enabled
 	 *
-	 * @expectedException Exception
+	 * @expectedException \Exception
 	 * @return void
 	 */
 	public function testMoveFolderWithoutForce()
@@ -651,7 +821,6 @@ class LocalAdapterTest extends TestCaseDatabase
 		JFolder::create($this->root . 'src/some/folder');
 		JFile::write($this->root . 'dest/some-text', 'some another text');
 
-		$this->setExpectedException('Exception');
 		$adapter->move('src', 'dest');
 	}
 
@@ -679,9 +848,29 @@ class LocalAdapterTest extends TestCaseDatabase
 	}
 
 	/**
+	 * LocalAdapter::move a folder with an invalid name
+	 *
+	 * @return void
+	 */
+	public function testMoveFolderInvalidName()
+	{
+		$adapter = new LocalAdapter($this->root, $this->imagePath);
+		$this->cleanRootFolder();
+
+		JFile::write($this->root . 'src-text.txt', 'some text here');
+		JFolder::create($this->root . 'src');
+		JFile::write($this->root . 'src/bar-test.txt', 'bar');
+
+		$adapter->move('src', 'de"st');
+		$this->assertTrue(JFolder::exists($this->root . 'dest'));
+		$this->assertTrue(JFile::exists($this->root . 'dest/bar-test.txt'));
+		$this->assertFalse(JFile::exists('src'));
+	}
+
+	/**
 	 * LocalAdapter::move with an invalid path
 	 *
-	 * @expectedException \Joomla\Component\Media\Administrator\Adapter\FileNotFoundException
+	 * @expectedException \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 * @return void
 	 */
 	public function testMoveInvalidPath()
@@ -689,7 +878,6 @@ class LocalAdapterTest extends TestCaseDatabase
 		$adapter = new LocalAdapter($this->root, $this->imagePath);
 		$this->cleanRootFolder();
 
-		$this->setExpectedException('\Joomla\Component\Media\Administrator\Adapter\FileNotFoundException');
 		$adapter->move('invalid', 'invalid-new');
 	}
 

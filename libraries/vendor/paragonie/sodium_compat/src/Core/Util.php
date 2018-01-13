@@ -91,7 +91,7 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @param string $chr
      * @return int
-     * @throws Error
+     * @throws SodiumException
      */
     public static function chrToInt($chr)
     {
@@ -100,7 +100,7 @@ abstract class ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 1 must be a string, ' . gettype($chr) . ' given.');
         }
         if (self::strlen($chr) !== 1) {
-            throw new Error('chrToInt() expects a string that is exactly 1 character long');
+            throw new SodiumException('chrToInt() expects a string that is exactly 1 character long');
         }
         $chunk = unpack('C', $chr);
         return $chunk[1];
@@ -144,7 +144,7 @@ abstract class ParagonIE_Sodium_Core_Util
      * @param string $type
      * @param int $argumentIndex
      * @throws TypeError
-     * @throws Error
+     * @throws SodiumException
      * @return void
      */
     public static function declareScalarType(&$mixedVar = null, $type = 'void', $argumentIndex = 0)
@@ -211,7 +211,7 @@ abstract class ParagonIE_Sodium_Core_Util
                 }
                 break;
             default:
-                throw new Error('Unknown type (' . $realType .') does not match expect type (' . $type . ')');
+                throw new SodiumException('Unknown type (' . $realType .') does not match expect type (' . $type . ')');
         }
     }
 
@@ -463,17 +463,22 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @param int $a
      * @param int $b
+     * @param int $size Limits the number of operations (useful for small,
+     *                  constant operands)
      * @return int
      */
-    public static function mul($a, $b)
+    public static function mul($a, $b, $size = 0)
     {
         if (ParagonIE_Sodium_Compat::$fastMult) {
             return (int) ($a * $b);
         }
 
-        static $size = null;
-        if (!$size) {
-            $size = (PHP_INT_SIZE << 3) - 1;
+        static $defaultSize = null;
+        if (!$defaultSize) {
+            $defaultSize = (PHP_INT_SIZE << 3) - 1;
+        }
+        if ($size < 1) {
+            $size = $defaultSize;
         }
 
         $c = 0;

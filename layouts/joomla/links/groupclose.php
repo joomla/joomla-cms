@@ -8,5 +8,6 @@
  */
 
 defined('JPATH_BASE') or die;
+
 ?>
-	</ul>
+</ul>

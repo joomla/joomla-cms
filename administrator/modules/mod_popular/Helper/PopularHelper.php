@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
@@ -81,13 +83,11 @@ abstract class PopularHelper
 		// Set the links
 		foreach ($items as &$item)
 		{
+			$item->link = '';
+
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
-			}
-			else
-			{
-				$item->link = '';
+				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}
 		}
 
@@ -105,25 +105,19 @@ abstract class PopularHelper
 	{
 		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
+		$title = '';
 
 		if ($catid)
 		{
 			$category = Categories::getInstance('Content')->get($catid);
+			$title    = Text::_('MOD_POPULAR_UNEXISTING');
 
 			if ($category)
 			{
 				$title = $category->title;
 			}
-			else
-			{
-				$title = \JText::_('MOD_POPULAR_UNEXISTING');
-			}
-		}
-		else
-		{
-			$title = '';
 		}
 
-		return \JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return Text::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count', 5), $title);
 	}
 }

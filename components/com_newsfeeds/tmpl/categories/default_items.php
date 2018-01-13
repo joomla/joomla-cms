@@ -33,8 +33,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right">
-							<span class="icon-plus"></span>
+							data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES'); ?>">
+							<span class="icon-plus" aria-hidden="true"></span>
 						</a>
 					<?php endif; ?>
 				</h3>

@@ -30,9 +30,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning alert-no-items">
-				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
-			</div>
+			<joomla-alert type="warning"><?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped" id="pluginList">
 				<thead>

@@ -258,6 +258,12 @@ define(
 
     var noop = function () { };
 
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
+
     var compose = function (fa, fb) {
       return function () {
         return fa(fb.apply(null, arguments));
@@ -318,10 +324,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -383,8 +390,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -834,12 +842,13 @@ define(
 
   [
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Error, console, document) {
+  function (Fun, Option, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -870,11 +879,16 @@ define(
       };
     };
 
+    var fromPoint = function (doc, x, y) {
+      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    };
+
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom
+      fromDom: fromDom,
+      fromPoint: fromPoint
     };
   }
 );
@@ -1252,6 +1266,7 @@ define(
 
     var register = function (editor) {
       editor.addButton('visualchars', {
+        active: false,
         title: 'Show invisible characters',
         cmd: 'mceVisualChars',
         onPostRender: toggleActiveState(editor)
