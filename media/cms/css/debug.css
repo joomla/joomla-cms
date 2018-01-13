@@ -21,12 +21,26 @@ div#system-debug {
 	font-size: 16px;
 }
 
-#system-debug h3 {
+#system-debug div.dbg-subheader {
+	background-color: #eee;
+	border: 1px solid #f7f7f7;
+	font-size: 14px;
+}
+
+#system-debug h2 {
 	margin: 0;
 }
 
-#system-debug a h3 {
+#system-debug a h2 {
 	background-color: #ddd;
+}
+
+#system-debug a h3 {
+	background-color: #eee;
+}
+
+#system-debug a h2,
+#system-debug a h3 {
 	color: #000;
 	font-size: 14px;
 	padding: 5px;
@@ -34,10 +48,12 @@ div#system-debug {
 	margin: 0px;
 }
 
-#system-debug .dbg-error a h3 {
+#system-debug .dbg-error a h2 {
 	background-color: red;
 }
 
+#system-debug a:hover h2,
+#system-debug a:focus h2,
 #system-debug a:hover h3,
 #system-debug a:focus h3 {
 	background-color: #4d4d4d;
