@@ -736,7 +736,7 @@ abstract class ModuleHelper
 		}
 
 		// If we didn't find it, create a dummy object
-		if ($result === null && strpos($name, 'mod_') === 0)
+		if ($result === null)
 		{
 			$result            = new \stdClass;
 			$result->id        = 0;
