@@ -713,7 +713,6 @@ class PlgSystemDebug extends JPlugin
 
 		foreach ($dbs as $signature => $db)
 		{
-
 			//  fix  for support custom shutdown function via register_shutdown_function().
 			$db->disconnect();
 
@@ -813,6 +812,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$toggleId = 'dbg_container_query_' . $count;
 				$js = "toggleContainer('" . $toggleId . "');";
+
 				if ($db === $mainDb)
 				{
 					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION_PRIMARY', $db->getDatabase());
@@ -825,7 +825,7 @@ class PlgSystemDebug extends JPlugin
 
 				$html[] = '<div class="dbg-subheader" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
 
-				$html[] = '<div  style="display: none;" class="dbg-container" id="' . $toggleId . '">';
+				$html[] = '<div style="display: none;" class="dbg-container" id="' . $toggleId . '">';
 				$html[] = $this->displayQueriesDb($db, $signature, ($db === $mainDb ? 0 : $count));
 				$html[] = '</div>';
 			}
