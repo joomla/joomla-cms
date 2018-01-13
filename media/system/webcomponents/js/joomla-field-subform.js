@@ -32,6 +32,14 @@
         get repeatableElement() { return this.getAttribute('repeatable-element'); }
         get minimum()           { return this.getAttribute('minimum'); }
         get maximum()           { return this.getAttribute('maximum'); }
+        get name()              { return this.getAttribute('name'); }
+
+        set name(value)         {
+            // Update the template
+            this.template = this.template.replace(new RegExp(' name="' + this.name.replace(/[\[\]]/g, '\\$&'), 'g'), ' name="' + value);
+
+            return this.setAttribute('name', value);
+        }
 
         constructor() {
             super();
@@ -310,8 +318,10 @@
                 }
 
                 // Replace the name to new one
-                $el.setAttribute('name', nameNew);
-                $el.setAttribute('id', idNew);
+                $el.name = nameNew;
+                if ($el.id) {
+                    $el.id = idNew;
+                }
 
                 // Guess there a label for this input
                 let lbl = row.querySelector('label[for="' + forOldAttr + '"]');

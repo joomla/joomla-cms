@@ -233,7 +233,7 @@ class SubformField extends FormField
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$formname    = 'subform.' . str_replace(array('[', ']'), array('.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = \JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 

@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
  * @var bool    $multiple         The multiple state for the form field
  * @var int     $min              Count of minimum repeating in multiple mode
  * @var int     $max              Count of maximum repeating in multiple mode
+ * @var string  $name             Name of the input field.
  * @var string  $fieldname        The field name
  * @var string  $control          The forms control
  * @var string  $label            The field label
@@ -38,7 +39,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
 	<div class="subform-repeatable-wrapper subform-layout">
-		<joomla-field-subform class="subform-repeatable"
+		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 			<?php if (!empty($buttons['add'])) : ?>

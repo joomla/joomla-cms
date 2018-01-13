@@ -64,6 +64,10 @@ var _createClass = function () {
         return this.getAttribute('minimum');
       } }, { key: 'maximum', get: function get() {
         return this.getAttribute('maximum');
+      } }, { key: 'name', get: function get() {
+        return this.getAttribute('name');
+      }, set: function set(a) {
+        return this.template = this.template.replace(new RegExp(' name="' + this.name.replace(/[\[\]]/g, '\\$&'), 'g'), ' name="' + a), this.setAttribute('name', a);
       } }]), _createClass(f, [{ key: 'getRows', value: function getRows() {
         for (var a = this.containerWithRows.children, b = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches', c = [], d = 0, e = a.length; d < e; d++) {
           a[d][b](this.repeatableElement) && c.push(a[d]);
@@ -100,7 +104,7 @@ var _createClass = function () {
               var v = b(l, 'fieldset.radio'),
                   w = a.querySelector('label[for="' + o + '"]');v && v.setAttribute('id', q), w && (w.setAttribute('for', q), w.setAttribute('id', q + '-lbl'));
             }s += r, q += r;
-          }k[o] ? k[o].push(!0) : k[o] = [!0], l.setAttribute('name', p), l.setAttribute('id', q);var x = a.querySelector('label[for="' + s + '"]');x && (x.setAttribute('for', q), x.setAttribute('id', q + '-lbl'));
+          }k[o] ? k[o].push(!0) : k[o] = [!0], l.name = p, l.id && (l.id = q);var x = a.querySelector('label[for="' + s + '"]');x && (x.setAttribute('for', q), x.setAttribute('id', q + '-lbl'));
         }
       } }, { key: 'setUpDragSort', value: function setUpDragSort() {
         function a(a) {
