@@ -826,12 +826,12 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '<div class="dbg-subheader" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
 
 				$html[] = '<div  style="display: none;" class="dbg-container" id="' . $toggleId . '">';
-				$html[] = $this->displayQueriesDb($db, $signature, $count);
+				$html[] = $this->displayQueriesDb($db, $signature, ($db === $mainDb ? 0 : $count));
 				$html[] = '</div>';
 			}
 			else
 			{
-				$html[] = $this->displayQueriesDb($db, $signature, $count);
+				$html[] = $this->displayQueriesDb($db, $signature, 0);
 			}
 		}
 
@@ -840,6 +840,10 @@ class PlgSystemDebug extends JPlugin
 
 	/**
 	 * Display logged queries for an individual database.
+	 *
+	 * @param   object  $db      The name of the callable.
+	 * @param   string  $signature $callable  The callable function.
+	 * @param   integer $count   Non-
 	 *
 	 * @return  string
 	 *
@@ -1177,20 +1181,17 @@ class PlgSystemDebug extends JPlugin
 					)
 				);
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $count . '_' . $id)
-					. $info[$id]->explain
-					. JHtml::_('bootstrap.endSlide');
+				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_EXPLAIN'),
+					'dbg_query_explain_' . $count . '_' . $id) . $info[$id]->explain . JHtml::_('bootstrap.endSlide');
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, $title, 'dbg_query_profile_' . $count . '_' . $id)
-					. $htmlProfile
-					. JHtml::_('bootstrap.endSlide');
+				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, $title,
+					'dbg_query_profile_' . $count . '_' . $id) . $htmlProfile . JHtml::_('bootstrap.endSlide');
 
 				// Call stack and back trace.
 				if (isset($callStacks[$id]))
 				{
-					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $count . '_' . $id)
-						. $this->renderCallStack($callStacks[$id])
-						. JHtml::_('bootstrap.endSlide');
+					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_CALL_STACK'),
+						'dbg_query_callstack_' . $count . '_' . $id) . $this->renderCallStack($callStacks[$id]) . JHtml::_('bootstrap.endSlide');
 				}
 
 				$htmlAccordions .= JHtml::_('bootstrap.endAccordion');
@@ -1744,6 +1745,7 @@ class PlgSystemDebug extends JPlugin
 	 * Simple highlight for SQL queries.
 	 *
 	 * @param   string  $query  The query to highlight.
+	 * @param   object  $db     JDatabaseDriver instance
 	 *
 	 * @return  string
 	 *
