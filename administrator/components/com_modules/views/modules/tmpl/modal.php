@@ -113,7 +113,9 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
 					<td class="hidden-phone">
+						<a class="js-modid-insert btn btn-small btn-block btn-success" href="#" data-modid="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
 						<?php echo (int) $item->id; ?>
+						</a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
