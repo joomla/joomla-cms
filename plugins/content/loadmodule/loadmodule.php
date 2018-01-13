@@ -128,10 +128,7 @@ class PlgContentLoadmodule extends JPlugin
 		{
 			foreach ($matchesmodid as $match)
 			{
-				$matcheslist = explode('id:', $match[1]);
-
-				$id     = trim($matcheslist[1]);
-
+				$id     = trim($match[1]);
 				$output = $this->_loadid($id);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
@@ -230,7 +227,10 @@ class PlgContentLoadmodule extends JPlugin
 		$params   = array('style' => $style);
 		ob_start();
 	
-		echo $renderer->render($modules->module, $params);
+		if ($modules->id > 0)
+		{
+			echo $renderer->render($modules->module, $params);
+		}
 
 		self::$modules[$id] = ob_get_clean();
 
