@@ -793,7 +793,7 @@ class PlgSystemDebug extends JPlugin
 	}
 
 	/**
-	 * Display logged queries.
+	 * Display logged queries for multiple databases.
 	 *
 	 * @return  string
 	 *
@@ -843,7 +843,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   2.5
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function displayQueriesDb($db, $signature, $count)
 	{

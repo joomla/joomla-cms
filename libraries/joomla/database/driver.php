@@ -184,7 +184,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    callable[]  List of callables to call just before disconnecting every database instance
-	 * @since  CMS 3.8.4
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $defaultDisconnectHandlers = array();
 
@@ -240,7 +240,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  Array  An array of database objects.
 	 *
-	 * @since   3.8.4
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getInstances()
 	{
@@ -713,7 +713,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   CMS 3.8.4
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function addDefaultDisconnectHandler($callable)
 	{
@@ -2133,6 +2133,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  The old debugging level.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  This will be removed in Joomla 4 without replacement
+
 	 */
 	public function setDebug($level)
 	{
