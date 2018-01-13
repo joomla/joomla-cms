@@ -183,6 +183,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $disconnectHandlers = array();
 
 	/**
+	 * @var    callable[]  List of callables to call just before disconnecting every database instance
+	 * @since  CMS 3.8.4
+	 */
+	protected static $defaultDisconnectHandlers = array();
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -227,6 +233,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		return $connectors;
+	}
+
+	/**
+	 * Method to return an array of all existing JDatabaseDriver instances.
+	 *
+	 * @return  Array  An array of database objects.
+	 *
+	 * @since   3.8.4
+	 */
+	public static function getInstances()
+	{
+		return self::$instances;
 	}
 
 	/**
@@ -315,6 +333,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			catch (RuntimeException $e)
 			{
 				throw new JDatabaseExceptionConnecting(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
+			}
+
+			// Add defaultDisconnectHandlers to new database instance
+			foreach (self::$defaultDisconnectHandlers as $callable)
+			{
+				$instance->addDisconnectHandler($callable);
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -681,6 +705,28 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function disconnect();
 
 	/**
+	 * Adds a function to every JDatabaseDriver instance callable just before disconnecting the database.
+	 * Parameter of the callable is $this JDatabaseDriver.
+	 * This function is added to all existing and future databasedriver instances.
+	 *
+	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 *
+	 * @return  void
+	 *
+	 * @since   CMS 3.8.4
+	 */
+	public static function addDefaultDisconnectHandler($callable)
+	{
+		self::$defaultDisconnectHandlers[] = $callable;
+
+		// Add defaultDisconnectHandlers to existing database instances
+		foreach (self::$instances as $db)
+		{
+			$db->addDisconnectHandler($callable);
+		}
+	}
+
+	/**
 	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
 	 *
 	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
@@ -972,13 +1018,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
 	 * @since   11.4
 	 */
-	protected function getDatabase()
+	public function getDatabase()
 	{
 		return $this->_database;
 	}
@@ -2087,7 +2133,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  The old debugging level.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  This will be removed in Joomla 4 without replacement
 	 */
 	public function setDebug($level)
 	{
