@@ -178,8 +178,8 @@ $assoc      = JLanguageAssociations::isEnabled() && $this->state->get('filter.cl
 							<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $orderkey + 1; ?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
+						<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" value="<?php echo $orderkey + 1; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
 						<?php echo $orderkey + 1; ?>
 					<?php endif; ?>
@@ -195,7 +195,7 @@ $assoc      = JLanguageAssociations::isEnabled() && $this->state->get('filter.cl
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
 						<?php if ($item->language == '*' || $item->home == '0'):?>
-							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange  && !$item->protected); ?>
+							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 						<?php elseif ($canChange):?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1'); ?>">
 								<?php if ($item->language_image) : ?>

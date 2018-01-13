@@ -31,7 +31,7 @@ $saveOrder = $listOrder == 'ordering';
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -46,47 +46,47 @@ $saveOrder = $listOrder == 'ordering';
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
 			<select name="client_id" id="client_id">
-				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
+				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_state" id="filter_state">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_position">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
 			</label>
 			<select name="filter_position" id="filter_position">
-				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.position'));?>
+				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.position')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_module">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE'); ?>
 			</label>
 			<select name="filter_module" id="filter_module">
-				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.module'));?>
+				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE'); ?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.module')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
 			<select name="filter_language" id="filter_language">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -159,7 +159,7 @@ $saveOrder = $listOrder == 'ordering';
 					<?php endif; ?>
 					<?php if (!empty($item->note)) : ?>
 					<p class="smallsub">
-						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
+						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?></p>
 					<?php endif; ?>
 				</td>
 				<td class="center">
@@ -188,13 +188,13 @@ $saveOrder = $listOrder == 'ordering';
 							<?php endif; ?>
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
+						<input type="text" name="order[]" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
 				<td class="left">
-					<?php echo $item->name;?>
+					<?php echo $item->name; ?>
 				</td>
 				<td class="center">
 					<?php echo $item->pages; ?>
@@ -210,7 +210,7 @@ $saveOrder = $listOrder == 'ordering';
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
