@@ -841,9 +841,9 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Display logged queries for an individual database.
 	 *
-	 * @param   object  $db      The name of the callable.
-	 * @param   string  $signature $callable  The callable function.
-	 * @param   integer $count   Non-
+	 * @param   object   $db      	  JDatabaseDriver instance.
+	 * @param   string   $signature  JDatabaseDriver signature.
+	 * @param   integer  $count      Count of databases processed - joomla default driver = 0
 	 *
 	 * @return  string
 	 *
@@ -1181,17 +1181,32 @@ class PlgSystemDebug extends JPlugin
 					)
 				);
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_EXPLAIN'),
-					'dbg_query_explain_' . $count . '_' . $id) . $info[$id]->explain . JHtml::_('bootstrap.endSlide');
+				$htmlAccordions .= JHtml::_(
+						'bootstrap.addSlide',
+						'dbg_query_' . $count . '_' . $id,
+						JText::_('PLG_DEBUG_EXPLAIN'),
+						'dbg_query_explain_' . $count . '_' . $id
+					)
+					. $info[$id]->explain . JHtml::_('bootstrap.endSlide');
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, $title,
-					'dbg_query_profile_' . $count . '_' . $id) . $htmlProfile . JHtml::_('bootstrap.endSlide');
+				$htmlAccordions .= JHtml::_(
+						'bootstrap.addSlide',
+						'dbg_query_' . $count . '_' . $id,
+						$title,
+						'dbg_query_profile_' . $count . '_' . $id
+					)
+					. $htmlProfile . JHtml::_('bootstrap.endSlide');
 
 				// Call stack and back trace.
 				if (isset($callStacks[$id]))
 				{
-					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $count . '_' . $id, JText::_('PLG_DEBUG_CALL_STACK'),
-						'dbg_query_callstack_' . $count . '_' . $id) . $this->renderCallStack($callStacks[$id]) . JHtml::_('bootstrap.endSlide');
+					$htmlAccordions .= JHtml::_(
+							'bootstrap.addSlide',
+							'dbg_query_' . $count . '_' . $id,
+							JText::_('PLG_DEBUG_CALL_STACK'),
+							'dbg_query_callstack_' . $count . '_' . $id
+						)
+						. $this->renderCallStack($callStacks[$id]) . JHtml::_('bootstrap.endSlide');
 				}
 
 				$htmlAccordions .= JHtml::_('bootstrap.endAccordion');
