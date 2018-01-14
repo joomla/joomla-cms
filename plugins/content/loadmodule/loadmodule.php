@@ -135,7 +135,6 @@ class PlgContentLoadmodule extends JPlugin
 				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
 				$style = $this->params->def('style', 'none');
 			}
-
 		}
 	}
 
