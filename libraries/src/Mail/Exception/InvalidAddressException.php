@@ -6,23 +6,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Mail;
+namespace Joomla\CMS\Mail\Exception;
 
 defined('_JEXEC') or die;
 
 /**
- * Interface for creating mailer objects
+ * Exception indicating that an email address is invalid
  *
  * @since  __DEPLOY_VERSION__
  */
-interface MailerFactoryInterface
+class InvalidAddressException extends \InvalidArgumentException implements MailExceptionInterface
 {
-	/**
-	 * Creates a new mailer object.
-	 *
-	 * @return  MailerInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function createMailer(): MailerInterface;
 }

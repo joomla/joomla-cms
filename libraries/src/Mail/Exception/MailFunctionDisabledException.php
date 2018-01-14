@@ -6,23 +6,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Mail;
+namespace Joomla\CMS\Mail\Exception;
 
 defined('_JEXEC') or die;
 
 /**
- * Interface for creating mailer objects
+ * Exception indicating that PHP's mail function has been disabled
  *
  * @since  __DEPLOY_VERSION__
  */
-interface MailerFactoryInterface
+class MailFunctionDisabledException extends \RuntimeException implements MailExceptionInterface
 {
-	/**
-	 * Creates a new mailer object.
-	 *
-	 * @return  MailerInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function createMailer(): MailerInterface;
 }

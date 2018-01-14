@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar;
+namespace Joomla\CMS\Mail;
 
 defined('_JEXEC') or die;
 
