@@ -662,59 +662,7 @@ abstract class ModuleHelper
 		$lang = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . $id;
-
-		$db = \JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
-			->from('#__modules AS m')
-			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
-			->where('m.id = ' . (int) $id)
-			->where('m.published = 1')
-			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
-			->where('e.enabled = 1');
-
-		$date = \JFactory::getDate();
-		$now = $date->toSql();
-		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
-			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
-			->where('m.access IN (' . $groups . ')')
-			->where('m.client_id = ' . $clientId);
-
-		// Filter by language
-		if ($app->isClient('site') && $app->getLanguageFilter())
-		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
-		}
-
-		if ($app->isClient('administrator') && static::isAdminMultilang())
-		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
-		}
-
-		$query->order('m.position, m.ordering');
-
-		// Set the query
-		$db->setQuery($query);
-
-		try
-		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JFactory::getCache('com_modules', 'callback');
-
-			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
-		}
-		catch (\RuntimeException $e)
-		{
-			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), \JLog::WARNING, 'jerror');
-
-			$modules = array();
-		}
+		$modules =& static::load();
 
 		$total = count($modules);
 
