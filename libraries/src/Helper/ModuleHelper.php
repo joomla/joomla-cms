@@ -648,14 +648,13 @@ abstract class ModuleHelper
 	/**
 	 * Get module by id
 	 *
-	 * @param   string  $id     The name of the module
-	 * @param   string  $title  The title of the module, optional
+	 * @param   string  $id  The id of the module
 	 *
 	 * @return  \stdClass  The Module object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function &getModuleById($id, $title = null)
+	public static function &getModuleById($id)
 	{
 		$app = \JFactory::getApplication();
 		$result = null;
@@ -717,7 +716,6 @@ abstract class ModuleHelper
 			$modules = array();
 		}
 
-
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -725,13 +723,9 @@ abstract class ModuleHelper
 			// Match the id of the module
 			if ($modules[$i]->id === $id)
 			{
-				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title === $title)
-				{
-					// Found it
-					$result = &$modules[$i];
-					break;
-				}
+				// Found it
+				$result = &$modules[$i];
+				break;
 			}
 		}
 
