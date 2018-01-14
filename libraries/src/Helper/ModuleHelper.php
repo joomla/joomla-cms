@@ -672,8 +672,7 @@ abstract class ModuleHelper
 			if ($modules[$i]->id === $id)
 			{
 				// Found it
-				$result = &$modules[$i];
-				break;
+				return $modules[$i];
 			}
 		}
 
