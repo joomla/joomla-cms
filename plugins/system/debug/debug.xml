@@ -24,6 +24,7 @@
 					name="filter_groups"
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
+					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					multiple="true"
 					size="10"
 				/>
