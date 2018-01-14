@@ -713,7 +713,7 @@ class PlgSystemDebug extends JPlugin
 
 		foreach ($dbs as $signature => $db)
 		{
-			// fix for support custom shutdown function via register_shutdown_function().
+			// Fix for support custom shutdown function via register_shutdown_function().
 			$db->disconnect();
 
 			$log = $db->getLog();
