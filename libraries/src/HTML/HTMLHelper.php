@@ -606,13 +606,14 @@ abstract class HTMLHelper
 	 */
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
+		$options = array();
+
 		// B/C before 3.7.0
 		if (!is_array($attribs))
 		{
 			Log::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
-			$options = array();
 
 			// Old parameters.
 			$attribs                  = isset($argList[1]) ? $argList[1] : array();
