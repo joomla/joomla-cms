@@ -679,7 +679,7 @@ abstract class HTMLHelper
 	public static function script($file, $options = array(), $attribs = array())
 	{
 		// B/C before 3.7.0
-		if (!is_array($options))
+		if (!is_array($attribs) || !is_array($options))
 		{
 			Log::add('The script method signature used has changed, use (file, options, attributes) instead.', Log::WARNING, 'deprecated');
 
