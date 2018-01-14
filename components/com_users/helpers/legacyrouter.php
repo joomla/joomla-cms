@@ -150,7 +150,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'reset':
 					if ($query['Itemid'] = $reset)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -161,7 +161,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'resend':
 					if ($query['Itemid'] = $resend)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -172,7 +172,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'remind':
 					if ($query['Itemid'] = $remind)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -183,7 +183,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'login':
 					if ($query['Itemid'] = $login)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -194,7 +194,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'registration':
 					if ($query['Itemid'] = $registration)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -209,11 +209,11 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 						$segments[] = $query['view'];
 					}
 
-					unset ($query['view']);
+					unset($query['view']);
 
 					if ($query['Itemid'] = $profile)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -228,7 +228,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 						$segments[] = $query['user_id'];
 					}
 
-					unset ($query['user_id']);
+					unset($query['user_id']);
 
 					break;
 			}

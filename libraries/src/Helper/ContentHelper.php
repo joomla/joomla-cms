@@ -116,7 +116,7 @@ class ContentHelper
 
 		if ($section && $id)
 		{
-			$assetName .=  '.' . $section . '.' . (int) $id;
+			$assetName .= '.' . $section . '.' . (int) $id;
 		}
 
 		$result = new \JObject;

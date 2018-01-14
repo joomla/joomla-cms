@@ -150,7 +150,7 @@ XML;
 		$returnData->code = 200;
 		$returnData->body = $this->sampleXml;
 
-		// 		$path = 'http://api.openstreetmap.org/api/0.6/changeset/create';
+		// 		$path = 'https://api.openstreetmap.org/api/0.6/changeset/create';
 		$path = 'changeset/create';
 
 		$this->client->expects($this->once())
