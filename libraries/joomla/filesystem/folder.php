@@ -715,7 +715,10 @@ abstract class JFolder
 	 */
 	public static function makeSafe($path)
 	{
-		$regex = array('#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#');
+		// Allow uploading UTF-8 filenames in Windows starting from PHP 7.1 and other OS
+		$unicode = strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN' || version_compare(PHP_VERSION, '7.1', '>=') ? 'u' : '';
+
+		$regex = array('#[^\w\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#' . $unicode);
 
 		return preg_replace($regex, '', $path);
 	}
