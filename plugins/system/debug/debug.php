@@ -526,7 +526,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!is_array($session))
 		{
-			$html[] = $key . '<pre>' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
+			$html[] = '<pre>' . $key . ': ' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
 		}
 		else
 		{
@@ -563,22 +563,14 @@ class PlgSystemDebug extends CMSPlugin
 					$id++;
 
 					// Recurse...
-					$this->displaySession($sKey, $entries, $id);
+					$html[] = $this->displaySession($sKey, $entries, $id);
 
 					$html[] = '</div>';
 
 					continue;
 				}
 
-				if (is_array($entries))
-				{
-					$entries = implode($entries);
-				}
-
-				if (is_string($entries))
-				{
-					$html[] = $sKey . '<pre>' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
-				}
+				$html[] = '<pre>' . $sKey . ': ' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
 			}
 		}
 
