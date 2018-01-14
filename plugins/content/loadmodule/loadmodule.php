@@ -55,7 +55,7 @@ class PlgContentLoadmodule extends JPlugin
 		$regexmod = '/{loadmodule\s(.*?)}/i';
 
 		// Expression to search for(id)
-		$regexmodid = '/{loadmoduleid\s([1-9][0-9])}/i';
+		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 		$stylemod   = $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
@@ -229,7 +229,7 @@ class PlgContentLoadmodule extends JPlugin
 	
 		if ($modules->id > 0)
 		{
-			echo $renderer->render($modules->module, $params);
+			echo $renderer->render($modules, $params);
 		}
 
 		self::$modules[$id] = ob_get_clean();
