@@ -1085,11 +1085,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 		params = params || {};
 
-		var event = new CustomEvent(name, {
-			detail:     params,
-			bubbles:    true,
-			cancelable: true
-		});
+		var event;
+
+		if (window.CustomEvent && typeof(window.CustomEvent) === 'function') {
+			event = new CustomEvent(name, {
+				detail:     params,
+				bubbles:    true,
+				cancelable: true
+			});
+		}
+		// IE trap
+		else {
+			event = document.createEvent('Event');
+			event.initEvent(name, true, true);
+			event.detail = params;
+		}
+
 		element.dispatchEvent(event);
 	};
 

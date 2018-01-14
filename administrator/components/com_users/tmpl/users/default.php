@@ -46,22 +46,22 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 								<th style="width:5%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap text-center hidden-sm-down">
+								<th style="width:5%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
 								<th style="width:12%" class="nowrap text-center">
 									<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th style="width:12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:12%" class="nowrap hidden-md-down text-center">
+								<th style="width:12%" class="nowrap d-none d-lg-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -134,7 +134,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 										<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 									<?php endif; ?>
 								</td>
-								<td class="text-center hidden-sm-down">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$activated = empty( $item->activation) ? 0 : 1;
 									echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
@@ -147,20 +147,20 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-md-down break-word text-center">
+								<td class="d-none d-lg-table-cell break-word text-center">
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 								</td>
-								<td class="hidden-md-down text-center">
+								<td class="d-none d-lg-table-cell text-center">
 									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 										<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 									<?php else : ?>
 										<?php echo JText::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-md-down text-center">
+								<td class="d-none d-lg-table-cell text-center">
 									<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>
