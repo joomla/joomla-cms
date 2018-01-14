@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
@@ -408,7 +409,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!empty($filterGroups))
 		{
-			$userGroups = JFactory::getUser()->get('groups');
+			$userGroups = Access::getGroupsByUser(JFactory::getUser()->get('id'));
 
 			if (!array_intersect($filterGroups, $userGroups))
 			{
