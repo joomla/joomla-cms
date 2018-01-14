@@ -74,6 +74,10 @@ $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 $container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+$customPositionTmpl        = '<jdoc:include type="modules" name="%1$s" style="%2$s" />' . PHP_EOL;
+$customPositionWrapperTmpl = '<div%1$s class="pos-container-%2$s%3$s">%4$s</div>'. PHP_EOL;
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -145,6 +149,26 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
+	<?php
+	foreach($params->get('positionsTop', array()) as $position) {
+		if (empty($position->position) || !$this->countModules($position->position)) continue;
+
+		$pos = sprintf($customPositionTmpl, $position->position, $position->style ?? '');
+
+		if (!empty($position->wrapper))
+		{
+			$pos = vsprintf($customPositionWrapperTmpl, array(
+				empty($position->id) ? '' : ' id="' . $position->id . '"',
+				$position->position,
+				$position->class ? ' ' . $position->class : '',
+				$pos,
+			));
+		}
+
+		echo $pos;
+	}
+	?>
+
 	<div class="grid-child container-main">
 
 		<?php if ($this->countModules('sidebar-left')) : ?>
@@ -158,12 +182,21 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<jdoc:include type="message" />
 			<?php
 			foreach($params->get('positionsMiddle', array()) as $position) {
-				if (empty($position->position) || !$this->countModules($position->position))
+				if (empty($position->position) || !$this->countModules($position->position)) continue;
+
+				$pos = sprintf($customPositionTmpl, $position->position, $position->style ?? '');
+
+				if (!empty($position->wrapper))
 				{
-					continue;
+					$pos = vsprintf($customPositionWrapperTmpl, array(
+						empty($position->id) ? '' : ' id="' . $position->id . '"',
+						$position->position,
+						$position->class ? ' ' . $position->class : '',
+						$pos,
+					));
 				}
 
-				echo '<jdoc:include type="modules" name="' . $position->position . '" style="none" />'.PHP_EOL;
+				echo $pos;
 			}
 			?>
 			<jdoc:include type="component" />
@@ -178,6 +211,26 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<?php endif; ?>
 
 	</div>
+
+	<?php
+	foreach($params->get('positionsBottom', array()) as $position) {
+		if (empty($position->position) || !$this->countModules($position->position)) continue;
+
+		$pos = sprintf($customPositionTmpl, $position->position, $position->style ?? '');
+
+		if (!empty($position->wrapper))
+		{
+			$pos = vsprintf($customPositionWrapperTmpl, array(
+				empty($position->id) ? '' : ' id="' . $position->id . '"',
+				$position->position,
+				$position->class ? ' ' . $position->class : '',
+				$pos,
+			));
+		}
+
+		echo $pos;
+	}
+	?>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">

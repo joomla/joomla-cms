@@ -90,9 +90,13 @@
 				>
 					<form>
 						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
-						<field name="class" type="text" label="Class" />
-						<field name="id" type="text" label="ID" filter="cmd"/>
 						<field name="style" type="text" label="Style" />
+						<field name="wrapper" type="radio" label="Use Wrapper" default="1" class="switcher">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						<field name="class" type="text" label="Class" showon="wrapper:1"/>
+						<field name="id" type="text" label="ID" filter="cmd"  showon="wrapper:1"/>
 					</form>
 				</field>
 				<field
@@ -104,9 +108,13 @@
 				>
 					<form>
 						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
-						<field name="class" type="text" label="Class" />
-						<field name="id" type="text" label="ID" filter="cmd"/>
 						<field name="style" type="text" label="Style" />
+						<field name="wrapper" type="radio" label="Use Wrapper" default="1" class="switcher">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						<field name="class" type="text" label="Class" showon="wrapper:1"/>
+						<field name="id" type="text" label="ID" filter="cmd"  showon="wrapper:1"/>
 					</form>
 				</field>
 				<field
@@ -118,9 +126,13 @@
 				>
 					<form>
 						<field name="position" type="text" label="Name" filter="cmd" required="true"/>
-						<field name="class" type="text" label="Class" />
-						<field name="id" type="text" label="ID" filter="cmd"/>
 						<field name="style" type="text" label="Style" />
+						<field name="wrapper" type="radio" label="Use Wrapper" default="1" class="switcher">
+							<option value="1">JYES</option>
+							<option value="0">JNO</option>
+						</field>
+						<field name="class" type="text" label="Class" showon="wrapper:1"/>
+						<field name="id" type="text" label="ID" filter="cmd"  showon="wrapper:1"/>
 					</form>
 				</field>
 			</fieldset>
