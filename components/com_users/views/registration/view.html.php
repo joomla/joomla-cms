@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
  */
 class UsersViewRegistration extends JViewLegacy
 {
+	protected $data;
+
 	protected $form;
 
 	protected $params;
@@ -37,6 +39,7 @@ class UsersViewRegistration extends JViewLegacy
 	{
 		// Get the view data.
 		$this->form   = $this->get('Form');
+		$this->data   = $this->get('Data');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
 
