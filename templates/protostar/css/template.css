@@ -7403,6 +7403,14 @@ figcaption {
 .navigation .nav li li > a:focus + .nav-child {
 	display: block;
 }
+.navigation .nav > li:before {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	left: 0;
+	height: 6px;
+	content: '';
+}
 .navigation .nav > li > .nav-child:before {
 	position: absolute;
 	top: -7px;
