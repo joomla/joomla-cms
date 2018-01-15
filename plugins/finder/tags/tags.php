@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
-use Joomla\Database\DatabaseQuery;
-use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -209,7 +206,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (ComponentHelper::isEnabled($this->extension) === false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -218,7 +215,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Initialize the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_tags', true);
+		$item->params = JComponentHelper::getParams('com_tags', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
@@ -293,10 +290,10 @@ class PlgFinderTags extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.description AS summary')
 			->select('a.created_time AS start_date, a.created_user_id AS created_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')

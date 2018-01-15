@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
-use Joomla\Database\DatabaseQuery;
-use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -249,14 +246,14 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Check if the extension is enabled.
-		if (ComponentHelper::isEnabled($this->extension) === false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
-		$item->params = ComponentHelper::getParams('com_content', true);
+		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
 		$item->metadata = new Registry($item->metadata);
@@ -340,10 +337,10 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
 			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')

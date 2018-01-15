@@ -9,17 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Editor Image buton
  *
  * @since  1.5
  */
-class PlgButtonImage extends CMSPlugin
+class PlgButtonImage extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -42,8 +37,8 @@ class PlgButtonImage extends CMSPlugin
 	 */
 	public function onDisplay($name, $asset, $author)
 	{
-		$app       = Factory::getApplication();
-		$user      = Factory::getUser();
+		$app       = JFactory::getApplication();
+		$user      = JFactory::getUser();
 		$extension = $app->input->get('option');
 
 		// For categories we check the extension (ex: component.section)
@@ -64,11 +59,11 @@ class PlgButtonImage extends CMSPlugin
 		{
 			$link = 'index.php?option=com_media&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 
-			$button = new CMSObject;
+			$button = new JObject;
 			$button->modal   = true;
 			$button->class   = 'btn btn-secondary';
 			$button->link    = $link;
-			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
+			$button->text    = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
 			$button->options = array(
 				'height'     => '400px',

@@ -9,18 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Editor Contact buton
  *
  * @since  3.7.0
  */
-class PlgButtonContact extends CMSPlugin
+class PlgButtonContact extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -41,7 +35,7 @@ class PlgButtonContact extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$user  = Factory::getUser();
+		$user  = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_contact')
 			|| $user->authorise('core.edit', 'com_contact')
@@ -49,13 +43,13 @@ class PlgButtonContact extends CMSPlugin
 		{
 			// The URL for the contacts list
 			$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
-				. Session::getFormToken() . '=1&amp;editor=' . $name;
+				. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button = new CMSObject;
+		$button = new JObject;
 		$button->modal   = true;
 		$button->class = 'btn btn-secondary';
 		$button->link    = $link;
-		$button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
+		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 		$button->name    = 'address';
 		$button->options = array(
 			'height' => '300px',

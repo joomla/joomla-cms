@@ -9,19 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Component\ComponentHelper;
-
 /**
  * Editor Fields button
  *
  * @since  3.7.0
  */
-class PlgButtonFields extends CMSPlugin
+class PlgButtonFields extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -43,7 +36,7 @@ class PlgButtonFields extends CMSPlugin
 	public function onDisplay($name)
 	{
 		// Check if com_fields is enabled
-		if (!ComponentHelper::isEnabled('com_fields'))
+		if (!JComponentHelper::isEnabled('com_fields'))
 		{
 			return;
 		}
@@ -52,7 +45,7 @@ class PlgButtonFields extends CMSPlugin
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Guess the field context based on view.
-		$jinput = Factory::getApplication()->input;
+		$jinput = JFactory::getApplication()->input;
 		$context = $jinput->get('option') . '.' . $jinput->get('view');
 
 		// Validate context.
@@ -63,13 +56,13 @@ class PlgButtonFields extends CMSPlugin
 		}
 
 		$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
-			. $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
+			. $context . '&amp;editor=' . $name . '&amp;' . JSession::getFormToken() . '=1';
 
-		$button          = new CMSObject;
+		$button          = new JObject;
 		$button->modal   = true;
 		$button->class   = 'btn';
 		$button->link    = $link;
-		$button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
+		$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
 		$button->name    = 'puzzle';
 		$button->options = array(
 			'height'     => '300px',

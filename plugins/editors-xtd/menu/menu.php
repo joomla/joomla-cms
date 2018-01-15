@@ -9,18 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Editor menu buton
  *
  * @since  3.7.0
  */
-class PlgButtonMenu extends CMSPlugin
+class PlgButtonMenu extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -44,18 +38,18 @@ class PlgButtonMenu extends CMSPlugin
 		 * Use the built-in element view to select the menu item.
 		 * Currently uses blank class.
 		 */
-		$user  = Factory::getUser();
+		$user  = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_menus')
 			|| $user->authorise('core.edit', 'com_menus'))
 		{
 		$link = 'index.php?option=com_menus&amp;view=items&amp;layout=modal&amp;tmpl=component&amp;'
-			. Session::getFormToken() . '=1&amp;editor=' . $name;
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button          = new CMSObject;
+		$button          = new JObject;
 		$button->modal   = true;
 		$button->link    = $link;
-		$button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
+		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
 		$button->options = array(
 			'height' => '300px',

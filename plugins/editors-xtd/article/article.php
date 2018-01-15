@@ -9,18 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Editor Article buton
  *
  * @since  1.5
  */
-class PlgButtonArticle extends CMSPlugin
+class PlgButtonArticle extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -41,14 +35,15 @@ class PlgButtonArticle extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$user  = Factory::getUser();
+		$input = JFactory::getApplication()->input;
+		$user  = JFactory::getUser();
 
 		// Can create in any category (component permission) or at least in one category
 		$canCreateRecords = $user->authorise('core.create', 'com_content')
 			|| count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
 		// Instead of checking edit on all records, we can use **same** check as the form editing view
-		$values = (array) Factory::getApplication()->getUserState('com_content.edit.article.id');
+		$values = (array) JFactory::getApplication()->getUserState('com_content.edit.article.id');
 		$isEditingRecords = count($values);
 
 		// This ACL check is probably a double-check (form view already performed checks)
@@ -59,13 +54,13 @@ class PlgButtonArticle extends CMSPlugin
 		}
 
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
-			. Session::getFormToken() . '=1&amp;editor=' . $name;
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button = new CMSObject;
+		$button = new JObject;
 		$button->modal = true;
 		$button->class = 'btn btn-secondary';
 		$button->link = $link;
-		$button->text = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name = 'file-add';
 		$button->options = array(
 			'height'     => '300px',

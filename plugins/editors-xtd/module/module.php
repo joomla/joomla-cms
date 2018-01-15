@@ -9,18 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Object\CMSObject;
-
 /**
  * Editor Module button
  *
  * @since  3.5
  */
-class PlgButtonModule extends CMSPlugin
+class PlgButtonModule extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -45,19 +39,19 @@ class PlgButtonModule extends CMSPlugin
 		 * Use the built-in element view to select the module.
 		 * Currently uses blank class.
 		 */
-		$user  = Factory::getUser();
+		$user  = JFactory::getUser();
 
 		if ($user->authorise('core.create', 'com_modules')
 			|| $user->authorise('core.edit', 'com_modules')
 			|| $user->authorise('core.edit.own', 'com_modules'))
 		{
 			$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
-					. $name . '&amp;' . Session::getFormToken() . '=1';
-			$button          = new CMSObject;
+					. $name . '&amp;' . JSession::getFormToken() . '=1';
+			$button          = new JObject;
 			$button->modal   = true;
 			$button->class   = 'btn btn-secondary';
 			$button->link    = $link;
-			$button->text    = Text::_('PLG_MODULE_BUTTON_MODULE');
+			$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 			$button->name    = 'file-add';
 			$button->options = array(
 				'height'     => '300px',

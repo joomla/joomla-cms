@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
+
 /**
  * Fields Radio Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsRadio extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsRadio extends FieldsListPlugin
 {
 }

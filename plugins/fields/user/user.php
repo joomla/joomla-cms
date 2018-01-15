@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
-
 /**
  * Fields User Plugin
  *
@@ -31,9 +28,9 @@ class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
-		if (Factory::getApplication()->isClient('site'))
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

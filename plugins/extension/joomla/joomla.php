@@ -9,16 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-
 /**
  * Joomla! master extension plugin.
  *
  * @since  1.6
  */
-class PlgExtensionJoomla extends CMSPlugin
+class PlgExtensionJoomla extends JPlugin
 {
 	/**
 	 * @var    integer Extension Identifier
@@ -54,7 +50,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
 		$query = $db->getQuery(true)
@@ -144,7 +140,7 @@ class PlgExtensionJoomla extends CMSPlugin
 		// update sites for it
 		if ($eid && $removed)
 		{
-			$db = Factory::getDbo();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__update_sites_extensions')
 				->where('extension_id = ' . $eid);
@@ -261,7 +257,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			if ($data !== '')
 			{
 				// We have a single entry in the update server line, let us presume this is an extension line
-				$this->addUpdateSite(Text::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
+				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
 			}
 		}
 	}

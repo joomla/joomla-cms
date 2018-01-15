@@ -10,18 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Editor Readmore button
  *
  * @since  1.5
  */
-class PlgButtonReadmore extends CMSPlugin
+class PlgButtonReadmore extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -50,22 +45,22 @@ class PlgButtonReadmore extends CMSPlugin
 
 		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
 		$getContent = $getContentResult['result'][0];
-		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Pass some data to javascript
-		Factory::getDocument()->addScriptOptions(
+		JFactory::getDocument()->addScriptOptions(
 			'xtd-readmore',
 			array(
 				'editor' => $getContent,
-				'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
+				'exists' => JText::_('PLG_READMORE_ALREADY_EXISTS', true),
 			)
 		);
 
-		$button = new CMSObject;
+		$button = new JObject;
 		$button->modal   = false;
 		$button->class   = 'btn btn-secondary';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
+		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
 		$button->link    = '#';
 

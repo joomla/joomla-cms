@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Form;
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields Imagelist Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsImagelist extends FieldsListPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -29,7 +29,7 @@ class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\F
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

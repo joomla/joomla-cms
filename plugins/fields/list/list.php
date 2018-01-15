@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINISTRATOR);
+
 /**
  * Fields list Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsList extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsList extends FieldsListPlugin
 {
 }
