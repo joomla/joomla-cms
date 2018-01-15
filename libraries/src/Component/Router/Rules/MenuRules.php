@@ -123,7 +123,6 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$viewLayout];
-
 						return;
 					}
 
@@ -132,7 +131,6 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
-
 							return;
 						}
 					}
@@ -143,7 +141,6 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$view];
-
 						return;
 					}
 
@@ -152,7 +149,6 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
-
 							return;
 						}
 					}
@@ -160,16 +156,20 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// If there is no view and task in query then add the default item id
-		if (!isset($query['view']) && !isset($query['task']))
+		// Check if the active menuitem matches the requested language
+		if ($active && $active->component === 'com_' . $this->router->getName()
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
 		{
-			// If not found, return language specific home link
-			$default = $this->router->menu->getDefault($language);
+			$query['Itemid'] = $active->id;
+			return;
+		}
 
-			if (!empty($default->id))
-			{
-				$query['Itemid'] = $default->id;
-			}
+		// If not found, return language specific home link
+		$default = $this->router->menu->getDefault($language);
+
+		if (!empty($default->id))
+		{
+			$query['Itemid'] = $default->id;
 		}
 	}
 

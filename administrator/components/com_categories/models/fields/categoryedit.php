@@ -174,7 +174,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
-
 			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 

@@ -57,6 +57,7 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
+
 			return parent::display($tpl);
 		}
 

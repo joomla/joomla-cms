@@ -141,7 +141,7 @@ class InstallerModelLanguages extends JModelList
 
 			foreach ($extension->attributes() as $key => $value)
 			{
-				$language->$key = (string) $value;
+				$language->$key =  (string) $value;
 			}
 
 			if ($search)

@@ -134,7 +134,6 @@ class Tags extends AbstractObserver
 			{
 				$result = $this->tagsHelper->postStoreProcess($this->table, $this->table->tagsHelper->tags);
 			}
-
 			// Restore default values for the optional params:
 			$this->newTags = array();
 			$this->replaceTags = true;

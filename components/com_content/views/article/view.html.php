@@ -139,8 +139,7 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		/**
-		 * Check for no 'access-view' and empty fulltext,
+		/* Check for no 'access-view' and empty fulltext,
 		 * - Redirect guest users to login
 		 * - Deny access to logged users with 403 code
 		 * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
@@ -163,10 +162,8 @@ class ContentViewArticle extends JViewLegacy
 			}
 		}
 
-		/**
-		 * NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
-		 * responsibility of the layout to check 'access-view' and only use "introtext" for guests
-		 */
+		// NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
+		// responsibility of the layout to check 'access-view' and only use "introtext" for guests
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
@@ -189,6 +186,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// Process the content plugins.
+
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
@@ -222,10 +220,8 @@ class ContentViewArticle extends JViewLegacy
 		$pathway = $app->getPathway();
 		$title   = null;
 
-		/**
-		 * Because the application sets a default page title,
-		 * we need to get it from the menu item itself
-		 */
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
 		if ($menu)

@@ -97,7 +97,6 @@ class ApplicationHelper
 				$languageParams = ComponentHelper::getParams('com_languages');
 				$language = $languageParams->get('site');
 			}
-
 			$output = \JFilterOutput::stringURLSafe($string, $language);
 		}
 

@@ -285,7 +285,6 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		JHtml::_('bootstrap.popover');
-
 		return JLayoutHelper::render('joomla.content.associations', $items);
 	}
 
@@ -468,7 +467,7 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		// Get the extension specific helper method
-		$helper = self::getExtensionHelper($extensionName);
+		$helper= self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowEdit'))
 		{
@@ -496,7 +495,7 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		// Get the extension specific helper method
-		$helper = self::getExtensionHelper($extensionName);
+		$helper= self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowAdd'))
 		{

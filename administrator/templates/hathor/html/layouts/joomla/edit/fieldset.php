@@ -50,7 +50,7 @@ if ($displayData->get('show_options', 1))
 	}
 	$html[] = '</ul>';
 	$html[] = '</fieldset>';
-
+	
 	echo implode('', $html);
 }
 else

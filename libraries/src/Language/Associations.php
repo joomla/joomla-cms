@@ -43,7 +43,6 @@ class Associations
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
 		$queryKey = implode('|', func_get_args());
-
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
 			$multilanguageAssociations[$queryKey] = array();
@@ -91,7 +90,6 @@ class Associations
 			}
 
 			$query->where('c.' . $pk . ' = ' . (int) $id);
-
 			if ($tablename === '#__categories')
 			{
 				$query->where('c.extension = ' . $db->quote($extension));

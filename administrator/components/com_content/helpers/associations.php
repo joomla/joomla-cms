@@ -141,6 +141,7 @@ class ContentAssociationsHelper extends AssociationExtensionHelper
 
 		if (in_array($typeName, $this->itemTypes))
 		{
+
 			switch ($typeName)
 			{
 				case 'article':

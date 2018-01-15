@@ -175,7 +175,6 @@ abstract class FeedParser
 
 			return;
 		}
-
 		// Otherwise we treat it like any other element.
 
 		// First call the internal method.

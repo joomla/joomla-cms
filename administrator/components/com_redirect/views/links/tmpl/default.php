@@ -29,8 +29,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'bootstrap.renderModal',
 				'plugin' . $this->redirectPluginId . 'Modal',
 				array(
-					'url'         => $link,
-					'title'       => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+					'url'        => $link,
+					'title'      => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
 					'height'      => '400px',
 					'width'       => '800px',
 					'bodyHeight'  => '70',
@@ -38,12 +38,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+					'footer'     => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. '<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
+						. '<button class="btn btn-success" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
 						. JText::_("JAPPLY") . '</button>'
 				)
 			); ?>
@@ -170,3 +169,4 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
+

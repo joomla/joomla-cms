@@ -223,7 +223,6 @@ class FormHelper
 					$paths[] = $path;
 				}
 			}
-
 			// Break off the end of the complex type.
 			$type = substr($type, $pos + 1);
 		}
@@ -416,7 +415,6 @@ class FormHelper
 		foreach ($new as $prefix)
 		{
 			$prefix = trim($prefix);
-
 			if (in_array($prefix, $prefixes))
 			{
 				continue;

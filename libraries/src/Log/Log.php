@@ -264,7 +264,6 @@ class Log
 		{
 			static::setInstance(new static);
 		}
-
 		return new DelegatingPsrLogger(static::$instance);
 	}
 

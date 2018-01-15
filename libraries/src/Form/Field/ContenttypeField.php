@@ -104,6 +104,7 @@ class ContenttypeField extends \JFormFieldList
 			{
 				$option->text = \JText::_($option->string);
 			}
+
 		}
 
 		return $options;

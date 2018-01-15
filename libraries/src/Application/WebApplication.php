@@ -451,20 +451,24 @@ class WebApplication extends BaseApplication
 			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
 			{
 				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+				// @codeCoverageIgnoreStart
 				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
 				{
 					continue;
 				}
+				// @codeCoverageIgnoreEnd
 
 				// Attempt to gzip encode the data with an optimal level 4.
 				$data = $this->getBody();
 				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
 
 				// If there was a problem encoding the data just try the next encoding scheme.
+				// @codeCoverageIgnoreStart
 				if ($gzdata === false)
 				{
 					continue;
 				}
+				// @codeCoverageIgnoreEnd
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
@@ -709,16 +713,13 @@ class WebApplication extends BaseApplication
 
 		// Create an array of duplicate header names
 		$keys = false;
-
 		if ($this->response->headers)
 		{
 			$names = array();
-
 			foreach ($this->response->headers as $key => $header)
 			{
 				$names[$key] = $header['name'];
 			}
-
 			// Find existing headers by name
 			$keys = array_keys($names, $name);
 		}
@@ -729,13 +730,12 @@ class WebApplication extends BaseApplication
 			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
 		}
 
-		/*
+		/**
 		 * If no keys found, safe to insert (!$keys)
 		 * If ($keys && $replace) it's a replacement and previous have been deleted
 		 * If ($keys && !in_array...) it's a multiple value header
 		 */
 		$single = in_array($name, $this->singleValueResponseHeaders);
-
 		if ($value && (!$keys || ($keys && ($replace || !$single))))
 		{
 			// Add the header to the internal array.
@@ -785,18 +785,18 @@ class WebApplication extends BaseApplication
 		{
 			// Creating an array of headers, making arrays of headers with multiple values
 			$val = array();
-
 			foreach ($this->response->headers as $header)
 			{
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					$status = $this->getHttpStatusValue($header['value']);
+
 					$this->header($status, true, (int) $header['value']);
 				}
 				else
 				{
-					$val[$header['name']] = !isset($val[$header['name']]) ? $header['value'] : implode(', ', array($val[$header['name']], $header['value']));
+					$val[$header['name']] = !isset($val[$header['name']])?$header['value']:implode(', ', array($val[$header['name']], $header['value']));
 					$this->header($header['name'] . ': ' . $val[$header['name']], true);
 				}
 			}
@@ -930,6 +930,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if the connection is valid and normal.
 	 *
+	 * @codeCoverageIgnore
 	 * @see     connection_status()
 	 * @since   11.3
 	 */
@@ -944,6 +945,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if the headers have already been sent.
 	 *
+	 * @codeCoverageIgnore
 	 * @see     headers_sent()
 	 * @since   11.3
 	 */
@@ -1074,6 +1076,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @see     header()
 	 * @since   11.3
 	 */
@@ -1225,6 +1228,7 @@ class WebApplication extends BaseApplication
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
+		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -1233,6 +1237,7 @@ class WebApplication extends BaseApplication
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
+		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));

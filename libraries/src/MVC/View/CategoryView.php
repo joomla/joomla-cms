@@ -172,7 +172,7 @@ class CategoryView extends HtmlView
 				$itemElement->event = new \stdClass;
 
 				// For some plugins.
-				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
+				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
 				$dispatcher = \JEventDispatcher::getInstance();
 
