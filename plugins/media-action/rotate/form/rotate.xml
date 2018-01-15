@@ -11,15 +11,31 @@
 			step="1"
 			default="80"
 		/>
+
 		<field
 			type="spacer"
 			hr="true"
 		/>
+
 		<field
-			name="rotate"
+			name="rotate_angle"
+			type="text"
+			label="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
+			hiddenLabel="true"
+			addonBefore="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
+			addonAfter=""
+			pattern="\d*\.?\d*"
+			default="0"
+		/>
+
+		<field
+			name="rotate_a"
 			type="range"
-			label="Rotate"
+			label=""
 			value="0"
+			min="0"
+			max="360"
+			labelclass="d-none"
 		/>
 	</fieldset>
 </form>

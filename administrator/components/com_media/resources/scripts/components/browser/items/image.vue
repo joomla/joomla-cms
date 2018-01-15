@@ -8,7 +8,7 @@
         <div class="media-browser-item-info">
             {{ item.name }} {{ item.filetype }}
         </div>
-        <a href="#" class="media-browser-select" 
+        <a href="#" class="media-browser-select"
           @click.stop="toggleSelect()"
           :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')">
         </a>
@@ -24,12 +24,17 @@
                     <span class="image-browser-action fa fa-search-plus" aria-hidden="true"
                           @click.stop="openPreview()"></span>
                 </a>
+                <a href="#" class="action-download"
+                  :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')">
+                    <span class="image-browser-action fa fa-download" aria-hidden="true"
+                          @click.stop="download()"></span>
+                </a>
                 <a href="#" class="action-rename"
                   :aria-label="translate('COM_MEDIA_ACTIN_RENAME')">
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
-                <a href="#" class="action-edit" 
+                <a href="#" class="action-edit"
                   v-if="canEdit"
                     :aria-label="translate('COM_MEDIA_ACTION_EDIT')">
                     <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
@@ -69,6 +74,10 @@
             openPreview() {
                 this.$store.commit(types.SHOW_PREVIEW_MODAL);
                 this.$store.dispatch('getFullContents', this.item);
+            },
+            /* Preview an item */
+            download() {
+                this.$store.dispatch('download', this.item);
             },
             /* Delete an item */
             deleteItem() {

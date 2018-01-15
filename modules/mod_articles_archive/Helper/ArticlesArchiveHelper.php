@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Helper for mod_articles_archive
@@ -32,6 +35,9 @@ class ArticlesArchiveHelper
 	 */
 	public static function getList(&$params)
 	{
+		// Get application
+		$app = Factory::getApplication();
+
 		// Get database
 		$db    = Factory::getDbo();
 		$states = (array) $params->get('state', [4]);
@@ -53,7 +59,7 @@ class ArticlesArchiveHelper
 		}
 
 		// Filter by language
-		if (Factory::getApplication()->getLanguageFilter())
+		if ($app->getLanguageFilter())
 		{
 			$query->where('language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
@@ -66,11 +72,11 @@ class ArticlesArchiveHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
 			return [];
 		}
 
-		$app    = Factory::getApplication();
 		$menu   = $app->getMenu();
 		$item   = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
@@ -95,15 +101,15 @@ class ArticlesArchiveHelper
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = \JHtml::_('date', $row->created, 'Y');
-			$month_name_cal   = \JHtml::_('date', $row->created, 'F');
+			$created_year_cal = HTMLHelper::_('date', $row->created, 'Y');
+			$month_name_cal   = HTMLHelper::_('date', $row->created, 'F');
 
 			$lists[$i] = new \stdClass;
 
 			$route = 'index.php?option=com_content&view=archive' . $states . '&year=' . $created_year . '&month=' . $created_month . $itemid;
 
-			$lists[$i]->link = \JRoute::_($route);
-			$lists[$i]->text = \JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
+			$lists[$i]->link = Route::_($route);
+			$lists[$i]->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;
 		}
