@@ -112,7 +112,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 					<td class="small hidden-phone">
 						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
-					<td class="hidden-phone">						
+					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
