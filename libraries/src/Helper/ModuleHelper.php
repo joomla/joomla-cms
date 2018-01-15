@@ -656,11 +656,6 @@ abstract class ModuleHelper
 	 */
 	public static function &getModuleById($id)
 	{
-		$app      = \JFactory::getApplication();
-		$groups   = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
-		$lang     = \JFactory::getLanguage()->getTag();
-		$clientId = (int) $app->getClientId();
-
 		$modules =& static::load();
 
 		$total = count($modules);
