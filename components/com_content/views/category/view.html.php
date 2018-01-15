@@ -160,15 +160,24 @@ class ContentViewCategory extends JViewCategory
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$app     = Factory::getApplication();
-		$active  = $app->getMenu()->getActive();
+		$app    = Factory::getApplication();
+		$active = $app->getMenu()->getActive();
 
-		if ($active)
+		if ($active
+			&& $active->component == 'com_content'
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'category'
+			&& $active->query['id'] == $this->category->id)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $active->title));
+			$title = $this->params->get('page_title', $active->title);
 		}
-
-		$title = $this->params->get('page_title', '');
+		else
+		{
+			$this->params->def('page_heading', $this->category->title);
+			$title = $this->category->title;
+			$this->params->set('page_title', $title);
+		}
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
