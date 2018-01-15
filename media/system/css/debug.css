@@ -189,12 +189,8 @@ div#system-debug {
 	border: 0;
 	margin: 0;
 	padding: 0;
-	white-space: pre-wrap;       /* css-3 */
-	white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-	white-space: -pre-wrap;      /* Opera 4-6 */
-	white-space: -o-pre-wrap;    /* Opera 7 */
-	white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
-	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	overflow-wrap: break-word;
+	white-space: pre-wrap;
 	word-break: break-word;
 }
 #dbg_container_session pre .blue
