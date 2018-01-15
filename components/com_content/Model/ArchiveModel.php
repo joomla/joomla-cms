@@ -45,7 +45,8 @@ class ArchiveModel extends ArticlesModel
 		$app = \JFactory::getApplication();
 
 		// Add archive properties
-		$params = $this->state->params;
+		$params = $app->getParams();
+		$this->setState('params', $params);
 
 		// Filter on archived articles
 		$this->setState('filter.published', 2);
