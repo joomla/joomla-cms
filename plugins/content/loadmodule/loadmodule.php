@@ -210,20 +210,19 @@ class PlgContentLoadmodule extends JPlugin
 	/**
 	 * Loads and renders the module
 	 *
-	 * @param   string  $id       The id of the module
-	 * @param   string  $style    The style assigned to the module
+	 * @param   string  $id  The id of the module
 	 *
 	 * @return  mixed
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function _loadid($id, $style = 'none')
+	protected function _loadid($id)
 	{
 		self::$modules[$id] = '';
 		$document = JFactory::getDocument();
 		$renderer = $document->loadRenderer('module');
 		$modules  = JModuleHelper::getModuleById($id);
-		$params   = array('style' => $style);
+		$params   = array('style' => 'none');
 		ob_start();
 
 		if ($modules->id > 0)
