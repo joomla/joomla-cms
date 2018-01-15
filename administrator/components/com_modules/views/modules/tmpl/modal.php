@@ -89,7 +89,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
 					<td class="has-context">
-						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>
@@ -112,10 +112,8 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 					<td class="small hidden-phone">
 						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 					</td>
-					<td class="hidden-phone">
-						<a class="js-modid-insert btn btn-small btn-block btn-success" href="#" data-modid="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+					<td class="hidden-phone">						
 						<?php echo (int) $item->id; ?>
-						</a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
