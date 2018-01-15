@@ -283,6 +283,7 @@ abstract class AdminModel extends FormModel
 					{
 						$contexts[$new] = $contexts[$old];
 					}
+
 					$pks = array_values($result);
 				}
 				else
