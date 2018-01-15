@@ -123,15 +123,19 @@ class ContactHelper extends JHelperContent
 		$db = JFactory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
+
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
+
 		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+
 		if ($section === 'category')
 		{
 			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
 		}
+
 		foreach ($items as $item)
 		{
 			$item->count_trashed = 0;
@@ -193,6 +197,12 @@ class ContactHelper extends JHelperContent
 		{
 			// The contact form needs to be the mail section
 			$section = 'mail';
+		}
+
+		if (JFactory::getApplication()->isClient('site') && $section == 'category')
+		{
+			// The contact form needs to be the mail section
+			$section = 'contact';
 		}
 
 		if ($section != 'mail' && $section != 'contact')

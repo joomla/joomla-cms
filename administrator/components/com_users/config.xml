@@ -209,7 +209,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"
@@ -277,6 +277,19 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno btn-group-reversed"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer"
+		>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+		</field>
 
 		<field
 			name="custom_fields_enable"

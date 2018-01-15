@@ -164,7 +164,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 			->innerJoin('b ON b.id = a.id')
 			->where('b.id = 1')
 			->group('a.id')
-				->having('COUNT(a.id) > 3')
+			->having('COUNT(a.id) > 3')
 			->order('a.id');
 
 		$this->assertEquals(
@@ -1180,7 +1180,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-			// date, interval, datepart, expected
+			// Elements: date, interval, datepart, expected
 			'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
 			'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
 			'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),

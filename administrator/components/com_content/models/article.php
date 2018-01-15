@@ -525,7 +525,7 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Categoryg
+		// Save New Category
 		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
@@ -850,7 +850,7 @@ class ContentModelArticle extends JModelAdmin
 		if ($return)
 		{
 			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-			$db = JFactory::getDbo();
+			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
 				->where('content_id IN (' . implode(',', $pks) . ')');

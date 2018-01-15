@@ -92,7 +92,7 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->event = new stdClass;
 
 				// For some plugins.
-				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
 				$dispatcher = JEventDispatcher::getInstance();
 
@@ -150,7 +150,7 @@ class TagsViewTag extends JViewLegacy
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
+			// If the current view is the active item and a tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id))
 			{
 				// $item[0]->params are the tag params, $temp are the menu item params

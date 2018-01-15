@@ -255,6 +255,7 @@ class UsersModelGroup extends JModelAdmin
 				return false;
 			}
 		}
+
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{

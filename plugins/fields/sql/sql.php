@@ -68,6 +68,7 @@ class PlgFieldsSql extends FieldsListPlugin
 		if (!JAccess::getAssetRules(1)->allow('core.admin', JFactory::getUser()->getAuthorisedGroups()))
 		{
 			$item->setError(JText::_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
+
 			return false;
 		}
 

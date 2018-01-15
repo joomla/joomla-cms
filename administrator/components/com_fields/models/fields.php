@@ -240,6 +240,7 @@ class FieldsModelFields extends JModelList
 		$includeGroupState = !$app->isClient('administrator') ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
+
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
@@ -304,7 +305,7 @@ class FieldsModelFields extends JModelList
 		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
 		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

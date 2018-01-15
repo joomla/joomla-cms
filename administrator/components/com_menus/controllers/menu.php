@@ -78,10 +78,10 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
-		$data = $model->validate($form, $data);
+		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false)
+		if ($validData === false)
 		{
 			// Get the validation messages.
 			$errors = $model->getErrors();
@@ -98,8 +98,9 @@ class MenusControllerMenu extends JControllerForm
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
+
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.menu.data', $data);
+			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
@@ -107,11 +108,18 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
+		if (isset($validData['preset']))
+		{
+			$preset = trim($validData['preset']) ?: null;
+
+			unset($validData['preset']);
+		}
+
 		// Attempt to save the data.
-		if (!$model->save($data))
+		if (!$model->save($validData))
 		{
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.menu.data', $data);
+			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
@@ -120,7 +128,25 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
-		$this->setMessage(JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
+		// Import the preset selected
+		if (isset($preset) && $data['client_id'] == 1)
+		{
+			try
+			{
+				MenusHelper::installPreset($preset, $data['menutype']);
+
+				$this->setMessage(JText::_('COM_MENUS_PRESET_IMPORT_SUCCESS'));
+			}
+			catch (Exception $e)
+			{
+				// Save was successful but the preset could not be loaded. Let it through with just a warning
+				$this->setMessage(JText::sprintf('COM_MENUS_PRESET_IMPORT_FAILED', $e->getMessage()));
+			}
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
+		}
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -152,5 +178,35 @@ class MenusControllerMenu extends JControllerForm
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 				break;
 		}
+	}
+
+	/**
+	 * Method to display a menu as preset xml.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.8.0
+	 */
+	public function exportXml()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		$cid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('Menu');
+		$item  = $model->getItem(reset($cid));
+
+		if (!$item->menutype)
+		{
+			$this->setMessage(JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
+
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
+
+			return false;
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&menutype=' . $item->menutype . '&format=xml', false));
+
+		return true;
 	}
 }

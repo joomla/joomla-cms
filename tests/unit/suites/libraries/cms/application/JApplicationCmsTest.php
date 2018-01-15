@@ -190,11 +190,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Build the mock object.
 		$mockClient = $this->getMockBuilder('JApplicationWebClient')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
+			->setMethods(array('test'))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -445,7 +445,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -459,9 +459,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -515,7 +515,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -529,9 +529,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -581,7 +581,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -595,9 +595,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -699,12 +699,12 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301', true, null),
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
 			$this->class->headers[0]
 		);
 
 		$this->assertEquals(
-			array('Location: '  . $url, true, null),
+			array('Location: ' . $url, true, null),
 			$this->class->headers[1]
 		);
 
@@ -713,9 +713,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),

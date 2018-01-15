@@ -67,6 +67,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -82,7 +83,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			// We also need to change the category filter to show show categories with All or the forced language.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
 			{
-				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into a hidden field.
 				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
 				$this->filterForm->setField($languageXml, 'filter', true);
 

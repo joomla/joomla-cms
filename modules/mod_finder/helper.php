@@ -14,9 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Finder module helper.
  *
- * @package     Joomla.Site
- * @subpackage  mod_finder
- * @since       2.5
+ * @since  2.5
  */
 class ModFinderHelper
 {

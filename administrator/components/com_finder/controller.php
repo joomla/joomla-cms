@@ -43,7 +43,7 @@ class FinderController extends JControllerLegacy
 		$filterId = $this->input->get('filter_id', null, 'int');
 
 		// Check for edit form.
-		if ($view == 'filter' && $layout == 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId))
+		if ($view === 'filter' && $layout === 'edit' && !$this->checkEditId('com_finder.edit.filter', $filterId))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $filterId));

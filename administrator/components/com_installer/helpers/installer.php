@@ -51,7 +51,7 @@ class InstallerHelper
 			$vName == 'database'
 		);
 		JHtmlSidebar::addEntry(
-		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
+			JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 			'index.php?option=com_installer&view=warnings',
 			$vName == 'warnings'
 		);

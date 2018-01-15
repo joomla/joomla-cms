@@ -118,7 +118,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				'eos'      => '2016-07-21'
 			),
 			'5.6' => array(
-				'security' => '2016-12-31',
+				'security' => '2017-01-19',
 				'eos'      => '2018-12-31'
 			),
 			'7.0' => array(
@@ -128,6 +128,10 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			'7.1' => array(
 				'security' => '2018-12-01',
 				'eos'      => '2019-12-01'
+			),
+			'7.2' => array(
+				'security' => '2019-11-30',
+				'eos'      => '2020-11-30'
 			),
 		);
 

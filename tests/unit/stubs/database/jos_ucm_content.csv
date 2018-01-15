@@ -20,7 +20,7 @@
 <p>The menu manager lets you create the menus you see displayed on your site. It also allows you to assign modules and template styles to specific menu links. <a href="https://help.joomla.org/proxy/index.php?keyref=Help16:Menus_Menu_Manager">Help</a></p>
 <hr title="Global Configuration" alt="Global Configuration" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
 <h3>Global Configuration</h3>
-<p>The global configuration is where the site administrator configures things such as whether search engine friendly urls are enabled, the site meta data (descriptive text used by search engines and indexers) and other functions. For many beginning users simply leaving the settings on default is a good way to begin, although when your site is ready for the public you will want to change the meta data to match its content. <a href="https://help.joomla.org/proxy/index.php?keyref=Help16:Site_Global_Configuration">Help</a></p>
+<p>The global configuration is where the site administrator configures things such as whether search engine friendly urls are enabled, the site metadata (descriptive text used by search engines and indexers) and other functions. For many beginning users simply leaving the settings on default is a good way to begin, although when your site is ready for the public you will want to change the metadata to match its content. <a href="https://help.joomla.org/proxy/index.php?keyref=Help16:Site_Global_Configuration">Help</a></p>
 <hr title="Banners" alt="Banners" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />
 <h3>Banners</h3>
 <p>The banners component provides a simple way to display a rotating image in a module and, if you wish to have advertising, a way to track the number of times an image is viewed and clicked. <a href="https://help.joomla.org/proxy/index.php?keyref=Help16:Components_Banners_Banners_Edit">Help</a></p>
@@ -214,7 +214,7 @@
 '52','com_content.article','Spotted Quoll','spotted-quoll','<p> </p>
 <p> </p>
 ','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','43','141',,,'0','1','4',,,'72',,'1'
-'53','com_content.article','Statistics Module','statistics','<p>This module shows information about your server installation together with statistics on the website users, number of Articles in your database and the number of Web links you provide.</p>
+'53','com_content.article','Statistics Module','statistics','<p>This module shows information about your server installation together with statistics on the website users and the number of Articles in your database.</p>
 <div class="sample-module">{loadmodule mod_stats,Statistics}</div>','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','44','142',,,'0','1','5',,,'67',,'1'
 '54','com_content.article','Syndicate Module','syndicate-module','<p>The syndicate module will display a link that allows users to take a feed from your site. It will only display on pages for which feeds are possible. That means it will not display on single article, contact or weblinks pages, such as this one. <a href="https://docs.joomla.org/Special:MyLanguage/Help15:Screen.modulessite.edit.15#Syndicate" title="Synicate Module">Help</a></p>
 <div class="sample-module">{loadposition syndicate,Syndicate}</div>','1',,'0','1',,'0',,'0',,'2011-01-01 00:00:01','0','0000-00-00 00:00:00','*','2011-01-01 00:00:01','0000-00-00 00:00:00','45','143',,,'0','1','6',,,'67',,'1'

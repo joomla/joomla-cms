@@ -189,6 +189,7 @@
       cm.state.closeBrackets = null;
     }
     if (val) {
+      ensureBound(getOption(val, "pairs"))
       cm.state.closeBrackets = val;
       cm.addKeyMap(keyMap);
     }
@@ -200,10 +201,14 @@
     return defaults[name];
   }
 
-  var bind = defaults.pairs + "`";
   var keyMap = {Backspace: handleBackspace, Enter: handleEnter};
-  for (var i = 0; i < bind.length; i++)
-    keyMap["'" + bind.charAt(i) + "'"] = handler(bind.charAt(i));
+  function ensureBound(chars) {
+    for (var i = 0; i < chars.length; i++) {
+      var ch = chars.charAt(i), key = "'" + ch + "'"
+      if (!keyMap[key]) keyMap[key] = handler(ch)
+    }
+  }
+  ensureBound(defaults.pairs + "`")
 
   function handler(ch) {
     return function(cm) { return handleChar(cm, ch); };
@@ -555,12 +560,21 @@
 
   var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
 
-  function findMatchingBracket(cm, where, strict, config) {
+  function findMatchingBracket(cm, where, config) {
     var line = cm.getLineHandle(where.line), pos = where.ch - 1;
-    var match = (pos >= 0 && matching[line.text.charAt(pos)]) || matching[line.text.charAt(++pos)];
+    var afterCursor = config && config.afterCursor
+    if (afterCursor == null)
+      afterCursor = /(^| )cm-fat-cursor($| )/.test(cm.getWrapperElement().className)
+
+    // A cursor is defined as between two characters, but in in vim command mode
+    // (i.e. not insert mode), the cursor is visually represented as a
+    // highlighted box on top of the 2nd character. Otherwise, we allow matches
+    // from before or after the cursor.
+    var match = (!afterCursor && pos >= 0 && matching[line.text.charAt(pos)]) ||
+        matching[line.text.charAt(++pos)];
     if (!match) return null;
     var dir = match.charAt(1) == ">" ? 1 : -1;
-    if (strict && (dir > 0) != (pos == where.ch)) return null;
+    if (config && config.strict && (dir > 0) != (pos == where.ch)) return null;
     var style = cm.getTokenTypeAt(Pos(where.line, pos + 1));
 
     var found = scanForBracket(cm, Pos(where.line, pos + (dir > 0 ? 1 : 0)), dir, style || null, config);
@@ -608,7 +622,7 @@
     var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
     var marks = [], ranges = cm.listSelections();
     for (var i = 0; i < ranges.length; i++) {
-      var match = ranges[i].empty() && findMatchingBracket(cm, ranges[i].head, false, config);
+      var match = ranges[i].empty() && findMatchingBracket(cm, ranges[i].head, config);
       if (match && cm.getLine(match.from.line).length <= maxHighlightLen) {
         var style = match.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
         marks.push(cm.markText(match.from, Pos(match.from.line, match.from.ch + 1), {className: style}));
@@ -652,8 +666,17 @@
   });
 
   CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
-  CodeMirror.defineExtension("findMatchingBracket", function(pos, strict, config){
-    return findMatchingBracket(this, pos, strict, config);
+  CodeMirror.defineExtension("findMatchingBracket", function(pos, config, oldConfig){
+    // Backwards-compatibility kludge
+    if (oldConfig || typeof config == "boolean") {
+      if (!oldConfig) {
+        config = config ? {strict: true} : null
+      } else {
+        oldConfig.strict = config
+        config = oldConfig
+      }
+    }
+    return findMatchingBracket(this, pos, config)
   });
   CodeMirror.defineExtension("scanForBracket", function(pos, dir, style, config){
     return scanForBracket(this, pos, dir, style, config);
@@ -900,6 +923,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       widget = document.createElement("span");
       widget.appendChild(text);
       widget.className = "CodeMirror-foldmarker";
+    } else if (widget) {
+      widget = widget.cloneNode(true)
     }
     return widget;
   }
@@ -2048,189 +2073,289 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../../lib/codemirror"));
+    mod(require("../../lib/codemirror"))
   else if (typeof define == "function" && define.amd) // AMD
-    define(["../../lib/codemirror"], mod);
+    define(["../../lib/codemirror"], mod)
   else // Plain browser env
-    mod(CodeMirror);
+    mod(CodeMirror)
 })(function(CodeMirror) {
-  "use strict";
-  var Pos = CodeMirror.Pos;
+  "use strict"
+  var Pos = CodeMirror.Pos
 
-  function SearchCursor(doc, query, pos, caseFold) {
-    this.atOccurrence = false; this.doc = doc;
-    if (caseFold == null && typeof query == "string") caseFold = false;
+  function regexpFlags(regexp) {
+    var flags = regexp.flags
+    return flags != null ? flags : (regexp.ignoreCase ? "i" : "")
+      + (regexp.global ? "g" : "")
+      + (regexp.multiline ? "m" : "")
+  }
 
-    pos = pos ? doc.clipPos(pos) : Pos(0, 0);
-    this.pos = {from: pos, to: pos};
+  function ensureGlobal(regexp) {
+    return regexp.global ? regexp : new RegExp(regexp.source, regexpFlags(regexp) + "g")
+  }
 
-    // The matches method is filled in based on the type of query.
-    // It takes a position and a direction, and returns an object
-    // describing the next occurrence of the query, or null if no
-    // more matches were found.
-    if (typeof query != "string") { // Regexp match
-      if (!query.global) query = new RegExp(query.source, query.ignoreCase ? "ig" : "g");
-      this.matches = function(reverse, pos) {
-        if (reverse) {
-          query.lastIndex = 0;
-          var line = doc.getLine(pos.line).slice(0, pos.ch), cutOff = 0, match, start;
-          for (;;) {
-            query.lastIndex = cutOff;
-            var newMatch = query.exec(line);
-            if (!newMatch) break;
-            match = newMatch;
-            start = match.index;
-            cutOff = match.index + (match[0].length || 1);
-            if (cutOff == line.length) break;
-          }
-          var matchLen = (match && match[0].length) || 0;
-          if (!matchLen) {
-            if (start == 0 && line.length == 0) {match = undefined;}
-            else if (start != doc.getLine(pos.line).length) {
-              matchLen++;
-            }
-          }
-        } else {
-          query.lastIndex = pos.ch;
-          var line = doc.getLine(pos.line), match = query.exec(line);
-          var matchLen = (match && match[0].length) || 0;
-          var start = match && match.index;
-          if (start + matchLen != line.length && !matchLen) matchLen = 1;
-        }
-        if (match && matchLen)
-          return {from: Pos(pos.line, start),
-                  to: Pos(pos.line, start + matchLen),
-                  match: match};
-      };
-    } else { // String query
-      var origQuery = query;
-      if (caseFold) query = query.toLowerCase();
-      var fold = caseFold ? function(str){return str.toLowerCase();} : function(str){return str;};
-      var target = query.split("\n");
-      // Different methods for single-line and multi-line queries
-      if (target.length == 1) {
-        if (!query.length) {
-          // Empty string would match anything and never progress, so
-          // we define it to match nothing instead.
-          this.matches = function() {};
-        } else {
-          this.matches = function(reverse, pos) {
-            if (reverse) {
-              var orig = doc.getLine(pos.line).slice(0, pos.ch), line = fold(orig);
-              var match = line.lastIndexOf(query);
-              if (match > -1) {
-                match = adjustPos(orig, line, match);
-                return {from: Pos(pos.line, match), to: Pos(pos.line, match + origQuery.length)};
-              }
-             } else {
-               var orig = doc.getLine(pos.line).slice(pos.ch), line = fold(orig);
-               var match = line.indexOf(query);
-               if (match > -1) {
-                 match = adjustPos(orig, line, match) + pos.ch;
-                 return {from: Pos(pos.line, match), to: Pos(pos.line, match + origQuery.length)};
-               }
-            }
-          };
-        }
-      } else {
-        var origTarget = origQuery.split("\n");
-        this.matches = function(reverse, pos) {
-          var last = target.length - 1;
-          if (reverse) {
-            if (pos.line - (target.length - 1) < doc.firstLine()) return;
-            if (fold(doc.getLine(pos.line).slice(0, origTarget[last].length)) != target[target.length - 1]) return;
-            var to = Pos(pos.line, origTarget[last].length);
-            for (var ln = pos.line - 1, i = last - 1; i >= 1; --i, --ln)
-              if (target[i] != fold(doc.getLine(ln))) return;
-            var line = doc.getLine(ln), cut = line.length - origTarget[0].length;
-            if (fold(line.slice(cut)) != target[0]) return;
-            return {from: Pos(ln, cut), to: to};
-          } else {
-            if (pos.line + (target.length - 1) > doc.lastLine()) return;
-            var line = doc.getLine(pos.line), cut = line.length - origTarget[0].length;
-            if (fold(line.slice(cut)) != target[0]) return;
-            var from = Pos(pos.line, cut);
-            for (var ln = pos.line + 1, i = 1; i < last; ++i, ++ln)
-              if (target[i] != fold(doc.getLine(ln))) return;
-            if (fold(doc.getLine(ln).slice(0, origTarget[last].length)) != target[last]) return;
-            return {from: from, to: Pos(ln, origTarget[last].length)};
-          }
-        };
+  function maybeMultiline(regexp) {
+    return /\\s|\\n|\n|\\W|\\D|\[\^/.test(regexp.source)
+  }
+
+  function searchRegexpForward(doc, regexp, start) {
+    regexp = ensureGlobal(regexp)
+    for (var line = start.line, ch = start.ch, last = doc.lastLine(); line <= last; line++, ch = 0) {
+      regexp.lastIndex = ch
+      var string = doc.getLine(line), match = regexp.exec(string)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpForwardMultiline(doc, regexp, start) {
+    if (!maybeMultiline(regexp)) return searchRegexpForward(doc, regexp, start)
+
+    regexp = ensureGlobal(regexp)
+    var string, chunk = 1
+    for (var line = start.line, last = doc.lastLine(); line <= last;) {
+      // This grows the search buffer in exponentially-sized chunks
+      // between matches, so that nearby matches are fast and don't
+      // require concatenating the whole document (in case we're
+      // searching for something that has tons of matches), but at the
+      // same time, the amount of retries is limited.
+      for (var i = 0; i < chunk; i++) {
+        var curLine = doc.getLine(line++)
+        string = string == null ? curLine : string + "\n" + curLine
       }
+      chunk = chunk * 2
+      regexp.lastIndex = start.ch
+      var match = regexp.exec(string)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = start.line + before.length - 1, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  function lastMatchIn(string, regexp) {
+    var cutOff = 0, match
+    for (;;) {
+      regexp.lastIndex = cutOff
+      var newMatch = regexp.exec(string)
+      if (!newMatch) return match
+      match = newMatch
+      cutOff = match.index + (match[0].length || 1)
+      if (cutOff == string.length) return match
+    }
+  }
+
+  function searchRegexpBackward(doc, regexp, start) {
+    regexp = ensureGlobal(regexp)
+    for (var line = start.line, ch = start.ch, first = doc.firstLine(); line >= first; line--, ch = -1) {
+      var string = doc.getLine(line)
+      if (ch > -1) string = string.slice(0, ch)
+      var match = lastMatchIn(string, regexp)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpBackwardMultiline(doc, regexp, start) {
+    regexp = ensureGlobal(regexp)
+    var string, chunk = 1
+    for (var line = start.line, first = doc.firstLine(); line >= first;) {
+      for (var i = 0; i < chunk; i++) {
+        var curLine = doc.getLine(line--)
+        string = string == null ? curLine.slice(0, start.ch) : curLine + "\n" + string
+      }
+      chunk *= 2
+
+      var match = lastMatchIn(string, regexp)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = line + before.length, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  var doFold, noFold
+  if (String.prototype.normalize) {
+    doFold = function(str) { return str.normalize("NFD").toLowerCase() }
+    noFold = function(str) { return str.normalize("NFD") }
+  } else {
+    doFold = function(str) { return str.toLowerCase() }
+    noFold = function(str) { return str }
+  }
+
+  // Maps a position in a case-folded line back to a position in the original line
+  // (compensating for codepoints increasing in number during folding)
+  function adjustPos(orig, folded, pos, foldFunc) {
+    if (orig.length == folded.length) return pos
+    for (var min = 0, max = pos + Math.max(0, orig.length - folded.length);;) {
+      if (min == max) return min
+      var mid = (min + max) >> 1
+      var len = foldFunc(orig.slice(0, mid)).length
+      if (len == pos) return mid
+      else if (len > pos) max = mid
+      else min = mid + 1
+    }
+  }
+
+  function searchStringForward(doc, query, start, caseFold) {
+    // Empty string would match anything and never progress, so we
+    // define it to match nothing instead.
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, last = doc.lastLine() + 1 - lines.length; line <= last; line++, ch = 0) {
+      var orig = doc.getLine(line).slice(ch), string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.indexOf(lines[0])
+        if (found == -1) continue search
+        var start = adjustPos(orig, string, found, fold) + ch
+        return {from: Pos(line, adjustPos(orig, string, found, fold) + ch),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold) + ch)}
+      } else {
+        var cutFrom = string.length - lines[0].length
+        if (string.slice(cutFrom) != lines[0]) continue search
+        for (var i = 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(line + i)) != lines[i]) continue search
+        var end = doc.getLine(line + lines.length - 1), endString = fold(end), lastLine = lines[lines.length - 1]
+        if (end.slice(0, lastLine.length) != lastLine) continue search
+        return {from: Pos(line, adjustPos(orig, string, cutFrom, fold) + ch),
+                to: Pos(line + lines.length - 1, adjustPos(end, endString, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function searchStringBackward(doc, query, start, caseFold) {
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, first = doc.firstLine() - 1 + lines.length; line >= first; line--, ch = -1) {
+      var orig = doc.getLine(line)
+      if (ch > -1) orig = orig.slice(0, ch)
+      var string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.lastIndexOf(lines[0])
+        if (found == -1) continue search
+        return {from: Pos(line, adjustPos(orig, string, found, fold)),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold))}
+      } else {
+        var lastLine = lines[lines.length - 1]
+        if (string.slice(0, lastLine.length) != lastLine) continue search
+        for (var i = 1, start = line - lines.length + 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(start + i)) != lines[i]) continue search
+        var top = doc.getLine(line + 1 - lines.length), topString = fold(top)
+        if (topString.slice(topString.length - lines[0].length) != lines[0]) continue search
+        return {from: Pos(line + 1 - lines.length, adjustPos(top, topString, top.length - lines[0].length, fold)),
+                to: Pos(line, adjustPos(orig, string, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function SearchCursor(doc, query, pos, options) {
+    this.atOccurrence = false
+    this.doc = doc
+    pos = pos ? doc.clipPos(pos) : Pos(0, 0)
+    this.pos = {from: pos, to: pos}
+
+    var caseFold
+    if (typeof options == "object") {
+      caseFold = options.caseFold
+    } else { // Backwards compat for when caseFold was the 4th argument
+      caseFold = options
+      options = null
+    }
+
+    if (typeof query == "string") {
+      if (caseFold == null) caseFold = false
+      this.matches = function(reverse, pos) {
+        return (reverse ? searchStringBackward : searchStringForward)(doc, query, pos, caseFold)
+      }
+    } else {
+      query = ensureGlobal(query)
+      if (!options || options.multiline !== false)
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackwardMultiline : searchRegexpForwardMultiline)(doc, query, pos)
+        }
+      else
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackward : searchRegexpForward)(doc, query, pos)
+        }
     }
   }
 
   SearchCursor.prototype = {
-    findNext: function() {return this.find(false);},
-    findPrevious: function() {return this.find(true);},
+    findNext: function() {return this.find(false)},
+    findPrevious: function() {return this.find(true)},
 
     find: function(reverse) {
-      var self = this, pos = this.doc.clipPos(reverse ? this.pos.from : this.pos.to);
-      function savePosAndFail(line) {
-        var pos = Pos(line, 0);
-        self.pos = {from: pos, to: pos};
-        self.atOccurrence = false;
-        return false;
+      var result = this.matches(reverse, this.doc.clipPos(reverse ? this.pos.from : this.pos.to))
+
+      // Implements weird auto-growing behavior on null-matches for
+      // backwards-compatiblity with the vim code (unfortunately)
+      while (result && CodeMirror.cmpPos(result.from, result.to) == 0) {
+        if (reverse) {
+          if (result.from.ch) result.from = Pos(result.from.line, result.from.ch - 1)
+          else if (result.from.line == this.doc.firstLine()) result = null
+          else result = this.matches(reverse, this.doc.clipPos(Pos(result.from.line - 1)))
+        } else {
+          if (result.to.ch < this.doc.getLine(result.to.line).length) result.to = Pos(result.to.line, result.to.ch + 1)
+          else if (result.to.line == this.doc.lastLine()) result = null
+          else result = this.matches(reverse, Pos(result.to.line + 1, 0))
+        }
       }
 
-      for (;;) {
-        if (this.pos = this.matches(reverse, pos)) {
-          this.atOccurrence = true;
-          return this.pos.match || true;
-        }
-        if (reverse) {
-          if (!pos.line) return savePosAndFail(0);
-          pos = Pos(pos.line-1, this.doc.getLine(pos.line-1).length);
-        }
-        else {
-          var maxLine = this.doc.lineCount();
-          if (pos.line == maxLine - 1) return savePosAndFail(maxLine);
-          pos = Pos(pos.line + 1, 0);
-        }
+      if (result) {
+        this.pos = result
+        this.atOccurrence = true
+        return this.pos.match || true
+      } else {
+        var end = Pos(reverse ? this.doc.firstLine() : this.doc.lastLine() + 1, 0)
+        this.pos = {from: end, to: end}
+        return this.atOccurrence = false
       }
     },
 
-    from: function() {if (this.atOccurrence) return this.pos.from;},
-    to: function() {if (this.atOccurrence) return this.pos.to;},
+    from: function() {if (this.atOccurrence) return this.pos.from},
+    to: function() {if (this.atOccurrence) return this.pos.to},
 
     replace: function(newText, origin) {
-      if (!this.atOccurrence) return;
-      var lines = CodeMirror.splitLines(newText);
-      this.doc.replaceRange(lines, this.pos.from, this.pos.to, origin);
+      if (!this.atOccurrence) return
+      var lines = CodeMirror.splitLines(newText)
+      this.doc.replaceRange(lines, this.pos.from, this.pos.to, origin)
       this.pos.to = Pos(this.pos.from.line + lines.length - 1,
-                        lines[lines.length - 1].length + (lines.length == 1 ? this.pos.from.ch : 0));
-    }
-  };
-
-  // Maps a position in a case-folded line back to a position in the original line
-  // (compensating for codepoints increasing in number during folding)
-  function adjustPos(orig, folded, pos) {
-    if (orig.length == folded.length) return pos;
-    for (var pos1 = Math.min(pos, orig.length);;) {
-      var len1 = orig.slice(0, pos1).toLowerCase().length;
-      if (len1 < pos) ++pos1;
-      else if (len1 > pos) --pos1;
-      else return pos1;
+                        lines[lines.length - 1].length + (lines.length == 1 ? this.pos.from.ch : 0))
     }
   }
 
   CodeMirror.defineExtension("getSearchCursor", function(query, pos, caseFold) {
-    return new SearchCursor(this.doc, query, pos, caseFold);
-  });
+    return new SearchCursor(this.doc, query, pos, caseFold)
+  })
   CodeMirror.defineDocExtension("getSearchCursor", function(query, pos, caseFold) {
-    return new SearchCursor(this, query, pos, caseFold);
-  });
+    return new SearchCursor(this, query, pos, caseFold)
+  })
 
   CodeMirror.defineExtension("selectMatches", function(query, caseFold) {
-    var ranges = [];
-    var cur = this.getSearchCursor(query, this.getCursor("from"), caseFold);
+    var ranges = []
+    var cur = this.getSearchCursor(query, this.getCursor("from"), caseFold)
     while (cur.findNext()) {
-      if (CodeMirror.cmpPos(cur.to(), this.getCursor("to")) > 0) break;
-      ranges.push({anchor: cur.from(), head: cur.to()});
+      if (CodeMirror.cmpPos(cur.to(), this.getCursor("to")) > 0) break
+      ranges.push({anchor: cur.from(), head: cur.to()})
     }
     if (ranges.length)
-      this.setSelections(ranges, 0);
-  });
+      this.setSelections(ranges, 0)
+  })
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -2567,7 +2692,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         CodeMirror.rmClass(cm.getWrapperElement(), "cm-fat-cursor");
 
       if (!next || next.attach != attachVimMap)
-        leaveVimMode(cm, false);
+        leaveVimMode(cm);
     }
     function attachVimMap(cm, prev) {
       if (this == CodeMirror.keyMap.vim)
@@ -2719,11 +2844,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       cfg = cfg || {};
       var scope = cfg.scope;
       if (!option) {
-        throw Error('Unknown option: ' + name);
+        return new Error('Unknown option: ' + name);
       }
       if (option.type == 'boolean') {
         if (value && value !== true) {
-          throw Error('Invalid argument: ' + name + '=' + value);
+          return new Error('Invalid argument: ' + name + '=' + value);
         } else if (value !== false) {
           // Boolean options are set to true if value is not defined.
           value = true;
@@ -2751,7 +2876,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       cfg = cfg || {};
       var scope = cfg.scope;
       if (!option) {
-        throw Error('Unknown option: ' + name);
+        return new Error('Unknown option: ' + name);
       }
       if (option.callback) {
         var local = cm && option.callback(undefined, cm);
@@ -2957,9 +3082,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         lastCharacterSearch: {increment:0, forward:true, selectedCharacter:''},
         registerController: new RegisterController({}),
         // search history buffer
-        searchHistoryController: new HistoryController({}),
+        searchHistoryController: new HistoryController(),
         // ex Command history buffer
-        exCommandHistoryController : new HistoryController({})
+        exCommandHistoryController : new HistoryController()
       };
       for (var optionName in options) {
         var option = options[optionName];
@@ -3266,7 +3391,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
      * for a reference implementation.
      */
     function defineRegister(name, register) {
-      var registers = vimGlobalState.registerController.registers[name];
+      var registers = vimGlobalState.registerController.registers;
       if (!name || name.length != 1) {
         throw Error('Register name must be 1 character');
       }
@@ -3294,9 +3419,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     RegisterController.prototype = {
       pushText: function(registerName, operator, text, linewise, blockwise) {
-        if (linewise && text.charAt(0) == '\n') {
-          text = text.slice(1) + '\n';
-        }
         if (linewise && text.charAt(text.length - 1) !== '\n'){
           text += '\n';
         }
@@ -3418,7 +3540,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           }
         }
         if (bestMatch.keys.slice(-11) == '<character>') {
-          inputState.selectedCharacter = lastChar(keys);
+          var character = lastChar(keys);
+          if (!character) return {type: 'none'};
+          inputState.selectedCharacter = character;
         }
         return {type: 'full', command: bestMatch};
       },
@@ -4144,16 +4268,16 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var ch = cursor.ch;
         var lineText = cm.getLine(line);
         var symbol;
-        do {
-          symbol = lineText.charAt(ch++);
+        for (; ch < lineText.length; ch++) {
+          symbol = lineText.charAt(ch);
           if (symbol && isMatchableSymbol(symbol)) {
-            var style = cm.getTokenTypeAt(Pos(line, ch));
+            var style = cm.getTokenTypeAt(Pos(line, ch + 1));
             if (style !== "string" && style !== "comment") {
               break;
             }
           }
-        } while (symbol);
-        if (symbol) {
+        }
+        if (ch < lineText.length) {
           var matched = cm.findMatchingBracket(Pos(line, ch));
           return matched.to;
         } else {
@@ -4494,7 +4618,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       enterMacroRecordMode: function(cm, actionArgs) {
         var macroModeState = vimGlobalState.macroModeState;
         var registerName = actionArgs.selectedCharacter;
-        macroModeState.enterMacroRecordMode(cm, registerName);
+        if (vimGlobalState.registerController.isValidRegister(registerName)) {
+          macroModeState.enterMacroRecordMode(cm, registerName);
+        }
       },
       toggleOverwrite: function(cm) {
         if (!cm.state.overwrite) {
@@ -5012,7 +5138,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function lastChar(keys) {
-      var match = /^.*(<[\w\-]+>)$/.exec(keys);
+      var match = /^.*(<[^>]+>)$/.exec(keys);
       var selectedCharacter = match ? match[1] : keys.slice(-1);
       if (selectedCharacter.length > 1){
         switch(selectedCharacter){
@@ -5023,6 +5149,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             selectedCharacter=' ';
             break;
           default:
+            selectedCharacter='';
             break;
         }
       }
@@ -5123,7 +5250,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var range = {anchor: new Pos(line, baseCh), head: new Pos(line, headCh)};
         selections.push(range);
       }
-      primIndex = head.line == lastLine ? selections.length - 1 : 0;
       cm.setSelections(selections);
       selectionEnd.ch = headCh;
       base.ch = baseCh;
@@ -6391,22 +6517,41 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       parseLineSpec_: function(cm, inputStream) {
         var numberMatch = inputStream.match(/^(\d+)/);
         if (numberMatch) {
+          // Absolute line number plus offset (N+M or N-M) is probably a typo,
+          // not something the user actually wanted. (NB: vim does allow this.)
           return parseInt(numberMatch[1], 10) - 1;
         }
         switch (inputStream.next()) {
           case '.':
-            return cm.getCursor().line;
+            return this.parseLineSpecOffset_(inputStream, cm.getCursor().line);
           case '$':
-            return cm.lastLine();
+            return this.parseLineSpecOffset_(inputStream, cm.lastLine());
           case '\'':
             var markName = inputStream.next();
             var markPos = getMarkPos(cm, cm.state.vim, markName);
             if (!markPos) throw new Error('Mark not set');
-            return markPos.line;
+            return this.parseLineSpecOffset_(inputStream, markPos.line);
+          case '-':
+          case '+':
+            inputStream.backUp(1);
+            // Offset is relative to current line if not otherwise specified.
+            return this.parseLineSpecOffset_(inputStream, cm.getCursor().line);
           default:
             inputStream.backUp(1);
             return undefined;
         }
+      },
+      parseLineSpecOffset_: function(inputStream, line) {
+        var offsetMatch = inputStream.match(/^([+-])?(\d+)/);
+        if (offsetMatch) {
+          var offset = parseInt(offsetMatch[2], 10);
+          if (offsetMatch[1] == "-") {
+            line -= offset;
+          } else {
+            line += offset;
+          }
+        }
+        return line;
       },
       parseCommandArgs_: function(inputStream, params, command) {
         if (inputStream.eol()) {
@@ -6587,13 +6732,18 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // If no value is provided, then we assume this is a get.
         if (!optionIsBoolean && value === undefined || forceGet) {
           var oldValue = getOption(optionName, cm, setCfg);
-          if (oldValue === true || oldValue === false) {
+          if (oldValue instanceof Error) {
+            showConfirm(cm, oldValue.message);
+          } else if (oldValue === true || oldValue === false) {
             showConfirm(cm, ' ' + (oldValue ? '' : 'no') + optionName);
           } else {
             showConfirm(cm, '  ' + optionName + '=' + oldValue);
           }
         } else {
-          setOption(optionName, value, cm, setCfg);
+          var setOptionReturn = setOption(optionName, value, cm, setCfg);
+          if (setOptionReturn instanceof Error) {
+            showConfirm(cm, setOptionReturn.message);
+          }
         }
       },
       setlocal: function (cm, params) {
@@ -6792,6 +6942,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (tokens.length) {
           regexPart = tokens[0];
           replacePart = tokens[1];
+          if (regexPart && regexPart[regexPart.length - 1] === '$') {
+            regexPart = regexPart.slice(0, regexPart.length - 1) + '\\n';
+            replacePart = replacePart ? replacePart + '\n' : '\n';
+          }
           if (replacePart !== undefined) {
             if (getOption('pcre')) {
               replacePart = unescapeRegexReplace(replacePart);
@@ -7211,7 +7365,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
      * Listens for changes made in insert mode.
      * Should only be active in insert mode.
      */
-    function onChange(_cm, changeObj) {
+    function onChange(cm, changeObj) {
       var macroModeState = vimGlobalState.macroModeState;
       var lastChange = macroModeState.lastInsertModeChanges;
       if (!macroModeState.isPlaying) {
@@ -7224,7 +7378,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               lastChange.changes = [];
               lastChange.maybeReset = false;
             }
-            lastChange.changes.push(text);
+            if (cm.state.overwrite && !/\n/.test(text)) {
+                lastChange.changes.push([text]);
+            } else {
+                lastChange.changes.push(text);
+            }
           }
           // Change objects may be chained with next.
           changeObj = changeObj.next;
@@ -7406,9 +7564,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           var change = changes[j];
           if (change instanceof InsertModeKey) {
             CodeMirror.lookupKey(change.keyName, 'vim-insert', keyHandler);
-          } else {
+          } else if (typeof change == "string") {
             var cur = cm.getCursor();
             cm.replaceRange(change, cur, cur);
+          } else {
+            var start = cm.getCursor();
+            var end = offsetCursor(start, 0, change[0].length);
+            cm.replaceRange(change[0], start, end);
           }
         }
       }
@@ -7422,4 +7584,221 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   };
   // Initialize Vim and make it available as an API.
   CodeMirror.Vim = Vim();
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.modeInfo = [
+    {name: "APL", mime: "text/apl", mode: "apl", ext: ["dyalog", "apl"]},
+    {name: "PGP", mimes: ["application/pgp", "application/pgp-encrypted", "application/pgp-keys", "application/pgp-signature"], mode: "asciiarmor", ext: ["asc", "pgp", "sig"]},
+    {name: "ASN.1", mime: "text/x-ttcn-asn", mode: "asn.1", ext: ["asn", "asn1"]},
+    {name: "Asterisk", mime: "text/x-asterisk", mode: "asterisk", file: /^extensions\.conf$/i},
+    {name: "Brainfuck", mime: "text/x-brainfuck", mode: "brainfuck", ext: ["b", "bf"]},
+    {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h"]},
+    {name: "C++", mime: "text/x-c++src", mode: "clike", ext: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"], alias: ["cpp"]},
+    {name: "Cobol", mime: "text/x-cobol", mode: "cobol", ext: ["cob", "cpy"]},
+    {name: "C#", mime: "text/x-csharp", mode: "clike", ext: ["cs"], alias: ["csharp"]},
+    {name: "Clojure", mime: "text/x-clojure", mode: "clojure", ext: ["clj", "cljc", "cljx"]},
+    {name: "ClojureScript", mime: "text/x-clojurescript", mode: "clojure", ext: ["cljs"]},
+    {name: "Closure Stylesheets (GSS)", mime: "text/x-gss", mode: "css", ext: ["gss"]},
+    {name: "CMake", mime: "text/x-cmake", mode: "cmake", ext: ["cmake", "cmake.in"], file: /^CMakeLists.txt$/},
+    {name: "CoffeeScript", mimes: ["application/vnd.coffeescript", "text/coffeescript", "text/x-coffeescript"], mode: "coffeescript", ext: ["coffee"], alias: ["coffee", "coffee-script"]},
+    {name: "Common Lisp", mime: "text/x-common-lisp", mode: "commonlisp", ext: ["cl", "lisp", "el"], alias: ["lisp"]},
+    {name: "Cypher", mime: "application/x-cypher-query", mode: "cypher", ext: ["cyp", "cypher"]},
+    {name: "Cython", mime: "text/x-cython", mode: "python", ext: ["pyx", "pxd", "pxi"]},
+    {name: "Crystal", mime: "text/x-crystal", mode: "crystal", ext: ["cr"]},
+    {name: "CSS", mime: "text/css", mode: "css", ext: ["css"]},
+    {name: "CQL", mime: "text/x-cassandra", mode: "sql", ext: ["cql"]},
+    {name: "D", mime: "text/x-d", mode: "d", ext: ["d"]},
+    {name: "Dart", mimes: ["application/dart", "text/x-dart"], mode: "dart", ext: ["dart"]},
+    {name: "diff", mime: "text/x-diff", mode: "diff", ext: ["diff", "patch"]},
+    {name: "Django", mime: "text/x-django", mode: "django"},
+    {name: "Dockerfile", mime: "text/x-dockerfile", mode: "dockerfile", file: /^Dockerfile$/},
+    {name: "DTD", mime: "application/xml-dtd", mode: "dtd", ext: ["dtd"]},
+    {name: "Dylan", mime: "text/x-dylan", mode: "dylan", ext: ["dylan", "dyl", "intr"]},
+    {name: "EBNF", mime: "text/x-ebnf", mode: "ebnf"},
+    {name: "ECL", mime: "text/x-ecl", mode: "ecl", ext: ["ecl"]},
+    {name: "edn", mime: "application/edn", mode: "clojure", ext: ["edn"]},
+    {name: "Eiffel", mime: "text/x-eiffel", mode: "eiffel", ext: ["e"]},
+    {name: "Elm", mime: "text/x-elm", mode: "elm", ext: ["elm"]},
+    {name: "Embedded Javascript", mime: "application/x-ejs", mode: "htmlembedded", ext: ["ejs"]},
+    {name: "Embedded Ruby", mime: "application/x-erb", mode: "htmlembedded", ext: ["erb"]},
+    {name: "Erlang", mime: "text/x-erlang", mode: "erlang", ext: ["erl"]},
+    {name: "Esper", mime: "text/x-esper", mode: "sql"},
+    {name: "Factor", mime: "text/x-factor", mode: "factor", ext: ["factor"]},
+    {name: "FCL", mime: "text/x-fcl", mode: "fcl"},
+    {name: "Forth", mime: "text/x-forth", mode: "forth", ext: ["forth", "fth", "4th"]},
+    {name: "Fortran", mime: "text/x-fortran", mode: "fortran", ext: ["f", "for", "f77", "f90"]},
+    {name: "F#", mime: "text/x-fsharp", mode: "mllike", ext: ["fs"], alias: ["fsharp"]},
+    {name: "Gas", mime: "text/x-gas", mode: "gas", ext: ["s"]},
+    {name: "Gherkin", mime: "text/x-feature", mode: "gherkin", ext: ["feature"]},
+    {name: "GitHub Flavored Markdown", mime: "text/x-gfm", mode: "gfm", file: /^(readme|contributing|history).md$/i},
+    {name: "Go", mime: "text/x-go", mode: "go", ext: ["go"]},
+    {name: "Groovy", mime: "text/x-groovy", mode: "groovy", ext: ["groovy", "gradle"], file: /^Jenkinsfile$/},
+    {name: "HAML", mime: "text/x-haml", mode: "haml", ext: ["haml"]},
+    {name: "Haskell", mime: "text/x-haskell", mode: "haskell", ext: ["hs"]},
+    {name: "Haskell (Literate)", mime: "text/x-literate-haskell", mode: "haskell-literate", ext: ["lhs"]},
+    {name: "Haxe", mime: "text/x-haxe", mode: "haxe", ext: ["hx"]},
+    {name: "HXML", mime: "text/x-hxml", mode: "haxe", ext: ["hxml"]},
+    {name: "ASP.NET", mime: "application/x-aspx", mode: "htmlembedded", ext: ["aspx"], alias: ["asp", "aspx"]},
+    {name: "HTML", mime: "text/html", mode: "htmlmixed", ext: ["html", "htm"], alias: ["xhtml"]},
+    {name: "HTTP", mime: "message/http", mode: "http"},
+    {name: "IDL", mime: "text/x-idl", mode: "idl", ext: ["pro"]},
+    {name: "Pug", mime: "text/x-pug", mode: "pug", ext: ["jade", "pug"], alias: ["jade"]},
+    {name: "Java", mime: "text/x-java", mode: "clike", ext: ["java"]},
+    {name: "Java Server Pages", mime: "application/x-jsp", mode: "htmlembedded", ext: ["jsp"], alias: ["jsp"]},
+    {name: "JavaScript", mimes: ["text/javascript", "text/ecmascript", "application/javascript", "application/x-javascript", "application/ecmascript"],
+     mode: "javascript", ext: ["js"], alias: ["ecmascript", "js", "node"]},
+    {name: "JSON", mimes: ["application/json", "application/x-json"], mode: "javascript", ext: ["json", "map"], alias: ["json5"]},
+    {name: "JSON-LD", mime: "application/ld+json", mode: "javascript", ext: ["jsonld"], alias: ["jsonld"]},
+    {name: "JSX", mime: "text/jsx", mode: "jsx", ext: ["jsx"]},
+    {name: "Jinja2", mime: "null", mode: "jinja2"},
+    {name: "Julia", mime: "text/x-julia", mode: "julia", ext: ["jl"]},
+    {name: "Kotlin", mime: "text/x-kotlin", mode: "clike", ext: ["kt"]},
+    {name: "LESS", mime: "text/x-less", mode: "css", ext: ["less"]},
+    {name: "LiveScript", mime: "text/x-livescript", mode: "livescript", ext: ["ls"], alias: ["ls"]},
+    {name: "Lua", mime: "text/x-lua", mode: "lua", ext: ["lua"]},
+    {name: "Markdown", mime: "text/x-markdown", mode: "markdown", ext: ["markdown", "md", "mkd"]},
+    {name: "mIRC", mime: "text/mirc", mode: "mirc"},
+    {name: "MariaDB SQL", mime: "text/x-mariadb", mode: "sql"},
+    {name: "Mathematica", mime: "text/x-mathematica", mode: "mathematica", ext: ["m", "nb"]},
+    {name: "Modelica", mime: "text/x-modelica", mode: "modelica", ext: ["mo"]},
+    {name: "MUMPS", mime: "text/x-mumps", mode: "mumps", ext: ["mps"]},
+    {name: "MS SQL", mime: "text/x-mssql", mode: "sql"},
+    {name: "mbox", mime: "application/mbox", mode: "mbox", ext: ["mbox"]},
+    {name: "MySQL", mime: "text/x-mysql", mode: "sql"},
+    {name: "Nginx", mime: "text/x-nginx-conf", mode: "nginx", file: /nginx.*\.conf$/i},
+    {name: "NSIS", mime: "text/x-nsis", mode: "nsis", ext: ["nsh", "nsi"]},
+    {name: "NTriples", mimes: ["application/n-triples", "application/n-quads", "text/n-triples"],
+     mode: "ntriples", ext: ["nt", "nq"]},
+    {name: "Objective C", mime: "text/x-objectivec", mode: "clike", ext: ["m", "mm"], alias: ["objective-c", "objc"]},
+    {name: "OCaml", mime: "text/x-ocaml", mode: "mllike", ext: ["ml", "mli", "mll", "mly"]},
+    {name: "Octave", mime: "text/x-octave", mode: "octave", ext: ["m"]},
+    {name: "Oz", mime: "text/x-oz", mode: "oz", ext: ["oz"]},
+    {name: "Pascal", mime: "text/x-pascal", mode: "pascal", ext: ["p", "pas"]},
+    {name: "PEG.js", mime: "null", mode: "pegjs", ext: ["jsonld"]},
+    {name: "Perl", mime: "text/x-perl", mode: "perl", ext: ["pl", "pm"]},
+    {name: "PHP", mime: "application/x-httpd-php", mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
+    {name: "Pig", mime: "text/x-pig", mode: "pig", ext: ["pig"]},
+    {name: "Plain Text", mime: "text/plain", mode: "null", ext: ["txt", "text", "conf", "def", "list", "log"]},
+    {name: "PLSQL", mime: "text/x-plsql", mode: "sql", ext: ["pls"]},
+    {name: "PowerShell", mime: "application/x-powershell", mode: "powershell", ext: ["ps1", "psd1", "psm1"]},
+    {name: "Properties files", mime: "text/x-properties", mode: "properties", ext: ["properties", "ini", "in"], alias: ["ini", "properties"]},
+    {name: "ProtoBuf", mime: "text/x-protobuf", mode: "protobuf", ext: ["proto"]},
+    {name: "Python", mime: "text/x-python", mode: "python", ext: ["BUILD", "bzl", "py", "pyw"], file: /^(BUCK|BUILD)$/},
+    {name: "Puppet", mime: "text/x-puppet", mode: "puppet", ext: ["pp"]},
+    {name: "Q", mime: "text/x-q", mode: "q", ext: ["q"]},
+    {name: "R", mime: "text/x-rsrc", mode: "r", ext: ["r", "R"], alias: ["rscript"]},
+    {name: "reStructuredText", mime: "text/x-rst", mode: "rst", ext: ["rst"], alias: ["rst"]},
+    {name: "RPM Changes", mime: "text/x-rpm-changes", mode: "rpm"},
+    {name: "RPM Spec", mime: "text/x-rpm-spec", mode: "rpm", ext: ["spec"]},
+    {name: "Ruby", mime: "text/x-ruby", mode: "ruby", ext: ["rb"], alias: ["jruby", "macruby", "rake", "rb", "rbx"]},
+    {name: "Rust", mime: "text/x-rustsrc", mode: "rust", ext: ["rs"]},
+    {name: "SAS", mime: "text/x-sas", mode: "sas", ext: ["sas"]},
+    {name: "Sass", mime: "text/x-sass", mode: "sass", ext: ["sass"]},
+    {name: "Scala", mime: "text/x-scala", mode: "clike", ext: ["scala"]},
+    {name: "Scheme", mime: "text/x-scheme", mode: "scheme", ext: ["scm", "ss"]},
+    {name: "SCSS", mime: "text/x-scss", mode: "css", ext: ["scss"]},
+    {name: "Shell", mimes: ["text/x-sh", "application/x-sh"], mode: "shell", ext: ["sh", "ksh", "bash"], alias: ["bash", "sh", "zsh"], file: /^PKGBUILD$/},
+    {name: "Sieve", mime: "application/sieve", mode: "sieve", ext: ["siv", "sieve"]},
+    {name: "Slim", mimes: ["text/x-slim", "application/x-slim"], mode: "slim", ext: ["slim"]},
+    {name: "Smalltalk", mime: "text/x-stsrc", mode: "smalltalk", ext: ["st"]},
+    {name: "Smarty", mime: "text/x-smarty", mode: "smarty", ext: ["tpl"]},
+    {name: "Solr", mime: "text/x-solr", mode: "solr"},
+    {name: "Soy", mime: "text/x-soy", mode: "soy", ext: ["soy"], alias: ["closure template"]},
+    {name: "SPARQL", mime: "application/sparql-query", mode: "sparql", ext: ["rq", "sparql"], alias: ["sparul"]},
+    {name: "Spreadsheet", mime: "text/x-spreadsheet", mode: "spreadsheet", alias: ["excel", "formula"]},
+    {name: "SQL", mime: "text/x-sql", mode: "sql", ext: ["sql"]},
+    {name: "SQLite", mime: "text/x-sqlite", mode: "sql"},
+    {name: "Squirrel", mime: "text/x-squirrel", mode: "clike", ext: ["nut"]},
+    {name: "Stylus", mime: "text/x-styl", mode: "stylus", ext: ["styl"]},
+    {name: "Swift", mime: "text/x-swift", mode: "swift", ext: ["swift"]},
+    {name: "sTeX", mime: "text/x-stex", mode: "stex"},
+    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx"], alias: ["tex"]},
+    {name: "SystemVerilog", mime: "text/x-systemverilog", mode: "verilog", ext: ["v", "sv", "svh"]},
+    {name: "Tcl", mime: "text/x-tcl", mode: "tcl", ext: ["tcl"]},
+    {name: "Textile", mime: "text/x-textile", mode: "textile", ext: ["textile"]},
+    {name: "TiddlyWiki ", mime: "text/x-tiddlywiki", mode: "tiddlywiki"},
+    {name: "Tiki wiki", mime: "text/tiki", mode: "tiki"},
+    {name: "TOML", mime: "text/x-toml", mode: "toml", ext: ["toml"]},
+    {name: "Tornado", mime: "text/x-tornado", mode: "tornado"},
+    {name: "troff", mime: "text/troff", mode: "troff", ext: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]},
+    {name: "TTCN", mime: "text/x-ttcn", mode: "ttcn", ext: ["ttcn", "ttcn3", "ttcnpp"]},
+    {name: "TTCN_CFG", mime: "text/x-ttcn-cfg", mode: "ttcn-cfg", ext: ["cfg"]},
+    {name: "Turtle", mime: "text/turtle", mode: "turtle", ext: ["ttl"]},
+    {name: "TypeScript", mime: "application/typescript", mode: "javascript", ext: ["ts"], alias: ["ts"]},
+    {name: "TypeScript-JSX", mime: "text/typescript-jsx", mode: "jsx", ext: ["tsx"], alias: ["tsx"]},
+    {name: "Twig", mime: "text/x-twig", mode: "twig"},
+    {name: "Web IDL", mime: "text/x-webidl", mode: "webidl", ext: ["webidl"]},
+    {name: "VB.NET", mime: "text/x-vb", mode: "vb", ext: ["vb"]},
+    {name: "VBScript", mime: "text/vbscript", mode: "vbscript", ext: ["vbs"]},
+    {name: "Velocity", mime: "text/velocity", mode: "velocity", ext: ["vtl"]},
+    {name: "Verilog", mime: "text/x-verilog", mode: "verilog", ext: ["v"]},
+    {name: "VHDL", mime: "text/x-vhdl", mode: "vhdl", ext: ["vhd", "vhdl"]},
+    {name: "Vue.js Component", mimes: ["script/x-vue", "text/x-vue"], mode: "vue", ext: ["vue"]},
+    {name: "XML", mimes: ["application/xml", "text/xml"], mode: "xml", ext: ["xml", "xsl", "xsd", "svg"], alias: ["rss", "wsdl", "xsd"]},
+    {name: "XQuery", mime: "application/xquery", mode: "xquery", ext: ["xy", "xquery"]},
+    {name: "Yacas", mime: "text/x-yacas", mode: "yacas", ext: ["ys"]},
+    {name: "YAML", mimes: ["text/x-yaml", "text/yaml"], mode: "yaml", ext: ["yaml", "yml"], alias: ["yml"]},
+    {name: "Z80", mime: "text/x-z80", mode: "z80", ext: ["z80"]},
+    {name: "mscgen", mime: "text/x-mscgen", mode: "mscgen", ext: ["mscgen", "mscin", "msc"]},
+    {name: "xu", mime: "text/x-xu", mode: "mscgen", ext: ["xu"]},
+    {name: "msgenny", mime: "text/x-msgenny", mode: "mscgen", ext: ["msgenny"]}
+  ];
+  // Ensure all modes have a mime property for backwards compatibility
+  for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+    var info = CodeMirror.modeInfo[i];
+    if (info.mimes) info.mime = info.mimes[0];
+  }
+
+  CodeMirror.findModeByMIME = function(mime) {
+    mime = mime.toLowerCase();
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.mime == mime) return info;
+      if (info.mimes) for (var j = 0; j < info.mimes.length; j++)
+        if (info.mimes[j] == mime) return info;
+    }
+    if (/\+xml$/.test(mime)) return CodeMirror.findModeByMIME("application/xml")
+    if (/\+json$/.test(mime)) return CodeMirror.findModeByMIME("application/json")
+  };
+
+  CodeMirror.findModeByExtension = function(ext) {
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.ext) for (var j = 0; j < info.ext.length; j++)
+        if (info.ext[j] == ext) return info;
+    }
+  };
+
+  CodeMirror.findModeByFileName = function(filename) {
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.file && info.file.test(filename)) return info;
+    }
+    var dot = filename.lastIndexOf(".");
+    var ext = dot > -1 && filename.substring(dot + 1, filename.length);
+    if (ext) return CodeMirror.findModeByExtension(ext);
+  };
+
+  CodeMirror.findModeByName = function(name) {
+    name = name.toLowerCase();
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.name.toLowerCase() == name) return info;
+      if (info.alias) for (var j = 0; j < info.alias.length; j++)
+        if (info.alias[j].toLowerCase() == name) return info;
+    }
+  };
 });

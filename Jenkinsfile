@@ -10,7 +10,6 @@ pipeline {
         docker 'joomlaprojects/docker-phpcs'
       }
       steps {
-        sh 'echo $(date)'
         sh '/usr/local/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .'
       }
     }
@@ -60,7 +59,6 @@ pipeline {
         }
       }
       steps {
-        sh 'echo $(date)'
         sh '''
             ln -s /usr/bin/nodejs /usr/bin/node && \
             export DISPLAY=:0 && \
@@ -70,7 +68,6 @@ pipeline {
             cd tests/javascript && npm install --no-optional && cd ../.. && \
             tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
         '''
-        sh 'echo $(date)'
       }
     }
   }

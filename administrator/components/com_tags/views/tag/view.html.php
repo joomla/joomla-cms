@@ -102,7 +102,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				JToolbarHelper::apply('tag.apply');
 				JToolbarHelper::save('tag.save');
-	
+
 				if ($canDo->get('core.create'))
 				{
 					JToolbarHelper::save2new('tag.save2new');

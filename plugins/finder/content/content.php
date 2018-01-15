@@ -233,7 +233,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -251,6 +251,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->context = 'com_content.article';
+
 		// Initialise the item parameters.
 		$registry = new Registry($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
@@ -259,8 +261,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
-		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
+		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params, $item);
+		$item->body    = FinderIndexerHelper::prepareContent($item->body, $item->params, $item);
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
