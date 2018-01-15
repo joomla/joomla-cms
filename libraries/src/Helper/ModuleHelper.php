@@ -656,10 +656,9 @@ abstract class ModuleHelper
 	 */
 	public static function &getModuleById($id)
 	{
-		$app = \JFactory::getApplication();
-		$result = null;
-		$groups = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
-		$lang = \JFactory::getLanguage()->getTag();
+		$app      = \JFactory::getApplication();
+		$groups   = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
+		$lang     = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		$modules =& static::load();
@@ -677,18 +676,15 @@ abstract class ModuleHelper
 		}
 
 		// If we didn't find it, create a dummy object
-		if ($result === null)
-		{
-			$result            = new \stdClass;
-			$result->id        = 0;
-			$result->title     = '';
-			$result->module    = '';
-			$result->position  = '';
-			$result->content   = '';
-			$result->showtitle = 0;
-			$result->control   = '';
-			$result->params    = '';
-		}
+		$result            = new \stdClass;
+		$result->id        = 0;
+		$result->title     = '';
+		$result->module    = '';
+		$result->position  = '';
+		$result->content   = '';
+		$result->showtitle = 0;
+		$result->control   = '';
+		$result->params    = '';
 
 		return $result;
 	}
