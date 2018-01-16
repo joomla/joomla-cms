@@ -235,7 +235,7 @@ class BannerTable extends Table
 		{
 			// Get the old row
 			/** @var Banner $oldrow */
-			$oldrow = Table::getInstance('Banner', __NAMESPACE__ . '\\');
+			$oldrow = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
 
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
@@ -244,7 +244,7 @@ class BannerTable extends Table
 
 			// Verify that the alias is unique
 			/** @var Banner $table */
-			$table = Table::getInstance('Banner', __NAMESPACE__ . '\\');
+			$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{
@@ -307,7 +307,7 @@ class BannerTable extends Table
 
 		// Get an instance of the table
 		/** @var Banner $table */
-		$table = Table::getInstance('Banner', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\');
 
 		// For all keys
 		foreach ($pks as $pk)

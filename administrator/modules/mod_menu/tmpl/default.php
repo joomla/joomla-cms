@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 $doc       = \Joomla\CMS\Factory::getDocument();
 $direction = $doc->direction == 'rtl' ? 'float-right' : '';

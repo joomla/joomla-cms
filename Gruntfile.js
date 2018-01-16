@@ -759,7 +759,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('compile:site', 'Compiles the stylesheets files for the site template', function() {
 		grunt.task.run([
 			'uglify:templates',
-			'scsslint:site',
+			//'scsslint:site',
 			'sass:site',
 			'postcss:site',
 			'cssmin:site',
@@ -771,7 +771,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('compile:admin', 'Compiles the stylesheets files for the admin template', function() {
 		grunt.task.run([
 			'uglify:templates',
-			'scsslint:admin',
+			//'scsslint:admin',
 			'sass:admin',
 			'postcss:admin',
 			'cssmin:admin',

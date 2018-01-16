@@ -29,7 +29,7 @@ interface MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array());
+	public function createModel($name, $prefix = '', array $config = []);
 
 	/**
 	 * Method to load and return a view object.
@@ -44,7 +44,7 @@ interface MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array());
+	public function createView($name, $prefix = '', $type = '', array $config = []);
 
 	/**
 	 * Method to load and return a table object.
@@ -58,5 +58,5 @@ interface MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array());
+	public function createTable($name, $prefix = '', array $config = []);
 }

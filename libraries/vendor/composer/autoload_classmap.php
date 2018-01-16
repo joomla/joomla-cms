@@ -682,7 +682,6 @@ return array(
     'Joomla\\Session\\Handler\\MemcachedHandler' => $vendorDir . '/joomla/session/src/Handler/MemcachedHandler.php',
     'Joomla\\Session\\Handler\\RedisHandler' => $vendorDir . '/joomla/session/src/Handler/RedisHandler.php',
     'Joomla\\Session\\Handler\\WincacheHandler' => $vendorDir . '/joomla/session/src/Handler/WincacheHandler.php',
-    'Joomla\\Session\\Handler\\XCacheHandler' => $vendorDir . '/joomla/session/src/Handler/XCacheHandler.php',
     'Joomla\\Session\\Session' => $vendorDir . '/joomla/session/src/Session.php',
     'Joomla\\Session\\SessionEvent' => $vendorDir . '/joomla/session/src/SessionEvent.php',
     'Joomla\\Session\\SessionInterface' => $vendorDir . '/joomla/session/src/SessionInterface.php',

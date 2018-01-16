@@ -9,10 +9,16 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+
 // Create a shortcut for params.
-$params = $displayData->params;
+$params  = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
+HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 ?>
 
 <?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
@@ -20,7 +26,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php if ($params->get('show_title')) : ?>
 			<h2 itemprop="name">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
-					<a href="<?php echo JRoute::_(
+					<a href="<?php echo Route::_(
 						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
 					); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?>
@@ -32,17 +38,17 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php endif; ?>
 		
 		<?php if ($displayData->state == 0) : ?>
-			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
-		<?php if (strtotime($displayData->publish_up) > strtotime(JFactory::getDate())) : ?>
-			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+		<?php if (strtotime($displayData->publish_up) > strtotime(Factory::getDate())) : ?>
+			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 		
-		<?php if ($displayData->publish_down != JFactory::getDbo()->getNullDate()
-			&& (strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
+		<?php if ($displayData->publish_down != Factory::getDbo()->getNullDate()
+			&& (strtotime($displayData->publish_down) < strtotime(Factory::getDate()))
 		) : ?>
-			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
