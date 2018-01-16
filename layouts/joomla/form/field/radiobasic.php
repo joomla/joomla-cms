@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -39,9 +41,6 @@ extract($displayData);
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
  */
-
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
 
 /**
  * The format of the input tag to be filled in using sprintf.
@@ -79,7 +78,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<div class="radio m-b-0">
 				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
 					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-					<?php echo JText::alt($option->text, $alt); ?>
+					<?php echo Text::alt($option->text, $alt); ?>
 				</label>
 			</div>
 		<?php endforeach; ?>

@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 extract($displayData);
 
 /**
@@ -50,10 +52,10 @@ $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 
 // Include jQuery
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('stylesheet', 'system/simplecolors.css', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'system/fields/color-field-init.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('script', 'system/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'system/simplecolors.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'system/fields/color-field-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
 echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php

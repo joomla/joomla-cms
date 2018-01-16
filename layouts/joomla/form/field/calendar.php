@@ -9,12 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
 // Get some system objects.
-$document = JFactory::getDocument();
+$document = Factory::getDocument();
 
 /**
  * Layout variables
@@ -81,7 +84,7 @@ if ($required)
 // Handle the special case for "now".
 if (strtoupper($value) == 'NOW')
 {
-	$value = JFactory::getDate()->format('Y-m-d H:i:s');
+	$value = Factory::getDate()->format('Y-m-d H:i:s');
 }
 
 $readonly = isset($attributes['readonly']) && $attributes['readonly'] == 'readonly';
@@ -95,10 +98,10 @@ if (is_array($attributes))
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
 // The static assets for the calendar
-JHtml::_('script', $localesPath, false, true, false, false, true);
-JHtml::_('script', $helperPath, false, true, false, false, true);
-JHtml::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+HTMLHelper::_('script', $localesPath, false, true, false, false, true);
+HTMLHelper::_('script', $helperPath, false, true, false, false, true);
+HTMLHelper::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
+HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
@@ -112,14 +115,14 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
-		<span class="input-group-btn">
+		<span class="input-group-append">
 			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
 				id="<?php echo $id; ?>_btn"
 				data-inputfield="<?php echo $id; ?>"
 				data-dayformat="<?php echo $format; ?>"
 				data-button="<?php echo $id; ?>_btn"
-				data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
-				data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
+				data-firstday="<?php echo Factory::getLanguage()->getFirstDay(); ?>"
+				data-weekend="<?php echo Factory::getLanguage()->getWeekEnd(); ?>"
 				data-today-btn="<?php echo $todaybutton; ?>"
 				data-week-numbers="<?php echo $weeknumbers; ?>"
 				data-show-time="<?php echo $showtime; ?>"
@@ -128,7 +131,7 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 				data-only-months-nav="<?php echo $singleheader; ?>"
 				<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-			><span class="fa fa-calendar"></span></button>
+			><span class="fa fa-calendar" aria-hidden="true"></span></button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
