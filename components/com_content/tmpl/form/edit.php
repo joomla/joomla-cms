@@ -135,7 +135,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->renderField('language'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php else: ?>
-				<input type="hidden" name="jform[language]" value="*">
+				<?php echo $this->form->renderField('language'); ?>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
