@@ -120,7 +120,7 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Process show_noauth parameter
-		if (!$params->get('show_noauth'))
+		if ((!$params->get('show_noauth')) || (!JComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}
@@ -253,7 +253,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($this->getState('filter.access', true))	
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
