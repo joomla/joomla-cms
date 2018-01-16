@@ -240,6 +240,7 @@ class LanguageHelper
 					{
 						$lang->metadata = self::parseXMLLanguageFile($metafile);
 					}
+
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
@@ -264,6 +265,7 @@ class LanguageHelper
 					{
 						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
 					}
+
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{

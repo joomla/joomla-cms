@@ -54,7 +54,7 @@ switch ((string) $item->text)
 
 	default:
 		$icon = null;
-		$aria = JText::sprintf('JLIB_HTML_GOTO_PAGE', $item->text);		
+		$aria = JText::sprintf('JLIB_HTML_GOTO_PAGE', $item->text);
 		break;
 }
 

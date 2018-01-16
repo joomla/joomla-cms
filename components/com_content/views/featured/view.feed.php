@@ -65,7 +65,7 @@ class ContentViewFeatured extends JViewLegacy
 
 			if (isset($introImage) && ($introImage != ''))
 			{
-				$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
+				$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
 				$description = '<p><img src="' . $image . '" /></p>';
 			}
 

@@ -65,6 +65,7 @@ class NewsfeedsRouter extends JComponentRouterView
 	public function getCategorySegment($id, $query)
 	{
 		$category = JCategories::getInstance($this->getName())->get($id);
+
 		if ($category)
 		{
 			$path = array_reverse($category->getPath(), true);

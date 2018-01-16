@@ -159,7 +159,6 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 			{
 				if ($query['layout'] == $menuItem->query['layout'])
 				{
-
 					unset($query['layout']);
 				}
 			}
@@ -213,6 +212,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		{
 			$vars['view'] = $segments[0];
 			$vars['id'] = $segments[$count - 1];
+
 			return;
 		}
 
