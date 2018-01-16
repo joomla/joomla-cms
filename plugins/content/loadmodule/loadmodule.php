@@ -123,6 +123,7 @@ class PlgContentLoadmodule extends JPlugin
 
 		// Find all instances of plugin and put in $matchesmodid for loadmoduleid
 		preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+		
 		// If no matches, skip this
 		if ($matchesmodid)
 		{
