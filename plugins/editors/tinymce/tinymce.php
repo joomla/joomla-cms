@@ -447,7 +447,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
 					{
-					  $description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
+					  	$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
 					}
 
 					$templates[] = array(
