@@ -56,8 +56,9 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		$document = Factory::getDocument();
 		$ver = new Version;
 
-		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
-		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
+
 
 		$installer = new JInstaller();
 		$manifest = $installer->isManifest(JPATH_PLUGINS . DIRECTORY_SEPARATOR . 'installer' . DIRECTORY_SEPARATOR . 'webinstaller' . DIRECTORY_SEPARATOR . 'webinstaller.xml');
