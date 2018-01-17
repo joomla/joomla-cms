@@ -52,19 +52,19 @@ if (!empty($editor))
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap hidden-sm-down">
+						<th class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:5%" class="text-center nowrap hidden-sm-down">
+						<th style="width:5%" class="text-center nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -122,10 +122,10 @@ if (!empty($editor))
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
-						<td class="text-center hidden-sm-down">
+						<td class="text-center d-none d-md-table-cell">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
@@ -138,10 +138,10 @@ if (!empty($editor))
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php if ($item->language == '') : ?>
 								<?php echo JText::_('JDEFAULT'); ?>
 							<?php elseif ($item->language == '*') : ?>
@@ -150,7 +150,7 @@ if (!empty($editor))
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="d-none d-md-table-cell">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>
 							</span>

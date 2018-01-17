@@ -39,13 +39,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -98,13 +98,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

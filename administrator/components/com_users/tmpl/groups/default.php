@@ -45,13 +45,13 @@ JHtml::_('script', 'com_users/admin-users-groups.min.js', array('version' => 'au
 								</th>
 								<th style="width:10%" class="nowrap text-center">
                                     <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
                                     <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -102,7 +102,7 @@ JHtml::_('script', 'com_users/admin-users-groups.min.js', array('version' => 'au
 									<a class="badge <?php echo $item->count_disabled > 0 ? 'badge-danger' : 'badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 										<?php echo $item->count_disabled; ?></a>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

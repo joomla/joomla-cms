@@ -41,7 +41,7 @@ if ($saveOrder && !empty($this->items))
 					<table class="table table-striped" id="contactList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
@@ -56,7 +56,7 @@ if ($saveOrder && !empty($this->items))
 								<th style="width:10%" class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
@@ -65,11 +65,11 @@ if ($saveOrder && !empty($this->items))
 								</th>
 								<?php endif; ?>
 								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -94,7 +94,7 @@ if ($saveOrder && !empty($this->items))
 							$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-								<td class="order nowrap text-center hidden-sm-down">
+								<td class="order nowrap text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -149,22 +149,22 @@ if ($saveOrder && !empty($this->items))
 										<div class="small"><?php echo $item->email; ?></div>
 									<?php endif; ?>
 								</td>
-								<td class="small hidden-sm-down text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $item->access_level; ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
 										<?php echo JHtml::_('contact.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
 								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<td class="small hidden-sm-down text-center">
+									<td class="small d-none d-md-table-cell text-center">
 										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
