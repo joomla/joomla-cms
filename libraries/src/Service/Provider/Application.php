@@ -21,6 +21,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Storage\RuntimeStorage;
+use Psr\Log\LoggerInterface;
 
 /**
  * Application service provider
@@ -54,7 +55,7 @@ class Application implements ServiceProviderInterface
 					}
 
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-					$app->setLogger(Log::createDelegatedLogger());
+					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 					return $app;
@@ -76,7 +77,7 @@ class Application implements ServiceProviderInterface
 					}
 
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-					$app->setLogger(Log::createDelegatedLogger());
+					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 					return $app;
@@ -98,7 +99,7 @@ class Application implements ServiceProviderInterface
 
 					$app->setContainer($container);
 					$app->setDispatcher($dispatcher);
-					$app->setLogger(Log::createDelegatedLogger());
+					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($session);
 
 					return $app;
