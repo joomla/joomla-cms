@@ -57,7 +57,7 @@
 			pattern="\d*\.?\d*"
 		/>
 
-		<field 
+		<field
 			name="aspectRatio"
 			type="radio"
 			hiddenLabel="true"
@@ -67,6 +67,7 @@
 			<option value="1.7777777777777777">16 / 9</option>
 			<option value="1.3333333333333333">4 / 3</option>
 			<option value="0.6666666666666666">2 / 3</option>
+			<option value="">PLG_MEDIA-ACTION_CROP_PARAM_RATIO_RESET</option>
 		</field>
 	</fieldset>
 </form>
