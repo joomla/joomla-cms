@@ -411,6 +411,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
 			$vars['month'] = $segments[$count - 1];
 			$vars['view']  = 'archive';
+
 			return;	
 		}
 
