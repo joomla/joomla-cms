@@ -518,13 +518,13 @@ class TemplateAdapter extends InstallerAdapter
 		// Set menu that assigned to the template back to default template
 		$subQuery = $db->getQuery(true)
 			->select('s.id')
-			->from('#__template_styles s')
+			->from($db->qn('#__template_styles', 's'))
 			->where($db->qn('s.template') . ' = ' . $db->q(strtolower($name)))
-			->where($db->qn('s.client_id') . ' = ' . $db->q($clientId));
+			->where($db->qn('s.client_id') . ' = ' . $clientId);
 		$query->clear()
 			->update($db->qn('#__menu'))
 			->set($db->qn('template_style_id') . ' = 0')
-			->where($db->qn('template_style_id') . ' in (' . (string) $subQuery . ')');
+			->where($db->qn('template_style_id') . ' IN (' . (string) $subQuery . ')');
 		$db->setQuery($query);
 		$db->execute();
 
