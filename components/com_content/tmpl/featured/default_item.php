@@ -51,7 +51,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 		<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
-	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	<?php if ($canEdit) : ?>
 		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 	<?php endif; ?>
 

@@ -133,20 +133,4 @@ class JComponentHelperTest extends TestCaseDatabase
 		);
 	}
 
-	/**
-	 * Test JComponentHelper::getParams
-	 *
-	 * @return  void
-	 * @covers  JComponentHelper::getParams
-	 */
-	public function testGetParams()
-	{
-		$params = JComponentHelper::getParams('com_content');
-
-		$this->assertEquals(
-			$params->get('show_print_icon'),
-			'1',
-			"com_content's show_print_icon param should be set to 1"
-		);
-	}
 }

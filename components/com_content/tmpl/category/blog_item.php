@@ -30,7 +30,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php echo JLayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
-	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+	<?php if ($canEdit) : ?>
 		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 	<?php endif; ?>
 

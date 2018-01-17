@@ -54,38 +54,6 @@ abstract class JHtmlIcon
 	}
 
 	/**
-	 * Method to generate a link to the email item page for the given article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the email item link
-	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
-	{
-		JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
-
-		$uri      = JUri::getInstance();
-		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
-
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
-
-		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
-
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
-		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-		$attribs['rel']     = 'nofollow';
-		$attribs['class']   = 'dropdown-item';
-
-		return JHtml::_('link', JRoute::_($url), $text, $attribs);
-	}
-
-	/**
 	 * Display an edit icon for the article.
 	 *
 	 * This icon will not display in a popup window, nor if the article is trashed.
@@ -164,49 +132,5 @@ abstract class JHtmlIcon
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
 		return $output;
-	}
-
-	/**
-	 * Method to generate a popup link to print an article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the popup link
-	 */
-	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
-	{
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
-		$url .= '&tmpl=component&print=1&layout=default';
-
-		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
-
-		$text = JLayoutHelper::render('joomla.content.icons.print_popup', array('params' => $params, 'legacy' => $legacy));
-
-		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
-		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-		$attribs['rel']     = 'nofollow';
-		$attribs['class']   = 'dropdown-item';
-
-		return JHtml::_('link', JRoute::_($url), $text, $attribs);
-	}
-
-	/**
-	 * Method to generate a link to print an article
-	 *
-	 * @param   object    $article  Not used, @deprecated for 4.0
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the popup link
-	 */
-	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
-	{
-		$text = JLayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
-
-		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
 	}
 }
