@@ -644,9 +644,10 @@
   }
 
   // Operations on diffs
-
-  var dmp = new diff_match_patch();
+  var dmp;
   function getDiff(a, b, ignoreWhitespace) {
+    if (!dmp) dmp = new diff_match_patch();
+
     var diff = dmp.diff_main(a, b);
     // The library sometimes leaves in empty parts, which confuse the algorithm
     for (var i = 0; i < diff.length; ++i) {
@@ -737,6 +738,9 @@
       mark.clear();
       cm.removeLineClass(from, "wrap", "CodeMirror-merge-collapsed-line");
     }
+    if (mark.explicitlyCleared) clear();
+    CodeMirror.on(widget, "click", clear);
+    mark.on("clear", clear);
     CodeMirror.on(widget, "click", clear);
     return {mark: mark, clear: clear};
   }

@@ -31,9 +31,14 @@ class PlgContentFields extends JPlugin
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{
-		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		// If the item has a context, overwrite the existing one
+		if ($context == 'com_finder.indexer' && !empty($item->context))
 		{
+			$context = $item->context;
+		}
+		elseif ($context == 'com_finder.indexer')
+		{
+			// Don't run this plugin when the content is being indexed and we have no real context
 			return;
 		}
 
@@ -74,7 +79,7 @@ class PlgContentFields extends JPlugin
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.1
 	 */
 	private function prepare($string, $context, $item)
 	{
@@ -113,7 +118,6 @@ class PlgContentFields extends JPlugin
 			$id      = (int) $explode[0];
 			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
-
 
 			if ($match[1] == 'field' && $id)
 			{

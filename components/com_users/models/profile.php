@@ -177,10 +177,6 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		// For com_fields the context is com_users.user
-		JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		FieldsHelper::prepareForm('com_users.user', $form, $data);
-
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;
 		$username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
@@ -384,7 +380,7 @@ class UsersModelProfile extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Retrieve the user groups so they don't get overwritten
-		unset ($user->groups);
+		unset($user->groups);
 		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.

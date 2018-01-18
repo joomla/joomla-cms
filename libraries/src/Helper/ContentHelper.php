@@ -116,7 +116,7 @@ class ContentHelper
 
 		if ($section && $id)
 		{
-			$assetName .=  '.' . $section . '.' . (int) $id;
+			$assetName .= '.' . $section . '.' . (int) $id;
 		}
 
 		$result = new \JObject;
@@ -157,6 +157,7 @@ class ContentHelper
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
 		$app = Factory::getApplication();
+		$langCode = null;
 
 		// Get the languagefilter parameters
 		if (Multilanguage::isEnabled())

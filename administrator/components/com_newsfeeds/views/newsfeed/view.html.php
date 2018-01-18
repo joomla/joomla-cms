@@ -105,10 +105,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::apply('newsfeed.apply');
 			JToolbarHelper::save('newsfeed.save');
 		}
+
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			JToolbarHelper::save2new('newsfeed.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{

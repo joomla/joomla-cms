@@ -117,6 +117,7 @@ class PlgUserJoomla extends JPlugin
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+
 			return;
 		}
 

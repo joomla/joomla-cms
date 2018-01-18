@@ -67,10 +67,10 @@ JFactory::getDocument()->addScriptDeclaration("
 			<input type="text" id="subject_field" name="subject" class="inputbox" value="<?php echo $this->escape($data->subject); ?>" size="25" />
 		</div>
 		<p>
-			<button class="button" onclick="return Joomla.submitbutton('send');">
+			<button type="button" class="button" onclick="return Joomla.submitbutton('send');">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
-			<button class="button" onclick="window.close();return false;">
+			<button type="button" class="button" onclick="window.close();return false;">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
 		</p>

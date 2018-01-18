@@ -767,8 +767,8 @@ abstract class UserHelper
 
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->delete('#__user_keys')
-		->where($db->quoteName('time') . ' < ' . $db->quote($now));
+			->delete('#__user_keys')
+			->where($db->quoteName('time') . ' < ' . $db->quote($now));
 
 		return $db->setQuery($query)->execute();
 	}

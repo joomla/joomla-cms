@@ -48,22 +48,22 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="btn-group">
 					<button type="button" class="btn btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
-						<span class="icon-apply"></span>
-						<?php echo JText::_('JAPPLY') ?>
+						<span class="icon-apply" aria-hidden="true"></span>
+						<?php echo JText::_('JAPPLY'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn"
 						onclick="Joomla.submitbutton('config.save.modules.save')">
-						<span class="icon-save"></span>
-						<?php echo JText::_('JSAVE') ?>
+						<span class="icon-save" aria-hidden="true"></span>
+						<?php echo JText::_('JSAVE'); ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn"
 						onclick="Joomla.submitbutton('config.cancel.modules')">
-						<span class="icon-cancel"></span>
-						<?php echo JText::_('JCANCEL') ?>
+						<span class="icon-cancel" aria-hidden="true"></span>
+						<?php echo JText::_('JCANCEL'); ?>
 					</button>
 				</div>
 			</div>
@@ -73,11 +73,11 @@ JFactory::getDocument()->addScriptDeclaration("
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
-				<span class="label label-default"><?php echo $this->item['title'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<span class="label label-default"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
-				<span class="label label-default"><?php echo $this->item['module'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<span class="label label-default"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr />
 
@@ -111,8 +111,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 						<hr />
 
-						<?php
-						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+						<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>

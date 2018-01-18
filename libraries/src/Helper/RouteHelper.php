@@ -241,7 +241,7 @@ class RouteHelper
 		// Note: $extension is required but has to be an optional argument in the function call due to argument order
 		if (empty($extension))
 		{
-			throw new \InvalidArgumentException('$extension is a required argument in RouteHelper::getCategoryRoute');
+			throw new \InvalidArgumentException(sprintf('$extension is a required argument in %s()', __METHOD__));
 		}
 
 		if ($catid instanceof \JCategoryNode)
@@ -280,7 +280,6 @@ class RouteHelper
 				$catids                = array_reverse($category->getPath());
 				$needles['category']   = $catids;
 				$needles['categories'] = $catids;
-
 			}
 
 			if ($item = static::lookupItem($needles))

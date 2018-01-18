@@ -137,8 +137,8 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
-	echo ($this->direction === 'rtl' ? ' rtl' : '');
+	. ($params->get('fluidContainer') ? ' fluid' : '')
+	. ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
 	<div class="body" id="top">
@@ -188,6 +188,7 @@ else
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
+					<div class="clearfix"></div>
 					<jdoc:include type="modules" name="position-2" style="none" />
 					<!-- End Content -->
 				</main>

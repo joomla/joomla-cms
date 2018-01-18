@@ -721,6 +721,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			{
 				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
+
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
 		}

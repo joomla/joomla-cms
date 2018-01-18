@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 /**
  * View Module positions class.
- * 
+ *
  * @since  1.6
  */
 class ModulesViewPositions extends JViewLegacy
