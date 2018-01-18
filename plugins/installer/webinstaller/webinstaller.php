@@ -116,30 +116,28 @@ apps_updateavail1 = '$updatestr1',
 apps_updateavail2 = '$updatestr2',
 apps_obsolete = '$obsoletestr';
 
-jQuery(document).ready(function() {
-	if (apps_installfromon)
-	{
-		jQuery('#myTabTabs a[href="#web"]').click();
+jQuery(document).ready(function($) {
+	if (apps_installfromon)	{
+		$('#myTabTabs a[href="#web"]').click();
 	}
-	var link = jQuery('#myTabTabs a[href="#web"]').get(0);
-	var eventpoint = jQuery(link).closest('li');
 
-	jQuery(eventpoint).click(function (event){
+	var link = $('#myTabTabs a[href="#web"]').get(0);
+
+	$(link).closest('li').click(function (event){
 		if (!Joomla.apps.loaded) {
 			Joomla.apps.initialize();
 		}
 	});
 	
 	if (apps_installfrom_url != '') {
-		var tag = 'li';
-		jQuery(link).closest(tag).click();
+		$(link).closest('li').click();
 	}
 
-	jQuery('#myTabTabs a[href="#web"]').on('shown.bs.tab', function (e) {
-        	if (!Joomla.apps.loaded){
-           		Joomla.apps.initialize();
-        	}
-    	});
+	$('#myTabTabs a[href="#web"]').on('shown.bs.tab', function (e) {
+		if (!Joomla.apps.loaded){
+			Joomla.apps.initialize();
+		}
+	});
 });
 
 		
