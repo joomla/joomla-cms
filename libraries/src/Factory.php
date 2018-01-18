@@ -26,6 +26,7 @@ use Joomla\DI\Container;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
@@ -146,7 +147,7 @@ abstract class Factory
 			self::$application = CMSApplication::getInstance($id, $prefix, $container);
 
 			// Attach a delegated JLog object to the application
-			self::$application->setLogger(Log::createDelegatedLogger());
+			self::$application->setLogger($container->get(LoggerInterface::class));
 		}
 
 		return self::$application;
@@ -519,8 +520,9 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
