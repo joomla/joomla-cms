@@ -559,42 +559,43 @@ class HtmlDocument extends Document
 	}
 
 	/**
-	 * Count the modules based on the given condition
+	 * Count the modules in the given position
 	 *
-	 * @param   string  $condition  The condition to use
+	 * @param   string $positionName      The position to use
+	 * @param   bool   $withContentOnly   Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   11.1
 	 */
-	public function countModules($condition)
+	public function countModules($positionName, $withContentOnly = true)
 	{
-		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
-
-		if (count($words) === 1)
+		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
-			$name = strtolower($words[0]);
-			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : count(ModuleHelper::getModules($name));
-
-			return $result;
+			return 0;
 		}
 
-		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
+		$modules = ModuleHelper::getModules($positionName);
 
-		for ($i = 0, $n = count($words); $i < $n; $i += 2)
+		if (!$withContentOnly)
 		{
-			// Odd parts (modules)
-			$name = strtolower($words[$i]);
-			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0
-				: count(ModuleHelper::getModules($name));
+			return count($modules);
 		}
 
-		$str = 'return ' . implode(' ', $words) . ';';
+		// Now we need to count only modules which actually have a content
+		$result   = 0;
+		$renderer = $this->loadRenderer('module');
 
-		return eval($str);
+		foreach ($modules as $module) {
+			$content = $renderer->render($module);
+
+			if (trim($content))
+			{
+				$result++;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
