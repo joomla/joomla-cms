@@ -639,9 +639,16 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if (!$Itemid && $this->mode_sef)
 						{
+							// Workaround to not use current active item id
+							$activeId = $this->app->input->get('Itemid');
+							$this->app->input->set('Itemid', null);
+
 							// Get Itemid from SEF or home page
 							$query  = $this->app->getRouter()->parse($uri);
 							$Itemid = isset($query['Itemid']) ? $query['Itemid'] : null;
+
+							// Restore active item id
+							$this->app->input->set('Itemid', $activeId);
 						}
 
 						if ($Itemid)
@@ -652,10 +659,10 @@ class PlgSystemLanguageFilter extends JPlugin
 							// The login form contains a menu item redirection. Try to get associations from that menu item.
 							$associations = MenusHelper::getAssociations($Itemid);
 						}
-						elseif ($active)
+						else
 						{
-							// Try to get associations from the active menu item.
-							$associations = MenusHelper::getAssociations($active->id);
+							// Return URL does not have any Itemid
+							$active = null;
 						}
 					}
 
