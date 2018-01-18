@@ -92,7 +92,7 @@ class JHtmlJqueryTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/jquery/js/jquery-migrate.min.js',
+			'/media/vendor/jquery-migrate/js/jquery-migrate.min.js',
 			$document->_scripts,
 			'Verify that the jQuery Migrate JS is loaded'
 		);

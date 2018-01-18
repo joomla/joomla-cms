@@ -113,7 +113,7 @@ class LevelModel extends AdminModel
 	 *
 	 * @since   1.6
 	 */
-	public function getTable($type = 'Viewlevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
 		$return = Table::getInstance($type, $prefix, $config);
 
