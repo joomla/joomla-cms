@@ -119,7 +119,7 @@
 				Joomla.apps.clickforlinks();
 				Joomla.apps.clicker();
 
-				if (Joomla.apps.list) {
+				if (Joomla.apps.list && document.querySelector(".list-view")) {
 					document.querySelector(".list-view").click();
 				}
 
@@ -198,7 +198,7 @@
 		document.querySelector('#uploadform-web').style.display = 'none';
 
 		// jQuery('#jed-container').slideDown(300);
-		if (Joomla.apps.list) {
+		if (Joomla.apps.list && document.querySelector(".list-view")) {
 			document.querySelector(".list-view").click();
 		}
 	};
