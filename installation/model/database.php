@@ -181,12 +181,6 @@ class InstallationModelDatabase extends JModelBase
 			$hostToCheck = '::1';
 		}
 
-		if (count($explodedHost) > 1 && !is_numeric(end($explodedHost)))
-		{
-			// The port needs to be an integer
-			return false;
-		}
-
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
 		if ($shouldCheckLocalhost && !in_array($hostToCheck, $localhost))
 		{
