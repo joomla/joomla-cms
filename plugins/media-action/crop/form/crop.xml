@@ -61,7 +61,7 @@
 			name="aspectRatio"
 			type="radio"
 			hiddenLabel="true"
-			class="btn-group btn-group-ratio"
+			class=""
 			default=""
 			>
 			<option value="1.7777777777777777">16 / 9</option>
