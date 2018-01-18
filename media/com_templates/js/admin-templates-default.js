@@ -50,7 +50,11 @@
 
 				event.target.classList.add('selected');
 
-				document.querySelectorAll('#fileModal input.address').value = event.target.getAttribute('data-id');
+				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
+
+				listElsAddressToAdd.forEach(function(element) {
+				  element.value = event.target.getAttribute('data-id');
+				});
 			});
 		}
 
@@ -66,7 +70,11 @@
 
 				event.target.classList.add('selected');
 
-				document.querySelectorAll('#fileModal input.address').value = event.target.getAttribute('data-id');
+				var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
+
+				listElsAddressToAdd.forEach(function(element) {
+				  element.value = event.target.getAttribute('data-id');
+				});
 			});
 		}
 
@@ -88,7 +96,7 @@
 				listEls[i].querySelector('a').classList.add('active');
 				if (i === listEls.length - 1) {
 					var parentUl = listEls[i].querySelector('ul'),
-						allLi    = parentUl.querySelectorAll('li'); 
+						allLi    = parentUl.querySelectorAll('li');
 
 					for (var i = 0, l = allLi.length; i < l; i++) {
 						var aEl    = allLi[i].querySelector('a'),
@@ -123,7 +131,7 @@
 				document.getElementById('h').value = e.detail.height;
 			});
 		}
-		
+
 	});
 
 })();
