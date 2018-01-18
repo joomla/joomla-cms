@@ -3,77 +3,104 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2013-2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Version;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Rule\UrlRule;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /**
  * Support for the "Install from Web" tab
  *
- * @package     Joomla.Plugin
- * @subpackage  System.webinstaller
- * @since       3.2
+ * @since  3.2
  */
 class PlgInstallerWebinstaller extends CMSPlugin
 {
-	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
+	const REMOTE_URL = 'https://appscdn.joomla.org/webapps/';
 
-	private $_installfrom = null;
-	private $_rtl = null;
+	/**
+	 * The application object.
+	 *
+	 * @var    CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
+	 * The URL to install from
+	 *
+	 * @var    string|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $installfrom = null;
+
+	/**
+	 * Flag if the document is in a RTL direction
+	 *
+	 * @var    integer|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $rtl = null;
 
 	public function onInstallerBeforeDisplay(&$showJedAndWebInstaller)
 	{
 		$showJedAndWebInstaller = false;
 	}
-	
+
 	public function onInstallerViewBeforeFirstTab()
 	{
-		$app = Factory::getApplication();
- 
-		$lang = Factory::getLanguage();
-		$lang->load('plg_installer_webinstaller', JPATH_ADMINISTRATOR);
-		if (!$this->params->get('tab_position', 0)) {
+		Factory::getLanguage()->load('plg_installer_webinstaller', JPATH_ADMINISTRATOR);
+
+		if (!$this->params->get('tab_position', 0))
+		{
 			$this->getChanges();
 		}
 	}
-	
+
 	public function onInstallerViewAfterLastTab()
 	{
-		if ($this->params->get('tab_position', 0)) {
+		if ($this->params->get('tab_position', 0))
+		{
 			$this->getChanges();
 		}
-		$installfrom = $this->getInstallFrom();
-		$installfromon = $installfrom ? 1 : 0;
 
-		$document = Factory::getDocument();
-		$ver = new Version;
+		$installfrom   = $this->getInstallFrom();
+		$installfromon = $installfrom ? 1 : 0;
 
 		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
 		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
 
+		$manifest = (new Installer)->isManifest(__DIR__ . '/webinstaller.xml');
 
-		$installer = new JInstaller();
-		$manifest = $installer->isManifest(JPATH_PLUGINS . DIRECTORY_SEPARATOR . 'installer' . DIRECTORY_SEPARATOR . 'webinstaller' . DIRECTORY_SEPARATOR . 'webinstaller.xml');
+		$devLevel = Version::PATCH_VERSION;
 
-		$apps_base_url = addslashes($this->appsBaseUrl);
-		$apps_installat_url = base64_encode(JURI::current(true) . '?option=com_installer&view=install');
+		if (!empty(Version::EXTRA_VERSION))
+		{
+			$devLevel .= '-' . Version::EXTRA_VERSION;
+		}
+
+		$apps_base_url        = addslashes(self::REMOTE_URL);
+		$apps_installat_url   = base64_encode(Uri::current() . '?option=com_installer&view=install');
 		$apps_installfrom_url = addslashes($installfrom);
-		$apps_product = base64_encode(Version::PRODUCT);
-		$apps_release = base64_encode(Version::MAJOR_VERSION . Version::MINOR_VERSION . Version::PATCH_VERSION);
-		$apps_dev_level = base64_encode(Version::PATCH_VERSION);
-		$btntxt = Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
-		$pv = base64_encode($manifest->version);
-		$updatestr1 = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true);
-		$obsoletestr = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_OBSOLETE', true);
-		$updatestr2 = Text::_('JLIB_INSTALLER_UPDATE', true);
+		$apps_product         = base64_encode(Version::PRODUCT);
+		$apps_release         = base64_encode(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION);
+		$apps_dev_level       = base64_encode($devLevel);
+		$btntxt               = Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
+		$pv                   = base64_encode($manifest->version);
+		$updatestr1           = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true);
+		$obsoletestr          = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_OBSOLETE', true);
+		$updatestr2           = Text::_('JLIB_INSTALLER_UPDATE', true);
 
 		$javascript = <<<END
 var apps_base_url = '$apps_base_url',
@@ -117,46 +144,53 @@ jQuery(document).ready(function() {
 
 		
 END;
-		$document->addScriptDeclaration($javascript);
+		Factory::getDocument()->addScriptDeclaration($javascript);
 	}
 
-	private function isRTL() {
-		if (is_null($this->_rtl)) {
-			$document = Factory::getDocument();
-			$this->_rtl = strtolower($document->direction) == 'rtl' ? 1 : 0;
+	private function isRTL()
+	{
+		if ($this->rtl === null)
+		{
+			$this->rtl = strtolower(Factory::getDocument()->getDirection()) == 'rtl' ? 1 : 0;
 		}
-		return $this->_rtl;
+
+		return $this->rtl;
 	}
-	
+
 	private function getInstallFrom()
 	{
-		if (is_null($this->_installfrom))
+		if (is_null($this->installfrom))
 		{
-			$app = Factory::getApplication();
-			$installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
+			$installfrom = base64_decode($this->app->input->getBase64('installfrom', ''));
 
 			$field = new SimpleXMLElement('<field></field>');
-			$rule = new JFormRuleUrl;
-			if ($rule->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
-				jimport('joomla.updater.update');
-				$update = new JUpdate;
+
+			if ((new UrlRule)->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom))
+			{
+				$update = new Update;
 				$update->loadFromXML($installfrom);
 				$package_url = trim($update->get('downloadurl', false)->_data);
-				if ($package_url) {
+
+				if ($package_url)
+				{
 					$installfrom = $package_url;
 				}
 			}
-			$this->_installfrom = $installfrom;
+
+			$this->installfrom = $installfrom;
 		}
-		return $this->_installfrom;
+
+		return $this->installfrom;
 	}
-	
+
 	private function getChanges()
 	{
-		$installfrom = $this->getInstallFrom();
+		$installfrom   = $this->getInstallFrom();
 		$installfromon = $installfrom ? 1 : 0;
-		$dir = '';
-		if ($this->isRTL()) {
+		$dir           = '';
+
+		if ($this->isRTL())
+		{
 			$dir = ' dir="ltr"';
 		}
 
