@@ -38,19 +38,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:20%" class="nowrap hidden-sm-down text-center">
+								<th style="width:20%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -84,21 +84,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 									</label>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
 										<?php echo $item->name; ?>
 									</span>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->client_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->type_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->folder_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->update_site_id; ?>
 								</td>
 							</tr>

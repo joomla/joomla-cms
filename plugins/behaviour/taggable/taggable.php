@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\CMS\Event as CmsEvent;
 
@@ -19,7 +22,7 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * @since  4.0.0
  */
-class PlgBehaviourTaggable extends JPlugin
+class PlgBehaviourTaggable extends CMSPlugin
 {
 	/**
 	 * Constructor
@@ -68,7 +71,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		$table->tagsHelper = new JHelperTags;
+		$table->tagsHelper = new TagsHelper;
 		$table->tagsHelper->typeAlias = $table->typeAlias;
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
@@ -148,7 +151,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof JTableInterface))
+		if (!is_object($table) || !($table instanceof TableInterface))
 		{
 			return;
 		}
@@ -298,7 +301,7 @@ class PlgBehaviourTaggable extends JPlugin
 			return;
 		}
 
-		$table->tagsHelper = new JHelperTags;
+		$table->tagsHelper = new TagsHelper;
 		$table->tagsHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -354,7 +357,7 @@ class PlgBehaviourTaggable extends JPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(JTableInterface &$table)
+	protected function parseTypeAlias(TableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{
