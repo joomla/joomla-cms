@@ -587,9 +587,9 @@ class HtmlDocument extends Document
 		$renderer = $this->loadRenderer('module');
 
 		foreach ($modules as $module) {
-			$content = $renderer->render($module);
+			$renderer->render($module);
 
-			if (trim($content))
+			if (trim($module->content))
 			{
 				$result++;
 			}
