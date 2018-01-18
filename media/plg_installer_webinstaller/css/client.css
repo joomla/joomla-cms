@@ -197,7 +197,7 @@ body.ifw-busy {
 	opacity: .95;
 	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 95);
 	filter: alpha(opacity = 95);
-	background: url('../../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) 50% 10px no-repeat;
+	background: url(../../system/images/ajax-loader.gif) rgba(255,255,255,0.7) 50% 10px no-repeat;
 }
 /* Put breakpoints in when the design breaks, not at generic widths */
 @media (max-width: 869px) {
@@ -238,7 +238,7 @@ body.ifw-busy {
 
 @media (max-width: 580px) {
     .nav-tabs > li {
- 
+
  width: 100%;
     }
     #myTabTabs {
