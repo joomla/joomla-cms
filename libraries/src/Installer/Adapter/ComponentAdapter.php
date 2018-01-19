@@ -287,7 +287,7 @@ class ComponentAdapter extends InstallerAdapter
 		$uid = $update->find(
 			array(
 				'element'   => $this->element,
-				'type'      => $this->extension->type,
+				'type'      => strtolower($this->extension->type),
 				'client_id' => 1,
 			)
 		);

@@ -188,7 +188,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
-				array('element' => $this->element, 'type' => $this->type)
+				array('element' => $this->element, 'type' => strtolower($this->type))
 			);
 
 			// If it does exist, load it
