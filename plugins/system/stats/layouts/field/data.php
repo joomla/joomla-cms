@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -41,8 +44,8 @@ extract($displayData);
  * @var   array    $statsData       Statistics that will be sent to the stats server
  */
 
-JHtml::_('jquery.framework');
+HTMLHelper::_('jquery.framework');
 ?>
-<a href="#" onclick="jQuery(this).next().toggle(200); return false;"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+<a href="#" onclick="jQuery(this).next().toggle(200); return false;"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
 <?php
 echo $field->render('stats', compact('statsData'));
