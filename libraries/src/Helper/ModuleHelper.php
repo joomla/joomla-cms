@@ -141,7 +141,7 @@ abstract class ModuleHelper
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
-		static $chrome;
+		static $chrome = array();
 
 		$app = \JFactory::getApplication();
 
@@ -174,44 +174,21 @@ abstract class ModuleHelper
 		// Get module parameters
 		$params = new Registry($module->params);
 
+		// Render the module content
+		static::renderRawModule($module, $params, $attribs);
+
+		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
+		{
+			// Revert the scope
+			$app->scope = $scope;
+
+			return $module->content;
+		}
+
 		// Get the template
 		$template = $app->getTemplate();
 
-		// Get module path
-		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
-
-		// Load the module
-		if (file_exists($path))
-		{
-			$lang = \JFactory::getLanguage();
-
-			$coreLanguageDirectory      = JPATH_BASE;
-			$extensionLanguageDirectory = dirname($path);
-
-			$langPaths = $lang->getPaths();
-
-			// Only load the module's language file if it hasn't been already
-			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
-			{
-				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
-					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
-			}
-
-			$content = '';
-			ob_start();
-			include $path;
-			$module->content = ob_get_contents() . $content;
-			ob_end_clean();
-		}
-
 		// Load the module chrome functions
-		if (!$chrome)
-		{
-			$chrome = array();
-		}
-
 		include_once JPATH_THEMES . '/system/html/modules.php';
 		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
 
@@ -278,6 +255,60 @@ abstract class ModuleHelper
 		{
 			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
+
+		return $module->content;
+	}
+
+	/**
+	 * @param  object    $module   A module object
+	 * @param  Registry  $params   A module parameters
+	 * @param  array     $attribs  An array of attributes for the module (probably from the XML).
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function renderRawModule ($module, $params, $attribs = array())
+	{
+		if (!empty($module->contentRendered))
+		{
+			return $module->content;
+		}
+
+		// Keep it for b/c, as it can be used by module
+		$app      = \JFactory::getApplication();
+		$template = $app->getTemplate();
+
+		// Get module path
+		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
+		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
+
+		// Load the module
+		if (file_exists($path))
+		{
+			$lang = \JFactory::getLanguage();
+
+			$coreLanguageDirectory      = JPATH_BASE;
+			$extensionLanguageDirectory = dirname($path);
+
+			$langPaths = $lang->getPaths();
+
+			// Only load the module's language file if it hasn't been already
+			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
+			{
+				// 1.5 or Core then 1.6 3PD
+				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
+					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
+			}
+
+			$content = '';
+			ob_start();
+			include $path;
+			$module->content = ob_get_contents() . $content;
+			ob_end_clean();
+		}
+
+		$module->contentRendered = true;
 
 		return $module->content;
 	}
