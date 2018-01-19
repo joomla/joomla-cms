@@ -13,7 +13,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -76,8 +75,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
 		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
 
-		$manifest = (new Installer)->isManifest(__DIR__ . '/webinstaller.xml');
-
 		$devLevel = Version::PATCH_VERSION;
 
 		if (!empty(Version::EXTRA_VERSION))
@@ -97,10 +94,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'release'         => base64_encode(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION),
 				'dev_level'       => base64_encode($devLevel),
 				'installfromon'   => $installfrom ? 1 : 0,
-				'btntxt'          => Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true),
-				'pv'              => base64_encode($manifest->version),
-				'updateavail1'    => Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true),
-				'updateavail2'    => Text::_('JLIB_INSTALLER_UPDATE', true),
 			]
 		);
 
