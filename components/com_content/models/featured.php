@@ -51,7 +51,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$limitstart = $input->getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
-		$params = $params = $this->state->params;
+		$params = $this->state->params;
 		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
