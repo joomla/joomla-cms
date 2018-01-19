@@ -454,7 +454,7 @@ class ContentModelCategory extends JModelList
 		}
 
 		// Order subcategories
-		if (is_array($this->_children) && count($this->_children) > 1)
+		if ($this->_children)
 		{
 			$params = $this->getState()->get('params');
 
