@@ -1,5 +1,6 @@
 /* Extension type badges */
-.com-apps-container .label-jcommercial, .com-apps-container .badge-jcommercial{background-color:#f6c801; color: black; font-weight: normal; font-size: medium; vertical-align: bottom}
+.com-apps-container .badge{color: #fff}
+.com-apps-container .label-jcommercial, .com-apps-container .badge-jcommercial{background-color:#f6c801; color: black;}
 .com-apps-container .label-jmodule, .com-apps-container .badge-jmodule{background-color:#e20a0a}
 .com-apps-container .label-jplugin, .com-apps-container .badge-jplugin{background-color:#57278e}
 .com-apps-container .label-jcomponent, .com-apps-container .badge-jcomponent{background-color: #1e9e33}
@@ -8,7 +9,7 @@
 .com-apps-container .label-jlanguage, .com-apps-container .badge-jlanguage{background-color:golden}
 .com-apps-container .icon-star, .com-apps-container .icon-star-2{color:#f6c801}
 .com-apps-container .icon-star-empty{color:#dcdcdc}
-.com-apps-container ul.item-type {margin:0px}
+.com-apps-container ul.item-type {margin:0;padding:0}
 .com-apps-container .jbadge{vertical-align:middle}
 
 /* Bootstrap form controls override */
