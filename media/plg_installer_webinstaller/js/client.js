@@ -19,7 +19,6 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 		jsfiles: [],
 		list: 0,
 		loaded: 0,
-		update: false,
 		options: Joomla.getOptions('plg_installer_webinstaller', {}),
 	};
 
@@ -37,7 +36,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 			return false;
 		}
 
-		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid') + '&pv=' + Joomla.apps.options.pv;
+		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid');
 
 		if (Joomla.apps.ordering !== "" && document.querySelector('#com-apps-ordering').value) {
 			Joomla.apps.ordering = document.querySelector('#com-apps-ordering').value;
@@ -72,19 +71,6 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 				}
 
 				document.querySelector('#jed-container').innerHTML = response.data.html;
-
-				if (!Joomla.apps.update && response.data.pluginuptodate < 1) {
-					Joomla.apps.update = true;
-
-					var txt, btn = txt = Joomla.apps.options.updateavail2;
-
-					if (response.data.pluginuptodate == 0) {
-						txt = Joomla.apps.options.updateavail1;
-					}
-
-					// @todo use custom element alert
-					document.querySelector('#web').insertAdjacentHTML('afterbegin', '<div class="alert alert-info j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333;">' + txt + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" type="button" value="' + btn + '" onclick="Joomla.submitbuttonInstallWebInstaller()" /></div>');
-				}
 
 				document.querySelector('#com-apps-searchbox').addEventListener('keypress', function (event) {
 					if (event.which == 13) {
