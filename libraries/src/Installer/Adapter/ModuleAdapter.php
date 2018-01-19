@@ -56,7 +56,7 @@ class ModuleAdapter extends InstallerAdapter
 			$this->currentExtensionId = $this->extension->find(
 				array(
 					'element'   => $this->element,
-					'type'      => $this->type,
+					'type'      => strtolower($this->type),
 					'client_id' => $this->clientId,
 				)
 			);

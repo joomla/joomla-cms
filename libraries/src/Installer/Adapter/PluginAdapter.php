@@ -54,7 +54,7 @@ class PluginAdapter extends InstallerAdapter
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
-				array('type' => $this->type, 'element' => $this->element, 'folder' => $this->group)
+				array('type' => strtolower($this->type), 'element' => $this->element, 'folder' => $this->group)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -161,7 +161,7 @@ class PluginAdapter extends InstallerAdapter
 		$uid = $update->find(
 			array(
 				'element' => $this->element,
-				'type'    => $this->type,
+				'type'    => strtolower($this->type),
 				'folder'  => $this->group,
 			)
 		);

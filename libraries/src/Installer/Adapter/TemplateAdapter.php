@@ -48,7 +48,7 @@ class TemplateAdapter extends InstallerAdapter
 			$this->currentExtensionId = $this->extension->find(
 				array(
 					'element'   => $this->element,
-					'type'      => $this->type,
+					'type'      => strtolower($this->type),
 					'client_id' => $this->clientId,
 				)
 			);
@@ -147,7 +147,7 @@ class TemplateAdapter extends InstallerAdapter
 		$uid = $update->find(
 			array(
 				'element'   => $this->element,
-				'type'      => $this->type,
+				'type'      => strtolower($this->type),
 				'client_id' => $this->clientId,
 			)
 		);

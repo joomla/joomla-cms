@@ -92,7 +92,7 @@ class LibraryAdapter extends InstallerAdapter
 		$uid = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type,
+				'type' => strtolower($this->type),
 			)
 		);
 
