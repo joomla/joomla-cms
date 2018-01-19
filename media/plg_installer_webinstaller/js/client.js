@@ -3,11 +3,14 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function (window, document, Joomla, jQuery) {
-	if (!Joomla) {
-		throw new Error('Joomla API is not properly initialised');
-	}
+if (!Joomla) {
+	throw new Error('Joomla API is not properly initialised');
+}
 
+// For compatibility with the layouts coming from the remote server, continue exposing some of the old global vars
+var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
+
+(function (window, document, Joomla, jQuery) {
 	Joomla.apps = {
 		view: "dashboard",
 		id: 0,
@@ -16,7 +19,8 @@
 		jsfiles: [],
 		list: 0,
 		loaded: 0,
-		update: false
+		update: false,
+		options: Joomla.getOptions('plg_installer_webinstaller', {}),
 	};
 
 	Joomla.loadweb = function (url) {
@@ -24,7 +28,7 @@
 			return false;
 		}
 
-		var pattern1 = new RegExp(apps_base_url);
+		var pattern1 = new RegExp(Joomla.apps.options.base_url);
 		var pattern2 = new RegExp("^index\.php");
 
 		if (!(pattern1.test(url) || pattern2.test(url))) {
@@ -33,7 +37,7 @@
 			return false;
 		}
 
-		url += '&product=' + apps_product + '&release=' + apps_release + '&dev_level=' + apps_dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid') + '&pv=' + apps_pv;
+		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid') + '&pv=' + Joomla.apps.options.pv;
 
 		if (Joomla.apps.ordering !== "" && document.querySelector('#com-apps-ordering').value) {
 			Joomla.apps.ordering = document.querySelector('#com-apps-ordering').value;
@@ -72,11 +76,10 @@
 				if (!Joomla.apps.update && response.data.pluginuptodate < 1) {
 					Joomla.apps.update = true;
 
-					var txt = apps_obsolete;
-					var btn = apps_updateavail2;
+					var txt, btn = txt = Joomla.apps.options.updateavail2;
 
 					if (response.data.pluginuptodate == 0) {
-						txt = apps_updateavail1;
+						txt = Joomla.apps.options.updateavail1;
 					}
 
 					// @todo use custom element alert
@@ -101,8 +104,8 @@
 					});
 				}
 
-				if (apps_installfrom_url != '') {
-					Joomla.installfromweb(apps_installfrom_url);
+				if (Joomla.apps.options.installfrom_url !== '') {
+					Joomla.installfromweb(Joomla.apps.options.installfrom_url);
 				}
 			},
 			fail: function () {
@@ -113,7 +116,7 @@
 			},
 			complete: function () {
 				if (document.querySelector('#joomlaapsinstallatinput')) {
-					document.querySelector('#joomlaapsinstallatinput').value = apps_installat_url;
+					document.querySelector('#joomlaapsinstallatinput').value = Joomla.apps.options.installat_url;
 				}
 
 				Joomla.apps.clickforlinks();
@@ -225,7 +228,7 @@
 			tail += '&ordering=' + ordering;
 		}
 
-		Joomla.loadweb(apps_base_url + 'index.php?format=json&option=com_apps' + tail);
+		Joomla.loadweb(Joomla.apps.options.base_url + 'index.php?format=json&option=com_apps' + tail);
 	};
 
 	Joomla.apps.clickforlinks = function () {
@@ -233,7 +236,7 @@
 			var ajaxurl = element.getAttribute('href');
 
 			element.addEventListener('click', function (event) {
-				var pattern1 = new RegExp(apps_base_url);
+				var pattern1 = new RegExp(Joomla.apps.options.base_url);
 				var pattern2 = new RegExp("^index\.php");
 
 				if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
@@ -246,7 +249,7 @@
 					}
 
 					event.preventDefault();
-					Joomla.loadweb(apps_base_url + ajaxurl);
+					Joomla.loadweb(Joomla.apps.options.base_url + ajaxurl);
 				} else {
 					event.preventDefault();
 					Joomla.loadweb(ajaxurl);
@@ -275,7 +278,7 @@
 			});
 		}
 
-		Joomla.loadweb(apps_base_url + 'index.php?format=json&option=com_apps&view=dashboard');
+		Joomla.loadweb(Joomla.apps.options.base_url + 'index.php?format=json&option=com_apps&view=dashboard');
 
 		Joomla.apps.clickforlinks();
 	};
@@ -314,13 +317,11 @@
 		if (form.install_url.value !== "" && form.install_url.value !== "http://") {
 			Joomla.submitbutton4();
 		} else if (form.install_url.value === "") {
-			alert(apps_btntxt);
+			alert(Joomla.apps.options.btntxt);
 		} else {
 			document.querySelector('#appsloading').style.display = 'block';
 			form.installtype.value = 'web';
 			form.submit();
 		}
 	};
-
-
 })(window, document, Joomla, jQuery);

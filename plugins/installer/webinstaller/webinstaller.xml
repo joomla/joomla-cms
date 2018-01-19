@@ -9,30 +9,13 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.1.1</version>
 	<description>PLG_INSTALLER_WEBINSTALLER_XML_DESCRIPTION</description>
+
 	<files>
 		<filename plugin="webinstaller">webinstaller.php</filename>
-		<folder>css</folder>
-		<folder>js</folder>
 	</files>
-	<updateservers>
-		<server type="extension" priority="1" name="WebInstaller Update Site">https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml</server>
-	</updateservers>
-	<config>
-		<fields name="params">
 
-			<fieldset name="basic">
-				<field 
-					name="tab_position" 
-					type="radio"
-					label="PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_LABEL"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_FIRST</option>
-					<option value="1">PLG_INSTALLER_WEBINSTALLER_TAB_POSITION_LAST</option>
-				</field>
-			</fieldset>
-
-		</fields>
-	</config>
+	<languages>
+		<language tag="en-GB">en-GB.plg_installer_webinstaller.ini</language>
+		<language tag="en-GB">en-GB.plg_installer_webinstaller.sys.ini</language>
+	</languages>
 </extension>

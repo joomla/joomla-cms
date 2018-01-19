@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
@@ -38,6 +39,14 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * The URL to install from
 	 *
 	 * @var    string|null
@@ -53,30 +62,16 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 */
 	private $rtl = null;
 
-	public function onInstallerBeforeDisplay(&$showJedAndWebInstaller)
+	/**
+	 * Event listener for the `onInstallerAddInstallationTab` event.
+	 *
+	 * @return  array  Returns an array with the tab information
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onInstallerAddInstallationTab()
 	{
-		$showJedAndWebInstaller = false;
-	}
-
-	public function onInstallerViewBeforeFirstTab()
-	{
-		Factory::getLanguage()->load('plg_installer_webinstaller', JPATH_ADMINISTRATOR);
-
-		if (!$this->params->get('tab_position', 0))
-		{
-			$this->getChanges();
-		}
-	}
-
-	public function onInstallerViewAfterLastTab()
-	{
-		if ($this->params->get('tab_position', 0))
-		{
-			$this->getChanges();
-		}
-
-		$installfrom   = $this->getInstallFrom();
-		$installfromon = $installfrom ? 1 : 0;
+		$installfrom = $this->getInstallFrom();
 
 		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
 		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
@@ -90,74 +85,101 @@ class PlgInstallerWebinstaller extends CMSPlugin
 			$devLevel .= '-' . Version::EXTRA_VERSION;
 		}
 
-		$apps_base_url        = addslashes(self::REMOTE_URL);
-		$apps_installat_url   = base64_encode(Uri::current() . '?option=com_installer&view=install');
-		$apps_installfrom_url = addslashes($installfrom);
-		$apps_product         = base64_encode(Version::PRODUCT);
-		$apps_release         = base64_encode(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION);
-		$apps_dev_level       = base64_encode($devLevel);
-		$btntxt               = Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true);
-		$pv                   = base64_encode($manifest->version);
-		$updatestr1           = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true);
-		$obsoletestr          = Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_OBSOLETE', true);
-		$updatestr2           = Text::_('JLIB_INSTALLER_UPDATE', true);
+		$doc = Factory::getDocument();
+
+		$doc->addScriptOptions(
+			'plg_installer_webinstaller',
+			[
+				'base_url'        => addslashes(self::REMOTE_URL),
+				'installat_url'   => base64_encode(Uri::current() . '?option=com_installer&view=install'),
+				'installfrom_url' => addslashes($installfrom),
+				'product'         => base64_encode(Version::PRODUCT),
+				'release'         => base64_encode(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION),
+				'dev_level'       => base64_encode($devLevel),
+				'installfromon'   => $installfrom ? 1 : 0,
+				'btntxt'          => Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true),
+				'pv'              => base64_encode($manifest->version),
+				'updateavail1'    => Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_UPDATE_AVAILABLE', true),
+				'updateavail2'    => Text::_('JLIB_INSTALLER_UPDATE', true),
+			]
+		);
 
 		$javascript = <<<END
-var apps_base_url = '$apps_base_url',
-apps_installat_url = '$apps_installat_url',
-apps_installfrom_url = '$apps_installfrom_url',
-apps_product = '$apps_product',
-apps_release = '$apps_release',
-apps_dev_level = '$apps_dev_level',
-apps_installfromon = $installfromon,
-apps_btntxt = '$btntxt',
-apps_pv = '$pv',
-apps_updateavail1 = '$updatestr1',
-apps_updateavail2 = '$updatestr2',
-apps_obsolete = '$obsoletestr';
+jQuery(document).ready(function ($) {
+	var options = Joomla.getOptions('plg_installer_webinstaller', {});
 
-jQuery(document).ready(function($) {
-	if (apps_installfromon)	{
+	if (options.installfromon) {
 		$('#myTabTabs a[href="#web"]').click();
 	}
 
-	var link = $('#myTabTabs a[href="#web"]').get(0);
+	var link = $('#myTabTabs a[href="#web"]');
 
-	$(link).closest('li').click(function (event){
+	if (link.hasClass('active')) {
+		if (!Joomla.apps.loaded) {
+			Joomla.apps.initialize();
+		}
+	}
+
+	link.closest('li').click(function () {
 		if (!Joomla.apps.loaded) {
 			Joomla.apps.initialize();
 		}
 	});
 	
-	if (apps_installfrom_url != '') {
-		$(link).closest('li').click();
+	if (options.installfrom_url != '') {
+		link.closest('li').click();
 	}
 
-	$('#myTabTabs a[href="#web"]').on('shown.bs.tab', function (e) {
-		if (!Joomla.apps.loaded){
+	$('#myTabTabs a[href="#web"]').on('shown.bs.tab', function () {
+		if (!Joomla.apps.loaded) {
 			Joomla.apps.initialize();
 		}
 	});
 });
-
 		
 END;
-		Factory::getDocument()->addScriptDeclaration($javascript);
+		$doc->addScriptDeclaration($javascript);
+
+		$tab = [
+			'name'  => 'web',
+			'label' => Text::_('COM_INSTALLER_INSTALL_FROM_WEB'),
+		];
+
+		// Render the input
+		ob_start();
+		include PluginHelper::getLayoutPath('installer', 'webinstaller');
+		$tab['content'] = ob_get_clean();
+
+		return $tab;
 	}
 
+	/**
+	 * Internal check to determine if the output is in a RTL direction
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.2
+	 */
 	private function isRTL()
 	{
 		if ($this->rtl === null)
 		{
-			$this->rtl = strtolower(Factory::getDocument()->getDirection()) == 'rtl' ? 1 : 0;
+			$this->rtl = strtolower(Factory::getDocument()->getDirection()) === 'rtl' ? 1 : 0;
 		}
 
 		return $this->rtl;
 	}
 
+	/**
+	 * Get the install from URL
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
 	private function getInstallFrom()
 	{
-		if (is_null($this->installfrom))
+		if ($this->installfrom === null)
 		{
 			$installfrom = base64_decode($this->app->input->getBase64('installfrom', ''));
 
@@ -179,42 +201,5 @@ END;
 		}
 
 		return $this->installfrom;
-	}
-
-	private function getChanges()
-	{
-		$installfrom   = $this->getInstallFrom();
-		$installfromon = $installfrom ? 1 : 0;
-		$dir           = '';
-
-		if ($this->isRTL())
-		{
-			$dir = ' dir="ltr"';
-		}
-
-		echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'web', Text::_('COM_INSTALLER_INSTALL_FROM_WEB', true)); ?>
-			<div id="jed-container" class="tab-pane">
-				<div class="well" id="web-loader">
-					<h2><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
-				</div>
-				<div class="alert alert-error" id="web-loader-error" style="display:none">
-					<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
-				</div>
-			</div>
-
-			<fieldset class="uploadform" id="uploadform-web" style="display:none"<?php echo $dir; ?>>
-				<div class="control-group">
-					<strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br>
-					<span id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br>
-					<?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?>: <span id="uploadform-web-url"></span>
-				</div>
-				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
-					<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
-				</div>
-			</fieldset>
-
-		<?php echo HTMLHelper::_('bootstrap.endTab');
-
 	}
 }
