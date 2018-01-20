@@ -17,7 +17,7 @@
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,9 +59,16 @@ $readMeFiles = array(
 			'/README.txt',
 			);
 
-// Change copyright date exclusions. Some systems may try to scan the .git directory, exclude it.
+/*
+ * Change copyright date exclusions.
+ * Some systems may try to scan the .git directory, exclude it.
+ * Also exclude build resources such as the packaging space or the API documentation build.
+ */
 $directoryLoopExcludeDirectories = array(
 			'/.git',
+			'/build/api/',
+			'/build/coverage/',
+			'/build/tmp/',
 			'/libraries/vendor/',
 			'/libraries/phputf8/',
 			'/libraries/php-encryption/',
