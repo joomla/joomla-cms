@@ -592,10 +592,6 @@ class HtmlDocument extends Document
 				$renderer->render($module, array('style' => 'raw'));
 			}
 
-			if ($positionName === 'foobar') {
-				var_dump($module);
-			}
-
 			if (trim($module->content))
 			{
 				$result++;
