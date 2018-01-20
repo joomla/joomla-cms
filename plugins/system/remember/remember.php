@@ -9,13 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\UserHelper;
+
 /**
  * Joomla! System Remember Me Plugin
  *
  * @since  1.5
  */
 
-class PlgSystemRemember extends JPlugin
+class PlgSystemRemember extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -39,7 +44,7 @@ class PlgSystemRemember extends JPlugin
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = Factory::getApplication();
 		}
 
 		// No remember me for admin.
@@ -49,14 +54,14 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		// Check for a cookie if user is not logged in
-		if (JFactory::getUser()->get('guest'))
+		if (Factory::getUser()->get('guest'))
 		{
-			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 			// Try with old cookieName (pre 3.6.0) if not found
 			if (!$this->app->input->cookie->get($cookieName))
 			{
-				$cookieName = JUserHelper::getShortHashedUserAgent();
+				$cookieName = UserHelper::getShortHashedUserAgent();
 			}
 
 			// Check for the cookie
@@ -83,13 +88,13 @@ class PlgSystemRemember extends JPlugin
 			return true;
 		}
 
-		$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
+		$cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
 		// Check for the cookie
 		if ($this->app->input->cookie->get($cookieName))
 		{
 			// Make sure authentication group is loaded to process onUserAfterLogout event
-			JPluginHelper::importPlugin('authentication');
+			PluginHelper::importPlugin('authentication');
 		}
 
 		return true;
