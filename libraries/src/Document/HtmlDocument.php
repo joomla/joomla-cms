@@ -568,7 +568,7 @@ class HtmlDocument extends Document
 	 *
 	 * @since   11.1
 	 */
-	public function countModules($positionName, $withContentOnly = true)
+	public function countModules($positionName, $withContentOnly = false)
 	{
 		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
@@ -590,6 +590,10 @@ class HtmlDocument extends Document
 			if (empty($module->contentRendered))
 			{
 				$renderer->render($module, array('style' => 'raw'));
+			}
+
+			if ($positionName === 'foobar') {
+				var_dump($module);
 			}
 
 			if (trim($module->content))
