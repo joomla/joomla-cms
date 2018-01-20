@@ -8113,6 +8113,9 @@ body .navbar-fixed-top {
 .navbar .nav-user {
 	font-size: 13px;
 }
+.navbar .nav-user .dropdown-menu li span {
+	padding-left: 10px;
+}
 .navbar .nav > li ul {
 	overflow-y: auto;
 	overflow-x: hidden;
