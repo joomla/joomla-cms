@@ -37,6 +37,14 @@ class JFormFieldCheckbox extends JFormField
 	protected $checked = false;
 
 	/**
+	 * Checkbox field should always have any value.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $ensureValue = true;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.

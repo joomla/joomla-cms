@@ -44,8 +44,8 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		// Check if data is an array and the item has an id
-		if (!is_array($data) || empty($item->id))
+		// Check if data is an array and the item has an id and we have custom fields data
+		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
 			return true;
 		}
@@ -78,26 +78,25 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		// Get the fields data
-		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
-
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
-			// Determine the value if it is available from the data
-			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
-
-			// JSON encode value for complex fields
-			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
+			// Update field value if we have it.
+			if (array_key_exists($field->name, $data['com_fields']))
 			{
-				$value = json_encode($value);
-			}
+				$value = $data['com_fields'][$field->name];
 
-			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $item->id, $value);
+				// JSON encode value for complex fields
+				if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+				{
+					$value = json_encode($value);
+				}
+
+				$model->setFieldValue($field->id, $item->id, $value);
+			}
 		}
 
 		return true;
@@ -125,14 +124,6 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$user = JFactory::getUser($userData['id']);
-
-		$task = JFactory::getApplication()->input->getCmd('task');
-
-		// Skip fields save when we activate a user, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock')))
-		{
-			return true;
-		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);

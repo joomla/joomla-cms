@@ -46,12 +46,20 @@ class JFormFieldCheckboxes extends JFormFieldList
 	protected $forceMultiple = true;
 
 	/**
-	 * The comma seprated list of checked checkboxes value.
+	 * The comma separated list of checked checkboxes value.
 	 *
 	 * @var    mixed
 	 * @since  3.2
 	 */
 	public $checkedOptions;
+
+	/**
+	 * Checkboxes field should always have any value.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $ensureValue = true;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
