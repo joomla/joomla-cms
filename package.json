@@ -15,19 +15,19 @@
   },
   "dependencies": {
     "awesomplete": "1.1.2",
-    "bootstrap": "4.0.0-beta.3",
-    "codemirror": "5.32.0",
-    "cropperjs": "1.1.3",
+    "bootstrap": "4.0.0",
+    "codemirror": "5.33.0",
+    "cropperjs": "1.2.2",
     "diff": "3.4.0",
     "dragula": "3.7.2",
     "flying-focus-a11y": "1.5.5",
     "font-awesome": "4.7.0",
-    "joomla-ui-custom-elements": "0.0.9",
+    "joomla-ui-custom-elements": "0.0.15",
     "jquery": "3.2.1",
     "jquery-migrate": "1.4.1",
     "jquery-sortable": "0.9.13",
     "jquery-ui-dist": "1.12.1",
-    "mediaelement": "4.2.7",
+    "mediaelement": "4.2.8",
     "punycode": "1.4.1",
     "tinymce": "4.7.4",
     "@claviska/jquery-minicolors": "2.2.6"
@@ -49,21 +49,6 @@
     "eslint-config-airbnb-base": "latest",
     "eslint-plugin-import": "latest",
     "fs-extra": "^4.0.2",
-    "grunt": "latest",
-    "grunt-babel": "latest",
-    "grunt-browserify": "latest",
-    "grunt-cli": "latest",
-    "grunt-contrib-clean": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-copy": "latest",
-    "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-fetch-pages": "^2.0.0",
-    "grunt-postcss-x": "latest",
-    "grunt-sass": "latest",
-    "grunt-scss-lint": "^0.5.0",
-    "grunt-shell": "latest",
     "ini": "latest",
     "jasmine-core": "latest",
     "jasmine-jquery": "latest",
@@ -81,7 +66,9 @@
     "text": "requirejs/text",
     "uglify-es": "^3.1.6",
     "uglifycss": "0.0.27",
-    "web-component-tester": "latest"
+    "web-component-tester": "latest",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
   },
   "settings": {
     "browsers": [
@@ -89,10 +76,15 @@
     ],
     "elements": [
       "field-media",
-      "field-user"
+      "field-user",
+      "field-switcher"
     ],
     "webcomponents": {
       "field-media": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-switcher": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
@@ -236,11 +228,19 @@
         "name": "joomla-custom-elements",
         "js": {
           "dist/js/joomla-alert.js": "js/joomla-alert.js",
+          "dist/js/joomla-alert.min.js": "js/joomla-alert.min.js",
           "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
           "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
-          "dist/js/joomla-tab.js": "js/joomla-tab.js",
-          "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
-          "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
+          "dist/js/joomla-panels.js": "js/joomla-panels.js",
+          "dist/js/joomla-panels.min.js": "js/joomla-panels.js",
+          "dist/js/joomla-panels-es5.js": "js/joomla-panels-es5.js",
+          "dist/js/joomla-panels-es5.min.js": "js/joomla-panels-es5.min.js"
+        },
+        "css": {
+          "dist/css/joomla-alert.css": "css/joomla-alert.css",
+          "dist/css/joomla-alert.min.css": "css/joomla-alert.min.css",
+          "dist/css/joomla-panels.css": "css/joomla-panels.css",
+          "dist/css/joomla-panels.min.css": "css/joomla-panels.min.css"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE"

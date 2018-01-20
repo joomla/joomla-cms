@@ -9,7 +9,7 @@ const autoprefixer = require('autoprefixer');
 const postcss      = require('postcss');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 compileFiles = (options, path) => {
 	let files = [], folders = [];
