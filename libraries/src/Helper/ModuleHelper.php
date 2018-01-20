@@ -157,7 +157,18 @@ abstract class ModuleHelper
 				);
 			}
 
-			return;
+			return '';
+		}
+
+		// Get module parameters
+		$params = new Registry($module->params);
+
+		// Render the module content
+		static::renderRawModule($module, $params, $attribs);
+
+		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
+		{
+			return $module->content;
 		}
 
 		if (JDEBUG)
@@ -170,20 +181,6 @@ abstract class ModuleHelper
 
 		// Set scope to component name
 		$app->scope = $module->module;
-
-		// Get module parameters
-		$params = new Registry($module->params);
-
-		// Render the module content
-		static::renderRawModule($module, $params, $attribs);
-
-		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
-		{
-			// Revert the scope
-			$app->scope = $scope;
-
-			return $module->content;
-		}
 
 		// Get the template
 		$template = $app->getTemplate();
@@ -268,16 +265,27 @@ abstract class ModuleHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function renderRawModule ($module, $params, $attribs = array())
+	public static function renderRawModule ($module, Registry $params, $attribs = array())
 	{
 		if (!empty($module->contentRendered))
 		{
 			return $module->content;
 		}
 
+		if (JDEBUG)
+		{
+			\JProfiler::getInstance('Application')->mark('beforeRenderRawModule ' . $module->module . ' (' . $module->title . ')');
+		}
+
 		// Keep it for b/c, as it can be used by module
 		$app      = \JFactory::getApplication();
 		$template = $app->getTemplate();
+
+		// Record the scope.
+		$scope = $app->scope;
+
+		// Set scope to component name
+		$app->scope = $module->module;
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
@@ -308,7 +316,16 @@ abstract class ModuleHelper
 			ob_end_clean();
 		}
 
+		// Add the flag that the module content has been rendered
 		$module->contentRendered = true;
+
+		// Revert the scope
+		$app->scope = $scope;
+
+		if (JDEBUG)
+		{
+			\JProfiler::getInstance('Application')->mark('afterRenderRawModule ' . $module->module . ' (' . $module->title . ')');
+		}
 
 		return $module->content;
 	}
