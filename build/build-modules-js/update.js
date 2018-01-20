@@ -5,7 +5,7 @@ const Path = require('path');
 const Chalk = require('chalk');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 // rm -rf media/vendor
@@ -33,7 +33,7 @@ cleanVendors = () => {
 copyAll = (dirName, name, type) => {
 	const folderName = dirName === '/' ? '/' : '/' + dirName;
 	fsExtra.copySync(Path.join(rootPath, 'node_modules/' + name + '/' + folderName),
-		Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/' + type));
+	Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/' + type));
 };
 
 // Copies an array of files from a directory
@@ -208,7 +208,6 @@ copyFiles = (options) => {
 
 			if (packageName === 'joomla-ui-custom-elements') {
 				if (fs.existsSync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'))) {
-					console.log('cpppc')
 					fsExtra.copySync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'), Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
 				}
 			}
