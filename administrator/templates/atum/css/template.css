@@ -384,8 +384,8 @@ legend {
   display: block; }
 
 [aria-grabbed="true"] {
-  -webkit-box-shadow: 0 0 3px #006898;
-          box-shadow: 0 0 3px #006898; }
+  -webkit-box-shadow: 0 0 2px 1px #006898;
+          box-shadow: 0 0 2px 1px #006898; }
 
 .header {
   position: relative;
