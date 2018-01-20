@@ -5,7 +5,7 @@ const Path = require('path');
 const Chalk = require('chalk');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 // rm -rf media/vendor
@@ -33,7 +33,7 @@ cleanVendors = () => {
 copyAll = (dirName, name, type) => {
 	const folderName = dirName === '/' ? '/' : '/' + dirName;
 	fsExtra.copySync(Path.join(rootPath, 'node_modules/' + name + '/' + folderName),
-		Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/' + type));
+	Path.join(rootPath, 'media/vendor/' + name.replace(/.+\//, '') + '/' + type));
 };
 
 // Copies an array of files from a directory
@@ -206,6 +206,11 @@ copyFiles = (options) => {
 				fsExtra.copySync(Path.join(rootPath, 'node_modules/' + packageName) + '/' + options.settings.vendors[packageName].licenseFilename, dest + '/' + options.settings.vendors[packageName].licenseFilename);
 			}
 
+			if (packageName === 'joomla-ui-custom-elements') {
+				if (fs.existsSync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'))) {
+					fsExtra.copySync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'), Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
+				}
+			}
 		}
 
 		registry.vendors[vendorName] = registryItem;
@@ -214,48 +219,7 @@ copyFiles = (options) => {
 	}
 
 	// Write assets registry
-	fs.writeFileSync(Path.join(mediaVendorPath, 'joomla.asset.json'), JSON.stringify(registry, null, 2), {encoding: 'UTF-8'});
-};
-
-copyPolyfills = () => {
-
-	if (!fsExtra.existsSync(Path.join(rootPath, 'media/system/js/polyfills/webcomponents'))) {
-		fsExtra.mkdirSync(Path.join(rootPath, 'media/system/js/polyfills'));
-		fsExtra.mkdirSync(Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
-	}
-
-	const polyfills = [
-		rootPath + '/node_modules/@webcomponents/webcomponentsjs/webcomponents-hi-ce.js',
-		rootPath + '/node_modules/@webcomponents/webcomponentsjs/webcomponents-hi-sd-ce.js',
-		rootPath + '/node_modules/@webcomponents/webcomponentsjs/webcomponents-hi.js',
-		rootPath + '/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js',
-		rootPath + '/node_modules/@webcomponents/webcomponentsjs/webcomponents-sd-ce.js',
-	];
-
-	polyfills.forEach((file) => {
-		fs.copyFileSync(file, rootPath + '/media/system/js/polyfills/webcomponents/' + file.replace(/.+\//, ''));
-		fs.copyFileSync(file.replace('.js', '.js.map'), rootPath + '/media/system/js/polyfills/webcomponents/' + file.replace(/.+\//, '').replace('.js', '.js.map'));
-	});
-
-	// Special case for plain custom element polyfill
-	fs.copyFileSync(rootPath + '/node_modules/@webcomponents/custom-elements/custom-elements.min.js', rootPath + '/media/system/js/polyfills/webcomponents/webcomponents-ce.js');
-	fs.copyFileSync(rootPath + '/node_modules/@webcomponents/custom-elements/custom-elements.min.js.map', rootPath + '/media/system/js/polyfills/webcomponents/webcomponents-ce.js.map');
-
-	// We NEED the webcomponents.ready event in the polyfill!!!
-	if (fsExtra.existsSync('media/system/js/polyfills/webcomponents-ce.js')) {
-		let ce = fs.readFileSync('media/system/js/polyfills/webcomponents-ce.js');
-		ce = ce.replace('//# sourceMappingURL=custom-elements.min.js.map', `
-(function(){
-	window.WebComponents = window.WebComponents || {};
-	requestAnimationFrame(function() {
-		window.WebComponents.ready= true;
-		document.dispatchEvent(new CustomEvent("WebComponentsReady", { bubbles:true }) );
-	})
-})();
-//# sourceMappingURL=custom-elements.js.map`);
-
-		fs.writeFileSync('media/system/js/polyfills/webcomponents-ce.js', ce, {encoding: 'UTF-8'});
-	}
+	// fs.writeFileSync(Path.join(mediaVendorPath, 'joomla.asset.json'), JSON.stringify(registry, null, 2), {encoding: 'UTF-8'});
 };
 
 update = (options) => {
@@ -265,9 +229,6 @@ update = (options) => {
 
 		// Copy a fresh version of the files
 		.then(copyFiles(options))
-
-		// Copy all the polyfills
-		.then(copyPolyfills())
 
 		// Handle errors
 		.catch((err) => {

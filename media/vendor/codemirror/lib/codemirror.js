@@ -7618,6 +7618,7 @@ function defineOptions(CodeMirror) {
     clearCaches(cm);
     regChange(cm);
   }, true);
+
   option("lineSeparator", null, function (cm, val) {
     cm.doc.lineSep = val;
     if (!val) { return }
@@ -9658,7 +9659,7 @@ CodeMirror$1.fromTextArea = fromTextArea;
 
 addLegacyProps(CodeMirror$1);
 
-CodeMirror$1.version = "5.32.0";
+CodeMirror$1.version = "5.33.0";
 
 return CodeMirror$1;
 
