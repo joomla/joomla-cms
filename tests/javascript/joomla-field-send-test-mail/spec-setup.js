@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/joomla-field-send-test-mail/fixtures/fixture.html', 'media/system/webcomponents/js/joomla-field-send-test-mail', 'libs/core'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/joomla-field-send-test-mail/fixtures/fixture.html', 'media/system/webcomponents/js/joomla-field-send-test-mail', 'libs/core'], ($, fixture) => {
 	$('body').append(fixture);
 
 	mailResponses = {
@@ -43,5 +43,5 @@ define(['jquery', 'text!testsRoot/joomla-field-send-test-mail/fixtures/fixture.h
 		mailonline: ['mailonline']
 	};
 
-	$('#sendtestmail').click();
+	document.getElementById('sendtestmail').click();
 });
