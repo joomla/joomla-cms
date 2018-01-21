@@ -34,7 +34,7 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 
             setTimeout(function() {
                 expect($('.js-calendar').css('display')).toEqual('block');
-            }, 100)
+            }, 200)
 
 		});
 
