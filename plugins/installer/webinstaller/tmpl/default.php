@@ -18,8 +18,10 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 ?>
 
 <div id="jed-container" class="tab-pane">
-	<div class="well" id="web-loader">
-		<h2><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+	<div class="card" id="web-loader">
+		<div class="card-body">
+			<h2 class="card-title"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+		</div>
 	</div>
 	<div class="alert alert-error" id="web-loader-error" style="display:none">
 		<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
