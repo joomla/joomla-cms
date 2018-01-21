@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], function ($) {
+define(['jquery', 'testsRoot/joomla-field-send-test-mail/spec-setup', 'jasmineJquery'], function ($) {
 	describe('Sendtestmail', function () {
 		beforeAll(function() {
 			jasmine.Ajax.install();
