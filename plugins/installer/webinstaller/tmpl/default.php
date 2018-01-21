@@ -23,12 +23,12 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 			<h2 class="card-title"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
 		</div>
 	</div>
-	<div class="alert alert-error" id="web-loader-error" style="display:none">
+	<div class="alert alert-error hidden" id="web-loader-error">
 		<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
 	</div>
 </div>
 
-<fieldset class="uploadform" id="uploadform-web" style="display:none"<?php echo $dir; ?>>
+<fieldset class="hidden" id="uploadform-web"<?php echo $dir; ?>>
 	<div class="control-group">
 		<strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
 		<span id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br />
