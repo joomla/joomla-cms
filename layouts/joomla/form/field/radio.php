@@ -58,7 +58,8 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
 	<?php HTMLHelper::_('webcomponent',
 		['joomla-field-switcher' => 'system/webcomponents/joomla-field-switcher.min.js'],
-		['relative' => true, 'version' => 'auto']); ?>
+		['relative' => true, 'version' => 'auto']
+	); ?>
 
 	<?php
 	// Set the type of switcher
