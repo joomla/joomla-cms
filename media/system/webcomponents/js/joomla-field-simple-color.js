@@ -13,6 +13,156 @@
 		ESC: 27,
 	};
 
+	const colorNames = {
+		aliceblue:              '#f0f8ff',
+		antiquewhite:           '#faebd7',
+		aqua:                   '#00ffff',
+		aquamarine:             '#7fffd4',
+		azure:                  '#f0ffff',
+		beige:                  '#f5f5dc',
+		bisque:                 '#ffe4c4',
+		black:                  '#000000',
+		blanchedalmond:         '#ffebcd',
+		blue:                   '#0000ff',
+		blueviolet:             '#8a2be2',
+		brown:                  '#a52a2a',
+		burlywood:              '#deb887',
+		cadetblue:              '#5f9ea0',
+		chartreuse:             '#7fff00',
+		chocolate:              '#d2691e',
+		coral:                  '#ff7f50',
+		cornflowerblue:         '#6495ed',
+		cornsilk:               '#fff8dc',
+		crimson:                '#dc143c',
+		cyan:                   '#00ffff',
+		darkblue:               '#00008b',
+		darkcyan:               '#008b8b',
+		darkgoldenrod:          '#b8860b',
+		darkgray:               '#a9a9a9',
+		darkgreen:              '#006400',
+		darkgrey:               '#a9a9a9',
+		darkkhaki:              '#bdb76b',
+		darkmagenta:            '#8b008b',
+		darkolivegreen:         '#556b2f',
+		darkorange:             '#ff8c00',
+		darkorchid:             '#9932cc',
+		darkred:                '#8b0000',
+		darksalmon:             '#e9967a',
+		darkseagreen:           '#8fbc8f',
+		darkslateblue:          '#483d8b',
+		darkslategray:          '#2f4f4f',
+		darkslategrey:          '#2f4f4f',
+		darkturquoise:          '#00ced1',
+		darkviolet:             '#9400d3',
+		deeppink:               '#ff1493',
+		deepskyblue:            '#00bfff',
+		dimgray:                '#696969',
+		dimgrey:                '#696969',
+		dodgerblue:             '#1e90ff',
+		firebrick:              '#b22222',
+		floralwhite:            '#fffaf0',
+		forestgreen:            '#228b22',
+		fuchsia:                '#ff00ff',
+		gainsboro:              '#dcdcdc',
+		ghostwhite:             '#f8f8ff',
+		gold:                   '#ffd700',
+		goldenrod:              '#daa520',
+		gray:                   '#808080',
+		green:                  '#008000',
+		greenyellow:            '#adff2f',
+		grey:                   '#808080',
+		honeydew:               '#f0fff0',
+		hotpink:                '#ff69b4',
+		indianred:              '#cd5c5c',
+		indigo:                 '#4b0082',
+		ivory:                  '#fffff0',
+		khaki:                  '#f0e68c',
+		lavender:               '#e6e6fa',
+		lavenderblush:          '#fff0f5',
+		lawngreen:              '#7cfc00',
+		lemonchiffon:           '#fffacd',
+		lightblue:              '#add8e6',
+		lightcoral:             '#f08080',
+		lightcyan:              '#e0ffff',
+		lightgoldenrodyellow:   '#fafad2',
+		lightgray:              '#d3d3d3',
+		lightgreen:             '#90ee90',
+		lightgrey:              '#d3d3d3',
+		lightpink:              '#ffb6c1',
+		lightsalmon:            '#ffa07a',
+		lightseagreen:          '#20b2aa',
+		lightskyblue:           '#87cefa',
+		lightslategray:         '#778899',
+		lightslategrey:         '#778899',
+		lightsteelblue:         '#b0c4de',
+		lightyellow:            '#ffffe0',
+		lime:                   '#00ff00',
+		limegreen:              '#32cd32',
+		linen:                  '#faf0e6',
+		magenta:                '#ff00ff',
+		maroon:                 '#800000',
+		mediumaquamarine:       '#66cdaa',
+		mediumblue:             '#0000cd',
+		mediumorchid:           '#ba55d3',
+		mediumpurple:           '#9370db',
+		mediumseagreen:         '#3cb371',
+		mediumslateblue:        '#7b68ee',
+		mediumspringgreen:      '#00fa9a',
+		mediumturquoise:        '#48d1cc',
+		mediumvioletred:        '#c71585',
+		midnightblue:           '#191970',
+		mintcream:              '#f5fffa',
+		mistyrose:              '#ffe4e1',
+		moccasin:               '#ffe4b5',
+		navajowhite:            '#ffdead',
+		navy:                   '#000080',
+		oldlace:                '#fdf5e6',
+		olive:                  '#808000',
+		olivedrab:              '#6b8e23',
+		orange:                 '#ffa500',
+		orangered:              '#ff4500',
+		orchid:                 '#da70d6',
+		palegoldenrod:          '#eee8aa',
+		palegreen:              '#98fb98',
+		paleturquoise:          '#afeeee',
+		palevioletred:          '#db7093',
+		papayawhip:             '#ffefd5',
+		peachpuff:              '#ffdab9',
+		peru:                   '#cd853f',
+		pink:                   '#ffc0cb',
+		plum:                   '#dda0dd',
+		powderblue:             '#b0e0e6',
+		purple:                 '#800080',
+		red:                    '#ff0000',
+		rosybrown:              '#bc8f8f',
+		royalblue:              '#4169e1',
+		saddlebrown:            '#8b4513',
+		salmon:                 '#fa8072',
+		sandybrown:             '#f4a460',
+		seagreen:               '#2e8b57',
+		seashell:               '#fff5ee',
+		sienna:                 '#a0522d',
+		silver:                 '#c0c0c0',
+		skyblue:                '#87ceeb',
+		slateblue:              '#6a5acd',
+		slategray:              '#708090',
+		slategrey:              '#708090',
+		snow:                   '#fffafa',
+		springgreen:            '#00ff7f',
+		steelblue:              '#4682b4',
+		tan:                    '#d2b48c',
+		teal:                   '#008080',
+		thistle:                '#d8bfd8',
+		tomato:                 '#ff6347',
+		turquoise:              '#40e0d0',
+		violet:                 '#ee82ee',
+		wheat:                  '#f5deb3',
+		white:                  '#ffffff',
+		whitesmoke:             '#f5f5f5',
+		yellow:                 '#ffff00',
+		yellowgreen:            '#9acd32',
+	};
+
 	class JoomlaFieldSimpleColor extends HTMLElement {
 		constructor() {
 			super();
@@ -55,7 +205,7 @@
 				el.setAttribute('class', clss);
 				el.style.backgroundColor = color;
 				el.setAttribute('type', 'button');
-				const a11yColor = color === 'transparent' ? this.textTransp : this.textColor + ' ' +color.replace('#', '').split('').join(', ');
+				const a11yColor = color === 'transparent' ? this.textTransp : this.getColorName(color);
 				el.innerHTML = `<span class="sr-only">${a11yColor}</span>`;
 
 				this.buttons.push(el)
@@ -83,15 +233,18 @@
 				this.icon.setAttribute('class', clss);
 			}
 
+			const uniqueId = `simple-color-${Math.random().toString(36).substr(2, 10)}`;
 			this.icon.setAttribute('type', 'button');
 			this.icon.setAttribute('tabindex', '0');
 			this.icon.style.backgroundColor = color
-			this.icon.innerHTML             = '<span class="sr-only">' + this.textSelect + '</span>';
+			this.icon.innerHTML = '<span class="sr-only">' + this.textSelect + '</span>';
+			this.icon.id = uniqueId;
 			this.select.insertAdjacentElement('beforebegin', this.icon);
 			this.icon.addEventListener('click', this.show.bind(this));
 
 			this.panel = document.createElement('div');
 			this.panel.classList.add('simplecolors-panel');
+			this.panel.setAttribute('aria-labelledby', uniqueId);
 
 			this.buttons.forEach((el) => {
 				if (el.classList.contains('btn-close')) {
@@ -161,7 +314,7 @@
 				bgcolor = 'transparent';
 				clss    = 'nocolor';
 			} else {
-				color   = this.rgb2hex(e.target.style.backgroundColor);
+				color   = e.target.style.backgroundColor;
 				bgcolor = color;
 			}
 
@@ -222,18 +375,21 @@
 			e.preventDefault();
 		}
 
-		/**
-		 * Converts a RGB color to its hexadecimal value.
-		 * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
-		 */
-		rgb2hex(rgb) {
-			const hex = (x) => {
-				return ("0" + parseInt(x, 10).toString(16)).slice(-2);
-			};
+		getColorName(value) {
+			// Expand any short code
+			let newValue = value;
+			if (value.length === 4) {
+				const tmpValue = value.split('');
+				newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
+			}
 
-			const matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+			for (const color in colorNames) {
+				if (colorNames.hasOwnProperty(color) && newValue.toLowerCase() === colorNames[color]) {
+					return color;
+				}
+			}
 
-			return '#' + hex(matches[1]) + hex(matches[2]) + hex(matches[3]);
+			return this.textColor + ' ' + value.replace('#', '').split('').join(', ')
 		}
 	}
 

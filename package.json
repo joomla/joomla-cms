@@ -77,7 +77,8 @@
     "elements": [
       "field-media",
       "field-user",
-      "field-switcher"
+      "field-switcher",
+      "field-simple-color"
     ],
     "webcomponents": {
       "field-media": {
@@ -85,6 +86,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-switcher": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-simple-color": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
