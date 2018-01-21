@@ -33,6 +33,8 @@
 	padding-left: 20px;
 }
 
+/* Side bar */
+.com-apps-sidebar a:hover, .com-apps-sidebar a.active {background-color:#33608f; color:#fff; text-decoration:none;}
 /* Full view */
 .com-apps-container .item-info-container {margin-left: 25px; line-height: 25px}
 
