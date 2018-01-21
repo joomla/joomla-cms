@@ -1,5 +1,5 @@
 /* Extension type badges */
-.com-apps-container .badge{color: #fff}
+.com-apps-container .badge{color: #fff; margin:1px}
 .com-apps-container .label-jcommercial, .com-apps-container .badge-jcommercial{background-color:#f6c801; color: black;}
 .com-apps-container .label-jmodule, .com-apps-container .badge-jmodule{background-color:#e20a0a}
 .com-apps-container .label-jplugin, .com-apps-container .badge-jplugin{background-color:#57278e}
@@ -32,15 +32,15 @@
 .com-apps-container .item-info-container {margin-left: 25px; line-height: 25px}
 
 /* Grid */
-.com-apps-container .item-image{height:120px}
-.com-apps-container .item-description{height:100px; overflow: hidden}
-.com-apps-container .thumbnail{
-	padding: 16px 12px 16px 12px;
-	cursor: pointer;
-}
-.com-apps-container .grid-container .thumbnail:hover {
-	background-color: #F2F2F2;
-}
+.com-apps-container .grid-container .card {height:400px; margin-bottom:10px}
+.com-apps-container .grid-container .card-text {height:160px; overflow: hidden}
+.com-apps-container .grid-container .card-body {cursor:pointer}
+.com-apps-container .grid-container .card:hover {background-color: #fff;}
+
+/* List */
+.com-apps-container .list-container .list-group-item {margin-bottom:10px}
+.com-apps-container .list-container .list-group-item .row {cursor:pointer}
+.com-apps-container .list-container .list-group-item:hover {background-color: #f8f8f8}
 
 /* List */
 .list-container .thumbnails .item {
