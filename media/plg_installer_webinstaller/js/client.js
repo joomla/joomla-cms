@@ -67,7 +67,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 			timeout: 20000,
 			success: function (response) {
 				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').style.display = 'none';
+					document.querySelector('#web-loader').classList.add('hidden');
 				}
 
 				document.querySelector('#jed-container').innerHTML = response.data.html;
@@ -96,8 +96,8 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 			},
 			fail: function () {
 				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').style.display = 'none';
-					document.querySelector('#web-loader-error').style.display = 'block';
+					document.querySelector('#web-loader').classList.add('hidden');
+					document.querySelector('#web-loader-error').classList.remove('hidden');
 				}
 			},
 			complete: function () {
@@ -122,8 +122,8 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 				}
 
 				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').style.display = 'none';
-					document.querySelector('#web-loader-error').style.display = 'block';
+					document.querySelector('#web-loader').classList.add('hidden');
+					document.querySelector('#web-loader-error').classList.remove('hidden');
 				}
 			}
 		});
@@ -131,13 +131,13 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 	};
 
 	Joomla.webpaginate = function (url, target) {
-		document.querySelector('#web-paginate-loader').style.display = 'block';
+		document.querySelector('#web-paginate-loader').classList.remove('hidden');
 
 		jQuery.get(url, function (response) {
-			document.querySelector('#web-paginate-loader').style.display = 'none';
+			document.querySelector('#web-paginate-loader').classList.add('hidden');
 			document.querySelector('#' + target).innerHTML = response.data.html;
 		}, 'jsonp').fail(function () {
-			document.querySelector('#web-paginate-loader').style.display = 'none';
+			document.querySelector('#web-paginate-loader').classList.add('hidden');
 		});
 	};
 
@@ -172,19 +172,19 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 
 		if (name) {
 			document.querySelector('#uploadform-web-name').innerHTML = name;
-			document.querySelector('#uploadform-web-name-label').style.display = 'block';
+			document.querySelector('#uploadform-web-name-label').classList.remove('hidden');
 		} else {
-			document.querySelector('#uploadform-web-name-label').style.display = 'none';
+			document.querySelector('#uploadform-web-name-label').classList.add('hidden');
 		}
 
 		// jQuery('#jed-container').slideUp(300);
-		document.querySelector('#uploadform-web').style.display = 'block';
+		document.querySelector('#uploadform-web').classList.remove('hidden');
 
 		return true;
 	};
 
 	Joomla.installfromwebcancel = function () {
-		document.querySelector('#uploadform-web').style.display = 'none';
+		document.querySelector('#uploadform-web').classList.add('hidden');
 
 		// jQuery('#jed-container').slideDown(300);
 		if (Joomla.apps.list && document.querySelector(".list-view")) {
@@ -257,9 +257,9 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 
 			jQuery('#appsloading').on('ajaxStart', function () {
 				document.querySelector('body').classList.add('ifw-busy');
-				this.style.display = 'block';
+				this.classList.remove('hidden');
 			}).on('ajaxStop', function () {
-				this.style.display = 'none';
+				this.classList.add('hidden');
 				document.querySelector('body').classList.remove('ifw-busy');
 			});
 		}
@@ -305,7 +305,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 		} else if (form.install_url.value === "") {
 			alert(Joomla.apps.options.btntxt);
 		} else {
-			document.querySelector('#appsloading').style.display = 'block';
+			document.querySelector('#appsloading').classList.remove('hidden');
 			form.installtype.value = 'web';
 			form.submit();
 		}
