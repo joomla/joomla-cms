@@ -12,6 +12,11 @@
 .com-apps-container ul.item-type {margin:0;padding:0}
 .com-apps-container .jbadge{vertical-align:middle}
 
+/* Bootstrap 4 does not indent second level navigation */
+.com-apps-sidebar ul.nav ul.nav {
+	padding-left: 15px;
+}
+
 /* Bootstrap form controls override */
 .com-apps-container .full-item-container .control-group {
 	margin: 0px;
