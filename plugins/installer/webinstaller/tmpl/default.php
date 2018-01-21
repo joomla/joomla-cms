@@ -28,14 +28,20 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 	</div>
 </div>
 
-<fieldset class="hidden" id="uploadform-web"<?php echo $dir; ?>>
-	<div class="control-group">
-		<strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
-		<span id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br />
-		<?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?>: <span id="uploadform-web-url"></span>
-	</div>
-	<div class="form-actions">
-		<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $this->getInstallFrom() != '' ? 4 : 5; ?>()" />
-		<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+<fieldset class="form-group hidden" id="uploadform-web"<?php echo $dir; ?>>
+	<p><strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong></p>
+	<dl>
+		<dt id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></dt>
+		<dd id="uploadform-web-name"></dd>
+		<dt><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?></dt>
+		<dd id="uploadform-web-url"></dd>
+	</dl>
+	<div class="card card-light">
+		<div class="card-body">
+			<div class="card-text">
+				<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $this->getInstallFrom() != '' ? 4 : 5; ?>()" />
+				<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+			</div>
+		</div>
 	</div>
 </fieldset>
