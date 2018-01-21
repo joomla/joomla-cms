@@ -32,7 +32,10 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 		it('Should appear on button click', function () {
 			$('#jform_created_btn').trigger('click');
 
-			expect($('.js-calendar').css('display')).toEqual('block');
+            setTimeout(function() {
+                expect($('.js-calendar').css('display')).toEqual('block');
+            }, 100)
+
 		});
 
 		it('Should have the correct date', function () {
