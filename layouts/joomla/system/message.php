@@ -31,7 +31,7 @@ $alert = [
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert level="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
 						<h4><?php echo Text::_($type); ?></h4>
 						<div>

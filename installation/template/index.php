@@ -68,7 +68,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				</div>
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert level="danger text-center">
+						<joomla-alert type="danger text-center">
 							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>

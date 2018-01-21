@@ -36,12 +36,12 @@ function _inherits(subClass, superClass) {
     _inherits(JoomlaAlertElement, _HTMLElement);
 
     _createClass(JoomlaAlertElement, [{
-      key: 'level',
+      key: 'type',
       get: function get() {
-        return this.getAttribute('level') || 'info';
+        return this.getAttribute('type');
       },
       set: function set(value) {
-        return this.setAttribute('level', value);
+        return this.setAttribute('type', value);
       }
     }, {
       key: 'dismiss',
@@ -66,7 +66,7 @@ function _inherits(subClass, superClass) {
 
       /* Attributes to monitor */
       get: function get() {
-        return ['level', 'dismiss', 'acknowledge', 'href'];
+        return ['type', 'dismiss', 'acknowledge', 'href'];
       }
     }]);
 
@@ -85,8 +85,8 @@ function _inherits(subClass, superClass) {
         this.classList.add("joomla-alert--show");
 
         // Default to info
-        if (!this.level || ['info', 'warning', 'danger', 'success'].indexOf(this.level) === -1) {
-          this.setAttribute('level', 'info');
+        if (!this.type || ['info', 'warning', 'danger', 'success'].indexOf(this.type) === -1) {
+          this.setAttribute('type', 'info');
         }
         // Append button
         if (this.hasAttribute('dismiss') || this.hasAttribute('acknowledge') || this.hasAttribute('href') && this.getAttribute('href') !== '' && !this.querySelector('button.joomla-alert--close') && !this.querySelector('button.joomla-alert-button--close')) {
@@ -122,9 +122,9 @@ function _inherits(subClass, superClass) {
       key: 'attributeChangedCallback',
       value: function attributeChangedCallback(attr, oldValue, newValue) {
         switch (attr) {
-          case 'level':
+          case 'type':
             if (!newValue || newValue && ['info', 'warning', 'danger', 'success'].indexOf(newValue) === -1) {
-              this.level = 'info';
+              this.type = 'info';
             }
             break;
           case 'dismiss':
