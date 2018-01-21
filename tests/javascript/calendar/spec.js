@@ -8,19 +8,18 @@
  */
 
 define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($) {
+	beforeAll(function () {
+		var element = document.querySelector(".field-calendar"),
+		    input = document.getElementById('jform_created'),
+		    currentDate = new Date();
+
+		input.value = currentDate.getFullYear() + '-09-01 05:17:00';
+		input.setAttribute('data-alt-value', currentDate.getFullYear() + '-09-01 05:17:00');
+
+		JoomlaCalendar.init(element);
+	});
 
 	describe('Calendar set for the input element', function () {
-		beforeAll(function () {
-			var element = document.querySelector(".field-calendar"),
-			    input = document.getElementById('jform_created'),
-			    currentDate = new Date();
-
-			input.value = currentDate.getFullYear() + '-09-01 05:17:00';
-			input.setAttribute('data-alt-value', currentDate.getFullYear() + '-09-01 05:17:00');
-
-			JoomlaCalendar.init(element);
-		});
-
 		it('Should have calendar element under the input element', function () {
 			expect($('body')).toContainElement('.js-calendar');
 		});
@@ -37,12 +36,5 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
             }, 200)
 
 		});
-
-		it('Should have the correct date', function () {
-			var currentDate = new Date(),
-			    year = currentDate.getFullYear();
-			expect(document.getElementById('jform_created').value).toEqual(year + '-09-01 05:17:00');
-		});
-
 	});
 });
