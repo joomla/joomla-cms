@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_USERS_LATEST_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\UsersLatest</namespace>
 	<files>
 		<filename module="mod_users_latest">mod_users_latest.php</filename>
 		<folder>tmpl</folder>

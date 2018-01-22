@@ -9,12 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Content search plugin.
  *
  * @since  1.6
  */
-class PlgSearchContent extends JPlugin
+class PlgSearchContent extends CMSPlugin
 {
 	/**
 	 * Determine areas searchable by this plugin.
@@ -48,11 +54,11 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db     = JFactory::getDbo();
-		$app    = JFactory::getApplication();
-		$user   = JFactory::getUser();
+		$db     = Factory::getDbo();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$tag    = JFactory::getLanguage()->getTag();
+		$tag    = Factory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
@@ -69,7 +75,7 @@ class PlgSearchContent extends JPlugin
 		$limit     = $this->params->def('search_limit', 50);
 
 		$nullDate  = $db->getNullDate();
-		$date      = JFactory::getDate();
+		$date      = Factory::getDate();
 		$now       = $date->toSql();
 
 		$text = trim($text);
@@ -181,7 +187,7 @@ class PlgSearchContent extends JPlugin
 				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
 			// Filter by language.
-			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -197,7 +203,7 @@ class PlgSearchContent extends JPlugin
 			catch (RuntimeException $e)
 			{
 				$list = array();
-				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 			$limit -= count($list);
 
@@ -249,7 +255,7 @@ class PlgSearchContent extends JPlugin
 				->where('(f.access IS NULL OR f.access IN (' . $groups . '))');
 
 			// Filter by language.
-			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -265,7 +271,7 @@ class PlgSearchContent extends JPlugin
 			catch (RuntimeException $e)
 			{
 				$list3 = array();
-				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 
 			// Find an itemid for archived to use if there isn't another one.
@@ -276,12 +282,12 @@ class PlgSearchContent extends JPlugin
 			{
 				foreach ($list3 as $key => $item)
 				{
-					$date = JFactory::getDate($item->created);
+					$date = Factory::getDate($item->created);
 
 					$created_month = $date->format('n');
 					$created_year  = $date->format('Y');
 
-					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
+					$list3[$key]->href = Route::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}
 			}
 
