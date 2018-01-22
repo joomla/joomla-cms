@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Plugin\CMSPlugin;
+
 /**
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
  *
  * @since  3.7.0
  */
-class PlgContentFields extends JPlugin
+class PlgContentFields extends CMSPlugin
 {
 	/**
 	 * Plugin that shows a custom field

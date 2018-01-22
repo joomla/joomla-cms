@@ -9,13 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory; 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Helper\ModuleHelper;
+
 /**
  * Plugin to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
  * @since  1.5
  */
-class PlgContentLoadmodule extends JPlugin
+class PlgContentLoadmodule extends CMSPlugin
 {
 	protected static $modules = array();
 
@@ -132,9 +136,9 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _load($position, $style = 'none')
 	{
 		self::$modules[$position] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModules($position);
+		$modules  = ModuleHelper::getModules($position);
 		$params   = array('style' => $style);
 		ob_start();
 
@@ -163,16 +167,16 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _loadmod($module, $title, $style = 'none')
 	{
 		self::$mods[$module] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$mod      = JModuleHelper::getModule($module, $title);
+		$mod      = ModuleHelper::getModule($module, $title);
 
 		// If the module without the mod_ isn't found, try it with mod_.
 		// This allows people to enter it either way in the content
 		if (!isset($mod))
 		{
 			$name = 'mod_' . $module;
-			$mod  = JModuleHelper::getModule($name, $title);
+			$mod  = ModuleHelper::getModule($name, $title);
 		}
 
 		$params = array('style' => $style);
