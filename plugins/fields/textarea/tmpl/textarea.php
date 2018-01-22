@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $value = $field->value;
 
 if ($value == '')
@@ -15,4 +17,4 @@ if ($value == '')
 	return;
 }
 
-echo JHtml::_('content.prepare', $value);
+echo HTMLHelper::_('content.prepare', $value);

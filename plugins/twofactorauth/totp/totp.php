@@ -9,14 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Encrypt\Totp;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
  *
  * @since  3.2
  */
-class PlgTwofactorauthTotp extends JPlugin
+class PlgTwofactorauthTotp extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -50,7 +55,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		try
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			if ($app->isClient('administrator'))
 			{
@@ -73,7 +78,7 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		return (object) array(
 			'method' => $this->methodName,
-			'title'  => JText::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
+			'title'  => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
 		);
 	}
 
@@ -105,8 +110,8 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// These are used by Google Authenticator to tell accounts apart
-		$username = JFactory::getUser($user_id)->username;
-		$hostname = JUri::getInstance()->getHost();
+		$username = Factory::getUser($user_id)->username;
+		$hostname = Uri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
@@ -118,7 +123,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		include_once JPluginHelper::getLayoutPath('twofactorauth', 'totp', 'form');
+		include_once PluginHelper::getLayoutPath('twofactorauth', 'totp', 'form');
 
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();
@@ -149,7 +154,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Get a reference to the input data object
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Load raw data
 		$rawData = $input->get('jform', array(), 'array');
@@ -166,8 +171,8 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			try
 			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 'error');
+				$app = Factory::getApplication();
+				$app->enqueueMessage(Text::_('PLG_TWOFACTORAUTH_TOTP_ERR_VALIDATIONFAILED'), 'error');
 			}
 			catch (Exception $exc)
 			{
