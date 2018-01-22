@@ -54,9 +54,6 @@ phpdoc-*
 /components/com_patchtester
 /media/com_patchtester
 
-# Install from Web plugin #
-/plugins/installer/webinstaller
-
 # Languages #
 administrator/language/*
 !administrator/language/en-GB
