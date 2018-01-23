@@ -82,16 +82,20 @@ class JFormFieldPackagelist extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-	 	$db    = JFactory::getDbo();
-	 	$query = $db->getQuery(true)
-			    ->select('a.extension_id, a.name')
-			    ->from('#__extensions AS a')
-			    ->where('a.type = ' . $db->quote('package'))
-			    ->order('a.name');
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('a.extension_id, a.name')
+					->from('#__extensions AS a')
+					->where('a.type = ' . $db->quote('package'))
+					->order('a.name');
 
 		if (!empty($this->extensiontype))
 		{
-			$query->where('EXISTS ( SELECT NULL FROM #__extensions AS b WHERE b.package_id = a.extension_id AND b.type = ' . $db->quote($this->extensiontype) . ')');
+			$query->where('EXISTS ( ' .
+				'SELECT NULL FROM #__extensions AS b ' .
+				'WHERE b.package_id = a.extension_id ' .
+				'AND b.type = ' . $db->quote($this->extensiontype) .
+			')');
 		}
 
 		if (strlen($this->packageenabled))
