@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-
 <?php if ($params->get('item_title')) : ?>
 	<?php $item_heading = $params->get('item_heading', 'h4'); ?>
 	<<?php echo $item_heading; ?> class="newsflash-title<?php echo $params->get('moduleclass_sfx'); ?>">
