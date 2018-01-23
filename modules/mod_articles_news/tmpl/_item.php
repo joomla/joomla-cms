@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+$images = json_decode($item->images);
+if( $images->image_intro && $params->get('image') ){
+echo '<a href="'.$item->link.'"><img class="img-rounded" src="' . JURI::base() . $images->image_intro . '" alt="' . htmlspecialchars($article->title) . '" /></a>';
+
 $item_heading = $params->get('item_heading', 'h4');
 ?>
 <?php if ($params->get('item_title')) : ?>
