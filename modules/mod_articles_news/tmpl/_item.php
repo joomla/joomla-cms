@@ -20,7 +20,6 @@ defined('_JEXEC') or die;
 		<?php echo $item->title; ?>
 	<?php endif; ?>
 	</<?php echo $item_heading; ?>>
-
 <?php endif; ?>
 
 <?php if (!$params->get('intro_only')) : ?>
