@@ -282,7 +282,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected final function registerLegacyListener($methodName)
+	final protected function registerLegacyListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener(
 			$methodName,
@@ -323,7 +323,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	final protected function registerListener($methodName)
+	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
 	}

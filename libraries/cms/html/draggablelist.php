@@ -40,7 +40,8 @@ abstract class JHtmlDraggablelist
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function draggable($tableId = null, $formId = null, $sortDir = 'asc', $saveOrderingUrl = null, $redundant = null, $nestedList = false)
+	public static function draggable(string $tableId = '', string $formId = '', string $sortDir = 'asc', string $saveOrderingUrl = '',
+		$redundant = null, bool $nestedList = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -55,13 +56,13 @@ abstract class JHtmlDraggablelist
 		{
 			$doc->addScriptOptions(
 				'draggable-list',
-				array(
-					'id'         => '#' . $tableId . ' tbody',
-					'formId'     => $formId,
-					'direction'  => $sortDir,
-					'url'        => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
-					'nested'     => $nestedList
-				)
+				[
+					'id'        => '#' . $tableId . ' tbody',
+					'formId'    => $formId,
+					'direction' => $sortDir,
+					'url'       => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
+					'nested'    => $nestedList,
+				]
 			);
 		}
 

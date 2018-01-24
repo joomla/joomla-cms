@@ -202,7 +202,7 @@ class HtmlView extends BaseHtmlView
 		$orders[] = \JHtml::_('select.option', 'category', \JText::_('JCATEGORY'));
 
 		$lists             = array();
-		$lists['ordering'] = \JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));
+		$lists['ordering'] = \JHtml::_('select.genericlist', $orders, 'ordering', 'class="custom-select"', 'value', 'text', $state->get('ordering'));
 
 		$searchphrases         = array();
 		$searchphrases[]       = \JHtml::_('select.option', 'all', \JText::_('COM_SEARCH_ALL_WORDS'));

@@ -189,6 +189,9 @@ div#system-debug {
 	border: 0;
 	margin: 0;
 	padding: 0;
+	overflow-wrap: break-word;
+	white-space: pre-wrap;
+	word-break: break-word;
 }
 #dbg_container_session pre .blue
 {

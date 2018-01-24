@@ -34,8 +34,8 @@
 					label="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_LABEL"
 					default="0"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -108,6 +108,16 @@ class ApiModel extends BaseDatabaseModel
 			}
 		}
 
+		if (isset($options['content']) && $options['content'] && $file->type == 'file')
+		{
+			$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+			if ($resource)
+			{
+				$file->content = base64_encode(stream_get_contents($resource));
+			}
+		}
+
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
@@ -166,6 +176,16 @@ class ApiModel extends BaseDatabaseModel
 				}
 			}
 
+			if (isset($options['content']) && $options['content'] && $file->type == 'file')
+			{
+				$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+				if ($resource)
+				{
+					$file->content = base64_encode(stream_get_contents($resource));
+				}
+			}
+
 			$file->path    = $adapter . ":" . $file->path;
 			$file->adapter = $adapter;
 		}
@@ -183,7 +203,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $path      The folder
 	 * @param   boolean  $override  Should the folder being overriden when it exists
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -201,12 +221,12 @@ class ApiModel extends BaseDatabaseModel
 		}
 
 		// Check if the file exists
-		if ($file && !$override)
+		if (isset($file) && !$override)
 		{
 			throw new FileExistsException;
 		}
 
-		$this->getAdapter($adapter)->createFolder($name, $path);
+		return $this->getAdapter($adapter)->createFolder($name, $path);
 	}
 
 	/**
@@ -219,7 +239,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   binary   $data      The data
 	 * @param   boolean  $override  Should the file being overriden when it exists
 	 *
-	 * @return  void
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -248,7 +268,7 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->getAdapter($adapter)->createFile($name, $path, $data);
+		return $this->getAdapter($adapter)->createFile($name, $path, $data);
 	}
 
 	/**
@@ -312,14 +332,14 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
+		return $this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -331,14 +351,14 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
+		return $this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -348,10 +368,10 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The relative path for the file
 	 *
-	 * @return string  Permalink to the relative file
+	 * @return  string  Permalink to the relative file
 	 *
 	 * @since   4.0.0
-	 * @throws FileNotFoundException
+	 * @throws  FileNotFoundException
 	 */
 	public function getUrl($adapter, $path)
 	{
