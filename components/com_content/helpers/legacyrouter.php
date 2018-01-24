@@ -84,10 +84,6 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		{
 			$view = $query['view'];
 		}
-		elseif ($menuItemGiven)
-		{
-			$view = $menuItem->query['view'];
-		}
 		else
 		{
 			// We need to have a view in the query or it is an invalid URL
