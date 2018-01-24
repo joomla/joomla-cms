@@ -27,6 +27,11 @@
 			var o = this.getUriObject(window.self.location.href),
 				q = this.getQueryObject(o.query);
 
+			var options = Joomla.getOptions('mediamanager');
+
+			this.author = options.author;
+			this.base   = options.base;
+			this.asset  = options.asset;
 			this.editor = decodeURIComponent(q.e_name);
 
 			// Setup image manager fields object
@@ -206,7 +211,7 @@
 			search = path.join('/');
 
 			this.setFolder(search);
-			this.setFrameUrl(search);
+			this.setFrameUrl(search, this.asset, this.author);
 		},
 
 		/**
@@ -226,7 +231,7 @@
 			}
 		    });
 
-		    $("#f_url").val(image_base_path + file);
+		    $("#f_url").val(this.base + file);
 		},
 
 		/**
