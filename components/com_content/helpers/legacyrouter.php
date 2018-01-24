@@ -249,6 +249,11 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 
 				unset($query['year']);
 			}
+
+			if (isset($query['month']) && empty($query['month']))
+			{
+				unset($query['month']);
+			}
 		}
 
 		if ($view == 'featured')
