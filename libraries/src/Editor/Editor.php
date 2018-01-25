@@ -538,7 +538,7 @@ class Editor extends \JObject
 		require_once $path;
 
 		// Get the plugin
-		$plugin = \JPluginHelper::getPlugin('editors', $this->_name);
+		$plugin = clone \JPluginHelper::getPlugin('editors', $this->_name);
 
 		// If no plugin is published we get an empty array and there not so much to do with it
 		if (empty($plugin))
