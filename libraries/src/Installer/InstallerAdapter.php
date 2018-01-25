@@ -185,6 +185,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function checkExistingExtension()
 	{
+		// Extension type is stored as lowercase on the #__extensions table field type
+		$this->type = strtolower($this->type);
+
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
