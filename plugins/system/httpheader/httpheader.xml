@@ -73,4 +73,8 @@
 			</fieldset>
 		</fields>
 	</config>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_httpheader.ini</language>
+		<language tag="en-GB">en-GB.plg_system_httpheader.sys.ini</language>
+	</languages>
 </extension>
