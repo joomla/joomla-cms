@@ -292,7 +292,7 @@ class ContentModelArticles extends JModelList
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -379,7 +379,7 @@ class ContentModelArticles extends JModelList
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
-
+		$tmp = (string) ($query);
 		return $query;
 	}
 
