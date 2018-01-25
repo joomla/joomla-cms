@@ -678,7 +678,9 @@ class SiteRouter extends Router
 
 			if ($this->_mode == JROUTER_MODE_SEF && $route)
 			{
-				if ($limitstart = $uri->getVar('limitstart'))
+				$limitstart = $uri->getVar('limitstart');
+
+				if ($limitstart !== null)
 				{
 					$uri->setVar('start', (int) $limitstart);
 					$uri->delVar('limitstart');
