@@ -379,7 +379,7 @@ class ContentModelArticles extends JModelList
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
-		$tmp = (string) ($query);
+
 		return $query;
 	}
 
