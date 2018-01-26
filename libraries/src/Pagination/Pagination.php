@@ -68,6 +68,12 @@ class Pagination
 	public $pagesTotal;
 
 	/**
+	 * @var    boolean  The flag indicates whether to add limitstart=0 to URL
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $append_empty_limitstart = true;
+
+	/**
 	 * @var    boolean  View all flag
 	 * @since  3.0
 	 */
@@ -778,7 +784,15 @@ class Pagination
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
-			$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
+
+			if ($this->append_empty_limitstart)
+			{
+				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
+			}
+			else
+			{
+				$data->all->link = \JRoute::_($params ?: '&');
+			}
 		}
 
 		// Set the start and previous data objects.
@@ -789,13 +803,26 @@ class Pagination
 		{
 			$page = ($this->pagesCurrent - 2) * $this->limit;
 
-			// Set the empty for removal from route
-			// @todo remove code: $page = $page == 0 ? '' : $page;
+			if ($this->append_empty_limitstart)
+			{
+				$data->start->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+			}
+			else
+			{
+				$data->start->link = \JRoute::_($params ?: '&');
+			}
 
 			$data->start->base    = '0';
-			$data->start->link    = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;
-			$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+
+			if ($page > 0 || $this->append_empty_limitstart)
+			{
+				$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+			}
+			else
+			{
+				$data->previous->link = $data->start->link;
+			}
 		}
 
 		// Set the next and end data objects.
@@ -825,7 +852,15 @@ class Pagination
 			if ($i != $this->pagesCurrent || $this->viewall)
 			{
 				$data->pages[$i]->base = $offset;
-				$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+
+				if ($offset > 0 || $this->append_empty_limitstart)
+				{
+					$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+				}
+				else
+				{
+					$data->pages[$i]->link = $data->start->link;
+				}
 			}
 			else
 			{
