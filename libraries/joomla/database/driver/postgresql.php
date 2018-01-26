@@ -82,6 +82,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function __construct($options)
 	{
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
+		$options['port'] = (isset($options['port'])) ? $options['port'] : 5432;
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
@@ -119,7 +120,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$dsn .= "host={$this->options['host']} ";
 		}
 
-		$dsn .= "dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn .= "dbname={$this->options['database']} port={$this->options['port']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
