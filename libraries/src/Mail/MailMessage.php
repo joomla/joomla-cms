@@ -234,6 +234,20 @@ class MailMessage implements MailMessageInterface
 	}
 
 	/**
+	 * Set the recipient of a read receipt for the message.
+	 *
+	 * @param   string  $email  The email address of the recipient for the read receipt.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setReadReceiptRecipient(string $email)
+	{
+		$this->mailer->ConfirmReadingTo = MailHelper::cleanLine($email);
+	}
+
+	/**
 	 * Set the sender of the message.
 	 *
 	 * @param   string  $email  The email address of the sender.
