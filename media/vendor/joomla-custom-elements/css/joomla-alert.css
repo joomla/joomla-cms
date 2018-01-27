@@ -8,6 +8,7 @@ joomla-alert {
   border-radius: 0.25rem;
   transition: opacity 0.15s linear; }
   joomla-alert.joomla-alert--show {
+    display: block;
     opacity: 1; }
   joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
     position: relative;
