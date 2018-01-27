@@ -173,7 +173,7 @@ class PlgContentPagebreak extends JPlugin
 				$pageNav = new JPagination($n, $page, 1);
 
 				// Flag indicates to not add limitstart=0 to URL
-				$pageNav->append_empty_limitstart = false;
+				$pageNav->hideEmptyLimitstart = true;
 
 				// Page counter.
 				$row->text .= '<div class="pagenavcounter">';

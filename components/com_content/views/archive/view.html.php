@@ -41,7 +41,7 @@ class ContentViewArchive extends JViewLegacy
 		$pagination = $this->get('Pagination');
 
 		// Flag indicates to not add limitstart=0 to URL
-		$pagination->append_empty_limitstart = false;
+		$pagination->hideEmptyLimitstart = true;
 
 		// Get the page/component configuration
 		$params = &$state->params;

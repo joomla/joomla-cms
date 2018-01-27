@@ -71,7 +71,7 @@ class Pagination
 	 * @var    boolean  The flag indicates whether to add limitstart=0 to URL
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $append_empty_limitstart = true;
+	public $hideEmptyLimitstart = true;
 
 	/**
 	 * @var    boolean  View all flag
@@ -145,8 +145,8 @@ class Pagination
 		// Set the total pages and current page values.
 		if ($this->limit > 0)
 		{
-			$this->pagesTotal = ceil($this->total / $this->limit);
-			$this->pagesCurrent = ceil(($this->limitstart + 1) / $this->limit);
+			$this->pagesTotal = (int) ceil($this->total / $this->limit);
+			$this->pagesCurrent = (int) ceil(($this->limitstart + 1) / $this->limit);
 		}
 
 		// Set the pagination iteration loop values.
@@ -785,13 +785,13 @@ class Pagination
 		{
 			$data->all->base = '0';
 
-			if ($this->append_empty_limitstart)
+			if ($this->hideEmptyLimitstart)
 			{
-				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
+				$data->all->link = \JRoute::_($params ?: '&');
 			}
 			else
 			{
-				$data->all->link = \JRoute::_($params ?: '&');
+				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			}
 		}
 
@@ -803,25 +803,25 @@ class Pagination
 		{
 			$page = ($this->pagesCurrent - 2) * $this->limit;
 
-			if ($this->append_empty_limitstart)
+			if ($this->hideEmptyLimitstart)
 			{
-				$data->start->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+				$data->start->link = \JRoute::_($params ?: '&');
 			}
 			else
 			{
-				$data->start->link = \JRoute::_($params ?: '&');
+				$data->start->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
 			}
 
 			$data->start->base    = '0';
 			$data->previous->base = $page;
 
-			if ($page > 0 || $this->append_empty_limitstart)
+			if ($page === 0 && $this->hideEmptyLimitstart)
 			{
-				$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
+				$data->previous->link = $data->start->link;
 			}
 			else
 			{
-				$data->previous->link = $data->start->link;
+				$data->previous->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $page);
 			}
 		}
 
@@ -853,13 +853,13 @@ class Pagination
 			{
 				$data->pages[$i]->base = $offset;
 
-				if ($offset > 0 || $this->append_empty_limitstart)
+				if ($offset === 0 && $this->hideEmptyLimitstart)
 				{
-					$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
+					$data->pages[$i]->link = $data->start->link;
 				}
 				else
 				{
-					$data->pages[$i]->link = $data->start->link;
+					$data->pages[$i]->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=' . $offset);
 				}
 			}
 			else

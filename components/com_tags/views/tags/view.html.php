@@ -46,6 +46,9 @@ class TagsViewTags extends JViewLegacy
 		$item       = $this->get('Item');
 		$pagination = $this->get('Pagination');
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		/*
 		 * // Change to catch
 		 * if (count($errors = $this->get('Errors'))) {
