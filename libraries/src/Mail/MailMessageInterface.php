@@ -44,6 +44,19 @@ interface MailMessageInterface
 	public function addCc(string $email, string $name = '');
 
 	/**
+	 * Add a Reply-To address for the message.
+	 *
+	 * @param   string  $email  The email address of the recipient.
+	 * @param   string  $name   The name of the recipient.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception\InvalidAddressException
+	 */
+	public function addReplyTo(string $email, string $name = '');
+
+	/**
 	 * Add a recipient for the message.
 	 *
 	 * @param   string  $email  The email address of the recipient.
