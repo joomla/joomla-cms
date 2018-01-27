@@ -71,7 +71,7 @@ class Pagination
 	 * @var    boolean  The flag indicates whether to add limitstart=0 to URL
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public $hideEmptyLimitstart = true;
+	public $hideEmptyLimitstart = false;
 
 	/**
 	 * @var    boolean  View all flag
@@ -791,7 +791,7 @@ class Pagination
 			}
 			else
 			{
-				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=0');
+				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 			}
 		}
 
