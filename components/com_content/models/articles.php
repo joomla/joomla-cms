@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class ContentModelArticles extends JModelList
 				'images', 'a.images',
 				'urls', 'a.urls',
 				'filter_tag',
-				'tag'
+				'tag',
 			);
 		}
 
@@ -120,7 +120,7 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Process show_noauth parameter
-		if (!$params->get('show_noauth'))
+		if ((!$params->get('show_noauth')) || (!JComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}
@@ -253,7 +253,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($this->getState('filter.access', true))	
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -265,8 +265,10 @@ class ContentModelArticles extends JModelList
 
 		if (is_numeric($published) && $published == 2)
 		{
-			// If category is archived then article has to be published or archived.
-			// If categogy is published then article has to be archived.
+			/**
+			 * If category is archived then article has to be published or archived.
+			 * Or categogy is published then article has to be archived.
+			 */
 			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
 		elseif (is_numeric($published))
@@ -298,8 +300,7 @@ class ContentModelArticles extends JModelList
 
 			case 'show':
 			default:
-				// Normally we do not discriminate
-				// between featured/unfeatured items.
+				// Normally we do not discriminate between featured/unfeatured items.
 				break;
 		}
 
@@ -575,9 +576,11 @@ class ContentModelArticles extends JModelList
 
 			$item->params = clone $this->getState('params');
 
-			/*For blogs, article params override menu item params only if menu param = 'use_article'
-			Otherwise, menu item params control the layout
-			If menu item is 'use_article' and there is no article param, use global*/
+			/**
+			 * For blogs, article params override menu item params only if menu param = 'use_article'
+			 * Otherwise, menu item params control the layout
+			 * If menu item is 'use_article' and there is no article param, use global
+			 */
 			if (($input->getString('layout') === 'blog') || ($input->getString('view') === 'featured')
 				|| ($this->getState('params')->get('layout_type') === 'blog'))
 			{
@@ -633,8 +636,10 @@ class ContentModelArticles extends JModelList
 					break;
 			}
 
-			// Compute the asset access permissions.
-			// Technically guest could edit an article, but lets not check that to improve performance a little.
+			/**
+			 * Compute the asset access permissions.
+			 * Technically guest could edit an article, but lets not check that to improve performance a little.
+			 */
 			if (!$guest)
 			{
 				$asset = 'com_content.article.' . $item->id;

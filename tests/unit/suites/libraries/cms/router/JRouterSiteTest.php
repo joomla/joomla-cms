@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1264,6 +1264,18 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'      => 'index.php?var1=value1',
 				'preset'   => array('option' => 'com_test'),
 				'expected' => 'index.php?var1=value1&option=com_test'
+			),
+			// Check if a URL with no Itemid and no option, but globally set Itemid is added the Itemid
+			array(
+				'url'      => 'index.php?var1=value1',
+				'preset'   => array('Itemid' => '42'),
+				'expected' => 'index.php?var1=value1&Itemid=42'
+			),
+			// Check if a URL with no Itemid and no option, but with an option and a global Itemid available, which fits the option of the menu item gets the Itemid and option appended
+			array(
+				'url'      => 'index.php?var1=value1',
+				'preset'   => array('Itemid' => '42', 'option' => 'com_test'),
+				'expected' => 'index.php?var1=value1&option=com_test&Itemid=42'
 			),
 		);
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,21 +129,25 @@ class AssociationsViewAssociations extends JViewLegacy
 					unset($this->activeFilters['state']);
 					$this->filterForm->removeField('state', 'filter');
 				}
+
 				if (empty($support['category']))
 				{
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
 				}
+
 				if ($extensionName !== 'com_menus')
 				{
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
 				}
+
 				if (empty($support['level']))
 				{
 					unset($this->activeFilters['level']);
 					$this->filterForm->removeField('level', 'filter');
 				}
+
 				if (empty($support['acl']))
 				{
 					unset($this->activeFilters['access']);
@@ -222,6 +226,7 @@ class AssociationsViewAssociations extends JViewLegacy
 				JToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
 				JToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
+
 			JToolbarHelper::preferences('com_associations');
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,8 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
+	. ($params->get('fluidContainer') ? ' fluid' : '')
+	. ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
 	<div class="body">

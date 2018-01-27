@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ JHtml::_('behavior.caption');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
+<form id="adminForm" action="<?php echo JRoute::_('index.php?option=com_content&view=archive'); ?>" method="post" class="form-inline">
 	<fieldset class="filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
@@ -34,8 +34,6 @@ JHtml::_('behavior.caption');
 		<?php echo $this->form->limitField; ?>
 
 		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo JText::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-		<input type="hidden" name="view" value="archive" />
-		<input type="hidden" name="option" value="com_content" />
 		<input type="hidden" name="limitstart" value="0" />
 	</div>
 	<br />

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -174,6 +174,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
+
 			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
