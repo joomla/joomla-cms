@@ -65,12 +65,10 @@ class MailMessage implements MailMessageInterface
 	 */
 	protected function add(string $email, string $name = '', string $method = 'addAddress')
 	{
-		$email = MailHelper::cleanLine($email);
-
 		// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 		try
 		{
-			if ($this->mailer->$method($email, $name) === false)
+			if ($this->mailer->$method(MailHelper::cleanLine($email), MailHelper::cleanLine($name)) === false)
 			{
 				throw new phpmailerException($this->mailer->ErrorInfo);
 			}
@@ -94,10 +92,7 @@ class MailMessage implements MailMessageInterface
 	 */
 	public function addBcc(string $email, string $name = '')
 	{
-		if (!empty($email))
-		{
-			$this->add($email, $name, 'addBCC');
-		}
+		$this->add($email, $name, 'addBCC');
 	}
 
 	/**
@@ -113,10 +108,7 @@ class MailMessage implements MailMessageInterface
 	 */
 	public function addCc(string $email, string $name = '')
 	{
-		if (!empty($email))
-		{
-			$this->add($email, $name, 'addCC');
-		}
+		$this->add($email, $name, 'addCC');
 	}
 
 	/**
