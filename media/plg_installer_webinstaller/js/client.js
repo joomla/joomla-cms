@@ -252,7 +252,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 		if (document.querySelector('#myTabContent')) {
 			var webTab = document.querySelector('#web');
 
-			webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading"></div>');
+			webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading" class="ifw-loading-container"></div>');
 			webTab.style.position = 'absolute';
 
 			jQuery('#appsloading').on('ajaxStart', function () {
