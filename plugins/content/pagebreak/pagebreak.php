@@ -371,7 +371,7 @@ class PlgContentPagebreak extends JPlugin
 
 			if ($page > 1)
 			{
-				$link_prev .= '&limitstart=' . ($page_prev - 1);
+				$link_prev .= '&limitstart=' . ($page - 1);
 			}
 
 			// << Prev
