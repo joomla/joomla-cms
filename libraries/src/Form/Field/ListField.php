@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -139,7 +140,7 @@ class ListField extends FormField
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !\JPluginHelper::isEnabled('content', 'vote'))
+				if (in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}

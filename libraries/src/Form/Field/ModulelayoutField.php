@@ -129,14 +129,14 @@ class ModulelayoutField extends FormField
 				// Create the group for the module
 				$groups['_'] = array();
 				$groups['_']['id'] = $this->id . '__';
-				$groups['_']['text'] = \JText::sprintf('JOPTION_FROM_MODULE');
+				$groups['_']['text'] = Text::sprintf('JOPTION_FROM_MODULE');
 				$groups['_']['items'] = array();
 
 				foreach ($module_layouts as $file)
 				{
 					// Add an option to the module group
 					$value = basename($file, '.php');
-					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? \JText::_($key) : $value;
+					$text = $lang->hasKey($key = strtoupper($module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
 					$groups['_']['items'][] = HTMLHelper::_('select.option', '_:' . $value, $text);
 				}
 			}
@@ -169,7 +169,7 @@ class ModulelayoutField extends FormField
 							// Create the group for the template
 							$groups[$template->element] = array();
 							$groups[$template->element]['id'] = $this->id . '_' . $template->element;
-							$groups[$template->element]['text'] = \JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
+							$groups[$template->element]['text'] = Text::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
 							$groups[$template->element]['items'] = array();
 
 							foreach ($files as $file)

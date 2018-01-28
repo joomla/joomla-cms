@@ -103,7 +103,7 @@ class GroupedlistField extends FormField
 
 						// Create a new option object based on the <option /> element.
 						$tmp = HTMLHelper::_(
-							'select.option', ($option['value']) ? (string) $option['value'] : \JText::_(trim((string) $option)),
+							'select.option', ($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
 							Text::_(trim((string) $option)), 'value', 'text', $disabled
 						);
 

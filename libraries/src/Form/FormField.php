@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Abstract Form Field class for the Joomla Platform.
@@ -535,7 +537,7 @@ abstract class FormField
 			default:
 				if (property_exists(__CLASS__, $name))
 				{
-					\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+					Log::add("Cannot access protected / private property $name of " . __CLASS__);
 				}
 				else
 				{
@@ -736,7 +738,7 @@ abstract class FormField
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$title = $this->translateLabel ? \JText::_($title) : $title;
+		$title = $this->translateLabel ? Text::_($title) : $title;
 
 		return $title;
 	}
@@ -907,7 +909,7 @@ abstract class FormField
 	 */
 	public function getControlGroup()
 	{
-		\JLog::add('FormField->getControlGroup() is deprecated use FormField->renderField().', \JLog::WARNING, 'deprecated');
+		Log::add('FormField->getControlGroup() is deprecated use FormField->renderField().', Log::WARNING, 'deprecated');
 
 		return $this->renderField();
 	}
@@ -986,11 +988,11 @@ abstract class FormField
 	{
 		// Label preprocess
 		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? \JText::_($label) : $label;
+		$label = $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
-		$description = !empty($description) && $this->translateDescription ? \JText::_($description) : $description;
+		$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
@@ -1003,7 +1005,7 @@ abstract class FormField
 			'field'          => $this,
 			'group'          => $this->group,
 			'hidden'         => $this->hidden,
-			'hint'           => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
+			'hint'           => $this->translateHint ? Text::alt($this->hint, $alt) : $this->hint,
 			'id'             => $this->id,
 			'label'          => $label,
 			'labelclass'     => $this->labelclass,

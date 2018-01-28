@@ -174,7 +174,7 @@ class TextField extends FormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? \JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+				$defaultInputmode = in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{

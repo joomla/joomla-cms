@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use Joomla\Filesystem\Path;
 
 \JLoader::import('joomla.filesystem.path');
 
@@ -241,7 +242,7 @@ class FormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = \JPath::find($path, $type);
+			$file = Path::find($path, $type);
 
 			if (!$file)
 			{

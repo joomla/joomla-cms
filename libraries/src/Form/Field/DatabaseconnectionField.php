@@ -66,7 +66,7 @@ class DatabaseconnectionField extends \JFormFieldList
 			{
 				if (in_array($support, $available))
 				{
-					$options[$support] = \JText::_(ucfirst($support));
+					$options[$support] = Text::_(ucfirst($support));
 				}
 			}
 		}
@@ -74,7 +74,7 @@ class DatabaseconnectionField extends \JFormFieldList
 		{
 			foreach ($available as $support)
 			{
-				$options[$support] = \JText::_(ucfirst($support));
+				$options[$support] = Text::_(ucfirst($support));
 			}
 		}
 

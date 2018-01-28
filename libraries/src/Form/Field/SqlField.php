@@ -14,6 +14,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 FormHelper::loadFieldClass('list');
 
@@ -193,7 +195,7 @@ class SQLField extends \JFormFieldList
 	 * @param   string  $filters     The columns to filter.
 	 * @param   array   $defaults    The defaults value to set if condition is empty.
 	 *
-	 * @return  \JDatabaseQuery  The query object.
+	 * @return  DatabaseQuery  The query object.
 	 *
 	 * @since   3.5
 	 */
@@ -289,9 +291,9 @@ class SQLField extends \JFormFieldList
 			{
 				$items = $db->loadObjectlist();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 		}
 
