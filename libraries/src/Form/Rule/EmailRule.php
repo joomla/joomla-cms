@@ -87,7 +87,7 @@ class EmailRule extends FormRule
 			foreach ($values as $value)
 			{
 				// Handle idn email addresses by converting to punycode.
-				$value = StringPunycode::emailToPunycode($value);
+				$value = PunycodeHelper::emailToPunycode($value);
 
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
