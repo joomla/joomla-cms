@@ -1123,7 +1123,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `term` varchar(75) NOT NULL,
   `language` varchar(3) NOT NULL,
-  PRIMART KEY (`term`,`language`),
+  PRIMARY KEY (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
