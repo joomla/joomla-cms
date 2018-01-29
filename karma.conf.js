@@ -22,7 +22,7 @@ module.exports = function (config) {
 			{pattern: 'media/system/js/legacy/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
 			{pattern: 'media/system/js/polyfills/webcomponents/webcomponents-ce.min.js', included: true},
-			{pattern: 'media/system/webcomponents/joomla-alert.min.js', included: true},
+			{pattern: 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js', included: true},
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
