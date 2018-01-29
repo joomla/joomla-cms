@@ -36,7 +36,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 			return false;
 		}
 
-		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid');
+		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid') + '&lang=' + Joomla.apps.options.language;
 
 		if (Joomla.apps.ordering !== "" && document.querySelector('#com-apps-ordering').value) {
 			Joomla.apps.ordering = document.querySelector('#com-apps-ordering').value;
@@ -252,7 +252,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
 		if (document.querySelector('#myTabContent')) {
 			var webTab = document.querySelector('#web');
 
-			webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading"></div>');
+			webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading" class="ifw-loading-container"></div>');
 			webTab.style.position = 'absolute';
 
 			jQuery('#appsloading').on('ajaxStart', function () {
