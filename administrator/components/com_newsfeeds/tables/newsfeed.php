@@ -149,7 +149,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
