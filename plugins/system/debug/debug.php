@@ -819,7 +819,6 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$count++;
 					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION', $count, $db->getDatabase());
 				}
 
@@ -833,6 +832,7 @@ class PlgSystemDebug extends JPlugin
 			{
 				$html[] = $this->displayQueriesDb($db, $signature, 0);
 			}
+			$count++;
 		}
 
 		return implode('', $html);
