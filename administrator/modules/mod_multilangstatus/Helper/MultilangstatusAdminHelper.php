@@ -15,58 +15,125 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
- * Helper class for multilangstatus module
+ * Helper class for the multilangstatus module
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class MultilangstatusAdminHelper
 {
 	/**
-	 * Method to enable/disbale the module depending on the languagefilter
+	 * Method to check if the module exists and is enabled as extension
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isEnabled()
+	{
+		$app   = Factory::getApplication();
+		$db    = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('enabled'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_multilangstatus'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method to check the state of the module
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getState()
+	{
+		$app   = Factory::getApplication();
+		$db    = Factory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('published'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method to publish/unpublish the module depending on the languagefilter state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function publish()
 	{
 		$app   = Factory::getApplication();
 		$db    = Factory::getDbo();
 
-		if (Multilanguage::isEnabled())
+		// If the module is trashed do not change its status
+		if (self::getState() != -2)
 		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__modules'))
-				->set($db->quoteName('published') . ' = ' . (int) 1)
-				->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
-
-			try
+			// Publish the module when the languagefilter is enabled
+			if (Multilanguage::isEnabled())
 			{
-				$db->setQuery($query)->execute();
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__modules'))
+					->set($db->quoteName('published') . ' = ' . (int) 1)
+					->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					$app->enqueueMessage($e->getMessage(), 'error');
+
+					return;
+				}
 			}
-			catch (Exception $e)
+			else
 			{
-				$app->enqueueMessage($e->getMessage(), 'error');
+				// Unpublish the module when the languagefilter is disabled
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__modules'))
+					->set($db->quoteName('published') . ' = ' . (int) 0)
+					->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
 
-				return;
-			}
-		}
-		else
-		{
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__modules'))
-				->set($db->quoteName('published') . ' = ' . (int) 0)
-				->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+				try
+				{
+					$db->setQuery($query)->execute();
+				}
+				catch (Exception $e)
+				{
+					$app->enqueueMessage($e->getMessage(), 'error');
 
-			try
-			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-
-				return;
+					return;
+				}
 			}
 		}
 	}
