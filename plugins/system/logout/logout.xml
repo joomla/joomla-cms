@@ -12,6 +12,23 @@
 	<files>
 		<filename plugin="logout">logout.php</filename>
 	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="show_message"
+					type="radio"
+					label="PLG_SYSTEM_LOGOUT_FIELD_SUCCESS_LABEL"
+					description="PLG_SYSTEM_LOGOUT_FIELD_SUCCESS_DESC"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>	
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_logout.ini</language>
 		<language tag="en-GB">en-GB.plg_system_logout.sys.ini</language>
