@@ -365,7 +365,7 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
-			if (!FieldsHelper::canDisplayFieldValue($field) && JFactory::getApplication()->isClient('site'))
+			if (!FieldsHelper::canDisplayField($field) && JFactory::getApplication()->isClient('site'))
 			{
 				// If logged in user (front-end) does NOT have display rights on Custom Field
 				continue;
@@ -553,7 +553,7 @@ class FieldsHelper
 	}
 
 	/**
-	 * Return a boolean if the actual logged in user can display the given field value.
+	 * Return a boolean if the actual logged in user can display the given field.
 	 *
 	 * @param   stdClass  $field  The field
 	 *
@@ -561,7 +561,7 @@ class FieldsHelper
 	 *
 	 * @since   3.8.4
 	 */
-	public static function canDisplayFieldValue($field)
+	public static function canDisplayField($field)
 	{
 		$parts = self::extract($field->context);
 
