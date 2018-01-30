@@ -386,7 +386,7 @@ abstract class Factory
 	 *
 	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
 	 * @see     JMail
 	 * @since   11.1
