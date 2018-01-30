@@ -221,7 +221,6 @@ class RulesField extends FormField
 		
 		// Trim the trailing line in the layout file
 		return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
-
 	}
 
 	/**
