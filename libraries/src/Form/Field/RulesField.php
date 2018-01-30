@@ -174,7 +174,9 @@ class RulesField extends FormField
 				);
 			}
 		}
-
+		
+		$this->actions=(array) $actions;
+		
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$assetId       = $this->form->getValue($assetField);
@@ -237,7 +239,7 @@ class RulesField extends FormField
 		$extraData = array(
 			'groups'  		=>	$this->getUserGroups(),
 			'section'		=>	$this->section,
-			'actions'		=>	Access::getActions($this->component, $this->section),
+			'actions'		=>	$this->actions,
 			'component'		=>	$this->component,
 			'assetRules'		=>	Access::getAssetRules($this->assetId, false, false),
 			'assetId'		=>	$this->assetId,
