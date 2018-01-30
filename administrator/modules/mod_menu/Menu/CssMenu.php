@@ -18,10 +18,9 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
 use Joomla\CMS\Menu\MenuHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use JText;
-
 /**
  * Tree based class to render the admin menu
  *
@@ -199,17 +198,17 @@ class CssMenu
 
 			if ($rMenu)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
 			}
 
 			if ($rModule)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
 			}
 
 			if ($rContainer)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
 			}
 
 			$uri = clone Uri::getInstance();
@@ -221,7 +220,7 @@ class CssMenu
 			$table->load(array('menutype' => $menutype));
 
 			$menutype = $table->get('title', $menutype);
-			$message  = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
+			$message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
 			$app->enqueueMessage($message, 'warning');
 		}
@@ -281,8 +280,14 @@ class CssMenu
 				}
 			}
 
-			// Exclude item if the component is not installed or disabled
-			if ($item->element && (!ComponentHelper::isInstalled($item->element) || !ComponentHelper::isEnabled($item->element)))
+			// Exclude item if is not enabled
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -368,7 +373,12 @@ class CssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			$item->text = JText::_($item->title);
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
+			}
+
+			$item->text = Text::_($item->title);
 
 			$result[$i] = $item;
 		}

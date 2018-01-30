@@ -80,7 +80,7 @@ class ItemsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -159,6 +159,18 @@ class ItemsModel extends ListModel
 			$this->setState('menutypetitle', $cMenu->title);
 			$this->setState('menutypeid', $cMenu->id);
 		}
+		// This menutype does not exist, leave client id unchanged but reset menutype and pagination
+		else
+		{
+			$menuType = '';
+
+			$app->input->set('limitstart', 0);
+			$app->input->set('menutype', $menuType);
+
+			$app->setUserState($this->context . '.menutype', $menuType);
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
+		}
 
 		// Client id filter
 		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
@@ -219,7 +231,7 @@ class ItemsModel extends ListModel
 	/**
 	 * Builds an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery    A query object.
+	 * @return  \Joomla\Database\DatabaseQuery    A query object.
 	 *
 	 * @since   1.6
 	 */
@@ -519,12 +531,16 @@ class ItemsModel extends ListModel
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				$this->setError(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+				\JLog::add(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), \JLog::ERROR, 'jerror');
+
+				return false;
 			}
 			// Check if menu type is valid against ACL.
 			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				$this->setError(\JText::_('JERROR_ALERTNOAUTHOR'));
+				\JLog::add(\JText::_('JERROR_ALERTNOAUTHOR'), \JLog::ERROR, 'jerror');
+
+				return false;
 			}
 		}
 

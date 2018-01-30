@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Media Manager Crop Action
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
@@ -21,13 +23,13 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadJs()
 	{
 		parent::loadJs();
 
-		JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -35,12 +37,12 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadCss()
 	{
 		parent::loadCss();
 
-		JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 	}
 }

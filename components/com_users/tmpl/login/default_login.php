@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 $usersConfig = JComponentHelper::getParams('com_users');
 
 ?>
-<div class="login<?php echo $this->pageclass_sfx; ?>">
+<div class="login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -71,7 +71,7 @@ $usersConfig = JComponentHelper::getParams('com_users');
 				<div  class="control-group">
 					<div class="control-label">
 						<label for="remember">
-							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?>
+							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
 					<div class="controls">

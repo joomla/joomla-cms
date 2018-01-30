@@ -13,24 +13,14 @@ ul.media-tree {
   }
 }
 
-.media-sidebar > ul > li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
-  &:before, &:after {
-    display: none;
-  }
-  &:first-of-type {
-    border-top: 1px solid rgba(0, 0, 0, 0.14);
-  }
-}
-
 .media-disk {
   margin-bottom: 10px;
 }
 
 .media-drive {
   overflow-x: auto;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .14);
+  background-color: $sidebar-drive-bg;
+  border: 1px solid $border-color;
   + .media-drive {
     border-top: 0;
   }
@@ -44,8 +34,8 @@ ul.media-tree {
   &::before {
     margin-right: 6px;
     font-family: FontAwesome;
-    content: "\f114";
-    opacity: .75;
+    color: $sidebar-tree-icon-color;
+    content: $sidebar-tree-folder-icon;
   }
   &:hover {
     cursor: pointer;
@@ -70,9 +60,9 @@ ul.media-tree {
     content: '';
     height: 1px;
     width: 10px;
-    background-color: rgba(0, 0, 0, .2);
+    background-color: $sidebar-tree-line-color;
     position: absolute;
-    top: 16px;
+    top: ($sidebar-tree-line-height / 2);
     left: 15px;
     margin: auto;
   }
@@ -84,15 +74,18 @@ ul.media-tree {
     width: 1px;
     height: 100%;
     content: "";
-    background-color: rgba(0, 0, 0, .2);
+    background-color: $sidebar-tree-line-color;
   }
   &:last-child {
     &::after {
-      height: 16px;
+      height: ($sidebar-tree-line-height / 2);
     }
   }
   li {
     padding-left: 25px;
+    &::before, &::after {
+      left: 13px;
+    }
   }
 }
 
@@ -100,17 +93,15 @@ ul.media-tree {
   display: block;
   padding: 0 7px;
   cursor: pointer;
-  line-height: 26px;
+  line-height: $sidebar-tree-line-height;
   text-decoration: none;
   white-space: nowrap;
 }
 
 .media-tree-item.active > a {
-  background-color: transparent;
-  border-color: #007eb7;
   &:hover {
     text-decoration: none;
-    background-color: #e1e1e1;
+    background-color: $sidebar-tree-item-hover-bg;
   }
 }
 
@@ -119,13 +110,12 @@ ul.media-tree {
   padding-right: 2px;
   font-size: 15px;
   line-height: normal;
-  color: #646464;
+  color: $sidebar-tree-icon-color;
   vertical-align: middle;
-  opacity: .75;
 }
 
 .media-tree-item.active > a .item-icon {
-  color: #007eb7;
+  color: $sidebar-active-icon-color;
 }
 
 .item-name {

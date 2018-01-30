@@ -192,7 +192,7 @@
 
 		<field
 			name="redis_server_db"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			default="0"
 			filter="integer"
@@ -678,8 +678,8 @@
 			default="1"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -690,8 +690,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -922,6 +922,16 @@
 			size="5"
 		/>
 
+		<field
+			name="session_redis_server_db"
+			type="number"
+			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			default="0"
+			filter="integer"
+			showon="session_handler:redis"
+			size="4"
+		/>
 		<field
 			name="lifetime"
 			type="number"

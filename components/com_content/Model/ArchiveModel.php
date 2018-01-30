@@ -83,7 +83,7 @@ class ArchiveModel extends ArticlesModel
 	protected function getListQuery()
 	{
 		$params           = $this->state->params;
-		$app              = JFactory::getApplication('site');
+		$app              = \JFactory::getApplication();
 		$catids           = $app->input->getVar('catid', array());
 		$catids           = array_values(array_diff($catids, array('')));
 		$articleOrderDate = $params->get('order_date');
@@ -207,7 +207,7 @@ class ArchiveModel extends ArticlesModel
 	*
 	* @return  string
 	*
-	* @since   __DEPLOY_VERSION__
+	* @since   4.0.0
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{

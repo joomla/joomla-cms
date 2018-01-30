@@ -16,23 +16,25 @@ use Joomla\CMS\Factory;
 /**
  * Factory to create MVC objects based on a namespace.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MVCFactory implements MVCFactoryInterface
 {
 	/**
 	 * The namespace to create the objects from.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	private $namespace = null;
+	private $namespace;
 
 	/**
 	 * The application.
 	 *
-	 * @var CMSApplicationInterface
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
 	 */
-	private $application = null;
+	private $application;
 
 	/**
 	 * The namespace must be like:
@@ -41,7 +43,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string                   $namespace    The namespace.
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($namespace, CMSApplicationInterface $application)
 	{
@@ -58,10 +60,10 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array())
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -87,10 +89,10 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = [])
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -116,10 +118,10 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array())
+	public function createTable($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -153,9 +155,9 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @return  string|null  The class name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	private function getClassName($suffix, $prefix)
+	private function getClassName(string $suffix, string $prefix)
 	{
 		if (!$prefix)
 		{

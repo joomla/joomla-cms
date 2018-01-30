@@ -134,7 +134,7 @@ class BaseController implements ControllerInterface
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $factory;
 
@@ -158,7 +158,7 @@ class BaseController implements ControllerInterface
 	 * The Application
 	 *
 	 * @var    \JApplicationCms|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 

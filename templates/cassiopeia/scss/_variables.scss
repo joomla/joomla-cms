@@ -128,11 +128,6 @@ $state-danger-text:                  $white !default;
 $state-danger-bg:                    theme-color("danger") !default;
 $state-danger-border:                darken(theme-color("danger"), 5%) !default;
 
-// Switchers
-$switcher-color-success:             rgb(100,189,99);
-$switcher-color-danger:              rgb(188,101,100);
-$switcher-color-primary:             rgb(100,143,186);
-
 // Treeselect
 $treeselect-line-height:             2.2rem;
 

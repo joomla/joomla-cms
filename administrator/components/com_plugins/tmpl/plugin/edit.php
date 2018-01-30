@@ -97,7 +97,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
+					<joomla-alert type="danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></joomla-alert>
 				<?php endif; ?>
 
 				<?php

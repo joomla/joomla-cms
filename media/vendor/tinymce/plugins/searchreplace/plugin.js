@@ -614,7 +614,6 @@ define(
         }
       }
 
-      editor.undoManager.add();
       currentIndexState.set(nextIndex);
 
       if (forward) {
@@ -750,6 +749,7 @@ define(
   function (Tools, Actions) {
     var open = function (editor, currentIndexState) {
       var last = {}, selectedText;
+      editor.undoManager.add();
 
       selectedText = Tools.trim(editor.selection.getContent({ format: 'text' }));
 
@@ -771,6 +771,7 @@ define(
         onClose: function () {
           editor.focus();
           Actions.done(editor, currentIndexState);
+          editor.undoManager.add();
         },
         onSubmit: function (e) {
           var count, caseState, text, wholeWord;
@@ -929,7 +930,6 @@ define(
 
       editor.addButton('searchreplace', {
         tooltip: 'Find and replace',
-        shortcut: 'Meta+F',
         onclick: showDialog(editor, currentIndexState)
       });
 

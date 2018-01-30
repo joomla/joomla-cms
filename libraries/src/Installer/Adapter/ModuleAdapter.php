@@ -138,6 +138,7 @@ class ModuleAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
+				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = clone $extension;
 			}
 		}
@@ -156,6 +157,7 @@ class ModuleAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
+				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = clone $extension;
 			}
 		}
@@ -204,12 +206,13 @@ class ModuleAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$db = $this->parent->getDbo();
+		$db     = $this->parent->getDbo();
+		$retval = true;
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -419,6 +422,7 @@ class ModuleAdapter extends InstallerAdapter
 		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->namespace = $manifest_details['namespace'];
 
 		if ($this->parent->extension->store())
 		{
@@ -437,7 +441,7 @@ class ModuleAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -504,7 +508,7 @@ class ModuleAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{
@@ -586,6 +590,9 @@ class ModuleAdapter extends InstallerAdapter
 			// Update name
 			$this->extension->name = $this->name;
 
+			// Update namespace
+			$this->extension->namespace = (string) $this->manifest->namespace;
+
 			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
@@ -603,9 +610,10 @@ class ModuleAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name    = $this->name;
-			$this->extension->type    = 'module';
-			$this->extension->element = $this->element;
+			$this->extension->name      = $this->name;
+			$this->extension->type      = 'module';
+			$this->extension->element   = $this->element;
+			$this->extension->namespace = (string) $this->manifest->namespace;
 
 			// There is no folder for modules
 			$this->extension->folder    = '';

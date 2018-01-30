@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Templates\Administrator\Model\StyleModel;
-use Joomla\Component\Config\Administrator\Controller\Request;
+use Joomla\Component\Config\Administrator\Controller\RequestController;
 
 /**
  * View to edit a template style.
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 
 		$app->input->set('id', $app->getTemplate(true)->id);
 
-		$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
+		$view = new \Joomla\Component\Templates\Administrator\View\Style\JsonView;
 
 		// Get/Create the model
 		$model = new StyleModel;
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 		$serviceData = json_decode($json, true);
 
 		// Access backend com_config
-		$requestController = new Request;
+		$requestController = new RequestController;
 
 		// Execute backend controller
 		$configData = json_decode($requestController->getJson(), true);

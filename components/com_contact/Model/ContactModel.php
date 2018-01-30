@@ -62,7 +62,7 @@ class ContactModel extends FormModel
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		$this->setState('contact.id', $app->input->getInt('id'));
 		$this->setState('params', $app->getParams());
@@ -395,7 +395,7 @@ class ContactModel extends FormModel
 	*
 	* @return  string
 	*
-	* @since   __DEPLOY_VERSION__
+	* @since   4.0.0
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{

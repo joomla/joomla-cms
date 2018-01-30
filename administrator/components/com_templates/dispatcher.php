@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_templates
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TemplatesDispatcher extends Dispatcher
 {
@@ -25,7 +25,7 @@ class TemplatesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Templates';
 }

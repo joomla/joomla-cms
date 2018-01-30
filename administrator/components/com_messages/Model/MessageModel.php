@@ -311,7 +311,7 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new Config(array('ignore_request' => true));
+		$model  = new ConfigModel(array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 

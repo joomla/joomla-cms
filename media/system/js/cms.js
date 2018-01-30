@@ -54,7 +54,7 @@ Joomla = window.Joomla || {};
 						itemval = $field.val();
 					}
 					else {
-						// select lists, textarea etc. Note that multiple-select list returns an Array here 
+						// select lists, textarea etc. Note that multiple-select list returns an Array here
 						// se we can always tream 'itemval' as an array
 						itemval = $field.val();
 						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
@@ -69,12 +69,12 @@ Joomla = window.Joomla || {};
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
+					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match
 					// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
 					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
+					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 					// We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-					// 
+					//
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval) {
 						// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
@@ -157,17 +157,23 @@ Joomla = window.Joomla || {};
 		}
 
 		/**
-		 * Initialize 'showon' feature
+		 * Initialize 'showon' feature at an initial page load
 		 */
-		$(document).ready(function() {
-			setUpShowon();
+		document.addEventListener("DOMContentLoaded", function (event) {
+			setUpShowon(event.target);
+		});
 
-			// Setup showon feature in the subform field
-			$(document).on('subform-row-add', function(event, row) {
-				var $row      = $(row),
-					$elements = $row.find('[data-showon]'),
-					baseName  = $row.data('baseName'),
-					group     = $row.data('group'),
+		/**
+		 * Initialize 'showon' feature when part of the page was updated
+		 */
+		document.addEventListener("joomla:updated", function (event) {
+			var $target = $(event.target);
+
+			// Check is it subform, then wee need to fix some "showon" config
+			if ($target.hasClass('subform-repeatable-group')) {
+				var $elements = $target.find('[data-showon]'),
+					baseName  = $target.data('baseName'),
+					group     = $target.data('group'),
 					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
 					replace   = '[' + baseName + '][' + group + ']',
 					$elm, showon;
@@ -179,9 +185,9 @@ Joomla = window.Joomla || {};
 
 					$elm.attr('data-showon', showon);
 				}
+			}
 
-				setUpShowon(row);
-			});
+			setUpShowon(event.target);
 		});
 
 	})(jQuery);

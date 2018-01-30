@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
-<div class="contentpane<?php echo $this->pageclass_sfx; ?>">
+<div class="contentpane">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
@@ -32,7 +32,7 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
 		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
 		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
-		class="wrapper<?php echo $this->pageclass_sfx; ?>">
+		class="wrapper <?php echo $this->pageclass_sfx; ?>">
 		<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 	</iframe>
 </div>

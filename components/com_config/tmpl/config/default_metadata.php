@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die;
 ?>
-<fieldset class="form-horizontal">
+<fieldset>
+
 	<legend><?php echo JText::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
-	<?php
-	foreach ($this->form->getFieldset('metadata') as $field) :
-	?>
+
+	<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label"><?php echo $field->label; ?></div>
 			<div class="controls"><?php echo $field->input; ?></div>
 		</div>
-	<?php
-	endforeach;
-	?>
+	<?php endforeach; ?>
+
 </fieldset>

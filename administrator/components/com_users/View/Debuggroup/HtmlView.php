@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	 * The id and title for the user group.
 	 *
 	 * @var   \stdClass
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $group;
 

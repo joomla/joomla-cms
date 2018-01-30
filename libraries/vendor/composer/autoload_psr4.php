@@ -7,10 +7,11 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
-    'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
-    'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),
+    'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'ReCaptcha\\' => array($vendorDir . '/google/recaptcha/src/ReCaptcha'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Link\\' => array($vendorDir . '/psr/link/src'),
@@ -37,6 +38,7 @@ return array(
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Crypt\\' => array($vendorDir . '/joomla/crypt/src'),
     'Joomla\\Controller\\' => array($vendorDir . '/joomla/controller/src'),
+    'Joomla\\Console\\' => array($vendorDir . '/joomla/console/src'),
     'Joomla\\CMS\\' => array($baseDir . '/libraries/src'),
     'Joomla\\Authentication\\' => array($vendorDir . '/joomla/authentication/src'),
     'Joomla\\Archive\\' => array($vendorDir . '/joomla/archive/src'),

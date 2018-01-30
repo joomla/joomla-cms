@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserHelper;
 /**
  * Password handler for SHA256 hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since       4.0.0
  * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
  */
 class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterface
@@ -29,7 +29,7 @@ class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkIfRehashNeeded(string $hash): bool
 	{
@@ -44,7 +44,7 @@ class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hashPassword($plaintext, array $options = [])
 	{
@@ -69,7 +69,7 @@ class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function isSupported()
 	{
@@ -84,13 +84,13 @@ class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{
-		$parts     = explode(':', $hash);
+		$parts     = explode(':', $hashed);
 		$salt      = @$parts[1];
-		$testcrypt = $this->hashPassword($password, ['salt' => $salt]);
+		$testcrypt = $this->hashPassword($plaintext, ['salt' => $salt]);
 
 		return Crypt::timingSafeCompare($hashed, $testcrypt);
 	}

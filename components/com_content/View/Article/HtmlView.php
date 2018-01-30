@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -62,7 +62,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
 		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		if ($item->params->get('show_associations'))
+		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
 			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 		}

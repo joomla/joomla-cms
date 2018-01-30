@@ -12,25 +12,19 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
+
 // Load the tooltip behavior.
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 JHtml::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
 
-// Load JS message titles
-JText::script('ERROR');
-JText::script('WARNING');
-JText::script('NOTICE');
-JText::script('MESSAGE');
-
-JFactory::getDocument()->addScriptDeclaration(
-	'
-	// Select first tab
-	jQuery(document).ready(function() {
-		jQuery("#configTabs a:first").tab("show");
-	});'
-);
+// @TODO delete this when custom elements modal is merged
+JHtml::_('script', 'com_config/admin-application-default.min.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
@@ -64,9 +58,9 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<div class="tab-description alert alert-info">
+							<joomla-alert type="info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo JText::_($fieldSet->description); ?>
-							</div>
+							</joomla-alert>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
@@ -97,7 +91,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<div class="alert alert-info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></div>
+				<joomla-alert type="info"><span class="icon-info" aria-hidden="true"></span> <?php echo JText::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></joomla-alert>
 			<?php endif; ?>
 
 		</div>

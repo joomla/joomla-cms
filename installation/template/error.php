@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert level="danger text-center">
+						<joomla-alert type="danger" class="text-center">
 							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>

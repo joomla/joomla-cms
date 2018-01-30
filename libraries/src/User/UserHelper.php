@@ -39,7 +39,7 @@ abstract class UserHelper
 	 * as PHP may not be compiled with this constant
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const HASH_ARGON2I = 2;
 
@@ -47,7 +47,7 @@ abstract class UserHelper
 	 * Constant defining the BCrypt password algorithm for use with password hashes
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const HASH_BCRYPT = PASSWORD_BCRYPT;
 
@@ -55,7 +55,7 @@ abstract class UserHelper
 	 * Constant defining the MD5 password algorithm for use with password hashes
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @deprecated  5.0  Support for MD5 hashed passwords will be removed
 	 */
 	const HASH_MD5 = 100;
@@ -64,7 +64,7 @@ abstract class UserHelper
 	 * Constant defining the PHPass password algorithm for use with password hashes
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @deprecated  5.0  Support for PHPass hashed passwords will be removed
 	 */
 	const HASH_PHPASS = 101;
@@ -73,7 +73,7 @@ abstract class UserHelper
 	 * Constant defining the SHA256 password algorithm for use with password hashes
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
 	 */
 	const HASH_SHA256 = 102;
@@ -377,11 +377,9 @@ abstract class UserHelper
 		switch ($algorithm)
 		{
 			case self::HASH_ARGON2I :
-			case PASSWORD_ARGON2I :
 				return $container->get(Argon2iHandler::class)->hashPassword($password, $options);
 
 			case self::HASH_BCRYPT :
-			case PASSWORD_BCRYPT :
 				return $container->get(BCryptHandler::class)->hashPassword($password, $options);
 
 			case self::HASH_MD5 :
