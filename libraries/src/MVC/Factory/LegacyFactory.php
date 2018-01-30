@@ -23,7 +23,6 @@ use Joomla\CMS\Table\Table;
  */
 class LegacyFactory implements MVCFactoryInterface
 {
-
 	/**
 	 * Method to load and return a model object.
 	 *
@@ -36,7 +35,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array())
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -58,7 +57,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = [])
 	{
 		// Clean the view name
 		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -101,7 +100,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = 'Table', array $config = array())
+	public function createTable($name, $prefix = 'Table', array $config = [])
 	{
 		// Clean the model name
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);

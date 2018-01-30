@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.1.0</version>
 	<description>MOD_TAGS_POPULAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\TagsPopular</namespace>
 	<files>
 		<filename module="mod_tags_popular">mod_tags_popular.php</filename>
 		<folder>tmpl</folder>

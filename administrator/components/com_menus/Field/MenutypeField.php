@@ -97,7 +97,7 @@ class MenutypeField extends \JFormFieldList
 		$link = \JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
+		$html[] = '<span class="input-group-append"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
 			. \JText::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. \JText::_('JSELECT') . '</a></span></span>';
 		$html[] = \JHtml::_(

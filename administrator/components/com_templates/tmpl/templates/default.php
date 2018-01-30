@@ -31,19 +31,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<table class="table table-striped" id="template-mgr">
 						<thead>
 							<tr>
-								<th class="col1template hidden-sm-down" style="width:20%">
+								<th class="col1template d-none d-md-table-cell" style="width:20%">
 									<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
 								<th style="width:30%">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:25%" class="hidden-sm-down text-center">
+								<th style="width:25%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
 							</tr>
@@ -58,7 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<tbody>
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="text-center hidden-sm-down">
+								<td class="text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 									<?php echo JHtml::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
@@ -77,13 +77,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 									</div>
 								</td>
-								<td class="small hidden-sm-down text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->xmldata->get('version')); ?>
 								</td>
-								<td class="small hidden-sm-down text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php if ($author = $item->xmldata->get('author')) : ?>
 										<div><?php echo $this->escape($author); ?></div>
 									<?php else : ?>

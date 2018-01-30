@@ -62,8 +62,8 @@
 			<option value="pages DESC">COM_MODULES_HEADING_PAGES_DESC</option>
 			<option value="ag.title ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="ag.title DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="l.title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="l.title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="l.title ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="l.title DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

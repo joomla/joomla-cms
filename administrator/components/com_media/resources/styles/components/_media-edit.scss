@@ -1,21 +1,31 @@
 #media-form {
-  .control-group .control-label {
-    width: 160px;
+  .form-control {
+    max-width: 100%;
   }
-  .control-group .controls {
-    margin-left: 0;
-  }
-  .control-group .control-label + .controls {
-    margin-left: 160px;
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    .control-label {
+      width: 100%;
+    }
+    .controls {
+      margin-left: 0;
+    }
   }
   .input-group-addon {
     font-size: .9rem;
+  }
+  .spacer hr {
+    width: 100%;
+  }
+  .custom-select {
+    min-width: 100%;
   }
 }
 
 .media-manager-edit {
   > div {
-    padding: 0 15px;
+    padding: 0 $gutter-width;
   }
   h3 {
     padding: 3px;
@@ -39,4 +49,9 @@
       box-shadow: none;
     }
   }
+}
+
+.tab-pane {
+  background-color: #fafafa;
+  border-left: 1px solid #f0f0f0;
 }
