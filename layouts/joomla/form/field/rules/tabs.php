@@ -173,7 +173,7 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 		 						<td headers="aclactionth<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?> 
-									<?php $inheritedGroupRule 	   = Access::checkGroup((int) $group->value, $action->name, $assetId);
+									<?php $inheritedGroupRule	= Access::checkGroup((int) $group->value, $action->name, $assetId);
 		 							$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
 		 							$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
@@ -191,13 +191,13 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 			 							if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			 							{
 				 							$result['class'] = 'badge badge-danger';
-				 							$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
+				 							$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			 							}
 			 							// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			 							else
 			 							{
 				 							$result['class'] = 'badge badge-success';
-				 							$result['text']  = 	Text::_('JLIB_RULES_ALLOWED_INHERITED');
+				 							$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			 							}
 
 									 	// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
@@ -212,13 +212,13 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 									 	if ($assetRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED');
+											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 										}
 										// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 										else if ($assetRule === true)
 										{
 											$result['class'] = 'badge badge-success';
-											$result['text']  = 	Text::_('JLIB_RULES_ALLOWED');
+											$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 										}
 
 										// Third part: Overwrite the calculated permissions labels for special cases.
@@ -227,7 +227,7 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 										if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
+											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 										}
 
 										/**
