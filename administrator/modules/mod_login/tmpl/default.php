@@ -52,9 +52,11 @@ Text::script('JHIDE');
 					required="required"
                     tabindex="2"
                 >
-				<span class="input-group-addon">
-					<span class="fa fa-eye" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+				<span class="input-group-append">
+					<span class="input-group-text">
+						<span class="fa fa-eye" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					</span>
 				</span>
 			</div>
 		</div>
@@ -82,7 +84,8 @@ Text::script('JHIDE');
 
 		<div class="form-group">
 			<button tabindex="5" class="btn btn-success btn-block btn-lg" id="btn-login-submit">
-				<span class="fa fa-lock icon-white" aria-hidden="true"></span> <?php echo Text::_('JLOGIN'); ?>
+				<span class="fa fa-lock icon-white" aria-hidden="true"></span>
+				<?php echo Text::_('JLOGIN'); ?>
 			</button>
 		</div>
 
