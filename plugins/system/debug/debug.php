@@ -810,16 +810,16 @@ class PlgSystemDebug extends JPlugin
 		{
 			if (count($dbs) > 1)
 			{
+				$log = $db->getLog();
 				$toggleId = 'dbg_container_query_' . $count;
 				$js = "toggleContainer('" . $toggleId . "');";
-
 				if ($db === $mainDb)
 				{
-					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION_PRIMARY', $db->getDatabase());
+					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION_PRIMARY', $db->getDatabase(), count($log));
 				}
 				else
 				{
-					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION', $count, $db->getDatabase());
+					$title = JText::sprintf('PLG_DEBUG_DATABASE_CONNECTION', $count, $db->getDatabase(), count($log));
 				}
 
 				$html[] = '<div class="dbg-subheader" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
