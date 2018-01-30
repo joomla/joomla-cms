@@ -235,14 +235,14 @@ class RulesField extends FormField
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'groups'  			=>	$this->getUserGroups(),
-			'section'			=>	$this->section,
-			'actions'			=>	Access::getActions($this->component, $this->section),
-			'component'			=>	$this->component,
+			'groups'  		=>	$this->getUserGroups(),
+			'section'		=>	$this->section,
+			'actions'		=>	Access::getActions($this->component, $this->section),
+			'component'		=>	$this->component,
 			'assetRules'		=>	Access::getAssetRules($this->assetId, false, false),
-			'assetId'			=>	$this->assetId,
+			'assetId'		=>	$this->assetId,
 			'isGlobalConfig'	=>	$this->isGlobalConfig,
-			'newItem'			=>	$this->newItem,
+			'newItem'		=>	$this->newItem,
 			'parentAssetId'		=> 	$this->parentAssetId,
 
 		);
