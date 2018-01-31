@@ -221,7 +221,7 @@ class RulesField extends FormField
 		
 		// Get the rules for just this asset (non-recursive).
 		$this->assetRules = Access::getAssetRules($assetId, false, false);
-		
+
 		// Get the available user groups.
 		$this->groups=$this->getUserGroups();
 
