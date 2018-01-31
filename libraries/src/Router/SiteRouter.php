@@ -716,13 +716,6 @@ class SiteRouter extends Router
 				{
 					$uri->setVar('option', $option);
 				}
-
-				$itemid = $this->getVar('Itemid');
-
-				if ($itemid)
-				{
-					$uri->setVar('Itemid', $itemid);
-				}
 			}
 		}
 		else
