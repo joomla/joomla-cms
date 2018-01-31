@@ -9,7 +9,7 @@ const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 compileSass = (options) => {
 	const files = options.settings.elements;

@@ -9,7 +9,7 @@ const autoprefixer = require('autoprefixer');
 const postcss      = require('postcss');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 compileFiles = (options, path) => {
 	let files = [], folders = [];
@@ -32,6 +32,7 @@ compileFiles = (options, path) => {
 			rootPath + '/' + 'administrator/templates/atum/scss/font-awesome.scss',
 			rootPath + '/' + 'administrator/templates/atum/scss/template.scss',
 			rootPath + '/' + 'administrator/templates/atum/scss/template-rtl.scss',
+			rootPath + '/' + 'media/plg_installer_webinstaller/scss/client.scss',
 		];
 
 		folders = [

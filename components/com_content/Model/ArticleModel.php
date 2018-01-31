@@ -40,7 +40,7 @@ class ArticleModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');

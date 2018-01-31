@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.1.0</version>
 	<description>MOD_TAGS_SIMILAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\TagsSimilar</namespace>
 	<files>
 		<filename module="mod_tags_similar">mod_tags_similar.php</filename>
 		<folder>tmpl</folder>
