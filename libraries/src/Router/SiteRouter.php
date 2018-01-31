@@ -724,6 +724,14 @@ class SiteRouter extends Router
 					$uri->setVar('Itemid', $itemid);
 				}
 			}
+			else
+			{
+				// If option matches, inherit current Itemid
+				if ($this->getVar('option') === $uri->getVar('option') && ($itemid = $this->getVar('Itemid')))
+				{
+					$uri->setVar('Itemid', $itemid);
+				}
+			}
 		}
 		else
 		{
