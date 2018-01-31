@@ -723,6 +723,13 @@ class SiteRouter extends Router
 				{
 					$uri->setVar('Itemid', $itemid);
 				}
+			} else {
+				$item = $this->menu->getItem($this->getVar('Itemid'));
+
+				if ($item !== null && $item->component === $uri->getVar('option'))
+				{
+					$uri->setVar('Itemid', $item->id);
+				}
 			}
 		}
 		else
