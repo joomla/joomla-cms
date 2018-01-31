@@ -708,13 +708,25 @@ class SiteRouter extends Router
 
 		if ($itemid === null)
 		{
-			if (!$uri->getVar('option'))
+			if ($option = $uri->getVar('option'))
 			{
-				$option = $this->getVar('option');
+				$item = $this->menu->getItem($this->getVar('Itemid'));
 
-				if ($option)
+				if ($item !== null && $item->component === $option)
+				{
+					$uri->setVar('Itemid', $item->id);
+				}
+			}
+			else
+			{
+				if ($option = $this->getVar('option'))
 				{
 					$uri->setVar('option', $option);
+				}
+
+				if ($itemid = $this->getVar('Itemid'))
+				{
+					$uri->setVar('Itemid', $itemid);
 				}
 			}
 		}
