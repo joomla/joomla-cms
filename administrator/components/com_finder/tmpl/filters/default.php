@@ -43,9 +43,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -59,16 +57,16 @@ JFactory::getDocument()->addScriptDeclaration('
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap hidden-sm-down">
+							<th style="width:5%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:1%" class="nowrap hidden-sm-down">
+							<th style="width:1%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -110,16 +108,16 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo $escapedTitle; ?>
 								<?php endif; ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
+							<td class="nowrap d-none d-md-table-cell">
 								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
+							<td class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
+							<td class="nowrap d-none d-md-table-cell">
 								<?php echo $item->map_count; ?>
 							</td>
-							<td class="hidden-sm-down">
+							<td class="d-none d-md-table-cell">
 								<?php echo (int) $item->filter_id; ?>
 							</td>
 						</tr>

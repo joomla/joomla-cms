@@ -1,4 +1,4 @@
-// 4.7.3 (2017-11-23)
+// 4.7.4 (2017-12-05)
 (function () {
 
 var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
@@ -98,6 +98,12 @@ define(
 
     var noop = function () { };
 
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
+
     var compose = function (fa, fb) {
       return function () {
         return fa(fb.apply(null, arguments));
@@ -158,10 +164,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -224,8 +231,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -677,11 +685,8 @@ define(
 
   function () {
     // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
 );
 
@@ -6915,12 +6920,13 @@ define(
 
   [
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Error, console, document) {
+  function (Fun, Option, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -6951,11 +6957,16 @@ define(
       };
     };
 
+    var fromPoint = function (doc, x, y) {
+      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    };
+
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom
+      fromDom: fromDom,
+      fromPoint: fromPoint
     };
   }
 );
@@ -8015,8 +8026,12 @@ define(
       return child(element, element.dom().childNodes.length - 1);
     };
 
-    var childNodesCount = function (element, index) {
+    var childNodesCount = function (element) {
       return element.dom().childNodes.length;
+    };
+
+    var hasChildNodes = function (element) {
+      return element.dom().hasChildNodes();
     };
 
     var spot = Struct.immutable('element', 'offset');
@@ -8043,6 +8058,7 @@ define(
       firstChild: firstChild,
       lastChild: lastChild,
       childNodesCount: childNodesCount,
+      hasChildNodes: hasChildNodes,
       leaf: leaf
     };
   }
@@ -21293,8 +21309,10 @@ define(
     var getRanges = function (selection) {
       var ranges = [];
 
-      for (var i = 0; i < selection.rangeCount; i++) {
-        ranges.push(selection.getRangeAt(i));
+      if (selection) {
+        for (var i = 0; i < selection.rangeCount; i++) {
+          ranges.push(selection.getRangeAt(i));
+        }
       }
 
       return ranges;
@@ -42043,7 +42061,7 @@ define(
        * @property minorVersion
        * @type String
        */
-      minorVersion: '7.3',
+      minorVersion: '7.4',
 
       /**
        * Release date of TinyMCE build.
@@ -42051,7 +42069,7 @@ define(
        * @property releaseDate
        * @type String
        */
-      releaseDate: '2017-11-23',
+      releaseDate: '2017-12-05',
 
       /**
        * Collection of editor instances. Deprecated use tinymce.get() instead.

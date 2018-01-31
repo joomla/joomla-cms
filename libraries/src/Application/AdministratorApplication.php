@@ -475,7 +475,7 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
-	public function findOption()
+	public function findOption(): string
 	{
 		$app = \JFactory::getApplication();
 		$option = strtolower($app->input->get('option'));
