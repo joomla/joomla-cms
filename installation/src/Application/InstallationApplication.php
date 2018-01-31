@@ -502,7 +502,7 @@ final class InstallationApplication extends CMSApplication
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = $this->getContainer->get(FactoryInterface::class)->createDocument($type, $attributes);
+			$document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
 			// Register the instance to Factory.
 			Factory::$document = $document;
