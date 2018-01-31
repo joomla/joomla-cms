@@ -724,6 +724,15 @@ class SiteRouter extends Router
 					$uri->setVar('Itemid', $itemid);
 				}
 			}
+			elseif (!$uri->getVar('view') && !$uri->getVar('task'))
+			{
+				$itemid = $this->getVar('Itemid');
+
+				if ($itemid && $this->getVar('option') === $uri->getVar('option'))
+				{
+					$uri->setVar('Itemid', $itemid);
+				}
+			}
 		}
 		else
 		{
