@@ -157,30 +157,28 @@ class RulesField extends FormField
 		$component  = empty($this->component) ? 'root.1' : $this->component;
 
 		// Current view is global config?
-		$isGlobalConfig = $component === 'root.1';
+		$this->isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$actions = Access::getActions($component, $section);
+		$this->actions = Access::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
 			if ($el->getName() == 'action')
 			{
-				$actions[] = (object) array(
+				$this->actions[] = (object) array(
 					'name' => (string) $el['name'],
 					'title' => (string) $el['title'],
 					'description' => (string) $el['description'],
 				);
 			}
 		}
-		
-		$this->actions=(array) $actions;
-		
+
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$assetId       = $this->form->getValue($assetField);
-		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
+		$this->assetId       = $this->form->getValue($assetField);
+		$this->newItem       = empty($assetId) && $this->isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
@@ -206,7 +204,7 @@ class RulesField extends FormField
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
-		if (!$isGlobalConfig)
+		if (!$this->isGlobalConfig)
 		{
 			// In this case we need to get the component rules too.
 			$db = Factory::getDbo();
@@ -218,9 +216,15 @@ class RulesField extends FormField
 
 			$db->setQuery($query);
 
-			$parentAssetId = (int) $db->loadResult();
+			$this->parentAssetId = (int) $db->loadResult();
 		}
 		
+		// Get the rules for just this asset (non-recursive).
+		$this->assetRules = Access::getAssetRules($assetId, false, false);
+		
+		// Get the available user groups.
+		$this->groups=$this->getUserGroups();
+
 		// Trim the trailing line in the layout file
 		return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
 	}
@@ -237,14 +241,13 @@ class RulesField extends FormField
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'groups'  		=>	$this->getUserGroups(),
-			'section'		=>	$this->section,
-			'actions'		=>	$this->actions,
-			'component'		=>	$this->component,
-			'assetRules'		=>	Access::getAssetRules($this->assetId, false, false),
-			'assetId'		=>	$this->assetId,
+			'groups'  			=>	$this->groups,
+			'section'			=>	$this->section,
+			'actions'			=>	$this->actions,
+			'assetId'			=>	$this->assetId,
+			'newItem'			=>	$this->newItem,
+			'assetRules'		=>	$this->assetRules,
 			'isGlobalConfig'	=>	$this->isGlobalConfig,
-			'newItem'		=>	$this->newItem,
 			'parentAssetId'		=> 	$this->parentAssetId,
 
 		);

@@ -10,10 +10,12 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
@@ -22,7 +24,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 extract($displayData);
 
 // Get some system objects.
-$document = JFactory::getDocument();
+$document = Factory::getDocument();
 
 /**
  * Layout variables
@@ -85,7 +87,7 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Ajax request data.
-$ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format=json&' . \JSession::getFormToken() . '=1');
+$ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=json&' . Session::getFormToken() . '=1');
 ?>
 
 <?php // Description ?>
@@ -159,11 +161,11 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 
 		 								<?php // Build the dropdowns for the permissions sliders
 											// The parent group has "Not Set", all children can rightly "Inherit" from that.?>
-										<option value="" <?php ($assetRule === null ? ' selected="selected"' : ''); ?>>
+										<option value="" <?php echo ($assetRule === null ? ' selected="selected"' : ''); ?>>
 										<?php echo Text::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED'); ?></option>
-										<option value="1" <?php ($assetRule === true ? ' selected="selected"' : ''); ?>>
+										<option value="1" <?php echo ($assetRule === true ? ' selected="selected"' : ''); ?>>
 										<?php echo Text::_('JLIB_RULES_ALLOWED'); ?></option>
-										<option value="0" <?php ($assetRule === false ? ' selected="selected"' : ''); ?>>
+										<option value="0" <?php echo ($assetRule === false ? ' selected="selected"' : ''); ?>>
 										<?php echo Text::_('JLIB_RULES_DENIED'); ?></option>
 								
 									</select>&#160;
@@ -173,7 +175,7 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 		 						<td headers="aclactionth<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?> 
-									<?php $inheritedGroupRule	= Access::checkGroup((int) $group->value, $action->name, $assetId);
+									<?php $inheritedGroupRule 	   = Access::checkGroup((int) $group->value, $action->name, $assetId);
 		 							$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
 		 							$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
@@ -191,13 +193,13 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 			 							if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			 							{
 				 							$result['class'] = 'badge badge-danger';
-				 							$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
+				 							$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			 							}
 			 							// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			 							else
 			 							{
 				 							$result['class'] = 'badge badge-success';
-				 							$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
+				 							$result['text']  = 	Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			 							}
 
 									 	// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
@@ -212,13 +214,13 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 									 	if ($assetRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
+											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED');
 										}
 										// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 										else if ($assetRule === true)
 										{
 											$result['class'] = 'badge badge-success';
-											$result['text']  = Text::_('JLIB_RULES_ALLOWED');
+											$result['text']  = 	Text::_('JLIB_RULES_ALLOWED');
 										}
 
 										// Third part: Overwrite the calculated permissions labels for special cases.
@@ -227,7 +229,7 @@ $ajaxUri = \JRoute::_('index.php?option=com_config&task=application.store&format
 										if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
+											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 										}
 
 										/**
