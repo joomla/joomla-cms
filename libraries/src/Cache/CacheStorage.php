@@ -78,6 +78,22 @@ class CacheStorage
 	public $_hash;
 
 	/**
+	 * Platform key used as prefix or suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $platformKey = '';
+
+	/**
+	 * Whether platform key is used as suffix
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $platformKeyAsSuffix = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
@@ -89,11 +105,12 @@ class CacheStorage
 		$config = \JFactory::getConfig();
 
 		$this->_hash        = md5($config->get('secret'));
-		$this->_application = (isset($options['application'])) ? $options['application'] : null;
-		$this->_language    = (isset($options['language'])) ? $options['language'] : 'en-GB';
-		$this->_locking     = (isset($options['locking'])) ? $options['locking'] : true;
-		$this->_lifetime    = (isset($options['lifetime'])) ? $options['lifetime'] * 60 : $config->get('cachetime') * 60;
-		$this->_now         = (isset($options['now'])) ? $options['now'] : time();
+		$this->_application = isset($options['application']) ? $options['application'] : null;
+		$this->_language    = isset($options['language']) ? $options['language'] : 'en-GB';
+		$this->_locking     = isset($options['locking']) ? $options['locking'] : true;
+		$this->_lifetime    = isset($options['lifetime']) ? $options['lifetime'] * 60 : $config->get('cachetime') * 60;
+		$this->_now         = isset($options['now']) ? $options['now'] : time();
+		$this->platformKey  = isset($options['platformKey']) ? $options['platformKey'] : '';
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
 		// _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
@@ -374,7 +391,19 @@ class CacheStorage
 		$name          = md5($this->_application . '-' . $id . '-' . $this->_language);
 		$this->rawname = $this->_hash . '-' . $name;
 
-		return Cache::getPlatformPrefix() . $this->_hash . '-cache-' . $group . '-' . $name;
+		$cacheId = $this->_hash . '-cache-' . $group . '-' . $name;
+
+		if ($this->platformKey !== '')
+		{
+			if ($this->platformKeyAsSuffix)
+			{
+				return $cacheId . '-' . $this->platformKey;
+			}
+
+			return $this->platformKey . '-' . $cacheId;
+		}
+
+		return $cacheId;
 	}
 
 	/**

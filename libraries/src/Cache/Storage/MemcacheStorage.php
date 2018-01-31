@@ -39,6 +39,14 @@ class MemcacheStorage extends CacheStorage
 	protected $_compress = 0;
 
 	/**
+	 * Whether platform key is used as suffix
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $platformKeyAsSuffix = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
@@ -96,31 +104,6 @@ class MemcacheStorage extends CacheStorage
 
 			throw new CacheConnectingException('Could not connect to memcache server');
 		}
-	}
-
-	/**
-	 * Get a cache_id string from an id/group pair
-	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 *
-	 * @return  string   The cache_id string
-	 *
-	 * @since   11.1
-	 */
-	protected function _getCacheId($id, $group)
-	{
-		$prefix   = Cache::getPlatformPrefix();
-		$length   = strlen($prefix);
-		$cache_id = parent::_getCacheId($id, $group);
-
-		if ($length)
-		{
-			// Memcache use suffix instead of prefix
-			$cache_id = substr($cache_id, $length) . strrev($prefix);
-		}
-
-		return $cache_id;
 	}
 
 	/**

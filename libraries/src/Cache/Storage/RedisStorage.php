@@ -37,6 +37,14 @@ class RedisStorage extends CacheStorage
 	protected $_persistent = false;
 
 	/**
+	 * Whether platform key is used as suffix
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $platformKeyAsSuffix = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
