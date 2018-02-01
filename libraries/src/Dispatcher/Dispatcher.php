@@ -12,9 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactory;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
  * Base class for a Joomla Dispatcher
@@ -204,6 +207,13 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		return new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
+		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
+
+		if ($controller instanceof FormFactoryAwareInterface)
+		{
+			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
+		}
+
+		return $controller;
 	}
 }

@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_RELATED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\RelatedItems</namespace>
 	<files>
 		<filename module="mod_related_items">mod_related_items.php</filename>
 		<folder>tmpl</folder>
