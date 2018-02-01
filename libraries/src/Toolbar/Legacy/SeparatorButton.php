@@ -11,14 +11,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a button separator
  *
  * @since  3.0
  */
-class SeparatorButton extends LegacyToolbarButton
+class SeparatorButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -34,7 +34,7 @@ class SeparatorButton extends LegacyToolbarButton
 	 *
 	 * @return  string  The HTML for the separator
 	 *
-	 * @see     LegacyToolbarButton::render()
+	 * @see     ToolbarButton::render()
 	 * @since   3.0
 	 */
 	public function render(&$definition)

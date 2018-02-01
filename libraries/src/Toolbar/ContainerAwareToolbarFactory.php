@@ -28,12 +28,12 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 * @param   Toolbar  $toolbar  The Toolbar instance to attach to the button
 	 * @param   string   $type     Button Type
 	 *
-	 * @return  LegacyToolbarButton
+	 * @return  ToolbarButton
 	 *
 	 * @since   3.8.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, string $type): LegacyToolbarButton
+	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
 	{
 		$buttonClass = $this->loadButtonClass($type);
 

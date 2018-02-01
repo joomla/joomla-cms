@@ -12,14 +12,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a help popup window button
  *
  * @since  3.0
  */
-class HelpButton extends LegacyToolbarButton
+class HelpButton extends ToolbarButton
 {
 	/**
 	 * @var    string	Button type
@@ -69,7 +69,7 @@ class HelpButton extends LegacyToolbarButton
 	 */
 	public function fetchId()
 	{
-		return $this->_parent->getName() . '-help';
+		return $this->parent->getName() . '-help';
 	}
 
 	/**

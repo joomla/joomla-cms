@@ -23,12 +23,12 @@ interface ToolbarFactoryInterface
 	 * @param   Toolbar  $toolbar  The Toolbar instance to attach to the button
 	 * @param   string   $type     Button Type
 	 *
-	 * @return  LegacyToolbarButton
+	 * @return  ToolbarButton
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, string $type): LegacyToolbarButton;
+	public function createButton(Toolbar $toolbar, string $type): ToolbarButton;
 
 	/**
 	 * Creates a new Toolbar object.

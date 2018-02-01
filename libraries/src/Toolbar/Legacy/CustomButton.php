@@ -10,14 +10,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a custom button
  *
  * @since  3.0
  */
-class CustomButton extends LegacyToolbarButton
+class CustomButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -55,6 +55,6 @@ class CustomButton extends LegacyToolbarButton
 	 */
 	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
 	{
-		return $this->_parent->getName() . '-' . $id;
+		return $this->parent->getName() . '-' . $id;
 	}
 }

@@ -11,14 +11,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a link button
  *
  * @since  3.0
  */
-class LinkButton extends LegacyToolbarButton
+class LinkButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -70,7 +70,7 @@ class LinkButton extends LegacyToolbarButton
 	 */
 	public function fetchId($type = 'Link', $name = '')
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->parent->getName() . '-' . $name;
 	}
 
 	/**

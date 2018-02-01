@@ -11,14 +11,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button with a confirm dialog
  *
  * @since  3.0
  */
-class ConfirmButton extends LegacyToolbarButton
+class ConfirmButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -80,7 +80,7 @@ class ConfirmButton extends LegacyToolbarButton
 	 */
 	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->parent->getName() . '-' . $name;
 	}
 
 	/**

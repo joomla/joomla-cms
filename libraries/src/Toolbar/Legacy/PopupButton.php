@@ -11,14 +11,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a modal window button
  *
  * @since  3.0
  */
-class PopupButton extends LegacyToolbarButton
+class PopupButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -119,7 +119,7 @@ class PopupButton extends LegacyToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-popup-' . $name;
+		return $this->parent->getName() . '-popup-' . $name;
 	}
 
 	/**

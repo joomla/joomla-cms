@@ -10,10 +10,14 @@ namespace Joomla\CMS\Toolbar;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\Button\StandardButton;
 
 /**
  * ToolBar handler
+ *
+ * @method StandardButton standard(string $name = '', $text = '', $task = '', $list = true, $group = false)
  *
  * @since  1.5
  */
@@ -24,28 +28,28 @@ class Toolbar
 	 *
 	 * @var    string
 	 */
-	protected $_name = array();
+	protected $_name = [];
 
 	/**
 	 * Toolbar array
 	 *
 	 * @var    array
 	 */
-	protected $_bar = array();
+	protected $_bar = [];
 
 	/**
 	 * Loaded buttons
 	 *
 	 * @var    array
 	 */
-	protected $_buttons = array();
+	protected $_buttons = [];
 
 	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
 	 */
-	protected $_buttonPath = array();
+	protected $_buttonPath = [];
 
 	/**
 	 * Stores the singleton instances of various toolbar.
@@ -136,17 +140,33 @@ class Toolbar
 	/**
 	 * Set a value
 	 *
-	 * @return  string  The set value.
+	 * @param ToolbarButton $button
+	 *
+	 * @return  ToolbarButton
 	 *
 	 * @since   1.5
 	 */
-	public function appendButton()
+	public function appendButton(...$args)
 	{
-		// Push button onto the end of the toolbar array.
-		$btn          = func_get_args();
-		$this->_bar[] = $btn;
+		if (count($args) === 0)
+		{
+			trigger_error(sprintf('%s require at least 1 argument.', __METHOD__), E_ERROR);
+		}
 
-		return true;
+		$button = $args[0];
+
+		if ($button instanceof ToolbarButton)
+		{
+			$button->setParent($this);
+
+			$this->_bar[] = $button;
+
+			return $button;
+		}
+
+		$this->_bar[] = $args;
+
+		return $button;
 	}
 
 	/**
@@ -208,7 +228,14 @@ class Toolbar
 		// Render each button in the toolbar.
 		foreach ($this->_bar as $button)
 		{
-			$html[] = $this->renderButton($button);
+			if ($button instanceof ToolbarButton)
+			{
+				$html[] = $button->render();
+			}
+			else
+			{
+				$html[] = $this->renderButton($button);
+			}
 		}
 
 		// End toolbar div.
@@ -222,11 +249,12 @@ class Toolbar
 	/**
 	 * Render a button.
 	 *
-	 * @param   object  &$node  A toolbar node.
+	 * @param   object &$node A toolbar node.
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @throws \UnexpectedValueException
 	 */
 	public function renderButton(&$node)
 	{
@@ -238,8 +266,10 @@ class Toolbar
 		// Check for error.
 		if ($button === false)
 		{
-			return \JText::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type);
+			throw new \UnexpectedValueException(Text::sprintf('JLIB_HTML_BUTTON_NOT_DEFINED', $type));
 		}
+
+		$button->setParent($this);
 
 		return $button->render($node);
 	}
@@ -250,7 +280,7 @@ class Toolbar
 	 * @param   string   $type  Button Type
 	 * @param   boolean  $new   False by default
 	 *
-	 * @return  boolean
+	 * @return  false|ToolbarButton
 	 *
 	 * @since   1.5
 	 */
@@ -263,7 +293,7 @@ class Toolbar
 			return $this->_buttons[$signature];
 		}
 
-		if (!class_exists('Joomla\\CMS\\Toolbar\\LegacyToolbarButton'))
+		if (!class_exists('Joomla\\CMS\\Toolbar\\ToolbarButton'))
 		{
 			\JLog::add(\JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), \JLog::WARNING, 'jerror');
 

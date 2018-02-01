@@ -12,6 +12,9 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Legacy\StandardButton;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
@@ -154,13 +157,18 @@ class HtmlView extends BaseHtmlView
 		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = \JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
+
+		$bar->appendButton(new StandardButton('new'))
+			->task('article.add')
+			->icon('new')
+			->text('JTOOLBAR_NEW');
 
 		\JToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
-			\JToolbarHelper::addNew('article.add');
+			ToolbarHelper::addNew('article.add');
 		}
 
 		if ($canDo->get('core.edit.state'))

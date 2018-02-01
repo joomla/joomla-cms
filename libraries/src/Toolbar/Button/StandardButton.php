@@ -6,76 +6,21 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Toolbar\Legacy;
+namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button
- *
- * @method self list(bool $value)
- * @method bool getList()
  *
  * @since  3.0
  */
 class StandardButton extends ToolbarButton
 {
-	/**
-	 * prepareOptions
-	 *
-	 * @param array $options
-	 *
-	 * @return  void
-	 */
-	protected function prepareOptions(array &$options)
-	{
-		$options['doTask']   = $this->_getCommand($options['text'], $this->getTask(), $this->getList());
-		$options['group']    = $this->getGroup();
-
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
-		switch ($options['name'])
-		{
-			case 'apply':
-			case 'new':
-				$options['btnClass'] .= ' btn btn-sm btn-success';
-				break;
-
-			case 'save':
-			case 'save-new':
-			case 'save-copy':
-			case 'save-close':
-			case 'publish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
-				break;
-
-			case 'unpublish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
-			case 'featured':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
-				break;
-
-			case 'cancel':
-				$options['btnClass'] .= ' btn btn-sm btn-danger';
-				break;
-
-			case 'trash':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
-			default:
-				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
-		}
-	}
-
 	/**
 	 * Fetch the HTML for the button
 	 *
@@ -194,20 +139,5 @@ class StandardButton extends ToolbarButton
 		}
 
 		return $cmd;
-	}
-
-	/**
-	 * getAccessors
-	 *
-	 * @return  array
-	 */
-	protected static function getAccessors()
-	{
-		return array_merge(
-			parent::getAccessors(),
-			[
-				'list',
-			]
-		);
 	}
 }

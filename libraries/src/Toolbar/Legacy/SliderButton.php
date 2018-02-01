@@ -11,14 +11,14 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\LegacyToolbarButton;
+use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a button to render an HTML element in a slider container
  *
  * @since  3.0
  */
-class SliderButton extends LegacyToolbarButton
+class SliderButton extends ToolbarButton
 {
 	/**
 	 * Button type
@@ -85,7 +85,7 @@ class SliderButton extends LegacyToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-slider-' . $name;
+		return $this->parent->getName() . '-slider-' . $name;
 	}
 
 	/**
