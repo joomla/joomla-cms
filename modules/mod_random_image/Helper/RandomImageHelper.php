@@ -88,7 +88,7 @@ class RandomImageHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module params
 	 * @param   string                     $folder   folder to get the images from
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getImages(&$params, $folder)
 	{

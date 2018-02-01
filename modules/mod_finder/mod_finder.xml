@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FINDER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Finder</namespace>
 	<files>
 		<filename module="mod_finder">mod_finder.php</filename>
 		<folder>tmpl</folder>

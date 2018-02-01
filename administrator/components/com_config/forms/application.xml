@@ -678,8 +678,8 @@
 			default="1"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -690,8 +690,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -1166,62 +1166,50 @@
 			<action
 				name="core.login.site"
 				title="JACTION_LOGIN_SITE"
-				description="COM_CONFIG_ACTION_LOGIN_SITE_DESC"
 			/>
 			<action
 				name="core.login.admin"
 				title="JACTION_LOGIN_ADMIN"
-				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC"
 			/>
 			<action
 				name="core.login.offline"
 				title="JACTION_LOGIN_OFFLINE"
-				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC"
 			/>
 			<action
 				name="core.admin"
 				title="JACTION_ADMIN_GLOBAL"
-				description="COM_CONFIG_ACTION_ADMIN_DESC"
 			/>
 			<action
 				name="core.options"
 				title="JACTION_OPTIONS"
-				description="COM_CONFIG_ACTION_OPTIONS_DESC"
 			/>
 			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
-				description="COM_CONFIG_ACTION_MANAGE_DESC"
 			/>
 			<action
 				name="core.create"
 				title="JACTION_CREATE"
-				description="COM_CONFIG_ACTION_CREATE_DESC"
 			/>
 			<action
 				name="core.delete"
 				title="JACTION_DELETE"
-				description="COM_CONFIG_ACTION_DELETE_DESC"
 			/>
 			<action
 				name="core.edit"
 				title="JACTION_EDIT"
-				description="COM_CONFIG_ACTION_EDIT_DESC"
 			/>
 			<action
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
-				description="COM_CONFIG_ACTION_EDITSTATE_DESC"
 			/>
 			<action
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
-				description="COM_CONFIG_ACTION_EDITOWN_DESC"
 			/>
 			<action
 				name="core.edit.value"
 				title="JACTION_EDITVALUE"
-				description="COM_CONFIG_ACTION_EDITVALUE_DESC"
 			/>
 		</field>
 

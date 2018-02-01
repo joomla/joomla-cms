@@ -401,7 +401,7 @@ class FieldModel extends AdminModel
 	 * @since   3.7.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Field', $prefix = 'FieldsTable', $options = array())
+	public function getTable($name = 'Field', $prefix = 'Administrator', $options = array())
 	{
 		// Default to text type
 		$table       = parent::getTable($name, $prefix, $options);
@@ -834,7 +834,7 @@ class FieldModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');

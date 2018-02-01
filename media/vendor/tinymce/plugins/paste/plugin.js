@@ -2747,6 +2747,12 @@ define(
 
     var noop = function () { };
 
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
+
     var compose = function (fa, fb) {
       return function () {
         return fa(fb.apply(null, arguments));
@@ -2807,10 +2813,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -2856,6 +2863,7 @@ define(
       var postRender = Fun.curry(stateChange, editor, clipboard);
 
       editor.addButton('pastetext', {
+        active: false,
         icon: 'pastetext',
         tooltip: 'Paste as text',
         cmd: 'mceTogglePlainTextPaste',

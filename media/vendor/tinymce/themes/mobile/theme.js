@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.mobile.Theme","ephox.alloy.api.behaviour.Swapping","ephox.alloy.api.events.AlloyTriggers","ephox.alloy.api.system.Attachment","ephox.alloy.debugging.Debugging","ephox.katamari.api.Cell","ephox.katamari.api.Fun","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Focus","ephox.sugar.api.dom.Insert","ephox.sugar.api.node.Element","ephox.sugar.api.node.Node","tinymce.core.ThemeManager","tinymce.core.dom.DOMUtils","tinymce.themes.mobile.alien.TinyCodeDupe","tinymce.themes.mobile.api.Settings","tinymce.themes.mobile.channels.TinyChannels","tinymce.themes.mobile.features.Features","tinymce.themes.mobile.style.Styles","tinymce.themes.mobile.touch.view.Orientation","tinymce.themes.mobile.ui.AndroidRealm","tinymce.themes.mobile.ui.Buttons","tinymce.themes.mobile.ui.IosRealm","tinymce.themes.mobile.util.CssUrls","tinymce.themes.mobile.util.FormatChangers","tinymce.themes.mobile.util.SkinLoaded","ephox.alloy.api.behaviour.Behaviour","ephox.alloy.behaviour.swapping.SwapApis","ephox.alloy.behaviour.swapping.SwapSchema","ephox.alloy.api.events.SystemEvents","global!Array","global!Error","ephox.katamari.api.Merger","ephox.katamari.api.Obj","ephox.katamari.api.Arr","ephox.katamari.api.Option","ephox.sugar.api.search.Traverse","ephox.sugar.api.dom.Remove","ephox.sugar.api.node.Body","ephox.alloy.log.AlloyLogger","ephox.boulder.api.Objects","ephox.katamari.api.Options","global!console","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.dom.Compare","global!document","ephox.sugar.api.search.PredicateExists","ephox.sugar.api.node.NodeTypes","global!tinymce.util.Tools.resolve","ephox.alloy.api.behaviour.Receiving","ephox.alloy.api.behaviour.Toggling","ephox.alloy.api.component.Memento","ephox.katamari.api.Type","global!setTimeout","global!window","tinymce.themes.mobile.channels.Receivers","ephox.alloy.api.behaviour.Unselecting","ephox.alloy.api.ui.Button","tinymce.themes.mobile.util.UiDomFactory","tinymce.themes.mobile.ui.ColorSlider","tinymce.themes.mobile.ui.FontSizeSlider","tinymce.themes.mobile.ui.ImagePicker","tinymce.themes.mobile.ui.LinkButton","tinymce.themes.mobile.util.StyleFormats","ephox.sugar.api.events.DomEvent","global!clearInterval","global!Math","global!setInterval","ephox.alloy.api.behaviour.Replacing","ephox.katamari.api.Singleton","tinymce.themes.mobile.api.AndroidWebapp","tinymce.themes.mobile.toolbar.ScrollingToolbar","tinymce.themes.mobile.ui.CommonRealm","tinymce.themes.mobile.ui.Dropup","tinymce.themes.mobile.ui.OuterContainer","tinymce.themes.mobile.api.IosWebapp","tinymce.core.EditorManager","ephox.alloy.behaviour.common.Behaviour","ephox.alloy.behaviour.common.NoState","ephox.boulder.api.FieldSchema","ephox.boulder.combine.ResultCombine","ephox.boulder.core.ObjChanger","ephox.boulder.core.ObjReader","ephox.boulder.core.ObjWriter","ephox.boulder.api.ValueSchema","ephox.sugar.api.properties.Class","ephox.alloy.api.events.NativeEvents","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","global!String","global!Object","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.api.Node","ephox.sugar.api.search.Selectors","ephox.sugar.api.dom.InsertAll","ephox.alloy.alien.Truncate","ephox.sugar.api.search.PredicateFind","ephox.alloy.behaviour.receiving.ActiveReceiving","ephox.alloy.behaviour.receiving.ReceivingSchema","ephox.alloy.behaviour.toggling.ActiveToggle","ephox.alloy.behaviour.toggling.ToggleApis","ephox.alloy.behaviour.toggling.ToggleSchema","ephox.alloy.registry.Tagger","ephox.alloy.behaviour.unselecting.ActiveUnselecting","ephox.alloy.api.behaviour.Focusing","ephox.alloy.api.behaviour.Keying","ephox.alloy.api.ui.Sketcher","ephox.alloy.ui.common.ButtonBase","ephox.alloy.api.component.DomFactory","ephox.katamari.api.Strings","ephox.alloy.api.ui.Slider","ephox.sugar.api.properties.Css","tinymce.themes.mobile.ui.ToolbarWidgets","tinymce.themes.mobile.ui.SizeSlider","tinymce.themes.mobile.util.FontSizes","ephox.alloy.api.events.AlloyEvents","ephox.imagetools.api.BlobConversions","ephox.katamari.api.Id","ephox.alloy.api.behaviour.Representing","tinymce.themes.mobile.bridge.LinkBridge","tinymce.themes.mobile.ui.Inputs","tinymce.themes.mobile.ui.SerialisedDialog","tinymce.themes.mobile.util.RangePreserver","tinymce.themes.mobile.features.DefaultStyleFormats","tinymce.themes.mobile.ui.StylesMenu","tinymce.themes.mobile.util.StyleConversions","ephox.sugar.impl.FilteredEvent","ephox.alloy.behaviour.replacing.ReplaceApis","ephox.alloy.api.component.GuiFactory","tinymce.themes.mobile.android.core.AndroidMode","tinymce.themes.mobile.api.MobileSchema","tinymce.themes.mobile.touch.view.TapToEditMask","ephox.alloy.api.behaviour.AddEventsBehaviour","ephox.alloy.api.ui.Container","ephox.alloy.api.ui.Toolbar","ephox.alloy.api.ui.ToolbarGroup","tinymce.themes.mobile.ios.scroll.Scrollables","tinymce.themes.mobile.touch.scroll.Scrollable","ephox.alloy.api.behaviour.Sliding","ephox.alloy.api.system.Gui","tinymce.themes.mobile.ios.core.IosMode","ephox.alloy.alien.EventRoot","ephox.sand.detect.Version","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.alloy.construct.EventHandler","ephox.katamari.api.Result","ephox.katamari.api.Results","ephox.alloy.debugging.FunctionAnnotator","ephox.alloy.dom.DomModification","ephox.boulder.api.FieldPresence","ephox.boulder.core.ValueProcessor","ephox.boulder.core.ChoiceProcessor","ephox.boulder.format.PrettyPrinter","ephox.alloy.behaviour.common.BehaviourState","ephox.sugar.api.properties.Toggler","ephox.sugar.api.properties.Attr","ephox.sugar.impl.ClassList","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.util.Global","ephox.sugar.api.properties.Html","ephox.sugar.api.dom.Replication","ephox.sugar.impl.ClosestOrAncestor","ephox.alloy.data.Fields","ephox.alloy.behaviour.toggling.ToggleModes","ephox.alloy.ephemera.AlloyTags","global!Date","ephox.sugar.api.search.SelectorFind","ephox.alloy.behaviour.focusing.ActiveFocus","ephox.alloy.behaviour.focusing.FocusApis","ephox.alloy.behaviour.focusing.FocusSchema","ephox.alloy.behaviour.keyboard.KeyboardBranches","ephox.alloy.behaviour.keyboard.KeyingState","ephox.alloy.api.ui.GuiTypes","ephox.alloy.api.ui.UiSketcher","ephox.alloy.parts.AlloyParts","ephox.alloy.parts.PartType","ephox.alloy.ui.slider.SliderParts","ephox.alloy.ui.slider.SliderSchema","ephox.alloy.ui.slider.SliderUi","ephox.sugar.impl.Style","ephox.sugar.api.search.TransformFind","ephox.imagetools.util.Conversions","ephox.imagetools.util.ImageResult","ephox.alloy.behaviour.representing.ActiveRepresenting","ephox.alloy.behaviour.representing.RepresentApis","ephox.alloy.behaviour.representing.RepresentSchema","ephox.alloy.behaviour.representing.RepresentState","ephox.sugar.api.properties.TextContent","ephox.alloy.api.behaviour.Composing","ephox.alloy.api.ui.DataField","ephox.alloy.api.ui.Input","ephox.alloy.api.behaviour.Disabling","ephox.alloy.api.behaviour.Highlighting","ephox.alloy.api.ui.Form","ephox.sugar.api.search.SelectorFilter","ephox.sugar.api.view.Width","tinymce.themes.mobile.model.SwipingModel","ephox.alloy.api.behaviour.Transitioning","ephox.alloy.api.component.Component","ephox.alloy.api.component.ComponentApi","ephox.alloy.api.system.NoContextApi","ephox.alloy.events.DefaultEvents","ephox.alloy.spec.CustomSpec","ephox.alloy.api.ui.Menu","ephox.alloy.api.ui.TieredMenu","ephox.alloy.alien.AriaFocus","tinymce.themes.mobile.android.core.AndroidEvents","tinymce.themes.mobile.android.core.AndroidSetup","tinymce.themes.mobile.ios.core.PlatformEditor","tinymce.themes.mobile.util.Thor","tinymce.themes.mobile.touch.view.MetaViewport","ephox.katamari.api.Throttler","ephox.alloy.ui.schema.ToolbarSchema","ephox.alloy.api.behaviour.Tabstopping","ephox.alloy.ui.schema.ToolbarGroupSchema","ephox.alloy.behaviour.sliding.ActiveSliding","ephox.alloy.behaviour.sliding.SlidingApis","ephox.alloy.behaviour.sliding.SlidingSchema","ephox.alloy.behaviour.sliding.SlidingState","ephox.alloy.api.system.SystemApi","ephox.alloy.events.DescribedHandler","ephox.alloy.events.GuiEvents","ephox.alloy.events.Triggers","ephox.alloy.registry.Registry","tinymce.themes.mobile.ios.core.IosEvents","tinymce.themes.mobile.ios.core.IosSetup","tinymce.themes.mobile.ios.view.IosKeyboard","ephox.katamari.api.Resolve","global!Number","ephox.katamari.api.Adt","ephox.boulder.core.SchemaError","ephox.boulder.format.TypeTokens","ephox.sand.api.JSON","ephox.alloy.dom.DomDefinition","ephox.katamari.util.BagUtils","ephox.katamari.api.Contracts","ephox.sugar.api.properties.AttrList","ephox.sugar.api.node.Elements","ephox.alloy.menu.util.MenuMarkers","ephox.alloy.keying.CyclicType","ephox.alloy.keying.ExecutionType","ephox.alloy.keying.FlatgridType","ephox.alloy.keying.FlowType","ephox.alloy.keying.MatrixType","ephox.alloy.keying.MenuType","ephox.alloy.keying.SpecialType","ephox.alloy.parts.PartSubstitutes","ephox.alloy.spec.UiSubstitutes","ephox.alloy.spec.SpecSchema","ephox.alloy.ui.slider.SliderActions","ephox.alloy.behaviour.representing.DatasetStore","ephox.alloy.behaviour.representing.ManualStore","ephox.alloy.behaviour.representing.MemoryStore","ephox.sugar.impl.Dimension","ephox.imagetools.util.Promise","ephox.imagetools.util.Canvas","ephox.imagetools.util.Mime","ephox.imagetools.util.ImageSize","ephox.alloy.behaviour.composing.ComposeApis","ephox.alloy.behaviour.composing.ComposeSchema","ephox.alloy.ui.common.InputBase","ephox.alloy.behaviour.disabling.ActiveDisable","ephox.alloy.behaviour.disabling.DisableApis","ephox.alloy.behaviour.disabling.DisableSchema","ephox.alloy.behaviour.highlighting.HighlightApis","ephox.alloy.behaviour.highlighting.HighlightSchema","ephox.sugar.api.search.PredicateFilter","ephox.alloy.behaviour.transitioning.ActiveTransitioning","ephox.alloy.behaviour.transitioning.TransitionApis","ephox.alloy.behaviour.transitioning.TransitionSchema","ephox.alloy.api.component.CompBehaviours","ephox.alloy.behaviour.common.BehaviourBlob","ephox.alloy.construct.ComponentDom","ephox.alloy.construct.ComponentEvents","ephox.alloy.construct.CustomDefinition","ephox.alloy.dom.DomRender","ephox.alloy.ui.schema.MenuSchema","ephox.alloy.ui.single.MenuSpec","ephox.alloy.ui.single.TieredMenuSpec","tinymce.themes.mobile.util.TappingEvent","tinymce.themes.mobile.android.focus.ResumeEditing","tinymce.themes.mobile.util.DataAttributes","tinymce.themes.mobile.util.Rectangles","ephox.sugar.api.selection.WindowSelection","global!clearTimeout","ephox.alloy.behaviour.tabstopping.ActiveTabstopping","ephox.alloy.behaviour.tabstopping.TabstopSchema","ephox.sugar.api.properties.Classes","ephox.sugar.api.view.Height","ephox.alloy.alien.Keys","ephox.alloy.events.TapEvent","ephox.alloy.events.EventSource","ephox.alloy.events.SimulatedEvent","ephox.alloy.events.EventRegistry","ephox.sugar.api.view.Location","global!parseInt","tinymce.themes.mobile.ios.focus.FakeSelection","tinymce.themes.mobile.ios.scroll.IosScrolling","tinymce.themes.mobile.ios.smooth.BackgroundActivity","tinymce.themes.mobile.ios.view.Greenzone","tinymce.themes.mobile.ios.view.IosUpdates","tinymce.themes.mobile.ios.view.IosViewport","tinymce.themes.mobile.util.CaptureBin","tinymce.themes.mobile.ios.focus.ResumeEditing","ephox.katamari.api.Global","ephox.alloy.keying.KeyingType","ephox.alloy.navigation.ArrNavigation","ephox.alloy.navigation.KeyMatch","ephox.alloy.navigation.KeyRules","ephox.alloy.alien.EditableFields","ephox.alloy.keying.KeyingTypes","ephox.alloy.navigation.DomMovement","ephox.alloy.navigation.DomPinpoint","ephox.alloy.navigation.WrapArrNavigation","ephox.alloy.navigation.DomNavigation","ephox.alloy.navigation.MatrixNavigation","ephox.alloy.ui.slider.SliderModel","ephox.sugar.api.properties.Value","ephox.alloy.alien.Cycles","ephox.alloy.alien.ObjIndex","ephox.alloy.alien.PrioritySort","ephox.alloy.api.focus.FocusManagers","ephox.alloy.menu.build.ItemType","ephox.alloy.menu.build.SeparatorType","ephox.alloy.menu.build.WidgetType","ephox.alloy.menu.util.ItemEvents","ephox.alloy.menu.util.MenuEvents","ephox.alloy.menu.layered.LayeredState","ephox.alloy.alien.DelayedFunction","global!isNaN","ephox.sugar.api.selection.Awareness","ephox.sugar.api.selection.Selection","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.selection.core.NativeRange","ephox.sugar.selection.core.SelectionDirection","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.alloy.alien.TransformFind","ephox.sugar.api.view.Position","ephox.sugar.api.dom.Dom","tinymce.themes.mobile.touch.focus.CursorRefresh","ephox.katamari.api.Future","tinymce.themes.mobile.ios.smooth.SmoothAnimation","tinymce.themes.mobile.ios.view.DeviceZones","ephox.katamari.api.LazyValue","ephox.katamari.api.Futures","ephox.sugar.api.properties.Direction","ephox.alloy.navigation.ArrPinpoint","ephox.sugar.api.view.Visibility","ephox.alloy.menu.build.WidgetParts","ephox.alloy.menu.layered.MenuPathing","ephox.sugar.api.node.Text","ephox.sugar.api.selection.Situ","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.katamari.async.Bounce","tinymce.themes.mobile.ios.view.Devices","ephox.katamari.async.AsyncValues","ephox.sugar.impl.NodeValue","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.sugar.api.selection.CursorPosition"]
+["tinymce.themes.mobile.Theme","ephox.alloy.api.behaviour.Swapping","ephox.alloy.api.events.AlloyTriggers","ephox.alloy.api.system.Attachment","ephox.alloy.debugging.Debugging","ephox.katamari.api.Cell","ephox.katamari.api.Fun","ephox.sand.api.PlatformDetection","ephox.sugar.api.dom.Focus","ephox.sugar.api.dom.Insert","ephox.sugar.api.node.Element","ephox.sugar.api.node.Node","tinymce.core.ThemeManager","tinymce.core.dom.DOMUtils","tinymce.themes.mobile.alien.TinyCodeDupe","tinymce.themes.mobile.api.Settings","tinymce.themes.mobile.channels.TinyChannels","tinymce.themes.mobile.features.Features","tinymce.themes.mobile.style.Styles","tinymce.themes.mobile.touch.view.Orientation","tinymce.themes.mobile.ui.AndroidRealm","tinymce.themes.mobile.ui.Buttons","tinymce.themes.mobile.ui.IosRealm","tinymce.themes.mobile.util.CssUrls","tinymce.themes.mobile.util.FormatChangers","tinymce.themes.mobile.util.SkinLoaded","ephox.alloy.api.behaviour.Behaviour","ephox.alloy.behaviour.swapping.SwapApis","ephox.alloy.behaviour.swapping.SwapSchema","ephox.alloy.api.events.SystemEvents","global!Array","global!Error","ephox.katamari.api.Merger","ephox.katamari.api.Obj","ephox.katamari.api.Arr","ephox.katamari.api.Option","ephox.sugar.api.search.Traverse","ephox.sugar.api.dom.Remove","ephox.sugar.api.node.Body","ephox.alloy.log.AlloyLogger","ephox.boulder.api.Objects","ephox.katamari.api.Options","global!console","ephox.katamari.api.Thunk","ephox.sand.core.PlatformDetection","global!navigator","ephox.sugar.api.dom.Compare","global!document","ephox.sugar.api.search.PredicateExists","ephox.sugar.api.node.NodeTypes","global!tinymce.util.Tools.resolve","ephox.alloy.api.behaviour.Receiving","ephox.alloy.api.behaviour.Toggling","ephox.alloy.api.component.Memento","ephox.katamari.api.Type","global!setTimeout","global!window","tinymce.themes.mobile.channels.Receivers","ephox.alloy.api.behaviour.Unselecting","ephox.alloy.api.ui.Button","tinymce.themes.mobile.util.UiDomFactory","tinymce.themes.mobile.ui.ColorSlider","tinymce.themes.mobile.ui.FontSizeSlider","tinymce.themes.mobile.ui.ImagePicker","tinymce.themes.mobile.ui.LinkButton","tinymce.themes.mobile.util.StyleFormats","ephox.sugar.api.events.DomEvent","global!clearInterval","global!Math","global!setInterval","ephox.alloy.api.behaviour.Replacing","ephox.katamari.api.Singleton","tinymce.themes.mobile.api.AndroidWebapp","tinymce.themes.mobile.toolbar.ScrollingToolbar","tinymce.themes.mobile.ui.CommonRealm","tinymce.themes.mobile.ui.Dropup","tinymce.themes.mobile.ui.OuterContainer","tinymce.themes.mobile.api.IosWebapp","tinymce.core.EditorManager","ephox.alloy.behaviour.common.Behaviour","ephox.alloy.behaviour.common.NoState","ephox.boulder.api.FieldSchema","ephox.boulder.combine.ResultCombine","ephox.boulder.core.ObjChanger","ephox.boulder.core.ObjReader","ephox.boulder.core.ObjWriter","ephox.boulder.api.ValueSchema","ephox.sugar.api.properties.Class","ephox.alloy.api.events.NativeEvents","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","global!String","global!Object","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.api.Node","ephox.sugar.api.search.Selectors","ephox.sugar.api.dom.InsertAll","ephox.alloy.alien.Truncate","ephox.sugar.api.search.PredicateFind","ephox.alloy.behaviour.receiving.ActiveReceiving","ephox.alloy.behaviour.receiving.ReceivingSchema","ephox.alloy.behaviour.toggling.ActiveToggle","ephox.alloy.behaviour.toggling.ToggleApis","ephox.alloy.behaviour.toggling.ToggleSchema","ephox.alloy.registry.Tagger","ephox.alloy.behaviour.unselecting.ActiveUnselecting","ephox.alloy.api.behaviour.Focusing","ephox.alloy.api.behaviour.Keying","ephox.alloy.api.ui.Sketcher","ephox.alloy.ui.common.ButtonBase","ephox.alloy.api.component.DomFactory","ephox.katamari.api.Strings","ephox.alloy.api.ui.Slider","ephox.sugar.api.properties.Css","tinymce.themes.mobile.ui.ToolbarWidgets","tinymce.themes.mobile.ui.SizeSlider","tinymce.themes.mobile.util.FontSizes","ephox.alloy.api.events.AlloyEvents","ephox.imagetools.api.BlobConversions","ephox.katamari.api.Id","ephox.alloy.api.behaviour.Representing","tinymce.themes.mobile.bridge.LinkBridge","tinymce.themes.mobile.ui.Inputs","tinymce.themes.mobile.ui.SerialisedDialog","tinymce.themes.mobile.util.RangePreserver","tinymce.themes.mobile.features.DefaultStyleFormats","tinymce.themes.mobile.ui.StylesMenu","tinymce.themes.mobile.util.StyleConversions","ephox.sugar.impl.FilteredEvent","ephox.alloy.behaviour.replacing.ReplaceApis","ephox.alloy.api.component.GuiFactory","tinymce.themes.mobile.android.core.AndroidMode","tinymce.themes.mobile.api.MobileSchema","tinymce.themes.mobile.touch.view.TapToEditMask","ephox.alloy.api.behaviour.AddEventsBehaviour","ephox.alloy.api.ui.Container","ephox.alloy.api.ui.Toolbar","ephox.alloy.api.ui.ToolbarGroup","tinymce.themes.mobile.ios.scroll.Scrollables","tinymce.themes.mobile.touch.scroll.Scrollable","ephox.alloy.api.behaviour.Sliding","ephox.alloy.api.system.Gui","tinymce.themes.mobile.ios.core.IosMode","ephox.alloy.alien.EventRoot","ephox.sand.detect.Version","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.alloy.construct.EventHandler","ephox.katamari.api.Result","ephox.katamari.api.Results","ephox.alloy.debugging.FunctionAnnotator","ephox.alloy.dom.DomModification","ephox.boulder.api.FieldPresence","ephox.boulder.core.ValueProcessor","ephox.boulder.core.ChoiceProcessor","ephox.boulder.format.PrettyPrinter","ephox.alloy.behaviour.common.BehaviourState","ephox.sugar.api.properties.Toggler","ephox.sugar.api.properties.Attr","ephox.sugar.impl.ClassList","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.util.Global","ephox.sugar.api.properties.Html","ephox.sugar.api.dom.Replication","ephox.sugar.impl.ClosestOrAncestor","ephox.alloy.data.Fields","ephox.alloy.behaviour.toggling.ToggleModes","ephox.alloy.ephemera.AlloyTags","global!Date","ephox.sugar.api.search.SelectorFind","ephox.alloy.behaviour.focusing.ActiveFocus","ephox.alloy.behaviour.focusing.FocusApis","ephox.alloy.behaviour.focusing.FocusSchema","ephox.alloy.behaviour.keyboard.KeyboardBranches","ephox.alloy.behaviour.keyboard.KeyingState","ephox.alloy.api.ui.GuiTypes","ephox.alloy.api.ui.UiSketcher","ephox.alloy.parts.AlloyParts","ephox.alloy.parts.PartType","ephox.alloy.ui.slider.SliderParts","ephox.alloy.ui.slider.SliderSchema","ephox.alloy.ui.slider.SliderUi","ephox.sugar.impl.Style","ephox.sugar.api.search.TransformFind","ephox.imagetools.util.Conversions","ephox.alloy.behaviour.representing.ActiveRepresenting","ephox.alloy.behaviour.representing.RepresentApis","ephox.alloy.behaviour.representing.RepresentSchema","ephox.alloy.behaviour.representing.RepresentState","ephox.sugar.api.properties.TextContent","ephox.alloy.api.behaviour.Composing","ephox.alloy.api.ui.DataField","ephox.alloy.api.ui.Input","ephox.alloy.api.behaviour.Disabling","ephox.alloy.api.behaviour.Highlighting","ephox.alloy.api.ui.Form","ephox.sugar.api.search.SelectorFilter","ephox.sugar.api.view.Width","tinymce.themes.mobile.model.SwipingModel","ephox.alloy.api.behaviour.Transitioning","ephox.alloy.api.component.Component","ephox.alloy.api.component.ComponentApi","ephox.alloy.api.system.NoContextApi","ephox.alloy.events.DefaultEvents","ephox.alloy.spec.CustomSpec","ephox.alloy.api.ui.Menu","ephox.alloy.api.ui.TieredMenu","ephox.alloy.alien.AriaFocus","tinymce.themes.mobile.android.core.AndroidEvents","tinymce.themes.mobile.android.core.AndroidSetup","tinymce.themes.mobile.ios.core.PlatformEditor","tinymce.themes.mobile.util.Thor","tinymce.themes.mobile.touch.view.MetaViewport","ephox.katamari.api.Throttler","ephox.alloy.ui.schema.ToolbarSchema","ephox.alloy.api.behaviour.Tabstopping","ephox.alloy.ui.schema.ToolbarGroupSchema","ephox.alloy.behaviour.sliding.ActiveSliding","ephox.alloy.behaviour.sliding.SlidingApis","ephox.alloy.behaviour.sliding.SlidingSchema","ephox.alloy.behaviour.sliding.SlidingState","ephox.alloy.api.system.SystemApi","ephox.alloy.events.DescribedHandler","ephox.alloy.events.GuiEvents","ephox.alloy.events.Triggers","ephox.alloy.registry.Registry","tinymce.themes.mobile.ios.core.IosEvents","tinymce.themes.mobile.ios.core.IosSetup","tinymce.themes.mobile.ios.view.IosKeyboard","ephox.katamari.api.Resolve","global!Number","ephox.katamari.api.Adt","ephox.boulder.core.SchemaError","ephox.boulder.format.TypeTokens","ephox.sand.api.JSON","ephox.alloy.dom.DomDefinition","ephox.katamari.util.BagUtils","ephox.katamari.api.Contracts","ephox.sugar.api.properties.AttrList","ephox.sugar.api.node.Elements","ephox.alloy.menu.util.MenuMarkers","ephox.alloy.keying.CyclicType","ephox.alloy.keying.ExecutionType","ephox.alloy.keying.FlatgridType","ephox.alloy.keying.FlowType","ephox.alloy.keying.MatrixType","ephox.alloy.keying.MenuType","ephox.alloy.keying.SpecialType","ephox.alloy.parts.PartSubstitutes","ephox.alloy.spec.UiSubstitutes","ephox.alloy.spec.SpecSchema","ephox.alloy.ui.slider.SliderActions","ephox.alloy.behaviour.representing.DatasetStore","ephox.alloy.behaviour.representing.ManualStore","ephox.alloy.behaviour.representing.MemoryStore","ephox.sugar.impl.Dimension","ephox.imagetools.util.Canvas","ephox.imagetools.util.ImageSize","ephox.imagetools.util.Promise","ephox.sand.api.Blob","ephox.sand.api.FileReader","ephox.sand.api.Uint8Array","ephox.sand.api.Window","ephox.alloy.behaviour.composing.ComposeApis","ephox.alloy.behaviour.composing.ComposeSchema","ephox.alloy.ui.common.InputBase","ephox.alloy.behaviour.disabling.ActiveDisable","ephox.alloy.behaviour.disabling.DisableApis","ephox.alloy.behaviour.disabling.DisableSchema","ephox.alloy.behaviour.highlighting.HighlightApis","ephox.alloy.behaviour.highlighting.HighlightSchema","ephox.sugar.api.search.PredicateFilter","ephox.alloy.behaviour.transitioning.ActiveTransitioning","ephox.alloy.behaviour.transitioning.TransitionApis","ephox.alloy.behaviour.transitioning.TransitionSchema","ephox.alloy.api.component.CompBehaviours","ephox.alloy.behaviour.common.BehaviourBlob","ephox.alloy.construct.ComponentDom","ephox.alloy.construct.ComponentEvents","ephox.alloy.construct.CustomDefinition","ephox.alloy.dom.DomRender","ephox.alloy.ui.schema.MenuSchema","ephox.alloy.ui.single.MenuSpec","ephox.alloy.ui.single.TieredMenuSpec","tinymce.themes.mobile.util.TappingEvent","tinymce.themes.mobile.android.focus.ResumeEditing","tinymce.themes.mobile.util.DataAttributes","tinymce.themes.mobile.util.Rectangles","ephox.sugar.api.selection.WindowSelection","global!clearTimeout","ephox.alloy.behaviour.tabstopping.ActiveTabstopping","ephox.alloy.behaviour.tabstopping.TabstopSchema","ephox.sugar.api.properties.Classes","ephox.sugar.api.view.Height","ephox.alloy.alien.Keys","ephox.alloy.events.TapEvent","ephox.alloy.events.EventSource","ephox.alloy.events.SimulatedEvent","ephox.alloy.events.EventRegistry","ephox.sugar.api.view.Location","global!parseInt","tinymce.themes.mobile.ios.focus.FakeSelection","tinymce.themes.mobile.ios.scroll.IosScrolling","tinymce.themes.mobile.ios.smooth.BackgroundActivity","tinymce.themes.mobile.ios.view.Greenzone","tinymce.themes.mobile.ios.view.IosUpdates","tinymce.themes.mobile.ios.view.IosViewport","tinymce.themes.mobile.util.CaptureBin","tinymce.themes.mobile.ios.focus.ResumeEditing","ephox.katamari.api.Global","ephox.alloy.keying.KeyingType","ephox.alloy.navigation.ArrNavigation","ephox.alloy.navigation.KeyMatch","ephox.alloy.navigation.KeyRules","ephox.alloy.alien.EditableFields","ephox.alloy.keying.KeyingTypes","ephox.alloy.navigation.DomMovement","ephox.alloy.navigation.DomPinpoint","ephox.alloy.navigation.WrapArrNavigation","ephox.alloy.navigation.DomNavigation","ephox.alloy.navigation.MatrixNavigation","ephox.alloy.ui.slider.SliderModel","ephox.sugar.api.properties.Value","ephox.alloy.alien.Cycles","ephox.alloy.alien.ObjIndex","ephox.alloy.alien.PrioritySort","ephox.alloy.api.focus.FocusManagers","ephox.alloy.menu.build.ItemType","ephox.alloy.menu.build.SeparatorType","ephox.alloy.menu.build.WidgetType","ephox.alloy.menu.util.ItemEvents","ephox.alloy.menu.util.MenuEvents","ephox.alloy.menu.layered.LayeredState","ephox.alloy.alien.DelayedFunction","global!isNaN","ephox.sugar.api.selection.Awareness","ephox.sugar.api.selection.Selection","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.selection.core.NativeRange","ephox.sugar.selection.core.SelectionDirection","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.alloy.alien.TransformFind","ephox.sugar.api.view.Position","ephox.sugar.api.dom.Dom","tinymce.themes.mobile.touch.focus.CursorRefresh","ephox.katamari.api.Future","tinymce.themes.mobile.ios.smooth.SmoothAnimation","tinymce.themes.mobile.ios.view.DeviceZones","ephox.katamari.api.LazyValue","ephox.katamari.api.Futures","ephox.sugar.api.properties.Direction","ephox.alloy.navigation.ArrPinpoint","ephox.sugar.api.view.Visibility","ephox.alloy.menu.build.WidgetParts","ephox.alloy.menu.layered.MenuPathing","ephox.sugar.api.node.Text","ephox.sugar.api.selection.Situ","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.katamari.async.Bounce","tinymce.themes.mobile.ios.view.Devices","ephox.katamari.async.AsyncValues","ephox.sugar.impl.NodeValue","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.sugar.api.selection.CursorPosition"]
 jsc*/
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
@@ -96,6 +96,12 @@ define(
   function (Array, Error) {
 
     var noop = function () { };
+
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
 
     var compose = function (fa, fb) {
       return function () {
@@ -157,10 +163,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -222,8 +229,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -674,11 +682,8 @@ define(
 
   function () {
     // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
 );
 
@@ -1436,12 +1441,13 @@ define(
 
   [
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Error, console, document) {
+  function (Fun, Option, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -1472,11 +1478,16 @@ define(
       };
     };
 
+    var fromPoint = function (doc, x, y) {
+      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    };
+
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom
+      fromDom: fromDom,
+      fromPoint: fromPoint
     };
   }
 );
@@ -1518,27 +1529,6 @@ define(
   ],
 
   function (Arr, Option, Element, NodeTypes, Error, document) {
-    /*
-     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
-     * instead of doing object lookup feature detection on every call
-     */
-    var STANDARD = 0;
-    var MSSTANDARD = 1;
-    var WEBKITSTANDARD = 2;
-    var FIREFOXSTANDARD = 3;
-
-    var selectorType = (function () {
-      var test = document.createElement('span');
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      return test.matches !== undefined ? STANDARD :
-             test.msMatchesSelector !== undefined ? MSSTANDARD :
-             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
-             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
-             -1;
-    })();
-
-
     var ELEMENT = NodeTypes.ELEMENT;
     var DOCUMENT = NodeTypes.DOCUMENT;
 
@@ -1548,10 +1538,10 @@ define(
 
       // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
       // Still check for the others, but do it last.
-      else if (selectorType === STANDARD) return elem.matches(selector);
-      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
-      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
-      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
+      else if (elem.matches !== undefined) return elem.matches(selector);
+      else if (elem.msMatchesSelector !== undefined) return elem.msMatchesSelector(selector);
+      else if (elem.webkitMatchesSelector !== undefined) return elem.webkitMatchesSelector(selector);
+      else if (elem.mozMatchesSelector !== undefined) return elem.mozMatchesSelector(selector);
       else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
     };
 
@@ -4758,8 +4748,12 @@ define(
       return child(element, element.dom().childNodes.length - 1);
     };
 
-    var childNodesCount = function (element, index) {
+    var childNodesCount = function (element) {
       return element.dom().childNodes.length;
+    };
+
+    var hasChildNodes = function (element) {
+      return element.dom().hasChildNodes();
     };
 
     var spot = Struct.immutable('element', 'offset');
@@ -4786,6 +4780,7 @@ define(
       firstChild: firstChild,
       lastChild: lastChild,
       childNodesCount: childNodesCount,
+      hasChildNodes: hasChildNodes,
       leaf: leaf
     };
   }
@@ -11194,6 +11189,73 @@ define(
   }
 );
 
+define(
+  'ephox.imagetools.util.Canvas',
+  [
+  ],
+  function () {
+    function create(width, height) {
+      return resize(document.createElement('canvas'), width, height);
+    }
+
+    function clone(canvas) {
+      var tCanvas, ctx;
+      tCanvas = create(canvas.width, canvas.height);
+      ctx = get2dContext(tCanvas);
+      ctx.drawImage(canvas, 0, 0);
+      return tCanvas;
+    }
+
+    function get2dContext(canvas) {
+      return canvas.getContext("2d");
+    }
+
+    function get3dContext(canvas) {
+      var gl = null;
+      try {
+        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      }
+      catch (e) { }
+
+      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
+        gl = null;
+      }
+      return gl;
+    }
+
+    function resize(canvas, width, height) {
+      canvas.width = width;
+      canvas.height = height;
+
+      return canvas;
+    }
+
+    return {
+      create: create,
+      clone: clone,
+      resize: resize,
+      get2dContext: get2dContext,
+      get3dContext: get3dContext
+    };
+  });
+define(
+  'ephox.imagetools.util.ImageSize',
+  [
+  ],
+  function() {
+  function getWidth(image) {
+    return image.naturalWidth || image.width;
+  }
+
+  function getHeight(image) {
+    return image.naturalHeight || image.height;
+  }
+
+  return {
+    getWidth: getWidth,
+    getHeight: getHeight
+  };
+});
 /* eslint-disable */
 /* jshint ignore:start */
 
@@ -11390,121 +11452,115 @@ define(
 /* eslint-enable */
 
 define(
-  'ephox.imagetools.util.Canvas',
+  'ephox.sand.api.Blob',
+
   [
+    'ephox.sand.util.Global'
   ],
-  function () {
-    function create(width, height) {
-      return resize(document.createElement('canvas'), width, height);
-    }
 
-    function clone(canvas) {
-      var tCanvas, ctx;
-      tCanvas = create(canvas.width, canvas.height);
-      ctx = get2dContext(tCanvas);
-      ctx.drawImage(canvas, 0, 0);
-      return tCanvas;
-    }
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/Blob
+     */
+    return function (parts, properties) {
+      var f = Global.getOrDie('Blob');
+      return new f(parts, properties);
+    };
+  }
+);
+define(
+  'ephox.sand.api.FileReader',
 
-    function get2dContext(canvas) {
-      return canvas.getContext("2d");
-    }
+  [
+    'ephox.sand.util.Global'
+  ],
 
-    function get3dContext(canvas) {
-      var gl = null;
-      try {
-        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      }
-      catch (e) { }
+  function (Global) {
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+     */
+    return function () {
+      var f = Global.getOrDie('FileReader');
+      return new f();
+    };
+  }
+);
+define(
+  'ephox.sand.api.Uint8Array',
 
-      if (!gl) { // it seems that sometimes it doesn't throw exception, but still fails to get context
-        gl = null;
-      }
-      return gl;
-    }
+  [
+    'ephox.sand.util.Global'
+  ],
 
-    function resize(canvas, width, height) {
-      canvas.width = width;
-      canvas.height = height;
+  function (Global) {
+    /*
+     * https://developer.mozilla.org/en-US/docs/Web/API/Uint8Array
+     *
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays
+     */
+    return function (arr) {
+      var f = Global.getOrDie('Uint8Array');
+      return new f(arr);
+    };
+  }
+);
+define(
+  'ephox.sand.api.Window',
 
-      return canvas;
-    }
+  [
+    'ephox.sand.util.Global'
+  ],
+
+  function (Global) {
+    /******************************************************************************************
+     * BIG BIG WARNING: Don't put anything other than top-level window functions in here.
+     *
+     * Objects that are technically available as window.X should be in their own module X (e.g. Blob, FileReader, URL).
+     ******************************************************************************************
+     */
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en/docs/Web/API/window.requestAnimationFrame
+     */
+    var requestAnimationFrame = function (callback) {
+      var f = Global.getOrDie('requestAnimationFrame');
+      f(callback);
+    };
+
+    /*
+     * IE10 and above per
+     * https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64.atob
+     */
+    var atob = function (base64) {
+      var f = Global.getOrDie('atob');
+      return f(base64);
+    };
 
     return {
-      create: create,
-      clone: clone,
-      resize: resize,
-      get2dContext: get2dContext,
-      get3dContext: get3dContext
+      atob: atob,
+      requestAnimationFrame: requestAnimationFrame
     };
-  });
-define(
-  'ephox.imagetools.util.Mime',
-  [
-  ],
-  function () {
-    function getUriPathName(uri) {
-      var a = document.createElement('a');
-      a.href = uri;
-      return a.pathname;
-    }
-
-    function guessMimeType(uri) {
-      var parts, ext, mimes, matches;
-
-      if (uri.indexOf('data:') === 0) {
-        uri = uri.split(',');
-        matches = /data:([^;]+)/.exec(uri[0]);
-        return matches ? matches[1] : '';
-      } else {
-        mimes = {
-          'jpg': 'image/jpeg',
-          'jpeg': 'image/jpeg',
-          'png': 'image/png'
-        };
-
-        parts = getUriPathName(uri).split('.');
-        ext = parts[parts.length - 1];
-
-        if (ext) {
-          ext = ext.toLowerCase();
-        }
-        return mimes[ext];
-      }
-    }
-
-
-    return {
-      guessMimeType: guessMimeType
-    };
-  });
-define(
-  'ephox.imagetools.util.ImageSize',
-  [
-  ],
-  function() {
-  function getWidth(image) {
-    return image.naturalWidth || image.width;
   }
-
-  function getHeight(image) {
-    return image.naturalHeight || image.height;
-  }
-
-  return {
-    getWidth: getWidth,
-    getHeight: getHeight
-  };
-});
+);
 define(
   'ephox.imagetools.util.Conversions',
   [
-    'ephox.imagetools.util.Promise',
     'ephox.imagetools.util.Canvas',
-    'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.ImageSize'
+    'ephox.imagetools.util.ImageSize',
+    'ephox.imagetools.util.Promise',
+    'ephox.katamari.api.Option',
+    'ephox.sand.api.Blob',
+    'ephox.sand.api.FileReader',
+    'ephox.sand.api.Uint8Array',
+    'ephox.sand.api.Window',
+    'global!Array',
+    'global!Math'
   ],
-  function (Promise, Canvas, Mime, ImageSize) {
+  function (Canvas, ImageSize, Promise, Option, Blob, FileReader, Uint8Array, Window, Array, Math) {
     function loadImage(image) {
       return new Promise(function (resolve) {
         function loaded() {
@@ -11520,47 +11576,46 @@ define(
       });
     }
 
-    function imageToCanvas(image) {
-      return loadImage(image).then(function (image) {
-        var context, canvas;
-
-        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
-        context = Canvas.get2dContext(canvas);
-        context.drawImage(image, 0, 0);
-
-        return canvas;
-      });
-    }
-
     function imageToBlob(image) {
       return loadImage(image).then(function (image) {
         var src = image.src;
 
         if (src.indexOf('blob:') === 0) {
-          return blobUriToBlob(src);
+          return anyUriToBlob(src);
         }
 
         if (src.indexOf('data:') === 0) {
           return dataUriToBlob(src);
         }
 
-        return imageToCanvas(image).then(function (canvas) {
-          return dataUriToBlob(canvas.toDataURL(Mime.guessMimeType(src)));
-        });
+        return anyUriToBlob(src);
       });
     }
 
     function blobToImage(blob) {
-      return new Promise(function (resolve) {
+      return new Promise(function (resolve, reject) {
+        var blobUrl = URL.createObjectURL(blob);
+
         var image = new Image();
 
-        function loaded() {
+        var removeListeners = function () {
           image.removeEventListener('load', loaded);
+          image.removeEventListener('error', error);
+        };
+
+        function loaded() {
+          removeListeners();
           resolve(image);
         }
 
+        function error() {
+          removeListeners();
+          reject('Unable to load data of type ' + blob.type + ': ' + blobUrl);
+        }
+
         image.addEventListener('load', loaded);
-        image.src = URL.createObjectURL(blob);
+        image.addEventListener('error', error);
+        image.src = blobUrl;
 
         if (image.complete) {
           loaded();
@@ -11568,11 +11623,13 @@ define(
       });
     }
 
-    function blobUriToBlob(url) {
+    function anyUriToBlob(url) {
       return new Promise(function (resolve) {
         var xhr = new XMLHttpRequest();
 
         xhr.open('GET', url, true);
+
+        // works with IE10+
         xhr.responseType = 'blob';
 
         xhr.onload = function () {
@@ -11586,46 +11643,46 @@ define(
     }
 
     function dataUriToBlobSync(uri) {
-      var str, arr, i, matches, type, blobBuilder;
+      var data = uri.split(',');
 
-      uri = uri.split(',');
+      var matches = /data:([^;]+)/.exec(data[0]);
+      if (!matches) return Option.none();
 
-      matches = /data:([^;]+)/.exec(uri[0]);
-      if (matches) {
-        type = matches[1];
-      }
+      var mimetype = matches[1];
+      var base64 = data[1];
 
-      str = atob(uri[1]);
+      // al gore rhythm via http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+      var sliceSize = 1024;
+      var byteCharacters = Window.atob(base64);
+      var bytesLength = byteCharacters.length;
+      var slicesCount = Math.ceil(bytesLength / sliceSize);
+      var byteArrays = new Array(slicesCount);
 
-      if (window.WebKitBlobBuilder) {
-        /*globals WebKitBlobBuilder:false */
-        blobBuilder = new WebKitBlobBuilder();
+      for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+        var begin = sliceIndex * sliceSize;
+        var end = Math.min(begin + sliceSize, bytesLength);
 
-        arr = new ArrayBuffer(str.length);
-        for (i = 0; i < arr.length; i++) {
-          arr[i] = str.charCodeAt(i);
+        var bytes = new Array(end - begin);
+        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+          bytes[i] = byteCharacters[offset].charCodeAt(0);
         }
-
-        blobBuilder.append(arr);
-        return blobBuilder.getBlob(type);
+        byteArrays[sliceIndex] = Uint8Array(bytes);
       }
-
-      arr = new Uint8Array(str.length);
-      for (i = 0; i < arr.length; i++) {
-        arr[i] = str.charCodeAt(i);
-      }
-      return new Blob([arr], { type: type });
+      return Option.some(Blob(byteArrays, { type: mimetype }));
     }
 
     function dataUriToBlob(uri) {
-      return new Promise(function (resolve) {
-        resolve(dataUriToBlobSync(uri));
+      return new Promise(function (resolve, reject) {
+        dataUriToBlobSync(uri).fold(function () {
+          // uri isn't valid
+          reject('uri is not base64: ' + uri);
+        }, resolve);
       });
     }
 
     function uriToBlob(url) {
       if (url.indexOf('blob:') === 0) {
-        return blobUriToBlob(url);
+        return anyUriToBlob(url);
       }
 
       if (url.indexOf('data:') === 0) {
@@ -11647,6 +11704,28 @@ define(
       } else {
         return dataUriToBlob(canvas.toDataURL(type, quality));
       }
+    }
+
+    function canvasToDataURL(getCanvas, type, quality) {
+      type = type || 'image/png';
+      return getCanvas.then(function (canvas) {
+        return canvas.toDataURL(type, quality);
+      });
+    }
+
+    function blobToCanvas(blob) {
+      return blobToImage(blob).then(function (image) {
+        // we aren't retaining the image, so revoke the URL immediately
+        revokeImageUrl(image);
+
+        var context, canvas;
+
+        canvas = Canvas.create(ImageSize.getWidth(image), ImageSize.getHeight(image));
+        context = Canvas.get2dContext(canvas);
+        context.drawImage(image, 0, 0);
+
+        return canvas;
+      });
     }
 
     function blobToDataUri(blob) {
@@ -11674,103 +11753,25 @@ define(
     return {
       // used outside
       blobToImage: blobToImage,
-      // used outside
       imageToBlob: imageToBlob,
-      // used outside
       blobToDataUri: blobToDataUri,
-      // used outside
       blobToBase64: blobToBase64,
+      dataUriToBlobSync: dataUriToBlobSync,
 
-      // helper method
-      imageToCanvas: imageToCanvas,
       // helper method
       canvasToBlob: canvasToBlob,
-      // helper method
-      revokeImageUrl: revokeImageUrl,
-      // helper method
-      uriToBlob: uriToBlob,
-      // helper method
-      dataUriToBlobSync: dataUriToBlobSync
+      canvasToDataURL: canvasToDataURL,
+      blobToCanvas: blobToCanvas,
+      uriToBlob: uriToBlob
     };
   });
-define(
-  'ephox.imagetools.util.ImageResult',
-  [
-    'ephox.imagetools.util.Promise',
-    'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.Mime',
-    'ephox.imagetools.util.Canvas'
-  ],
-  function (Promise, Conversions, Mime, Canvas) {
-    function create(canvas, initialType) {
-      function getType() {
-        return initialType;
-      }
-
-      function toBlob(type, quality) {
-        return Conversions.canvasToBlob(canvas, type || initialType, quality);
-      }
-
-      function toDataURL(type, quality) {
-        return canvas.toDataURL(type || initialType, quality);
-      }
-
-      function toBase64(type, quality) {
-        return toDataURL(type, quality).split(',')[1];
-      }
-
-      function toCanvas() {
-        return Canvas.clone(canvas);
-      }
-
-      return {
-        getType: getType,
-        toBlob: toBlob,
-        toDataURL: toDataURL,
-        toBase64: toBase64,
-        toCanvas: toCanvas
-      };
-    }
-
-    function fromBlob(blob) {
-      return Conversions.blobToImage(blob)
-        .then(function (image) {
-          var result = Conversions.imageToCanvas(image);
-          Conversions.revokeImageUrl(image);
-          return result;
-        })
-        .then(function (canvas) {
-          return create(canvas, blob.type);
-        });
-    }
-
-    function fromCanvas(canvas, type) {
-      return new Promise(function (resolve) {
-        resolve(create(canvas, type));
-      });
-    }
-
-    function fromImage(image) {
-      var type = Mime.guessMimeType(image.src);
-      return Conversions.imageToCanvas(image).then(function (canvas) {
-        return create(canvas, type);
-      });
-    }
-
-    return {
-      fromBlob: fromBlob,
-      fromCanvas: fromCanvas,
-      fromImage: fromImage
-    };
-  });
-
 define(
   'ephox.imagetools.api.BlobConversions',
   [
     'ephox.imagetools.util.Conversions',
-    'ephox.imagetools.util.ImageResult'
+    'ephox.katamari.api.Option'
   ],
-  function (Conversions, ImageResult) {
+  function (Conversions, Option) {
     var blobToImage = function (image) {
       return Conversions.blobToImage(image);
     };
@@ -11787,45 +11788,22 @@ define(
       return Conversions.blobToBase64(blob);
     };
 
-    var blobToImageResult = function(blob) {
-      return ImageResult.fromBlob(blob);
+    var dataUriToBlobSync = function (uri) {
+      return Conversions.dataUriToBlobSync(uri);
     };
 
-    var dataUriToImageResult = function(uri) {
-      return Conversions.uriToBlob(uri).then(ImageResult.fromBlob);
-    };
-
-    var imageToImageResult = function(image) {
-      return ImageResult.fromImage(image);
-    };
-
-    var imageResultToBlob = function(ir, type, quality) {
-      return ir.toBlob(type, quality);
-    };
-
-    var imageResultToBlobSync = function(ir, type, quality) {
-      return Conversions.dataUriToBlobSync(ir.toDataURL(type, quality));
+    var uriToBlob = function (uri) {
+      return Option.from(Conversions.uriToBlob(uri));
     };
 
     return {
       // used outside
       blobToImage: blobToImage,
-      // used outside
       imageToBlob: imageToBlob,
-      // used outside
       blobToDataUri: blobToDataUri,
-      // used outside
       blobToBase64: blobToBase64,
-      // used outside
-      blobToImageResult: blobToImageResult,
-      // used outside
-      dataUriToImageResult: dataUriToImageResult,
-      // used outside
-      imageToImageResult: imageToImageResult,
-      // used outside
-      imageResultToBlob: imageResultToBlob,
-      // just in case
-      imageResultToBlobSync: imageResultToBlobSync
+      dataUriToBlobSync: dataUriToBlobSync,
+      uriToBlob: uriToBlob
     };
   }
 );
@@ -18006,7 +17984,7 @@ define(
     var searchFromPoint = function (doc, x, y) {
       // elementFromPoint is defined to return null when there is no element at the point
       // This often happens when using IE10 event.y instead of event.clientY
-      return Option.from(doc.dom().elementFromPoint(x, y)).map(Element.fromDom).bind(function (elem) {
+      return Element.fromPoint(doc, x, y).bind(function (elem) {
         // used when the x,y position points to an image, or outside the bounds
         var fallback = function () {
           return EdgePoint.search(doc, elem, x);
@@ -18155,9 +18133,10 @@ define(
 
   function (Option, DocumentPosition, Element, Fragment, Traverse, Selection, NativeRange, SelectionDirection, CaretRange, Within, Prefilter) {
     var doSetNativeRange = function (win, rng) {
-      var selection = win.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(rng);
+      Option.from(win.getSelection()).each(function(selection) {
+        selection.removeAllRanges();
+        selection.addRange(rng);
+      });      
     };
 
     var doSetRange = function (win, start, soffset, finish, foffset) {
@@ -18215,10 +18194,19 @@ define(
     // than using the anchorNode and focusNode. I'm not sure if this behaviour is any
     // better or worse; it's just different.
     var readRange = function (selection) {
-      var rng = Option.from(selection.getRangeAt(0));
-      return rng.map(function (r) {
-        return Selection.range(Element.fromDom(r.startContainer), r.startOffset, Element.fromDom(r.endContainer), r.endOffset);
-      });
+      if (selection.rangeCount > 0) {
+        var firstRng = selection.getRangeAt(0);
+        var lastRng = selection.getRangeAt(selection.rangeCount - 1);
+
+        return Option.some(Selection.range(
+          Element.fromDom(firstRng.startContainer), 
+          firstRng.startOffset,
+          Element.fromDom(lastRng.endContainer),
+          lastRng.endOffset
+        ));
+      } else {
+        return Option.none();
+      }
     };
 
     var doGetExact = function (selection) {
@@ -18291,7 +18279,7 @@ define(
 
     var replace = function (win, selection, elements) {
       var rng = SelectionDirection.asLtrRange(win, selection);
-      var fragment = Fragment.fromElements(elements);
+      var fragment = Fragment.fromElements(elements, win.document);
       NativeRange.replaceWith(rng, fragment);
     };
 

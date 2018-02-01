@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 				</div>
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert level="danger text-center">
+						<joomla-alert type="danger" class="text-center">
 							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>

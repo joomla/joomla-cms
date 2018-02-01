@@ -11,6 +11,8 @@
  */
 trait TestCaseTrait
 {
+	use TestCaseDeprecated;
+
 	/**
 	 * @var    array  Various JFactory static instances stashed away to be restored later.
 	 * @since  12.1

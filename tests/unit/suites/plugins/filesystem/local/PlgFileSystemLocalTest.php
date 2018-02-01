@@ -86,7 +86,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 */
 	public function testOnFileSystemGetAdapters()
 	{
-		$adapter = $this->pluginClass->onFileSystemGetAdapters();
-		self::containsOnlyInstancesOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
+		$adapter = $this->pluginClass->getAdapters();
+		$this->assertContainsOnlyInstancesOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
 	}
 }

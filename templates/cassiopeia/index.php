@@ -9,10 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /** @var JDocumentHtml $this */
 
-$app  = JFactory::getApplication();
-$lang = JFactory::getLanguage();
+$app  = Factory::getApplication();
+$lang = Factory::getLanguage();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -24,32 +29,34 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
+$menu     = $app->getMenu()->getActive();
+$pageclass = $menu->params->get('pageclass_sfx');
 
 // Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
+HTMLHelper::_('bootstrap.framework');
 
 // Add template js
-JHtml::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
 
 // Load custom Javascript file
-JHtml::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
-JHtml::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts progressive enhancement
-JHtml::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -77,16 +84,17 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 </head>
 
 <body class="site-grid site <?php echo $option
+	. ' ' . $container
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
-	. ($itemid ? ' itemid-' . $itemid : '');
+	. ($itemid ? ' itemid-' . $itemid : '')
+	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-
-	<div class="container-header full-width">
+ 	<div class="grid-child container-header full-width">
 		<header class="header">
-			<nav class="navbar navbar-expand-lg">
+			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
 					<a href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
@@ -97,7 +105,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo JText::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 						<span class="fa fa-bars"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
@@ -109,10 +117,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				
+
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
-			<div class="container-banner">
+			<div class="grid-child container-banner">
 				<jdoc:include type="modules" name="banner" style="xhtml" />
 			</div>
 			<?php endif; ?>
@@ -125,20 +133,20 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		</header>
 	</div>
-	
+
 	<?php if ($this->countModules('top-a')) : ?>
-	<div class="container-top-a">
+	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="cardGrey" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('top-b')) : ?>
-	<div class="container-top-b">
+	<div class="grid-child container-top-b">
 		<jdoc:include type="modules" name="top-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<div class="container-main">
+	<div class="grid-child container-main">
 
 		<?php if ($this->countModules('sidebar-left')) : ?>
 		<div class="container-sidebar-left">
@@ -163,32 +171,31 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
-	<div class="container-bottom-a">
+	<div class="grid-child container-bottom-a">
 		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('bottom-b')) : ?>
-	<div class="container-bottom-b">
+	<div class="grid-child container-bottom-b">
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer')) : ?>
-	<footer class="container-footer footer">
+	<footer class="grid-child container-footer footer">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
 				<span class="icon-arrow-up-4" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo JText::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>
 		<jdoc:include type="modules" name="footer" style="none" />
 	</footer>
 	<?php endif; ?>
 
-<jdoc:include type="modules" name="debug" style="none" />
-
+	<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
 </html>

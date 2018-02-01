@@ -23,16 +23,18 @@ class MVCFactory implements MVCFactoryInterface
 	/**
 	 * The namespace to create the objects from.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	private $namespace = null;
+	private $namespace;
 
 	/**
 	 * The application.
 	 *
-	 * @var CMSApplicationInterface
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
 	 */
-	private $application = null;
+	private $application;
 
 	/**
 	 * The namespace must be like:
@@ -61,7 +63,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array())
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -90,7 +92,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = [])
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -119,7 +121,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array())
+	public function createTable($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
 		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -155,7 +157,7 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getClassName($suffix, $prefix)
+	private function getClassName(string $suffix, string $prefix)
 	{
 		if (!$prefix)
 		{

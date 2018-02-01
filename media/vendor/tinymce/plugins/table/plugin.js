@@ -81,8 +81,29 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.table.Plugin","ephox.katamari.api.Arr","ephox.katamari.api.Option","ephox.snooker.api.ResizeWire","ephox.snooker.api.TableDirection","ephox.snooker.api.TableResize","ephox.sugar.api.node.Element","ephox.sugar.api.properties.Attr","ephox.sugar.api.search.SelectorFilter","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.plugins.table.actions.Clipboard","tinymce.plugins.table.actions.InsertTable","tinymce.plugins.table.actions.TableActions","tinymce.plugins.table.actions.TableCommands","tinymce.plugins.table.actions.TableWire","tinymce.plugins.table.queries.Direction","tinymce.plugins.table.queries.TabContext","tinymce.plugins.table.selection.CellSelection","tinymce.plugins.table.selection.Ephemera","tinymce.plugins.table.selection.Selections","tinymce.plugins.table.ui.Buttons","tinymce.plugins.table.ui.MenuItems","ephox.katamari.api.Fun","global!Object","global!Array","global!Error","global!String","global!console","global!document","ephox.sugar.api.view.Location","ephox.sugar.api.view.Position","ephox.snooker.api.ResizeDirection","ephox.porkbun.Event","ephox.porkbun.Events","ephox.snooker.resize.Adjustments","ephox.snooker.resize.BarManager","ephox.snooker.resize.BarPositions","ephox.katamari.api.Type","ephox.katamari.api.Obj","ephox.sugar.api.node.Node","ephox.sugar.api.search.PredicateFilter","ephox.sugar.api.search.Selectors","global!tinymce.util.Tools.resolve","ephox.snooker.api.CopySelected","ephox.snooker.api.TableFill","ephox.snooker.api.TableLookup","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Elements","tinymce.plugins.table.queries.TableTargets","tinymce.plugins.table.selection.SelectionTypes","ephox.snooker.api.TableRender","ephox.sugar.api.properties.Html","ephox.sugar.api.search.SelectorFind","ephox.snooker.api.CellMutations","ephox.snooker.api.TableGridSize","ephox.snooker.api.TableOperations","tinymce.plugins.table.alien.Util","ephox.sugar.api.properties.Direction","ephox.snooker.api.CopyRows","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Remove","tinymce.plugins.table.ui.TableDialog","tinymce.plugins.table.ui.RowDialog","tinymce.plugins.table.ui.CellDialog","ephox.sugar.api.node.Body","ephox.sugar.api.properties.Css","ephox.snooker.api.CellNavigation","ephox.sugar.api.dom.Compare","ephox.sugar.api.selection.CursorPosition","ephox.sugar.api.selection.Selection","ephox.sugar.api.selection.WindowSelection","tinymce.core.util.VK","ephox.darwin.api.InputHandlers","ephox.darwin.api.SelectionAnnotation","ephox.darwin.api.SelectionKeys","ephox.katamari.api.Struct","ephox.sugar.api.node.Text","ephox.sugar.api.search.Traverse","ephox.sugar.selection.core.SelectionDirection","ephox.darwin.api.TableSelection","ephox.sugar.api.dom.Dom","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sugar.api.view.Height","ephox.sugar.api.view.Width","ephox.snooker.calc.Deltas","ephox.snooker.model.DetailsList","ephox.snooker.model.Warehouse","ephox.snooker.resize.ColumnSizes","ephox.snooker.resize.Recalculations","ephox.snooker.resize.Sizes","ephox.snooker.resize.TableSize","ephox.snooker.util.CellUtils","global!Math","ephox.dragster.api.Dragger","ephox.snooker.resize.BarMutation","ephox.snooker.resize.Bars","ephox.snooker.style.Styles","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.events.DomEvent","ephox.katamari.api.Thunk","ephox.sugar.api.properties.Class","ephox.sugar.impl.Style","ephox.katamari.api.Strings","global!window","ephox.sugar.api.search.SelectorExists","ephox.sugar.api.search.PredicateFind","ephox.sugar.impl.ClosestOrAncestor","global!parseInt","ephox.sugar.alien.Recurse","ephox.snooker.util.LayerSelector","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.selection.Awareness","ephox.snooker.api.Structs","tinymce.plugins.table.queries.CellOperations","ephox.katamari.api.Adt","ephox.snooker.operate.Render","ephox.snooker.api.Generators","ephox.snooker.api.TableContent","ephox.snooker.model.GridRow","ephox.snooker.model.RunOperation","ephox.snooker.model.TableMerge","ephox.snooker.model.Transitions","ephox.snooker.operate.MergingOperations","ephox.snooker.operate.ModificationOperations","ephox.snooker.operate.TransformOperations","ephox.snooker.operate.Redraw","tinymce.core.Env","tinymce.plugins.table.actions.Styles","tinymce.plugins.table.ui.Helpers","ephox.snooker.api.CellLocation","ephox.sugar.api.selection.Situ","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.selection.core.NativeRange","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.darwin.api.Responses","ephox.darwin.api.WindowBridge","ephox.darwin.keyboard.KeySelection","ephox.darwin.keyboard.VerticalMovement","ephox.darwin.mouse.MouseSelection","ephox.darwin.navigation.KeyDirection","ephox.darwin.selection.CellSelection","ephox.katamari.api.Options","ephox.sugar.api.properties.OnNode","ephox.sugar.impl.NodeValue","ephox.snooker.api.TablePositions","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.util.BagUtils","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.sugar.impl.Dimension","ephox.snooker.calc.ColumnContext","ephox.snooker.lookup.Blocks","ephox.snooker.util.Util","ephox.dragster.api.MouseDrag","ephox.dragster.core.Dragging","ephox.snooker.resize.Mutation","ephox.snooker.resize.Bar","ephox.katamari.api.Namespace","ephox.sugar.api.properties.Toggler","ephox.sugar.impl.ClassList","ephox.sugar.impl.FilteredEvent","ephox.robin.api.dom.DomParent","ephox.snooker.selection.CellFinder","ephox.snooker.selection.CellGroup","ephox.katamari.api.Cell","ephox.katamari.api.Contracts","ephox.robin.api.dom.DomStructure","ephox.katamari.api.Merger","ephox.snooker.model.TableGrid","ephox.snooker.model.Fitment","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.darwin.selection.Util","ephox.darwin.keyboard.TableKeys","ephox.sugar.api.search.PredicateExists","ephox.darwin.keyboard.Retries","ephox.darwin.navigation.BeforeAfter","ephox.phoenix.api.dom.DomGather","ephox.sugar.api.properties.Classes","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.dragster.api.DragApis","ephox.dragster.detect.Blocker","ephox.dragster.detect.Movement","ephox.katamari.api.Throttler","ephox.sugar.api.properties.AttrList","ephox.boss.api.DomUniverse","ephox.robin.api.general.Parent","ephox.snooker.selection.CellBounds","ephox.robin.api.general.Structure","ephox.katamari.api.Result","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.darwin.keyboard.Carets","ephox.darwin.keyboard.Rectangles","ephox.phoenix.api.general.Gather","ephox.darwin.navigation.BrTags","ephox.phoenix.api.data.Spot","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.dragster.style.Styles","ephox.dragster.detect.InDrag","ephox.dragster.detect.NoDrag","global!clearTimeout","global!setTimeout","ephox.boss.common.TagBoundaries","ephox.robin.parent.Breaker","ephox.robin.parent.Shared","ephox.robin.parent.Subset","ephox.phoenix.gather.Seeker","ephox.phoenix.gather.Walker","ephox.phoenix.gather.Walkers","ephox.sugar.api.search.ElementAddress","global!Number"]
+["tinymce.plugins.table.Plugin","tinymce.core.PluginManager","tinymce.plugins.table.actions.Clipboard","tinymce.plugins.table.actions.InsertTable","tinymce.plugins.table.actions.TableActions","tinymce.plugins.table.actions.TableCommands","tinymce.plugins.table.actions.ResizeHandler","tinymce.plugins.table.queries.TabContext","tinymce.plugins.table.selection.CellSelection","tinymce.plugins.table.selection.Ephemera","tinymce.plugins.table.selection.Selections","tinymce.plugins.table.ui.Buttons","tinymce.plugins.table.ui.MenuItems","global!tinymce.util.Tools.resolve","ephox.katamari.api.Arr","ephox.katamari.api.Fun","ephox.katamari.api.Option","ephox.snooker.api.CopySelected","ephox.snooker.api.TableFill","ephox.snooker.api.TableLookup","ephox.sugar.api.dom.Replication","ephox.sugar.api.node.Element","ephox.sugar.api.node.Elements","ephox.sugar.api.node.Node","tinymce.plugins.table.queries.TableTargets","tinymce.plugins.table.selection.SelectionTypes","ephox.snooker.api.TableRender","ephox.sugar.api.properties.Attr","ephox.sugar.api.properties.Html","ephox.sugar.api.search.SelectorFind","ephox.snooker.api.CellMutations","ephox.snooker.api.TableDirection","ephox.snooker.api.TableGridSize","ephox.snooker.api.TableOperations","ephox.sugar.api.search.SelectorFilter","tinymce.plugins.table.alien.Util","tinymce.plugins.table.queries.Direction","ephox.snooker.api.CopyRows","ephox.sugar.api.dom.Insert","ephox.sugar.api.dom.Remove","tinymce.core.util.Tools","tinymce.plugins.table.ui.TableDialog","tinymce.plugins.table.ui.RowDialog","tinymce.plugins.table.ui.CellDialog","ephox.snooker.api.ResizeWire","ephox.snooker.api.TableResize","tinymce.plugins.table.actions.TableWire","ephox.snooker.api.CellNavigation","ephox.sugar.api.dom.Compare","ephox.sugar.api.selection.CursorPosition","ephox.sugar.api.selection.Selection","ephox.sugar.api.selection.WindowSelection","tinymce.core.util.VK","ephox.darwin.api.InputHandlers","ephox.darwin.api.SelectionAnnotation","ephox.darwin.api.SelectionKeys","ephox.katamari.api.Struct","ephox.sugar.api.node.Text","ephox.sugar.api.search.Traverse","ephox.sugar.selection.core.SelectionDirection","ephox.darwin.api.TableSelection","global!Array","global!Error","global!Object","global!String","ephox.katamari.api.Obj","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.snooker.model.DetailsList","ephox.snooker.model.Warehouse","ephox.snooker.util.LayerSelector","ephox.katamari.api.Type","ephox.sugar.api.node.NodeTypes","global!console","ephox.sugar.api.properties.Css","global!document","ephox.sugar.alien.Recurse","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.sugar.api.search.Selectors","ephox.sugar.api.dom.InsertAll","ephox.sugar.api.search.PredicateFilter","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.selection.Awareness","ephox.snooker.api.Structs","ephox.sugar.impl.ClosestOrAncestor","global!parseInt","tinymce.plugins.table.queries.CellOperations","ephox.katamari.api.Adt","ephox.snooker.operate.Render","ephox.snooker.resize.Sizes","ephox.snooker.api.ResizeDirection","ephox.snooker.api.Generators","ephox.snooker.api.TableContent","ephox.snooker.model.GridRow","ephox.snooker.model.RunOperation","ephox.snooker.model.TableMerge","ephox.snooker.model.Transitions","ephox.snooker.operate.MergingOperations","ephox.snooker.operate.ModificationOperations","ephox.snooker.operate.TransformOperations","ephox.snooker.resize.Adjustments","ephox.sugar.api.properties.Direction","ephox.snooker.operate.Redraw","tinymce.core.Env","tinymce.plugins.table.actions.Styles","tinymce.plugins.table.ui.Helpers","ephox.sugar.api.view.Location","ephox.sugar.api.view.Position","ephox.porkbun.Event","ephox.porkbun.Events","ephox.snooker.resize.BarManager","ephox.snooker.resize.BarPositions","ephox.sugar.api.node.Body","ephox.snooker.api.CellLocation","ephox.sugar.api.selection.Situ","ephox.sugar.api.dom.DocumentPosition","ephox.sugar.api.node.Fragment","ephox.sugar.selection.core.NativeRange","ephox.katamari.api.Thunk","ephox.sugar.selection.query.CaretRange","ephox.sugar.selection.query.Within","ephox.sugar.selection.quirks.Prefilter","ephox.darwin.api.Responses","ephox.darwin.api.WindowBridge","ephox.darwin.keyboard.KeySelection","ephox.darwin.keyboard.VerticalMovement","ephox.darwin.mouse.MouseSelection","ephox.darwin.navigation.KeyDirection","ephox.darwin.selection.CellSelection","ephox.katamari.api.Options","ephox.sugar.api.properties.Class","ephox.sugar.api.properties.OnNode","ephox.sugar.impl.NodeValue","ephox.snooker.api.TablePositions","ephox.katamari.util.BagUtils","ephox.sand.util.Global","ephox.sand.core.PlatformDetection","global!navigator","global!Math","ephox.sugar.impl.Style","ephox.katamari.api.Strings","global!window","ephox.robin.api.dom.DomParent","ephox.snooker.selection.CellFinder","ephox.snooker.selection.CellGroup","ephox.snooker.resize.RuntimeSize","ephox.sugar.api.view.Height","ephox.sugar.api.view.Width","ephox.sugar.api.dom.Dom","ephox.katamari.api.Cell","ephox.katamari.api.Contracts","ephox.robin.api.dom.DomStructure","ephox.katamari.api.Merger","ephox.snooker.model.TableGrid","ephox.snooker.resize.Bars","ephox.snooker.model.Fitment","ephox.snooker.calc.Deltas","ephox.snooker.resize.ColumnSizes","ephox.snooker.resize.Recalculations","ephox.snooker.resize.TableSize","ephox.snooker.util.CellUtils","ephox.dragster.api.Dragger","ephox.snooker.resize.BarMutation","ephox.snooker.style.Styles","ephox.sugar.api.events.DomEvent","ephox.sugar.api.properties.Toggler","ephox.sugar.impl.ClassList","ephox.sugar.api.search.SelectorExists","ephox.sugar.selection.query.ContainerPoint","ephox.sugar.selection.query.EdgePoint","ephox.darwin.selection.Util","ephox.darwin.keyboard.TableKeys","ephox.sugar.api.search.PredicateExists","ephox.darwin.keyboard.Retries","ephox.darwin.navigation.BeforeAfter","ephox.phoenix.api.dom.DomGather","ephox.sugar.api.properties.Classes","ephox.katamari.api.Resolve","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts","ephox.boss.api.DomUniverse","ephox.robin.api.general.Parent","ephox.snooker.selection.CellBounds","ephox.sugar.impl.Dimension","ephox.robin.api.general.Structure","ephox.snooker.lookup.Blocks","ephox.snooker.resize.Bar","ephox.katamari.api.Namespace","ephox.sugar.api.properties.AttrList","ephox.katamari.api.Result","ephox.snooker.util.Util","ephox.snooker.calc.ColumnContext","ephox.dragster.api.MouseDrag","ephox.dragster.core.Dragging","ephox.snooker.resize.Mutation","ephox.sugar.impl.FilteredEvent","ephox.sugar.selection.alien.Geometry","ephox.sugar.selection.query.TextPoint","ephox.darwin.keyboard.Carets","ephox.darwin.keyboard.Rectangles","ephox.phoenix.api.general.Gather","ephox.darwin.navigation.BrTags","ephox.phoenix.api.data.Spot","ephox.katamari.api.Global","ephox.sand.detect.Version","ephox.boss.common.TagBoundaries","ephox.robin.parent.Breaker","ephox.robin.parent.Shared","ephox.robin.parent.Subset","ephox.dragster.api.DragApis","ephox.dragster.detect.Blocker","ephox.dragster.detect.Movement","ephox.katamari.api.Throttler","ephox.phoenix.gather.Seeker","ephox.phoenix.gather.Walker","ephox.phoenix.gather.Walkers","ephox.sugar.api.search.ElementAddress","global!Number","ephox.dragster.style.Styles","ephox.dragster.detect.InDrag","ephox.dragster.detect.NoDrag","global!clearTimeout","global!setTimeout"]
 jsc*/
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.PluginManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
+  }
+);
+
 defineGlobal("global!Array", Array);
 defineGlobal("global!Error", Error);
 define(
@@ -96,6 +117,12 @@ define(
   function (Array, Error) {
 
     var noop = function () { };
+
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
 
     var compose = function (fa, fb) {
       return function () {
@@ -157,10 +184,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -222,8 +250,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -666,6 +695,359 @@ define(
     };
   }
 );
+define(
+  'ephox.katamari.api.Obj',
+
+  [
+    'ephox.katamari.api.Option',
+    'global!Object'
+  ],
+
+  function (Option, Object) {
+    // There are many variations of Object iteration that are faster than the 'for-in' style:
+    // http://jsperf.com/object-keys-iteration/107
+    //
+    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
+    var keys = (function () {
+      var fastKeys = Object.keys;
+
+      // This technically means that 'each' and 'find' on IE8 iterate through the object twice.
+      // This code doesn't run on IE8 much, so it's an acceptable tradeoff.
+      // If it becomes a problem we can always duplicate the feature detection inside each and find as well.
+      var slowKeys = function (o) {
+        var r = [];
+        for (var i in o) {
+          if (o.hasOwnProperty(i)) {
+            r.push(i);
+          }
+        }
+        return r;
+      };
+
+      return fastKeys === undefined ? slowKeys : fastKeys;
+    })();
+
+
+    var each = function (obj, f) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        f(x, i, obj);
+      }
+    };
+
+    /** objectMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> x)) -> JsObj(k, x) */
+    var objectMap = function (obj, f) {
+      return tupleMap(obj, function (x, i, obj) {
+        return {
+          k: i,
+          v: f(x, i, obj)
+        };
+      });
+    };
+
+    /** tupleMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> { k: x, v: y })) -> JsObj(x, y) */
+    var tupleMap = function (obj, f) {
+      var r = {};
+      each(obj, function (x, i) {
+        var tuple = f(x, i, obj);
+        r[tuple.k] = tuple.v;
+      });
+      return r;
+    };
+
+    /** bifilter :: (JsObj(k, v), (v, k -> Bool)) -> { t: JsObj(k, v), f: JsObj(k, v) } */
+    var bifilter = function (obj, pred) {
+      var t = {};
+      var f = {};
+      each(obj, function(x, i) {
+        var branch = pred(x, i) ? t : f;
+        branch[i] = x;
+      });
+      return {
+        t: t,
+        f: f
+      };
+    };
+
+    /** mapToArray :: (JsObj(k, v), (v, k -> a)) -> [a] */
+    var mapToArray = function (obj, f) {
+      var r = [];
+      each(obj, function(value, name) {
+        r.push(f(value, name));
+      });
+      return r;
+    };
+
+    /** find :: (JsObj(k, v), (v, k, JsObj(k, v) -> Bool)) -> Option v */
+    var find = function (obj, pred) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        if (pred(x, i, obj)) {
+          return Option.some(x);
+        }
+      }
+      return Option.none();
+    };
+
+    /** values :: JsObj(k, v) -> [v] */
+    var values = function (obj) {
+      return mapToArray(obj, function (v) {
+        return v;
+      });
+    };
+
+    var size = function (obj) {
+      return values(obj).length;
+    };
+
+    return {
+      bifilter: bifilter,
+      each: each,
+      map: objectMap,
+      mapToArray: mapToArray,
+      tupleMap: tupleMap,
+      find: find,
+      keys: keys,
+      values: values,
+      size: size
+    };
+  }
+);
+define(
+  'ephox.katamari.data.Immutable',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'global!Array',
+    'global!Error'
+  ],
+
+  function (Arr, Fun, Array, Error) {
+    return function () {
+      var fields = arguments;
+      return function(/* values */) {
+        //  Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+        var values = new Array(arguments.length);
+        for (var i = 0; i < values.length; i++) values[i] = arguments[i];
+
+        if (fields.length !== values.length)
+          throw new Error('Wrong number of arguments to struct. Expected "[' + fields.length + ']", got ' + values.length + ' arguments');
+
+        var struct = {};
+        Arr.each(fields, function (name, i) {
+          struct[name] = Fun.constant(values[i]);
+        });
+        return struct;
+      };
+    };
+  }
+);
+
+define(
+  'ephox.katamari.api.Type',
+
+  [
+    'global!Array',
+    'global!String'
+  ],
+
+  function (Array, String) {
+    var typeOf = function(x) {
+      if (x === null) return 'null';
+      var t = typeof x;
+      if (t === 'object' && Array.prototype.isPrototypeOf(x)) return 'array';
+      if (t === 'object' && String.prototype.isPrototypeOf(x)) return 'string';
+      return t;
+    };
+
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+
+    return {
+      isString: isType('string'),
+      isObject: isType('object'),
+      isArray: isType('array'),
+      isNull: isType('null'),
+      isBoolean: isType('boolean'),
+      isUndefined: isType('undefined'),
+      isFunction: isType('function'),
+      isNumber: isType('number')
+    };
+  }
+);
+
+
+define(
+  'ephox.katamari.util.BagUtils',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Type',
+    'global!Error'
+  ],
+
+  function (Arr, Type, Error) {
+    var sort = function (arr) {
+      return arr.slice(0).sort();
+    };
+
+    var reqMessage = function (required, keys) {
+      throw new Error('All required keys (' + sort(required).join(', ') + ') were not specified. Specified keys were: ' + sort(keys).join(', ') + '.');
+    };
+
+    var unsuppMessage = function (unsupported) {
+      throw new Error('Unsupported keys for object: ' + sort(unsupported).join(', '));
+    };
+
+    var validateStrArr = function (label, array) {
+      if (!Type.isArray(array)) throw new Error('The ' + label + ' fields must be an array. Was: ' + array + '.');
+      Arr.each(array, function (a) {
+        if (!Type.isString(a)) throw new Error('The value ' + a + ' in the ' + label + ' fields was not a string.');
+      });
+    };
+
+    var invalidTypeMessage = function (incorrect, type) {
+      throw new Error('All values need to be of type: ' + type + '. Keys (' + sort(incorrect).join(', ') + ') were not.');
+    };
+
+    var checkDupes = function (everything) {
+      var sorted = sort(everything);
+      var dupe = Arr.find(sorted, function (s, i) {
+        return i < sorted.length -1 && s === sorted[i + 1];
+      });
+
+      dupe.each(function (d) {
+        throw new Error('The field: ' + d + ' occurs more than once in the combined fields: [' + sorted.join(', ') + '].');
+      });
+    };
+
+    return {
+      sort: sort,
+      reqMessage: reqMessage,
+      unsuppMessage: unsuppMessage,
+      validateStrArr: validateStrArr,
+      invalidTypeMessage: invalidTypeMessage,
+      checkDupes: checkDupes
+    };
+  }
+);
+define(
+  'ephox.katamari.data.MixedBag',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Obj',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.util.BagUtils',
+    'global!Error',
+    'global!Object'
+  ],
+
+  function (Arr, Fun, Obj, Option, BagUtils, Error, Object) {
+    
+    return function (required, optional) {
+      var everything = required.concat(optional);
+      if (everything.length === 0) throw new Error('You must specify at least one required or optional field.');
+
+      BagUtils.validateStrArr('required', required);
+      BagUtils.validateStrArr('optional', optional);
+
+      BagUtils.checkDupes(everything);
+
+      return function (obj) {
+        var keys = Obj.keys(obj);
+
+        // Ensure all required keys are present.
+        var allReqd = Arr.forall(required, function (req) {
+          return Arr.contains(keys, req);
+        });
+
+        if (! allReqd) BagUtils.reqMessage(required, keys);
+
+        var unsupported = Arr.filter(keys, function (key) {
+          return !Arr.contains(everything, key);
+        });
+
+        if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
+
+        var r = {};
+        Arr.each(required, function (req) {
+          r[req] = Fun.constant(obj[req]);
+        });
+
+        Arr.each(optional, function (opt) {
+          r[opt] = Fun.constant(Object.prototype.hasOwnProperty.call(obj, opt) ? Option.some(obj[opt]): Option.none());
+        });
+
+        return r;
+      };
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Struct',
+
+  [
+    'ephox.katamari.data.Immutable',
+    'ephox.katamari.data.MixedBag'
+  ],
+
+  function (Immutable, MixedBag) {
+    return {
+      immutable: Immutable,
+      immutableBag: MixedBag
+    };
+  }
+);
+
+define(
+  'ephox.snooker.api.Structs',
+
+  [
+    'ephox.katamari.api.Struct'
+  ],
+
+  function (Struct) {
+    var dimensions = Struct.immutable('width', 'height');
+    var grid = Struct.immutable('rows', 'columns');
+    var address = Struct.immutable('row', 'column');
+    var coords = Struct.immutable('x', 'y');
+    var detail = Struct.immutable('element', 'rowspan', 'colspan');
+    var detailnew = Struct.immutable('element', 'rowspan', 'colspan', 'isNew');
+    var extended = Struct.immutable('element', 'rowspan', 'colspan', 'row', 'column');
+    var rowdata = Struct.immutable('element', 'cells', 'section');
+    var elementnew = Struct.immutable('element', 'isNew');
+    var rowdatanew = Struct.immutable('element', 'cells', 'section', 'isNew');
+    var rowcells = Struct.immutable('cells', 'section');
+    var rowdetails = Struct.immutable('details', 'section');
+    var bounds = Struct.immutable( 'startRow', 'startCol', 'finishRow', 'finishCol');
+
+    return {
+      dimensions: dimensions,
+      grid: grid,
+      address: address,
+      coords: coords,
+      extended: extended,
+      detail: detail,
+      detailnew: detailnew,
+      rowdata: rowdata,
+      elementnew: elementnew,
+      rowdatanew: rowdatanew,
+      rowcells: rowcells,
+      rowdetails: rowdetails,
+      bounds: bounds
+    };
+  }
+);
 define("global!console", [], function () { if (typeof console === "undefined") console = { log: function () {} }; return console; });
 defineGlobal("global!document", document);
 define(
@@ -673,12 +1055,13 @@ define(
 
   [
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Error, console, document) {
+  function (Fun, Option, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -709,39 +1092,134 @@ define(
       };
     };
 
+    var fromPoint = function (doc, x, y) {
+      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    };
+
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom
+      fromDom: fromDom,
+      fromPoint: fromPoint
     };
   }
 );
 
 define(
-  'ephox.sugar.api.view.Position',
+  'ephox.sugar.api.node.NodeTypes',
 
   [
-    'ephox.katamari.api.Fun'
+
   ],
 
-  function (Fun) {
-    var r = function (left, top) {
-      var translate = function (x, y) {
-        return r(left + x, top + y);
-      };
+  function () {
+    return {
+      ATTRIBUTE:              2,
+      CDATA_SECTION:          4,
+      COMMENT:                8,
+      DOCUMENT:               9,
+      DOCUMENT_TYPE:          10,
+      DOCUMENT_FRAGMENT:      11,
+      ELEMENT:                1,
+      TEXT:                   3,
+      PROCESSING_INSTRUCTION: 7,
+      ENTITY_REFERENCE:       5,
+      ENTITY:                 6,
+      NOTATION:               12
+    };
+  }
+);
+define(
+  'ephox.sugar.api.search.Selectors',
 
-      return {
-        left: Fun.constant(left),
-        top: Fun.constant(top),
-        translate: translate
-      };
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Option',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.node.NodeTypes',
+    'global!Error',
+    'global!document'
+  ],
+
+  function (Arr, Option, Element, NodeTypes, Error, document) {
+    var ELEMENT = NodeTypes.ELEMENT;
+    var DOCUMENT = NodeTypes.DOCUMENT;
+
+    var is = function (element, selector) {
+      var elem = element.dom();
+      if (elem.nodeType !== ELEMENT) return false; // documents have querySelector but not matches
+
+      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
+      // Still check for the others, but do it last.
+      else if (elem.matches !== undefined) return elem.matches(selector);
+      else if (elem.msMatchesSelector !== undefined) return elem.msMatchesSelector(selector);
+      else if (elem.webkitMatchesSelector !== undefined) return elem.webkitMatchesSelector(selector);
+      else if (elem.mozMatchesSelector !== undefined) return elem.mozMatchesSelector(selector);
+      else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
     };
 
-    return r;
+    var bypassSelector = function (dom) {
+      // Only elements and documents support querySelector
+      return dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT ||
+              // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
+              dom.childElementCount === 0;
+    };
+
+    var all = function (selector, scope) {
+      var base = scope === undefined ? document : scope.dom();
+      return bypassSelector(base) ? [] : Arr.map(base.querySelectorAll(selector), Element.fromDom);
+    };
+
+    var one = function (selector, scope) {
+      var base = scope === undefined ? document : scope.dom();
+      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element.fromDom);
+    };
+
+    return {
+      all: all,
+      is: is,
+      one: one
+    };
   }
 );
 
+define(
+  'ephox.sugar.alien.Recurse',
+
+  [
+
+  ],
+
+  function () {
+    /**
+     * Applies f repeatedly until it completes (by returning Option.none()).
+     *
+     * Normally would just use recursion, but JavaScript lacks tail call optimisation.
+     *
+     * This is what recursion looks like when manually unravelled :)
+     */
+    var toArray = function (target, f) {
+      var r = [];
+
+      var recurse = function (e) {
+        r.push(e);
+        return f(e);
+      };
+
+      var cur = f(target);
+      do {
+        cur = cur.bind(recurse);
+      } while (cur.isSome());
+
+      return r;
+    };
+
+    return {
+      toArray: toArray
+    };
+  }
+);
 define(
   'ephox.katamari.api.Global',
 
@@ -750,11 +1228,8 @@ define(
 
   function () {
     // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
 );
 
@@ -1506,105 +1981,6 @@ define(
   }
 );
 define(
-  'ephox.sugar.api.node.NodeTypes',
-
-  [
-
-  ],
-
-  function () {
-    return {
-      ATTRIBUTE:              2,
-      CDATA_SECTION:          4,
-      COMMENT:                8,
-      DOCUMENT:               9,
-      DOCUMENT_TYPE:          10,
-      DOCUMENT_FRAGMENT:      11,
-      ELEMENT:                1,
-      TEXT:                   3,
-      PROCESSING_INSTRUCTION: 7,
-      ENTITY_REFERENCE:       5,
-      ENTITY:                 6,
-      NOTATION:               12
-    };
-  }
-);
-define(
-  'ephox.sugar.api.search.Selectors',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Option',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.NodeTypes',
-    'global!Error',
-    'global!document'
-  ],
-
-  function (Arr, Option, Element, NodeTypes, Error, document) {
-    /*
-     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
-     * instead of doing object lookup feature detection on every call
-     */
-    var STANDARD = 0;
-    var MSSTANDARD = 1;
-    var WEBKITSTANDARD = 2;
-    var FIREFOXSTANDARD = 3;
-
-    var selectorType = (function () {
-      var test = document.createElement('span');
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      return test.matches !== undefined ? STANDARD :
-             test.msMatchesSelector !== undefined ? MSSTANDARD :
-             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
-             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
-             -1;
-    })();
-
-
-    var ELEMENT = NodeTypes.ELEMENT;
-    var DOCUMENT = NodeTypes.DOCUMENT;
-
-    var is = function (element, selector) {
-      var elem = element.dom();
-      if (elem.nodeType !== ELEMENT) return false; // documents have querySelector but not matches
-
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      else if (selectorType === STANDARD) return elem.matches(selector);
-      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
-      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
-      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
-      else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
-    };
-
-    var bypassSelector = function (dom) {
-      // Only elements and documents support querySelector
-      return dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT ||
-              // IE fix for complex queries on empty nodes: http://jsfiddle.net/spyder/fv9ptr5L/
-              dom.childElementCount === 0;
-    };
-
-    var all = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? [] : Arr.map(base.querySelectorAll(selector), Element.fromDom);
-    };
-
-    var one = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element.fromDom);
-    };
-
-    return {
-      all: all,
-      is: is,
-      one: one
-    };
-  }
-);
-
-define(
   'ephox.sugar.api.dom.Compare',
 
   [
@@ -1663,6 +2039,192 @@ define(
 );
 
 define(
+  'ephox.sugar.api.search.Traverse',
+
+  [
+    'ephox.katamari.api.Type',
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Struct',
+    'ephox.sugar.alien.Recurse',
+    'ephox.sugar.api.dom.Compare',
+    'ephox.sugar.api.node.Element'
+  ],
+
+  function (Type, Arr, Fun, Option, Struct, Recurse, Compare, Element) {
+    // The document associated with the current element
+    var owner = function (element) {
+      return Element.fromDom(element.dom().ownerDocument);
+    };
+
+    var documentElement = function (element) {
+      // TODO: Avoid unnecessary wrap/unwrap here
+      var doc = owner(element);
+      return Element.fromDom(doc.dom().documentElement);
+    };
+
+    // The window element associated with the element
+    var defaultView = function (element) {
+      var el = element.dom();
+      var defaultView = el.ownerDocument.defaultView;
+      return Element.fromDom(defaultView);
+    };
+
+    var parent = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.parentNode).map(Element.fromDom);
+    };
+
+    var findIndex = function (element) {
+      return parent(element).bind(function (p) {
+        // TODO: Refactor out children so we can avoid the constant unwrapping
+        var kin = children(p);
+        return Arr.findIndex(kin, function (elem) {
+          return Compare.eq(element, elem);
+        });
+      });
+    };
+
+    var parents = function (element, isRoot) {
+      var stop = Type.isFunction(isRoot) ? isRoot : Fun.constant(false);
+
+      // This is used a *lot* so it needs to be performant, not recursive
+      var dom = element.dom();
+      var ret = [];
+
+      while (dom.parentNode !== null && dom.parentNode !== undefined) {
+        var rawParent = dom.parentNode;
+        var parent = Element.fromDom(rawParent);
+        ret.push(parent);
+
+        if (stop(parent) === true) break;
+        else dom = rawParent;
+      }
+      return ret;
+    };
+
+    var siblings = function (element) {
+      // TODO: Refactor out children so we can just not add self instead of filtering afterwards
+      var filterSelf = function (elements) {
+        return Arr.filter(elements, function (x) {
+          return !Compare.eq(element, x);
+        });
+      };
+
+      return parent(element).map(children).map(filterSelf).getOr([]);
+    };
+
+    var offsetParent = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.offsetParent).map(Element.fromDom);
+    };
+
+    var prevSibling = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.previousSibling).map(Element.fromDom);
+    };
+
+    var nextSibling = function (element) {
+      var dom = element.dom();
+      return Option.from(dom.nextSibling).map(Element.fromDom);
+    };
+
+    var prevSiblings = function (element) {
+      // This one needs to be reversed, so they're still in DOM order
+      return Arr.reverse(Recurse.toArray(element, prevSibling));
+    };
+
+    var nextSiblings = function (element) {
+      return Recurse.toArray(element, nextSibling);
+    };
+
+    var children = function (element) {
+      var dom = element.dom();
+      return Arr.map(dom.childNodes, Element.fromDom);
+    };
+
+    var child = function (element, index) {
+      var children = element.dom().childNodes;
+      return Option.from(children[index]).map(Element.fromDom);
+    };
+
+    var firstChild = function (element) {
+      return child(element, 0);
+    };
+
+    var lastChild = function (element) {
+      return child(element, element.dom().childNodes.length - 1);
+    };
+
+    var childNodesCount = function (element) {
+      return element.dom().childNodes.length;
+    };
+
+    var hasChildNodes = function (element) {
+      return element.dom().hasChildNodes();
+    };
+
+    var spot = Struct.immutable('element', 'offset');
+    var leaf = function (element, offset) {
+      var cs = children(element);
+      return cs.length > 0 && offset < cs.length ? spot(cs[offset], 0) : spot(element, offset);
+    };
+
+    return {
+      owner: owner,
+      defaultView: defaultView,
+      documentElement: documentElement,
+      parent: parent,
+      findIndex: findIndex,
+      parents: parents,
+      siblings: siblings,
+      prevSibling: prevSibling,
+      offsetParent: offsetParent,
+      prevSiblings: prevSiblings,
+      nextSibling: nextSibling,
+      nextSiblings: nextSiblings,
+      children: children,
+      child: child,
+      firstChild: firstChild,
+      lastChild: lastChild,
+      childNodesCount: childNodesCount,
+      hasChildNodes: hasChildNodes,
+      leaf: leaf
+    };
+  }
+);
+
+define(
+  'ephox.snooker.util.LayerSelector',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.search.Selectors',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, Fun, Selectors, Traverse) {
+    var firstLayer = function (scope, selector) {
+      return filterFirstLayer(scope, selector, Fun.constant(true));
+    };
+
+    var filterFirstLayer = function (scope, selector, predicate) {
+      return Arr.bind(Traverse.children(scope), function (x) {
+        return Selectors.is(x, selector) ?
+          predicate(x) ? [ x ] : [ ]
+          : filterFirstLayer(x, selector, predicate);
+      });
+    };
+
+    return {
+      firstLayer: firstLayer,
+      filterFirstLayer: filterFirstLayer
+    };
+  }
+);
+define(
   'ephox.sugar.api.node.Node',
 
   [
@@ -1710,41 +2272,102 @@ define(
 );
 
 define(
-  'ephox.katamari.api.Type',
+  'ephox.sugar.api.properties.Attr',
 
   [
-    'global!Array',
-    'global!String'
+    'ephox.katamari.api.Type',
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Obj',
+    'ephox.sugar.api.node.Node',
+    'global!Error',
+    'global!console'
   ],
 
-  function (Array, String) {
-    var typeOf = function(x) {
-      if (x === null) return 'null';
-      var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x)) return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x)) return 'string';
-      return t;
+  /*
+   * Direct attribute manipulation has been around since IE8, but
+   * was apparently unstable until IE10.
+   */
+  function (Type, Arr, Obj, Node, Error, console) {
+    var rawSet = function (dom, key, value) {
+      /*
+       * JQuery coerced everything to a string, and silently did nothing on text node/null/undefined.
+       *
+       * We fail on those invalid cases, only allowing numbers and booleans.
+       */
+      if (Type.isString(value) || Type.isBoolean(value) || Type.isNumber(value)) {
+        dom.setAttribute(key, value + '');
+      } else {
+        console.error('Invalid call to Attr.set. Key ', key, ':: Value ', value, ':: Element ', dom);
+        throw new Error('Attribute value was not simple');
+      }
     };
 
-    var isType = function (type) {
-      return function (value) {
-        return typeOf(value) === type;
-      };
+    var set = function (element, key, value) {
+      rawSet(element.dom(), key, value);
+    };
+
+    var setAll = function (element, attrs) {
+      var dom = element.dom();
+      Obj.each(attrs, function (v, k) {
+        rawSet(dom, k, v);
+      });
+    };
+
+    var get = function (element, key) {
+      var v = element.dom().getAttribute(key);
+
+      // undefined is the more appropriate value for JS, and this matches JQuery
+      return v === null ? undefined : v;
+    };
+
+    var has = function (element, key) {
+      var dom = element.dom();
+
+      // return false for non-element nodes, no point in throwing an error
+      return dom && dom.hasAttribute ? dom.hasAttribute(key) : false;
+    };
+
+    var remove = function (element, key) {
+      element.dom().removeAttribute(key);
+    };
+
+    var hasNone = function (element) {
+      var attrs = element.dom().attributes;
+      return attrs === undefined || attrs === null || attrs.length === 0;
+    };
+
+    var clone = function (element) {
+      return Arr.foldl(element.dom().attributes, function (acc, attr) {
+        acc[attr.name] = attr.value;
+        return acc;
+      }, {});
+    };
+
+    var transferOne = function (source, destination, attr) {
+      // NOTE: We don't want to clobber any existing attributes
+      if (has(source, attr) && !has(destination, attr)) set(destination, attr, get(source, attr));        
+    };
+
+    // Transfer attributes(attrs) from source to destination, unless they are already present
+    var transfer = function (source, destination, attrs) {
+      if (!Node.isElement(source) || !Node.isElement(destination)) return;
+      Arr.each(attrs, function (attr) {
+        transferOne(source, destination, attr);
+      });
     };
 
     return {
-      isString: isType('string'),
-      isObject: isType('object'),
-      isArray: isType('array'),
-      isNull: isType('null'),
-      isBoolean: isType('boolean'),
-      isUndefined: isType('undefined'),
-      isFunction: isType('function'),
-      isNumber: isType('number')
+      clone: clone,
+      set: set,
+      setAll: setAll,
+      get: get,
+      has: has,
+      remove: remove,
+      hasNone: hasNone,
+      transfer: transfer
     };
   }
 );
-
 
 define(
   'ephox.sugar.api.node.Body',
@@ -1784,6 +2407,114 @@ define(
       body: body,
       getBody: getBody,
       inBody: inBody
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.PredicateFilter',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.node.Body',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, Body, Traverse) {
+    // maybe TraverseWith, similar to traverse but with a predicate?
+
+    var all = function (predicate) {
+      return descendants(Body.body(), predicate);
+    };
+
+    var ancestors = function (scope, predicate, isRoot) {
+      return Arr.filter(Traverse.parents(scope, isRoot), predicate);
+    };
+
+    var siblings = function (scope, predicate) {
+      return Arr.filter(Traverse.siblings(scope), predicate);
+    };
+
+    var children = function (scope, predicate) {
+      return Arr.filter(Traverse.children(scope), predicate);
+    };
+
+    var descendants = function (scope, predicate) {
+      var result = [];
+
+      // Recurse.toArray() might help here
+      Arr.each(Traverse.children(scope), function (x) {
+        if (predicate(x)) {
+          result = result.concat([ x ]);
+        }
+        result = result.concat(descendants(x, predicate));
+      });
+      return result;
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.SelectorFilter',
+
+  [
+    'ephox.sugar.api.search.PredicateFilter',
+    'ephox.sugar.api.search.Selectors'
+  ],
+
+  function (PredicateFilter, Selectors) {
+    var all = function (selector) {
+      return Selectors.all(selector);
+    };
+
+    // For all of the following:
+    //
+    // jQuery does siblings of firstChild. IE9+ supports scope.dom().children (similar to Traverse.children but elements only).
+    // Traverse should also do this (but probably not by default).
+    //
+
+    var ancestors = function (scope, selector, isRoot) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all this wrapping and unwrapping
+      return PredicateFilter.ancestors(scope, function (e) {
+        return Selectors.is(e, selector);
+      }, isRoot);
+    };
+
+    var siblings = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.siblings(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var children = function (scope, selector) {
+      // It may surprise you to learn this is exactly what JQuery does
+      // TODO: Avoid all the wrapping and unwrapping
+      return PredicateFilter.children(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var descendants = function (scope, selector) {
+      return Selectors.all(selector, scope);
+    };
+
+    return {
+      all: all,
+      ancestors: ancestors,
+      siblings: siblings,
+      children: children,
+      descendants: descendants
     };
   }
 );
@@ -1891,536 +2622,327 @@ define(
 );
 
 define(
-  'ephox.sugar.api.dom.Dom',
+  'ephox.sugar.api.search.SelectorFind',
 
   [
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.api.dom.Compare',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.node.Node',
     'ephox.sugar.api.search.PredicateFind',
-    'global!document'
+    'ephox.sugar.api.search.Selectors',
+    'ephox.sugar.impl.ClosestOrAncestor'
   ],
 
-  function (Fun, Compare, Element, Node, PredicateFind, document) {
-    // TEST: Is this just Body.inBody which doesn't need scope ??
-    var attached = function (element, scope) {
-      var doc = scope || Element.fromDom(document.documentElement);
-      return PredicateFind.ancestor(element, Fun.curry(Compare.eq, doc)).isSome();
+  function (PredicateFind, Selectors, ClosestOrAncestor) {
+    // TODO: An internal SelectorFilter module that doesn't Element.fromDom() everything
+
+    var first = function (selector) {
+      return Selectors.one(selector);
     };
 
-    // TEST: Is this just Traverse.defaultView ??
-    var windowOf = function (element) {
-      var dom = element.dom();
-      if (dom === dom.window) return element;
-      return Node.isDocument(element) ? dom.defaultView || dom.parentWindow : null;
+    var ancestor = function (scope, selector, isRoot) {
+      return PredicateFind.ancestor(scope, function (e) {
+        return Selectors.is(e, selector);
+      }, isRoot);
+    };
+
+    var sibling = function (scope, selector) {
+      return PredicateFind.sibling(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var child = function (scope, selector) {
+      return PredicateFind.child(scope, function (e) {
+        return Selectors.is(e, selector);
+      });
+    };
+
+    var descendant = function (scope, selector) {
+      return Selectors.one(selector, scope);
+    };
+
+    // Returns Some(closest ancestor element (sugared)) matching 'selector' up to isRoot, or None() otherwise
+    var closest = function (scope, selector, isRoot) {
+      return ClosestOrAncestor(Selectors.is, ancestor, scope, selector, isRoot);
     };
 
     return {
-      attached: attached,
-      windowOf: windowOf
+      first: first,
+      ancestor: ancestor,
+      sibling: sibling,
+      child: child,
+      descendant: descendant,
+      closest: closest
     };
   }
 );
 
+defineGlobal("global!parseInt", parseInt);
 define(
-  'ephox.sugar.api.view.Location',
-
-  [
-    'ephox.sugar.api.view.Position',
-    'ephox.sugar.api.dom.Dom',
-    'ephox.sugar.api.node.Element'
-  ],
-
-  function (Position, Dom, Element) {
-    var boxPosition = function (dom) {
-      var box = dom.getBoundingClientRect();
-      return Position(box.left, box.top);
-    };
-
-    // Avoids falsy false fallthrough
-    var firstDefinedOrZero = function (a, b) {
-      return a !== undefined ? a :
-             b !== undefined ? b :
-             0;
-    };
-
-    var absolute = function (element) {
-      var doc = element.dom().ownerDocument;
-      var body = doc.body;
-      var win = Dom.windowOf(Element.fromDom(doc));
-      var html = doc.documentElement;
-
-
-      var scrollTop = firstDefinedOrZero(win.pageYOffset, html.scrollTop);
-      var scrollLeft = firstDefinedOrZero(win.pageXOffset, html.scrollLeft);
-
-      var clientTop = firstDefinedOrZero(html.clientTop, body.clientTop);
-      var clientLeft = firstDefinedOrZero(html.clientLeft, body.clientLeft);
-
-      return viewport(element).translate(
-          scrollLeft - clientLeft,
-          scrollTop - clientTop);
-    };
-
-    // This is the old $.position(), but JQuery does nonsense calculations.
-    // We're only 1 <-> 1 with the old value in the single place we use this function
-    // (ego.api.Dragging) so the rest can bite me.
-    var relative = function (element) {
-      var dom = element.dom();
-      // jquery-ism: when style="position: fixed", this === boxPosition()
-      // but tests reveal it returns the same thing anyway
-      return Position(dom.offsetLeft, dom.offsetTop);
-    };
-
-    var viewport = function (element) {
-      var dom = element.dom();
-
-      var doc = dom.ownerDocument;
-      var body = doc.body;
-      var html = Element.fromDom(doc.documentElement);
-
-      if (body === dom)
-        return Position(body.offsetLeft, body.offsetTop);
-
-      if (!Dom.attached(element, html))
-        return Position(0, 0);
-
-      return boxPosition(dom);
-    };
-
-    return {
-      absolute: absolute,
-      relative: relative,
-      viewport: viewport
-    };
-  }
-);
-
-define(
-  'ephox.snooker.api.ResizeWire',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.view.Location',
-    'ephox.sugar.api.view.Position'
-  ],
-
-  function (Fun, Option, Element, Location, Position) {
-    // parent: the container where the resize bars are appended
-    //         this gets mouse event handlers only if it is not a child of 'view' (eg, detached/inline mode)
-    // view: the container who listens to mouse events from content tables (eg, detached/inline mode)
-    //       or the document that is a common ancestor of both the content tables and the
-    //       resize bars ('parent') and so will listen to events from both (eg, iframe mode)
-    // origin: the offset for the point to display the bars in the appropriate position
-
-    var only = function (element) {
-      // If element is a 'document', use the document element ('HTML' tag) for appending.
-      var parent = Option.from(element.dom().documentElement).map(Element.fromDom).getOr(element);
-      return {
-        parent: Fun.constant(parent),
-        view: Fun.constant(element),
-        origin: Fun.constant(Position(0, 0))
-      };
-    };
-
-    var detached = function (editable, chrome) {
-      var origin = Fun.curry(Location.absolute, chrome);
-      return {
-        parent: Fun.constant(chrome),
-        view: Fun.constant(editable),
-        origin: origin
-      };
-    };
-
-    var body = function (editable, chrome) {
-      return {
-        parent: Fun.constant(chrome),
-        view: Fun.constant(editable),
-        origin: Fun.constant(Position(0, 0))
-      };
-    };
-
-    return {
-      only: only,
-      detached: detached,
-      body: body
-    };
-  }
-);
-define(
-  'ephox.katamari.data.Immutable',
+  'ephox.snooker.api.TableLookup',
 
   [
     'ephox.katamari.api.Arr',
     'ephox.katamari.api.Fun',
-    'global!Array',
-    'global!Error'
-  ],
-
-  function (Arr, Fun, Array, Error) {
-    return function () {
-      var fields = arguments;
-      return function(/* values */) {
-        //  Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-        var values = new Array(arguments.length);
-        for (var i = 0; i < values.length; i++) values[i] = arguments[i];
-
-        if (fields.length !== values.length)
-          throw new Error('Wrong number of arguments to struct. Expected "[' + fields.length + ']", got ' + values.length + ' arguments');
-
-        var struct = {};
-        Arr.each(fields, function (name, i) {
-          struct[name] = Fun.constant(values[i]);
-        });
-        return struct;
-      };
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Obj',
-
-  [
     'ephox.katamari.api.Option',
-    'global!Object'
-  ],
-
-  function (Option, Object) {
-    // There are many variations of Object iteration that are faster than the 'for-in' style:
-    // http://jsperf.com/object-keys-iteration/107
-    //
-    // Use the native keys if it is available (IE9+), otherwise fall back to manually filtering
-    var keys = (function () {
-      var fastKeys = Object.keys;
-
-      // This technically means that 'each' and 'find' on IE8 iterate through the object twice.
-      // This code doesn't run on IE8 much, so it's an acceptable tradeoff.
-      // If it becomes a problem we can always duplicate the feature detection inside each and find as well.
-      var slowKeys = function (o) {
-        var r = [];
-        for (var i in o) {
-          if (o.hasOwnProperty(i)) {
-            r.push(i);
-          }
-        }
-        return r;
-      };
-
-      return fastKeys === undefined ? slowKeys : fastKeys;
-    })();
-
-
-    var each = function (obj, f) {
-      var props = keys(obj);
-      for (var k = 0, len = props.length; k < len; k++) {
-        var i = props[k];
-        var x = obj[i];
-        f(x, i, obj);
-      }
-    };
-
-    /** objectMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> x)) -> JsObj(k, x) */
-    var objectMap = function (obj, f) {
-      return tupleMap(obj, function (x, i, obj) {
-        return {
-          k: i,
-          v: f(x, i, obj)
-        };
-      });
-    };
-
-    /** tupleMap :: (JsObj(k, v), (v, k, JsObj(k, v) -> { k: x, v: y })) -> JsObj(x, y) */
-    var tupleMap = function (obj, f) {
-      var r = {};
-      each(obj, function (x, i) {
-        var tuple = f(x, i, obj);
-        r[tuple.k] = tuple.v;
-      });
-      return r;
-    };
-
-    /** bifilter :: (JsObj(k, v), (v, k -> Bool)) -> { t: JsObj(k, v), f: JsObj(k, v) } */
-    var bifilter = function (obj, pred) {
-      var t = {};
-      var f = {};
-      each(obj, function(x, i) {
-        var branch = pred(x, i) ? t : f;
-        branch[i] = x;
-      });
-      return {
-        t: t,
-        f: f
-      };
-    };
-
-    /** mapToArray :: (JsObj(k, v), (v, k -> a)) -> [a] */
-    var mapToArray = function (obj, f) {
-      var r = [];
-      each(obj, function(value, name) {
-        r.push(f(value, name));
-      });
-      return r;
-    };
-
-    /** find :: (JsObj(k, v), (v, k, JsObj(k, v) -> Bool)) -> Option v */
-    var find = function (obj, pred) {
-      var props = keys(obj);
-      for (var k = 0, len = props.length; k < len; k++) {
-        var i = props[k];
-        var x = obj[i];
-        if (pred(x, i, obj)) {
-          return Option.some(x);
-        }
-      }
-      return Option.none();
-    };
-
-    /** values :: JsObj(k, v) -> [v] */
-    var values = function (obj) {
-      return mapToArray(obj, function (v) {
-        return v;
-      });
-    };
-
-    var size = function (obj) {
-      return values(obj).length;
-    };
-
-    return {
-      bifilter: bifilter,
-      each: each,
-      map: objectMap,
-      mapToArray: mapToArray,
-      tupleMap: tupleMap,
-      find: find,
-      keys: keys,
-      values: values,
-      size: size
-    };
-  }
-);
-define(
-  'ephox.katamari.util.BagUtils',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Type',
-    'global!Error'
-  ],
-
-  function (Arr, Type, Error) {
-    var sort = function (arr) {
-      return arr.slice(0).sort();
-    };
-
-    var reqMessage = function (required, keys) {
-      throw new Error('All required keys (' + sort(required).join(', ') + ') were not specified. Specified keys were: ' + sort(keys).join(', ') + '.');
-    };
-
-    var unsuppMessage = function (unsupported) {
-      throw new Error('Unsupported keys for object: ' + sort(unsupported).join(', '));
-    };
-
-    var validateStrArr = function (label, array) {
-      if (!Type.isArray(array)) throw new Error('The ' + label + ' fields must be an array. Was: ' + array + '.');
-      Arr.each(array, function (a) {
-        if (!Type.isString(a)) throw new Error('The value ' + a + ' in the ' + label + ' fields was not a string.');
-      });
-    };
-
-    var invalidTypeMessage = function (incorrect, type) {
-      throw new Error('All values need to be of type: ' + type + '. Keys (' + sort(incorrect).join(', ') + ') were not.');
-    };
-
-    var checkDupes = function (everything) {
-      var sorted = sort(everything);
-      var dupe = Arr.find(sorted, function (s, i) {
-        return i < sorted.length -1 && s === sorted[i + 1];
-      });
-
-      dupe.each(function (d) {
-        throw new Error('The field: ' + d + ' occurs more than once in the combined fields: [' + sorted.join(', ') + '].');
-      });
-    };
-
-    return {
-      sort: sort,
-      reqMessage: reqMessage,
-      unsuppMessage: unsuppMessage,
-      validateStrArr: validateStrArr,
-      invalidTypeMessage: invalidTypeMessage,
-      checkDupes: checkDupes
-    };
-  }
-);
-define(
-  'ephox.katamari.data.MixedBag',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Obj',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.util.BagUtils',
-    'global!Error',
-    'global!Object'
-  ],
-
-  function (Arr, Fun, Obj, Option, BagUtils, Error, Object) {
-    
-    return function (required, optional) {
-      var everything = required.concat(optional);
-      if (everything.length === 0) throw new Error('You must specify at least one required or optional field.');
-
-      BagUtils.validateStrArr('required', required);
-      BagUtils.validateStrArr('optional', optional);
-
-      BagUtils.checkDupes(everything);
-
-      return function (obj) {
-        var keys = Obj.keys(obj);
-
-        // Ensure all required keys are present.
-        var allReqd = Arr.forall(required, function (req) {
-          return Arr.contains(keys, req);
-        });
-
-        if (! allReqd) BagUtils.reqMessage(required, keys);
-
-        var unsupported = Arr.filter(keys, function (key) {
-          return !Arr.contains(everything, key);
-        });
-
-        if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
-
-        var r = {};
-        Arr.each(required, function (req) {
-          r[req] = Fun.constant(obj[req]);
-        });
-
-        Arr.each(optional, function (opt) {
-          r[opt] = Fun.constant(Object.prototype.hasOwnProperty.call(obj, opt) ? Option.some(obj[opt]): Option.none());
-        });
-
-        return r;
-      };
-    };
-  }
-);
-define(
-  'ephox.katamari.api.Struct',
-
-  [
-    'ephox.katamari.data.Immutable',
-    'ephox.katamari.data.MixedBag'
-  ],
-
-  function (Immutable, MixedBag) {
-    return {
-      immutable: Immutable,
-      immutableBag: MixedBag
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.properties.Attr',
-
-  [
-    'ephox.katamari.api.Type',
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Obj',
+    'ephox.snooker.api.Structs',
+    'ephox.snooker.util.LayerSelector',
+    'ephox.sugar.api.properties.Attr',
     'ephox.sugar.api.node.Node',
-    'global!Error',
-    'global!console'
+    'ephox.sugar.api.search.SelectorFilter',
+    'ephox.sugar.api.search.SelectorFind',
+    'ephox.sugar.api.search.Selectors',
+    'ephox.sugar.api.search.Traverse',
+    'global!parseInt'
   ],
 
-  /*
-   * Direct attribute manipulation has been around since IE8, but
-   * was apparently unstable until IE10.
-   */
-  function (Type, Arr, Obj, Node, Error, console) {
-    var rawSet = function (dom, key, value) {
-      /*
-       * JQuery coerced everything to a string, and silently did nothing on text node/null/undefined.
-       *
-       * We fail on those invalid cases, only allowing numbers and booleans.
-       */
-      if (Type.isString(value) || Type.isBoolean(value) || Type.isNumber(value)) {
-        dom.setAttribute(key, value + '');
-      } else {
-        console.error('Invalid call to Attr.set. Key ', key, ':: Value ', value, ':: Element ', dom);
-        throw new Error('Attribute value was not simple');
-      }
+  function (Arr, Fun, Option, Structs, LayerSelector, Attr, Node, SelectorFilter, SelectorFind, Selectors, Traverse, parseInt) {
+    // lookup inside this table
+    var lookup = function (tags, element, _isRoot) {
+      var isRoot = _isRoot !== undefined ? _isRoot : Fun.constant(false);
+      // If the element we're inspecting is the root, we definitely don't want it.
+      if (isRoot(element)) return Option.none();
+      // This looks a lot like SelectorFind.closest, with one big exception - the isRoot check.
+      // The code here will look for parents if passed a table, SelectorFind.closest with that specific isRoot check won't.
+      if (Arr.contains(tags, Node.name(element))) return Option.some(element);
+
+      var isRootOrUpperTable = function (element) {
+        return Selectors.is(element, 'table') || isRoot(element);
+      };
+
+      return SelectorFind.ancestor(element, tags.join(','), isRootOrUpperTable);
     };
 
-    var set = function (element, key, value) {
-      rawSet(element.dom(), key, value);
+    /*
+     * Identify the optional cell that element represents.
+     */
+    var cell = function (element, isRoot) {
+      return lookup([ 'td', 'th' ], element, isRoot);
     };
 
-    var setAll = function (element, attrs) {
-      var dom = element.dom();
-      Obj.each(attrs, function (v, k) {
-        rawSet(dom, k, v);
+    var cells = function (ancestor) {
+      return LayerSelector.firstLayer(ancestor, 'th,td');
+    };
+
+    var notCell = function (element, isRoot) {
+      return lookup([ 'caption', 'tr', 'tbody', 'tfoot', 'thead' ], element, isRoot);
+    };
+
+    var neighbours = function (selector, element) {
+      return Traverse.parent(element).map(function (parent) {
+        return SelectorFilter.children(parent, selector);
       });
     };
 
-    var get = function (element, key) {
-      var v = element.dom().getAttribute(key);
+    var neighbourCells = Fun.curry(neighbours, 'th,td');
+    var neighbourRows  = Fun.curry(neighbours, 'tr');
 
-      // undefined is the more appropriate value for JS, and this matches JQuery
-      return v === null ? undefined : v;
+    var firstCell = function (ancestor) {
+      return SelectorFind.descendant(ancestor, 'th,td');
     };
 
-    var has = function (element, key) {
-      var dom = element.dom();
-
-      // return false for non-element nodes, no point in throwing an error
-      return dom && dom.hasAttribute ? dom.hasAttribute(key) : false;
+    var table = function (element, isRoot) {
+      return SelectorFind.closest(element, 'table', isRoot);
     };
 
-    var remove = function (element, key) {
-      element.dom().removeAttribute(key);
+    var row = function (element, isRoot) {
+       return lookup([ 'tr' ], element, isRoot);
     };
 
-    var hasNone = function (element) {
-      var attrs = element.dom().attributes;
-      return attrs === undefined || attrs === null || attrs.length === 0;
+    var rows = function (ancestor) {
+      return LayerSelector.firstLayer(ancestor, 'tr');
     };
 
-    var clone = function (element) {
-      return Arr.foldl(element.dom().attributes, function (acc, attr) {
-        acc[attr.name] = attr.value;
-        return acc;
-      }, {});
+    var attr = function (element, property) {
+      return parseInt(Attr.get(element, property), 10);
     };
 
-    var transferOne = function (source, destination, attr) {
-      // NOTE: We don't want to clobber any existing attributes
-      if (has(source, attr) && !has(destination, attr)) set(destination, attr, get(source, attr));        
+    var grid = function (element, rowProp, colProp) {
+      var rows = attr(element, rowProp);
+      var cols = attr(element, colProp);
+      return Structs.grid(rows, cols);
     };
 
-    // Transfer attributes(attrs) from source to destination, unless they are already present
-    var transfer = function (source, destination, attrs) {
-      if (!Node.isElement(source) || !Node.isElement(destination)) return;
-      Arr.each(attrs, function (attr) {
-        transferOne(source, destination, attr);
+    return {
+      cell: cell,
+      firstCell: firstCell,
+      cells: cells,
+      neighbourCells: neighbourCells,
+      table: table,
+      row: row,
+      rows: rows,
+      notCell: notCell,
+      neighbourRows: neighbourRows,
+      attr: attr,
+      grid: grid
+    };
+  }
+);
+
+define(
+  'ephox.snooker.model.DetailsList',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.snooker.api.Structs',
+    'ephox.snooker.api.TableLookup',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.node.Node',
+    'ephox.sugar.api.search.Traverse'
+  ],
+
+  function (Arr, Structs, TableLookup, Attr, Node, Traverse) {
+
+    /*
+     * Takes a DOM table and returns a list of list of:
+       element: row element
+       cells: (id, rowspan, colspan) structs
+     */
+    var fromTable = function (table) {
+      var rows = TableLookup.rows(table);
+      return Arr.map(rows, function (row) {
+        var element = row;
+
+        var parent = Traverse.parent(element);
+        var parentSection = parent.bind(function (parent) {
+          var parentName = Node.name(parent);
+          return (parentName === 'tfoot' || parentName === 'thead' || parentName === 'tbody') ? parentName : 'tbody';
+        });
+
+        var cells = Arr.map(TableLookup.cells(row), function (cell) {
+          var rowspan = Attr.has(cell, 'rowspan') ? parseInt(Attr.get(cell, 'rowspan'), 10) : 1;
+          var colspan = Attr.has(cell, 'colspan') ? parseInt(Attr.get(cell, 'colspan'), 10) : 1;
+          return Structs.detail(cell, rowspan, colspan);
+        });
+
+        return Structs.rowdata(element, cells, parentSection);
+      });
+    };
+
+    var fromPastedRows = function (rows, example) {
+      return Arr.map(rows, function (row) {
+        var cells = Arr.map(TableLookup.cells(row), function (cell) {
+          var rowspan = Attr.has(cell, 'rowspan') ? parseInt(Attr.get(cell, 'rowspan'), 10) : 1;
+          var colspan = Attr.has(cell, 'colspan') ? parseInt(Attr.get(cell, 'colspan'), 10) : 1;
+          return Structs.detail(cell, rowspan, colspan);
+        });
+
+        return Structs.rowdata(row, cells, example.section());
       });
     };
 
     return {
-      clone: clone,
-      set: set,
-      setAll: setAll,
-      get: get,
-      has: has,
-      remove: remove,
-      hasNone: hasNone,
-      transfer: transfer
+      fromTable: fromTable,
+      fromPastedRows: fromPastedRows
+    };
+  }
+);
+
+defineGlobal("global!Math", Math);
+define(
+  'ephox.snooker.model.Warehouse',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.snooker.api.Structs',
+    'global!Math'
+  ],
+
+  function (Arr, Fun, Option, Structs, Math) {
+    var key = function (row, column) {
+      return row + ',' + column;
+    };
+
+    var getAt = function (warehouse, row, column) {
+      var raw = warehouse.access()[key(row, column)];
+      return raw !== undefined ? Option.some(raw) : Option.none();
+    };
+
+    var findItem = function (warehouse, item, comparator) {
+      var filtered = filterItems(warehouse, function (detail) {
+        return comparator(item, detail.element());
+      });
+
+      return filtered.length > 0 ? Option.some(filtered[0]) : Option.none();
+    };
+
+    var filterItems = function (warehouse, predicate) {
+      var all = Arr.bind(warehouse.all(), function (r) { return r.cells(); });
+      return Arr.filter(all, predicate);
+    };
+
+    /*
+     * From a list of list of Detail, generate three pieces of information:
+     *  1. the grid size
+     *  2. a data structure which can efficiently identify which cell is in which row,column position
+     *  3. a list of all cells in order left-to-right, top-to-bottom
+     */
+    var generate = function (list) {
+      // list is an array of objects, made by cells and elements
+      // elements: is the TR
+      // cells: is an array of objects representing the cells in the row.
+      //        It is made of:
+      //          colspan (merge cell)
+      //          element
+      //          rowspan (merge cols)
+      var access = {};
+      var cells = [];
+
+      var maxRows = list.length;
+      var maxColumns = 0;
+
+      Arr.each(list, function (details, r) {
+        var currentRow = [];
+        Arr.each(details.cells(), function (detail, c) {
+          var start = 0;
+
+          // If this spot has been taken by a previous rowspan, skip it.
+          while (access[key(r, start)] !== undefined) {
+            start++;
+          }
+
+          var current = Structs.extended(detail.element(), detail.rowspan(), detail.colspan(), r, start);
+
+          // Occupy all the (row, column) positions that this cell spans for.
+          for (var i = 0; i < detail.colspan(); i++) {
+            for (var j = 0; j < detail.rowspan(); j++) {
+              var cr = r + j;
+              var cc = start + i;
+              var newpos = key(cr, cc);
+              access[newpos] = current;
+              maxColumns = Math.max(maxColumns, cc + 1);
+            }
+          }
+
+          currentRow.push(current);
+        });
+
+        cells.push(Structs.rowdata(details.element(), currentRow, details.section()));
+      });
+
+      var grid = Structs.grid(maxRows, maxColumns);
+
+      return {
+        grid: Fun.constant(grid),
+        access: Fun.constant(access),
+        all: Fun.constant(cells)
+      };
+    };
+
+    var justCells = function (warehouse) {
+      var rows = Arr.map(warehouse.all(), function (w) {
+        return w.cells();
+      });
+
+      return Arr.flatten(rows);
+    };
+
+    return {
+      generate: generate,
+      getAt: getAt,
+      findItem: findItem,
+      filterItems: filterItems,
+      justCells: justCells
     };
   }
 );
@@ -2646,2444 +3168,6 @@ define(
 );
 
 define(
-  'ephox.sugar.impl.Dimension',
-
-  [
-    'ephox.katamari.api.Type',
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.impl.Style'
-  ],
-
-  function (Type, Arr, Css, Style) {
-    return function (name, getOffset) {
-      var set = function (element, h) {
-        if (!Type.isNumber(h) && !h.match(/^[0-9]+$/)) throw name + '.set accepts only positive integer values. Value was ' + h;
-        var dom = element.dom();
-        if (Style.isSupported(dom)) dom.style[name] = h + 'px';
-      };
-
-      /*
-       * jQuery supports querying width and height on the document and window objects.
-       *
-       * TBIO doesn't do this, so the code is removed to save space, but left here just in case.
-       */
-  /*
-      var getDocumentWidth = function (element) {
-        var dom = element.dom();
-        if (Node.isDocument(element)) {
-          var body = dom.body;
-          var doc = dom.documentElement;
-          return Math.max(
-            body.scrollHeight,
-            doc.scrollHeight,
-            body.offsetHeight,
-            doc.offsetHeight,
-            doc.clientHeight
-          );
-        }
-      };
-
-      var getWindowWidth = function (element) {
-        var dom = element.dom();
-        if (dom.window === dom) {
-          // There is no offsetHeight on a window, so use the clientHeight of the document
-          return dom.document.documentElement.clientHeight;
-        }
-      };
-  */
-
-
-      var get = function (element) {
-        var r = getOffset(element);
-
-        // zero or null means non-standard or disconnected, fall back to CSS
-        if ( r <= 0 || r === null ) {
-          var css = Css.get(element, name);
-          // ugh this feels dirty, but it saves cycles
-          return parseFloat(css) || 0;
-        }
-        return r;
-      };
-
-      // in jQuery, getOuter replicates (or uses) box-sizing: border-box calculations
-      // although these calculations only seem relevant for quirks mode, and edge cases TBIO doesn't rely on
-      var getOuter = get;
-
-      var aggregate = function (element, properties) {
-        return Arr.foldl(properties, function (acc, property) {
-          var val = Css.get(element, property);
-          var value = val === undefined ? 0: parseInt(val, 10);
-          return isNaN(value) ? acc : acc + value;
-        }, 0);
-      };
-
-      var max = function (element, value, properties) {
-        var cumulativeInclusions = aggregate(element, properties);
-        // if max-height is 100px and your cumulativeInclusions is 150px, there is no way max-height can be 100px, so we return 0.
-        var absoluteMax = value > cumulativeInclusions ? value - cumulativeInclusions : 0;
-        return absoluteMax;
-      };
-
-      return {
-        set: set,
-        get: get,
-        getOuter: getOuter,
-        aggregate: aggregate,
-        max: max
-      };
-    };
-  }
-);
-define(
-  'ephox.sugar.api.view.Height',
-
-  [
-    'ephox.sugar.api.node.Body',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.impl.Dimension'
-  ],
-
-  function (Body, Css, Dimension) {
-    var api = Dimension('height', function (element) {
-      // getBoundingClientRect gives better results than offsetHeight for tables with captions on Firefox
-      return Body.inBody(element) ? element.dom().getBoundingClientRect().height : element.dom().offsetHeight;
-    });
-
-    var set = function (element, h) {
-      api.set(element, h);
-    };
-
-    var get = function (element) {
-      return api.get(element);
-    };
-
-    var getOuter = function (element) {
-      return api.getOuter(element);
-    };
-
-    var setMax = function (element, value) {
-      // These properties affect the absolute max-height, they are not counted natively, we want to include these properties.
-      var inclusions = [ 'margin-top', 'border-top-width', 'padding-top', 'padding-bottom', 'border-bottom-width', 'margin-bottom' ];
-      var absMax = api.max(element, value, inclusions);
-      Css.set(element, 'max-height', absMax + 'px');
-    };
-
-    return {
-      set: set,
-      get: get,
-      getOuter: getOuter,
-      setMax: setMax
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.view.Width',
-
-  [
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.impl.Dimension'
-  ],
-
-  function (Css, Dimension) {
-    var api = Dimension('width', function (element) {
-      // IMO passing this function is better than using dom['offset' + 'width']
-      return element.dom().offsetWidth;
-    });
-
-    var set = function (element, h) {
-      api.set(element, h);
-    };
-
-    var get = function (element) {
-      return api.get(element);
-    };
-
-    var getOuter = function (element) {
-      return api.getOuter(element);
-    };
-
-    var setMax = function (element, value) {
-      // These properties affect the absolute max-height, they are not counted natively, we want to include these properties.
-      var inclusions = [ 'margin-left', 'border-left-width', 'padding-left', 'padding-right', 'border-right-width', 'margin-right' ];
-      var absMax = api.max(element, value, inclusions);
-      Css.set(element, 'max-width', absMax + 'px');
-    };
-
-    return {
-      set: set,
-      get: get,
-      getOuter: getOuter,
-      setMax: setMax
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.BarPositions',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Struct',
-    'ephox.sugar.api.view.Height',
-    'ephox.sugar.api.view.Location',
-    'ephox.sugar.api.view.Width'
-  ],
-
-  function (Arr, Fun, Struct, Height, Location, Width) {
-    var rowInfo = Struct.immutable('row', 'y');
-    var colInfo = Struct.immutable('col', 'x');
-
-    var rtlEdge = function (cell) {
-      var pos = Location.absolute(cell);
-      return pos.left() + Width.getOuter(cell);
-    };
-
-    var ltrEdge = function (cell) {
-      return Location.absolute(cell).left();
-    };
-
-    var getLeftEdge = function (index, cell) {
-      return colInfo(index, ltrEdge(cell));
-    };
-
-    var getRightEdge = function (index, cell) {
-      return colInfo(index, rtlEdge(cell));
-    };
-
-    var getTop = function (cell) {
-      return Location.absolute(cell).top();
-    };
-
-    var getTopEdge = function (index, cell) {
-      return rowInfo(index, getTop(cell));
-    };
-
-    var getBottomEdge = function (index, cell) {
-      return rowInfo(index, getTop(cell) + Height.getOuter(cell));
-    };
-
-    var findPositions = function (getInnerEdge, getOuterEdge, array) {
-      if (array.length === 0 ) return [];
-      var lines = Arr.map(array.slice(1), function (cellOption, index) {
-        return cellOption.map(function (cell) {
-          return getInnerEdge(index, cell);
-        });
-      });
-
-      var lastLine = array[array.length - 1].map(function (cell) {
-        return getOuterEdge(array.length - 1, cell);
-      });
-
-      return lines.concat([ lastLine ]);
-    };
-
-    var negate = function (step, _table) {
-      return -step;
-    };
-
-    var height = {
-      delta: Fun.identity,
-      positions: Fun.curry(findPositions, getTopEdge, getBottomEdge),
-      edge: getTop
-    };
-
-    var ltr = {
-      delta: Fun.identity,
-      edge: ltrEdge,
-      positions: Fun.curry(findPositions, getLeftEdge, getRightEdge)
-    };
-
-    var rtl = {
-      delta: negate,
-      edge: rtlEdge,
-      positions: Fun.curry(findPositions, getRightEdge, getLeftEdge)
-    };
-
-    return {
-      height: height,
-      rtl: rtl,
-      ltr: ltr
-    };
-  }
-);
-define(
-  'ephox.snooker.api.ResizeDirection',
-
-  [
-    'ephox.snooker.resize.BarPositions'
-  ],
-
-  function (BarPositions) {
-    return {
-      ltr: BarPositions.ltr,
-      rtl: BarPositions.rtl
-    };
-  }
-);
-define(
-  'ephox.snooker.api.TableDirection',
-
-  [
-    'ephox.snooker.api.ResizeDirection'
-  ],
-
-  function (ResizeDirection) {
-    return function (directionAt) {
-      var auto = function (table) {
-        return directionAt(table).isRtl() ? ResizeDirection.rtl : ResizeDirection.ltr;
-      };
-
-      var delta = function (amount, table) {
-        return auto(table).delta(amount, table);
-      };
-
-      var positions = function (cols, table) {
-        return auto(table).positions(cols, table);
-      };
-
-      var edge = function (cell) {
-        return auto(cell).edge(cell);
-      };
-
-      return {
-        delta: delta,
-        edge: edge,
-        positions: positions
-      };
-    };
-  }
-);
-define(
-  'ephox.porkbun.Event',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Struct'
-  ],
-  function (Arr, Struct) {
-
-    /** :: ([String]) -> Event */
-    return function (fields) {
-      var struct = Struct.immutable.apply(null, fields);
-
-      var handlers = [];
-
-      var bind = function (handler) {
-        if (handler === undefined) {
-          throw 'Event bind error: undefined handler';
-        }
-        handlers.push(handler);
-      };
-
-      var unbind = function(handler) {
-        // This is quite a bit slower than handlers.splice() but we hate mutation.
-        // Unbind isn't used very often so it should be ok.
-        handlers = Arr.filter(handlers, function (h) {
-          return h !== handler;
-        });
-      };
-
-      var trigger = function (/* values */) {
-        // scullion does Array prototype slice, we don't need to as well
-        var event = struct.apply(null, arguments);
-        Arr.each(handlers, function (handler) {
-          handler(event);
-        });
-      };
-
-      return {
-        bind: bind,
-        unbind: unbind,
-        trigger: trigger
-      };
-    };
-  }
-);
-
-define(
-  'ephox.porkbun.Events',
-
-  [
-    'ephox.katamari.api.Obj'
-  ],
-
-  function (Obj) {
-
-    /** :: {name : Event} -> Events */
-    var create = function (typeDefs) {
-      var registry = Obj.map(typeDefs, function (event) {
-        return {
-          bind: event.bind,
-          unbind: event.unbind
-        };
-      });
-
-      var trigger = Obj.map(typeDefs, function (event) {
-        return event.trigger;
-      });
-
-      return {
-        registry: registry,
-        trigger: trigger
-      };
-    };
-    return {
-      create: create
-    };
-  }
-);
-
-define(
-  'ephox.snooker.calc.ColumnContext',
-
-  [
-  ],
-
-  function () {
-    var none = function () {
-      return folder(function (n, o, l, m, r) {
-        return n();
-      });
-    };
-
-    var only = function (index) {
-      return folder(function (n, o, l, m, r) {
-        return o(index);
-      });
-    };
-
-    var left = function (index, next) {
-      return folder(function (n, o, l, m, r) {
-        return l(index, next);
-      });
-    };
-
-    var middle = function (prev, index, next) {
-      return folder(function (n, o, l, m, r) {
-        return m(prev, index, next);
-      });
-    };
-
-    var right = function (prev, index) {
-      return folder(function (n, o, l, m, r) {
-        return r(prev, index);
-      });
-    };
-
-    var folder = function (fold) {
-      return {
-        fold: fold
-      };
-    };
-
-    return {
-      none: none,
-      only: only,
-      left: left,
-      middle: middle,
-      right: right
-    };
-  }
-);
-
-defineGlobal("global!Math", Math);
-define(
-  'ephox.snooker.calc.Deltas',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.snooker.calc.ColumnContext',
-    'global!Math'
-  ],
-
-  function (Arr, Fun, ColumnContext, Math) {
-    /*
-     * Based on the column index, identify the context
-     */
-    var neighbours = function (input, index) {
-      if (input.length === 0) return ColumnContext.none();
-      if (input.length === 1) return ColumnContext.only(0);
-      if (index === 0) return ColumnContext.left(0, 1);
-      if (index === input.length - 1) return ColumnContext.right(index - 1, index);
-      if (index > 0 && index < input.length - 1) return ColumnContext.middle(index - 1, index, index + 1);
-      return ColumnContext.none();
-    };
-
-    /*
-     * Calculate the offsets to apply to each column width (not the absolute widths themselves)
-     * based on a resize at column: column of step: step. The minimum column width allowed is min
-     */
-    var determine = function (input, column, step, tableSize) {
-      var result = input.slice(0);
-      var context = neighbours(input, column);
-
-      var zero = function (array) {
-        return Arr.map(array, Fun.constant(0));
-      };
-
-      var onNone = Fun.constant(zero(result));
-      var onOnly = function (index) {
-        return tableSize.singleColumnWidth(result[index], step);
-      };
-
-      var onChange = function (index, next) {
-        if (step >= 0) {
-          var newNext = Math.max(tableSize.minCellWidth(), result[next] - step);
-          return zero(result.slice(0, index)).concat([ step, newNext-result[next] ]).concat(zero(result.slice(next + 1)));
-        } else {
-          var newThis = Math.max(tableSize.minCellWidth(), result[index] + step);
-          var diffx = result[index] - newThis;
-          return zero(result.slice(0, index)).concat([ newThis - result[index], diffx ]).concat(zero(result.slice(next + 1)));
-        }
-      };
-
-      var onLeft = onChange;
-
-      var onMiddle = function (prev, index, next) {
-        return onChange(index, next);
-      };
-
-      var onRight = function (prev, index) {
-        if (step >= 0) {
-          return zero(result.slice(0, index)).concat([ step ]);
-        } else {
-          var size = Math.max(tableSize.minCellWidth(), result[index] + step);
-          return zero(result.slice(0, index)).concat([ size - result[index] ]);
-        }
-      };
-
-      return context.fold(onNone, onOnly, onLeft, onMiddle, onRight);
-    };
-
-    return {
-      determine: determine
-    };
-  }
-);
-
-define(
-  'ephox.snooker.api.Structs',
-
-  [
-    'ephox.katamari.api.Struct'
-  ],
-
-  function (Struct) {
-    var dimensions = Struct.immutable('width', 'height');
-    var grid = Struct.immutable('rows', 'columns');
-    var address = Struct.immutable('row', 'column');
-    var coords = Struct.immutable('x', 'y');
-    var detail = Struct.immutable('element', 'rowspan', 'colspan');
-    var detailnew = Struct.immutable('element', 'rowspan', 'colspan', 'isNew');
-    var extended = Struct.immutable('element', 'rowspan', 'colspan', 'row', 'column');
-    var rowdata = Struct.immutable('element', 'cells', 'section');
-    var elementnew = Struct.immutable('element', 'isNew');
-    var rowdatanew = Struct.immutable('element', 'cells', 'section', 'isNew');
-    var rowcells = Struct.immutable('cells', 'section');
-    var rowdetails = Struct.immutable('details', 'section');
-    var bounds = Struct.immutable( 'startRow', 'startCol', 'finishRow', 'finishCol');
-
-    return {
-      dimensions: dimensions,
-      grid: grid,
-      address: address,
-      coords: coords,
-      extended: extended,
-      detail: detail,
-      detailnew: detailnew,
-      rowdata: rowdata,
-      elementnew: elementnew,
-      rowdatanew: rowdatanew,
-      rowcells: rowcells,
-      rowdetails: rowdetails,
-      bounds: bounds
-    };
-  }
-);
-define(
-  'ephox.sugar.alien.Recurse',
-
-  [
-
-  ],
-
-  function () {
-    /**
-     * Applies f repeatedly until it completes (by returning Option.none()).
-     *
-     * Normally would just use recursion, but JavaScript lacks tail call optimisation.
-     *
-     * This is what recursion looks like when manually unravelled :)
-     */
-    var toArray = function (target, f) {
-      var r = [];
-
-      var recurse = function (e) {
-        r.push(e);
-        return f(e);
-      };
-
-      var cur = f(target);
-      do {
-        cur = cur.bind(recurse);
-      } while (cur.isSome());
-
-      return r;
-    };
-
-    return {
-      toArray: toArray
-    };
-  }
-);
-define(
-  'ephox.sugar.api.search.Traverse',
-
-  [
-    'ephox.katamari.api.Type',
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Struct',
-    'ephox.sugar.alien.Recurse',
-    'ephox.sugar.api.dom.Compare',
-    'ephox.sugar.api.node.Element'
-  ],
-
-  function (Type, Arr, Fun, Option, Struct, Recurse, Compare, Element) {
-    // The document associated with the current element
-    var owner = function (element) {
-      return Element.fromDom(element.dom().ownerDocument);
-    };
-
-    var documentElement = function (element) {
-      // TODO: Avoid unnecessary wrap/unwrap here
-      var doc = owner(element);
-      return Element.fromDom(doc.dom().documentElement);
-    };
-
-    // The window element associated with the element
-    var defaultView = function (element) {
-      var el = element.dom();
-      var defaultView = el.ownerDocument.defaultView;
-      return Element.fromDom(defaultView);
-    };
-
-    var parent = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.parentNode).map(Element.fromDom);
-    };
-
-    var findIndex = function (element) {
-      return parent(element).bind(function (p) {
-        // TODO: Refactor out children so we can avoid the constant unwrapping
-        var kin = children(p);
-        return Arr.findIndex(kin, function (elem) {
-          return Compare.eq(element, elem);
-        });
-      });
-    };
-
-    var parents = function (element, isRoot) {
-      var stop = Type.isFunction(isRoot) ? isRoot : Fun.constant(false);
-
-      // This is used a *lot* so it needs to be performant, not recursive
-      var dom = element.dom();
-      var ret = [];
-
-      while (dom.parentNode !== null && dom.parentNode !== undefined) {
-        var rawParent = dom.parentNode;
-        var parent = Element.fromDom(rawParent);
-        ret.push(parent);
-
-        if (stop(parent) === true) break;
-        else dom = rawParent;
-      }
-      return ret;
-    };
-
-    var siblings = function (element) {
-      // TODO: Refactor out children so we can just not add self instead of filtering afterwards
-      var filterSelf = function (elements) {
-        return Arr.filter(elements, function (x) {
-          return !Compare.eq(element, x);
-        });
-      };
-
-      return parent(element).map(children).map(filterSelf).getOr([]);
-    };
-
-    var offsetParent = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.offsetParent).map(Element.fromDom);
-    };
-
-    var prevSibling = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.previousSibling).map(Element.fromDom);
-    };
-
-    var nextSibling = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.nextSibling).map(Element.fromDom);
-    };
-
-    var prevSiblings = function (element) {
-      // This one needs to be reversed, so they're still in DOM order
-      return Arr.reverse(Recurse.toArray(element, prevSibling));
-    };
-
-    var nextSiblings = function (element) {
-      return Recurse.toArray(element, nextSibling);
-    };
-
-    var children = function (element) {
-      var dom = element.dom();
-      return Arr.map(dom.childNodes, Element.fromDom);
-    };
-
-    var child = function (element, index) {
-      var children = element.dom().childNodes;
-      return Option.from(children[index]).map(Element.fromDom);
-    };
-
-    var firstChild = function (element) {
-      return child(element, 0);
-    };
-
-    var lastChild = function (element) {
-      return child(element, element.dom().childNodes.length - 1);
-    };
-
-    var childNodesCount = function (element, index) {
-      return element.dom().childNodes.length;
-    };
-
-    var spot = Struct.immutable('element', 'offset');
-    var leaf = function (element, offset) {
-      var cs = children(element);
-      return cs.length > 0 && offset < cs.length ? spot(cs[offset], 0) : spot(element, offset);
-    };
-
-    return {
-      owner: owner,
-      defaultView: defaultView,
-      documentElement: documentElement,
-      parent: parent,
-      findIndex: findIndex,
-      parents: parents,
-      siblings: siblings,
-      prevSibling: prevSibling,
-      offsetParent: offsetParent,
-      prevSiblings: prevSiblings,
-      nextSibling: nextSibling,
-      nextSiblings: nextSiblings,
-      children: children,
-      child: child,
-      firstChild: firstChild,
-      lastChild: lastChild,
-      childNodesCount: childNodesCount,
-      leaf: leaf
-    };
-  }
-);
-
-define(
-  'ephox.snooker.util.LayerSelector',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.api.search.Selectors',
-    'ephox.sugar.api.search.Traverse'
-  ],
-
-  function (Arr, Fun, Selectors, Traverse) {
-    var firstLayer = function (scope, selector) {
-      return filterFirstLayer(scope, selector, Fun.constant(true));
-    };
-
-    var filterFirstLayer = function (scope, selector, predicate) {
-      return Arr.bind(Traverse.children(scope), function (x) {
-        return Selectors.is(x, selector) ?
-          predicate(x) ? [ x ] : [ ]
-          : filterFirstLayer(x, selector, predicate);
-      });
-    };
-
-    return {
-      firstLayer: firstLayer,
-      filterFirstLayer: filterFirstLayer
-    };
-  }
-);
-define(
-  'ephox.sugar.api.search.PredicateFilter',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.node.Body',
-    'ephox.sugar.api.search.Traverse'
-  ],
-
-  function (Arr, Body, Traverse) {
-    // maybe TraverseWith, similar to traverse but with a predicate?
-
-    var all = function (predicate) {
-      return descendants(Body.body(), predicate);
-    };
-
-    var ancestors = function (scope, predicate, isRoot) {
-      return Arr.filter(Traverse.parents(scope, isRoot), predicate);
-    };
-
-    var siblings = function (scope, predicate) {
-      return Arr.filter(Traverse.siblings(scope), predicate);
-    };
-
-    var children = function (scope, predicate) {
-      return Arr.filter(Traverse.children(scope), predicate);
-    };
-
-    var descendants = function (scope, predicate) {
-      var result = [];
-
-      // Recurse.toArray() might help here
-      Arr.each(Traverse.children(scope), function (x) {
-        if (predicate(x)) {
-          result = result.concat([ x ]);
-        }
-        result = result.concat(descendants(x, predicate));
-      });
-      return result;
-    };
-
-    return {
-      all: all,
-      ancestors: ancestors,
-      siblings: siblings,
-      children: children,
-      descendants: descendants
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.search.SelectorFilter',
-
-  [
-    'ephox.sugar.api.search.PredicateFilter',
-    'ephox.sugar.api.search.Selectors'
-  ],
-
-  function (PredicateFilter, Selectors) {
-    var all = function (selector) {
-      return Selectors.all(selector);
-    };
-
-    // For all of the following:
-    //
-    // jQuery does siblings of firstChild. IE9+ supports scope.dom().children (similar to Traverse.children but elements only).
-    // Traverse should also do this (but probably not by default).
-    //
-
-    var ancestors = function (scope, selector, isRoot) {
-      // It may surprise you to learn this is exactly what JQuery does
-      // TODO: Avoid all this wrapping and unwrapping
-      return PredicateFilter.ancestors(scope, function (e) {
-        return Selectors.is(e, selector);
-      }, isRoot);
-    };
-
-    var siblings = function (scope, selector) {
-      // It may surprise you to learn this is exactly what JQuery does
-      // TODO: Avoid all the wrapping and unwrapping
-      return PredicateFilter.siblings(scope, function (e) {
-        return Selectors.is(e, selector);
-      });
-    };
-
-    var children = function (scope, selector) {
-      // It may surprise you to learn this is exactly what JQuery does
-      // TODO: Avoid all the wrapping and unwrapping
-      return PredicateFilter.children(scope, function (e) {
-        return Selectors.is(e, selector);
-      });
-    };
-
-    var descendants = function (scope, selector) {
-      return Selectors.all(selector, scope);
-    };
-
-    return {
-      all: all,
-      ancestors: ancestors,
-      siblings: siblings,
-      children: children,
-      descendants: descendants
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.search.SelectorFind',
-
-  [
-    'ephox.sugar.api.search.PredicateFind',
-    'ephox.sugar.api.search.Selectors',
-    'ephox.sugar.impl.ClosestOrAncestor'
-  ],
-
-  function (PredicateFind, Selectors, ClosestOrAncestor) {
-    // TODO: An internal SelectorFilter module that doesn't Element.fromDom() everything
-
-    var first = function (selector) {
-      return Selectors.one(selector);
-    };
-
-    var ancestor = function (scope, selector, isRoot) {
-      return PredicateFind.ancestor(scope, function (e) {
-        return Selectors.is(e, selector);
-      }, isRoot);
-    };
-
-    var sibling = function (scope, selector) {
-      return PredicateFind.sibling(scope, function (e) {
-        return Selectors.is(e, selector);
-      });
-    };
-
-    var child = function (scope, selector) {
-      return PredicateFind.child(scope, function (e) {
-        return Selectors.is(e, selector);
-      });
-    };
-
-    var descendant = function (scope, selector) {
-      return Selectors.one(selector, scope);
-    };
-
-    // Returns Some(closest ancestor element (sugared)) matching 'selector' up to isRoot, or None() otherwise
-    var closest = function (scope, selector, isRoot) {
-      return ClosestOrAncestor(Selectors.is, ancestor, scope, selector, isRoot);
-    };
-
-    return {
-      first: first,
-      ancestor: ancestor,
-      sibling: sibling,
-      child: child,
-      descendant: descendant,
-      closest: closest
-    };
-  }
-);
-
-defineGlobal("global!parseInt", parseInt);
-define(
-  'ephox.snooker.api.TableLookup',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.snooker.api.Structs',
-    'ephox.snooker.util.LayerSelector',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.node.Node',
-    'ephox.sugar.api.search.SelectorFilter',
-    'ephox.sugar.api.search.SelectorFind',
-    'ephox.sugar.api.search.Selectors',
-    'ephox.sugar.api.search.Traverse',
-    'global!parseInt'
-  ],
-
-  function (Arr, Fun, Option, Structs, LayerSelector, Attr, Node, SelectorFilter, SelectorFind, Selectors, Traverse, parseInt) {
-    // lookup inside this table
-    var lookup = function (tags, element, _isRoot) {
-      var isRoot = _isRoot !== undefined ? _isRoot : Fun.constant(false);
-      // If the element we're inspecting is the root, we definitely don't want it.
-      if (isRoot(element)) return Option.none();
-      // This looks a lot like SelectorFind.closest, with one big exception - the isRoot check.
-      // The code here will look for parents if passed a table, SelectorFind.closest with that specific isRoot check won't.
-      if (Arr.contains(tags, Node.name(element))) return Option.some(element);
-
-      var isRootOrUpperTable = function (element) {
-        return Selectors.is(element, 'table') || isRoot(element);
-      };
-
-      return SelectorFind.ancestor(element, tags.join(','), isRootOrUpperTable);
-    };
-
-    /*
-     * Identify the optional cell that element represents.
-     */
-    var cell = function (element, isRoot) {
-      return lookup([ 'td', 'th' ], element, isRoot);
-    };
-
-    var cells = function (ancestor) {
-      return LayerSelector.firstLayer(ancestor, 'th,td');
-    };
-
-    var notCell = function (element, isRoot) {
-      return lookup([ 'caption', 'tr', 'tbody', 'tfoot', 'thead' ], element, isRoot);
-    };
-
-    var neighbours = function (selector, element) {
-      return Traverse.parent(element).map(function (parent) {
-        return SelectorFilter.children(parent, selector);
-      });
-    };
-
-    var neighbourCells = Fun.curry(neighbours, 'th,td');
-    var neighbourRows  = Fun.curry(neighbours, 'tr');
-
-    var firstCell = function (ancestor) {
-      return SelectorFind.descendant(ancestor, 'th,td');
-    };
-
-    var table = function (element, isRoot) {
-      return SelectorFind.closest(element, 'table', isRoot);
-    };
-
-    var row = function (element, isRoot) {
-       return lookup([ 'tr' ], element, isRoot);
-    };
-
-    var rows = function (ancestor) {
-      return LayerSelector.firstLayer(ancestor, 'tr');
-    };
-
-    var attr = function (element, property) {
-      return parseInt(Attr.get(element, property), 10);
-    };
-
-    var grid = function (element, rowProp, colProp) {
-      var rows = attr(element, rowProp);
-      var cols = attr(element, colProp);
-      return Structs.grid(rows, cols);
-    };
-
-    return {
-      cell: cell,
-      firstCell: firstCell,
-      cells: cells,
-      neighbourCells: neighbourCells,
-      table: table,
-      row: row,
-      rows: rows,
-      notCell: notCell,
-      neighbourRows: neighbourRows,
-      attr: attr,
-      grid: grid
-    };
-  }
-);
-
-define(
-  'ephox.snooker.model.DetailsList',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.snooker.api.Structs',
-    'ephox.snooker.api.TableLookup',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.node.Node',
-    'ephox.sugar.api.search.Traverse'
-  ],
-
-  function (Arr, Structs, TableLookup, Attr, Node, Traverse) {
-
-    /*
-     * Takes a DOM table and returns a list of list of:
-       element: row element
-       cells: (id, rowspan, colspan) structs
-     */
-    var fromTable = function (table) {
-      var rows = TableLookup.rows(table);
-      return Arr.map(rows, function (row) {
-        var element = row;
-
-        var parent = Traverse.parent(element);
-        var parentSection = parent.bind(function (parent) {
-          var parentName = Node.name(parent);
-          return (parentName === 'tfoot' || parentName === 'thead' || parentName === 'tbody') ? parentName : 'tbody';
-        });
-
-        var cells = Arr.map(TableLookup.cells(row), function (cell) {
-          var rowspan = Attr.has(cell, 'rowspan') ? parseInt(Attr.get(cell, 'rowspan'), 10) : 1;
-          var colspan = Attr.has(cell, 'colspan') ? parseInt(Attr.get(cell, 'colspan'), 10) : 1;
-          return Structs.detail(cell, rowspan, colspan);
-        });
-
-        return Structs.rowdata(element, cells, parentSection);
-      });
-    };
-
-    var fromPastedRows = function (rows, example) {
-      return Arr.map(rows, function (row) {
-        var cells = Arr.map(TableLookup.cells(row), function (cell) {
-          var rowspan = Attr.has(cell, 'rowspan') ? parseInt(Attr.get(cell, 'rowspan'), 10) : 1;
-          var colspan = Attr.has(cell, 'colspan') ? parseInt(Attr.get(cell, 'colspan'), 10) : 1;
-          return Structs.detail(cell, rowspan, colspan);
-        });
-
-        return Structs.rowdata(row, cells, example.section());
-      });
-    };
-
-    return {
-      fromTable: fromTable,
-      fromPastedRows: fromPastedRows
-    };
-  }
-);
-
-define(
-  'ephox.snooker.model.Warehouse',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.snooker.api.Structs',
-    'global!Math'
-  ],
-
-  function (Arr, Fun, Option, Structs, Math) {
-    var key = function (row, column) {
-      return row + ',' + column;
-    };
-
-    var getAt = function (warehouse, row, column) {
-      var raw = warehouse.access()[key(row, column)];
-      return raw !== undefined ? Option.some(raw) : Option.none();
-    };
-
-    var findItem = function (warehouse, item, comparator) {
-      var filtered = filterItems(warehouse, function (detail) {
-        return comparator(item, detail.element());
-      });
-
-      return filtered.length > 0 ? Option.some(filtered[0]) : Option.none();
-    };
-
-    var filterItems = function (warehouse, predicate) {
-      var all = Arr.bind(warehouse.all(), function (r) { return r.cells(); });
-      return Arr.filter(all, predicate);
-    };
-
-    /*
-     * From a list of list of Detail, generate three pieces of information:
-     *  1. the grid size
-     *  2. a data structure which can efficiently identify which cell is in which row,column position
-     *  3. a list of all cells in order left-to-right, top-to-bottom
-     */
-    var generate = function (list) {
-      // list is an array of objects, made by cells and elements
-      // elements: is the TR
-      // cells: is an array of objects representing the cells in the row.
-      //        It is made of:
-      //          colspan (merge cell)
-      //          element
-      //          rowspan (merge cols)
-      var access = {};
-      var cells = [];
-
-      var maxRows = 0;
-      var maxColumns = 0;
-
-      Arr.each(list, function (details, r) {
-        var currentRow = [];
-        Arr.each(details.cells(), function (detail, c) {
-          var start = 0;
-
-          // If this spot has been taken by a previous rowspan, skip it.
-          while (access[key(r, start)] !== undefined) {
-            start++;
-          }
-
-          var current = Structs.extended(detail.element(), detail.rowspan(), detail.colspan(), r, start);
-
-          // Occupy all the (row, column) positions that this cell spans for.
-          for (var i = 0; i < detail.colspan(); i++) {
-            for (var j = 0; j < detail.rowspan(); j++) {
-              var cr = r + j;
-              var cc = start + i;
-              var newpos = key(cr, cc);
-              access[newpos] = current;
-              maxRows = Math.max(maxRows, cr + 1);
-              maxColumns = Math.max(maxColumns, cc + 1);
-            }
-          }
-
-          currentRow.push(current);
-        });
-
-        cells.push(Structs.rowdata(details.element(), currentRow, details.section()));
-      });
-
-      var grid = Structs.grid(maxRows, maxColumns);
-
-      return {
-        grid: Fun.constant(grid),
-        access: Fun.constant(access),
-        all: Fun.constant(cells)
-      };
-    };
-
-    var justCells = function (warehouse) {
-      var rows = Arr.map(warehouse.all(), function (w) {
-        return w.cells();
-      });
-
-      return Arr.flatten(rows);
-    };
-
-    return {
-      generate: generate,
-      getAt: getAt,
-      findItem: findItem,
-      filterItems: filterItems,
-      justCells: justCells
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Options',
-
-  [
-    'ephox.katamari.api.Option'
-  ],
-
-  function (Option) {
-    /** cat :: [Option a] -> [a] */
-    var cat = function (arr) {
-      var r = [];
-      var push = function (x) {
-        r.push(x);
-      };
-      for (var i = 0; i < arr.length; i++) {
-        arr[i].each(push);
-      }
-      return r;
-    };
-
-    /** findMap :: ([a], (a, Int -> Option b)) -> Option b */
-    var findMap = function (arr, f) {
-      for (var i = 0; i < arr.length; i++) {
-        var r = f(arr[i], i);
-        if (r.isSome()) {
-          return r;
-        }
-      }
-      return Option.none();
-    };
-
-    /**
-     * if all elements in arr are 'some', their inner values are passed as arguments to f
-     * f must have arity arr.length
-    */
-    var liftN = function(arr, f) {
-      var r = [];
-      for (var i = 0; i < arr.length; i++) {
-        var x = arr[i];
-        if (x.isSome()) {
-          r.push(x.getOrDie());
-        } else {
-          return Option.none();
-        }
-      }
-      return Option.some(f.apply(null, r));
-    };
-
-    return {
-      cat: cat,
-      findMap: findMap,
-      liftN: liftN
-    };
-  }
-);
-
-define(
-  'ephox.snooker.util.Util',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Options',
-    'global!Math'
-  ],
-
-  function (Arr, Option, Options, Math) {
-    // Rename this module, and repeat should be in Arr.
-    var repeat = function(repititions, f) {
-      var r = [];
-      for (var i = 0; i < repititions; i++) {
-        r.push(f(i));
-      }
-      return r;
-    };
-
-    var range = function (start, end) {
-      var r = [];
-      for (var i = start; i < end; i++) {
-        r.push(i);
-      }
-      return r;
-    };
-
-    var unique = function (xs, comparator) {
-      var result = [];
-      Arr.each(xs, function (x, i) {
-        if (i < xs.length - 1 && !comparator(x, xs[i + 1])) {
-          result.push(x);
-        } else if (i === xs.length - 1) {
-          result.push(x);
-        }
-      });
-      return result;
-    };
-
-    var deduce = function (xs, index) {
-      if (index < 0 || index >= xs.length - 1) return Option.none();
-
-      var current = xs[index].fold(function () {
-        var rest = Arr.reverse(xs.slice(0, index));
-        return Options.findMap(rest, function (a, i) {
-          return a.map(function (aa) {
-            return { value: aa, delta: i+1 };
-          });
-        });
-      }, function (c) {
-        return Option.some({ value: c, delta: 0 });
-      });
-      var next = xs[index + 1].fold(function () {
-        var rest = xs.slice(index + 1);
-        return Options.findMap(rest, function (a, i) {
-          return a.map(function (aa) {
-            return { value: aa, delta: i + 1 };
-          });
-        });
-      }, function (n) {
-        return Option.some({ value: n, delta: 1 });
-      });
-
-      return current.bind(function (c) {
-        return next.map(function (n) {
-          var extras = n.delta + c.delta;
-          return Math.abs(n.value - c.value) / extras;
-        });
-      });
-    };
-
-    return {
-      repeat: repeat,
-      range: range,
-      unique: unique,
-      deduce: deduce
-    };
-  }
-);
-
-define(
-  'ephox.snooker.lookup.Blocks',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.snooker.model.Warehouse',
-    'ephox.snooker.util.Util'
-  ],
-
-  function (Arr, Fun, Option, Warehouse, Util) {
-    /*
-     * Identify for each column, a cell that has colspan 1. Note, this
-     * may actually fail, and future work will be to calculate column
-     * sizes that are only available through the difference of two
-     * spanning columns.
-     */
-    var columns = function (warehouse) {
-      var grid = warehouse.grid();
-      var cols = Util.range(0, grid.columns());
-      var rows = Util.range(0, grid.rows());
-
-      return Arr.map(cols, function (col) {
-        var getBlock = function () {
-          return Arr.bind(rows, function (r) {
-            return Warehouse.getAt(warehouse, r, col).filter(function (detail) {
-              return detail.column() === col;
-            }).fold(Fun.constant([]), function (detail) { return [ detail ]; });
-          });
-        };
-
-        var isSingle = function (detail) {
-          return detail.colspan() === 1;
-        };
-
-        var getFallback = function () {
-          return Warehouse.getAt(warehouse, 0, col);
-        };
-
-        return decide(getBlock, isSingle, getFallback);
-      });
-    };
-
-    var decide = function (getBlock, isSingle, getFallback) {
-      var inBlock = getBlock();
-      var singleInBlock = Arr.find(inBlock, isSingle);
-
-      var detailOption = singleInBlock.orThunk(function () {
-        return Option.from(inBlock[0]).orThunk(getFallback);
-      });
-
-      return detailOption.map(function (detail) { return detail.element(); });
-    };
-
-
-    var rows = function (warehouse) {
-      var grid = warehouse.grid();
-      var rows = Util.range(0, grid.rows());
-      var cols = Util.range(0, grid.columns());
-
-      return Arr.map(rows, function (row) {
-
-        var getBlock = function () {
-          return Arr.bind(cols, function (c) {
-            return Warehouse.getAt(warehouse, row, c).filter(function (detail) {
-              return detail.row() === row;
-            }).fold(Fun.constant([]), function (detail) { return [ detail ]; });
-          });
-        };
-
-        var isSingle = function (detail) {
-          return detail.rowspan() === 1;
-        };
-
-        var getFallback = function () {
-          return Warehouse.getAt(warehouse, row, 0);
-        };
-
-        return decide(getBlock, isSingle, getFallback);
-
-      });
-
-    };
-
-    return {
-      columns: columns,
-      rows: rows
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.Sizes',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.katamari.api.Strings',
-    'ephox.snooker.api.TableLookup',
-    'ephox.sugar.api.node.Node',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.api.view.Height',
-    'ephox.sugar.api.view.Width',
-    'global!Math',
-    'global!parseInt'
-  ],
-
-  function (Fun, Option, Strings, TableLookup, Node, Attr, Css, Height, Width, Math, parseInt) {
-
-    var genericSizeRegex = /(\d+(\.\d+)?)(\w|%)*/;
-    var percentageBasedSizeRegex = /(\d+(\.\d+)?)%/;
-    var pixelBasedSizeRegex = /(\d+(\.\d+)?)px|em/;
-
-    var setPixelWidth = function (cell, amount) {
-      Css.set(cell, 'width', amount + 'px');
-    };
-
-    var setPercentageWidth = function (cell, amount) {
-      Css.set(cell, 'width', amount + '%');
-    };
-
-    var setHeight = function (cell, amount) {
-      Css.set(cell, 'height', amount + 'px');
-    };
-
-    var getValue = function (cell, property) {
-      return Css.getRaw(cell, property).getOrThunk(function () {
-        return Css.get(cell, property);
-      });
-    };
-
-    var getWidthPixelValue = function (cell) {
-      return getValue(cell, 'width');
-    };
-
-    var getHeightValue = function (cell) {
-      return getValue(cell, 'height');
-    };
-
-    var convert = function (cell, number, getter, setter) {
-      var newSize = TableLookup.table(cell).map(function (table) {
-        var total = getter(table);
-        return Math.floor((number / 100.0) * total);
-      }).getOr(number);
-      setter(cell, newSize);
-      return newSize;
-    };
-
-    var normalizePixelSize = function (value, cell, getter, setter) {
-      var number = parseInt(value, 10);
-      return Strings.endsWith(value, '%') && Node.name(cell) !== 'table' ? convert(cell, number, getter, setter) : number;
-    };
-
-    var getTotalPixelWidth = function (cell) {
-      var value = getWidthPixelValue(cell);
-      // Note, Firefox doesn't calculate the width for you with Css.get
-      if (!value) return Width.get(cell);
-      return normalizePixelSize(value, cell, Width.get, setPixelWidth);
-    };
-
-    var getTotalHeight = function (cell) {
-      var value = getHeightValue(cell);
-      if (!value) return Height.get(cell);
-      return normalizePixelSize(value, cell, Height.get, setHeight);
-    };
-
-    var get = function (cell, type, f) {
-      var v = f(cell);
-      var span = getSpan(cell, type);
-      return v / span;
-    };
-
-    var getSpan = function (cell, type) {
-      return Attr.has(cell, type) ? parseInt(Attr.get(cell, type), 10) : 1;
-    };
-
-    var getRawWidth = function (element) {
-      // Try to use the style width first, otherwise attempt to get attribute width
-      var cssWidth = Css.getRaw(element, 'width');
-      return cssWidth.fold(function () {
-        return Option.from(Attr.get(element, 'width'));
-      }, function (width) {
-        return Option.some(width);
-      });
-    };
-
-    var normalizePercentageWidth = function (cellWidth, tableSize) {
-      return cellWidth / tableSize.pixelWidth() * 100;
-    };
-
-    var choosePercentageSize = function (element, width, tableSize) {
-      if (percentageBasedSizeRegex.test(width)) {
-        var percentMatch = percentageBasedSizeRegex.exec(width);
-        return parseFloat(percentMatch[1], 10);
-      } else {
-        var fallbackWidth = Width.get(element);
-        var intWidth = parseInt(fallbackWidth, 10);
-        return normalizePercentageWidth(intWidth, tableSize);
-      }
-    };
-
-    // Get a percentage size for a percentage parent table
-    var getPercentageWidth = function (cell, tableSize) {
-      var width = getRawWidth(cell);
-      return width.fold(function () {
-        var width = Width.get(cell);
-        var intWidth = parseInt(width, 10);
-        return normalizePercentageWidth(intWidth, tableSize);
-      }, function (width) {
-        return choosePercentageSize(cell, width, tableSize);
-      });
-    };
-
-    var normalizePixelWidth = function (cellWidth, tableSize) {
-      return cellWidth / 100 * tableSize.pixelWidth();
-    };
-
-    var choosePixelSize = function (element, width, tableSize) {
-      if (pixelBasedSizeRegex.test(width)) {
-        var pixelMatch = pixelBasedSizeRegex.exec(width);
-        return parseInt(pixelMatch[1], 10);
-      } else if (percentageBasedSizeRegex.test(width)) {
-        var percentMatch = percentageBasedSizeRegex.exec(width);
-        var floatWidth = parseFloat(percentMatch[1], 10);
-        return normalizePixelWidth(floatWidth, tableSize);
-      } else {
-        var fallbackWidth = Width.get(element);
-        return parseInt(fallbackWidth, 10);
-      }
-    };
-
-    var getPixelWidth = function (cell, tableSize) {
-      var width = getRawWidth(cell);
-      return width.fold(function () {
-        var width = Width.get(cell);
-        var intWidth = parseInt(width, 10);
-        return intWidth;
-      }, function (width) {
-        return choosePixelSize(cell, width, tableSize);
-      });
-    };
-
-    var getHeight = function (cell) {
-      return get(cell, 'rowspan', getTotalHeight);
-    };
-
-    var getGenericWidth = function (cell) {
-      var width = getRawWidth(cell);
-      return width.bind(function (width) {
-        if (genericSizeRegex.test(width)) {
-          var match = genericSizeRegex.exec(width);
-          return Option.some({
-            width: Fun.constant(match[1]),
-            unit: Fun.constant(match[3])
-          });
-        } else {
-          return Option.none();
-        }
-      });
-    };
-
-    var setGenericWidth = function (cell, amount, unit) {
-      Css.set(cell, 'width', amount + unit);
-    };
-
-    return {
-      percentageBasedSizeRegex: Fun.constant(percentageBasedSizeRegex),
-      pixelBasedSizeRegex: Fun.constant(pixelBasedSizeRegex),
-      setPixelWidth: setPixelWidth,
-      setPercentageWidth: setPercentageWidth,
-      setHeight: setHeight,
-      getPixelWidth: getPixelWidth,
-      getPercentageWidth: getPercentageWidth,
-      getGenericWidth: getGenericWidth,
-      setGenericWidth: setGenericWidth,
-      getHeight: getHeight,
-      getRawWidth: getRawWidth
-    };
-  }
-);
-
-define(
-  'ephox.snooker.util.CellUtils',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.properties.Css',
-    'global!parseInt'
-  ],
-
-  function (Fun, Attr, Css, parseInt) {
-    var getSpan = function (cell, type) {
-      return Attr.has(cell, type) && parseInt(Attr.get(cell, type), 10) > 1;
-    };
-
-    var hasColspan = function (cell) {
-      return getSpan(cell, 'colspan');
-    };
-
-    var hasRowspan = function (cell) {
-      return getSpan(cell, 'rowspan');
-    };
-
-    var getInt = function (element, property) {
-      return parseInt(Css.get(element, property), 10);
-    };
-
-    return {
-      hasColspan: hasColspan,
-      hasRowspan: hasRowspan,
-      minWidth: Fun.constant(10),
-      minHeight: Fun.constant(10),
-      getInt: getInt
-    };
-  }
-);
-define(
-  'ephox.snooker.resize.ColumnSizes',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.snooker.lookup.Blocks',
-    'ephox.snooker.resize.Sizes',
-    'ephox.snooker.util.CellUtils',
-    'ephox.snooker.util.Util',
-    'ephox.sugar.api.properties.Css'
-  ],
-
-  function (Arr, Fun, Blocks, Sizes, CellUtils, Util, Css) {
-    var getRaw = function (cell, property, getter) {
-      return Css.getRaw(cell, property).fold(function () {
-        return getter(cell) + 'px';
-      }, function (raw) {
-        return raw;
-      });
-    };
-
-    var getRawW = function (cell) {
-      return getRaw(cell, 'width', Sizes.getPixelWidth);
-    };
-
-    var getRawH = function (cell) {
-      return getRaw(cell, 'height', Sizes.getHeight);
-    };
-
-    var getWidthFrom = function (warehouse, direction, getWidth, fallback, tableSize) {
-      var columns = Blocks.columns(warehouse);
-
-      var backups = Arr.map(columns, function (cellOption) {
-        return cellOption.map(direction.edge);
-      });
-
-      return Arr.map(columns, function (cellOption, c) {
-        // Only use the width of cells that have no column span (or colspan 1)
-        var columnCell = cellOption.filter(Fun.not(CellUtils.hasColspan));
-        return columnCell.fold(function () {
-          // Can't just read the width of a cell, so calculate.
-          var deduced = Util.deduce(backups, c);
-          return fallback(deduced);
-        }, function (cell) {
-          return getWidth(cell, tableSize);
-        });
-      });
-    };
-
-    var getDeduced = function (deduced) {
-      return deduced.map(function (d) { return d + 'px'; }).getOr('');
-    };
-
-    var getRawWidths = function (warehouse, direction) {
-      return getWidthFrom(warehouse, direction, getRawW, getDeduced);
-    };
-
-    var getPercentageWidths = function (warehouse, direction, tableSize) {
-      return getWidthFrom(warehouse, direction, Sizes.getPercentageWidth, function (deduced) {
-        return deduced.fold(function () {
-          return tableSize.minCellWidth();
-        }, function (cellWidth) {
-          return cellWidth / tableSize.pixelWidth() * 100;
-        });
-      }, tableSize);
-    };
-
-    var getPixelWidths = function (warehouse, direction, tableSize) {
-      return getWidthFrom(warehouse, direction, Sizes.getPixelWidth, function (deduced) {
-        // Minimum cell width when all else fails.
-        return deduced.getOrThunk(tableSize.minCellWidth);
-      }, tableSize);
-    };
-
-    var getHeightFrom = function (warehouse, direction, getHeight, fallback) {
-      var rows = Blocks.rows(warehouse);
-
-      var backups = Arr.map(rows, function (cellOption) {
-        return cellOption.map(direction.edge);
-      });
-
-      return Arr.map(rows, function (cellOption, c) {
-        var rowCell = cellOption.filter(Fun.not(CellUtils.hasRowspan));
-
-        return rowCell.fold(function () {
-          var deduced = Util.deduce(backups, c);
-          return fallback(deduced);
-        }, function (cell) {
-          return getHeight(cell);
-        });
-      });
-    };
-
-    var getPixelHeights = function (warehouse, direction) {
-      return getHeightFrom(warehouse, direction, Sizes.getHeight, function (deduced) {
-        return deduced.getOrThunk(CellUtils.minHeight);
-      });
-    };
-
-    var getRawHeights = function (warehouse, direction) {
-      return getHeightFrom(warehouse, direction, getRawH, getDeduced);
-    };
-
-    return {
-      getRawWidths: getRawWidths,
-      getPixelWidths: getPixelWidths,
-      getPercentageWidths: getPercentageWidths,
-      getPixelHeights: getPixelHeights,
-      getRawHeights: getRawHeights
-    };
-  }
-);
-define(
-  'ephox.snooker.resize.Recalculations',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.snooker.model.Warehouse',
-    'global!parseInt'
-  ],
-
-  function (Arr, Fun, Warehouse, parseInt) {
-
-    // Returns the sum of elements of measures in the half-open range [start, end)
-    // Measures is in pixels, treated as an array of integers or integers in string format.
-    // NOTE: beware of accumulated rounding errors over multiple columns - could result in noticeable table width changes
-    var total = function (start, end, measures) {
-      var r = 0;
-      for (var i = start; i < end; i++) {
-        r += measures[i] !== undefined ? measures[i] : 0;
-      }
-      return r;
-    };
-
-    // Returns an array of all cells in warehouse with updated cell-widths, using
-    // the array 'widths' of the representative widths of each column of the table 'warehouse'
-    var recalculateWidth = function (warehouse, widths) {
-      var all = Warehouse.justCells(warehouse);
-
-      return Arr.map(all, function (cell) {
-        // width of a spanning cell is sum of widths of representative columns it spans
-        var width = total(cell.column(), cell.column() + cell.colspan(), widths);
-        return {
-          element: cell.element,
-          width: Fun.constant(width),
-          colspan: cell.colspan
-        };
-      });
-    };
-
-    var recalculateHeight = function (warehouse, heights) {
-      var all = Warehouse.justCells(warehouse);
-      return Arr.map(all, function (cell) {
-        var height = total(cell.row(), cell.row() + cell.rowspan(), heights);
-        return {
-          element: cell.element,
-          height: Fun.constant(height),
-          rowspan: cell.rowspan
-        };
-      });
-    };
-
-    var matchRowHeight = function (warehouse, heights) {
-      return Arr.map(warehouse.all(), function (row, i) {
-        return {
-          element: row.element,
-          height: Fun.constant(heights[i])
-        };
-      });
-    };
-
-    return {
-      recalculateWidth: recalculateWidth,
-      recalculateHeight: recalculateHeight,
-      matchRowHeight: matchRowHeight
-    };
-  }
-);
-define(
-  'ephox.snooker.resize.TableSize',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.snooker.resize.ColumnSizes',
-    'ephox.snooker.resize.Sizes',
-    'ephox.snooker.util.CellUtils',
-    'ephox.sugar.api.view.Width',
-    'global!Math'
-  ],
-
-  function (Arr, Fun, ColumnSizes, Sizes, CellUtils, Width, Math) {
-    var percentageSize = function (width, element) {
-      var floatWidth = parseFloat(width, 10);
-      var pixelWidth = Width.get(element);
-      var getCellDelta = function (delta) {
-        return delta / pixelWidth * 100;
-      };
-      var singleColumnWidth = function (width, _delta) {
-        // If we have one column in a percent based table, that column should be 100% of the width of the table.
-        return [100 - width];
-      };
-      // Get the width of a 10 pixel wide cell over the width of the table as a percentage
-      var minCellWidth = function () {
-        return CellUtils.minWidth() / pixelWidth * 100;
-      };
-      var setTableWidth = function (table, _newWidths, delta) {
-        var total = floatWidth + delta;
-        Sizes.setPercentageWidth(table, total);
-      };
-      return {
-        width: Fun.constant(floatWidth),
-        pixelWidth: Fun.constant(pixelWidth),
-        getWidths: ColumnSizes.getPercentageWidths,
-        getCellDelta: getCellDelta,
-        singleColumnWidth: singleColumnWidth,
-        minCellWidth: minCellWidth,
-        setElementWidth: Sizes.setPercentageWidth,
-        setTableWidth: setTableWidth
-      };
-    };
-
-    var pixelSize = function (width) {
-      var intWidth = parseInt(width, 10);
-      var getCellDelta = Fun.identity;
-      var singleColumnWidth = function (width, delta) {
-        var newNext = Math.max(CellUtils.minWidth(), width + delta);
-        return [ newNext - width ];
-      };
-      var setTableWidth = function (table, newWidths, _delta) {
-        var total = Arr.foldr(newWidths, function (b, a) { return b + a; }, 0);
-        Sizes.setPixelWidth(table, total);
-      };
-      return {
-        width: Fun.constant(intWidth),
-        pixelWidth: Fun.constant(intWidth),
-        getWidths: ColumnSizes.getPixelWidths,
-        getCellDelta: getCellDelta,
-        singleColumnWidth: singleColumnWidth,
-        minCellWidth: CellUtils.minWidth,
-        setElementWidth: Sizes.setPixelWidth,
-        setTableWidth: setTableWidth
-      };
-    };
-
-    var chooseSize = function (element, width) {
-      if (Sizes.percentageBasedSizeRegex().test(width)) {
-        var percentMatch = Sizes.percentageBasedSizeRegex().exec(width);
-        return percentageSize(percentMatch[1], element);
-      } else if (Sizes.pixelBasedSizeRegex().test(width)) {
-        var pixelMatch = Sizes.pixelBasedSizeRegex().exec(width);
-        return pixelSize(pixelMatch[1]);
-      } else {
-        var fallbackWidth = Width.get(element);
-        return pixelSize(fallbackWidth);
-      }
-    };
-
-    var getTableSize = function (element) {
-      var width = Sizes.getRawWidth(element);
-      // If we have no width still, return a pixel width at least.
-      return width.fold(function () {
-        var fallbackWidth = Width.get(element);
-        return pixelSize(fallbackWidth);
-      }, function (width) {
-        return chooseSize(element, width);
-      });
-    };
-
-    return {
-      getTableSize: getTableSize
-    };
-});
-define(
-  'ephox.snooker.resize.Adjustments',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.snooker.calc.Deltas',
-    'ephox.snooker.model.DetailsList',
-    'ephox.snooker.model.Warehouse',
-    'ephox.snooker.resize.ColumnSizes',
-    'ephox.snooker.resize.Recalculations',
-    'ephox.snooker.resize.Sizes',
-    'ephox.snooker.resize.TableSize',
-    'ephox.snooker.util.CellUtils',
-    'global!Math'
-  ],
-
-  function (Arr, Deltas, DetailsList, Warehouse, ColumnSizes, Recalculations, Sizes, TableSize, CellUtils, Math) {
-    var getWarehouse = function (list) {
-      return Warehouse.generate(list);
-    };
-
-    var sumUp = function (newSize) {
-      return Arr.foldr(newSize, function (b, a) { return b + a; }, 0);
-    };
-
-    var getTableWarehouse = function (table) {
-      var list = DetailsList.fromTable(table);
-      return getWarehouse(list);
-    };
-
-    var adjustWidth = function (table, delta, index, direction) {
-      var tableSize = TableSize.getTableSize(table);
-      var step = tableSize.getCellDelta(delta);
-      var warehouse = getTableWarehouse(table);
-      var widths = tableSize.getWidths(warehouse, direction, tableSize);
-
-      // Calculate all of the new widths for columns
-      var deltas = Deltas.determine(widths, index, step, tableSize);
-      var newWidths = Arr.map(deltas, function (dx, i) {
-        return dx + widths[i];
-      });
-
-      // Set the width of each cell based on the column widths
-      var newSizes = Recalculations.recalculateWidth(warehouse, newWidths);
-      Arr.each(newSizes, function (cell) {
-        tableSize.setElementWidth(cell.element(), cell.width());
-      });
-
-      // Set the overall width of the table.
-      if (index === warehouse.grid().columns() - 1) {
-        tableSize.setTableWidth(table, newWidths, step);
-      }
-    };
-
-    var adjustHeight = function (table, delta, index, direction) {
-      var warehouse = getTableWarehouse(table);
-      var heights = ColumnSizes.getPixelHeights(warehouse, direction);
-
-      var newHeights = Arr.map(heights, function (dy, i) {
-        return index === i ? Math.max(delta + dy, CellUtils.minHeight()) : dy;
-      });
-
-      var newCellSizes = Recalculations.recalculateHeight(warehouse, newHeights);
-      var newRowSizes = Recalculations.matchRowHeight(warehouse, newHeights);
-
-      Arr.each(newRowSizes, function (row) {
-        Sizes.setHeight(row.element(), row.height());
-      });
-
-      Arr.each(newCellSizes, function (cell) {
-        Sizes.setHeight(cell.element(), cell.height());
-      });
-
-      var total = sumUp(newHeights);
-      Sizes.setHeight(table, total);
-    };
-
-    // Ensure that the width of table cells match the passed in table information.
-    var adjustWidthTo = function (table, list, direction) {
-      var tableSize = TableSize.getTableSize(table);
-      var warehouse = getWarehouse(list);
-      var widths = tableSize.getWidths(warehouse, direction, tableSize);
-
-      // Set the width of each cell based on the column widths
-      var newSizes = Recalculations.recalculateWidth(warehouse, widths);
-      Arr.each(newSizes, function (cell) {
-        tableSize.setElementWidth(cell.element(), cell.width());
-      });
-
-      var total = Arr.foldr(widths, function (b, a) { return a + b; }, 0);
-      if (newSizes.length > 0) {
-        tableSize.setElementWidth(table, total);
-      }
-    };
-
-    return {
-      adjustWidth: adjustWidth,
-      adjustHeight: adjustHeight,
-      adjustWidthTo: adjustWidthTo
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Contracts',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Obj',
-    'ephox.katamari.api.Type',
-    'ephox.katamari.util.BagUtils',
-    'global!Error'
-  ],
-
-  function (Arr, Fun, Obj, Type, BagUtils, Error) {
-    // Ensure that the object has all required fields. They must be functions.
-    var base = function (handleUnsupported, required) {
-      return baseWith(handleUnsupported, required, {
-        validate: Type.isFunction,
-        label: 'function'
-      });
-    };
-
-    // Ensure that the object has all required fields. They must satisy predicates.
-    var baseWith = function (handleUnsupported, required, pred) {
-      if (required.length === 0) throw new Error('You must specify at least one required field.');
-
-      BagUtils.validateStrArr('required', required);
-
-      BagUtils.checkDupes(required);
-
-      return function (obj) {
-        var keys = Obj.keys(obj);
-
-        // Ensure all required keys are present.
-        var allReqd = Arr.forall(required, function (req) {
-          return Arr.contains(keys, req);
-        });
-
-        if (! allReqd) BagUtils.reqMessage(required, keys);
-
-        handleUnsupported(required, keys);
-        
-        var invalidKeys = Arr.filter(required, function (key) {
-          return !pred.validate(obj[key], key);
-        });
-
-        if (invalidKeys.length > 0) BagUtils.invalidTypeMessage(invalidKeys, pred.label);
-
-        return obj;
-      };
-    };
-
-    var handleExact = function (required, keys) {
-      var unsupported = Arr.filter(keys, function (key) {
-        return !Arr.contains(required, key);
-      });
-
-      if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
-    };
-
-    var allowExtra = Fun.noop;
-
-    return {
-      exactly: Fun.curry(base, handleExact),
-      ensure: Fun.curry(base, allowExtra),
-      ensureWith: Fun.curry(baseWith, allowExtra)
-    };
-  }
-);
-define(
-  'ephox.dragster.api.DragApis',
-
-  [
-    'ephox.katamari.api.Contracts'
-  ],
-
-  function (Contracts) {
-    var mode = Contracts.exactly([
-      'compare',
-      'extract',
-      'mutate',
-      'sink'
-    ]);
-
-    var sink = Contracts.exactly([
-      'element',
-      'start',
-      'stop',
-      'destroy'
-    ]);
-
-    var api = Contracts.exactly([
-      'forceDrop',
-      'drop',
-      'move',
-      'delayDrop'
-    ]);
-
-    return {
-      mode: mode,
-      sink: sink,
-      api: api
-    };
-  }
-);
-define(
-  'ephox.katamari.api.Namespace',
-
-  [
-
-  ],
-
-  function () {
-    // This API is intended to give the capability to return namespaced strings.
-    // For CSS, since dots are not valid class names, the dots are turned into dashes.
-    var css = function (namespace) {
-      var dashNamespace = namespace.replace(/\./g, '-');
-
-      var resolve = function (str) {
-        return dashNamespace + '-' + str;
-      };
-
-      return {
-        resolve: resolve
-      };
-    };
-
-    return {
-      css: css
-    };
-  }
-);
-
-define(
-  'ephox.dragster.style.Styles',
-
-  [
-    'ephox.katamari.api.Namespace'
-  ],
-
-  function (Namespace) {
-
-    var styles = Namespace.css('ephox-dragster');
-
-    return {
-      resolve: styles.resolve
-    };
-  }
-);
-
-define(
-  'ephox.katamari.api.Merger',
-
-  [
-    'ephox.katamari.api.Type',
-    'global!Array',
-    'global!Error'
-  ],
-
-  function (Type, Array, Error) {
-
-    var shallow = function (old, nu) {
-      return nu;
-    };
-
-    var deep = function (old, nu) {
-      var bothObjects = Type.isObject(old) && Type.isObject(nu);
-      return bothObjects ? deepMerge(old, nu) : nu;
-    };
-
-    var baseMerge = function (merger) {
-      return function() {
-        // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
-        var objects = new Array(arguments.length);
-        for (var i = 0; i < objects.length; i++) objects[i] = arguments[i];
-
-        if (objects.length === 0) throw new Error('Can\'t merge zero objects');
-
-        var ret = {};
-        for (var j = 0; j < objects.length; j++) {
-          var curObject = objects[j];
-          for (var key in curObject) if (curObject.hasOwnProperty(key)) {
-            ret[key] = merger(ret[key], curObject[key]);
-          }
-        }
-        return ret;
-      };
-    };
-
-    var deepMerge = baseMerge(deep);
-    var merge = baseMerge(shallow);
-
-    return {
-      deepMerge: deepMerge,
-      merge: merge
-    };
-  }
-);
-define(
-  'ephox.sugar.api.properties.Toggler',
-
-  [
-  ],
-
-  function () {
-    return function (turnOff, turnOn, initial) {
-      var active = initial || false;
-
-      var on = function () {
-        turnOn();
-        active = true;
-      };
-
-      var off = function () {
-        turnOff();
-        active = false;
-      };
-
-      var toggle = function () {
-        var f = active ? off : on;
-        f();
-      };
-
-      var isOn = function () {
-        return active;
-      };
-
-      return {
-        on: on,
-        off: off,
-        toggle: toggle,
-        isOn: isOn
-      };
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.properties.AttrList',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.properties.Attr'
-  ],
-
-  function (Arr, Attr) {
-    // Methods for handling attributes that contain a list of values <div foo="alpha beta theta">
-    var read = function (element, attr) {
-      var value = Attr.get(element, attr);
-      return value === undefined || value === '' ? [] : value.split(' ');
-    };
-
-    var add = function (element, attr, id) {
-      var old = read(element, attr);
-      var nu = old.concat([id]);
-      Attr.set(element, attr, nu.join(' '));
-    };
-
-    var remove = function (element, attr, id) {
-      var nu = Arr.filter(read(element, attr), function (v) {
-        return v !== id;
-      });
-      if (nu.length > 0) Attr.set(element, attr, nu.join(' '));
-      else Attr.remove(element, attr);
-    };
-
-    return {
-      read: read,
-      add: add,
-      remove: remove
-    };
-  }
-);
-define(
-  'ephox.sugar.impl.ClassList',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.sugar.api.properties.AttrList'
-  ],
-
-  function (Arr, AttrList) {
-
-    var supports = function (element) {
-      // IE11 Can return undefined for a classList on elements such as math, so we make sure it's not undefined before attempting to use it.
-      return element.dom().classList !== undefined;
-    };
-
-    var get = function (element) {
-      return AttrList.read(element, 'class');
-    };
-
-    var add = function (element, clazz) {
-      return AttrList.add(element, 'class', clazz);
-    };
-
-    var remove = function (element, clazz) {
-      return AttrList.remove(element, 'class', clazz);
-    };
-
-    var toggle = function (element, clazz) {
-      if (Arr.contains(get(element), clazz)) {
-        remove(element, clazz);
-      } else {
-        add(element, clazz);
-      }
-    };
-
-    return {
-      get: get,
-      add: add,
-      remove: remove,
-      toggle: toggle,
-      supports: supports
-    };
-  }
-);
-define(
-  'ephox.sugar.api.properties.Class',
-
-  [
-    'ephox.sugar.api.properties.Toggler',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.impl.ClassList'
-  ],
-
-  function (Toggler, Attr, ClassList) {
-    /*
-     * ClassList is IE10 minimum:
-     * https://developer.mozilla.org/en-US/docs/Web/API/Element.classList
-     *
-     * Note that IE doesn't support the second argument to toggle (at all).
-     * If it did, the toggler could be better.
-     */
-
-    var add = function (element, clazz) {
-      if (ClassList.supports(element)) element.dom().classList.add(clazz);
-      else ClassList.add(element, clazz);
-    };
-
-    var cleanClass = function (element) {
-      var classList = ClassList.supports(element) ? element.dom().classList : ClassList.get(element);
-      // classList is a "live list", so this is up to date already
-      if (classList.length === 0) {
-        // No more classes left, remove the class attribute as well
-        Attr.remove(element, 'class');
-      }
-    };
-
-    var remove = function (element, clazz) {
-      if (ClassList.supports(element)) {
-        var classList = element.dom().classList;
-        classList.remove(clazz);
-      } else
-        ClassList.remove(element, clazz);
-
-      cleanClass(element);
-    };
-
-    var toggle = function (element, clazz) {
-      return ClassList.supports(element) ? element.dom().classList.toggle(clazz) :
-                                           ClassList.toggle(element, clazz);
-    };
-
-    var toggler = function (element, clazz) {
-      var hasClasslist = ClassList.supports(element);
-      var classList = element.dom().classList;
-      var off = function () {
-        if (hasClasslist) classList.remove(clazz);
-        else ClassList.remove(element, clazz);
-      };
-      var on = function () {
-        if (hasClasslist) classList.add(clazz);
-        else ClassList.add(element, clazz);
-      };
-      return Toggler(off, on, has(element, clazz));
-    };
-
-    var has = function (element, clazz) {
-      // Cereal has a nasty habit of calling this with a text node >.<
-      return ClassList.supports(element) && element.dom().classList.contains(clazz);
-    };
-
-    // set deleted, risks bad performance. Be deterministic.
-
-    return {
-      add: add,
-      remove: remove,
-      toggle: toggle,
-      toggler: toggler,
-      has: has
-    };
-  }
-);
-
-define(
   'ephox.sugar.api.dom.Insert',
 
   [
@@ -5231,1095 +3315,6 @@ define(
       remove: remove,
       unwrap: unwrap
     };
-  }
-);
-
-define(
-  'ephox.dragster.detect.Blocker',
-
-  [
-    'ephox.dragster.style.Styles',
-    'ephox.katamari.api.Merger',
-    'ephox.sugar.api.properties.Class',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.dom.Remove'
-  ],
-
-  function (Styles, Merger, Class, Css, Element, Remove) {
-    return function (options) {
-      var settings = Merger.merge({
-        'layerClass': Styles.resolve('blocker')
-      }, options);
-
-      var div = Element.fromTag('div');
-      Css.setAll(div, {
-        position: 'fixed',
-        left: '0px',
-        top: '0px',
-        width: '100%',
-        height: '100%'
-      });
-
-      Class.add(div, Styles.resolve('blocker'));
-      Class.add(div, settings.layerClass);
-
-      var element = function () {
-        return div;
-      };
-
-      var destroy = function () {
-        Remove.remove(div);
-      };
-
-      return {
-        element: element,
-        destroy: destroy
-      };
-    };
-  }
-);
-
-define(
-  'ephox.sugar.impl.FilteredEvent',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.api.node.Element'
-  ],
-
-  function (Fun, Element) {
-
-    var mkEvent = function (target, x, y, stop, prevent, kill, raw) {
-      // switched from a struct to manual Fun.constant() because we are passing functions now, not just values
-      return {
-        'target':  Fun.constant(target),
-        'x':       Fun.constant(x),
-        'y':       Fun.constant(y),
-        'stop':    stop,
-        'prevent': prevent,
-        'kill':    kill,
-        'raw':     Fun.constant(raw)
-      };
-    };
-
-    var handle = function (filter, handler) {
-      return function (rawEvent) {
-        if (!filter(rawEvent)) return;
-
-        // IE9 minimum
-        var target = Element.fromDom(rawEvent.target);
-
-        var stop = function () {
-          rawEvent.stopPropagation();
-        };
-
-        var prevent = function () {
-          rawEvent.preventDefault();
-        };
-
-        var kill = Fun.compose(prevent, stop); // more of a sequence than a compose, but same effect
-
-        // FIX: Don't just expose the raw event. Need to identify what needs standardisation.
-        var evt = mkEvent(target, rawEvent.clientX, rawEvent.clientY, stop, prevent, kill, rawEvent);
-        handler(evt);
-      };
-    };
-
-    var binder = function (element, event, filter, handler, useCapture) {
-      var wrapped = handle(filter, handler);
-      // IE9 minimum
-      element.dom().addEventListener(event, wrapped, useCapture);
-
-      return {
-        unbind: Fun.curry(unbind, element, event, wrapped, useCapture)
-      };
-    };
-
-    var bind = function (element, event, filter, handler) {
-      return binder(element, event, filter, handler, false);
-    };
-
-    var capture = function (element, event, filter, handler) {
-      return binder(element, event, filter, handler, true);
-    };
-
-    var unbind = function (element, event, handler, useCapture) {
-      // IE9 minimum
-      element.dom().removeEventListener(event, handler, useCapture);
-    };
-
-    return {
-      bind: bind,
-      capture: capture
-    };
-  }
-);
-define(
-  'ephox.sugar.api.events.DomEvent',
-
-  [
-    'ephox.katamari.api.Fun',
-    'ephox.sugar.impl.FilteredEvent'
-  ],
-
-  function (Fun, FilteredEvent) {
-    var filter = Fun.constant(true); // no filter on plain DomEvents
-
-    var bind = function (element, event, handler) {
-      return FilteredEvent.bind(element, event, filter, handler);
-    };
-
-    var capture = function (element, event, handler) {
-      return FilteredEvent.capture(element, event, filter, handler);
-    };
-
-    return {
-      bind: bind,
-      capture: capture
-    };
-  }
-);
-
-define(
-  'ephox.dragster.api.MouseDrag',
-
-  [
-    'ephox.dragster.api.DragApis',
-    'ephox.dragster.detect.Blocker',
-    'ephox.katamari.api.Option',
-    'ephox.sugar.api.view.Position',
-    'ephox.sugar.api.events.DomEvent',
-    'ephox.sugar.api.dom.Insert',
-    'ephox.sugar.api.dom.Remove'
-  ],
-
-  function (DragApis, Blocker, Option, Position, DomEvent, Insert, Remove) {
-    var compare = function (old, nu) {
-      return Position(nu.left() - old.left(), nu.top() - old.top());
-    };
-
-    var extract = function (event) {
-      return Option.some(Position(event.x(), event.y()));
-    };
-
-    var mutate = function (mutation, info) {
-      mutation.mutate(info.left(), info.top());
-    };
-
-    var sink = function (dragApi, settings) {
-      var blocker = Blocker(settings);
-
-      // Included for safety. If the blocker has stayed on the screen, get rid of it on a click.
-      var mdown = DomEvent.bind(blocker.element(), 'mousedown', dragApi.forceDrop);
-
-      var mup = DomEvent.bind(blocker.element(), 'mouseup', dragApi.drop);
-      var mmove = DomEvent.bind(blocker.element(), 'mousemove', dragApi.move);
-      var mout = DomEvent.bind(blocker.element(), 'mouseout', dragApi.delayDrop);
-
-      var destroy = function () {
-        blocker.destroy();
-        mup.unbind();
-        mmove.unbind();
-        mout.unbind();
-        mdown.unbind();
-      };
-
-      var start = function (parent) {
-        Insert.append(parent, blocker.element());
-      };
-
-      var stop = function () {
-        Remove.remove(blocker.element());
-      };
-
-      return DragApis.sink({
-        element: blocker.element,
-        start: start,
-        stop: stop,
-        destroy: destroy
-      });
-    };
-
-    return DragApis.mode({
-      compare: compare,
-      extract: extract,
-      sink: sink,
-      mutate: mutate
-    });
-  }
-);
-define(
-  'ephox.dragster.detect.InDrag',
-
-  [
-    'ephox.katamari.api.Option',
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events'
-  ],
-
-  function (Option, Event, Events) {
-    return function () {
-
-      var previous = Option.none();
-
-      var reset = function () {
-        previous = Option.none();
-      };
-
-      // Return position delta between previous position and nu position, 
-      // or None if this is the first. Set the previous position to nu.
-      var update = function (mode, nu) {
-        var result = previous.map(function (old) {
-          return mode.compare(old, nu);
-        });
-
-        previous = Option.some(nu);
-        return result;
-      };
-
-      var onEvent = function (event, mode) {
-        var dataOption = mode.extract(event);
-
-        // Dragster move events require a position delta. The moveevent is only triggered
-        // on the second and subsequent dragster move events. The first is dropped.
-        dataOption.each(function (data) {
-          var offset = update(mode, data);
-          offset.each(function (d) {
-            events.trigger.move(d);
-          });
-        });
-      };
-
-      var events = Events.create({
-        move: Event([ 'info' ])
-      });
-
-      return {
-        onEvent: onEvent,
-        reset: reset,
-        events: events.registry
-      };
-    };
-
-  }
-);
-
-define(
-  'ephox.dragster.detect.NoDrag',
-
-  [
-    'ephox.katamari.api.Fun'
-  ],
-
-  function (Fun) {
-    return function (anchor) {
-      var onEvent = function (event, mode) { };
-
-      return {
-        onEvent: onEvent,
-        reset: Fun.noop
-      };
-    };
-  }
-);
-
-define(
-  'ephox.dragster.detect.Movement',
-
-  [
-    'ephox.dragster.detect.InDrag',
-    'ephox.dragster.detect.NoDrag'
-  ],
-
-  function (InDrag, NoDrag) {
-
-    return function () {
-      var noDragState = NoDrag();
-      var inDragState = InDrag();
-      var dragState = noDragState;
-
-      var on = function () {
-        dragState.reset();
-        dragState = inDragState;
-      };
-
-      var off = function () {
-        dragState.reset();
-        dragState = noDragState;
-      };
-
-      var onEvent = function (event, mode) {
-        dragState.onEvent(event, mode);
-      };
-
-      var isOn = function () {
-        return dragState === inDragState;
-      };
-
-      return {
-        on: on,
-        off: off,
-        isOn: isOn,
-        onEvent: onEvent,
-        events: inDragState.events
-      };
-    };
-  }
-);
-
-defineGlobal("global!clearTimeout", clearTimeout);
-defineGlobal("global!setTimeout", setTimeout);
-define(
-  'ephox.katamari.api.Throttler',
-
-  [
-    'global!clearTimeout',
-    'global!setTimeout'
-  ],
-
-  function (clearTimeout, setTimeout) {
-    // Run a function fn afer rate ms. If another invocation occurs
-    // during the time it is waiting, update the arguments f will run
-    // with (but keep the current schedule)
-    var adaptable = function (fn, rate) {
-      var timer = null;
-      var args = null;
-      var cancel = function () {
-        if (timer !== null) {
-          clearTimeout(timer);
-          timer = null;
-          args = null;
-        }
-      };
-      var throttle = function () {
-        args = arguments;
-        if (timer === null) {
-          timer = setTimeout(function () {
-            fn.apply(null, args);
-            timer = null;
-            args = null;
-          }, rate);
-        }
-      };
-
-      return {
-        cancel: cancel,
-        throttle: throttle
-      };
-    };
-
-    // Run a function fn after rate ms. If another invocation occurs
-    // during the time it is waiting, ignore it completely.
-    var first = function (fn, rate) {
-      var timer = null;
-      var cancel = function () {
-        if (timer !== null) {
-          clearTimeout(timer);
-          timer = null;
-        }
-      };
-      var throttle = function () {
-        var args = arguments;
-        if (timer === null) {
-          timer = setTimeout(function () {
-            fn.apply(null, args);
-            timer = null;
-            args = null;
-          }, rate);
-        }
-      };
-
-      return {
-        cancel: cancel,
-        throttle: throttle
-      };
-    };
-
-    // Run a function fn after rate ms. If another invocation occurs
-    // during the time it is waiting, reschedule the function again
-    // with the new arguments.
-    var last = function (fn, rate) {
-      var timer = null;
-      var cancel = function () {
-        if (timer !== null) {
-          clearTimeout(timer);
-          timer = null;
-        }
-      };
-      var throttle = function () {
-        var args = arguments;
-        if (timer !== null) clearTimeout(timer);
-        timer = setTimeout(function () {
-          fn.apply(null, args);
-          timer = null;
-          args = null;
-        }, rate);
-      };
-
-      return {
-        cancel: cancel,
-        throttle: throttle
-      };
-    };
-
-    return {
-      adaptable: adaptable,
-      first: first,
-      last: last
-    };
-  }
-);
-define(
-  'ephox.dragster.core.Dragging',
-
-  [
-    'ephox.dragster.api.DragApis',
-    'ephox.dragster.detect.Movement',
-    'ephox.katamari.api.Throttler',
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events',
-    'global!Array'
-  ],
-
-  function (DragApis, Movement, Throttler, Event, Events, Array) {
-    var setup = function (mutation, mode, settings) {
-      var active = false;
-
-      var events = Events.create({
-        start: Event([]),
-        stop: Event([])
-      });
-
-      var movement = Movement();
-
-      var drop = function () {
-        sink.stop();
-        if (movement.isOn()) {
-          movement.off();
-          events.trigger.stop();
-        }
-      };
-
-      var throttledDrop = Throttler.last(drop, 200);
-
-      var go = function (parent) {
-        sink.start(parent);
-        movement.on();
-        events.trigger.start();
-      };
-
-      var mouseup = function (event, ui) {
-        drop();
-      };
-
-      var mousemove = function (event, ui) {
-        throttledDrop.cancel();
-        movement.onEvent(event, mode);
-      };
-
-      movement.events.move.bind(function (event) {
-        mode.mutate(mutation, event.info());
-      });
-
-      var on = function () {
-        active = true;
-      };
-
-      var off = function () {
-        active = false;
-        // acivate some events here?
-      };
-
-      var runIfActive = function (f) {
-        return function () {
-          var args = Array.prototype.slice.call(arguments, 0);
-          if (active) {
-            return f.apply(null, args);
-          }
-        };
-      };
-
-      var sink = mode.sink(DragApis.api({
-        // ASSUMPTION: runIfActive is not needed for mousedown. This is pretty much a safety measure for
-        // inconsistent situations so that we don't block input.
-        forceDrop: drop,
-        drop: runIfActive(drop),
-        move: runIfActive(mousemove),
-        delayDrop: runIfActive(throttledDrop.throttle)
-      }), settings);
-
-      var destroy = function () {
-        sink.destroy();
-      };
-
-      return {
-        element: sink.element,
-        go: go,
-        on: on,
-        off: off,
-        destroy: destroy,
-        events: events.registry
-      };
-    };
-
-    return {
-      setup: setup
-    };
-  }
-);
-define(
-  'ephox.dragster.api.Dragger',
-
-  [
-    'ephox.dragster.api.MouseDrag',
-    'ephox.dragster.core.Dragging',
-    'global!Array'
-  ],
-
-  function (MouseDrag, Dragging, Array) {
-    var transform = function (mutation, options) {
-      var settings = options !== undefined ? options : {};
-      var mode = settings.mode !== undefined ? settings.mode : MouseDrag;
-      return Dragging.setup(mutation, mode, options);
-    };
-      
-    return {
-      transform: transform
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.Mutation',
-
-  [
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events'
-  ],
-
-  function (Event, Events) {
-    return function () {
-      var events = Events.create({
-        'drag': Event(['xDelta', 'yDelta'])
-      });
-
-      var mutate = function (x, y) {
-        events.trigger.drag(x, y);
-      };
-
-      return {
-        mutate: mutate,
-        events: events.registry
-      };
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.BarMutation',
-
-  [
-    'ephox.katamari.api.Option',
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events',
-    'ephox.snooker.resize.Mutation'
-  ],
-
-  function (Option, Event, Events, Mutation) {
-    return function () {
-      var events = Events.create({
-        drag: Event(['xDelta', 'yDelta', 'target'])
-      });
-
-      var target = Option.none();
-
-      var delegate = Mutation();
-
-      delegate.events.drag.bind(function (event) {
-        target.each(function (t) {
-          // There is always going to be this padding / border collapse / margin problem with widths. I'll have to resolve that.
-          events.trigger.drag(event.xDelta(), event.yDelta(), t);
-        });
-      });
-
-      var assign = function (t) {
-        target = Option.some(t);
-      };
-
-      var get = function () {
-        return target;
-      };
-
-      return {
-        assign: assign,
-        get: get,
-        mutate: delegate.mutate,
-        events: events.registry
-      };
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.Bar',
-
-  [
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.api.node.Element'
-  ],
-
-  function (Attr, Css, Element) {
-    var col = function (column, x, y, w, h) {
-      var blocker = Element.fromTag('div');
-      Css.setAll(blocker, {
-        position: 'absolute',
-        left: x - w/2 + 'px',
-        top: y + 'px',
-        height: h + 'px',
-        width: w + 'px'
-      });
-
-      Attr.set(blocker, 'data-column', column);
-      return blocker;
-    };
-
-    var row = function (row, x, y, w, h) {
-      var blocker = Element.fromTag('div');
-      Css.setAll(blocker, {
-        position: 'absolute',
-        left: x + 'px',
-        top: y - h/2 + 'px',
-        height: h + 'px',
-        width: w + 'px'
-      });
-
-      Attr.set(blocker, 'data-row', row);
-      return blocker;
-    };
-
-
-    return {
-      col: col,
-      row: row
-    };
-  }
-);
-
-define(
-  'ephox.snooker.style.Styles',
-
-  [
-    'ephox.katamari.api.Namespace'
-  ],
-
-  function (Namespace) {
-    var styles = Namespace.css('ephox-snooker');
-
-    return {
-      resolve: styles.resolve
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.Bars',
-
-  [
-    'ephox.katamari.api.Arr',
-    'ephox.snooker.lookup.Blocks',
-    'ephox.snooker.model.DetailsList',
-    'ephox.snooker.model.Warehouse',
-    'ephox.snooker.resize.Bar',
-    'ephox.snooker.style.Styles',
-    'ephox.sugar.api.dom.Insert',
-    'ephox.sugar.api.dom.Remove',
-    'ephox.sugar.api.properties.Class',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.api.search.SelectorFilter',
-    'ephox.sugar.api.view.Height',
-    'ephox.sugar.api.view.Location',
-    'ephox.sugar.api.view.Width'
-  ],
-
-  function (Arr, Blocks, DetailsList, Warehouse, Bar, Styles, Insert, Remove, Class, Css, SelectorFilter, Height, Location, Width) {
-    var resizeBar = Styles.resolve('resizer-bar');
-    var resizeRowBar = Styles.resolve('resizer-rows');
-    var resizeColBar = Styles.resolve('resizer-cols');
-    var BAR_THICKNESS = 7;
-
-    var clear = function (wire) {
-      var previous = SelectorFilter.descendants(wire.parent(), '.' + resizeBar);
-      Arr.each(previous, Remove.remove);
-    };
-
-    var drawBar = function (wire, positions, create) {
-      var origin = wire.origin();
-      Arr.each(positions, function (cpOption, i) {
-        cpOption.each(function (cp) {
-          var bar = create(origin, cp);
-          Class.add(bar, resizeBar);
-          Insert.append(wire.parent(), bar);
-        });
-      });
-    };
-
-    var refreshCol = function (wire, colPositions, position, tableHeight) {
-      drawBar(wire, colPositions, function (origin, cp) {
-        var colBar = Bar.col(cp.col(), cp.x() - origin.left(), position.top() - origin.top(), BAR_THICKNESS, tableHeight);
-        Class.add(colBar, resizeColBar);
-        return colBar;
-      });
-    };
-
-    var refreshRow = function (wire, rowPositions, position, tableWidth) {
-      drawBar(wire, rowPositions, function (origin, cp) {
-        var rowBar = Bar.row(cp.row(), position.left() - origin.left(), cp.y() - origin.top(), tableWidth, BAR_THICKNESS);
-        Class.add(rowBar, resizeRowBar);
-        return rowBar;
-      });
-    };
-
-    var refreshGrid = function (wire, table, rows, cols, hdirection, vdirection) {
-      var position = Location.absolute(table);
-      var rowPositions = rows.length > 0 ? hdirection.positions(rows, table) : [];
-      refreshRow(wire, rowPositions, position, Width.getOuter(table));
-
-      var colPositions = cols.length > 0 ? vdirection.positions(cols, table) : [];
-      refreshCol(wire, colPositions, position, Height.getOuter(table));
-    };
-
-    var refresh = function (wire, table, hdirection, vdirection) {
-      clear(wire, table);
-
-      var list = DetailsList.fromTable(table);
-      var warehouse = Warehouse.generate(list);
-      var rows = Blocks.rows(warehouse);
-      var cols = Blocks.columns(warehouse);
-
-      refreshGrid(wire, table, rows, cols, hdirection, vdirection);
-    };
-
-    var each = function (wire, f) {
-      var bars = SelectorFilter.descendants(wire.parent(), '.' + resizeBar);
-      Arr.each(bars, f);
-    };
-
-    var hide = function (wire) {
-      each(wire, function(bar) {
-        Css.set(bar, 'display', 'none');
-      });
-    };
-
-    var show = function (wire) {
-      each(wire, function(bar) {
-        Css.set(bar, 'display', 'block');
-      });
-    };
-
-    var isRowBar = function (element) {
-      return Class.has(element, resizeRowBar);
-    };
-
-    var isColBar = function (element) {
-      return Class.has(element, resizeColBar);
-    };
-
-    return {
-      refresh: refresh,
-      hide: hide,
-      show: show,
-      destroy: clear,
-      isRowBar: isRowBar,
-      isColBar: isColBar
-    };
-  }
-);
-
-define(
-  'ephox.sugar.api.search.SelectorExists',
-
-  [
-    'ephox.sugar.api.search.SelectorFind'
-  ],
-
-  function (SelectorFind) {
-    var any = function (selector) {
-      return SelectorFind.first(selector).isSome();
-    };
-
-    var ancestor = function (scope, selector, isRoot) {
-      return SelectorFind.ancestor(scope, selector, isRoot).isSome();
-    };
-
-    var sibling = function (scope, selector) {
-      return SelectorFind.sibling(scope, selector).isSome();
-    };
-
-    var child = function (scope, selector) {
-      return SelectorFind.child(scope, selector).isSome();
-    };
-
-    var descendant = function (scope, selector) {
-      return SelectorFind.descendant(scope, selector).isSome();
-    };
-
-    var closest = function (scope, selector, isRoot) {
-      return SelectorFind.closest(scope, selector, isRoot).isSome();
-    };
-
-    return {
-      any: any,
-      ancestor: ancestor,
-      sibling: sibling,
-      child: child,
-      descendant: descendant,
-      closest: closest
-    };
-  }
-);
-
-define(
-  'ephox.snooker.resize.BarManager',
-
-  [
-    'ephox.dragster.api.Dragger',
-    'ephox.katamari.api.Fun',
-    'ephox.katamari.api.Option',
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events',
-    'ephox.snooker.resize.BarMutation',
-    'ephox.snooker.resize.Bars',
-    'ephox.snooker.style.Styles',
-    'ephox.snooker.util.CellUtils',
-    'ephox.sugar.api.dom.Compare',
-    'ephox.sugar.api.events.DomEvent',
-    'ephox.sugar.api.node.Body',
-    'ephox.sugar.api.node.Node',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.properties.Class',
-    'ephox.sugar.api.properties.Css',
-    'ephox.sugar.api.search.SelectorExists',
-    'ephox.sugar.api.search.SelectorFind',
-    'global!parseInt'
-  ],
-
-  function (
-    Dragger, Fun, Option, Event, Events, BarMutation, Bars, Styles, CellUtils, Compare, DomEvent, Body, Node, Attr, Class, Css, SelectorExists, SelectorFind,
-    parseInt
-  ) {
-    var resizeBarDragging = Styles.resolve('resizer-bar-dragging');
-
-    return function (wire, direction, hdirection) {
-      var mutation = BarMutation();
-      var resizing = Dragger.transform(mutation, {});
-
-      var hoverTable = Option.none();
-
-      var getResizer = function (element, type) {
-        return Option.from(Attr.get(element, type));
-      };
-
-      /* Reposition the bar as the user drags */
-      mutation.events.drag.bind(function (event) {
-        getResizer(event.target(), 'data-row').each(function (_dataRow) {
-          var currentRow = CellUtils.getInt(event.target(), 'top');
-          Css.set(event.target(), 'top', currentRow + event.yDelta() + 'px');
-        });
-
-        getResizer(event.target(), 'data-column').each(function (_dataCol) {
-          var currentCol = CellUtils.getInt(event.target(), 'left');
-          Css.set(event.target(), 'left', currentCol + event.xDelta() + 'px');
-        });
-      });
-
-      var getDelta = function (target, direction) {
-        var newX = CellUtils.getInt(target, direction);
-        var oldX = parseInt(Attr.get(target, 'data-initial-' + direction), 10);
-        return newX - oldX;
-      };
-
-      /* Resize the column once the user releases the mouse */
-      resizing.events.stop.bind(function () {
-        mutation.get().each(function (target) {
-          hoverTable.each(function (table) {
-            getResizer(target, 'data-row').each(function (row) {
-              var delta = getDelta(target, 'top');
-              Attr.remove(target, 'data-initial-top');
-              events.trigger.adjustHeight(table, delta, parseInt(row, 10));
-            });
-
-            getResizer(target, 'data-column').each(function (column) {
-              var delta = getDelta(target, 'left');
-              Attr.remove(target, 'data-initial-left');
-              events.trigger.adjustWidth(table, delta, parseInt(column, 10));
-            });
-
-            Bars.refresh(wire, table, hdirection, direction);
-          });
-        });
-
-      });
-
-      var handler = function (target, direction) {
-        events.trigger.startAdjust();
-        mutation.assign(target);
-        Attr.set(target, 'data-initial-' + direction, parseInt(Css.get(target, direction), 10));
-        Class.add(target, resizeBarDragging);
-        Css.set(target, 'opacity', '0.2');
-        resizing.go(wire.parent());
-      };
-
-      /* mousedown on resize bar: start dragging when the bar is clicked, storing the initial position. */
-      var mousedown = DomEvent.bind(wire.parent(), 'mousedown', function (event) {
-        if (Bars.isRowBar(event.target())) handler(event.target(), 'top');
-
-        if (Bars.isColBar(event.target())) handler(event.target(), 'left');
-      });
-
-      var isRoot = function (e) { return Compare.eq(e, wire.view()); };
-
-      /* mouseover on table: When the mouse moves within the CONTENT AREA (NOT THE TABLE), refresh the bars. */
-      var mouseover = DomEvent.bind(wire.view(), 'mouseover', function (event) {
-        if (Node.name(event.target()) === 'table' || SelectorExists.ancestor(event.target(), 'table', isRoot)) {
-          hoverTable = Node.name(event.target()) === 'table' ? Option.some(event.target()) : SelectorFind.ancestor(event.target(), 'table', isRoot);
-          hoverTable.each(function (ht) {
-            Bars.refresh(wire, ht, hdirection, direction);
-          });
-        } else if (Body.inBody(event.target())) {
-          /*
-           * mouseout is not reliable within ContentEditable, so for all other mouseover events we clear bars.
-           * This is fairly safe to do frequently; it's a single querySelectorAll() on the content and Arr.map on the result.
-           * If we _really_ need to optimise it further, we can start caching the bar references in the wire somehow.
-           */
-          Bars.destroy(wire);
-        }
-      });
-
-      var destroy = function () {
-        mousedown.unbind();
-        mouseover.unbind();
-        resizing.destroy();
-        Bars.destroy(wire);
-      };
-
-      var refresh = function (tbl) {
-        Bars.refresh(wire, tbl, hdirection, direction);
-      };
-
-      var events = Events.create({
-        adjustHeight: Event(['table', 'delta', 'row']),
-        adjustWidth: Event(['table', 'delta', 'column']),
-        startAdjust: Event([])
-      });
-
-      return {
-        destroy: destroy,
-        refresh: refresh,
-        on: resizing.on,
-        off: resizing.off,
-        hideBars: Fun.curry(Bars.hide, wire),
-        showBars: Fun.curry(Bars.show, wire),
-        events: events.registry
-      };
-    };
-  }
-);
-define(
-  'ephox.snooker.api.TableResize',
-
-  [
-    'ephox.porkbun.Event',
-    'ephox.porkbun.Events',
-    'ephox.snooker.resize.Adjustments',
-    'ephox.snooker.resize.BarManager',
-    'ephox.snooker.resize.BarPositions'
-  ],
-
-  function (Event, Events, Adjustments, BarManager, BarPositions) {
-    /*
-     * Creates and sets up a bar-based column resize manager.
-     * Wire is used to provide the parent, view, and origin
-     */
-    return function (wire, vdirection) {
-      var hdirection = BarPositions.height;
-      var manager = BarManager(wire, vdirection, hdirection);
-
-      var events = Events.create({
-        beforeResize: Event(['table']),
-        afterResize: Event(['table']),
-        startDrag: Event([])
-      });
-
-      manager.events.adjustHeight.bind(function (event) {
-        events.trigger.beforeResize(event.table());
-        var delta = hdirection.delta(event.delta(), event.table());
-        Adjustments.adjustHeight(event.table(), delta, event.row(), hdirection);
-        events.trigger.afterResize(event.table());
-      });
-
-      manager.events.startAdjust.bind(function (event) {
-        events.trigger.startDrag();
-      });
-
-      manager.events.adjustWidth.bind(function (event) {
-        events.trigger.beforeResize(event.table());
-        var delta = vdirection.delta(event.delta(), event.table());
-        Adjustments.adjustWidth(event.table(), delta, event.column(), vdirection);
-        events.trigger.afterResize(event.table());
-      });
-
-      return {
-        on: manager.on,
-        off: manager.off,
-        hideBars: manager.hideBars,
-        showBars: manager.showBars,
-        destroy: manager.destroy,
-        events: events.registry
-      };
-    };
-  }
-);
-
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Tools',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Tools');
   }
 );
 
@@ -8287,6 +5282,411 @@ define(
 );
 
 define(
+  'ephox.sugar.impl.Dimension',
+
+  [
+    'ephox.katamari.api.Type',
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.impl.Style'
+  ],
+
+  function (Type, Arr, Css, Style) {
+    return function (name, getOffset) {
+      var set = function (element, h) {
+        if (!Type.isNumber(h) && !h.match(/^[0-9]+$/)) throw name + '.set accepts only positive integer values. Value was ' + h;
+        var dom = element.dom();
+        if (Style.isSupported(dom)) dom.style[name] = h + 'px';
+      };
+
+      /*
+       * jQuery supports querying width and height on the document and window objects.
+       *
+       * TBIO doesn't do this, so the code is removed to save space, but left here just in case.
+       */
+  /*
+      var getDocumentWidth = function (element) {
+        var dom = element.dom();
+        if (Node.isDocument(element)) {
+          var body = dom.body;
+          var doc = dom.documentElement;
+          return Math.max(
+            body.scrollHeight,
+            doc.scrollHeight,
+            body.offsetHeight,
+            doc.offsetHeight,
+            doc.clientHeight
+          );
+        }
+      };
+
+      var getWindowWidth = function (element) {
+        var dom = element.dom();
+        if (dom.window === dom) {
+          // There is no offsetHeight on a window, so use the clientHeight of the document
+          return dom.document.documentElement.clientHeight;
+        }
+      };
+  */
+
+
+      var get = function (element) {
+        var r = getOffset(element);
+
+        // zero or null means non-standard or disconnected, fall back to CSS
+        if ( r <= 0 || r === null ) {
+          var css = Css.get(element, name);
+          // ugh this feels dirty, but it saves cycles
+          return parseFloat(css) || 0;
+        }
+        return r;
+      };
+
+      // in jQuery, getOuter replicates (or uses) box-sizing: border-box calculations
+      // although these calculations only seem relevant for quirks mode, and edge cases TBIO doesn't rely on
+      var getOuter = get;
+
+      var aggregate = function (element, properties) {
+        return Arr.foldl(properties, function (acc, property) {
+          var val = Css.get(element, property);
+          var value = val === undefined ? 0: parseInt(val, 10);
+          return isNaN(value) ? acc : acc + value;
+        }, 0);
+      };
+
+      var max = function (element, value, properties) {
+        var cumulativeInclusions = aggregate(element, properties);
+        // if max-height is 100px and your cumulativeInclusions is 150px, there is no way max-height can be 100px, so we return 0.
+        var absoluteMax = value > cumulativeInclusions ? value - cumulativeInclusions : 0;
+        return absoluteMax;
+      };
+
+      return {
+        set: set,
+        get: get,
+        getOuter: getOuter,
+        aggregate: aggregate,
+        max: max
+      };
+    };
+  }
+);
+define(
+  'ephox.sugar.api.view.Height',
+
+  [
+    'ephox.sugar.api.node.Body',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.impl.Dimension'
+  ],
+
+  function (Body, Css, Dimension) {
+    var api = Dimension('height', function (element) {
+      // getBoundingClientRect gives better results than offsetHeight for tables with captions on Firefox
+      return Body.inBody(element) ? element.dom().getBoundingClientRect().height : element.dom().offsetHeight;
+    });
+
+    var set = function (element, h) {
+      api.set(element, h);
+    };
+
+    var get = function (element) {
+      return api.get(element);
+    };
+
+    var getOuter = function (element) {
+      return api.getOuter(element);
+    };
+
+    var setMax = function (element, value) {
+      // These properties affect the absolute max-height, they are not counted natively, we want to include these properties.
+      var inclusions = [ 'margin-top', 'border-top-width', 'padding-top', 'padding-bottom', 'border-bottom-width', 'margin-bottom' ];
+      var absMax = api.max(element, value, inclusions);
+      Css.set(element, 'max-height', absMax + 'px');
+    };
+
+    return {
+      set: set,
+      get: get,
+      getOuter: getOuter,
+      setMax: setMax
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.view.Width',
+
+  [
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.impl.Dimension'
+  ],
+
+  function (Css, Dimension) {
+    var api = Dimension('width', function (element) {
+      // IMO passing this function is better than using dom['offset' + 'width']
+      return element.dom().offsetWidth;
+    });
+
+    var set = function (element, h) {
+      api.set(element, h);
+    };
+
+    var get = function (element) {
+      return api.get(element);
+    };
+
+    var getOuter = function (element) {
+      return api.getOuter(element);
+    };
+
+    var setMax = function (element, value) {
+      // These properties affect the absolute max-height, they are not counted natively, we want to include these properties.
+      var inclusions = [ 'margin-left', 'border-left-width', 'padding-left', 'padding-right', 'border-right-width', 'margin-right' ];
+      var absMax = api.max(element, value, inclusions);
+      Css.set(element, 'max-width', absMax + 'px');
+    };
+
+    return {
+      set: set,
+      get: get,
+      getOuter: getOuter,
+      setMax: setMax
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.RuntimeSize',
+
+  [
+    'ephox.sand.api.PlatformDetection',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.view.Height',
+    'ephox.sugar.api.view.Width'
+  ],
+
+  function (PlatformDetection, Css, Height, Width) {
+    var platform = PlatformDetection.detect();
+
+    var needManualCalc = function () {
+      return platform.browser.isIE() || platform.browser.isEdge();
+    };
+
+    var toNumber = function (px, fallback) {
+      var num = parseFloat(px); // parseFloat removes suffixes like px
+      return isNaN(num) ? fallback : num;
+    };
+
+    var getProp = function (elm, name, fallback) {
+      return toNumber(Css.get(elm, name), fallback);
+    };
+
+    var getCalculatedHeight = function (cell) {
+      var paddingTop = getProp(cell, 'padding-top', 0);
+      var paddingBottom = getProp(cell, 'padding-bottom', 0);
+      var borderTop = getProp(cell, 'border-top-width', 0);
+      var borderBottom = getProp(cell, 'border-bottom-width', 0);
+      var height = cell.dom().getBoundingClientRect().height;
+      var boxSizing = Css.get(cell, 'box-sizing');
+      var borders = borderTop + borderBottom;
+
+      return boxSizing === 'border-box' ? height : height - paddingTop - paddingBottom - borders;
+    };
+
+    var getWidth = function (cell) {
+      return getProp(cell, 'width', Width.get(cell));
+    };
+
+    var getHeight = function (cell) {
+      return needManualCalc() ? getCalculatedHeight(cell) : getProp(cell, 'height', Height.get(cell));
+    };
+
+    return {
+      getWidth: getWidth,
+      getHeight: getHeight
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.Sizes',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Strings',
+    'ephox.snooker.api.TableLookup',
+    'ephox.snooker.resize.RuntimeSize',
+    'ephox.sugar.api.node.Node',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.view.Height',
+    'ephox.sugar.api.view.Width',
+    'global!Math',
+    'global!parseInt'
+  ],
+
+  function (Fun, Option, Strings, TableLookup, RuntimeSize, Node, Attr, Css, Height, Width, Math, parseInt) {
+
+    var genericSizeRegex = /(\d+(\.\d+)?)(\w|%)*/;
+    var percentageBasedSizeRegex = /(\d+(\.\d+)?)%/;
+    var pixelBasedSizeRegex = /(\d+(\.\d+)?)px|em/;
+
+    var setPixelWidth = function (cell, amount) {
+      Css.set(cell, 'width', amount + 'px');
+    };
+
+    var setPercentageWidth = function (cell, amount) {
+      Css.set(cell, 'width', amount + '%');
+    };
+
+    var setHeight = function (cell, amount) {
+      Css.set(cell, 'height', amount + 'px');
+    };
+
+    var getHeightValue = function (cell) {
+      return Css.getRaw(cell, 'height').getOrThunk(function () {
+        return RuntimeSize.getHeight(cell) + 'px';
+      });
+    };
+
+    var convert = function (cell, number, getter, setter) {
+      var newSize = TableLookup.table(cell).map(function (table) {
+        var total = getter(table);
+        return Math.floor((number / 100.0) * total);
+      }).getOr(number);
+      setter(cell, newSize);
+      return newSize;
+    };
+
+    var normalizePixelSize = function (value, cell, getter, setter) {
+      var number = parseInt(value, 10);
+      return Strings.endsWith(value, '%') && Node.name(cell) !== 'table' ? convert(cell, number, getter, setter) : number;
+    };
+
+    var getTotalHeight = function (cell) {
+      var value = getHeightValue(cell);
+      if (!value) return Height.get(cell);
+      return normalizePixelSize(value, cell, Height.get, setHeight);
+    };
+
+    var get = function (cell, type, f) {
+      var v = f(cell);
+      var span = getSpan(cell, type);
+      return v / span;
+    };
+
+    var getSpan = function (cell, type) {
+      return Attr.has(cell, type) ? parseInt(Attr.get(cell, type), 10) : 1;
+    };
+
+    var getRawWidth = function (element) {
+      // Try to use the style width first, otherwise attempt to get attribute width
+      var cssWidth = Css.getRaw(element, 'width');
+      return cssWidth.fold(function () {
+        return Option.from(Attr.get(element, 'width'));
+      }, function (width) {
+        return Option.some(width);
+      });
+    };
+
+    var normalizePercentageWidth = function (cellWidth, tableSize) {
+      return cellWidth / tableSize.pixelWidth() * 100;
+    };
+
+    var choosePercentageSize = function (element, width, tableSize) {
+      if (percentageBasedSizeRegex.test(width)) {
+        var percentMatch = percentageBasedSizeRegex.exec(width);
+        return parseFloat(percentMatch[1], 10);
+      } else {
+        var fallbackWidth = Width.get(element);
+        var intWidth = parseInt(fallbackWidth, 10);
+        return normalizePercentageWidth(intWidth, tableSize);
+      }
+    };
+
+    // Get a percentage size for a percentage parent table
+    var getPercentageWidth = function (cell, tableSize) {
+      var width = getRawWidth(cell);
+      return width.fold(function () {
+        var width = Width.get(cell);
+        var intWidth = parseInt(width, 10);
+        return normalizePercentageWidth(intWidth, tableSize);
+      }, function (width) {
+        return choosePercentageSize(cell, width, tableSize);
+      });
+    };
+
+    var normalizePixelWidth = function (cellWidth, tableSize) {
+      return cellWidth / 100 * tableSize.pixelWidth();
+    };
+
+    var choosePixelSize = function (element, width, tableSize) {
+      if (pixelBasedSizeRegex.test(width)) {
+        var pixelMatch = pixelBasedSizeRegex.exec(width);
+        return parseInt(pixelMatch[1], 10);
+      } else if (percentageBasedSizeRegex.test(width)) {
+        var percentMatch = percentageBasedSizeRegex.exec(width);
+        var floatWidth = parseFloat(percentMatch[1], 10);
+        return normalizePixelWidth(floatWidth, tableSize);
+      } else {
+        var fallbackWidth = Width.get(element);
+        return parseInt(fallbackWidth, 10);
+      }
+    };
+
+    var getPixelWidth = function (cell, tableSize) {
+      var width = getRawWidth(cell);
+      return width.fold(function () {
+        var width = Width.get(cell);
+        var intWidth = parseInt(width, 10);
+        return intWidth;
+      }, function (width) {
+        return choosePixelSize(cell, width, tableSize);
+      });
+    };
+
+    var getHeight = function (cell) {
+      return get(cell, 'rowspan', getTotalHeight);
+    };
+
+    var getGenericWidth = function (cell) {
+      var width = getRawWidth(cell);
+      return width.bind(function (width) {
+        if (genericSizeRegex.test(width)) {
+          var match = genericSizeRegex.exec(width);
+          return Option.some({
+            width: Fun.constant(match[1]),
+            unit: Fun.constant(match[3])
+          });
+        } else {
+          return Option.none();
+        }
+      });
+    };
+
+    var setGenericWidth = function (cell, amount, unit) {
+      Css.set(cell, 'width', amount + unit);
+    };
+
+    return {
+      percentageBasedSizeRegex: Fun.constant(percentageBasedSizeRegex),
+      pixelBasedSizeRegex: Fun.constant(pixelBasedSizeRegex),
+      setPixelWidth: setPixelWidth,
+      setPercentageWidth: setPercentageWidth,
+      setHeight: setHeight,
+      getPixelWidth: getPixelWidth,
+      getPercentageWidth: getPercentageWidth,
+      getGenericWidth: getGenericWidth,
+      setGenericWidth: setGenericWidth,
+      getHeight: getHeight,
+      getRawWidth: getRawWidth
+    };
+  }
+);
+
+define(
   'ephox.snooker.api.CellMutations',
 
   [
@@ -8309,6 +5709,273 @@ define(
   }
 );
 
+define(
+  'ephox.sugar.api.view.Position',
+
+  [
+    'ephox.katamari.api.Fun'
+  ],
+
+  function (Fun) {
+    var r = function (left, top) {
+      var translate = function (x, y) {
+        return r(left + x, top + y);
+      };
+
+      return {
+        left: Fun.constant(left),
+        top: Fun.constant(top),
+        translate: translate
+      };
+    };
+
+    return r;
+  }
+);
+
+define(
+  'ephox.sugar.api.dom.Dom',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.dom.Compare',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.node.Node',
+    'ephox.sugar.api.search.PredicateFind',
+    'global!document'
+  ],
+
+  function (Fun, Compare, Element, Node, PredicateFind, document) {
+    // TEST: Is this just Body.inBody which doesn't need scope ??
+    var attached = function (element, scope) {
+      var doc = scope || Element.fromDom(document.documentElement);
+      return PredicateFind.ancestor(element, Fun.curry(Compare.eq, doc)).isSome();
+    };
+
+    // TEST: Is this just Traverse.defaultView ??
+    var windowOf = function (element) {
+      var dom = element.dom();
+      if (dom === dom.window) return element;
+      return Node.isDocument(element) ? dom.defaultView || dom.parentWindow : null;
+    };
+
+    return {
+      attached: attached,
+      windowOf: windowOf
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.view.Location',
+
+  [
+    'ephox.sugar.api.view.Position',
+    'ephox.sugar.api.dom.Dom',
+    'ephox.sugar.api.node.Element'
+  ],
+
+  function (Position, Dom, Element) {
+    var boxPosition = function (dom) {
+      var box = dom.getBoundingClientRect();
+      return Position(box.left, box.top);
+    };
+
+    // Avoids falsy false fallthrough
+    var firstDefinedOrZero = function (a, b) {
+      return a !== undefined ? a :
+             b !== undefined ? b :
+             0;
+    };
+
+    var absolute = function (element) {
+      var doc = element.dom().ownerDocument;
+      var body = doc.body;
+      var win = Dom.windowOf(Element.fromDom(doc));
+      var html = doc.documentElement;
+
+
+      var scrollTop = firstDefinedOrZero(win.pageYOffset, html.scrollTop);
+      var scrollLeft = firstDefinedOrZero(win.pageXOffset, html.scrollLeft);
+
+      var clientTop = firstDefinedOrZero(html.clientTop, body.clientTop);
+      var clientLeft = firstDefinedOrZero(html.clientLeft, body.clientLeft);
+
+      return viewport(element).translate(
+          scrollLeft - clientLeft,
+          scrollTop - clientTop);
+    };
+
+    // This is the old $.position(), but JQuery does nonsense calculations.
+    // We're only 1 <-> 1 with the old value in the single place we use this function
+    // (ego.api.Dragging) so the rest can bite me.
+    var relative = function (element) {
+      var dom = element.dom();
+      // jquery-ism: when style="position: fixed", this === boxPosition()
+      // but tests reveal it returns the same thing anyway
+      return Position(dom.offsetLeft, dom.offsetTop);
+    };
+
+    var viewport = function (element) {
+      var dom = element.dom();
+
+      var doc = dom.ownerDocument;
+      var body = doc.body;
+      var html = Element.fromDom(doc.documentElement);
+
+      if (body === dom)
+        return Position(body.offsetLeft, body.offsetTop);
+
+      if (!Dom.attached(element, html))
+        return Position(0, 0);
+
+      return boxPosition(dom);
+    };
+
+    return {
+      absolute: absolute,
+      relative: relative,
+      viewport: viewport
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.BarPositions',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Struct',
+    'ephox.sugar.api.view.Height',
+    'ephox.sugar.api.view.Location',
+    'ephox.sugar.api.view.Width'
+  ],
+
+  function (Arr, Fun, Struct, Height, Location, Width) {
+    var rowInfo = Struct.immutable('row', 'y');
+    var colInfo = Struct.immutable('col', 'x');
+
+    var rtlEdge = function (cell) {
+      var pos = Location.absolute(cell);
+      return pos.left() + Width.getOuter(cell);
+    };
+
+    var ltrEdge = function (cell) {
+      return Location.absolute(cell).left();
+    };
+
+    var getLeftEdge = function (index, cell) {
+      return colInfo(index, ltrEdge(cell));
+    };
+
+    var getRightEdge = function (index, cell) {
+      return colInfo(index, rtlEdge(cell));
+    };
+
+    var getTop = function (cell) {
+      return Location.absolute(cell).top();
+    };
+
+    var getTopEdge = function (index, cell) {
+      return rowInfo(index, getTop(cell));
+    };
+
+    var getBottomEdge = function (index, cell) {
+      return rowInfo(index, getTop(cell) + Height.getOuter(cell));
+    };
+
+    var findPositions = function (getInnerEdge, getOuterEdge, array) {
+      if (array.length === 0 ) return [];
+      var lines = Arr.map(array.slice(1), function (cellOption, index) {
+        return cellOption.map(function (cell) {
+          return getInnerEdge(index, cell);
+        });
+      });
+
+      var lastLine = array[array.length - 1].map(function (cell) {
+        return getOuterEdge(array.length - 1, cell);
+      });
+
+      return lines.concat([ lastLine ]);
+    };
+
+    var negate = function (step, _table) {
+      return -step;
+    };
+
+    var height = {
+      delta: Fun.identity,
+      positions: Fun.curry(findPositions, getTopEdge, getBottomEdge),
+      edge: getTop
+    };
+
+    var ltr = {
+      delta: Fun.identity,
+      edge: ltrEdge,
+      positions: Fun.curry(findPositions, getLeftEdge, getRightEdge)
+    };
+
+    var rtl = {
+      delta: negate,
+      edge: rtlEdge,
+      positions: Fun.curry(findPositions, getRightEdge, getLeftEdge)
+    };
+
+    return {
+      height: height,
+      rtl: rtl,
+      ltr: ltr
+    };
+  }
+);
+define(
+  'ephox.snooker.api.ResizeDirection',
+
+  [
+    'ephox.snooker.resize.BarPositions'
+  ],
+
+  function (BarPositions) {
+    return {
+      ltr: BarPositions.ltr,
+      rtl: BarPositions.rtl
+    };
+  }
+);
+define(
+  'ephox.snooker.api.TableDirection',
+
+  [
+    'ephox.snooker.api.ResizeDirection'
+  ],
+
+  function (ResizeDirection) {
+    return function (directionAt) {
+      var auto = function (table) {
+        return directionAt(table).isRtl() ? ResizeDirection.rtl : ResizeDirection.ltr;
+      };
+
+      var delta = function (amount, table) {
+        return auto(table).delta(amount, table);
+      };
+
+      var positions = function (cols, table) {
+        return auto(table).positions(cols, table);
+      };
+
+      var edge = function (cell) {
+        return auto(cell).edge(cell);
+      };
+
+      return {
+        delta: delta,
+        edge: edge,
+        positions: positions
+      };
+    };
+  }
+);
 define(
   'ephox.snooker.api.TableGridSize',
 
@@ -8362,6 +6029,74 @@ define(
   }
 );
 
+define(
+  'ephox.katamari.api.Contracts',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Obj',
+    'ephox.katamari.api.Type',
+    'ephox.katamari.util.BagUtils',
+    'global!Error'
+  ],
+
+  function (Arr, Fun, Obj, Type, BagUtils, Error) {
+    // Ensure that the object has all required fields. They must be functions.
+    var base = function (handleUnsupported, required) {
+      return baseWith(handleUnsupported, required, {
+        validate: Type.isFunction,
+        label: 'function'
+      });
+    };
+
+    // Ensure that the object has all required fields. They must satisy predicates.
+    var baseWith = function (handleUnsupported, required, pred) {
+      if (required.length === 0) throw new Error('You must specify at least one required field.');
+
+      BagUtils.validateStrArr('required', required);
+
+      BagUtils.checkDupes(required);
+
+      return function (obj) {
+        var keys = Obj.keys(obj);
+
+        // Ensure all required keys are present.
+        var allReqd = Arr.forall(required, function (req) {
+          return Arr.contains(keys, req);
+        });
+
+        if (! allReqd) BagUtils.reqMessage(required, keys);
+
+        handleUnsupported(required, keys);
+        
+        var invalidKeys = Arr.filter(required, function (key) {
+          return !pred.validate(obj[key], key);
+        });
+
+        if (invalidKeys.length > 0) BagUtils.invalidTypeMessage(invalidKeys, pred.label);
+
+        return obj;
+      };
+    };
+
+    var handleExact = function (required, keys) {
+      var unsupported = Arr.filter(keys, function (key) {
+        return !Arr.contains(required, key);
+      });
+
+      if (unsupported.length > 0) BagUtils.unsuppMessage(unsupported);
+    };
+
+    var allowExtra = Fun.noop;
+
+    return {
+      exactly: Fun.curry(base, handleExact),
+      ensure: Fun.curry(base, allowExtra),
+      ensureWith: Fun.curry(baseWith, allowExtra)
+    };
+  }
+);
 define(
   'ephox.snooker.api.Generators',
 
@@ -8768,6 +6503,110 @@ define(
 );
 
 define(
+  'ephox.katamari.api.Merger',
+
+  [
+    'ephox.katamari.api.Type',
+    'global!Array',
+    'global!Error'
+  ],
+
+  function (Type, Array, Error) {
+
+    var shallow = function (old, nu) {
+      return nu;
+    };
+
+    var deep = function (old, nu) {
+      var bothObjects = Type.isObject(old) && Type.isObject(nu);
+      return bothObjects ? deepMerge(old, nu) : nu;
+    };
+
+    var baseMerge = function (merger) {
+      return function() {
+        // Don't use array slice(arguments), makes the whole function unoptimisable on Chrome
+        var objects = new Array(arguments.length);
+        for (var i = 0; i < objects.length; i++) objects[i] = arguments[i];
+
+        if (objects.length === 0) throw new Error('Can\'t merge zero objects');
+
+        var ret = {};
+        for (var j = 0; j < objects.length; j++) {
+          var curObject = objects[j];
+          for (var key in curObject) if (curObject.hasOwnProperty(key)) {
+            ret[key] = merger(ret[key], curObject[key]);
+          }
+        }
+        return ret;
+      };
+    };
+
+    var deepMerge = baseMerge(deep);
+    var merge = baseMerge(shallow);
+
+    return {
+      deepMerge: deepMerge,
+      merge: merge
+    };
+  }
+);
+define(
+  'ephox.katamari.api.Options',
+
+  [
+    'ephox.katamari.api.Option'
+  ],
+
+  function (Option) {
+    /** cat :: [Option a] -> [a] */
+    var cat = function (arr) {
+      var r = [];
+      var push = function (x) {
+        r.push(x);
+      };
+      for (var i = 0; i < arr.length; i++) {
+        arr[i].each(push);
+      }
+      return r;
+    };
+
+    /** findMap :: ([a], (a, Int -> Option b)) -> Option b */
+    var findMap = function (arr, f) {
+      for (var i = 0; i < arr.length; i++) {
+        var r = f(arr[i], i);
+        if (r.isSome()) {
+          return r;
+        }
+      }
+      return Option.none();
+    };
+
+    /**
+     * if all elements in arr are 'some', their inner values are passed as arguments to f
+     * f must have arity arr.length
+    */
+    var liftN = function(arr, f) {
+      var r = [];
+      for (var i = 0; i < arr.length; i++) {
+        var x = arr[i];
+        if (x.isSome()) {
+          r.push(x.getOrDie());
+        } else {
+          return Option.none();
+        }
+      }
+      return Option.some(f.apply(null, r));
+    };
+
+    return {
+      cat: cat,
+      findMap: findMap,
+      liftN: liftN
+    };
+  }
+);
+
+define(
   'ephox.snooker.model.TableGrid',
 
   [
@@ -9007,6 +6846,580 @@ define(
     return {
       render: render,
       copy: copy
+    };
+  }
+);
+
+define(
+  'ephox.snooker.util.Util',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Option',
+    'ephox.katamari.api.Options',
+    'global!Math'
+  ],
+
+  function (Arr, Option, Options, Math) {
+    // Rename this module, and repeat should be in Arr.
+    var repeat = function(repititions, f) {
+      var r = [];
+      for (var i = 0; i < repititions; i++) {
+        r.push(f(i));
+      }
+      return r;
+    };
+
+    var range = function (start, end) {
+      var r = [];
+      for (var i = start; i < end; i++) {
+        r.push(i);
+      }
+      return r;
+    };
+
+    var unique = function (xs, comparator) {
+      var result = [];
+      Arr.each(xs, function (x, i) {
+        if (i < xs.length - 1 && !comparator(x, xs[i + 1])) {
+          result.push(x);
+        } else if (i === xs.length - 1) {
+          result.push(x);
+        }
+      });
+      return result;
+    };
+
+    var deduce = function (xs, index) {
+      if (index < 0 || index >= xs.length - 1) return Option.none();
+
+      var current = xs[index].fold(function () {
+        var rest = Arr.reverse(xs.slice(0, index));
+        return Options.findMap(rest, function (a, i) {
+          return a.map(function (aa) {
+            return { value: aa, delta: i+1 };
+          });
+        });
+      }, function (c) {
+        return Option.some({ value: c, delta: 0 });
+      });
+      var next = xs[index + 1].fold(function () {
+        var rest = xs.slice(index + 1);
+        return Options.findMap(rest, function (a, i) {
+          return a.map(function (aa) {
+            return { value: aa, delta: i + 1 };
+          });
+        });
+      }, function (n) {
+        return Option.some({ value: n, delta: 1 });
+      });
+
+      return current.bind(function (c) {
+        return next.map(function (n) {
+          var extras = n.delta + c.delta;
+          return Math.abs(n.value - c.value) / extras;
+        });
+      });
+    };
+
+    return {
+      repeat: repeat,
+      range: range,
+      unique: unique,
+      deduce: deduce
+    };
+  }
+);
+
+define(
+  'ephox.snooker.lookup.Blocks',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.snooker.model.Warehouse',
+    'ephox.snooker.util.Util'
+  ],
+
+  function (Arr, Fun, Option, Warehouse, Util) {
+    /*
+     * Identify for each column, a cell that has colspan 1. Note, this
+     * may actually fail, and future work will be to calculate column
+     * sizes that are only available through the difference of two
+     * spanning columns.
+     */
+    var columns = function (warehouse) {
+      var grid = warehouse.grid();
+      var cols = Util.range(0, grid.columns());
+      var rows = Util.range(0, grid.rows());
+
+      return Arr.map(cols, function (col) {
+        var getBlock = function () {
+          return Arr.bind(rows, function (r) {
+            return Warehouse.getAt(warehouse, r, col).filter(function (detail) {
+              return detail.column() === col;
+            }).fold(Fun.constant([]), function (detail) { return [ detail ]; });
+          });
+        };
+
+        var isSingle = function (detail) {
+          return detail.colspan() === 1;
+        };
+
+        var getFallback = function () {
+          return Warehouse.getAt(warehouse, 0, col);
+        };
+
+        return decide(getBlock, isSingle, getFallback);
+      });
+    };
+
+    var decide = function (getBlock, isSingle, getFallback) {
+      var inBlock = getBlock();
+      var singleInBlock = Arr.find(inBlock, isSingle);
+
+      var detailOption = singleInBlock.orThunk(function () {
+        return Option.from(inBlock[0]).orThunk(getFallback);
+      });
+
+      return detailOption.map(function (detail) { return detail.element(); });
+    };
+
+
+    var rows = function (warehouse) {
+      var grid = warehouse.grid();
+      var rows = Util.range(0, grid.rows());
+      var cols = Util.range(0, grid.columns());
+
+      return Arr.map(rows, function (row) {
+
+        var getBlock = function () {
+          return Arr.bind(cols, function (c) {
+            return Warehouse.getAt(warehouse, row, c).filter(function (detail) {
+              return detail.row() === row;
+            }).fold(Fun.constant([]), function (detail) { return [ detail ]; });
+          });
+        };
+
+        var isSingle = function (detail) {
+          return detail.rowspan() === 1;
+        };
+
+        var getFallback = function () {
+          return Warehouse.getAt(warehouse, row, 0);
+        };
+
+        return decide(getBlock, isSingle, getFallback);
+
+      });
+
+    };
+
+    return {
+      columns: columns,
+      rows: rows
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.Bar',
+
+  [
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.node.Element'
+  ],
+
+  function (Attr, Css, Element) {
+    var col = function (column, x, y, w, h) {
+      var blocker = Element.fromTag('div');
+      Css.setAll(blocker, {
+        position: 'absolute',
+        left: x - w/2 + 'px',
+        top: y + 'px',
+        height: h + 'px',
+        width: w + 'px'
+      });
+
+      Attr.set(blocker, 'data-column', column);
+      return blocker;
+    };
+
+    var row = function (row, x, y, w, h) {
+      var blocker = Element.fromTag('div');
+      Css.setAll(blocker, {
+        position: 'absolute',
+        left: x + 'px',
+        top: y - h/2 + 'px',
+        height: h + 'px',
+        width: w + 'px'
+      });
+
+      Attr.set(blocker, 'data-row', row);
+      return blocker;
+    };
+
+
+    return {
+      col: col,
+      row: row
+    };
+  }
+);
+
+define(
+  'ephox.katamari.api.Namespace',
+
+  [
+
+  ],
+
+  function () {
+    // This API is intended to give the capability to return namespaced strings.
+    // For CSS, since dots are not valid class names, the dots are turned into dashes.
+    var css = function (namespace) {
+      var dashNamespace = namespace.replace(/\./g, '-');
+
+      var resolve = function (str) {
+        return dashNamespace + '-' + str;
+      };
+
+      return {
+        resolve: resolve
+      };
+    };
+
+    return {
+      css: css
+    };
+  }
+);
+
+define(
+  'ephox.snooker.style.Styles',
+
+  [
+    'ephox.katamari.api.Namespace'
+  ],
+
+  function (Namespace) {
+    var styles = Namespace.css('ephox-snooker');
+
+    return {
+      resolve: styles.resolve
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.properties.Toggler',
+
+  [
+  ],
+
+  function () {
+    return function (turnOff, turnOn, initial) {
+      var active = initial || false;
+
+      var on = function () {
+        turnOn();
+        active = true;
+      };
+
+      var off = function () {
+        turnOff();
+        active = false;
+      };
+
+      var toggle = function () {
+        var f = active ? off : on;
+        f();
+      };
+
+      var isOn = function () {
+        return active;
+      };
+
+      return {
+        on: on,
+        off: off,
+        toggle: toggle,
+        isOn: isOn
+      };
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.properties.AttrList',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.properties.Attr'
+  ],
+
+  function (Arr, Attr) {
+    // Methods for handling attributes that contain a list of values <div foo="alpha beta theta">
+    var read = function (element, attr) {
+      var value = Attr.get(element, attr);
+      return value === undefined || value === '' ? [] : value.split(' ');
+    };
+
+    var add = function (element, attr, id) {
+      var old = read(element, attr);
+      var nu = old.concat([id]);
+      Attr.set(element, attr, nu.join(' '));
+    };
+
+    var remove = function (element, attr, id) {
+      var nu = Arr.filter(read(element, attr), function (v) {
+        return v !== id;
+      });
+      if (nu.length > 0) Attr.set(element, attr, nu.join(' '));
+      else Attr.remove(element, attr);
+    };
+
+    return {
+      read: read,
+      add: add,
+      remove: remove
+    };
+  }
+);
+define(
+  'ephox.sugar.impl.ClassList',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.sugar.api.properties.AttrList'
+  ],
+
+  function (Arr, AttrList) {
+
+    var supports = function (element) {
+      // IE11 Can return undefined for a classList on elements such as math, so we make sure it's not undefined before attempting to use it.
+      return element.dom().classList !== undefined;
+    };
+
+    var get = function (element) {
+      return AttrList.read(element, 'class');
+    };
+
+    var add = function (element, clazz) {
+      return AttrList.add(element, 'class', clazz);
+    };
+
+    var remove = function (element, clazz) {
+      return AttrList.remove(element, 'class', clazz);
+    };
+
+    var toggle = function (element, clazz) {
+      if (Arr.contains(get(element), clazz)) {
+        remove(element, clazz);
+      } else {
+        add(element, clazz);
+      }
+    };
+
+    return {
+      get: get,
+      add: add,
+      remove: remove,
+      toggle: toggle,
+      supports: supports
+    };
+  }
+);
+define(
+  'ephox.sugar.api.properties.Class',
+
+  [
+    'ephox.sugar.api.properties.Toggler',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.impl.ClassList'
+  ],
+
+  function (Toggler, Attr, ClassList) {
+    /*
+     * ClassList is IE10 minimum:
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element.classList
+     *
+     * Note that IE doesn't support the second argument to toggle (at all).
+     * If it did, the toggler could be better.
+     */
+
+    var add = function (element, clazz) {
+      if (ClassList.supports(element)) element.dom().classList.add(clazz);
+      else ClassList.add(element, clazz);
+    };
+
+    var cleanClass = function (element) {
+      var classList = ClassList.supports(element) ? element.dom().classList : ClassList.get(element);
+      // classList is a "live list", so this is up to date already
+      if (classList.length === 0) {
+        // No more classes left, remove the class attribute as well
+        Attr.remove(element, 'class');
+      }
+    };
+
+    var remove = function (element, clazz) {
+      if (ClassList.supports(element)) {
+        var classList = element.dom().classList;
+        classList.remove(clazz);
+      } else
+        ClassList.remove(element, clazz);
+
+      cleanClass(element);
+    };
+
+    var toggle = function (element, clazz) {
+      return ClassList.supports(element) ? element.dom().classList.toggle(clazz) :
+                                           ClassList.toggle(element, clazz);
+    };
+
+    var toggler = function (element, clazz) {
+      var hasClasslist = ClassList.supports(element);
+      var classList = element.dom().classList;
+      var off = function () {
+        if (hasClasslist) classList.remove(clazz);
+        else ClassList.remove(element, clazz);
+      };
+      var on = function () {
+        if (hasClasslist) classList.add(clazz);
+        else ClassList.add(element, clazz);
+      };
+      return Toggler(off, on, has(element, clazz));
+    };
+
+    var has = function (element, clazz) {
+      // Cereal has a nasty habit of calling this with a text node >.<
+      return ClassList.supports(element) && element.dom().classList.contains(clazz);
+    };
+
+    // set deleted, risks bad performance. Be deterministic.
+
+    return {
+      add: add,
+      remove: remove,
+      toggle: toggle,
+      toggler: toggler,
+      has: has
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.Bars',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.snooker.lookup.Blocks',
+    'ephox.snooker.model.DetailsList',
+    'ephox.snooker.model.Warehouse',
+    'ephox.snooker.resize.Bar',
+    'ephox.snooker.style.Styles',
+    'ephox.sugar.api.dom.Insert',
+    'ephox.sugar.api.dom.Remove',
+    'ephox.sugar.api.properties.Class',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.search.SelectorFilter',
+    'ephox.sugar.api.view.Height',
+    'ephox.sugar.api.view.Location',
+    'ephox.sugar.api.view.Width'
+  ],
+
+  function (Arr, Blocks, DetailsList, Warehouse, Bar, Styles, Insert, Remove, Class, Css, SelectorFilter, Height, Location, Width) {
+    var resizeBar = Styles.resolve('resizer-bar');
+    var resizeRowBar = Styles.resolve('resizer-rows');
+    var resizeColBar = Styles.resolve('resizer-cols');
+    var BAR_THICKNESS = 7;
+
+    var clear = function (wire) {
+      var previous = SelectorFilter.descendants(wire.parent(), '.' + resizeBar);
+      Arr.each(previous, Remove.remove);
+    };
+
+    var drawBar = function (wire, positions, create) {
+      var origin = wire.origin();
+      Arr.each(positions, function (cpOption, i) {
+        cpOption.each(function (cp) {
+          var bar = create(origin, cp);
+          Class.add(bar, resizeBar);
+          Insert.append(wire.parent(), bar);
+        });
+      });
+    };
+
+    var refreshCol = function (wire, colPositions, position, tableHeight) {
+      drawBar(wire, colPositions, function (origin, cp) {
+        var colBar = Bar.col(cp.col(), cp.x() - origin.left(), position.top() - origin.top(), BAR_THICKNESS, tableHeight);
+        Class.add(colBar, resizeColBar);
+        return colBar;
+      });
+    };
+
+    var refreshRow = function (wire, rowPositions, position, tableWidth) {
+      drawBar(wire, rowPositions, function (origin, cp) {
+        var rowBar = Bar.row(cp.row(), position.left() - origin.left(), cp.y() - origin.top(), tableWidth, BAR_THICKNESS);
+        Class.add(rowBar, resizeRowBar);
+        return rowBar;
+      });
+    };
+
+    var refreshGrid = function (wire, table, rows, cols, hdirection, vdirection) {
+      var position = Location.absolute(table);
+      var rowPositions = rows.length > 0 ? hdirection.positions(rows, table) : [];
+      refreshRow(wire, rowPositions, position, Width.getOuter(table));
+
+      var colPositions = cols.length > 0 ? vdirection.positions(cols, table) : [];
+      refreshCol(wire, colPositions, position, Height.getOuter(table));
+    };
+
+    var refresh = function (wire, table, hdirection, vdirection) {
+      clear(wire, table);
+
+      var list = DetailsList.fromTable(table);
+      var warehouse = Warehouse.generate(list);
+      var rows = Blocks.rows(warehouse);
+      var cols = Blocks.columns(warehouse);
+
+      refreshGrid(wire, table, rows, cols, hdirection, vdirection);
+    };
+
+    var each = function (wire, f) {
+      var bars = SelectorFilter.descendants(wire.parent(), '.' + resizeBar);
+      Arr.each(bars, f);
+    };
+
+    var hide = function (wire) {
+      each(wire, function(bar) {
+        Css.set(bar, 'display', 'none');
+      });
+    };
+
+    var show = function (wire) {
+      each(wire, function(bar) {
+        Css.set(bar, 'display', 'block');
+      });
+    };
+
+    var isRowBar = function (element) {
+      return Class.has(element, resizeRowBar);
+    };
+
+    var isColBar = function (element) {
+      return Class.has(element, resizeColBar);
+    };
+
+    return {
+      refresh: refresh,
+      hide: hide,
+      show: show,
+      destroy: clear,
+      isRowBar: isRowBar,
+      isColBar: isColBar
     };
   }
 );
@@ -9715,6 +8128,548 @@ define(
   }
 );
 define(
+  'ephox.snooker.calc.ColumnContext',
+
+  [
+  ],
+
+  function () {
+    var none = function () {
+      return folder(function (n, o, l, m, r) {
+        return n();
+      });
+    };
+
+    var only = function (index) {
+      return folder(function (n, o, l, m, r) {
+        return o(index);
+      });
+    };
+
+    var left = function (index, next) {
+      return folder(function (n, o, l, m, r) {
+        return l(index, next);
+      });
+    };
+
+    var middle = function (prev, index, next) {
+      return folder(function (n, o, l, m, r) {
+        return m(prev, index, next);
+      });
+    };
+
+    var right = function (prev, index) {
+      return folder(function (n, o, l, m, r) {
+        return r(prev, index);
+      });
+    };
+
+    var folder = function (fold) {
+      return {
+        fold: fold
+      };
+    };
+
+    return {
+      none: none,
+      only: only,
+      left: left,
+      middle: middle,
+      right: right
+    };
+  }
+);
+
+define(
+  'ephox.snooker.calc.Deltas',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.snooker.calc.ColumnContext',
+    'global!Math'
+  ],
+
+  function (Arr, Fun, ColumnContext, Math) {
+    /*
+     * Based on the column index, identify the context
+     */
+    var neighbours = function (input, index) {
+      if (input.length === 0) return ColumnContext.none();
+      if (input.length === 1) return ColumnContext.only(0);
+      if (index === 0) return ColumnContext.left(0, 1);
+      if (index === input.length - 1) return ColumnContext.right(index - 1, index);
+      if (index > 0 && index < input.length - 1) return ColumnContext.middle(index - 1, index, index + 1);
+      return ColumnContext.none();
+    };
+
+    /*
+     * Calculate the offsets to apply to each column width (not the absolute widths themselves)
+     * based on a resize at column: column of step: step. The minimum column width allowed is min
+     */
+    var determine = function (input, column, step, tableSize) {
+      var result = input.slice(0);
+      var context = neighbours(input, column);
+
+      var zero = function (array) {
+        return Arr.map(array, Fun.constant(0));
+      };
+
+      var onNone = Fun.constant(zero(result));
+      var onOnly = function (index) {
+        return tableSize.singleColumnWidth(result[index], step);
+      };
+
+      var onChange = function (index, next) {
+        if (step >= 0) {
+          var newNext = Math.max(tableSize.minCellWidth(), result[next] - step);
+          return zero(result.slice(0, index)).concat([ step, newNext-result[next] ]).concat(zero(result.slice(next + 1)));
+        } else {
+          var newThis = Math.max(tableSize.minCellWidth(), result[index] + step);
+          var diffx = result[index] - newThis;
+          return zero(result.slice(0, index)).concat([ newThis - result[index], diffx ]).concat(zero(result.slice(next + 1)));
+        }
+      };
+
+      var onLeft = onChange;
+
+      var onMiddle = function (prev, index, next) {
+        return onChange(index, next);
+      };
+
+      var onRight = function (prev, index) {
+        if (step >= 0) {
+          return zero(result.slice(0, index)).concat([ step ]);
+        } else {
+          var size = Math.max(tableSize.minCellWidth(), result[index] + step);
+          return zero(result.slice(0, index)).concat([ size - result[index] ]);
+        }
+      };
+
+      return context.fold(onNone, onOnly, onLeft, onMiddle, onRight);
+    };
+
+    return {
+      determine: determine
+    };
+  }
+);
+
+define(
+  'ephox.snooker.util.CellUtils',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.properties.Css',
+    'global!parseInt'
+  ],
+
+  function (Fun, Attr, Css, parseInt) {
+    var getSpan = function (cell, type) {
+      return Attr.has(cell, type) && parseInt(Attr.get(cell, type), 10) > 1;
+    };
+
+    var hasColspan = function (cell) {
+      return getSpan(cell, 'colspan');
+    };
+
+    var hasRowspan = function (cell) {
+      return getSpan(cell, 'rowspan');
+    };
+
+    var getInt = function (element, property) {
+      return parseInt(Css.get(element, property), 10);
+    };
+
+    return {
+      hasColspan: hasColspan,
+      hasRowspan: hasRowspan,
+      minWidth: Fun.constant(10),
+      minHeight: Fun.constant(10),
+      getInt: getInt
+    };
+  }
+);
+define(
+  'ephox.snooker.resize.ColumnSizes',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.snooker.lookup.Blocks',
+    'ephox.snooker.resize.Sizes',
+    'ephox.snooker.util.CellUtils',
+    'ephox.snooker.util.Util',
+    'ephox.sugar.api.properties.Css'
+  ],
+
+  function (Arr, Fun, Blocks, Sizes, CellUtils, Util, Css) {
+    var getRaw = function (cell, property, getter) {
+      return Css.getRaw(cell, property).fold(function () {
+        return getter(cell) + 'px';
+      }, function (raw) {
+        return raw;
+      });
+    };
+
+    var getRawW = function (cell) {
+      return getRaw(cell, 'width', Sizes.getPixelWidth);
+    };
+
+    var getRawH = function (cell) {
+      return getRaw(cell, 'height', Sizes.getHeight);
+    };
+
+    var getWidthFrom = function (warehouse, direction, getWidth, fallback, tableSize) {
+      var columns = Blocks.columns(warehouse);
+
+      var backups = Arr.map(columns, function (cellOption) {
+        return cellOption.map(direction.edge);
+      });
+
+      return Arr.map(columns, function (cellOption, c) {
+        // Only use the width of cells that have no column span (or colspan 1)
+        var columnCell = cellOption.filter(Fun.not(CellUtils.hasColspan));
+        return columnCell.fold(function () {
+          // Can't just read the width of a cell, so calculate.
+          var deduced = Util.deduce(backups, c);
+          return fallback(deduced);
+        }, function (cell) {
+          return getWidth(cell, tableSize);
+        });
+      });
+    };
+
+    var getDeduced = function (deduced) {
+      return deduced.map(function (d) { return d + 'px'; }).getOr('');
+    };
+
+    var getRawWidths = function (warehouse, direction) {
+      return getWidthFrom(warehouse, direction, getRawW, getDeduced);
+    };
+
+    var getPercentageWidths = function (warehouse, direction, tableSize) {
+      return getWidthFrom(warehouse, direction, Sizes.getPercentageWidth, function (deduced) {
+        return deduced.fold(function () {
+          return tableSize.minCellWidth();
+        }, function (cellWidth) {
+          return cellWidth / tableSize.pixelWidth() * 100;
+        });
+      }, tableSize);
+    };
+
+    var getPixelWidths = function (warehouse, direction, tableSize) {
+      return getWidthFrom(warehouse, direction, Sizes.getPixelWidth, function (deduced) {
+        // Minimum cell width when all else fails.
+        return deduced.getOrThunk(tableSize.minCellWidth);
+      }, tableSize);
+    };
+
+    var getHeightFrom = function (warehouse, direction, getHeight, fallback) {
+      var rows = Blocks.rows(warehouse);
+
+      var backups = Arr.map(rows, function (cellOption) {
+        return cellOption.map(direction.edge);
+      });
+
+      return Arr.map(rows, function (cellOption, c) {
+        var rowCell = cellOption.filter(Fun.not(CellUtils.hasRowspan));
+
+        return rowCell.fold(function () {
+          var deduced = Util.deduce(backups, c);
+          return fallback(deduced);
+        }, function (cell) {
+          return getHeight(cell);
+        });
+      });
+    };
+
+    var getPixelHeights = function (warehouse, direction) {
+      return getHeightFrom(warehouse, direction, Sizes.getHeight, function (deduced) {
+        return deduced.getOrThunk(CellUtils.minHeight);
+      });
+    };
+
+    var getRawHeights = function (warehouse, direction) {
+      return getHeightFrom(warehouse, direction, getRawH, getDeduced);
+    };
+
+    return {
+      getRawWidths: getRawWidths,
+      getPixelWidths: getPixelWidths,
+      getPercentageWidths: getPercentageWidths,
+      getPixelHeights: getPixelHeights,
+      getRawHeights: getRawHeights
+    };
+  }
+);
+define(
+  'ephox.snooker.resize.Recalculations',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.snooker.model.Warehouse',
+    'global!parseInt'
+  ],
+
+  function (Arr, Fun, Warehouse, parseInt) {
+
+    // Returns the sum of elements of measures in the half-open range [start, end)
+    // Measures is in pixels, treated as an array of integers or integers in string format.
+    // NOTE: beware of accumulated rounding errors over multiple columns - could result in noticeable table width changes
+    var total = function (start, end, measures) {
+      var r = 0;
+      for (var i = start; i < end; i++) {
+        r += measures[i] !== undefined ? measures[i] : 0;
+      }
+      return r;
+    };
+
+    // Returns an array of all cells in warehouse with updated cell-widths, using
+    // the array 'widths' of the representative widths of each column of the table 'warehouse'
+    var recalculateWidth = function (warehouse, widths) {
+      var all = Warehouse.justCells(warehouse);
+
+      return Arr.map(all, function (cell) {
+        // width of a spanning cell is sum of widths of representative columns it spans
+        var width = total(cell.column(), cell.column() + cell.colspan(), widths);
+        return {
+          element: cell.element,
+          width: Fun.constant(width),
+          colspan: cell.colspan
+        };
+      });
+    };
+
+    var recalculateHeight = function (warehouse, heights) {
+      var all = Warehouse.justCells(warehouse);
+      return Arr.map(all, function (cell) {
+        var height = total(cell.row(), cell.row() + cell.rowspan(), heights);
+        return {
+          element: cell.element,
+          height: Fun.constant(height),
+          rowspan: cell.rowspan
+        };
+      });
+    };
+
+    var matchRowHeight = function (warehouse, heights) {
+      return Arr.map(warehouse.all(), function (row, i) {
+        return {
+          element: row.element,
+          height: Fun.constant(heights[i])
+        };
+      });
+    };
+
+    return {
+      recalculateWidth: recalculateWidth,
+      recalculateHeight: recalculateHeight,
+      matchRowHeight: matchRowHeight
+    };
+  }
+);
+define(
+  'ephox.snooker.resize.TableSize',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Fun',
+    'ephox.snooker.resize.ColumnSizes',
+    'ephox.snooker.resize.Sizes',
+    'ephox.snooker.util.CellUtils',
+    'ephox.sugar.api.view.Width',
+    'global!Math'
+  ],
+
+  function (Arr, Fun, ColumnSizes, Sizes, CellUtils, Width, Math) {
+    var percentageSize = function (width, element) {
+      var floatWidth = parseFloat(width, 10);
+      var pixelWidth = Width.get(element);
+      var getCellDelta = function (delta) {
+        return delta / pixelWidth * 100;
+      };
+      var singleColumnWidth = function (width, _delta) {
+        // If we have one column in a percent based table, that column should be 100% of the width of the table.
+        return [100 - width];
+      };
+      // Get the width of a 10 pixel wide cell over the width of the table as a percentage
+      var minCellWidth = function () {
+        return CellUtils.minWidth() / pixelWidth * 100;
+      };
+      var setTableWidth = function (table, _newWidths, delta) {
+        var total = floatWidth + delta;
+        Sizes.setPercentageWidth(table, total);
+      };
+      return {
+        width: Fun.constant(floatWidth),
+        pixelWidth: Fun.constant(pixelWidth),
+        getWidths: ColumnSizes.getPercentageWidths,
+        getCellDelta: getCellDelta,
+        singleColumnWidth: singleColumnWidth,
+        minCellWidth: minCellWidth,
+        setElementWidth: Sizes.setPercentageWidth,
+        setTableWidth: setTableWidth
+      };
+    };
+
+    var pixelSize = function (width) {
+      var intWidth = parseInt(width, 10);
+      var getCellDelta = Fun.identity;
+      var singleColumnWidth = function (width, delta) {
+        var newNext = Math.max(CellUtils.minWidth(), width + delta);
+        return [ newNext - width ];
+      };
+      var setTableWidth = function (table, newWidths, _delta) {
+        var total = Arr.foldr(newWidths, function (b, a) { return b + a; }, 0);
+        Sizes.setPixelWidth(table, total);
+      };
+      return {
+        width: Fun.constant(intWidth),
+        pixelWidth: Fun.constant(intWidth),
+        getWidths: ColumnSizes.getPixelWidths,
+        getCellDelta: getCellDelta,
+        singleColumnWidth: singleColumnWidth,
+        minCellWidth: CellUtils.minWidth,
+        setElementWidth: Sizes.setPixelWidth,
+        setTableWidth: setTableWidth
+      };
+    };
+
+    var chooseSize = function (element, width) {
+      if (Sizes.percentageBasedSizeRegex().test(width)) {
+        var percentMatch = Sizes.percentageBasedSizeRegex().exec(width);
+        return percentageSize(percentMatch[1], element);
+      } else if (Sizes.pixelBasedSizeRegex().test(width)) {
+        var pixelMatch = Sizes.pixelBasedSizeRegex().exec(width);
+        return pixelSize(pixelMatch[1]);
+      } else {
+        var fallbackWidth = Width.get(element);
+        return pixelSize(fallbackWidth);
+      }
+    };
+
+    var getTableSize = function (element) {
+      var width = Sizes.getRawWidth(element);
+      // If we have no width still, return a pixel width at least.
+      return width.fold(function () {
+        var fallbackWidth = Width.get(element);
+        return pixelSize(fallbackWidth);
+      }, function (width) {
+        return chooseSize(element, width);
+      });
+    };
+
+    return {
+      getTableSize: getTableSize
+    };
+});
+define(
+  'ephox.snooker.resize.Adjustments',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.snooker.calc.Deltas',
+    'ephox.snooker.model.DetailsList',
+    'ephox.snooker.model.Warehouse',
+    'ephox.snooker.resize.ColumnSizes',
+    'ephox.snooker.resize.Recalculations',
+    'ephox.snooker.resize.Sizes',
+    'ephox.snooker.resize.TableSize',
+    'ephox.snooker.util.CellUtils',
+    'global!Math'
+  ],
+
+  function (Arr, Deltas, DetailsList, Warehouse, ColumnSizes, Recalculations, Sizes, TableSize, CellUtils, Math) {
+    var getWarehouse = function (list) {
+      return Warehouse.generate(list);
+    };
+
+    var sumUp = function (newSize) {
+      return Arr.foldr(newSize, function (b, a) { return b + a; }, 0);
+    };
+
+    var getTableWarehouse = function (table) {
+      var list = DetailsList.fromTable(table);
+      return getWarehouse(list);
+    };
+
+    var adjustWidth = function (table, delta, index, direction) {
+      var tableSize = TableSize.getTableSize(table);
+      var step = tableSize.getCellDelta(delta);
+      var warehouse = getTableWarehouse(table);
+      var widths = tableSize.getWidths(warehouse, direction, tableSize);
+
+      // Calculate all of the new widths for columns
+      var deltas = Deltas.determine(widths, index, step, tableSize);
+      var newWidths = Arr.map(deltas, function (dx, i) {
+        return dx + widths[i];
+      });
+
+      // Set the width of each cell based on the column widths
+      var newSizes = Recalculations.recalculateWidth(warehouse, newWidths);
+      Arr.each(newSizes, function (cell) {
+        tableSize.setElementWidth(cell.element(), cell.width());
+      });
+
+      // Set the overall width of the table.
+      if (index === warehouse.grid().columns() - 1) {
+        tableSize.setTableWidth(table, newWidths, step);
+      }
+    };
+
+    var adjustHeight = function (table, delta, index, direction) {
+      var warehouse = getTableWarehouse(table);
+      var heights = ColumnSizes.getPixelHeights(warehouse, direction);
+
+      var newHeights = Arr.map(heights, function (dy, i) {
+        return index === i ? Math.max(delta + dy, CellUtils.minHeight()) : dy;
+      });
+
+      var newCellSizes = Recalculations.recalculateHeight(warehouse, newHeights);
+      var newRowSizes = Recalculations.matchRowHeight(warehouse, newHeights);
+
+      Arr.each(newRowSizes, function (row) {
+        Sizes.setHeight(row.element(), row.height());
+      });
+
+      Arr.each(newCellSizes, function (cell) {
+        Sizes.setHeight(cell.element(), cell.height());
+      });
+
+      var total = sumUp(newHeights);
+      Sizes.setHeight(table, total);
+    };
+
+    // Ensure that the width of table cells match the passed in table information.
+    var adjustWidthTo = function (table, list, direction) {
+      var tableSize = TableSize.getTableSize(table);
+      var warehouse = getWarehouse(list);
+      var widths = tableSize.getWidths(warehouse, direction, tableSize);
+
+      // Set the width of each cell based on the column widths
+      var newSizes = Recalculations.recalculateWidth(warehouse, widths);
+      Arr.each(newSizes, function (cell) {
+        tableSize.setElementWidth(cell.element(), cell.width());
+      });
+
+      var total = Arr.foldr(widths, function (b, a) { return a + b; }, 0);
+      if (newSizes.length > 0) {
+        tableSize.setElementWidth(table, total);
+      }
+    };
+
+    return {
+      adjustWidth: adjustWidth,
+      adjustHeight: adjustHeight,
+      adjustWidthTo: adjustWidthTo
+    };
+  }
+);
+
+define(
   'ephox.snooker.api.TableOperations',
 
   [
@@ -10269,6 +9224,26 @@ define(
  */
 
 define(
+  'tinymce.core.util.Tools',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.Tools');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
   'tinymce.core.Env',
   [
     'global!tinymce.util.Tools.resolve'
@@ -10368,9 +9343,11 @@ define(
 define(
   'tinymce.plugins.table.ui.Helpers',
   [
-    'tinymce.core.util.Tools'
+    'ephox.katamari.api.Fun',
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.table.alien.Util'
   ],
-  function (Tools) {
+  function (Fun, Tools, Util) {
 
     var buildListItems = function (inputList, itemCallback, startItems) {
       var appendItems = function (values, output) {
@@ -10398,21 +9375,27 @@ define(
       return appendItems(inputList, startItems || []);
     };
 
-    var updateStyleField = function (dom, win, isStyleCtrl) {
-      var data = win.toJSON();
+    var updateStyleField = function (editor, evt) {
+      var dom = editor.dom;
+      var rootControl = evt.control.rootControl;
+      var data = rootControl.toJSON();
       var css = dom.parseStyle(data.style);
 
-      if (isStyleCtrl) {
-        win.find('#borderStyle').value(css["border-style"] || '')[0].fire('select');
-        win.find('#borderColor').value(css["border-color"] || '')[0].fire('change');
-        win.find('#backgroundColor').value(css["background-color"] || '')[0].fire('change');
+      if (evt.control.name() === 'style') {
+        rootControl.find('#borderStyle').value(css["border-style"] || '')[0].fire('select');
+        rootControl.find('#borderColor').value(css["border-color"] || '')[0].fire('change');
+        rootControl.find('#backgroundColor').value(css["background-color"] || '')[0].fire('change');
+        rootControl.find('#width').value(css.width || '').fire('change');
+        rootControl.find('#height').value(css.height || '').fire('change');
       } else {
         css["border-style"] = data.borderStyle;
         css["border-color"] = data.borderColor;
         css["background-color"] = data.backgroundColor;
+        css.width = data.width ? Util.addSizeSuffix(data.width) : '';
+        css.height = data.height ? Util.addSizeSuffix(data.height) : '';
       }
 
-      win.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
+      rootControl.find('#style').value(dom.serializeStyle(dom.parseStyle(dom.serializeStyle(css))));
     };
 
     var extractAdvancedStyles = function (dom, elm) {
@@ -10436,21 +9419,16 @@ define(
     };
 
     var createStyleForm = function (editor) {
-      var onChange = function () {
-        updateStyleField(editor, this.parents().reverse()[0], this.name() == "style");
-      };
-
       var createColorPickAction = function () {
         var colorPickerCallback = editor.settings.color_picker_callback;
         if (colorPickerCallback) {
-          return function () {
-            var self = this;
-            colorPickerCallback.call(
+          return function (evt) {
+            return colorPickerCallback.call(
               editor,
               function (value) {
-                self.value(value).fire('change');
+                evt.control.value(value).fire('change');
               },
-              self.value()
+              evt.control.value()
             );
           };
         }
@@ -10460,7 +9438,7 @@ define(
         title: 'Advanced',
         type: 'form',
         defaults: {
-          onchange: onChange
+          onchange: Fun.curry(updateStyleField, editor)
         },
         items: [
           {
@@ -10485,7 +9463,7 @@ define(
                 type: 'listbox',
                 name: 'borderStyle',
                 width: 90,
-                onselect: onChange,
+                onselect: Fun.curry(updateStyleField, editor),
                 values: [
                   { text: 'Select...', value: '' },
                   { text: 'Solid', value: 'solid' },
@@ -10544,14 +9522,15 @@ define(
 define(
   'tinymce.plugins.table.ui.TableDialog',
   [
-    'tinymce.core.util.Tools',
+    'ephox.katamari.api.Fun',
     'tinymce.core.Env',
-    'tinymce.plugins.table.alien.Util',
-    'tinymce.plugins.table.actions.Styles',
+    'tinymce.core.util.Tools',
     'tinymce.plugins.table.actions.InsertTable',
+    'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Env, Util, Styles, InsertTable, Helpers) {
+  function (Fun, Env, Tools, InsertTable, Styles, Util, Helpers) {
 
     //Explore the layers of the table till we find the first layer of tds or ths
     function styleTDTH(dom, elm, name, value) {
@@ -10569,9 +9548,9 @@ define(
     var extractDataFromElement = function (editor, tableElm) {
       var dom = editor.dom;
       var data = {
-        width: Util.removePxSuffix(dom.getStyle(tableElm, 'width') || dom.getAttrib(tableElm, 'width')),
-        height: Util.removePxSuffix(dom.getStyle(tableElm, 'height') || dom.getAttrib(tableElm, 'height')),
-        cellspacing: Util.removePxSuffix(dom.getStyle(tableElm, 'border-spacing') || dom.getAttrib(tableElm, 'cellspacing')),
+        width: dom.getStyle(tableElm, 'width') || dom.getAttrib(tableElm, 'width'),
+        height: dom.getStyle(tableElm, 'height') || dom.getAttrib(tableElm, 'height'),
+        cellspacing: dom.getStyle(tableElm, 'border-spacing') || dom.getAttrib(tableElm, 'cellspacing'),
         cellpadding: dom.getAttrib(tableElm, 'data-mce-cell-padding') || dom.getAttrib(tableElm, 'cellpadding') || Styles.getTDTHOverallStyle(editor.dom, tableElm, 'padding'),
         border: dom.getAttrib(tableElm, 'data-mce-border') || dom.getAttrib(tableElm, 'border') || Styles.getTDTHOverallStyle(editor.dom, tableElm, 'border'),
         borderColor: dom.getAttrib(tableElm, 'data-mce-border-color'),
@@ -10645,17 +9624,16 @@ define(
       }
 
       attrs.style = dom.serializeStyle(styles);
-
       dom.setAttribs(tableElm, attrs);
     };
 
-    var onSubmitTableForm = function (editor, win, tableElm) {
+    var onSubmitTableForm = function (editor, tableElm, evt) {
       var dom = editor.dom;
       var captionElm;
       var data;
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      Helpers.updateStyleField(editor, evt);
+      data = evt.control.rootControl.toJSON();
 
       if (data["class"] === false) {
         delete data["class"];
@@ -10746,8 +9724,8 @@ define(
             items: (editor.settings.table_appearance_options !== false) ? [
               colsCtrl,
               rowsCtrl,
-              { label: 'Width', name: 'width' },
-              { label: 'Height', name: 'height' },
+              { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+              { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) },
               { label: 'Cell spacing', name: 'cellspacing' },
               { label: 'Cell padding', name: 'cellpadding' },
               { label: 'Border', name: 'border' },
@@ -10755,8 +9733,8 @@ define(
             ] : [
               colsCtrl,
               rowsCtrl,
-                { label: 'Width', name: 'width' },
-                { label: 'Height', name: 'height' }
+                { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+                { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) }
             ]
           },
 
@@ -10788,20 +9766,16 @@ define(
               type: 'form',
               items: generalTableForm
             },
-            Helpers.createStyleForm(dom)
+            Helpers.createStyleForm(editor)
           ],
-          onsubmit: function () {
-            onSubmitTableForm(editor, this, tableElm);
-          }
+          onsubmit: Fun.curry(onSubmitTableForm, editor, tableElm)
         });
       } else {
         editor.windowManager.open({
           title: "Table properties",
           data: data,
           body: generalTableForm,
-          onsubmit: function () {
-            onSubmitTableForm(editor, this, tableElm);
-          }
+          onsubmit: Fun.curry(onSubmitTableForm, editor, tableElm)
         });
       }
     };
@@ -10830,17 +9804,18 @@ define(
 define(
   'tinymce.plugins.table.ui.RowDialog',
   [
+    'ephox.katamari.api.Fun',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Util, Styles, Helpers) {
+  function (Fun, Tools, Styles, Util, Helpers) {
 
     var extractDataFromElement = function (editor, elm) {
       var dom = editor.dom;
       var data = {
-        height: Util.removePxSuffix(dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height')),
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
         scope: dom.getAttrib(elm, 'scope'),
         'class': dom.getAttrib(elm, 'class')
       };
@@ -10886,7 +9861,7 @@ define(
       }
     };
 
-    function onSubmitRowForm(editor, win, rows) {
+    function onSubmitRowForm(editor, rows, evt) {
       var dom = editor.dom;
       var data;
 
@@ -10902,8 +9877,8 @@ define(
         }
       }
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      Helpers.updateStyleField(editor, evt);
+      data = evt.control.rootControl.toJSON();
 
       editor.undoManager.transact(function () {
         Tools.each(rows, function (rowElm) {
@@ -11032,18 +10007,14 @@ define(
             },
             Helpers.createStyleForm(dom)
           ],
-          onsubmit: function () {
-            onSubmitRowForm(editor, this, rows);
-          }
+          onsubmit: Fun.curry(onSubmitRowForm, editor, rows)
         });
       } else {
         editor.windowManager.open({
           title: "Row properties",
           data: data,
           body: generalRowForm,
-          onsubmit: function () {
-            onSubmitRowForm(editor, this, rows);
-          }
+          onsubmit: Fun.curry(onSubmitRowForm, editor, rows)
         });
       }
     };
@@ -11072,18 +10043,22 @@ define(
 define(
   'tinymce.plugins.table.ui.CellDialog',
   [
+    'ephox.katamari.api.Fun',
     'tinymce.core.util.Tools',
-    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.actions.Styles',
+    'tinymce.plugins.table.alien.Util',
     'tinymce.plugins.table.ui.Helpers'
   ],
-  function (Tools, Util, Styles, Helpers) {
+  function (Fun, Tools, Styles, Util, Helpers) {
+    var updateStyles = function (elm, cssText) {
+      elm.style.cssText += ';' + cssText;
+    };
 
     var extractDataFromElement = function (editor, elm) {
       var dom = editor.dom;
       var data = {
-        width: Util.removePxSuffix(dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width')),
-        height: Util.removePxSuffix(dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height')),
+        width: dom.getStyle(elm, 'width') || dom.getAttrib(elm, 'width'),
+        height: dom.getStyle(elm, 'height') || dom.getAttrib(elm, 'height'),
         scope: dom.getAttrib(elm, 'scope'),
         'class': dom.getAttrib(elm, 'class')
       };
@@ -11109,7 +10084,7 @@ define(
       return data;
     };
 
-    var onSubmitCellForm = function (editor, win, cells) {
+    var onSubmitCellForm = function (editor, cells, evt) {
       var dom = editor.dom;
       var data;
 
@@ -11125,13 +10100,19 @@ define(
         }
       }
 
-      Helpers.updateStyleField(dom, win);
-      data = win.toJSON();
+      Helpers.updateStyleField(editor, evt);
+      data = evt.control.rootControl.toJSON();
 
       editor.undoManager.transact(function () {
         Tools.each(cells, function (cellElm) {
           setAttrib(cellElm, 'scope', data.scope);
-          setAttrib(cellElm, 'style', data.style);
+
+          if (cells.length === 1) {
+            setAttrib(cellElm, 'style', data.style);
+          } else {
+            updateStyles(cellElm, data.style);
+          }
+
           setAttrib(cellElm, 'class', data['class']);
           setStyle(cellElm, 'width', Util.addSizeSuffix(data.width));
           setStyle(cellElm, 'height', Util.addSizeSuffix(data.height));
@@ -11154,7 +10135,7 @@ define(
 
           // Apply vertical alignment
           if (data.valign) {
-            Styles.applyVAlign(editor, cellElm, data.align);
+            Styles.applyVAlign(editor, cellElm, data.valign);
           }
         });
 
@@ -11163,7 +10144,7 @@ define(
     };
 
     var open = function (editor) {
-      var dom = editor.dom, cellElm, data, classListCtrl, cells = [];
+      var cellElm, data, classListCtrl, cells = [];
 
       // Get selected cells or the current cell
       cells = editor.dom.select('td[data-mce-selected],th[data-mce-selected]');
@@ -11229,8 +10210,8 @@ define(
               maxWidth: 50
             },
             items: [
-              { label: 'Width', name: 'width' },
-              { label: 'Height', name: 'height' },
+              { label: 'Width', name: 'width', onchange: Fun.curry(Helpers.updateStyleField, editor) },
+              { label: 'Height', name: 'height', onchange: Fun.curry(Helpers.updateStyleField, editor) },
               {
                 label: 'Cell type',
                 name: 'type',
@@ -11304,20 +10285,16 @@ define(
               type: 'form',
               items: generalCellForm
             },
-            Helpers.createStyleForm(dom)
+            Helpers.createStyleForm(editor)
           ],
-          onsubmit: function () {
-            onSubmitCellForm(editor, this, cells);
-          }
+          onsubmit: Fun.curry(onSubmitCellForm, editor, cells)
         });
       } else {
         editor.windowManager.open({
           title: "Cell properties",
           data: data,
           body: generalCellForm,
-          onsubmit: function () {
-            onSubmitCellForm(editor, this, cells);
-          }
+          onsubmit: Fun.curry(onSubmitCellForm, editor, cells)
         });
       }
     };
@@ -11527,6 +10504,1064 @@ define(
   }
 );
 
+define(
+  'ephox.snooker.api.ResizeWire',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.view.Location',
+    'ephox.sugar.api.view.Position'
+  ],
+
+  function (Fun, Option, Element, Location, Position) {
+    // parent: the container where the resize bars are appended
+    //         this gets mouse event handlers only if it is not a child of 'view' (eg, detached/inline mode)
+    // view: the container who listens to mouse events from content tables (eg, detached/inline mode)
+    //       or the document that is a common ancestor of both the content tables and the
+    //       resize bars ('parent') and so will listen to events from both (eg, iframe mode)
+    // origin: the offset for the point to display the bars in the appropriate position
+
+    var only = function (element) {
+      // If element is a 'document', use the document element ('HTML' tag) for appending.
+      var parent = Option.from(element.dom().documentElement).map(Element.fromDom).getOr(element);
+      return {
+        parent: Fun.constant(parent),
+        view: Fun.constant(element),
+        origin: Fun.constant(Position(0, 0))
+      };
+    };
+
+    var detached = function (editable, chrome) {
+      var origin = Fun.curry(Location.absolute, chrome);
+      return {
+        parent: Fun.constant(chrome),
+        view: Fun.constant(editable),
+        origin: origin
+      };
+    };
+
+    var body = function (editable, chrome) {
+      return {
+        parent: Fun.constant(chrome),
+        view: Fun.constant(editable),
+        origin: Fun.constant(Position(0, 0))
+      };
+    };
+
+    return {
+      only: only,
+      detached: detached,
+      body: body
+    };
+  }
+);
+define(
+  'ephox.porkbun.Event',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Struct'
+  ],
+  function (Arr, Struct) {
+
+    /** :: ([String]) -> Event */
+    return function (fields) {
+      var struct = Struct.immutable.apply(null, fields);
+
+      var handlers = [];
+
+      var bind = function (handler) {
+        if (handler === undefined) {
+          throw 'Event bind error: undefined handler';
+        }
+        handlers.push(handler);
+      };
+
+      var unbind = function(handler) {
+        // This is quite a bit slower than handlers.splice() but we hate mutation.
+        // Unbind isn't used very often so it should be ok.
+        handlers = Arr.filter(handlers, function (h) {
+          return h !== handler;
+        });
+      };
+
+      var trigger = function (/* values */) {
+        // scullion does Array prototype slice, we don't need to as well
+        var event = struct.apply(null, arguments);
+        Arr.each(handlers, function (handler) {
+          handler(event);
+        });
+      };
+
+      return {
+        bind: bind,
+        unbind: unbind,
+        trigger: trigger
+      };
+    };
+  }
+);
+
+define(
+  'ephox.porkbun.Events',
+
+  [
+    'ephox.katamari.api.Obj'
+  ],
+
+  function (Obj) {
+
+    /** :: {name : Event} -> Events */
+    var create = function (typeDefs) {
+      var registry = Obj.map(typeDefs, function (event) {
+        return {
+          bind: event.bind,
+          unbind: event.unbind
+        };
+      });
+
+      var trigger = Obj.map(typeDefs, function (event) {
+        return event.trigger;
+      });
+
+      return {
+        registry: registry,
+        trigger: trigger
+      };
+    };
+    return {
+      create: create
+    };
+  }
+);
+
+define(
+  'ephox.dragster.api.DragApis',
+
+  [
+    'ephox.katamari.api.Contracts'
+  ],
+
+  function (Contracts) {
+    var mode = Contracts.exactly([
+      'compare',
+      'extract',
+      'mutate',
+      'sink'
+    ]);
+
+    var sink = Contracts.exactly([
+      'element',
+      'start',
+      'stop',
+      'destroy'
+    ]);
+
+    var api = Contracts.exactly([
+      'forceDrop',
+      'drop',
+      'move',
+      'delayDrop'
+    ]);
+
+    return {
+      mode: mode,
+      sink: sink,
+      api: api
+    };
+  }
+);
+define(
+  'ephox.dragster.style.Styles',
+
+  [
+    'ephox.katamari.api.Namespace'
+  ],
+
+  function (Namespace) {
+
+    var styles = Namespace.css('ephox-dragster');
+
+    return {
+      resolve: styles.resolve
+    };
+  }
+);
+
+define(
+  'ephox.dragster.detect.Blocker',
+
+  [
+    'ephox.dragster.style.Styles',
+    'ephox.katamari.api.Merger',
+    'ephox.sugar.api.properties.Class',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.dom.Remove'
+  ],
+
+  function (Styles, Merger, Class, Css, Element, Remove) {
+    return function (options) {
+      var settings = Merger.merge({
+        'layerClass': Styles.resolve('blocker')
+      }, options);
+
+      var div = Element.fromTag('div');
+      Css.setAll(div, {
+        position: 'fixed',
+        left: '0px',
+        top: '0px',
+        width: '100%',
+        height: '100%'
+      });
+
+      Class.add(div, Styles.resolve('blocker'));
+      Class.add(div, settings.layerClass);
+
+      var element = function () {
+        return div;
+      };
+
+      var destroy = function () {
+        Remove.remove(div);
+      };
+
+      return {
+        element: element,
+        destroy: destroy
+      };
+    };
+  }
+);
+
+define(
+  'ephox.sugar.impl.FilteredEvent',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.api.node.Element'
+  ],
+
+  function (Fun, Element) {
+
+    var mkEvent = function (target, x, y, stop, prevent, kill, raw) {
+      // switched from a struct to manual Fun.constant() because we are passing functions now, not just values
+      return {
+        'target':  Fun.constant(target),
+        'x':       Fun.constant(x),
+        'y':       Fun.constant(y),
+        'stop':    stop,
+        'prevent': prevent,
+        'kill':    kill,
+        'raw':     Fun.constant(raw)
+      };
+    };
+
+    var handle = function (filter, handler) {
+      return function (rawEvent) {
+        if (!filter(rawEvent)) return;
+
+        // IE9 minimum
+        var target = Element.fromDom(rawEvent.target);
+
+        var stop = function () {
+          rawEvent.stopPropagation();
+        };
+
+        var prevent = function () {
+          rawEvent.preventDefault();
+        };
+
+        var kill = Fun.compose(prevent, stop); // more of a sequence than a compose, but same effect
+
+        // FIX: Don't just expose the raw event. Need to identify what needs standardisation.
+        var evt = mkEvent(target, rawEvent.clientX, rawEvent.clientY, stop, prevent, kill, rawEvent);
+        handler(evt);
+      };
+    };
+
+    var binder = function (element, event, filter, handler, useCapture) {
+      var wrapped = handle(filter, handler);
+      // IE9 minimum
+      element.dom().addEventListener(event, wrapped, useCapture);
+
+      return {
+        unbind: Fun.curry(unbind, element, event, wrapped, useCapture)
+      };
+    };
+
+    var bind = function (element, event, filter, handler) {
+      return binder(element, event, filter, handler, false);
+    };
+
+    var capture = function (element, event, filter, handler) {
+      return binder(element, event, filter, handler, true);
+    };
+
+    var unbind = function (element, event, handler, useCapture) {
+      // IE9 minimum
+      element.dom().removeEventListener(event, handler, useCapture);
+    };
+
+    return {
+      bind: bind,
+      capture: capture
+    };
+  }
+);
+define(
+  'ephox.sugar.api.events.DomEvent',
+
+  [
+    'ephox.katamari.api.Fun',
+    'ephox.sugar.impl.FilteredEvent'
+  ],
+
+  function (Fun, FilteredEvent) {
+    var filter = Fun.constant(true); // no filter on plain DomEvents
+
+    var bind = function (element, event, handler) {
+      return FilteredEvent.bind(element, event, filter, handler);
+    };
+
+    var capture = function (element, event, handler) {
+      return FilteredEvent.capture(element, event, filter, handler);
+    };
+
+    return {
+      bind: bind,
+      capture: capture
+    };
+  }
+);
+
+define(
+  'ephox.dragster.api.MouseDrag',
+
+  [
+    'ephox.dragster.api.DragApis',
+    'ephox.dragster.detect.Blocker',
+    'ephox.katamari.api.Option',
+    'ephox.sugar.api.view.Position',
+    'ephox.sugar.api.events.DomEvent',
+    'ephox.sugar.api.dom.Insert',
+    'ephox.sugar.api.dom.Remove'
+  ],
+
+  function (DragApis, Blocker, Option, Position, DomEvent, Insert, Remove) {
+    var compare = function (old, nu) {
+      return Position(nu.left() - old.left(), nu.top() - old.top());
+    };
+
+    var extract = function (event) {
+      return Option.some(Position(event.x(), event.y()));
+    };
+
+    var mutate = function (mutation, info) {
+      mutation.mutate(info.left(), info.top());
+    };
+
+    var sink = function (dragApi, settings) {
+      var blocker = Blocker(settings);
+
+      // Included for safety. If the blocker has stayed on the screen, get rid of it on a click.
+      var mdown = DomEvent.bind(blocker.element(), 'mousedown', dragApi.forceDrop);
+
+      var mup = DomEvent.bind(blocker.element(), 'mouseup', dragApi.drop);
+      var mmove = DomEvent.bind(blocker.element(), 'mousemove', dragApi.move);
+      var mout = DomEvent.bind(blocker.element(), 'mouseout', dragApi.delayDrop);
+
+      var destroy = function () {
+        blocker.destroy();
+        mup.unbind();
+        mmove.unbind();
+        mout.unbind();
+        mdown.unbind();
+      };
+
+      var start = function (parent) {
+        Insert.append(parent, blocker.element());
+      };
+
+      var stop = function () {
+        Remove.remove(blocker.element());
+      };
+
+      return DragApis.sink({
+        element: blocker.element,
+        start: start,
+        stop: stop,
+        destroy: destroy
+      });
+    };
+
+    return DragApis.mode({
+      compare: compare,
+      extract: extract,
+      sink: sink,
+      mutate: mutate
+    });
+  }
+);
+define(
+  'ephox.dragster.detect.InDrag',
+
+  [
+    'ephox.katamari.api.Option',
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events'
+  ],
+
+  function (Option, Event, Events) {
+    return function () {
+
+      var previous = Option.none();
+
+      var reset = function () {
+        previous = Option.none();
+      };
+
+      // Return position delta between previous position and nu position, 
+      // or None if this is the first. Set the previous position to nu.
+      var update = function (mode, nu) {
+        var result = previous.map(function (old) {
+          return mode.compare(old, nu);
+        });
+
+        previous = Option.some(nu);
+        return result;
+      };
+
+      var onEvent = function (event, mode) {
+        var dataOption = mode.extract(event);
+
+        // Dragster move events require a position delta. The moveevent is only triggered
+        // on the second and subsequent dragster move events. The first is dropped.
+        dataOption.each(function (data) {
+          var offset = update(mode, data);
+          offset.each(function (d) {
+            events.trigger.move(d);
+          });
+        });
+      };
+
+      var events = Events.create({
+        move: Event([ 'info' ])
+      });
+
+      return {
+        onEvent: onEvent,
+        reset: reset,
+        events: events.registry
+      };
+    };
+
+  }
+);
+
+define(
+  'ephox.dragster.detect.NoDrag',
+
+  [
+    'ephox.katamari.api.Fun'
+  ],
+
+  function (Fun) {
+    return function (anchor) {
+      var onEvent = function (event, mode) { };
+
+      return {
+        onEvent: onEvent,
+        reset: Fun.noop
+      };
+    };
+  }
+);
+
+define(
+  'ephox.dragster.detect.Movement',
+
+  [
+    'ephox.dragster.detect.InDrag',
+    'ephox.dragster.detect.NoDrag'
+  ],
+
+  function (InDrag, NoDrag) {
+
+    return function () {
+      var noDragState = NoDrag();
+      var inDragState = InDrag();
+      var dragState = noDragState;
+
+      var on = function () {
+        dragState.reset();
+        dragState = inDragState;
+      };
+
+      var off = function () {
+        dragState.reset();
+        dragState = noDragState;
+      };
+
+      var onEvent = function (event, mode) {
+        dragState.onEvent(event, mode);
+      };
+
+      var isOn = function () {
+        return dragState === inDragState;
+      };
+
+      return {
+        on: on,
+        off: off,
+        isOn: isOn,
+        onEvent: onEvent,
+        events: inDragState.events
+      };
+    };
+  }
+);
+
+defineGlobal("global!clearTimeout", clearTimeout);
+defineGlobal("global!setTimeout", setTimeout);
+define(
+  'ephox.katamari.api.Throttler',
+
+  [
+    'global!clearTimeout',
+    'global!setTimeout'
+  ],
+
+  function (clearTimeout, setTimeout) {
+    // Run a function fn afer rate ms. If another invocation occurs
+    // during the time it is waiting, update the arguments f will run
+    // with (but keep the current schedule)
+    var adaptable = function (fn, rate) {
+      var timer = null;
+      var args = null;
+      var cancel = function () {
+        if (timer !== null) {
+          clearTimeout(timer);
+          timer = null;
+          args = null;
+        }
+      };
+      var throttle = function () {
+        args = arguments;
+        if (timer === null) {
+          timer = setTimeout(function () {
+            fn.apply(null, args);
+            timer = null;
+            args = null;
+          }, rate);
+        }
+      };
+
+      return {
+        cancel: cancel,
+        throttle: throttle
+      };
+    };
+
+    // Run a function fn after rate ms. If another invocation occurs
+    // during the time it is waiting, ignore it completely.
+    var first = function (fn, rate) {
+      var timer = null;
+      var cancel = function () {
+        if (timer !== null) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      };
+      var throttle = function () {
+        var args = arguments;
+        if (timer === null) {
+          timer = setTimeout(function () {
+            fn.apply(null, args);
+            timer = null;
+            args = null;
+          }, rate);
+        }
+      };
+
+      return {
+        cancel: cancel,
+        throttle: throttle
+      };
+    };
+
+    // Run a function fn after rate ms. If another invocation occurs
+    // during the time it is waiting, reschedule the function again
+    // with the new arguments.
+    var last = function (fn, rate) {
+      var timer = null;
+      var cancel = function () {
+        if (timer !== null) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      };
+      var throttle = function () {
+        var args = arguments;
+        if (timer !== null) clearTimeout(timer);
+        timer = setTimeout(function () {
+          fn.apply(null, args);
+          timer = null;
+          args = null;
+        }, rate);
+      };
+
+      return {
+        cancel: cancel,
+        throttle: throttle
+      };
+    };
+
+    return {
+      adaptable: adaptable,
+      first: first,
+      last: last
+    };
+  }
+);
+define(
+  'ephox.dragster.core.Dragging',
+
+  [
+    'ephox.dragster.api.DragApis',
+    'ephox.dragster.detect.Movement',
+    'ephox.katamari.api.Throttler',
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events',
+    'global!Array'
+  ],
+
+  function (DragApis, Movement, Throttler, Event, Events, Array) {
+    var setup = function (mutation, mode, settings) {
+      var active = false;
+
+      var events = Events.create({
+        start: Event([]),
+        stop: Event([])
+      });
+
+      var movement = Movement();
+
+      var drop = function () {
+        sink.stop();
+        if (movement.isOn()) {
+          movement.off();
+          events.trigger.stop();
+        }
+      };
+
+      var throttledDrop = Throttler.last(drop, 200);
+
+      var go = function (parent) {
+        sink.start(parent);
+        movement.on();
+        events.trigger.start();
+      };
+
+      var mouseup = function (event, ui) {
+        drop();
+      };
+
+      var mousemove = function (event, ui) {
+        throttledDrop.cancel();
+        movement.onEvent(event, mode);
+      };
+
+      movement.events.move.bind(function (event) {
+        mode.mutate(mutation, event.info());
+      });
+
+      var on = function () {
+        active = true;
+      };
+
+      var off = function () {
+        active = false;
+        // acivate some events here?
+      };
+
+      var runIfActive = function (f) {
+        return function () {
+          var args = Array.prototype.slice.call(arguments, 0);
+          if (active) {
+            return f.apply(null, args);
+          }
+        };
+      };
+
+      var sink = mode.sink(DragApis.api({
+        // ASSUMPTION: runIfActive is not needed for mousedown. This is pretty much a safety measure for
+        // inconsistent situations so that we don't block input.
+        forceDrop: drop,
+        drop: runIfActive(drop),
+        move: runIfActive(mousemove),
+        delayDrop: runIfActive(throttledDrop.throttle)
+      }), settings);
+
+      var destroy = function () {
+        sink.destroy();
+      };
+
+      return {
+        element: sink.element,
+        go: go,
+        on: on,
+        off: off,
+        destroy: destroy,
+        events: events.registry
+      };
+    };
+
+    return {
+      setup: setup
+    };
+  }
+);
+define(
+  'ephox.dragster.api.Dragger',
+
+  [
+    'ephox.dragster.api.MouseDrag',
+    'ephox.dragster.core.Dragging',
+    'global!Array'
+  ],
+
+  function (MouseDrag, Dragging, Array) {
+    var transform = function (mutation, options) {
+      var settings = options !== undefined ? options : {};
+      var mode = settings.mode !== undefined ? settings.mode : MouseDrag;
+      return Dragging.setup(mutation, mode, options);
+    };
+      
+    return {
+      transform: transform
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.Mutation',
+
+  [
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events'
+  ],
+
+  function (Event, Events) {
+    return function () {
+      var events = Events.create({
+        'drag': Event(['xDelta', 'yDelta'])
+      });
+
+      var mutate = function (x, y) {
+        events.trigger.drag(x, y);
+      };
+
+      return {
+        mutate: mutate,
+        events: events.registry
+      };
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.BarMutation',
+
+  [
+    'ephox.katamari.api.Option',
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events',
+    'ephox.snooker.resize.Mutation'
+  ],
+
+  function (Option, Event, Events, Mutation) {
+    return function () {
+      var events = Events.create({
+        drag: Event(['xDelta', 'yDelta', 'target'])
+      });
+
+      var target = Option.none();
+
+      var delegate = Mutation();
+
+      delegate.events.drag.bind(function (event) {
+        target.each(function (t) {
+          // There is always going to be this padding / border collapse / margin problem with widths. I'll have to resolve that.
+          events.trigger.drag(event.xDelta(), event.yDelta(), t);
+        });
+      });
+
+      var assign = function (t) {
+        target = Option.some(t);
+      };
+
+      var get = function () {
+        return target;
+      };
+
+      return {
+        assign: assign,
+        get: get,
+        mutate: delegate.mutate,
+        events: events.registry
+      };
+    };
+  }
+);
+
+define(
+  'ephox.sugar.api.search.SelectorExists',
+
+  [
+    'ephox.sugar.api.search.SelectorFind'
+  ],
+
+  function (SelectorFind) {
+    var any = function (selector) {
+      return SelectorFind.first(selector).isSome();
+    };
+
+    var ancestor = function (scope, selector, isRoot) {
+      return SelectorFind.ancestor(scope, selector, isRoot).isSome();
+    };
+
+    var sibling = function (scope, selector) {
+      return SelectorFind.sibling(scope, selector).isSome();
+    };
+
+    var child = function (scope, selector) {
+      return SelectorFind.child(scope, selector).isSome();
+    };
+
+    var descendant = function (scope, selector) {
+      return SelectorFind.descendant(scope, selector).isSome();
+    };
+
+    var closest = function (scope, selector, isRoot) {
+      return SelectorFind.closest(scope, selector, isRoot).isSome();
+    };
+
+    return {
+      any: any,
+      ancestor: ancestor,
+      sibling: sibling,
+      child: child,
+      descendant: descendant,
+      closest: closest
+    };
+  }
+);
+
+define(
+  'ephox.snooker.resize.BarManager',
+
+  [
+    'ephox.dragster.api.Dragger',
+    'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events',
+    'ephox.snooker.resize.BarMutation',
+    'ephox.snooker.resize.Bars',
+    'ephox.snooker.style.Styles',
+    'ephox.snooker.util.CellUtils',
+    'ephox.sugar.api.dom.Compare',
+    'ephox.sugar.api.events.DomEvent',
+    'ephox.sugar.api.node.Body',
+    'ephox.sugar.api.node.Node',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.properties.Class',
+    'ephox.sugar.api.properties.Css',
+    'ephox.sugar.api.search.SelectorExists',
+    'ephox.sugar.api.search.SelectorFind',
+    'global!parseInt'
+  ],
+
+  function (
+    Dragger, Fun, Option, Event, Events, BarMutation, Bars, Styles, CellUtils, Compare, DomEvent, Body, Node, Attr, Class, Css, SelectorExists, SelectorFind,
+    parseInt
+  ) {
+    var resizeBarDragging = Styles.resolve('resizer-bar-dragging');
+
+    return function (wire, direction, hdirection) {
+      var mutation = BarMutation();
+      var resizing = Dragger.transform(mutation, {});
+
+      var hoverTable = Option.none();
+
+      var getResizer = function (element, type) {
+        return Option.from(Attr.get(element, type));
+      };
+
+      /* Reposition the bar as the user drags */
+      mutation.events.drag.bind(function (event) {
+        getResizer(event.target(), 'data-row').each(function (_dataRow) {
+          var currentRow = CellUtils.getInt(event.target(), 'top');
+          Css.set(event.target(), 'top', currentRow + event.yDelta() + 'px');
+        });
+
+        getResizer(event.target(), 'data-column').each(function (_dataCol) {
+          var currentCol = CellUtils.getInt(event.target(), 'left');
+          Css.set(event.target(), 'left', currentCol + event.xDelta() + 'px');
+        });
+      });
+
+      var getDelta = function (target, direction) {
+        var newX = CellUtils.getInt(target, direction);
+        var oldX = parseInt(Attr.get(target, 'data-initial-' + direction), 10);
+        return newX - oldX;
+      };
+
+      /* Resize the column once the user releases the mouse */
+      resizing.events.stop.bind(function () {
+        mutation.get().each(function (target) {
+          hoverTable.each(function (table) {
+            getResizer(target, 'data-row').each(function (row) {
+              var delta = getDelta(target, 'top');
+              Attr.remove(target, 'data-initial-top');
+              events.trigger.adjustHeight(table, delta, parseInt(row, 10));
+            });
+
+            getResizer(target, 'data-column').each(function (column) {
+              var delta = getDelta(target, 'left');
+              Attr.remove(target, 'data-initial-left');
+              events.trigger.adjustWidth(table, delta, parseInt(column, 10));
+            });
+
+            Bars.refresh(wire, table, hdirection, direction);
+          });
+        });
+
+      });
+
+      var handler = function (target, direction) {
+        events.trigger.startAdjust();
+        mutation.assign(target);
+        Attr.set(target, 'data-initial-' + direction, parseInt(Css.get(target, direction), 10));
+        Class.add(target, resizeBarDragging);
+        Css.set(target, 'opacity', '0.2');
+        resizing.go(wire.parent());
+      };
+
+      /* mousedown on resize bar: start dragging when the bar is clicked, storing the initial position. */
+      var mousedown = DomEvent.bind(wire.parent(), 'mousedown', function (event) {
+        if (Bars.isRowBar(event.target())) handler(event.target(), 'top');
+
+        if (Bars.isColBar(event.target())) handler(event.target(), 'left');
+      });
+
+      var isRoot = function (e) { return Compare.eq(e, wire.view()); };
+
+      /* mouseover on table: When the mouse moves within the CONTENT AREA (NOT THE TABLE), refresh the bars. */
+      var mouseover = DomEvent.bind(wire.view(), 'mouseover', function (event) {
+        if (Node.name(event.target()) === 'table' || SelectorExists.ancestor(event.target(), 'table', isRoot)) {
+          hoverTable = Node.name(event.target()) === 'table' ? Option.some(event.target()) : SelectorFind.ancestor(event.target(), 'table', isRoot);
+          hoverTable.each(function (ht) {
+            Bars.refresh(wire, ht, hdirection, direction);
+          });
+        } else if (Body.inBody(event.target())) {
+          /*
+           * mouseout is not reliable within ContentEditable, so for all other mouseover events we clear bars.
+           * This is fairly safe to do frequently; it's a single querySelectorAll() on the content and Arr.map on the result.
+           * If we _really_ need to optimise it further, we can start caching the bar references in the wire somehow.
+           */
+          Bars.destroy(wire);
+        }
+      });
+
+      var destroy = function () {
+        mousedown.unbind();
+        mouseover.unbind();
+        resizing.destroy();
+        Bars.destroy(wire);
+      };
+
+      var refresh = function (tbl) {
+        Bars.refresh(wire, tbl, hdirection, direction);
+      };
+
+      var events = Events.create({
+        adjustHeight: Event(['table', 'delta', 'row']),
+        adjustWidth: Event(['table', 'delta', 'column']),
+        startAdjust: Event([])
+      });
+
+      return {
+        destroy: destroy,
+        refresh: refresh,
+        on: resizing.on,
+        off: resizing.off,
+        hideBars: Fun.curry(Bars.hide, wire),
+        showBars: Fun.curry(Bars.show, wire),
+        events: events.registry
+      };
+    };
+  }
+);
+define(
+  'ephox.snooker.api.TableResize',
+
+  [
+    'ephox.porkbun.Event',
+    'ephox.porkbun.Events',
+    'ephox.snooker.resize.Adjustments',
+    'ephox.snooker.resize.BarManager',
+    'ephox.snooker.resize.BarPositions'
+  ],
+
+  function (Event, Events, Adjustments, BarManager, BarPositions) {
+    /*
+     * Creates and sets up a bar-based column resize manager.
+     * Wire is used to provide the parent, view, and origin
+     */
+    return function (wire, vdirection) {
+      var hdirection = BarPositions.height;
+      var manager = BarManager(wire, vdirection, hdirection);
+
+      var events = Events.create({
+        beforeResize: Event(['table']),
+        afterResize: Event(['table']),
+        startDrag: Event([])
+      });
+
+      manager.events.adjustHeight.bind(function (event) {
+        events.trigger.beforeResize(event.table());
+        var delta = hdirection.delta(event.delta(), event.table());
+        Adjustments.adjustHeight(event.table(), delta, event.row(), hdirection);
+        events.trigger.afterResize(event.table());
+      });
+
+      manager.events.startAdjust.bind(function (event) {
+        events.trigger.startDrag();
+      });
+
+      manager.events.adjustWidth.bind(function (event) {
+        events.trigger.beforeResize(event.table());
+        var delta = vdirection.delta(event.delta(), event.table());
+        Adjustments.adjustWidth(event.table(), delta, event.column(), vdirection);
+        events.trigger.afterResize(event.table());
+      });
+
+      return {
+        on: manager.on,
+        off: manager.off,
+        hideBars: manager.hideBars,
+        showBars: manager.showBars,
+        destroy: manager.destroy,
+        events: events.registry
+      };
+    };
+  }
+);
+
 /**
  * TableWire.js
  *
@@ -11581,6 +11616,143 @@ define(
     return {
       get: get,
       remove: remove
+    };
+  }
+);
+
+/**
+ * ResizeHandler.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.table.actions.ResizeHandler',
+
+  [
+    'ephox.katamari.api.Arr',
+    'ephox.katamari.api.Option',
+    'ephox.snooker.api.ResizeWire',
+    'ephox.snooker.api.TableDirection',
+    'ephox.snooker.api.TableResize',
+    'ephox.sugar.api.node.Element',
+    'ephox.sugar.api.properties.Attr',
+    'ephox.sugar.api.search.SelectorFilter',
+    'tinymce.plugins.table.actions.TableWire',
+    'tinymce.plugins.table.queries.Direction',
+    'tinymce.core.util.Tools'
+  ],
+
+  function (Arr, Option, ResizeWire, TableDirection, TableResize, Element, Attr, SelectorFilter, TableWire, Direction, Tools) {
+
+    return function (editor) {
+      var selectionRng = Option.none();
+      var resize = Option.none();
+      var wire = Option.none();
+      var percentageBasedSizeRegex = /(\d+(\.\d+)?)%/;
+      var startW, startRawW;
+
+      var isTable = function (elm) {
+        return elm.nodeName === 'TABLE';
+      };
+
+      var getRawWidth = function (elm) {
+        return editor.dom.getStyle(elm, 'width') || editor.dom.getAttrib(elm, 'width');
+      };
+
+      var lazyResize = function () {
+        return resize;
+      };
+
+      var lazyWire = function () {
+        return wire.getOr(ResizeWire.only(Element.fromDom(editor.getBody())));
+      };
+
+      var destroy = function () {
+        resize.each(function (sz) {
+          sz.destroy();
+        });
+
+        wire.each(function (w) {
+          TableWire.remove(editor, w);
+        });
+      };
+
+      editor.on('init', function () {
+        var direction = TableDirection(Direction.directionAt);
+        var rawWire = TableWire.get(editor);
+        wire = Option.some(rawWire);
+        if (editor.settings.object_resizing && editor.settings.table_resize_bars !== false &&
+          (editor.settings.object_resizing === true || editor.settings.object_resizing === 'table')) {
+          var sz = TableResize(rawWire, direction);
+          sz.on();
+          sz.events.startDrag.bind(function (event) {
+            selectionRng = Option.some(editor.selection.getRng());
+          });
+          sz.events.afterResize.bind(function (event) {
+            var table = event.table();
+            var dataStyleCells = SelectorFilter.descendants(table, 'td[data-mce-style],th[data-mce-style]');
+            Arr.each(dataStyleCells, function (cell) {
+              Attr.remove(cell, 'data-mce-style');
+            });
+
+            selectionRng.each(function (rng) {
+              editor.selection.setRng(rng);
+              editor.focus();
+            });
+
+            editor.undoManager.add();
+          });
+
+          resize = Option.some(sz);
+        }
+      });
+
+      // If we're updating the table width via the old mechanic, we need to update the constituent cells' widths/heights too.
+      editor.on('ObjectResizeStart', function (e) {
+        if (isTable(e.target)) {
+          startW = e.width;
+          startRawW = getRawWidth(e.target);
+        }
+      });
+
+      editor.on('ObjectResized', function (e) {
+        if (isTable(e.target)) {
+          var table = e.target;
+
+          if (percentageBasedSizeRegex.test(startRawW)) {
+            var percentW = parseFloat(percentageBasedSizeRegex.exec(startRawW)[1], 10);
+            var targetPercentW = e.width * percentW / startW;
+            editor.dom.setStyle(table, 'width', targetPercentW + '%');
+          } else {
+            var newCellSizes = [];
+            Tools.each(table.rows, function (row) {
+              Tools.each(row.cells, function (cell) {
+                var width = editor.dom.getStyle(cell, 'width', true);
+                newCellSizes.push({
+                  cell: cell,
+                  width: width
+                });
+              });
+            });
+
+            Tools.each(newCellSizes, function (newCellSize) {
+              editor.dom.setStyle(newCellSize.cell, 'width', newCellSize.width);
+              editor.dom.setAttrib(newCellSize.cell, 'width', null);
+            });
+          }
+        }
+      });
+
+      return {
+        lazyResize: lazyResize,
+        lazyWire: lazyWire,
+        destroy: destroy
+      };
     };
   }
 );
@@ -12367,7 +12539,7 @@ define(
     var searchFromPoint = function (doc, x, y) {
       // elementFromPoint is defined to return null when there is no element at the point
       // This often happens when using IE10 event.y instead of event.clientY
-      return Option.from(doc.dom().elementFromPoint(x, y)).map(Element.fromDom).bind(function (elem) {
+      return Element.fromPoint(doc, x, y).bind(function (elem) {
         // used when the x,y position points to an image, or outside the bounds
         var fallback = function () {
           return EdgePoint.search(doc, elem, x);
@@ -12516,9 +12688,10 @@ define(
 
   function (Option, DocumentPosition, Element, Fragment, Traverse, Selection, NativeRange, SelectionDirection, CaretRange, Within, Prefilter) {
     var doSetNativeRange = function (win, rng) {
-      var selection = win.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(rng);
+      Option.from(win.getSelection()).each(function(selection) {
+        selection.removeAllRanges();
+        selection.addRange(rng);
+      });      
     };
 
     var doSetRange = function (win, start, soffset, finish, foffset) {
@@ -12576,10 +12749,19 @@ define(
     // than using the anchorNode and focusNode. I'm not sure if this behaviour is any
     // better or worse; it's just different.
     var readRange = function (selection) {
-      var rng = Option.from(selection.getRangeAt(0));
-      return rng.map(function (r) {
-        return Selection.range(Element.fromDom(r.startContainer), r.startOffset, Element.fromDom(r.endContainer), r.endOffset);
-      });
+      if (selection.rangeCount > 0) {
+        var firstRng = selection.getRangeAt(0);
+        var lastRng = selection.getRangeAt(selection.rangeCount - 1);
+
+        return Option.some(Selection.range(
+          Element.fromDom(firstRng.startContainer), 
+          firstRng.startOffset,
+          Element.fromDom(lastRng.endContainer),
+          lastRng.endOffset
+        ));
+      } else {
+        return Option.none();
+      }
     };
 
     var doGetExact = function (selection) {
@@ -12652,7 +12834,7 @@ define(
 
     var replace = function (win, selection, elements) {
       var rng = SelectionDirection.asLtrRange(win, selection);
-      var fragment = Fragment.fromElements(elements);
+      var fragment = Fragment.fromElements(elements, win.document);
       NativeRange.replaceWith(rng, fragment);
     };
 
@@ -13997,16 +14179,23 @@ define(
     'ephox.darwin.keyboard.KeySelection',
     'ephox.darwin.keyboard.TableKeys',
     'ephox.darwin.selection.Util',
+    'ephox.katamari.api.Arr',
     'ephox.katamari.api.Fun',
     'ephox.katamari.api.Option',
     'ephox.sand.api.PlatformDetection',
     'ephox.sugar.api.dom.Compare',
     'ephox.sugar.api.search.PredicateExists',
+    'ephox.sugar.api.search.SelectorFilter',
     'ephox.sugar.api.search.SelectorFind',
-    'ephox.sugar.api.search.Traverse'
+    'ephox.sugar.api.search.Traverse',
+    'ephox.sugar.api.selection.Awareness',
+    'ephox.sugar.api.selection.CursorPosition'
   ],
 
-  function (Responses, KeySelection, TableKeys, Util, Fun, Option, PlatformDetection, Compare, PredicateExists, SelectorFind, Traverse) {
+  function (
+    Responses, KeySelection, TableKeys, Util, Arr, Fun, Option, PlatformDetection, Compare, PredicateExists, SelectorFilter, SelectorFind, Traverse, Awareness,
+    CursorPosition
+  ) {
     var detection = PlatformDetection.detect();
 
     var inSameTable = function (elem, table) {
@@ -14036,15 +14225,57 @@ define(
       });
     };
 
-    var navigate = function (bridge, isRoot, direction, initial, anchor) {
+    var navigate = function (bridge, isRoot, direction, initial, anchor, precheck) {
       // Do not override the up/down keys on IE.
-      if (detection.browser.isIE()) return Option.none();
-      return simulate(bridge, isRoot, direction, initial, anchor).map(function (info) {
-        var range = info.range();
-        return Responses.response(
-          Option.some(Util.makeSitus(range.start(), range.soffset(), range.finish(), range.foffset())),
-          true
-        );
+      if (detection.browser.isIE()) {
+        return Option.none();
+      } else {
+        return precheck(initial, isRoot).orThunk(function () {
+          return simulate(bridge, isRoot, direction, initial, anchor).map(function (info) {
+            var range = info.range();
+            return Responses.response(
+              Option.some(Util.makeSitus(range.start(), range.soffset(), range.finish(), range.foffset())),
+              true
+            );
+          });
+        });
+      }
+    };
+
+    var firstUpCheck = function (initial, isRoot) {
+      return SelectorFind.closest(initial, 'tr', isRoot).bind(function (startRow) {
+        return SelectorFind.closest(startRow, 'table', isRoot).bind(function (table) {
+          var rows = SelectorFilter.descendants(table, 'tr');
+          if (Compare.eq(startRow, rows[0])) {
+            return Traverse.prevSibling(table).bind(CursorPosition.last).map(function (last) {
+              var lastOffset = Awareness.getEnd(last);
+              return Responses.response(
+                Option.some(Util.makeSitus(last, lastOffset, last, lastOffset)),
+                true
+              );
+            });
+          } else {
+            return Option.none();
+          }
+        });
+      });
+    };
+
+    var lastDownCheck = function (initial, isRoot) {
+      return SelectorFind.closest(initial, 'tr', isRoot).bind(function (startRow) {
+        return SelectorFind.closest(startRow, 'table', isRoot).bind(function (table) {
+          var rows = SelectorFilter.descendants(table, 'tr');
+          if (Compare.eq(startRow, rows[rows.length - 1])) {
+            return Traverse.nextSibling(table).bind(CursorPosition.first).map(function (first) {
+              return Responses.response(
+                Option.some(Util.makeSitus(first, 0, first, 0)),
+                true
+              );
+            });
+          } else {
+            return Option.none();
+          }
+        });
       });
     };
 
@@ -14056,7 +14287,9 @@ define(
 
     return {
       navigate: navigate,
-      select: select
+      select: select,
+      firstUpCheck: firstUpCheck,
+      lastDownCheck: lastDownCheck
     };
   }
 );
@@ -14208,11 +14441,11 @@ define(
           }
           // Down should predict the movement and set the cursor
           else if (SelectionKeys.isDown(keycode)) {
-            return Fun.curry(VerticalMovement.navigate, bridge, isRoot, KeyDirection.down, finish, start);
+            return Fun.curry(VerticalMovement.navigate, bridge, isRoot, KeyDirection.down, finish, start, VerticalMovement.lastDownCheck);
           }
           // Up should predict the movement and set the cursor
           else if (SelectionKeys.isUp(keycode)) {
-            return Fun.curry(VerticalMovement.navigate, bridge, isRoot, KeyDirection.up, finish, start);
+            return Fun.curry(VerticalMovement.navigate, bridge, isRoot, KeyDirection.up, finish, start, VerticalMovement.firstUpCheck);
           }
           else {
             return Option.none;
@@ -15228,22 +15461,12 @@ define(
 define(
   'tinymce.plugins.table.Plugin',
   [
-    'ephox.katamari.api.Arr',
-    'ephox.katamari.api.Option',
-    'ephox.snooker.api.ResizeWire',
-    'ephox.snooker.api.TableDirection',
-    'ephox.snooker.api.TableResize',
-    'ephox.sugar.api.node.Element',
-    'ephox.sugar.api.properties.Attr',
-    'ephox.sugar.api.search.SelectorFilter',
     'tinymce.core.PluginManager',
-    'tinymce.core.util.Tools',
     'tinymce.plugins.table.actions.Clipboard',
     'tinymce.plugins.table.actions.InsertTable',
     'tinymce.plugins.table.actions.TableActions',
     'tinymce.plugins.table.actions.TableCommands',
-    'tinymce.plugins.table.actions.TableWire',
-    'tinymce.plugins.table.queries.Direction',
+    'tinymce.plugins.table.actions.ResizeHandler',
     'tinymce.plugins.table.queries.TabContext',
     'tinymce.plugins.table.selection.CellSelection',
     'tinymce.plugins.table.selection.Ephemera',
@@ -15251,22 +15474,13 @@ define(
     'tinymce.plugins.table.ui.Buttons',
     'tinymce.plugins.table.ui.MenuItems'
   ],
-  function (Arr, Option, ResizeWire, TableDirection, TableResize, Element, Attr, SelectorFilter, PluginManager, Tools, Clipboard, InsertTable, TableActions, TableCommands, TableWire, Direction, TabContext, CellSelection, Ephemera, Selections, Buttons, MenuItems) {
+  function (PluginManager, Clipboard, InsertTable, TableActions, TableCommands, ResizeHandler, TabContext, CellSelection, Ephemera, Selections, Buttons, MenuItems) {
     function Plugin(editor) {
       var self = this;
 
-      var lazyResize = function () {
-        return resize;
-      };
-
-      var lazyWire = function () {
-        return wire.getOr(ResizeWire.only(Element.fromDom(editor.getBody())));
-      };
-
-      var cellSelection = CellSelection(editor, lazyResize);
-
-      var actions = TableActions(editor, lazyWire);
-
+      var resizeHandler = ResizeHandler(editor);
+      var cellSelection = CellSelection(editor, resizeHandler.lazyResize);
+      var actions = TableActions(editor, resizeHandler.lazyWire);
       var selections = Selections(editor);
 
       TableCommands.registerCommands(editor, actions, cellSelection, selections);
@@ -15277,60 +15491,6 @@ define(
       Buttons.addButtons(editor);
       Buttons.addToolbars(editor);
 
-      var resize = Option.none();
-      var wire = Option.none();
-      var selectionRng = Option.none();
-
-      editor.on('init', function () {
-        var direction = TableDirection(Direction.directionAt);
-        var rawWire = TableWire.get(editor);
-        wire = Option.some(rawWire);
-        if (editor.settings.object_resizing && editor.settings.table_resize_bars !== false &&
-          (editor.settings.object_resizing === true || editor.settings.object_resizing === 'table')) {
-          var sz = TableResize(rawWire, direction);
-          sz.on();
-          sz.events.startDrag.bind(function (event) {
-            selectionRng = Option.some(editor.selection.getRng());
-          });
-          sz.events.afterResize.bind(function (event) {
-            var table = event.table();
-            var dataStyleCells = SelectorFilter.descendants(table, 'td[data-mce-style],th[data-mce-style]');
-            Arr.each(dataStyleCells, function (cell) {
-              Attr.remove(cell, 'data-mce-style');
-            });
-
-            selectionRng.each(function (rng) {
-              editor.selection.setRng(rng);
-              editor.focus();
-            });
-
-            editor.undoManager.add();
-          });
-
-          resize = Option.some(sz);
-        }
-      });
-
-      // If we're updating the table width via the old mechanic, we need to update the constituent cells' widths/heights too.
-      editor.on('ObjectResized', function (e) {
-        var table = e.target;
-        if (table.nodeName === 'TABLE') {
-          var newCellSizes = [];
-          Tools.each(table.rows, function (row) {
-            Tools.each(row.cells, function (cell) {
-              var width = editor.dom.getStyle(cell, 'width', true);
-              newCellSizes.push({
-                cell: cell,
-                width: width
-              });
-            });
-          });
-          Tools.each(newCellSizes, function (newCellSize) {
-            editor.dom.setStyle(newCellSize.cell, 'width', newCellSize.width);
-            editor.dom.setAttrib(newCellSize.cell, 'width', null);
-          });
-        }
-      });
 
       editor.on('PreInit', function () {
         // Remove internal data attributes
@@ -15341,24 +15501,17 @@ define(
       // Enable tab key cell navigation
       if (editor.settings.table_tab_navigation !== false) {
         editor.on('keydown', function (e) {
-          TabContext.handle(e, editor, actions, lazyWire);
+          TabContext.handle(e, editor, actions, resizeHandler.lazyWire);
         });
       }
 
       editor.on('remove', function () {
-        resize.each(function (sz) {
-          sz.destroy();
-        });
-
-        wire.each(function (w) {
-          TableWire.remove(editor, w);
-        });
-
+        resizeHandler.destroy();
         cellSelection.destroy();
       });
 
       self.insertTable = function (columns, rows) {
-        InsertTable.insert(editor, columns, rows);
+        return InsertTable.insert(editor, columns, rows);
       };
       self.setClipboardRows = TableCommands.setClipboardRows;
       self.getClipboardRows = TableCommands.getClipboardRows;

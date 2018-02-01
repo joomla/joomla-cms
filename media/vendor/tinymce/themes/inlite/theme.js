@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","ephox.katamari.api.Option","global!String","tinymce.ui.data.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.api.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","global!Object","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
+["tinymce.themes.inlite.Theme","global!window","tinymce.core.ThemeManager","tinymce.themes.inlite.api.ThemeApi","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","tinymce.ui.Api","tinymce.ui.FormatControls","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.core.Render","tinymce.ui.NotificationManagerImpl","tinymce.ui.WindowManagerImpl","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.Tools","tinymce.themes.inlite.alien.UiContainer","tinymce.themes.inlite.api.Events","tinymce.themes.inlite.api.Settings","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.core.Measure","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.ui.AbsoluteLayout","tinymce.ui.BrowseButton","tinymce.ui.Button","tinymce.ui.ButtonGroup","tinymce.ui.Checkbox","tinymce.ui.Collection","tinymce.ui.ColorBox","tinymce.ui.ColorButton","tinymce.ui.ColorPicker","tinymce.ui.ComboBox","tinymce.ui.Container","tinymce.ui.Control","tinymce.ui.DragHelper","tinymce.ui.DropZone","tinymce.ui.ElementPath","tinymce.ui.FieldSet","tinymce.ui.FilePicker","tinymce.ui.FitLayout","tinymce.ui.FlexLayout","tinymce.ui.FloatPanel","tinymce.ui.FlowLayout","tinymce.ui.Form","ephox.katamari.api.Fun","ephox.sugar.api.node.Element","ephox.sugar.api.search.SelectorFind","global!document","tinymce.core.EditorManager","tinymce.core.Env","tinymce.ui.Widget","tinymce.ui.editorui.Align","tinymce.ui.editorui.FontSelect","tinymce.ui.editorui.FontSizeSelect","tinymce.ui.editorui.FormatSelect","tinymce.ui.editorui.Formats","tinymce.ui.editorui.InsertButton","tinymce.ui.editorui.SimpleControls","tinymce.ui.editorui.UndoRedo","tinymce.ui.editorui.VisualAid","tinymce.ui.FormItem","tinymce.ui.GridLayout","tinymce.ui.Iframe","tinymce.ui.InfoBox","tinymce.ui.KeyboardNavigation","tinymce.ui.Label","tinymce.ui.Layout","tinymce.ui.ListBox","tinymce.ui.Menu","tinymce.ui.MenuBar","tinymce.ui.MenuButton","tinymce.ui.MenuItem","tinymce.ui.MessageBox","tinymce.ui.Movable","tinymce.ui.Notification","tinymce.ui.Panel","tinymce.ui.PanelButton","tinymce.ui.Path","tinymce.ui.Progress","tinymce.ui.Radio","tinymce.ui.ReflowQueue","tinymce.ui.Resizable","tinymce.ui.ResizeHandle","tinymce.ui.Scrollable","tinymce.ui.SelectBox","tinymce.ui.Selector","tinymce.ui.Slider","tinymce.ui.Spacer","tinymce.ui.SplitButton","tinymce.ui.StackLayout","tinymce.ui.TabPanel","tinymce.ui.TextBox","tinymce.ui.Throbber","tinymce.ui.Toolbar","tinymce.ui.Tooltip","tinymce.ui.Window","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","ephox.katamari.api.Arr","global!setTimeout","tinymce.ui.DomUtils","tinymce.core.dom.DomQuery","tinymce.core.util.Class","tinymce.core.util.EventDispatcher","tinymce.ui.BoxUtils","tinymce.ui.ClassList","tinymce.ui.data.ObservableObject","ephox.katamari.api.Option","tinymce.themes.inlite.alien.EditorSettings","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Type","ephox.sand.api.FileReader","global!RegExp","tinymce.core.util.VK","tinymce.core.util.Color","global!Array","global!Error","tinymce.ui.content.LinkTargets","global!console","ephox.sugar.api.search.PredicateFind","ephox.sugar.api.search.Selectors","ephox.sugar.impl.ClosestOrAncestor","tinymce.ui.editorui.FormatUtils","tinymce.ui.fmt.FontInfo","global!Object","global!String","tinymce.ui.data.Binding","tinymce.core.util.Observable","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.api.dom.RangeUtils","ephox.sand.util.Global","ephox.katamari.api.Id","ephox.sugar.api.search.SelectorFilter","ephox.katamari.api.Type","ephox.sugar.api.node.Body","ephox.sugar.api.dom.Compare","ephox.sugar.api.node.NodeTypes","ephox.sugar.api.node.Node","ephox.katamari.api.Resolve","global!Date","global!Math","ephox.sugar.api.search.PredicateFilter","ephox.katamari.api.Thunk","ephox.sand.api.Node","ephox.sand.api.PlatformDetection","ephox.katamari.api.Global","ephox.sugar.api.search.Traverse","ephox.sand.core.PlatformDetection","global!navigator","ephox.katamari.api.Struct","ephox.sugar.alien.Recurse","ephox.sand.core.Browser","ephox.sand.core.OperatingSystem","ephox.sand.detect.DeviceType","ephox.sand.detect.UaString","ephox.sand.info.PlatformInfo","ephox.katamari.data.Immutable","ephox.katamari.data.MixedBag","ephox.sand.detect.Version","ephox.katamari.api.Strings","ephox.katamari.api.Obj","ephox.katamari.util.BagUtils","global!Number","ephox.katamari.str.StrAppend","ephox.katamari.str.StringParts"]
 jsc*/
 defineGlobal("global!window", window);
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
@@ -102,6 +102,46 @@ define(
   ],
   function (resolve) {
     return resolve('tinymce.ThemeManager');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.Env',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.Env');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.dom.DOMUtils',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.dom.DOMUtils');
   }
 );
 
@@ -193,26 +233,6 @@ define(
       match: match,
       result: result
     };
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.dom.DOMUtils',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.dom.DOMUtils');
   }
 );
 
@@ -927,6 +947,8 @@ define(
 define(
   'tinymce.themes.inlite.core.Render',
   [
+    'tinymce.core.Env',
+    'tinymce.core.dom.DOMUtils',
     'tinymce.core.util.Delay',
     'tinymce.themes.inlite.alien.Arr',
     'tinymce.themes.inlite.core.ElementMatcher',
@@ -935,7 +957,7 @@ define(
     'tinymce.themes.inlite.core.SelectionMatcher',
     'tinymce.themes.inlite.core.SkinLoader'
   ],
-  function (Delay, Arr, ElementMatcher, Matcher, PredicateId, SelectionMatcher, SkinLoader) {
+  function (Env, DOMUtils, Delay, Arr, ElementMatcher, Matcher, PredicateId, SelectionMatcher, SkinLoader) {
     var getSelectionElements = function (editor) {
       var node = editor.selection.getNode();
       var elms = editor.dom.getParents(node);
@@ -1020,13 +1042,19 @@ define(
     var bindContextualToolbarsEvents = function (editor, panel) {
       var throttledTogglePanel = Delay.throttle(togglePanel(editor, panel), 0);
       var throttledTogglePanelWhenNotInForm = Delay.throttle(ignoreWhenFormIsVisible(editor, panel, togglePanel(editor, panel)), 0);
+      var reposition = repositionPanel(editor, panel);
 
       editor.on('blur hide ObjectResizeStart', panel.hide);
       editor.on('click', throttledTogglePanel);
       editor.on('nodeChange mouseup', throttledTogglePanelWhenNotInForm);
       editor.on('ResizeEditor keyup', throttledTogglePanel);
-      editor.on('ResizeWindow', repositionPanel(editor, panel));
-      editor.on('remove', panel.remove);
+      editor.on('ResizeWindow', reposition);
+
+      DOMUtils.DOM.bind(Env.container, 'scroll', reposition);
+      editor.on('remove', function () {
+        DOMUtils.DOM.unbind(Env.container, 'scroll', reposition);
+        panel.remove();
+      });
 
       editor.shortcuts.add('Alt+F10,F10', '', panel.focus);
     };
@@ -1081,6 +1109,12 @@ define(
   function (Array, Error) {
 
     var noop = function () { };
+
+    var noarg = function (f) {
+      return function () {
+        return f();
+      };
+    };
 
     var compose = function (fa, fb) {
       return function () {
@@ -1142,10 +1176,11 @@ define(
 
     var never = constant(false);
     var always = constant(true);
-    
+
 
     return {
       noop: noop,
+      noarg: noarg,
       compose: compose,
       constant: constant,
       identity: identity,
@@ -1207,8 +1242,9 @@ define(
         - "apply" operation on the Option Apply/Applicative.
         - Equivalent to <*> in Haskell/PureScript.
 
-      each :: this Option a -> (a -> b) -> Option b
-        - same as 'map'
+      each :: this Option a -> (a -> b) -> undefined
+        - similar to 'map', but doesn't return a value.
+        - intended for clarity when performing side effects.
 
       bind :: this Option a -> (a -> Option b) -> Option b
         - "bind"/"flatMap" operation on the Option Bind/Monad.
@@ -1654,26 +1690,6 @@ define(
 defineGlobal("global!setTimeout", setTimeout);
 defineGlobal("global!document", document);
 /**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.Env',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.Env');
-  }
-);
-
-/**
  * DomUtils.js
  *
  * Released under LGPL License.
@@ -1889,9 +1905,9 @@ define(
 define(
   'tinymce.ui.BoxUtils',
   [
-    'global!document'
+
   ],
-  function (document) {
+  function () {
     "use strict";
 
     return {
@@ -1943,15 +1959,20 @@ define(
 
       measureBox: function (elm, prefix) {
         function getStyle(name) {
-          var defaultView = document.defaultView;
+          var defaultView = elm.ownerDocument.defaultView;
 
           if (defaultView) {
-            // Remove camelcase
-            name = name.replace(/[A-Z]/g, function (a) {
-              return '-' + a;
-            });
+            var computedStyle = defaultView.getComputedStyle(elm, null);
+            if (computedStyle) {
+              // Remove camelcase
+              name = name.replace(/[A-Z]/g, function (a) {
+                return '-' + a;
+              });
 
-            return defaultView.getComputedStyle(elm, null).getPropertyValue(name);
+              return computedStyle.getPropertyValue(name);
+            } else {
+              return null;
+            }
           }
 
           return elm.currentStyle[name];
@@ -8114,6 +8135,45 @@ define(
 );
 
 /**
+ * UiContainer.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2016 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.themes.inlite.alien.UiContainer',
+  [
+    'ephox.katamari.api.Option',
+    'tinymce.core.Env',
+    'tinymce.core.dom.DOMUtils'
+  ],
+  function (Option, Env, DOMUtils) {
+    var getUiContainerDelta = function () {
+      var uiContainer = Env.container;
+      if (uiContainer && DOMUtils.DOM.getStyle(uiContainer, 'position', true) !== 'static') {
+        var containerPos = DOMUtils.DOM.getPos(uiContainer);
+        var dx = containerPos.x - uiContainer.scrollLeft;
+        var dy = containerPos.y - uiContainer.scrollTop;
+        return Option.some({
+          x: dx,
+          y: dy
+        });
+      } else {
+        return Option.none();
+      }
+    };
+
+    return {
+      getUiContainerDelta: getUiContainerDelta
+    };
+  }
+);
+
+/**
  * ResolveGlobal.js
  *
  * Released under LGPL License.
@@ -8838,10 +8898,10 @@ define(
 define(
   'tinymce.themes.inlite.ui.Panel',
   [
-    'global!document',
     'tinymce.core.dom.DOMUtils',
     'tinymce.core.ui.Factory',
     'tinymce.core.util.Tools',
+    'tinymce.themes.inlite.alien.UiContainer',
     'tinymce.themes.inlite.api.Events',
     'tinymce.themes.inlite.api.Settings',
     'tinymce.themes.inlite.core.Layout',
@@ -8849,7 +8909,7 @@ define(
     'tinymce.themes.inlite.ui.Forms',
     'tinymce.themes.inlite.ui.Toolbar'
   ],
-  function (document, DOMUtils, Factory, Tools, Events, Settings, Layout, Measure, Forms, Toolbar) {
+  function (DOMUtils, Factory, Tools, UiContainer, Events, Settings, Layout, Measure, Forms, Toolbar) {
     return function () {
       var panel, currentRect;
 
@@ -8952,9 +9012,10 @@ define(
         }
 
         if (result) {
-          panelRect = result.rect;
+          var delta = UiContainer.getUiContainerDelta().getOr({ x: 0, y: 0 });
+          var transposedPanelRect = { x: result.rect.x - delta.x, y: result.rect.y - delta.y, w: result.rect.w, h: result.rect.h };
           currentRect = targetRect;
-          movePanelTo(panel, Layout.userConstrain(userConstainHandler, targetRect, contentAreaRect, panelRect));
+          movePanelTo(panel, Layout.userConstrain(userConstainHandler, targetRect, contentAreaRect, transposedPanelRect));
           togglePositionClass(panel, result.position);
           return true;
         } else {
@@ -9013,7 +9074,7 @@ define(
         if (!panel) {
           Events.fireBeforeRenderUI(editor);
           panel = create(editor, toolbars);
-          panel.renderTo(document.body).reflow().moveTo(targetRect.x, targetRect.y);
+          panel.renderTo().reflow().moveTo(targetRect.x, targetRect.y);
           editor.nodeChanged();
         }
 
@@ -9072,11 +9133,8 @@ define(
 
   function () {
     // Use window object as the global if it's available since CSP will block script evals
-    if (typeof window !== 'undefined') {
-      return window;
-    } else {
-      return Function('return this;')();
-    }
+    var global = typeof window !== 'undefined' ? window : Function('return this;')();
+    return global;
   }
 );
 
@@ -9657,8 +9715,9 @@ define(
       renderHtml: function () {
         var self = this, id = self._id, prefix = self.classPrefix;
         var icon = self.state.get('icon'), image, text = self.state.get('text'), textHtml = '';
+        var ariaPressed, settings = self.settings;
 
-        image = self.settings.image;
+        image = settings.image;
         if (image) {
           icon = 'none';
 
@@ -9678,9 +9737,10 @@ define(
         }
 
         icon = icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
+        ariaPressed = typeof settings.active === 'boolean' ? ' aria-pressed="' + settings.active + '"' : '';
 
         return (
-          '<div id="' + id + '" class="' + self.classes + '" tabindex="-1">' +
+          '<div id="' + id + '" class="' + self.classes + '" tabindex="-1"' + ariaPressed + '>' +
           '<button id="' + id + '-button" role="presentation" type="button" tabindex="-1">' +
           (icon ? '<i class="' + icon + '"' + image + '></i>' : '') +
           textHtml +
@@ -11844,12 +11904,13 @@ define(
 
   [
     'ephox.katamari.api.Fun',
+    'ephox.katamari.api.Option',
     'global!Error',
     'global!console',
     'global!document'
   ],
 
-  function (Fun, Error, console, document) {
+  function (Fun, Option, Error, console, document) {
     var fromHtml = function (html, scope) {
       var doc = scope || document;
       var div = doc.createElement('div');
@@ -11880,11 +11941,16 @@ define(
       };
     };
 
+    var fromPoint = function (doc, x, y) {
+      return Option.from(doc.dom().elementFromPoint(x, y)).map(fromDom);
+    };
+
     return {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
-      fromDom: fromDom
+      fromDom: fromDom,
+      fromPoint: fromPoint
     };
   }
 );
@@ -13034,27 +13100,6 @@ define(
   ],
 
   function (Arr, Option, Element, NodeTypes, Error, document) {
-    /*
-     * There's a lot of code here; the aim is to allow the browser to optimise constant comparisons,
-     * instead of doing object lookup feature detection on every call
-     */
-    var STANDARD = 0;
-    var MSSTANDARD = 1;
-    var WEBKITSTANDARD = 2;
-    var FIREFOXSTANDARD = 3;
-
-    var selectorType = (function () {
-      var test = document.createElement('span');
-      // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
-      // Still check for the others, but do it last.
-      return test.matches !== undefined ? STANDARD :
-             test.msMatchesSelector !== undefined ? MSSTANDARD :
-             test.webkitMatchesSelector !== undefined ? WEBKITSTANDARD :
-             test.mozMatchesSelector !== undefined ? FIREFOXSTANDARD :
-             -1;
-    })();
-
-
     var ELEMENT = NodeTypes.ELEMENT;
     var DOCUMENT = NodeTypes.DOCUMENT;
 
@@ -13064,10 +13109,10 @@ define(
 
       // As of Chrome 34 / Safari 7.1 / FireFox 34, everyone except IE has the unprefixed function.
       // Still check for the others, but do it last.
-      else if (selectorType === STANDARD) return elem.matches(selector);
-      else if (selectorType === MSSTANDARD) return elem.msMatchesSelector(selector);
-      else if (selectorType === WEBKITSTANDARD) return elem.webkitMatchesSelector(selector);
-      else if (selectorType === FIREFOXSTANDARD) return elem.mozMatchesSelector(selector);
+      else if (elem.matches !== undefined) return elem.matches(selector);
+      else if (elem.msMatchesSelector !== undefined) return elem.msMatchesSelector(selector);
+      else if (elem.webkitMatchesSelector !== undefined) return elem.webkitMatchesSelector(selector);
+      else if (elem.mozMatchesSelector !== undefined) return elem.mozMatchesSelector(selector);
       else throw new Error('Browser lacks native selectors'); // unfortunately we can't throw this on startup :(
     };
 
@@ -13273,8 +13318,12 @@ define(
       return child(element, element.dom().childNodes.length - 1);
     };
 
-    var childNodesCount = function (element, index) {
+    var childNodesCount = function (element) {
       return element.dom().childNodes.length;
+    };
+
+    var hasChildNodes = function (element) {
+      return element.dom().hasChildNodes();
     };
 
     var spot = Struct.immutable('element', 'offset');
@@ -13301,6 +13350,7 @@ define(
       firstChild: firstChild,
       lastChild: lastChild,
       childNodesCount: childNodesCount,
+      hasChildNodes: hasChildNodes,
       leaf: leaf
     };
   }
@@ -14481,6 +14531,7 @@ define(
         alignnone: ['No alignment', 'JustifyNone']
       }, function (item, name) {
         editor.addButton(name, {
+          active: false,
           tooltip: item[0],
           cmd: item[1],
           onPostRender: FormatUtils.postRenderFormat(editor, name)
@@ -15319,6 +15370,7 @@ define(
         superscript: 'Superscript'
       }, function (text, name) {
         editor.addButton(name, {
+          active: false,
           tooltip: text,
           onPostRender: FormatUtils.postRenderFormat(editor, name),
           onclick: FormatUtils.toggleFormat(editor, name)
@@ -15354,6 +15406,7 @@ define(
         superscript: ['Superscript', 'Superscript']
       }, function (item, name) {
         editor.addButton(name, {
+          active: false,
           tooltip: item[0],
           cmd: item[1],
           onPostRender: FormatUtils.postRenderFormat(editor, name)
@@ -18011,10 +18064,10 @@ define(
        */
       renderHtml: function () {
         var self = this, id = self._id, prefix = self.classPrefix, image;
-        var icon = self.state.get('icon'), text = self.state.get('text'),
-          textHtml = '';
+        var icon = self.state.get('icon'), text = self.state.get('text');
+        var settings = self.settings, textHtml = '', ariaPressed;
 
-        image = self.settings.image;
+        image = settings.image;
         if (image) {
           icon = 'none';
 
@@ -18028,15 +18081,17 @@ define(
           image = '';
         }
 
-        icon = self.settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
+        icon = settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
 
         if (text) {
           self.classes.add('btn-has-text');
           textHtml = '<span class="' + prefix + 'txt">' + self.encode(text) + '</span>';
         }
 
+        ariaPressed = typeof settings.active === 'boolean' ? ' aria-pressed="' + settings.active + '"' : '';
+
         return (
-          '<div id="' + id + '" class="' + self.classes + '" role="button" tabindex="-1">' +
+          '<div id="' + id + '" class="' + self.classes + '" role="button"' + ariaPressed + ' tabindex="-1">' +
           '<button type="button" hidefocus="1" tabindex="-1">' +
           (icon ? '<i class="' + icon + '"' + image + '></i>' : '') +
           textHtml +
