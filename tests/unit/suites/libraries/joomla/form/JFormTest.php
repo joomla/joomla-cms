@@ -1074,7 +1074,6 @@ class JFormTest extends TestCaseDatabase
 				)
 			)
 		);
-		var_dump($form->getInput('show_title', 'params', '0'));
 
 		$this->assertTag(
 			$matcher,
