@@ -1066,7 +1066,6 @@ class JFormTest extends TestCaseDatabase
 		$matcher = array(
 			'id' => 'params_show_title',
 			'tag' => 'fieldset',
-			'attributes' => array('class' => 'radio'),
 			'descendant' => array(
 				'tag' => 'input',
 				'attributes' => array(
@@ -1075,6 +1074,7 @@ class JFormTest extends TestCaseDatabase
 				)
 			)
 		);
+		var_dump($form->getInput('show_title', 'params', '0'));
 
 		$this->assertTag(
 			$matcher,
