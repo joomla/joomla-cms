@@ -1214,7 +1214,7 @@ class Access
 		$actions = array();
 
 		// Get the elements from the xpath
-		$elements = $data->xpath($xpath . 'action[@name][@title]');
+		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
 
 		// If there some elements, analyse them
 		if (!empty($elements))
@@ -1225,6 +1225,7 @@ class Access
 				$actions[] = (object) array(
 					'name' => (string) $action['name'],
 					'title' => (string) $action['title'],
+					'description' => (string) $action['description'],
 				);
 			}
 		}
