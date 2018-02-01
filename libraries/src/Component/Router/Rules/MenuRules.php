@@ -239,7 +239,6 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-							$this->lookup[$language][$view][$item->query[$views[$view]->key]] = $item->id;
 						}
 					}
 					else
@@ -252,7 +251,6 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view] = $item->id;
 						}
 					}
 				}
