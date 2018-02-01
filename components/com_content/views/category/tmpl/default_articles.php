@@ -37,7 +37,7 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 			break;
 
 		default :
-			$langFilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+			$langFilter = $tagfilter;
 	}
 }
 
