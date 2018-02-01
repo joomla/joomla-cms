@@ -80,7 +80,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null, FormFactoryInterface $formFactory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
+		FormFactoryInterface $formFactory = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
