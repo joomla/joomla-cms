@@ -21,7 +21,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
-//Tags filtering based on language filter 
+// Tags filtering based on language filter 
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
 { 
 	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
@@ -40,7 +40,6 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 			$langFilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 	}
 }
-
 
 // Check for at least one editable article
 $isEditable = false;
