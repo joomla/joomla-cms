@@ -394,7 +394,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
-		$this->assertThat(\Joomla\CMS\Access\Access::getActionsFromData($data, $xpath), $this->equalTo($expected), 'Line:' . __LINE__ . $msg);
+		$this->assertEquals($expected, \Joomla\CMS\Access\Access::getActionsFromData($data, $xpath), 'Line:' . __LINE__ . $msg);
 	}
 
 	/**
