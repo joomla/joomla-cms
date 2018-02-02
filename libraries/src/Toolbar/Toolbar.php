@@ -105,7 +105,8 @@ class Toolbar
 	 *
 	 * @return  Toolbar  The Toolbar object.
 	 *
-	 * @since   1.5
+	 * @since       1.5
+	 * @deprecated  5.0 Use the ToolbarFactoryInterface instead
 	 */
 	public static function getInstance($name = 'toolbar')
 	{
