@@ -169,7 +169,7 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 
 		describe('isValid method on button click', function () {
 			beforeAll(function () {
-				$('#button').click();
+				document.getElementById('button').click();
 			});
 
 			it('should call Joomla.JText._(\'JLIB_FORM_CONTAINS_INVALID_FIELDS\')', function () {
@@ -189,14 +189,15 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
 			});
 		});
 
-		it('Invalid element should become valid when passing the correct data', function () {
-			beforeAll(function () {
-				document.getElementById('isvalid-numeric-nan').setAttribute('value', 12345);
-			});
+		describe('Invalid element should become valid when passing the correct data', function () {
 
 			it('should remove class invalid from element #isvalid-numeric-nan after correcting value', function () {
-				expect(document.getElementById('isvalid-numeric-nan')).toHaveClass('valid');
+				document.getElementById('isvalid-numeric-nan').setAttribute('value', 12345);
 				document.getElementById('button').click();
+
+				setTimeout(function() {
+					expect($element.find('#isvalid-numeric-nan')).not.toHaveClass('invalid');
+				}, 100)
 			});
 		});
 	});

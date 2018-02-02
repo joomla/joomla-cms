@@ -101,8 +101,9 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
-	 * @throws  \RuntimeException
+	 * @since       11.3
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null)
 	{

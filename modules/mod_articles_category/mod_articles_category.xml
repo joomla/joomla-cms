@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesCategory</namespace>
 	<files>
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
 		<folder>tmpl</folder>

@@ -222,7 +222,7 @@ class PluginModel extends AdminModel
 		// Execute the parent method.
 		parent::populateState();
 
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
