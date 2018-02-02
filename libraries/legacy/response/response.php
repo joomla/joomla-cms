@@ -242,18 +242,10 @@ class JResponse
 		// Ideal level
 		$level = 4;
 
-		/*
-		$size    = strlen($data);
-		$crc     = crc32($data);
-		$gzdata  = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		$gzdata .= gzcompress($data, $level);
-		$gzdata  = substr($gzdata, 0, strlen($gzdata) - 4);
-		$gzdata .= pack("V",$crc) . pack("V", $size);
-		*/
-
 		$gzdata = gzencode($data, $level);
 
 		self::setHeader('Content-Encoding', $encoding);
+		self::setHeader('Vary', 'Accept-Encoding');
 
 		// Header will be removed at 4.0
 		if (defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))

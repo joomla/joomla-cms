@@ -468,6 +468,7 @@ class WebApplication extends BaseApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 
 				// Header will be removed at 4.0
 				if ($this->get('MetaVersion'))
