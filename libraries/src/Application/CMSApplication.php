@@ -472,8 +472,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  CmsApplication
 	 *
-	 * @since   3.2
-	 * @throws  \RuntimeException
+	 * @since       3.2
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null, $prefix = '\JApplication', Container $container = null)
 	{
@@ -1163,7 +1164,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  string  Hashed var name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getFormToken($forceNew = false)
 	{
@@ -1182,7 +1183,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkToken($method = 'post')
 	{
@@ -1199,7 +1200,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  boolean
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli()

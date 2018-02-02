@@ -91,7 +91,7 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @param string $chr
      * @return int
-     * @throws Error
+     * @throws SodiumException
      */
     public static function chrToInt($chr)
     {
@@ -100,7 +100,7 @@ abstract class ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 1 must be a string, ' . gettype($chr) . ' given.');
         }
         if (self::strlen($chr) !== 1) {
-            throw new Error('chrToInt() expects a string that is exactly 1 character long');
+            throw new SodiumException('chrToInt() expects a string that is exactly 1 character long');
         }
         $chunk = unpack('C', $chr);
         return $chunk[1];
@@ -135,6 +135,84 @@ abstract class ParagonIE_Sodium_Core_Util
             $eq &= ((self::chrToInt($right[$i]) ^ self::chrToInt($left[$i])) - 1) >> 8;
         }
         return ($gt + $gt + $eq) - 1;
+    }
+
+    /**
+     * If a variable does not match a given type, throw a TypeError.
+     *
+     * @param mixed $mixedVar
+     * @param string $type
+     * @param int $argumentIndex
+     * @throws TypeError
+     * @throws SodiumException
+     * @return void
+     */
+    public static function declareScalarType(&$mixedVar = null, $type = 'void', $argumentIndex = 0)
+    {
+        if (func_num_args() === 0) {
+            /* Tautology, by default */
+            return;
+        }
+        if (func_num_args() === 1) {
+            throw new TypeError('Declared void, but passed a variable');
+        }
+        $realType = strtolower(gettype($mixedVar));
+        $type = strtolower($type);
+        switch ($type) {
+            case 'null':
+                if ($mixedVar !== null) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be null, ' . $realType . ' given.');
+                }
+                break;
+            case 'integer':
+            case 'int':
+                $allow = array('int', 'integer');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an integer, ' . $realType . ' given.');
+                }
+                $mixedVar = (int) $mixedVar;
+                break;
+            case 'boolean':
+            case 'bool':
+                $allow = array('bool', 'boolean');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a boolean, ' . $realType . ' given.');
+                }
+                $mixedVar = (bool) $mixedVar;
+                break;
+            case 'string':
+                if (!is_string($mixedVar)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a string, ' . $realType . ' given.');
+                }
+                $mixedVar = (string) $mixedVar;
+                break;
+            case 'decimal':
+            case 'double':
+            case 'float':
+                $allow = array('decimal', 'double', 'float');
+                if (!in_array($type, $allow)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be a float, ' . $realType . ' given.');
+                }
+                $mixedVar = (float) $mixedVar;
+                break;
+            case 'object':
+                if (!is_object($mixedVar)) {
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an object, ' . $realType . ' given.');
+                }
+                break;
+            case 'array':
+                if (!is_array($mixedVar)) {
+                    if (is_object($mixedVar)) {
+                        if ($mixedVar instanceof ArrayAccess) {
+                            return;
+                        }
+                    }
+                    throw new TypeError('Argument ' . $argumentIndex . ' must be an array, ' . $realType . ' given.');
+                }
+                break;
+            default:
+                throw new SodiumException('Unknown type (' . $realType .') does not match expect type (' . $type . ')');
+        }
     }
 
     /**
@@ -385,17 +463,22 @@ abstract class ParagonIE_Sodium_Core_Util
      *
      * @param int $a
      * @param int $b
+     * @param int $size Limits the number of operations (useful for small,
+     *                  constant operands)
      * @return int
      */
-    public static function mul($a, $b)
+    public static function mul($a, $b, $size = 0)
     {
         if (ParagonIE_Sodium_Compat::$fastMult) {
             return (int) ($a * $b);
         }
 
-        static $size = null;
-        if (!$size) {
-            $size = (PHP_INT_SIZE << 3) - 1;
+        static $defaultSize = null;
+        if (!$defaultSize) {
+            $defaultSize = (PHP_INT_SIZE << 3) - 1;
+        }
+        if ($size < 1) {
+            $size = $defaultSize;
         }
 
         $c = 0;
@@ -574,14 +657,15 @@ abstract class ParagonIE_Sodium_Core_Util
         } else {
             $hiB = 0;
         }
-        return self::intToChr($hiB & 0xff) .
-            self::intToChr(($hiB >>  8) & 0xff) .
-            self::intToChr(($hiB >> 16) & 0xff) .
-            self::intToChr(($hiB >> 24) & 0xff) .
+        return
             self::intToChr(($int      ) & 0xff) .
             self::intToChr(($int >>  8) & 0xff) .
             self::intToChr(($int >> 16) & 0xff) .
-            self::intToChr(($int >> 24) & 0xff);
+            self::intToChr(($int >> 24) & 0xff) .
+            self::intToChr($hiB & 0xff) .
+            self::intToChr(($hiB >>  8) & 0xff) .
+            self::intToChr(($hiB >> 16) & 0xff) .
+            self::intToChr(($hiB >> 24) & 0xff);
     }
 
     /**

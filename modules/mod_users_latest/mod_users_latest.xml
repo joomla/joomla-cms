@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_USERS_LATEST_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\UsersLatest</namespace>
 	<files>
 		<filename module="mod_users_latest">mod_users_latest.php</filename>
 		<folder>tmpl</folder>
@@ -24,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="shownumber"
-					type="text"
+					type="number"
 					label="MOD_USERS_LATEST_FIELD_NUMBER_LABEL"
 					default="5"
 				/>
@@ -66,7 +67,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

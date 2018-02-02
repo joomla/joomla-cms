@@ -59,7 +59,7 @@ class Toolbar
 	 * Factory for creating Toolbar API objects
 	 *
 	 * @var    ToolbarFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $factory;
 
@@ -124,9 +124,9 @@ class Toolbar
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setFactory(ToolbarFactoryInterface $factory)
+	public function setFactory(ToolbarFactoryInterface $factory): self
 	{
 		$this->factory = $factory;
 
@@ -337,10 +337,10 @@ class Toolbar
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @deprecated  5.0  ToolbarButton classes should be autoloaded
 	 */
-	public function getButtonPath()
+	public function getButtonPath(): array
 	{
 		\JLog::add(
 			sprintf(

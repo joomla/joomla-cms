@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -18,7 +21,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
  *
  * @since  3.7
  */
-class PlgSystemFields extends JPlugin
+class PlgSystemFields extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -80,7 +83,7 @@ class PlgSystemFields extends JPlugin
 		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
@@ -116,9 +119,9 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
+		$user = Factory::getUser($userData['id']);
 
-		$task = JFactory::getApplication()->input->getCmd('task');
+		$task = Factory::getApplication()->input->getCmd('task');
 
 		// Skip fields save when we activate a user, because we will lose the saved data
 		if (in_array($task, array('activate', 'block', 'unblock')))
@@ -153,7 +156,7 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -188,7 +191,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		$context = $form->getName();
 
@@ -215,7 +218,7 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');

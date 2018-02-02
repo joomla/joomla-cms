@@ -14,8 +14,9 @@ JHtml::_('behavior.caption');
 
 
 $pageClass = $this->params->get('pageclass_sfx');
+
 ?>
-<div class="newsfeed-category<?php echo $this->pageclass_sfx; ?>">
+<div class="newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -26,12 +27,10 @@ $pageClass = $this->params->get('pageclass_sfx');
 			<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category.title'); ?>
 		</h2>
 	<?php endif; ?>
-
 	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
 		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
 	<?php endif; ?>
-
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
@@ -43,12 +42,12 @@ $pageClass = $this->params->get('pageclass_sfx');
 			<div class="clr"></div>
 		</div>
 	<?php endif; ?>
-
 	<?php echo $this->loadTemplate('items'); ?>
-
 	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="cat-children">
-			<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?></h3>
+			<h3>
+				<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
+			</h3>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>

@@ -25,7 +25,7 @@
 					name="filter"
 					type="list"
 					label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-					class="btn-group"
+					class="list"
 					default="JComponentHelper::filterText"
 					>
 					<option value="0">JNO</option>
@@ -40,7 +40,7 @@
 
 				<field
 					name="maxlength"
-					type="text"
+					type="number"
 					label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
 					filter="integer"
 				/>

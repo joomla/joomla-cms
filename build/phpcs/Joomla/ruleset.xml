@@ -15,7 +15,7 @@
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
+	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->
 	<exclude-pattern type="relative">libraries/src/Encrypt/*</exclude-pattern>
 	<!-- Exclude the restore_finalisation until we can deal with nested class definitions -->
@@ -25,6 +25,8 @@
 	<exclude-pattern type="relative">installation/template/error.php</exclude-pattern>
 	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
+	<!-- Exclude a temporary helper from PHPUnit whilst we refactor out legacy PHPUnit code -->
+	<exclude-pattern type="relative">tests/unit/core/domhelper.php</exclude-pattern>
 	<!-- Exclude some test related files that don't actually include PHP code -->
 	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/model/stubs/barbaz.php</exclude-pattern>
 	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts1/fringe/division.php</exclude-pattern>

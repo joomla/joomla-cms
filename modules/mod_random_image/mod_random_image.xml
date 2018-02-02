@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_RANDOM_IMAGE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\RandomImage</namespace>
 	<files>
 		<filename module="mod_random_image">mod_random_image.php</filename>
 		<folder>tmpl</folder>
@@ -43,13 +44,13 @@
 
 				<field
 					name="width"
-					type="text"
+					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 				/>
 
 				<field
 					name="height"
-					type="text"
+					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
 				/>
 

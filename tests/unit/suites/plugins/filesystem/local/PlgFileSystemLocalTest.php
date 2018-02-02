@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 class PlgFileSystemLocalTest extends TestCaseDatabase
 {
@@ -21,7 +21,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @var   PlgFileSystemLocal
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $pluginClass = null;
 
@@ -30,7 +30,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @var   string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $root = null;
 
@@ -39,7 +39,7 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function setUp()
 	{
@@ -58,21 +58,21 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 		$plugin = array(
 			'name' => 'local',
 			'type' => 'filesystem',
-			'params' => new \JRegistry,
+			'params' => new \Joomla\Registry\Registry,
 		);
 
 		// Instantiate plugin
 		$this->pluginClass = new PlgFileSystemLocal($dispatcher, $plugin);
 
 		// Set up the temp root folder
-		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/');
+		$this->root = JPath::clean(JPATH_TESTS . '/tmp/test/', 'tmp/test');
 		JFolder::create($this->root);
 	}
 
 	/**
 	 * Cleans the test folder
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function tearDown()
 	{
@@ -82,11 +82,11 @@ class PlgFileSystemLocalTest extends TestCaseDatabase
 	/**
 	 * Tests event onFileSystemGetAdapters
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function testOnFileSystemGetAdapters()
 	{
-		$adapter = $this->pluginClass->onFileSystemGetAdapters();
-		self::assertInstanceOf('MediaFileAdapterLocal', $adapter);
+		$adapter = $this->pluginClass->getAdapters();
+		$this->assertContainsOnlyInstancesOf(\Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter::class, $adapter);
 	}
 }

@@ -10,11 +10,12 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Application\AbstractCliApplication;
-use Joomla\Application\Cli\CliInput;
-use Joomla\Application\Cli\CliOutput;
-use Joomla\Application\Cli\Output\Stdout;
-use Joomla\CMS\Input\Cli;
+use Joomla\Application\AbstractApplication;
+use Joomla\CMS\Application\CLI\CliInput;
+use Joomla\CMS\Application\CLI\CliOutput;
+use Joomla\CMS\Application\CLI\Output\Stdout;
+use Joomla\Input\Cli;
+use Joomla\Input\Input;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -26,11 +27,28 @@ use Joomla\Session\SessionInterface;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since  11.4
+ * @since       11.4
+ * @deprecated  5.0  Use the ConsoleApplication instead
  */
-abstract class CliApplication extends AbstractCliApplication implements DispatcherAwareInterface, CMSApplicationInterface
+abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
 	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+
+	/**
+	 * Output object
+	 *
+	 * @var    CliOutput
+	 * @since  4.0.0
+	 */
+	protected $output;
+
+	/**
+	 * CLI Input object
+	 *
+	 * @var    CliInput
+	 * @since  4.0.0
+	 */
+	protected $cliInput;
 
 	/**
 	 * The application instance.
@@ -43,7 +61,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
+	 * @param   Input                $input       An optional argument to provide dependency injection for the application's
 	 *                                            input object.  If the argument is a JInputCli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
@@ -59,7 +77,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(Cli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
+	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
 		DispatcherInterface $dispatcher = null, Container $container = null)
 	{
 		// Close the application if we are not executed from the command line.
@@ -71,8 +89,6 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 		$container = $container ?: \JFactory::getContainer();
 		$this->setContainer($container);
 
-		$this->input    = $input ?: new Cli;
-		$this->config   = $config ?: new Registry;
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
 
@@ -81,16 +97,13 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 			$this->setDispatcher($dispatcher);
 		}
 
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
-
-		// Set the execution datetime and timestamp;
-		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
-		$this->set('execution.timestamp', time());
-		$this->set('execution.microtimestamp', microtime(true));
+		parent::__construct($input ?: new Cli, $config);
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
+
+		// Load the configuration object.
+		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
@@ -145,6 +158,60 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	}
 
 	/**
+	 * Get an output object.
+	 *
+	 * @return  CliOutput
+	 *
+	 * @since   4.0.0
+	 */
+	public function getOutput()
+	{
+		return $this->output;
+	}
+
+	/**
+	 * Get a CLI input object.
+	 *
+	 * @return  CliInput
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCliInput()
+	{
+		return $this->cliInput;
+	}
+
+	/**
+	 * Write a string to standard output.
+	 *
+	 * @param   string   $text  The text to display.
+	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
+	 *
+	 * @return  $this
+	 *
+	 * @since   4.0.0
+	 */
+	public function out($text = '', $nl = true)
+	{
+		$this->getOutput()->out($text, $nl);
+
+		return $this;
+	}
+
+	/**
+	 * Get a value from standard input.
+	 *
+	 * @return  string  The input string from standard input.
+	 *
+	 * @codeCoverageIgnore
+	 * @since   4.0.0
+	 */
+	public function in()
+	{
+		return $this->getCliInput()->in();
+	}
+
+	/**
 	 * Set an output object.
 	 *
 	 * @param   CliOutput  $output  CliOutput object
@@ -168,11 +235,11 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
-		if (!key_exists($type, $this->messages))
+		if (!array_key_exists($type, $this->messages))
 		{
 			$this->messages[$type] = [];
 		}
@@ -185,7 +252,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  array  The system message queue.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMessageQueue()
 	{
@@ -199,7 +266,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function isClient($identifier)
 	{
@@ -211,7 +278,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  SessionInterface  The session object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSession()
 	{
@@ -225,7 +292,7 @@ abstract class CliApplication extends AbstractCliApplication implements Dispatch
 	 *
 	 * @return  boolean
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli()

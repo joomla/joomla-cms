@@ -16,7 +16,7 @@ use Joomla\DI\ContainerAwareTrait;
 /**
  * Default factory for creating toolbar objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, ContainerAwareInterface
 {
@@ -33,7 +33,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 * @since   3.8.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, $type)
+	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
 	{
 		$buttonClass = $this->loadButtonClass($type);
 
@@ -78,9 +78,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  Toolbar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function createToolbar($name = 'toolbar')
+	public function createToolbar(string $name = 'toolbar'): Toolbar
 	{
 		return new Toolbar($name, $this);
 	}
@@ -92,9 +92,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	private function loadButtonClass($type)
+	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
 			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',

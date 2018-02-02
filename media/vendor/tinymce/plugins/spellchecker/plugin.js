@@ -57,8 +57,8 @@ var req = function (ids, callback) {
   var len = ids.length;
   var instances = new Array(len);
   for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
+    instances[i] = dem(ids[i]);
+  callback.apply(null, instances);
 };
 
 var ephox = {};
@@ -76,13 +76,247 @@ ephox.bolt = {
 var define = def;
 var require = req;
 var demand = dem;
-// this helps with minificiation when using a lot of global references
+// this helps with minification when using a lot of global references
 var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.plugins.spellchecker.Plugin","tinymce.plugins.spellchecker.core.DomTextMatcher","tinymce.core.PluginManager","tinymce.core.util.Tools","tinymce.core.ui.Menu","tinymce.core.dom.DOMUtils","tinymce.core.util.XHR","tinymce.core.util.URI","tinymce.core.util.JSON","global!tinymce.util.Tools.resolve"]
+["tinymce.plugins.spellchecker.Plugin","ephox.katamari.api.Cell","tinymce.core.PluginManager","tinymce.plugins.spellchecker.alien.DetectProPlugin","tinymce.plugins.spellchecker.api.Api","tinymce.plugins.spellchecker.api.Commands","tinymce.plugins.spellchecker.api.Settings","tinymce.plugins.spellchecker.ui.Buttons","tinymce.plugins.spellchecker.ui.SuggestionsMenu","global!tinymce.util.Tools.resolve","global!window","tinymce.plugins.spellchecker.core.Actions","tinymce.core.util.Tools","global!document","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.core.util.URI","tinymce.core.util.XHR","tinymce.plugins.spellchecker.api.Events","tinymce.plugins.spellchecker.core.DomTextMatcher"]
 jsc*/
+define(
+  'ephox.katamari.api.Cell',
+
+  [
+  ],
+
+  function () {
+    var Cell = function (initial) {
+      var value = initial;
+
+      var get = function () {
+        return value;
+      };
+
+      var set = function (v) {
+        value = v;
+      };
+
+      var clone = function () {
+        return Cell(get());
+      };
+
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    return Cell;
+  }
+);
+
+defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.PluginManager',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.PluginManager');
+  }
+);
+
+defineGlobal("global!window", window);
+/**
+ * DetectProPlugin.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.spellchecker.alien.DetectProPlugin',
+  [
+    'global!window',
+    'tinymce.core.PluginManager'
+  ],
+  function (window, PluginManager) {
+    var hasProPlugin = function (editor) {
+      // draw back if power version is requested and registered
+      if (/(^|[ ,])tinymcespellchecker([, ]|$)/.test(editor.settings.plugins) && PluginManager.get('tinymcespellchecker')) {
+        /*eslint no-console:0 */
+        if (typeof window.console !== "undefined" && window.console.log) {
+          window.console.log(
+            "Spell Checker Pro is incompatible with Spell Checker plugin! " +
+            "Remove 'spellchecker' from the 'plugins' option."
+          );
+        }
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    return {
+      hasProPlugin: hasProPlugin
+    };
+  }
+);
+
+/**
+ * Settings.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.spellchecker.api.Settings',
+  [
+  ],
+  function () {
+    var getLanguages = function (editor) {
+      var defaultLanguages = 'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr_FR,German=de,Italian=it,Polish=pl,Portuguese=pt_BR,Spanish=es,Swedish=sv';
+      return editor.getParam('spellchecker_languages', defaultLanguages);
+    };
+
+    var getLanguage = function (editor) {
+      var defaultLanguage = editor.getParam('language', 'en');
+      return editor.getParam('spellchecker_language', defaultLanguage);
+    };
+
+    var getRpcUrl = function (editor) {
+      return editor.getParam('spellchecker_rpc_url');
+    };
+
+    var getSpellcheckerCallback = function (editor) {
+      return editor.getParam('spellchecker_callback');
+    };
+
+    var getSpellcheckerWordcharPattern = function (editor) {
+      var defaultPattern = new RegExp("[^" +
+      "\\s!\"#$%&()*+,-./:;<=>?@[\\]^_{|}`" +
+      "\u00a7\u00a9\u00ab\u00ae\u00b1\u00b6\u00b7\u00b8\u00bb" +
+      "\u00bc\u00bd\u00be\u00bf\u00d7\u00f7\u00a4\u201d\u201c\u201e\u00a0\u2002\u2003\u2009" +
+      "]+", "g");
+      return editor.getParam('spellchecker_wordchar_pattern', defaultPattern);
+    };
+
+    return {
+      getLanguages: getLanguages,
+      getLanguage: getLanguage,
+      getRpcUrl: getRpcUrl,
+      getSpellcheckerCallback: getSpellcheckerCallback,
+      getSpellcheckerWordcharPattern: getSpellcheckerWordcharPattern
+    };
+  }
+);
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.Tools',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.Tools');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.URI',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.URI');
+  }
+);
+
+/**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.util.XHR',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.util.XHR');
+  }
+);
+
+/**
+ * Events.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.plugins.spellchecker.api.Events',
+  [
+  ],
+  function () {
+    var fireSpellcheckStart = function (editor) {
+      return editor.fire('SpellcheckStart');
+    };
+
+    var fireSpellcheckEnd = function (editor) {
+      return editor.fire('SpellcheckEnd');
+    };
+
+    return {
+      fireSpellcheckStart: fireSpellcheckStart,
+      fireSpellcheckEnd: fireSpellcheckEnd
+    };
+  }
+);
 /**
  * DomTextMatcher.js
  *
@@ -99,7 +333,7 @@ define(
   ],
   function () {
     function isContentEditableFalse(node) {
-      return node && node.nodeType == 1 && node.contentEditable === "false";
+      return node && node.nodeType === 1 && node.contentEditable === "false";
     }
 
     // Based on work developed by: James Padolsey http://james.padolsey.com
@@ -329,15 +563,19 @@ define(
         element.parentNode.removeChild(element);
       }
 
+      function hasClass(elm) {
+        return elm.className.indexOf('mce-spellchecker-word') !== -1;
+      }
+
       function getWrappersByIndex(index) {
         var elements = node.getElementsByTagName('*'), wrappers = [];
 
-        index = typeof index == "number" ? "" + index : null;
+        index = typeof index === "number" ? "" + index : null;
 
         for (var i = 0; i < elements.length; i++) {
           var element = elements[i], dataIndex = element.getAttribute('data-mce-index');
 
-          if (dataIndex !== null && dataIndex.length) {
+          if (dataIndex !== null && dataIndex.length && hasClass(element)) {
             if (dataIndex === index || index === null) {
               wrappers.push(element);
             }
@@ -560,9 +798,8 @@ define(
     };
   }
 );
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
- * ResolveGlobal.js
+ * Actions.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -572,17 +809,229 @@ defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
  */
 
 define(
-  'tinymce.core.PluginManager',
+  'tinymce.plugins.spellchecker.core.Actions',
   [
-    'global!tinymce.util.Tools.resolve'
+    'tinymce.core.util.Tools',
+    'tinymce.core.util.URI',
+    'tinymce.core.util.XHR',
+    'tinymce.plugins.spellchecker.api.Events',
+    'tinymce.plugins.spellchecker.api.Settings',
+    'tinymce.plugins.spellchecker.core.DomTextMatcher'
   ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
+  function (Tools, URI, XHR, Events, Settings, DomTextMatcher) {
+    var getTextMatcher = function (editor, textMatcherState) {
+      if (!textMatcherState.get()) {
+        var textMatcher = new DomTextMatcher(editor.getBody(), editor);
+        textMatcherState.set(textMatcher);
+      }
+
+      return textMatcherState.get();
+    };
+
+    var isEmpty = function (obj) {
+      for (var name in obj) {
+        return false;
+      }
+
+      return true;
+    };
+
+    var defaultSpellcheckCallback = function (editor, pluginUrl, currentLanguageState) {
+      return function (method, text, doneCallback, errorCallback) {
+        var data = { method: method, lang: currentLanguageState.get() }, postData = '';
+
+        data[method === "addToDictionary" ? "word" : "text"] = text;
+
+        Tools.each(data, function (value, key) {
+          if (postData) {
+            postData += '&';
+          }
+
+          postData += key + '=' + encodeURIComponent(value);
+        });
+
+        XHR.send({
+          url: new URI(pluginUrl).toAbsolute(Settings.getRpcUrl(editor)),
+          type: "post",
+          content_type: 'application/x-www-form-urlencoded',
+          data: postData,
+          success: function (result) {
+            result = JSON.parse(result);
+
+            if (!result) {
+              var message = editor.translate("Server response wasn't proper JSON.");
+              errorCallback(message);
+            } else if (result.error) {
+              errorCallback(result.error);
+            } else {
+              doneCallback(result);
+            }
+          },
+          error: function () {
+            var message = editor.translate("The spelling service was not found: (") +
+              Settings.getRpcUrl(editor) +
+              editor.translate(")");
+            errorCallback(message);
+          }
+        });
+      };
+    };
+
+    var sendRpcCall = function (editor, pluginUrl, currentLanguageState, name, data, successCallback, errorCallback) {
+      var userSpellcheckCallback = Settings.getSpellcheckerCallback(editor);
+      var spellCheckCallback = userSpellcheckCallback ? userSpellcheckCallback : defaultSpellcheckCallback(editor, pluginUrl, currentLanguageState);
+      spellCheckCallback.call(editor.plugins.spellchecker, name, data, successCallback, errorCallback);
+    };
+
+    var spellcheck = function (editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState) {
+      if (finish(editor, startedState, textMatcherState)) {
+        return;
+      }
+
+      var errorCallback = function (message) {
+        editor.notificationManager.open({ text: message, type: 'error' });
+        editor.setProgressState(false);
+        finish(editor, startedState, textMatcherState);
+      };
+
+      var successCallback = function (data) {
+        markErrors(editor, startedState, textMatcherState, lastSuggestionsState, data);
+      };
+
+      editor.setProgressState(true);
+      sendRpcCall(editor, pluginUrl, currentLanguageState, "spellcheck", getTextMatcher(editor, textMatcherState).text, successCallback, errorCallback);
+      editor.focus();
+    };
+
+    var checkIfFinished = function (editor, startedState, textMatcherState) {
+      if (!editor.dom.select('span.mce-spellchecker-word').length) {
+        finish(editor, startedState, textMatcherState);
+      }
+    };
+
+    var addToDictionary = function (editor, pluginUrl, startedState, textMatcherState, word, spans) {
+      editor.setProgressState(true);
+
+      sendRpcCall(editor, pluginUrl, 'addToDictionary', word, function () {
+        editor.setProgressState(false);
+        editor.dom.remove(spans, true);
+        checkIfFinished(editor, startedState, textMatcherState);
+      }, function (message) {
+        editor.notificationManager.open({ text: message, type: 'error' });
+        editor.setProgressState(false);
+      });
+    };
+
+    var ignoreWord = function (editor, startedState, textMatcherState, word, spans, all) {
+      editor.selection.collapse();
+
+      if (all) {
+        Tools.each(editor.dom.select('span.mce-spellchecker-word'), function (span) {
+          if (span.getAttribute('data-mce-word') === word) {
+            editor.dom.remove(span, true);
+          }
+        });
+      } else {
+        editor.dom.remove(spans, true);
+      }
+
+      checkIfFinished(editor, startedState, textMatcherState);
+    };
+
+    var finish = function (editor, startedState, textMatcherState) {
+      getTextMatcher(editor, textMatcherState).reset();
+      textMatcherState.set(null);
+
+      if (startedState.get()) {
+        startedState.set(false);
+        Events.fireSpellcheckEnd(editor);
+        return true;
+      }
+    };
+
+    var getElmIndex = function (elm) {
+      var value = elm.getAttribute('data-mce-index');
+
+      if (typeof value === "number") {
+        return "" + value;
+      }
+
+      return value;
+    };
+
+    var findSpansByIndex = function (editor, index) {
+      var nodes, spans = [];
+
+      nodes = Tools.toArray(editor.getBody().getElementsByTagName('span'));
+      if (nodes.length) {
+        for (var i = 0; i < nodes.length; i++) {
+          var nodeIndex = getElmIndex(nodes[i]);
+
+          if (nodeIndex === null || !nodeIndex.length) {
+            continue;
+          }
+
+          if (nodeIndex === index.toString()) {
+            spans.push(nodes[i]);
+          }
+        }
+      }
+
+      return spans;
+    };
+
+    var markErrors = function (editor, startedState, textMatcherState, lastSuggestionsState, data) {
+      var suggestions, hasDictionarySupport;
+
+      if (data.words) {
+        hasDictionarySupport = !!data.dictionary;
+        suggestions = data.words;
+      } else {
+        // Fallback to old format
+        suggestions = data;
+      }
+
+      editor.setProgressState(false);
+
+      if (isEmpty(suggestions)) {
+        var message = editor.translate('No misspellings found.');
+        editor.notificationManager.open({ text: message, type: 'info' });
+        startedState.set(false);
+        return;
+      }
+
+      lastSuggestionsState.set({
+        suggestions: suggestions,
+        hasDictionarySupport: hasDictionarySupport
+      });
+
+      getTextMatcher(editor, textMatcherState).find(Settings.getSpellcheckerWordcharPattern(editor)).filter(function (match) {
+        return !!suggestions[match.text];
+      }).wrap(function (match) {
+        return editor.dom.create('span', {
+          "class": 'mce-spellchecker-word',
+          "data-mce-bogus": 1,
+          "data-mce-word": match.text
+        });
+      });
+
+      startedState.set(true);
+      Events.fireSpellcheckStart(editor);
+    };
+
+    return {
+      spellcheck: spellcheck,
+      checkIfFinished: checkIfFinished,
+      addToDictionary: addToDictionary,
+      ignoreWord: ignoreWord,
+      findSpansByIndex: findSpansByIndex,
+      getElmIndex: getElmIndex,
+      markErrors: markErrors
+    };
   }
 );
-
 /**
- * ResolveGlobal.js
+ * Api.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -592,17 +1041,44 @@ define(
  */
 
 define(
-  'tinymce.core.util.Tools',
+  'tinymce.plugins.spellchecker.api.Api',
   [
-    'global!tinymce.util.Tools.resolve'
+    'tinymce.plugins.spellchecker.api.Settings',
+    'tinymce.plugins.spellchecker.core.Actions'
   ],
-  function (resolve) {
-    return resolve('tinymce.util.Tools');
+  function (Settings, Actions) {
+    var get = function (editor, startedState, lastSuggestionsState, textMatcherState, url) {
+      var getLanguage = function () {
+        return Settings.getLanguage(editor);
+      };
+
+      var getWordCharPattern = function () {
+        return Settings.getSpellcheckerWordcharPattern(editor);
+      };
+
+      var markErrors = function (data) {
+        Actions.markErrors(editor, startedState, textMatcherState, lastSuggestionsState, data);
+      };
+
+      var getTextMatcher = function () {
+        return textMatcherState.get();
+      };
+
+      return {
+        getTextMatcher: getTextMatcher,
+        getWordCharPattern: getWordCharPattern,
+        markErrors: markErrors,
+        getLanguage: getLanguage
+      };
+    };
+
+    return {
+      get: get
+    };
   }
 );
-
 /**
- * ResolveGlobal.js
+ * Commands.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -612,15 +1088,127 @@ define(
  */
 
 define(
-  'tinymce.core.ui.Menu',
+  'tinymce.plugins.spellchecker.api.Commands',
   [
-    'global!tinymce.util.Tools.resolve'
+    'tinymce.plugins.spellchecker.core.Actions'
   ],
-  function (resolve) {
-    return resolve('tinymce.ui.Menu');
+  function (Actions) {
+    var register = function (editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState) {
+      editor.addCommand('mceSpellCheck', function () {
+        Actions.spellcheck(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
+      });
+    };
+
+    return {
+      register: register
+    };
   }
 );
+/**
+ * Buttons.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
 
+define(
+  'tinymce.plugins.spellchecker.ui.Buttons',
+  [
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.spellchecker.api.Settings',
+    'tinymce.plugins.spellchecker.core.Actions'
+  ],
+  function (Tools, Settings, Actions) {
+    var buildMenuItems = function (listName, languageValues) {
+      var items = [];
+
+      Tools.each(languageValues, function (languageValue) {
+        items.push({
+          selectable: true,
+          text: languageValue.name,
+          data: languageValue.value
+        });
+      });
+
+      return items;
+    };
+
+    var updateSelection = function (editor) {
+      return function (e) {
+        var selectedLanguage = Settings.getLanguage(editor);
+
+        e.control.items().each(function (ctrl) {
+          ctrl.active(ctrl.settings.data === selectedLanguage);
+        });
+      };
+    };
+
+    var getItems = function (editor) {
+      return Tools.map(Settings.getLanguages(editor).split(','), function (langPair) {
+        langPair = langPair.split('=');
+
+        return {
+          name: langPair[0],
+          value: langPair[1]
+        };
+      });
+    };
+
+    var register = function (editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState) {
+      var languageMenuItems = buildMenuItems('Language', getItems(editor));
+      var startSpellchecking = function () {
+        Actions.spellcheck(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
+      };
+
+      var buttonArgs = {
+        tooltip: 'Spellcheck',
+        onclick: startSpellchecking,
+        onPostRender: function (e) {
+          var ctrl = e.control;
+
+          editor.on('SpellcheckStart SpellcheckEnd', function () {
+            ctrl.active(startedState.get());
+          });
+        }
+      };
+
+      if (languageMenuItems.length > 1) {
+        buttonArgs.type = 'splitbutton';
+        buttonArgs.menu = languageMenuItems;
+        buttonArgs.onshow = updateSelection(editor);
+        buttonArgs.onselect = function (e) {
+          currentLanguageState.set(e.control.settings.data);
+        };
+      }
+
+      editor.addButton('spellchecker', buttonArgs);
+
+      editor.addMenuItem('spellchecker', {
+        text: 'Spellcheck',
+        context: 'tools',
+        onclick: startSpellchecking,
+        selectable: true,
+        onPostRender: function () {
+          var self = this;
+
+          self.active(startedState.get());
+
+          editor.on('SpellcheckStart SpellcheckEnd', function () {
+            self.active(startedState.get());
+          });
+        }
+      });
+    };
+
+    return {
+      register: register
+    };
+  }
+);
+defineGlobal("global!document", document);
 /**
  * ResolveGlobal.js
  *
@@ -652,17 +1240,17 @@ define(
  */
 
 define(
-  'tinymce.core.util.XHR',
+  'tinymce.core.ui.Factory',
   [
     'global!tinymce.util.Tools.resolve'
   ],
   function (resolve) {
-    return resolve('tinymce.util.XHR');
+    return resolve('tinymce.ui.Factory');
   }
 );
 
 /**
- * ResolveGlobal.js
+ * SuggestionsMenu.js
  *
  * Released under LGPL License.
  * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
@@ -672,32 +1260,117 @@ define(
  */
 
 define(
-  'tinymce.core.util.URI',
+  'tinymce.plugins.spellchecker.ui.SuggestionsMenu',
   [
-    'global!tinymce.util.Tools.resolve'
+    'global!document',
+    'tinymce.core.dom.DOMUtils',
+    'tinymce.core.ui.Factory',
+    'tinymce.core.util.Tools',
+    'tinymce.plugins.spellchecker.api.Settings',
+    'tinymce.plugins.spellchecker.core.Actions'
   ],
-  function (resolve) {
-    return resolve('tinymce.util.URI');
-  }
-);
+  function (document, DOMUtils, Factory, Tools, Settings, Actions) {
+    var suggestionsMenu;
 
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+    var showSuggestions = function (editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState, word, spans) {
+      var items = [], suggestions = lastSuggestionsState.get().suggestions[word];
 
-define(
-  'tinymce.core.util.JSON',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.JSON');
+      Tools.each(suggestions, function (suggestion) {
+        items.push({
+          text: suggestion,
+          onclick: function () {
+            editor.insertContent(editor.dom.encode(suggestion));
+            editor.dom.remove(spans);
+            Actions.checkIfFinished(editor, startedState, textMatcherState);
+          }
+        });
+      });
+
+      items.push({ text: '-' });
+
+      var hasDictionarySupport = lastSuggestionsState.get().hasDictionarySupport;
+      if (hasDictionarySupport) {
+        items.push({
+          text: 'Add to Dictionary', onclick: function () {
+            Actions.addToDictionary(editor, pluginUrl, startedState, textMatcherState, word, spans);
+          }
+        });
+      }
+
+      items.push.apply(items, [
+        {
+          text: 'Ignore', onclick: function () {
+            Actions.ignoreWord(editor, startedState, textMatcherState, word, spans);
+          }
+        },
+
+        {
+          text: 'Ignore all', onclick: function () {
+            Actions.ignoreWord(editor, startedState, textMatcherState, word, spans, true);
+          }
+        }
+      ]);
+
+      // Render menu
+      suggestionsMenu = Factory.create('menu', {
+        items: items,
+        context: 'contextmenu',
+        onautohide: function (e) {
+          if (e.target.className.indexOf('spellchecker') !== -1) {
+            e.preventDefault();
+          }
+        },
+        onhide: function () {
+          suggestionsMenu.remove();
+          suggestionsMenu = null;
+        }
+      });
+
+      suggestionsMenu.renderTo(document.body);
+
+      // Position menu
+      var pos = DOMUtils.DOM.getPos(editor.getContentAreaContainer());
+      var targetPos = editor.dom.getPos(spans[0]);
+      var root = editor.dom.getRoot();
+
+      // Adjust targetPos for scrolling in the editor
+      if (root.nodeName === 'BODY') {
+        targetPos.x -= root.ownerDocument.documentElement.scrollLeft || root.scrollLeft;
+        targetPos.y -= root.ownerDocument.documentElement.scrollTop || root.scrollTop;
+      } else {
+        targetPos.x -= root.scrollLeft;
+        targetPos.y -= root.scrollTop;
+      }
+
+      pos.x += targetPos.x;
+      pos.y += targetPos.y;
+
+      suggestionsMenu.moveTo(pos.x, pos.y + spans[0].offsetHeight);
+    };
+
+    var setup = function (editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState) {
+      editor.on('click', function (e) {
+        var target = e.target;
+
+        if (target.className === "mce-spellchecker-word") {
+          e.preventDefault();
+
+          var spans = Actions.findSpansByIndex(editor, Actions.getElmIndex(target));
+
+          if (spans.length > 0) {
+            var rng = editor.dom.createRng();
+            rng.setStartBefore(spans[0]);
+            rng.setEndAfter(spans[spans.length - 1]);
+            editor.selection.setRng(rng);
+            showSuggestions(editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState, target.getAttribute('data-mce-word'), spans);
+          }
+        }
+      });
+    };
+
+    return {
+      setup: setup
+    };
   }
 );
 
@@ -711,445 +1384,32 @@ define(
  * Contributing: http://www.tinymce.com/contributing
  */
 
-/**
- * This class contains all core logic for the code plugin.
- *
- * @class tinymce.spellchecker.Plugin
- * @private
- */
 define(
   'tinymce.plugins.spellchecker.Plugin',
   [
-    'tinymce.plugins.spellchecker.core.DomTextMatcher',
+    'ephox.katamari.api.Cell',
     'tinymce.core.PluginManager',
-    'tinymce.core.util.Tools',
-    'tinymce.core.ui.Menu',
-    'tinymce.core.dom.DOMUtils',
-    'tinymce.core.util.XHR',
-    'tinymce.core.util.URI',
-    'tinymce.core.util.JSON'
+    'tinymce.plugins.spellchecker.alien.DetectProPlugin',
+    'tinymce.plugins.spellchecker.api.Api',
+    'tinymce.plugins.spellchecker.api.Commands',
+    'tinymce.plugins.spellchecker.api.Settings',
+    'tinymce.plugins.spellchecker.ui.Buttons',
+    'tinymce.plugins.spellchecker.ui.SuggestionsMenu'
   ],
-  function (DomTextMatcher, PluginManager, Tools, Menu, DOMUtils, XHR, URI, JSON) {
-    PluginManager.add('spellchecker', function (editor, url) {
-      var languageMenuItems, self = this, lastSuggestions, started, suggestionsMenu, settings = editor.settings;
-      var hasDictionarySupport;
+  function (Cell, PluginManager, DetectProPlugin, Api, Commands, Settings, Buttons, SuggestionsMenu) {
+    PluginManager.add('spellchecker', function (editor, pluginUrl) {
+      if (DetectProPlugin.hasProPlugin(editor) === false) {
+        var startedState = Cell(false);
+        var currentLanguageState = Cell(Settings.getLanguage(editor));
+        var textMatcherState = Cell(null);
+        var lastSuggestionsState = Cell({});
 
-      function getTextMatcher() {
-        if (!self.textMatcher) {
-          self.textMatcher = new DomTextMatcher(editor.getBody(), editor);
-        }
+        Buttons.register(editor, pluginUrl, startedState, textMatcherState, currentLanguageState, lastSuggestionsState);
+        SuggestionsMenu.setup(editor, pluginUrl, lastSuggestionsState, startedState, textMatcherState);
+        Commands.register(editor, pluginUrl, startedState, textMatcherState, lastSuggestionsState, currentLanguageState);
 
-        return self.textMatcher;
+        return Api.get(editor, startedState, lastSuggestionsState, textMatcherState, pluginUrl);
       }
-
-      function buildMenuItems(listName, languageValues) {
-        var items = [];
-
-        Tools.each(languageValues, function (languageValue) {
-          items.push({
-            selectable: true,
-            text: languageValue.name,
-            data: languageValue.value
-          });
-        });
-
-        return items;
-      }
-
-      // draw back if power version is requested and registered
-      if (/(^|[ ,])tinymcespellchecker([, ]|$)/.test(settings.plugins) && PluginManager.get('tinymcespellchecker')) {
-        /*eslint no-console:0 */
-        if (typeof console !== "undefined" && console.log) {
-          console.log(
-            "Spell Checker Pro is incompatible with Spell Checker plugin! " +
-            "Remove 'spellchecker' from the 'plugins' option."
-          );
-        }
-        return;
-      }
-
-      var languagesString = settings.spellchecker_languages ||
-        'English=en,Danish=da,Dutch=nl,Finnish=fi,French=fr_FR,' +
-        'German=de,Italian=it,Polish=pl,Portuguese=pt_BR,' +
-        'Spanish=es,Swedish=sv';
-
-      languageMenuItems = buildMenuItems('Language',
-        Tools.map(languagesString.split(','), function (langPair) {
-          langPair = langPair.split('=');
-
-          return {
-            name: langPair[0],
-            value: langPair[1]
-          };
-        })
-      );
-
-      function isEmpty(obj) {
-        /*jshint unused:false*/
-        /*eslint no-unused-vars:0 */
-        for (var name in obj) {
-          return false;
-        }
-
-        return true;
-      }
-
-      function showSuggestions(word, spans) {
-        var items = [], suggestions = lastSuggestions[word];
-
-        Tools.each(suggestions, function (suggestion) {
-          items.push({
-            text: suggestion,
-            onclick: function () {
-              editor.insertContent(editor.dom.encode(suggestion));
-              editor.dom.remove(spans);
-              checkIfFinished();
-            }
-          });
-        });
-
-        items.push({ text: '-' });
-
-        if (hasDictionarySupport) {
-          items.push({
-            text: 'Add to Dictionary', onclick: function () {
-              addToDictionary(word, spans);
-            }
-          });
-        }
-
-        items.push.apply(items, [
-          {
-            text: 'Ignore', onclick: function () {
-              ignoreWord(word, spans);
-            }
-          },
-
-          {
-            text: 'Ignore all', onclick: function () {
-              ignoreWord(word, spans, true);
-            }
-          }
-        ]);
-
-        // Render menu
-        suggestionsMenu = new Menu({
-          items: items,
-          context: 'contextmenu',
-          onautohide: function (e) {
-            if (e.target.className.indexOf('spellchecker') != -1) {
-              e.preventDefault();
-            }
-          },
-          onhide: function () {
-            suggestionsMenu.remove();
-            suggestionsMenu = null;
-          }
-        });
-
-        suggestionsMenu.renderTo(document.body);
-
-        // Position menu
-        var pos = DOMUtils.DOM.getPos(editor.getContentAreaContainer());
-        var targetPos = editor.dom.getPos(spans[0]);
-        var root = editor.dom.getRoot();
-
-        // Adjust targetPos for scrolling in the editor
-        if (root.nodeName == 'BODY') {
-          targetPos.x -= root.ownerDocument.documentElement.scrollLeft || root.scrollLeft;
-          targetPos.y -= root.ownerDocument.documentElement.scrollTop || root.scrollTop;
-        } else {
-          targetPos.x -= root.scrollLeft;
-          targetPos.y -= root.scrollTop;
-        }
-
-        pos.x += targetPos.x;
-        pos.y += targetPos.y;
-
-        suggestionsMenu.moveTo(pos.x, pos.y + spans[0].offsetHeight);
-      }
-
-      function getWordCharPattern() {
-        // Regexp for finding word specific characters this will split words by
-        // spaces, quotes, copy right characters etc. It's escaped with unicode characters
-        // to make it easier to output scripts on servers using different encodings
-        // so if you add any characters outside the 128 byte range make sure to escape it
-        return editor.getParam('spellchecker_wordchar_pattern') || new RegExp("[^" +
-          "\\s!\"#$%&()*+,-./:;<=>?@[\\]^_{|}`" +
-          "\u00a7\u00a9\u00ab\u00ae\u00b1\u00b6\u00b7\u00b8\u00bb" +
-          "\u00bc\u00bd\u00be\u00bf\u00d7\u00f7\u00a4\u201d\u201c\u201e\u00a0\u2002\u2003\u2009" +
-          "]+", "g");
-      }
-
-      function defaultSpellcheckCallback(method, text, doneCallback, errorCallback) {
-        var data = { method: method, lang: settings.spellchecker_language }, postData = '';
-
-        data[method == "addToDictionary" ? "word" : "text"] = text;
-
-        Tools.each(data, function (value, key) {
-          if (postData) {
-            postData += '&';
-          }
-
-          postData += key + '=' + encodeURIComponent(value);
-        });
-
-        XHR.send({
-          url: new URI(url).toAbsolute(settings.spellchecker_rpc_url),
-          type: "post",
-          content_type: 'application/x-www-form-urlencoded',
-          data: postData,
-          success: function (result) {
-            result = JSON.parse(result);
-
-            if (!result) {
-              var message = editor.translate("Server response wasn't proper JSON.");
-              errorCallback(message);
-            } else if (result.error) {
-              errorCallback(result.error);
-            } else {
-              doneCallback(result);
-            }
-          },
-          error: function () {
-            var message = editor.translate("The spelling service was not found: (") +
-              settings.spellchecker_rpc_url +
-              editor.translate(")");
-            errorCallback(message);
-          }
-        });
-      }
-
-      function sendRpcCall(name, data, successCallback, errorCallback) {
-        var spellCheckCallback = settings.spellchecker_callback || defaultSpellcheckCallback;
-        spellCheckCallback.call(self, name, data, successCallback, errorCallback);
-      }
-
-      function spellcheck() {
-        if (finish()) {
-          return;
-        }
-
-        function errorCallback(message) {
-          editor.notificationManager.open({ text: message, type: 'error' });
-          editor.setProgressState(false);
-          finish();
-        }
-
-        editor.setProgressState(true);
-        sendRpcCall("spellcheck", getTextMatcher().text, markErrors, errorCallback);
-        editor.focus();
-      }
-
-      function checkIfFinished() {
-        if (!editor.dom.select('span.mce-spellchecker-word').length) {
-          finish();
-        }
-      }
-
-      function addToDictionary(word, spans) {
-        editor.setProgressState(true);
-
-        sendRpcCall("addToDictionary", word, function () {
-          editor.setProgressState(false);
-          editor.dom.remove(spans, true);
-          checkIfFinished();
-        }, function (message) {
-          editor.notificationManager.open({ text: message, type: 'error' });
-          editor.setProgressState(false);
-        });
-      }
-
-      function ignoreWord(word, spans, all) {
-        editor.selection.collapse();
-
-        if (all) {
-          Tools.each(editor.dom.select('span.mce-spellchecker-word'), function (span) {
-            if (span.getAttribute('data-mce-word') == word) {
-              editor.dom.remove(span, true);
-            }
-          });
-        } else {
-          editor.dom.remove(spans, true);
-        }
-
-        checkIfFinished();
-      }
-
-      function finish() {
-        getTextMatcher().reset();
-        self.textMatcher = null;
-
-        if (started) {
-          started = false;
-          editor.fire('SpellcheckEnd');
-          return true;
-        }
-      }
-
-      function getElmIndex(elm) {
-        var value = elm.getAttribute('data-mce-index');
-
-        if (typeof value == "number") {
-          return "" + value;
-        }
-
-        return value;
-      }
-
-      function findSpansByIndex(index) {
-        var nodes, spans = [];
-
-        nodes = Tools.toArray(editor.getBody().getElementsByTagName('span'));
-        if (nodes.length) {
-          for (var i = 0; i < nodes.length; i++) {
-            var nodeIndex = getElmIndex(nodes[i]);
-
-            if (nodeIndex === null || !nodeIndex.length) {
-              continue;
-            }
-
-            if (nodeIndex === index.toString()) {
-              spans.push(nodes[i]);
-            }
-          }
-        }
-
-        return spans;
-      }
-
-      editor.on('click', function (e) {
-        var target = e.target;
-
-        if (target.className == "mce-spellchecker-word") {
-          e.preventDefault();
-
-          var spans = findSpansByIndex(getElmIndex(target));
-
-          if (spans.length > 0) {
-            var rng = editor.dom.createRng();
-            rng.setStartBefore(spans[0]);
-            rng.setEndAfter(spans[spans.length - 1]);
-            editor.selection.setRng(rng);
-            showSuggestions(target.getAttribute('data-mce-word'), spans);
-          }
-        }
-      });
-
-      editor.addMenuItem('spellchecker', {
-        text: 'Spellcheck',
-        context: 'tools',
-        onclick: spellcheck,
-        selectable: true,
-        onPostRender: function () {
-          var self = this;
-
-          self.active(started);
-
-          editor.on('SpellcheckStart SpellcheckEnd', function () {
-            self.active(started);
-          });
-        }
-      });
-
-      function updateSelection(e) {
-        var selectedLanguage = settings.spellchecker_language;
-
-        e.control.items().each(function (ctrl) {
-          ctrl.active(ctrl.settings.data === selectedLanguage);
-        });
-      }
-
-      /**
-       * Find the specified words and marks them. It will also show suggestions for those words.
-       *
-       * @example
-       * editor.plugins.spellchecker.markErrors({
-       *     dictionary: true,
-       *     words: {
-       *         "word1": ["suggestion 1", "Suggestion 2"]
-       *     }
-       * });
-       * @param {Object} data Data object containing the words with suggestions.
-       */
-      function markErrors(data) {
-        var suggestions;
-
-        if (data.words) {
-          hasDictionarySupport = !!data.dictionary;
-          suggestions = data.words;
-        } else {
-          // Fallback to old format
-          suggestions = data;
-        }
-
-        editor.setProgressState(false);
-
-        if (isEmpty(suggestions)) {
-          var message = editor.translate('No misspellings found.');
-          editor.notificationManager.open({ text: message, type: 'info' });
-          started = false;
-          return;
-        }
-
-        lastSuggestions = suggestions;
-
-        getTextMatcher().find(getWordCharPattern()).filter(function (match) {
-          return !!suggestions[match.text];
-        }).wrap(function (match) {
-          return editor.dom.create('span', {
-            "class": 'mce-spellchecker-word',
-            "data-mce-bogus": 1,
-            "data-mce-word": match.text
-          });
-        });
-
-        started = true;
-        editor.fire('SpellcheckStart');
-      }
-
-      var buttonArgs = {
-        tooltip: 'Spellcheck',
-        onclick: spellcheck,
-        onPostRender: function () {
-          var self = this;
-
-          editor.on('SpellcheckStart SpellcheckEnd', function () {
-            self.active(started);
-          });
-        }
-      };
-
-      if (languageMenuItems.length > 1) {
-        buttonArgs.type = 'splitbutton';
-        buttonArgs.menu = languageMenuItems;
-        buttonArgs.onshow = updateSelection;
-        buttonArgs.onselect = function (e) {
-          settings.spellchecker_language = e.control.settings.data;
-        };
-      }
-
-      editor.addButton('spellchecker', buttonArgs);
-      editor.addCommand('mceSpellCheck', spellcheck);
-
-      editor.on('remove', function () {
-        if (suggestionsMenu) {
-          suggestionsMenu.remove();
-          suggestionsMenu = null;
-        }
-      });
-
-      editor.on('change', checkIfFinished);
-
-      this.getTextMatcher = getTextMatcher;
-      this.getWordCharPattern = getWordCharPattern;
-      this.markErrors = markErrors;
-      this.getLanguage = function () {
-        return settings.spellchecker_language;
-      };
-
-      // Set default spellchecker language if it's not specified
-      settings.spellchecker_language = settings.spellchecker_language || settings.language || 'en';
     });
 
     return function () { };

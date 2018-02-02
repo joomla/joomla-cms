@@ -208,7 +208,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 				{
 					if (is_array($params))
 					{
-						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], $params[1] ?? Priority::NORMAL);
 					}
 					else
 					{
@@ -282,7 +282,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected final function registerLegacyListener($methodName)
+	final protected function registerLegacyListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener(
 			$methodName,
@@ -323,7 +323,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	final protected function registerListener($methodName)
+	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
 	}

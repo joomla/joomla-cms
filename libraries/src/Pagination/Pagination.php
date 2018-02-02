@@ -191,7 +191,7 @@ class Pagination
 	public function setAdditionalUrlParam($key, $value)
 	{
 		// Get the old value to return and set the new one for the URL parameter.
-		$result = isset($this->additionalUrlParams[$key]) ? $this->additionalUrlParams[$key] : null;
+		$result = $this->additionalUrlParams[$key] ?? null;
 
 		// If the passed parameter value is null unset the parameter, otherwise set it to the given value.
 		if ($value === null)
@@ -218,9 +218,7 @@ class Pagination
 	 */
 	public function getAdditionalUrlParam($key)
 	{
-		$result = isset($this->additionalUrlParams[$key]) ? $this->additionalUrlParams[$key] : null;
-
-		return $result;
+		return $this->additionalUrlParams[$key] ?? null;
 	}
 
 	/**
@@ -454,7 +452,7 @@ class Pagination
 	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
 	{
 		// Allow to receive a null layout
-		$layoutId = $layoutId === null ? 'joomla.pagination.links' : $layoutId;
+		$layoutId = $layoutId ?? 'joomla.pagination.links';
 
 		$list = array(
 			'prefix'       => $this->prefix,

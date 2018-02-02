@@ -101,8 +101,9 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
-	 * @throws  \RuntimeException
+	 * @since       11.3
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null)
 	{
@@ -256,7 +257,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = ($document === null) ? \JFactory::getDocument() : $document;
+		$this->document = $document ?? \JFactory::getDocument();
 
 		return $this;
 	}
@@ -276,7 +277,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
+		$this->language = $language ?? \JFactory::getLanguage();
 
 		return $this;
 	}

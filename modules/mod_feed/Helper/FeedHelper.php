@@ -11,12 +11,13 @@ namespace Joomla\Module\Feed\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Feed\FeedFactory;
+use Joomla\CMS\Language\Text;
+
 /**
  * Helper for mod_feed
  *
- * @package     Joomla.Site
- * @subpackage  mod_feed
- * @since       1.5
+ * @since  1.5
  */
 class FeedHelper
 {
@@ -35,17 +36,17 @@ class FeedHelper
 		// Get RSS parsed object
 		try
 		{
-			$feed   = new \JFeedFactory;
+			$feed   = new FeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
 		catch (Exception $e)
 		{
-			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($rssDoc))
 		{
-			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if ($rssDoc)

@@ -49,4 +49,13 @@ interface CipherInterface
 	 * @since   1.0
 	 */
 	public function generateKey(array $options = array());
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isSupported(): bool;
 }

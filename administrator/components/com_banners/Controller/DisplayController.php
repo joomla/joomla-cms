@@ -10,7 +10,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Controller as BaseController;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 /**
@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  This object to support chaining.
+	 * @return  BaseController|bool  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

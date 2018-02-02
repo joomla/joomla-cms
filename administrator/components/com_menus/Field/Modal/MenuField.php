@@ -101,6 +101,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -247,7 +248,7 @@ class MenuField extends FormField
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select menu item button

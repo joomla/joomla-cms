@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\Storage\NativeStorage;
 
@@ -39,7 +40,7 @@ class JoomlaStorage extends NativeStorage
 	/**
 	 * Input object
 	 *
-	 * @var    \JInput
+	 * @var    Input
 	 * @since  4.0
 	 */
 	private $input;
@@ -47,13 +48,13 @@ class JoomlaStorage extends NativeStorage
 	/**
 	 * Constructor
 	 *
-	 * @param   \JInput                   $input    Input object
+	 * @param   Input                     $input    Input object
 	 * @param   \SessionHandlerInterface  $handler  Session save handler
 	 * @param   array                     $options  Session options
 	 *
 	 * @since   4.0
 	 */
-	public function __construct(\JInput $input, \SessionHandlerInterface $handler = null, array $options = array())
+	public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
 	{
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
@@ -69,7 +70,7 @@ class JoomlaStorage extends NativeStorage
 		$this->input = $input;
 
 		// Register our function as shutdown method, so we can manipulate it
-		register_shutdown_function(array($this, 'close'));
+		register_shutdown_function([$this, 'close']);
 	}
 
 	/**
@@ -79,7 +80,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $this->data->toArray();
 	}
@@ -137,7 +138,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function get($name, $default)
+	public function get(string $name, $default)
 	{
 		if (!$this->isStarted())
 		{
@@ -156,7 +157,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function has($name)
+	public function has(string $name): bool
 	{
 		if (!$this->isStarted())
 		{
@@ -175,7 +176,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isStarted())
 		{
@@ -199,7 +200,7 @@ class JoomlaStorage extends NativeStorage
 	 *
 	 * @since   4.0
 	 */
-	public function set($name, $value = null)
+	public function set(string $name, $value = null)
 	{
 		if (!$this->isStarted())
 		{

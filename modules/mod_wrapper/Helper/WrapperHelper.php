@@ -16,9 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- * @since       1.5
+ * @since  1.5
  */
 class WrapperHelper
 {
@@ -57,14 +55,12 @@ class WrapperHelper
 			}
 		}
 
+		$load = '';
+
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
 			$load = 'onload="iFrameHeight()"';
-		}
-		else
-		{
-			$load = '';
 		}
 
 		$params->set('load', $load);
