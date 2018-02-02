@@ -223,7 +223,7 @@ class RulesField extends FormField
 		$this->assetRules = Access::getAssetRules($assetId, false, false);
 
 		// Get the available user groups.
-		$this->groups=$this->getUserGroups()
+		$this->groups=$this->getUserGroups();
       
 		// Trim the trailing line in the layout file
 		return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
