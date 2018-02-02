@@ -43,7 +43,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				if (mode)
 				{
 					cm.autoLoadMode(editor, mode.mode);
-					editor.setOption('mode', mode.mime);
+					editor.setOption('mode', (mode.mime instanceof Array) ? mode.mime[0] : mode.mime);
 				}
 				else
 				{
