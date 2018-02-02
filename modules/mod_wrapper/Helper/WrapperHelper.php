@@ -55,14 +55,12 @@ class WrapperHelper
 			}
 		}
 
+		$load = '';
+
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
 			$load = 'onload="iFrameHeight()"';
-		}
-		else
-		{
-			$load = '';
 		}
 
 		$params->set('load', $load);

@@ -17,6 +17,7 @@ use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Log\Log;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Application service provider
@@ -57,7 +58,7 @@ class Application implements ServiceProviderInterface
 				}
 
 				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger(Log::createDelegatedLogger());
+				$app->setLogger($container->get(LoggerInterface::class));
 				$app->setSession($container->get('Joomla\Session\SessionInterface'));
 
 				return $app;

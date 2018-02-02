@@ -26,6 +26,7 @@ use Joomla\DI\Container;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
@@ -187,7 +188,7 @@ abstract class Factory
 	 *
 	 * @since   4.0
 	 */
-	public static function getContainer()
+	public static function getContainer(): Container
 	{
 		if (!self::$container)
 		{
@@ -494,15 +495,16 @@ abstract class Factory
 	 *
 	 * @since   4.0
 	 */
-	protected static function createContainer()
+	protected static function createContainer(): Container
 	{
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
@@ -726,7 +728,7 @@ abstract class Factory
 	 * @see     \JStream
 	 * @since   11.1
 	 */
-	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)
+	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
 	{
 		\JLoader::import('joomla.filesystem.stream');
 

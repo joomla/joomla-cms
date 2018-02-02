@@ -154,16 +154,6 @@ class Session implements ServiceProviderInterface
 
 							break;
 
-						case 'xcache':
-							if (!Handler\XCacheHandler::isSupported())
-							{
-								throw new RuntimeException('XCache is not supported on this system.');
-							}
-
-							$handler = new Handler\XCacheHandler;
-
-							break;
-
 						default:
 							throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
 					}

@@ -2,22 +2,22 @@
   position: relative;
   display: flex;
   padding: 0;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #dadada;
-  border-radius: .25rem .25rem 0 0;
+  background-color: $toolbar-bg;
+  border-bottom: 1px solid $border-color;
+  border-radius: $border-radius $border-radius 0 0;
 }
 
 .media-toolbar-icon {
   display: inline-block;
-  width: 50px;
+  width: $toolbar-icon-width;
   font-size: 1.3rem;
-  line-height: 46px;
+  line-height: $toolbar-height;
   color: #464a4c;
   text-align: center;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid $border-color;
   box-shadow: 1px 0 #fefefe inset;
   &:hover {
-    background-color: #f0f0f0;
+    background-color: $toolbar-icon-bg-hover;
     box-shadow: none;
   }
 }
@@ -43,9 +43,8 @@
   bottom: 0;
   left: 0;
   z-index: 10;
-  height: 2px;
-  background-color: #006898;
-  background-image: linear-gradient(to right, #59afff 0, #59daff 100%);
+  height: $toolbar-loader-height;
+  background-image: $toolbar-loader-color;
   animation: 10s ease 0s normal none 1 running mediaLoader;
   animation-fill-mode: forwards;
 }

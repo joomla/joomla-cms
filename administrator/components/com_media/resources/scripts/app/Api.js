@@ -27,17 +27,30 @@ class Api {
      * Get the contents of a directory from the server
      * @param {string}  dir  The directory path
      * @param {number}  full whether or not the persistent url should be returned
+     * @param {number}  content whether or not the content should be returned
      * @returns {Promise}
      */
-    getContents(dir, full) {
+    getContents(dir, full, content) {
         // Wrap the ajax call into a real promise
         return new Promise((resolve, reject) => {
             // Do a check on full
             if (["0", "1"].indexOf(full) !== -1) {
-                throw "Invalid parameter";
+                throw "Invalid parameter: full";
+            }
+            // Do a check on download
+            if (["0", "1"].indexOf(content) !== -1) {
+                throw "Invalid parameter: content";
             }
 
-            const url = this._baseUrl + '&task=api.files&path=' + dir + (full ? '&url=' + full : '');
+            let url = this._baseUrl + '&task=api.files&path=' + dir;
+
+            if (full) {
+	            url += '&url=' + full;
+            }
+
+            if (content) {
+	            url += '&content=' + content;
+            }
 
             Joomla.request({
                 url: url,

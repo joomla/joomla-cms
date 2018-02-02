@@ -113,7 +113,7 @@ class FinderHelperRoute
 		// Get the menu items for com_finder.
 		if (!$items || !$active)
 		{
-			$app = JFactory::getApplication('site');
+			$app = JFactory::getApplication();
 			$com = JComponentHelper::getComponent('com_finder');
 			$menu = $app->getMenu();
 			$active = $menu->getActive();

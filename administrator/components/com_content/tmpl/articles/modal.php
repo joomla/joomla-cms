@@ -49,9 +49,7 @@ if (!empty($editor))
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
+			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped table-sm">
 				<thead>
@@ -62,16 +60,16 @@ if (!empty($editor))
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th style="width:15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:5%" class="nowrap hidden-sm-down">
+						<th style="width:5%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -132,16 +130,16 @@ if (!empty($editor))
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<td class="nowrap small hidden-sm-down">
+						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="nowrap small hidden-sm-down">
+						<td class="nowrap small d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
