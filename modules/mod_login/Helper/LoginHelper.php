@@ -19,10 +19,7 @@ use Joomla\CMS\Factory;
 /**
  * Helper for mod_login
  *
- * @package     Joomla.Site
- * @subpackage  mod_login
- *
- * @since       1.5
+ * @since  1.5
  */
 class LoginHelper
 {
@@ -32,7 +29,7 @@ class LoginHelper
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 * @param   string                     $type    return type
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function getReturnUrl($params, $type)
 	{

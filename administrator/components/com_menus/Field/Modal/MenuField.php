@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Menus\Administrator\Field;
+namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
@@ -101,6 +101,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -160,7 +161,7 @@ class MenuField extends FormField
 
 		// Add the modal field script to the document head.
 		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -247,7 +248,7 @@ class MenuField extends FormField
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select menu item button

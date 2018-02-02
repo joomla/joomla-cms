@@ -13,7 +13,7 @@
     width: 100%;
     height: 3px;
     content: "";
-    background-color: $brand-primary;
+    background-color: theme-color("primary");
     background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
   }
 
@@ -27,7 +27,7 @@
 
     [class^="icon-"] {
       margin-right: 15px;
-      font-size: $font-size-h1;
+      font-size: $h1-font-size$h1-font-size;
       vertical-align: middle;
     }
 
@@ -97,7 +97,7 @@
     border: 0;
 
     h2 {
-      font-size: $font-size-h5;
+      font-size: $h5-font-size;
     }
   }
 
@@ -138,7 +138,7 @@
   .joomla-version {
     margin-right: .9rem;
     margin-bottom: 0;
-    font-size: $font-size-h5;
+    font-size: $h5-font-size;
     color: $white-offset;
   }
 

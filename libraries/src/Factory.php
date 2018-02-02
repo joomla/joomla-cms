@@ -21,10 +21,12 @@ use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
+use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
@@ -124,11 +126,21 @@ abstract class Factory
 	 * @since   11.1
 	 * @throws  \Exception
 	 */
-	public static function getApplication()
+	public static function getApplication($id = null, array $config = array(), $prefix = 'JApplication', Container $container = null)
 	{
 		if (!self::$application)
 		{
-			throw new \Exception('Application Instantiation Error', 500);
+			if (!$id)
+			{
+				throw new \Exception('Application Instantiation Error', 500);
+			}
+
+			$container = $container ?: self::getContainer();
+
+			self::$application = CMSApplication::getInstance($id, $prefix, $container);
+
+			// Attach a delegated JLog object to the application
+			self::$application->setLogger($container->get(LoggerInterface::class));
 		}
 
 		return self::$application;
@@ -151,13 +163,12 @@ abstract class Factory
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'%s() is deprecated. The configuration object should be read from the application.',
 				__METHOD__
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		// If there is an application object, fetch the configuration from there
@@ -193,7 +204,7 @@ abstract class Factory
 	 * @since       4.0
 	 * @deprecated  5.0 For the current state it is not known when this function will be removed
 	 */
-	public static function getContainer()
+	public static function getContainer(): Container
 	{
 		if (!self::$container)
 		{
@@ -218,10 +229,13 @@ abstract class Factory
 	 */
 	public static function getSession(array $options = array())
 	{
-		Log::add(
-			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via JFactory::getApplication()->getSession().',
-			Log::WARNING,
-			'deprecated'
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
 		);
 
 		return self::getApplication()->getSession();
@@ -455,13 +469,12 @@ abstract class Factory
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'%s() is deprecated. The configuration object should be read from the application.',
 				__METHOD__
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		if (is_file($file))
@@ -499,14 +512,16 @@ abstract class Factory
 	 * @since       4.0
 	 * @deprecated  See Factory::getContainer()
 	 */
-	protected static function createContainer()
+	protected static function createContainer(): Container
 	{
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
@@ -526,7 +541,13 @@ abstract class Factory
 	 */
 	protected static function createSession(array $options = array())
 	{
-		Log::add(__METHOD__ . '() is deprecated. The session should be a service in the dependency injection container.', JLog::WARNING, 'deprecated');
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. The session should be a service in the dependency injection container.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
 
 		// Get the Joomla configuration settings
 		$conf    = self::getConfig();
@@ -552,7 +573,7 @@ abstract class Factory
 	}
 
 	/**
-	 * Create an database object
+	 * Create a database object
 	 *
 	 * @return  \JDatabaseDriver
 	 *
@@ -562,8 +583,13 @@ abstract class Factory
 	 */
 	protected static function createDbo()
 	{
-		Log::add(
-			__METHOD__ . '() is deprecated, register a service provider to create a JDatabaseDriver instance instead.', JLog::WARNING, 'deprecated'
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
+				__METHOD__,
+				DatabaseInterface::class
+			),
+			E_USER_DEPRECATED
 		);
 
 		$conf = self::getConfig();
@@ -719,7 +745,7 @@ abstract class Factory
 	 * @see     \JStream
 	 * @since   11.1
 	 */
-	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)
+	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
 	{
 		\JLoader::import('joomla.filesystem.stream');
 

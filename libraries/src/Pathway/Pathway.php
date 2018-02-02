@@ -23,7 +23,7 @@ class Pathway
 	 * Array to hold the pathway item objects
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pathway = array();
 
@@ -31,7 +31,7 @@ class Pathway
 	 * Integer number of items in the pathway
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $count = 0;
 

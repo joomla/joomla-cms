@@ -194,9 +194,6 @@ class JException extends Exception
 			}
 		}
 
-		// Store exception for debugging purposes!
-		JError::addToStack($this);
-
 		parent::__construct($msg, (int) $code);
 	}
 
@@ -289,7 +286,7 @@ class JException extends Exception
 	 * Get the most recent error message
 	 *
 	 * @param   integer  $i         Option error index
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message
+	 * @param   boolean  $toString  Indicates if Exception objects should return their error message
 	 *
 	 * @return  string  Error message
 	 *
@@ -328,7 +325,7 @@ class JException extends Exception
 	/**
 	 * Return all errors, if any
 	 *
-	 * @return  array  Array of error messages or JErrors
+	 * @return  array  Array of error messages or Exception objects
 	 *
 	 * @since   1.6
 	 * @deprecated  1.7
@@ -356,7 +353,7 @@ class JException extends Exception
 	{
 		JLog::add('JException::set is deprecated.', JLog::WARNING, 'deprecated');
 
-		$previous = isset($this->$property) ? $this->$property : null;
+		$previous = $this->$property ?? null;
 		$this->$property = $value;
 
 		return $previous;

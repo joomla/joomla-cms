@@ -65,7 +65,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws Error
+     * @throws SodiumException
      */
     public static function aead_chacha20poly1305_decrypt(
         $message = '',
@@ -103,7 +103,7 @@ abstract class ParagonIE_Sodium_Crypto
         $state = new ParagonIE_Sodium_Core_Poly1305_State($block0);
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
         }
         $state->update($ad);
@@ -114,7 +114,7 @@ abstract class ParagonIE_Sodium_Crypto
 
         /* Compare the given MAC with the recalculated MAC: */
         if (!ParagonIE_Sodium_Core_Util::verify_16($computed_mac, $mac)) {
-            throw new Error('Invalid MAC');
+            throw new SodiumException('Invalid MAC');
         }
 
         // Here, we know that the MAC is valid, so we decrypt and return the plaintext
@@ -158,7 +158,7 @@ abstract class ParagonIE_Sodium_Crypto
         $state = new ParagonIE_Sodium_Core_Poly1305_State($block0);
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
         }
 
@@ -187,7 +187,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws Error
+     * @throws SodiumException
      */
     public static function aead_chacha20poly1305_ietf_decrypt(
         $message = '',
@@ -229,7 +229,7 @@ abstract class ParagonIE_Sodium_Crypto
         $state = new ParagonIE_Sodium_Core_Poly1305_State($block0);
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
         }
         $state->update($ad);
@@ -242,7 +242,7 @@ abstract class ParagonIE_Sodium_Crypto
 
         /* Compare the given MAC with the recalculated MAC: */
         if (!ParagonIE_Sodium_Core_Util::verify_16($computed_mac, $mac)) {
-            throw new Error('Invalid MAC');
+            throw new SodiumException('Invalid MAC');
         }
 
         // Here, we know that the MAC is valid, so we decrypt and return the plaintext
@@ -286,7 +286,7 @@ abstract class ParagonIE_Sodium_Crypto
         $state = new ParagonIE_Sodium_Core_Poly1305_State($block0);
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
         }
 
@@ -317,7 +317,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws Error
+     * @throws SodiumException
      */
     public static function aead_xchacha20poly1305_ietf_decrypt(
         $message = '',
@@ -399,7 +399,7 @@ abstract class ParagonIE_Sodium_Crypto
     }
 
     /**
-     * X25519 key exchange followed by Xsalsa20Poly1305 symmetric encryption
+     * X25519 key exchange followed by XSalsa20Poly1305 symmetric encryption
      *
      * @internal Do not use this directly. Use ParagonIE_Sodium_Compat.
      *
@@ -422,7 +422,7 @@ abstract class ParagonIE_Sodium_Crypto
     }
 
     /**
-     * X25519-Xsalsa20-Poly1305 with one ephemeral X25519 keypair.
+     * X25519-XSalsa20-Poly1305 with one ephemeral X25519 keypair.
      *
      * @internal Do not use this directly. Use ParagonIE_Sodium_Compat.
      *
@@ -457,7 +457,7 @@ abstract class ParagonIE_Sodium_Crypto
             ParagonIE_Sodium_Compat::memzero($ephemeralKeypair);
             ParagonIE_Sodium_Compat::memzero($ephemeralSK);
             ParagonIE_Sodium_Compat::memzero($nonce);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $ephemeralKeypair = null;
             $ephemeralSK = null;
             $nonce = null;
@@ -504,7 +504,7 @@ abstract class ParagonIE_Sodium_Crypto
             ParagonIE_Sodium_Compat::memzero($secretKey);
             ParagonIE_Sodium_Compat::memzero($ephemeralPK);
             ParagonIE_Sodium_Compat::memzero($nonce);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $secretKey = null;
             $ephemeralPK = null;
             $nonce = null;
@@ -537,6 +537,21 @@ abstract class ParagonIE_Sodium_Crypto
     public static function box_keypair()
     {
         $sKey = random_bytes(32);
+        $pKey = self::scalarmult_base($sKey);
+        return $sKey . $pKey;
+    }
+
+    /**
+     * @param string $seed
+     * @return string
+     */
+    public static function box_seed_keypair($seed)
+    {
+        $sKey = ParagonIE_Sodium_Core_Util::substr(
+            hash('sha512', $seed, true),
+            0,
+            32
+        );
         $pKey = self::scalarmult_base($sKey);
         return $sKey . $pKey;
     }
@@ -774,7 +789,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $pKey
      * @return string
      *
-     * @throws Error
+     * @throws SodiumException
      */
     public static function scalarmult($sKey, $pKey)
     {
@@ -790,7 +805,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $secret
      * @return string
      *
-     * @throws Error
+     * @throws SodiumException
      */
     public static function scalarmult_base($secret)
     {
@@ -804,7 +819,7 @@ abstract class ParagonIE_Sodium_Crypto
      *
      * @param string $q
      * @return void
-     * @throws Error
+     * @throws SodiumException
      */
     protected static function scalarmult_throw_if_zero($q)
     {
@@ -815,12 +830,12 @@ abstract class ParagonIE_Sodium_Crypto
 
         /* branch-free variant of === 0 */
         if (-(1 & (($d - 1) >> 8))) {
-            throw new Error('Zero public key is not allowed');
+            throw new SodiumException('Zero public key is not allowed');
         }
     }
 
     /**
-     * Xsalsa20-Poly1305 authenticated symmetric-key encryption.
+     * XSalsa20-Poly1305 authenticated symmetric-key encryption.
      *
      * @internal Do not use this directly. Use ParagonIE_Sodium_Compat.
      *
@@ -878,7 +893,7 @@ abstract class ParagonIE_Sodium_Crypto
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
             ParagonIE_Sodium_Compat::memzero($subkey);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
             $subkey = null;
         }
@@ -901,7 +916,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws Error
+     * @throws SodiumException
      */
     public static function secretbox_open($ciphertext, $nonce, $key)
     {
@@ -938,10 +953,10 @@ abstract class ParagonIE_Sodium_Crypto
         if (!$verified) {
             try {
                 ParagonIE_Sodium_Compat::memzero($subkey);
-            } catch (Error $ex) {
+            } catch (SodiumException $ex) {
                 $subkey = null;
             }
-            throw new Error('Invalid MAC');
+            throw new SodiumException('Invalid MAC');
         }
 
         /** @var string $m - Decrypted message */
@@ -958,7 +973,7 @@ abstract class ParagonIE_Sodium_Crypto
                 ),
                 ParagonIE_Sodium_Core_Util::substr($nonce, 16, 8),
                 1,
-                $subkey
+                (string) $subkey
             );
         }
         return $m;
@@ -1027,7 +1042,7 @@ abstract class ParagonIE_Sodium_Crypto
         try {
             ParagonIE_Sodium_Compat::memzero($block0);
             ParagonIE_Sodium_Compat::memzero($subkey);
-        } catch (Error $ex) {
+        } catch (SodiumException $ex) {
             $block0 = null;
             $subkey = null;
         }
@@ -1050,7 +1065,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws Error
+     * @throws SodiumException
      */
     public static function secretbox_xchacha20poly1305_open($ciphertext, $nonce, $key)
     {
@@ -1088,10 +1103,10 @@ abstract class ParagonIE_Sodium_Crypto
         if (!$verified) {
             try {
                 ParagonIE_Sodium_Compat::memzero($subkey);
-            } catch (Error $ex) {
+            } catch (SodiumException $ex) {
                 $subkey = null;
             }
-            throw new Error('Invalid MAC');
+            throw new SodiumException('Invalid MAC');
         }
 
         /** @var string $m - Decrypted message */
@@ -1108,7 +1123,7 @@ abstract class ParagonIE_Sodium_Crypto
                     self::secretbox_xchacha20poly1305_ZEROBYTES
                 ),
                 ParagonIE_Sodium_Core_Util::substr($nonce, 16, 8),
-                $subkey,
+                (string) $subkey,
                 ParagonIE_Sodium_Core_Util::store64_le(1)
             );
         }

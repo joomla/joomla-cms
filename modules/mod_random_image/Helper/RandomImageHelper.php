@@ -17,9 +17,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Helper for mod_random_image
  *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @since  1.5
  */
 class RandomImageHelper
 {
@@ -90,7 +88,7 @@ class RandomImageHelper
 	 * @param   \Joomla\Registry\Registry  &$params  module params
 	 * @param   string                     $folder   folder to get the images from
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getImages(&$params, $folder)
 	{

@@ -40,7 +40,7 @@ class TestMockSession
 	/**
 	 * Creates an instance of the mock JSession object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test     A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test     A test object.
 	 * @param   array                       $options  An array of optional configuration values.
 	 *                                                getId : the value to be returned by the mock getId method
 	 *                                                get.user.id : the value to assign to the user object id returned by get('user')

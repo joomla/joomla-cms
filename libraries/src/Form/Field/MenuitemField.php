@@ -235,7 +235,7 @@ class MenuitemField extends \JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
-					$levelPrefix = str_repeat('- ', $link->level - 1);
+					$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
 					// Displays language code if not set to All
 					if ($link->language !== '*')

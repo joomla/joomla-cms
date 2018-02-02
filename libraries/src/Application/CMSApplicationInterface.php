@@ -15,7 +15,7 @@ use Joomla\Session\SessionInterface;
 /**
  * Interface defining a Joomla! CMS Application class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CMSApplicationInterface
 {
@@ -23,7 +23,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued emergency message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_EMERGENCY = 'emergency';
 
@@ -31,7 +31,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued alert message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_ALERT = 'alert';
 
@@ -39,7 +39,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued critical message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_CRITICAL = 'critical';
 
@@ -47,7 +47,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued error message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_ERROR = 'error';
 
@@ -55,7 +55,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued warning message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_WARNING = 'warning';
 
@@ -63,7 +63,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued notice message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_NOTICE = 'notice';
 
@@ -71,7 +71,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued info message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_INFO = 'info';
 
@@ -79,7 +79,7 @@ interface CMSApplicationInterface
 	 * Constant defining an enqueued debug message
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const MSG_DEBUG = 'debug';
 
@@ -91,7 +91,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO);
 
@@ -100,7 +100,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  array  The system message queue.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMessageQueue();
 
@@ -109,7 +109,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute();
 
@@ -120,7 +120,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function isClient($identifier);
 
@@ -129,7 +129,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  SessionInterface  The session object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSession();
 
@@ -149,7 +149,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0  Will be removed without replacements
 	 */
 	public function isCli();
@@ -159,7 +159,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  User|null  A User object or null if not set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getIdentity();
 
@@ -170,7 +170,7 @@ interface CMSApplicationInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadIdentity(User $identity = null);
 }

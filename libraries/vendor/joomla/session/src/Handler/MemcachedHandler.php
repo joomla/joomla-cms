@@ -108,7 +108,7 @@ class MemcachedHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported()
+	public static function isSupported(): bool
 	{
 		/*
 		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.

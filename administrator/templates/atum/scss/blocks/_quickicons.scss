@@ -56,12 +56,12 @@
     }
 
     &.danger {
-      background-color: lighten($brand-danger, 7%);
+      background-color: lighten(theme-color("danger"), 7%);
       box-shadow: $quickicon-box-shadow-danger;
     }
 
     &.success {
-      background-color: lighten($brand-success, 7%);
+      background-color: lighten(theme-color("success"), 7%);
       box-shadow: $quickicon-box-shadow-success;
     }
 

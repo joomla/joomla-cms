@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Popular</namespace>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 		<folder>tmpl</folder>
@@ -24,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					default="5"
 				/>

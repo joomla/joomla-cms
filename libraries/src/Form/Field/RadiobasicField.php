@@ -18,7 +18,7 @@ FormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides radio button inputs using default styling
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RadiobasicField extends \JFormFieldList
 {
@@ -26,7 +26,7 @@ class RadiobasicField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Radiobasic';
 
@@ -34,7 +34,7 @@ class RadiobasicField extends \JFormFieldList
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.form.field.radiobasic';
 
@@ -43,7 +43,7 @@ class RadiobasicField extends \JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getInput()
 	{
@@ -55,7 +55,7 @@ class RadiobasicField extends \JFormFieldList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{

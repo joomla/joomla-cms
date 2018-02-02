@@ -23,7 +23,7 @@ abstract class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $items = array();
 
@@ -31,7 +31,7 @@ abstract class AbstractMenu
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $default = array();
 
@@ -39,7 +39,7 @@ abstract class AbstractMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $active = 0;
 

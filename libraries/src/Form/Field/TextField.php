@@ -57,7 +57,7 @@ class TextField extends FormField
 	 * Input addon before
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $addonBefore;
 
@@ -65,7 +65,7 @@ class TextField extends FormField
 	 * Input addon after
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $addonAfter;
 

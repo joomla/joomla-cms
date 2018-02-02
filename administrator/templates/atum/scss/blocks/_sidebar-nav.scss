@@ -12,13 +12,19 @@
     font-weight: bold;
 
     &.nav-header {
-      padding-top: .5rem;
-      font-size: .85rem;
-      color: $gray-dark;
+      padding: .5rem 0 .2rem;
+      margin-bottom: .2rem;
+      font-size: .9rem;
+      color: $gray-700;
+      border-bottom: 1px solid $gray-400;
+    }
+
+    &.divider {
+      margin: .3rem 0;
     }
 
     a {
-      color: darken($brand-primary, 15%);
+      color: darken(theme-color("primary"), 12%);
     }
 
   }

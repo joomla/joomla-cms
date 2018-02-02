@@ -57,23 +57,25 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		</div>
 		<div class="col-md-3">
-			<div class="card card-block card-light">
-				<?php $this->set('fields',
-						array(
+			<div class="card card-light">
+				<div class="card-body">
+					<?php $this->set('fields',
 							array(
-								'published',
-								'state',
-								'enabled',
-							),
-							'group_id',
-							'assigned_cat_ids',
-							'access',
-							'language',
-							'note',
-						)
-				); ?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-				<?php $this->set('fields', null); ?>
+								array(
+									'published',
+									'state',
+									'enabled',
+								),
+								'group_id',
+								'assigned_cat_ids',
+								'access',
+								'language',
+								'note',
+							)
+					); ?>
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php $this->set('fields', null); ?>
+				</div>
 			</div>
 		</div>
 	</div>

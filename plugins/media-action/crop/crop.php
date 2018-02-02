@@ -3,33 +3,33 @@
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.crop
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH_ADMINISTRATOR);
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Media Manager Crop Action
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class PlgMediaActionCrop extends MediaActionPlugin
+class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
 	/**
 	 * Load the javascript files of the plugin.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadJs()
 	{
 		parent::loadJs();
 
-		JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -37,12 +37,12 @@ class PlgMediaActionCrop extends MediaActionPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadCss()
 	{
 		parent::loadCss();
 
-		JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
 	}
 }
