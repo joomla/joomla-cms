@@ -1558,6 +1558,12 @@ class MenusModelItem extends JModelAdmin
 			parent::cleanCache($option);
 		}
 
+		// Displays an alert if the menu item is a home page
+		if ($data['home'])
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_MENUS_CREATE_LOGIN_FORM'), 'warning');
+		}
+
 		return true;
 	}
 
