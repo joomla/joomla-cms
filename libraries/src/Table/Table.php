@@ -319,7 +319,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Should not be used anymore as tables are loaded trough the MvcFactory
 	 */
 	public static function addIncludePath($path = null)
 	{
