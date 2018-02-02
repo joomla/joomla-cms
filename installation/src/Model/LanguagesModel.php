@@ -637,7 +637,7 @@ class LanguagesModel extends BaseInstallationModel
 			'params'    =>
 				'{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1",'
 				. '"full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid",'
-				. '"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
+				. '"module_tag":"div","header_tag":"h3","header_class":"","style":"0"}',
 			'client_id' => 0,
 			'language'  => '*',
 			'published' => 1,

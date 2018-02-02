@@ -22,17 +22,15 @@ function modChrome_none($module, &$params, &$attribs)
  */
 function modChrome_html5($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
+	$moduleTag   = $params->get('module_tag', 'div');
+	$headerTag   = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 
 	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
+	$headerClass = $params->get('header_class');
+	$headerClass = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
 			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
@@ -88,17 +86,15 @@ function modChrome_horz($module, &$params, &$attribs)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
+	$moduleTag   = $params->get('module_tag', 'div');
+	$headerTag   = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 
 	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
+	$headerClass = $params->get('header_class');
+	$headerClass = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 			<?php if ((bool) $module->showtitle) : ?>
 				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 			<?php endif; ?>

@@ -52,8 +52,6 @@ function modChrome_well($module, &$params, &$attribs)
 		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
 
 		$moduleTag      = $params->get('module_tag', 'div');
-		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
-		$moduleClass    = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
 		$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'));
 		$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
@@ -61,7 +59,7 @@ function modChrome_well($module, &$params, &$attribs)
 		$headerClass    = $params->get('header_class');
 		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
-		echo '<div class="' . $moduleClass . '">';
+		echo '<div class="col-md-6">';
 		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
 		echo '<div class="card-body">';
 

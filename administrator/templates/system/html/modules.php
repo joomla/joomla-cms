@@ -25,13 +25,11 @@ function modChrome_html5($module, &$params, &$attribs)
 	$moduleTag      = $params->get('module_tag');
 	$headerTag      = htmlspecialchars($params->get('header_tag'), ENT_COMPAT, 'UTF-8');
 	$headerClass    = $params->get('header_class');
-	$bootstrapSize  = $params->get('bootstrap_size');
-	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
 	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 	if (!empty ($module->content))
 	{
-		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx}\">";
 
 		if ((bool) $module->showtitle)
 		{
@@ -51,19 +49,17 @@ function modChrome_html5($module, &$params, &$attribs)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag', 'div');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
+	$moduleTag   = $params->get('module_tag', 'div');
+	$headerTag   = htmlspecialchars($params->get('header_tag', 'h3'), ENT_COMPAT, 'UTF-8');
 
 	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
+	$headerClass = $params->get('header_class');
+	$headerClass = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 	$content = trim($module->content);
 
 	if (!empty ($content)) : ?>
-		<<?php echo $moduleTag; ?> class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="col-md-6 module<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
 			<?php if ($module->showtitle != 0) : ?>
 				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 			<?php endif; ?>
