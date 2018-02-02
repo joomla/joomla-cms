@@ -929,7 +929,7 @@
 
 		<field 
 			name="list_show_votes"
-			type="voteradio"
+			type="radio"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC"
 			class="btn-group btn-group-yesno"
@@ -941,7 +941,7 @@
 
 		<field 
 			name="list_show_ratings"
-			type="voteradio"
+			type="radio"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC"
 			class="btn-group btn-group-yesno"
