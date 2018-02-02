@@ -92,6 +92,7 @@ abstract class AbstractMenu
 	 *
 	 * @since   1.5
 	 * @throws  \Exception
+	 * @deprecated  5.0 Use the menu factory instead
 	 */
 	public static function getInstance($client, $options = array())
 	{

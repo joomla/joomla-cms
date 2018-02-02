@@ -259,7 +259,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the MvcFactory instead
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{

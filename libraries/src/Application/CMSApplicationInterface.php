@@ -8,6 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
 
@@ -131,6 +132,15 @@ interface CMSApplicationInterface
 	 * @since   4.0.0
 	 */
 	public function getSession();
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage();
 
 	/**
 	 * Flag if the application instance is a CLI or web based application.

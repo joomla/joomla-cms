@@ -25,11 +25,17 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 
+/** @var \Joomla\DI\Container $container */
+$container = require JPATH_LIBRARIES . '/container.php';
+
+// Set the container as global one
+\Joomla\CMS\Factory::$container = $container;
+
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
-// Instantiate the application.
-$app = JFactory::getApplication('administrator');
+// Get the application from the container
+$app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
 
 // Execute the application.
 $app->execute();

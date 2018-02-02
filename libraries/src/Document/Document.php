@@ -319,7 +319,8 @@ class Document
 	 *
 	 * @return  static  The document object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the document factory
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{

@@ -51,8 +51,9 @@ class Pathway
 	 *
 	 * @return  Pathway  A Pathway object.
 	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
+	 * @since       1.5
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Instantiate the object directly
 	 */
 	public static function getInstance($client, $options = array())
 	{

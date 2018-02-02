@@ -360,12 +360,18 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	}
 }
 
+/** @var \Joomla\DI\Container $container */
+$container = require JPATH_LIBRARIES . '/container.php';
+
+// Set the container as global one
+\Joomla\CMS\Factory::$container = $container;
+
 // Set up the container
-JFactory::getContainer()->share(
+$container->share(
 	'FinderCli',
 	function (\Joomla\DI\Container $container)
 	{
-		return new FinderCli(
+		$app = new FinderCli(
 			null,
 			null,
 			null,
@@ -373,9 +379,16 @@ JFactory::getContainer()->share(
 			$container->get(\Joomla\Event\DispatcherInterface::class),
 			$container
 		);
+
+		\Joomla\CMS\Factory::$application = $app;
+
+		return $app;
 	},
 	true
 );
-$app = JFactory::getContainer()->get('FinderCli');
-JFactory::$application = $app;
+
+// Get the application from the container
+$app = $container->get('FinderCli');
+
+// Execute the application.
 $app->execute();
