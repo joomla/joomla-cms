@@ -1227,7 +1227,7 @@ class Access
 					'title' => (string) $element['title'],
 				);
 
-				if (isset($action['description']))
+				if (isset($element['description']))
 				{
 					$action['description'] = (string) $element['description'];
 				}
