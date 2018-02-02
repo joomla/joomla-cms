@@ -302,8 +302,7 @@ class RulesField extends FormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. \JHtml::_('tooltipText', $action->title, $action->description) . '">';
+				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '">';
 				$html[] = \JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
@@ -312,8 +311,7 @@ class RulesField extends FormField
 
 				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="custom-select novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
-					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
-					. ' title="' . strip_tags(\JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', \JText::_($action->title), trim($group->text))) . '">';
+					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '">';
 
 				/**
 				 * Possible values:
