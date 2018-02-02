@@ -1,138 +1,137 @@
 /**
- * @package         Joomla.JavaScript
- * @copyright       Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Function to send Permissions via Ajax to Com-Config Application Controller
- */
-function sendPermissions(event) {
-	// set the icon while storing the values
-	var icon = document.getElementById('icon_' + this.id);
-	icon.removeAttribute('class');
-	icon.setAttribute('class', 'fa fa-spinner fa-spin');
+Joomla = window.Joomla || {};
 
-	//get values and prepare GET-Parameter
-	var asset     = 'not',
-	    component = getUrlParam('component'),
-	    extension = getUrlParam('extension'),
-	    option    = getUrlParam('option'),
-	    view      = getUrlParam('view'),
-	    title     = component,
-	    value     = this.value,
-	    context   = '';
+(function(Joomla, document) {
+	'use strict';
 
-	if (document.getElementById('jform_context')){
-		context = document.getElementById('jform_context').value;
-		context = context.split('.')[0];
-	}
+	/**
+	 * Function to send Permissions via Ajax to Com-Config Application Controller
+	 */
+	Joomla.sendPermissions = function(event) {
+		var target = event.target;
+		// Set the icon while storing the values
+		var icon = document.getElementById('icon_' + this.id);
+		icon.removeAttribute('class');
+		icon.setAttribute('class', 'fa fa-spinner fa-spin');
 
-	if (option == 'com_config' && component == false && extension == false) {
-		asset = 'root.1';
-	}
-	else if (extension == false && view == 'component'){
-		asset = component;
-	}
-	else if (context){
-		if (view == 'group') {
-			asset = context + '.fieldgroup.' + getUrlParam('id');
+		// Get values and prepare GET-Parameter
+		var asset     = 'not',
+		    component = Joomla.getUrlParam('component'),
+		    extension = Joomla.getUrlParam('extension'),
+		    option    = Joomla.getUrlParam('option'),
+		    view      = Joomla.getUrlParam('view'),
+		    title     = component,
+		    value     = this.value,
+		    context   = '';
+
+		if (document.getElementById('jform_context')) {
+			context = document.getElementById('jform_context').value;
+			context = context.split('.')[0];
 		}
-		else {
-			asset = context + '.field.' + getUrlParam('id');
+
+		if (option == 'com_config' && component == false && extension == false) {
+			asset = 'root.1';
 		}
-		title = document.getElementById('jform_title').value;
-	}
-	else if (extension != false && view != false){
-		asset = extension + '.' + view + '.' + getUrlParam('id');
-		title = document.getElementById('jform_title').value;
-	}
-	else if (extension == false && view != false){
-		asset = option + '.' + view + '.' + getUrlParam('id');
-		title = document.getElementById('jform_title').value;
-	}
-
-	var id                  = this.id.replace('jform_rules_', ''),
-	    lastUnderscoreIndex = id.lastIndexOf('_');
-
-	var permission_data = {
-		comp   : asset,
-		action : id.substring(0, lastUnderscoreIndex),
-		rule   : id.substring(lastUnderscoreIndex + 1),
-		value  : value,
-		title  : title
-	};
-
-	// Remove js messages, if they exist.
-	Joomla.removeMessages();
-
-	// doing ajax request
-	jQuery.ajax({
-		method: 'POST',
-		url: document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
-		data: permission_data,
-		datatype: 'json'
-	})
-	.fail(function (jqXHR, textStatus, error) {
-		// Remove the spinning icon.
-		icon.removeAttribute('style');
-
-		Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
-
-		window.scrollTo(0, 0);
-
-		icon.setAttribute('class', 'fa fa-times');
-	})
-	.done(function (response) {
-		// Remove the spinning icon.
-		icon.removeAttribute('style');
-
-		if (response.data)
-		{
-			// Check if everything is OK
-			if (response.data.result == true)
-			{
-				icon.setAttribute('class', 'fa fa-check');
-
-				jQuery(event.target).parents().next('td').find('span')
-					.removeClass()
-					.addClass(response['data']['class'])
-					.html(response.data.text);
+		else if (extension == false && view == 'component') {
+			asset = component;
+		}
+		else if (context) {
+			if (view == 'group') {
+				asset = context + '.fieldgroup.' + Joomla.getUrlParam('id');
 			}
+			else {
+				asset = context + '.field.' + Joomla.getUrlParam('id');
+			}
+			title = document.getElementById('jform_title').value;
+		}
+		else if (extension != false && view != false) {
+			asset = extension + '.' + view + '.' + Joomla.getUrlParam('id');
+			title = document.getElementById('jform_title').value;
+		}
+		else if (extension == false && view != false) {
+			asset = option + '.' + view + '.' + Joomla.getUrlParam('id');
+			title = document.getElementById('jform_title').value;
 		}
 
-		// Render messages, if any. There are only message in case of errors.
-		if (typeof response.messages == 'object' && response.messages !== null)
-		{
-			Joomla.renderMessages(response.messages);
+		var id                  = this.id.replace('jform_rules_', ''),
+		    lastUnderscoreIndex = id.lastIndexOf('_');
 
-			if (response.data && response.data.result == true)
-			{
-				icon.setAttribute('class', 'fa fa-check');
-			}
-			else
-			{
+		var permissionData = {
+			comp   : asset,
+			action : id.substring(0, lastUnderscoreIndex),
+			rule   : id.substring(lastUnderscoreIndex + 1),
+			value  : value,
+			title  : title
+		};
+
+		// Remove JS messages, if they exist.
+		Joomla.removeMessages();
+
+		// Ajax request
+		Joomla.request({
+			url:    document.getElementById('permissions-sliders').getAttribute('data-ajaxuri'),
+			method: 'POST',
+			data:    JSON.stringify(permissionData),
+			perform: true,
+			headers: {'Content-Type': 'application/json'},
+			onSuccess: function(response, xhr) {
+				try {
+					response = JSON.parse(response);
+				} catch(e) {
+					console.log(e)
+				}
+
+				icon.removeAttribute('class');
+
+				// Check if everything is OK
+				if (response.data && response.data.result === true) {
+					icon.setAttribute('class', 'fa fa-check');
+
+					var badgeSpan = target.parentNode.parentNode.nextElementSibling.querySelector('span');
+					badgeSpan.removeAttribute('class');
+					badgeSpan.setAttribute('class', response.data['class']);
+					badgeSpan.innerHTML = response.data.text;
+				}
+
+				// Render messages, if any. There are only message in case of errors.
+				if (typeof response.messages === 'object' && response.messages !== null) {
+					Joomla.renderMessages(response.messages);
+
+					if (response.data && response.data.result === true) {
+						icon.setAttribute('class', 'fa fa-check');
+					} else {
+						icon.setAttribute('class', 'fa fa-times');
+					}
+				}
+			},
+			onError: function(xhr) {
+				// Remove the spinning icon.
+				icon.removeAttribute('style');
+
+				Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
+
 				icon.setAttribute('class', 'fa fa-times');
 			}
-
-			window.scrollTo(0, 0);
-		}
-	});
-}
-
-/**
- * Function to get parameters out of the url
- */
-function getUrlParam(variable) {
-	var query = window.location.search.substring(1);
-	var vars = query.split('&');
-	for (var i=0;i<vars.length;i++)
-	{
-		var pair = vars[i].split('=');
-		if (pair[0] == variable)
-		{
-			return pair[1];
-		}
+		});
 	}
-	return false;
-}
+
+	/**
+	 * Function to get parameters out of the URL
+	 */
+	Joomla.getUrlParam = function(variable) {
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (pair[0] == variable) {
+				return pair[1];
+			}
+		}
+		return false;
+	}
+
+})(Joomla, document);
