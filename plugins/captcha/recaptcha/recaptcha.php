@@ -97,21 +97,10 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	{
 		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$version    = $this->params->get('version', '2.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
 		$challenge  = null;
-		$response   = null;
-		$spam       = false;
-
-		switch ($version)
-		{
-			case '2.0':
-				// Challenge Not needed in 2.0 but needed for getResponse call
-				$challenge = null;
-				$response  = $input->get('g-recaptcha-response', '', 'string');
-				$spam      = ($response === '');
-				break;
-		}
+		$response   = $input->get('g-recaptcha-response', '', 'string');
+		$spam       = ($response === '');
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -147,24 +136,16 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	 */
 	private function getResponse(string $privatekey, string $remoteip, string $response)
 	{
-		$version = $this->params->get('version', '2.0');
+		$apiResponse = (new ReCaptcha($privatekey, new HttpBridgePostRequestMethod))->verify($response, $remoteip);
 
-		switch ($version)
+		if (!$apiResponse->isSuccess())
 		{
-			case '2.0':
-				$apiResponse = (new ReCaptcha($privatekey, new HttpBridgePostRequestMethod))->verify($response, $remoteip);
+			foreach ($apiResponse->getErrorCodes() as $error)
+			{
+				throw new RuntimeException($error, 403);
+			}
 
-				if (!$apiResponse->isSuccess())
-				{
-					foreach ($apiResponse->getErrorCodes() as $error)
-					{
-						throw new RuntimeException($error, 403);
-					}
-
-					return false;
-				}
-
-				break;
+			return false;
 		}
 
 		return true;
