@@ -64,7 +64,7 @@ abstract class Factory
 	 *
 	 * @var         Container
 	 * @since       4.0
-	 * @deprecated  5.0  Don't us it, it is needed for the transition period in the core
+	 * @deprecated  5.0  Don't use this property, it is needed for the transition period in the core
 	 */
 	public static $container = null;
 
