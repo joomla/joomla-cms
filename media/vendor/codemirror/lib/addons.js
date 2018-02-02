@@ -411,13 +411,14 @@
   function autoCloseGT(cm) {
     if (cm.getOption("disableInput")) return CodeMirror.Pass;
     var ranges = cm.listSelections(), replacements = [];
+    var opt = cm.getOption("autoCloseTags");
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
       if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
 
-      var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
+      var html = inner.mode.configuration == "html";
       var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
       var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
 
@@ -439,13 +440,14 @@
                          newPos: indent ? CodeMirror.Pos(pos.line + 1, 0) : CodeMirror.Pos(pos.line, pos.ch + 1)};
     }
 
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnAutoClose);
     for (var i = ranges.length - 1; i >= 0; i--) {
       var info = replacements[i];
       cm.replaceRange(info.text, ranges[i].head, ranges[i].anchor, "+insert");
       var sel = cm.listSelections().slice(0);
       sel[i] = {head: info.newPos, anchor: info.newPos};
       cm.setSelections(sel);
-      if (info.indent) {
+      if (!dontIndentOnAutoClose && info.indent) {
         cm.indentLine(info.newPos.line, null, true);
         cm.indentLine(info.newPos.line + 1, null, true);
       }
@@ -455,6 +457,8 @@
   function autoCloseCurrent(cm, typingSlash) {
     var ranges = cm.listSelections(), replacements = [];
     var head = typingSlash ? "/" : "</";
+    var opt = cm.getOption("autoCloseTags");
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnSlash);
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
@@ -485,9 +489,11 @@
     }
     cm.replaceSelections(replacements);
     ranges = cm.listSelections();
-    for (var i = 0; i < ranges.length; i++)
-      if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
-        cm.indentLine(ranges[i].head.line);
+    if (!dontIndentOnAutoClose) {
+        for (var i = 0; i < ranges.length; i++)
+            if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
+                cm.indentLine(ranges[i].head.line);
+    }
   }
 
   function autoCloseSlash(cm) {
@@ -4366,25 +4372,32 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       incrementNumberToken: function(cm, actionArgs) {
         var cur = cm.getCursor();
         var lineStr = cm.getLine(cur.line);
-        var re = /-?\d+/g;
+        var re = /(-?)(?:(0x)([\da-f]+)|(0b|0|)(\d+))/gi;
         var match;
         var start;
         var end;
         var numberStr;
-        var token;
         while ((match = re.exec(lineStr)) !== null) {
-          token = match[0];
           start = match.index;
-          end = start + token.length;
+          end = start + match[0].length;
           if (cur.ch < end)break;
         }
         if (!actionArgs.backtrack && (end <= cur.ch))return;
-        if (token) {
+        if (match) {
+          var baseStr = match[2] || match[4]
+          var digits = match[3] || match[5]
           var increment = actionArgs.increase ? 1 : -1;
-          var number = parseInt(token) + (increment * actionArgs.repeat);
+          var base = {'0b': 2, '0': 8, '': 10, '0x': 16}[baseStr.toLowerCase()];
+          var number = parseInt(match[1] + digits, base) + (increment * actionArgs.repeat);
+          numberStr = number.toString(base);
+          var zeroPadding = baseStr ? new Array(digits.length - numberStr.length + 1 + match[1].length).join('0') : ''
+          if (numberStr.charAt(0) === '-') {
+            numberStr = '-' + baseStr + zeroPadding + numberStr.substr(1);
+          } else {
+            numberStr = baseStr + zeroPadding + numberStr;
+          }
           var from = Pos(cur.line, start);
           var to = Pos(cur.line, end);
-          numberStr = number.toString();
           cm.replaceRange(numberStr, from, to);
         } else {
           return;
