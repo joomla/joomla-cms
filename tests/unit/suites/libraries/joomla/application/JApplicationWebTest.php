@@ -338,7 +338,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'gzip')
+				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
@@ -386,7 +387,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'deflate')
+				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
