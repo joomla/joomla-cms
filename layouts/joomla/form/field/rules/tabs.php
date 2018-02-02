@@ -135,10 +135,9 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	 					<?php foreach ($actions as $action) : ?>
 							<tr>	
 		 						<td headers="actions-th<?php echo $group->value; ?>">
-									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" 
-											class="hasTooltip"
-											title="<?php echo HTMLHelper::_('tooltipText', $action->title, $action->description); ?>"> 
-											<?php echo Text::_($action->title); ?> </label>
+									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" class="hasTooltip" > 
+											<?php echo Text::_($action->title); ?> 
+									</label>
 		 						</td>
 
 		 						<td headers="settings-th<?php echo $group->value; ?>">
@@ -146,8 +145,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									<select onchange="sendPermissions.call(this, event)"
 											class="custom-select novalidate"
 											name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
-											id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"
-											title="<?php echo strip_tags(Text::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', Text::_($action->title), trim($group->text))); ?>">
+											id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 										<?php
 										/**
 										* Possible values:
