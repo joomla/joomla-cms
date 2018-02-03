@@ -117,6 +117,34 @@ abstract class PluginHelper
 	}
 
 	/**
+	 * Get the PHP class name for a plugin.
+	 *
+	 * @param   object  $plugin  The plugin.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getPluginClassName($plugin): string
+	{
+		return 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+	}
+
+	/**
+	 * Get the file path for a plugin.
+	 *
+	 * @param   object  $plugin  The plugin.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getPluginClassPath($plugin): string
+	{
+		return JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
+	}
+
+	/**
 	 * Checks if a plugin is enabled.
 	 *
 	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
@@ -227,7 +255,7 @@ abstract class PluginHelper
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
+		$path = static::getPluginClassPath($plugin);
 
 		if (!isset($paths[$dispatcherHash][$path]))
 		{
@@ -242,7 +270,7 @@ abstract class PluginHelper
 
 				if ($autocreate)
 				{
-					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
+					$className = static::getPluginClassName($plugin);
 
 					if (class_exists($className))
 					{
