@@ -16,12 +16,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Content\Site\Model\Articles;
-use Joomla\Component\Content\Site\Model\Article;
-use Joomla\Component\Content\Site\Model\Categories;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Component\Content\Site\Model\ArticleModel;
+use Joomla\Component\Content\Site\Model\CategoriesModel;
 
-\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_category
@@ -42,7 +44,7 @@ abstract class ArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$articles = new Articles(array('ignore_request' => true));
+		$articles = new ArticlesModel(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();
@@ -91,7 +93,7 @@ abstract class ArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = new Article(array('ignore_request' => true));
+									$article = new ArticleModel(array('ignore_request' => true));
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -138,7 +140,7 @@ abstract class ArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = new Categories(array('ignore_request' => true));
+				$categories = new CategoriesModel(array('ignore_request' => true));
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -267,7 +269,7 @@ abstract class ArticlesCategoryHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
@@ -284,7 +286,7 @@ abstract class ArticlesCategoryHelper
 					$Itemid = $input->getInt('Itemid');
 				}
 
-				$item->link = \JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
+				$item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
 			}
 
 			// Used for styling the active article
@@ -293,12 +295,12 @@ abstract class ArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = \JHtml::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)
 			{
-				$item->displayCategoryLink  = \JRoute::_(\ContentHelperRoute::getCategoryRoute($item->catid));
+				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else
@@ -311,7 +313,7 @@ abstract class ArticlesCategoryHelper
 
 			if ($show_introtext)
 			{
-				$item->introtext = \JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
+				$item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
 
@@ -358,15 +360,15 @@ abstract class ArticlesCategoryHelper
 		$baseLength = strlen($html);
 
 		// First get the plain text string. This is the rendered text we want to end up with.
-		$ptString = \JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
+		$ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
 
 		for ($maxLength; $maxLength < $baseLength;)
 		{
 			// Now get the string if we allow html.
-			$htmlString = \JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
+			$htmlString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = true);
 
 			// Now get the plain text from the html string.
-			$htmlStringToPtString = \JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
+			$htmlStringToPtString = HTMLHelper::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
 			if ($ptString === $htmlStringToPtString)

@@ -26,7 +26,6 @@ class CMSObject
 	 *
 	 * @var    array
 	 * @since  11.1
-	 * @see    JError
 	 * @deprecated  12.3  JError has been deprecated
 	 */
 	protected $_errors = array();
@@ -132,12 +131,11 @@ class CMSObject
 	 * Get the most recent error message.
 	 *
 	 * @param   integer  $i         Option error index.
-	 * @param   boolean  $toString  Indicates if JError objects should return their error message.
+	 * @param   boolean  $toString  Indicates if Exception objects should return their error message.
 	 *
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
@@ -170,10 +168,9 @@ class CMSObject
 	/**
 	 * Return all errors, if any.
 	 *
-	 * @return  array  Array of error messages or JErrors.
+	 * @return  array  Array of error messages.
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function getErrors()
@@ -193,7 +190,7 @@ class CMSObject
 	 */
 	public function set($property, $value = null)
 	{
-		$previous = isset($this->$property) ? $this->$property : null;
+		$previous = $this->$property ?? null;
 		$this->$property = $value;
 
 		return $previous;
@@ -234,7 +231,6 @@ class CMSObject
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @see     JError
 	 * @deprecated 12.3  JError has been deprecated
 	 */
 	public function setError($error)

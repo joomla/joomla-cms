@@ -38,7 +38,7 @@ class ModuleRenderer extends DocumentRenderer
 	{
 		if (!is_object($module))
 		{
-			$title = isset($attribs['title']) ? $attribs['title'] : null;
+			$title = $attribs['title'] ?? null;
 
 			$module = ModuleHelper::getModule($module, $title);
 

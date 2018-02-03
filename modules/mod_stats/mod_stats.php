@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Stats\Site\Helper\StatsHelper;
 
-$serverinfo      = $params->get('serverinfo');
-$siteinfo        = $params->get('siteinfo');
-$list            = StatsHelper::getList($params);
+$serverinfo = $params->get('serverinfo');
+$siteinfo   = $params->get('siteinfo');
+$list       = StatsHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_stats', $params->get('layout', 'default'));

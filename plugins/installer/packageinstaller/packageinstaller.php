@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * PackageInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends JPlugin
+class PlgInstallerPackageInstaller extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -35,11 +39,11 @@ class PlgInstallerPackageInstaller extends JPlugin
 	{
 		$tab            = array();
 		$tab['name']    = 'package';
-		$tab['label']   = JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
+		$tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 
 		// Render the input
 		ob_start();
-		include JPluginHelper::getLayoutPath('installer', 'packageinstaller');
+		include PluginHelper::getLayoutPath('installer', 'packageinstaller');
 		$tab['content'] = ob_get_clean();
 
 		return $tab;

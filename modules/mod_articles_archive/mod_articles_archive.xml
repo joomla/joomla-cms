@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_ARCHIVE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesArchive</namespace>
 	<files>
 		<filename module="mod_articles_archive">mod_articles_archive.php</filename>
 		<folder>tmpl</folder>
@@ -24,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
@@ -56,7 +57,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

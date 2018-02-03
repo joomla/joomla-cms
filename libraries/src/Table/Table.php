@@ -123,7 +123,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $typeAlias = null;
 
@@ -299,7 +299,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
+		$db = $config['dbo'] ?? \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
 		if (\JFactory::getContainer()->exists($tableClass))

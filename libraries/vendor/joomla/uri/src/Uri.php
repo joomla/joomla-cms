@@ -29,7 +29,7 @@ class Uri extends AbstractUri
 	 */
 	public function setVar($name, $value)
 	{
-		$tmp = isset($this->vars[$name]) ? $this->vars[$name] : null;
+		$tmp = $this->vars[$name] ?? null;
 
 		$this->vars[$name] = $value;
 

@@ -106,6 +106,7 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'dev',
 	'.appveyor.yml',
 	'.drone.yml',
 	'.github',
@@ -114,6 +115,7 @@ $doNotPackage = array(
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
+	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
@@ -126,11 +128,12 @@ $doNotPackage = array(
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'scss-lint-report.xml',
-	'sccs-lint.yml',
+	'scss-lint.yml',
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
 	'drone-package.json',
+	'package.json',
 	'codeception.yml',
 	'Jenkinsfile',
 	'jenkins-phpunit.xml',

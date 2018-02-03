@@ -35,7 +35,7 @@ class TracksController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -57,7 +57,7 @@ class TracksController extends BaseController
 		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get the model.
-		/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 		$model = $this->getModel();
 
 		// Load the filter state.
@@ -108,7 +108,7 @@ class TracksController extends BaseController
 		if ($view = $this->getView($vName, 'raw'))
 		{
 			// Get the model for the view.
-			/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);
 
 			// Load the filter state.

@@ -5,7 +5,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -447,6 +447,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -457,6 +458,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -467,6 +469,7 @@
 				type="list"
 				label="JGLOBAL_EMAIL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -478,6 +481,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -488,6 +492,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -498,6 +503,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -508,6 +514,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -518,6 +525,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -528,6 +536,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -538,6 +547,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -548,6 +558,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -558,6 +569,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -568,6 +580,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -579,6 +592,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
 				class="chzn-color"
 				useglobal="true"
+				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -858,7 +872,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		size="6"

@@ -91,7 +91,7 @@ class FieldsHelper
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
-			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\Fields(array('ignore_request' => true));
+			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\FieldsModel(array('ignore_request' => true));
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -115,7 +115,7 @@ class FieldsHelper
 		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
-			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
+			$assignedCatIds = $item->catid ?? $item->fieldscatid;
 
 			if (!is_array($assignedCatIds))
 			{
@@ -139,7 +139,7 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 			}
 
 			$fieldIds = array_map(
@@ -162,15 +162,15 @@ class FieldsHelper
 				 */
 				$field = clone $original;
 
-				if ($valuesToOverride && key_exists($field->name, $valuesToOverride))
+				if ($valuesToOverride && array_key_exists($field->name, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->name];
 				}
-				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				elseif (key_exists($field->id, $fieldValues))
+				elseif (array_key_exists($field->id, $fieldValues))
 				{
 					$field->value = $fieldValues[$field->id];
 				}
@@ -291,7 +291,12 @@ class FieldsHelper
 		$component = $parts[0];
 		$section   = $parts[1];
 
-		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
+		$assignedCatids = $data->catid ?? $data->fieldscatid ?? $form->getValue('catid');
+
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$assignedCatids = is_array($assignedCatids)
+			? (int) reset($assignedCatids)
+			: (int) $assignedCatids;
 
 		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
@@ -385,7 +390,7 @@ class FieldsHelper
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
-		$model = new Joomla\Component\Fields\Administrator\Model\Groups(array('ignore_request' => true));
+		$model = new Joomla\Component\Fields\Administrator\Model\GroupsModel(array('ignore_request' => true));
 		$model->setState('filter.context', $context);
 
 		/**
@@ -474,7 +479,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'modules'
 			&& JFactory::getApplication()->isClient('site'))

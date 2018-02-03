@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * JDocument metas renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MetasRenderer extends DocumentRenderer
 {
@@ -32,7 +32,7 @@ class MetasRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render($head, $params = array(), $content = null)
 	{

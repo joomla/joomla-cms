@@ -9,47 +9,54 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Routing class of com_content
  *
  * @since  3.3
  */
-class ContentRouter extends \JComponentRouterView
+class ContentRouter extends RouterView
 {
 	protected $noIDs = false;
 
 	/**
 	 * Content Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
 		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new \JComponentRouterViewconfiguration('categories');
+		$categories = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new \JComponentRouterViewconfiguration('category');
+		$category = new RouterViewConfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$this->registerView($category);
-		$article = new \JComponentRouterViewconfiguration('article');
+		$article = new RouterViewConfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
 		$this->registerView($article);
-		$this->registerView(new \JComponentRouterViewconfiguration('archive'));
-		$this->registerView(new \JComponentRouterViewconfiguration('featured'));
-		$form = new \JComponentRouterViewconfiguration('form');
+		$this->registerView(new RouterViewConfiguration('archive'));
+		$this->registerView(new RouterViewConfiguration('featured'));
+		$form = new RouterViewConfiguration('form');
 		$form->setKey('a_id');
 		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new \JComponentRouterRulesMenu($this));
-		$this->attachRule(new \JComponentRouterRulesStandard($this));
-		$this->attachRule(new \JComponentRouterRulesNomenu($this));
+		$this->attachRule(new MenuRules($this));
+		$this->attachRule(new StandardRules($this));
+		$this->attachRule(new NomenuRules($this));
 	}
 
 	/**

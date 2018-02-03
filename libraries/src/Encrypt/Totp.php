@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
  * compatible with Google Authenticator (with PassCodeLength = 6 and TimePeriod = 30).
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Totp
 {
