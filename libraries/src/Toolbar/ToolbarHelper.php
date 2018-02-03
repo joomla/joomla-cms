@@ -608,6 +608,26 @@ abstract class ToolbarHelper
 	}
 
 	/**
+	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
+	 *
+	 *
+	 * @param array $entries
+	 * @param array $options
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public static function submenu(array $entries, array $options = [])
+	{
+	    $layout = new FileLayout('joomla.toolbar.submenu');
+
+	    $bar  = Toolbar::getInstance();
+	    $bar->appendButton('Custom', $layout->render(['entries' => $entries, 'options' => $options]), 'submenu');
+
+	}
+
+	/**
 	 * Writes a version history
 	 *
 	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'

@@ -67,13 +67,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $string;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -105,7 +98,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!\JLanguageMultilang::isEnabled())
@@ -256,6 +248,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		\JToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+
+        \JToolbarHelper::submenu(\JHtmlSidebar::getEntries(), ['label' => \JText::_('JGLOBAL_SUBMENU')]);
 	}
 
 	/**
