@@ -384,7 +384,7 @@ class ModuleModel extends AdminModel
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean|\Exception  Boolean true on success, \Exception instance on error
+	 * @return  boolean  Boolean true on success
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
@@ -463,7 +463,9 @@ class ModuleModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 		}
 

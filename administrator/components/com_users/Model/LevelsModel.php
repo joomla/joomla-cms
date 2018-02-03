@@ -181,7 +181,7 @@ class LevelsModel extends ListModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  Order position
 	 *
-	 * @return  boolean|\Exception  Boolean true on success, boolean false or \Exception instance on error
+	 * @return  boolean  Boolean true on success, boolean false
 	 */
 	public function saveorder($pks, $order)
 	{
@@ -191,7 +191,9 @@ class LevelsModel extends ListModel
 
 		if (empty($pks))
 		{
-			return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+
+			return false;
 		}
 
 		// Update ordering values

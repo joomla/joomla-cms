@@ -70,7 +70,7 @@ class ArticleModel extends ItemModel
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  object|boolean|\Exception  Menu item data object on success, boolean false or Exception instance on error
+	 * @return  object|boolean  Menu item data object on success, boolean false
 	 */
 	public function getItem($pk = null)
 	{
