@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <iframe <?php echo $load; ?>
 	id="blockrandom"
@@ -20,5 +23,5 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 	scrolling="<?php echo $scroll; ?>"
 	frameborder="<?php echo $frameborder; ?>"
 	class="wrapper">
-	<?php echo JText::_('MOD_WRAPPER_NO_IFRAMES'); ?>
+	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

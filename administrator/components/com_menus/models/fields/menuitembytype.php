@@ -151,7 +151,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 
 			if (!$menuType)
 			{
-				$app = JFactory::getApplication('administrator');
+				$app = JFactory::getApplication();
 				$currentMenuType = $app->getUserState('com_menus.items.menutype', '');
 				$menuType        = $app->input->getString('menutype', $currentMenuType);
 			}

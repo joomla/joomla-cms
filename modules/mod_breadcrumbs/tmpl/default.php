@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 ?>
 
 <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
 	<?php if ($params->get('showHere', 1)) : ?>
 		<li class="float-left">
-			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
+			<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 		</li>
 	<?php else : ?>
 		<li class="float-left">
