@@ -595,6 +595,24 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
+		return $this->store->gc();
+	}
+
+	/**
 	 * Create a token-string
 	 *
 	 * @param   integer  $length  Length of string
