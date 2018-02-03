@@ -1558,8 +1558,8 @@ class MenusModelItem extends JModelAdmin
 			parent::cleanCache($option);
 		}
 
-		// Displays an alert if the menu item is a home page
-		if ($data['home'])
+		// Displays an alert if the menu item is a home page and its access is not public
+		if ($data['home'] && $data['access'] != 1)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_MENUS_CREATE_LOGIN_FORM'), 'warning');
 		}
