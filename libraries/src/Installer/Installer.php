@@ -801,12 +801,11 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}
 
-			// Fetch the adapter
 			$adapter = $this->getAdapter($this->extension->type);
 
 			if (!is_object($adapter))
@@ -833,7 +832,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
+		$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID', $this->extension->name));
 
 		return false;
 	}
