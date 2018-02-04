@@ -95,7 +95,7 @@ final class SiteApplication extends CMSApplication
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
 				//Check for a menu Itemid
-				$menuId  = explode('Itemid=', $url);
+				$menuId = explode('Itemid=', $url);
 
 				// Do not use an Itemid if we are on the home page and we have no Login Form menu item
 				if (!empty($menuId[1]) && $home_item->id == (int) $menuId[1])
