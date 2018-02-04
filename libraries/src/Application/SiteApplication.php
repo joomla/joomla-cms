@@ -98,7 +98,7 @@ final class SiteApplication extends CMSApplication
 				$menuId  = explode('Itemid=', $url);
 
 				// Do not use an Itemid if we are on the home page and we have no Login Form menu item
-				if (!empty($menuId[1]) && $home_item->id == $menuId[1])
+				if (!empty($menuId[1]) && $home_item->id == (int) $menuId[1])
 				{
 					$url = 'index.php?option=com_users&view=login';
 				}
