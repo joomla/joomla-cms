@@ -80,7 +80,10 @@ final class SiteApplication extends CMSApplication
 	protected function authorise($itemid)
 	{
 		$menus = $this->getMenu();
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
+
+		// Get the home page menu item
+		$home_item = $menus->getDefault($this->getLanguage()->getTag());
 
 		if (!$menus->authorise($itemid))
 		{
@@ -91,14 +94,20 @@ final class SiteApplication extends CMSApplication
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
+				//Check for a menu Itemid
+				$menuId  = explode('Itemid=', $url);
+
+				// Do not use an Itemid if we are on the home page and we have no Login Form menu item
+				if (!empty($menuId[1]) && $home_item->id == $menuId[1])
+				{
+					$url = 'index.php?option=com_users&view=login';
+				}
+
 				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				$this->redirect($url);
 			}
 			else
 			{
-				// Get the home page menu item
-				$home_item = $menus->getDefault($this->getLanguage()->getTag());
-
 				// If we are already in the homepage raise an exception
 				if ($menus->getActive()->id == $home_item->id)
 				{
