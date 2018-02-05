@@ -42,32 +42,15 @@ $document = Factory::getDocument();
  * @var   string   $labelclass      Classes to apply to the label.
  * @var   boolean  $multiple        Does this field support multiple values?
  * @var   string   $name            Name of the input field.
- * @var   string   $onchange        Onchange attribute for the field.
- * @var   string   $onclick         Onclick attribute for the field.
- * @var   string   $pattern         Pattern (Reg Ex) of value of the form field.
- * @var   boolean  $readonly        Is this field read only?
- * @var   boolean  $repeat          Allows extensions to duplicate elements.
- * @var   boolean  $required        Is this field required?
- * @var   integer  $size            Size attribute of the input.
- * @var   boolean  $spellcheck      Spellcheck state for the form field.
- * @var   string   $validate        Validation rules to apply.
- * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- *
- * Calendar Specific
- * @var   string   $localesPath     The relative path for the locale file
- * @var   string   $helperPath      The relative path for the helper file
- * @var   string   $minYear         The minimum year, that will be subtracted/added to current year
- * @var   string   $maxYear         The maximum year, that will be subtracted/added to current year
- * @var   integer  $todaybutton     The today button
- * @var   integer  $weeknumbers     The week numbers display
- * @var   integer  $showtime        The time selector display
- * @var   integer  $filltable       The previous/next month filling
- * @var   integer  $timeformat      The time format
- * @var   integer  $singleheader    Display different header row for month/year
- * @var   integer  $direction       The document direction
+ * @var   array    $groups          Available user groups.
+ * @var   array    $actions         Actions for the asset.
+ * @var   integer  $assetId         Access parameters.
+ * @var   string   $section         The section.
+ * @var   boolean  $isGlobalConfig  Current view is global config?
+ * @var   boolean  $newItem         The new item.
+ * @var   object   $assetRules      Rules for asset.
+ * @var   integer  $parentAssetId   To calculate permissions.
  */
 
 // Add Javascript for permission change
