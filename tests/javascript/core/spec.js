@@ -146,7 +146,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('should return false when input element is not inside a form', function () {
-			expect(Joomla.checkAll(document.getElementById('cb-no-form'))).toEqual(false);
+			expect(Joomla.checkAll($('#cb-no-form'))).toEqual(false);
 		});
 
 		it('should check all the checkboxes that has id starting with \'cb\' inside the form', function () {
