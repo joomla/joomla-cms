@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesPopular</namespace>
 	<files>
 		<filename module="mod_articles_popular">mod_articles_popular.php</filename>
 		<folder>tmpl</folder>

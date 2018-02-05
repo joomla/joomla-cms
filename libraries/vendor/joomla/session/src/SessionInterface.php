@@ -192,7 +192,7 @@ interface SessionInterface extends \IteratorAggregate
 	/**
 	 * Create a new session and copy variables from the old one
 	 *
-	 * @return  boolean $result true on success
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -215,4 +215,14 @@ interface SessionInterface extends \IteratorAggregate
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function close();
+
+	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc();
 }

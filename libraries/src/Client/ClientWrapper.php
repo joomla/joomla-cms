@@ -73,7 +73,7 @@ class ClientWrapper
 	 *
 	 * @param   string  $client  The name of the client.
 	 *
-	 * @return  mixed  True, if FTP settings; JError if using legacy tree
+	 * @return  boolean  True, if FTP settings
 	 *
 	 * @see     UserHelper::setCredentialsFromRequest()
 	 * @since   3.4

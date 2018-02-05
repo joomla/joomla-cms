@@ -555,7 +555,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		// Add the libraries/joomla and libraries/legacy folders to the array
 		JLoader::registerPrefix('J', JPATH_PLATFORM . '/joomla');
-		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 		// Get the current prefixes array
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');

@@ -243,7 +243,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
 
 		if ($depth > 0)
 		{
-			// Check if the object is also an dumpable object.
+			// Check if the object is also a dumpable object.
 			if ($value instanceof DumpableInterface)
 			{
 				// Do not dump the property if it has already been dumped.
