@@ -94,30 +94,30 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
 <div class="row mb-2" data-ajaxuri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
- 	<div class="col-md-3">
- 		<ul class="nav nav-pills flex-column">
+	<div class="col-md-3">
+		<ul class="nav nav-pills flex-column">
 			<?php foreach ($groups as $group) : ?>
-	 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-	 			<li class="nav-item">
-	 				<a class="nav-link<?php echo $active; ?>" 
-	 					href="#permission-<?php echo $group->value; ?>" 
-	 					data-toggle="tab"><?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text; ?></a>
+				<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
+				<li class="nav-item">
+					<a class="nav-link<?php echo $active; ?>"
+						href="#permission-<?php echo $group->value; ?>"
+						data-toggle="tab"><?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text; ?></a>
 				</li>
- 			<?php endforeach; ?>
+			<?php endforeach; ?>
 		</ul>
 	</div>
 
 	<?php // Initial Active Pane ?>
 	<div class="tab-content col-md-9">
 		<?php foreach ($groups as $group) : ?>
- 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
+			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
 			<div class="tab-pane<?php echo $active; ?>" id="permission-<?php echo $group->value; ?>">
 				<table class="table table-striped">
 					<thead>
-	 					<tr>
+						<tr>
 							<th class="actions" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
-	 						</th>
+							</th>
 							
 							<th class="settings" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
@@ -125,22 +125,22 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 
 							<th id="aclactionth<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
-	 						</th>
+							</th>
 						</tr>
-	 				</thead>
+					</thead>
 					<tbody>
 
-	 					<?php // Check if this group has super user permissions ?>
-	 					<?php $isSuperUserGroup = Access::checkGroup($group->value, 'core.admin'); ?>
-	 					<?php foreach ($actions as $action) : ?>
+						<?php // Check if this group has super user permissions ?>
+						<?php $isSuperUserGroup = Access::checkGroup($group->value, 'core.admin'); ?>
+						<?php foreach ($actions as $action) : ?>
 							<tr>	
-		 						<td headers="actions-th<?php echo $group->value; ?>">
+								<td headers="actions-th<?php echo $group->value; ?>">
 									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" class="hasTooltip" > 
 											<?php echo Text::_($action->title); ?> 
 									</label>
-		 						</td>
+								</td>
 
-		 						<td headers="settings-th<?php echo $group->value; ?>">
+								<td headers="settings-th<?php echo $group->value; ?>">
 
 									<select onchange="sendPermissions.call(this, event)"
 											class="custom-select novalidate"
@@ -154,10 +154,10 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										* true = allowed
 										*/
 
-		 								// Get the actual setting for the action for this group. ?>
-		 								<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null; ?>
+										// Get the actual setting for the action for this group. ?>
+										<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null; ?>
 
-		 								<?php // Build the dropdowns for the permissions sliders
+										<?php // Build the dropdowns for the permissions sliders
 											// The parent group has "Not Set", all children can rightly "Inherit" from that.?>
 										<option value="" <?php echo ($assetRule === null ? ' selected="selected"' : ''); ?>>
 										<?php echo Text::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED'); ?></option>
@@ -170,37 +170,37 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									<span id="icon_<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"></span>
 								</td>
 
-		 						<td headers="aclactionth<?php echo $group->value; ?>">
+								<td headers="aclactionth<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?> 
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
-		 							$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
-		 							$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
+									$inheritedGroupParentAssetRule = !empty($parentAssetId) ? Access::checkGroup($group->value, $action->name, $parentAssetId) : null;
+									$inheritedParentGroupRule      = !empty($group->parent_id) ? Access::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
-		 							// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
-		 							if ($isSuperUserGroup)
-		 							{
-			 							$result['class'] = 'badge badge-success';
-			 							$result['text']  = '<span class="icon-lock icon-white"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
-		 							}
-		 							else
-		 							{
-			 							// First get the real recursive calculated setting and add (Inherited) to it.
+									// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
+									if ($isSuperUserGroup)
+									{
+										$result['class'] = 'badge badge-success';
+										$result['text']  = '<span class="icon-lock icon-white"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+									}
+									else
+									{
+										// First get the real recursive calculated setting and add (Inherited) to it.
 
-			 							// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
-			 							if ($inheritedGroupRule === null || $inheritedGroupRule === false)
-			 							{
-				 							$result['class'] = 'badge badge-danger';
-				 							$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
-			 							}
-			 							// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
-			 							else
-			 							{
-				 							$result['class'] = 'badge badge-success';
-				 							$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
-			 							}
+										// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
+										if ($inheritedGroupRule === null || $inheritedGroupRule === false)
+										{
+											$result['class'] = 'badge badge-danger';
+											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
+										}
+										// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
+										else
+										{
+											$result['class'] = 'badge badge-success';
+											$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
+										}
 
-									 	// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
+										// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 										/**
 										* @to do: incorrect info
@@ -209,13 +209,13 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										*/
 
 										// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
-									 	if ($assetRule === false)
+										if ($assetRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
 											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED');
 										}
 										// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
-										else if ($assetRule === true)
+										elseif ($assetRule === true)
 										{
 											$result['class'] = 'badge badge-success';
 											$result['text']  = Text::_('JLIB_RULES_ALLOWED');
@@ -235,7 +235,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										* Or some parent group has an explicit "Denied".
 										* Calculated permission is "Not Allowed (Locked)".
 										*/
-										else if ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
+										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
 											$result['text']  = '<span class="icon-lock icon-white"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
@@ -255,13 +255,13 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 
 <joomla-alert type="warning">
 	<?php
- 	if ($section === 'component' || !$section)
- 	{
+	if ($section === 'component' || !$section)
+	{
 		echo Text::_('JLIB_RULES_SETTING_NOTES');
- 	}
- 	else
- 	{
+	}
+	else
+	{
 		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
- 	}
+	}
 	?>
 </joomla-alert>
