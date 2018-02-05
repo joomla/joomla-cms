@@ -100,7 +100,7 @@ final class SiteApplication extends CMSApplication
 				// Do not use an Itemid if we are on the home page and we have no Login Form menu item
 				if (!empty($menuId[1]) && $home_item->id == (int) $menuId[1])
 				{
-					$url = 'index.php?option=com_users&view=login';
+					$url = \JRoute::_('index.php?option=com_users&view=login&Itemid=', false);
 				}
 
 				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
