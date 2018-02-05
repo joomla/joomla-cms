@@ -39,7 +39,7 @@ class RulesField extends FormField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $layout = 'joomla.form.field.rules.tabs';
+	protected $layout = 'joomla.form.field.rules';
 
 	/**
 	 * The section.
