@@ -9,9 +9,9 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], function ($) {
-	describe('Sendtestmail', function () {
-		beforeAll(function() {
+define(['jquery', 'testsRoot/joomla-field-send-test-mail/spec-setup', 'jasmineJquery'], ($) => {
+	describe('Sendtestmail', () => {
+		beforeAll(() => {
 			jasmine.Ajax.install();
 
 			renderFn = Joomla.renderMessages;
@@ -27,7 +27,7 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 			$('#sendtestmail').click();
 		});
 
-		afterAll(function () {
+		afterAll(() => {
 			jasmine.Ajax.uninstall();
 
 			Joomla.renderMessages = renderFn;
@@ -36,46 +36,46 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 			window.scrollTo = scrollFn;
 		});
 
-		it('Should call removeMessages()', function () {
+		it('Should call removeMessages()', () => {
 			expect(Joomla.removeMessages).toHaveBeenCalled();
 		});
 
-		describe("on success with typeof response.messages !== 'object'", function() {
-			beforeAll(function() {
+		describe("on success with typeof response.messages !== 'object'", () => {
+			beforeAll(() => {
 				request = jasmine.Ajax.requests.mostRecent();
 				request.respondWith(mailResponses.successInvalid);
 			});
 
-			it("should call Joomla.renderMessages({})", function() {
+			it("should call Joomla.renderMessages({})", () => {
 				expect(Joomla.renderMessages).not.toHaveBeenCalledWith({});
 			});
 		});
 
 		describe("on success with typeof response.messages == 'object' && response.messages !== null", function() {
-			beforeAll(function() {
+			beforeAll(() => {
 				$('#sendtestmail').click();
 
 				request = jasmine.Ajax.requests.mostRecent();
 				request.respondWith(mailResponses.success);
 			});
 
-			it("should make an AJAX request of type POST", function() {
+			it("should make an AJAX request of type POST", () => {
 				expect(request.method).toBe('POST');
 			});
 
 			// @TODO re add should set data to the request test
 
-			it("should set url value to 'uri'", function() {
+			it("should set url value to 'uri'", () => {
 				expect(request.url).toBe('uri');
 			});
 
-			it("should call Joomla.renderMessages({'message': 'text'})", function() {
+			it("should call Joomla.renderMessages({'message': 'text'})", () => {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith({"message": "text"});
 			});
 		});
 
-		describe("on failure", function() {
-			beforeAll(function() {
+		describe("on failure", () => {
+			beforeAll(() => {
 				$('#sendtestmail').click();
 
 				request = jasmine.Ajax.requests.mostRecent();
@@ -84,7 +84,7 @@ define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], functio
 
 			// @TODO re add should call Joomla.ajaxErrorsMessages(jqXHR, 'error', 'HTTP/1.1 404 Not Found') test
 
-			it("should call Joomla.renderMessages(undefined)", function() {
+			it("should call Joomla.renderMessages(undefined)", () => {
 				expect(Joomla.renderMessages).toHaveBeenCalledWith(undefined);
 			});
 		});
