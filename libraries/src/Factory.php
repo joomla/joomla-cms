@@ -524,6 +524,7 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
