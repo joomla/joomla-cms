@@ -64,7 +64,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div class="col-md-12">
+		<?php if (!empty($this->sidebar)) { ?>
+		<div id="j-sidebar-container" class="col-md-2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<?php } ?>
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar

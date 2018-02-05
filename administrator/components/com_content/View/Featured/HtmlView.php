@@ -105,6 +105,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!\JLanguageMultilang::isEnabled())
@@ -159,8 +160,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		\JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
-
-		\JToolbarHelper::submenu(\JHtmlSidebar::getEntries(), ['label' => \JText::_('JGLOBAL_SUBMENU')]);
 	}
 
 	/**
