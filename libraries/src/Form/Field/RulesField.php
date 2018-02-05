@@ -34,9 +34,9 @@ class RulesField extends FormField
 	protected $type = 'Rules';
 
 	/**
- 	 * Name of the layout being used to render the field
- 	 *
- 	 * @var    string
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
 	 * @since  3.5
 	 */
 	protected $layout = 'joomla.form.field.rules.tabs';
@@ -224,7 +224,7 @@ class RulesField extends FormField
 
 		// Get the available user groups.
 		$this->groups = $this->getUserGroups();
-      
+
 		// Trim the trailing line in the layout file
 		return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
 	}
