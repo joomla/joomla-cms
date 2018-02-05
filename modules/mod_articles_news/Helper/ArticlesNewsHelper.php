@@ -15,6 +15,9 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
@@ -110,17 +113,17 @@ abstract class ArticlesNewsHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link     = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
-				$item->linkText = \JText::_('MOD_ARTICLES_NEWS_READMORE');
+				$item->link     = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else
 			{
-				$item->link = new Uri(\JRoute::_('index.php?option=com_users&view=login', false));
+				$item->link = new Uri(Route::_('index.php?option=com_users&view=login', false));
 				$item->link->setVar('return', base64_encode(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
-				$item->linkText = \JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
+				$item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
-			$item->introtext = \JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
+			$item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
 			if (!$params->get('image'))
 			{

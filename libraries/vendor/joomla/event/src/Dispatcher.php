@@ -418,6 +418,15 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function triggerEvent($event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::dispatch() instead.',
+				__METHOD__,
+				DispatcherInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!($event instanceof EventInterface))
 		{
 			$event = $this->getDefaultEvent($event);

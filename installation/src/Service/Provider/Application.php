@@ -38,7 +38,7 @@ class Application implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->share(
-			'InstallationApplicationWeb',
+			InstallationApplication::class,
 			function (Container $container)
 			{
 				$config = null;
