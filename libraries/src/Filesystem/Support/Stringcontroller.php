@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class Stringcontroller
+class StringController
 {
 	/**
 	 * Defines a variable as an array

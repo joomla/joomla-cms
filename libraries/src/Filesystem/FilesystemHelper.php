@@ -274,7 +274,7 @@ class FilesystemHelper
 					continue;
 				}
 
-				$streams[] = $file->getBasename('.php');
+				$streams[] = str_replace('stream', '', strtolower($file->getBasename('.php')));
 			}
 		}
 
