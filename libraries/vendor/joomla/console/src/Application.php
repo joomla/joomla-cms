@@ -392,69 +392,77 @@ class Application extends AbstractApplication
 			$thrown = null;
 			$this->doExecute();
 		}
-		catch (\Exception $thrown)
-		{
-			$exception = $thrown;
-		}
 		catch (\Throwable $thrown)
 		{
-			$exception = new FatalThrowableError($thrown);
-		}
-
-		if ($dispatcher && $thrown !== null)
-		{
-			$event = new Event\ConsoleErrorEvent($thrown, $this, $this->activeCommand);
-			$dispatcher->dispatch(ConsoleEvents::ERROR, $event);
-
-			$thrown = $event->getError();
-
-			if ($event->getExitCode() === 0)
+			if (!$thrown instanceof \Exception)
 			{
-				$thrown = null;
+				if (class_exists(FatalThrowableError::class))
+				{
+					$thrown = new FatalThrowableError($thrown);
+				}
+				else
+				{
+					$thrown = new \ErrorException($thrown->getMessage(), $thrown->getCode(), E_ERROR, $thrown->getFile(), $thrown->getLine());
+				}
 			}
-		}
 
-		if ($thrown !== null)
-		{
-			if (!$this->shouldCatchThrowables() || !$exception instanceof \Exception)
+			if (!$this->shouldCatchThrowables())
 			{
 				throw $thrown;
 			}
 
-			$this->renderException($exception);
-
-			$exitCode = $exception->getCode();
-
-			if (is_numeric($exitCode))
+			if ($dispatcher)
 			{
-				$exitCode = (int) $exitCode;
+				$event = new Event\ConsoleErrorEvent($thrown, $this, $this->activeCommand);
+				$dispatcher->dispatch(ConsoleEvents::ERROR, $event);
 
-				if ($exitCode === 0)
+				$thrown = $event->getError();
+
+				if ($event->getExitCode() === 0)
+				{
+					$thrown = null;
+				}
+			}
+
+			if ($thrown !== null)
+			{
+				$this->renderException($thrown);
+
+				$exitCode = $thrown->getCode();
+
+				if (is_numeric($exitCode))
+				{
+					$exitCode = (int) $exitCode;
+
+					if ($exitCode === 0)
+					{
+						$exitCode = 1;
+					}
+				}
+				else
 				{
 					$exitCode = 1;
 				}
+
+				$this->exitCode = $exitCode;
 			}
-			else
+		}
+		finally
+		{
+			if ($dispatcher)
 			{
-				$exitCode = 1;
+				$event = new Event\TerminateEvent($this->exitCode, $this, $this->activeCommand);
+				$dispatcher->dispatch(ConsoleEvents::TERMINATE, $event);
+
+				$this->exitCode = $event->getExitCode();
 			}
 
-			$this->exitCode = $exitCode;
-		}
+			if ($this->autoExit)
+			{
+				$exitCode = $this->exitCode > 255 ? 255 : $this->exitCode;
 
-		if ($dispatcher)
-		{
-			$event = new Event\TerminateEvent($this->exitCode, $this, $this->activeCommand);
-			$dispatcher->dispatch(ConsoleEvents::TERMINATE, $event);
-
-			$this->exitCode = $event->getExitCode();
-		}
-
-		if ($this->autoExit)
-		{
-			$exitCode = $this->exitCode > 255 ? 255 : $this->exitCode;
-
-			$this->close($exitCode);
+				$this->close($exitCode);
+			}
 		}
 	}
 
