@@ -279,11 +279,6 @@ abstract class AdminModel extends FormModel
 
 				if (is_array($result))
 				{
-					foreach ($result as $old => $new)
-					{
-						$contexts[$new] = $contexts[$old];
-					}
-
 					$pks = array_values($result);
 				}
 				else
