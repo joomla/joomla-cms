@@ -6,7 +6,8 @@ const Recurs = require("recursive-readdir");
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
 const autoprefixer = require('autoprefixer');
-const postcss      = require('postcss');
+const postcss = require('postcss');
+const folderToCompile = require('path');
 
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
@@ -42,10 +43,9 @@ compileFiles = (options, path) => {
 
 	// Loop to get the files that should be compiled via parameter
 	folders.forEach((folder) => {
-		var path = require('path');
-		var filesTocompile = fs.readdirSync(folder);
+		let filesTocompile = fs.readdirSync(folder);
 		filesTocompile.forEach((fileTocompile) => {
-			if (path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
+			if (folderToCompile.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
 				files.push(folder + '/' + fileTocompile);
 			}
 		});
