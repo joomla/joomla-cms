@@ -943,7 +943,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -1263,7 +1263,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean  Boolean true on success, boolean false
 	 *
 	 * @since   1.6
 	 */
@@ -1304,7 +1304,9 @@ class ItemModel extends AdminModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		foreach ($items as &$item)
@@ -1323,7 +1325,9 @@ class ItemModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 
 			unset($registry);

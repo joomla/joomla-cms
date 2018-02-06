@@ -12,6 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesNews\Site\Helper\ArticlesNewsHelper;
 
-$list            = ArticlesNewsHelper::getList($params);
+$list = ArticlesNewsHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_articles_news', $params->get('layout', 'horizontal'));

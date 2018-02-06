@@ -32,6 +32,7 @@ compileFiles = (options, path) => {
 			rootPath + '/' + 'administrator/templates/atum/scss/font-awesome.scss',
 			rootPath + '/' + 'administrator/templates/atum/scss/template.scss',
 			rootPath + '/' + 'administrator/templates/atum/scss/template-rtl.scss',
+			rootPath + '/' + 'media/plg_installer_webinstaller/scss/client.scss',
 		];
 
 		folders = [
