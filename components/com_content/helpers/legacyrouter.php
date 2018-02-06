@@ -225,34 +225,25 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 			if (!$menuItemGiven)
 			{
 				$segments[] = $view;
+				unset($query['view']);
 			}
 
-			unset($query['view']);
-
-			// If there is no year segment then do not add month segment
-			if (isset($query['year']) && $menuItemGiven)
+			if (isset($query['year']))
 			{
-				if ($query['year'])
+				if ($menuItemGiven)
 				{
 					$segments[] = $query['year'];
-
-					if (isset($query['month']))
-					{
-						if ($query['month'])
-						{
-							$segments[] = $query['month'];
-						}
-
-						unset($query['month']);
-					}
+					unset($query['year']);
 				}
-
-				unset($query['year']);
 			}
 
-			if (isset($query['month']) && empty($query['month']))
+			if (isset($query['year']) && isset($query['month']))
 			{
-				unset($query['month']);
+				if ($menuItemGiven)
+				{
+					$segments[] = $query['month'];
+					unset($query['month']);
+				}
 			}
 		}
 
@@ -329,29 +320,10 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		 * Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
 		 * the first segment is the view and the last segment is the id of the article or category.
 		 */
-		if ($item === null)
+		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
 			$vars['id'] = $segments[$count - 1];
-
-			return;
-		}
-
-		// Manage the archive view
-		if ($item->query['view'] === 'archive')
-		{
-			$vars['view']  = 'archive';
-
-			if ($count >= 2)
-			{
-				$vars['year']  = $segments[$count - 2];
-				$vars['month'] = $segments[$count - 1];
-			}
-			else
-			{
-				$vars['year']  = $segments[$count - 1];
-				$vars['month'] = null;
-			}
 
 			return;
 		}
@@ -412,7 +384,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		 * because the first segment will have the target category id prepended to it.  If the
 		 * last segment has a number prepended, it is an article, otherwise, it is a category.
 		 */
-		if ((!$advanced))
+		if (!$advanced)
 		{
 			$cat_id = (int) $segments[0];
 
@@ -484,8 +456,18 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 					$cid = $segment;
 				}
 
-				$vars['id']   = $cid;
-				$vars['view'] = 'article';
+				$vars['id'] = $cid;
+
+				if ($item->query['view'] == 'archive' && $count != 1)
+				{
+					$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
+					$vars['month'] = $segments[$count - 1];
+					$vars['view'] = 'archive';
+				}
+				else
+				{
+					$vars['view'] = 'article';
+				}
 			}
 
 			$found = 0;
