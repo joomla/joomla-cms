@@ -40,6 +40,17 @@ compileFiles = (options, path) => {
 		];
 	}
 
+	// Loop to get the files that should be compiled via parameter
+	folders.forEach((folder) => {
+		var path = require('path');
+		var filesTocompile = fs.readdirSync(folder);
+		filesTocompile.forEach((fileTocompile) => {
+			if (path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) != "_") {
+				files.push(folder + '/' + fileTocompile);
+			}
+		});
+	});
+
 	// Loop to get some text for the packgage.json
 	files.forEach((file) => {
 		const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
