@@ -42,6 +42,7 @@
     "babel-plugin-static-fs": "latest",
     "babel-preset-env": "latest",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-minify": "^0.3.0",
     "babelify": "^8.0.0",
     "browserify": "*",
     "eslint": "latest",
@@ -65,7 +66,7 @@
     "recursive-copy": "latest",
     "recursive-readdir": "^2.2.1",
     "requirejs": "latest",
-    "text": "github:requirejs/text",
+    "text": "requirejs/text",
     "uglify-es": "^3.1.6",
     "uglifycss": "0.0.27",
     "web-component-tester": "latest"
@@ -78,7 +79,8 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail"
+      "field-send-test-mail",
+      "hidden-mail"
     ],
     "webcomponents": {
       "field-media": {
@@ -90,6 +92,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-hidden-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
