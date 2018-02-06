@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class PlgSystemFields extends JPlugin
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// JSON encode value for complex fields
-			if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
 			{
 				$value = json_encode($value);
 			}
@@ -503,7 +503,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.4
 	 */
 	private function prepareTagItem($item)
 	{

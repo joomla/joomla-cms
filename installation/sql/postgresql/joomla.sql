@@ -2007,9 +2007,7 @@ CREATE TABLE "#__user_keys" (
   "time" varchar(200) NOT NULL,
   "uastring" varchar(255) NOT NULL,
   PRIMARY KEY ("id"),
-	CONSTRAINT "#__user_keys_series" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_2" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_3" UNIQUE ("series")
+	CONSTRAINT "#__user_keys_series" UNIQUE ("series")
 );
 CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
 

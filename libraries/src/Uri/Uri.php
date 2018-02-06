@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,6 +171,9 @@ class Uri extends \Joomla\Uri\Uri
 					// Others
 					$script_name = $_SERVER['SCRIPT_NAME'];
 				}
+
+				// Extra cleanup to remove invalid chars in the URL to prevent injections through broken server implementation
+				$script_name = str_replace(array("'", '"', '<', '>'), array('%27', '%22', '%3C', '%3E'), $script_name);
 
 				static::$base['path'] = rtrim(dirname($script_name), '/\\');
 			}
