@@ -65,11 +65,11 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * The sidebar markup
+	 * The subnavigation entries
 	 *
 	 * @var  string
 	 */
-	protected $sidebar;
+	protected $entries;
 
 	/**
 	 * Array used for displaying the levels filter
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
+			$this->entries = \JHtmlSidebar::getEntries();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!\JLanguageMultilang::isEnabled())
@@ -202,6 +202,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+		\JToolbarHelper::subnavigation(['target_id' => 'js-subnavigation', 'label' => \JText::_('JGLOBAL_TOGGLE_NAVIGATION')]);
 	}
 
 	/**

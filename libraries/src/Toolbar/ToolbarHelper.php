@@ -141,6 +141,23 @@ abstract class ToolbarHelper
 	}
 
 	/**
+	 * Writes a toggle button for a toggling sub-navigation.
+	 *
+	 * @param   array  $options Options passed to the layout.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public static function subnavigation($options)
+	{
+		$layout = new FileLayout('joomla.toolbar.subnavigation');
+
+		$bar  = Toolbar::getInstance();
+		$bar->appendButton('Custom', $layout->render($options), 'subnavigation');
+	}
+
+	/**
 	 * Writes a cancel button that will go back to the previous page without doing
 	 * any other operation.
 	 *
