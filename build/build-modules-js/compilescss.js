@@ -45,7 +45,7 @@ compileFiles = (options, path) => {
 		var path = require('path');
 		var filesTocompile = fs.readdirSync(folder);
 		filesTocompile.forEach((fileTocompile) => {
-			if (path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) != "_") {
+			if (path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
 				files.push(folder + '/' + fileTocompile);
 			}
 		});
