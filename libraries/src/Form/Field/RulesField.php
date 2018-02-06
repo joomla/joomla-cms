@@ -37,7 +37,7 @@ class RulesField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.rules.tabs';
 
@@ -234,7 +234,7 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getLayoutData()
 	{
