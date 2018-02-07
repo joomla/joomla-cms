@@ -185,7 +185,7 @@ class FieldsModelField extends JModelAdmin
 			{
 				$names = array();
 
-				// In the case where the subform is not multible this is just a stdClass
+				// In the case where the subform is not multiple this is just a stdClass
 				if (isset($newParams->value))
 				{
 					$names[] = $db->q($newParams->value);
