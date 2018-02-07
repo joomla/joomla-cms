@@ -27,26 +27,22 @@ class JHtmlEmailTest extends \PHPUnit\Framework\TestCase
 	{
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org'),
-			$this->StringContains('<joomla-hidden-mail  is-link="1" is-email="1" first="YWRtaW4=" last="am9vbWxhLm9yZw=="'),
-			'Cloak email with mailto link'
+			$this->StringContains('<joomla-hidden-mail')
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', false),
-			$this->StringContains('<joomla-hidden-mail  is-link="1" is-email="1" first="YWRtaW4=" last="am9vbWxhLm9yZw=="'),
-			'Cloak email with no mailto link'
+			$this->StringContains('<joomla-hidden-mail')
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'administrator@joomla.org'),
-			$this->StringContains('<joomla-hidden-mail'),
-			'Cloak email with mailto link and separate email address text'
+			$this->StringContains('<joomla-hidden-mail')
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'Joomla! Administrator', false),
-			$this->StringContains('<joomla-hidden-mail'),
-			'Cloak email with mailto link and separate non-email address text'
+			$this->StringContains('<joomla-hidden-mail')
 		);
 	}
 }
