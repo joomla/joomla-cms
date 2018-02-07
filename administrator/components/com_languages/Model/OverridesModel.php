@@ -34,9 +34,15 @@ class OverridesModel extends ListModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config, $factory);
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'key', 'text',
+				'language_client'
+			);
+		}
 
-		$this->filter_fields = array('key', 'text');
+		parent::__construct($config, $factory);
 	}
 
 	/**
