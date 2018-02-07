@@ -31,7 +31,7 @@ Factory::getDocument()->addScriptDeclaration('
 		<?php foreach($items as $i => $item) : ?>
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
-					<div class="mr-2">
+					<div class="mr-2 row-title">
 						<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>

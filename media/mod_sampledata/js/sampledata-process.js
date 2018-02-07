@@ -10,7 +10,8 @@
 
 	var sampledataAjax = function(type, steps, step) {
 		if (step > steps) {
-			$('.sampledata-' + type + ' .row-title').append('<span class="icon-publish"> </span>');
+			$('.sampledata-' + type + ' .row-title').append('<span class="fa fa-check"> </span>');
+			$('.sampledata-progress-' + type).addClass('d-none');
 			inProgress = false;
 			return;
 		}
