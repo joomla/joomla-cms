@@ -102,6 +102,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $template = null;
 
 	/**
+	 * The pathway object
+	 *
+	 * @var    Pathway
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pathway = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -595,7 +603,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $this->getName();
 		}
 
-		return $this->getContainer()->get(ucfirst($name) . 'Pathway');
+		if (!$this->pathway)
+		{
+			$this->pathway = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+		}
+
+		return $this->pathway;
 	}
 
 	/**
