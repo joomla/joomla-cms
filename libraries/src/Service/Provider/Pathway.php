@@ -34,6 +34,8 @@ class Pathway implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('SitePathway', SitePathway::class)
+			->alias('JPathwaySite', SitePathway::class)
+			->alias('pathway.site', SitePathway::class)
 			->share(
 				SitePathway::class,
 				function (Container $container)
