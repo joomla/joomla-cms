@@ -40,7 +40,7 @@ class Pathway implements ServiceProviderInterface
 				SitePathway::class,
 				function (Container $container)
 				{
-					return new SitePathway([], $container->get(SiteApplication::class));
+					return new SitePathway($container->get(SiteApplication::class));
 				},
 				true
 			);
