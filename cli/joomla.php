@@ -34,6 +34,16 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
+// Boot the DI container
+$container = \Joomla\CMS\Factory::getContainer();
+
+// Alias the session service keys to the CLI session service as that is the primary session backend for this application
+$container->alias('session', 'session.cli')
+	->alias('JSession', 'session.cli')
+	->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+	->alias(\Joomla\Session\Session::class, 'session.cli')
+	->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
 $app->execute();

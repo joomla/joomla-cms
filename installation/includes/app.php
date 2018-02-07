@@ -47,5 +47,13 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 $container = \Joomla\CMS\Factory::getContainer();
 $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application);
 
+// Alias the session service keys to the web session service as that is the primary session backend for this application
+$container->alias('session.web', 'session.web.installation')
+	->alias('session', 'session.web.installation')
+	->alias('JSession', 'session.web.installation')
+	->alias(\Joomla\CMS\Session\Session::class, 'session.web.installation')
+	->alias(\Joomla\Session\Session::class, 'session.web.installation')
+	->alias(\Joomla\Session\SessionInterface::class, 'session.web.installation');
+
 // Instantiate and execute the application
 $container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();
