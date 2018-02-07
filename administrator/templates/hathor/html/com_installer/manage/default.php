@@ -61,9 +61,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<th class="width-10">
 					<?php echo JText::_('JDATE'); ?>
 				</th>
-                <th class="width-15 center">
-                	<?php echo JText::_('JAUTHOR'); ?>
-                </th>
+				<th class="width-15 center">
+					<?php echo JText::_('JAUTHOR'); ?>
+				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 				</th>
