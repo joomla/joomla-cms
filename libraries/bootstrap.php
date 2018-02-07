@@ -33,9 +33,6 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the library base path for the legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 

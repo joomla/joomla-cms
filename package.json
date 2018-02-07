@@ -16,7 +16,7 @@
   "dependencies": {
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0",
-    "codemirror": "5.33.0",
+    "codemirror": "5.34.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
     "dragula": "3.7.2",
@@ -29,7 +29,7 @@
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
-    "tinymce": "4.7.4",
+    "tinymce": "4.7.6",
     "@claviska/jquery-minicolors": "2.2.6"
   },
   "devDependencies": {
