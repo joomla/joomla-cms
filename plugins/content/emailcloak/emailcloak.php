@@ -195,7 +195,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . addslashes($regs[5][0]) . $regs[6][0];
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
 
 			$replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -212,7 +212,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = addslashes($regs[4][0]);
+			$mailText = $regs[4][0];
 
 			$replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -263,7 +263,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0];
-			$mailText = $regs[4][0] . addslashes($regs[5][0]);
+			$mailText = $regs[4][0] . $regs[5][0];
 
 			$replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -301,7 +301,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = addslashes($regs[5][0]);
+			$mailText = $regs[5][0];
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
@@ -339,7 +339,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[2][0] . $regs[3][0];
-			$mailText = $regs[5][0] . addslashes($regs[6][0]) . $regs[7][0];
+			$mailText = $regs[5][0] . $regs[6][0] . $regs[7][0];
 
 			$replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mailText, 0);
 
@@ -398,7 +398,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
 			$mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
-			$mailText = $regs[4][0] . $regs[5][0] . addslashes($regs[6][0]);
+			$mailText = $regs[4][0] . $regs[5][0] . $regs[6][0];
 
 			// Needed for handling of Body parameter
 			$mail = str_replace('&amp;', '&', $mail);
