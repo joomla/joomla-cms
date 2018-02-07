@@ -30,7 +30,7 @@ $saveOrder = $listOrder == 'a.ordering';
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -45,40 +45,40 @@ $saveOrder = $listOrder == 'a.ordering';
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_published" id="filter_published">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
 			</label>
 			<select name="filter_category_id" id="filter_category_id">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id')); ?>
 			</select>
 
-            		<label class="selectlabel" for="filter_access">
+			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
 			<select name="filter_language" id="filter_language">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_tag">
 				<?php echo JText::_('JOPTION_SELECT_TAG'); ?>
 			</label>
 			<select name="filter_tag" id="filter_tag">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -147,7 +147,7 @@ $saveOrder = $listOrder == 'a.ordering';
 							<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					<p class="smallsub">
-						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
+						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?></p>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -166,8 +166,8 @@ $saveOrder = $listOrder == 'a.ordering';
 								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $item->catid == @$this->items[$i + 1]->catid, 'weblinks.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 							<?php endif; ?>
 						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
+						<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" value="<?php echo $item->ordering; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
