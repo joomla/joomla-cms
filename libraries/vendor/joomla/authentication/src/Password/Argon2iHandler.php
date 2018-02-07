@@ -11,7 +11,7 @@ namespace Joomla\Authentication\Password;
 /**
  * Password handler for Argon2i hashed passwords
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2.0
  */
 class Argon2iHandler implements HandlerInterface
 {
@@ -23,7 +23,7 @@ class Argon2iHandler implements HandlerInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 * @throws  \LogicException
 	 */
 	public function hashPassword($plaintext, array $options = array())
@@ -68,14 +68,24 @@ class Argon2iHandler implements HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public static function isSupported()
 	{
-		// Check for native PHP engine support in the password extension then fall back to support in the sodium extension
-		return (version_compare(PHP_VERSION, '7.2', '>=') && defined('PASSWORD_ARGON2I'))
-			|| function_exists('sodium_crypto_pwhash_str')
-			|| extension_loaded('libsodium');
+		// Check for native PHP engine support in the password extension
+		if (version_compare(PHP_VERSION, '7.2', '>=') && defined('PASSWORD_ARGON2I'))
+		{
+			return true;
+		}
+
+		// Check if the sodium_compat polyfill is installed and look for compatibility through that
+		if (class_exists('\\ParagonIE_Sodium_Compat') && method_exists('\\ParagonIE_Sodium_Compat', 'crypto_pwhash_is_available'))
+		{
+			return \ParagonIE_Sodium_Compat::crypto_pwhash_is_available();
+		}
+
+		// Check for support from the (lib)sodium extension
+		return function_exists('sodium_crypto_pwhash_str') || extension_loaded('libsodium');
 	}
 
 	/**
@@ -86,7 +96,7 @@ class Argon2iHandler implements HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 * @throws  \LogicException
 	 */
 	public function validatePassword($plaintext, $hashed)

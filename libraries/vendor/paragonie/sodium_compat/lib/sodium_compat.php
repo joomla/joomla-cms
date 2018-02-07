@@ -31,6 +31,47 @@ if (!is_callable('\\Sodium\\compare')) {
         return ParagonIE_Sodium_Compat::compare($a, $b);
     }
 }
+if (!is_callable('\\Sodium\\crypto_aead_aes256gcm_decrypt')) {
+    /**
+     * @param string $message
+     * @param string $assocData
+     * @param string $nonce
+     * @param string $key
+     * @return string|bool
+     */
+    function crypto_aead_aes256gcm_decrypt($message, $assocData, $nonce, $key)
+    {
+        try {
+            return ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_decrypt($message, $assocData, $nonce, $key);
+        } catch (Error $ex) {
+            return false;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+}
+if (!is_callable('\\Sodium\\crypto_aead_aes256gcm_encrypt')) {
+    /**
+     * @param string $message
+     * @param string $assocData
+     * @param string $nonce
+     * @param string $key
+     * @return string
+     */
+    function crypto_aead_aes256gcm_encrypt($message, $assocData, $nonce, $key)
+    {
+        return ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_encrypt($message, $assocData, $nonce, $key);
+    }
+}
+if (!is_callable('\\Sodium\\crypto_aead_aes256gcm_is_available')) {
+    /**
+     * @return bool
+     */
+    function crypto_aead_aes256gcm_is_available()
+    {
+        return ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_is_available();
+    }
+}
 if (!is_callable('\\Sodium\\crypto_aead_chacha20poly1305_decrypt')) {
     /**
      * @param string $message
@@ -523,6 +564,16 @@ if (!is_callable('\\Sodium\\crypto_sign_verify_detached')) {
     function crypto_sign_verify_detached($signature, $message, $pk)
     {
         return ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $message, $pk);
+    }
+}
+if (!is_callable('\\Sodium\\crypto_sign_ed25519_pk_to_curve25519')) {
+    /**
+     * @param string $pk
+     * @return string
+     */
+    function crypto_sign_ed25519_pk_to_curve25519($pk)
+    {
+        return ParagonIE_Sodium_Compat::crypto_sign_ed25519_pk_to_curve25519($pk);
     }
 }
 if (!is_callable('\\Sodium\\crypto_sign_ed25519_sk_to_curve25519')) {

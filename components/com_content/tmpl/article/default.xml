@@ -32,7 +32,9 @@
 
 		<!-- Basic options. -->
 		<fieldset name="basic"
-			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
+			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 		<field
 			name="show_title"
@@ -135,7 +137,7 @@
 
 		<field
 			name="show_associations"
-			type="list"
+			type="assoc"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 			useglobal="true"
 			class="chzn-color"

@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
@@ -57,28 +62,28 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}
 
-		JText::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
-		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
-		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
-		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
-		JText::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
 
-		JFactory::getDocument()->addScriptOptions(
+		Factory::getDocument()->addScriptOptions(
 			'js-joomla-update',
 			[
-				'url'     => JUri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . JSession::getFormToken() . '=1',
+				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . Session::getFormToken() . '=1',
 				'version' => JVERSION,
 			]
 		);
 
-		JHtml::_('behavior.core');
-		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('behavior.core');
+		HTMLHelper::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Add the icon to the result array
 		$result = $event->getArgument('result', []);
@@ -88,7 +93,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 				'link'  => 'index.php?option=com_joomlaupdate',
 				'image' => 'fa fa-joomla',
 				'icon'  => '',
-				'text'  => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
+				'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE',
 			],

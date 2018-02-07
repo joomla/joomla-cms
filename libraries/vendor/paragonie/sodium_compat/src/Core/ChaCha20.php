@@ -67,7 +67,8 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @param string $message
      *
      * @return string
-     * @throws Exception
+     * @throws TypeError
+     * @throws SodiumException
      */
     public static function encryptBytes(
         ParagonIE_Sodium_Core_ChaCha20_Ctx $ctx,
@@ -237,7 +238,7 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
              */
             ++$j12;
             if ($j12 & 0xf0000000) {
-                throw new Exception('Overflow');
+                throw new SodiumException('Overflow');
             }
 
             /*
@@ -303,6 +304,8 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function stream($len = 64, $nonce = '', $key = '')
     {
@@ -319,6 +322,8 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function ietfStream($len, $nonce = '', $key = '')
     {
@@ -336,6 +341,8 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @param string $key
      * @param string $ic
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function ietfStreamXorIc($message, $nonce = '', $key = '', $ic = '')
     {
@@ -353,6 +360,8 @@ class ParagonIE_Sodium_Core_ChaCha20 extends ParagonIE_Sodium_Core_Util
      * @param string $key
      * @param string $ic
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function streamXorIc($message, $nonce = '', $key = '', $ic = '')
     {

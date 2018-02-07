@@ -76,7 +76,7 @@ class LanguageModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app    = \JFactory::getApplication('administrator');
+		$app    = \JFactory::getApplication();
 		$params = ComponentHelper::getParams('com_languages');
 
 		// Load the User state.

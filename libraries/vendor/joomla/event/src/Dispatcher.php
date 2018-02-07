@@ -13,7 +13,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface, SubscriberManagerInterface
 {
 	/**
 	 * An array of registered events indexed by the event names.
@@ -330,7 +330,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   SubscriberInterface  $subscriber  The subscriber.
 	 *
-	 * @return  $this
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -418,6 +418,15 @@ class Dispatcher implements DispatcherInterface
 	 */
 	public function triggerEvent($event)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::dispatch() instead.',
+				__METHOD__,
+				DispatcherInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!($event instanceof EventInterface))
 		{
 			$event = $this->getDefaultEvent($event);
