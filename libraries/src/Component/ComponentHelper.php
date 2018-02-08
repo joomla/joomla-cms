@@ -554,7 +554,7 @@ class ComponentHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getComponentName($object, string $alternativeName): string
+	public static function getComponentName($object, $alternativeName)
 	{
 		$reflect = new \ReflectionClass($object);
 
