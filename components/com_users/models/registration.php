@@ -243,9 +243,6 @@ class UsersModelRegistration extends JModelForm
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
 
-			// Don't load the data in this getForm call, or we'll call ourself
-			$form = $this->getForm(array(), false);
-
 			foreach ($temp as $k => $v)
 			{
 				// Here we could have a grouped field, let's check it
@@ -255,14 +252,11 @@ class UsersModelRegistration extends JModelForm
 
 					foreach ($v as $key => $val)
 					{
-						if ($form->getField($key, $k) !== false)
-						{
-							$this->data->$k->$key = $val;
-						}
+						$this->data->$k->$key = $val;
 					}
 				}
 				// Only merge the field if it exists in the form.
-				elseif ($form->getField($k) !== false)
+				else
 				{
 					$this->data->$k = $v;
 				}
