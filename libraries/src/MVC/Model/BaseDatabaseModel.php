@@ -10,7 +10,9 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -233,7 +235,7 @@ abstract class BaseDatabaseModel extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->option = 'com_' . strtolower($r[1]);
+			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
 		// Set the view name
@@ -297,6 +299,19 @@ abstract class BaseDatabaseModel extends \JObject
 		elseif (empty($this->event_clean_cache))
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
+		}
+
+		if (!$factory)
+		{
+			$reflect = new \ReflectionClass($this);
+			if ($reflect->getNamespaceName())
+			{
+				// Guess the root namespace
+				$ns = explode('\\', $reflect->getNamespaceName());
+				$ns = implode('\\', array_slice($ns, 0, 3));
+
+				$factory = new MVCFactory($ns, \JFactory::getApplication());
+			}
 		}
 
 		$this->factory = $factory ? : new LegacyFactory;
@@ -427,7 +442,7 @@ abstract class BaseDatabaseModel extends \JObject
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[1]);
+			$this->name = str_replace(array('\\', 'model'), '', strtolower($r[1]));
 		}
 
 		return $this->name;
@@ -474,6 +489,12 @@ abstract class BaseDatabaseModel extends \JObject
 		if (empty($name))
 		{
 			$name = $this->getName();
+		}
+
+		// We need this ugly code to deal with non-namespaced MVC code
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		{
+			$prefix = 'Table';
 		}
 
 		if ($table = $this->_createTable($name, $prefix, $options))

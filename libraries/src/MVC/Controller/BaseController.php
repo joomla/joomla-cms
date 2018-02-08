@@ -720,7 +720,7 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
 			$prefix = $this->model_prefix;
 		}
@@ -823,7 +823,7 @@ class BaseController extends \JObject
 			$name = $this->getName();
 		}
 
-		if (empty($prefix))
+		if (empty($prefix) && $this->factory instanceof LegacyFactory)
 		{
 			$prefix = $this->getName() . 'View';
 		}

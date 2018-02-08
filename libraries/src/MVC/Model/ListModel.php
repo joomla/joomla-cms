@@ -348,9 +348,9 @@ class ListModel extends BaseDatabaseModel
 		{
 			$classNameParts = explode('Model', get_called_class());
 
-			if (count($classNameParts) == 2)
+			if (count($classNameParts) >= 2)
 			{
-				$this->filterFormName = 'filter_' . strtolower($classNameParts[1]);
+				$this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
 			}
 		}
 
@@ -392,6 +392,7 @@ class ListModel extends BaseDatabaseModel
 		}
 
 		// Get the form.
+		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
 		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 

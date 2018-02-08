@@ -23,14 +23,16 @@ class MVCFactory implements MVCFactoryInterface
 	/**
 	 * The namespace to create the objects from.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $namespace = null;
 
 	/**
 	 * The application.
 	 *
-	 * @var CMSApplication
+	 * @var    CMSApplication
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $application = null;
 
