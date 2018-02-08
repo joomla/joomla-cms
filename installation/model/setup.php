@@ -374,7 +374,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (is_numeric(ini_get('output_buffering'))) ? true : false;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
