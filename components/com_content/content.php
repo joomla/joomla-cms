@@ -23,7 +23,7 @@ if ($checkCreateEdit)
 {
 	// Can create in any category (component permission) or at least in one category
 	$canCreateRecords = $user->authorise('core.create', 'com_content')
-	 || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
+		|| count($user->getAuthorisedCategories('com_content', 'core.create')) > 0;
 
 	// Instead of checking edit on all records, we can use **same** check as the form editing view
 	$values = (array) JFactory::getApplication()->getUserState('com_content.edit.article.id');
