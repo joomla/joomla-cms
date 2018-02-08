@@ -59,15 +59,26 @@
 
 		<field
 			name="aspectRatio"
-			type="radio"
+			type="groupedlist"
 			hiddenLabel="true"
-			class=""
-			default=""
+			class="crop-aspect-ratio-options"
+			default="1.111"
 			>
-			<option value="1.7777777777777777">16:9</option>
-			<option value="1.3333333333333333">4:3</option>
-			<option value="0.6666666666666666">3:2</option>
-			<option value="">PLG_MEDIA-ACTION_CROP_PARAM_RATIO_RESET</option>
+			<option class="crop-aspect-ratio-option" value="1.111">Default aspect ratio</option>
+			<option class="crop-aspect-ratio-option" value="">PLG_MEDIA-ACTION_CROP_PARAM_NO_RATIO</option>
+			<option class="crop-aspect-ratio-option" value="1">1:1</option>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_LANDSCAPE">
+				<option class="crop-aspect-ratio-option" value="1.25">5:4</option>
+				<option class="crop-aspect-ratio-option" value="1.3333333333333333">4:3</option>
+				<option class="crop-aspect-ratio-option" value="1.5">3:2</option>
+				<option class="crop-aspect-ratio-option" value="1.7777777777777777">16:9</option>
+			</group>
+			<group label="PLG_MEDIA-ACTION_CROP_PARAM_PORTRAIT">			
+				<option class="crop-aspect-ratio-option" value="0.8">4:5</option>
+				<option class="crop-aspect-ratio-option" value="0.75">3:4</option>
+				<option class="crop-aspect-ratio-option" value="0.6666666666666667">2:3</option>
+				<option class="crop-aspect-ratio-option" value="0.5625">9:16</option>
+			</group>
 		</field>
 	</fieldset>
 </form>
