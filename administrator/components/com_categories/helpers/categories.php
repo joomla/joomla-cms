@@ -127,7 +127,7 @@ class CategoriesHelper
 				->select($db->qn('published'))
 				->from($db->qn('#__categories'))
 				->where('access IN (' . $groups . ')')
-				->where($db->qn('id') . ' = ' . (int) ($assocId));
+				->where($db->qn('id') . ' = ' . (int) $assocId);
 
 			$result = (int) $db->setQuery($query)->loadResult();
 
