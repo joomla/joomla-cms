@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -66,14 +67,16 @@ class FormController extends BaseController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
@@ -255,7 +258,7 @@ class FormController extends BaseController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   \JModelLegacy  $model  The model of the component being processed.
+	 * @param   BaseDatabaseModel  $model  The model of the component being processed.
 	 *
 	 * @return	boolean	 True if successful, false otherwise and internal error is set.
 	 *
@@ -440,7 +443,7 @@ class FormController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -528,8 +531,8 @@ class FormController extends BaseController
 	 * Function that allows child controller access to model data
 	 * after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *

@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -51,15 +52,19 @@ class AdminController extends BaseController
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   \JInput              $input    Input
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $app, $input);
 
 		// Define standard task mappings.
 
@@ -80,7 +85,7 @@ class AdminController extends BaseController
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
-			$this->option = 'com_' . strtolower($this->getName());
+			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
 		// Guess the \JText message prefix. Defaults to the option.
@@ -92,9 +97,15 @@ class AdminController extends BaseController
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$r = null;
+			$reflect = new \ReflectionClass($this);
 
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+			$r = array(0 => '', 1 => '', 2 => $reflect->getShortName());
+
+			if ($reflect->getNamespaceName())
+			{
+				$r[2] = str_replace('Controller', '', $r[2]);
+			}
+			elseif (!preg_match('/(.*)Controller(.*)/i', $reflect->getShortName(), $r))
 			{
 				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
@@ -190,9 +201,9 @@ class AdminController extends BaseController
 		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
-		$cid = $this->input->get('cid', array(), 'array');
-		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
-		$task = $this->getTask();
+		$cid   = $this->input->get('cid', array(), 'array');
+		$data  = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
+		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
@@ -398,6 +409,6 @@ class AdminController extends BaseController
 		}
 
 		// Close the application
-		\JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }
