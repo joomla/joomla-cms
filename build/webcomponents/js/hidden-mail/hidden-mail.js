@@ -1,7 +1,7 @@
 ;customElements.define('joomla-hidden-mail', class extends HTMLElement {
 	connectedCallback() {
 		let newEl;
-		let base = this.getAttribute('base') || '/';
+		let base = this.getAttribute('base') + '/';
 
 		if (this.getAttribute('is-link') === '1') {
 			newEl = document.createElement('a');
@@ -28,6 +28,7 @@
 
 		if (this.getAttribute('text')) {
 			let innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
+
 			innerStr = innerStr.replace('src="images/', `src="${base}images/`).replace('src="media/', `src="${base}media/`);
 			newEl.innerHTML = innerStr;
 		} else {

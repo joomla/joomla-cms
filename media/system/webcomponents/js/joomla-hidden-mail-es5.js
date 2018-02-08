@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		key: 'connectedCallback',
 		value: function connectedCallback() {
 			var newEl = void 0;
-			var base = this.getAttribute('base') || '/';
+			var base = this.getAttribute('base') + '/';
 
 			if (this.getAttribute('is-link') === '1') {
 				newEl = document.createElement('a');
@@ -49,6 +49,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 			if (this.getAttribute('text')) {
 				var innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
+
 				innerStr = innerStr.replace('src="images/', 'src="' + base + 'images/').replace('src="media/', 'src="' + base + 'media/');
 				newEl.innerHTML = innerStr;
 			} else {
