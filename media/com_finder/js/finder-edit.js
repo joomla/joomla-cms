@@ -10,6 +10,18 @@ Joomla = window.Joomla || {};
 
 	document.addEventListener('DOMContentLoaded', function() {
 
+		var buttons = document.querySelectorAll('.toggle-all');
+
+		for (var i = 0; i < buttons.length; i++) {
+			buttons[i].addEventListener('click', function(e) {
+				var filterNodes = document.querySelectorAll('.filter-node');
+
+				for (var i = 0; i < filterNodes.length; i++) {
+					filterNodes[i].click();
+				}
+			});
+		}
+
 		// Update the count
 		var filterNode = document.querySelectorAll('.filter-node');
 
