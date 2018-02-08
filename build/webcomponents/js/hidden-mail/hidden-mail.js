@@ -26,7 +26,7 @@
 		}
 
 		if (this.getAttribute('text')) {
-			let innerStr = decodeURIComponent(escape(window.atob(this.getAttribute('text'))));
+			let innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
 			innerStr = innerStr.replace('src="images/', 'src="/images/');
 			newEl.innerHTML = innerStr;
 		} else {
@@ -38,5 +38,11 @@
 
 		// Display the new element
 		this.appendChild(newEl);
+	}
+
+	b64DecodeUnicode(str) {
+		return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => {
+			return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+		}).join(''))
 	}
 });

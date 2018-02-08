@@ -47,7 +47,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			}
 
 			if (this.getAttribute('text')) {
-				var innerStr = decodeURIComponent(escape(window.atob(this.getAttribute('text'))));
+				var innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
 				innerStr = innerStr.replace('src="images/', 'src="/images/');
 				newEl.innerHTML = innerStr;
 			} else {
@@ -59,6 +59,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 			// Display the new element
 			this.appendChild(newEl);
+		}
+	}, {
+		key: 'b64DecodeUnicode',
+		value: function b64DecodeUnicode(str) {
+			return decodeURIComponent(Array.prototype.map.call(atob(str), function (c) {
+				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+			}).join(''));
 		}
 	}]);
 
