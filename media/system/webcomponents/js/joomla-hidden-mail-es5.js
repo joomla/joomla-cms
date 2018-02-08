@@ -48,7 +48,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 			if (this.getAttribute('text')) {
 				var innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
-				innerStr = innerStr.replace('src="images/', 'src="/images/');
+				innerStr = innerStr.replace('src="images/', 'src="/images/').replace('src="media/', 'src="/media/');
 				newEl.innerHTML = innerStr;
 			} else {
 				newEl.innerText = window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last'));

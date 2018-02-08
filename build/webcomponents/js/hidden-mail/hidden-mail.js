@@ -27,7 +27,7 @@
 
 		if (this.getAttribute('text')) {
 			let innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
-			innerStr = innerStr.replace('src="images/', 'src="/images/');
+			innerStr = innerStr.replace('src="images/', 'src="/images/').replace('src="media/', 'src="/media/');
 			newEl.innerHTML = innerStr;
 		} else {
 			newEl.innerText = window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last'));
