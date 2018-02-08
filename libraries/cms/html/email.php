@@ -11,6 +11,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Uri\Uri;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -65,6 +66,7 @@ abstract class JHtmlEmail
 			. $email . '" first="'
 			. base64_encode($name) . '" last="'
 			. base64_encode($domain) . '" text="'
-			. base64_encode($text) . '" ' . $attribsAfter . ' >' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
+			. base64_encode($text) . '" base="'
+			. Uri::root(true) . '" ' . $attribsAfter . ' >' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
 	}
 }

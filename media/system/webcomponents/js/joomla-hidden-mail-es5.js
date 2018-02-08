@@ -22,10 +22,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		key: 'connectedCallback',
 		value: function connectedCallback() {
 			var newEl = void 0;
+			var base = this.getAttribute('base') || '/';
 
 			if (this.getAttribute('is-link') === '1') {
 				newEl = document.createElement('a');
-				newEl.setAttribute('href', 'mailto:' + window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last')));
+				newEl.setAttribute('href', 'mailto:' + this.b64DecodeUnicode(this.getAttribute('first')) + '@' + this.b64DecodeUnicode(this.getAttribute('last')));
 
 				// Get all of the original element attributes, and pass them to the link
 				for (var i = 0, l = this.attributes.length; i < l; ++i) {
@@ -48,7 +49,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 			if (this.getAttribute('text')) {
 				var innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
-				innerStr = innerStr.replace('src="images/', 'src="/images/').replace('src="media/', 'src="/media/');
+				innerStr = innerStr.replace('src="images/', 'src="' + base + 'images/').replace('src="media/', 'src="' + base + 'media/');
 				newEl.innerHTML = innerStr;
 			} else {
 				newEl.innerText = window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last'));
