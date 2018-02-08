@@ -181,8 +181,15 @@ class FormHelper
 			$name = Normalise::toSpaceSeparated($type);
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
+			$subPrefix = '';
+			if (strpos($name, '.'))
+			{
+				list($subPrefix, $name) = explode('.', $name);
+				$subPrefix = ucfirst($subPrefix) . '\\';
+			}
+
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
+			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))
