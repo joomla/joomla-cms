@@ -9,12 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
+
 /**
  * Base field for the Stats Plugin.
  *
  * @since  3.5
  */
-abstract class PlgSystemStatsFormFieldBase extends JFormField
+abstract class PlgSystemStatsFormFieldBase extends FormField
 {
 	/**
 	 * Get the layouts paths
@@ -25,7 +28,7 @@ abstract class PlgSystemStatsFormFieldBase extends JFormField
 	 */
 	protected function getLayoutPaths()
 	{
-		$template = JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 
 		return array(
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats',

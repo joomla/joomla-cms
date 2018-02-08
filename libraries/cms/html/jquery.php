@@ -62,7 +62,7 @@ abstract class JHtmlJquery
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'vendor/jquery/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			JHtml::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;

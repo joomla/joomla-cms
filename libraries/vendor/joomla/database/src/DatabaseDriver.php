@@ -427,19 +427,29 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since       1.4.0
-	 * @deprecated  1.4.0  This is a B/C proxy since $this->name was previously public
+	 * @deprecated  3.0  This is a B/C proxy since $this->name was previously public
 	 */
 	public function __get($name)
 	{
 		switch ($name)
 		{
 			case 'name':
+				@trigger_error(
+					'Accessing the name property of the database driver is deprecated, use the getName() method instead.',
+					E_USER_DEPRECATED
+				);
+
 				return $this->getName();
 
 			default:
 				$trace = debug_backtrace();
 				trigger_error(
-					'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
 					E_USER_NOTICE
 				);
 		}
@@ -495,8 +505,8 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	/**
 	 * Create a new database using information from $options object.
 	 *
-	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
-	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 * @param   \stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
+	 * @param   boolean    $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean|resource
 	 *

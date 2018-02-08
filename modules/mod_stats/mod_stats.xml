@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_STATS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Stats</namespace>
 	<files>
 		<filename module="mod_stats">mod_stats.php</filename>
 		<folder>tmpl</folder>

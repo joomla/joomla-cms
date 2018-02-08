@@ -116,6 +116,29 @@ class NativeStorage implements StorageInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		if (!function_exists('session_gc'))
+		{
+			return false;
+		}
+
+		if (!$this->isStarted())
+		{
+			$this->start();
+		}
+
+		return session_gc();
+	}
+
+	/**
 	 * Get data from the session store
 	 *
 	 * @param   string  $name     Name of a variable

@@ -41,7 +41,7 @@ if ($saveOrder)
 					<table class="table table-striped" id="levelList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%">
@@ -50,10 +50,10 @@ if ($saveOrder)
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 								</th>
-								<th style="width:1%" class="nowrap hidden-sm-down">
+								<th style="width:1%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -74,7 +74,7 @@ if ($saveOrder)
 							$canChange = $user->authorise('core.edit.state', 'com_users');
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="order nowrap text-center hidden-sm-down">
+								<td class="order nowrap text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -104,10 +104,10 @@ if ($saveOrder)
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo UsersHelper::getVisibleByGroups($item->rules); ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

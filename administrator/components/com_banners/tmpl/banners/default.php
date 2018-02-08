@@ -43,7 +43,7 @@ if ($saveOrder && !empty($this->items))
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="text-center">
@@ -55,24 +55,24 @@ if ($saveOrder && !empty($this->items))
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap text-center hidden-sm-down">
+								<th style="width:10%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -94,7 +94,7 @@ if ($saveOrder && !empty($this->items))
 								$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-									<td class="order nowrap text-center hidden-sm-down">
+									<td class="order nowrap text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 
@@ -143,25 +143,25 @@ if ($saveOrder && !empty($this->items))
 											</div>
 										</div>
 									</td>
-									<td class="text-center hidden-sm-down text-center">
+									<td class="text-center d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 									</td>
-									<td class="small hidden-sm-down text-center">
+									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $item->client_name; ?>
 									</td>
-									<td class="small hidden-sm-down text-center">
+									<td class="small d-none d-md-table-cell text-center">
 										<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ?: JText::_('COM_BANNERS_UNLIMITED')); ?>
 									</td>
-									<td class="small hidden-sm-down text-center">
+									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $item->clicks; ?> -
 										<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 									</td>
 									<?php if (JLanguageMultilang::isEnabled()) : ?>
-										<td class="small nowrap hidden-sm-down text-center">
+										<td class="small nowrap d-none d-md-table-cell text-center">
 											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
 									<?php endif; ?>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>

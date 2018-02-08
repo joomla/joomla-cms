@@ -86,6 +86,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Inflector\\' => 26,
             'Defuse\\Crypto\\' => 14,
         ),
         'C' => 
@@ -247,6 +248,10 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
         'Defuse\\Crypto\\' => 
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
@@ -273,6 +278,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Defuse\\Crypto\\KeyOrPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyOrPassword.php',
         'Defuse\\Crypto\\KeyProtectedByPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyProtectedByPassword.php',
         'Defuse\\Crypto\\RuntimeTests' => __DIR__ . '/..' . '/defuse/php-encryption/src/RuntimeTests.php',
+        'Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
         'Fig\\Link\\EvolvableLinkProviderTrait' => __DIR__ . '/..' . '/fig/link-util/src/EvolvableLinkProviderTrait.php',
         'Fig\\Link\\EvolvableLinkTrait' => __DIR__ . '/..' . '/fig/link-util/src/EvolvableLinkTrait.php',
         'Fig\\Link\\GenericLinkProvider' => __DIR__ . '/..' . '/fig/link-util/src/GenericLinkProvider.php',
@@ -555,6 +561,8 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Form\\Field\\UserstateField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/UserstateField.php',
         'Joomla\\CMS\\Form\\Form' => __DIR__ . '/../../..' . '/libraries/src/Form/Form.php',
         'Joomla\\CMS\\Form\\FormFactory' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactory.php',
+        'Joomla\\CMS\\Form\\FormFactoryAwareInterface' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryAwareInterface.php',
+        'Joomla\\CMS\\Form\\FormFactoryAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryAwareTrait.php',
         'Joomla\\CMS\\Form\\FormFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryInterface.php',
         'Joomla\\CMS\\Form\\FormField' => __DIR__ . '/../../..' . '/libraries/src/Form/FormField.php',
         'Joomla\\CMS\\Form\\FormHelper' => __DIR__ . '/../../..' . '/libraries/src/Form/FormHelper.php',
@@ -714,6 +722,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Service\\Provider\\Dispatcher' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Dispatcher.php',
         'Joomla\\CMS\\Service\\Provider\\Document' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Document.php',
         'Joomla\\CMS\\Service\\Provider\\Form' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Form.php',
+        'Joomla\\CMS\\Service\\Provider\\Logger' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Logger.php',
         'Joomla\\CMS\\Service\\Provider\\Menu' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Menu.php',
         'Joomla\\CMS\\Service\\Provider\\Session' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Session.php',
         'Joomla\\CMS\\Service\\Provider\\Toolbar' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Toolbar.php',
@@ -794,6 +803,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Crypt\\Cipher\\OpenSSL' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/OpenSSL.php',
         'Joomla\\Crypt\\Cipher\\Sodium' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/Sodium.php',
         'Joomla\\Crypt\\Crypt' => __DIR__ . '/..' . '/joomla/crypt/src/Crypt.php',
+        'Joomla\\Crypt\\Exception\\InvalidKeyTypeException' => __DIR__ . '/..' . '/joomla/crypt/src/Exception/InvalidKeyTypeException.php',
         'Joomla\\Crypt\\Key' => __DIR__ . '/..' . '/joomla/crypt/src/Key.php',
         'Joomla\\DI\\Container' => __DIR__ . '/..' . '/joomla/di/src/Container.php',
         'Joomla\\DI\\ContainerAwareInterface' => __DIR__ . '/..' . '/joomla/di/src/ContainerAwareInterface.php',
@@ -875,6 +885,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Event\\ListenersPriorityQueue' => __DIR__ . '/..' . '/joomla/event/src/ListenersPriorityQueue.php',
         'Joomla\\Event\\Priority' => __DIR__ . '/..' . '/joomla/event/src/Priority.php',
         'Joomla\\Event\\SubscriberInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberInterface.php',
+        'Joomla\\Event\\SubscriberManagerInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberManagerInterface.php',
         'Joomla\\Filesystem\\Buffer' => __DIR__ . '/..' . '/joomla/filesystem/src/Buffer.php',
         'Joomla\\Filesystem\\Clients\\FtpClient' => __DIR__ . '/..' . '/joomla/filesystem/src/Clients/FtpClient.php',
         'Joomla\\Filesystem\\Exception\\FilesystemException' => __DIR__ . '/..' . '/joomla/filesystem/src/Exception/FilesystemException.php',
@@ -936,6 +947,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Session\\Handler\\WincacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/WincacheHandler.php',
         'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/src/Session.php',
         'Joomla\\Session\\SessionEvent' => __DIR__ . '/..' . '/joomla/session/src/SessionEvent.php',
+        'Joomla\\Session\\SessionEvents' => __DIR__ . '/..' . '/joomla/session/src/SessionEvents.php',
         'Joomla\\Session\\SessionInterface' => __DIR__ . '/..' . '/joomla/session/src/SessionInterface.php',
         'Joomla\\Session\\StorageInterface' => __DIR__ . '/..' . '/joomla/session/src/StorageInterface.php',
         'Joomla\\Session\\Storage\\NativeStorage' => __DIR__ . '/..' . '/joomla/session/src/Storage/NativeStorage.php',
@@ -1125,6 +1137,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Zend\\Diactoros\\Response\\SapiStreamEmitter' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/SapiStreamEmitter.php',
         'Zend\\Diactoros\\Response\\Serializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/Serializer.php',
         'Zend\\Diactoros\\Response\\TextResponse' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/TextResponse.php',
+        'Zend\\Diactoros\\Response\\XmlResponse' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/XmlResponse.php',
         'Zend\\Diactoros\\Server' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Server.php',
         'Zend\\Diactoros\\ServerRequest' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/ServerRequest.php',
         'Zend\\Diactoros\\ServerRequestFactory' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/ServerRequestFactory.php',

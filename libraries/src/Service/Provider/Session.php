@@ -18,6 +18,7 @@ use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
+use Joomla\Session\SessionEvents;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\Validator\AddressValidator;
 use Joomla\Session\Validator\ForwardedValidator;
@@ -173,7 +174,7 @@ class Session implements ServiceProviderInterface
 
 					if (method_exists($app, 'afterSessionStart'))
 					{
-						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
+						$dispatcher->addListener(SessionEvents::START, array($app, 'afterSessionStart'));
 					}
 
 					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);
