@@ -51,6 +51,11 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
+// Register the extension root paths.
+JLoader::registerExtensionRootFolder('', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Site', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Administrator', JPATH_ADMINISTRATOR);
+
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Check if the JsonSerializable interface exists already
