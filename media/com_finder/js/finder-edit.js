@@ -10,27 +10,22 @@ Joomla = window.Joomla || {};
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		var buttons = document.querySelectorAll('.toggle-all');
-
-		for (var i = 0; i < buttons.length; i++) {
-			buttons[i].addEventListener('click', function(e) {
-				var filterNodes = document.querySelectorAll('.filter-node');
-
-				for (var i = 0; i < filterNodes.length; i++) {
-					filterNodes[i].click();
-				}
+		// Handle toggle all
+		[].slice.call(document.querySelectorAll('.toggle-all')).forEach(function(button) {
+			button.addEventListener('click', function(e) {
+				[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
+					node.click();
+				});
 			});
-		}
+		});
 
 		// Update the count
-		var filterNode = document.querySelectorAll('.filter-node');
-
-		for (var i = 0; i < filterNode.length; i++) {
+		[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
 			var count = document.getElementById('jform_map_count');
 			if (count) {
 				count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
 			}
-		}
+		});
 
 		// Expand/collapse
 		var expandAccordion = document.getElementById('expandAccordion');
