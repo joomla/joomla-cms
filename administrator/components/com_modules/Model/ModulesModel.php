@@ -314,10 +314,14 @@ class ModulesModel extends ListModel
 		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
 
 		// Filter by current user access level.
+		$user = \JFactory::getUser();
+
 		// Get the current user for authorisation checks
-		$user   = \JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$query->where('a.access IN (' . $groups . ')');
+		if ($user->authorise('core.admin') !== true)
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))

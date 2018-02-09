@@ -129,7 +129,7 @@ abstract class Factory
 	{
 		if (!self::$application)
 		{
-			throw new \Exception('Application Instantiation Error', 500);
+			throw new \Exception('Failed to start application', 500);
 		}
 
 		return self::$application;

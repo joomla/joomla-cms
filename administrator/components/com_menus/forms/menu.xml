@@ -47,7 +47,6 @@
 			id="client_id"
 			default="0"
 			class="switcher switcher-primary"
-			required="true"
 			>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
