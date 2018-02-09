@@ -15,7 +15,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 		// Initiate the cropper
 		Joomla.MediaManager.Edit.crop.cropper = new Cropper(image, {
-			// viewMode: 1,
+			viewMode: 1,
 			responsive: true,
 			restore: true,
 			autoCrop: true,
