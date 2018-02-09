@@ -67,6 +67,6 @@ abstract class JHtmlEmail
 			. base64_encode($name) . '" last="'
 			. base64_encode($domain) . '" text="'
 			. base64_encode($text) . '" base="'
-			. Uri::root(true) . '" ' . $attribsAfter . ' >' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
+			. Uri::root(true) . '" ' . $attribsAfter . '>' . Text::_('JLIB_HTML_CLOAKING') . '</joomla-hidden-mail>';
 	}
 }
