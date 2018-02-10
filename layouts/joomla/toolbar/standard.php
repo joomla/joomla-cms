@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-toolbar-button.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $doTask   = $displayData['doTask'];
