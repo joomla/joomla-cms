@@ -129,7 +129,7 @@ abstract class Factory
 	{
 		if (!self::$application)
 		{
-			throw new \Exception('Application Instantiation Error', 500);
+			throw new \Exception('Failed to start application', 500);
 		}
 
 		return self::$application;
@@ -500,6 +500,7 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)

@@ -273,6 +273,18 @@ class FinderIndexerResult
 	}
 
 	/**
+	 * Method to retrieve all elements.
+	 *
+	 * @return  array  The elements
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getElements()
+	{
+		return $this->elements;
+	}
+
+	/**
 	 * Method to set additional element values in the elements array.
 	 *
 	 * @param   string  $name   The name of the element.
