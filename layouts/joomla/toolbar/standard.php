@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', ['joomla-field-subform' => 'system/webcomponents/joomla-toolbar-button.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+HTMLHelper::_('webcomponent', ['joomla-toolbar-button' => 'system/webcomponents/joomla-toolbar-button.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $doTask   = $displayData['doTask'];
@@ -31,18 +31,6 @@ if ($list)
 	\JText::script('ERROR');
 }
 ?>
-
-<?php /*if ($group) : ?>
-<a<?php echo $id; ?> href="#" onclick="<?php echo $doTask; ?>" class="dropdown-item">
-	<span class="<?php echo trim($class); ?>"></span>
-	<?php echo $text; ?>
-</a>
-<?php else : ?>
-<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" class="<?php echo $btnClass; ?>">
-	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
-</button>
-<?php endif;*/ ?>
 
 <joomla-toolbar-button <?php echo $id; ?> task="<?php echo $task; ?>" <?php echo $list.$form.$validate; ?> class="<?php echo $btnClass; ?>">
 	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
