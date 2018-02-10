@@ -1326,94 +1326,31 @@ abstract class HTMLHelper
 			if (strrpos($path, '.min', '-4'))
 			{
 				$position = strrpos($path, '.min', '-4');
+				$minifiedPath = $path;
 				$nonMinifiedPath = str_replace('.min', '', $path, $position);
 
-				if (is_file($path))
-				{
-					$md5 = dirname($path . '.' . $ext) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($path) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				elseif (is_file($nonMinifiedPath))
-				{
-					$md5 = dirname($nonMinifiedPath) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($nonMinifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				else
-				{
-					return '';
-				}
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath, false);
 			}
-			else
-			{
-				$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-				if (is_file($minifiedPath))
-				{
-					$md5 = dirname($minifiedPath) . '/MD5SUM';
+			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-					return Uri::root(true) . static::convertToRelativePath($minifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				elseif (is_file($path))
-				{
-					$md5 = dirname($path . '.' . $ext) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($path) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				else
-				{
-					return '';
-				}
-			}
+			return self::checkFileOrder($minifiedPath, $path, true);
 		}
-		else
+
+		// We are handling a name.min.ext file:
+		if (strrpos($path, '.min', '-4'))
 		{
-			// We are handling a name.min.ext file:
-			if (strrpos($path, '.min', '-4'))
-			{
-				$position = strrpos($path, '.min', '-4');
-				$nonMinifiedPath = str_replace('.min', '', $path, $position);
+			$position = strrpos($path, '.min', '-4');
+			$minifiedPath = $path;
+			$nonMinifiedPath = str_replace('.min', '', $path, $position);
 
-				if (is_file($nonMinifiedPath))
-				{
-					$md5 = dirname($nonMinifiedPath) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($nonMinifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				elseif (is_file($path))
-				{
-					$md5 = dirname($path . '.' . $ext) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($path) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				else
-				{
-					return '';
-				}
-			}
-			else
-			{
-				$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
-
-				if (is_file($path))
-				{
-					$md5 = dirname($path . '.' . $ext) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($path) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				elseif (is_file($minifiedPath))
-				{
-					$md5 = dirname($minifiedPath) . '/MD5SUM';
-
-					return Uri::root(true) . static::convertToRelativePath($minifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
-				}
-				else
-				{
-					return '';
-				}
-			}
+			return self::checkFileOrder($minifiedPath, $nonMinifiedPath, true);
 		}
+
+		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
+
+		return self::checkFileOrder($minifiedPath, $path, false);
+
 	}
 
 	/**
@@ -1433,4 +1370,33 @@ abstract class HTMLHelper
 		return str_replace(DIRECTORY_SEPARATOR, '/', $relativeFilePath);
 	}
 
+	/**
+	 * Method that takes two paths and checks if the files exist with diferent order
+	 *
+	 * @param  $minifiedPath     string   the path of the minified file
+	 * @param  $nonMinifiedPath  string   the path of the non minified file
+	 * @param  $invert           boolean  the order in which the check should happen
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private static function checkFileOrder($minifiedPath, $nonMinifiedPath, $invert = false)
+	{
+		if (is_file($invert ? $minifiedPath : $nonMinifiedPath))
+		{
+			$md5 = dirname($invert ? $minifiedPath : $nonMinifiedPath) . '/MD5SUM';
+
+			return Uri::root(true) . static::convertToRelativePath($invert ? $minifiedPath : $nonMinifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+		}
+
+		if (is_file($invert ? $nonMinifiedPath : $minifiedPath))
+		{
+			$md5 = dirname($invert ? $nonMinifiedPath : $minifiedPath) . '/MD5SUM';
+
+			return Uri::root(true) . static::convertToRelativePath($invert ? $nonMinifiedPath : $minifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+		}
+
+		return '';
+	}
 }
