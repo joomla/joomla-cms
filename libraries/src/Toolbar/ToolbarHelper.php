@@ -482,20 +482,23 @@ abstract class ToolbarHelper
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $alt   An override for the alt text.
+	 * @param   boolean $group True or false
+	 *
+	 * @param   string  $form            The form ID
+	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false, $form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false, $group);
+		$bar->appendButton('Standard', 'save', $alt, $task, false, $group, $form, $formValidation);
 	}
 
 	/**
@@ -506,16 +509,20 @@ abstract class ToolbarHelper
 	 * @param   string   $alt    An override for the alt text.
 	 * @param   boolean  $group  True or false
 	 *
+	 * @param   string  $form            The form ID
+	 * @param   bool $formValidation Whether should be called the form validation before task call
+	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false,
+									$form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group);
+		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group, $form, $formValidation);
 	}
 
 	/**
@@ -527,16 +534,20 @@ abstract class ToolbarHelper
 	 * @param   string   $alt    An override for the alt text.
 	 * @param   boolean  $group  True or false
 	 *
+	 * @param   string  $form            The form ID
+	 * @param   bool $formValidation Whether should be called the form validation before task call
+	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false,
+									 $form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group);
+		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group, $form, $formValidation);
 	}
 
 	/**

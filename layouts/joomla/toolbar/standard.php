@@ -19,9 +19,19 @@ $class    = $displayData['class'];
 $text     = $displayData['text'];
 $btnClass = $displayData['btnClass'];
 $group    = $displayData['group'];
+$task     = $displayData['task'];
+$list     = $displayData['list'] ? 'list-confirmation' : '';
+$form     = $displayData['form'] ? ' form=' . $displayData['formId'] . '"' : '';
+$validate = $displayData['validate'] ? ' form-validation' : '';
+
+if ($list)
+{
+	\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+	\JText::script('ERROR');
+}
 ?>
 
-<?php if ($group) : ?>
+<?php /*if ($group) : ?>
 <a<?php echo $id; ?> href="#" onclick="<?php echo $doTask; ?>" class="dropdown-item">
 	<span class="<?php echo trim($class); ?>"></span>
 	<?php echo $text; ?>
@@ -31,4 +41,9 @@ $group    = $displayData['group'];
 	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>
-<?php endif; ?>
+<?php endif;*/ ?>
+
+<joomla-toolbar-button <?php echo $id; ?> task="<?php echo $task; ?>" <?php echo $list.$form.$validate; ?> class="<?php echo $btnClass; ?>">
+	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
+	<?php echo $text; ?>
+</joomla-toolbar-button>
