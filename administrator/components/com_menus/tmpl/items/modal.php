@@ -20,6 +20,7 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
