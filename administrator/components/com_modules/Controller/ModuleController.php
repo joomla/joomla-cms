@@ -24,7 +24,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */

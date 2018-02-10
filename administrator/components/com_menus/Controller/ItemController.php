@@ -109,7 +109,7 @@ class ItemController extends FormController
 	/**
 	 * Method to add a new menu item.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, otherwise false.
 	 *
 	 * @since   1.6
 	 */
