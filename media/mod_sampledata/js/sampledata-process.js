@@ -11,22 +11,6 @@ Joomla = window.Joomla || {};
 	var inProgress = false;
 
 	Joomla.sampledataAjax = function(type, steps, step) {
-		if (step > steps) {
-			// Create icon element
-			var icon = document.createElement('span');
-			icon.classList.add('fa');
-			icon.classList.add('fa-check');
-			icon.setAttribute('aria-hidden', true);
-
-			// Append the icon to each row
-			var rows = document.querySelector('.sampledata-' + type + ' .row-title');
-			rows.appendChild(icon);
-
-			inProgress = false;
-
-			return;
-		}
-
 		// Get options
 		var options = Joomla.getOptions('sample-data');
 
@@ -49,6 +33,13 @@ Joomla = window.Joomla || {};
 		para.appendChild(img);
 		list.appendChild(para);
 		document.querySelector('.sampledata-progress-' + type + ' ul').appendChild(list);
+
+		// Data object
+		var data = {
+			type   : type,
+			plugin : 'SampledataApplyStep' + step,
+			step   : step,
+		};
 
 		Joomla.request({
 			url: options.url + '&type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
@@ -133,5 +124,17 @@ Joomla = window.Joomla || {};
 		Joomla.sampledataAjax(type, steps, 1);
 		return false;
 	};
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var sampleDataWrapper = document.getElementById('sample-data-wrapper');
+		if (sampleDataWrapper) {
+			var links = sampleDataWrapper.querySelectorAll('.apply-sample-data');
+			for (var i = 0, l = links.length; i < l; i++) {
+				links[i].addEventListener('click', function(e) {
+					Joomla.sampledataApply(e.target);
+				});
+			}
+		}
+	});
 
 })(Joomla, document);

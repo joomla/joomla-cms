@@ -30,7 +30,7 @@ Factory::getDocument()->addScriptOptions(
 
 ?>
 <?php if ($items) : ?>
-	<ul class="list-group list-group-flush">
+	<ul id="sample-data-wrapper" class="list-group list-group-flush">
 		<?php foreach($items as $i => $item) : ?>
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
@@ -38,7 +38,7 @@ Factory::getDocument()->addScriptOptions(
 						<span class="fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
-					<a href="#" class="btn btn-primary btn-sm" onclick="Joomla.sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+					<a href="#" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></a>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
