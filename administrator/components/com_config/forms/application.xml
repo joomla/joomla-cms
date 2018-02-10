@@ -206,7 +206,6 @@
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			min="1"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -575,7 +574,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			required="true"
 			size="5"
 		/>
 
@@ -939,7 +937,6 @@
 			min="1"
 			max="16383"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
