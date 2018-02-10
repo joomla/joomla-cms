@@ -263,7 +263,7 @@ class UpdateModel extends BaseDatabaseModel
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  bool|string False on failure, basename of the file in any other case.
+	 * @return  boolean|string  False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -932,7 +932,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -968,7 +968,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
