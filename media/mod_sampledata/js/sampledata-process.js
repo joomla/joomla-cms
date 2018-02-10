@@ -34,13 +34,6 @@ Joomla = window.Joomla || {};
 		list.appendChild(para);
 		document.querySelector('.sampledata-progress-' + type + ' ul').appendChild(list);
 
-		// Data object
-		var data = {
-			type   : type,
-			plugin : 'SampledataApplyStep' + step,
-			step   : step,
-		};
-
 		Joomla.request({
 			url: options.url + '&type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
 			method: 'GET',
