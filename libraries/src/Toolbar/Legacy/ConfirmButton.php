@@ -10,23 +10,20 @@ namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button with a confirm dialog
  *
+ * @method self message(string $value)
+ * @method bool getMessage()
+ *
  * @since  3.0
  */
-class ConfirmButton extends ToolbarButton
+class ConfirmButton extends StandardButton
 {
-	/**
-	 * Button type
-	 *
-	 * @var    string
-	 */
-	protected $_name = 'Confirm';
-
 	/**
 	 * Fetch the HTML for the button
 	 *
@@ -44,12 +41,17 @@ class ConfirmButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
+		$this->name($name)
+			->text(Text::_($text))
+			->list($list)
+			->message(Text::_($msg))
+			->task($task);
+
 		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['text']   = \JText::_($text);
-		$options['msg']    = \JText::_($msg, true);
+		$options = $this->getOptions();
+		$options['name']   = $this->getName();
+		$options['msg']    = Text::_($msg, true);
 		$options['class']  = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
 		$options['id']     = $this->fetchId('Confirm', $name);
 
 		if ($options['id'])
@@ -57,30 +59,24 @@ class ConfirmButton extends ToolbarButton
 			$options['id'] = ' id="' . $options['id'] . '"';
 		}
 
+		$this->prepareOptions($options);
+
 		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.confirm');
+		$layout = new FileLayout($this->layout);
 
 		return $layout->render($options);
 	}
 
 	/**
-	 * Get the button CSS Id
+	 * getButtonClass
 	 *
-	 * @param   string   $type      Button type
-	 * @param   string   $msg       Message to display
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
+	 * @param string $name
 	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
+	 * @return  string
 	 */
-	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function getButtonClass(string $name): string
 	{
-		return $this->parent->getName() . '-' . $name;
+		return ' btn btn-sm btn-outline-danger';
 	}
 
 	/**
@@ -95,22 +91,37 @@ class ConfirmButton extends ToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($msg, $name, $task, $list)
+	protected function _getCommand($name, $task, $list)
 	{
 		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		\JText::script('ERROR');
+
+		$msg = $this->getMessage();
 
 		$cmd = "if (confirm('" . $msg . "')) { Joomla.submitbutton('" . $task . "'); }";
 
 		if ($list)
 		{
-
 			$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $message . ")";
 			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
-			
 		}
 
 		return $cmd;
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 */
+	protected static function getAccessors(): array
+	{
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'message',
+			]
+		);
 	}
 }

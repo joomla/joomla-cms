@@ -212,26 +212,38 @@ class Toolbar
 	/**
 	 * Render a toolbar.
 	 *
+	 * @param array $options
+	 *
 	 * @return  string  HTML for the toolbar.
 	 *
+	 * @throws \Exception
 	 * @since   1.5
 	 */
-	public function render()
+	public function render(array $options = [])
 	{
-		$html = array();
+		$html = [];
+
+		$isChild = !empty($options['is_child']);
 
 		// Start toolbar div.
-		$layout = new FileLayout('joomla.toolbar.containeropen');
+		if (!$isChild)
+		{
+			$layout = new FileLayout('joomla.toolbar.containeropen');
 
-		$html[] = $layout->render(array('id' => $this->_name));
+			$html[] = $layout->render(['id' => $this->_name]);
+		}
 
 		// Render each button in the toolbar.
 		foreach ($this->_bar as $button)
 		{
 			if ($button instanceof ToolbarButton)
 			{
+				// Child dropdown only support new syntax
+				$button->setOption('is_child', (bool) ($options['is_child'] ?? false));
+
 				$html[] = $button->render();
 			}
+			// B/C
 			else
 			{
 				$html[] = $this->renderButton($button);
@@ -239,9 +251,12 @@ class Toolbar
 		}
 
 		// End toolbar div.
-		$layout = new FileLayout('joomla.toolbar.containerclose');
+		if (!$isChild)
+		{
+			$layout = new FileLayout('joomla.toolbar.containerclose');
 
-		$html[] = $layout->render(array());
+			$html[] = $layout->render([]);
+		}
 
 		return implode('', $html);
 	}
@@ -382,5 +397,17 @@ class Toolbar
 		);
 
 		return $this->_buttonPath;
+	}
+
+	/**
+	 * createChild
+	 *
+	 * @param string $name
+	 *
+	 * @return  static
+	 */
+	public function createChild($name): self
+	{
+		return new static($name, $this->factory);
 	}
 }

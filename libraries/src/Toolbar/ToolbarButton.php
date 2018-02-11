@@ -11,18 +11,23 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\String\Normalise;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The ToolbarButton class.
  *
- * @method ToolbarButton text(string $value)
- * @method ToolbarButton task(string $value)
- * @method ToolbarButton icon(string $value)
- * @method ToolbarButton group(bool $value)
+ * @method self text(string $value)
+ * @method self task(string $value)
+ * @method self icon(string $value)
+ * @method self group(bool $value)
+ * @method self buttonClass(string $value)
+ * @method self attributes(array $value)
  * @method string getText()
  * @method string getTask()
  * @method string getIcon()
  * @method bool   getGroup()
+ * @method string getButtonClass()
+ * @method array  getAttributes()
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -40,7 +45,21 @@ abstract class ToolbarButton
 	 *
 	 * @var    Toolbar
 	 */
-	protected $parent = null;
+	protected $parent;
+
+	/**
+	 * Property child.
+	 *
+	 * @var Toolbar
+	 */
+	protected $child;
+
+	/**
+	 * Property layout.
+	 *
+	 * @var string
+	 */
+	protected $layout;
 
 	/**
 	 * Property options.
@@ -52,9 +71,11 @@ abstract class ToolbarButton
 	/**
 	 * Constructor
 	 *
-	 * @param   Toolbar  $parent  The parent
+	 * @param string $name
+	 * @param string $text
+	 * @param string $task
 	 */
-	public function __construct($name, $text = '', $task = '')
+	public function __construct(string $name = '', string $text = '', string $task = '')
 	{
 		$this->name($name)
 			->text($text)
@@ -74,59 +95,107 @@ abstract class ToolbarButton
 	}
 
 	/**
+	 * children
+	 *
+	 * @param callable $handler
+	 *
+	 * @return  static
+	 */
+	public function children(callable $handler)
+	{
+		$child = $this->getChildToolbar();
+
+		$handler($child);
+
+		return $this;
+	}
+
+	/**
+	 * getChildToolbar
+	 *
+	 * @return  Toolbar
+	 */
+	public function getChildToolbar()
+	{
+		if (!$this->child)
+		{
+			$this->child = $this->parent->createChild($this->getName() . '.children');
+		}
+
+		return $this->child;
+	}
+
+	/**
 	 * Get the HTML to render the button
 	 *
-	 * @param   array  &$definition  Parameters to be passed
+	 * @param   array  &$definition Parameters to be passed
 	 *
 	 * @return  string
 	 *
 	 * @since   3.0
+	 *
+	 * @throws \Exception
 	 */
 	public function render(&$definition = null)
 	{
+		$childToolbar = $this->getChildToolbar();
+		$hasChildren = count($childToolbar->getItems()) > 0;
+
+		$options = $this->getOptions();
+
 		if ($definition === null)
 		{
-			/*
-		 * Initialise some variables
-		 */
-			$options = $this->getOptions();
+			$options['name']  = $this->getName();
+			$options['text']  = Text::_($this->getText());
+			$options['class'] = $this->fetchIconClass($this->getIcon() ?: $this->getName());
+			$options['group'] = $this->getGroup();
+			$options['id']    = $this->fetchId();
+			$options['hasChildren'] = $hasChildren;
 
-			$options['name']     = $this->getName();
-			$options['text']     = Text::_($this->getText());
-			$options['class']    = $this->fetchIconClass($this->getIcon());
-			$options['group']    = $this->getGroup();
-			$options['id']       = $this->fetchId();
-			$options['btnClass'] = 'button-' . $this->getName();
+			if (!empty($options['is_child']))
+			{
+				$options['tagName'] = 'a';
+				$options['button_class'] = ($options['button_class'] ?? '') . ' dropdown-item';
+				$options['attributes']['href'] = '#';
+			}
+			else
+			{
+				$options['tagName'] = 'button';
+				$options['attributes']['type'] = 'button';
+			}
 
 			$this->prepareOptions($options);
 
+			$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
+
 			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new FileLayout('joomla.toolbar.standard');
+			$layout = new FileLayout($this->layout);
 
 			$action = $layout->render($options);
-
-			// Build the HTML Button
-			$layout = new FileLayout('joomla.toolbar.base');
-
-			return $layout->render(['action' => $action]);
 		}
-
-		/*
-		 * Initialise some variables
-		 */
-		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
-		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
-		// Build id attribute
-		if ($id)
+		// For B/C
+		elseif (is_array($definition))
 		{
-			$id = ' id="' . $id . '"';
+			$action = $this->fetchButton(...$definition);
 		}
+		else
+		{
+			throw new \InvalidArgumentException('Wrong argument: $definition, should be NULL or array.');
+		}
+
+		$children = $hasChildren ? $childToolbar->render(['is_child' => true]) : '';
+
 		// Build the HTML Button
-		$options = array();
-		$options['id'] = $id;
-		$options['action'] = $action;
 		$layout = new FileLayout('joomla.toolbar.base');
-		return $layout->render($options);
+
+		return $layout->render(
+			[
+				'action' => $action,
+				'hasChildren' => $hasChildren,
+				'children' => $children,
+				'options' => $options
+			]
+		);
 	}
 
 	/**
@@ -195,7 +264,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 */
-	public function setParent(Toolbar $parent)
+	public function setParent(Toolbar $parent): self
 	{
 		$this->parent = $parent;
 
@@ -250,6 +319,30 @@ abstract class ToolbarButton
 	public function setOption(string $name, $value): self
 	{
 		$this->options[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Method to get property Layout
+	 *
+	 * @return  string
+	 */
+	public function getLayout(): string
+	{
+		return $this->layout;
+	}
+
+	/**
+	 * Method to set property layout
+	 *
+	 * @param   string $layout
+	 *
+	 * @return  static  Return self to support chaining.
+	 */
+	public function layout(string $layout): self
+	{
+		$this->layout = $layout;
 
 		return $this;
 	}
@@ -336,13 +429,15 @@ abstract class ToolbarButton
 	 *
 	 * @return  array
 	 */
-	protected static function getAccessors()
+	protected static function getAccessors(): array
 	{
 		return [
 			'text',
 			'task',
 			'icon',
-			'group' => 'group'
+			'group',
+			'attributes',
+			'buttonClass' => 'button_class'
 		];
 	}
 
@@ -351,7 +446,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -363,7 +458,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 */
-	public function name($name)
+	public function name(string $name): self
 	{
 		$this->name = $name;
 

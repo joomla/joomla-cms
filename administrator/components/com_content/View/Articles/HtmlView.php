@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Legacy\SeparatorButton;
 use Joomla\CMS\Toolbar\Legacy\StandardButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -160,11 +161,29 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance('toolbar');
 
 		$bar->appendButton(new StandardButton('new'))
+			->text('JTOOLBAR_NEW')
 			->task('article.add')
 			->icon('new')
-			->text('JTOOLBAR_NEW');
+			->buttonClass('btn btn-success btn-sm')
+			->children(
+				function (Toolbar $child)
+				{
+					$child->appendButton(new StandardButton('test'))
+						->text('Test')
+						->task('article.add')
+						->icon('new');
 
-		\JToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
+					$child->appendButton(new SeparatorButton('sp'))
+						->text('Header');
+
+					$child->appendButton(new StandardButton('test2'))
+						->text('Test2')
+						->task('article.add')
+						->icon('remove');
+				}
+			);
+
+		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
@@ -173,12 +192,12 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			\JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('articles.archive');
-			\JToolbarHelper::checkin('articles.checkin');
+			ToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			ToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+			ToolbarHelper::archiveList('articles.archive');
+			ToolbarHelper::checkin('articles.checkin');
 		}
 
 		// Add a batch button

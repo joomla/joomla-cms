@@ -10,6 +10,7 @@ namespace Joomla\CMS\Toolbar\Legacy;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
@@ -24,6 +25,13 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 class StandardButton extends ToolbarButton
 {
 	/**
+	 * Property layout.
+	 *
+	 * @var  string
+	 */
+	protected $layout = 'joomla.toolbar.standard';
+
+	/**
 	 * prepareOptions
 	 *
 	 * @param array $options
@@ -32,48 +40,15 @@ class StandardButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['doTask']   = $this->_getCommand($options['text'], $this->getTask(), $this->getList());
-		$options['group']    = $this->getGroup();
+		$options['doTask'] = $this->_getCommand($options['text'], $this->getTask(), $this->getList());
+		$options['group']  = $this->getGroup();
 
 		if ($options['id'])
 		{
 			$options['id'] = ' id="' . $options['id'] . '"';
 		}
 
-		switch ($options['name'])
-		{
-			case 'apply':
-			case 'new':
-				$options['btnClass'] .= ' btn btn-sm btn-success';
-				break;
-
-			case 'save':
-			case 'save-new':
-			case 'save-copy':
-			case 'save-close':
-			case 'publish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
-				break;
-
-			case 'unpublish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
-			case 'featured':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
-				break;
-
-			case 'cancel':
-				$options['btnClass'] .= ' btn btn-sm btn-danger';
-				break;
-
-			case 'trash':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
-			default:
-				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
-		}
+		$options['btnClass'] = ($options['button_class'] ?? $this->getButtonClass($options['name']));
 	}
 
 	/**
@@ -92,80 +67,63 @@ class StandardButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
 	{
+		$this->name($name)
+			->text(\JText::_($text))
+			->task($task)
+			->list($list)
+			->group($group);
+
 		// Store all data to the options array for use with JLayout
-		$options = array();
+		$options = $this->getOptions();
+		$options['name']  = $name;
+		$options['class'] = $this->fetchIconClass($name);
+		$options['id']    = $this->fetchId();
 
-		$options['text']     = \JText::_($text);
-		$options['class']    = $this->fetchIconClass($name);
-		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
-		$options['group']    = $group;
-		$options['id']       = $this->fetchId('Standard', $name);
-		$options['btnClass'] = 'button-' . $name;
+		$this->prepareOptions($options);
 
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new FileLayout($this->layout);
 
+		return $layout->render($options);
+	}
+
+	/**
+	 * getButtonClass
+	 *
+	 * @param string $name
+	 *
+	 * @return  string
+	 */
+	public function getButtonClass(string $name): string
+	{
 		switch ($name)
 		{
 			case 'apply':
 			case 'new':
-				$options['btnClass'] .= ' btn btn-sm btn-success';
-				break;
+				return ' btn btn-sm btn-success';
 
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
-				break;
+				return ' btn btn-sm btn-outline-success';
 
 			case 'unpublish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
+				return ' btn btn-sm btn-outline-danger';
 
 			case 'featured':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
-				break;
+				return ' btn btn-sm btn-outline-warning';
 
 			case 'cancel':
-				$options['btnClass'] .= ' btn btn-sm btn-danger';
-				break;
+				return ' btn btn-sm btn-danger';
 
 			case 'trash':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
+				return ' btn btn-sm btn-outline-danger';
 
 			default:
-				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
+				return ' btn btn-sm btn-outline-primary';
 		}
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.standard');
-
-		return $layout->render($options);
-	}
-
-	/**
-	 * Get the button CSS Id
-	 *
-	 * @param   string   $type      Unused string.
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
-	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
-	{
-		return $this->parent->getName() . '-' . $name;
 	}
 
 	/**
@@ -181,8 +139,8 @@ class StandardButton extends ToolbarButton
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
-		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		\JText::script('ERROR');
+		Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		Text::script('ERROR');
 
 		$cmd = "Joomla.submitbutton('" . $task . "');";
 
@@ -201,7 +159,7 @@ class StandardButton extends ToolbarButton
 	 *
 	 * @return  array
 	 */
-	protected static function getAccessors()
+	protected static function getAccessors(): array
 	{
 		return array_merge(
 			parent::getAccessors(),
