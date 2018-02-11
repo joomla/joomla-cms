@@ -57,9 +57,9 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-HTMLHelper::_('script', 'system/fields/moduleorder.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', ['joomla-field-module-order' => 'system/webcomponents/joomla-field-module-order.min.js'], ['version' => 'auto', 'relative' => true]);
 ?>
-<div
+<joomla-field-module-order
 	id="parent_<?php echo $id; ?>"
 	<?php echo $attr; ?>
 	data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&' . $token; ?>"
@@ -69,4 +69,4 @@ HTMLHelper::_('script', 'system/fields/moduleorder.min.js', array('version' => '
 	data-client-id="<?php echo $clientId; ?>"
 	data-name="<?php echo $name; ?>"
 	data-attr="<?php echo $attr; ?>">
-</div>
+</joomla-field-module-order>
