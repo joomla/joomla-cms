@@ -17,7 +17,17 @@
         constructor() {
             super();
 
-            this.addEventListener('click', this.executeTask.bind(this));
+            // We need to do a button to support button behavior, because we cannot currently extend HTMLButtonElement
+            let button = document.createElement('button');
+            button.innerHTML = this.innerHTML;
+            button.className = this.className;
+            button.id        = this.id + '-button';
+            this.innerHTML   = '';
+            this.className   = '';
+            this.taskButton  = button; // keep for quick reference
+
+            this.appendChild(button);
+            this.addEventListener('click', e => this.executeTask());
         }
 
         executeTask() {
