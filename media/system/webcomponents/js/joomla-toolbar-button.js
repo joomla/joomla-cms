@@ -24,31 +24,48 @@
             button.id        = this.id + '-button';
             this.innerHTML   = '';
             this.className   = '';
-            this.taskButton  = button; // keep for quick reference
+
+            // If list selection are required, set button to disabled by default
+            if (this.listConfirmation) {
+                button.setAttribute('disabled', 'disabled');
+            }
+
+            // Keep the button for quick reference
+            this.taskButtonElement = button;
 
             this.appendChild(button);
             this.addEventListener('click', e => this.executeTask());
         }
 
-        executeTask() {
-            let formId  = this.form || 'adminForm';
-            let form    = document.getElementById(formId);
-            let perform = true;
+        connectedCallback() {
+            // Check whether we have a form
+            let formId       = this.form || 'adminForm';
+            this.formElement = document.getElementById(formId);
 
             if (this.listConfirmation) {
-                if (!form) {
+                if (!this.formElement) {
                     throw new Error('The form "' + formId + '" is required to perform the task, but the form not found on the page.');
                 }
 
-                if (form.boxchecked.value == 0) {
-                    perform = false;
-                    Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]});
-                }
-            }
+                // Watch on list selection
+                this.formElement.addEventListener('change', (event) => {
+                    let target = event.target;
+                    if (target.nodeName !== 'INPUT' || (target.name !== 'cid[]' && target.name !== 'checkall-toggle')) {
+                        return;
+                    }
 
-            if (perform) {
-                Joomla.submitbutton(this.task, form, this.formValidation);
+                    // Check whether we have selected something
+                    if (this.formElement.boxchecked.value == 0) {
+                        this.taskButtonElement.setAttribute('disabled', 'disabled');
+                    } else {
+                        this.taskButtonElement.removeAttribute('disabled');
+                    }
+                });
             }
+        }
+
+        executeTask() {
+            Joomla.submitbutton(this.task, this.formElement, this.formValidation);
         }
 
     }
