@@ -33,6 +33,8 @@ class SeparatorButton extends ToolbarButton
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton()
 	{

@@ -36,7 +36,8 @@ $tagName = $tagName ?? 'button';
 	<?php echo $text ?? ''; ?>
 </a>
 <?php else : ?>
-<<?php echo $tagName; ?><?php echo $id ?? ''; ?>
+<<?php echo $tagName; ?>
+	id="<?php echo $id ?? ''; ?>"
 	onclick="<?php echo $doTask ?? ''; ?>"
 	class="<?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>

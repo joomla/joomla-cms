@@ -25,6 +25,20 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 class ConfirmButton extends StandardButton
 {
 	/**
+	 * prepareOptions
+	 *
+	 * @param array $options
+	 *
+	 * @return  void
+	 */
+	protected function prepareOptions(array &$options)
+	{
+		parent::prepareOptions($options);
+
+		$options['message'] = Text::_($options['message']);
+	}
+
+	/**
 	 * Fetch the HTML for the button
 	 *
 	 * @param   string   $type      Unused string.
@@ -38,33 +52,18 @@ class ConfirmButton extends StandardButton
 	 * @return  string   HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		$this->name($name)
-			->text(Text::_($text))
+			->text($text)
 			->list($list)
-			->message(Text::_($msg))
+			->message($msg)
 			->task($task);
 
-		// Store all data to the options array for use with JLayout
-		$options = $this->getOptions();
-		$options['name']   = $this->getName();
-		$options['msg']    = Text::_($msg, true);
-		$options['class']  = $this->fetchIconClass($name);
-		$options['id']     = $this->fetchId('Confirm', $name);
-
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
-		$this->prepareOptions($options);
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout($this->layout);
-
-		return $layout->render($options);
+		return $this->renderButton($this->options);
 	}
 
 	/**

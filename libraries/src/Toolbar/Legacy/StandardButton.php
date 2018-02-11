@@ -43,12 +43,10 @@ class StandardButton extends ToolbarButton
 		$options['doTask'] = $this->_getCommand($options['text'], $this->getTask(), $this->getList());
 		$options['group']  = $this->getGroup();
 
-		if ($options['id'])
+		if (empty($options['is_child']))
 		{
-			$options['id'] = ' id="' . $options['id'] . '"';
+			$options['btnClass'] = ($options['button_class'] ?? $this->getButtonClass($options['name']));
 		}
-
-		$options['btnClass'] = ($options['button_class'] ?? $this->getButtonClass($options['name']));
 	}
 
 	/**
@@ -64,27 +62,18 @@ class StandardButton extends ToolbarButton
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
 	{
 		$this->name($name)
-			->text(\JText::_($text))
+			->text($text)
 			->task($task)
 			->list($list)
 			->group($group);
 
-		// Store all data to the options array for use with JLayout
-		$options = $this->getOptions();
-		$options['name']  = $name;
-		$options['class'] = $this->fetchIconClass($name);
-		$options['id']    = $this->fetchId();
-
-		$this->prepareOptions($options);
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout($this->layout);
-
-		return $layout->render($options);
+		return $this->renderButton($this->options);
 	}
 
 	/**

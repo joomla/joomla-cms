@@ -119,7 +119,7 @@ abstract class ToolbarButton
 	{
 		if (!$this->child)
 		{
-			$this->child = $this->parent->createChild($this->getName() . '.children');
+			$this->child = $this->parent->createChild($this->getName() . '-children');
 		}
 
 		return $this->child;
@@ -145,33 +145,9 @@ abstract class ToolbarButton
 
 		if ($definition === null)
 		{
-			$options['name']  = $this->getName();
-			$options['text']  = Text::_($this->getText());
-			$options['class'] = $this->fetchIconClass($this->getIcon() ?: $this->getName());
-			$options['group'] = $this->getGroup();
-			$options['id']    = $this->fetchId();
 			$options['hasChildren'] = $hasChildren;
 
-			if (!empty($options['is_child']))
-			{
-				$options['tagName'] = 'a';
-				$options['button_class'] = ($options['button_class'] ?? '') . ' dropdown-item';
-				$options['attributes']['href'] = '#';
-			}
-			else
-			{
-				$options['tagName'] = 'button';
-				$options['attributes']['type'] = 'button';
-			}
-
-			$this->prepareOptions($options);
-
-			$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
-
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new FileLayout($this->layout);
-
-			$action = $layout->render($options);
+			$action = $this->renderButton($options);
 		}
 		// For B/C
 		elseif (is_array($definition))
@@ -196,6 +172,50 @@ abstract class ToolbarButton
 				'options' => $options
 			]
 		);
+	}
+
+	/**
+	 * renderButton
+	 *
+	 * @param array $options
+	 *
+	 * @return  string
+	 */
+	protected function renderButton(array &$options): string
+	{
+		$options['name']  = $this->getName();
+		$options['text']  = Text::_($this->getText());
+		$options['class'] = $this->fetchIconClass($this->getIcon() ?: $this->getName());
+		$options['group'] = $this->getGroup();
+		$options['id']    = $this->fetchId();
+
+		if (!empty($options['is_child']))
+		{
+			$options['tagName'] = 'a';
+			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
+			$options['attributes']['href'] = '#';
+		}
+		else
+		{
+			$options['tagName'] = 'button';
+			$options['btnClass'] = ($options['button_class'] ?? '') . ' btn btn-sm btn-outline-primary';
+			$options['attributes']['type'] = 'button';
+		}
+
+		$this->prepareOptions($options);
+
+		// Prepare custom attributes.
+		unset(
+			$options['attributes']['id'],
+			$options['attributes']['class']
+		);
+
+		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new FileLayout($this->layout);
+
+		return $layout->render($options);
 	}
 
 	/**
@@ -244,6 +264,8 @@ abstract class ToolbarButton
 	 * @return  string
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	abstract public function fetchButton();
 
@@ -361,7 +383,7 @@ abstract class ToolbarButton
 		// getter
 		if (stripos($name, 'get') === 0)
 		{
-			$fieldName = static::findOptionName(strtolower(substr($name, 3)));
+			$fieldName = static::findOptionName(lcfirst(substr($name, 3)));
 
 			if ($fieldName !== false)
 			{
@@ -375,12 +397,12 @@ abstract class ToolbarButton
 
 			if ($fieldName !== false)
 			{
-				if (!isset($args[0]))
+				if (!array_key_exists(0, $args))
 				{
 					throw new \InvalidArgumentException(
 						sprintf(
 							'%s::%s() miss first argument.',
-							__CLASS__,
+							get_called_class(),
 							$name
 						)
 					);
@@ -394,7 +416,7 @@ abstract class ToolbarButton
 			sprintf(
 				'Method %s() not found in class: %s',
 				$name,
-				__CLASS__
+				get_called_class()
 			)
 		);
 	}
