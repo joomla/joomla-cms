@@ -12,6 +12,8 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Legacy\CustomButton;
+use Joomla\CMS\Toolbar\Legacy\PopupButton;
 use Joomla\CMS\Toolbar\Legacy\SeparatorButton;
 use Joomla\CMS\Toolbar\Legacy\StandardButton;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -183,6 +185,16 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
+		$bar->appendButton(
+			(new PopupButton('preview'))
+							->url('http://localhost/joomla/40dev/index.php?option=com_content&view=article&id=66&catid=65&Itemid=435')
+//				->selector('#collapseModal')
+				->text('JGLOBAL_PREVIEW')
+				->icon('eye')
+				->bodyHeight(80)
+				->modalWidth(90)
+		);
+
 		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
@@ -205,30 +217,29 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_content')
 			&& $user->authorise('core.edit.state', 'com_content'))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$bar->appendButton(
+				(new PopupButton('batch'))
+				->selector('collapseModal')
+				->text('JTOOLBAR_BATCH')
+				->listCheck(true)
+			);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::trash('articles.trash');
+			ToolbarHelper::trash('articles.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
-			\JToolbarHelper::preferences('com_content');
+			ToolbarHelper::preferences('com_content');
 		}
 
-		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+		ToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 
 	/**

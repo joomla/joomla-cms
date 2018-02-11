@@ -59,7 +59,7 @@ class ConfirmButton extends StandardButton
 	{
 		$this->name($name)
 			->text($text)
-			->list($list)
+			->listCheck($list)
 			->message($msg)
 			->task($task);
 
@@ -90,16 +90,16 @@ class ConfirmButton extends StandardButton
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($name, $task, $list)
+	protected function _getCommand()
 	{
 		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		\JText::script('ERROR');
 
 		$msg = $this->getMessage();
 
-		$cmd = "if (confirm('" . $msg . "')) { Joomla.submitbutton('" . $task . "'); }";
+		$cmd = "if (confirm('" . $msg . "')) { Joomla.submitbutton('" . $this->getTask() . "'); }";
 
-		if ($list)
+		if ($this->getListCheck())
 		{
 			$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $message . ")";

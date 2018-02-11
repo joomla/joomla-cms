@@ -15,16 +15,24 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 /**
  * Renders a custom button
  *
+ * @method self html(string $value)
+ * @method string getHtml()
+ *
  * @since  3.0
  */
 class CustomButton extends ToolbarButton
 {
 	/**
-	 * Button type
+	 * renderButton
 	 *
-	 * @var    string
+	 * @param array $options
+	 *
+	 * @return  string
 	 */
-	protected $_name = 'Custom';
+	protected function renderButton(array &$options): string
+	{
+		return (string) ($options['html'] ?? '');
+	}
 
 	/**
 	 * Fetch the HTML for the button
@@ -43,18 +51,17 @@ class CustomButton extends ToolbarButton
 	}
 
 	/**
-	 * Get the button CSS Id
+	 * getAccessors
 	 *
-	 * @param   string  $type  Not used.
-	 * @param   string  $html  Not used.
-	 * @param   string  $id    The id prefix for the button.
-	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
+	 * @return  array
 	 */
-	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
+	protected static function getAccessors(): array
 	{
-		return $this->parent->getName() . '-' . $id;
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'html',
+			]
+		);
 	}
 }

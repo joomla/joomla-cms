@@ -11,18 +11,16 @@ namespace Joomla\CMS\Toolbar\Legacy;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button
  *
- * @method self list(bool $value)
- * @method bool getList()
+ * @method self listCheck(bool $value)
+ * @method bool getListCheck()
  *
  * @since  3.0
  */
-class StandardButton extends ToolbarButton
+class StandardButton extends BasicButton
 {
 	/**
 	 * Property layout.
@@ -40,7 +38,9 @@ class StandardButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['doTask'] = $this->_getCommand($options['text'], $this->getTask(), $this->getList());
+		parent::prepareOptions($options);
+
+		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
 		$options['group']  = $this->getGroup();
 
 		if (empty($options['is_child']))
@@ -70,7 +70,7 @@ class StandardButton extends ToolbarButton
 		$this->name($name)
 			->text($text)
 			->task($task)
-			->list($list)
+			->listCheck($list)
 			->group($group);
 
 		return $this->renderButton($this->options);
@@ -118,22 +118,18 @@ class StandardButton extends ToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $name  The task name as seen by the user
-	 * @param   string   $task  The task used by the application
-	 * @param   boolean  $list  True is requires a list confirmation.
-	 *
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($name, $task, $list)
+	protected function _getCommand()
 	{
 		Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		Text::script('ERROR');
 
-		$cmd = "Joomla.submitbutton('" . $task . "');";
+		$cmd = "Joomla.submitbutton('" . $this->getTask() . "');";
 
-		if ($list)
+		if ($this->getListCheck())
 		{
 			$messages = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $messages . ")";
@@ -153,7 +149,8 @@ class StandardButton extends ToolbarButton
 		return array_merge(
 			parent::getAccessors(),
 			[
-				'list',
+				'listCheck',
+				'group'
 			]
 		);
 	}

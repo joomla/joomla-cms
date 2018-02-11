@@ -38,13 +38,6 @@ class Toolbar
 	protected $_bar = [];
 
 	/**
-	 * Loaded buttons
-	 *
-	 * @var    array
-	 */
-	protected $_buttons = [];
-
-	/**
 	 * Directories, where button types can be stored.
 	 *
 	 * @var    array
@@ -301,13 +294,6 @@ class Toolbar
 	 */
 	public function loadButtonType($type, $new = false)
 	{
-		$signature = md5($type);
-
-		if ($new === false && isset($this->_buttons[$signature]))
-		{
-			return $this->_buttons[$signature];
-		}
-
 		if (!class_exists('Joomla\\CMS\\Toolbar\\ToolbarButton'))
 		{
 			\JLog::add(\JText::_('JLIB_HTML_BUTTON_BASE_CLASS'), \JLog::WARNING, 'jerror');
@@ -318,7 +304,7 @@ class Toolbar
 		// For B/C, catch the exceptions thrown by the factory
 		try
 		{
-			$this->_buttons[$signature] = $this->factory->createButton($this, $type);
+			return $this->factory->createButton($this, $type);
 		}
 		catch (\InvalidArgumentException $e)
 		{
@@ -326,8 +312,6 @@ class Toolbar
 
 			return false;
 		}
-
-		return $this->_buttons[$signature];
 	}
 
 	/**

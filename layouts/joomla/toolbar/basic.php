@@ -29,13 +29,6 @@ $tagName = $tagName ?? 'button';
 
 // TODO: RE-ADD button-{name} class.
 ?>
-
-<?php if (!empty($group)) : ?>
-<a<?php echo $id ?? ''; ?> href="#" onclick="<?php echo $onclick ?? ''; ?>" class="dropdown-item">
-	<span class="<?php echo trim($class ?? ''); ?>"></span>
-	<?php echo $text ?? ''; ?>
-</a>
-<?php else : ?>
 <<?php echo $tagName; ?>
 	id="<?php echo $id ?? ''; ?>"
 	onclick="<?php echo $onclick ?? ''; ?>"
@@ -45,4 +38,3 @@ $tagName = $tagName ?? 'button';
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
-<?php endif; ?>

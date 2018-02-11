@@ -19,15 +19,15 @@ use Joomla\Utilities\ArrayHelper;
  * @method self text(string $value)
  * @method self task(string $value)
  * @method self icon(string $value)
- * @method self group(bool $value)
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
- * @method string getText()
- * @method string getTask()
- * @method string getIcon()
- * @method bool   getGroup()
- * @method string getButtonClass()
- * @method array  getAttributes()
+ * @method self onclick(array $value)
+ * @method string  getText()
+ * @method string  getTask()
+ * @method string  getIcon()
+ * @method string  getButtonClass()
+ * @method array   getAttributes()
+ * @method string  getOnclick()
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -91,7 +91,23 @@ abstract class ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		//
+		$options['name']  = $this->getName();
+		$options['text']  = Text::_($this->getText());
+		$options['class'] = $this->getIcon() ?: $this->fetchIconClass($this->getName());
+		$options['id']    = $this->fetchId();
+
+		if (!empty($options['is_child']))
+		{
+			$options['tagName'] = 'a';
+			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
+			$options['attributes']['href'] = '#';
+		}
+		else
+		{
+			$options['tagName'] = 'button';
+			$options['btnClass'] = ($options['button_class'] ?? '') . ' btn btn-sm btn-outline-primary';
+			$options['attributes']['type'] = 'button';
+		}
 	}
 
 	/**
@@ -183,25 +199,6 @@ abstract class ToolbarButton
 	 */
 	protected function renderButton(array &$options): string
 	{
-		$options['name']  = $this->getName();
-		$options['text']  = Text::_($this->getText());
-		$options['class'] = $this->fetchIconClass($this->getIcon() ?: $this->getName());
-		$options['group'] = $this->getGroup();
-		$options['id']    = $this->fetchId();
-
-		if (!empty($options['is_child']))
-		{
-			$options['tagName'] = 'a';
-			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
-			$options['attributes']['href'] = '#';
-		}
-		else
-		{
-			$options['tagName'] = 'button';
-			$options['btnClass'] = ($options['button_class'] ?? '') . ' btn btn-sm btn-outline-primary';
-			$options['attributes']['type'] = 'button';
-		}
-
 		$this->prepareOptions($options);
 
 		// Prepare custom attributes.
@@ -457,8 +454,8 @@ abstract class ToolbarButton
 			'text',
 			'task',
 			'icon',
-			'group',
 			'attributes',
+			'onclick',
 			'buttonClass' => 'button_class'
 		];
 	}

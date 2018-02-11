@@ -28,6 +28,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method self    title(string $value)
  * @method self    footer(string $value)
  * @method self    selector(string $value)
+ * @method self    listCheck(bool $value)
  * @method string  getUrl()
  * @method int     getIframeWidth()
  * @method int     getIframeHeight()
@@ -37,6 +38,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method string  getTitle()
  * @method string  getFooter()
  * @method string  getSelector()
+ * @method bool    getListCheck()
  *
  * @since  3.0
  */
@@ -58,6 +60,10 @@ class PopupButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
+		$options['icon'] = $options['icon'] ?? 'fa fa-square';
+
+		parent::prepareOptions($options);
+
 		$options['doTask'] = $this->_getCommand($this->getUrl());
 
 		$options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
@@ -209,9 +215,9 @@ JS
 				'onclose',
 				'title',
 				'footer',
-				'selector'
+				'selector',
+				'listCheck',
 			]
 		);
 	}
-
 }

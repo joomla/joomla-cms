@@ -17,14 +17,34 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 /**
  * Renders a help popup window button
  *
+ * @method self ref(string $value)
+ * @method self component(string $value)
+ * @method self useComponent(bool $value)
+ * @method self url(string $value)
+ * @method string getRef()
+ * @method string getComponent()
+ * @method bool   getUseComponent()
+ * @method string getUrl()
+ *
  * @since  3.0
  */
-class HelpButton extends ToolbarButton
+class HelpButton extends BasicButton
 {
 	/**
-	 * @var    string	Button type
+	 * prepareOptions
+	 *
+	 * @param array $options
+	 *
+	 * @return  void
 	 */
-	protected $_name = 'Help';
+	protected function prepareOptions(array &$options)
+	{
+		$options['text'] = $options['text'] ?: \JText::_('JTOOLBAR_HELP');
+		$options['icon'] = $options['icon'] ?? 'fa fa-question';
+		$options['button_class'] = $options['button_class'] ?? 'btn btn-outline-info btn-sm';
+
+		parent::prepareOptions($options);
+	}
 
 	/**
 	 * Fetches the button HTML code.
@@ -41,35 +61,13 @@ class HelpButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
-		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['text']   = \JText::_('JTOOLBAR_HELP');
-		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
-		$options['id']     = $this->fetchId();
+		$this->name('help')
+			->ref($ref)
+			->useComponent($com)
+			->component($component)
+			->url($override);
 
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.help');
-
-		return $layout->render($options);
-	}
-
-	/**
-	 * Get the button id
-	 *
-	 * Redefined from JButton class
-	 *
-	 * @return  string	Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId()
-	{
-		return $this->parent->getName() . '-help';
+		return $this->renderButton($this->options);
 	}
 
 	/**
@@ -84,13 +82,31 @@ class HelpButton extends ToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($ref, $com, $override, $component)
+	protected function _getCommand()
 	{
 		// Get Help URL
-		$url = Help::createUrl($ref, $com, $override, $component);
+		$url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
 		$url = htmlspecialchars($url, ENT_QUOTES);
 		$cmd = "Joomla.popupWindow('$url', '" . \JText::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 */
+	protected static function getAccessors(): array
+	{
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'ref',
+				'useComponent',
+				'component',
+				'url'
+			]
+		);
 	}
 }
