@@ -11,7 +11,7 @@
         // Attribute getters
         get task()              { return this.getAttribute('task'); }
         get execute()           { return this.getAttribute('execute'); }
-        get listConfirmation()  { return this.hasAttribute('list-confirmation'); }
+        get listSelection()     { return this.hasAttribute('list-selection'); }
         get form()              { return this.getAttribute('form'); }
         get formValidation()    { return this.hasAttribute('form-validation'); }
 
@@ -29,7 +29,7 @@
             this.disabled    = false;
 
             // If list selection are required, set button to disabled by default
-            if (this.listConfirmation) {
+            if (this.listSelection) {
                 this.disabled = true;
                 button.setAttribute('disabled', true);
             }
@@ -46,7 +46,7 @@
             let formSelector = this.form || '#adminForm';
             this.formElement = document.querySelector(formSelector);
 
-            if (this.listConfirmation) {
+            if (this.listSelection) {
                 if (!this.formElement) {
                     throw new Error('The form "' + formSelector + '" is required to perform the task, but the form not found on the page.');
                 }

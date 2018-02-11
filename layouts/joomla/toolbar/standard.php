@@ -20,7 +20,7 @@ $text     = $displayData['text'];
 $btnClass = $displayData['btnClass'];
 $group    = $displayData['group'];
 $task     = '';
-$list     = !empty($displayData['list'])     ? ' list-confirmation' : '';
+$list     = !empty($displayData['list'])     ? ' list-selection' : '';
 $form     = !empty($displayData['form'])     ? ' form=' . $displayData['form'] . '"' : '';
 $validate = !empty($displayData['validate']) ? ' form-validation' : '';
 

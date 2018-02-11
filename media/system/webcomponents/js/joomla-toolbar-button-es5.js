@@ -34,9 +34,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 return this.getAttribute('execute');
             }
         }, {
-            key: 'listConfirmation',
+            key: 'listSelection',
             get: function get() {
-                return this.hasAttribute('list-confirmation');
+                return this.hasAttribute('list-selection');
             }
         }, {
             key: 'form',
@@ -66,7 +66,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             _this.disabled = false;
 
             // If list selection are required, set button to disabled by default
-            if (_this.listConfirmation) {
+            if (_this.listSelection) {
                 _this.disabled = true;
                 button.setAttribute('disabled', true);
             }
@@ -90,7 +90,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 var formSelector = this.form || '#adminForm';
                 this.formElement = document.querySelector(formSelector);
 
-                if (this.listConfirmation) {
+                if (this.listSelection) {
                     if (!this.formElement) {
                         throw new Error('The form "' + formSelector + '" is required to perform the task, but the form not found on the page.');
                     }

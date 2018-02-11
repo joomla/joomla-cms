@@ -19,7 +19,7 @@ $id    = isset($displayData['id']) ? $displayData['id'] : '';
 $title = $displayData['title'];
 
 ?>
-<joomla-toolbar-button <?php echo $id; ?> execute="jQuery( '#collapseModal' ).modal('show');" list-confirmation class="btn btn-outline-primary btn-sm">
+<joomla-toolbar-button <?php echo $id; ?> execute="jQuery( '#collapseModal' ).modal('show');" list-selection class="btn btn-outline-primary btn-sm">
 	<span class="fa fa-square" aria-hidden="true" title="<?php echo $title; ?>"></span>
 	<?php echo $title; ?>
 </joomla-toolbar-button>
