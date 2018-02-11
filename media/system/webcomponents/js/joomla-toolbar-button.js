@@ -22,11 +22,14 @@
             button.innerHTML = this.innerHTML;
             button.className = this.className;
             button.id        = this.id + '-button';
+
             this.innerHTML   = '';
             this.className   = '';
+            this.disabled    = false;
 
             // If list selection are required, set button to disabled by default
             if (this.listConfirmation) {
+                this.disabled = true;
                 button.setAttribute('disabled', true);
             }
 
@@ -48,16 +51,13 @@
                 }
 
                 // Watch on list selection
-                this.formElement.addEventListener('change', (event) => {
-                    let target = event.target;
-                    if (target.nodeName !== 'INPUT' || (target.name !== 'cid[]' && target.name !== 'checkall-toggle')) {
-                        return;
-                    }
-
+                this.formElement.boxchecked.addEventListener('change', (event) => {
                     // Check whether we have selected something
-                    if (this.formElement.boxchecked.value > 0) {
+                    if (event.target.value > 0) {
+                        this.disabled = false;
                         this.buttonElement.removeAttribute('disabled');
                     } else {
+                        this.disabled = true;
                         this.buttonElement.setAttribute('disabled', true);
                     }
                 });
@@ -65,6 +65,10 @@
         }
 
         executeTask() {
+            if (this.disabled) {
+                return;
+            }
+
             Joomla.submitbutton(this.task, this.form, this.formValidation);
         }
 

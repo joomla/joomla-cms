@@ -55,11 +55,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             button.innerHTML = _this.innerHTML;
             button.className = _this.className;
             button.id = _this.id + '-button';
+
             _this.innerHTML = '';
             _this.className = '';
+            _this.disabled = false;
 
             // If list selection are required, set button to disabled by default
             if (_this.listConfirmation) {
+                _this.disabled = true;
                 button.setAttribute('disabled', true);
             }
 
@@ -88,16 +91,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     }
 
                     // Watch on list selection
-                    this.formElement.addEventListener('change', function (event) {
-                        var target = event.target;
-                        if (target.nodeName !== 'INPUT' || target.name !== 'cid[]' && target.name !== 'checkall-toggle') {
-                            return;
-                        }
-
+                    this.formElement.boxchecked.addEventListener('change', function (event) {
                         // Check whether we have selected something
-                        if (_this2.formElement.boxchecked.value > 0) {
+                        if (event.target.value > 0) {
+                            _this2.disabled = false;
                             _this2.buttonElement.removeAttribute('disabled');
                         } else {
+                            _this2.disabled = true;
                             _this2.buttonElement.setAttribute('disabled', true);
                         }
                     });
@@ -106,6 +106,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: 'executeTask',
             value: function executeTask() {
+                if (this.disabled) {
+                    return;
+                }
+
                 Joomla.submitbutton(this.task, this.form, this.formValidation);
             }
         }]);

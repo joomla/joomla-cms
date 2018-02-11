@@ -325,6 +325,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		if ( checkbox.form.boxchecked ) {
 			checkbox.form.boxchecked.value = c;
+			Joomla.Event.dispatch(checkbox.form.boxchecked, 'change');
 		}
 
 		return true;
@@ -545,6 +546,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 
 		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
+
+		Joomla.Event.dispatch(form.boxchecked, 'change');
 
 		// If we don't have a checkall-toggle, done.
 		if ( !form.elements[ 'checkall-toggle' ] ) return;
