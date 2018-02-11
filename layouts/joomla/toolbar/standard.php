@@ -23,6 +23,7 @@ $task     = '';
 $list     = !empty($displayData['list'])     ? ' list-selection' : '';
 $form     = !empty($displayData['form'])     ? ' form=' . $displayData['form'] . '"' : '';
 $validate = !empty($displayData['validate']) ? ' form-validation' : '';
+$msg      = !empty($displayData['msg'])      ? ' confirm-message="' . $this->escape($displayData['msg']) . '"' : '';
 
 if (!empty($displayData['task']))
 {
@@ -35,7 +36,7 @@ else if (!empty($displayData['doTask']))
 
 ?>
 
-<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate; ?> class="<?php echo $btnClass; ?>">
+<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate.$msg; ?> class="<?php echo $btnClass; ?>">
 	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </joomla-toolbar-button>

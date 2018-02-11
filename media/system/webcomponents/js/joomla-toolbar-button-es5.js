@@ -48,6 +48,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             get: function get() {
                 return this.hasAttribute('form-validation');
             }
+        }, {
+            key: 'confirmMessage',
+            get: function get() {
+                return this.getAttribute('confirm-message');
+            }
         }]);
 
         function JoomlaToolbarButton() {
@@ -112,6 +117,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             key: 'executeTask',
             value: function executeTask() {
                 if (this.disabled) {
+                    return;
+                }
+
+                if (this.confirmMessage && !confirm(this.confirmMessage)) {
                     return;
                 }
 

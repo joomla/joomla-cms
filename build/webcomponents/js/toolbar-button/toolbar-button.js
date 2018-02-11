@@ -14,6 +14,7 @@
         get listSelection()     { return this.hasAttribute('list-selection'); }
         get form()              { return this.getAttribute('form'); }
         get formValidation()    { return this.hasAttribute('form-validation'); }
+        get confirmMessage()    { return this.getAttribute('confirm-message'); }
 
         constructor() {
             super();
@@ -67,6 +68,10 @@
 
         executeTask() {
             if (this.disabled) {
+                return;
+            }
+
+            if (this.confirmMessage && !confirm(this.confirmMessage)) {
                 return;
             }
 
