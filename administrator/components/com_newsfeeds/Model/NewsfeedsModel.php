@@ -57,7 +57,8 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc =  Associations::isEnabled();
+			$assoc = Associations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -286,6 +287,7 @@ class NewsfeedsModel extends ListModel
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
