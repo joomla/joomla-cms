@@ -136,10 +136,37 @@ class Session implements ServiceProviderInterface
 							}
 
 							$redis = new Redis;
-							$redis->connect(
-								$config->get('session_redis_server_host', '127.0.0.1'),
-								$config->get('session_redis_server_port', 6379)
-							);
+							$host = $config->get('session_redis_server_host', '127.0.0.1');
+
+							// Use default port if connecting over a socket whatever the config value
+							$port = $host[0] === '/' ? $config->get('session_redis_server_port', 6379) : 6379;
+
+							if ($config->get('session_redis_persist', true))
+							{
+								$redis->pconnect(
+									$host,
+									$port
+								);
+							}
+							else
+							{
+								$redis->connect(
+									$host,
+									$port
+								);
+							}
+
+							if (!empty($config->get('session_redis_server_auth', '')))
+							{
+								$redis->auth($config->get('session_redis_server_auth', null));
+							}
+
+							$db = (int) $config->get('session_redis_server_db', 0);
+
+							if ($db !== 0)
+							{
+								$redis->select($db);
+							}
 
 							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
 

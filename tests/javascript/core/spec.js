@@ -197,12 +197,13 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect($messages[1]).toContainText('Error one');
 		});
 
-		it('removeMessages should remove all content from system-message-container', function () {
+		it('removeMessages should remove all content from system-message-container', function (done) {
 			Joomla.removeMessages();
 
 			// Alerts need some time for the close animation
 			setTimeout(function () {
 				expect($("#system-message-container")).toBeEmpty();
+				done();
 			}, 400);
 		});
 	});

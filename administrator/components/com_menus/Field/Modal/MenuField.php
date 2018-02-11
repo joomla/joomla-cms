@@ -179,7 +179,8 @@ class MenuField extends FormField
 				function jSelectMenu_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -224,7 +225,7 @@ class MenuField extends FormField
 
 		// Placeholder if option is present or not
 		if (empty($title))
- 		{
+		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
 				$title_holder = \JText::_($this->element->option, true);
