@@ -99,7 +99,7 @@ class ApplyButton extends ToolbarButton
 	 */
 	public function fetchId($type = 'Apply', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-' . $name);
 	}
 
 	/**

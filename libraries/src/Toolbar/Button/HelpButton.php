@@ -69,7 +69,7 @@ class HelpButton extends ToolbarButton
 	 */
 	public function fetchId()
 	{
-		return $this->_parent->getName() . '-help';
+		return $this->ensureUniqueId($this->_parent->getName() . '-help');
 	}
 
 	/**
