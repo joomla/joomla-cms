@@ -81,7 +81,9 @@ Joomla = window.Joomla || {};
 		    toolbarHelp = document.getElementById('toolbar-help');
 
 		if (toolbarHelp && !toolbarOptions) {
-			toolbarHelp.classList.add('ml-auto');
+			var d = document.createElement('div');
+			d.classList.add('ml-auto');
+			toolbarHelp.parentNode.insertBefore(d, toolbarHelp);
 		}
 		if (toolbarOptions && !toolbarHelp) {
 			toolbarOptions.classList.add('ml-auto');
