@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
+use Joomla\CMS\Toolbar\Button\GroupButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
@@ -32,6 +33,7 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
  * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
  * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
  * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
+ * @method  GroupButton  groupButton(string $name = '', string $text = '', string $task = '')
  *
  * @since  1.5
  */
@@ -188,6 +190,20 @@ class Toolbar
 	public function getItems()
 	{
 		return $this->_bar;
+	}
+
+	/**
+	 * setItems
+	 *
+	 * @param array $items
+	 *
+	 * @return  self
+	 */
+	public function setItems(array $items): self
+	{
+		$this->_bar = $items;
+
+		return $this;
 	}
 
 	/**

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
@@ -26,133 +27,158 @@ use Joomla\CMS\Uri\Uri;
  */
 trait CoreButtonsTrait
 {
-	public function divider(string $name = 'divider', string $text = ''): SeparatorButton
+	public function divider(string $text = ''): SeparatorButton
 	{
-		return $this->separatorButton($name, $text);
+		return $this->separatorButton('divider', $text);
 	}
 
-	public function preview(string $name = 'preview', string $text = 'JGLOBAL_PREVIEW'): PopupButton
+	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW'): PopupButton
 	{
-		return $this->popupButton($name, $text)
+		return $this->popupButton('preview', $text)
+			->url($url)
 			->iframeWidth(640)
-			->iframeHeight(480);
+			->iframeHeight(480)
+			->icon('icon-eye');
 	}
 
-	public function help(string $name = 'help', string $text = 'JTOOLBAR_HELP'): HelpButton
+	public function help($ref, $useComponent = false, $url = null, $component = null): HelpButton
 	{
-		return $this->helpButton($name, $text);
+		return $this->helpButton('help', 'JTOOLBAR_HELP')
+			->ref($ref)
+			->useComponent($useComponent)
+			->url($url)
+			->component($component);
 	}
 
-	public function back(string $name = 'back', string $text = 'JTOOLBAR_BACK'): LinkButton
+	public function back(string $text = 'JTOOLBAR_BACK'): LinkButton
 	{
-		return $this->link($name, $text)
+		return $this->link('back', $text)
 			->url('javascript:history.back();');
 	}
 
-	public function link(string $name = 'link', string $text): LinkButton
+	public function link(string $text, string $url): LinkButton
 	{
-		return $this->linkButton($name, $text);
+		return $this->linkButton('link', $text)
+			->url($url);
 	}
 
-	public function mediaManager($directory, string $name = 'upload', string $text = 'JTOOLBAR_UPLOAD'): PopupButton
+	public function mediaManager(string $directory, string $text = 'JTOOLBAR_UPLOAD'): PopupButton
 	{
-		return $this->popupButton($name, $text)
+		return $this->popupButton('upload', $text)
 			->iframeWidth(800)
 			->iframeHeight(520)
 			->url('index.php?option=com_media&tmpl=component&task=popupUpload&folder=' . $directory);
 	}
 
-	public function makeDefault(string $name = 'default', string $text = 'JTOOLBAR_DEFAULT'): StandardButton
+	public function makeDefault($task, string $text = 'JTOOLBAR_DEFAULT'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('default', $text)
+			->task($task);
 	}
 
-	public function assign(string $name = 'assign', string $text = 'JTOOLBAR_ASSIGN'): StandardButton
+	public function assign($task, string $text = 'JTOOLBAR_ASSIGN'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('assign', $text)
+			->task($task);
 	}
 
-	public function addNew(string $name = 'new', string $text = 'JTOOLBAR_NEW'): StandardButton
+	public function addNew($task, string $text = 'JTOOLBAR_NEW'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('new', $text)
+			->task($task);
 	}
 
-	public function publish(string $name = 'publish', string $text = 'JTOOLBAR_PUBLISH'): StandardButton
+	public function publish($task, string $text = 'JTOOLBAR_PUBLISH'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('publish', $text)
+			->task($task);
 	}
 
-	public function unpublish(string $name = 'unpublish', string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
+	public function unpublish($task, string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('unpublish', $text)
+			->task($task);
 	}
 
-	public function archive(string $name = 'archive', string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
+	public function archive($task, string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('archive', $text)
+			->task($task);
 	}
 
-	public function unarchive(string $name = 'unarchive', string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
+	public function unarchive($task, string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('unarchive', $text)
+			->task($task);
 	}
 
-	public function edit(string $name = 'edit', string $text = 'JTOOLBAR_EDIT'): StandardButton
+	public function edit($task, string $text = 'JTOOLBAR_EDIT'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('edit', $text)
+			->task($task);
 	}
 
-	public function editHtml(string $name = 'edithtml', string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
+	public function editHtml($task, string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('edithtml', $text)
+			->task($task);
 	}
 
-	public function editCss(string $name = 'editcss', string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
+	public function editCss($task, string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('editcss', $text)
+			->task($task);
 	}
 
-	public function delete(string $name = 'delete', string $text = 'JTOOLBAR_DELETE'): StandardButton
+	public function delete($task, string $text = 'JTOOLBAR_DELETE'): ConfirmButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->confirmButton('delete', $text)
+			->task($task);
 	}
 
-	public function trash(string $name = 'trash', string $text = 'JTOOLBAR_TRASH'): StandardButton
+	public function trash($task, string $text = 'JTOOLBAR_TRASH'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('trash', $text)
+			->task($task);
 	}
 
-	public function apply(string $name = 'apply', string $text = 'JTOOLBAR_APPLY'): StandardButton
+	public function apply($task, string $text = 'JTOOLBAR_APPLY'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('apply', $text)
+			->task($task);
 	}
 
-	public function save(string $name = 'save', string $text = 'JTOOLBAR_SAVE'): StandardButton
+	public function save($task, string $text = 'JTOOLBAR_SAVE'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('save', $text)
+			->task($task);
 	}
 
-	public function save2new(string $name = 'save2new', string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
+	public function save2new($task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('save-new', $text)
+			->task($task);
 	}
 
-	public function save2copy(string $name = 'save2copy', string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
+	public function save2copy($task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('save-copy', $text)
+			->task($task);
 	}
 
-	public function checkin(string $name = 'checkin', string $text = 'JTOOLBAR_CHECKIN'): StandardButton
+	public function checkin($task, string $text = 'JTOOLBAR_CHECKIN'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('checkin', $text)
+			->task($task);
 	}
 
-	public function cancel(string $name = 'cancel', string $text = 'JTOOLBAR_CANCEL'): StandardButton
+	public function cancel($task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
 	{
-		return $this->standardButton($name, $text);
+		return $this->standardButton('cancel', $text)
+			->task($task);
 	}
 
-	public function preferences($component, string $name = 'options', string $text = 'JToolbar_Options', $path = ''): LinkButton
+	public function preferences($component, string $text = 'JToolbar_Options', $path = ''): LinkButton
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
@@ -160,7 +186,7 @@ trait CoreButtonsTrait
 		$uri = (string) Uri::getInstance();
 		$return = urlencode(base64_encode($uri));
 
-		return $this->linkButton($name, $text)
+		return $this->linkButton('options', $text)
 			->url('index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return);
 	}
 

@@ -11,8 +11,6 @@ namespace Joomla\CMS\Toolbar\Button;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
  * Renders a standard button with a confirm dialog
@@ -33,9 +31,9 @@ class ConfirmButton extends StandardButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		parent::prepareOptions($options);
+		$options['message'] = Text::_($options['message'] ?? '');
 
-		$options['message'] = Text::_($options['message']);
+		parent::prepareOptions($options);
 	}
 
 	/**

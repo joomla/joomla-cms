@@ -160,23 +160,34 @@ class HtmlView extends BaseHtmlView
 		$user  = \JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('article.add');
+			$toolbar->addNew('article.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			ToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			ToolbarHelper::archiveList('articles.archive');
-			ToolbarHelper::checkin('articles.checkin');
+			$toolbar->publish('articles.publish')->listCheck(true);
+
+			$toolbar->unpublish('articles.unpublish')->listCheck(true);
+
+			$toolbar->standardButton('featured')
+				->text('JFEATURE')
+				->task('articles.featured')
+				->listCheck(true);
+
+			$toolbar->standardButton('unfeatured')
+				->text('JUNFEATURE')
+				->task('articles.unfeatured')
+				->listCheck(true);
+
+			$toolbar->archive('articles.archive')->listCheck(true);
+
+			$toolbar->checkin('articles.checkin')->listCheck(true);
 		}
 
 		// Add a batch button
@@ -184,29 +195,30 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_content')
 			&& $user->authorise('core.edit.state', 'com_content'))
 		{
-			$bar->appendButton(
-				(new PopupButton('batch'))
-				->selector('collapseModal')
+			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
-				->listCheck(true)
-			);
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
+			$toolbar->delete('articles.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::trash('articles.trash');
+			$toolbar->trash('articles.trash')->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
 		{
-			ToolbarHelper::preferences('com_content');
+			$toolbar->preferences('com_content');
 		}
 
-		ToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 
 	/**
