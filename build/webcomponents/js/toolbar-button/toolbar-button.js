@@ -27,7 +27,7 @@
 
             // If list selection are required, set button to disabled by default
             if (this.listConfirmation) {
-                button.setAttribute('disabled', 'disabled');
+                button.setAttribute('disabled', true);
             }
 
             // Keep the button for quick reference
@@ -55,10 +55,10 @@
                     }
 
                     // Check whether we have selected something
-                    if (this.formElement.boxchecked.value == 0) {
-                        this.buttonElement.setAttribute('disabled', 'disabled');
-                    } else {
+                    if (this.formElement.boxchecked.value > 0) {
                         this.buttonElement.removeAttribute('disabled');
+                    } else {
+                        this.buttonElement.setAttribute('disabled', true);
                     }
                 });
             }

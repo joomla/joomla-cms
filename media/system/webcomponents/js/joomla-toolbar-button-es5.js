@@ -60,7 +60,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
             // If list selection are required, set button to disabled by default
             if (_this.listConfirmation) {
-                button.setAttribute('disabled', 'disabled');
+                button.setAttribute('disabled', true);
             }
 
             // Keep the button for quick reference
@@ -95,10 +95,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         }
 
                         // Check whether we have selected something
-                        if (_this2.formElement.boxchecked.value == 0) {
-                            _this2.buttonElement.setAttribute('disabled', 'disabled');
-                        } else {
+                        if (_this2.formElement.boxchecked.value > 0) {
                             _this2.buttonElement.removeAttribute('disabled');
+                        } else {
+                            _this2.buttonElement.setAttribute('disabled', true);
                         }
                     });
                 }
