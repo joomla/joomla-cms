@@ -673,14 +673,14 @@ abstract class HTMLHelper
 			$attribs                  = $argList[1] ?? array();
 			$options['relative']      = $argList[2] ?? false;
 			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectBrowser'] = $argList[4] ?? false;
 			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
 		{
 			$options['relative']      = $options['relative'] ?? false;
 			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
@@ -837,9 +837,9 @@ abstract class HTMLHelper
 			$includes = static::includeRelativeFiles(
 				'js',
 				$value,
-				$options['relative'] ?? true,
+				$options['relative'] ?? false,
 				$options['detectBrowser'] ?? false,
-				$options['detectDebug'] ?? false
+				$options['detectDebug'] ?? true
 			);
 
 			if (count($includes) === 0)
@@ -1325,31 +1325,31 @@ abstract class HTMLHelper
 			// We are handling a name.min.ext file:
 			if (strrpos($path, '.min', '-4'))
 			{
-				$position = strrpos($path, '.min', '-4');
-				$minifiedPath = $path;
+				$position        = strrpos($path, '.min', '-4');
+				$minifiedPath    = $path;
 				$nonMinifiedPath = str_replace('.min', '', $path, $position);
 
-				return self::checkFileOrder($minifiedPath, $nonMinifiedPath, false);
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
 			}
 
 			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-			return self::checkFileOrder($minifiedPath, $path, true);
+			return self::checkFileOrder($path, $minifiedPath);
 		}
 
 		// We are handling a name.min.ext file:
 		if (strrpos($path, '.min', '-4'))
 		{
-			$position = strrpos($path, '.min', '-4');
-			$minifiedPath = $path;
+			$position        = strrpos($path, '.min', '-4');
+			$minifiedPath    = $path;
 			$nonMinifiedPath = str_replace('.min', '', $path, $position);
 
-			return self::checkFileOrder($minifiedPath, $nonMinifiedPath, true);
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		return self::checkFileOrder($minifiedPath, $path, false);
+		return self::checkFileOrder($minifiedPath, $path);
 
 	}
 
@@ -1373,28 +1373,23 @@ abstract class HTMLHelper
 	/**
 	 * Method that takes two paths and checks if the files exist with diferent order
 	 *
-	 * @param  $minifiedPath     string   the path of the minified file
-	 * @param  $nonMinifiedPath  string   the path of the non minified file
-	 * @param  $invert           boolean  the order in which the check should happen
+	 * @param  $first   string   the path of the minified file
+	 * @param  $second  string   the path of the non minified file
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function checkFileOrder($minifiedPath, $nonMinifiedPath, $invert = false)
+	private static function checkFileOrder($first, $second)
 	{
-		if (is_file($invert ? $minifiedPath : $nonMinifiedPath))
+		if (is_file($second))
 		{
-			$md5 = dirname($invert ? $minifiedPath : $nonMinifiedPath) . '/MD5SUM';
-
-			return Uri::root(true) . static::convertToRelativePath($invert ? $minifiedPath : $nonMinifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+			return Uri::root(true) . static::convertToRelativePath($second) . '?' . Factory::getDocument()->getMediaVersion();
 		}
 
-		if (is_file($invert ? $nonMinifiedPath : $minifiedPath))
+		if (is_file($first))
 		{
-			$md5 = dirname($invert ? $nonMinifiedPath : $minifiedPath) . '/MD5SUM';
-
-			return Uri::root(true) . static::convertToRelativePath($invert ? $nonMinifiedPath : $minifiedPath) . (file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+			return Uri::root(true) . static::convertToRelativePath($first) . '?' . Factory::getDocument()->getMediaVersion();
 		}
 
 		return '';
