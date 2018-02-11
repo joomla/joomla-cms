@@ -141,13 +141,13 @@ abstract class ToolbarButton
 		$childToolbar = $this->getChildToolbar();
 		$hasChildren = count($childToolbar->getItems()) > 0;
 
-		$options = $this->getOptions();
-
 		if ($definition === null)
 		{
 			$options['hasChildren'] = $hasChildren;
 
-			$action = $this->renderButton($options);
+			$this->setOption('hasChildren', $hasChildren);
+
+			$action = $this->renderButton($this->options);
 		}
 		// For B/C
 		elseif (is_array($definition))
@@ -169,7 +169,7 @@ abstract class ToolbarButton
 				'action' => $action,
 				'hasChildren' => $hasChildren,
 				'children' => $children,
-				'options' => $options
+				'options' => $this->options
 			]
 		);
 	}

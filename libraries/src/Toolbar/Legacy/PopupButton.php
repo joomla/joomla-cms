@@ -112,33 +112,32 @@ class PopupButton extends ToolbarButton
 		$html = [];
 		$html[] = parent::renderButton($options);
 
-		// Build the options array for the modal
-		$params = array();
-		$params['title']      = Text::_($options['title'] ?? $options['text']);
-		$params['height']     = $options['iframeHeight'] ?? 480;
-		$params['width']      = $options['iframeWidth'] ?? 640;
-		$params['bodyHeight'] = $options['bodyHeight'] ?? null;
-		$params['modalWidth'] = $options['modalWidth'] ?? null;
-
 		if ((string) $this->getUrl() !== '')
 		{
-			$params['url'] = $this->getUrl();
+			// Build the options array for the modal
+			$params = array();
+			$params['title']      = Text::_($options['title'] ?? $options['text']);
+			$params['url']        = $this->getUrl();
+			$params['height']     = $options['iframeHeight'] ?? 480;
+			$params['width']      = $options['iframeWidth'] ?? 640;
+			$params['bodyHeight'] = $options['bodyHeight'] ?? null;
+			$params['modalWidth'] = $options['modalWidth'] ?? null;
 
 			// Place modal div and scripts in a new div
 			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
 
 			$selector = $options['selector'];
 
+			$footer = $this->getFooter();
+
+			if ($footer !== null)
+			{
+				$params['footer'] = $footer;
+			}
+
 			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
 
 			$html[] = '</div>';
-		}
-
-		$footer = $this->getFooter();
-
-		if ($footer !== null)
-		{
-			$params['footer'] = $footer;
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object
@@ -147,7 +146,7 @@ class PopupButton extends ToolbarButton
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
 window.addEventListener('DOMContentLoaded', function() {
-	jQuery('{$options['selector']}').on('hide', function () {
+	jQuery('#{$options['selector']}').on('hide.bs.modal', function () {
 	    {$options['onclose']}
 	});
 });
