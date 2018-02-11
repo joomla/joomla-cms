@@ -31,7 +31,7 @@
             }
 
             // Keep the button for quick reference
-            this.taskButtonElement = button;
+            this.buttonElement = button;
 
             this.appendChild(button);
             this.addEventListener('click', e => this.executeTask());
@@ -39,12 +39,12 @@
 
         connectedCallback() {
             // Check whether we have a form
-            let formId       = this.form || 'adminForm';
-            this.formElement = document.getElementById(formId);
+            let formSelector = this.form || '#adminForm';
+            this.formElement = document.querySelector(formSelector);
 
             if (this.listConfirmation) {
                 if (!this.formElement) {
-                    throw new Error('The form "' + formId + '" is required to perform the task, but the form not found on the page.');
+                    throw new Error('The form "' + formSelector + '" is required to perform the task, but the form not found on the page.');
                 }
 
                 // Watch on list selection
@@ -56,16 +56,16 @@
 
                     // Check whether we have selected something
                     if (this.formElement.boxchecked.value == 0) {
-                        this.taskButtonElement.setAttribute('disabled', 'disabled');
+                        this.buttonElement.setAttribute('disabled', 'disabled');
                     } else {
-                        this.taskButtonElement.removeAttribute('disabled');
+                        this.buttonElement.removeAttribute('disabled');
                     }
                 });
             }
         }
 
         executeTask() {
-            Joomla.submitbutton(this.task, this.formElement, this.formValidation);
+            Joomla.submitbutton(this.task, this.form, this.formValidation);
         }
 
     }

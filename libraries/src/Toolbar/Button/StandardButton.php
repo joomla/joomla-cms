@@ -37,7 +37,7 @@ class StandardButton extends ToolbarButton
 	 * @param   boolean $list  True to allow lists
 	 * @param   boolean $group Does the button belong to a group?
 	 *
-	 * @param   string  $form            The form ID
+	 * @param   string  $form            The form CSS selector eg '#adminForm'
 	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  string  HTML string for the button
@@ -52,7 +52,6 @@ class StandardButton extends ToolbarButton
 
 		$options['text']     = \JText::_($text);
 		$options['class']    = $this->fetchIconClass($name);
-		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
 		$options['group']    = $group;
 		$options['id']       = $this->fetchId('Standard', $name);
 		$options['btnClass'] = 'button-' . $name;
@@ -61,6 +60,9 @@ class StandardButton extends ToolbarButton
 		$options['group']    = $group;
 		$options['form']     = $form;
 		$options['validate'] = $formValidation;
+
+		// The 'doTask' option stays for B/C
+		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
 
 		if ($options['id'])
 		{

@@ -465,17 +465,21 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $task  An override for the task.
 	 * @param   string  $alt   An override for the alt text.
+	 * @param   boolean $group True or false
+	 *
+	 * @param   string  $form            The form ID
+	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY')
+	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY', $group = false, $form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Apply', 'apply', $alt, $task, false);
+		$bar->appendButton('Apply', 'apply', $alt, $task, false, $group, $form, $formValidation);
 	}
 
 	/**
@@ -486,7 +490,7 @@ abstract class ToolbarHelper
 	 * @param   string  $alt   An override for the alt text.
 	 * @param   boolean $group True or false
 	 *
-	 * @param   string  $form            The form ID
+	 * @param   string  $form            The form CSS selector eg '#adminForm'
 	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
@@ -509,8 +513,8 @@ abstract class ToolbarHelper
 	 * @param   string   $alt    An override for the alt text.
 	 * @param   boolean  $group  True or false
 	 *
-	 * @param   string  $form            The form ID
-	 * @param   bool $formValidation Whether should be called the form validation before task call
+	 * @param   string  $form            The form CSS selector eg '#adminForm'
+	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
@@ -534,8 +538,8 @@ abstract class ToolbarHelper
 	 * @param   string   $alt    An override for the alt text.
 	 * @param   boolean  $group  True or false
 	 *
-	 * @param   string  $form            The form ID
-	 * @param   bool $formValidation Whether should be called the form validation before task call
+	 * @param   string  $form            The form CSS selector eg '#adminForm'
+	 * @param   bool    $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
