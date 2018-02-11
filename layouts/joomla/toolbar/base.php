@@ -22,7 +22,8 @@ extract($displayData, EXTR_OVERWRITE);
     <div class="btn-group" role="group" aria-label="Button Dropdown">
 		<?php echo $action; ?>
 
-		<button type="button" class="<?php echo $options['button_class'] ?? ''; ?> dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<button type="button" class="<?php echo $options['caretClass'] ?? ''; ?> dropdown-toggle dropdown-toggle-split"
+			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<span class="sr-only">Toggle Dropdown</span>
 		</button>
 

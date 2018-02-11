@@ -12,8 +12,8 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Legacy\LinkButton;
-use Joomla\CMS\Toolbar\Legacy\PopupButton;
+use Joomla\CMS\Toolbar\Button\LinkButton;
+use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -130,12 +130,6 @@ class HtmlView extends BaseHtmlView
 			'pencil-2 article-add'
 		);
 
-		$bar->appendButton(new LinkButton('back'))
-			->text('Back')
-			->target('_parent')
-			->url('https://help.joomla.org/proxy?keyref=Help40:Content_Article_Manager_Edit&lang=en');
-
-
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
@@ -191,15 +185,6 @@ class HtmlView extends BaseHtmlView
 				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = \ContentHelperPreview::url($this->item);
 				ToolbarHelper::preview($url, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
-
-				Toolbar::getInstance()->appendButton(
-					(new PopupButton('preview'))
-						->url($url)
-						->text('JGLOBAL_PREVIEW')
-						->icon('eye')
-						->bodyHeight(80)
-						->modalWidth(90)
-				);
 			}
 
 			\JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');

@@ -10,17 +10,48 @@ namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Toolbar\ToolbarButton;
-use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Language\Text;
 
 /**
  * Renders a standard button
  *
+ * @method self listCheck(bool $value)
+ * @method bool getListCheck()
+ *
  * @since  3.0
  */
-class StandardButton extends ToolbarButton
+class StandardButton extends BasicButton
 {
+	/**
+	 * Property layout.
+	 *
+	 * @var  string
+	 */
+	protected $layout = 'joomla.toolbar.standard';
+
+	/**
+	 * prepareOptions
+	 *
+	 * @param array $options
+	 *
+	 * @return  void
+	 */
+	protected function prepareOptions(array &$options)
+	{
+		parent::prepareOptions($options);
+
+		if (empty($options['is_child']))
+		{
+			$class = $this->getButtonClass($this->getName());
+
+			$options['btnClass'] = ($options['button_class'] ?? $class);
+			$options['caretClass'] = ($options['button_class'] ?? $class);
+		}
+
+		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+		$options['group']  = $this->getGroup();
+	}
+
 	/**
 	 * Fetch the HTML for the button
 	 *
@@ -34,104 +65,74 @@ class StandardButton extends ToolbarButton
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
 	{
-		// Store all data to the options array for use with JLayout
-		$options = array();
+		$this->name($name)
+			->text($text)
+			->task($task)
+			->listCheck($list)
+			->group($group);
 
-		$options['text']     = \JText::_($text);
-		$options['class']    = $this->fetchIconClass($name);
-		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
-		$options['group']    = $group;
-		$options['id']       = $this->fetchId('Standard', $name);
-		$options['btnClass'] = 'button-' . $name;
+		return $this->renderButton($this->options);
+	}
 
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
+	/**
+	 * getButtonClass
+	 *
+	 * @param string $name
+	 *
+	 * @return  string
+	 */
+	public function getButtonClass(string $name): string
+	{
 		switch ($name)
 		{
 			case 'apply':
 			case 'new':
-				$options['btnClass'] .= ' btn btn-sm btn-success';
-				break;
+				return ' btn btn-sm btn-success';
 
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
-				break;
+				return ' btn btn-sm btn-outline-success';
 
 			case 'unpublish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
+				return ' btn btn-sm btn-outline-danger';
 
 			case 'featured':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
-				break;
+				return ' btn btn-sm btn-outline-warning';
 
 			case 'cancel':
-				$options['btnClass'] .= ' btn btn-sm btn-danger';
-				break;
+				return ' btn btn-sm btn-danger';
 
 			case 'trash':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
-				break;
-
+				return ' btn btn-sm btn-outline-danger';
 
 			default:
-				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
+				return ' btn btn-sm btn-outline-primary';
 		}
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.standard');
-
-		return $layout->render($options);
-	}
-
-	/**
-	 * Get the button CSS Id
-	 *
-	 * @param   string   $type      Unused string.
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
-	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
-	{
-		return $this->parent->getName() . '-' . $name;
 	}
 
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $name  The task name as seen by the user
-	 * @param   string   $task  The task used by the application
-	 * @param   boolean  $list  True is requires a list confirmation.
-	 *
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   3.0
 	 */
-	protected function _getCommand($name, $task, $list)
+	protected function _getCommand()
 	{
-		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		\JText::script('ERROR');
+		Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		Text::script('ERROR');
 
-		$cmd = "Joomla.submitbutton('" . $task . "');";
+		$cmd = "Joomla.submitbutton('" . $this->getTask() . "');";
 
-		if ($list)
+		if ($this->getListCheck())
 		{
 			$messages = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $messages . ")";
@@ -139,5 +140,21 @@ class StandardButton extends ToolbarButton
 		}
 
 		return $cmd;
+	}
+
+	/**
+	 * getAccessors
+	 *
+	 * @return  array
+	 */
+	protected static function getAccessors(): array
+	{
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'listCheck',
+				'group'
+			]
+		);
 	}
 }

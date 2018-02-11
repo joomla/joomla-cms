@@ -73,13 +73,11 @@ abstract class ToolbarButton
 	 *
 	 * @param string $name
 	 * @param string $text
-	 * @param string $task
 	 */
-	public function __construct(string $name = '', string $text = '', string $task = '')
+	public function __construct(string $name = '', string $text = '')
 	{
 		$this->name($name)
-			->text($text)
-			->task($task);
+			->text($text);
 	}
 
 	/**
@@ -105,7 +103,8 @@ abstract class ToolbarButton
 		else
 		{
 			$options['tagName'] = 'button';
-			$options['btnClass'] = ($options['button_class'] ?? '') . ' btn btn-sm btn-outline-primary';
+			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
+			$options['caretClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
 			$options['attributes']['type'] = 'button';
 		}
 	}

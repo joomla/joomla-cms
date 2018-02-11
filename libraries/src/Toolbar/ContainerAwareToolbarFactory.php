@@ -97,7 +97,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
-			'Joomla\\CMS\\Toolbar\\Legacy\\' . ucfirst($type) . 'Button',
+			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
 			// @deprecated 5.0
 			'JToolbarButton' . ucfirst($type),
 		];

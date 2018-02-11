@@ -12,17 +12,33 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Toolbar\Button\BasicButton;
+use Joomla\CMS\Toolbar\Button\ConfirmButton;
+use Joomla\CMS\Toolbar\Button\CustomButton;
+use Joomla\CMS\Toolbar\Button\HelpButton;
+use Joomla\CMS\Toolbar\Button\LinkButton;
+use Joomla\CMS\Toolbar\Button\PopupButton;
+use Joomla\CMS\Toolbar\Button\SeparatorButton;
 use Joomla\CMS\Toolbar\Button\StandardButton;
 
 /**
  * ToolBar handler
  *
- * @method StandardButton standard(string $name = '', $text = '', $task = '', $list = true, $group = false)
+ * @method  StandardButton  standardButton(string $name = '', string $text = '', string $task = '')
+ * @method  SeparatorButton  separatorButton(string $name = '', string $text = '', string $task = '')
+ * @method  PopupButton  popupButton(string $name = '', string $text = '', string $task = '')
+ * @method  LinkButton  linkButton(string $name = '', string $text = '', string $task = '')
+ * @method  HelpButton  helpButton(string $name = '', string $text = '', string $task = '')
+ * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
+ * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
+ * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
  *
  * @since  1.5
  */
 class Toolbar
 {
+	use CoreButtonsTrait;
+
 	/**
 	 * Toolbar name
 	 *
@@ -393,5 +409,42 @@ class Toolbar
 	public function createChild($name): self
 	{
 		return new static($name, $this->factory);
+	}
+
+	/**
+	 * __call
+	 *
+	 * @param string $name
+	 * @param array  $args
+	 *
+	 * @return  ToolbarButton
+	 * @throws \Exception
+	 */
+	public function __call($name, $args)
+	{
+		if (strtolower(substr($name, -6)) === 'button')
+		{
+			$type = substr($name, 0, -6);
+
+			$button = $this->loadButtonType($type);
+
+			if ($button === false)
+			{
+				throw new \UnexpectedValueException(sprintf('Button type: %s not found.', $type));
+			}
+
+			$button->name($args[0] ?? '')
+				->text($args[1] ?? '');
+
+			return $this->appendButton($button);
+		}
+
+		throw new \BadMethodCallException(
+			sprintf(
+				'Method %s() not found in class: %s',
+				$name,
+				get_called_class()
+			)
+		);
 	}
 }

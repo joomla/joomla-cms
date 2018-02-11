@@ -12,10 +12,10 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Legacy\CustomButton;
-use Joomla\CMS\Toolbar\Legacy\PopupButton;
-use Joomla\CMS\Toolbar\Legacy\SeparatorButton;
-use Joomla\CMS\Toolbar\Legacy\StandardButton;
+use Joomla\CMS\Toolbar\Button\CustomButton;
+use Joomla\CMS\Toolbar\Button\PopupButton;
+use Joomla\CMS\Toolbar\Button\SeparatorButton;
+use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
@@ -161,39 +161,6 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
-
-		$bar->appendButton(new StandardButton('new'))
-			->text('JTOOLBAR_NEW')
-			->task('article.add')
-			->icon('new')
-			->buttonClass('btn btn-success btn-sm')
-			->children(
-				function (Toolbar $child)
-				{
-					$child->appendButton(new StandardButton('test'))
-						->text('Test')
-						->task('article.add')
-						->icon('new');
-
-					$child->appendButton(new SeparatorButton('sp'))
-						->text('Header');
-
-					$child->appendButton(new StandardButton('test2'))
-						->text('Test2')
-						->task('article.add')
-						->icon('remove');
-				}
-			);
-
-		$bar->appendButton(
-			(new PopupButton('preview'))
-							->url('http://localhost/joomla/40dev/index.php?option=com_content&view=article&id=66&catid=65&Itemid=435')
-//				->selector('#collapseModal')
-				->text('JGLOBAL_PREVIEW')
-				->icon('eye')
-				->bodyHeight(80)
-				->modalWidth(90)
-		);
 
 		ToolbarHelper::title(\JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
