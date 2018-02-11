@@ -19,14 +19,23 @@ $class    = $displayData['class'];
 $text     = $displayData['text'];
 $btnClass = $displayData['btnClass'];
 $group    = $displayData['group'];
-$task     = $displayData['task'];
+$task     = '';
 $list     = !empty($displayData['list'])     ? ' list-confirmation' : '';
 $form     = !empty($displayData['form'])     ? ' form=' . $displayData['form'] . '"' : '';
 $validate = !empty($displayData['validate']) ? ' form-validation' : '';
 
+if (!empty($displayData['task']))
+{
+	$task = ' task="' . $displayData['task'] . '"';
+}
+else if (!empty($displayData['doTask']))
+{
+	$task = ' execute="' . $displayData['doTask'] . '"';
+}
+
 ?>
 
-<joomla-toolbar-button <?php echo $id; ?> task="<?php echo $task; ?>"<?php echo $list.$form.$validate; ?> class="<?php echo $btnClass; ?>">
+<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate; ?> class="<?php echo $btnClass; ?>">
 	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </joomla-toolbar-button>

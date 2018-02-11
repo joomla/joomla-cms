@@ -29,6 +29,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 return this.getAttribute('task');
             }
         }, {
+            key: 'execute',
+            get: function get() {
+                return this.getAttribute('execute');
+            }
+        }, {
             key: 'listConfirmation',
             get: function get() {
                 return this.hasAttribute('list-confirmation');
@@ -110,7 +115,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     return;
                 }
 
-                Joomla.submitbutton(this.task, this.form, this.formValidation);
+                if (this.task) {
+                    Joomla.submitbutton(this.task, this.form, this.formValidation);
+                } else if (this.execute) {
+                    var method = new Function(this.execute);
+                    method.call({});
+                } else {
+                    throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
+                }
             }
         }]);
 

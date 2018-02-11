@@ -10,6 +10,7 @@
 
         // Attribute getters
         get task()              { return this.getAttribute('task'); }
+        get execute()           { return this.getAttribute('execute'); }
         get listConfirmation()  { return this.hasAttribute('list-confirmation'); }
         get form()              { return this.getAttribute('form'); }
         get formValidation()    { return this.hasAttribute('form-validation'); }
@@ -69,7 +70,15 @@
                 return;
             }
 
-            Joomla.submitbutton(this.task, this.form, this.formValidation);
+            if (this.task) {
+                Joomla.submitbutton(this.task, this.form, this.formValidation);
+            } else if (this.execute) {
+                let method = new Function(this.execute);
+                method.call({});
+            } else {
+                throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
+            }
+
         }
 
     }
