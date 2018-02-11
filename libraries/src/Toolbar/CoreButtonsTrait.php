@@ -210,7 +210,12 @@ trait CoreButtonsTrait
 
 		$layout = new FileLayout('joomla.toolbar.versions');
 
-		return $this->customButton('version', $text)
-			->html($layout->render($options));
+		return $this->customHtml($layout->render($options), 'version');
+	}
+
+	public function customHtml(string $html, string $name = 'custom'): CustomButton
+	{
+		$this->customButton($name)
+			->html($html);
 	}
 }
