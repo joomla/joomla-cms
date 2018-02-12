@@ -7,7 +7,8 @@
   "env": {
     "browser": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "jquery": true
   },
   // Additional global variables your script accesses during execution
   "globals": {
