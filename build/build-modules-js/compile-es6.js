@@ -16,7 +16,6 @@ const compileFile = (filePath) => {
 WORK ON THE ES6 VERSION.
 OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
   const babelOptions = {
-    // Add header
     plugins: [
       ['add-header-comment', { header: [headerText] }],
     ],
