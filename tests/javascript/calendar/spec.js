@@ -28,11 +28,12 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 			expect($('.js-calendar').css('display')).toEqual('none');
 		});
 
-		it('Should appear on button click', function () {
+		it('Should appear on button click', function (done) {
 			$('#jform_created_btn').trigger('click');
 
             setTimeout(function() {
                 expect($('.js-calendar').css('display')).toEqual('block');
+                done();
             }, 200)
 
 		});

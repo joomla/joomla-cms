@@ -238,8 +238,8 @@ class HtmlView extends BaseHtmlView
 							{
 								$titleParts[] = $vars['view'];
 							}
-
 						}
+
 						$value = implode(' » ', $titleParts);
 					}
 					else
