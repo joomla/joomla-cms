@@ -10,7 +10,7 @@ namespace Joomla\CMS;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
@@ -38,7 +38,7 @@ abstract class Factory
 	/**
 	 * Global application object
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -118,36 +118,18 @@ abstract class Factory
 	public static $mailer = null;
 
 	/**
-	 * Get an application object.
+	 * Get the global application object. When the global application doesn't exist, an exception is thrown.
 	 *
-	 * Returns the global {@link CMSApplication} object, only creating it if it doesn't already exist.
+	 * @return  CMSApplicationInterface object
 	 *
-	 * @param   mixed      $id         A client identifier or name.
-	 * @param   array      $config     An optional associative array of configuration settings.
-	 * @param   string     $prefix     Application prefix
-	 * @param   Container  $container  An optional dependency injection container to inject into the application.
-	 *
-	 * @return  CMSApplication object
-	 *
-	 * @see     JApplication
 	 * @since   11.1
 	 * @throws  \Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'JApplication', Container $container = null)
+	public static function getApplication()
 	{
 		if (!self::$application)
 		{
-			if (!$id)
-			{
-				throw new \Exception('Application Instantiation Error', 500);
-			}
-
-			$container = $container ?: self::getContainer();
-
-			self::$application = CMSApplication::getInstance($id, $prefix, $container);
-
-			// Attach a delegated JLog object to the application
-			self::$application->setLogger($container->get(LoggerInterface::class));
+			throw new \Exception('Failed to start application', 500);
 		}
 
 		return self::$application;
@@ -518,12 +500,14 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
