@@ -12,7 +12,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Checks if the installation meats the current requirements for Joomla 4
+ * Checks if the installation meets the current requirements for Joomla 4
  *
  * @return  boolean  True if any check fails.
  *
