@@ -102,6 +102,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $template = null;
 
 	/**
+	 * The pathway object
+	 *
+	 * @var    Pathway
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pathway = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -580,23 +588,27 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JPathway object.
+	 * Returns the application Pathway object.
 	 *
 	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
 	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway($name = null)
 	{
 		if (!isset($name))
 		{
 			$name = $this->getName();
 		}
 
-		return Pathway::getInstance($name, $options);
+		if (!$this->pathway)
+		{
+			$this->pathway = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+		}
+
+		return $this->pathway;
 	}
 
 	/**
