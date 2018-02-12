@@ -13,8 +13,8 @@ const options = {
  */
 const compileFile = (filePath) => {
   const headerText = `PLEASE DO NOT MODIFY THIS FILE.
-  WORK ON THE ES6 VERSION.
-  OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD!`;
+WORK ON THE ES6 VERSION.
+OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
   const babelOptions = {
     // Add header
     plugins: [

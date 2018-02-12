@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function () {
+(() => {
   const btn = document.getElementById('btn-login-submit');
   if (btn) {
     btn.addEventListener('click', (e) => {
@@ -22,4 +22,4 @@
       document.getElementById('mod-login-username').focus();
     }
   }
-}());
+})();
