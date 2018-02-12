@@ -14,7 +14,7 @@
  * Checks if the plugin is enabled and reCAPTCHA V1 is being used. If true then the
  * message about reCAPTCHA v1 EOL should be displayed.
  *
- * @return  integer
+ * @return  boolean
  *
  * @since  __DEPLOY_VERSION__
  */
