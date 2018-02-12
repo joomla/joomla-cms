@@ -12,10 +12,11 @@ const options = {
  * @param filePath
  */
 const compileFile = (filePath) => {
-  const headerText = 'PLEASE DO NOT MODIFY THIS FILE.\n' +
-    'WORK ON THE ES6 VERSION.\n' +
-    'OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.';
+  const headerText = `PLEASE DO NOT MODIFY THIS FILE.
+  WORK ON THE ES6 VERSION.
+  OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD!`;
   const babelOptions = {
+    // Add header
     plugins: [
       ['add-header-comment', { header: [headerText] }],
     ],
