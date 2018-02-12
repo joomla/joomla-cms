@@ -5,45 +5,51 @@
 
 Joomla = window.Joomla || {};
 
-(function addListeners() {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Handle toggle all
-    [].slice.call(document.querySelectorAll('.toggle-all')).forEach((button) => {
-      button.addEventListener('click', () => {
-        [].slice.call(document.querySelectorAll('.filter-node')).forEach((node) => {
-          node.click();
-        });
-      });
-    });
+(function() {
+	'use strict';
 
-    // Update the count
-    [].slice.call(document.querySelectorAll('.filter-node')).forEach(() => {
-      const count = document.getElementById('jform_map_count');
-      if (count) {
-        count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
-      }
-    });
+	document.addEventListener('DOMContentLoaded', function() {
 
-    // Expand/collapse
-    const expandAccordion = document.getElementById('expandAccordion');
-    if (expandAccordion) {
-      expandAccordion.addEventListener('click', (event) => {
-        event.preventDefault();
+		// Handle toggle all
+		[].slice.call(document.querySelectorAll('.toggle-all')).forEach(function(button) {
+			button.addEventListener('click', function(e) {
+				[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
+					node.click();
+				});
+			});
+		});
 
-        if (expandAccordion.innerText === Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL')) {
-          expandAccordion.innerText = Joomla.JText._('COM_FINDER_FILTER_HIDE_ALL');
+		// Update the count
+		[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
+			var count = document.getElementById('jform_map_count');
+			if (count) {
+				count.value = document.querySelectorAll('input[type="checkbox"]:checked').length;
+			}
+		});
 
-          jQuery('.collapse:not(.in)').each(function collapse() {
-            jQuery(this).collapse('toggle');
-          });
-        } else {
-          expandAccordion.innerText = Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL');
+		// Expand/collapse
+		var expandAccordion = document.getElementById('expandAccordion');
+		if (expandAccordion) {
+			expandAccordion.addEventListener('click', function(event) {
+				event.preventDefault();
 
-          jQuery('.collapse.in').each(function collapse() {
-            jQuery(this).collapse('toggle');
-          });
-        }
-      });
-    }
-  });
-}());
+				if (event.target.innerText == Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL')) {
+					event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_HIDE_ALL');
+
+					jQuery('.collapse:not(.in)').each(function() {
+						jQuery(this).collapse('toggle');
+					});
+				}
+				else {
+					event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL');
+
+					jQuery('.collapse.in').each(function() {
+						jQuery(this).collapse('toggle');
+					});
+				}
+			});
+		}
+
+	});
+
+})();
