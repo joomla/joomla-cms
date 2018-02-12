@@ -43,6 +43,15 @@ function recaptcha_postinstall_condition()
  */
 function recaptcha_postinstall_action()
 {
-	$url = 'index.php?option=com_plugins&task=plugin.edit&extension_id=439';
+	$db = JFactory::getDbo();
+
+	$query = $db->getQuery(true)
+		->select('extension_id')
+		->from($db->qn('#__extensions'))
+		->where($db->qn('name') . ' = ' . $db->q('plg_captcha_recaptcha'));
+	$db->setQuery($query);
+	$e_id = $db->loadResult();
+
+	$url = 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . $e_id;
 	JFactory::getApplication()->redirect($url);
 }
