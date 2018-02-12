@@ -33,7 +33,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 				<div class="well">
 					<?php echo $this->form->renderField('map_count'); ?>
 				</div>
-				<button class="btn btn-secondary toggle-all" type="button">
+				<button class="btn btn-secondary filter-toggle-all" type="button">
 					<span class="fa fa-square" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 				<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>

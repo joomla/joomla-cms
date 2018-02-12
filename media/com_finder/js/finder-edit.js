@@ -11,7 +11,7 @@ Joomla = window.Joomla || {};
 	document.addEventListener('DOMContentLoaded', function() {
 
 		// Handle toggle all
-		[].slice.call(document.querySelectorAll('.toggle-all')).forEach(function(button) {
+		[].slice.call(document.querySelectorAll('.filter-toggle-all')).forEach(function(button) {
 			button.addEventListener('click', function(e) {
 				[].slice.call(document.querySelectorAll('.filter-node')).forEach(function(node) {
 					node.click();
