@@ -12,7 +12,16 @@ const options = {
  * @param filePath
  */
 const compileFile = (filePath) => {
-  babel.transformFile(filePath, {}, (error, result) => {
+  const headerText = 'PLEASE DO NOT MODIFY THIS FILE.\n' +
+    'WORK ON THE ES6 VERSION.\n' +
+    'OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.';
+  const babelOptions = {
+    plugins: [
+      ['add-header-comment', { header: [headerText] }],
+    ],
+  };
+
+  babel.transformFile(filePath, babelOptions, (error, result) => {
     if (error) process.exit(1);
     const fileName = filePath.slice(0, -7);
     fs.writeFile(`${fileName}.js`, result.code);
