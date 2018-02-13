@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
 <?php if ($params->get('pretext')) : ?>
 	<div class="pretext">
 	<p><?php echo $params->get('pretext'); ?></p>
@@ -49,6 +49,8 @@ JHtml::_('behavior.keepalive');
 	</p>
 <?php endif; ?>
 <input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
+<input type="hidden" name="option" value="com_users" />
+<input type="hidden" name="task" value="user.login" />
 <input type="hidden" name="return" value="<?php echo $return; ?>" />
 <?php echo JHtml::_('form.token'); ?>
 <ul>

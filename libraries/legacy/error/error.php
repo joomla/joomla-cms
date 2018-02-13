@@ -777,7 +777,7 @@ abstract class JError
 	{
 		JLog::add('JError::handleCallback() is deprecated.', JLog::WARNING, 'deprecated');
 
-		return call_user_func($options, $error);
+		return call_user_func_array($options, array(&$error));
 	}
 
 	/**

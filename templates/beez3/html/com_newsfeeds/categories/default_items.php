@@ -31,8 +31,8 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<?php echo JHtml::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
 			</div>
 		<?php endif; ?>
-        <?php endif; ?>
-		<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
+		<?php endif; ?>
+		<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
 			<dl class="newsfeed-count"><dt>
 				<?php echo JText::_('COM_NEWSFEEDS_CAT_NUM'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
