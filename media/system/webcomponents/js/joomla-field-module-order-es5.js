@@ -25,10 +25,6 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 
 		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
-		if (!window.Joomla) {
-			throw new Error('Joomla API is not properly initialised');
-		}
-
 		_this.linkedField = _this.getAttribute('data-linked-field') || 'jform_position';
 		_this.linkedFieldEl = '';
 		_this.originalPos = '';
@@ -41,40 +37,37 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 	_createClass(_class, [{
 		key: 'connectedCallback',
 		value: function connectedCallback() {
-			var _this2 = this;
-
-			this.originalPos = this.linkedFieldEl.value;
 			this.linkedFieldEl = document.getElementById(this.linkedField);
 
-			/** Initialize the field on document ready **/
+			if (!this.linkedFieldEl) {
+				throw new Error('No linked field defined!');
+			}
+
+			var that = this;
+			this.originalPos = this.linkedFieldEl.value;
+
+			/** Initialize the field **/
 			this.getNewOrder(this.originalPos);
 
+			/** Watch for changes on the linked field **/
 			this.linkedFieldEl.addEventListener('change', function () {
-				_this2.originalPos = _this2.linkedFieldEl.value;
-				_this2.getNewOrder(_this2.originalPos);
+				that.originalPos = that.linkedFieldEl.value;
+				that.getNewOrder(that.linkedFieldEl.value);
 			});
 		}
 	}, {
-		key: 'disconnectedCallback',
-		value: function disconnectedCallback() {}
-	}, {
 		key: 'writeDynaList',
 		value: function writeDynaList(selectParams, source, key, orig_val) {
-			var node = '';
 			var selectNode = document.createElement('select');
 
 			selectNode.classList.add(selectParams.itemClass);
 			selectNode.setAttribute('name', selectParams.name);
 			selectNode.id = selectParams.id;
 
-			this.innerHTML = '';
-			this.appendChild(selectNode);
-
-			var hasSelection = key,
-			    i = 0,
-			    selected,
-			    x,
-			    item;
+			var hasSelection = key;
+			var i = 0;
+			var x = void 0;
+			var item = void 0;
 
 			for (x in source) {
 				if (!source.hasOwnProperty(x)) {
@@ -93,25 +86,23 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 				}
 
 				selectNode.appendChild(node);
-				selectNode.parentNode.innerHtml = '';
-				selectNode.parentNode.appendChild(selectNode);
-
 				i++;
 			}
+
+			this.innerHTML = '';
+			this.appendChild(selectNode);
 		}
 	}, {
 		key: 'getNewOrder',
 		value: function getNewOrder(originalPos) {
-			console.log('dfgd');
-			var url = this.getAttribute('data-url'),
-			    clientId = this.getAttribute('data-client-id'),
-			    element = document.getElementById(this.getAttribute('data-element')),
-			    originalOrder = this.getAttribute('data-ordering'),
-			    name = this.getAttribute('data-name'),
-			    attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select',
-			    id = this.getAttribute('id') + '_1',
-			    orders = [],
-			    that = this;
+			var url = this.getAttribute('data-url');
+			var clientId = this.getAttribute('data-client-id');
+			var originalOrder = this.getAttribute('data-ordering');
+			var name = this.getAttribute('data-name');
+			var attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
+			var id = this.getAttribute('id') + '_1';
+			var orders = [];
+			var that = this;
 
 			Joomla.request({
 				url: url,

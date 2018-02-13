@@ -10,10 +10,6 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 	constructor() {
 		super();
 
-		if (!window.Joomla) {
-			throw new Error('Joomla API is not properly initialised');
-		}
-
 		this.linkedField = this.getAttribute('data-linked-field') || 'jform_position';
 		this.linkedFieldEl = '';
 		this.originalPos = '';
@@ -23,36 +19,36 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.originalPos = this.linkedFieldEl.value;
 		this.linkedFieldEl = document.getElementById(this.linkedField);
 
-		/** Initialize the field on document ready **/
+		if (!this.linkedFieldEl) {
+			throw new Error('No linked field defined!')
+		}
+
+		const that = this;
+		this.originalPos = this.linkedFieldEl.value;
+
+		/** Initialize the field **/
 		this.getNewOrder(this.originalPos);
 
+		/** Watch for changes on the linked field **/
 		this.linkedFieldEl.addEventListener('change', () => {
-			this.originalPos = this.linkedFieldEl.value;
-			this.getNewOrder(this.originalPos);
+			that.originalPos = that.linkedFieldEl.value;
+			that.getNewOrder(that.linkedFieldEl.value);
 		});
 	}
 
-	disconnectedCallback() {
-
-	}
-
 	writeDynaList (selectParams, source, key, orig_val) {
-		let node = '';
 		const selectNode = document.createElement('select');
 
 		selectNode.classList.add(selectParams.itemClass);
 		selectNode.setAttribute('name', selectParams.name);
 		selectNode.id = selectParams.id;
 
-		this.innerHTML = '';
-		this.appendChild(selectNode);
-
-		var hasSelection = key,
-		    i = 0,
-		    selected, x, item;
+		let hasSelection = key;
+		let i = 0;
+		let x;
+		let item;
 
 		for ( x in source ) {
 			if (!source.hasOwnProperty(x)) { continue; }
@@ -69,24 +65,22 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 			}
 
 			selectNode.appendChild(node);
-			selectNode.parentNode.innerHtml = '';
-			selectNode.parentNode.appendChild(selectNode);
-
 			i++;
 		}
+
+		this.innerHTML = '';
+		this.appendChild(selectNode);
 	}
 
 	getNewOrder (originalPos) {
-		console.log('dfgd')
-		var url = this.getAttribute('data-url'),
-		    clientId = this.getAttribute('data-client-id'),
-		    element = document.getElementById(this.getAttribute('data-element')),
-		    originalOrder = this.getAttribute('data-ordering'),
-		    name = this.getAttribute('data-name'),
-		    attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select',
-		    id = this.getAttribute('id') + '_1',
-		    orders = [],
-		    that = this;
+		const url = this.getAttribute('data-url');
+		const clientId = this.getAttribute('data-client-id');
+		const originalOrder = this.getAttribute('data-ordering');
+		const name = this.getAttribute('data-name');
+		const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
+		const id = this.getAttribute('id') + '_1';
+		const orders = [];
+		const that = this;
 
 		Joomla.request(
 			{
@@ -104,7 +98,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 						/** Check if everything is OK **/
 						if (response.data.length > 0)
 						{
-							for (var i = 0; i < response.data.length; ++i) {
+							for (let i = 0; i < response.data.length; ++i) {
 								orders[i] = response.data[i].split(',');
 							}
 
