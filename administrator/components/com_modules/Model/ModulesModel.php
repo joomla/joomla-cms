@@ -185,6 +185,7 @@ class ModulesModel extends ListModel
 			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
+
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
@@ -304,10 +305,10 @@ class ModulesModel extends ListModel
 
 		// Group (careful with PostgreSQL)
 		$query->group(
-				'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, ' .
-					'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, ' .
-					'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
-			);
+			'a.id, a.title, a.note, a.position, a.module, a.language, a.checked_out, '
+			. 'a.checked_out_time, a.published, a.access, a.ordering, l.title, l.image, uc.name, ag.title, e.name, '
+			. 'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down, e.enabled'
+		);
 
 		// Filter by client.
 		$clientId = $this->getState('client_id');
@@ -331,6 +332,7 @@ class ModulesModel extends ListModel
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
@@ -386,12 +388,14 @@ class ModulesModel extends ListModel
 					(' . $subQuery1 . ') = 0
 					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+					)'
+				);
 			}
 		}
 
 		// Filter by search in title or note or id:.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)

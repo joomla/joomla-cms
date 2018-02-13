@@ -303,6 +303,7 @@ class ItemModel extends AdminModel
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -694,7 +695,6 @@ class ItemModel extends AdminModel
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
-
 			// Check if we are changing away from the actual link type.
 			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
@@ -1502,7 +1502,8 @@ class ItemModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{
