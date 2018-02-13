@@ -591,7 +591,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * Returns the application Pathway object.
 	 *
-	 * @param   string  $name     The name of the application.
+	 * @param   string  $name  The name of the application.
 	 *
 	 * @return  Pathway
 	 *
