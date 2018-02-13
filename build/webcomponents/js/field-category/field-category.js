@@ -11,8 +11,8 @@
 
 		Joomla.loadingLayer('load');
 
-		if (!jQuery(this.element).val() !== this.getAttribute('custom-fields-cat-id')) {
-			jQuery(this.element).val(this.getAttribute('custom-fields-cat-id'));
+		if (!this.element.value !== this.getAttribute('custom-fields-cat-id')) {
+			this.element.value = this.getAttribute('custom-fields-cat-id');
 		}
 
 		this.element.addEventListener('change', this.categoryHasChanged);
