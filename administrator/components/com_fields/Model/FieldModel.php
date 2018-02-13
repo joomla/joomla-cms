@@ -967,7 +967,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Setting the context for the category field
-		$cat = \JCategories::getInstance(str_replace('com_', '', $component));
+		$cat = $this->bootComponent($component)->getCategories();
 
 		if ($cat && $cat->get('root')->hasChildren())
 		{

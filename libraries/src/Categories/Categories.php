@@ -10,6 +10,7 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
@@ -90,7 +91,7 @@ class Categories
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $_options = null;
+	protected $_options = [];
 
 	/**
 	 * Class constructor
@@ -101,20 +102,7 @@ class Categories
 	 */
 	public function __construct($options)
 	{
-		$this->_extension  = $options['extension'];
-		$this->_table      = $options['table'];
-		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
-		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-		$this->_statefield = $options['statefield'] ?? 'state';
-
-		$options['access']      = $options['access'] ?? 'true';
-		$options['published']   = $options['published'] ?? 1;
-		$options['countItems']  = $options['countItems'] ?? 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-
-		$this->_options = $options;
-
-		return true;
+		$this->setOptions($options);
 	}
 
 	/**
@@ -125,7 +113,8 @@ class Categories
 	 *
 	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the ComponentContainerInterface to get the categories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -136,32 +125,16 @@ class Categories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.', $extension);
-		$component = 'com_' . strtolower($parts[0]);
-		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component, 4)) . ucfirst($section) . 'Categories';
+		$parts = explode('.', $extension, 2);
 
-		if (!class_exists($classname))
+		$categories = ComponentHelper::boot($parts[0])->getCategories(count($parts) > 1 ? $parts[1] : '');
+
+		if ($categories)
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
-
-			if (!is_file($path))
-			{
-				return false;
-			}
-
-			include_once $path;
+			$categories->setOptions($options);
 		}
 
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($classname))
-		{
-			self::$instances[$hash] = \JFactory::getContainer()->get($classname);
-		}
-		else
-		{
-			self::$instances[$hash] = new $classname($options);
-		}
+		self::$instances[$hash] = $categories;
 
 		return self::$instances[$hash];
 	}
@@ -388,5 +361,42 @@ class Categories
 		{
 			$this->_nodes[$id] = null;
 		}
+	}
+
+	/**
+	 * Sets the options for this service. The given options do overwrite the
+	 * internal options with the same index. The existing options are not cleared
+	 * when they are not specified in the given options array.
+	 *
+	 * @param  array  $options  The new options
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setOptions(array $options)
+	{
+		if ($this->_options == $options)
+		{
+			return;
+		}
+
+		// Merge the options to not loose the base config
+		$options = array_merge($this->_options, $options);
+
+		$this->_extension  = $options['extension'];
+		$this->_table      = $options['table'];
+		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+		$this->_statefield = $options['statefield'] ?? 'state';
+
+		$options['access']      = $options['access'] ?? 'true';
+		$options['published']   = $options['published'] ?? 1;
+		$options['countItems']  = $options['countItems'] ?? 0;
+		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+
+		$this->_options = $options;
+
+		// Reset the cache
+		$this->_nodes             = [];
+		$this->_checkedCategories = [];
 	}
 }
