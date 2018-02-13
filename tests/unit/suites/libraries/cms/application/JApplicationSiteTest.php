@@ -102,10 +102,16 @@ class JApplicationSiteTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
+		$container = new \Joomla\DI\Container;
+		$pathwayProvider = new \Joomla\CMS\Service\Provider\Pathway;
+		$pathwayProvider->register($container);
+
 		// Get a new JApplicationSite instance.
 		$this->class = new JApplicationSite($this->getMockInput(), $config);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
+		$container->set('Joomla\CMS\Application\SiteApplication', $this->class);
+		$this->class->setContainer($container);
 		TestReflection::setValue('JApplicationCms', 'instances', array('site' => $this->class));
 
 		JFactory::$application = $this->class;

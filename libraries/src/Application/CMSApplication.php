@@ -104,10 +104,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The pathway object
 	 *
-	 * @var    Pathway
+	 * @var    Pathway[]
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $pathway = null;
+	protected $pathway = [];
 
 	/**
 	 * Class constructor.
@@ -603,12 +603,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $this->getName();
 		}
 
-		if (!$this->pathway)
+		$name = strtolower($name);
+
+		if (!array_key_exists($name, $this->pathway))
 		{
-			$this->pathway = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+			if (!$this->getContainer()->has(ucfirst($name) . 'Pathway'))
+			{
+				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $name), 500);
+			}
+
+			$this->pathway[$name] = $this->getContainer()->get(ucfirst($name) . 'Pathway');
 		}
 
-		return $this->pathway;
+		return $this->pathway[$name];
 	}
 
 	/**

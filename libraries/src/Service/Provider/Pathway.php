@@ -11,6 +11,7 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Pathway\Pathway as GlobalPathway;
 use Joomla\CMS\Pathway\SitePathway;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -41,6 +42,18 @@ class Pathway implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new SitePathway($container->get(SiteApplication::class));
+				},
+				true
+			);
+
+		$container->alias('Pathway', GlobalPathway::class)
+			->alias('JPathway', GlobalPathway::class)
+			->alias('pathway', GlobalPathway::class)
+			->share(
+				GlobalPathway::class,
+				function (Container $container)
+				{
+					return new GlobalPathway;
 				},
 				true
 			);
