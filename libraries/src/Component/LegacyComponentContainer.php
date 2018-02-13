@@ -29,7 +29,7 @@ class LegacyComponentContainer implements ComponentContainerInterface
 	/**
 	 * LegacyComponentContainer constructor.
 	 *
-	 * @param  string  $component
+	 * @param   string  $component  The component
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -42,7 +42,7 @@ class LegacyComponentContainer implements ComponentContainerInterface
 	 * Returns the category service. If the service is not available
 	 * null is returned.
 	 *
-	 * @param  string  $section  The section
+	 * @param   string  $section  The section
 	 *
 	 * @return  Categories|null
 	 *

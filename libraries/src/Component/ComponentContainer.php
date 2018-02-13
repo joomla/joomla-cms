@@ -25,7 +25,7 @@ class ComponentContainer extends Container implements ComponentContainerInterfac
 	 * Returns the category service. If the service is not available
 	 * null is returned.
 	 *
-	 * @param  string  $section  The section
+	 * @param   string  $section  The section
 	 *
 	 * @return  Categories|null
 	 *
@@ -37,7 +37,7 @@ class ComponentContainer extends Container implements ComponentContainerInterfac
 
 		if ($section)
 		{
-			$serviceName .= '.' .strtolower($section);
+			$serviceName .= '.' . strtolower($section);
 		}
 
 		if (!$this->has($serviceName))

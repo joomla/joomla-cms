@@ -16,7 +16,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the components's categories dependency
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class Categories implements ServiceProviderInterface
 {
@@ -30,7 +30,7 @@ class Categories implements ServiceProviderInterface
 	/**
 	 * Categories constructor.
 	 *
-	 * @param  array  $options  The options for the categories
+	 * @param   array  $options  The options for the categories
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

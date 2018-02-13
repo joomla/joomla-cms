@@ -368,7 +368,9 @@ class Categories
 	 * internal options with the same index. The existing options are not cleared
 	 * when they are not specified in the given options array.
 	 *
-	 * @param  array  $options  The new options
+	 * @param   array  $options  The new options
+	 *
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
