@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,11 +105,13 @@ class Menu extends Nested
 		{
 			$this->path = $this->alias;
 		}
+
 		// Check for params.
 		if (trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
+
 		// Check for img.
 		if (trim($this->img) === '')
 		{
@@ -154,7 +156,7 @@ class Menu extends Nested
 		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
 			// Verify that a first level menu item alias is not 'component'.
-			if ( $this->alias == 'component')
+			if ($this->alias == 'component')
 			{
 				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 

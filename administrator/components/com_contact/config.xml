@@ -45,7 +45,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="10"
@@ -946,7 +946,7 @@
 			type="radio"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
-			default="1"
+			default="0"
 			class="btn-group btn-group-yesno"
 			showon="show_email_form:1"
 			>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,8 @@ JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 // Check for OpenSearch
 if ($params->get('opensearch', 1))
 {
-/*
-This code intentionally commented
+	/*
+	This code intentionally commented
 	$doc = JFactory::getDocument();
 	$app = JFactory::getApplication();
 
@@ -35,7 +35,7 @@ This code intentionally commented
 						JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
 						'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 					);
-*/
+	*/
 }
 
 // Initialize module parameters.

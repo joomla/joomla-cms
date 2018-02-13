@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -797,18 +797,8 @@ class Session implements \IteratorAggregate
 			return false;
 		}
 
-		// Keep session config
-		$cookie = session_get_cookie_params();
-
-		// Re-register the session store after a session has been destroyed, to avoid PHP bug
-		$this->_store->register();
-
-		// Restore config
-		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
-
 		// Restart session with new id
 		$this->_handler->regenerate(true, null);
-		$this->_handler->start();
 
 		return true;
 	}
@@ -937,7 +927,10 @@ class Session implements \IteratorAggregate
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->_expire);
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->_expire);
+		}
 
 		return true;
 	}

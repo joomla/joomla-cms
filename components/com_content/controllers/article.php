@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,7 +172,7 @@ class ContentControllerArticle extends JControllerForm
 			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
 
 			if ($cancelMenuitemId > 0)
-			{				
+			{
 				$item = $app->getMenu()->getItem($cancelMenuitemId);
 				$lang = '';
 
@@ -368,7 +368,7 @@ class ContentControllerArticle extends JControllerForm
 			if (JLanguageMultilang::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
-				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
 			// If ok, redirect to the return page.
@@ -387,6 +387,21 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to reload a record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function reload($key = null, $urlVar = 'a_id')
+	{
+		return parent::reload($key, $urlVar);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -190,11 +190,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Build the mock object.
 		$mockClient = $this->getMockBuilder('JApplicationWebClient')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
+			->setMethods(array('test'))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 

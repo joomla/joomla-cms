@@ -1,25 +1,29 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Router;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Route handling class
  *
  * @since  11.1
  */
-class JRoute
+class Route
 {
 	/**
 	 * The route object so we don't have to keep fetching it.
 	 *
-	 * @var    JRouter
+	 * @var    Router
 	 * @since  12.2
 	 */
 	private static $_router = null;
@@ -43,7 +47,7 @@ class JRoute
 		if (!self::$_router)
 		{
 			// Get the router.
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			self::$_router = $app::getRouter();
 
 			// Make sure that we have our router
@@ -76,7 +80,7 @@ class JRoute
 
 			if (!is_array($host_port))
 			{
-				$uri2 = JUri::getInstance();
+				$uri2 = Uri::getInstance();
 				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 

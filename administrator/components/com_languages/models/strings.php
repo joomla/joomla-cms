@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,8 +44,8 @@ class LanguagesModelStrings extends JModelLegacy
 
 		// Create the insert query.
 		$query = $this->_db->getQuery(true)
-					->insert($this->_db->quoteName('#__overrider'))
-					->columns('constant, string, file');
+			->insert($this->_db->quoteName('#__overrider'))
+			->columns('constant, string, file');
 
 		// Initialize some variables.
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
@@ -148,7 +148,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 			// Check whether there are more results than already loaded.
 			$query->clear('select')->clear('limit')
-						->select('COUNT(id)');
+				->select('COUNT(id)');
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadResult() > $limitstart + 10)
