@@ -51,14 +51,13 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = Factory::getConfig();
-					$app    = Factory::getApplication();
+					$app = Factory::getApplication();
 
 					// Generate a session name.
-					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
+					$name = ApplicationHelper::getHash($app->get('session_name', get_class($app)));
 
 					// Calculate the session lifetime.
-					$lifetime = (($config->get('lifetime')) ? $config->get('lifetime') * 60 : 900);
+					$lifetime = (($app->get('lifetime')) ? $app->get('lifetime') * 60 : 900);
 
 					// Initialize the options for the Session object.
 					$options = array(
@@ -66,18 +65,18 @@ class Session implements ServiceProviderInterface
 						'expire' => $lifetime
 					);
 
-					if ($app->isClient('site') && $config->get('force_ssl') == 2)
+					if ($app->isClient('site') && $app->get('force_ssl') == 2)
 					{
 						$options['force_ssl'] = true;
 					}
 
-					if ($app->isClient('administrator') && $config->get('force_ssl') >= 1)
+					if ($app->isClient('administrator') && $app->get('force_ssl') >= 1)
 					{
 						$options['force_ssl'] = true;
 					}
 
 					// Set up the storage handler
-					$handlerType = $config->get('session_handler', 'filesystem');
+					$handlerType = $app->get('session_handler', 'filesystem');
 
 					switch ($handlerType)
 					{
@@ -98,7 +97,7 @@ class Session implements ServiceProviderInterface
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							$path = $app->get('session_filesystem_path', '');
 
 							// If no path is given, fall back to the system's temporary directory
 							if (empty($path))
@@ -116,10 +115,10 @@ class Session implements ServiceProviderInterface
 								throw new RuntimeException('Memcached is not supported on this system.');
 							}
 
-							$host = $config->get('session_memcached_server_host', 'localhost');
-							$port = $config->get('session_memcached_server_port', 11211);
+							$host = $app->get('session_memcached_server_host', 'localhost');
+							$port = $app->get('session_memcached_server_port', 11211);
 
-							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
+							$memcached = new Memcached($app->get('session_memcached_server_id', 'joomla_cms'));
 							$memcached->addServer($host, $port);
 
 							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
@@ -136,12 +135,12 @@ class Session implements ServiceProviderInterface
 							}
 
 							$redis = new Redis;
-							$host = $config->get('session_redis_server_host', '127.0.0.1');
+							$host = $app->get('session_redis_server_host', '127.0.0.1');
 
 							// Use default port if connecting over a socket whatever the config value
-							$port = $host[0] === '/' ? $config->get('session_redis_server_port', 6379) : 6379;
+							$port = $host[0] === '/' ? $app->get('session_redis_server_port', 6379) : 6379;
 
-							if ($config->get('session_redis_persist', true))
+							if ($app->get('session_redis_persist', true))
 							{
 								$redis->pconnect(
 									$host,
@@ -156,12 +155,12 @@ class Session implements ServiceProviderInterface
 								);
 							}
 
-							if (!empty($config->get('session_redis_server_auth', '')))
+							if (!empty($app->get('session_redis_server_auth', '')))
 							{
-								$redis->auth($config->get('session_redis_server_auth', null));
+								$redis->auth($app->get('session_redis_server_auth', null));
 							}
 
-							$db = (int) $config->get('session_redis_server_db', 0);
+							$db = (int) $app->get('session_redis_server_db', 0);
 
 							if ($db !== 0)
 							{
