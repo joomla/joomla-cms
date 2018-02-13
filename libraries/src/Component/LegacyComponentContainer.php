@@ -69,6 +69,6 @@ class LegacyComponentContainer implements ComponentContainerInterface
 			return null;
 		}
 
-		return new $classname([]);
+		return new $classname(array());
 	}
 }
