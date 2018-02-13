@@ -286,7 +286,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.3
 	 */
 	public function testLoadByPsr4()
 	{
