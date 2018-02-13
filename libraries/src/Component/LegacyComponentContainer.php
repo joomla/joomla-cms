@@ -35,7 +35,7 @@ class LegacyComponentContainer implements ComponentContainerInterface
 	 */
 	public function __construct(string $component)
 	{
-		$this->component = $component;
+		$this->component = str_replace('com_', '', $component);
 	}
 
 	/**
@@ -48,13 +48,13 @@ class LegacyComponentContainer implements ComponentContainerInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getCategories($section = ''): Categories
+	public function getCategories($section = '')
 	{
-		$classname = ucfirst(substr($this->component, 4)) . ucfirst($section) . 'Categories';
+		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 
 		if (!class_exists($classname))
 		{
-			$path = JPATH_SITE . '/components/' . $this->component . '/helpers/category.php';
+			$path = JPATH_SITE . '/components/com_' . $this->component . '/helpers/category.php';
 
 			if (!is_file($path))
 			{
@@ -62,6 +62,11 @@ class LegacyComponentContainer implements ComponentContainerInterface
 			}
 
 			include_once $path;
+		}
+
+		if (!class_exists($classname))
+		{
+			return null;
 		}
 
 		return new $classname([]);

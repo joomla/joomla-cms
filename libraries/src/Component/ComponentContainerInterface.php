@@ -29,5 +29,5 @@ interface ComponentContainerInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getCategories($section = ''): Categories;
+	public function getCategories($section = '');
 }

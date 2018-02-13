@@ -376,7 +376,7 @@ class Categories
 	 */
 	public function setOptions(array $options)
 	{
-		if ($this->_options == $options)
+		if ($this->_options && $this->_options == $options)
 		{
 			return;
 		}
@@ -390,9 +390,9 @@ class Categories
 		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
 		$this->_statefield = $options['statefield'] ?? 'state';
 
-		$options['access']      = $options['access'] ?? 'true';
-		$options['published']   = $options['published'] ?? 1;
-		$options['countItems']  = $options['countItems'] ?? 0;
+		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
+		$options['published']   = isset($options['published']) ? $options['published'] : 1;
+		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
 		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
 		$this->_options = $options;
