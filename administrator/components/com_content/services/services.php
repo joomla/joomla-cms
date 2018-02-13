@@ -14,9 +14,7 @@ $container->share(
 	function (\Joomla\DI\Container $parent)
 	{
 		$container = new \Joomla\CMS\Component\ComponentContainer($parent);
-		$container->registerServiceProvider(
-			new \Joomla\CMS\Component\Service\Provider\Categories(['table' => '#__content', 'extension' => 'com_content'])
-		);
+		$container->set('categories', new \Joomla\Component\Content\Site\Service\Category);
 
 		return $container;
 	},
