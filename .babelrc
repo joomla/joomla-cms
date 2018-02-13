@@ -6,8 +6,7 @@
         "modules": false,
         "targets": {
           "browsers": [
-            "last 1 version",
-            "ie >= 11"
+            "last 1 version"
           ]
         }
       }
