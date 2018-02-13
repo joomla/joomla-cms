@@ -30,7 +30,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * The application message queue.
@@ -79,9 +79,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
