@@ -14,8 +14,8 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 
@@ -194,6 +194,9 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
+		// The container
+		$container = Factory::getContainer();
+
 		// Set up the namespace
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
@@ -207,11 +210,13 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
+		$factory = $container->get(MVCFactoryFactoryInterface::class)->createFactory($this->option, $this->app);
+
+		$controller = new $controllerClass($config, $factory, $this->app, $this->input);
 
 		if ($controller instanceof FormFactoryAwareInterface)
 		{
-			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
+			$controller->setFormFactory($container->get(FormFactoryInterface::class));
 		}
 
 		return $controller;
