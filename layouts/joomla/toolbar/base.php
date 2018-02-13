@@ -19,7 +19,7 @@ extract($displayData, EXTR_OVERWRITE);
 ?>
 
 <?php if ($hasChildren): ?>
-    <div class="btn-group" role="group" aria-label="Button Dropdown">
+    <div class="btn-group group-<?php echo $options['name'] ?? ''; ?>" role="group" aria-label="Button Dropdown">
 		<?php echo $action; ?>
 
 		<button type="button" class="<?php echo $options['caretClass'] ?? ''; ?> dropdown-toggle dropdown-toggle-split"
