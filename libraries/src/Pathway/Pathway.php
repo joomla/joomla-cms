@@ -46,7 +46,7 @@ class Pathway
 	/**
 	 * Returns a Pathway object
 	 *
-	 * @param   string  $client   The name of the client
+	 * @param   string  $client  The name of the client
 	 *
 	 * @return  Pathway  A Pathway object.
 	 *

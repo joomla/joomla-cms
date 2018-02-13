@@ -24,7 +24,7 @@ class SitePathway extends Pathway
 	/**
 	 * Class constructor.
 	 *
-	 * @param   SiteApplication  $app      Application Object
+	 * @param   SiteApplication  $app  Application Object
 	 *
 	 * @since   1.5
 	 */
