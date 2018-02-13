@@ -108,7 +108,7 @@ class StandardButton extends BasicButton
 				return ' btn btn-sm btn-outline-warning';
 
 			case 'cancel':
-				return ' btn btn-sm btn-danger';
+				return ' btn btn-sm btn-outline-danger';
 
 			case 'trash':
 				return ' btn btn-sm btn-outline-danger';

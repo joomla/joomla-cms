@@ -215,7 +215,7 @@ trait CoreButtonsTrait
 
 	public function customHtml(string $html, string $name = 'custom'): CustomButton
 	{
-		$this->customButton($name)
+		return $this->customButton($name)
 			->html($html);
 	}
 }
