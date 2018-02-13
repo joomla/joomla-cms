@@ -1,6 +1,5 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE.
-* WORK ON THE ES6 VERSION.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 * OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
 **/
 
@@ -10,6 +9,8 @@
  */
 
 (function () {
+  'use strict';
+
   var btn = document.getElementById('btn-login-submit');
   if (btn) {
     btn.addEventListener('click', function (e) {

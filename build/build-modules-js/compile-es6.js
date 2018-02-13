@@ -12,8 +12,7 @@ const options = {
  * @param filePath
  */
 const compileFile = (filePath) => {
-  const headerText = `PLEASE DO NOT MODIFY THIS FILE.
-WORK ON THE ES6 VERSION.
+  const headerText = `PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
   const babelOptions = {
     plugins: [
@@ -24,7 +23,9 @@ OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
   babel.transformFile(filePath, babelOptions, (error, result) => {
     if (error) process.exit(1);
     const fileName = filePath.slice(0, -7);
-    fs.writeFile(`${fileName}.js`, result.code);
+    fs.writeFile(`${fileName}.js`, result.code, (fsError) => {
+      if (fsError) process.exit(1);
+    });
   });
 };
 
@@ -33,4 +34,3 @@ glob(pattern, options, (error, files) => {
   if (error) process.exit(1);
   files.forEach(compileFile);
 });
-
