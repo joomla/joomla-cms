@@ -15,7 +15,7 @@ use Joomla\DI\ContainerAwareTrait;
 /**
  * Trait for classes which can load extensions
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 trait ExtensionLoader
 {
@@ -36,7 +36,7 @@ trait ExtensionLoader
 		$component = strtolower(str_replace('com_', '', $component));
 
 		// Path to to look for services
-		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component ;
+		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
 		return $this->loadExtensionContainer(ucfirst($component) . 'ComponentContainer', 'com_' . $component, $path);
 	}
