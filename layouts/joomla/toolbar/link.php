@@ -25,7 +25,7 @@ $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <a
 	id="<?php echo $id; ?>"
-	class="btn btn-outline-danger btn-sm<?php echo $margin; ?>"
+	class="<?php echo $btnClass; ?><?php echo $margin; ?>"
 	href="<?php echo $url; ?>"
 	<?php echo $target; ?>
 	<?php echo $htmlAttributes; ?>>
