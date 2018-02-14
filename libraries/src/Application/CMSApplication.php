@@ -605,17 +605,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$name = strtolower($name);
 
-		if (!array_key_exists($name, $this->pathway))
+		if (!array_key_exists($name . 'pathway', $this->pathway))
 		{
 			if (!$this->getContainer()->has(ucfirst($name) . 'Pathway'))
 			{
 				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $name), 500);
 			}
 
-			$this->pathway[$name] = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+			$this->pathway[$name . 'pathway'] = $this->getContainer()->get(ucfirst($name) . 'Pathway');
 		}
 
-		return $this->pathway[$name];
+		return $this->pathway[$name . 'pathway'];
 	}
 
 	/**
