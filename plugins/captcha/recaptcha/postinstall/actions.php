@@ -23,10 +23,10 @@ function recaptcha_postinstall_condition()
 	$db = JFactory::getDbo();
 
 	$query = $db->getQuery(true)
-		->select('*')
+		->select('1')
 		->from($db->qn('#__extensions'))
 		->where($db->qn('name') . ' = ' . $db->q('plg_captcha_recaptcha'))
-		->where($db->qn('enabled') . ' = ' . $db->q('1'))
+		->where($db->qn('enabled') . ' = 1')
 		->where($db->qn('params') . ' LIKE ' . $db->q('%1.0%'));
 	$db->setQuery($query);
 	$enabled_plugins = $db->loadObjectList();
