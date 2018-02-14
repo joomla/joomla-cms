@@ -1,9 +1,9 @@
 $theme-colours: ();
 $theme-colours: map-merge((
-        "yellow" : #F9A541,
-        "red"    : #F44321,
-        "blue"   : #5091CD,
-        "green"  : #7AC143,
+        "yellow" : #f9a541,
+        "red"    : #f44321,
+        "blue"   : #5091cd,
+        "green"  : #7ac143,
 ), $theme-colours);
 
 :host {
@@ -54,12 +54,12 @@ $theme-colours: map-merge((
   $value: nth($colour, 2);
 
   .#{$key} {
-    content: "";
     position: absolute;
     width: 90px;
     height: 90px;
-    border-radius: 90px;
+    content: "";
     background: $value;
+    border-radius: 90px;
 
     &::before,
     &::after {
@@ -68,22 +68,22 @@ $theme-colours: map-merge((
     }
 
     &::before {
-      content: "";
       position: absolute;
       width: 50px;
       height: 35px;
       margin: 60px 0 0 -30px;
+      content: "";
       background: transparent;
+      border-width: 50px 50px 0;
       border-radius: 75px 75px 0 0;
-      border-width: 50px 50px 0 50px;
     }
 
     &::after {
-      content: "";
       position: absolute;
       width: 50px;
       height: 101px;
       margin: 145px 0 0 -30px;
+      content: "";
       background: transparent;
       border-width: 0 0 0 50px;
     }
@@ -106,22 +106,22 @@ $theme-colours: map-merge((
 }
 
 .green {
-  margin: 182px 0 0 0;
+  margin: 182px 0 0;
   transform: rotate(270deg);
 }
 
 @keyframes jspinner {
   0%, 40%, 100% {
-    opacity: .3
+    opacity: .3;
   }
   20% {
-    opacity:1
+    opacity: 1;
   }
 }
 
 
 @media (prefers-reduced-motion: reduce) {
   .box > span {
-      animation: none;
-    }
+    animation: none;
+  }
 }
