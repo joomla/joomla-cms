@@ -825,6 +825,18 @@ class Session implements \IteratorAggregate
 	}
 
 	/**
+	 * Delete expired session data
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		return $this->_store->gc($this->getExpire());
+	}
+
+	/**
 	 * Set the session handler
 	 *
 	 * @param   \JSessionHandlerInterface  $handler  The session handler
