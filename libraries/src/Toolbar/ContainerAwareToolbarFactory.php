@@ -68,7 +68,10 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			return $this->getContainer()->get($buttonClass);
 		}
 
-		return (new $buttonClass)->setParent($toolbar);
+		/** @var ToolbarButton $button */
+		$button = new $buttonClass;
+
+		return $button->setParent($toolbar);
 	}
 
 	/**
@@ -97,7 +100,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
-			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
+			'Joomla\\CMS\\Toolbar\\Legacy\\' . ucfirst($type) . 'Button',
 			// @deprecated 5.0
 			'JToolbarButton' . ucfirst($type),
 		];
