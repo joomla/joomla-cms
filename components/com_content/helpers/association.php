@@ -84,7 +84,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 					if (count($associations) === 0)
 					{
-						static::$filters[$id] =array();
+						static::$filters[$id] = array();
 					}
 				}
 
