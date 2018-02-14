@@ -2,11 +2,11 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Log;
+namespace Joomla\CMS\Log;
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
@@ -15,15 +15,15 @@ use Psr\Log\LogLevel;
 /**
  * Delegating logger which delegates log messages received from the PSR-3 interface to the Joomla! Log object.
  *
- * @since  4.0
+ * @since  3.8.0
  */
 class DelegatingPsrLogger extends AbstractLogger
 {
 	/**
-	 * The JLog instance to delegate messages to.
+	 * The Log instance to delegate messages to.
 	 *
-	 * @var    \JLog
-	 * @since  4.0
+	 * @var    Log
+	 * @since  3.8.0
 	 */
 	protected $logger;
 
@@ -31,27 +31,27 @@ class DelegatingPsrLogger extends AbstractLogger
 	 * Mapping array to map a PSR-3 level to a Joomla priority.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  3.8.0
 	 */
 	protected $priorityMap = array(
-		LogLevel::EMERGENCY => \JLog::EMERGENCY,
-		LogLevel::ALERT     => \JLog::ALERT,
-		LogLevel::CRITICAL  => \JLog::CRITICAL,
-		LogLevel::ERROR     => \JLog::ERROR,
-		LogLevel::WARNING   => \JLog::WARNING,
-		LogLevel::NOTICE    => \JLog::NOTICE,
-		LogLevel::INFO      => \JLog::INFO,
-		LogLevel::DEBUG     => \JLog::DEBUG
+		LogLevel::EMERGENCY => Log::EMERGENCY,
+		LogLevel::ALERT     => Log::ALERT,
+		LogLevel::CRITICAL  => Log::CRITICAL,
+		LogLevel::ERROR     => Log::ERROR,
+		LogLevel::WARNING   => Log::WARNING,
+		LogLevel::NOTICE    => Log::NOTICE,
+		LogLevel::INFO      => Log::INFO,
+		LogLevel::DEBUG     => Log::DEBUG
 	);
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   \JLog  $logger  The \JLog instance to delegate messages to.
+	 * @param   Log  $logger  The Log instance to delegate messages to.
 	 *
-	 * @since   4.0
+	 * @since   3.8.0
 	 */
-	public function __construct(\JLog $logger)
+	public function __construct(Log $logger)
 	{
 		$this->logger = $logger;
 	}
@@ -63,9 +63,9 @@ class DelegatingPsrLogger extends AbstractLogger
 	 * @param   string  $message  The log message.
 	 * @param   array   $context  Additional message context.
 	 *
-	 * @return  null
+	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   3.8.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function log($level, $message, array $context = array())
@@ -73,7 +73,7 @@ class DelegatingPsrLogger extends AbstractLogger
 		// Make sure the log level is valid
 		if (!array_key_exists($level, $this->priorityMap))
 		{
-			throw new InvalidArgumentException('An invalid log level has been given.');
+			throw new \InvalidArgumentException('An invalid log level has been given.');
 		}
 
 		// Map the level to Joomla's priority
@@ -94,13 +94,13 @@ class DelegatingPsrLogger extends AbstractLogger
 			$date = $context['date'];
 		}
 
-		// Joomla's logging API will only process a string or a JLogEntry object, if $message is an object without __toString() we can't use it
-		if (!is_string($message) && !($message instanceof \JLogEntry))
+		// Joomla's logging API will only process a string or a LogEntry object, if $message is an object without __toString() we can't use it
+		if (!is_string($message) && !($message instanceof LogEntry))
 		{
 			if (!is_object($message) || !method_exists($message, '__toString'))
 			{
-				throw new InvalidArgumentException(
-					'The message must be a string, a JLogEntry object, or an object implementing the __toString() method.'
+				throw new \InvalidArgumentException(
+					'The message must be a string, a LogEntry object, or an object implementing the __toString() method.'
 				);
 			}
 

@@ -4,7 +4,7 @@
  * @subpackage  Plugins
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require JPATH_BASE . '/plugins/content/emailcloak/emailcloak.php';
@@ -38,7 +38,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session     = $this->getMockSession();
 
-		// force the cloak JS inline so that we can unit test it easier than messing with script head in document
+		// Force the cloak JS inline so that we can unit test it easier than messing with script head in document
 		JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
 		// Create a mock dispatcher instance
@@ -80,7 +80,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				 */
 				'this should not be parsed as it has no (at) sign in it - see what I did there? ;)',
 
-				// this third row is the full output of the cloak with inline javascript mode enabled
+				// This third row is the full output of the cloak with inline javascript mode enabled
 				''
 
 			),
@@ -247,9 +247,9 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 			// 10
 			array(
-				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg" />joe@nowhere.com</a></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg">joe@nowhere.com</a></p>',
 
-				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg" />joe@nowhere.com</a>',
+				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg">joe@nowhere.com</a>',
 
 				"
 				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
@@ -258,7 +258,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var path = 'hr' + 'ef' + '=';
 				var addy__HASH__ = 'joe' + '@';
 				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject=Text';
-				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\" />joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
+				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\">joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
 		</script></p>
 				"
 			),
@@ -352,64 +352,58 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 	/**
 	 * Tests PlgContentEmailcloakTest::_cloak()
 	 *
-	 * @param   string $input The text to test.
-	 * @param   string $expected The expectation of the filtering.
+	 * @param   string  $input         The text to test.
+	 * @param   string  $expectedHTML  The expectation of the filtering.
+	 * @param   string  $expectedJs    The expected javascript
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestOnContentPrepare
 	 * @since         3.6.2
 	 */
-	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML = NULL, $expectedJs)
+	public function testOnContentPrepareWithRowNoFinder($input, $expectedHTML, $expectedJs)
 	{
 		$row = new \stdClass;
 		$row->text = $input;
 		$params = new JRegistry;
 
-		// assert we have the correct event
+		// Assert we have the correct event
 		$this->assertInstanceOf('PlgContentEmailcloak', $this->class);
 
-		// assert that we are getting a clean process
+		// Assert that we are getting a clean process
 		$res = $this->class->onContentPrepare('com_content.article', $row, $params);
 		$this->assertEquals(1, $res);
-
 
 		// Get the md5 hash
 		preg_match("/addy_text([0-9a-z]{32})/", $row->text, $output_array);
 
 		// If we did some cloaking then test the JS
-		if (count($output_array)) {
+		if (count($output_array))
+		{
 			$hash = $output_array[1];
 
-			// assert the JLIB_HTML_CLOAKING span is intact
+			// Assert the JLIB_HTML_CLOAKING span is intact
 			$this->assertRegExp('/\<span\sid\=\"cloak[0-9a-z]{32}\"\>JLIB_HTML_CLOAKING\<\/span\>/', $row->text);
 			$cloakHTML = '<span id="cloak' . $hash . '">JLIB_HTML_CLOAKING</span>';
 			$this->assertContains($cloakHTML, $row->text);
 
+			// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
+			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
+			$result = trim($innerJS[1][0]);
 
-			if ($expectedJs) {
-				// need to do this to overcome whitespace comparison issue in phpunit for some reason...
-				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
-				$result = trim($innerJS[1][0]);
+			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
+			$expected = trim($innerJS[1][0]);
 
-				preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
-				$expected = trim($innerJS[1][0]);
+			// Assert the render is as the expected render with injected hash
+			$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
 
-				// assert the render is as the expected render with injected hash
-				$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
-
-				if (null !== $expectedHTML) {
-					$html = $this->convertJStoHTML($result, $hash);
-					$this->assertEquals($html, $expectedHTML);
-				}
-			}
-
-
-		} else {
-
-			// ok we never cloaked an email but lets ensure we did not screw up the article text anyway!
+			$html = $this->convertJStoHTML($result, $hash);
+			$this->assertEquals($html, $expectedHTML);
+		}
+		else
+		{
+			// We never cloaked an email but lets ensure we did not screw up the article text anyway!
 			$this->assertEquals($expectedHTML, $row->text);
-
 		}
 	}
 
@@ -444,14 +438,17 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 			sprintf('$addy%s .', $hash),
 			$js);
 
-		// because with all those replaces, you and I will need this a lot :)
-		if (true === $debug) {
+		// Because with all those replaces, you and I will need this a lot :)
+		if (true === $debug)
+		{
 			echo "\n\n" . trim($js) . "\n\n";
 			eval($js);
 			echo "\n\n";
 			var_dump(trim($resultantHTML));
 			die;
-		} else {
+		}
+		else
+		{
 			// EVAL IS EVIL - I know - but here its not a security risk, and is 'ok'-ish.
 			eval($js);
 		}
@@ -468,10 +465,10 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		$row = 'test string';
 		$params = new JRegistry;
 
-		// assert we have the correct event
+		// Assert we have the correct event
 		$this->assertInstanceOf('PlgContentEmailcloak', $this->class);
 
-		// assert that we are getting a clean process
+		// Assert that we are getting a clean process
 		$res = $this->class->onContentPrepare('com_finder.indexer', $row, $params);
 		$this->assertEquals(1, $res);
 		$this->assertEquals('test string', $row);

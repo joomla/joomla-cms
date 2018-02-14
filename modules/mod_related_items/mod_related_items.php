@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-// Include the related items functions only once
-JLoader::register('ModRelatedItemsHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\RelatedItems\Site\Helper\RelatedItemsHelper;
 
-$cacheparams = new stdClass;
-$cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'ModRelatedItemsHelper';
-$cacheparams->method = 'getList';
+$cacheparams = new \stdClass;
+$cacheparams->cachemode    = 'safeuri';
+$cacheparams->class        = 'Joomla\Module\RelatedItems\Site\Helper\RelatedItemsHelper';
+$cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');
+$cacheparams->modeparams   = array('id' => 'int', 'Itemid' => 'int');
 
-$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
+$list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!count($list))
 {
@@ -29,4 +29,4 @@ if (!count($list))
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 $showDate        = $params->get('showDate', 0);
 
-require JModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));

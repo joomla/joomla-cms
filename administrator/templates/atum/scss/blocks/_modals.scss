@@ -1,32 +1,41 @@
 // Modals
 
 .modal {
+
   .btn {
     margin-right: .5rem;
   }
+
   .btn-primary:not([href]),
   .btn-success:not([href]) {
-    color: $btn-primary-color;
+    color: #fff;
+
     &:hover {
-      color: $btn-primary-color;
+      color: #fff;
     }
+
   }
+
 }
 
 .modal-header {
   padding: 0 15px;
+
   .close {
     width: $modal-header-height;
+    height: $modal-header-height;
     margin-top: 0;
     margin-right: -15px;
     font-size: 2rem;
-    line-height: $modal-header-height;
+    line-height: 1rem;
     border-left: 1px solid $atum-border-color;
   }
+
 }
 
 .modal-body {
   padding: 0;
+  overflow-y: auto;
 }
 
 .modal-title {

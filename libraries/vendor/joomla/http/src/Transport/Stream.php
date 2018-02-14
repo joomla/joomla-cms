@@ -102,13 +102,23 @@ class Stream extends AbstractTransport
 		}
 
 		// Build the headers string for the request.
-		$headerString = null;
-
-		if (isset($headers))
+		if (!empty($headers))
 		{
+			$headerString = '';
+
 			foreach ($headers as $key => $value)
 			{
-				$headerString .= $key . ': ' . $value . "\r\n";
+				if (is_array($value))
+				{
+					foreach ($value as $header)
+					{
+						$headerString .= "$key: $header\r\n";
+					}
+				}
+				else
+				{
+					$headerString .= "$key: $value\r\n";
+				}
 			}
 
 			// Add the headers string into the stream context options array.
@@ -138,9 +148,10 @@ class Stream extends AbstractTransport
 		$streamOptions = [
 			'http' => $options,
 			'ssl'  => [
-				'verify_peer'  => true,
-				'verify_depth' => 5,
-			]
+				'verify_peer'      => true,
+				'verify_depth'     => 5,
+				'verify_peer_name' => true,
+			],
 		];
 
 		// The cacert may be a file or path

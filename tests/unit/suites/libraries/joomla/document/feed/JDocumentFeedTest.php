@@ -4,7 +4,7 @@
  * @subpackage  Document
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -27,7 +27,12 @@ class JDocumentFeedTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockWeb();
+		$config = array(
+			array('offset', 'UTC', 'UTC')
+		);
+
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$application->method('get')->will($this->returnValueMap($config));
 
 		$this->object = new JDocumentFeed;
 	}

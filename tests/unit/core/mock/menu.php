@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -19,13 +19,13 @@ class TestMockMenu
 	/**
 	 * Creates an instance of the mock JMenu object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test  A test object.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.4
 	 */
-	public static function create(PHPUnit_Framework_TestCase $test, $setDefault = true, $setActive = false)
+	public static function create(\PHPUnit\Framework\TestCase $test, $setDefault = true, $setActive = false)
 	{
 		// Collect all the relevant methods in JMenu (work in progress).
 		$methods = array(

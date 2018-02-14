@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="default" label="COM_USERS_RESET_CONFIRM_LABEL">
+		<field
+			name="username"
+			type="text"
+			label="COM_USERS_FIELD_RESET_CONFIRM_USERNAME_LABEL"
+			description="COM_USERS_FIELD_RESET_CONFIRM_USERNAME_DESC"
+			filter="username"
+			required="true"
+			size="30"
+		/>
+
+		<field
+			name="token"
+			type="text"
+			label="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_LABEL"
+			description="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_DESC"
+			filter="alnum"
+			required="true"
+			size="32"
+		/>
+	</fieldset>
+</form>

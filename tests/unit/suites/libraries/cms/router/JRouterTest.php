@@ -4,7 +4,7 @@
  * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -62,14 +62,13 @@ class JRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   4.0
 	 */
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
-		unset($this->server);
-		unset($this->object);
+		unset($this->server, $this->object);
 
 		parent::tearDown();
 	}
@@ -149,7 +148,7 @@ class JRouterTest extends TestCase
 				array('result' => '1'),
 				array('result' => '1')
 			),
-			// absolute URL with no query params returns empty result
+			// Absolute URL with no query params returns empty result
 			'abs-no-query-no-result' => array(
 				array(),
 				array(),
@@ -275,7 +274,7 @@ class JRouterTest extends TestCase
 
 
 	/**
-	 * @see     https://github.com/joomla-projects/joomla-pythagoras/issues/3
+	 * @link    https://github.com/joomla-projects/joomla-pythagoras/issues/3
 	 * @since   3.4
 	 */
 	public function testMultipleVariablesCanBeAddedAtOnceAndOptionallyReplaceExistingVariables()
@@ -337,7 +336,8 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingBuildRuleToUndefinedStage()
 	{
-		$callback = function (JRouter $router, JUri $uri) { };
+		$callback = function (JRouter $router, JUri $uri) {
+		};
 		$this->object->attachBuildRule($callback, 'undefined');
 	}
 
@@ -348,7 +348,8 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingParseRuleToUndefinedStage()
 	{
-		$callback = function (JRouter $router, JUri $uri) { };
+		$callback = function (JRouter $router, JUri $uri) {
+		};
 		$this->object->attachParseRule($callback, 'undefined');
 	}
 
@@ -638,7 +639,8 @@ class JRouterTest extends TestCase
 	 */
 	public function testDetachRule()
 	{
-		$rule = function () {};
+		$rule = function () {
+		};
 		$this->object->attachParseRule($rule);
 		$rules = $this->object->getRules();
 		$this->assertEquals(array($rule), $rules['parse']);
@@ -654,7 +656,8 @@ class JRouterTest extends TestCase
 	 */
 	public function testDetachRuleWrongType()
 	{
-		$rule = function () {};
+		$rule = function () {
+		};
 		$this->object->detachRule('parsewrong', $rule);
 	}
 
@@ -664,7 +667,8 @@ class JRouterTest extends TestCase
 	 */
 	public function testDetachRuleWrongStage()
 	{
-		$rule = function () {};
+		$rule = function () {
+		};
 		$this->object->detachRule('parse', $rule, 'wrong');
 	}
 
@@ -674,7 +678,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testProcessBuildRules()
 	{
-		$uri = new JUri();
+		$uri = new JUri;
 		$method = new ReflectionMethod('JRouter', 'processBuildRules');
 		$method->setAccessible(true);
 		$method->invokeArgs($this->object, array(&$uri, 'after'));
@@ -686,7 +690,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testProcessParseRules()
 	{
-		$uri = new JUri();
+		$uri = new JUri;
 		$processParseRulesMethod = new ReflectionMethod('JRouter', 'processParseRules');
 		$processParseRulesMethod->setAccessible(true);
 		$processParseRulesMethod->invokeArgs($this->object, array(&$uri, 'afterwrong'));

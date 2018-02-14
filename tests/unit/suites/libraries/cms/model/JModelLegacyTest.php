@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/lead.php';
@@ -408,7 +408,8 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Test creating fixture with model in class name, currently reflects an inconsistency in the codebase
 		$this->fixture = JModelLegacy::getInstance('Room', 'RemodelModel');
-		$this->assertEquals('modelroom', $this->fixture->getName());
+
+		$this->assertEquals('room', $this->fixture->getName());
 		$this->assertEquals('com_remodel', TestReflection::getValue($this->fixture, 'option'));
 	}
 

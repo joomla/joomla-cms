@@ -60,8 +60,9 @@ $value = (float) $value;
 $value = empty($value) ? $min : $value;
 
 ?>
-<input type="range" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo implode(' ', $attributes); ?> />
+<input
+	type="range"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?>>

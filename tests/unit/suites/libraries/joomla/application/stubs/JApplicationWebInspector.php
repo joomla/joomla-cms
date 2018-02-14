@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -40,6 +40,12 @@ class JApplicationWebInspector extends JApplicationWeb
 	 * @since   11.3
 	 */
 	public $closed;
+
+	/**
+	 * @var     integer  The user identifier.
+	 * @since   4.0.0
+	 */
+	protected $userId = 0;
 
 	/**
 	 * Allows public access to protected method.
@@ -107,5 +113,19 @@ class JApplicationWebInspector extends JApplicationWeb
 	public function header($string, $replace = true, $code = null)
 	{
 		$this->headers[] = array($string, $replace, $code);
+	}
+
+	/**
+	 * Method to determine a hash for anti-spoofing variable names
+	 *
+	 * @param   boolean  $forceNew  If true, force a new token to be created
+	 *
+	 * @return  string  Hashed var name
+	 *
+	 * @since   4.0.0
+	 */
+	public function getFormToken($forceNew = false)
+	{
+		return md5($this->get('secret') . 0 . $this->getSession()->getToken($forceNew));
 	}
 }

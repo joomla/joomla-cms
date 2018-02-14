@@ -4,7 +4,7 @@
  * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/controller.php';
@@ -166,7 +166,7 @@ class JControllerLegacyTest extends TestCase
 
 		$paths = TestReflection::getValue($this->class, 'paths');
 
-		$this->assertTrue(is_array($paths['test']), 'The path type should be an array.');
+		$this->assertInternalType('array', $paths['test'], 'The path type should be an array.');
 
 		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['test'][0]),
@@ -188,7 +188,7 @@ class JControllerLegacyTest extends TestCase
 
 		$paths = TestReflection::getValue($this->class, 'paths');
 
-		$this->assertTrue(is_array($paths['view']), 'The path type should be an array.');
+		$this->assertInternalType('array', $paths['view'], 'The path type should be an array.');
 
 		$this->assertEquals(
 			str_replace(DIRECTORY_SEPARATOR, '/', $paths['view'][0]),
@@ -204,7 +204,7 @@ class JControllerLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		$this->assertEquals($this->class->getName(), 'joomla\\cms\\controller\\');
+		$this->assertEquals($this->class->getName(), 'joomla\\cms\\mvc\\controller\\base');
 
 		TestReflection::setValue($this->class, 'name', 'inspector');
 

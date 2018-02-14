@@ -52,7 +52,7 @@ $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
@@ -61,7 +61,7 @@ $attributes = array(
 	$autocomplete,
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? 'maxlength="' . $maxlength . '"' : ''
+	$maxlength ? $maxlength: ''
 
 );
 ?>

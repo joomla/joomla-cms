@@ -4,9 +4,10 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
@@ -108,7 +109,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -120,8 +121,7 @@ class JApplicationWebTest extends TestCase
 		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->class);
+		unset($this->backupServer, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -138,7 +138,7 @@ class JApplicationWebTest extends TestCase
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Application\\Web\\WebClient', 'client', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -156,11 +156,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInput')
 					->setMethods(array('test'))
@@ -182,7 +177,7 @@ class JApplicationWebTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+		$mockClient = $this->getMockBuilder('\\Joomla\\Application\\Web\\WebClient')
 					->setMethods(array('test'))
 					->setConstructorArgs(array())
 					->setMockClassName('')
@@ -211,52 +206,6 @@ class JApplicationWebTest extends TestCase
 		$this->assertFalse($this->class->allowCache());
 
 		$this->assertTrue($this->class->allowCache(true));
-	}
-
-	/**
-	 * Tests the JApplicationWeb::appendBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testAppendBody()
-	{
-		// Similulate a previous call to setBody or appendBody.
-		TestReflection::getValue($this->class, 'response')->body = array('foo');
-
-		$this->class->appendBody('bar');
-
-		$this->assertEquals(array('foo', 'bar'), TestReflection::getValue($this->class, 'response')->body);
-
-		$this->class->appendBody(true);
-
-		$this->assertEquals(array('foo', 'bar', '1'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::clearHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClearHeaders()
-	{
-		// Fill the header array with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array('foo'),
-				'body' => array(),
-			)
-		);
-
-		$this->class->clearHeaders();
-
-		$this->assertEquals(array(), TestReflection::getValue($this->class, 'response')->headers);
 	}
 
 	/**
@@ -333,7 +282,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))
@@ -361,54 +310,6 @@ class JApplicationWebTest extends TestCase
 		}
 
 		$this->assertEquals($expects, (array) $config);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::getBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGetBody()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => null,
-				'body' => array('foo', 'bar'),
-			)
-		);
-
-		$this->assertEquals('foobar', $this->class->getBody());
-		$this->assertEquals($this->class->getBody(false), $this->class->getBody());
-		$this->assertEquals(array('foo', 'bar'), $this->class->getBody(true));
-	}
-
-	/**
-	 * Tests the JApplicationWeb::getHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGetHeaders()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array('ok'),
-				'body' => null,
-			)
-		);
-
-		$this->assertEquals(array('ok'), $this->class->getHeaders());
 	}
 
 	/**
@@ -575,24 +476,62 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::prependBody method.
+	 * Tests the JApplicationWeb::redirect method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testPrependBody()
+	public function testRedirect()
 	{
-		// Similulate a previous call to a body method.
-		TestReflection::getValue($this->class, 'response')->body = array('foo');
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
 
-		$this->class->prependBody('bar');
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => WebClient::GECKO,
+			)
+		);
 
-		$this->assertEquals(array('bar', 'foo'), TestReflection::getValue($this->class, 'response')->body);
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
 
-		$this->class->prependBody(true);
+		TestReflection::setValue($this->class, 'config', $config);
 
-		$this->assertEquals(array('1', 'bar', 'foo'), TestReflection::getValue($this->class, 'response')->body);
+		$this->class->redirect($url, false);
+
+		$this->assertEquals(
+			array('HTTP/1.1 303 See other', true, 303),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
+		);
 	}
 
 	/**
@@ -602,8 +541,74 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @since   11.3
 	 */
-	public function testRedirect()
+	public function testRedirectWithExistingStatusCode1()
 	{
+		// Case Sensitive: status
+		$this->class->setHeader('status', 201);
+
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, false);
+
+		// It has a status of 303 (as redirect is the final status setter)
+		$this->assertEquals(
+			array('HTTP/1.1 303 See other', true, 303),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
+		);
+	}
+
+	/**
+	 * Tests the JApplicationWeb::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testRedirectWithExistingStatusCode2()
+	{
+		// Case Sensitive: Status
+		$this->class->setHeader('Status', 201);
+
 		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
@@ -625,7 +630,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -639,9 +644,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -699,7 +704,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::TRIDENT,
+				'engine' => WebClient::TRIDENT,
 			)
 		);
 
@@ -730,14 +735,14 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301 Moved Permanently', true, null),
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
 			$this->class->headers[0]
 		);
 
@@ -751,9 +756,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -786,7 +791,7 @@ class JApplicationWebTest extends TestCase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -820,92 +825,6 @@ class JApplicationWebTest extends TestCase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::sendHeaders method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSendHeaders()
-	{
-		// Similulate a previous call to a setHeader method.
-		TestReflection::getValue($this->class, 'response')->headers = array(
-			array('name' => 'Status', 'value' => 200),
-			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),
-		);
-
-		$this->assertSame($this->class, $this->class->sendHeaders());
-
-		$this->assertEquals(
-			array(
-				array('HTTP/1.1 200', null, 200),
-				array('X-JWeb-SendHeaders: foo', true, null),
-			),
-			$this->class->headers
-		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::setBody method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSetBody()
-	{
-		$this->class->setBody('foo');
-
-		$this->assertEquals(array('foo'), TestReflection::getValue($this->class, 'response')->body);
-
-		$this->class->setBody(true);
-
-		$this->assertEquals(array('1'), TestReflection::getValue($this->class, 'response')->body);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::setHeader method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSetHeader()
-	{
-		// Fill the header body with an arbitrary value.
-		TestReflection::setValue(
-			$this->class,
-			'response',
-			(object) array(
-				'cachable' => null,
-				'headers' => array(
-					array('name' => 'foo', 'value' => 'bar'),
-				),
-				'body' => null,
-			)
-		);
-
-		$this->class->setHeader('foo', 'car');
-
-		$this->assertEquals(
-			array(
-				array('name' => 'foo', 'value' => 'bar'),
-				array('name' => 'foo', 'value' => 'car')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
-
-		$this->class->setHeader('foo', 'car', true);
-
-		$this->assertEquals(
-			array(
-				array('name' => 'foo', 'value' => 'car')
-			),
-			TestReflection::getValue($this->class, 'response')->headers
-		);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 }

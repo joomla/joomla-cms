@@ -1,0 +1,12 @@
+// com_users
+
+.com_users {
+  &.view-debuggroup, &.view-debuguser {
+    thead th {
+      white-space: normal;
+    }
+    .legend {
+      margin: 1rem 1rem 0;
+    }
+  }
+}

@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -25,7 +25,7 @@ class TestMockDatabaseDriver
 	/**
 	 * Creates and instance of the mock JDatabaseDriver object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test          A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test          A test object.
 	 * @param   string                      $driver        Optional driver to create a sub-class of JDatabaseDriver.
 	 * @param   array                       $extraMethods  An array of additional methods to add to the mock.
 	 * @param   string                      $nullDate      A null date string for the driver.

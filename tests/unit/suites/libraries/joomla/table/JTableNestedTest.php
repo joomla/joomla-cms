@@ -4,7 +4,7 @@
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/nested.php';
@@ -410,6 +410,19 @@ class JTableNestedTest extends TestCaseDatabase
 		self::$driver->setQuery('UPDATE #__categories SET published = 0')
 			->execute();
 
+		// This query won't change any column because root.1 is unpublished.
+		$this->assertTrue($this->class->publish(array(101, 102), 1));
+
+		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
+
+		$this->assertEquals(0, $nodes[101]->published, 'Checks node 101.');
+		$this->assertEquals(0, $nodes[102]->published, 'Checks node 102.');
+		$this->assertEquals(0, $nodes[103]->published, 'Checks node 103.');
+
+		// Set root.1 as published
+		self::$driver->setQuery('UPDATE #__categories SET published = CASE WHEN id = 1 THEN 1 ELSE 0 END')
+			->execute();
+
 		$this->assertTrue($this->class->publish(array(101, 102), 1));
 
 		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
@@ -788,7 +801,7 @@ class JTableNestedTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
- 		$this->saveFactoryState();
+		$this->saveFactoryState();
 
 		$mockApp = $this->getMockCmsApp();
 		$mockApp->expects($this->any())
@@ -811,7 +824,7 @@ class JTableNestedTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		unset($this->class);
- 		$this->restoreFactoryState();
+		$this->restoreFactoryState();
 
 		parent::tearDown();
 	}

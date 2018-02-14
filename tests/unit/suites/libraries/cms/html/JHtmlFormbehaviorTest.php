@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JHtmlJqueryInspector.php';
@@ -88,7 +88,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/legacy/chosen.jquery.min.js',
+			'/media/system/js/legacy/chosen.min.js',
 			$document->_scripts,
 			'Verify that the Chosen JS is loaded'
 		);

@@ -4,9 +4,10 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Application\Web\WebClient;
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
@@ -117,7 +118,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -130,9 +131,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$_SERVER = $this->backupServer;
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -141,13 +140,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
@@ -162,13 +161,14 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::__construct
 	 */
 	public function test__construct()
 	{
 		$this->assertInstanceOf('JInput', $this->class->input);
 
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Application\\Web\\WebClient', 'client', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
@@ -178,21 +178,17 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::__construct
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		$mockInput = $this->getMockInput();
 
 		$config = new Registry;
 		$config->set('session', false);
 
 		// Build the mock object.
-		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+		$mockClient = $this->getMockBuilder('\\Joomla\\Application\\Web\\WebClient')
 					->setMethods(array('test'))
 					->setConstructorArgs(array())
 					->setMockClassName('')
@@ -212,10 +208,14 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::execute
 	 */
 	public function testExecuteWithoutDocument()
 	{
 		$this->class->execute();
+
+		// Nothing happened, we just assert TRUE to pass test.
+		self::assertTrue(true);
 	}
 
 	/**
@@ -224,6 +224,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::execute
 	 */
 	public function testExecuteWithDocument()
 	{
@@ -250,6 +251,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getCfg
 	 */
 	public function testGetCfg()
 	{
@@ -267,6 +269,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -285,10 +288,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getMenu
 	 */
 	public function testGetMenu()
 	{
-		$this->assertInstanceOf('JMenu', $this->class->getMenu(''));
+		$this->assertInstanceOf('JMenu', $this->class->getMenu('Administrator'));
 	}
 
 	/**
@@ -297,6 +301,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -309,6 +314,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getRouter
 	 */
 	public function testGetRouter()
 	{
@@ -321,6 +327,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -337,6 +344,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -349,6 +357,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::isSite
 	 */
 	public function testIsSite()
 	{
@@ -360,7 +369,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @covers  JApplicationCms::isClient
 	 */
 	public function testIsClient()
 	{
@@ -374,6 +384,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirect()
 	{
@@ -385,7 +396,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -398,7 +409,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -412,143 +423,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
-
-		$this->assertEquals(
-			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-			$this->class->headers[5]
-		);
-
-		$this->assertEquals(
-			array('Pragma: no-cache', true, null),
-			$this->class->headers[6]
-		);
-	}
-
-	/**
-	 * Tests the JApplicationCms::redirect method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testRedirectLegacy()
-	{
-		$base = 'http://mydomain.com/';
-		$url = 'index.php';
-
-		// Inject the client information.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
-			)
-		);
-
-		// Inject the internal configuration.
-		$config = new Registry;
-		$config->set('uri.base.full', $base);
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->class->redirect($url, 'Test Message', 'message', false);
-
-		$this->assertEquals(
-			array(
-				array(
-					'message' => 'Test Message',
-					'type' => 'message'
-				)
-			),
-			$this->class->getMessageQueue()
-		);
-
-		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
-			$this->class->headers[0]
-		);
-
-		$this->assertEquals(
-			array('Location: ' . $base . $url, true, null),
-			$this->class->headers[1]
-		);
-
-		$this->assertEquals(
-			array('Content-Type: text/html; charset=utf-8', true, null),
-			$this->class->headers[2]
-		);
-
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
-
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
-
-		$this->assertEquals(
-			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
-			$this->class->headers[5]
-		);
-
-		$this->assertEquals(
-			array('Pragma: no-cache', true, null),
-			$this->class->headers[6]
-		);
-	}
-
-	/**
-	 * Tests the JApplicationCms::redirect method.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testRedirectLegacyWithEmptyMessageAndEmptyStatus()
-	{
-		$base = 'http://mydomain.com/';
-		$url = 'index.php';
-
-		// Inject the client information.
-		TestReflection::setValue(
-			$this->class,
-			'client',
-			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
-			)
-		);
-
-		// Inject the internal configuration.
-		$config = new Registry;
-		$config->set('uri.base.full', $base);
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->class->redirect($url, '', 'message');
-
-		// The message isn't enqueued as it's an empty string
-		$this->assertEmpty(
-			$this->class->getMessageQueue()
-		);
-
-		// The redirect gives a 303 error code
-		$this->assertEquals(
-			array('HTTP/1.1 303 See other', true, null),
-			$this->class->headers[0]
-		);
-
-		$this->assertEquals(
-			array('Location: ' . $base . $url, true, null),
-			$this->class->headers[1]
-		);
-
-		$this->assertEquals(
-			array('Content-Type: text/html; charset=utf-8', true, null),
-			$this->class->headers[2]
-		);
-
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
-
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -567,6 +444,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithHeadersSent()
 	{
@@ -597,6 +475,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
@@ -607,7 +486,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::TRIDENT,
+				'engine' => WebClient::TRIDENT,
 			)
 		);
 
@@ -630,6 +509,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithMoved()
 	{
@@ -640,19 +520,19 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301 Moved Permanently', true, null),
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
 			$this->class->headers[0]
 		);
 
 		$this->assertEquals(
-			array('Location: '  . $url, true, null),
+			array('Location: ' . $url, true, null),
 			$this->class->headers[1]
 		);
 
@@ -661,9 +541,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -688,6 +568,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 *
 	 * @dataProvider  getRedirectData
 	 * @since   3.2
+	 * @covers  JApplicationCms::redirect
 	 */
 	public function testRedirectWithUrl($url, $base, $request, $expected)
 	{
@@ -696,7 +577,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class,
 			'client',
 			(object) array(
-				'engine' => JApplicationWebClient::GECKO,
+				'engine' => WebClient::GECKO,
 			)
 		);
 
@@ -718,6 +599,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationCms::render
 	 */
 	public function testRender()
 	{
@@ -730,6 +612,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 }

@@ -9,20 +9,19 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields User Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsUser extends FieldsPlugin
+class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 
 	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -32,9 +31,9 @@ class PlgFieldsUser extends FieldsPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		if (JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

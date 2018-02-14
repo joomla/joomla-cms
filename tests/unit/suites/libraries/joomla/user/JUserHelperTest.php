@@ -4,7 +4,7 @@
  * @subpackage  User
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -61,13 +61,13 @@ class JUserHelperTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   12.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
 		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
@@ -88,8 +88,6 @@ class JUserHelperTest extends TestCaseDatabase
 	 *                    with indices 'code', 'msg', and
 	 *                    'info', empty, if no error occurred
 	 *
-	 * @see ... (link to where the group and error structures are
-	 *      defined)
 	 * @return array
 	 */
 	public function casesGetUserGroups()
@@ -99,7 +97,7 @@ class JUserHelperTest extends TestCaseDatabase
 				1000,
 				array(),
 				array(
-					'code' => 'SOME_ERROR_CODE',
+					'code' => 500,
 					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
 					'info' => ''),
 			),
@@ -338,6 +336,29 @@ class JUserHelperTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Testing hashPassword() for argon2i hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @requires  PHP 7.2
+	 */
+	public function testHashPasswordArgon2i()
+	{
+		if (!defined('PASSWORD_ARGON2I'))
+		{
+			$this->markTestSkipped('Argon2i algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2I), '$argon2i'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
+		);
+	}
+
+	/**
 	 * Test cases for testVerifyPassword
 	 *
 	 * @return  array
@@ -385,6 +406,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @link    https://github.com/joomla/joomla-cms/pull/5551
 	 */
 	public function testVerifyPassword($password, $hash)
 	{

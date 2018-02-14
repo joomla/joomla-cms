@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -33,8 +33,10 @@ class JModelFormTest extends TestCase
 	public function setUp()
 	{
 		$this->saveFactoryState();
+
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockForAbstractClass('JModelForm');
+		$this->object = $this->getMockBuilder('JModelForm')
+			->getMockForAbstractClass();
 		$mockApp = $this->getMockCmsApp();
 		$mockApp->expects($this->any())
 			->method('getDispatcher')
@@ -48,7 +50,7 @@ class JModelFormTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()

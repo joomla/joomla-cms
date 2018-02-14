@@ -216,5 +216,16 @@ tinymce.addI18n('bs',{
 "Tools": "Alati",
 "View": "Pogled",
 "Table": "Tablica",
-"Format": "Format"
+"Format": "Format",
+"Id": "Id",
+"Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.": "Id treba da po\u010dinje sa slovom, i pored slova mogu se koristiti samo brojevi, crtice, ta\u010dke, zarezi ili donje crte.",
+"Insert/Edit code sample": "Ubaci/Izmijeni primjer koda",
+"Language": "Jezik",
+"Image": "Image",
+"Date/time": "Datum/vrijeme",
+"Link": "Link",
+"Paste or type a link": "Zalijepi ili unesi link",
+"Insert/Edit Media": "Ubaci/Izmijeni medij",
+"Media": "Medij",
+"Table of Contents": "Sadr\u017eaj"
 });

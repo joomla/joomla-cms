@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Association\AssociationExtensionHelper;
 
 /**
  * Content associations helper.
  *
  * @since  3.7.0
  */
-class ContentAssociationsHelper extends JAssociationExtensionHelper
+class ContentAssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -55,7 +55,6 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 	 *
 	 * @since   3.7.0
 	 */
-
 	public function getAssociations($typeName, $id)
 	{
 		$type = $this->getType($typeName);
@@ -150,6 +149,8 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['category'] = true;
+					$support['save2copy'] = true;
 
 					$tables = array(
 						'a' => '#__content'
@@ -168,6 +169,7 @@ class ContentAssociationsHelper extends JAssociationExtensionHelper
 					$support['state'] = true;
 					$support['acl'] = true;
 					$support['checkout'] = true;
+					$support['level'] = true;
 
 					$tables = array(
 						'a' => '#__categories'

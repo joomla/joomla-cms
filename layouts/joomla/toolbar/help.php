@@ -9,12 +9,15 @@
 
 defined('JPATH_BASE') or die;
 
-JHtml::_('behavior.core');
+use Joomla\CMS\HTML\HTMLHelper;
 
+HTMLHelper::_('behavior.core');
+
+$id     = $displayData['id'] ?? '';
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
-<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
-	<span class="icon-question-sign"></span>
+<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
+	<span class="fa fa-question" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>

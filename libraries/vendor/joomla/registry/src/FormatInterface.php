@@ -25,7 +25,7 @@ interface FormatInterface
 	 *
 	 * @since   1.5.0
 	 */
-	public function objectToString($object, $options = null);
+	public function objectToString($object, array $options = []);
 
 	/**
 	 * Converts a formatted string into an object.
@@ -37,5 +37,5 @@ interface FormatInterface
 	 *
 	 * @since   1.5.0
 	 */
-	public function stringToObject($data, array $options = array());
+	public function stringToObject($data, array $options = []);
 }

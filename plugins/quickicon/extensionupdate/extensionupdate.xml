@@ -19,7 +19,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="context"
+				<field 
+					name="context"
 					type="text"
 					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL"
 					description="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_DESC"

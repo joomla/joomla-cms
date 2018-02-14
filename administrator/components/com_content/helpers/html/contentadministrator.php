@@ -52,6 +52,7 @@ abstract class JHtmlContentAdministrator
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('c.id != ' . $articleid)
 				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
@@ -73,7 +74,7 @@ abstract class JHtmlContentAdministrator
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge badge-association badge-' . $item->lang_sef;
+					$classes = 'hasPopover badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
@@ -100,8 +101,6 @@ abstract class JHtmlContentAdministrator
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
@@ -112,13 +111,14 @@ abstract class JHtmlContentAdministrator
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs btn-secondary hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
+				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::_('tooltipText', $state[3])
+				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="btn btn-xs btn-secondary hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. JHtml::tooltipText($state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
+			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
+				. JHtml::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

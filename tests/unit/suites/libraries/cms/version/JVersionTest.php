@@ -4,7 +4,7 @@
  * @subpackage  Version
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Version
  * @since       3.0
  */
-class JVersionTest extends PHPUnit_Framework_TestCase
+class JVersionTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Object under test
@@ -42,7 +42,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -84,7 +84,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertEquals(JVersion::RELEASE . '.' . JVersion::DEV_LEVEL, $this->object->getShortVersion());
+		$this->assertEquals(JVersion::MAJOR_VERSION . '.' . JVersion::MINOR_VERSION . '.' . JVersion::PATCH_VERSION . '-' . JVersion::EXTRA_VERSION, $this->object->getShortVersion());
 	}
 
 	/**
@@ -108,7 +108,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_maskFalse()
 	{
-		$this->assertNotContains('Mozilla/5.0 ', $this->object->getUserAgent(null, false, true));
+		$this->assertNotContains('Mozilla/5.0 ', $this->object->getUserAgent('', false, true));
 	}
 
 	/**
@@ -120,7 +120,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_maskTrue()
 	{
-		$this->assertContains('Mozilla/5.0 ', $this->object->getUserAgent(null, true, true));
+		$this->assertContains('Mozilla/5.0 ', $this->object->getUserAgent('', true, true));
 	}
 
 	/**
@@ -132,7 +132,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserAgent_ComponentNull()
 	{
-		$this->assertContains('Framework', $this->object->getUserAgent(null, false, true));
+		$this->assertContains('Framework', $this->object->getUserAgent('', false, true));
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * @subpackage  Log
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/callback/inspector.php';
@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  * @subpackage  Log
  * @since       12.2
  */
-class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
+class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerCallback::__construct method.
@@ -29,7 +29,9 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
+		$callback = function ($entry)
+		{
+		};
 
 		// Setup the basic configuration.
 		$config = array(
@@ -41,7 +43,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -68,7 +70,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -93,7 +95,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -143,7 +145,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -169,7 +171,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**

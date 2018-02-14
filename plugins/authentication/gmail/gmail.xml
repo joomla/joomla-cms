@@ -23,9 +23,8 @@
 					name="applysuffix"
 					type="list"
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
-					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
 					default="0"
-				>
+					>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
 					<option value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
@@ -43,11 +42,10 @@
 				<field
 					name="verifypeer"
 					type="radio"
-					class="switcher"
 					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
-					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
-				>
+					class="switcher"
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -59,14 +57,14 @@
 					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
 					size="20"
 				/>
+
 				<field
 					name="backendLogin"
 					type="radio"
-					class="switcher"
 					label="PLG_GMAIL_FIELD_BACKEND_LOGIN_LABEL"
-					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"
-				>
+					class="switcher"
+					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>

@@ -9,19 +9,17 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields Editor Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsEditor extends FieldsPlugin
+class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 	/**
-	 * Transforms the field into an XML element and appends it as child on the given parent. This
-	 * is the default implementation of a field. Form fields which do support to be transformed into
-	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
@@ -31,7 +29,7 @@ class PlgFieldsEditor extends FieldsPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -41,7 +39,7 @@ class PlgFieldsEditor extends FieldsPlugin
 		}
 
 		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', 0) ? 'true' : 'false');
-		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+		$fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
 
 		return $fieldNode;
 	}

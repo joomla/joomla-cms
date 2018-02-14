@@ -1,246 +1,228 @@
-/**
- * plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2016 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
+(function () {
+var toc = (function () {
+  'use strict';
 
-/*global tinymce:true */
+  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-tinymce.PluginManager.add('toc', function(editor) {
-    var $ = editor.$;
-    var opts;
+  var DOMUtils = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
 
-    var defs = {
-        depth: 3,
-        headerTag: 'h2',
-        className: 'mce-toc'
+  var I18n = tinymce.util.Tools.resolve('tinymce.util.I18n');
+
+  var Tools = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+  var getTocClass = function (editor) {
+    return editor.getParam('toc_class', 'mce-toc');
+  };
+  var getTocHeader = function (editor) {
+    var tagName = editor.getParam('toc_header', 'h2');
+    return /^h[1-6]$/.test(tagName) ? tagName : 'h2';
+  };
+  var getTocDepth = function (editor) {
+    var depth = parseInt(editor.getParam('toc_depth', '3'), 10);
+    return depth >= 1 && depth <= 9 ? depth : 3;
+  };
+  var $_ew4ysdqkjd09eysy = {
+    getTocClass: getTocClass,
+    getTocHeader: getTocHeader,
+    getTocDepth: getTocDepth
+  };
+
+  var create = function (prefix) {
+    var counter = 0;
+    return function () {
+      var guid = new Date().getTime().toString(32);
+      return prefix + guid + (counter++).toString(32);
     };
+  };
+  var $_4oroqzqljd09eyt1 = { create: create };
 
-    var guid = function(prefix) {
-        var counter = 0;
-        return function() {
-            var guid = new Date().getTime().toString(32);
-            return prefix + guid + (counter++).toString(32);
-        };
-    };
-
-    var tocId = guid('mcetoc_');
-
-
-    function isValidTag(tagName) {
-        return editor.schema.isValidChild('div', tagName);
+  var tocId = $_4oroqzqljd09eyt1.create('mcetoc_');
+  var generateSelector = function generateSelector(depth) {
+    var i;
+    var selector = [];
+    for (i = 1; i <= depth; i++) {
+      selector.push('h' + i);
     }
-
-
-    function isToc(elm) {
-        return elm && editor.dom.is(elm, '.' + opts.className) && editor.getBody().contains(elm);
+    return selector.join(',');
+  };
+  var hasHeaders = function (editor) {
+    return readHeaders(editor).length > 0;
+  };
+  var readHeaders = function (editor) {
+    var tocClass = $_ew4ysdqkjd09eysy.getTocClass(editor);
+    var headerTag = $_ew4ysdqkjd09eysy.getTocHeader(editor);
+    var selector = generateSelector($_ew4ysdqkjd09eysy.getTocDepth(editor));
+    var headers = editor.$(selector);
+    if (headers.length && /^h[1-9]$/i.test(headerTag)) {
+      headers = headers.filter(function (i, el) {
+        return !editor.dom.hasClass(el.parentNode, tocClass);
+      });
     }
-
-
-    function toggleState() {
-        var self = this;
-
-        self.disabled(editor.readonly || !haveHeaders());
-
-        editor.on('LoadContent SetContent change', function() {
-            self.disabled(editor.readonly || !haveHeaders());
-        });
-    }
-
-
-    function generateSelector(depth) {
-        var i, selector = [];
-        for (i = 1; i <= depth; i++) {
-            selector.push('h' + i);
-        }
-        return selector.join(',');
-    }
-
-
-    function haveHeaders() {
-        return !!(opts && prepareHeaders(opts).length);
-    }
-
-
-    function prepareHeaders(o) {
-        var selector = generateSelector(o.depth);
-        var headers = $(selector);
-
-        // if headerTag is one of h1-9, we need to filter it out from the set
-        if (headers.length && /^h[1-9]$/i.test(o.headerTag)) {
-            headers = headers.filter(function(i, el) {
-                return !editor.dom.hasClass(el.parentNode, o.className);
-            });
-        }
-
-        return tinymce.map(headers, function(h) {
-            if (!h.id) {
-                h.id = tocId();
-            }
-            return {
-                id: h.id,
-                level: parseInt(h.nodeName.replace(/^H/i, ''), 10),
-                title: $.text(h)
-            };
-        });
-    }
-
-
-    function getMinLevel(headers) {
-        var i, minLevel = 9;
-
-        for (i = 0; i < headers.length; i++) {
-            if (headers[i].level < minLevel) {
-                minLevel = headers[i].level;
-            }
-
-            // do not proceed if we have reached absolute minimum
-            if (minLevel == 1) {
-                return minLevel;
-            }
-        }
+    return Tools.map(headers, function (h) {
+      return {
+        id: h.id ? h.id : tocId(),
+        level: parseInt(h.nodeName.replace(/^H/i, ''), 10),
+        title: editor.$.text(h),
+        element: h
+      };
+    });
+  };
+  var getMinLevel = function (headers) {
+    var i, minLevel = 9;
+    for (i = 0; i < headers.length; i++) {
+      if (headers[i].level < minLevel) {
+        minLevel = headers[i].level;
+      }
+      if (minLevel === 1) {
         return minLevel;
+      }
     }
-
-
-    function generateTitle(tag, title) {
-        var openTag = '<' + tag + ' contenteditable="true">';
-        var closeTag = '</' + tag + '>';
-        return openTag + editor.dom.encode(title) + closeTag;
+    return minLevel;
+  };
+  var generateTitle = function (tag, title) {
+    var openTag = '<' + tag + ' contenteditable="true">';
+    var closeTag = '</' + tag + '>';
+    return openTag + DOMUtils.DOM.encode(title) + closeTag;
+  };
+  var generateTocHtml = function (editor) {
+    var html = generateTocContentHtml(editor);
+    return '<div class="' + editor.dom.encode($_ew4ysdqkjd09eysy.getTocClass(editor)) + '" contenteditable="false">' + html + '</div>';
+  };
+  var generateTocContentHtml = function (editor) {
+    var html = '';
+    var headers = readHeaders(editor);
+    var prevLevel = getMinLevel(headers) - 1;
+    var i, ii, h, nextLevel;
+    if (!headers.length) {
+      return '';
     }
-
-
-    function generateTocHtml(o) {
-        var html = generateTocContentHtml(o);
-        return '<div class="' + o.className + '" contenteditable="false">' + html + '</div>';
-    }
-
-
-    function generateTocContentHtml(o) {
-        var html = '';
-        var headers = prepareHeaders(o);
-        var prevLevel = getMinLevel(headers) - 1;
-        var i, ii, h, nextLevel;
-
-        if (!headers.length) {
-            return '';
+    html += generateTitle($_ew4ysdqkjd09eysy.getTocHeader(editor), I18n.translate('Table of Contents'));
+    for (i = 0; i < headers.length; i++) {
+      h = headers[i];
+      h.element.id = h.id;
+      nextLevel = headers[i + 1] && headers[i + 1].level;
+      if (prevLevel === h.level) {
+        html += '<li>';
+      } else {
+        for (ii = prevLevel; ii < h.level; ii++) {
+          html += '<ul><li>';
         }
-
-        html += generateTitle(o.headerTag, tinymce.translate("Table of Contents"));
-
-        for (i = 0; i < headers.length; i++) {
-            h = headers[i];
-            nextLevel = headers[i + 1] && headers[i + 1].level;
-
-            if (prevLevel === h.level) {
-                html += '<li>';
-            } else {
-                for (ii = prevLevel; ii < h.level; ii++) {
-                    html += '<ul><li>';
-                }
-            }
-
-            html += '<a href="#' + h.id + '">' + h.title + '</a>';
-
-            if (nextLevel === h.level || !nextLevel) {
-                html += '</li>';
-
-                if (!nextLevel) {
-                    html += '</ul>';
-                }
-            } else {
-                for (ii = h.level; ii > nextLevel; ii--) {
-                    html += '</li></ul><li>';
-                }
-            }
-
-            prevLevel = h.level;
+      }
+      html += '<a href="#' + h.id + '">' + h.title + '</a>';
+      if (nextLevel === h.level || !nextLevel) {
+        html += '</li>';
+        if (!nextLevel) {
+          html += '</ul>';
         }
-
-        return html;
+      } else {
+        for (ii = h.level; ii > nextLevel; ii--) {
+          html += '</li></ul><li>';
+        }
+      }
+      prevLevel = h.level;
     }
+    return html;
+  };
+  var isEmptyOrOffscren = function (editor, nodes) {
+    return !nodes.length || editor.dom.getParents(nodes[0], '.mce-offscreen-selection').length > 0;
+  };
+  var insertToc = function (editor) {
+    var tocClass = $_ew4ysdqkjd09eysy.getTocClass(editor);
+    var $tocElm = editor.$('.' + tocClass);
+    if (isEmptyOrOffscren(editor, $tocElm)) {
+      editor.insertContent(generateTocHtml(editor));
+    } else {
+      updateToc(editor);
+    }
+  };
+  var updateToc = function (editor) {
+    var tocClass = $_ew4ysdqkjd09eysy.getTocClass(editor);
+    var $tocElm = editor.$('.' + tocClass);
+    if ($tocElm.length) {
+      editor.undoManager.transact(function () {
+        $tocElm.html(generateTocContentHtml(editor));
+      });
+    }
+  };
+  var $_5r7ys7qgjd09eyst = {
+    hasHeaders: hasHeaders,
+    insertToc: insertToc,
+    updateToc: updateToc
+  };
 
-
-    editor.on('PreInit', function() {
-        var s = editor.settings;
-        var depth = parseInt(s.toc_depth, 10) || 0;
-
-        opts = {
-            depth: depth >= 1 && depth <= 9 ? depth : defs.depth,
-            headerTag: isValidTag(s.toc_header) ? s.toc_header : defs.headerTag,
-            className: s.toc_class ? editor.dom.encode(s.toc_class) : defs.className
-        };
+  var register = function (editor) {
+    editor.addCommand('mceInsertToc', function () {
+      $_5r7ys7qgjd09eyst.insertToc(editor);
     });
-
-
-    editor.on('PreProcess', function(e) {
-        var $tocElm = $('.' + opts.className, e.node);
-        if ($tocElm.length) {
-            $tocElm.removeAttr('contentEditable');
-            $tocElm.find('[contenteditable]').removeAttr('contentEditable');
-        }
+    editor.addCommand('mceUpdateToc', function () {
+      $_5r7ys7qgjd09eyst.updateToc(editor);
     });
+  };
+  var $_8agphpqfjd09eysr = { register: register };
 
-
-    editor.on('SetContent', function() {
-        var $tocElm = $('.' + opts.className);
-        if ($tocElm.length) {
-            $tocElm.attr('contentEditable', false);
-            $tocElm.children(':first-child').attr('contentEditable', true);
-        }
+  var setup = function (editor) {
+    var $ = editor.$, tocClass = $_ew4ysdqkjd09eysy.getTocClass(editor);
+    editor.on('PreProcess', function (e) {
+      var $tocElm = $('.' + tocClass, e.node);
+      if ($tocElm.length) {
+        $tocElm.removeAttr('contentEditable');
+        $tocElm.find('[contenteditable]').removeAttr('contentEditable');
+      }
     });
+    editor.on('SetContent', function () {
+      var $tocElm = $('.' + tocClass);
+      if ($tocElm.length) {
+        $tocElm.attr('contentEditable', false);
+        $tocElm.children(':first-child').attr('contentEditable', true);
+      }
+    });
+  };
+  var $_d2zt4yqmjd09eyt2 = { setup: setup };
 
-    var isEmptyOrOffscren = function (nodes) {
-        return !nodes.length || editor.dom.getParents(nodes[0], '.mce-offscreen-selection').length > 0;
+  var toggleState = function (editor) {
+    return function (e) {
+      var ctrl = e.control;
+      editor.on('LoadContent SetContent change', function () {
+        ctrl.disabled(editor.readonly || !$_5r7ys7qgjd09eyst.hasHeaders(editor));
+      });
     };
-
-    editor.addCommand('mceInsertToc', function() {
-        var $tocElm = $('.' + opts.className);
-
-        if (isEmptyOrOffscren($tocElm)) {
-            editor.insertContent(generateTocHtml(opts));
-        } else {
-            editor.execCommand('mceUpdateToc');
-        }
-    });
-
-
-    editor.addCommand('mceUpdateToc', function() {
-        var $tocElm = $('.' + opts.className);
-        if ($tocElm.length) {
-            editor.undoManager.transact(function () {
-                $tocElm.html(generateTocContentHtml(opts));
-            });
-        }
-    });
-
-
+  };
+  var isToc = function (editor) {
+    return function (elm) {
+      return elm && editor.dom.is(elm, '.' + $_ew4ysdqkjd09eysy.getTocClass(editor)) && editor.getBody().contains(elm);
+    };
+  };
+  var register$1 = function (editor) {
     editor.addButton('toc', {
-        tooltip: 'Table of Contents',
-        cmd: 'mceInsertToc',
-        icon: 'toc',
-        onPostRender: toggleState
+      tooltip: 'Table of Contents',
+      cmd: 'mceInsertToc',
+      icon: 'toc',
+      onPostRender: toggleState(editor)
     });
-
     editor.addButton('tocupdate', {
-        tooltip: 'Update',
-        cmd: 'mceUpdateToc',
-        icon: 'reload'
+      tooltip: 'Update',
+      cmd: 'mceUpdateToc',
+      icon: 'reload'
     });
-
-    editor.addContextToolbar(
-        isToc,
-        'tocupdate'
-    );
-
     editor.addMenuItem('toc', {
-        text: "Table of Contents",
-        context: 'insert',
-        cmd: 'mceInsertToc',
-        onPostRender: toggleState
+      text: 'Table of Contents',
+      context: 'insert',
+      cmd: 'mceInsertToc',
+      onPostRender: toggleState(editor)
     });
-});
+    editor.addContextToolbar(isToc(editor), 'tocupdate');
+  };
+  var $_8jgwnsqnjd09eyt4 = { register: register$1 };
+
+  PluginManager.add('toc', function (editor) {
+    $_8agphpqfjd09eysr.register(editor);
+    $_8jgwnsqnjd09eyt4.register(editor);
+    $_d2zt4yqmjd09eyt2.setup(editor);
+  });
+  function Plugin () {
+  }
+
+  return Plugin;
+
+}());
+})()

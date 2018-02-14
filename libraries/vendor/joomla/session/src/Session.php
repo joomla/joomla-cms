@@ -207,7 +207,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
 		$this->store->setName($name);
 
@@ -235,7 +235,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setId($id)
+	public function setId(string $id)
 	{
 		$this->store->setId($id);
 
@@ -249,7 +249,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getHandlers()
+	public static function getHandlers(): array
 	{
 		$connectors = [];
 
@@ -324,7 +324,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isStarted()
+	public function isStarted(): bool
 	{
 		return $this->store->isStarted();
 	}
@@ -397,7 +397,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isActive())
 		{
@@ -464,12 +464,40 @@ class Session implements SessionInterface, DispatcherAwareInterface
 		$this->setTimers();
 
 		// Perform security checks
-		$this->validate();
-
-		if ($this->dispatcher instanceof DispatcherInterface)
+		if (!$this->validate())
 		{
-			$event = new SessionEvent('onAfterSessionStart', $this);
-			$this->dispatcher->dispatch('onAfterSessionStart', $event);
+			// If the session isn't valid because it expired try to restart it or destroy it.
+			if ($this->getState() === 'expired')
+			{
+				$this->restart();
+			}
+			else
+			{
+				$this->destroy();
+			}
+		}
+
+		if ($this->dispatcher)
+		{
+			if (method_exists($this->dispatcher, 'getListeners'))
+			{
+				if (!empty($this->dispatcher->getListeners('onAfterSessionStart')))
+				{
+					@trigger_error(
+						sprintf(
+							'The `onAfterSessionStart` event is deprecated and will be removed in 3.0, use the %s::START event instead.',
+							SessionEvents::class
+						),
+						E_USER_DEPRECATED
+					);
+				}
+			}
+
+			// Dispatch deprecated event
+			$this->dispatcher->dispatch('onAfterSessionStart', new SessionEvent('onAfterSessionStart', $this));
+
+			// Dispatch new event
+			$this->dispatcher->dispatch(SessionEvents::START, new SessionEvent(SessionEvents::START, $this));
 		}
 	}
 
@@ -526,9 +554,11 @@ class Session implements SessionInterface, DispatcherAwareInterface
 		// Restart the session
 		$this->store->start();
 
+		$this->setState('active');
+
+		// Initialise the session
 		$this->setCounter();
 		$this->setTimers();
-		$this->validate(true);
 
 		// Restore the data
 		foreach ($data as $key => $value)
@@ -536,10 +566,33 @@ class Session implements SessionInterface, DispatcherAwareInterface
 			$this->set($key, $value);
 		}
 
-		if ($this->dispatcher instanceof DispatcherInterface)
+		// If the restarted session cannot be validated then it will be destroyed
+		if (!$this->validate(true))
 		{
-			$event = new SessionEvent('onAfterSessionRestart', $this);
-			$this->dispatcher->dispatch('onAfterSessionRestart', $event);
+			$this->destroy();
+		}
+
+		if ($this->dispatcher)
+		{
+			if (method_exists($this->dispatcher, 'getListeners'))
+			{
+				if (!empty($this->dispatcher->getListeners('onAfterSessionRestart')))
+				{
+					@trigger_error(
+						sprintf(
+							'The `onAfterSessionRestart` event is deprecated and will be removed in 3.0, use the %s::RESTART event instead.',
+							SessionEvents::class
+						),
+						E_USER_DEPRECATED
+					);
+				}
+			}
+
+			// Dispatch deprecated event
+			$this->dispatcher->dispatch('onAfterSessionRestart', new SessionEvent('onAfterSessionRestart', $this));
+
+			// Dispatch new event
+			$this->dispatcher->dispatch(SessionEvents::RESTART, new SessionEvent(SessionEvents::RESTART, $this));
 		}
 
 		return true;
@@ -595,6 +648,24 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		if (!$this->isActive())
+		{
+			$this->start();
+		}
+
+		return $this->store->gc();
+	}
+
+	/**
 	 * Create a token-string
 	 *
 	 * @param   integer  $length  Length of string
@@ -603,7 +674,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function createToken($length = 32)
+	protected function createToken(int $length = 32): string
 	{
 		return bin2hex(random_bytes($length));
 	}
@@ -711,7 +782,10 @@ class Session implements SessionInterface, DispatcherAwareInterface
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->getExpire());
+		if (!headers_sent())
+		{
+			ini_set('session.gc_maxlifetime', $this->getExpire());
+		}
 
 		return true;
 	}

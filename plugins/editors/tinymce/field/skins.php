@@ -9,19 +9,20 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ListField;
+
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field class for the TinyMCE editor.
  * Generates the list of options for available skins.
  *
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList
+class JFormFieldSkins extends ListField
 {
 	protected $type = 'skins';
 
@@ -38,10 +39,10 @@ class JFormFieldSkins extends JFormFieldList
 
 		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		for ($i = 0; $i < count($directories); ++$i)
+		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
+			$options[] = HTMLHelper::_('select.option', $i, $dir);
 		}
 
 		$options = array_merge(parent::getOptions(), $options);
@@ -62,9 +63,12 @@ class JFormFieldSkins extends JFormFieldList
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
+		$attrbs  = array(
+			'class' => 'custom-select'
+		);
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, '', 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

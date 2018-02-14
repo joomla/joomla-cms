@@ -11,9 +11,4 @@
 
 define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'legacy_libs/caption'], function ($, fixture) {
 	$('body').append(fixture);
-
-	new JCaption('#single img.test');
-	new JCaption('#multiple img.test');
-	new JCaption('#empty img.test');
-	new JCaption('#options img.test');
 });

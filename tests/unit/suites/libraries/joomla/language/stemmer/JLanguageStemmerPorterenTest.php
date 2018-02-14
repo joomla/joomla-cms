@@ -3,7 +3,7 @@
  * @package    Joomla.UnitTest
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Language
  */
-class JLanguageStemmerPorterenTest extends PHPUnit_Framework_TestCase
+class JLanguageStemmerPorterenTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLanguageStemmerPorteren

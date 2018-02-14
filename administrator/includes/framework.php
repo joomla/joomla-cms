@@ -8,16 +8,8 @@
 
 defined('_JEXEC') or die;
 
-// Joomla system checks.
-@ini_set('magic_quotes_runtime', 0);
-
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Set system error handling
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
 
 // Installation check, and check on removal of the install directory.
 if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')

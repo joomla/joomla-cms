@@ -138,7 +138,7 @@
     var iter = new Iter(cm, start.line, 0);
     for (;;) {
       var openTag = toNextTag(iter), end;
-      if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
+      if (!openTag || !(end = toTagEnd(iter)) || iter.line != start.line) return;
       if (!openTag[1] && end != "selfClose") {
         var startPos = Pos(iter.line, iter.ch);
         var endPos = findMatchingClose(iter, openTag[2]);
@@ -163,10 +163,10 @@
     }
   };
 
-  CodeMirror.findEnclosingTag = function(cm, pos, range) {
+  CodeMirror.findEnclosingTag = function(cm, pos, range, tag) {
     var iter = new Iter(cm, pos.line, pos.ch, range);
     for (;;) {
-      var open = findMatchingOpen(iter);
+      var open = findMatchingOpen(iter, tag);
       if (!open) break;
       var forward = new Iter(cm, pos.line, pos.ch, range);
       var close = findMatchingClose(forward, open.tag);

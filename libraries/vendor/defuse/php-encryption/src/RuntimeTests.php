@@ -17,6 +17,7 @@ class RuntimeTests extends Crypto
      * Runs the runtime tests.
      *
      * @throws Ex\EnvironmentIsBrokenException
+     * @return void
      */
     public static function runtimeTest()
     {
@@ -79,6 +80,7 @@ class RuntimeTests extends Crypto
      * High-level tests of Crypto operations.
      *
      * @throws Ex\EnvironmentIsBrokenException
+     * @return void
      */
     private static function testEncryptDecrypt()
     {
@@ -148,6 +150,7 @@ class RuntimeTests extends Crypto
      * Test HKDF against test vectors.
      *
      * @throws Ex\EnvironmentIsBrokenException
+     * @return void
      */
     private static function HKDFTestVector()
     {
@@ -186,6 +189,7 @@ class RuntimeTests extends Crypto
      * Test HMAC against test vectors.
      *
      * @throws Ex\EnvironmentIsBrokenException
+     * @return void
      */
     private static function HMACTestVector()
     {
@@ -202,6 +206,7 @@ class RuntimeTests extends Crypto
      * Test AES against test vectors.
      *
      * @throws Ex\EnvironmentIsBrokenException
+     * @return void
      */
     private static function AESTestVector()
     {

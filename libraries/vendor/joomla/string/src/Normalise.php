@@ -56,7 +56,7 @@ abstract class Normalise
 	public static function toCamelCase($input)
 	{
 		// Convert words to uppercase and then remove spaces.
-		$input = self::toSpaceSeparated($input);
+		$input = static::toSpaceSeparated($input);
 		$input = ucwords($input);
 		$input = str_ireplace(' ', '', $input);
 
@@ -75,9 +75,7 @@ abstract class Normalise
 	public static function toDashSeparated($input)
 	{
 		// Convert spaces and underscores to dashes.
-		$input = preg_replace('#[ \-_]+#', '-', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', '-', $input);
 	}
 
 	/**
@@ -92,9 +90,7 @@ abstract class Normalise
 	public static function toSpaceSeparated($input)
 	{
 		// Convert underscores and dashes to spaces.
-		$input = preg_replace('#[ \-_]+#', ' ', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', ' ', $input);
 	}
 
 	/**
@@ -109,9 +105,7 @@ abstract class Normalise
 	public static function toUnderscoreSeparated($input)
 	{
 		// Convert spaces and dashes to underscores.
-		$input = preg_replace('#[ \-_]+#', '_', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', '_', $input);
 	}
 
 	/**
@@ -126,8 +120,8 @@ abstract class Normalise
 	public static function toVariable($input)
 	{
 		// Remove dashes and underscores, then convert to camel case.
-		$input = self::toSpaceSeparated($input);
-		$input = self::toCamelCase($input);
+		$input = static::toSpaceSeparated($input);
+		$input = static::toCamelCase($input);
 
 		// Remove leading digits.
 		$input = preg_replace('#^[0-9]+#', '', $input);
@@ -154,9 +148,8 @@ abstract class Normalise
 	public static function toKey($input)
 	{
 		// Remove spaces and dashes, then convert to lower case.
-		$input = self::toUnderscoreSeparated($input);
-		$input = strtolower($input);
+		$input = static::toUnderscoreSeparated($input);
 
-		return $input;
+		return strtolower($input);
 	}
 }

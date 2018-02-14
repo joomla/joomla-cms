@@ -39,6 +39,11 @@
 		"url": "//fonts.googleapis.com/css?family=Nova+Mono",
 		"css": "'Nova Mono', monospace"
 	},
+	"overpass_mono": {
+		"name": "Overpass Mono",
+		"url": "//fonts.googleapis.com/css?family=Overpass+Mono",
+		"css": "'Overpass Mono', monospace"
+	},
 	"oxygen_mono": {
 		"name": "Oxygen Mono",
 		"url": "//fonts.googleapis.com/css?family=Oxygen+Mono",

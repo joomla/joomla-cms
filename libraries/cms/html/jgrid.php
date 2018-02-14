@@ -4,11 +4,13 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -57,29 +59,27 @@ abstract class JHtmlJGrid
 
 		if ($tip)
 		{
-			JHtml::_('bootstrap.tooltip');
-
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? JText::_($title) : $title;
-			$title = JHtml::tooltipText($title, '', 0);
+			$title = JHtml::_('tooltipText', $title, '', 0);
 		}
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-secondary btn-xs' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon' . ($active_class === 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '"></span>';
+			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-xs btn-secondary disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
+			$html[] = '<a class="tbody-icon disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
-			if ($active_class == 'protected')
+			if ($active_class === 'protected')
 			{
 				$html[] = '<span class="icon-lock"></span>';
 			}
@@ -178,7 +178,7 @@ abstract class JHtmlJGrid
 			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
 
-			$tz = new DateTimeZone(JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset')));
+			$tz = JFactory::getUser()->getTimezone();
 
 			$publish_up = ($publish_up != $nullDate) ? JFactory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
 			$publish_down = ($publish_down != $nullDate) ? JFactory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
@@ -188,15 +188,15 @@ abstract class JHtmlJGrid
 
 			if ($publish_up)
 			{
-				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->format(JDate::$format, true));
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', JHtml::_('date', $publish_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 			}
 
 			if ($publish_down)
 			{
-				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', JHtml::_('date', $publish_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 			}
 
-			$tip = empty($tips) ? false : implode('<br />', $tips);
+			$tip = empty($tips) ? false : implode('<br>', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
@@ -223,8 +223,8 @@ abstract class JHtmlJGrid
 				if ($tip)
 				{
 					$states[$key][1] = JText::_($states[$key][1]);
-					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
-					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
+					$states[$key][2] = JText::_($states[$key][2]) . '<br>' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br>' . $tip;
 					$states[$key][4] = true;
 				}
 			}
@@ -328,8 +328,6 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
-		JHtml::_('bootstrap.tooltip');
-
 		if (is_array($prefix))
 		{
 			$options = $prefix;
@@ -338,9 +336,9 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
-		$active_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKIN'), $text, 0);
-		$inactive_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
+		$text = $editorName . '<br>' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br>' . JHtml::_('date', $time, 'H:i');
+		$active_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKIN'), $text, 0);
+		$inactive_title = JHtml::_('tooltipText', JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),

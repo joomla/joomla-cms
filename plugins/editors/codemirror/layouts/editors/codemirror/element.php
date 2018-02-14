@@ -10,6 +10,9 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 $options = $displayData->options;
 $params  = $displayData->params;
 $name    = $displayData->name;
@@ -18,17 +21,20 @@ $cols    = $displayData->cols;
 $rows    = $displayData->rows;
 $content = $displayData->content;
 $buttons = $displayData->buttons;
+$modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
 
-JFactory::getDocument()->addScriptDeclaration('
+Factory::getDocument()->addScriptDeclaration('
 	jQuery(function () {
 		var id = ' . json_encode($id) . ', options = ' . json_encode($options) . ';
+		/** Register Editor */
 		Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);
 	});
 ');
 ?>
 
-<p class="badge badge-default"><?php echo JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $params->get('fullScreen', 'F10')); ?></p>
-
+<p class="badge badge-secondary">
+    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $modifier, $params->get('fullScreen', 'F10')); ?>
+</p>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 
 <?php echo $displayData->buttons; ?>

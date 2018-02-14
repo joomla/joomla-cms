@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Application
  * @since       3.2
  */
-class JApplicationCmsInspector extends JApplicationCms
+class JApplicationCmsInspector extends \Joomla\CMS\Application\CMSApplication
 {
 	/**
 	 * @var     boolean  True to mimic the headers already being sent.

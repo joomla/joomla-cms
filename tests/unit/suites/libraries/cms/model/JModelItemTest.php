@@ -4,7 +4,7 @@
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -33,7 +33,8 @@ class JModelItemTest extends TestCase
 	public function setUp()
 	{
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockForAbstractClass('JModelItem');
+		$this->object = $this->getMockBuilder('JModelItem')
+			->getMockForAbstractClass();
 	}
 
 	/**
@@ -42,7 +43,7 @@ class JModelItemTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

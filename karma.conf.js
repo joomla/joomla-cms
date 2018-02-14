@@ -12,45 +12,51 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			{pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
-			{pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
-			{pattern: 'tests/javascript/node_modules/text/text.js', included: false},
+			{pattern: 'media/system/js/polyfills/webcomponents/webcomponents-ce.min.js', included: true, served: true, watched: true},
+			{pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
+			{pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
+			{pattern: 'node_modules/text/text.js', included: false},
 			{pattern: 'media/vendor/bootstrap/js/bootstrap.min.js', included: false},
 			{pattern: 'media/vendor/jquery-ui/js/jquery.ui.core.min.js', included: false},
 			{pattern: 'media/vendor/jquery-ui/js/jquery.ui.sortable.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
+			{pattern: 'media/system/js/core.js', included: false,served: true, watched: true},
 			{pattern: 'media/system/js/legacy/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
+			{pattern: 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js', included: false, served: true, watched: true},
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
 			{pattern: 'tests/javascript/**/spec.js', included: false},
 			{pattern: 'tests/javascript/**/spec-setup.js', included: false},
+			{pattern: 'media/system/webcomponents/js/*.js', included: false},
 			{pattern: 'images/*.png', included: false},
 
 			'tests/javascript/test-main.js'
 		],
 
-		// list of files to exclude
 		exclude: [
-			'media/system/js/*uncompressed.js'
+			'media/system/webcomponents/js/*-es5.js',
+			'media/system/webcomponents/js/*.min.js',
+			'media/system/webcomponents/js/*-es5.min.js',
 		],
 
 		// preprocess matching files before serving them to the browser
 		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
 		preprocessors: {
-			'**/system/js/*!(uncompressed).js': ['coverage']
+			'**/system/js/*.js': ['coverage']
 		},
 
 		// coverage reporter configuration
 		coverageReporter: {
-			type : 'text'
+			type : 'html',
+			dir : 'build/coverage-js/'
 		},
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['verbose', 'coverage'],
+		reporters: ['verbose', 'progress', 'coverage'],
 
 		// web server port
 		port: 9876,

@@ -19,14 +19,14 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			spyOnEvent('#adminForm', 'submit');
 			form.removeChild = jasmine.createSpy('removeChild');
 
-			Joomla.submitform('article.add', form, true);
+			Joomla.submitform('article.add', form, false);
 		});
 
 		it('should assign task to form.task.value', function () {
 			expect(form.task.value).toEqual('article.add');
 		});
-		it('should set attribute novalidate to false', function () {
-			expect($(form)).toHaveAttr('novalidate', 'false');
+		it('should set attribute "novalidate"', function () {
+			expect($(form)).toHaveAttr('novalidate', '');
 		});
 		it('should add input submit button to DOM', function () {
 			expect($('#adminForm')).toContainElement('input[type="submit"]');
@@ -43,6 +43,10 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
+		beforeAll(function () {
+			Joomla.loadOptions();
+		});
+
 		it('should return options array Joomla.getOptions("com_foobar")', function () {
 			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
 		});
@@ -55,7 +59,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
 			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
 		});
+	});
 
+	describe('Core Joomla.getOptions programmatically', function () {
 		// Test dynamically added options
 		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
 			$('#get-options').append($('<script>', {
@@ -140,7 +146,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('should return false when input element is not inside a form', function () {
-			expect(Joomla.checkAll(document.getElementById('cb-no-form'))).toEqual(false);
+			expect(Joomla.checkAll($('#cb-no-form'))).toEqual(false);
 		});
 
 		it('should check all the checkboxes that has id starting with \'cb\' inside the form', function () {
@@ -179,20 +185,26 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('renderMessages should render messages inside a div having class alert-message', function () {
-			var $messages = $('div.alert-success').children('div');
+			var $messages = $('#system-message-container > .alert.success').children('div');
 			expect($messages[0]).toContainText('Message two');
 			expect($messages[1]).toContainText('Message one');
+
 		});
 
 		it('renderMessages should render errors inside a div having class alert-error', function () {
-			var $messages = $('div.alert-danger').children('div');
+			var $messages = $('#system-message-container > .alert.danger').children('div');
 			expect($messages[0]).toContainText('Error two');
 			expect($messages[1]).toContainText('Error one');
 		});
 
-		it('removeMessages should remove all content from system-message-container', function () {
+		it('removeMessages should remove all content from system-message-container', function (done) {
 			Joomla.removeMessages();
-			expect($("#system-message-container")).toBeEmpty();
+
+			// Alerts need some time for the close animation
+			setTimeout(function () {
+				expect($("#system-message-container")).toBeEmpty();
+				done();
+			}, 400);
 		});
 	});
 
