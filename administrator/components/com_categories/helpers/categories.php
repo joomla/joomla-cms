@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class CategoriesHelper
 {
 	/**
+	 * Cached array of the category item id.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $filters = array();	
+	
+	/**
 	 * Configure the Submenu links.
 	 *
 	 * @param   string  $extension  The extension being used for the categories.
@@ -110,34 +118,42 @@ class CategoriesHelper
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
-		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations     = array();
-		$user             = JFactory::getUser();
-		$groups           = implode(',', $user->getAuthorisedViewLevels());
-
-		foreach ($langAssociations as $langAssociation)
+		if (!isset(static::$filters[$pk]))
 		{
-			// Include only published categories with user access
-			$arrId    = explode(':', $langAssociation->id);
-			$assocId  = $arrId[0];
+			$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
+			$associations     = array();
+			$user             = JFactory::getUser();
+			$groups           = implode(',', $user->getAuthorisedViewLevels());
+
+			foreach ($langAssociations as $langAssociation)
+			{
+				// Include only published categories with user access
+				$arrId    = explode(':', $langAssociation->id);
+				$assocId  = $arrId[0];
+			}
+
+			$catId    = implode(',', $assocId);
 
 			$db    = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn('published'))
+				->select($db->qn(array('id', 'language') ))
 				->from($db->qn('#__categories'))
-				->where('access IN (' . $groups . ')')
-				->where($db->qn('id') . ' = ' . (int) $assocId);
+				->where($db->qn('id') . ' IN (' . $catId . ')')
+				->where($db->qn('published') . ' =  1')
+				->where($db->qn('access') . ' IN (' . $groups . ')');
 
-			$result = (int) $db->setQuery($query)->loadResult();
+			$results = $db->setQuery($query)->loadObjectList();
 
-			if ($result === 1)
+			foreach ($results as $result)
 			{
-				$associations[$langAssociation->language] = $langAssociation->id;
+				$associations[$result->language] = $result->id;
 			}
+
+			static::$filters[$pk] = $associations;
 		}
 
-		return $associations;
+		return static::$filters[$pk];
 	}
 
 	/**
