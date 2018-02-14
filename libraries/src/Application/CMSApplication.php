@@ -150,42 +150,6 @@ class CMSApplication extends WebApplication
 			$session->set('registry', new Registry);
 			$session->set('user', new \JUser);
 		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		$time = time();
-
-		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
-		if ($handler !== 'database' && $time % 5 === 0)
-		{
-			$this->registerEvent(
-				'onAfterRespond',
-				function () use ($session, $time)
-				{
-					// TODO: At some point we need to get away from having session data always in the db.
-					$db = \JFactory::getDbo();
-
-					$query = $db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-					}
-					catch (\JDatabaseExceptionExecuting $exception)
-					{
-						/*
-						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-						 */
-					}
-				}
-			);
-		}
 	}
 
 	/**
@@ -842,16 +806,29 @@ class CMSApplication extends WebApplication
 
 		$session->initialise($this->input, $this->dispatcher);
 
+		// TODO: At some point we need to get away from having session data always in the db.
+		$db = \JFactory::getDbo();
+
+		// Remove expired sessions from the database.
+		$time = time();
+
+		if ($time % 2)
+		{
+			// The modulus introduces a little entropy, making the flushing less accurate
+			// but fires the query less than half the time.
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+
+			$db->setQuery($query);
+			$db->execute();
+		}
+
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		/*
-		 * Check for extra session metadata when:
-		 *
-		 * 1) The database handler is in use and the session is new
-		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-		 */
-		if (($handler !== 'database' && (time() % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
