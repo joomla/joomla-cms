@@ -192,6 +192,15 @@ joomla-core-loader .green {
   20% {
     opacity: 1;
   }
+}
+@media (prefers-reduced-motion: reduce) {
+  joomla-core-loader {
+    .box {
+      > span {
+        animation: none;
+      }
+    }
+  }
 }`;
 		this.styleEl = document.createElement('style');
 		this.styleEl.id = 'joomla-loader-css';
