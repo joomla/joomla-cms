@@ -21,6 +21,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
 JHtml::_('webcomponent', 'system/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+JHtml::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);

@@ -719,18 +719,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @since  3.6.0
 	 */
 	Joomla.loadingLayer = function(task, parentElement) {
-		parentElement = parentElement || document.body;
 
-		var loader = document.createElement('joomla-core-loader');
+		if (task && task === 'load') {
+			return;
+		} else if (task === 'show') {
+			parentElement = parentElement || document.body;
 
-		if (loader.constructor.name !== 'HTMLElement')
-		{
+			var loader = document.createElement('joomla-core-loader');
+
 			parentElement.appendChild(loader);
+		} else {
+			var loader = document.querySelector('joomla-core-loader');
 
-			return document.getElementById('loading-logo');
+			if (loader) {
+				loader.parentNode.removeChild(loader);
+			}
 		}
-
-		console.warn('The custom element `joomla-core-loader` was not loaded, you need to explicitly load it')
 	};
 
 	/**
