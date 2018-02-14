@@ -127,7 +127,7 @@ class Categories
 
 		$parts = explode('.', $extension, 2);
 
-		$categories = ComponentHelper::boot($parts[0])->getCategories(count($parts) > 1 ? $parts[1] : '');
+		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories(count($parts) > 1 ? $parts[1] : '');
 
 		if ($categories)
 		{

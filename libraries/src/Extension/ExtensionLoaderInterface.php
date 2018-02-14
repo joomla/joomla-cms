@@ -11,10 +11,20 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Access to component specific services.
+ * Loads extensions.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ExtensionContainerInterface
+interface ExtensionLoaderInterface
 {
+	/**
+	 * Boots the component with the given name.
+	 *
+	 * @param   string  $component  The component to boot.
+	 *
+	 * @return  ComponentContainerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootComponent($component): ComponentContainerInterface;
 }

@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
-use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
-use Psr\Container\ContainerInterface;
 
 /**
  * Component helper class

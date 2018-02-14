@@ -10,7 +10,6 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Component\ExtensionContainerInterface;
 use Joomla\DI\ContainerAwareTrait;
 
 /**
