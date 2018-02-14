@@ -10,24 +10,13 @@ namespace Joomla\CMS\Component;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Extension\Extension;
 
 /**
  * Access to component specific services.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ComponentContainerInterface
+interface ExtensionContainerInterface
 {
-	/**
-	 * Returns the category service. If the service is not available
-	 * null is returned.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  Categories|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getCategories($section = '');
 }

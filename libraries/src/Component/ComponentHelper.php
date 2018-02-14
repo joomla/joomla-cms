@@ -554,49 +554,4 @@ class ComponentHelper
 
 		return 'com_' . strtolower(substr($reflect->getNamespaceName(), $from + 11, $to));
 	}
-
-	/**
-	 * Boots the component with the given name.
-	 *
-	 * @param   string              $component  The component name, eg. com_content.
-	 * @param   ContainerInterface  $container  The container.
-	 *
-	 * @return  ComponentContainerInterface  The service container
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function boot($component, ContainerInterface $container = null): ComponentContainerInterface
-	{
-		// Normalize the component name
-		$component = strtolower(str_replace('com_', '', $component));
-
-		// The service name
-		$serviceName = ucfirst($component) . 'Container';
-
-		// The container which holds the component container
-		$container = $container ? : Factory::getContainer();
-
-		// Check if the service is already available
-		if ($container->has($serviceName))
-		{
-			return $container->get($serviceName);
-		}
-
-		// Allow components to register services
-		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component . '/services/services.php';
-
-		if (file_exists($path))
-		{
-			// Load the services file
-			require_once $path;
-		}
-
-		if (!$container->has($serviceName))
-		{
-			$container->set($serviceName, new LegacyComponentContainer($component));
-		}
-
-		// Return the child container
-		return $container->get($serviceName);
-	}
 }
