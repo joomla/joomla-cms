@@ -706,6 +706,34 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
+	 * Add Joomla! loading image layer.
+	 *
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *          /installation/template/js/installation.js
+	 *
+	 * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 *
+	 * @return  {HTMLElement}  The HTML loading layer element.
+	 *
+	 * @since  3.6.0
+	 */
+	Joomla.loadingLayer = function(task, parentElement) {
+		parentElement = parentElement || document.body;
+
+		var loader = document.createElement('joomla-core-loader');
+
+		if (loader.constructor.name !== 'HTMLElement')
+		{
+			parentElement.appendChild(loader);
+
+			return document.getElementById('loading-logo');
+		}
+
+		console.warn('The custom element `joomla-core-loader` was not loaded, you need to explicitly load it')
+	};
+
+	/**
 	 * Method to Extend Objects
 	 *
 	 * @param  {Object}  destination
