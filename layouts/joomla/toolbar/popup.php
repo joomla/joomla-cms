@@ -37,7 +37,7 @@ if (!empty($listCheck))
 	Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 	Text::script('ERROR');
 	$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-	$alert = "Joomla.renderMessages(" . $message . ")";
+	$alert = 'Joomla.renderMessages(' . $message . ')';
 
 	$modalAttrs['onclick'] = <<<JS
 if (document.adminForm.boxchecked.value==0){ $alert } else { jQuery( '#$selector' ).modal('show'); return true; }

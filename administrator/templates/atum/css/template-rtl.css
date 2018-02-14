@@ -1073,7 +1073,7 @@ iframe {
     margin-right: .25rem; }
     .subhead .btn-group .btn {
       margin-left: 0; }
-  .subhead a:first-child, .subhead button:first-child, .subhead div:first-child {
+  .subhead > *:first-child {
     margin: 0; }
   .subhead .btn-group-sm > .btn,
   .subhead .btn-sm {
