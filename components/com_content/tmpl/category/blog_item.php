@@ -31,7 +31,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php echo JLayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
 	<?php if ($canEdit) : ?>
-		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+		<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
 	<?php endif; ?>
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
