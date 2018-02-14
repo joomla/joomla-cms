@@ -10,7 +10,6 @@ namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**

@@ -10,7 +10,6 @@ namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
@@ -23,7 +22,7 @@ class GroupButton extends BasicButton
 	/**
 	 * Get the HTML to render the button
 	 *
-	 * @param   array &$definition Parameters to be passed
+	 * @param   array  $definition  Parameters to be passed
 	 *
 	 * @return  string
 	 *
@@ -52,5 +51,4 @@ class GroupButton extends BasicButton
 
 		return $button->render($definition);
 	}
-
 }

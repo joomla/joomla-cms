@@ -10,7 +10,6 @@ namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\String\Normalise;
 use Joomla\Utilities\ArrayHelper;
 
 /**

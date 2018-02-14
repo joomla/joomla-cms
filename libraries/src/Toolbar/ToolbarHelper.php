@@ -10,8 +10,8 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Table\Table;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\Cms\Table\Table;
 
 /**
  * Utility class for the button bar.
