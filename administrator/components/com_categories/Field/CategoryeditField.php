@@ -390,7 +390,7 @@ class CategoryeditField extends \JFormFieldList
 
 		// Form the custom element
 		$html[] = '<joomla-field-category'
-			. ' custom-fields="' . $this->element['custom-fields-enabled'] . '"'
+			. ' custom-fields-enabled="' . $this->element['custom-fields-enabled'] . '"'
 			. ' custom-fields-cat-id="' . $this->element['custom-fields-cat-id'] . '"'
 			. ' custom-fields-form-id="' . $this->element['custom-fields-form-id'] . '"'
 			. ' custom-fields-section="' . $this->element['custom-fields-section']  . '"'

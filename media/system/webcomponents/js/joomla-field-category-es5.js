@@ -18,16 +18,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
 		_this.element = '';
-		_this.categoryHasChanged = _this.categoryHasChanged.bind(_this);
+		Joomla.loadingLayer('load', document.body);
 		return _this;
 	}
 
 	_createClass(_class, [{
 		key: 'connectedCallback',
 		value: function connectedCallback() {
-			this.element = this.querySelector('select');
+			// Check if custom fields are enabled
+			if (this.getAttribute('custom-fields-enabled') !== 'true') {
+				return;
+			}
 
-			Joomla.loadingLayer('load');
+			this.element = this.querySelector('select');
+			this.categoryHasChanged = this.categoryHasChanged.bind(this);
 
 			if (!this.element.value !== this.getAttribute('custom-fields-cat-id')) {
 				this.element.value = this.getAttribute('custom-fields-cat-id');
@@ -38,11 +42,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 	}, {
 		key: 'categoryHasChanged',
 		value: function categoryHasChanged() {
-			if (this.element.value === this.element.parentNode.getAttribute('custom-fields-cat-id')) {
+			if (this.element.value === parseInt(this.element.parentNode.getAttribute('custom-fields-cat-id'))) {
 				return;
 			}
 
-			Joomla.loadingLayer('show');
+			Joomla.loadingLayer('show', document.body);
 
 			document.querySelector('input[name=task]').value = this.element.parentNode.getAttribute('custom-fields-section') + '.reload';
 			this.element.form.submit();
