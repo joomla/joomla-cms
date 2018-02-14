@@ -25,7 +25,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
-use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 

@@ -48,11 +48,11 @@ trait ExtensionLoader
 	 * @param   string  $extensionName  The extension name
 	 * @param   string  $extensionPath  The path of the extension
 	 *
-	 * @return  ExtensionContainerInterface  The service container
+	 * @return  mixed  The extension service container
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function loadExtensionContainer($serviceName, $extensionName, $extensionPath): ExtensionContainerInterface
+	private function loadExtensionContainer($serviceName, $extensionName, $extensionPath)
 	{
 		// The container which holds the component container
 		$container = $this->getContainer();
