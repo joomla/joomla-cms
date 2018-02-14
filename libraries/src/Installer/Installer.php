@@ -832,7 +832,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID', $this->extension->name));
+		$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
 
 		return false;
 	}
