@@ -806,6 +806,7 @@ class Installer extends \JAdapter
 				return false;
 			}
 
+			// Fetch the adapter
 			$adapter = $this->getAdapter($this->extension->type);
 
 			if (!is_object($adapter))
