@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Extension\ExtensionLoader;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Input\Cli;
 use Joomla\Input\Input;
 use Joomla\DI\Container;
@@ -32,7 +33,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ExtensionLoader;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionLoader;
 
 	/**
 	 * Output object

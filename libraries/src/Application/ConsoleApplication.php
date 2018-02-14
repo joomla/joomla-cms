@@ -16,6 +16,7 @@ use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -30,7 +31,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ExtensionLoader;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionLoader;
 
 	/**
 	 * The application message queue.

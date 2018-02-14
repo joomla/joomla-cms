@@ -10,7 +10,9 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\Exception\ContainerNotFoundException;
 
 /**
  * Trait for classes which can load extensions
@@ -19,7 +21,6 @@ use Joomla\DI\ContainerAwareTrait;
  */
 trait ExtensionLoader
 {
-	use ContainerAwareTrait;
 
 	/**
 	 * Boots the component with the given name.
@@ -87,4 +88,14 @@ trait ExtensionLoader
 		// Return the child container
 		return $container->get($serviceName);
 	}
+
+	/**
+	 * Get the DI container.
+	 *
+	 * @return  Container
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  ContainerNotFoundException May be thrown if the container has not been set.
+	 */
+	abstract protected function getContainer();
 }

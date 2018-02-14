@@ -25,6 +25,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -35,7 +36,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ExtensionLoader, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionLoader, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
