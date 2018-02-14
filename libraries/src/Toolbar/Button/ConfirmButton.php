@@ -23,11 +23,13 @@ use Joomla\CMS\Language\Text;
 class ConfirmButton extends StandardButton
 {
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{

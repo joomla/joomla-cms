@@ -19,7 +19,6 @@ HTMLHelper::_('behavior.core');
  * @var  string  $class
  * @var  string  $text
  * @var  string  $btnClass
- * @var  string  $group
  * @var  string  $tagName
  * @var  string  $htmlAttributes
  */

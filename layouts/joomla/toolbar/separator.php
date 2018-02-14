@@ -16,7 +16,6 @@ defined('JPATH_BASE') or die;
  * @var  string  $class
  * @var  string  $text
  * @var  string  $btnClass
- * @var  string  $group
  * @var  string  $tagName
  * @var  string  $htmlAttributes
  */

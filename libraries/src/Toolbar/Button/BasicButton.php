@@ -23,19 +23,22 @@ class BasicButton extends ToolbarButton
 	 * Property layout.
 	 *
 	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.toolbar.basic';
 
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string  $type  Unused string.
+	 * @param   string $type Unused string.
 	 *
-	 * @return  string  HTML string for the button
+	 * @return  void
 	 *
 	 * @since   3.0
 	 *
 	 * @deprecated  5.0 Use render() instead.
+	 * @throws \LogicException
 	 */
 	public function fetchButton($type = 'Basic')
 	{

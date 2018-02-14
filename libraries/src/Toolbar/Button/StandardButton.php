@@ -26,15 +26,19 @@ class StandardButton extends BasicButton
 	 * Property layout.
 	 *
 	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.toolbar.standard';
 
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -49,7 +53,6 @@ class StandardButton extends BasicButton
 		}
 
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
-		$options['group']  = $this->getGroup();
 	}
 
 	/**
@@ -60,7 +63,6 @@ class StandardButton extends BasicButton
 	 * @param   string   $text   Button text.
 	 * @param   string   $task   Task associated with the button.
 	 * @param   boolean  $list   True to allow lists
-	 * @param   boolean  $group  Does the button belong to a group?
 	 *
 	 * @return  string  HTML string for the button
 	 *
@@ -68,13 +70,12 @@ class StandardButton extends BasicButton
 	 *
 	 * @deprecated  5.0 Use render() instead.
 	 */
-	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true, $group = false)
+	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
 	{
 		$this->name($name)
 			->text($text)
 			->task($task)
-			->listCheck($list)
-			->group($group);
+			->listCheck($list);
 
 		return $this->renderButton($this->options);
 	}
@@ -153,7 +154,6 @@ class StandardButton extends BasicButton
 			parent::getAccessors(),
 			[
 				'listCheck',
-				'group'
 			]
 		);
 	}

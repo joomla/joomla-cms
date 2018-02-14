@@ -11,6 +11,7 @@ namespace Joomla\CMS\Toolbar\Button;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Help\Help;
+use Joomla\CMS\Language\Text;
 
 /**
  * Renders a help popup window button
@@ -29,15 +30,17 @@ use Joomla\CMS\Help\Help;
 class HelpButton extends BasicButton
 {
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['text'] = $options['text'] ?: \JText::_('JTOOLBAR_HELP');
+		$options['text'] = $options['text'] ?: Text::_('JTOOLBAR_HELP');
 		$options['icon'] = $options['icon'] ?? 'fa fa-question';
 		$options['button_class'] = $options['button_class'] ?? 'btn btn-outline-info btn-sm';
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();

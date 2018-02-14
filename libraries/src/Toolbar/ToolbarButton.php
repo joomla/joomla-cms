@@ -33,58 +33,77 @@ use Joomla\Utilities\ArrayHelper;
 abstract class ToolbarButton
 {
 	/**
-	 * Property name.
+	 * Name of this button.
 	 *
-	 * @var string
+	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $name;
 
 	/**
-	 * reference to the object that instantiated the element
+	 * Reference to the object that instantiated the element
 	 *
 	 * @var    Toolbar
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $parent;
 
 	/**
-	 * Property child.
+	 * The child Toolbar instance.
 	 *
-	 * @var Toolbar
+	 * @var  Toolbar
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $child;
 
 	/**
-	 * Property layout.
+	 * The layout path to render this button.
 	 *
-	 * @var string
+	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout;
 
 	/**
-	 * Property options.
+	 * Button options.
 	 *
 	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $options = [];
 
 	/**
-	 * Constructor
+	 * Init this class.
 	 *
-	 * @param string $name
-	 * @param string $text
+	 * @param   string  $name     Name of this button.
+	 * @param   string  $text     The button text, will auto translate.
+	 * @param   array   $options  Button options.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 * @throws \InvalidArgumentException
 	 */
-	public function __construct(string $name = '', string $text = '')
+	public function __construct(string $name = '', string $text = '', array $options = [])
 	{
 		$this->name($name)
 			->text($text);
+
+		$this->options = ArrayHelper::mergeRecursive($this->options, $options);
 	}
 
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -109,11 +128,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * children
+	 * Add children buttons as dropdown.
 	 *
-	 * @param callable $handler
+	 * @param   callable  $handler  The callback to configure dropdown items.
 	 *
 	 * @return  static
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function children(callable $handler)
 	{
@@ -125,9 +146,11 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * getChildToolbar
+	 * Get child toolbar.
 	 *
-	 * @return  Toolbar
+	 * @return  Toolbar  Return new child Toolbar instance.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getChildToolbar()
 	{
@@ -142,7 +165,7 @@ abstract class ToolbarButton
 	/**
 	 * Get the HTML to render the button
 	 *
-	 * @param   array  &$definition Parameters to be passed
+	 * @param   array  $definition  Parameters to be passed
 	 *
 	 * @return  string
 	 *
@@ -189,11 +212,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * renderButton
+	 * Render button HTML.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The button options.
 	 *
-	 * @return  string
+	 * @return  string  The button HTML.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -215,14 +240,7 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Get the button CSS Id
-	 *
-	 * @param   string   $type      Unused string.
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
+	 * Get the button CSS Id.
 	 *
 	 * @return  string  Button CSS Id
 	 *
@@ -266,9 +284,11 @@ abstract class ToolbarButton
 	abstract public function fetchButton();
 
 	/**
-	 * Method to get property Parent
+	 * Get parent toolbar instance.
 	 *
 	 * @return  Toolbar
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getParent(): Toolbar
 	{
@@ -276,11 +296,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to set property parent
+	 * Set parent Toolbar instance.
 	 *
-	 * @param   Toolbar $parent
+	 * @param   Toolbar  $parent  The parent Toolbar instance to set.
 	 *
 	 * @return  static  Return self to support chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setParent(Toolbar $parent): self
 	{
@@ -290,9 +312,11 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to get property Options
+	 * Get button options.
 	 *
 	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getOptions(): array
 	{
@@ -300,11 +324,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to set property options
+	 * Set all options.
 	 *
-	 * @param   array $options
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setOptions(array $options): self
 	{
@@ -314,12 +340,14 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * getOption
+	 * Get single option value.
 	 *
-	 * @param string $name
-	 * @param mixed  $default
+	 * @param   string  $name     The option name.
+	 * @param   mixed   $default  The default value if this name not exists.
 	 *
 	 * @return  mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getOption(string $name, $default = null)
 	{
@@ -327,12 +355,14 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * setOption
+	 * Set option value.
 	 *
-	 * @param string $name
-	 * @param mixed  $value
+	 * @param   string  $name   The option name to store value.
+	 * @param   mixed   $value  The option value.
 	 *
 	 * @return  static
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setOption(string $name, $value): self
 	{
@@ -342,9 +372,11 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to get property Layout
+	 * Get layout path.
 	 *
 	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getLayout(): string
 	{
@@ -352,11 +384,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to set property layout
+	 * Set layout path.
 	 *
-	 * @param   string $layout
+	 * @param   string  $layout  The layout path name to render.
 	 *
 	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function layout(string $layout): self
 	{
@@ -366,17 +400,20 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * __call
+	 * Magiix method to adapt option accessors.
 	 *
-	 * @param string $name
-	 * @param array  $args
+	 * @param   string  $name  The method name.
+	 * @param   array   $args  The method arguments.
 	 *
 	 * @return  mixed
+	 *
 	 * @throws \LogicException
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __call(string $name, array $args)
 	{
-		// getter
+		// Getter
 		if (stripos($name, 'get') === 0)
 		{
 			$fieldName = static::findOptionName(lcfirst(substr($name, 3)));
@@ -386,7 +423,7 @@ abstract class ToolbarButton
 				return $this->getOption($fieldName);
 			}
 		}
-		// setter
+		// Setter
 		else
 		{
 			$fieldName = static::findOptionName($name);
@@ -418,11 +455,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * findOptionName
+	 * Find field option name from accessors.
 	 *
-	 * @param string $name
+	 * @param   string  $name  The field name.
 	 *
-	 * @return  bool|string
+	 * @return  boolean|string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static function findOptionName(string $name)
 	{
@@ -433,7 +472,7 @@ abstract class ToolbarButton
 			return $accessors[array_search($name, $accessors, true)];
 		}
 
-		// getter with alias
+		// Getter with alias
 		if (isset($accessors[$name]))
 		{
 			return $accessors[$name];
@@ -443,9 +482,11 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{
@@ -460,9 +501,11 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to get property Name
+	 * Get button name.
 	 *
 	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getName(): string
 	{
@@ -470,11 +513,13 @@ abstract class ToolbarButton
 	}
 
 	/**
-	 * Method to set property name
+	 * Set button name.
 	 *
-	 * @param   string $name
+	 * @param   string  $name  The button name.
 	 *
 	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function name(string $name): self
 	{
