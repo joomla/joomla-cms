@@ -132,7 +132,7 @@ class CategoriesHelper
 				$assocId  = $arrId[0];
 			}
 
-			$catId    = implode(',', $assocId);
+			$catId = implode(',', $assocId);
 
 			$db    = \JFactory::getDbo();
 
@@ -140,7 +140,7 @@ class CategoriesHelper
 				->select($db->qn(array('id', 'language') ))
 				->from($db->qn('#__categories'))
 				->where($db->qn('id') . ' IN (' . $catId . ')')
-				->where($db->qn('published') . ' =  1')
+				->where($db->qn('published') . ' = 1')
 				->where($db->qn('access') . ' IN (' . $groups . ')');
 
 			$results = $db->setQuery($query)->loadObjectList();
