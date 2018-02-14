@@ -9,7 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -18,7 +22,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
  *
  * @since  3.7
  */
-class PlgSystemFields extends JPlugin
+class PlgSystemFields extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -27,61 +31,6 @@ class PlgSystemFields extends JPlugin
 	 * @since  3.7.0
 	 */
 	protected $autoloadLanguage = true;
-
-	/**
-	 * The save event.
-	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The item
-	 * @param   boolean   $isNew    Is new
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function onContentBeforeSave($context, $item, $isNew)
-	{
-		if (!isset($item->params))
-		{
-			return true;
-		}
-
-		// Create correct context for category
-		if ($context == 'com_categories.category')
-		{
-			$context = $item->extension . '.categories';
-		}
-
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return true;
-		}
-
-		$context = $parts[0] . '.' . $parts[1];
-
-		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
-
-		if (!$fieldsObjects)
-		{
-			return true;
-		}
-
-		$params = (array) json_decode($item->params);
-
-		foreach ($fieldsObjects as $field)
-		{
-			// Remove it from the params array
-			unset($params[$field->alias]);
-		}
-
-		// Set the cleaned up params array
-		$item->params = json_encode($params);
-
-		return true;
-	}
 
 	/**
 	 * The save event.
@@ -97,7 +46,8 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
-		if (!is_array($data) || empty($data['params']))
+		// Check if data is an array and the item has an id
+		if (!is_array($data) || empty($item->id))
 		{
 			return true;
 		}
@@ -106,51 +56,44 @@ class PlgSystemFields extends JPlugin
 		if ($context == 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			$item->catid = $item->id;
 		}
 
-		$fieldsData = $data['params'];
-		$parts      = FieldsHelper::extract($context);
+		// Check the context
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
+		// Compile the right context for the fields
 		$context = $parts[0] . '.' . $parts[1];
 
 		// Loading the fields
-		$fieldsObjects = FieldsHelper::getFields($context, $item);
+		$fields = FieldsHelper::getFields($context, $item);
 
-		if (!$fieldsObjects)
+		if (!$fields)
 		{
 			return true;
 		}
 
+		// Get the fields data
+		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
+
 		// Loading the model
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
-		foreach ($fieldsObjects as $field)
+		// Loop over the fields
+		foreach ($fields as $field)
 		{
-			// Only save the fields with the alias from the data
-			if (!key_exists($field->alias, $fieldsData))
-			{
-				continue;
-			}
-
-			$id = null;
-
-			if (isset($item->id))
-			{
-				$id = $item->id;
-			}
-
-			if (!$id)
-			{
-				continue;
-			}
+			// Determine the value if it is available from the data
+			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $context, $id, $fieldsData[$field->alias]);
+			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
 		return true;
@@ -177,19 +120,18 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
-		$user->params = (string) $user->getParameters();
+		$user = Factory::getUser($userData['id']);
+
+		$task = Factory::getApplication()->input->getCmd('task');
+
+		// Skip fields save when we activate a user, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock')))
+		{
+			return true;
+		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		// Save the user with the modified params
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)->update('#__users')
-			->set(array('params = ' . $db->quote($user->params)))
-			->where('id = ' . $user->id);
-		$db->setQuery($query);
-		$db->execute();
 
 		return true;
 	}
@@ -206,19 +148,16 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
-		if (!$parts)
+		if (!$parts || empty($item->id))
 		{
 			return true;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		JLoader::import('joomla.application.component.model');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
-
-		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -253,7 +192,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		$context = $form->getName();
 
@@ -261,16 +200,26 @@ class PlgSystemFields extends JPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+
+			// Set the catid on the category to get only the fields which belong to this category
+			if (is_array($data) && key_exists('id', $data))
+			{
+				$data['catid'] = $data['id'];
+			}
+			if (is_object($data) && isset($data->id))
+			{
+				$data->catid = $data->id;
+			}
 		}
 
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $form);
 
 		if (!$parts)
 		{
 			return true;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');
@@ -288,31 +237,6 @@ class PlgSystemFields extends JPlugin
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
 
 		return true;
-	}
-
-	/**
-	 * The prepare data event.
-	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $data     The data
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	public function onContentPrepareData($context, $data)
-	{
-		$parts = FieldsHelper::extract($context);
-
-		if (!$parts)
-		{
-			return;
-		}
-
-		if (isset($data->params) && $data->params instanceof Registry)
-		{
-			$data->params = $data->params->toArray();
-		}
 	}
 
 	/**
@@ -380,11 +304,17 @@ class PlgSystemFields extends JPlugin
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
 			return '';
+		}
+
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] == 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
@@ -395,6 +325,26 @@ class PlgSystemFields extends JPlugin
 		}
 
 		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language == '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{
@@ -439,7 +389,7 @@ class PlgSystemFields extends JPlugin
 	 */
 	public function onContentPrepare($context, $item)
 	{
-		$parts = FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts)
 		{
@@ -449,14 +399,12 @@ class PlgSystemFields extends JPlugin
 		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
 
 		// Adding the fields to the object
-		$item->fields = array();
+		$item->jcfields = array();
 
 		foreach ($fields as $key => $field)
 		{
-			$item->fields[$field->id] = $field;
+			$item->jcfields[$field->id] = $field;
 		}
-
-		return;
 	}
 
 	/**
@@ -485,7 +433,7 @@ class PlgSystemFields extends JPlugin
 					$component = 'com_' . $component;
 				}
 
-				// Transofrm com_article to com_content
+				// Transform com_article to com_content
 				if ($component === 'com_article')
 				{
 					$component = 'com_content';
@@ -508,10 +456,10 @@ class PlgSystemFields extends JPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->alias);
+						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
-						$item->{$field->alias} = $field->value;
+						$item->{$field->name} = $field->value;
 					}
 				}
 			}

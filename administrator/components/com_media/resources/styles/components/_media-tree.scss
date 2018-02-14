@@ -1,0 +1,132 @@
+/* Media Tree */
+
+ul.media-tree {
+  padding: 0 0 5px;
+  margin: 0;
+  overflow-x: visible;
+  list-style: none;
+  ul {
+    margin-left: 2px;
+  }
+  &:empty {
+    display: none;
+  }
+}
+
+.media-disk {
+  margin-bottom: 10px;
+}
+
+.media-drive {
+  overflow-x: auto;
+  background-color: $sidebar-drive-bg;
+  border: 1px solid $border-color;
+  + .media-drive {
+    border-top: 0;
+  }
+  > ul > li {
+    padding-left: 25px;
+  }
+}
+
+.media-drive-name {
+  padding: 4px 10px;
+  &::before {
+    margin-right: 6px;
+    font-family: FontAwesome;
+    color: $sidebar-tree-icon-color;
+    content: $sidebar-tree-folder-icon;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.media-disk-name {
+  padding: 4px 1px;
+  font-size: .8em;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  &:empty {
+    display: none;
+  }
+}
+
+.media-tree-item {
+  position: relative;
+  display: block;
+  &::before {
+    content: '';
+    height: 1px;
+    width: 10px;
+    background-color: $sidebar-tree-line-color;
+    position: absolute;
+    top: ($sidebar-tree-line-height / 2);
+    left: 15px;
+    margin: auto;
+  }
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 1px;
+    height: 100%;
+    content: "";
+    background-color: $sidebar-tree-line-color;
+  }
+  &:last-child {
+    &::after {
+      height: ($sidebar-tree-line-height / 2);
+    }
+  }
+  li {
+    padding-left: 25px;
+    &::before, &::after {
+      left: 13px;
+    }
+  }
+}
+
+.media-tree-item a {
+  display: block;
+  padding: 0 7px;
+  cursor: pointer;
+  line-height: $sidebar-tree-line-height;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.media-tree-item.active > a {
+  &:hover {
+    text-decoration: none;
+    background-color: $sidebar-tree-item-hover-bg;
+  }
+}
+
+.media-tree-item .item-icon {
+  display: inline-block;
+  padding-right: 2px;
+  font-size: 15px;
+  line-height: normal;
+  color: $sidebar-tree-icon-color;
+  vertical-align: middle;
+}
+
+.media-tree-item.active > a .item-icon {
+  color: $sidebar-active-icon-color;
+}
+
+.item-name {
+  display: inline-block;
+  overflow: hidden;
+  font-size: .9em;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.media-tree-item.active > a .item-name {
+  font-weight: bold;
+}

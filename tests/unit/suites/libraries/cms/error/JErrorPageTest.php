@@ -4,7 +4,7 @@
  * @subpackage  Error
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -81,8 +81,6 @@ class JErrorPageTest extends TestCaseDatabase
 
 	/**
 	 * @covers  JErrorPage::render
-	 *
-	 * @requires  PHP 7.0
 	 */
 	public function testEnsureTheErrorPageIsCorrectlyRenderedWithThrowables()
 	{
@@ -121,21 +119,5 @@ class JErrorPageTest extends TestCaseDatabase
 
 		// Validate the mocked response from JDocument was received
 		$this->assertEquals($documentResponse, $output);
-	}
-
-	/**
-	 * @covers  JErrorPage::render
-	 */
-	public function testEnsureTheRenderMethodCorrectlyHandlesNonExceptionClasses()
-	{
-		// Create an object to inject into the method
-		$object = new stdClass;
-
-		// The render method echoes the output, so catch it in a buffer
-		ob_start();
-		JErrorPage::render($object);
-		$output = ob_get_clean();
-
-		$this->assertEquals('Error displaying the error page', $output);
 	}
 }

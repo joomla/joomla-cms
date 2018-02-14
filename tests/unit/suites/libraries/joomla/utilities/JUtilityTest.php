@@ -4,10 +4,8 @@
  * @subpackage  Utilities
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-include_once JPATH_PLATFORM . '/joomla/utilities/utility.php';
 
 /**
  * Test class for JUtility.
@@ -37,7 +35,7 @@ class JUtilityTest extends TestCase
 				array('style' => 'fred')
 			),
 			'xml' => array(
-				"<img hear=\"something\" there=\"somethingelse\" />",
+				"<img hear=\"something\" there=\"somethingelse\">",
 				array('hear' => 'something', 'there' => 'somethingelse')
 			),
 		);

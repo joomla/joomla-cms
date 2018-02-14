@@ -16,9 +16,9 @@ namespace Joomla\Session;
 interface SessionInterface extends \IteratorAggregate
 {
 	/**
-	 * Get expiration time in minutes
+	 * Get expiration time in seconds
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @return  integer  The session expiration time in seconds
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -42,7 +42,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setName($name);
+	public function setName(string $name);
 
 	/**
 	 * Get the session ID
@@ -62,7 +62,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setId($id);
+	public function setId(string $id);
 
 	/**
 	 * Check if the session is active
@@ -135,7 +135,7 @@ interface SessionInterface extends \IteratorAggregate
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove($name);
+	public function remove(string $name);
 
 	/**
 	 * Clears all variables from the session store
@@ -192,7 +192,7 @@ interface SessionInterface extends \IteratorAggregate
 	/**
 	 * Create a new session and copy variables from the old one
 	 *
-	 * @return  boolean $result true on success
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -215,4 +215,14 @@ interface SessionInterface extends \IteratorAggregate
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function close();
+
+	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc();
 }

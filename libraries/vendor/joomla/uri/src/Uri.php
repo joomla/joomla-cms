@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Uri Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,16 +11,14 @@ namespace Joomla\Uri;
 /**
  * Uri Class
  *
- * This class parses a URI and provides a common interface for the Joomla Framework
- * to access and manipulate a URI.
+ * This class parses a URI and provides a common interface for the Joomla Framework to access and manipulate a URI.
  *
  * @since  1.0
  */
 class Uri extends AbstractUri
 {
 	/**
-	 * Adds a query variable and value, replacing the value if it
-	 * already exists and returning the old value.
+	 * Adds a query variable and value, replacing the value if it already exists and returning the old value
 	 *
 	 * @param   string  $name   Name of the query variable to set.
 	 * @param   string  $value  Value of the query variable.
@@ -31,7 +29,7 @@ class Uri extends AbstractUri
 	 */
 	public function setVar($name, $value)
 	{
-		$tmp = isset($this->vars[$name]) ? $this->vars[$name] : null;
+		$tmp = $this->vars[$name] ?? null;
 
 		$this->vars[$name] = $value;
 
@@ -42,7 +40,7 @@ class Uri extends AbstractUri
 	}
 
 	/**
-	 * Removes an item from the query string variables if it exists.
+	 * Removes an item from the query string variables if it exists
 	 *
 	 * @param   string  $name  Name of variable to remove.
 	 *
@@ -62,10 +60,9 @@ class Uri extends AbstractUri
 	}
 
 	/**
-	 * Sets the query to a supplied string in format:
-	 * foo=bar&x=y
+	 * Sets the query to a supplied string in format foo=bar&x=y
 	 *
-	 * @param   mixed  $query  The query string or array.
+	 * @param   array|string  $query  The query string or array.
 	 *
 	 * @return  void
 	 *
@@ -92,102 +89,114 @@ class Uri extends AbstractUri
 	}
 
 	/**
-	 * Set URI scheme (protocol)
-	 * ie. http, https, ftp, etc...
+	 * Set the URI scheme (protocol)
 	 *
 	 * @param   string  $scheme  The URI scheme.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setScheme($scheme)
 	{
 		$this->scheme = $scheme;
+
+		return $this;
 	}
 
 	/**
-	 * Set URI username.
+	 * Set the URI username
 	 *
 	 * @param   string  $user  The URI username.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setUser($user)
 	{
 		$this->user = $user;
+
+		return $this;
 	}
 
 	/**
-	 * Set URI password.
+	 * Set the URI password
 	 *
 	 * @param   string  $pass  The URI password.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setPass($pass)
 	{
 		$this->pass = $pass;
+
+		return $this;
 	}
 
 	/**
-	 * Set URI host.
+	 * Set the URI host
 	 *
 	 * @param   string  $host  The URI host.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setHost($host)
 	{
 		$this->host = $host;
+
+		return $this;
 	}
 
 	/**
-	 * Set URI port.
+	 * Set the URI port
 	 *
 	 * @param   integer  $port  The URI port number.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setPort($port)
 	{
 		$this->port = $port;
+
+		return $this;
 	}
 
 	/**
-	 * Set the URI path string.
+	 * Set the URI path string
 	 *
 	 * @param   string  $path  The URI path string.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setPath($path)
 	{
 		$this->path = $this->cleanPath($path);
+
+		return $this;
 	}
 
 	/**
 	 * Set the URI anchor string
-	 * everything after the "#".
 	 *
 	 * @param   string  $anchor  The URI anchor string.
 	 *
-	 * @return  void
+	 * @return  Uri  This method supports chaining.
 	 *
 	 * @since   1.0
 	 */
 	public function setFragment($anchor)
 	{
 		$this->fragment = $anchor;
+
+		return $this;
 	}
 }

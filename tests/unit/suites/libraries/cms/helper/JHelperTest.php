@@ -4,7 +4,7 @@
  * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license	    GNU General Public License version 2 or later; see LICENSE
+ * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -25,13 +25,13 @@ class JHelperTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_languages', JPATH_TEST_DATABASE . '/jos_languages.csv');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
@@ -94,6 +94,7 @@ class JHelperTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 * @dataProvider  languageIdProvider
+	 * @covers  JHelper::getLanguageId
 	 */
 	public function testGetLanguageId($languageName, $expected)
 	{
@@ -107,6 +108,7 @@ class JHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelper::getRowData
 	 */
 	public function testGetRowData()
 	{
@@ -127,6 +129,7 @@ class JHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JHelper::getDataObject
 	 */
 	public function testDataObject()
 	{

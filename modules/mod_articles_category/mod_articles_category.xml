@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesCategory</namespace>
 	<files>
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
 		<folder>tmpl</folder>
@@ -47,8 +48,8 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
 					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 
@@ -59,7 +60,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
@@ -69,7 +70,6 @@
 					name="show_front"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_DESC"
 					default="show"
 					>
 					<option value="show">JSHOW</option>
@@ -78,7 +78,7 @@
 				</field>
 
 				<field
-					name="filteringspacer1"
+					name="filteringspacer0"
 					type="spacer"
 					hr="true"
 				/>
@@ -88,7 +88,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
 					default="1"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -99,7 +98,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
 					size="5"
@@ -112,7 +110,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
 					default="0"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUDE_VALUE</option>
@@ -121,11 +118,25 @@
 
 				<field
 					name="levels"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_DESC"
 					default="1"
 				/>
+
+				<field
+					name="filteringspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="filter_tag"
+					type="tag"
+					label="JTAG"
+				       	description="JTAG_FIELD_SELECT_DESC"
+					>
+					<option value="">JNONE</option>
+				</field>
 
 				<field
 					name="filteringspacer2"
@@ -138,7 +149,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_DESC"
 					default="1"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -149,7 +159,6 @@
 					name="created_by"
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
 					multiple="true"
 					size="5"
 					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
@@ -170,7 +179,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_DESC"
 					default="1"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -181,7 +189,6 @@
 					name="created_by_alias"
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
 					multiple="true"
 					size="5"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
@@ -201,7 +208,6 @@
 					name="excluded_articles"
 					type="textarea"
 					label="MOD_ARTICLES_CATEGORY_FIELD_EXCLUDEDARTICLES_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_EXCLUDEDARTICLES_DESC"
 					cols="10"
 					rows="3"
 				/>
@@ -216,7 +222,6 @@
 					name="date_filtering"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_DESC"
 					default="off"
 					>
 					<option value="off">MOD_ARTICLES_CATEGORY_OPTION_OFF_VALUE</option>
@@ -228,7 +233,6 @@
 					name="date_field"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_DESC"
 					default="a.created"
 					>
 					<option value="a.created">
@@ -246,7 +250,6 @@
 					name="start_date_range"
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_DESC"
 					translateformat="true"
 					showtime="true"
 					size="22"
@@ -257,7 +260,6 @@
 					name="end_date_range"
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_DESC"
 					translateformat="true"
 					showtime="true"
 					size="22"
@@ -266,9 +268,8 @@
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_DESC"
 					default="30"
 				/>
 
@@ -283,7 +284,6 @@
 					name="article_ordering"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_DESC"
 					default="a.title"
 					>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE</option>
@@ -305,7 +305,6 @@
 					name="article_ordering_direction"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERINGDIR_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERINGDIR_DESC"
 					default="ASC"
 					>
 					<option value="DESC">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE</option>
@@ -322,7 +321,6 @@
 					name="article_grouping"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_DESC"
 					default="none"
 					>
 					<option value="none">JNONE</option>
@@ -336,7 +334,6 @@
 					name="article_grouping_direction"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_DESC"
 					default="ksort"
 					>
 					<option value="krsort">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE</option>
@@ -362,7 +359,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -374,7 +370,6 @@
 					type="radio"
 					class="switcher"
 					label="JDATE"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -384,9 +379,8 @@
 				<field
 					name="show_date_field"
 					type="list"
-					default="created"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_DESC"
+					default="created"
 					>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
 					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
@@ -396,9 +390,9 @@
 				<field
 					name="show_date_format"
 					type="text"
-					default="Y-m-d H:i:s"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_DESC"
+					default="Y-m-d H:i:s"
 				/>
 
 				<field
@@ -406,7 +400,6 @@
 					type="radio"
 					class="switcher"
 					label="JCATEGORY"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -418,7 +411,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -430,7 +422,6 @@
 					type="radio"
 					class="switcher"
 					label="JAUTHOR"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -442,7 +433,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -451,9 +441,8 @@
 
 				<field
 					name="introtext_limit"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_DESC"
 					default="100"
 				/>
 
@@ -462,7 +451,6 @@
 					type="radio"
 					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
-					description="JGLOBAL_SHOW_READMORE_DESC"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -474,7 +462,6 @@
 					type="radio"
 					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -483,9 +470,8 @@
 
 				<field
 					name="readmore_limit"
-					type="text"
+					type="number"
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
-					description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 					default="15"
 				/>
 
@@ -497,14 +483,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -512,7 +496,6 @@
 					name="owncache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -521,9 +504,8 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 			</fieldset>

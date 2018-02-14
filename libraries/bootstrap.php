@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,11 +17,6 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 defined('IS_WIN') or define('IS_WIN', ($os === 'WIN') ? true : false);
 defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
-
-/**
- * @deprecated 13.3  Use IS_UNIX instead
- */
-defined('IS_MAC') or define('IS_MAC', (IS_UNIX === true && ($os === 'DAR' || $os === 'MAC')) ? true : false);
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
@@ -38,11 +33,13 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the library base path for the legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
+
+// Register the extension root paths.
+JLoader::registerExtensionRootFolder('', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Site', JPATH_SITE);
+JLoader::registerExtensionRootFolder('Administrator', JPATH_ADMINISTRATOR);
 
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
@@ -55,14 +52,11 @@ spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
-// Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
-if (!class_exists('FOFAutoloaderFof'))
-{
-	include_once JPATH_LIBRARIES . '/fof/include.php';
-}
-
 // Register the global exception handler.
 set_exception_handler(['JErrorPage', 'render']);
+
+// Register the error handler which processes E_USER_DEPRECATED errors
+set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 
 // Define the Joomla version if not already defined.
 defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
@@ -76,7 +70,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 // Register classes that don't follow the autoloader convention.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
-JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
@@ -87,11 +80,6 @@ if (!interface_exists('JsonSerializable'))
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
 
-// Add deprecated constants
-// @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
-
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 
@@ -99,3 +87,9 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 // @deprecated  4.0
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
+
+// Can be removed when the move of all core fields to namespace is finished
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/cms/form/rule');

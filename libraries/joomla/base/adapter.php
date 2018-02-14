@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory as JFactory;
+
 /**
  * Adapter Class
  * Retains common adapter pattern functions
@@ -76,7 +78,7 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -126,6 +128,24 @@ class JAdapter extends JObject
 		if (is_object($adapter))
 		{
 			$this->_adapters[$name] = &$adapter;
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name);
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
 
 			return true;
 		}

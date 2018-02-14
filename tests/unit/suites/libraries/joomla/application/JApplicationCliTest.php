@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
@@ -46,7 +46,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()
@@ -66,7 +66,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Input\\Input', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeEmpty('dispatcher', $this->class);
 
@@ -85,11 +85,6 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInputCli')
 					->setMethods(array('test'))
@@ -117,7 +112,9 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMockForAbstractClass('JApplicationCli', array($mockInput, $mockConfig, null, null, $mockDispatcher));
+		$class = $this->getMockBuilder('JApplicationCli')
+			->setConstructorArgs([$mockInput, $mockConfig, null, null, $mockDispatcher])
+			->getMockForAbstractClass();
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
@@ -169,7 +166,7 @@ class JApplicationCliTest extends TestCase
 	{
 		if ($expectedException)
 		{
-			$this->setExpectedException('RuntimeException');
+			$this->expectException('RuntimeException');
 		}
 
 		if (is_null($file) && is_null($class))

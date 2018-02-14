@@ -8,8 +8,7 @@
 			type="radio"
 			class="switcher"
 			default="0"
-			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
-			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
+			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -19,7 +18,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
-			description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -31,7 +29,6 @@
 			type="radio"
 			class="switcher"
 			label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
-			description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -43,8 +40,7 @@
 			type="radio"
 			class="switcher"
 			default="1"
-			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">
+			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -53,7 +49,6 @@
 			name="opensearch_name"
 			type="text"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_DESC"
 			default=""
 		/>
 
@@ -61,7 +56,6 @@
 			name="opensearch_description"
 			type="textarea"
 			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESC"
 			default=""
 			cols="30"
 			rows="2"

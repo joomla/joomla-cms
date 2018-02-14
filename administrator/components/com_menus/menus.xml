@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_MENUS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Menus</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
@@ -18,6 +19,7 @@
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
+			<folder>presets</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_menus.ini</language>

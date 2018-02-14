@@ -3,7 +3,7 @@
  * @package    Joomla.Test
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -17,7 +17,7 @@ class TestMockRules
 	/**
 	 * Creates an instance of the mock JAccessRules object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test  A test object.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *

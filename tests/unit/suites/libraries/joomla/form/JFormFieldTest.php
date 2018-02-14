@@ -4,7 +4,7 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_TESTS . '/stubs/FormInspectors.php';
@@ -39,10 +39,6 @@ class JFormFieldTest extends TestCaseDatabase
 	protected function setUp()
 	{
 		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/text.php';
-		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
-		require_once JPATH_PLATFORM . '/joomla/form/fields/checkboxes.php';
 
 		$this->saveFactoryState();
 

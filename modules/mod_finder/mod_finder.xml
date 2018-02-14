@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FINDER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Finder</namespace>
 	<files>
 		<filename module="mod_finder">mod_finder.php</filename>
 		<folder>tmpl</folder>
@@ -26,7 +27,6 @@
 					name="searchfilter"
 					type="searchfilter"
 					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION"
 					default=""
 				/>
 
@@ -35,7 +35,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -46,7 +45,6 @@
 					name="show_advanced"
 					type="list"
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION"
 					default="0"
 					>
 					<option value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
@@ -55,20 +53,10 @@
 				</field>
 
 				<field
-					name="field_size"
-					type="text"
-					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION"
-					default="25"
-					filter="integer"
-				/>
-
-				<field
 					name="show_label"
 					type="radio"
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -76,23 +64,9 @@
 				</field>
 
 				<field
-					name="label_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
-				</field>
-
-				<field
 					name="alt_label"
 					type="text"
 					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION"
 				/>
 
 				<field
@@ -100,7 +74,6 @@
 					type="radio"
 					class="switcher"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -108,24 +81,10 @@
 				</field>
 
 				<field
-					name="button_pos"
-					type="list"
-					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION"
-					default="left"
-					>
-					<option value="right">JGLOBAL_RIGHT</option>
-					<option value="left">JGLOBAL_LEFT</option>
-					<option value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
-					<option value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
-				</field>
-
-				<field
 					name="opensearch"
 					type="radio"
 					class="switcher"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -136,14 +95,12 @@
 					name="opensearch_title"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION"
 				/>
 
 				<field
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION"
 					default="0"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
@@ -154,14 +111,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 					default=""
 				/>

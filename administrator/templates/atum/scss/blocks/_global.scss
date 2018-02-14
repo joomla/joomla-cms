@@ -1,16 +1,30 @@
 // Global
 
-html, body {
+html,
+body {
+  height: 100%;
   font-size: $font-size-root;
 }
+
 body {
   padding: 0;
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
 }
-small, .small {
-  font-size: $font-size-small;
+
+h1 {
+  font-weight: normal;
+}
+
+small,
+.small {
+  font-size: $font-size-sm;
 }

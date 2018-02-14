@@ -1,0 +1,16 @@
+{
+  // Extend the airbnb eslint config
+  "extends": "airbnb-base",
+  // ESLint will not look in parent folders for eslint configs
+  "root": true,
+  // An environment defines global variables that are predefined.
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  // Additional global variables your script accesses during execution
+  "globals": {
+    "Joomla": true
+  }
+}

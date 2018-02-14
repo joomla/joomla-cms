@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -40,9 +42,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -50,7 +49,7 @@ JHtml::_('jquery.framework');
  *     %3 - value
  *     %4 = any other attributes
  */
-$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
@@ -79,7 +78,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<div class="radio m-b-0">
 				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
 					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-					<?php echo JText::alt($option->text, $alt); ?>
+					<?php echo Text::alt($option->text, $alt); ?>
 				</label>
 			</div>
 		<?php endforeach; ?>

@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 $value = $field->value;
 
 if ($value == '')
@@ -15,7 +17,7 @@ if ($value == '')
 	return;
 }
 
-$db        = JFactory::getDbo();
+$db        = Factory::getDbo();
 $value     = (array) $value;
 $condition = '';
 
@@ -29,7 +31,7 @@ foreach ($value as $v)
 	$condition .= ', ' . $db->q($v);
 }
 
-$query = $fieldParams->get('query', 'select id as value, name as text from #__users');
+$query = $fieldParams->get('query', '');
 
 // Run the query with a having condition because it supports aliases
 $db->setQuery($query . ' having value in (' . trim($condition, ',') . ')');

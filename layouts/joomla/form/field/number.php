@@ -53,7 +53,7 @@ $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	isset($max) ? 'max="' . $max . '"' : '',
 	!empty($step) ? 'step="' . $step . '"' : '',
@@ -78,4 +78,4 @@ else
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?> />
+	<?php echo implode(' ', $attributes); ?>>

@@ -95,11 +95,21 @@ class Curl extends AbstractTransport
 		// Build the headers string for the request.
 		$headerArray = [];
 
-		if (isset($headers))
+		if (!empty($headers))
 		{
 			foreach ($headers as $key => $value)
 			{
-				$headerArray[] = $key . ': ' . $value;
+				if (is_array($value))
+				{
+					foreach ($value as $header)
+					{
+						$headerArray[] = "$key: $header";
+					}
+				}
+				else
+				{
+					$headerArray[] = "$key: $value";
+				}
 			}
 
 			// Add the headers string into the stream context options array.
@@ -200,21 +210,37 @@ class Curl extends AbstractTransport
 	 */
 	protected function getResponse($content, $info)
 	{
-		// Get the number of redirects that occurred.
-		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
+		// Try to get header size
+		if (isset($info['header_size']))
+		{
+			$headerString = trim(substr($content, 0, $info['header_size']));
+			$headerArray  = explode("\r\n\r\n", $headerString);
 
-		/*
-		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
-		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
-		 * sections which should be the last set of headers and the actual body.
-		 */
-		$response = explode("\r\n\r\n", $content, 2 + $redirects);
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($headerArray));
 
-		// Set the body for the response.
-		$body = array_pop($response);
+			// Set the body for the response.
+			$body = substr($content, $info['header_size']);
+		}
+		// Fallback and try to guess header count by redirect count
+		else
+		{
+			// Get the number of redirects that occurred.
+			$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
-		// Get the last set of response headers as an array.
-		$headers = explode("\r\n", array_pop($response));
+			/*
+			 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+			 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+			 * sections which should be the last set of headers and the actual body.
+			 */
+			$response = explode("\r\n\r\n", $content, 2 + $redirects);
+
+			// Set the body for the response.
+			$body = array_pop($response);
+
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($response));
+		}
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
@@ -255,15 +281,8 @@ class Curl extends AbstractTransport
 	 *
 	 * @since   1.2.1
 	 */
-	private function redirectsAllowed()
+	private function redirectsAllowed(): bool
 	{
-		// There are no issues on PHP 5.6 and later
-		if (version_compare(PHP_VERSION, '5.6', '>='))
-		{
-			return true;
-		}
-
-		// For PHP 5.4 and 5.5, we only need to check if open_basedir is disabled
-		return !ini_get('open_basedir');
+		return true;
 	}
 }

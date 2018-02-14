@@ -26,7 +26,7 @@ class Negate extends ImageFilter
 	 *
 	 * @since   1.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the negative filter.
 		imagefilter($this->handle, IMG_FILTER_NEGATE);

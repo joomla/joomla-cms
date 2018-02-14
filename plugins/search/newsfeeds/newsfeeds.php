@@ -9,12 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Newsfeeds search plugin.
  *
  * @since  1.6
  */
-class PlgSearchNewsfeeds extends JPlugin
+class PlgSearchNewsfeeds extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -57,17 +62,14 @@ class PlgSearchNewsfeeds extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$db 	= Factory::getDbo();
+		$app 	= Factory::getApplication();
+		$user 	= Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -92,7 +94,7 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -143,39 +145,33 @@ class PlgSearchNewsfeeds extends JPlugin
 				$order = 'a.name ASC';
 		}
 
-		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
+		$searchNewsfeeds = Text::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
 		$query = $db->getQuery(true);
 
-		// SQLSRV changes.
-		$case_when  = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias', '!=', '0');
-		$case_when .= ' THEN ';
-		$a_id       = $query->castAsChar('a.id');
-		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $a_id . ' END as slug';
+		$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
+			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
+			. ' ELSE a.id END AS slug';
 
-		$case_when1  = ' CASE WHEN ';
-		$case_when1 .= $query->charLength('c.alias', '!=', '0');
-		$case_when1 .= ' THEN ';
-		$c_id        = $query->castAsChar('c.id');
-		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-		$case_when1 .= ' ELSE ';
-		$case_when1 .= $c_id . ' END as catslug';
+		$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
+			. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
+			. ' ELSE c.id END AS catslug';
 
-		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . ',' . $case_when1)
+		$query->select('a.name AS title')
+			->select($db->quote('') . ' AS created, a.link AS text')
+			->select($case_when)
+			->select($case_when1)
 			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), ' / ') . ' AS section')
-			->select('\'1\' AS browsernav')
-			->from('#__newsfeeds AS a')
-			->join('INNER', '#__categories as c ON c.id = a.catid')
+			->select($db->quote('1') . ' AS browsernav')
+			->from($db->quoteName('#__newsfeeds', 'a'))
+			->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 			->where('(' . $where . ') AND a.published IN (' . implode(',', $state) . ') AND c.published = 1 AND c.access IN (' . $groups . ')')
 			->order($order);
 
 		// Filter by language.
-		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$tag = JFactory::getLanguage()->getTag();
+			$tag = Factory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 		}
@@ -189,7 +185,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$rows = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		if ($rows)

@@ -4,7 +4,7 @@
  * @subpackage  User
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -19,7 +19,7 @@
 class JAuthenticationTest extends TestCase
 {
 	/**
-	 * @var       JAuthentication
+	 * @var    JAuthentication
 	 * @since  11.1
 	 */
 	protected $object;
@@ -54,7 +54,7 @@ class JAuthenticationTest extends TestCase
 		// Mock the event dispatcher.
 		$dispatcher = $this->getMockDispatcher();
 		$dispatcher->expects($this->any())
-			->method('triggerEvent')
+			->method('dispatch')
 			->willReturnCallback(array($this, 'mockTrigger'));
 
 		// Mock the authentication plugin
@@ -82,7 +82,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   11.1
 	 */
 	protected function tearDown()

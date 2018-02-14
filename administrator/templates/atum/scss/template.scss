@@ -1,18 +1,16 @@
-// Variables
+// Bootstrap functions
+@import "../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
 @import "variables";
 
 // Flying Focus
 @import "../../../../media/vendor/flying-focus-a11y/scss/flying-focus";
 
-// Bootstrap
+// Bootstrap other
+@import "../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/bootstrap";
-
-// FontAwesome
-@import "../../../../media/vendor/font-awesome/scss/font-awesome";
-
-// B/C for Icomoon
-@import "../../../../media/system/scss/icomoon";
+@import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
 @import "../../../../media/system/scss/jalert";
@@ -31,13 +29,13 @@
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
 @import "blocks/status";
-@import "blocks/switcher";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
 
 // Vendor overrides
 @import "vendor/awesomplete";
+//@import "vendor/bootstrap/alert";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
 @import "vendor/bootstrap/custom-forms";
@@ -57,8 +55,11 @@
 @import "pages/com_config";
 @import "pages/com_cpanel";
 @import "pages/com_modules";
+@import "pages/com_templates";
+@import "pages/com_users";
 
-.container-main, .system-debug {
+.container-main,
+.system-debug {
   padding-bottom: 50px;
 }
 
@@ -67,41 +68,55 @@
   min-height: calc(100vh - 50px);
   padding-top: 15px;
   background-color: $atum-container-main-bg;
-}
-.list-view-main {
-  .container-main {
-    background-color: $atum-container-main-bg;
+
+  @include media-breakpoint-down(md) {
+    padding-left: 50px;
+    // 50px - 3px which is the header bottom border
+    margin-top: 47px;
   }
 }
 
+.list-view-main {
+
+  .container-main {
+    background-color: $atum-container-main-bg;
+  }
+
+}
+
 .content {
-  margin-top: 42px;
+  margin-top: 45px;
   border-radius: $border-radius;
+
   > .row {
     margin-right: 0;
     margin-left: 0;
   }
-}
-.j-main-container {
-  background-color: $white-offset;
-  border: 1px solid rgba(0, 0, 0, .17);
-  border-radius: $border-radius;
-  box-shadow: 0 0 3px rgba(0, 0, 0, .075);
+
 }
 
+.j-main-container {
+  background-color: $white-offset;
+  border: 1px solid rgba(0,0,0,.17);
+  border-radius: $border-radius;
+  box-shadow: 0 0 3px rgba(0,0,0,.075);
+}
+
+.row-selected {
+  background-color: $table-row-selected;
+}
 
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
 }
 
-// Bootstrap (TEMPORARY)
-// This fixes odd stacking when 2 buttons are used in an input group
-.input-group-btn {
-  flex-direction: row;
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
 }
-// This adds the correct cursor on hover for buttons
-.btn:hover,
-.btn:focus {
-  cursor: pointer;
+
+.item-associations li {
+  display: inline-block;
+  list-style: none;
 }

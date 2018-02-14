@@ -9,8 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
@@ -31,7 +31,7 @@ extract($displayData);
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  *                             - footer       string   Optional markup for the modal footer
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+ * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  *
  */
 
@@ -52,7 +52,7 @@ if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
 
 $modalAttributes = array(
 	'tabindex' => '-1',
-	'class'    => implode(' ', $modalClasses)
+	'class'    => 'joomla-modal ' .implode(' ', $modalClasses)
 );
 
 if (isset($params['backdrop']))
@@ -67,36 +67,27 @@ if (isset($params['keyboard']))
 
 if (isset($params['url']))
 {
-	$script[] = ';jQuery(document).ready(function() {';
-	$script[] = '   jQuery("#' . $selector . '").on("show.bs.modal", function() {';
-	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
-	// Script for destroying and reloading the iframe
-	$script[] = "       var modalBody = jQuery(this).find('.modal-body');";
-	$script[] = "       modalBody.find('iframe').remove();";
-	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
-	$script[] = '   });';
-	$script[] = '});';
-
-	JFactory::getDocument()->addScriptDeclaration(implode('', $script));
+	$url        = 'data-url="' . $params['url'] . '"';
+	$iframeHtml = htmlspecialchars(LayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
 	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
 		<div class="modal-content">
 			<?php
 				// Header
 				if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
 				{
-					echo JLayoutHelper::render('joomla.modal.header', $displayData);
+					echo LayoutHelper::render('joomla.modal.header', $displayData);
 				}
 
 				// Body
-				echo JLayoutHelper::render('joomla.modal.body', $displayData);
+				echo LayoutHelper::render('joomla.modal.body', $displayData);
 
 				// Footer
 				if (isset($params['footer']))
 				{
-					echo JLayoutHelper::render('joomla.modal.footer', $displayData);
+					echo LayoutHelper::render('joomla.modal.footer', $displayData);
 				}
 			?>
 		</div>

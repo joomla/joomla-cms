@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -116,7 +116,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -126,9 +126,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -137,13 +135,13 @@ class JApplicationSiteTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
@@ -162,6 +160,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getClientId
 	 */
 	public function testGetClientId()
 	{
@@ -174,6 +173,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getName
 	 */
 	public function testGetName()
 	{
@@ -186,6 +186,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -198,6 +199,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getParams
 	 */
 	public function testGetParams()
 	{
@@ -217,6 +219,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -229,6 +232,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getRouter
 	 */
 	public function testGetRouter()
 	{
@@ -241,6 +245,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -248,7 +253,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('cassiopeia', $template->template);
 	}
 
 	/**
@@ -257,6 +262,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -269,6 +275,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::isSite
 	 */
 	public function testIsSite()
 	{
@@ -280,7 +287,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @covers  JApplicationSite::isClient
 	 */
 	public function testIsClient()
 	{
@@ -294,6 +302,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::render
 	 */
 	public function testRender()
 	{
@@ -306,7 +315,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 
 	/**
@@ -315,6 +324,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getDetectBrowser
+	 * @covers  JApplicationSite::setDetectBrowser
 	 */
 	public function testSetGetDetectBrowser()
 	{
@@ -329,6 +340,8 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::getLanguageFilter
+	 * @covers  JApplicationSite::setLanguageFilter
 	 */
 	public function testSetGetLanguageFilter()
 	{
@@ -343,15 +356,16 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationSite::setTemplate
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('protostar');
+		$this->class->setTemplate('cassiopeia');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('protostar', $template->template);
+		$this->assertEquals('cassiopeia', $template->template);
 	}
 }

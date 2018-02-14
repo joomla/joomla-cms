@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -173,6 +173,7 @@ abstract class JHtmlTag
 		// Include scripts
 		JHtml::_('behavior.core');
 		JHtml::_('jquery.framework');
+		JHtml::_('formbehavior.chosen');
 		JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
 
 		JFactory::getDocument()->addScriptOptions(

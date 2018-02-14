@@ -23,7 +23,7 @@
 					onSuccess: function(response, xhr)
 					{
 						var link     = document.getElementById('plg_quickicon_extensionupdate'),
-							linkSpan = link.querySelector('span.j-links-link');
+							linkSpan = link.querySelectorAll('span.j-links-link');
 
 						var updateInfoList = JSON.parse(response);
 
@@ -31,11 +31,13 @@
 							if (updateInfoList.length === 0) {
 								/** No updates **/
 								link.classList.add('success');
-								linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
+								for (var i = 0, len = linkSpan.length; i < len; i++) {
+									linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE');
+								}
 							} else {
 								var messages = {
 									"message": [
-										Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace("%s", updateInfoList.length)
+										Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace("%s", '<span class="badge badge-light">' + updateInfoList.length + '</span>')
 										+ '<button class="btn btn-primary" onclick="document.location=\'' + options.url + '\'">'
 										+ Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON') + '</button>'
 									], "error": ["info"]
@@ -48,22 +50,29 @@
 								window.scrollTo(0, 0);
 
 								link.classList.add('danger');
-								linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
+								for (var i = 0, len = linkSpan.length; i < len; i++) {
+									linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace("%s", '<span class="badge badge-light">' + updateInfoList.length + '</span>');
+								}
 							}
 						} else {
 							/** An error occurred **/
 							link.classList.add('danger');
-							linkSpan.innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+							for (var i = 0, len = linkSpan.length; i < len; i++) {
+								linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+							}
 						}
 
 					},
 					onError: function(xhr)
 					{
 						/** An error occurred **/
-						var link = document.getElementById('plg_quickicon_extensionupdate');
+						var link     = document.getElementById('plg_quickicon_extensionupdate'),
+							linkSpan = link.querySelectorAll('span.j-links-link');
 
 						link.classList.add('danger');
-						link.querySelector('span.j-links-link').innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+						for (var i = 0, len = linkSpan.length; i < len; i++) {
+							linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_ERROR');
+						}
 					}
 				}
 			);

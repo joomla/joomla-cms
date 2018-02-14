@@ -10,13 +10,18 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Editor Readmore button
  *
  * @since  1.5
  */
-class PlgButtonReadmore extends JPlugin
+class PlgButtonReadmore extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -38,7 +43,6 @@ class PlgButtonReadmore extends JPlugin
 	public function onDisplay($name)
 	{
 		// Button is not active in specific content components
-
 		$event = new Event(
 			'getContent',
 			['name' => $name]
@@ -46,27 +50,22 @@ class PlgButtonReadmore extends JPlugin
 
 		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
 		$getContent = $getContentResult['result'][0];
-		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-		$js = "
-			function insertReadmore(editor)
-			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
-			}
-			";
-		JFactory::getDocument()->addScriptDeclaration($js);
+		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
-		$button = new JObject;
+		// Pass some data to javascript
+		Factory::getDocument()->addScriptOptions(
+			'xtd-readmore',
+			array(
+				'editor' => $getContent,
+				'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
+			)
+		);
+
+		$button = new CMSObject;
 		$button->modal   = false;
 		$button->class   = 'btn btn-secondary';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->text    = Text::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
 		$button->link    = '#';
 

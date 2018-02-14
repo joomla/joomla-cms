@@ -24,7 +24,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -36,7 +35,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>
@@ -48,7 +46,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_DESC"
 					default="1"
 					>
 					<option value="0">JNO</option>

@@ -6,6 +6,7 @@
   &.card-light {
     background-color: $card-bg-color-light;
   }
+
   &.card-dark {
     background-color: $card-bg-color-dark;
 
@@ -18,5 +19,7 @@
     .list-group-item {
       background: none;
     }
+
   }
+
 }

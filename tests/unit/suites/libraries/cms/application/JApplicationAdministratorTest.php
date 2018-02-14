@@ -4,7 +4,7 @@
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -45,7 +45,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	/**
 	 * An instance of the class to test.
 	 *
-	 * @var    JApplicationAdministrator
+	 * @var    \Joomla\CMS\Application\AdministratorApplication
 	 * @since  3.2
 	 */
 	protected $class;
@@ -103,7 +103,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationAdministrator instance.
-		$this->class = new JApplicationAdministrator($this->getMockInput(), $config);
+		$this->class = new \Joomla\CMS\Application\AdministratorApplication($this->getMockInput(), $config);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
@@ -116,7 +116,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -126,9 +126,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -137,13 +135,13 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
@@ -162,6 +160,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getClientId
 	 */
 	public function testGetClientId()
 	{
@@ -174,6 +173,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getName
 	 */
 	public function testGetName()
 	{
@@ -186,6 +186,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getMenu
 	 */
 	public function testGetMenu()
 	{
@@ -200,6 +201,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @since   3.2
 	 *
 	 * @expectedException  RuntimeException
+	 * @covers  JApplicationAdministrator::getPathway
 	 */
 	public function testGetPathway()
 	{
@@ -212,6 +214,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getRouter
 	 */
 	public function testGetRouter()
 	{
@@ -224,6 +227,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::getTemplate
 	 */
 	public function testGetTemplate()
 	{
@@ -242,6 +246,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isAdmin
 	 */
 	public function testIsAdmin()
 	{
@@ -254,6 +259,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::isSite
 	 */
 	public function testIsSite()
 	{
@@ -265,7 +271,8 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since  3.7.0
+	 * @since   3.7.0
+	 * @covers  JApplicationAdministrator::isClient
 	 */
 	public function testIsClient()
 	{
@@ -279,19 +286,21 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 * @covers  JApplicationAdministrator::render
 	 */
 	public function testRender()
 	{
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
+		$this->assignMockReturns($this->class->getDispatcher(), array('dispatch' => new Joomla\Event\Event('test')));
 
 		// Manually inject the document.
 		TestReflection::setValue($this->class, 'document', $document);
 
 		TestReflection::invoke($this->class, 'render');
 
-		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
+		$this->assertEquals('JWeb Body', (string) $this->class->getResponse()->getBody());
 	}
 
 	/**
@@ -299,7 +308,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionGuest()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->createMock('JUser', array('get', 'authorise'));
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
@@ -322,7 +331,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
@@ -347,7 +358,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))
@@ -372,7 +385,9 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testFindOptionCanLoginAdminOptionSet()
 	{
-		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user = $this->getMockBuilder('JUser')
+			->setMethods(array('get', 'authorise'))
+			->getMock();
 		$user->expects($this->once())
 			->method('get')
 			->with($this->equalTo('guest'))

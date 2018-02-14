@@ -4,7 +4,7 @@
  * @subpackage  Http
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -49,5 +49,5 @@ echo json_encode($response);
  */
 function getVar($array, $key, $default = '')
 {
-	return isset($array[$key]) ? $array[$key] : $default;
+	return $array[$key] ?? $default;
 }

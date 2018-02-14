@@ -8,5 +8,6 @@
  */
 
 defined('JPATH_BASE') or die;
+
 ?>
 <?php echo $displayData['action']; ?>

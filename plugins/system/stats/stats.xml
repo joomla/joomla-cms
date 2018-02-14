@@ -31,15 +31,13 @@
 					name="unique_id"
 					type="plgsystemstats.uniqueid"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
-					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					size="10"
 				/>
 
 				<field
 					name="interval"
-					type="text"
+					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
-					description="PLG_SYSTEM_STATS_INTERVAL_DESC"
 					filter="integer"
 					default="12"
 				/>
@@ -47,7 +45,6 @@
 				<field
 					name="mode"
 					type="list"
-					description="PLG_SYSTEM_STATS_MODE_DESC"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
 					>
@@ -62,19 +59,6 @@
 					default="0"
 					size="15"
 				/>
-			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="debug"
-					type="radio"
-					class="switcher"
-					label="PLG_SYSTEM_STATS_DEBUG_LABEL"
-					description="PLG_SYSTEM_STATS_DEBUG_DESC"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>

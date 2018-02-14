@@ -33,10 +33,10 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	public static function getAssociations($id = 0, $view = null)
 	{
 		$jinput = JFactory::getApplication()->input;
-		$view   = $view === null ? $jinput->get('view') : $view;
+		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view === 'article' || $view === 'category' || $view === 'featured')
+		if ($view === 'article')
 		{
 			if ($id)
 			{
@@ -46,7 +46,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+					$return[$tag] = ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;
@@ -74,7 +74,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	{
 		$return = array();
 
-		if ($associations = self::getAssociations($id))
+		if ($associations = self::getAssociations($id, 'article'))
 		{
 			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
 			$languages = JLanguageHelper::getLanguages();

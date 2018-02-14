@@ -5,6 +5,7 @@
   margin-top: .5rem;
   background-color: $white-offset;
   border-color: $atum-border-color;
+
   &::after {
     position: absolute;
     top: -1.5rem;
@@ -15,13 +16,18 @@
     text-shadow: 0 -1px 0 rgba(0,0,0,.2);
     content: "\f0d8";
   }
+
 }
+
 .dropdown-item {
   padding: 3px .75rem;
 }
+
 .dropdown-menu-right {
+
   &::after {
     right: .9rem;
     left: auto;
   }
+
 }

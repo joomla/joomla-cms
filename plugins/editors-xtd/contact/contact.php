@@ -9,12 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Editor Contact buton
  *
  * @since  3.7.0
  */
-class PlgButtonContact extends JPlugin
+class PlgButtonContact extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -35,37 +41,21 @@ class PlgButtonContact extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		/*
-		 * Javascript to insert the link
-		 * View element calls jSelectContact when a contact is clicked
-		 * jSelectContact creates the link tag, sends it to the editor,
-		 * and closes the select frame.
-		 */
-		$js = "
-		function jSelectContact(id, title, catid, object, link, lang)
+		$user  = Factory::getUser();
+
+		if ($user->authorise('core.create', 'com_contact')
+			|| $user->authorise('core.edit', 'com_contact')
+			|| $user->authorise('core.edit.own', 'com_contact'))
 		{
-			var hreflang = '';
-			if (lang !== '')
-			{
-				var hreflang = ' hreflang = \"' + lang + '\"';
-			}
-			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
-			jInsertEditorText(tag, '" . $name . "');
-			jModalClose();
-		}";
+			// The URL for the contacts list
+			$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
+				. Session::getFormToken() . '=1&amp;editor=' . $name;
 
-		JFactory::getDocument()->addScriptDeclaration($js);
-
-		/*
-		 * Use the built-in element view to select the contact.
-		 * Currently uses blank class.
-		 */
-		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-
-		$button = new JObject;
+		$button = new CMSObject;
 		$button->modal   = true;
+		$button->class = 'btn btn-secondary';
 		$button->link    = $link;
-		$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
+		$button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 		$button->name    = 'address';
 		$button->options = array(
 			'height' => '300px',
@@ -74,6 +64,7 @@ class PlgButtonContact extends JPlugin
 			'modalWidth'  => '80',
 		);
 
-		return $button;
+			return $button;
+		}
 	}
 }

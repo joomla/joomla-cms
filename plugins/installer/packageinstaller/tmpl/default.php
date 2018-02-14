@@ -9,41 +9,55 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonpackage = function()
-	{
-		var form = document.getElementById("adminForm");
-
-		// do field validation 
-		if (form.install_package.value == "")
-		{
-			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
-		}
-		else
-		{
-			jQuery("#loading").css("display", "block");
-			form.installtype.value = "upload"
-			form.submit();
-		}
-	};
-');
+$token   = Session::getFormToken();
+$return  = Factory::getApplication()->input->getBase64('return');
+$maxSize = JFilesystemHelper::fileUploadMaxSize();
 ?>
-<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
-<div class="control-group">
-	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
-	<div class="controls">
-		<input class="form-control" id="install_package" name="install_package" type="file" />
-		<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-		<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+
+<legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+
+<hr>
+
+<div id="uploader-wrapper">
+	<div id="dragarea">
+		<div id="dragarea-content" class="text-center">
+			<p>
+				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
+			</p>
+			<p class="lead">
+				<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
+			</p>
+			<p>
+				<button id="select-file-button" type="button" class="btn btn-success">
+					<span class="icon-copy" aria-hidden="true"></span>
+					<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
+				</button>
+			</p>
+			<p>
+				<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+			</p>
+		</div>
 	</div>
 </div>
-<div class="control-group">
-	<div class="controls">
+
+<div id="legacy-uploader" style="display: none;">
+	<div class="control-group">
+		<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+		<div class="controls">
+			<input class="form-control-file" id="install_package" name="install_package" type="file">
+			<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
+		</div>
+	</div>
+	<div class="form-actions">
 		<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
-			<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
+			<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
 		</button>
 	</div>
-</div>
 
+	<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>">
+	<input id="installer-token" name="return" type="hidden" value="<?php echo $token; ?>">
+</div>

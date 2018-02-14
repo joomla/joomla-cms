@@ -14,7 +14,7 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 var stat_total = 0;
@@ -129,7 +129,7 @@ doEncryptedAjax = function(data, successCallback, errorCallback)
 			}
 			catch(err)
 			{
-				var msg = err.message + "\n<br/>\n<pre>\n" + message + "\n</pre>";
+				var msg = err.message + "\n<br>\n<pre>\n" + message + "\n</pre>";
 
 				if (errorCallback == null)
 				{
@@ -266,7 +266,7 @@ stepExtract = function(data)
 		jQuery('#extpercent').text(stat_percent.toFixed(1));
 		jQuery('#extbytesin').text(stat_inbytes);
 		jQuery('#extbytesout').text(stat_outbytes);
-		jQuery('#extfiles').text(data.lastfile);
+		jQuery('#extfiles').text(data.files);
 
 		// Do AJAX post
 		post = {

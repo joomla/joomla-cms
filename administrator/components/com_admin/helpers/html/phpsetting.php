@@ -63,11 +63,14 @@ abstract class JHtmlPhpSetting
 	 */
 	public static function integer($val)
 	{
-		JLog::add(
-			'JHtmlPhpSetting::integer() is deprecated. Use intval() or casting instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
+		try
+		{
+			JLog::add(sprintf('%s() is deprecated. Use intval() or casting instead.', __METHOD__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		return (int) $val;
 	}

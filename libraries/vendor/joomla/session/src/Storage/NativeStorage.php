@@ -61,9 +61,13 @@ class NativeStorage implements StorageInterface
 	public function __construct(\SessionHandlerInterface $handler = null, array $options = [])
 	{
 		// Disable transparent sid support
-		ini_set('session.use_trans_sid', '0');
+		$options['use_transport_sid'] = '0';
 
-		ini_set('session.use_cookies', 1);
+		if (!headers_sent() && (int) ini_get('session.use_cookies') !== 1)
+		{
+			ini_set('session.use_cookies', 1);
+		}
+
 		session_cache_limiter('none');
 		session_register_shutdown();
 
@@ -78,7 +82,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $_SESSION;
 	}
@@ -112,6 +116,29 @@ class NativeStorage implements StorageInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		if (!function_exists('session_gc'))
+		{
+			return false;
+		}
+
+		if (!$this->isStarted())
+		{
+			$this->start();
+		}
+
+		return session_gc();
+	}
+
+	/**
 	 * Get data from the session store
 	 *
 	 * @param   string  $name     Name of a variable
@@ -121,7 +148,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function get($name, $default)
+	public function get(string $name, $default)
 	{
 		if (!$this->isStarted())
 		{
@@ -143,7 +170,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getHandler()
+	public function getHandler(): \SessionHandlerInterface
 	{
 		return $this->handler;
 	}
@@ -155,7 +182,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getId()
+	public function getId(): string
 	{
 		return session_id();
 	}
@@ -167,7 +194,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return session_name();
 	}
@@ -181,7 +208,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function has($name)
+	public function has(string $name): bool
 	{
 		if (!$this->isStarted())
 		{
@@ -198,7 +225,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isActive()
+	public function isActive(): bool
 	{
 		return $this->active = session_status() === \PHP_SESSION_ACTIVE;
 	}
@@ -210,7 +237,7 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isStarted()
+	public function isStarted(): bool
 	{
 		return $this->started;
 	}
@@ -224,14 +251,14 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+		$old = $_SESSION[$name] ?? null;
 
 		unset($_SESSION[$name]);
 
@@ -251,7 +278,7 @@ class NativeStorage implements StorageInterface
 	 * @see     session_regenerate_id()
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function regenerate($destroy = false)
+	public function regenerate(bool $destroy = false): bool
 	{
 		return session_regenerate_id($destroy);
 	}
@@ -266,14 +293,14 @@ class NativeStorage implements StorageInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function set($name, $value = null)
+	public function set(string $name, $value = null)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = isset($_SESSION[$name]) ? $_SESSION[$name] : null;
+		$old = $_SESSION[$name] ?? null;
 
 		$_SESSION[$name] = $value;
 
@@ -322,7 +349,7 @@ class NativeStorage implements StorageInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
-	public function setId($id)
+	public function setId(string $id)
 	{
 		if ($this->isActive())
 		{
@@ -344,7 +371,7 @@ class NativeStorage implements StorageInterface
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
 		if ($this->isActive())
 		{
@@ -372,13 +399,18 @@ class NativeStorage implements StorageInterface
 	 */
 	public function setOptions(array $options)
 	{
+		if (headers_sent())
+		{
+			return $this;
+		}
+
 		$validOptions = array_flip(
 			[
 				'cache_limiter', 'cookie_domain', 'cookie_httponly', 'cookie_lifetime', 'cookie_path', 'cookie_secure', 'entropy_file',
 				'entropy_length', 'gc_divisor', 'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character', 'hash_function', 'name',
-				'referer_check', 'serialize_handler', 'use_cookies', 'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
-				'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name', 'upload_progress.freq', 'upload_progress.min-freq',
-				'url_rewriter.tags',
+				'referer_check', 'serialize_handler', 'use_strict_mode', 'use_cookies', 'use_only_cookies', 'use_trans_sid',
+				'upload_progress.enabled', 'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',  'upload_progress.freq',
+				'upload_progress.min-freq', 'url_rewriter.tags', 'sid_length', 'sid_bits_per_character', 'trans_sid_hosts', 'trans_sid_tags',
 			]
 		);
 

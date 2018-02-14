@@ -24,18 +24,17 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $properties = array();
+	private $properties = [];
 
 	/**
 	 * The class constructor.
 	 *
-	 * @param   mixed  $properties  Either an associative array or another object
-	 *                              by which to set the initial properties of the new object.
+	 * @param   mixed  $properties  Either an associative array or another object by which to set the initial properties of the new object.
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($properties = array())
+	public function __construct($properties = [])
 	{
 		// Check the properties input.
 		if (!empty($properties))
@@ -244,7 +243,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
 
 		if ($depth > 0)
 		{
-			// Check if the object is also an dumpable object.
+			// Check if the object is also a dumpable object.
 			if ($value instanceof DumpableInterface)
 			{
 				// Do not dump the property if it has already been dumped.
@@ -255,7 +254,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
 			}
 
 			// Check if the object is a date.
-			if ($value instanceof \DateTime)
+			if ($value instanceof \DateTimeInterface)
 			{
 				$value = $value->format('Y-m-d H:i:s');
 			}

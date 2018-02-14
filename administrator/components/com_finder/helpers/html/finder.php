@@ -4,12 +4,12 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -85,7 +85,7 @@ abstract class JHtmlFinder
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $db->getMessage());
+			JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.

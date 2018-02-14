@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * Form Field class for the TinyMCE editor.
  *
@@ -16,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldTinymceBuilder extends JFormField
+class JFormFieldTinymceBuilder extends FormField
 {
 	/**
 	 * The form field type.
@@ -35,6 +41,14 @@ class JFormFieldTinymceBuilder extends JFormField
 	protected $layout = 'plugins.editors.tinymce.field.tinymcebuilder';
 
 	/**
+	 * The prepared layout data
+	 *
+	 * @var    array
+	 * @since  3.7.0
+	 */
+	protected $layoutData = array();
+
+	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -43,9 +57,19 @@ class JFormFieldTinymceBuilder extends JFormField
 	 */
 	protected function getLayoutData()
 	{
+		if (!empty($this->layoutData))
+		{
+			return $this->layoutData;
+		}
+
 		$data       = parent::getLayoutData();
 		$paramsAll  = (object) $this->form->getValue('params');
 		$setsAmount = empty($paramsAll->sets_amount) ? 3 : $paramsAll->sets_amount;
+
+		if (empty($data['value']))
+		{
+			$data['value'] = array();
+		}
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -69,7 +93,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		// Get array of sets names
 		for ($i = 0; $i < $setsAmount; $i++)
 		{
-			$data['setsNames'][$i] = JText::sprintf('PLG_TINY_SET_TITLE', $i);
+			$data['setsNames'][$i] = Text::sprintf('PLG_TINY_SET_TITLE', $i);
 		}
 
 		// Prepare the forms for each set
@@ -80,9 +104,9 @@ class JFormFieldTinymceBuilder extends JFormField
 		$setParams = new stdClass;
 		if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions']))
 		{
-			$plugin = JPluginHelper::getPlugin('editors', 'tinymce');
+			$plugin = PluginHelper::getPlugin('editors', 'tinymce');
 
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
 			if (is_object($plugin) && !empty($plugin->params))
 			{
@@ -99,7 +123,7 @@ class JFormFieldTinymceBuilder extends JFormField
 			$formname = 'set.form.' . $num;
 			$control  = $this->name . '[setoptions][' . $num . ']';
 
-			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
+			$setsForms[$num] = Form::getInstance($formname, $formsource, array('control' => $control));
 
 			// Check whether we already have saved values or it first time or even old params
 			if (empty($this->value['setoptions'][$num]))
@@ -139,7 +163,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		$data['setsForms'] = $setsForms;
 
 		// Check for TinyMCE language file
-		$language      = JFactory::getLanguage();
+		$language      = Factory::getLanguage();
 		$languageFile1 = 'media/editors/tinymce/langs/' . $language->getTag() . '.js';
 		$languageFile2 = 'media/editors/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js';
 
@@ -153,6 +177,8 @@ class JFormFieldTinymceBuilder extends JFormField
 		{
 			$data['languageFile'] = $languageFile2;
 		}
+
+		$this->layoutData = $data;
 
 		return $data;
 	}

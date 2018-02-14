@@ -103,11 +103,21 @@ class Socket extends AbstractTransport
 		}
 
 		// If there are custom headers to send add them to the request payload.
-		if (is_array($headers))
+		if (!empty($headers))
 		{
-			foreach ($headers as $k => $v)
+			foreach ($headers as $key => $value)
 			{
-				$request[] = $k . ': ' . $v;
+				if (is_array($value))
+				{
+					foreach ($value as $header)
+					{
+						$request[] = "$key: $header";
+					}
+				}
+				else
+				{
+					$request[] = "$key: $value";
+				}
 			}
 		}
 

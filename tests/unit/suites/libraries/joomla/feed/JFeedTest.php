@@ -4,7 +4,7 @@
  * @subpackage  Feed
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -229,11 +229,6 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetExists()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
@@ -258,11 +253,6 @@ class JFeedTest extends TestCase
 	 */
 	public function testOffsetGet()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		$offset = new stdClass;
 
 		$mock = $this->getMockBuilder('SplObjectStorage')
@@ -428,7 +418,7 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
 	 * @since   12.3
 	 */
 	protected function setUp()
@@ -443,7 +433,7 @@ class JFeedTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.3
 	 */
 	protected function tearDown()
