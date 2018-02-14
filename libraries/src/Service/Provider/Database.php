@@ -43,7 +43,7 @@ class Database implements ServiceProviderInterface
 				DatabaseInterface::class,
 			function (Container $container)
 			{
-				$conf = \JFactory::getConfig();
+				$conf = $container->get('config');
 
 				$dbtype = $conf->get('dbtype');
 

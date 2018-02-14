@@ -54,9 +54,6 @@ phpdoc-*
 /components/com_patchtester
 /media/com_patchtester
 
-# Install from Web plugin #
-/plugins/installer/webinstaller
-
 # Languages #
 administrator/language/*
 !administrator/language/en-GB
@@ -107,6 +104,8 @@ Desktop.ini
 /libraries/vendor/defuse/php-encryption/README.md
 /libraries/vendor/defuse/php-encryption/psalm.xml
 /libraries/vendor/defuse/php-encryption/test.sh
+/libraries/vendor/doctrine/inflector/composer.json
+/libraries/vendor/doctrine/inflector/README.md
 /libraries/vendor/google/recaptcha/examples
 /libraries/vendor/google/recaptcha/tests
 /libraries/vendor/google/recaptcha/.gitignore
@@ -182,6 +181,7 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
 /libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
+/libraries/vendor/phpmailer/phpmailer/SECURITY.md
 /libraries/vendor/phpmailer/phpmailer/travis.phpunit.xml.dist
 /libraries/vendor/phpmailer/phpmailer/UPGRADING.md
 /libraries/vendor/psr/container/.gitignore

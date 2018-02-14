@@ -160,7 +160,7 @@ class TemplateModel extends FormModel
 	protected function populateState()
 	{
 		jimport('joomla.filesystem.file');
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');

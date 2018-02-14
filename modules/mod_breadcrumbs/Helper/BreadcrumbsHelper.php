@@ -12,7 +12,10 @@ namespace Joomla\Module\Breadcrumbs\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Helper for mod_breadcrumbs
@@ -26,7 +29,7 @@ class BreadcrumbsHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
@@ -56,14 +59,14 @@ class BreadcrumbsHelper
 		{
 			$crumbs[$i]       = new \stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = \JRoute::_($items[$i]->link);
+			$crumbs[$i]->link = Route::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome', 1))
 		{
 			$item       = new \stdClass;
-			$item->name = htmlspecialchars($params->get('homeText', \JText::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-			$item->link = \JRoute::_('index.php?Itemid=' . $home->id);
+			$item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+			$item->link = Route::_('index.php?Itemid=' . $home->id);
 			array_unshift($crumbs, $item);
 		}
 
@@ -90,11 +93,11 @@ class BreadcrumbsHelper
 		{
 			if ($lang->isRtl())
 			{
-				$_separator = \JHtml::_('image', 'system/arrow_rtl.png', null, null, true);
+				$_separator = HTMLHelper::_('image', 'system/arrow_rtl.png', null, null, true);
 			}
 			else
 			{
-				$_separator = \JHtml::_('image', 'system/arrow.png', null, null, true);
+				$_separator = HTMLHelper::_('image', 'system/arrow.png', null, null, true);
 			}
 		}
 		else
