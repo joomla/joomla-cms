@@ -11,8 +11,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-(function () {
-	var Joomla = window.Joomla || {};
+// @todo remove jQuery, currently is used only to open/close the modal
+;(function (customElements, Joomla, jQuery) {
+
+	if (!Joomla) {
+		throw new Error('Joomla API is not properly initiated');
+	}
+
 	Joomla.selectedFile = {};
 
 	window.document.addEventListener('onMediaFileSelected', function (e) {
@@ -86,55 +91,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		});
 	};
 
-	var JoomlaFieldMedia = function (_HTMLElement) {
-		_inherits(JoomlaFieldMedia, _HTMLElement);
+	customElements.define('joomla-field-media', function (_HTMLElement) {
+		_inherits(_class, _HTMLElement);
 
-		function JoomlaFieldMedia() {
-			_classCallCheck(this, JoomlaFieldMedia);
+		function _class() {
+			_classCallCheck(this, _class);
 
-			return _possibleConstructorReturn(this, (JoomlaFieldMedia.__proto__ || Object.getPrototypeOf(JoomlaFieldMedia)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
+
+			_this.css = '{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}';
+			_this.styleEl = document.createElement('style');
+			_this.styleEl.id = 'joomla-field-media-css';
+			_this.styleEl.innerHTML = _this.css;
+
+			if (!document.head.querySelector('joomla-field-media-css')) {
+				document.head.appendChild(_this.styleEl);
+			}
+			return _this;
 		}
 
-		_createClass(JoomlaFieldMedia, [{
+		_createClass(_class, [{
 			key: 'connectedCallback',
 
 
-			// attributeChangedCallback(attr, oldValue, newValue) {
-			//   switch (attr) {
-			//     case 'base-path':
-			//     case 'root-folder':
-			//     case 'url':
-			//     case 'modal-container':
-			//     case 'input':
-			//     case 'button-select':
-			//     case 'button-clear':
-			//     case 'button-save-selected':
-			//     case 'preview-container':
-			//       // string
-			//       break;
-			//     case 'modal-width':
-			//     case 'modal-height':
-			//     case 'preview-width':
-			//     case 'preview-height':
-			//       // int
-			//       // const value = parseInt(newValue, 10);
-			//       // if (value !== parseInt(oldValue, 10)) {
-			//       //  this.setAttribute(attr, value);
-			//       // }
-			//       break;
-			//     case 'preview':
-			//       // bool|string
-			//       if (['true', 'false', 'tooltip', 'static'].indexOf(newValue) > -1 && oldValue !== newValue) {
-			//         this.preview = newValue;
-			//       } else {
-			//         // if (oldValue )
-			//         //   this.preview = oldValue;
-			//       }
-			//       break;
-			//     default:
-			//       break;
-			//   }
-			// }
+			// attributeChangedCallback(attr, oldValue, newValue) {}
 
 			value: function connectedCallback() {
 				var button = this.querySelector(this.buttonSelect);
@@ -157,7 +137,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			key: 'disconnectedCallback',
 			value: function disconnectedCallback() {
 				var button = this.querySelector(this.buttonClear);
-				button.removeEventListener('click', self);
+				button.removeEventListener('click', this);
 			}
 		}, {
 			key: 'show',
@@ -165,10 +145,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				var _this2 = this;
 
 				var self = this;
-				var input = this.querySelector(this.input);
-				window.jQuery(this.querySelector('[role="dialog"]')).modal('show');
 
-				window.jQuery(this.querySelector(this.buttonSaveSelected)).on('click', function (e) {
+				jQuery(this.querySelector('[role="dialog"]')).modal('show');
+
+				jQuery(this.querySelector(this.buttonSaveSelected)).on('click', function (e) {
 					e.preventDefault();
 					e.stopPropagation();
 
@@ -186,12 +166,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				var input = this.querySelector(this.input);
 				Joomla.getImage(Joomla.selectedFile, input, this);
 
-				window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+				jQuery(this.querySelector('[role="dialog"]')).modal('hide');
 			}
 		}, {
 			key: 'setValue',
 			value: function setValue(value) {
-				var input = window.jQuery(this.querySelector(this.input));
+				var input = jQuery(this.querySelector(this.input));
 				input.val(value).trigger('change');
 				this.updatePreview();
 			}
@@ -207,7 +187,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 					return;
 				}
 
-				// Reset tooltip and preview
+				// Reset preview
 				if (this.preview) {
 					var input = this.querySelector(this.input);
 					var value = input.value;
@@ -357,10 +337,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			}
 		}]);
 
-		return JoomlaFieldMedia;
-	}(HTMLElement);
-
-	customElements.define('joomla-field-media', JoomlaFieldMedia);
-})();
+		return _class;
+	}(HTMLElement));
+})(customElements, Joomla, jQuery);
 
 },{}]},{},[1]);

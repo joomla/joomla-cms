@@ -1,12 +1,11 @@
-((customElements, Joomla) => {
+;customElements.define('joomla-field-send-test-mail', class extends HTMLElement {
 
-	class JoomlaFieldSendTestMail extends HTMLElement {
-
+	// attributeChangedCallback(attr, oldValue, newValue) {}
 	constructor() {
 		super();
 
 		if (!Joomla) {
-			throw new Error('Joomla API is not loaded')
+			throw new Error('Joomla API is not properly initiated');
 		}
 
 		if (!this.getAttribute('uri')) {
@@ -45,7 +44,7 @@
 			method: 'POST',
 			data: JSON.stringify(email_data),
 			perform: true,
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			headers: { 'Content-Type': 'application/json' },
 			onSuccess: (response, xhr) => {
 				response = JSON.parse(response);
 				if (typeof response.messages === 'object' && response.messages !== null) {
@@ -57,8 +56,4 @@
 			},
 		});
 	}
-}
-
-customElements.define('joomla-field-send-test-mail', JoomlaFieldSendTestMail);
-
-})(customElements, Joomla);
+});
