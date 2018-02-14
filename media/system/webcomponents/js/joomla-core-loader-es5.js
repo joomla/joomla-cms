@@ -15,29 +15,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 	function _class() {
 		_classCallCheck(this, _class);
 
-		// Define some things
 		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
-		_this.css = '{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}';
-		_this.styleEl = document.createElement('style');
-		_this.styleEl.id = 'joomla-loader-css';
-		_this.styleEl.innerHTML = _this.css;
+		var template = document.createElement('template');
 
-		_this.element = document.createElement('div');
-		_this.element.id = 'joomla-loader';
-		_this.element.innerHTML = '<div class="box"><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>';
+		template.innerHTML = '<style>{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}</style>\n<div class="box"><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>';
 
-		if (!document.head.querySelector('#joomla-loader-css')) {
-			document.head.appendChild(_this.styleEl);
-		}
+		_this.attachShadow({ mode: 'open' });
+		_this.shadowRoot.appendChild(template.content.cloneNode(true));
 		return _this;
 	}
 
 	_createClass(_class, [{
 		key: 'connectedCallback',
-		value: function connectedCallback() {
-			this.appendChild(this.element);
-		}
+		value: function connectedCallback() {}
 	}]);
 
 	return _class;

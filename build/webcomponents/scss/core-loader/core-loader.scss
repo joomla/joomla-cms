@@ -6,7 +6,7 @@ $theme-colours: map-merge((
         "green"  : #7AC143,
 ), $theme-colours);
 
-joomla-core-loader {
+:host {
   display: block;
   top:0;
   left:0;
@@ -18,95 +18,96 @@ joomla-core-loader {
   z-index: 10000;
   background-color: #fff;
 
-  .box {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    transform: rotate(45deg);
+}
 
-    p {
-      float: left;
-      margin: -20px 0 0 252px;
-      font: normal 1.25em/1em sans-serif;
-      color: #999;
-      transform: rotate(-45deg);
-    }
+.box {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  transform: rotate(45deg);
 
-    > span {
-      animation: jspinner 2s infinite ease-in-out;
-    }
-
-    .red {
-      animation-delay: -1.5s;
-    }
-    .blue {
-      animation-delay: -1s;
-    }
-    .green {
-      animation-delay: -.5s;
-    }
+  p {
+    float: left;
+    margin: -20px 0 0 252px;
+    font: normal 1.25em/1em sans-serif;
+    color: #999;
+    transform: rotate(-45deg);
   }
 
-  @each $colour in $theme-colours {
-    $key: nth($colour, 1);
-    $value: nth($colour, 2);
-
-    .#{$key} {
-      content: "";
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      border-radius: 90px;
-      background: $value;
-
-      &::before,
-      &::after {
-        box-sizing: content-box;
-        border: 50px solid $value;
-      }
-
-      &::before {
-        content: "";
-        position: absolute;
-        width: 50px;
-        height: 35px;
-        margin: 60px 0 0 -30px;
-        background: transparent;
-        border-radius: 75px 75px 0 0;
-        border-width: 50px 50px 0 50px;
-      }
-
-      &::after {
-        content: "";
-        position: absolute;
-        width: 50px;
-        height: 101px;
-        margin: 145px 0 0 -30px;
-        background: transparent;
-        border-width: 0 0 0 50px;
-      }
-    }
-  }
-
-  .yellow {
-    margin: 0 0 0 182px;
-    transform: rotate(0deg);
+  > span {
+    animation: jspinner 2s infinite ease-in-out;
   }
 
   .red {
-    margin: 182px 0 0 364px;
-    transform: rotate(90deg);
+    animation-delay: -1.5s;
   }
-
   .blue {
-    margin: 364px 0 0 182px;
-    transform: rotate(180deg);
+    animation-delay: -1s;
   }
-
   .green {
-    margin: 182px 0 0 0;
-    transform: rotate(270deg);
+    animation-delay: -.5s;
   }
+}
+
+@each $colour in $theme-colours {
+  $key: nth($colour, 1);
+  $value: nth($colour, 2);
+
+  .#{$key} {
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    border-radius: 90px;
+    background: $value;
+
+    &::before,
+    &::after {
+      box-sizing: content-box;
+      border: 50px solid $value;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 35px;
+      margin: 60px 0 0 -30px;
+      background: transparent;
+      border-radius: 75px 75px 0 0;
+      border-width: 50px 50px 0 50px;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 101px;
+      margin: 145px 0 0 -30px;
+      background: transparent;
+      border-width: 0 0 0 50px;
+    }
+  }
+}
+
+.yellow {
+  margin: 0 0 0 182px;
+  transform: rotate(0deg);
+}
+
+.red {
+  margin: 182px 0 0 364px;
+  transform: rotate(90deg);
+}
+
+.blue {
+  margin: 364px 0 0 182px;
+  transform: rotate(180deg);
+}
+
+.green {
+  margin: 182px 0 0 0;
+  transform: rotate(270deg);
 }
 
 @keyframes jspinner {
@@ -118,12 +119,9 @@ joomla-core-loader {
   }
 }
 
+
 @media (prefers-reduced-motion: reduce) {
-  joomla-core-loader {
-    .box {
-      > span {
-        animation: none;
-      }
+  .box > span {
+      animation: none;
     }
-  }
 }

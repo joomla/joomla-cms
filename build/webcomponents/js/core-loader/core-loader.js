@@ -2,22 +2,15 @@
 	constructor() {
 		super();
 
-		// Define some things
-		this.css = `{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}`;
-		this.styleEl = document.createElement('style');
-		this.styleEl.id = 'joomla-loader-css';
-		this.styleEl.innerHTML = this.css;
+		const template = document.createElement('template');
 
-		this.element = document.createElement('div');
-		this.element.id = 'joomla-loader';
-		this.element.innerHTML = `<div class="box"><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>`;
+		template.innerHTML = `<style>{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}</style>
+<div class="box"><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>`;
 
-		if (!document.head.querySelector('#joomla-loader-css')) {
-			document.head.appendChild(this.styleEl)
-		}
+		this.attachShadow({mode: 'open'});
+		this.shadowRoot.appendChild(template.content.cloneNode(true));
 	}
-
 	connectedCallback() {
-		this.appendChild(this.element);
+
 	}
 });

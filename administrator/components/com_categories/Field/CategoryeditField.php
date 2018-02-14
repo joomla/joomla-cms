@@ -424,7 +424,7 @@ class CategoryeditField extends \JFormFieldList
 			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
-		\JHtml::_('webcomponent', ['joomla-core-loader' => 'system/webcomponents/joomla-core-loader.min.js'], ['relative' => true, 'version' => 'auto']);
+		\JHtml::_('webcomponent', ['fullPolyfill' => 'true', 'joomla-core-loader' => 'system/webcomponents/joomla-core-loader.min.js'], ['relative' => true, 'version' => 'auto']);
 
 		return implode($html);
 	}
