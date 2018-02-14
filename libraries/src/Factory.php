@@ -500,6 +500,7 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
