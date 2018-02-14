@@ -87,7 +87,8 @@
       "field-permissions",
       "field-simple-color",
       "hidden-mail",
-      "editor-none"
+      "editor-none",
+      "core-loader"
     ],
     "webcomponents": {
       "field-media": {
@@ -113,6 +114,10 @@
       },
       "field-hidden-mail": {
 
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "core-loader": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
