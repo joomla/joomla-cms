@@ -188,7 +188,7 @@ class Toolbar
 		Log::add(
 			sprintf(
 				'%s::appendButton() should only accept %s instance in Joomla 5.0.',
-				ToolbarButton::class,
+				static::class,
 				ToolbarButton::class
 			),
 			Log::WARNING,
@@ -271,7 +271,7 @@ class Toolbar
 		Log::add(
 			sprintf(
 				'%s::prependButton() should only accept %s instance in Joomla 5.0.',
-				ToolbarButton::class,
+				static::class,
 				ToolbarButton::class
 			),
 			Log::WARNING,
