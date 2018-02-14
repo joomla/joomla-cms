@@ -93,11 +93,11 @@ class TagsViewTag extends JViewLegacy
 
 				// For some plugins.
 				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
-				
+
 				if (is_string($itemElement->core_params))
 				{
 					$itemElement->core_params = new Registry($itemElement->core_params);
-				}								
+				}
 
 				$dispatcher = JEventDispatcher::getInstance();
 
