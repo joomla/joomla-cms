@@ -364,7 +364,7 @@ class Categories
 	}
 
 	/**
-	 * Sets the options for this service. The given options do overwrite the
+	 * Sets the options for this service. The given options overwrite the
 	 * internal options with the same index. The existing options are not cleared
 	 * when they are not specified in the given options array.
 	 *
@@ -381,7 +381,7 @@ class Categories
 			return;
 		}
 
-		// Merge the options to not loose the base config
+		// Merge the options to not lose the base config
 		$options = array_merge($this->_options, $options);
 
 		$this->_extension  = $options['extension'];
