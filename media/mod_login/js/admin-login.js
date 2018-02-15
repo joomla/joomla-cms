@@ -1,23 +1,18 @@
 /**
-* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
-* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
-**/
-
-/**
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function () {
+(function() {
   'use strict';
 
   var btn = document.getElementById('btn-login-submit');
   if (btn) {
-    btn.addEventListener('click', function (e) {
+    btn.addEventListener('click', function(e) {
       e.preventDefault();
       var form = document.getElementById('form-login');
       if (form && document.formvalidator.isValid(form)) {
-        Joomla.submitbutton('login');
+        Joomla.submitbutton('login')
       }
     });
   }
@@ -29,4 +24,5 @@
       document.getElementById('mod-login-username').focus();
     }
   }
+
 })();
