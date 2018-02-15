@@ -120,7 +120,7 @@ abstract class ToolbarButton
 	/**
 	 * Get the HTML to render the button
 	 *
-	 * @param   array  $definition  Parameters to be passed
+	 * @param   array  &$definition  Parameters to be passed
 	 *
 	 * @return  string
 	 *

@@ -109,7 +109,7 @@ class Toolbar
 			);
 
 			$factory = new ContainerAwareToolbarFactory;
-			$factory->setContainer(\JFactory::getContainer());
+			$factory->setContainer(Factory::getContainer());
 		}
 
 		$this->setFactory($factory);
@@ -158,21 +158,15 @@ class Toolbar
 	/**
 	 * Append a button to toolbar.
 	 *
-	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   ToolbarButton  $button   The button instance.
+	 * @param   array          ...$args  The more arguments.
 	 *
 	 * @return  ToolbarButton  Return button instance to help chaining configure.
 	 *
 	 * @since   1.5
 	 */
-	public function appendButton(...$args)
+	public function appendButton($button, ...$args)
 	{
-		if ($args === [])
-		{
-			trigger_error(sprintf('%s require at least 1 argument.', __METHOD__), E_ERROR);
-		}
-
-		$button = $args[0];
-
 		if ($button instanceof ToolbarButton)
 		{
 			$button->setParent($this);
@@ -183,6 +177,7 @@ class Toolbar
 		}
 
 		// B/C
+		array_unshift($args, $button);
 		$this->_bar[] = $args;
 
 		Log::add(
@@ -241,21 +236,15 @@ class Toolbar
 	/**
 	 * Prepend a button to toolbar.
 	 *
-	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   ToolbarButton  $button   The button instance.
+	 * @param   array          ...$args  The more arguments.
 	 *
 	 * @return  ToolbarButton  Return button instance to help chaining configure.
 	 *
 	 * @since   1.5
 	 */
-	public function prependButton(...$args)
+	public function prependButton($button, ...$args)
 	{
-		if ($args === [])
-		{
-			trigger_error(sprintf('%s require at least 1 argument.', __METHOD__), E_ERROR);
-		}
-
-		$button = $args[0];
-
 		if ($button instanceof ToolbarButton)
 		{
 			$button->setParent($this);
@@ -266,6 +255,7 @@ class Toolbar
 		}
 
 		// B/C
+		array_unshift($args, $button);
 		array_unshift($this->_bar, $args);
 
 		Log::add(
