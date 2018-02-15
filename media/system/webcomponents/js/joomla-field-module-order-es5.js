@@ -65,6 +65,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		value: function writeDynaList(selectProperties, source, originalPositionName, originalPositionValue) {
 			var i = 0;
 			var selectNode = document.createElement('select');
+			if (this.hasOwnProperty('disabled')) {
+				selectNode.setAttribute('disabled', '');
+			}
+
+			if (this.getAttribute('onchange')) {
+				selectNode.setAttribute('onchange', this.getAttribute('onchange'));
+			}
+
+			if (this.getAttribute('size')) {
+				selectNode.setAttribute('size', this.getAttribute('size'));
+			}
+
 			selectNode.classList.add(selectProperties.itemClass);
 			selectNode.setAttribute('name', selectProperties.name);
 			selectNode.id = selectProperties.id;
