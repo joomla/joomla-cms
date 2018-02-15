@@ -39,26 +39,26 @@ define(['jquery', 'testsRoot/subform-repeatable/spec-setup', 'jasmineJquery'], f
 				expect($container.find('tbody').children().length).toEqual(2);
 			});
 
-			it('Should fix the id of the template input checkbox element to "jform_group__group2__checkbox"', function () {
+			it('Should fix the id of the template input checkbox element to "jform_group__group1__checkbox"', function () {
 				expect($container.find('#jform_group__groupX__checkbox')).not.toExist();
-				expect($container.find('#jform_group__group2__checkbox')).toExist();
+				expect($container.find('#jform_group__group1__checkbox')).toExist();
 			});
 
 			it('Should fix the for attribute of the checkbox label element to match the changed input id', function () {
-				expect($container.find('label[for="jform_group__group2__checkbox"]')).toExist();
+				expect($container.find('label[for="jform_group__group1__checkbox"]')).toExist();
 			});
 
-			it('Should fix the name of the template input checkbox element to "jform[group][group2][checkbox]"', function () {
-				expect($container.find('#jform_group__group2__checkbox')).toHaveAttr('name','jform[group][group2][checkbox]');
+			it('Should fix the name of the template input checkbox element to "jform[group][group1][checkbox]"', function () {
+				expect($container.find('#jform_group__group1__checkbox')).toHaveAttr('name','jform[group][group2][checkbox]');
 			});
 
-			it('Should fix the id of the template input radio element to "jform_group__group2__radio0"', function () {
+			it('Should fix the id of the template input radio element to "jform_group__group1__radio0"', function () {
 				expect($container.find('#jform_group__groupX__radio0')).not.toExist();
-				expect($container.find('#jform_group__group2__radio0')).toExist();
+				expect($container.find('#jform_group__group1__radio0')).toExist();
 			});
 
-			it('Should fix the name of the template input radio element to "jform[group][group2][radio]"', function () {
-				expect($container.find('#jform_group__group2__radio0')).toHaveAttr('name','jform[group][group2][radio]');
+			it('Should fix the name of the template input radio element to "jform[group][group1][radio]"', function () {
+				expect($container.find('#jform_group__group1__radio0')).toHaveAttr('name','jform[group][group1][radio]');
 			});
 
 			it('Should have captured the template correctly', function () {
