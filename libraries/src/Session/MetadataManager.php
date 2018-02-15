@@ -10,6 +10,7 @@ namespace Joomla\CMS\Session;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\User\User;
 
@@ -24,7 +25,7 @@ final class MetadataManager
 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplication
+	 * @var    AbstractApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $app;
@@ -40,12 +41,12 @@ final class MetadataManager
 	/**
 	 * MetadataManager constructor.
 	 *
-	 * @param   CMSApplication    $app  Application object.
-	 * @param   \JDatabaseDriver  $db   Database driver.
+	 * @param   AbstractApplication  $app  Application object.
+	 * @param   \JDatabaseDriver     $db   Database driver.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(CMSApplication $app, \JDatabaseDriver $db)
+	public function __construct(AbstractApplication $app, \JDatabaseDriver $db)
 	{
 		$this->app = $app;
 		$this->db  = $db;
@@ -98,7 +99,7 @@ final class MetadataManager
 			$this->db->quote($user->username),
 		);
 
-		if (!$this->app->get('shared_session', '0'))
+		if ($this->app instanceof CMSApplication && !$this->app->get('shared_session', '0'))
 		{
 			$columns[] = $this->db->quoteName('client_id');
 			$values[] = (int) $this->app->getClientId();
