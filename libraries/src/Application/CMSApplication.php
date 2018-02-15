@@ -146,43 +146,6 @@ class CMSApplication extends WebApplication
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart()
-	{
-		$session = \JFactory::getSession();
-
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		$time = time();
-
-		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
-		if ($handler !== 'database' && $time % 5 === 0)
-		{
-			$manager = $this->metadataManager;
-
-			$this->registerEvent(
-				'onAfterRespond',
-				function () use ($session, $time, $manager)
-				{
-					$manager->deletePriorTo((int) ($time - $session->getExpire()));
-				}
-			);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.

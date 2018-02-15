@@ -33,6 +33,19 @@
 				</field>
 
 				<field
+					name="enable_session_metadata_gc"
+					type="radio"
+					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_LABEL"
+					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="boolean"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="gc_probability"
 					type="number"
 					label="PLG_SYSTEM_SESSIONGC_GC_PROBABILITY_LABEL"
@@ -41,7 +54,7 @@
 					validate="number"
 					min="1"
 					default="1"
-					showon="enable_session_gc:1"
+					showon="enable_session_gc:1[OR]enable_session_metadata_gc:1"
 				/>
 
 				<field
@@ -53,7 +66,7 @@
 					validate="number"
 					min="1"
 					default="100"
-					showon="enable_session_gc:1"
+					showon="enable_session_gc:1[OR]enable_session_metadata_gc:1"
 				/>
 			</fieldset>
 		</fields>
