@@ -24,10 +24,13 @@ interface ComponentContainerInterface
 	 * null is returned.
 	 *
 	 * @param   string  $section  The section
+	 * @param   array   $options  The options
 	 *
 	 * @return  Categories|null
 	 *
+	 * @see Categories::setOptions()
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getCategories($section = '');
+	public function getCategories(array $options = [], $section = '');
 }

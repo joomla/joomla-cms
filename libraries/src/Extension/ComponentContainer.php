@@ -26,12 +26,15 @@ class ComponentContainer extends Container implements ComponentContainerInterfac
 	 * null is returned.
 	 *
 	 * @param   string  $section  The section
+	 * @param   array   $options  The options
 	 *
 	 * @return  Categories|null
 	 *
+	 * @see Categories::setOptions()
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getCategories($section = '')
+	public function getCategories(array $options = [], $section = '')
 	{
 		$serviceName = 'categories';
 
@@ -45,6 +48,9 @@ class ComponentContainer extends Container implements ComponentContainerInterfac
 			return null;
 		}
 
-		return $this->get($serviceName);
+		$categories = $this->get($serviceName);
+		$categories->setOptions($options);
+
+		return $categories;
 	}
 }

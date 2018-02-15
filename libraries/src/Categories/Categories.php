@@ -10,7 +10,6 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
@@ -102,6 +101,19 @@ class Categories
 	 */
 	public function __construct($options)
 	{
+		// Required options
+		$this->_extension  = $options['extension'];
+		$this->_table      = $options['table'];
+		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+		$this->_statefield = $options['statefield'] ?? 'state';
+
+		// Default some optional options
+		$this->_options['access']      = 'true';
+		$this->_options['published']   = 1;
+		$this->_options['countItems']  = 0;
+		$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+
 		$this->setOptions($options);
 	}
 
@@ -127,12 +139,7 @@ class Categories
 
 		$parts = explode('.', $extension, 2);
 
-		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories(count($parts) > 1 ? $parts[1] : '');
-
-		if ($categories)
-		{
-			$categories->setOptions($options);
-		}
+		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories($options, count($parts) > 1 ? $parts[1] : '');
 
 		self::$instances[$hash] = $categories;
 
@@ -364,9 +371,8 @@ class Categories
 	}
 
 	/**
-	 * Sets the options for this service. The given options overwrite the
-	 * internal options with the same index. The existing options are not cleared
-	 * when they are not specified in the given options array.
+	 * Allows to set some optional options, eg. if the access level should be considered.
+	 * Also clears the internal children cache.
 	 *
 	 * @param   array  $options  The new options
 	 *
@@ -376,26 +382,20 @@ class Categories
 	 */
 	public function setOptions(array $options)
 	{
-		if ($this->_options && $this->_options == $options)
+		if (isset($options['access']))
 		{
-			return;
+			$this->_options['access'] = $options['access'];
 		}
 
-		// Merge the options to not lose the base config
-		$options = array_merge($this->_options, $options);
+		if (isset($options['published']))
+		{
+			$this->_options['published'] = $options['published'];
+		}
 
-		$this->_extension  = $options['extension'];
-		$this->_table      = $options['table'];
-		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
-		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-		$this->_statefield = $options['statefield'] ?? 'state';
-
-		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
-		$options['published']   = isset($options['published']) ? $options['published'] : 1;
-		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
-
-		$this->_options = $options;
+		if (isset($options['countItems']))
+		{
+			$this->_options['countItems'] = $options['countItems'];
+		}
 
 		// Reset the cache
 		$this->_nodes             = [];
