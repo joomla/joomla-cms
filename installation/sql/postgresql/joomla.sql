@@ -1664,10 +1664,10 @@ CREATE TABLE "#__schemas" (
 --
 
 CREATE TABLE "#__session" (
-  "session_id" varchar(200) DEFAULT '' NOT NULL,
+  "session_id" bytea NOT NULL,
   "client_id" smallint DEFAULT NULL,
   "guest" smallint DEFAULT 1,
-  "time" varchar(14) DEFAULT '',
+  "time" integer DEFAULT 0 NOT NULL,
   "data" text,
   "userid" bigint DEFAULT 0,
   "username" varchar(150) DEFAULT '',
