@@ -282,7 +282,7 @@ class PlgSampledataBlog extends JPlugin
 				return $response;
 			}
 
-			// Get ID from category we just added
+			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 		}
 
