@@ -8,7 +8,7 @@
 	$.subformRepeatable = function(container, options){
 		this.$container = $(container);
 
-		// check if alredy exist
+		// check if already exist
 		if(this.$container.data("subformRepeatable")){
 			return self;
 		}
