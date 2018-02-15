@@ -664,9 +664,9 @@ abstract class ToolbarHelper
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		$saveGroup = $bar->groupButton('save-group');
+		$saveGroup = $bar->dropdownButton('save-group');
 
-		$saveGroup->children(
+		$saveGroup->configure(
 			function (Toolbar $childBar) use ($buttons, $validOptions)
 			{
 				foreach ($buttons as $button)
