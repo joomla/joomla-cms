@@ -23,11 +23,13 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 class CustomButton extends ToolbarButton
 {
 	/**
-	 * renderButton
+	 * Render button HTML.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The button options.
 	 *
-	 * @return  string
+	 * @return  string  The button HTML.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -44,6 +46,8 @@ class CustomButton extends ToolbarButton
 	 * @return  string   HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
 	{
@@ -51,9 +55,11 @@ class CustomButton extends ToolbarButton
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{

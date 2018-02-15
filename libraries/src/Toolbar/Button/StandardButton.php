@@ -16,7 +16,9 @@ use Joomla\CMS\Language\Text;
  * Renders a standard button
  *
  * @method self listCheck(bool $value)
+ * @method self listCheckMessage(string $value)
  * @method bool getListCheck()
+ * @method bool getListCheckMessage()
  *
  * @since  3.0
  */
@@ -80,11 +82,13 @@ class StandardButton extends BasicButton
 	}
 
 	/**
-	 * getButtonClass
+	 * Fetch button class for standard buttons.
 	 *
-	 * @param string $name
+	 * @param   string  $name  The button name.
 	 *
 	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fetchButtonClass(string $name): string
 	{
@@ -127,16 +131,16 @@ class StandardButton extends BasicButton
 	 */
 	protected function _getCommand()
 	{
-		Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		Text::script($this->getListCheckMessage() ?: 'JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		Text::script('ERROR');
 
 		$cmd = "Joomla.submitbutton('" . $this->getTask() . "');";
 
 		if ($this->getListCheck())
 		{
-			$messages = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-			$alert = "Joomla.renderMessages(" . $messages . ")";
-			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
+			$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+			$alert = 'Joomla.renderMessages(' . $messages . ')';
+			$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 		}
 
 		return $cmd;
@@ -155,6 +159,7 @@ class StandardButton extends BasicButton
 			parent::getAccessors(),
 			[
 				'listCheck',
+				'listCheckMessage'
 			]
 		);
 	}

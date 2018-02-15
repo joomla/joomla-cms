@@ -20,14 +20,14 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method bool getToggleSplit()
  * @method bool getToggleButtonClass()
  *
- * @since  3.0
+ * @since  __DEPLOY_VERSION__
  */
 class DropdownButton extends AbstractGroupButton
 {
 	/**
 	 * Property layout.
 	 *
-	 * @var  string
+	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.dropdown';
@@ -39,8 +39,8 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
-	 * @throws \Exception
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	protected function prepareOptions(array &$options)
 	{

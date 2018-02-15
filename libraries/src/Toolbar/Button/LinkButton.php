@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,11 +34,13 @@ class LinkButton extends ToolbarButton
 	protected $layout = 'joomla.toolbar.link';
 
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -58,6 +60,8 @@ class LinkButton extends ToolbarButton
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Link', $name = 'back', $text = '', $url = null)
 	{
@@ -69,9 +73,11 @@ class LinkButton extends ToolbarButton
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{

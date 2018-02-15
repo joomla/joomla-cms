@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
- * Renders a standard button
+ * Renders a basic button.
  *
- * @since  3.0
+ * @since  __DEPLOY_VERSION__
  */
 class BasicButton extends ToolbarButton
 {
@@ -38,7 +38,7 @@ class BasicButton extends ToolbarButton
 	 * @since   3.0
 	 *
 	 * @deprecated  5.0 Use render() instead.
-	 * @throws \LogicException
+	 * @throws  \LogicException
 	 */
 	public function fetchButton($type = 'Basic')
 	{

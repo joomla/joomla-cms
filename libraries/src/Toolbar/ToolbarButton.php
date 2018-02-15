@@ -1,9 +1,9 @@
 <?php
 /**
- * Part of 40dev project.
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2018 ${ORGANIZATION}.
- * @license    __LICENSE__
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
@@ -162,7 +162,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string  The button HTML.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function renderButton(array &$options): string
 	{

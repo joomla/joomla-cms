@@ -60,6 +60,8 @@ class HelpButton extends BasicButton
 	 * @return  string
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
@@ -75,11 +77,6 @@ class HelpButton extends BasicButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $ref        The name of the help screen (its key reference).
-	 * @param   boolean  $com        Use the help file in the component directory.
-	 * @param   string   $override   Use this URL instead of any other.
-	 * @param   string   $component  Name of component to get Help (null for current component)
-	 *
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   3.0
@@ -89,15 +86,17 @@ class HelpButton extends BasicButton
 		// Get Help URL
 		$url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
 		$url = htmlspecialchars($url, ENT_QUOTES);
-		$cmd = "Joomla.popupWindow('$url', '" . \JText::_('JHELP', true) . "', 700, 500, 1)";
+		$cmd = "Joomla.popupWindow('$url', '" . Text::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{

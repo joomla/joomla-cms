@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders a modal window button
@@ -53,11 +54,13 @@ class PopupButton extends ToolbarButton
 	protected $layout = 'joomla.toolbar.popup';
 
 	/**
-	 * prepareOptions
+	 * Prepare options for this button.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -89,8 +92,19 @@ class PopupButton extends ToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
-		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
+	public function fetchButton(
+		$type = 'Modal',
+		$name = '',
+		$text = '',
+		$url = '',
+		$iframeWidth = 640,
+		$iframeHeight = 480,
+		$bodyHeight = null,
+		$modalWidth = null,
+		$onClose = '',
+		$title = '',
+		$footer = null
+	)
 	{
 		$this->name($name)
 			->text(Text::_($text))
@@ -108,15 +122,18 @@ class PopupButton extends ToolbarButton
 	}
 
 	/**
-	 * renderButton
+	 * Render button HTML.
 	 *
-	 * @param array $options
+	 * @param   array  $options  The button options.
 	 *
-	 * @return  string
+	 * @return  string  The button HTML.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function renderButton(array &$options): string
 	{
 		$html = [];
+
 		$html[] = parent::renderButton($options);
 
 		if ((string) $this->getUrl() !== '')
@@ -165,21 +182,6 @@ JS
 	}
 
 	/**
-	 * Get the button id
-	 *
-	 * @param   string  $type  Button type
-	 * @param   string  $name  Button name
-	 *
-	 * @return  string	Button CSS Id
-	 *
-	 * @since   3.0
-	 */
-	public function fetchId()
-	{
-		return $this->parent->getName() . '-popup-' . $this->getName();
-	}
-
-	/**
 	 * Get the JavaScript command for the button
 	 *
 	 * @param   string  $url  URL for popup
@@ -192,16 +194,18 @@ JS
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = \JUri::base() . $url;
+			$url = Uri::base() . $url;
 		}
 
 		return $url;
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{

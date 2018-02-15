@@ -67,24 +67,7 @@ class ConfirmButton extends StandardButton
 	}
 
 	/**
-	 * getButtonClass
-	 *
-	 * @param string $name
-	 *
-	 * @return  string
-	 */
-	public function fetchButtonClass(string $name): string
-	{
-		return ' btn btn-sm btn-outline-danger';
-	}
-
-	/**
 	 * Get the JavaScript command for the button
-	 *
-	 * @param   object   $msg   The message to display.
-	 * @param   string   $name  Not used.
-	 * @param   string   $task  The task used by the application
-	 * @param   boolean  $list  True is requires a list confirmation.
 	 *
 	 * @return  string  JavaScript command string
 	 *
@@ -92,8 +75,8 @@ class ConfirmButton extends StandardButton
 	 */
 	protected function _getCommand()
 	{
-		\JText::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
-		\JText::script('ERROR');
+		Text::script($this->getListCheckMessage() ?: 'JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
+		Text::script('ERROR');
 
 		$msg = $this->getMessage();
 
@@ -101,9 +84,9 @@ class ConfirmButton extends StandardButton
 
 		if ($this->getListCheck())
 		{
-			$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-			$alert = "Joomla.renderMessages(" . $message . ")";
-			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
+			$message = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+			$alert = 'Joomla.renderMessages(' . $message . ')';
+			$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 		}
 
 		return $cmd;
