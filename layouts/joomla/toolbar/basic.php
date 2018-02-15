@@ -25,8 +25,6 @@ HTMLHelper::_('behavior.core');
 extract($displayData, EXTR_OVERWRITE);
 
 $tagName = $tagName ?? 'button';
-
-// TODO: RE-ADD button-{name} class.
 ?>
 <<?php echo $tagName; ?>
 	id="<?php echo $id ?? ''; ?>"

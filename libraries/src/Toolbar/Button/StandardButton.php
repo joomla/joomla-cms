@@ -46,10 +46,9 @@ class StandardButton extends BasicButton
 
 		if (empty($options['is_child']))
 		{
-			$class = $this->getButtonClass($this->getName());
+			$class = $this->fetchButtonClass($this->getName());
 
-			$options['btnClass'] = ($options['button_class'] ?? $class);
-			$options['caretClass'] = ($options['button_class'] ?? $class);
+			$options['btnClass'] = $options['button_class'] = ($options['button_class'] ?? $class);
 		}
 
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
@@ -87,7 +86,7 @@ class StandardButton extends BasicButton
 	 *
 	 * @return  string
 	 */
-	public function getButtonClass(string $name): string
+	public function fetchButtonClass(string $name): string
 	{
 		switch ($name)
 		{
@@ -144,9 +143,11 @@ class StandardButton extends BasicButton
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{

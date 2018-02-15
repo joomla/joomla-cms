@@ -23,10 +23,19 @@ use Joomla\CMS\Uri\Uri;
 /**
  * CoreButtonsTrait
  *
- * @since  {DEPLOY_VERSION}
+ * @since  4.0.0
  */
 trait CoreButtonsTrait
 {
+	/**
+	 * divider
+	 *
+	 * @param string $text
+	 *
+	 * @return  SeparatorButton
+	 *
+	 * @since   4.0.0
+	 */
 	public function divider(string $text = ''): SeparatorButton
 	{
 		return $this->separatorButton('divider', $text);

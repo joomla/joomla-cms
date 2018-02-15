@@ -51,15 +51,6 @@ abstract class ToolbarButton
 	protected $parent;
 
 	/**
-	 * The child Toolbar instance.
-	 *
-	 * @var  Toolbar
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $child;
-
-	/**
 	 * The layout path to render this button.
 	 *
 	 * @var  string
@@ -122,44 +113,8 @@ abstract class ToolbarButton
 		{
 			$options['tagName'] = 'button';
 			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
-			$options['caretClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
 			$options['attributes']['type'] = 'button';
 		}
-	}
-
-	/**
-	 * Add children buttons as dropdown.
-	 *
-	 * @param   callable  $handler  The callback to configure dropdown items.
-	 *
-	 * @return  static
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function children(callable $handler)
-	{
-		$child = $this->getChildToolbar();
-
-		$handler($child);
-
-		return $this;
-	}
-
-	/**
-	 * Get child toolbar.
-	 *
-	 * @return  Toolbar  Return new child Toolbar instance.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getChildToolbar()
-	{
-		if (!$this->child)
-		{
-			$this->child = $this->parent->createChild($this->getName() . '-children');
-		}
-
-		return $this->child;
 	}
 
 	/**
@@ -175,15 +130,8 @@ abstract class ToolbarButton
 	 */
 	public function render(&$definition = null)
 	{
-		$childToolbar = $this->getChildToolbar();
-		$hasChildren = count($childToolbar->getItems()) > 0;
-
 		if ($definition === null)
 		{
-			$options['hasChildren'] = $hasChildren;
-
-			$this->setOption('hasChildren', $hasChildren);
-
 			$action = $this->renderButton($this->options);
 		}
 		// For B/C
@@ -196,16 +144,12 @@ abstract class ToolbarButton
 			throw new \InvalidArgumentException('Wrong argument: $definition, should be NULL or array.');
 		}
 
-		$children = $hasChildren ? $childToolbar->render(['is_child' => true]) : '';
-
 		// Build the HTML Button
 		$layout = new FileLayout('joomla.toolbar.base');
 
 		return $layout->render(
 			[
 				'action' => $action,
-				'hasChildren' => $hasChildren,
-				'children' => $children,
 				'options' => $this->options
 			]
 		);
@@ -372,6 +316,34 @@ abstract class ToolbarButton
 	}
 
 	/**
+	 * Get button name.
+	 *
+	 * @return  string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
+	 * Set button name.
+	 *
+	 * @param   string  $name  The button name.
+	 *
+	 * @return  static  Return self to support chaining.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function name(string $name): self
+	{
+		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
 	 * Get layout path.
 	 *
 	 * @return  string
@@ -498,33 +470,5 @@ abstract class ToolbarButton
 			'onclick',
 			'buttonClass' => 'button_class'
 		];
-	}
-
-	/**
-	 * Get button name.
-	 *
-	 * @return  string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	/**
-	 * Set button name.
-	 *
-	 * @param   string  $name  The button name.
-	 *
-	 * @return  static  Return self to support chaining.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function name(string $name): self
-	{
-		$this->name = $name;
-
-		return $this;
 	}
 }

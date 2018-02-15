@@ -26,10 +26,7 @@ echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
-		'url'    => 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id='
-			. (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias=' . $typeAlias
-			. '&amp;' . Session::getFormToken() . '=1',
-		'xxx'    => http_build_query(
+		'url'    => 'index.php?' . http_build_query(
 			[
 				'option' => 'com_contenthistory',
 				'view' => 'history',
@@ -38,6 +35,7 @@ echo HTMLHelper::_(
 				'item_id' => (int) $itemId,
 				'type_id' => $typeId,
 				'type_alias' => $typeAlias,
+				Session::getFormToken() => 1
 			]
 		),
 		'title'  => $title,

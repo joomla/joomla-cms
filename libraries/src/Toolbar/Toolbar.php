@@ -17,7 +17,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
-use Joomla\CMS\Toolbar\Button\GroupButton;
+use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
@@ -35,7 +35,7 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
  * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
  * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
  * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
- * @method  GroupButton  groupButton(string $name = '', string $text = '', string $task = '')
+ * @method  DropdownButton  dropdownButton(string $name = '', string $text = '', string $task = '')
  *
  * @since  1.5
  */

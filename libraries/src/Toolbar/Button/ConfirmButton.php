@@ -73,7 +73,7 @@ class ConfirmButton extends StandardButton
 	 *
 	 * @return  string
 	 */
-	public function getButtonClass(string $name): string
+	public function fetchButtonClass(string $name): string
 	{
 		return ' btn btn-sm btn-outline-danger';
 	}
@@ -110,9 +110,11 @@ class ConfirmButton extends StandardButton
 	}
 
 	/**
-	 * getAccessors
+	 * Method to configure available option accessors.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function getAccessors(): array
 	{
