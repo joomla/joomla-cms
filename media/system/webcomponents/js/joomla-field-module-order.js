@@ -1,66 +1,65 @@
-
-
 /**
  * @package         Joomla.JavaScript
  * @copyright       Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-customElements.define('joomla-field-module-order', class extends HTMLElement {
+;customElements.define('joomla-field-module-order', class extends HTMLElement {
 	constructor() {
 		super();
 
-		this.linkedField = this.getAttribute('data-linked-field') || 'jform_position';
-		this.linkedFieldEl = '';
-		this.originalPos = '';
+		this.linkedFieldSelector = '';
+		this.linkedFieldElement = '';
+		this.originalPosition = '';
 
 		this.writeDynaList.bind(this);
 		this.getNewOrder.bind(this);
 	}
 
 	connectedCallback() {
-		this.linkedFieldEl = document.getElementById(this.linkedField);
+		this.linkedFieldSelector = this.getAttribute('data-linked-field') || 'jform_position';
 
-		if (!this.linkedFieldEl) {
+		if (!this.linkedFieldSelector) {
+			throw new Error('No linked field defined!')
+		}
+
+		this.linkedFieldElement = document.getElementById(this.linkedFieldSelector);
+
+		if (!this.linkedFieldElement) {
 			throw new Error('No linked field defined!')
 		}
 
 		const that = this;
-		this.originalPos = this.linkedFieldEl.value;
+		this.originalPosition = this.linkedFieldElement.value;
 
 		/** Initialize the field **/
-		this.getNewOrder(this.originalPos);
+		this.getNewOrder(this.originalPosition);
 
 		/** Watch for changes on the linked field **/
-		this.linkedFieldEl.addEventListener('change', () => {
-			that.originalPos = that.linkedFieldEl.value;
-			that.getNewOrder(that.linkedFieldEl.value);
+		this.linkedFieldElement.addEventListener('change', () => {
+			that.originalPosition = that.linkedFieldElement.value;
+			that.getNewOrder(that.linkedFieldElement.value);
 		});
 	}
 
-	writeDynaList (selectParams, source, key, orig_val) {
-		const selectNode = document.createElement('select');
-
-		selectNode.classList.add(selectParams.itemClass);
-		selectNode.setAttribute('name', selectParams.name);
-		selectNode.id = selectParams.id;
-
-		let hasSelection = key;
+	writeDynaList (selectProperties, source, originalPositionName, originalPositionValue) {
 		let i = 0;
-		let x;
-		let item;
+		const selectNode = document.createElement('select');
+		selectNode.classList.add(selectProperties.itemClass);
+		selectNode.setAttribute('name', selectProperties.name);
+		selectNode.id = selectProperties.id;
 
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
+		for (let x in source) {
+			if (!source.hasOwnProperty(x)) {
+				continue;
+			}
 
-			item = source[ x ];
+			const node = document.createElement('option');
+			const item = source[x];
 
-			node = document.createElement('option');
 			node.value = item[1];
+			node.innerHTML = item[2];
 
-			node.innerHTML = item[ 2 ];
-
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
+			if ((originalPositionName && originalPositionValue === item[1]) || (!originalPositionName && i === 0)) {
 				node.setAttribute('selected', 'selected');
 			}
 
@@ -72,7 +71,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 		this.appendChild(selectNode);
 	}
 
-	getNewOrder (originalPos) {
+	getNewOrder (originalPosition) {
 		const url = this.getAttribute('data-url');
 		const clientId = this.getAttribute('data-client-id');
 		const originalOrder = this.getAttribute('data-ordering');
@@ -86,7 +85,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 			{
 				url: url,
 				method: 'GET',
-				data: 'client_id=' + clientId + '&position=' + originalPos,
+				data: 'client_id=' + clientId + '&position=' + originalPosition,
 				perform: true,
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				onSuccess: function(response, xhr)
@@ -109,7 +108,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 									itemClass: attr
 								},
 								orders,
-								that.originalPos,
+								that.originalPosition,
 								originalOrder,
 							);
 						}
@@ -119,7 +118,6 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
 					if (typeof response.messages == 'object' && response.messages !== null)
 					{
 						Joomla.renderMessages(response.messages);
-						window.scrollTo(0, 0);
 					}
 				}
 			}

@@ -16,8 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @copyright       Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-customElements.define('joomla-field-module-order', function (_HTMLElement) {
+;customElements.define('joomla-field-module-order', function (_HTMLElement) {
 	_inherits(_class, _HTMLElement);
 
 	function _class() {
@@ -25,9 +24,9 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 
 		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
-		_this.linkedField = _this.getAttribute('data-linked-field') || 'jform_position';
-		_this.linkedFieldEl = '';
-		_this.originalPos = '';
+		_this.linkedFieldSelector = '';
+		_this.linkedFieldElement = '';
+		_this.originalPosition = '';
 
 		_this.writeDynaList.bind(_this);
 		_this.getNewOrder.bind(_this);
@@ -37,51 +36,51 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 	_createClass(_class, [{
 		key: 'connectedCallback',
 		value: function connectedCallback() {
-			this.linkedFieldEl = document.getElementById(this.linkedField);
+			this.linkedFieldSelector = this.getAttribute('data-linked-field') || 'jform_position';
 
-			if (!this.linkedFieldEl) {
+			if (!this.linkedFieldSelector) {
+				throw new Error('No linked field defined!');
+			}
+
+			this.linkedFieldElement = document.getElementById(this.linkedFieldSelector);
+
+			if (!this.linkedFieldElement) {
 				throw new Error('No linked field defined!');
 			}
 
 			var that = this;
-			this.originalPos = this.linkedFieldEl.value;
+			this.originalPosition = this.linkedFieldElement.value;
 
 			/** Initialize the field **/
-			this.getNewOrder(this.originalPos);
+			this.getNewOrder(this.originalPosition);
 
 			/** Watch for changes on the linked field **/
-			this.linkedFieldEl.addEventListener('change', function () {
-				that.originalPos = that.linkedFieldEl.value;
-				that.getNewOrder(that.linkedFieldEl.value);
+			this.linkedFieldElement.addEventListener('change', function () {
+				that.originalPosition = that.linkedFieldElement.value;
+				that.getNewOrder(that.linkedFieldElement.value);
 			});
 		}
 	}, {
 		key: 'writeDynaList',
-		value: function writeDynaList(selectParams, source, key, orig_val) {
-			var selectNode = document.createElement('select');
-
-			selectNode.classList.add(selectParams.itemClass);
-			selectNode.setAttribute('name', selectParams.name);
-			selectNode.id = selectParams.id;
-
-			var hasSelection = key;
+		value: function writeDynaList(selectProperties, source, originalPositionName, originalPositionValue) {
 			var i = 0;
-			var x = void 0;
-			var item = void 0;
+			var selectNode = document.createElement('select');
+			selectNode.classList.add(selectProperties.itemClass);
+			selectNode.setAttribute('name', selectProperties.name);
+			selectNode.id = selectProperties.id;
 
-			for (x in source) {
+			for (var x in source) {
 				if (!source.hasOwnProperty(x)) {
 					continue;
 				}
 
-				item = source[x];
+				var node = document.createElement('option');
+				var item = source[x];
 
-				node = document.createElement('option');
 				node.value = item[1];
-
 				node.innerHTML = item[2];
 
-				if (hasSelection && orig_val == item[1] || !hasSelection && i === 0) {
+				if (originalPositionName && originalPositionValue === item[1] || !originalPositionName && i === 0) {
 					node.setAttribute('selected', 'selected');
 				}
 
@@ -94,7 +93,7 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 		}
 	}, {
 		key: 'getNewOrder',
-		value: function getNewOrder(originalPos) {
+		value: function getNewOrder(originalPosition) {
 			var url = this.getAttribute('data-url');
 			var clientId = this.getAttribute('data-client-id');
 			var originalOrder = this.getAttribute('data-ordering');
@@ -107,7 +106,7 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 			Joomla.request({
 				url: url,
 				method: 'GET',
-				data: 'client_id=' + clientId + '&position=' + originalPos,
+				data: 'client_id=' + clientId + '&position=' + originalPosition,
 				perform: true,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 				onSuccess: function onSuccess(response, xhr) {
@@ -124,14 +123,13 @@ customElements.define('joomla-field-module-order', function (_HTMLElement) {
 								name: name,
 								id: id,
 								itemClass: attr
-							}, orders, that.originalPos, originalOrder);
+							}, orders, that.originalPosition, originalOrder);
 						}
 					}
 
 					/** Render messages, if any. There are only message in case of errors. **/
 					if (_typeof(response.messages) == 'object' && response.messages !== null) {
 						Joomla.renderMessages(response.messages);
-						window.scrollTo(0, 0);
 					}
 				}
 			});
