@@ -23,8 +23,8 @@ interface ComponentContainerInterface
 	 * Returns the category service. If the service is not available
 	 * null is returned.
 	 *
-	 * @param   string  $section  The section
 	 * @param   array   $options  The options
+	 * @param   string  $section  The section
 	 *
 	 * @return  Categories|null
 	 *
