@@ -144,14 +144,13 @@
 
 	// fix names ind id`s for field that in $row
 	$.subformRepeatable.prototype.fixUniqueAttributes = function($row, count){
-		this.lastRowNum++;
 		var group = $row.attr('data-group'),// current group name
 			basename = $row.attr('data-base-name'), // group base name, without count
 			count    = count || 0,
-			countnew = Math.max(this.lastRowNum, count + 1),
-    		groupnew = basename + countnew; // new group name
+			countnew = Math.max(this.lastRowNum, count),
+			groupnew = basename + countnew; // new group name
 
-		this.lastRowNum = countnew;
+		this.lastRowNum = countnew + 1;
 		$row.attr('data-group', groupnew);
 
 		// Fix inputs that have a "name" attribute
