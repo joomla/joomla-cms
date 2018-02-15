@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_BANNERS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Banners</namespace>
 	<files>
 		<filename module="mod_banners">mod_banners.php</filename>
 		<folder>tmpl</folder>

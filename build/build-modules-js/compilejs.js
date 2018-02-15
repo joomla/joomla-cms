@@ -6,7 +6,7 @@ const Chalk = require('chalk');
 const UglifyJS = require('uglify-es');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 uglifyJs = (options, path) => {
 	let folders = [];

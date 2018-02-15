@@ -367,7 +367,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					alertClass = 'info';
 				}
 
-				messagesBox.setAttribute('level', alertClass);
+				messagesBox.setAttribute('type', alertClass);
 				messagesBox.setAttribute('dismiss', 'true');
 
 				if (timeout && parseInt(timeout) > 0) {

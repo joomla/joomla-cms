@@ -8,7 +8,7 @@ const Promise = require('bluebird');
 const UglifyJS = require('uglify-es');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 compileCejs = (options) => {
 	// Make sure that the dist paths exist

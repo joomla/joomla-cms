@@ -109,7 +109,7 @@ class ItemController extends FormController
 	/**
 	 * Method to add a new menu item.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, otherwise false.
 	 *
 	 * @since   1.6
 	 */
@@ -176,7 +176,7 @@ class ItemController extends FormController
 			$this->setRedirect(
 				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-				. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
+					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
 				)
 			);
 		}
@@ -488,8 +488,8 @@ class ItemController extends FormController
 				// Redirect to the list screen.
 				$this->setRedirect(
 					\JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 					)
 				);
 				break;
