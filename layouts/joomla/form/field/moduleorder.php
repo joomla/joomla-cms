@@ -55,11 +55,15 @@ $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
 $attributes['data-position-element'] = 'data-position-element="' . $element . '"';
 $attributes['data-client-id'] = 'data-client-id="' . $clientId . '"';
 $attributes['data-name'] = 'data-name="' . $name . '"';
-$attributes['class'] = !empty($class) ? 'class="module-ajax-ordering"' . $class : 'class="module-ajax-ordering"';
 
 if ($disabled)
 {
 	$attributes['disabled'] =  'disabled';
+}
+
+if ($class)
+{
+	$attributes['class'] = 'class="' . $class . '"';
 }
 
 if ($size)
