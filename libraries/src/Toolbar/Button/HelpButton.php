@@ -32,7 +32,7 @@ class HelpButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  $options  The options about this button.
+	 * @param   array  &$options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -77,7 +77,7 @@ class HelpButton extends BasicButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @return  string   JavaScript command string
+	 * @return  string  JavaScript command string
 	 *
 	 * @since   3.0
 	 */

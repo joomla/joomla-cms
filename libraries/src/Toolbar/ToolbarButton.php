@@ -90,7 +90,7 @@ abstract class ToolbarButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  $options  The options about this button.
+	 * @param   array  &$options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -158,7 +158,7 @@ abstract class ToolbarButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  $options  The button options.
+	 * @param   array  &$options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *

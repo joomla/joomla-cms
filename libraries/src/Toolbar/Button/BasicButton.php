@@ -31,7 +31,7 @@ class BasicButton extends ToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string $type Unused string.
+	 * @param   string  $type  Unused string.
 	 *
 	 * @return  void
 	 *

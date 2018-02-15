@@ -336,7 +336,7 @@ class Toolbar
 	/**
 	 * Render a button.
 	 *
-	 * @param   array  $node  A toolbar node.
+	 * @param   array  &$node  A toolbar node.
 	 *
 	 * @return  string
 	 *
@@ -476,6 +476,7 @@ class Toolbar
 	 * @param   array   $args  The method arguments.
 	 *
 	 * @return  ToolbarButton
+	 *
 	 * @throws  \Exception
 	 *
 	 * @since   4.0.0

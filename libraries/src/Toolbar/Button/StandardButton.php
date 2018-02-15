@@ -36,7 +36,7 @@ class StandardButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  $options  The options about this button.
+	 * @param   array  &$options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -59,11 +59,11 @@ class StandardButton extends BasicButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type   Unused string.
-	 * @param   string   $name   The name of the button icon class.
-	 * @param   string   $text   Button text.
-	 * @param   string   $task   Task associated with the button.
-	 * @param   boolean  $list   True to allow lists
+	 * @param   string   $type  Unused string.
+	 * @param   string   $name  The name of the button icon class.
+	 * @param   string   $text  Button text.
+	 * @param   string   $task  Task associated with the button.
+	 * @param   boolean  $list  True to allow lists
 	 *
 	 * @return  string  HTML string for the button
 	 *

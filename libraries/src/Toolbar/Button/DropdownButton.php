@@ -35,7 +35,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array $options The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -72,11 +72,13 @@ class DropdownButton extends AbstractGroupButton
 				$options['button'] = $button
 					->setParent($this->parent)
 					->buttonClass($button->getButtonClass() . ' dropdown-toggle')
-					->attributes([
-						'data-toggle' => 'dropdown',
-						'aria-haspopup' => 'true',
-						'aria-expanded' => 'false',
-					])
+					->attributes(
+						[
+							'data-toggle' => 'dropdown',
+							'aria-haspopup' => 'true',
+							'aria-expanded' => 'false',
+						]
+					)
 					->render();
 			}
 		}
@@ -85,7 +87,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array $options The button options.
+	 * @param   array  &$options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *
