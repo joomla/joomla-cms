@@ -130,12 +130,12 @@ class HtmlView extends BaseHtmlView
 			'pencil-2 article-add'
 		);
 
-		$saveGroup = $toolbar->groupButton();
+		$saveGroup = $toolbar->dropdownButton();
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			$saveGroup->children(
+			$saveGroup->configure(
 					function (Toolbar $childBar)
 					{
 						$childBar->apply('article.apply');
@@ -149,7 +149,7 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			$saveGroup->children(
+			$saveGroup->configure(
 					function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
 					{
 						// Can't save the record if it's checked out and editable
