@@ -94,10 +94,7 @@ class TagsViewTag extends JViewLegacy
 				// For some plugins.
 				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-				if (is_string($itemElement->core_params))
-				{
-					$itemElement->core_params = new Registry($itemElement->core_params);
-				}
+				$itemElement->core_params = new Registry($itemElement->core_params);
 
 				$dispatcher = JEventDispatcher::getInstance();
 
@@ -125,8 +122,7 @@ class TagsViewTag extends JViewLegacy
 		{
 			foreach ($items as $row)
 			{
-				$core_params = json_decode($row->core_params);
-				$row->core_images = json_encode(array('image_intro' => $core_params->image, 'image_intro_alt' => $core_params->image_alt));
+				  $row->core_images = json_encode(array('image_intro' => $row->core_params->get('image',''), 'image_intro_alt' => $row->core_params->get('image_alt', '')));
 			}
 		}
 
