@@ -21,7 +21,7 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * Enhance Toolbar class to adding more pre-defined methods.
+ * Enhance Toolbar class to add more pre-defined methods.
  *
  * @since  4.0.0
  */
