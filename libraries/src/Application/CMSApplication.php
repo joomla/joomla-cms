@@ -14,6 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -127,7 +128,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
-		$container = $container ?: new Container;
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		parent::__construct($input, $config, $client);
