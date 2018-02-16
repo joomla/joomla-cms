@@ -1,6 +1,6 @@
 /* Changes to tables where data type conflicts exist with MySQL (mainly dealing with null values */
 ALTER TABLE "#__modules" ALTER COLUMN "content" SET DEFAULT '';
-ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
+--ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
 
 /* Tags database schema */
 
