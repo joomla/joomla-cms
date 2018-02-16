@@ -11,7 +11,6 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Input\Input;
-use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
 /**
@@ -555,7 +554,11 @@ class CMSApplication extends WebApplication
 		else
 		{
 			// Name should not be used
-			Log::add('Name attribute is deprecated, in the future fetch the pathway through the respective application.', Log::WARNING, 'deprecated');
+			$this->getLogger()->warning(
+				'Name attribute is deprecated, in the future fetch the pathway '
+				. 'through the respective application.',
+				array('category' => 'deprecated')
+			);
 		}
 
 		try
