@@ -105,8 +105,12 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config = new Registry;
 		$config->set('session', false);
 
+		$container = new \Joomla\DI\Container;
+		$pathwayProvider = new \Joomla\CMS\Service\Provider\Pathway;
+		$pathwayProvider->register($container);
+
 		// Get a new JApplicationCmsInspector instance.
-		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config, null, $container);
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
 
