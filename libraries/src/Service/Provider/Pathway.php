@@ -44,5 +44,17 @@ class Pathway implements ServiceProviderInterface
 				},
 				true
 			);
+
+		$container->alias('Pathway', \Joomla\CMS\Pathway\Pathway::class)
+			->alias('JPathway', \Joomla\CMS\Pathway\Pathway::class)
+			->alias('pathway', \Joomla\CMS\Pathway\Pathway::class)
+			->share(
+				\Joomla\CMS\Pathway\Pathway::class,
+				function (Container $container)
+				{
+					return new \Joomla\CMS\Pathway\Pathway;
+				},
+				true
+			);
 	}
 }
