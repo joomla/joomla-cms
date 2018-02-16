@@ -68,6 +68,16 @@ abstract class ToolbarButton
 	 */
 	protected $options = [];
 
+
+	/**
+	 * Used to track an ids, to avoid duplication
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $idCounter = [];
+
 	/**
 	 * Init this class.
 	 *
@@ -101,7 +111,7 @@ abstract class ToolbarButton
 		$options['name']  = $this->getName();
 		$options['text']  = Text::_($this->getText());
 		$options['class'] = $this->getIcon() ?: $this->fetchIconClass($this->getName());
-		$options['id']    = $this->fetchId();
+		$options['id']    = $this->ensureUniqueId($this->fetchId());
 
 		if (!empty($options['is_child']))
 		{
@@ -369,6 +379,31 @@ abstract class ToolbarButton
 		$this->layout = $layout;
 
 		return $this;
+	}
+
+	/**
+	 * Make sure the id is unique
+	 *
+	 * @param   string  $id  The id string.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function ensureUniqueId(string $id): string
+	{
+		if (array_key_exists($id, static::$idCounter))
+		{
+			static::$idCounter[$id]++;
+
+			$id .= static::$idCounter[$id];
+		}
+		else
+		{
+			static::$idCounter[$id] = 0;
+		}
+
+		return $id;
 	}
 
 	/**
