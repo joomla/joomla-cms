@@ -12,7 +12,7 @@ use Joomla\CMS\Factory;
 
 $value = $field->value;
 
-if ($value == '')
+if ($value === '')
 {
 	return;
 }

@@ -53,7 +53,7 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Create correct context for category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
 
@@ -312,7 +312,7 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// If we have a category, set the catid field to fetch only the fields which belong to it
-		if ($parts[1] == 'categories' && !isset($item->catid))
+		if ($parts[1] === 'categories' && !isset($item->catid))
 		{
 			$item->catid = $item->id;
 		}
@@ -330,13 +330,13 @@ class PlgSystemFields extends CMSPlugin
 		{
 			$app = Factory::getApplication();
 
-			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')
 			{
 				$lang = $app->getLanguage()->getTag();
 
 				foreach ($fields as $key => $field)
 				{
-					if ($field->language == '*' || $field->language == $lang)
+					if ($field->language === '*' || $field->language == $lang)
 					{
 						continue;
 					}

@@ -126,7 +126,7 @@ class PlgSearchCategories extends CMSPlugin
 					$wheres2[] = 'a.description LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$where = '(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 		*/

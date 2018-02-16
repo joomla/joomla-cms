@@ -12,7 +12,7 @@ use Joomla\CMS\Language\Text;
 
 $value = $field->value;
 
-if ($value == '')
+if ($value === '')
 {
 	return;
 }

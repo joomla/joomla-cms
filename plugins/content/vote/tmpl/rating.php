@@ -23,7 +23,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @var   string   $path     Path to this file
  */
 
-if ($context == 'com_content.categories')
+if ($context === 'com_content.categories')
 {
 	return;
 }

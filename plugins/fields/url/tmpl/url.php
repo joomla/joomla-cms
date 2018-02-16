@@ -12,7 +12,7 @@ use Joomla\CMS\Uri\Uri;
 
 $value = $field->value;
 
-if ($value == '')
+if ($value === '')
 {
 	return;
 }

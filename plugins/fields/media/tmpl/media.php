@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-if ($field->value == '')
+if ($field->value === '')
 {
 	return;
 }

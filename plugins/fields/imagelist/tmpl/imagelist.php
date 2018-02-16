@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-if ($field->value == '')
+if ($field->value === '')
 {
 	return;
 }
@@ -26,7 +26,7 @@ $buffer = '';
 
 foreach ($value as $path)
 {
-	if (!$path || $path == '-1')
+	if (!$path || $path === '-1')
 	{
 		continue;
 	}
