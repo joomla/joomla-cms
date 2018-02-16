@@ -590,22 +590,15 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * Returns the application Pathway object.
 	 *
-	 * @param   string  $name  The name of the application.
-	 *
 	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null)
+	public function getPathway()
 	{
-		if (!isset($name))
-		{
-			$name = $this->getName();
-		}
-
 		if (!$this->pathway)
 		{
-			$this->pathway = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+			$this->pathway = $this->getContainer()->get(ucfirst($this->getName()) . 'Pathway');
 		}
 
 		return $this->pathway;
