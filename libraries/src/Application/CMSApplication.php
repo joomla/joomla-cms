@@ -551,6 +551,11 @@ class CMSApplication extends WebApplication
 		{
 			$name = $this->getName();
 		}
+		else
+		{
+			// Name should not be used
+			Log::add('Name attribute is deprecated, in the future fetch the pathway trough the respective application.', Log::WARNING, 'deprecated');
+		}
 
 		try
 		{
