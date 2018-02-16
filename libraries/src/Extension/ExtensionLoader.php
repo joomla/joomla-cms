@@ -11,7 +11,6 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\DI\Container;
-use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 
 /**
@@ -68,8 +67,13 @@ trait ExtensionLoader
 
 		if (file_exists($path))
 		{
-			// Load the services file
-			require_once $path;
+			// Run the services file in an isolated environment where only the container is available
+			$loader = static function() use($container, $path)
+			{
+				// Load the services file
+				require_once $path;
+			};
+			$loader($container);
 		}
 
 		// Fallback to legacy
