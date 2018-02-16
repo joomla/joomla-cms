@@ -176,7 +176,7 @@ class ItemController extends FormController
 			$this->setRedirect(
 				\JRoute::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-				. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
+					. '&menutype=' . $this->app->getUserState('com_menus.items.menutype'), false
 				)
 			);
 		}
@@ -488,8 +488,8 @@ class ItemController extends FormController
 				// Redirect to the list screen.
 				$this->setRedirect(
 					\JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
-					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+						'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+						. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
 					)
 				);
 				break;

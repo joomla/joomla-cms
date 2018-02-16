@@ -38,7 +38,6 @@
 					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
 					default="1"
 					size="5"
-					required="true"
 				/>
 	
 				<field
@@ -47,7 +46,6 @@
 					label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
 					default="100"
 					size="5"
-					required="true"
 				/>
 	
 				<field
@@ -56,7 +54,6 @@
 					label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
 					default="1"
 					size="5"
-					required="true"
 				/>
 			</fieldset>
 		</fields>
