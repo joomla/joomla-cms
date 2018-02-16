@@ -158,8 +158,8 @@ class Toolbar
 	/**
 	 * Append a button to toolbar.
 	 *
-	 * @param   ToolbarButton  $button   The button instance.
-	 * @param   array          ...$args  The more arguments.
+	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   array          $args    The more arguments.
 	 *
 	 * @return  ToolbarButton  Return button instance to help chaining configure.
 	 *
@@ -236,8 +236,8 @@ class Toolbar
 	/**
 	 * Prepend a button to toolbar.
 	 *
-	 * @param   ToolbarButton  $button   The button instance.
-	 * @param   array          ...$args  The more arguments.
+	 * @param   ToolbarButton  $button  The button instance.
+	 * @param   array          $args    The more arguments.
 	 *
 	 * @return  ToolbarButton  Return button instance to help chaining configure.
 	 *

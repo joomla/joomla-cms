@@ -30,7 +30,7 @@ trait CoreButtonsTrait
 	/**
 	 * Writes a divider between dropdown menu items.
 	 *
-	 * @param  string  $text  The text of button.
+	 * @param   string  $text  The text of button.
 	 *
 	 * @return  SeparatorButton
 	 *
@@ -44,8 +44,8 @@ trait CoreButtonsTrait
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
-	 * @param   string   $url   The name of the popup file (excluding the file extension)
-	 * @param   string   $text  The text of button.
+	 * @param   string  $url   The name of the popup file (excluding the file extension)
+	 * @param   string  $text  The text of button.
 	 *
 	 * @return  PopupButton
 	 *
