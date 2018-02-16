@@ -122,10 +122,12 @@ class TagsViewTag extends JViewLegacy
 		{
 			foreach ($items as $row)
 			{
-				$row->core_images = json_encode(array(
+				$row->core_images = json_encode(
+					array(
 					'image_intro' => $row->core_params->get('image', ''),
 					'image_intro_alt' => $row->core_params->get('image_alt', '')
-				));
+					)
+				);
 			}
 		}
 
