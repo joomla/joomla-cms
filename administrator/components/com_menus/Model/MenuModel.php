@@ -93,7 +93,7 @@ class MenuModel extends FormModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$id = $app->input->getInt('id');

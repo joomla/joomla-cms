@@ -8,28 +8,29 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "compile-js": "node build --compilejs",
-    "compile-sass": "node build --compilecss",
-    "update-dependencies": "node build --update",
-    "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
+    "build:js": "node build --compilejs",
+    "build:css": "node build --compilecss",
+    "lint:js": "node ./node_modules/eslint/bin/eslint.js --ext=.es6.js . || exit 0",
+    "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "update": "node build --update"
   },
   "dependencies": {
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0",
-    "codemirror": "5.33.0",
+    "codemirror": "5.34.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
     "dragula": "3.7.2",
     "flying-focus-a11y": "1.5.5",
     "font-awesome": "4.7.0",
-    "joomla-ui-custom-elements": "0.0.21",
+    "joomla-ui-custom-elements": "0.0.22",
     "jquery": "3.2.1",
     "jquery-migrate": "1.4.1",
     "jquery-sortable": "0.9.13",
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
-    "tinymce": "4.7.4",
+    "tinymce": "4.7.6",
     "@claviska/jquery-minicolors": "2.2.6"
   },
   "devDependencies": {
@@ -45,9 +46,9 @@
     "babelify": "^8.0.0",
     "browserify": "*",
     "eslint": "latest",
-    "eslint-config-airbnb": "latest",
-    "eslint-config-airbnb-base": "latest",
-    "eslint-plugin-import": "latest",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "fs": "0.0.1-security",
     "fs-extra": "^4.0.2",
     "ini": "latest",
     "jasmine-core": "latest",
@@ -60,15 +61,14 @@
     "karma-requirejs": "latest",
     "karma-verbose-reporter": "latest",
     "node-sass": "^4.5.3",
+    "path": "^0.12.7",
     "recursive-copy": "latest",
     "recursive-readdir": "^2.2.1",
     "requirejs": "latest",
-    "text": "requirejs/text",
+    "text": "github:requirejs/text",
     "uglify-es": "^3.1.6",
     "uglifycss": "0.0.27",
-    "web-component-tester": "latest",
-    "fs": "0.0.1-security",
-    "path": "^0.12.7"
+    "web-component-tester": "latest"
   },
   "settings": {
     "browsers": [
@@ -77,7 +77,8 @@
     "elements": [
       "field-media",
       "field-user",
-      "field-switcher"
+      "field-switcher",
+      "field-send-test-mail"
     ],
     "webcomponents": {
       "field-media": {
@@ -85,6 +86,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-switcher": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-send-test-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
