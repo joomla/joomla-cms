@@ -51,7 +51,7 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = Factory::getConfig();
+					$config = $container->get('config');
 					$app    = Factory::getApplication();
 
 					// Generate a session name.

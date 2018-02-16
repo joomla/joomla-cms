@@ -277,7 +277,7 @@ class FinderIndexerResult
 	 *
 	 * @return  array  The elements
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.3
 	 */
 	public function getElements()
 	{

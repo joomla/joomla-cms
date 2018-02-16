@@ -32,7 +32,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * Output object
@@ -101,9 +101,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
