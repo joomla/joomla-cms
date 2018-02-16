@@ -200,7 +200,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 *
 	 * @since   3.2
 	 *
-	 * @expectedException  \Joomla\DI\Exception\KeyNotFoundException
+	 * @expectedException  RuntimeException
 	 * @covers  JApplicationAdministrator::getPathway
 	 */
 	public function testGetPathway()
