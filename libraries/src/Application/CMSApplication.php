@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
 /**
