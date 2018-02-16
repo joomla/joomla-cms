@@ -59,9 +59,9 @@ class DropdownButton extends AbstractGroupButton
 
 				$childToolbar->setItems($buttons);
 
-				$options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
 				$options['button'] = $button->render();
 				$options['caretClass'] = $options['toggleButtonClass'] ?? $button->getButtonClass();
+				$options['dropdownItems'] = $childToolbar->render(['is_child' => true]);
 			}
 			else
 			{

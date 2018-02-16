@@ -17,8 +17,10 @@ use Joomla\CMS\Language\Text;
  *
  * @method self listCheck(bool $value)
  * @method self listCheckMessage(string $value)
+ * @method self formValidation(bool $value)
  * @method bool getListCheck()
  * @method bool getListCheckMessage()
+ * @method bool getFormValidation()
  *
  * @since  3.0
  */
@@ -54,6 +56,12 @@ class StandardButton extends BasicButton
 		}
 
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+
+		// Form validation
+		if ($this->getFormValidation())
+		{
+			$options['attributes']['form-validation'] = true;
+		}
 	}
 
 	/**
@@ -159,7 +167,8 @@ class StandardButton extends BasicButton
 			parent::getAccessors(),
 			[
 				'listCheck',
-				'listCheckMessage'
+				'listCheckMessage',
+				'formValidation'
 			]
 		);
 	}

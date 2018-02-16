@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 			'pencil-2 article-add'
 		);
 
-		$saveGroup = $toolbar->dropdownButton();
+		$saveGroup = $toolbar->dropdownButton('save-group');
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
