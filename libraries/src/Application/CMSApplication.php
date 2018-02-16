@@ -554,7 +554,7 @@ class CMSApplication extends WebApplication
 		else
 		{
 			// Name should not be used
-			Log::add('Name attribute is deprecated, in the future fetch the pathway trough the respective application.', Log::WARNING, 'deprecated');
+			Log::add('Name attribute is deprecated, in the future fetch the pathway through the respective application.', Log::WARNING, 'deprecated');
 		}
 
 		try
