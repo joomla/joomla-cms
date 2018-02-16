@@ -21,17 +21,36 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
 use Joomla\CMS\Uri\Uri;
 
 /**
- * CoreButtonsTrait
+ * Enhance Toolbar class to adding more pre-defined methods.
  *
  * @since  4.0.0
  */
 trait CoreButtonsTrait
 {
+	/**
+	 * Writes a divider between dropdown menu items.
+	 *
+	 * @param  string  $text  The text of button.
+	 *
+	 * @return  SeparatorButton
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function divider(string $text = ''): SeparatorButton
 	{
 		return $this->separatorButton('divider', $text);
 	}
 
+	/**
+	 * Writes a preview button for a given option (opens a popup window).
+	 *
+	 * @param   string   $url   The name of the popup file (excluding the file extension)
+	 * @param   string   $text  The text of button.
+	 *
+	 * @return  PopupButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW'): PopupButton
 	{
 		return $this->popupButton('preview', $text)
@@ -41,6 +60,18 @@ trait CoreButtonsTrait
 			->icon('icon-eye');
 	}
 
+	/**
+	 * Writes a preview button for a given option (opens a popup window).
+	 *
+	 * @param   string  $ref           The name of the popup file (excluding the file extension for an xml file).
+	 * @param   bool    $useComponent  Use the help file in the component directory.
+	 * @param   string  $url           Use this URL instead of any other.
+	 * @param   string  $component     Name of component to get Help (null for current component)
+	 *
+	 * @return  HelpButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function help($ref, $useComponent = false, $url = null, $component = null): HelpButton
 	{
 		return $this->helpButton('help', 'JTOOLBAR_HELP')
@@ -50,18 +81,48 @@ trait CoreButtonsTrait
 			->component($component);
 	}
 
+	/**
+	 * Writes a cancel button that will go back to the previous page without doing
+	 * any other operation.
+	 *
+	 * @param   string  $text  The text of button.
+	 *
+	 * @return  LinkButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function back(string $text = 'JTOOLBAR_BACK'): LinkButton
 	{
 		return $this->link('back', $text)
 			->url('javascript:history.back();');
 	}
 
+	/**
+	 * Creates a button to redirect to a link.
+	 *
+	 * @param   string  $text  Button text.
+	 * @param   string  $url   The link url.
+	 *
+	 * @return  LinkButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function link(string $text, string $url): LinkButton
 	{
 		return $this->linkButton('link', $text)
 			->url($url);
 	}
 
+	/**
+	 * Writes a media_manager button.
+	 *
+	 * @param   string  $directory  The subdirectory to upload the media to.
+	 * @param   string  $text       An override for the alt text.
+	 *
+	 * @return  PopupButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function mediaManager(string $directory, string $text = 'JTOOLBAR_UPLOAD'): PopupButton
 	{
 		return $this->popupButton('upload', $text)
@@ -70,115 +131,311 @@ trait CoreButtonsTrait
 			->url('index.php?option=com_media&tmpl=component&task=popupUpload&folder=' . $directory);
 	}
 
-	public function makeDefault($task, string $text = 'JTOOLBAR_DEFAULT'): StandardButton
+	/**
+	 * Writes a common 'default' button for a record.
+	 *
+	 * @param   string  $task  An override for the task.
+	 * @param   string  $text  An override for the alt text.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function makeDefault(string $task, string $text = 'JTOOLBAR_DEFAULT'): StandardButton
 	{
 		return $this->standardButton('default', $text)
 			->task($task);
 	}
 
-	public function assign($task, string $text = 'JTOOLBAR_ASSIGN'): StandardButton
+	/**
+	 * Writes a common 'assign' button for a record.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function assign(string $task, string $text = 'JTOOLBAR_ASSIGN'): StandardButton
 	{
 		return $this->standardButton('assign', $text)
 			->task($task);
 	}
 
-	public function addNew($task, string $text = 'JTOOLBAR_NEW'): StandardButton
+	/**
+	 * Writes the common 'new' icon for the button bar.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addNew(string $task, string $text = 'JTOOLBAR_NEW'): StandardButton
 	{
 		return $this->standardButton('new', $text)
 			->task($task);
 	}
 
-	public function publish($task, string $text = 'JTOOLBAR_PUBLISH'): StandardButton
+	/**
+	 * Writes a common 'publish' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(string $task, string $text = 'JTOOLBAR_PUBLISH'): StandardButton
 	{
 		return $this->standardButton('publish', $text)
 			->task($task);
 	}
 
-	public function unpublish($task, string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
+	/**
+	 * Writes a common 'unpublish' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function unpublish(string $task, string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
 	{
 		return $this->standardButton('unpublish', $text)
 			->task($task);
 	}
 
-	public function archive($task, string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
+	/**
+	 * Writes a common 'archive' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function archive(string $task, string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
 	{
 		return $this->standardButton('archive', $text)
 			->task($task);
 	}
 
-	public function unarchive($task, string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
+	/**
+	 * Writes a common 'unarchive' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function unarchive(string $task, string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
 	{
 		return $this->standardButton('unarchive', $text)
 			->task($task);
 	}
 
-	public function edit($task, string $text = 'JTOOLBAR_EDIT'): StandardButton
+	/**
+	 * Writes a common 'edit' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function edit(string $task, string $text = 'JTOOLBAR_EDIT'): StandardButton
 	{
 		return $this->standardButton('edit', $text)
 			->task($task);
 	}
 
-	public function editHtml($task, string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
+	/**
+	 * Writes a common 'editHtml' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function editHtml(string $task, string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
 	{
 		return $this->standardButton('edithtml', $text)
 			->task($task);
 	}
 
-	public function editCss($task, string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
+	/**
+	 * Writes a common 'editCss' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function editCss(string $task, string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
 	{
 		return $this->standardButton('editcss', $text)
 			->task($task);
 	}
 
-	public function delete($task, string $text = 'JTOOLBAR_DELETE'): ConfirmButton
+	/**
+	 * Writes a common 'delete' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  ConfirmButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function delete(string $task, string $text = 'JTOOLBAR_DELETE'): ConfirmButton
 	{
 		return $this->confirmButton('delete', $text)
 			->task($task);
 	}
 
-	public function trash($task, string $text = 'JTOOLBAR_TRASH'): StandardButton
+	/**
+	 * Writes a common 'trash' button.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function trash(string $task, string $text = 'JTOOLBAR_TRASH'): StandardButton
 	{
 		return $this->standardButton('trash', $text)
 			->task($task);
 	}
 
-	public function apply($task, string $text = 'JTOOLBAR_APPLY'): StandardButton
+	/**
+	 * Writes a save button for a given option.
+	 * Apply operation leads to a save action only (does not leave edit mode).
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function apply(string $task, string $text = 'JTOOLBAR_APPLY'): StandardButton
 	{
 		return $this->standardButton('apply', $text)
 			->task($task);
 	}
 
-	public function save($task, string $text = 'JTOOLBAR_SAVE'): StandardButton
+	/**
+	 * Writes a save button for a given option.
+	 * Save operation leads to a save and then close action.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save(string $task, string $text = 'JTOOLBAR_SAVE'): StandardButton
 	{
 		return $this->standardButton('save', $text)
 			->task($task);
 	}
 
-	public function save2new($task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
+	/**
+	 * Writes a save and create new button for a given option.
+	 * Save and create operation leads to a save and then add action.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save2new(string $task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
 	{
 		return $this->standardButton('save-new', $text)
 			->task($task);
 	}
 
-	public function save2copy($task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
+	/**
+	 * Writes a save as copy button for a given option.
+	 * Save as copy operation leads to a save after clearing the key,
+	 * then returns user to edit mode with new key.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save2copy(string $task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
 	{
 		return $this->standardButton('save-copy', $text)
 			->task($task);
 	}
 
-	public function checkin($task, string $text = 'JTOOLBAR_CHECKIN'): StandardButton
+	/**
+	 * Writes a checkin button for a given option.
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkin(string $task, string $text = 'JTOOLBAR_CHECKIN'): StandardButton
 	{
 		return $this->standardButton('checkin', $text)
 			->task($task);
 	}
 
-	public function cancel($task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
+	/**
+	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
+	 *
+	 * @param   string  $task  The task name of this button.
+	 * @param   string  $text  The text of this button.
+	 *
+	 * @return  StandardButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel(string $task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
 	{
 		return $this->standardButton('cancel', $text)
 			->task($task);
 	}
 
-	public function preferences($component, string $text = 'JToolbar_Options', $path = ''): LinkButton
+	/**
+	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
+	 *
+	 * @param   string  $component  The name of the component, eg, com_content.
+	 * @param   string  $text       The text of this button.
+	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 *
+	 * @return  LinkButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function preferences(string $component, string $text = 'JToolbar_Options', string $path = ''): LinkButton
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
@@ -190,7 +447,21 @@ trait CoreButtonsTrait
 			->url('index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return);
 	}
 
-	public function versions($typeAlias, $itemId, $height = 800, $width = 500, string $text = 'JTOOLBAR_VERSIONS'): CustomButton
+	/**
+	 * Writes a version history
+	 *
+	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'
+	 * @param   integer  $itemId     The id of the item, for example the article id.
+	 * @param   integer  $height     The height of the popup.
+	 * @param   integer  $width      The width of the popup.
+	 * @param   string   $text       The name of the button.
+	 *
+	 * @return  CustomButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
+		string $text = 'JTOOLBAR_VERSIONS'): CustomButton
 	{
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
@@ -213,6 +484,16 @@ trait CoreButtonsTrait
 		return $this->customHtml($layout->render($options), 'version');
 	}
 
+	/**
+	 * Writes a custom HTML to toolbar.
+	 *
+	 * @param   string  $html  The HTML string to write.
+	 * @param   string  $name  The button name.
+	 *
+	 * @return  CustomButton
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function customHtml(string $html, string $name = 'custom'): CustomButton
 	{
 		return $this->customButton($name)
