@@ -58,15 +58,18 @@ const copyArrayFiles = (dirName, files, name, type) => {
 const copyFilesTo = (files, srcDir, destDir) => {
   const filesResult = [];
 
+  const leftFile = Object.keys(files);
+  const rightFile = Object.values(files);
+
   // Copy each file
-  files.forEach((srcFile) => {
-    const destFile = files[srcFile];
-    const srcPath = Path.join(srcDir, srcFile);
+  for (let i = 0; i < leftFile.length; i += 1) {
+    const destFile = rightFile[i];
+    const srcPath = Path.join(srcDir, leftFile[i]);
     const destPath = Path.join(destDir, destFile);
 
     fsExtra.copySync(srcPath, destPath);
     filesResult.push(destPath);
-  });
+  }
 
   return filesResult;
 };
@@ -97,11 +100,13 @@ const copyFiles = (options) => {
     fsExtra.mkdirSync(mediaVendorPath);
   }
 
+  const packageName = Object.keys(options.settings.vendors);
+  const packageContent = Object.values(options.settings.vendors);
   // Loop to get some text for the packgage.json
-  options.settings.vendors.forEach((packageName) => {
-    const vendor = options.settings.vendors[packageName];
-    const vendorName = vendor.name || packageName;
-    const modulePathJson = require.resolve(`${packageName}/package.json`);
+  for (let i = 0; i < packageName.length; i += 1) {
+    const vendor = packageContent[i];
+    const vendorName = vendor.name || packageName[i];
+    const modulePathJson = require.resolve(`${packageName[i]}/package.json`);
     const modulePathRoot = Path.dirname(modulePathJson);
     /* eslint-disable global-require */
     /* eslint-disable import/no-dynamic-require */
@@ -109,14 +114,14 @@ const copyFiles = (options) => {
     /* eslint-enable global-require */
     /* eslint-enable import/no-dynamic-require */
     const registryItem = {
-      package: packageName,
+      package: packageName[i],
       name: vendorName,
       version: moduleOptions.version,
       dependencies: vendor.dependencies || [],
     };
 
-    if (packageName === 'codemirror') {
-      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName}`);
+    if (packageName[i] === 'codemirror') {
+      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName[i]}`);
       if (!fsExtra.existsSync(itemvendorPath)) {
         fsExtra.mkdirSync(itemvendorPath);
         fsExtra.mkdirSync(Path.join(itemvendorPath, 'addon'));
@@ -169,8 +174,8 @@ const copyFiles = (options) => {
       let codemirrorXml = fs.readFileSync(`${rootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
       codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${options.dependencies.codemirror}$3`);
       fs.writeFileSync(`${rootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
-    } else if (packageName === 'tinymce') {
-      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName}`);
+    } else if (packageName[i] === 'tinymce') {
+      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName[i]}`);
 
       if (!fsExtra.existsSync(itemvendorPath)) {
         fsExtra.mkdirSync(itemvendorPath);
@@ -208,14 +213,14 @@ const copyFiles = (options) => {
       });
 
       // Copy the license if exists
-      if (options.settings.vendors[packageName].licenseFilename &&
-        fs.existsSync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
+      if (packageContent[i].licenseFilename &&
+        fs.existsSync(`${Path.join(rootPath, `node_modules/${packageName[i]}`)}/${packageContent[i].licenseFilename}`)
       ) {
         const dest = Path.join(mediaVendorPath, vendorName);
-        fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
+        fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName[i]}`)}/${packageContent[i].licenseFilename}`, `${dest}/${packageContent[i].licenseFilename}`);
       }
 
-      if (packageName === 'joomla-ui-custom-elements') {
+      if (packageName[i] === 'joomla-ui-custom-elements') {
         if (fs.existsSync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'))) {
           fsExtra.copySync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'), Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
         }
@@ -224,8 +229,8 @@ const copyFiles = (options) => {
 
     registry.vendors[vendorName] = registryItem;
 
-    console.log(Chalk.green(`${packageName} was updated.`));
-  });
+    console.log(Chalk.green(`${packageName[i]} was updated.`));
+  }
 };
 
 const update = (options) => {
