@@ -32,6 +32,7 @@
     "jquery-sortable": "0.9.13",
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
+    "postcss": "^6.0.18",
     "punycode": "1.4.1",
     "tinymce": "4.7.6"
   },
