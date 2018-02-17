@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class UsersControllerRegistration extends UsersController
 		if ($return === false)
 		{
 			// Redirect back to the home page.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect('index.php');
 
 			return false;
@@ -147,11 +147,11 @@ class UsersControllerRegistration extends UsersController
 			{
 				if ($errors[$i] instanceof Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'error');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$app->enqueueMessage($errors[$i], 'error');
 				}
 			}
 
@@ -174,7 +174,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage($model->getError(), 'warning');
+			$this->setMessage($model->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 
 			return false;

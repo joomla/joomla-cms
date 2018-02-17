@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,14 +40,14 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	{
 		$this->options = isset($options) ? $options : new Registry;
 
-		$this->options->def('accessTokenURL', 'http://www.openstreetmap.org/oauth/access_token');
-		$this->options->def('authoriseURL', 'http://www.openstreetmap.org/oauth/authorize');
-		$this->options->def('requestTokenURL', 'http://www.openstreetmap.org/oauth/request_token');
+		$this->options->def('accessTokenURL', 'https://www.openstreetmap.org/oauth/access_token');
+		$this->options->def('authoriseURL', 'https://www.openstreetmap.org/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://www.openstreetmap.org/oauth/request_token');
 
 		/*
-		$this->options->def('accessTokenURL', 'http://api06.dev.openstreetmap.org/oauth/access_token');
-		$this->options->def('authoriseURL', 'http://api06.dev.openstreetmap.org/oauth/authorize');
-		$this->options->def('requestTokenURL', 'http://api06.dev.openstreetmap.org/oauth/request_token');
+		$this->options->def('accessTokenURL', 'https://api06.dev.openstreetmap.org/oauth/access_token');
+		$this->options->def('authoriseURL', 'https://api06.dev.openstreetmap.org/oauth/authorize');
+		$this->options->def('requestTokenURL', 'https://api06.dev.openstreetmap.org/oauth/request_token');
 		*/
 
 		// Call the JOauth1Client constructor to setup the object.

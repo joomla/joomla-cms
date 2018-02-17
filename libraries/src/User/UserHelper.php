@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -767,8 +767,8 @@ abstract class UserHelper
 
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->delete('#__user_keys')
-		->where($db->quoteName('time') . ' < ' . $db->quote($now));
+			->delete('#__user_keys')
+			->where($db->quoteName('time') . ' < ' . $db->quote($now));
 
 		return $db->setQuery($query)->execute();
 	}

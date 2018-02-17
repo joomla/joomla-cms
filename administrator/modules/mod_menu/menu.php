@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -235,7 +235,6 @@ class JAdminCssMenu
 	{
 		$result     = array();
 		$user       = JFactory::getUser();
-		$authLevels = $user->getAuthorisedViewLevels();
 		$language   = JFactory::getLanguage();
 
 		$noSeparator = true;
@@ -276,6 +275,18 @@ class JAdminCssMenu
 				}
 			}
 
+			// Exclude item if is not enabled
+			if ($item->element && !JComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope == 'massmail' && (JFactory::getApplication()->get('massmailoff', 0) == 1))
+			{
+				continue;
+			}
+
 			// Exclude item if the component is not authorised
 			$assetName = $item->element;
 
@@ -287,16 +298,24 @@ class JAdminCssMenu
 			elseif ($item->element == 'com_fields')
 			{
 				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = JComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
 			if ($assetName && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $assetName))
-			{
-				continue;
-			}
-
-			// Exclude if menu item set access level is not met
-			if ($item->access && !in_array($item->access, $authLevels))
 			{
 				continue;
 			}
@@ -347,6 +366,11 @@ class JAdminCssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type == 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
 			}
 
 			$item->text = JText::_($item->title);

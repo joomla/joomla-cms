@@ -14,7 +14,7 @@
  *
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,3 +140,6 @@ asort($deletedFiles);
 
 // Write the deleted files list to a file for later reference
 file_put_contents(__DIR__ . '/deleted_files.txt', implode("\n", $deletedFiles));
+
+echo PHP_EOL;
+echo 'There are ' . count($deletedFiles) . ' deleted files in comparison to "' . $options['from'] . '"' . PHP_EOL;

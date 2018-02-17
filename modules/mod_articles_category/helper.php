@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,6 +196,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			$articles->setState('filter.tag', $params->get('filter_tag', ''));
 		}
+
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));

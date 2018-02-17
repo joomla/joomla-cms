@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -298,11 +298,13 @@ class FinderModelSearch extends JModelList
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
 			$query->where('l.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
+
 		// Push the data into cache.
 		$this->store($store, $query, false);
 
@@ -384,6 +386,7 @@ class FinderModelSearch extends JModelList
 			{
 				$maps[$suffix] = array();
 			}
+
 			// Add the terms to the mapping group.
 			$maps[$suffix] = array_merge($maps[$suffix], $ids);
 		}
@@ -565,6 +568,7 @@ class FinderModelSearch extends JModelList
 
 				continue;
 			}
+
 			// Otherwise, end the loop.
 			{
 				// Merge the found items.
@@ -786,6 +790,7 @@ class FinderModelSearch extends JModelList
 
 			// Sort the results.
 			natcasesort($items);
+
 			if ($direction === 'DESC')
 			{
 				$items = array_reverse($items, true);
@@ -894,7 +899,8 @@ class FinderModelSearch extends JModelList
 
 				$more = false;
 			}
-		// End do-while loop.
+
+			// End do-while loop.
 		}
 		while ($more === true);
 
@@ -959,12 +965,13 @@ class FinderModelSearch extends JModelList
 		 * Iterate through the mapping groups and load the excluded links ids
 		 * from each mapping table.
 		 */
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+
 		foreach ($maps as $suffix => $ids)
 		{
-
 			// Create the query to get the links ids.
 			$query->clear()
 				->select('link_id')
@@ -1095,7 +1102,8 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		/* Load the sort ordering.
+		/**
+		 * Load the sort ordering.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
 		 * from the pool of fields that are indexed like the 'title' field.
@@ -1103,6 +1111,7 @@ class FinderModelSearch extends JModelList
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+
 		switch ($order)
 		{
 			case 'date':
@@ -1127,13 +1136,15 @@ class FinderModelSearch extends JModelList
 				break;
 		}
 
-		/* Load the sort direction.
+		/**
+		 * Load the sort direction.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
+
 		switch ($dirn)
 		{
 			case 'asc':

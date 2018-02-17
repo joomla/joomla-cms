@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,6 +132,11 @@ $clientId = $this->state->get('item.client_id', 0);
 				if ($this->item->type == 'alias')
 				{
 					echo $this->form->renderFieldset('aliasoptions');
+				}
+
+				if ($this->item->type == 'separator')
+				{
+					echo $this->form->renderField('text_separator', 'params');
 				}
 
 				echo $this->form->renderFieldset('request');
