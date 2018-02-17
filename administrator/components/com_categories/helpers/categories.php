@@ -137,7 +137,7 @@ class CategoriesHelper
 			$db    = \JFactory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'language') ))
+				->select($db->qn(array('id', 'language')))
 				->from($db->qn('#__categories'))
 				->where($db->qn('id') . ' IN (' . $catId . ')')
 				->where($db->qn('published') . ' = 1')
