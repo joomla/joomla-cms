@@ -15,8 +15,11 @@
     "update": "node build --update"
   },
   "dependencies": {
+    "@claviska/jquery-minicolors": "2.2.6",
     "awesomplete": "1.1.2",
+    "bluebird": "^3.5.1",
     "bootstrap": "4.0.0",
+    "chalk": "^2.3.1",
     "codemirror": "5.34.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
@@ -30,8 +33,7 @@
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
-    "tinymce": "4.7.6",
-    "@claviska/jquery-minicolors": "2.2.6"
+    "tinymce": "4.7.6"
   },
   "devDependencies": {
     "@polymer/test-fixture": "latest",
