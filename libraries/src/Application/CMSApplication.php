@@ -16,6 +16,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -590,22 +591,25 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * Returns the application Pathway object.
 	 *
-	 * @param   string  $name  The name of the application.
-	 *
 	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null)
+	public function getPathway()
 	{
-		if (!isset($name))
-		{
-			$name = $this->getName();
-		}
-
 		if (!$this->pathway)
 		{
-			$this->pathway = $this->getContainer()->get(ucfirst($name) . 'Pathway');
+			$resourceName = ucfirst($this->getName()) . 'Pathway';
+
+			if (!$this->getContainer()->has($resourceName))
+			{
+				throw new \RuntimeException(
+					Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+					500
+				);
+			}
+
+			$this->pathway = $this->getContainer()->get($resourceName);
 		}
 
 		return $this->pathway;
