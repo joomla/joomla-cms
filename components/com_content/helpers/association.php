@@ -68,7 +68,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 								->select($db->qn('state'))
 								->from($db->qn('#__content'))
 								->where($db->qn('id') . ' = ' . (int) ($assocId))
-								->where('access IN (' . $groups . ')');
+								->where($db->qn('access') . ' IN (' . $groups . ')');
 							$db->setQuery($query);
 
 							$result = (int) $db->loadResult();
