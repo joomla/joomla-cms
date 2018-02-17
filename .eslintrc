@@ -12,5 +12,8 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
   }
 }
