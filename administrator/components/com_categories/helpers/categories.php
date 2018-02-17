@@ -128,8 +128,8 @@ class CategoriesHelper
 			foreach ($langAssociations as $langAssociation)
 			{
 				// Include only published categories with user access
-				$arrId    = explode(':', $langAssociation->id);
-				$assocId  = $arrId[0];
+				$arrId      = explode(':', $langAssociation->id);
+				$assocId[]  = $arrId[0];
 			}
 
 			$catId = implode(',', $assocId);
