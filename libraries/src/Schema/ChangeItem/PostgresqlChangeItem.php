@@ -85,72 +85,90 @@ class PostgresqlChangeItem extends ChangeItem
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
 			{
-				if (strtoupper($wordArray[6]) === 'TYPE')
+				switch (strtoupper($wordArray[6]))
 				{
-					$type = '';
+					case 'TYPE' :
+						$type = '';
 
-					for ($i = 7, $iMax = count($wordArray); $i < $iMax; $i++)
-					{
-						$type .= $wordArray[$i] . ' ';
-					}
+						for ($i = 7; $i < count($wordArray); $i++)
+						{
+							$type .= $wordArray[$i] . ' ';
+						}
 
-					if ($pos = strpos($type, '('))
-					{
-						$type = substr($type, 0, $pos);
-					}
+						if ($pos = strpos($type, '('))
+						{
+							$type = substr($type, 0, $pos);
+						}
 
-					if ($pos = strpos($type, ';'))
-					{
-						$type = substr($type, 0, $pos);
-					}
+						if ($pos = strpos($type, ';'))
+						{
+							$type = substr($type, 0, $pos);
+						}
 
-					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND data_type=' . $this->fixQuote($type);
+						$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name='
+							. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND data_type=' . $this->fixQuote($type);
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
-				}
-				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
-				{
-					if (strtoupper($wordArray[6]) === 'SET')
-					{
-						// SET NOT NULL
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
+						break;
+
+					case 'SET' :
 						$isNullable = $this->fixQuote('NO');
-					}
-					else
-					{
-						// DROP NOT NULL
-						$isNullable = $this->fixQuote('YES');
-					}
+						if (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL;')
+						{
+							$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
+								. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+								. ' AND is_nullable=' . $isNullable;
 
-					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND is_nullable=' . $isNullable;
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 1;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
+						}
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
-				}
-				elseif (strtoupper($wordArray[7]) === 'DEFAULT')
-				{
-					if (strtoupper($wordArray[6]) === 'SET')
-					{
-						$isNullDef = 'IS NOT NULL';
-					}
-					else
-					{
-						// DROP DEFAULT
-						$isNullDef = 'IS NULL';
-					}
+						if (strtoupper($wordArray[6] . ' ' . $wordArray[7]) === 'SET DEFAULT')
+						{
+							$string = str_replace(';', '', $wordArray[8]);
+							$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
+								. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+								. ' AND (CASE (position(' . $this->db->quote('::') . ' in column_default))'
+								. ' WHEN 0 THEN '
+								. '	column_default = ' . $this->db->quote($string)
+								. ' ELSE '
+								. ' substring(column_default, 1, (position(' . $this->db->quote('::') . ' in column_default) -1))  = ' . $this->db->quote($string)
+								. ' END)';
 
-					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND column_default ' . $isNullDef;
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 1;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $this->fixQuote($wordArray[8]));
+						}
+						break;
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullDef);
+					case 'DROP' :
+						if ($wordArray[7] === 'DEFAULT')
+						{
+							$isNullable = $this->fixQuote('NO');
+							$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
+								. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+								. ' AND column_default IS NULL';
+
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 1;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'DEFAULT');
+						}
+
+						if ($wordArray[7] . ' ' . $wordArray[8] === 'NOT NULL;')
+						{
+							$isNullable = $this->fixQuote('NO');
+							$result = 'SELECT column_name, data_type, is_nullable , column_default FROM information_schema.columns'
+								. ' WHERE table_name=' . $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
+								. ' AND is_nullable = ' . $isNullable;
+
+							$this->queryType = 'CHANGE_COLUMN_TYPE';
+							$this->checkQueryExpected = 0;
+							$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NOT NULL');
+						}
+						break;
 				}
 			}
 		}
