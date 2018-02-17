@@ -39,7 +39,7 @@ class Config implements ServiceProviderInterface
 				{
 					if (!file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 					{
-						return [];
+						return new Registry;
 					}
 
 					\JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
