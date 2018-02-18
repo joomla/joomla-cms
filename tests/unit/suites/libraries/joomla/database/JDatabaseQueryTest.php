@@ -702,7 +702,7 @@ class JDatabaseQueryTest extends TestCase
 
 		$this->assertThat(
 			trim(TestReflection::getValue($this->_instance, 'delete')),
-			$this->equalTo('DELETE'),
+			$this->equalTo('DELETE #__foo'),
 			'Tests the delete element is set correctly.'
 		);
 
@@ -727,7 +727,7 @@ class JDatabaseQueryTest extends TestCase
 			->where('bar=1');
 
 		$this->assertEquals(
-			implode(PHP_EOL, array('DELETE ', 'FROM #__foo', 'INNER JOIN join', 'WHERE bar=1')),
+			implode(PHP_EOL, array('DELETE #__foo', 'FROM #__foo', 'INNER JOIN join', 'WHERE bar=1')),
 			trim($this->_instance)
 		);
 	}
