@@ -794,36 +794,50 @@ class PlgEditorTinymce extends JPlugin
 				}
 
 				// Now we can built the script
+				// AddButton starts here
 				$tempConstructor[] = 'editor.addButton("' . $name . '",{';
 				$tempConstructor[] = 'text:"' . $title . '",';
 				$tempConstructor[] = 'title:"' . $title . '",';
 				$tempConstructor[] = 'icon:"' . $icon . '",';
+
+				// Onclick starts here
 				$tempConstructor[] = 'onclick:function(){';
 
 				if ($href || $button->get('modal'))
 				{
+					// TinyMCE standard modal options
 					$tempConstructor[] = 'var modalOptions={';
 					$tempConstructor[] = 'title:"' . $title . '",';
 					$tempConstructor[] = 'url:"' . $href . '",';
-					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]};';
+					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]';
+					$tempConstructor[] = '};';
+
+					// Set width/height
 					$tempConstructor[] = 'modalOptions.width=parseInt(' . intval($options["width"]) . ', 10);';
 					$tempConstructor[] = 'modalOptions.height=parseInt(' . intval($options["height"]) . ', 10);';
-					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;} ';
-					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;} ';
+					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
+					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
 					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
+						// Adds callback for close button
 						$tempConstructor[] = $onclick . ';';
 					}
 				}
 				else
 				{
+					// Adds callback for the button, eg: readmore
 					$tempConstructor[] = $onclick . ';';
 				}
 
+				// Onclick ends here
 				$tempConstructor[] = '}';
+
+				// AddButton ends here
 				$tempConstructor[] = '});';
+
+				// IIFE ends here
 				$tempConstructor[] = '})();';
 
 				// The array with the toolbar buttons
