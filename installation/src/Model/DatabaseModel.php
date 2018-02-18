@@ -306,6 +306,8 @@ class DatabaseModel extends BaseInstallationModel
 		// Disable autoselect database before it's created.
 		$tmpSelect = true;
 
+		$options = (object) $options;
+
 		if (isset($options->db_select))
 		{
 			$tmpSelect = $options->db_select;
@@ -338,7 +340,7 @@ class DatabaseModel extends BaseInstallationModel
 			 * PDO MySQL: [1049] Unknown database 'database_name'
 			 * PostgreSQL: Error connecting to PGSQL database
 			 */
-			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($type === 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
 			{
 				/*
 				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
@@ -377,7 +379,7 @@ class DatabaseModel extends BaseInstallationModel
 					throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
 				}
 			}
-			elseif ($type == 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
+			elseif ($type === 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
 				throw new \RuntimeException(\JText::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
 			}
