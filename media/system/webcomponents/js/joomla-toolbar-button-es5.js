@@ -58,28 +58,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         function JoomlaToolbarButton() {
             _classCallCheck(this, JoomlaToolbarButton);
 
-            // We need to do a button to support button behavior, because we cannot currently extend HTMLButtonElement
+            // We need a button to support button behavior, because we cannot currently extend HTMLButtonElement
             var _this = _possibleConstructorReturn(this, (JoomlaToolbarButton.__proto__ || Object.getPrototypeOf(JoomlaToolbarButton)).call(this));
 
-            var button = document.createElement('button');
-            button.innerHTML = _this.innerHTML;
-            button.className = _this.className;
-            button.id = _this.id + '-button';
-
-            _this.innerHTML = '';
-            _this.className = '';
+            _this.buttonElement = _this.querySelector('button');
             _this.disabled = false;
 
             // If list selection are required, set button to disabled by default
             if (_this.listSelection) {
-                _this.disabled = true;
-                button.setAttribute('disabled', true);
+                _this.setDisabled(true);
             }
 
-            // Keep the button for quick reference
-            _this.buttonElement = button;
-
-            _this.appendChild(button);
             _this.addEventListener('click', function (e) {
                 return _this.executeTask();
             });
@@ -103,14 +92,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                     // Watch on list selection
                     this.formElement.boxchecked.addEventListener('change', function (event) {
                         // Check whether we have selected something
-                        if (event.target.value > 0) {
-                            _this2.disabled = false;
-                            _this2.buttonElement.removeAttribute('disabled');
-                        } else {
-                            _this2.disabled = true;
-                            _this2.buttonElement.setAttribute('disabled', true);
-                        }
+                        _this2.setDisabled(event.target.value == 0);
                     });
+                }
+            }
+        }, {
+            key: 'setDisabled',
+            value: function setDisabled(disabled) {
+                // Make sure we have a boolean value
+                this.disabled = !!disabled;
+
+                if (this.buttonElement) {
+                    if (this.disabled) {
+                        this.buttonElement.setAttribute('disabled', true);
+                    } else {
+                        this.buttonElement.removeAttribute('disabled');
+                    }
                 }
             }
         }, {
