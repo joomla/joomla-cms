@@ -908,6 +908,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	};
 
 	/**
+	 * Listener for control+s. Maps it to apply/save button
+	 */
+	document.addEventListener( 'DOMContentLoaded', function() {
+		if (Joomla.getOptions( 'keySave' ) ) {
+			document.addEventListener("keydown", function(e) {
+				if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+					e.preventDefault();
+					Joomla.submitbutton( Joomla.getOptions( 'keySave' ).task );
+				}
+			}, false);
+		}
+	});
+
+	/**
 	 * Check if HTML5 localStorage enabled on the browser
 	 *
 	 * @since   4.0.0
