@@ -783,10 +783,10 @@ class PlgEditorTinymce extends JPlugin
 				// Get the modal width/height
 				if ($options && is_scalar($options))
 				{
-					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '");';
-					$tempConstructor[] = 'var btnOptions=getBtnOptions();var modalWidth=btnOptions.size&&';
-					$tempConstructor[] = 'btnOptions.size.x?btnOptions.size.x:null;var modalHeight=btnOptions.size&&';
-					$tempConstructor[] = 'btnOptions.size.y?btnOptions.size.y:null;';
+					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '"),';
+					$tempConstructor[] = 'btnOptions=getBtnOptions(),';
+					$tempConstructor[] = 'modalWidth=btnOptions.size&&btnOptions.size.x?btnOptions.size.x:null,';
+					$tempConstructor[] = 'modalHeight=btnOptions.size&&btnOptions.size.y?btnOptions.size.y:null;';
 				}
 				else
 				{
