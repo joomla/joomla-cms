@@ -76,8 +76,8 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
 				// Initialize some option attributes.
-				$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
-				$active  = ((string) $option->value == $value) ? 'class="active"' : '';
+				$checked = ((string) $option->value === $value) ? 'checked="checked"' : '';
+				$active  = ((string) $option->value === $value) ? 'class="active"' : '';
 
 				// Initialize some JavaScript option attributes.
 				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';

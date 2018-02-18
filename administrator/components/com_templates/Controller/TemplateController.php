@@ -304,21 +304,19 @@ class TemplateController extends BaseController
 		// Redirect the user based on the chosen task.
 		switch ($task)
 		{
-		case 'apply':
+			case 'apply':
+				// Redirect back to the edit screen.
+				$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+				$this->setRedirect(\JRoute::_($url, false));
+				break;
 
-			// Redirect back to the edit screen.
-			$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
-			$this->setRedirect(\JRoute::_($url, false));
-			break;
-
-		default:
-
-			// Redirect to the list screen.
-			$file = base64_encode('home');
-			$id   = $this->input->get('id');
-			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
-			break;
+			default:
+				// Redirect to the list screen.
+				$file = base64_encode('home');
+				$id   = $this->input->get('id');
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+				$this->setRedirect(\JRoute::_($url, false));
+				break;
 		}
 	}
 

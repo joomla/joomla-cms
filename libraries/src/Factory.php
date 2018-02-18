@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
@@ -500,6 +501,7 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
@@ -507,6 +509,7 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
@@ -713,7 +716,7 @@ abstract class Factory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return Document::getInstance($type, $attributes);
+		return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 	}
 
 	/**
