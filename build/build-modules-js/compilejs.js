@@ -8,9 +8,9 @@ const debounce = require('lodash.debounce');
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 const watches = [
-	rootPath + '/' + 'media',
-	rootPath + '/' + 'administrator/templates/atum/js',
-	rootPath + '/' + 'templates/cassiopeia/js'
+  `${rootPath}/media`,
+  `${rootPath}/administrator/templates/atum/js`,
+  `${rootPath}/templates/cassiopeia/js`,
 ];
 
 const uglifyJs = (options, path) => {
@@ -49,36 +49,36 @@ const uglifyJs = (options, path) => {
   });
 };
 
-watchFiles = function(options, folders, compileFirst = false) {
-	folders = folders || watches;
+const watchFiles = function (options, folders, compileFirst = false) {
+  const foldersOrWatches = folders || watches;
 
-	if (compileFirst) {
-		uglifyJs(options);
-	}
+  if (compileFirst) {
+    uglifyJs(options);
+  }
 
-	folders.forEach((folder) => {
-		Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
-			(files) => {
-				files.forEach((file) => {
-						if (file.match(/.js/)) {
-							fs.watchFile(file, () => {
-								console.log('File: ' + file + ' changed.');
-								debounce(() => {
-									fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
-								}, 150)();
+  foldersOrWatches.forEach((folder) => {
+    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then((files) => {
+      files.forEach(
+        (file) => {
+          if (file.match(/.js/)) {
+            fs.watchFile(file, () => {
+              console.log(`File: ${file} changed.`);
+              debounce(() => {
+                fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+              }, 150)();
 
-								console.log(Chalk.bgYellow(file + ' was updated.'));
-							});
-						}
-					},
-					(error) => {
-						console.error("something exploded", error);
-					}
-				);
-			});
-	});
+              console.log(Chalk.bgYellow(`${file} was updated.`));
+            });
+          }
+        },
+        (error) => {
+          console.error('something exploded', error);
+        },
+      );
+    });
+  });
 
-	console.log('Now watching JS files...');
+  console.log('Now watching JS files...');
 };
 
 const ujs = (options, path) => {
