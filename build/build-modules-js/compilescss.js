@@ -74,7 +74,7 @@ const compileFiles = (options, path) => {
         // Uglify it now
         fs.writeFileSync(cssFile.replace('.css', '.min.css'), UglyCss.processFiles([cssFile], { expandVars: false }), { encoding: 'UTF-8' });
 
-        console.log(Chalk.bgYellow(`${cssFile.replace(/.+\//, '')} was updated.`));
+        console.log(Chalk.yellow(`${cssFile.replace(/.+\//, '')} was updated.`));
       }
     });
   });
