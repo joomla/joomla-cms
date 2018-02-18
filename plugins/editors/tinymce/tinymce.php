@@ -778,73 +778,59 @@ class PlgEditorTinymce extends JPlugin
 				$icon = 'none icon-' . $icon;
 
 				// Now we can built the script
-				$tempConstructor = '!(function(){';
+				$tempConstructor[] = '!(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
 				{
-					$tempConstructor .= '
-				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
-					btnOptions = getBtnOptions(),
-					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
-					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
+					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '");';
+					$tempConstructor[] = 'var btnOptions=getBtnOptions();var modalWidth=btnOptions.size&&';
+					$tempConstructor[] = 'btnOptions.size.x?btnOptions.size.x:null;var modalHeight=btnOptions.size&&';
+					$tempConstructor[] = 'btnOptions.size.y?btnOptions.size.y:null;';
 				}
 				else
 				{
-					$tempConstructor .= '
-				var btnOptions = {}, modalWidth = null, modalHeight = null;';
+					$tempConstructor[] = 'var btnOptions={},modalWidth=null,modalHeight=null;';
 				}
 
-				$tempConstructor .= "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
+				// Now we can built the script
+				$tempConstructor[] = 'editor.addButton("' . $name . '",{';
+				$tempConstructor[] = 'text:"' . $title . '",';
+				$tempConstructor[] = 'title:"' . $title . '",';
+				$tempConstructor[] = 'icon:"' . $icon . '",';
+				$tempConstructor[] = 'onclick:function(){';
 
 				if ($href || $button->get('modal'))
 				{
-					$tempConstructor .= "
-							var modalOptions = {
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							}
-							if(modalWidth){
-								modalOptions.width = modalWidth;
-							}
-							if(modalHeight){
-								modalOptions.height = modalHeight;
-							}
-							editor.windowManager.open(modalOptions);";
+					$tempConstructor[] = 'var modalOptions={';
+					$tempConstructor[] = 'title:"' . $title . '",';
+					$tempConstructor[] = 'url:"' . $href . '",';
+					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]};';
+					$tempConstructor[] = 'modalOptions.width=parseInt(' . intval($options["width"]) . ', 10);';
+					$tempConstructor[] = 'modalOptions.height=parseInt(' . intval($options["height"]) . ', 10);';
+					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;} ';
+					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;} ';
+					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
-						$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+						$tempConstructor[] = $onclick . ';';
 					}
 				}
 				else
 				{
-					$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+					$tempConstructor[] = $onclick . ';';
 				}
 
-				$tempConstructor .= '
-					}
-				});
-			})();';
+				$tempConstructor[] = '}';
+				$tempConstructor[] = '});';
+				$tempConstructor[] = '})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = $tempConstructor;
+				$tinyBtns[] = implode($tempConstructor, '');
 			}
 		}
 
