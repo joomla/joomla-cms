@@ -14,14 +14,14 @@ if (typeof(Joomla) === 'undefined') {
 !(function($) {
 	Joomla.TemplateJs = function(root)
 	{
-		root = root || document;
+		var $root = $(root || document);
 
-		$(root).find('*[rel=tooltip]').tooltip();
+		$root.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$(root).find('.radio.btn-group label').addClass('btn');
+		$root.find('.radio.btn-group label').addClass('btn');
 
-		$(root).find(".btn-group label:not(.active)").click(function()
+		$root.find(".btn-group label:not(.active)").click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -40,7 +40,7 @@ if (typeof(Joomla) === 'undefined') {
 			}
 		});
 
-		$(root).find(".btn-group input[checked=checked]").each(function()
+		$root.find(".btn-group input[checked=checked]").each(function()
 		{
 			if ($(this).val() == '') {
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');

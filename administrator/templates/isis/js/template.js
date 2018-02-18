@@ -14,14 +14,14 @@ if (typeof(Joomla) === 'undefined') {
 !(function($) {
 	Joomla.TemplateJs = function(root)
 	{
-		root = root || document;
+		var $root = $(root || document);
 
-		$(root).find('*[rel=tooltip]').tooltip();
+		$root.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$(root).find('.radio.btn-group label').addClass('btn');
+		$root.find('.radio.btn-group label').addClass('btn');
 
-		$(root).find('.btn-group label:not(.active)').click(function()
+		$root.find('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -64,7 +64,7 @@ if (typeof(Joomla) === 'undefined') {
 			}
 		});
 
-		$(root).find('.btn-group input[checked=checked]').each(function()
+		$root.find('.btn-group input[checked=checked]').each(function()
 		{
 			var $self  = $(this);
 			var attrId = $self.attr('id');
@@ -102,7 +102,7 @@ if (typeof(Joomla) === 'undefined') {
 		});
 
 		// add color classes to chosen field based on value
-		$(root).find('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
+		$root.find('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 			var select = $(this);
 			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
 			var container = select.next('.chzn-container').find('.chzn-single');
