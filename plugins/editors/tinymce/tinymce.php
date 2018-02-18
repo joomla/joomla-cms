@@ -844,7 +844,7 @@ class PlgEditorTinymce extends JPlugin
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = preg_replace('/[\t ]+(?=([^"]*"[^"]*")*[^"]*$)/m',' ',$tempConstructor);
+				$tinyBtns[] = preg_replace('/[\t ]+(?=([^"]*"[^"]*")*[^"]*$)/m', ' ', $tempConstructor);
 			}
 		}
 
