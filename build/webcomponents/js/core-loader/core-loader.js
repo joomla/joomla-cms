@@ -4,10 +4,10 @@
 
 		const template = document.createElement('template');
 		template.innerHTML = `<style>{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}</style>
-<div class="box"><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>`;
+<div><span class="yellow"></span><span class="red"></span><span class="blue"></span><span class="green"></span><p>&reg;</p></div>`;
 
 		// Patch shadow DOM
-		if (ShadyCSS) {
+		if (window.ShadyCSS) {
 			ShadyCSS.prepareTemplate(template, 'joomla-core-loader');
 		}
 
@@ -15,8 +15,10 @@
 		this.shadowRoot.appendChild(template.content.cloneNode(true));
 
 		// Patch shadow DOM
-		if (ShadyCSS) {
+		if (window.ShadyCSS) {
 			ShadyCSS.styleElement(this)
 		}
+
+		this.shadowRoot.querySelector('div').classList.add('box');
 	}
 });

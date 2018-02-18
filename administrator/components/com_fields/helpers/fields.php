@@ -334,10 +334,11 @@ class FieldsHelper
 				if (cat.val() == '" . $assignedCatids . "')return;
 				Joomla.loadingLayer('show');
 				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
+				setTimeout(function(){
+					element.form.submit();
+					}, 10);
 			}
 			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
 			});"

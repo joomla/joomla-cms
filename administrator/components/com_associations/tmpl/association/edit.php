@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 \JHtml::_('behavior.keepalive');
 \JHtml::_('formbehavior.chosen', 'select');
 
-\JHtml::_('webcomponent', ['fullPolyfill' => true, 'joomla-core-loader' => 'system/webcomponents/joomla-core-loader.min.js'], ['relative' => true, 'version' => 'auto']);
+\JHtml::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 \JHtml::_('script', 'com_associations/sidebyside.js', false, true);
 \JHtml::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
 
