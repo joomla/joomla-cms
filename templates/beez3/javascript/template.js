@@ -6,16 +6,22 @@
  * @since       3.2
  */
 
-(function($)
-{
-	$(document).ready(function()
+if (typeof(Joomla) === 'undefined') {
+	var Joomla = {};
+}
+
+
+!(function($) {
+	Joomla.TemplateJs = function(root)
 	{
-		$('*[rel=tooltip]').tooltip()
+		root = root || document;
+
+		$(root).find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+		$(root).find('.radio.btn-group label').addClass('btn');
 
-		$(".btn-group label:not(.active)").click(function()
+		$(root).find(".btn-group label:not(.active)").click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
@@ -30,9 +36,11 @@
 					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
+				input.trigger('change');
 			}
 		});
-		$(".btn-group input[checked=checked]").each(function()
+
+		$(root).find(".btn-group input[checked=checked]").each(function()
 		{
 			if ($(this).val() == '') {
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
@@ -42,5 +50,17 @@
 				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 			}
 		});
-	})
+	}
+})(jQuery);
+
+!(function($)
+{
+	$(document).ready(function()
+	{
+		Joomla.TemplateJs(document);
+	}
+
+	$(document).on('subform-row-add', function(event, row) {
+		Joomla.TemplateJs(row);
+	});
 })(jQuery);
