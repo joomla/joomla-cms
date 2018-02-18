@@ -6,10 +6,7 @@
  * @since       3.0
  */
 
-if (typeof(Joomla) === 'undefined') {
-	var Joomla = {};
-}
-
+var Joomla = window.Joomla || {};
 
 !(function($) {
 	Joomla.TemplateJs = function(root)
