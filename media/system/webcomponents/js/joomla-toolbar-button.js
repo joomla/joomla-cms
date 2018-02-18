@@ -19,26 +19,15 @@
         constructor() {
             super();
 
-            // We need to do a button to support button behavior, because we cannot currently extend HTMLButtonElement
-            let button = document.createElement('button');
-            button.innerHTML = this.innerHTML;
-            button.className = this.className;
-            button.id        = this.id + '-button';
-
-            this.innerHTML   = '';
-            this.className   = '';
-            this.disabled    = false;
+            // We need a button to support button behavior, because we cannot currently extend HTMLButtonElement
+            this.buttonElement = this.querySelector('button');
+            this.disabled      = false;
 
             // If list selection are required, set button to disabled by default
             if (this.listSelection) {
-                this.disabled = true;
-                button.setAttribute('disabled', true);
+                this.setDisabled(true);
             }
 
-            // Keep the button for quick reference
-            this.buttonElement = button;
-
-            this.appendChild(button);
             this.addEventListener('click', e => this.executeTask());
         }
 
@@ -55,14 +44,21 @@
                 // Watch on list selection
                 this.formElement.boxchecked.addEventListener('change', (event) => {
                     // Check whether we have selected something
-                    if (event.target.value > 0) {
-                        this.disabled = false;
-                        this.buttonElement.removeAttribute('disabled');
-                    } else {
-                        this.disabled = true;
-                        this.buttonElement.setAttribute('disabled', true);
-                    }
+                    this.setDisabled(event.target.value == 0);
                 });
+            }
+        }
+
+        setDisabled(disabled) {
+            // Make sure we have a boolean value
+            this.disabled = !!disabled;
+
+            if (this.buttonElement) {
+                if (this.disabled) {
+                    this.buttonElement.setAttribute('disabled', true);
+                } else {
+                    this.buttonElement.removeAttribute('disabled');
+                }
             }
         }
 

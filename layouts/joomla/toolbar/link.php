@@ -34,7 +34,9 @@ if ($margin):
 ?>
 <div class="<?php echo $margin; ?>"></div>
 <?php endif; ?>
-<joomla-toolbar-button <?php echo $id.$task; ?> class="btn btn-outline-danger btn-sm">
-	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+<joomla-toolbar-button <?php echo $id.$task; ?>>
+	<button type="button" class="btn btn-outline-danger btn-sm">
+		<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
 </joomla-toolbar-button>

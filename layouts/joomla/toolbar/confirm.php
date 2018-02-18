@@ -34,7 +34,9 @@ else if (!empty($displayData['doTask']))
 }
 
 ?>
-<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate.$msg; ?> class="btn btn-sm btn-outline-danger">
-	<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate.$msg; ?>>
+	<button type="button" class="btn btn-sm btn-outline-danger">
+		<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
 </joomla-toolbar-button>

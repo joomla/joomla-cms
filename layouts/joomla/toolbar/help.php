@@ -18,7 +18,9 @@ $id     = $displayData['id'] ?? '';
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
-<joomla-toolbar-button <?php echo $id; ?> execute="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
-	<span class="fa fa-question" aria-hidden="true"></span>
-	<?php echo $text; ?>
+<joomla-toolbar-button <?php echo $id; ?> execute="<?php echo $doTask; ?>">
+	<button type="button" class="btn btn-outline-info btn-sm" rel="help">
+		<span class="fa fa-question" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
 </joomla-toolbar-button>
