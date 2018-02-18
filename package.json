@@ -8,12 +8,16 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "compile-js": "node build --compilejs",
-    "compile-sass": "node build --compilecss",
-    "update-dependencies": "node build --update",
-    "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
+    "build:js": "node build --compilejs",
+    "build:css": "node build --compilecss",
+    "watch:js": "node build --compilejs --watch",
+    "watch:css": "node build --compilecss --watch",
+    "lint:js": "node ./node_modules/eslint/bin/eslint.js --ext=.es6.js . || exit 0",
+    "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "update": "node build --update"
   },
   "dependencies": {
+    "@claviska/jquery-minicolors": "2.2.6",
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0",
     "codemirror": "5.34.0",
@@ -29,8 +33,7 @@
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
-    "tinymce": "4.7.6",
-    "@claviska/jquery-minicolors": "2.2.6"
+    "tinymce": "4.7.6"
   },
   "devDependencies": {
     "@polymer/test-fixture": "latest",
@@ -45,9 +48,8 @@
     "babelify": "^8.0.0",
     "browserify": "*",
     "eslint": "latest",
-    "eslint-config-airbnb": "latest",
-    "eslint-config-airbnb-base": "latest",
-    "eslint-plugin-import": "latest",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "fs": "0.0.1-security",
     "fs-extra": "^4.0.2",
     "ini": "latest",
@@ -60,6 +62,7 @@
     "karma-jasmine-ajax": "latest",
     "karma-requirejs": "latest",
     "karma-verbose-reporter": "latest",
+    "lodash.debounce": "^4.0.8",
     "node-sass": "^4.5.3",
     "path": "^0.12.7",
     "recursive-copy": "latest",
