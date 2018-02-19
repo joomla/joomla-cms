@@ -1,22 +1,15 @@
 // Login page
 
 .view-login {
-  background: $atum-template-color;
+  background: color("indigo");
 
   .login-initial {
     display: none;
   }
 
-  .login {
-    width: 320px;
-
-    @include media-breakpoint-down(sm) {
-      padding: 0 15px;
-    }
-  }
-
   .login-logo {
-    margin: 0 0 2rem;
+    width: 200px;
+    margin: 0 auto 2rem;
     text-align: center;
 
     @include media-breakpoint-down(sm) {
@@ -25,23 +18,38 @@
 
   }
 
-  h2 {
-    font-size: 1.9rem;
-    font-weight: 300;
+  .login {
+    width: 430px;
+
+    @include media-breakpoint-down(sm) {
+      padding: 0 15px;
+    }
   }
 
-  .card-img-top {
-    max-width: 100%;
-  }
+  .login-box {
+    background: rgba($black, .07);
 
-  .nav {
-
-    p,
     a {
-      margin-bottom: 0;
       color: $white;
     }
+  }
 
+  .login-box-header {
+    padding: 15px 0;
+    background: $white;
+  }
+
+  .login-box-body {
+    padding: 20px 50px;
+
+    @include media-breakpoint-only(xs) {
+      padding: 10px;
+    }
+  }
+
+  h1 {
+    text-align: center;
+	margin: 0;
   }
 
   .btn {
