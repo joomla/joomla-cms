@@ -59,8 +59,8 @@ compileFiles = (options, path) => {
 				const cleaner  = postcss([ autoprefixer({ add: false, browsers: options.settings.browsers }) ]);
 				const prefixer = postcss([ autoprefixer ]);
 
-				cleaner.process(result.css.toString()).then(function (cleaned) {
-					return prefixer.process(cleaned.css)
+				cleaner.process(result.css.toString(), {from: undefined}).then(function (cleaned) {
+					return prefixer.process(cleaned.css, {from: undefined})
 				}).then(function (result) {
 					fs.writeFileSync(cssFile, result.css.toString(), {encoding: 'UTF-8'});
 				});
