@@ -871,6 +871,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (477, 0, 'plg_content_fields', 'plugin', 'fields', 'content', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (479, 0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
+(480, 0, 'plg_content_createmenuitem', 'plugin', 'createmenuitem', 'content', 0, 1, 1, 0, '', '{"allowedContexts":"com_content.article"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
@@ -941,12 +942,21 @@ WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, O
 --
 
 
+<<<<<<< HEAD
+CREATE TABLE [#__fields_categories] (
+	[field_id] [int] NOT NULL DEFAULT 0,
+	[category_id] [int] NOT NULL DEFAULT 0,
+CONSTRAINT [PK_#__fields_categories_id] PRIMARY KEY CLUSTERED(
+	[field_id] ASC,
+	[category_id] ASC)
+=======
 CREATE TABLE "#__fields_categories" (
   "field_id" int NOT NULL DEFAULT 0,
   "category_id" int NOT NULL DEFAULT 0,
 CONSTRAINT "PK_#__fields_categories_id" PRIMARY KEY CLUSTERED(
   "field_id" ASC,
   "category_id" ASC)
+>>>>>>> refs/remotes/joomla/staging
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
 ) ON [PRIMARY]) ON [PRIMARY];
 
