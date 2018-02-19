@@ -80,7 +80,11 @@ compileFiles = (options, path) => {
 				files.forEach((file) => {
 						if (file.match(/.css/)) {
 							// Write the file
-							fs.writeFileSync(file.replace('.css', '.min.css'), UglyCss.processFiles([file], {expandVars: false }), {encoding: "utf8"});
+							var wstream = fs.createWriteStream(file.replace('.css', '.min.css'));
+							wstream.write(UglyCss.processFiles([file]));
+							wstream.end();
+
+							// fs.stream(file.replace('.css', '.min.css'), UglyCss.processFiles([file], {expandVars: false }), {encoding: "utf8"});
 						}
 
 					},
