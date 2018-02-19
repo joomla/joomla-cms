@@ -813,8 +813,6 @@ class PlgEditorTinymce extends JPlugin
 					$tempConstructor[] = '};';
 
 					// Set width/height
-					$tempConstructor[] = 'modalOptions.width=parseInt(' . intval($options["width"]) . ', 10);';
-					$tempConstructor[] = 'modalOptions.height=parseInt(' . intval($options["height"]) . ', 10);';
 					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
 					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
 					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
