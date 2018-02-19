@@ -43,7 +43,7 @@ class PostgresqlChangeItem extends ChangeItem
 
 		$result = null;
 		$splitIntoWords = "~'[^']*'(*SKIP)(*F)|\s+~";
-		$splitIntoActions = "~'[^']*'(*SKIP)(*F)|,~";
+		$splitIntoActions = "~'[^']*'(*SKIP)(*F)|\([^)]*\)(*SKIP)(*F)|,~";
 
 		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
@@ -121,14 +121,9 @@ class PostgresqlChangeItem extends ChangeItem
 
 				if ($alterAction === 'TYPE')
 				{
-					$type = '';
+					$type = implode(' ', array_slice($wordArray, 7));
 
-					for ($i = 7; $i < $totalWords; $i++)
-					{
-						$type .= $wordArray[$i] . ' ';
-					}
-
-					if ($pos = stripos($type, 'USING'))
+					if ($pos = stripos($type, ' USING '))
 					{
 						$type = substr($type, 0, $pos);
 					}
@@ -139,7 +134,7 @@ class PostgresqlChangeItem extends ChangeItem
 					}
 					else
 					{
-						$datatype = substr($type, 0, -1);
+						$datatype = $type;
 					}
 
 					$result = 'SELECT column_name, data_type '
