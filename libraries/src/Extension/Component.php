@@ -23,6 +23,8 @@ class Component implements ComponentInterface
 	 * An array of categories.
 	 *
 	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $categories;
 
@@ -58,6 +60,10 @@ class Component implements ComponentInterface
 	 * an empty key.
 	 *
 	 * @param   array  $categories  The categories
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setCategories(array $categories)
 	{
