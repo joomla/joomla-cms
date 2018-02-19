@@ -448,6 +448,7 @@ class TemplateModel extends FormModel
 			catch (\Exception $e)
 			{
 				$app->enqueueMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+
 				return;
 			}
 
@@ -871,6 +872,7 @@ class TemplateModel extends FormModel
 
 				return false;
 			}
+
 			// Check if the format is allowed and will be showed in the backend
 			$check = $this->checkFormat($type);
 
@@ -1407,14 +1409,14 @@ class TemplateModel extends FormModel
 	}
 
 	/**
- 	* Check if the extension is allowed and will be shown in the template manager
- 	*
-	* @param   string  $ext  The extension to check if it is allowed
- 	*
- 	* @return  boolean  true if the extension is allowed false otherwise
- 	*
- 	* @since   3.6.0
-	*/
+	 * Check if the extension is allowed and will be shown in the template manager
+	 *
+	 * @param   string  $ext  The extension to check if it is allowed
+	 *
+	 * @return  boolean  true if the extension is allowed false otherwise
+	 *
+	 * @since   3.6.0
+	 */
 	protected function checkFormat($ext)
 	{
 		if (!isset($this->allowedFormats))

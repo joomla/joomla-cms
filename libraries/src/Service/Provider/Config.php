@@ -10,17 +10,16 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Factory;
-use Joomla\CMS\Document\FactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Registry\Registry;
 
 /**
- * Service provider for the application's document dependency
+ * Service provider for the application's config dependency
  *
  * @since  4.0
  */
-class Document implements ServiceProviderInterface
+class Config implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -33,13 +32,24 @@ class Document implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('document.factory', FactoryInterface::class)
-			->alias(Factory::class, FactoryInterface::class)
+		$container->alias('config', 'JConfig')
 			->share(
-				FactoryInterface::class,
+				'JConfig',
 				function (Container $container)
 				{
-					return new Factory;
+					if (!file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+					{
+						return new Registry;
+					}
+
+					\JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
+
+					if (!class_exists('JConfig'))
+					{
+						throw new \RuntimeException('Configuration class does not exist.');
+					}
+
+					return new Registry(new \JConfig);
 				},
 				true
 			);
