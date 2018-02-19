@@ -37,7 +37,10 @@ class Component implements ServiceProviderInterface
 			{
 				$component = new \Joomla\CMS\Extension\Component;
 
-				$component->setCategories($container->get('categories'));
+				if ($container->has('categories'))
+				{
+					$component->setCategories($container->get('categories'));
+				}
 
 				return $component;
 			}
