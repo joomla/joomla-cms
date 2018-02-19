@@ -1,0 +1,120 @@
+// Toolbar
+
+.subhead {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: auto;
+  min-height: 43px;
+  padding: 15px 0;
+  color: #0c192e;
+  background: $atum-container-main-bg;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .btn-toolbar {
+    margin-bottom: 0;
+
+    > * {
+      margin-left: .5rem;
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+    }
+  }
+
+  .btn {
+    padding: 0 18px;
+    font-size: 1rem;
+    line-height: $atum-toolbar-line-height;
+    color: white;
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      z-index: -1;
+      display: inline-block;
+      width: 38px;
+      height: auto;
+      margin: 0 12px 0 -18px;
+      line-height: $atum-toolbar-line-height;
+      color: white;
+      background-color: rgba(0,0,0,.2);
+    }
+
+  }
+
+  .btn-group {
+    margin-right: .5rem;
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      margin-right: 0;
+      background-color: transparent;
+    }
+
+  }
+  
+
+  .dropdown-toggle {
+    padding: 0 14px;
+
+    &.btn {
+      background-color: rgba(0,0,0,.2);
+    }
+
+    &.btn-primary {
+      background-color: darken(theme-color("primary"), 8%);
+    }
+
+    &.btn-success {
+      background-color: darken(theme-color("success"), 8%);
+    }
+
+    &.btn-info {
+      background-color: darken(theme-color("info"), 8%);
+    }
+
+    &.btn-danger {
+      background-color: darken(theme-color("danger"), 8%);
+    }
+
+  }
+  
+
+  > *:first-child:not(.float-sm-right) {
+    margin-left: 0;
+  }
+
+  .float-sm-right {
+    margin-left: .8rem;
+  }
+
+  &.subhead-fixed {
+    position: fixed;
+    top: 0;
+    left: 250px;
+    z-index: 9;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $gray-500;
+  }
+
+}
+
+.closed .subhead-fixed {
+  left: 55px;
+}
+
+.btn-toolbar {
+  margin-bottom: 20px;
+  margin-left: 0;
+}
