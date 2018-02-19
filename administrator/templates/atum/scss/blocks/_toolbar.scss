@@ -20,7 +20,7 @@
     margin-bottom: 0;
 
     > * {
-      margin-left: .5rem;
+      margin-left: .75rem;
 
       &:first-of-type {
         margin-left: 0;
@@ -40,7 +40,7 @@
     [class*=" #{$fa-css-prefix}-"] {
       z-index: -1;
       display: inline-block;
-      width: 38px;
+      width: 40px;
       height: auto;
       margin: 0 12px 0 -18px;
       line-height: $atum-toolbar-line-height;
@@ -51,7 +51,7 @@
   }
 
   .btn-group {
-    margin-right: .5rem;
+    margin-right: .75rem;
 
     [class^="icon-"],
     [class*=" icon-"],
@@ -65,7 +65,7 @@
   
 
   .dropdown-toggle {
-    padding: 0 14px;
+    padding: 0 16px;
 
     &.btn {
       background-color: rgba(0,0,0,.2);

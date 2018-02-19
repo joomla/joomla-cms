@@ -1070,7 +1070,7 @@ iframe {
   .subhead .btn-toolbar {
     margin-bottom: 0; }
     .subhead .btn-toolbar > * {
-      margin-left: .5rem; }
+      margin-left: .75rem; }
       .subhead .btn-toolbar > *:first-of-type {
         margin-left: 0; }
   .subhead .btn {
@@ -1084,14 +1084,14 @@ iframe {
     .subhead .btn [class*=" fa-"] {
       z-index: -1;
       display: inline-block;
-      width: 38px;
+      width: 40px;
       height: auto;
       margin: 0 12px 0 -18px;
       line-height: 2.8rem;
       color: white;
       background-color: rgba(0, 0, 0, 0.2); }
   .subhead .btn-group {
-    margin-right: .5rem; }
+    margin-right: .75rem; }
     .subhead .btn-group [class^="icon-"],
     .subhead .btn-group [class*=" icon-"],
     .subhead .btn-group [class^="fa-"],
@@ -1099,7 +1099,7 @@ iframe {
       margin-right: 0;
       background-color: transparent; }
   .subhead .dropdown-toggle {
-    padding: 0 14px; }
+    padding: 0 16px; }
     .subhead .dropdown-toggle.btn {
       background-color: rgba(0, 0, 0, 0.2); }
     .subhead .dropdown-toggle.btn-primary {
