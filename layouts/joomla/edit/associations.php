@@ -9,18 +9,22 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 $form     = $displayData->getForm();
 $options  = array(
 	'formControl' => $form->getFormControl(),
 	'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
 );
 
-JHtml::_('behavior.core');
-JHtml::_('jquery.framework');
-JText::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
-JText::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
-JFactory::getDocument()->addScriptOptions('system.associations.edit', $options);
-JHtml::_('script', 'system/associations-edit.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('jquery.framework');
+Text::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
+Text::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
+Factory::getDocument()->addScriptOptions('system.associations.edit', $options);
+HTMLHelper::_('script', 'system/associations-edit.min.js', array('version' => 'auto', 'relative' => true));
 
 // JLayout for standard handling of associations fields in the administrator items edit screens.
 echo $form->renderFieldset('item_associations');

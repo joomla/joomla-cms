@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   1.6
 	 */
@@ -80,6 +80,13 @@ class HtmlView extends BaseHtmlView
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->sidebar = \JHtmlSidebar::render();
+
+		// We do not need to filter by language when multilingual is disabled
+		if (!\JLanguageMultilang::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
 
 		return parent::display($tpl);
 	}

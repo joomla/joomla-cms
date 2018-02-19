@@ -233,10 +233,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
-					Joomla.optionsStorage[p] = options[p];
-				}
-			}
-		}
+					/**
+					 * If both existing and new options are objects, merge them with Joomla.extend().  But test for new
+					 * option being null, as null is an object, but we want to allow clearing of options with ...
+					 *
+					 * Joomla.loadOptions({'joomla.jtext': null});
+					 */
+					if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
+						Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
+					} else {
+						Joomla.optionsStorage[p] = options[p];
+					}
+	            }
+            }
+        }
 	};
 
 	/**
@@ -357,7 +367,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					alertClass = 'info';
 				}
 
-				messagesBox.setAttribute('level', alertClass);
+				messagesBox.setAttribute('type', alertClass);
 				messagesBox.setAttribute('dismiss', 'true');
 
 				if (timeout && parseInt(timeout) > 0) {
@@ -770,6 +780,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
+		/**
+		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
+		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
+ 		 */
+		if (destination === null) {
+			destination = {};
+		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
@@ -1068,11 +1085,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 		params = params || {};
 
-		var event = new CustomEvent(name, {
-			detail:     params,
-			bubbles:    true,
-			cancelable: true
-		});
+		var event;
+
+		if (window.CustomEvent && typeof(window.CustomEvent) === 'function') {
+			event = new CustomEvent(name, {
+				detail:     params,
+				bubbles:    true,
+				cancelable: true
+			});
+		}
+		// IE trap
+		else {
+			event = document.createEvent('Event');
+			event.initEvent(name, true, true);
+			event.detail = params;
+		}
+
 		element.dispatchEvent(event);
 	};
 

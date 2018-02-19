@@ -35,17 +35,9 @@ JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/s
 
 JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
 
-// Instantiate the dependency injection container
-\Joomla\CMS\Factory::$container = (new \Joomla\DI\Container)
-	->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application)
-	->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Session)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
-	->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database);
+// Get the dependency injection container
+$container = \Joomla\CMS\Factory::getContainer();
+$container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application);
 
 // Instantiate and execute the application
-\Joomla\CMS\Factory::getContainer()->get('InstallationApplicationWeb')->execute();
+$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();

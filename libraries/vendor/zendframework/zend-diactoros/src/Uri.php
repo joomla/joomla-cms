@@ -329,7 +329,7 @@ class Uri implements UriInterface
             return $this;
         }
 
-        if ($port !== null && $port < 1 || $port > 65535) {
+        if ($port !== null && ($port < 1 || $port > 65535)) {
             throw new InvalidArgumentException(sprintf(
                 'Invalid port "%d" specified; must be a valid TCP/UDP port',
                 $port

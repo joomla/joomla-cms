@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
+
 extract($displayData);
 
 /**
@@ -46,7 +48,7 @@ extract($displayData);
  */
 
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
@@ -67,5 +69,5 @@ $attributes = array(
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
 	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars(JStringPunycode::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
+	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?>>

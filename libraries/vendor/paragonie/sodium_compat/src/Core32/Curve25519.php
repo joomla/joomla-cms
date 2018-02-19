@@ -2134,6 +2134,7 @@ abstract class ParagonIE_Sodium_Core32_Curve25519 extends ParagonIE_Sodium_Core3
      */
     public static function ge_scalarmult_base($a)
     {
+        /** @var array<int, int> $e */
         $e = array();
         $r = new ParagonIE_Sodium_Core32_Curve25519_Ge_P1p1();
 
@@ -3377,5 +3378,67 @@ abstract class ParagonIE_Sodium_Core32_Curve25519 extends ParagonIE_Sodium_Core3
             (int) $S11 >> 17
         );
         return self::intArrayToString($arr);
+    }
+
+    /**
+     * multiply by the order of the main subgroup l = 2^252+27742317777372353535851937790883648493
+     *
+     * @param ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A
+     * @return ParagonIE_Sodium_Core32_Curve25519_Ge_P3
+     */
+    public static function ge_mul_l(ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A)
+    {
+        /** @var array<int, int> $aslide */
+        $aslide = array(
+            13, 0, 0, 0, 0, -1, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0,
+            0, 0, 0, -3, 0, 0, 0, 0, -13, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 3, 0,
+            0, 0, 0, -13, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 11, 0, 0, 0,
+            0, 0, 11, 0, 0, 0, 0, -13, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0, 0, 0, -1,
+            0, 0, 0, 0, 3, 0, 0, 0, 0, -11, 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0,
+            0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 7, 0, 0, 0, 0, 5, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
+        );
+
+        /** @var array<int, ParagonIE_Sodium_Core32_Curve25519_Ge_Cached> $Ai size 8 */
+        $Ai = array();
+
+        # ge_p3_to_cached(&Ai[0], A);
+        $Ai[0] = self::ge_p3_to_cached($A);
+        # ge_p3_dbl(&t, A);
+        $t = self::ge_p3_dbl($A);
+        # ge_p1p1_to_p3(&A2, &t);
+        $A2 = self::ge_p1p1_to_p3($t);
+
+        for ($i = 1; $i < 8; ++$i) {
+            # ge_add(&t, &A2, &Ai[0]);
+            $t = self::ge_add($A2, $Ai[$i - 1]);
+            # ge_p1p1_to_p3(&u, &t);
+            $u = self::ge_p1p1_to_p3($t);
+            # ge_p3_to_cached(&Ai[i], &u);
+            $Ai[$i] = self::ge_p3_to_cached($u);
+        }
+
+        $r = self::ge_p3_0();
+        for ($i = 252; $i >= 0; --$i) {
+            $t = self::ge_p3_dbl($r);
+            if ($aslide[$i] > 0) {
+                # ge_p1p1_to_p3(&u, &t);
+                $u = self::ge_p1p1_to_p3($t);
+                # ge_add(&t, &u, &Ai[aslide[i] / 2]);
+                $t = self::ge_add($u, $Ai[(int)($aslide[$i] / 2)]);
+            } elseif ($aslide[$i] < 0) {
+                # ge_p1p1_to_p3(&u, &t);
+                $u = self::ge_p1p1_to_p3($t);
+                # ge_sub(&t, &u, &Ai[(-aslide[i]) / 2]);
+                $t = self::ge_sub($u, $Ai[(int)(-$aslide[$i] / 2)]);
+            }
+        }
+        # ge_p1p1_to_p3(r, &t);
+        return self::ge_p1p1_to_p3($t);
     }
 }

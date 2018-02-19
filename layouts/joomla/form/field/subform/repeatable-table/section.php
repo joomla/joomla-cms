@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Make thing clear
  *
@@ -30,9 +32,9 @@ extract($displayData);
 	<?php if (!empty($buttons)) : ?>
 	<td>
 		<div class="btn-group">
-			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-sm button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
-			<?php if (!empty($buttons['remove'])) : ?><a class="group-remove btn btn-sm button btn-danger" aria-label="<?php echo JText::_('JGLOBAL_FIELD_REMOVE'); ?>"><span class="icon-minus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
-			<?php if (!empty($buttons['move'])) : ?><a class="group-move btn btn-sm button btn-primary" aria-label="<?php echo JText::_('JGLOBAL_FIELD_MOVE'); ?>"><span class="icon-move icon-white" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="fa fa-plus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['remove'])) : ?><a class="group-remove btn btn-sm button btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>"><span class="fa fa-minus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['move'])) : ?><a class="group-move btn btn-sm button btn-primary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_MOVE'); ?>"><span class="fa fa-arrows icon-white" aria-hidden="true"></span> </a><?php endif; ?>
 		</div>
 	</td>
 	<?php endif; ?>

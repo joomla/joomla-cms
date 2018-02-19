@@ -54,12 +54,12 @@ defined('_JEXEC') or die;
 					<?php echo $this->form->getInput('admin_user'); ?>
 				</div>
 				<div class="form-group">
-					<?php echo $this->form->getLabel('admin_email'); ?>
-					<?php echo $this->form->getInput('admin_email'); ?>
-				</div>
-				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
 					<?php echo $this->form->getInput('admin_password'); ?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('admin_email'); ?>
+					<?php echo $this->form->getInput('admin_email'); ?>
 				</div>
 				<div class="form-group">
 					<button class="btn btn-primary btn-block" id="step2"><?php echo JText::_('INSTL_CONNECT_DB'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>

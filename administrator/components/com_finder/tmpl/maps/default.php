@@ -45,9 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -68,11 +66,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 						</tr>
 					</thead>

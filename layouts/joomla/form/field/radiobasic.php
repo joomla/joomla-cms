@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -40,9 +42,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -62,7 +61,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
 				// Initialize some option attributes.
-				$checked     = ((string) $option->value == $value) ? 'checked="checked"' : '';
+				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
 				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
@@ -79,7 +78,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<div class="radio m-b-0">
 				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
 					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-					<?php echo JText::alt($option->text, $alt); ?>
+					<?php echo Text::alt($option->text, $alt); ?>
 				</label>
 			</div>
 		<?php endforeach; ?>

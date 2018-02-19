@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<div class="logout<?php echo $this->pageclass_sfx; ?>">
+<div class="logout">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>

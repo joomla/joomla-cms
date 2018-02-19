@@ -28,7 +28,9 @@ $comUserParams = JComponentHelper::getParams('com_users');
 					<div class="controls">
 						<div class="input-group">
 							<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-								<span class="input-group-addon"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								<span class="input-group-prepend">
+									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								</span>
 							<?php endif; ?>
 							<?php echo $this->form->getInput('subject'); ?>
 						</div>

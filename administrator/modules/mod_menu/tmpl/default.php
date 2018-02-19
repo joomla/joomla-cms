@@ -9,8 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+
 $doc       = \Joomla\CMS\Factory::getDocument();
-$direction = $doc->direction == 'rtl' ? 'float-right' : '';
+$direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
 
 // Recurse through children of root node if they exist
@@ -23,7 +28,7 @@ if ($root->hasChildren())
 	echo '<ul id="menu" class="' . $class . '">' . "\n";
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
 
 	echo "</ul></div>\n";
 
