@@ -1,0 +1,51 @@
+joomla-field-tags > div {
+  border: 1px solid black;
+  background-color: white; }
+
+joomla-field-tags > div > input {
+  max-width: 100%;
+  padding: 6px 10px;
+  max-width: 100%;
+  font-size: 15px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  margin-bottom: 10px; }
+
+.tag {
+  display: inline-block;
+  color: #222;
+  background-color: #FAFAFA;
+  border: 1px solid #95a5a6;
+  padding: 2px 8px;
+  margin: 1px 2px;
+  border-radius: 7px;
+  white-space: nowrap;
+  cursor: default; }
+
+.tag:hover {
+  border: 1px solid #263238;
+  background-color: #263238; }
+
+.tag.over {
+  border: 1px dashed #000; }
+
+.tag.delete {
+  background-color: lightgrey;
+  border: 1px solid lightgrey; }
+
+.tag .remove {
+  display: none;
+  font-size: 12px;
+  margin-left: 6px;
+  margin-right: -2px;
+  cursor: pointer; }
+
+.tag.delete .remove {
+  display: inline; }
+
+[draggable] {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none; }

@@ -10,21 +10,19 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * List of Tags field.
  *
  * @since  3.1
  */
-class TagField extends \JFormFieldList
+class TagField extends FormField
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -51,6 +49,14 @@ class TagField extends \JFormFieldList
 	protected $comParams = null;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'joomla.form.field.tag';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  3.1
@@ -75,12 +81,12 @@ class TagField extends \JFormFieldList
 		// AJAX mode requires ajax-chosen
 		if (!$this->isNested())
 		{
-			// Get the field id
-			$id    = $this->element['id'] ?? null;
-			$cssId = '#' . $this->getId($id, $this->element['name']);
-
-			// Load the ajax-chosen customised field
-			\JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
+//			// Get the field id
+//			$id    = $this->element['id'] ?? null;
+//			$cssId = '#' . $this->getId($id, $this->element['name']);
+//
+//			// Load the ajax-chosen customised field
+//			\JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
@@ -89,7 +95,7 @@ class TagField extends \JFormFieldList
 			{
 				if (empty($this->value->tags))
 				{
-					$this->value = array();
+					$this->value = [];
 				}
 				else
 				{
@@ -100,11 +106,20 @@ class TagField extends \JFormFieldList
 			// String in format 2,5,4
 			if (is_string($this->value))
 			{
-				$this->value = explode(',', $this->value);
+				if (strpos($this->value, '{') !== false && strpos($this->value, '}') !== false)
+				{
+					$this->value = json_decode($this->value);
+				}
+				else
+				{
+					$this->value = explode(',', $this->value);
+				}
+
 			}
 		}
 
-		return parent::getInput();
+		// Trim the trailing line in the layout file
+		return trim($this->getRenderer($this->layout)->render($this->getLayoutData()));
 	}
 
 	/**
@@ -116,7 +131,7 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']?: array(0, 1);
+		$published = $this->element['published']?: [0, 1];
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
@@ -131,7 +146,7 @@ class TagField extends \JFormFieldList
 		{
 			$lang = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
-			if ($lang == 'current_language')
+			if ($lang === 'current_language')
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
@@ -175,7 +190,7 @@ class TagField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			return array();
+			return [];
 		}
 
 		// Block the possibility to set a tag as it own parent
@@ -192,9 +207,6 @@ class TagField extends \JFormFieldList
 			}
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
 		// Prepare nested data
 		if ($this->isNested())
 		{
@@ -205,7 +217,12 @@ class TagField extends \JFormFieldList
 			$options = TagsHelper::convertPathsToNames($options);
 		}
 
-		return $options;
+		foreach ($options as $option)
+		{
+			$optFinal[$option->text] = $option->value;
+		}
+
+		return $optFinal;
 	}
 
 	/**
@@ -266,5 +283,21 @@ class TagField extends \JFormFieldList
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		$data  = parent::getLayoutData();
+
+		$extraData = ['options' => $this->getOptions()];
+
+		return array_merge($data, $extraData);
 	}
 }

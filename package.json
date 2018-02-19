@@ -19,6 +19,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "awesomplete": "1.1.2",
+    "babel-preset-minify": "^0.3.0",
     "bootstrap": "4.0.0",
     "codemirror": "5.34.0",
     "cropperjs": "1.2.2",
@@ -36,9 +37,6 @@
     "tinymce": "4.7.6"
   },
   "devDependencies": {
-    "@polymer/test-fixture": "latest",
-    "@webcomponents/custom-elements": "latest",
-    "@webcomponents/webcomponentsjs": "latest",
     "autoprefixer": "^7.1.6",
     "babel-eslint": "^8.0.0",
     "babel-minify": "latest",
@@ -81,7 +79,8 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail"
+      "field-send-test-mail",
+      "field-tag"
     ],
     "webcomponents": {
       "field-media": {
@@ -93,6 +92,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-tag": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }

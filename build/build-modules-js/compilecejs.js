@@ -42,7 +42,7 @@ compileCejs = (options) => {
 		b.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
 		c.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
 		b.transform(babelify, { presets: ["babel-preset-es2015"] }).bundle().pipe(bundleFs);
-		c.transform(babelify, { presets: ["babel-preset-es2015", "minify"] }).bundle().pipe(bundleFsMin);
+		c.transform(babelify, { presets: ["babel-preset-es2015", "babel-preset-minify"] }).bundle().pipe(bundleFsMin);
 	});
 }
 
