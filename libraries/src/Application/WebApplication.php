@@ -29,7 +29,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
+	use DispatcherAwareTrait, EventAware, IdentityAware;
 
 	/**
 	 * The application document object.
@@ -80,9 +80,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		$input = $input ?: new Input;
 
 		parent::__construct($input, $config, $client, $response);
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -421,5 +418,17 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 }

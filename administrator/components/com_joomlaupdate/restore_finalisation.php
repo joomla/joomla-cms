@@ -49,7 +49,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -63,7 +63,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be deleted
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -90,7 +90,7 @@ if (!class_exists('JFolder'))
 		 *
 		 * @param   string  $folderName  The path to the folder to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
