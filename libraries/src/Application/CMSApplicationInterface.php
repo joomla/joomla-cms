@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-use Joomla\CMS\Extension\ExtensionLoaderInterface;
+use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
 
@@ -17,7 +17,7 @@ use Joomla\Session\SessionInterface;
  *
  * @since  4.0.0
  */
-interface CMSApplicationInterface extends ExtensionLoaderInterface
+interface CMSApplicationInterface extends ExtensionManagerInterface
 {
 	/**
 	 * Constant defining an enqueued emergency message

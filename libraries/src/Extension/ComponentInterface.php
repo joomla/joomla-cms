@@ -17,7 +17,7 @@ use Joomla\CMS\Categories\Categories;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ComponentContainerInterface
+interface ComponentInterface
 {
 	/**
 	 * Returns the category service. If the service is not available

@@ -17,26 +17,14 @@ use Joomla\CMS\Categories\Categories;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyComponentContainer implements ComponentContainerInterface
+class Component implements ComponentInterface
 {
 	/**
-	 * @var string
+	 * An array of categories.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @var array
 	 */
-	private $component;
-
-	/**
-	 * LegacyComponentContainer constructor.
-	 *
-	 * @param   string  $component  The component
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct(string $component)
-	{
-		$this->component = str_replace('com_', '', $component);
-	}
+	private $categories;
 
 	/**
 	 * Returns the category service. If the service is not available
@@ -53,25 +41,26 @@ class LegacyComponentContainer implements ComponentContainerInterface
 	 */
 	public function getCategories(array $options = [], $section = '')
 	{
-		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
-
-		if (!class_exists($classname))
-		{
-			$path = JPATH_SITE . '/components/com_' . $this->component . '/helpers/category.php';
-
-			if (!is_file($path))
-			{
-				return null;
-			}
-
-			include_once $path;
-		}
-
-		if (!class_exists($classname))
+		if (!key_exists($section, $this->categories))
 		{
 			return null;
 		}
 
-		return new $classname($options);
+		$categories = clone $this->categories[$section];
+		$categories->setOptions($options);
+
+		return $categories;
+	}
+
+	/**
+	 * An array of categories where the key is the name of the section.
+	 * If the component has no sections then the array must have at least
+	 * an empty key.
+	 *
+	 * @param   array  $categories  The categories
+	 */
+	public function setCategories(array $categories)
+	{
+		$this->categories = $categories;
 	}
 }

@@ -15,16 +15,16 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ExtensionLoaderInterface
+interface ExtensionManagerInterface
 {
 	/**
 	 * Boots the component with the given name.
 	 *
 	 * @param   string  $component  The component to boot.
 	 *
-	 * @return  ComponentContainerInterface
+	 * @return  ComponentInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function bootComponent($component): ComponentContainerInterface;
+	public function bootComponent($component): ComponentInterface;
 }

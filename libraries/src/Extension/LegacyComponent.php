@@ -11,16 +11,33 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\Categories;
-use Joomla\DI\Container;
-use Psr\Container\ContainerInterface;
 
 /**
  * Access to component specific services.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ComponentContainer extends Container implements ComponentContainerInterface
+class LegacyComponent implements ComponentInterface
 {
+	/**
+	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $component;
+
+	/**
+	 * LegacyComponentContainer constructor.
+	 *
+	 * @param   string  $component  The component
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct(string $component)
+	{
+		$this->component = str_replace('com_', '', $component);
+	}
+
 	/**
 	 * Returns the category service. If the service is not available
 	 * null is returned.
@@ -36,21 +53,25 @@ class ComponentContainer extends Container implements ComponentContainerInterfac
 	 */
 	public function getCategories(array $options = [], $section = '')
 	{
-		$serviceName = 'categories';
+		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 
-		if ($section)
+		if (!class_exists($classname))
 		{
-			$serviceName .= '.' . strtolower($section);
+			$path = JPATH_SITE . '/components/com_' . $this->component . '/helpers/category.php';
+
+			if (!is_file($path))
+			{
+				return null;
+			}
+
+			include_once $path;
 		}
 
-		if (!$this->has($serviceName))
+		if (!class_exists($classname))
 		{
 			return null;
 		}
 
-		$categories = $this->get($serviceName);
-		$categories->setOptions($options);
-
-		return $categories;
+		return new $classname($options);
 	}
 }
