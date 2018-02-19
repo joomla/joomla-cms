@@ -26,7 +26,7 @@ HTMLHelper::_('bootstrap.popover');
 <?php if (!empty($data->title)) : ?>
 	<?php echo Text::_($data->title); ?>
 <?php endif; ?>
-<?php if ($data->order == $data->selected) : ?>
+<?php if ($data->order === $data->selected) : ?>
 	<span class="<?php echo $data->orderIcon; ?>" aria-hidden="true"></span>
 <?php endif; ?>
 </a>

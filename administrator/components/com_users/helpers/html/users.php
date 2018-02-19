@@ -114,7 +114,7 @@ class JHtmlUsers
 	 * @return  string   The html for the rendered modal
 	 *
 	 * @since   3.4.1
-	*/
+	 */
 	public static function notesModal($count, $userId)
 	{
 		if (empty($count))
