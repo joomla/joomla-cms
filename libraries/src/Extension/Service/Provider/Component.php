@@ -16,7 +16,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the component's dispatcher dependency
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class Component implements ServiceProviderInterface
 {
@@ -27,7 +27,7 @@ class Component implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function register(Container $container)
 	{
