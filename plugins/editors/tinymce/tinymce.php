@@ -777,6 +777,8 @@ class PlgEditorTinymce extends JPlugin
 				// We do some hack here to set the correct icon for 3PD buttons
 				$icon = 'none icon-' . $icon;
 
+				$tempConstructor = array();
+
 				// Now we can built the script
 				$tempConstructor[] = '!(function(){';
 
