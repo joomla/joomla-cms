@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Component Archive Model
@@ -109,7 +110,7 @@ class ArchiveModel extends ArticlesModel
 			$query->where($query->year($queryDate) . ' = ' . $year);
 		}
 
-		if (count($catids)>0)
+		if (count($catids) > 0)
 		{
 			$query->where('c.id IN (' . implode(', ', $catids) . ')');
 		}

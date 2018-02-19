@@ -10,11 +10,14 @@
   "scripts": {
     "build:js": "node build --compilejs",
     "build:css": "node build --compilecss",
+    "watch:js": "node build --compilejs --watch",
+    "watch:css": "node build --compilecss --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
     "update": "node build --update"
   },
   "dependencies": {
+    "@claviska/jquery-minicolors": "2.2.6",
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0",
     "codemirror": "5.34.0",
@@ -30,8 +33,7 @@
     "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
-    "tinymce": "4.7.6",
-    "@claviska/jquery-minicolors": "2.2.6"
+    "tinymce": "4.7.6"
   },
   "devDependencies": {
     "@polymer/test-fixture": "latest",
@@ -63,6 +65,7 @@
     "karma-jasmine-ajax": "latest",
     "karma-requirejs": "latest",
     "karma-verbose-reporter": "latest",
+    "lodash.debounce": "^4.0.8",
     "node-sass": "^4.5.3",
     "path": "^0.12.7",
     "recursive-copy": "latest",

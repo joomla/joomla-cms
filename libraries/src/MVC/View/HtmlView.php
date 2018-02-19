@@ -197,7 +197,7 @@ class HtmlView extends AbstractView
 	 * Escapes a value for output in a view script.
 	 *
 	 * If escaping mechanism is htmlspecialchars, use
-	 * {@link $_encoding} setting.
+	 * {@link $_charset} setting.
 	 *
 	 * @param   mixed  $var  The output to escape.
 	 *
@@ -207,7 +207,7 @@ class HtmlView extends AbstractView
 	 */
 	public function escape($var)
 	{
-		return htmlspecialchars($var, ENT_COMPAT, $this->_charset);
+		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 
 	/**
