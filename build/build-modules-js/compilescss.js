@@ -59,16 +59,17 @@ compileFiles = (options, path) => {
 				const cleaner  = postcss([ autoprefixer({ add: false, browsers: options.settings.browsers }) ]);
 				const prefixer = postcss([ autoprefixer ]);
 
-				cleaner.process(result.css.toString(), {from: undefined}).then(function (cleaned) {
-					return prefixer.process(cleaned.css, {from: undefined})
-				}).then(function (result) {
-					fs.writeFileSync(cssFile, result.css.toString(), {encoding: 'UTF-8'});
-				});
-
-				// Uglify it now
-				fs.writeFileSync(cssFile.replace('.css', '.min.css'), UglyCss.processFiles([cssFile], {expandVars: false }), {encoding: 'UTF-8'});
-
-				console.log(Chalk.bgYellow(cssFile.replace(/.+\//, '') + ' was updated.'));
+				cleaner.process(result.css.toString(), {from: undefined}).then((cleaned) => {
+     return prefixer.process(cleaned.css, {from: undefined})
+    }).then((result) => {
+     // Write the file
+     fs.writeFile(cssFile, result.css.toString(), (err) => {});
+     console.log(Chalk.bgYellow(cssFile.replace(/.+\//, '') + ' was updated.'));
+    }).then(() => {
+     // Uglify it now
+     fs.writeFile(cssFile.replace('.css', '.min.css'), UglyCss.processFiles([cssFile]), (err) => {});
+     console.log(Chalk.bgYellow(cssFile.replace(/.+\//, '') + ' was minified.'));
+    });
 			}
 		});
 	});
