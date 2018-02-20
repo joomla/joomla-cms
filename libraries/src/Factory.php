@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
@@ -715,7 +716,7 @@ abstract class Factory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return Document::getInstance($type, $attributes);
+		return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 	}
 
 	/**
