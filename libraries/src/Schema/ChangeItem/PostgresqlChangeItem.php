@@ -80,9 +80,7 @@ class PostgresqlChangeItem extends ChangeItem
 			$lastActionArray = preg_split($splitIntoWords, end($actions), null, PREG_SPLIT_NO_EMPTY);
 
 			// Replace all actions by the last one
-			array_splice($wordArray, 3, count($wordArray), $lastActionArray);
-
-			$totalWords = count($wordArray);
+			array_splice($wordArray, 3, $totalWords, $lastActionArray);
 
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
