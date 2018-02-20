@@ -7,6 +7,7 @@ const UglyCss = require('uglifycss');
 const autoprefixer = require('autoprefixer');
 const postcss = require('postcss');
 const debounce = require('lodash.debounce');
+const folderToCompile = require('path');
 
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
@@ -74,7 +75,7 @@ compileFiles = (options, path) => {
 				// Auto prefixing
 				console.log(Chalk.gray('Prefixing for: ', options.settings.browsers));
 
-				cleaner.process(result.css.toString()).then((cleaned) => {
+				cleaner.process(result.css.toString(), {from: undefined}).then((cleaned) => {
 
 					prefixer.process(cleaned.css, {from: undefined}).then((final) => {
 						// Write the normal file
