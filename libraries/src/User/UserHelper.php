@@ -61,8 +61,16 @@ abstract class UserHelper
 			// Add the group data to the user object.
 			$user->groups[$title] = $groupId;
 
+			// Set task to avoid removing of saved Field data
+			$input = \JFactory::getApplication()->input;
+			$task = $input->getCmd('task');
+			$input->set('task', 'addUserToGroup');
+
 			// Store the user object.
 			$user->save();
+
+			// Restore task to initial setting
+			$input->set('task', $task);
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -123,8 +131,16 @@ abstract class UserHelper
 			// Remove the user from the group.
 			unset($user->groups[$key]);
 
+			// Set task to avoid removing of saved Field data
+			$input = \JFactory::getApplication()->input;
+			$task = $input->getCmd('task');
+			$input->set('task', 'removeUserFromGroup');
+
 			// Store the user object.
 			$user->save();
+
+			// Restore task to initial setting
+			$input->set('task', $task);
 		}
 
 		// Set the group data for any preloaded user objects.

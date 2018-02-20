@@ -73,7 +73,7 @@ class PlgSystemFields extends JPlugin
 		// Loading the fields
 		$fields = FieldsHelper::getFields($context, $item);
 
-		if (!$fields || empty($data['com_fields']))
+		if (!$fields)
 		{
 			return true;
 		}
@@ -96,7 +96,6 @@ class PlgSystemFields extends JPlugin
 				$value = json_encode($value);
 			}
 
-			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
 		}
 
@@ -128,8 +127,8 @@ class PlgSystemFields extends JPlugin
 
 		$task = JFactory::getApplication()->input->getCmd('task');
 
-		// Skip fields save when we activate a user, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock')))
+		// Skip fields save when we activate a user or change user's group membership, because we will lose the saved data
+		if (in_array($task, array('activate', 'block', 'unblock', 'removeUserFromGroup', 'addUserToGroup')))
 		{
 			return true;
 		}
