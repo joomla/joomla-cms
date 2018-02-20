@@ -2703,7 +2703,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
 
         function handleKeyNonInsertMode() {
-          if (handleMacroRecording() || handleEsc()) { return true; };
+          if (handleMacroRecording() || handleEsc()) { return true; }
 
           var keys = vim.inputState.keyBuffer = vim.inputState.keyBuffer + key;
           if (/^[1-9]\d*$/.test(keys)) { return true; }
@@ -3288,7 +3288,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         } else {
           if (vim.visualMode) {
             showPrompt(cm, { onClose: onPromptClose, prefix: ':', value: '\'<,\'>',
-                onKeyDown: onPromptKeyDown});
+                onKeyDown: onPromptKeyDown, selectValueOnOpen: false});
           } else {
             showPrompt(cm, { onClose: onPromptClose, prefix: ':',
                 onKeyDown: onPromptKeyDown});
@@ -5545,7 +5545,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function splitBySlash(argString) {
-      var slashes = findUnescapedSlashes(argString) || [];
+      return splitBySeparator(argString, '/');
+    }
+
+    function findUnescapedSlashes(argString) {
+      return findUnescapedSeparators(argString, '/');
+    }
+
+    function splitBySeparator(argString, separator) {
+      var slashes = findUnescapedSeparators(argString, separator) || [];
       if (!slashes.length) return [];
       var tokens = [];
       // in case of strings like foo/bar
@@ -5557,12 +5565,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return tokens;
     }
 
-    function findUnescapedSlashes(str) {
+    function findUnescapedSeparators(str, separator) {
+      if (!separator)
+        separator = '/';
+
       var escapeNextChar = false;
       var slashes = [];
       for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);
-        if (!escapeNextChar && c == '/') {
+        if (!escapeNextChar && c == separator) {
           slashes.push(i);
         }
         escapeNextChar = !escapeNextChar && (c == '\\');
@@ -6428,7 +6439,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               'any other getSearchCursor implementation.');
         }
         var argString = params.argString;
-        var tokens = argString ? splitBySlash(argString) : [];
+        var tokens = argString ? splitBySeparator(argString, argString[0]) : [];
         var regexPart, replacePart = '', trailing, flagsPart, count;
         var confirm = false; // Whether to confirm each replace.
         var global = false; // True to replace all instances on a line, false to replace only 1.
@@ -6472,7 +6483,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               global = true;
               flagsPart.replace('g', '');
             }
-            regexPart = regexPart + '/' + flagsPart;
+            regexPart = regexPart.replace(/\//g, "\\/") + '/' + flagsPart;
           }
         }
         if (regexPart) {
@@ -6688,7 +6699,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
       if (!confirm) {
         replaceAll();
-        if (callback) { callback(); };
+        if (callback) { callback(); }
         return;
       }
       showPrompt(cm, {
@@ -6824,7 +6835,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             exitInsertMode(cm);
           }
         }
-      };
+      }
       macroModeState.isPlaying = false;
     }
 
@@ -7028,7 +7039,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         exitInsertMode(cm);
       }
       macroModeState.isPlaying = false;
-    };
+    }
 
     function repeatInsertModeChanges(cm, changes, repeat) {
       function keyHandler(binding) {
@@ -7219,7 +7230,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Stylus", mime: "text/x-styl", mode: "stylus", ext: ["styl"]},
     {name: "Swift", mime: "text/x-swift", mode: "swift", ext: ["swift"]},
     {name: "sTeX", mime: "text/x-stex", mode: "stex"},
-    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx"], alias: ["tex"]},
+    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx", "tex"], alias: ["tex"]},
     {name: "SystemVerilog", mime: "text/x-systemverilog", mode: "verilog", ext: ["v", "sv", "svh"]},
     {name: "Tcl", mime: "text/x-tcl", mode: "tcl", ext: ["tcl"]},
     {name: "Textile", mime: "text/x-textile", mode: "textile", ext: ["textile"]},
