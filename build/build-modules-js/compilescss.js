@@ -97,7 +97,7 @@ const compileFiles = (options, path) => {
   });
 };
 
-const watchFiles = function (options, folders, compileFirst = false) {
+const watchFiles = function watchFiles(options, folders, compileFirst = false) {
   const foldersOrWatches = folders || watches;
 
   if (compileFirst) {
