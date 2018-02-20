@@ -13,11 +13,13 @@
   "globals": {
     "Joomla": true
   },
- // Rule overrides
- "rules": {
-   // Allow usage of dev-dependencies in js files in build directory
-   "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
-   // Allow strict mode (we are not dealing with modules)
-   "strict": [0]
-   }
+  // Rule overrides
+  "rules": {
+    // Allow usage of dev-dependencies in js files in build directory
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
+    // Disable warning "unexpected console statement"
+    "no-console": 'off',
+    // Allow strict mode (we are not dealing with modules)
+    "strict": [0]
+  }
 }
