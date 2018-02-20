@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
 const fs = require('fs');
-const fsExtra = require('fs-extra');
 const Chalk = require('chalk');
 const Recurs = require("recursive-readdir");
 const Sass = require('node-sass');
@@ -47,9 +46,21 @@ compileFiles = (options, path) => {
 		];
 	}
 
+		// Loop to get the files that should be compiled via parameter
+		folders.forEach((folder) => {
+			let filesTocompile = fs.readdirSync(folder);
+			filesTocompile.forEach((fileTocompile) => {
+				if (folderToCompile.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
+					files.push(folder + '/' + fileTocompile);
+					}
+					});
+			});
+
 	// Loop to get some text for the packgage.json
 	files.forEach((file) => {
 		const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+		const cleaner  = postcss([ autoprefixer({ add: false, browsers: options.settings.browsers }) ]);
+		const prefixer = postcss([ autoprefixer ]);
 
 		Sass.render({
 			file: file,
@@ -63,19 +74,24 @@ compileFiles = (options, path) => {
 				// Auto prefixing
 				console.log(Chalk.gray('Prefixing for: ', options.settings.browsers));
 
-				const cleaner  = postcss([ autoprefixer({ add: false, browsers: options.settings.browsers }) ]);
-				const prefixer = postcss([ autoprefixer ]);
+				cleaner.process(result.css.toString()).then((cleaned) => {
 
-				cleaner.process(result.css.toString(), {from: undefined}).then(function (cleaned) {
-					return prefixer.process(cleaned.css, {from: undefined})
-				}).then(function (result) {
-					fs.writeFileSync(cssFile, result.css.toString(), {encoding: 'UTF-8'});
+					prefixer.process(cleaned.css, {from: undefined}).then((final) => {
+						// Write the normal file
+						fs.writeFile(cssFile, final.css.toString(), function(err){
+							if(!err){
+								//file written on disk
+							}
+						});
+
+						// Write the minified file
+						fs.writeFile(cssFile.replace('.css', '.min.css'), UglyCss.processString(final.css.toString()), function(err){
+							if(!err){
+								//file written on disk
+							}
+						});
+					});
 				});
-
-				// Uglify it now
-				fs.writeFileSync(cssFile.replace('.css', '.min.css'), UglyCss.processFiles([cssFile], {expandVars: false }), {encoding: 'UTF-8'});
-
-				console.log(Chalk.bgYellow(cssFile.replace(/.+\//, '') + ' was updated.'));
 			}
 		});
 	});
@@ -85,9 +101,14 @@ compileFiles = (options, path) => {
 		Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
 			(files) => {
 				files.forEach((file) => {
-						if (file.match(/.css/)) {
-							// Write the file
-							fs.writeFileSync(file.replace('.css', '.min.css'), UglyCss.processFiles([file], {expandVars: false }), {encoding: "utf8"});
+						if (file.match(/.css/) && file !== '/') {
+							console.log('file ', file)
+							console.log('file ', fs.readSync(file, 'UTF8'));
+							fs.write(file.replace('.css', '.min.css'), UglyCss.processFiles(file), (err) => {
+								if (!err) {
+									//file written on disk
+								}
+							});
 						}
 					},
 					(error) => {
@@ -128,10 +149,7 @@ watchFiles = function(options, folders, compileFirst = false) {
 };
 
 sass = (options, path) => {
-	Promise.resolve()
-		// Compile the scss files
-		.then(() => compileFiles(options, path))
-
+	Promise.resolve(compileFiles(options, path))
 		// Handle errors
 		.catch((err) => {
 			console.error(Chalk.red(err));
