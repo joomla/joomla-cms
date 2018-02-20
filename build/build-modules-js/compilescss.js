@@ -1,55 +1,124 @@
-const babelify = require("babelify");
-const browserify = require("browserify");
-const Chalk = require('chalk');
-const fs = require('fs');
-const fsExtra = require('fs-extra');
-const Path = require('path');
 const Promise = require('bluebird');
-const UglifyJS = require('uglify-es');
+const fs = require('fs');
+const Chalk = require('chalk');
+const Recurs = require("recursive-readdir");
+const Sass = require('node-sass');
+const UglyCss = require('uglifycss');
+const autoprefixer = require('autoprefixer');
+const postcss = require('postcss');
+const Path = require('path');
+const folderToCompile = require('path');
 
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
-compileCejs = (options) => {
-	// Make sure that the dist paths exist
-	if (!fs.existsSync(rootPath + '/media/system/webcomponents')) {
-		fsExtra.mkdirSync(rootPath + '/media/system/webcomponents');
+compileFiles = (options, path) => {
+	let files = [], folders = [];
+
+	if (path) {
+		const stats = fs.lstatSync(rootPath + '/' + path);
+
+		if (stats.isDirectory()) {
+			folders.push(rootPath + '/' + path);
+		} else if (stats.isFile()) {
+			files.push(rootPath + '/' + path);
+		} else {
+			throw new Error ('Unknown path ' + path);
+		}
+
+	} else {
+		files = [
+			rootPath + '/' + 'templates/cassiopeia/scss/template.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/bootstrap.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/font-awesome.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/template.scss',
+			rootPath + '/' + 'administrator/templates/atum/scss/template-rtl.scss',
+			rootPath + '/' + 'media/plg_installer_webinstaller/scss/client.scss',
+		];
+
+		folders = [
+			rootPath + '/' + 'media',
+		];
 	}
-	if (!fs.existsSync(rootPath + '/media/system/webcomponents/js')) {
-		fsExtra.mkdirSync(rootPath + '/media/system/webcomponents/js');
-	}
 
-	if (!fs.existsSync(Path.join(rootPath, '/media/system/webcomponents/css'))) {
-		fs.mkdirSync(Path.join(rootPath, '/media/system/webcomponents/css'));
-	}
+		// Loop to get the files that should be compiled via parameter
+		folders.forEach((folder) => {
+			let filesTocompile = fs.readdirSync(folder);
+			filesTocompile.forEach((fileTocompile) => {
+				if (folderToCompile.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
+					files.push(folder + '/' + fileTocompile);
+					}
+					});
+			});
 
-	options.settings.elements.forEach((element) => {
-		const b = browserify();
-		const c = browserify();
+	// Loop to get some text for the packgage.json
+	files.forEach((file) => {
+		const cssFile = file.replace('scss', 'css').replace('.scss', '.css');
+		const cleaner  = postcss([ autoprefixer({ add: false, browsers: options.settings.browsers }) ]);
+		const prefixer = postcss([ autoprefixer ]);
 
-		// Copy the ES6 file
-		const es6File = fs.readFileSync(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js', "utf8");
-		fs.writeFileSync(rootPath + '/media/system/webcomponents/js/joomla-' + element + '.js', es6File, { encoding: "utf8" });
+		Sass.render({
+			file: file,
+		}, function(error, result) {
+			if (error) {
+				console.log(error.column);
+				console.log(error.message);
+				console.log(error.line);
+			}
+			else {
+				// Auto prefixing
+				console.log(Chalk.gray('Prefixing for: ', options.settings.browsers));
 
-		// And the minified version
-		fs.writeFileSync(rootPath + '/media/system/webcomponents/js/joomla-' + element + '.min.js', UglifyJS.minify(es6File).code, { encoding: "utf8" });
+				cleaner.process(result.css.toString()).then((cleaned) => {
 
-		// Transpile a copy for ES5
-		fs.writeFileSync(rootPath + '/media/system/webcomponents/js/joomla-' + element + '-es5.js', '');
-		const bundleFs = fs.createWriteStream(rootPath + '/media/system/webcomponents/js/joomla-' + element + '-es5.js');
-		const bundleFsMin = fs.createWriteStream(rootPath + '/media/system/webcomponents/js/joomla-' + element + '-es5.min.js');
+					prefixer.process(cleaned.css, {from: undefined}).then((final) => {
+						// Write the normal file
+						fs.writeFile(cssFile, final.css.toString(), function(err){
+							if(!err){
+								//file written on disk
+							}
+						});
 
-		b.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
-		c.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
-		b.transform(babelify, { presets: ["babel-preset-es2015"] }).bundle().pipe(bundleFs);
-		c.transform(babelify, { presets: ["babel-preset-es2015", "minify"] }).bundle().pipe(bundleFsMin);
+						// Write the minified file
+						fs.writeFile(cssFile.replace('.css', '.min.css'), UglyCss.processString(final.css.toString()), function(err){
+							if(!err){
+								//file written on disk
+							}
+						});
+					});
+				});
+			}
+		});
 	});
-}
 
-compileCEjs = (options, path) => {
-	Promise.resolve()
-		.then(() => compileCejs(options, path))
+	// Loop to get some text for the packgage.json
+	folders.forEach((folder) => {
+		Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
+			(files) => {
+				files.forEach((file) => {
+						if (file.match(/.css/) && file !== '/') {
+							console.log('file ', file)
+							console.log('file ', fs.readSync(file, 'UTF8'));
+							fs.write(file.replace('.css', '.min.css'), UglyCss.processFiles(file), (err) => {
+								if (!err) {
+									//file written on disk
+								}
+							});
+						}
 
+					},
+					(error) => {
+						console.error("something exploded", error);
+					}
+				);
+			});
+	});
+
+};
+
+
+sass = (options, path) => {
+	Promise.resolve(compileFiles(options, path))
 		// Handle errors
 		.catch((err) => {
 			console.error(Chalk.red(err));
@@ -57,4 +126,4 @@ compileCEjs = (options, path) => {
 		});
 };
 
-module.exports.compileCEjs = compileCEjs;
+module.exports.css = sass;
