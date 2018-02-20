@@ -96,8 +96,12 @@ class PlgSystemFields extends JPlugin
 				$value = json_encode($value);
 			}
 
-			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $item->id, $value);
+			// Do not set field value for fields that are not available in the object as this will erase the data for these fields
+			if (!is_null($value))
+			{
+				// Setting the value for the field and the item
+				$model->setFieldValue($field->id, $item->id, $value);
+			}
 		}
 
 		return true;
