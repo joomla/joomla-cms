@@ -1070,13 +1070,15 @@ iframe {
   .subhead .btn-toolbar {
     margin-bottom: 0; }
     .subhead .btn-toolbar > * {
-      margin-left: .75rem; }
+      margin-left: .75rem;
+      -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+              box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
       .subhead .btn-toolbar > *:first-of-type {
         margin-left: 0; }
   .subhead .btn {
     padding: 0 18px;
     font-size: 1rem;
-    line-height: 2.8rem;
+    line-height: 2.65rem;
     color: white; }
     .subhead .btn [class^="icon-"],
     .subhead .btn [class*=" icon-"],
@@ -1087,7 +1089,7 @@ iframe {
       width: 40px;
       height: auto;
       margin: 0 12px 0 -18px;
-      line-height: 2.8rem;
+      line-height: 2.65rem;
       color: white;
       background-color: rgba(0, 0, 0, 0.2); }
   .subhead .btn-group {
@@ -1391,8 +1393,8 @@ joomla-alert {
   border: 1px solid #ccc;
   border-bottom: 0;
   border-radius: none none 0 0;
-  -webkit-box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15), 0 -4px 0 rgba(0, 0, 0, 0.05) inset, 0 0 3px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15), 0 -4px 0 rgba(0, 0, 0, 0.05) inset, 0 0 3px rgba(0, 0, 0, 0.04); }
+  -webkit-box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15), 0 -4px 0 rgba(0, 0, 0, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15), 0 -4px 0 rgba(0, 0, 0, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.25); }
   .nav.nav-tabs .nav-item {
     margin-bottom: 0;
     margin-left: 0; }
@@ -1441,8 +1443,8 @@ joomla-alert {
   border: 1px solid;
   border-color: #ccc;
   border-radius: 0 0 none none;
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 0 3px rgba(0, 0, 0, 0.04); }
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
 
 .pagination {
   margin: 1rem; }
@@ -1548,8 +1550,8 @@ joomla-alert {
   margin-top: 0; }
 
 .com_cpanel .card {
-  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 0 3px rgba(0, 0, 0, 0.04); }
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   .com_cpanel .card p:first-of-type {
     margin-top: 1rem; }
   .com_cpanel .card p:last-child {
