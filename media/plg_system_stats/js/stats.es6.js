@@ -20,10 +20,6 @@ Joomla = window.Joomla || {};
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
     const detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
-    const details = messageContainer.querySelector('.js-pstats-btn-details');
-    const always = messageContainer.querySelector('.js-pstats-btn-allow-always');
-    const once = messageContainer.querySelector('.js-pstats-btn-allow-once');
-    const never = messageContainer.querySelector('.js-pstats-btn-allow-never');
 
     // Show details about the information being sent
     document.addEventListener('click', (event) => {
