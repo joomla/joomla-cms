@@ -84,16 +84,15 @@ Joomla = window.Joomla || {};
       },
       onSuccess: (response) => {
         try {
-          response = JSON.parse(response);
+          const json = JSON.parse(response);
+          if (json && json.html) {
+            messageContainer.innerHTML = response.html;
+            messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
+
+            Joomla.initStatsEvents();
+          }
         } catch (e) {
           throw new Error(e);
-        }
-
-        if (response && response.html) {
-          messageContainer.innerHTML = response.html;
-          messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
-
-          initStatsEvents();
         }
       },
       onError: (xhr) => {
