@@ -82,9 +82,9 @@ Joomla = window.Joomla || {};
       headers: {
         'Content-Type': 'application/json',
       },
-      onSuccess: (response, xhr) => {
+      onSuccess: (response) => {
         try {
-          response = JSON.parse(response);
+          const response = JSON.parse(response);
         } catch (e) {
           throw new Error(e);
         }
