@@ -3,12 +3,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || {};
-
-(() => {
+((document) => {
   'use strict';
 
-  Joomla.updateBannerFields = value => {
+  const updateBannerFields = (value) => {
     const imgWrapper = document.getElementById('image');
     const custom = document.getElementById('custom');
 
@@ -24,24 +22,21 @@ Joomla = window.Joomla || {};
         custom.style.display = 'block';
         break;
     }
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
-
     const jformType = document.getElementById('jform_type');
 
     if (jformType) {
       // Hide/show parameters initially
-      Joomla.updateBannerFields(jformType.value);
+      updateBannerFields(jformType.value);
 
       // Hide/show parameters when the type has been selected
-      jformType.addEventListener('change', event => {
-        const value = typeof(params) !== 'object' ? jformType.value : params.selected;
+      jformType.addEventListener('change', () => {
+        const value = typeof (params) !== 'object' ? jformType.value : params.selected;
 
-        Joomla.updateBannerFields(value);
+        updateBannerFields(value);
       });
     }
-
   });
-
-})();
+})(document);
