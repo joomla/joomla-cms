@@ -84,13 +84,13 @@ Joomla = window.Joomla || {};
       },
       onSuccess: (response) => {
         try {
-          const parse = JSON.parse(response);
+          response = JSON.parse(response);
         } catch (e) {
           throw new Error(e);
         }
 
-        if (parse && parse.html) {
-          messageContainer.innerHTML = parse.html;
+        if (response && response.html) {
+          messageContainer.innerHTML = response.html;
           messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
 
           Joomla.initStatsEvents();
