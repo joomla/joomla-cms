@@ -127,9 +127,10 @@ class PlgSystemFields extends JPlugin
 		$user = JFactory::getUser($userData['id']);
 
 		$task = JFactory::getApplication()->input->getCmd('task');
+		$helperTask = JFactory::getApplication()->input->getCmd('helpertask');
 
 		// Skip fields save when we activate a user or change user's group membership, because we will lose the saved data
-		if (in_array($task, array('activate', 'block', 'unblock', 'removeUserFromGroup', 'addUserToGroup')))
+		if (in_array($task, array('activate', 'block', 'unblock')) || in_array($helperTask, array('removeUserFromGroup', 'addUserToGroup')))
 		{
 			return true;
 		}
