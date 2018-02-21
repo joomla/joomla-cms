@@ -6,7 +6,7 @@ $atum-template-color-light:        #2e5a84;
 $atum-template-color-dark:         #1a466b;
 $atum-container-main-bg:           #f2f2f2;
 $atum-border-color:                #ccc;
-$atum-box-shadow:                  0 0 3px rgba(0, 0, 0, .04);
+$atum-box-shadow:                  0 1px 2px rgba(0,0,0,0.25);
 $atum-block-header-bg:             #f5f5f5;
 $white-offset:                     #fefefe;
 $atum-hl-grad-inner:               #59afff;
@@ -57,7 +57,7 @@ $header-height:                    48px;
 $header-icons-bg:                  $atum-template-color-light;
 
 // Toolbar
-$atum-toolbar-line-height:         1.8rem;
+$atum-toolbar-line-height:         2.65rem;
 
 // Menu Toggle
 $atum-button-width:                30px;
@@ -94,6 +94,20 @@ $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts"
 $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0,0,0,.03);
 $table-row-selected:               #d9edf7;
+
+// Buttons + Forms
+$btn-border-width:            0;
+$btn-border-radius:           0;
+$btn-border-radius-lg:        0;
+$btn-border-radius-sm:        0;
+
+// Dropdowns
+$dropdown-padding-y:               0;
+$dropdown-border-width:            0;
+$dropdown-link-hover-color:        $white;
+$dropdown-item-padding-y:          .5rem;
+$dropdown-item-padding-x:          .75rem;
+$dropdown-spacer:                  0;
 
 // Tabs
 $atum-tabs-header-bg:              $atum-block-header-bg;

@@ -13,7 +13,7 @@ $btnClass = $displayData['class'];
 ?>
 <button
 	type="button"
-	class="btn btn-sm <?php echo $btnClass; ?> dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+	class="btn <?php echo $btnClass; ?> dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
 	aria-haspopup="true"
 	aria-expanded="false"></button>
 <div class="dropdown-menu dropdown-menu-right">

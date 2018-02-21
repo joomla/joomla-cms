@@ -1660,7 +1660,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  border: 1px solid transparent;
+  border: 0 solid transparent;
   padding: 0.6rem 1rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -2139,19 +2139,19 @@ tbody.collapse.show {
   display: none;
   float: left;
   min-width: 10rem;
-  padding: 0.5rem 0;
-  margin: 0.125rem 0 0;
+  padding: 0 0;
+  margin: 0 0 0;
   font-size: 1rem;
   color: #212529;
   text-align: left;
   list-style: none;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15); }
+  border: 0 solid rgba(0, 0, 0, 0.15); }
 
 .dropup .dropdown-menu {
   margin-top: 0;
-  margin-bottom: 0.125rem; }
+  margin-bottom: 0; }
 
 .dropup .dropdown-toggle::after {
   display: inline-block;
@@ -2170,7 +2170,7 @@ tbody.collapse.show {
 
 .dropright .dropdown-menu {
   margin-top: 0;
-  margin-left: 0.125rem; }
+  margin-left: 0; }
 
 .dropright .dropdown-toggle::after {
   display: inline-block;
@@ -2191,7 +2191,7 @@ tbody.collapse.show {
 
 .dropleft .dropdown-menu {
   margin-top: 0;
-  margin-right: 0.125rem; }
+  margin-right: 0; }
 
 .dropleft .dropdown-toggle::after {
   display: inline-block;
@@ -2230,7 +2230,7 @@ tbody.collapse.show {
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 0.25rem 1.5rem;
+  padding: 0.5rem 0.75rem;
   clear: both;
   font-weight: 400;
   color: #212529;
@@ -2239,7 +2239,7 @@ tbody.collapse.show {
   background-color: transparent;
   border: 0; }
   .dropdown-item:hover, .dropdown-item:focus {
-    color: #16181b;
+    color: #fff;
     text-decoration: none;
     background-color: #f8f9fa; }
   .dropdown-item.active, .dropdown-item:active {
@@ -2255,7 +2255,7 @@ tbody.collapse.show {
 
 .dropdown-header {
   display: block;
-  padding: 0.5rem 1.5rem;
+  padding: 0 0.75rem;
   margin-bottom: 0;
   font-size: 0.8rem;
   color: #868e96;
@@ -2286,7 +2286,7 @@ tbody.collapse.show {
   .btn-group-vertical .btn + .btn-group,
   .btn-group-vertical .btn-group + .btn,
   .btn-group-vertical .btn-group + .btn-group {
-    margin-left: -1px; }
+    margin-left: 0; }
 
 .btn-toolbar {
   display: flex;
@@ -2323,7 +2323,7 @@ tbody.collapse.show {
   .btn-group-vertical > .btn + .btn-group,
   .btn-group-vertical > .btn-group + .btn,
   .btn-group-vertical > .btn-group + .btn-group {
-    margin-top: -1px;
+    margin-top: 0;
     margin-left: 0; }
 
 .btn-group-toggle > .btn,

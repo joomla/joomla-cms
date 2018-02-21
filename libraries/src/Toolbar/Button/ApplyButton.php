@@ -57,12 +57,12 @@ class ApplyButton extends ToolbarButton
 
 		if ($name == 'apply' || $name == 'save')
 		{
-			$options['btnClass'] = 'btn btn-sm btn-success';
+			$options['btnClass'] = 'btn btn-success';
 			$options['class'] .= ' icon-white';
 		}
 		else
 		{
-			$options['btnClass'] = 'btn btn-sm btn-primary-outline';
+			$options['btnClass'] = 'btn btn-primary-outline';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout

@@ -87,7 +87,7 @@ else
 					<th style="width:8%;">
 					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
-							<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
+							<a class="group-add btn btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
 						</div>
 					<?php endif; ?>
 					</th>

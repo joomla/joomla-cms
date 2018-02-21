@@ -62,7 +62,7 @@ class StandardButton extends ToolbarButton
 		{
 			case 'apply':
 			case 'new':
-				$options['btnClass'] .= ' btn btn-sm btn-success';
+				$options['btnClass'] .= ' btn btn-success';
 				break;
 
 			case 'save':
@@ -70,28 +70,28 @@ class StandardButton extends ToolbarButton
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-success';
+				$options['btnClass'] .= ' btn btn-success';
 				break;
 
 			case 'unpublish':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
+				$options['btnClass'] .= ' btn btn-danger';
 				break;
 
 			case 'featured':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-warning';
+				$options['btnClass'] .= ' btn btn-warning';
 				break;
 
 			case 'cancel':
-				$options['btnClass'] .= ' btn btn-sm btn-danger';
+				$options['btnClass'] .= ' btn btn-danger';
 				break;
 
 			case 'trash':
-				$options['btnClass'] .= ' btn btn-sm btn-outline-danger';
+				$options['btnClass'] .= ' btn btn-danger';
 				break;
 
 
 			default:
-				$options['btnClass'] .= ' btn btn-sm btn-outline-primary';
+				$options['btnClass'] .= ' btn btn-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
