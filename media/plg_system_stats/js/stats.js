@@ -14,13 +14,6 @@ Joomla = window.Joomla || {};
 (function (Joomla, document) {
   'use strict';
 
-  var data = {
-    option: 'com_ajax',
-    group: 'system',
-    plugin: 'renderStatsMessage',
-    format: 'raw'
-  };
-
   var initStatsEvents = function initStatsEvents(callback) {
     var messageContainer = document.getElementById('system-message-container');
     var joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
@@ -42,10 +35,7 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendAlways';
-
-        callback(data);
+        callback({ plugin: 'sendAlways' });
       }
     });
 
@@ -57,10 +47,7 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendOnce';
-
-        callback(data);
+        callback({ plugin: 'sendOnce' });
       }
     });
 
@@ -72,18 +59,20 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendNever';
-
-        callback(data);
+        callback({ plugin: 'sendNever' });
       }
     });
   };
 
-  var getJson = function getJson(options) {
+  var getJson = function getJson() {
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref$plugin = _ref.plugin,
+        plugin = _ref$plugin === undefined ? 'sendStats' : _ref$plugin;
+
+    var url = 'index.php?option=com_ajax&group=system&plugin=' + plugin + '&format=raw';
     var messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-      url: 'index.php?option=' + options.option + '&group=' + options.group + '&plugin=' + options.plugin + '&format=' + options.format,
+      url: url,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -108,7 +97,6 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', function () {
-    data.plugin = 'sendStats';
-    getJson(data);
+    getJson();
   });
 })(Joomla, document);
