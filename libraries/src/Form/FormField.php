@@ -968,7 +968,7 @@ abstract class FormField
 		if (!empty($this->addFormPresence) && strlen($input))
 		{
 			$fn = str_replace($this->formControl . '_', $this->formControl . '[_presence_][', $this->getId('', $this->fieldname)) . ']';
-			$input .= "\n" . '<input type="text" name="' . $fn . '" value="1" />';
+			$input .= "\n" . '<input type="hidden" name="' . $fn . '" value="1" />';
 		}
 
 		$data = array(
