@@ -10,10 +10,10 @@ Joomla = window.Joomla || {};
   'use strict';
 
   const data = {
-    'option' : 'com_ajax',
-    'group'  : 'system',
-    'plugin' : 'renderStatsMessage',
-    'format' : 'raw'
+    option: 'com_ajax',
+    group: 'system',
+    plugin: 'renderStatsMessage',
+    format: 'raw',
   };
 
   Joomla.initStatsEvents = () => {
@@ -26,7 +26,7 @@ Joomla = window.Joomla || {};
     const never = messageContainer.querySelector('.js-pstats-btn-allow-never');
 
     // Show details about the information being sent
-    document.addEventListener('click', event => {
+    document.addEventListener('click', (event) => {
       if (event.target.classList.contains('js-pstats-btn-details')) {
         event.preventDefault();
         detailsContainer.classList.toggle('d-none');
@@ -34,7 +34,7 @@ Joomla = window.Joomla || {};
     });
 
     // Always allow
-    document.addEventListener('click', event => {
+    document.addEventListener('click', (event) => {
       if (event.target.classList.contains('js-pstats-btn-allow-always')) {
         event.preventDefault();
 
@@ -49,7 +49,7 @@ Joomla = window.Joomla || {};
     });
 
     // Allow once
-    document.addEventListener('click', event => {
+    document.addEventListener('click', (event) => {
       if (event.target.classList.contains('js-pstats-btn-allow-once')) {
         event.preventDefault();
 
@@ -64,7 +64,7 @@ Joomla = window.Joomla || {};
     });
 
     // Never allow
-    document.addEventListener('click', event => {
+    document.addEventListener('click', (event) => {
       if (event.target.classList.contains('js-pstats-btn-allow-never')) {
         event.preventDefault();
 
@@ -77,14 +77,14 @@ Joomla = window.Joomla || {};
         Joomla.getJson(data);
       }
     });
-  }
+  };
 
-  Joomla.getJson = data => {
+  Joomla.getJson = (data) => {
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-      url: 'index.php?option=' + data.option + '&group=' + data.group + '&plugin=' + data.plugin + '&format=' + data.format,
+      url: `index.php?option=${data.option}&group=${data.group}&plugin=${data.plugin}&format=${data.format}`,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       onSuccess: (response, xhr) => {
         try {
@@ -102,15 +102,14 @@ Joomla = window.Joomla || {};
       },
       onError: (xhr) => {
         Joomla.renderMessages({
-          error: [xhr.response]
+          error: [xhr.response],
         });
-      }
+      },
     });
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     data.plugin = 'sendStats';
     Joomla.getJson(data);
   });
-
 })(Joomla, document);
