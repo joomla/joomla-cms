@@ -75,14 +75,14 @@ Joomla = window.Joomla || {};
     });
   };
 
-  const getJson = (data) => {
+  const getJson = (json) => {
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-      url: `index.php?option=${data.option}&group=${data.group}&plugin=${data.plugin}&format=${data.format}`,
+      url: `index.php?option=${json.option}&group=${json.group}&plugin=${json.plugin}&format=${json.format}`,
       headers: {
         'Content-Type': 'application/json',
       },
-      onSuccess (response) {
+      onSuccess: (response) => {
         try {
           response = JSON.parse(response);
         } catch (e) {
@@ -96,7 +96,7 @@ Joomla = window.Joomla || {};
           initStatsEvents();
         }
       },
-      onError (xhr) {
+      onError: (xhr) => {
         Joomla.renderMessages({
           error: [xhr.response],
         });
