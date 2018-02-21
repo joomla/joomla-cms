@@ -93,7 +93,7 @@ Joomla = window.Joomla || {};
           messageContainer.innerHTML = response.html;
           messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
 
-          Joomla.initStatsEvents();
+          initStatsEvents();
         }
       },
       onError (xhr) {
@@ -106,6 +106,6 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     data.plugin = 'sendStats';
-    Joomla.getJson(data);
+    getJson(data);
   });
 })(Joomla, document);
