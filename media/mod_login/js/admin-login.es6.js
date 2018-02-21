@@ -8,11 +8,11 @@
 
   const btn = document.getElementById('btn-login-submit');
   if (btn) {
-    btn.addEventListener('click', event => {
+    btn.addEventListener('click', (event) => {
       event.preventDefault();
       const form = document.getElementById('form-login');
       if (form && document.formvalidator.isValid(form)) {
-        Joomla.submitbutton('login')
+        Joomla.submitbutton('login');
       }
     });
   }
