@@ -21,7 +21,7 @@ Joomla = window.Joomla || {};
     format: 'raw'
   };
 
-  var initStatsEvents = function initStatsEvents() {
+  var initStatsEvents = function initStatsEvents(callback) {
     var messageContainer = document.getElementById('system-message-container');
     var joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
     var detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
@@ -45,7 +45,7 @@ Joomla = window.Joomla || {};
         // Set data
         data.plugin = 'sendAlways';
 
-        Joomla.getJson(data);
+        callback(data);
       }
     });
 
@@ -60,7 +60,7 @@ Joomla = window.Joomla || {};
         // Set data
         data.plugin = 'sendOnce';
 
-        Joomla.getJson(data);
+        callback(data);
       }
     });
 
@@ -75,7 +75,7 @@ Joomla = window.Joomla || {};
         // Set data
         data.plugin = 'sendNever';
 
-        Joomla.getJson(data);
+        callback(data);
       }
     });
   };
@@ -91,10 +91,9 @@ Joomla = window.Joomla || {};
         try {
           var json = JSON.parse(response);
           if (json && json.html) {
-            messageContainer.innerHTML = response.html;
+            messageContainer.innerHTML = json.html;
             messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
-
-            initStatsEvents();
+            initStatsEvents(getJson);
           }
         } catch (e) {
           throw new Error(e);
