@@ -9,7 +9,7 @@
 /**
  * This is a CRON script to delete expired optional session metadata which should be called from the command-line, not the
  * web. For example something like:
- * /usr/bin/php /path/to/site/cli/sessionGc.php
+ * /usr/bin/php /path/to/site/cli/sessionMetadataGc.php
  */
 
 // Initialize Joomla framework
