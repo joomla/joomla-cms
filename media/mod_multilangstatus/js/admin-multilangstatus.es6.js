@@ -21,4 +21,4 @@
       document.body.appendChild(clone);
     }
   });
-})();
+})()
