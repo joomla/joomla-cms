@@ -1,4 +1,5 @@
-const Promise = require('bluebird');
+const Path = require('path');
+const folderToCompile = require('path');const Promise = require('bluebird');
 const fs = require('fs');
 const Chalk = require('chalk');
 const Recurs = require("recursive-readdir");

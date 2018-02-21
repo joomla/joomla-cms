@@ -17,7 +17,7 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background-color: $atum-template-color;
+  background-color: $atum-template-color-dark;
   box-shadow: 0 3px 10px rgba(0,0,0,.5);
   transition: all .3s ease;
 
@@ -83,7 +83,7 @@
   width: 250px;
   height: calc(100vh - 96px);
   list-style: none;
-  background-color: $atum-template-color;
+  background-color: $atum-template-color-dark;
   opacity: 1;
 
   // Animated child background
@@ -100,7 +100,7 @@
 
   // Parent items
   > li {
-    background-color: $atum-template-color;
+    background-color: $atum-template-color-dark;
     border-bottom: 1px solid rgba(0,0,0,.15);
 
     &:first-of-type {
@@ -200,7 +200,7 @@
       box-shadow: none;
 
       &:hover {
-        background-color: $atum-template-color-light;
+        background-color: $atum-template-color;
         box-shadow: inset 2px 0 2px rgba(0,0,0,.1);
       }
 
