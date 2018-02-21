@@ -12,7 +12,7 @@ Joomla = window.Joomla || {};
   const data = {
     option: 'com_ajax',
     group: 'system',
-    plugin: 'renderStatsMessage',
+    plugin: 'sendStats',
     format: 'raw',
   };
 
@@ -103,7 +103,6 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    data.plugin = 'sendStats';
     getJson(data);
   });
 })(Joomla, document);
