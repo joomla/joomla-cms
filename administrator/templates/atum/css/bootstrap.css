@@ -2140,7 +2140,7 @@ tbody.collapse.show {
   float: left;
   min-width: 10rem;
   padding: 0 0;
-  margin: 0.125rem 0 0;
+  margin: 0 0 0;
   font-size: 1rem;
   color: #212529;
   text-align: left;
@@ -2151,7 +2151,7 @@ tbody.collapse.show {
 
 .dropup .dropdown-menu {
   margin-top: 0;
-  margin-bottom: 0.125rem; }
+  margin-bottom: 0; }
 
 .dropup .dropdown-toggle::after {
   display: inline-block;
@@ -2170,7 +2170,7 @@ tbody.collapse.show {
 
 .dropright .dropdown-menu {
   margin-top: 0;
-  margin-left: 0.125rem; }
+  margin-left: 0; }
 
 .dropright .dropdown-toggle::after {
   display: inline-block;
@@ -2191,7 +2191,7 @@ tbody.collapse.show {
 
 .dropleft .dropdown-menu {
   margin-top: 0;
-  margin-right: 0.125rem; }
+  margin-right: 0; }
 
 .dropleft .dropdown-toggle::after {
   display: inline-block;

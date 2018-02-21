@@ -1224,8 +1224,8 @@ joomla-alert {
   color: #0571b5; }
 
 .btn-group .dropdown-menu {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-  width: 100%; }
+  width: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   .btn-group .dropdown-menu [class^="icon-"], .btn-group .dropdown-menu [class*=" icon-"] {
     margin-right: .25rem; }
 
