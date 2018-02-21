@@ -89,7 +89,7 @@ Joomla = window.Joomla || {};
             messageContainer.innerHTML = response.html;
             messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
 
-            Joomla.initStatsEvents();
+            initStatsEvents();
           }
         } catch (e) {
           throw new Error(e);
