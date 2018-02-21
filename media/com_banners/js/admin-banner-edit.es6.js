@@ -32,10 +32,8 @@
       updateBannerFields(jformType.value);
 
       // Hide/show parameters when the type has been selected
-      jformType.addEventListener('change', () => {
-        const value = typeof (params) !== 'object' ? jformType.value : params.selected;
-
-        updateBannerFields(value);
+      jformType.addEventListener('change', (event) => {
+        updateBannerFields(event.target.value);
       });
     }
   });
