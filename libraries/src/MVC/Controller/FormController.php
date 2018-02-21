@@ -701,7 +701,7 @@ class FormController extends BaseController
 		/**
 		 * Validate field presence array, this is used by some fields together with canEditFieldValue ACL 
 		 * to decide if field's values should be emptied or if field values should be maintained
-		 * Then passing the presence array information by setting it into the validated data array
+		 * then pass the presence array information by setting it into the validated data array
 		 */
 		\JArrayHelper::toInteger($presence);
 		$validData['_presence_'] = $presence;
