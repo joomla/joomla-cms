@@ -80,6 +80,9 @@ class PlgSystemFields extends JPlugin
 
 		// Get the fields data
 		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
+		$presence = !empty($data['_presence_']) ? $data['_presence_'] : array();
+
+		JFactory::getApplication()->enqueueMessage(print_r($presence, true), 'notice');
 
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
@@ -96,8 +99,19 @@ class PlgSystemFields extends JPlugin
 				$value = json_encode($value);
 			}
 
-			// Setting the value for the field and the item
-			$model->setFieldValue($field->id, $item->id, $value);
+			$presence_name = 'com_fields_' . str_replace('-', '_', $field->name);
+			JFactory::getApplication()->enqueueMessage(print_r($presence_name, true), 'notice');
+
+			$presentInForm = key_exists($presence_name, $presence);
+			$valuePosted = !is_null($value);
+
+			// NOTE: canEdit field value is checked inside setFieldValue method, so need to check it here
+			// Even if field presence was tampered with it is OK if user has ACL privilege to edit field value !
+			if ($presentInForm || $valuePosted)
+			{
+				// Setting the value for the field and the item
+				$model->setFieldValue($field->id, $item->id, $value);
+			}
 		}
 
 		return true;

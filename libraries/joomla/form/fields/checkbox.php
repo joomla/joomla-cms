@@ -20,6 +20,8 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldCheckbox extends JFormField
 {
+	public $addFormPresence = true;
+
 	/**
 	 * The form field type.
 	 *

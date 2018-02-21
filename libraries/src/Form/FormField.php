@@ -963,9 +963,16 @@ abstract class FormField
 				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
+		
+		$input = $this->getInput();
+		if (!empty($this->addFormPresence) && strlen($input))
+		{
+			$fn = str_replace($this->formControl . '_', $this->formControl . '[_presence_][', $this->getId('', $this->fieldname)) . ']';
+			$input .= "\n" . '<input type="text" name="' . $fn . '" value="1" />';
+		}
 
 		$data = array(
-			'input'   => $this->getInput(),
+			'input'   => $input,
 			'label'   => $this->getLabel(),
 			'options' => $options,
 		);

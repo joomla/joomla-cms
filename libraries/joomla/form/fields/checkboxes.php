@@ -21,6 +21,8 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCheckboxes extends JFormFieldList
 {
+	public $addFormPresence = true;
+
 	/**
 	 * The form field type.
 	 *
@@ -106,6 +108,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 */
 	protected function getInput()
 	{
+		echo "<pre>"; debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS); echo "</pre>";
 		if (empty($this->layout))
 		{
 			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
