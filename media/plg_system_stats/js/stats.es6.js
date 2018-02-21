@@ -82,26 +82,30 @@ Joomla = window.Joomla || {};
   Joomla.getJson = data => {
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-		url: 'index.php?option=' + data.option + '&group=' + data.group + '&plugin=' + data.plugin +  '&format=' + data.format,
-		headers: {'Content-Type': 'application/json'},
-		onSuccess: (response, xhr) => {
-			try {
-				response = JSON.parse(response);
-			} catch(e) {
-				throw new Error(e);
-			}
+      url: 'index.php?option=' + data.option + '&group=' + data.group + '&plugin=' + data.plugin + '&format=' + data.format,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      onSuccess: (response, xhr) => {
+        try {
+          response = JSON.parse(response);
+        } catch (e) {
+          throw new Error(e);
+        }
 
-			if (response && response.html) {
-				messageContainer.innerHTML = response.html;
-				messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
+        if (response && response.html) {
+          messageContainer.innerHTML = response.html;
+          messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
 
-				Joomla.initStatsEvents();
-			}
-		},
-		onError: (xhr) => {
-			Joomla.renderMessages({error: [xhr.response]});
-		}
-	});
+          Joomla.initStatsEvents();
+        }
+      },
+      onError: (xhr) => {
+        Joomla.renderMessages({
+          error: [xhr.response]
+        });
+      }
+    });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
