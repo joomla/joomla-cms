@@ -9,13 +9,6 @@ Joomla = window.Joomla || {};
 ((Joomla, document) => {
   'use strict';
 
-  const data = {
-    option: 'com_ajax',
-    group: 'system',
-    plugin: 'sendStats',
-    format: 'raw',
-  };
-
   const initStatsEvents = (callback) => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
@@ -37,10 +30,7 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendAlways';
-
-        callback(data);
+        callback({ plugin: 'sendAlways' });
       }
     });
 
@@ -52,10 +42,7 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendOnce';
-
-        callback(data);
+        callback({ plugin: 'sendOnce' });
       }
     });
 
@@ -67,18 +54,16 @@ Joomla = window.Joomla || {};
         // Remove message
         joomlaAlert.close();
 
-        // Set data
-        data.plugin = 'sendNever';
-
-        callback(data);
+        callback({ plugin: 'sendNever' });
       }
     });
   };
 
-  const getJson = (options) => {
+  const getJson = ({ plugin = 'sendStats' } = {}) => {
+    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&format=raw`;
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-      url: `index.php?option=${options.option}&group=${options.group}&plugin=${options.plugin}&format=${options.format}`,
+      url,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -103,6 +88,6 @@ Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    getJson(data);
+    getJson();
   });
 })(Joomla, document);
