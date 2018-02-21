@@ -17,7 +17,7 @@ $id     = $displayData['id'] ?? '';
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
-<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
+<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-info">
 	<span class="fa fa-question" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>

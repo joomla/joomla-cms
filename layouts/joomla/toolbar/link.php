@@ -15,7 +15,7 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 $margin = (strpos($doTask, 'index.php?option=com_config') === false) ? '' : ' ml-auto';
 ?>
-<button<?php echo $id; ?> class="btn btn-outline-danger btn-sm<?php echo $margin; ?>" onclick="location.href='<?php echo $doTask; ?>';">
+<button<?php echo $id; ?> class="btn btn-danger<?php echo $margin; ?>" onclick="location.href='<?php echo $doTask; ?>';">
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>
