@@ -21,6 +21,8 @@
         imgWrapper.style.display = 'none';
         custom.style.display = 'block';
         break;
+      default:
+        // Do nothing
     }
   };
 
