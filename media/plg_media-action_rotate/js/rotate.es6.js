@@ -11,7 +11,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
   'use strict';
 
   // Update image
-  const rotate = function rotate(angle) {
+  const rotate = (angle) => {
     // The image element
     const image = document.getElementById('image-source');
 
@@ -59,8 +59,8 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     window.dispatchEvent(new Event('mediaManager.history.point'));
   };
 
-  const initRotate = function initRotate() {
-    const funct = function functInitRotate() {
+  const initRotate = () => {
+    const funct = () => {
       // The listeners
       document.getElementById('jform_rotate_angle').addEventListener('change', function jformRotateAngle() {
         rotate(parseInt(this.value, 10));

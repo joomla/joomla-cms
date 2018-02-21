@@ -64,7 +64,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
   };
 
   var initRotate = function initRotate() {
-    var funct = function functInitRotate() {
+    var funct = function funct() {
       // The listeners
       document.getElementById('jform_rotate_angle').addEventListener('change', function jformRotateAngle() {
         rotate(parseInt(this.value, 10));
