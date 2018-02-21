@@ -21,6 +21,8 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCheckboxes extends JFormFieldList
 {
+	public $addFormPresence = true;
+
 	/**
 	 * The form field type.
 	 *
