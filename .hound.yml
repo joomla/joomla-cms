@@ -3,8 +3,7 @@ fail_on_violations: true
 scss:
   config_file: scss-lint.yml
 
-jshint:
-  enabled: false
-
-ruby:
-  enabled: false
+eslint:
+  enabled: true
+  config_file: .eslintrc
+  ignore_file: .eslintignore
