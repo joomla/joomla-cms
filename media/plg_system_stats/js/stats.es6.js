@@ -75,10 +75,10 @@ Joomla = window.Joomla || {};
     });
   };
 
-  const getJson = (json) => {
+  const getJson = (options) => {
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
-      url: `index.php?option=${json.option}&group=${json.group}&plugin=${json.plugin}&format=${json.format}`,
+      url: `index.php?option=${options.option}&group=${options.group}&plugin=${options.plugin}&format=${options.format}`,
       headers: {
         'Content-Type': 'application/json',
       },
