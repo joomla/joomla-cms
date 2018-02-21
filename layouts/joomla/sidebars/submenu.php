@@ -9,25 +9,13 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filter\OutputFilter;
 
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('behavior.core');
-
-Factory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($) {
-		if (window.toggleSidebar) {
-			toggleSidebar(true);
-		}
-		else {
-			$("#j-toggle-sidebar-header").css("display", "none");
-			$("#j-toggle-button-wrapper").css("display", "none");
-		}
-	});
-');
+HTMLHelper::_('script', 'system/fields/submenu.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
