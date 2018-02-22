@@ -7,7 +7,7 @@ Joomla = window.Joomla || {};
 Joomla.MediaManager = Joomla.MediaManager || {};
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
-(function mediaActionRotate() {
+(() => {
   'use strict';
 
   // Update image
@@ -81,4 +81,4 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     Deactivate() {
     },
   };
-}());
+})();

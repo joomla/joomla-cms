@@ -12,7 +12,7 @@ Joomla = window.Joomla || {};
 Joomla.MediaManager = Joomla.MediaManager || {};
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
-(function mediaActionRotate() {
+(function () {
   'use strict';
 
   // Update image
