@@ -2,6 +2,7 @@
 * PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 * OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
 **/
+var _this = this;
 
 /**
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
@@ -43,10 +44,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     preview.src = Joomla.MediaManager.Edit.current.contents;
 
     // Update the width input box
-    document.getElementById('jform_resize_width').value = parseInt(width);
+    document.getElementById('jform_resize_width').value = parseInt(width, 10);
 
     // Update the height input box
-    document.getElementById('jform_resize_height').value = parseInt(height);
+    document.getElementById('jform_resize_height').value = parseInt(height, 10);
 
     // Notify the app that a change has been made
     window.dispatchEvent(new Event('mediaManager.history.point'));
@@ -65,10 +66,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
       // The listeners
       resizeWidthInputBox.addEventListener('change', function () {
-        resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
+        resize(parseInt(_this.value, 10), parseInt(_this.value, 10) / (image.width / image.height));
       });
       resizeHeightInputBox.addEventListener('change', function () {
-        resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
+        resize(parseInt(_this.value, 10) * (image.width / image.height), parseInt(_this.value, 10));
       });
 
       // Set the values for the range fields
@@ -84,10 +85,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeight.value = image.height;
 
       // The listeners
-      resizeWidth.addEventListener('input', function () {
+      resizeWidth.addEventListener('input', function resizeWidthF() {
         resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
       });
-      resizeHeight.addEventListener('input', function () {
+      resizeHeight.addEventListener('input', function resizeHeightF() {
         resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
       });
     };
