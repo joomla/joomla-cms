@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\Form;
+
 /**
  * Controller tailored to suit most form-based admin operations.
  *
@@ -694,6 +696,9 @@ class FormController extends BaseController
 			return false;
 		}
 
+		// Make sure the data array is in the form we need it
+		$data = $this->normalizeRequestData($form, $data);
+
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 
@@ -912,5 +917,51 @@ class FormController extends BaseController
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
+	}
+
+	/**
+	 * Ensures that there is an entry in the data array for every field
+	 * from the form. Groups will be respected too.
+	 * This is needed for checkboxes and radio fields as when no value is selected
+	 * then the data array contains no entry.
+	 *
+	 * @param   Form   $form  The form
+	 * @param   array  $data  The data
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function normalizeRequestData(Form $form, array $data)
+	{
+		// Loop over all fields
+		foreach ($form->getFieldset() as $field)
+		{
+			//Make sure the data array has an entry when there is no group
+			if (!$field->group && !key_exists($field->fieldname, $data))
+			{
+				$data[$field->fieldname] = false;
+			}
+
+			// If the field has no group, we are done here
+			if (!$field->group)
+			{
+				continue;
+			}
+
+			// Ensure there is always an array for the group
+			if (!key_exists($field->group, $data))
+			{
+				$data[$field->group] = array();
+			}
+
+			//Make sure the data group array has an entry
+			if (!key_exists($field->fieldname, $data[$field->group]))
+			{
+				$data[$field->group][$field->fieldname] = false;
+			}
+		}
+
+		return $data;
 	}
 }
