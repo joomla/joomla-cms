@@ -932,7 +932,7 @@ class FormController extends BaseController
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function normaliseRequestData(Form $form, array $data)
+	protected function normaliseRequestData(Form $form, array $data)
 	{
 		// Loop over all fields
 		foreach ($form->getFieldset() as $field)
