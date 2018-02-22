@@ -29,7 +29,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
+	use DispatcherAwareTrait, EventAware, IdentityAware;
 
 	/**
 	 * The application document object.
@@ -81,9 +81,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 
 		parent::__construct($input, $config, $client, $response);
 
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
-
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
 		$this->set('execution.timestamp', time());
@@ -101,8 +98,9 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
-	 * @throws  \RuntimeException
+	 * @since       11.3
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null)
 	{
@@ -420,5 +418,17 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 }

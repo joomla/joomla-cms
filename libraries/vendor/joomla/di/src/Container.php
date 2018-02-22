@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,6 +126,15 @@ class Container implements ContainerInterface
 	 */
 	public function exists($key)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::has() instead.',
+				__METHOD__,
+				ContainerInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		return $this->has($key);
 	}
 
@@ -565,5 +574,17 @@ class Container implements ContainerInterface
 		$provider->register($this);
 
 		return $this;
+	}
+
+	/**
+	 * Retrieve the keys for services assigned to this container.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getKeys()
+	{
+		return array_unique(array_merge(array_keys($this->aliases), array_keys($this->resources)));
 	}
 }

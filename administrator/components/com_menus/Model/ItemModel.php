@@ -303,6 +303,7 @@ class ItemModel extends AdminModel
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -694,7 +695,6 @@ class ItemModel extends AdminModel
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
-
 			// Check if we are changing away from the actual link type.
 			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
@@ -943,7 +943,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -1263,7 +1263,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean  Boolean true on success, boolean false
 	 *
 	 * @since   1.6
 	 */
@@ -1304,7 +1304,9 @@ class ItemModel extends AdminModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		foreach ($items as &$item)
@@ -1323,7 +1325,9 @@ class ItemModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 
 			unset($registry);
@@ -1498,7 +1502,8 @@ class ItemModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{

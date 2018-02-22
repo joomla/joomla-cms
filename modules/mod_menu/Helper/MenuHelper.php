@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 /**
  * Helper for mod_menu
@@ -127,11 +128,11 @@ class MenuHelper
 
 					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
-						$item->flink = \JRoute::_($item->flink, true, $item->params->get('secure'));
+						$item->flink = Route::_($item->flink, true, $item->params->get('secure'));
 					}
 					else
 					{
-						$item->flink = \JRoute::_($item->flink);
+						$item->flink = Route::_($item->flink);
 					}
 
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Base class for a console command.
@@ -149,6 +150,18 @@ abstract class AbstractCommand implements CommandInterface
 		$this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default));
 
 		return $this;
+	}
+
+	/**
+	 * Create a new SymfonyStyle instance.
+	 *
+	 * @return  SymfonyStyle
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function createSymfonyStyle(): SymfonyStyle
+	{
+		return new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
 
 	/**

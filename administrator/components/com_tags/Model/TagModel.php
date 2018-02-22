@@ -94,7 +94,7 @@ class TagModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		$parentId = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $parentId);

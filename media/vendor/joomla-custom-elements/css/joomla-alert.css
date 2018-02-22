@@ -8,6 +8,7 @@ joomla-alert {
   border-radius: 0.25rem;
   transition: opacity 0.15s linear; }
   joomla-alert.joomla-alert--show {
+    display: block;
     opacity: 1; }
   joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
     position: relative;
@@ -40,54 +41,38 @@ joomla-alert {
     border: 0;
     -webkit-appearance: none; }
 
-joomla-alert[position="top-left"] {
-  position: fixed;
-  top: 10px;
-  left: 10px; }
-
-joomla-alert[position="top-center"] {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%); }
-
-joomla-alert[position="top-right"] {
-  position: fixed;
-  top: 10px;
-  right: 10px; }
-
-joomla-alert[level="success"] {
+joomla-alert[type="success"] {
   color: #234423;
   background-color: #d9e6d9;
   border-color: #cadcca; }
-  joomla-alert[level="success"] hr {
+  joomla-alert[type="success"] hr {
     border-top-color: #bbd2bb; }
-  joomla-alert[level="success"] .alert-link {
+  joomla-alert[type="success"] .alert-link {
     color: #122212; }
 
-joomla-alert[level="info"] {
+joomla-alert[type="info"] {
   color: #0c5460;
   background-color: #d1ecf1;
   border-color: #bee5eb; }
-  joomla-alert[level="info"] hr {
+  joomla-alert[type="info"] hr {
     border-top-color: #abdde5; }
-  joomla-alert[level="info"] .alert-link {
+  joomla-alert[type="info"] .alert-link {
     color: #062c33; }
 
-joomla-alert[level="warning"] {
+joomla-alert[type="warning"] {
   color: #7d5a29;
   background-color: #fcefdc;
   border-color: #fbe8cd; }
-  joomla-alert[level="warning"] hr {
+  joomla-alert[type="warning"] hr {
     border-top-color: #f9ddb5; }
-  joomla-alert[level="warning"] .alert-link {
+  joomla-alert[type="warning"] .alert-link {
     color: #573e1c; }
 
-joomla-alert[level="danger"] {
+joomla-alert[type="danger"] {
   color: #712b29;
   background-color: #f7dddc;
   border-color: #f4cfce; }
-  joomla-alert[level="danger"] hr {
+  joomla-alert[type="danger"] hr {
     border-top-color: #efbbb9; }
-  joomla-alert[level="danger"] .alert-link {
+  joomla-alert[type="danger"] .alert-link {
     color: #4c1d1b; }

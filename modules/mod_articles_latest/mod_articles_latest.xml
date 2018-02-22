@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LATEST_NEWS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesLatest</namespace>
 	<files>
 		<filename module="mod_articles_latest">mod_articles_latest.php</filename>
 		<folder>tmpl</folder>

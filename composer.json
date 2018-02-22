@@ -69,6 +69,7 @@
         "joomla/uri": "~2.0@dev",
         "joomla/utilities": "~2.0@dev",
         "defuse/php-encryption": "~2.1",
+        "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
         "paragonie/sodium_compat": "~1.4",

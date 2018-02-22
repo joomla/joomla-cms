@@ -179,7 +179,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->theme = $theme;
 
-			HTMLHelper::_('stylesheet', $this->params->get('basePath', 'media/editors/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			HTMLHelper::_('stylesheet', $this->params->get('basePath', 'media/vendor/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
 		}
 
 		// Special options for tagged modes (xml/html).

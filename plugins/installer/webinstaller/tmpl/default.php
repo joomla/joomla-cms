@@ -18,22 +18,30 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 ?>
 
 <div id="jed-container" class="tab-pane">
-	<div class="well" id="web-loader">
-		<h2><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+	<div class="card" id="web-loader">
+		<div class="card-body">
+			<h2 class="card-title"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+		</div>
 	</div>
-	<div class="alert alert-error" id="web-loader-error" style="display:none">
+	<div class="alert alert-error hidden" id="web-loader-error">
 		<a class="close" data-dismiss="alert">×</a><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
 	</div>
 </div>
 
-<fieldset class="uploadform" id="uploadform-web" style="display:none"<?php echo $dir; ?>>
-	<div class="control-group">
-		<strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
-		<span id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?>:</span> <span id="uploadform-web-name"></span><br />
-		<?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?>: <span id="uploadform-web-url"></span>
-	</div>
-	<div class="form-actions">
-		<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $this->getInstallFrom() != '' ? 4 : 5; ?>()" />
-		<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+<fieldset class="form-group hidden" id="uploadform-web"<?php echo $dir; ?>>
+	<p><strong><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM'); ?></strong></p>
+	<dl>
+		<dt id="uploadform-web-name-label"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></dt>
+		<dd id="uploadform-web-name"></dd>
+		<dt><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_CONFIRM_URL'); ?></dt>
+		<dd id="uploadform-web-url"></dd>
+	</dl>
+	<div class="card card-light">
+		<div class="card-body">
+			<div class="card-text">
+				<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $this->getInstallFrom() != '' ? 4 : 5; ?>()" />
+				<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+			</div>
+		</div>
 	</div>
 </fieldset>
