@@ -66,7 +66,7 @@ class JFormFieldRadio extends JFormFieldList
 
 		$extraData = array(
 			'options' => $this->getOptions(),
-			'value'   => (string) $this->value,
+			'value'   => (bool) $this->value,
 		);
 
 		return array_merge($data, $extraData);
