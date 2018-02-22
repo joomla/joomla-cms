@@ -12,7 +12,7 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-	"Cropper": true
+    "Cropper": true
   },
   // Rule overrides
   "rules": {
