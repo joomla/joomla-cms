@@ -78,7 +78,7 @@ $atum-sidebar-child-bg:            #0f2131;
 // Fonts
 $font-family-base:                 Arial, sans-serif;
 $atum-inverted-text-color:         $atum-template-color-dark;
-$font-size-root:                   14px;
+$font-size-root:                   15px;
 $h1-font-size:                     1.857rem;
 $h2-font-size:                     1.571rem;
 $h3-font-size:                     1.286rem;
@@ -100,6 +100,9 @@ $btn-border-radius:           0;
 $btn-border-radius-lg:        0;
 $btn-border-radius-sm:        0;
 
+$input-border-width:               0;
+$input-box-shadow:            	   none;
+
 // Dropdowns
 $dropdown-padding-y:               0;
 $dropdown-border-width:            0;
@@ -112,6 +115,10 @@ $dropdown-spacer:                  0;
 $atum-tabs-header-bg:              $atum-block-header-bg;
 $atum-tabs-active-bg:              rgba(0,0,0,.03);
 $atum-tabs-active-highlight:       theme-color("primary");
+
+// Tables
+$table-border-width:               0;
+$table-head-bg:                    transparent;
 
 // Cards
 $atum-card-title-bg:               $atum-block-header-bg;
