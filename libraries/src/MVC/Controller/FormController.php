@@ -697,7 +697,7 @@ class FormController extends BaseController
 		}
 
 		// Make sure the data array is in the form we need it
-		$data = $this->normalizeRequestData($form, $data);
+		$data = $this->normaliseRequestData($form, $data);
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
@@ -932,7 +932,7 @@ class FormController extends BaseController
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function normalizeRequestData(Form $form, array $data)
+	private function normaliseRequestData(Form $form, array $data)
 	{
 		// Loop over all fields
 		foreach ($form->getFieldset() as $field)
