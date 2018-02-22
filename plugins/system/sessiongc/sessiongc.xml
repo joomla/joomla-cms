@@ -26,7 +26,7 @@
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					filter="boolean"
+					filter="uint"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -39,7 +39,7 @@
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					filter="boolean"
+					filter="uint"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

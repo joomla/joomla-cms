@@ -48,7 +48,7 @@ class PlgSystemSessionGc extends CMSPlugin
 	{
 		$session = Factory::getSession();
 
-		if ($this->params->get('enable_session_gc', true))
+		if ($this->params->get('enable_session_gc', 1))
 		{
 			$probability = $this->params->get('gc_probability', 1);
 			$divisor     = $this->params->get('gc_divisor', 100);
@@ -61,7 +61,7 @@ class PlgSystemSessionGc extends CMSPlugin
 			}
 		}
 
-		if ($this->app->get('session_handler', 'none') !== 'database' && $this->params->get('enable_session_metadata_gc', true))
+		if ($this->app->get('session_handler', 'none') !== 'database' && $this->params->get('enable_session_metadata_gc', 1))
 		{
 			$probability = $this->params->get('gc_probability', 1);
 			$divisor     = $this->params->get('gc_divisor', 100);
