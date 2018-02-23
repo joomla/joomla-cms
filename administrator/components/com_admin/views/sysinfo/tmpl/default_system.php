@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_TYPE'); ?></strong>
 				</td>
 				<td>
-					<?php echo $this->info['serverType']; ?>
+					<?php echo $this->info['dbserver']; ?>
 				</td>
 			</tr>			
 			<tr>
