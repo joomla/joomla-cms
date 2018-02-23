@@ -47,12 +47,12 @@ $filters = $data['view']->filterForm->getGroup('filter');
 						<button type="submit" class="btn btn-primary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"  aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
 							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-primary hasTooltip js-stools-btn-clear" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>">
-							<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
-						</button>
 					</span>
 				</div>
 			</div>
+			<button type="button" class="btn btn-primary hasTooltip js-stools-btn-clear mr-2" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>">
+				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
+			</button>
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary hasTooltip js-stools-btn-filter">
 					<?php echo Text::_('JTABLE_OPTIONS'); ?>
