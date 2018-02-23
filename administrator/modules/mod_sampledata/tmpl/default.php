@@ -23,7 +23,6 @@ Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 Factory::getDocument()->addScriptOptions(
 	'sample-data',
 	[
-		'url' => 'index.php?option=com_ajax&format=json&group=sampledata',
 		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
 	]
 );

@@ -11,7 +11,8 @@ Joomla = window.Joomla || {};
 	var inProgress = false;
 
 	Joomla.sampledataAjax = function(type, steps, step) {
-		// Get options
+		// Get variables
+		var baseUrl = 'index.php?option=com_ajax&format=json&group=sampledata';
 		var options = Joomla.getOptions('sample-data');
 
 		// Create list
@@ -35,7 +36,7 @@ Joomla = window.Joomla || {};
 		document.querySelector('.sampledata-progress-' + type + ' ul').appendChild(list);
 
 		Joomla.request({
-			url: options.url + '&type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
+			url: baseUrl + '&type=' + type + '&plugin=SampledataApplyStep' + step + '&step=' + step,
 			method: 'GET',
 			perform: true,
 			onSuccess: function(response, xhr) {
