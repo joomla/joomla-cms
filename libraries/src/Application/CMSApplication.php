@@ -14,6 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -208,6 +209,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
 		{
 			$this->checkSession();
+		}
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity(Factory::getUser());
 		}
 	}
 
