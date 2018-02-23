@@ -514,18 +514,20 @@ class JRequest
 	 */
 	protected static function _cleanVar($var, $mask = 0, $type = null)
 	{
+		$mask = (int) $mask;
+
 		// If the no trim flag is not set, trim the variable
-		if (!((int) $mask & 1) && is_string($var))
+		if (!($mask & 1) && is_string($var))
 		{
 			$var = trim($var);
 		}
 
 		// Now we handle input filtering
-		if ((int) $mask & 2)
+		if ($mask & 2)
 		{
 			// If the allow raw flag is set, do not modify the variable
 		}
-		elseif ((int) $mask & 4)
+		elseif ($mask & 4)
 		{
 			// If the allow HTML flag is set, apply a safe HTML filter to the variable
 			$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
