@@ -318,6 +318,12 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			$session->set('registry', new Registry);
 			$session->set('user', new \JUser);
 		}
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity(Factory::getUser());
+		}
 	}
 
 	/**

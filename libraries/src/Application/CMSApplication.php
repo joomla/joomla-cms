@@ -327,12 +327,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		// Ensure the identity is loaded
-		if (!$this->getIdentity())
-		{
-			$this->loadIdentity(Factory::getUser());
-		}
-
 		$this->createExtensionNamespaceMap();
 
 		PluginHelper::importPlugin('system');
