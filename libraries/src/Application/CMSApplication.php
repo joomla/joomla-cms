@@ -14,6 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -344,6 +345,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Mark beforeExecute in the profiler.
 		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity(Factory::getUser());
+		}
 
 		// Perform application routines.
 		$this->doExecute();
