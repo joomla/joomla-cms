@@ -703,7 +703,7 @@ abstract class JDatabaseQuery
 	public function delete($table = null)
 	{
 		$this->type = 'delete';
-		$this->delete = new JDatabaseQueryElement('DELETE', array($table));
+		$this->delete = new JDatabaseQueryElement('DELETE', null);
 
 		if (!empty($table))
 		{
