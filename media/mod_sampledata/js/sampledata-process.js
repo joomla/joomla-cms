@@ -69,7 +69,7 @@ Joomla = window.Joomla || {};
 					progress.classList.add(progressClass);
 
 					// Move on next step
-					if (success) {
+					if (success && (step <= steps)) {
 						step++;
 						Joomla.sampledataAjax(type, steps, step);
 					}
