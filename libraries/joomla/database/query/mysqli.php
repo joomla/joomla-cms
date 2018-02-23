@@ -234,9 +234,9 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	/**
 	 * Add a table name to the DELETE clause of the query
 	 *
-	 * @param   string $table The name of the table to delete from.
+	 * @param  string $table  The name of the table to delete from.
 	 *
-	 * @return   $this|JDatabaseQuery
+	 * @return  $this|JDatabaseQuery
 	 */
 	public function delete($table = null)
 	{
