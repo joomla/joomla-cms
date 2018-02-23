@@ -95,6 +95,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<th style="min-width:100px" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
+								<th style="width:15%" class="nowrap d-none d-md-table-cell">
+									<?php echo JHtml::_('searchtools.sort', 'JALIAS', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<?php echo JHtml::_('searchtools.sort', 'JCATEGORY', 'a.title', $listDirn, $listOrder); ?>
+								</th>
 								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
@@ -189,13 +195,13 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php else : ?>
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<span class="text-secondary">
-											(<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>)
-										</span>
-										<div class="text-secondary">
-											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
-										</div>
 									</div>
+								</td>
+								<td class="text-secondary d-none d-md-table-cell">
+									<?php echo $this->escape($item->alias); ?>
+								</td>
+								<td class="text-secondary d-none d-md-table-cell text-center">
+									<?php echo $this->escape($item->category_title); ?>
 								</td>
 								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->access_level); ?>
