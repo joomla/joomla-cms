@@ -24,9 +24,9 @@
 			min="0"
 			max="360"
 			step="1"
-			value="0"
+			default="0"
 		/>
-		
+
 		<field
 			name="rotate_distinct"
 			type="radio"
@@ -39,6 +39,6 @@
 			<option value="180">180</option>
 			<option value="270">270</option>
 		</field>
-		
+
 	</fieldset>
 </form>
