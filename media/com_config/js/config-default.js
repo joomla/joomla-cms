@@ -16,8 +16,9 @@ Joomla = window.Joomla || {};
    * @param task
    */
   var submitTask = function (task) {
-    if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById(formId))) {
-      submitForm(task, document.getElementById('application-form'));
+    var form = document.getElementById(formId);
+    if (task == 'config.cancel' || document.formvalidator.isValid(form)) {
+      submitForm(task, form);
     }
   };
 
