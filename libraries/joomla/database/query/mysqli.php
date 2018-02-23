@@ -170,10 +170,10 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 * Return correct rand() function for Mysql.
 	 *
 	 * Ensure that the rand() function is Mysql compatible.
-	 * 
+	 *
 	 * Usage:
 	 * $query->Rand();
-	 * 
+	 *
 	 * @return  string  The correct rand function.
 	 *
 	 * @since   3.5
@@ -229,5 +229,24 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 		{
 			return ' CAST(' . $value . ' AS CHAR(' . $len . '))';
 		}
+	}
+
+	/**
+	 * Add a table name to the DELETE clause of the query
+	 *
+	 * @param   string $table The name of the table to delete from.
+	 *
+	 * @return   $this|JDatabaseQuery
+	 */
+	public function delete($table = null)
+	{
+		parent::delete($table);
+
+		if (isset($table))
+		{
+			$this->delete->append(array($table));
+		}
+
+		return $this;
 	}
 }
