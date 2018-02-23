@@ -308,8 +308,8 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$this->info = array(
 			'php'                   => php_uname(),
+			'dbserver'		=> $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
-			'serverType'		=> $db->getServerType(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
 			'phpversion'            => phpversion(),
