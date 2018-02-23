@@ -85,7 +85,7 @@ class PlgSystemFields extends JPlugin
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is available from the data
-			$value = key_exists($field->name, $data['com_fields']) ? $data['com_fields'][$field->name] : null;
+			$value = key_exists($field->name, $data['com_fields']) ? $data['com_fields'][$field->name] : $field->rawvalue;
 
 			// JSON encode value for complex fields
 			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
