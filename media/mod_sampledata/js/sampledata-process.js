@@ -71,7 +71,9 @@ Joomla = window.Joomla || {};
 					// Move on next step
 					if (success && (step <= steps)) {
 						step++;
-						Joomla.sampledataAjax(type, steps, step);
+						if (step <= steps) {
+							Joomla.sampledataAjax(type, steps, step);
+						}
 					}
 
 				} else {
