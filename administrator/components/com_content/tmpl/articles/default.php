@@ -189,9 +189,12 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php else : ?>
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<caprtion class="text-secondary">
+										<span class="text-secondary">
 											(<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>)
-										</caprtion>
+										</span>
+										<div class="text-secondary">
+											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+										</div>
 									</div>
 								</td>
 								<td class="small d-none d-md-table-cell text-center">
