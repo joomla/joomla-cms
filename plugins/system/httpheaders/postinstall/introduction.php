@@ -37,7 +37,7 @@ function httpheaders_postinstall_action()
 		->set($db->qn('enabled') . ' = 1')
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
 		->where($db->qn('folder') . ' = ' . $db->q('system'))
-		->where($db->qn('element') . ' = ' . $db->q('plg_system_httpheaders'));
+		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
 	$db->setQuery($query);
 	$db->execute();
 }
