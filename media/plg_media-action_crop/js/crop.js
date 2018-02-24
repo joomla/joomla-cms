@@ -53,17 +53,17 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       }
     });
 
-    document.getElementById('jform_crop_x').addEventListener('change', function () {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ x: parseInt(_this.value, 10) });
+    document.getElementById('jform_crop_x').addEventListener('change', function changeX() {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ x: parseInt(this.value, 10) });
     });
-    document.getElementById('jform_crop_y').addEventListener('change', function () {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ y: parseInt(_this.value, 10) });
+    document.getElementById('jform_crop_y').addEventListener('change', function changeY() {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ y: parseInt(this.value, 10) });
     });
-    document.getElementById('jform_crop_width').addEventListener('change', function () {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ width: parseInt(_this.value, 10) });
+    document.getElementById('jform_crop_width').addEventListener('change', function changeWidth() {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ width: parseInt(this.value, 10) });
     });
-    document.getElementById('jform_crop_height').addEventListener('change', function () {
-      Joomla.MediaManager.Edit.crop.cropper.setData({ height: parseInt(_this.value, 10) });
+    document.getElementById('jform_crop_height').addEventListener('change', function changeHeight() {
+      Joomla.MediaManager.Edit.crop.cropper.setData({ height: parseInt(this.value, 10) });
     });
 
     var elements = document.querySelectorAll('#jform_aspectRatio input');
