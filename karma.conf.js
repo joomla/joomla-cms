@@ -21,7 +21,7 @@ module.exports = function (config) {
 			{pattern: 'media/vendor/jquery-ui/js/jquery.ui.sortable.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
 			{pattern: 'media/system/js/core.js', included: false,served: true, watched: true},
-			{pattern: 'media/system/js/legacy/*.js', included: false},
+			{pattern: 'media/legacy/js/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
 			{pattern: 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js', included: false, served: true, watched: true},
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
@@ -36,7 +36,7 @@ module.exports = function (config) {
 		],
 
 		exclude: [
-			'media/polyfills/js/*-es5.js',
+			'media/system/webcomponents/js/*-es5.js',
 			'media/system/webcomponents/js/*.min.js',
 			'media/system/webcomponents/js/*-es5.min.js',
 		],
