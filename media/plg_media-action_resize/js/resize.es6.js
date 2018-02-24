@@ -58,11 +58,17 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', function changeWidth() {
-        resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
+      resizeWidthInputBox.addEventListener('change', (event) => {
+        resize(
+          parseInt(event.target.value, 10),
+          parseInt(event.target.value, 10) / (image.width / image.height),
+        );
       });
-      resizeHeightInputBox.addEventListener('change', function changeHeigth() {
-        resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
+      resizeHeightInputBox.addEventListener('change', (event) => {
+        resize(
+          parseInt(event.target.value, 10) * (image.width / image.height),
+          parseInt(event.target.value, 10),
+        );
       });
 
       // Set the values for the range fields
@@ -78,11 +84,17 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeight.value = image.height;
 
       // The listeners
-      resizeWidth.addEventListener('input', function resizeWidthF() {
-        resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
+      resizeWidth.addEventListener('input', (event) => {
+        resize(
+          parseInt(event.target.value, 10),
+          parseInt(event.target.value, 10) / (image.width / image.height),
+        );
       });
-      resizeHeight.addEventListener('input', function resizeHeightF() {
-        resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
+      resizeHeight.addEventListener('input', (event) => {
+        resize(
+          parseInt(event.target.value, 10) * (image.width / image.height),
+          parseInt(event.target.value, 10),
+        );
       });
     };
     setTimeout(funct, 1000);
