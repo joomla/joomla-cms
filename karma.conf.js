@@ -12,7 +12,7 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			{pattern: 'media/system/js/polyfills/webcomponents/webcomponents-ce.min.js', included: true, served: true, watched: true},
+			{pattern: 'media/polyfills/js/webcomponents-ce.min.js', included: true, served: true, watched: true},
 			{pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
 			{pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
 			{pattern: 'node_modules/text/text.js', included: false},
@@ -29,14 +29,14 @@ module.exports = function (config) {
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
 			{pattern: 'tests/javascript/**/spec.js', included: false},
 			{pattern: 'tests/javascript/**/spec-setup.js', included: false},
-			{pattern: 'media/system/webcomponents/js/*.js', included: false},
+			{pattern: 'media/polifills/js/*.js', included: false},
 			{pattern: 'images/*.png', included: false},
 
 			'tests/javascript/test-main.js'
 		],
 
 		exclude: [
-			'media/system/webcomponents/js/*-es5.js',
+			'media/polyfills/js/*-es5.js',
 			'media/system/webcomponents/js/*.min.js',
 			'media/system/webcomponents/js/*-es5.min.js',
 		],

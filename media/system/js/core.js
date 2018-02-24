@@ -1004,7 +1004,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 
 			var newScript = document.createElement('script'),
-			    replacement = 'media/system/js/polyfills/webcomponents/webcomponents-' + polyfills.join('-') + '.min.js',
+			    replacement = 'media/polyfills/js/webcomponents-' + polyfills.join('-') + '.min.js',
 			    mediaVersion = script.src.match(/\?.*/)[0],
 			    base = Joomla.getOptions('system.paths');
 
