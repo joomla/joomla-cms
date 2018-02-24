@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 JHtml::_('behavior.core');
@@ -16,6 +18,9 @@ JHtml::_('behavior.core');
 // Add strings for translations in Javascript.
 JText::script('JGLOBAL_EXPAND_CATEGORIES');
 JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
+
+HTMLHelper::_('script', 'com_contact/categories-default.js', ['relative' => true, 'version' => 'auto']);
+
 ?>
 <div class="categories-list">
 	<?php
