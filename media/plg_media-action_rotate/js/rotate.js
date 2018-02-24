@@ -66,11 +66,11 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
   var initRotate = function initRotate() {
     var funct = function funct() {
       // The listeners
-      document.getElementById('jform_rotate_angle').addEventListener('change', function jformRotateAngle() {
-        rotate(parseInt(this.value, 10));
+      document.getElementById('jform_rotate_angle').addEventListener('change', function (event) {
+        rotate(parseInt(event.target.value, 10));
       });
-      document.getElementById('jform_rotate_a').addEventListener('input', function jformRotateA() {
-        rotate(parseInt(this.value, 10));
+      document.getElementById('jform_rotate_a').addEventListener('input', function (event) {
+        rotate(parseInt(event.target.value, 10));
       });
     };
     setTimeout(funct, 1000);
