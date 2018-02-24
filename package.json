@@ -74,7 +74,8 @@
     "text": "github:requirejs/text",
     "uglify-es": "^3.3.9",
     "uglifycss": "0.0.27",
-    "web-component-tester": "latest"
+    "web-component-tester": "latest",
+    "xml2js": "^0.4.19"
   },
   "settings": {
     "browsers": [
