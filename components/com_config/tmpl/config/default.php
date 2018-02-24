@@ -33,9 +33,7 @@ HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 've
 			</button>
 		</div>
 	</div>
-
-    <div class="" data-submit-task></div>
-
+    
 	<hr>
 
 	<div id="page-site" class="tab-pane active">
