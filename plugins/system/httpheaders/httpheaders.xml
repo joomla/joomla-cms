@@ -67,7 +67,7 @@
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
 					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
-					formsource="plugins/system/httpheader/subform/customhttpheaders.xml"
+					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
 					multiple="true"
 				/>
 			</fieldset>
