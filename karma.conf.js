@@ -29,7 +29,8 @@ module.exports = function (config) {
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
 			{pattern: 'tests/javascript/**/spec.js', included: false},
 			{pattern: 'tests/javascript/**/spec-setup.js', included: false},
-			{pattern: 'media/polifills/js/*.js', included: false},
+			{pattern: 'media/system/webcomponents/js/*.js', included: false},
+			{pattern: 'media/polyfills/js/*.js', included: false},
 			{pattern: 'images/*.png', included: false},
 
 			'tests/javascript/test-main.js'
