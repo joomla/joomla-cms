@@ -126,7 +126,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Referrer-Policy
 		$referrerpolicy = $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
 
-		if ($referrerpolicy != 'disabled')
+		if ($referrerpolicy !== 'disabled')
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
 		}
