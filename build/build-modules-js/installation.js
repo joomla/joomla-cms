@@ -1,6 +1,6 @@
 const fs = require('fs');
 const ini = require('ini');
-const xml2js = require('xml2js')
+const xml2js = require('xml2js');
 const Recurs = require("recursive-readdir");
 
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
@@ -10,8 +10,6 @@ const destCalendar = rootPath + '/media/system/js/fields/tmp';
 
 // Set the initial template
 const header = `/**
- * @package     Joomla.Installation
- * @subpackage  JavaScript
  * @copyright   Copyright (C) 2005 - ${(new Date()).getFullYear()} Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -126,7 +124,7 @@ window.JoomlaCalLocale = {
   months: ["${languageStrings["CALENDAR_MONTH_FULL_JANUARY"]}", "${languageStrings["CALENDAR_MONTH_FULL_FEBRUARY"]}", "${languageStrings["CALENDAR_MONTH_FULL_MARCH"]}", "${languageStrings["CALENDAR_MONTH_FULL_APRIL"]}", "${languageStrings["CALENDAR_MONTH_FULL_MAY"]}", "${languageStrings["CALENDAR_MONTH_FULL_JUNE"]}", "${languageStrings["CALENDAR_MONTH_FULL_JULY"]}", "${languageStrings["CALENDAR_MONTH_FULL_AUGUST"]}", "${languageStrings["CALENDAR_MONTH_FULL_SEPTEMBER"]}", "${languageStrings["CALENDAR_MONTH_FULL_OCTOBER"]}", "${languageStrings["CALENDAR_MONTH_FULL_NOVEMBER"]}", "${languageStrings["CALENDAR_MONTH_FULL_DECEMBER"]}"],
   shortMonths: ["${languageStrings["CALENDAR_MONTH_SHORT_JANUARY"]}", "${languageStrings["CALENDAR_MONTH_SHORT_FEBRUARY"]}", "${languageStrings["CALENDAR_MONTH_SHORT_MARCH"]}", "${languageStrings["CALENDAR_MONTH_SHORT_APRIL"]}", "${languageStrings["CALENDAR_MONTH_SHORT_MAY"]}", "${languageStrings["CALENDAR_MONTH_SHORT_JUNE"]}", "${languageStrings["CALENDAR_MONTH_SHORT_JULY"]}", "${languageStrings["CALENDAR_MONTH_SHORT_AUGUST"]}", "${languageStrings["CALENDAR_MONTH_SHORT_SEPTEMBER"]}", "${languageStrings["CALENDAR_MONTH_SHORT_OCTOBER"]}", "${languageStrings["CALENDAR_MONTH_SHORT_NOVEMBER"]}", "${languageStrings["CALENDAR_MONTH_SHORT_DECEMBER"]}"],
   AM: "${languageStrings["CALENDAR_AM_UPPER"]}",
-  PM:  "${languageStrings["CALENDAR_PM_UPPER"]}",
+  PM: "${languageStrings["CALENDAR_PM_UPPER"]}",
   am: "${languageStrings["CALENDAR_AM_LOWER"]}",
   pm: "${languageStrings["CALENDAR_PM_LOWER"]}",
   dateType: "${calendar}",
