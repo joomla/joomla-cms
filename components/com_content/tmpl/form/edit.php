@@ -26,17 +26,6 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
-		{
-			" . $this->form->getField('articletext')->save() . "
-			Joomla.submitform(task);
-		}
-	}
-");
 ?>
 <div class="edit item-page">
 	<?php if ($params->get('show_page_heading')) : ?>
