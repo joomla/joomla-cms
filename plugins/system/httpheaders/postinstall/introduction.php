@@ -40,4 +40,16 @@ function httpheaders_postinstall_action()
 		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
 	$db->setQuery($query);
 	$db->execute();
+
+	$query = $db->getQuery(true)
+		->select('extension_id')
+		->from($db->qn('#__extensions'))
+		->where($db->qn('type') . ' = ' . $db->q('plugin'))
+		->where($db->qn('folder') . ' = ' . $db->q('system'))
+		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
+	$db->setQuery($query);
+	$extensionId = $db->loadResult();
+
+	$url = 'index.php?option=com_plugins&task=plugin.edit&extension_id=' . $extensionId;
+	JFactory::getApplication()->redirect($url);
 }
