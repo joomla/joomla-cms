@@ -17,7 +17,7 @@
  */
 function httpheaders_postinstall_condition()
 {
-	return !Joomla\CMS\Plugin\PluginHelper::isEnabled('system', 'httpheader');
+	return !Joomla\CMS\Plugin\PluginHelper::isEnabled('system', 'httpheaders');
 }
 
 /**
