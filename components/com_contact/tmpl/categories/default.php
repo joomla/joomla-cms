@@ -16,23 +16,6 @@ JHtml::_('behavior.core');
 // Add strings for translations in Javascript.
 JText::script('JGLOBAL_EXPAND_CATEGORIES');
 JText::script('JGLOBAL_COLLAPSE_CATEGORIES');
-
-JFactory::getDocument()->addScriptDeclaration("
-jQuery(function($) {
-	$('.categories-list').find('[id^=category-btn-]').each(function(index, btn) {
-		var btn = $(btn);
-		btn.on('click', function() {
-			btn.find('span').toggleClass('icon-plus');
-			btn.find('span').toggleClass('icon-minus');
-			if (btn.attr('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
-			{
-				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
-			} else {
-				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'));
-			}
-		});
-	});
-});");
 ?>
 <div class="categories-list">
 	<?php
