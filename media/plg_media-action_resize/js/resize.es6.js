@@ -58,10 +58,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', () => {
+      resizeWidthInputBox.addEventListener('change', function changeWidth() {
         resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
       });
-      resizeHeightInputBox.addEventListener('change', () => {
+      resizeHeightInputBox.addEventListener('change', function changeHeigth() {
         resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
       });
 

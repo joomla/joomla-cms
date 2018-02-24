@@ -2,7 +2,6 @@
 * PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 * OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
 **/
-var _this = this;
 
 /**
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
@@ -65,11 +64,11 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', function () {
-        resize(parseInt(_this.value, 10), parseInt(_this.value, 10) / (image.width / image.height));
+      resizeWidthInputBox.addEventListener('change', function changeWidth() {
+        resize(parseInt(this.value, 10), parseInt(this.value, 10) / (image.width / image.height));
       });
-      resizeHeightInputBox.addEventListener('change', function () {
-        resize(parseInt(_this.value, 10) * (image.width / image.height), parseInt(_this.value, 10));
+      resizeHeightInputBox.addEventListener('change', function changeHeigth() {
+        resize(parseInt(this.value, 10) * (image.width / image.height), parseInt(this.value, 10));
       });
 
       // Set the values for the range fields
