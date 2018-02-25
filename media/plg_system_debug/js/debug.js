@@ -13,7 +13,7 @@
   var toggle = function (id) {
     var element = document.getElementById(id);
     if (element) {
-      element.style.display = (element.style.display == 'none') ? 'block' : 'none';
+      element.style.display = (element.style.display === 'block') ? 'none' : 'block';
     }
   };
 

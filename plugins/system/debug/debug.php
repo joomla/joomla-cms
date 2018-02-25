@@ -456,10 +456,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<div class="dbg-header' . $status . '" data-debug-toggle="dbg_container_' . $item . '"><a href="#"><h3>' . $title . '</h3></a></div>';
 
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
 		$html[] = '</div>';
 
