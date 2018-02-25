@@ -9,25 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
+Text::script('COM_MAILTO_EMAIL_ERR_NOINFO', true);
+
+HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['relative' => true, 'version' => 'auto']);
+
 $data = $this->get('data');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(pressbutton)
-	{
-		var form = document.getElementById('mailtoForm');
-
-		// do field validation
-		if (form.mailto.value == '' || form.from.value == '')
-		{
-			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO', true) . "');
-			return false;
-		}
-		form.submit();
-	}
-");
 ?>
 
 <div id="mailto-window" class="p-2">
@@ -35,7 +27,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 	<div class="mailto-close">
-		<a href="javascript: void window.close()" title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>">
+		<a title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
 		 <span>
              <?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>
          </span></a>
@@ -83,10 +75,10 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 		<div class="control-group">
-			<button type="button" class="btn btn-secondary" onclick="window.close();return false;">
+			<button type="button" class="btn btn-secondary close-mailto">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-			<button type="button" class="btn btn-success" onclick="return Joomla.submitbutton('send');">
+			<button type="submit" class="btn btn-success">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>
