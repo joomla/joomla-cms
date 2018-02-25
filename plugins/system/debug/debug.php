@@ -537,14 +537,8 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '"><a href="#"><h3>' . $sKey . '</h3></a></div>';
+					$html[] = '<div class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
 					$id++;
 
 					// Recurse...

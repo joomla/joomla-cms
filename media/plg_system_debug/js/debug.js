@@ -17,17 +17,14 @@
     }
   };
 
-  var registerDebugSectionToggle = function () {
+  var registerEvents = function () {
     var sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
     sectionTogglers.forEach(function (toggler) {
-      toggler.addEventListener('click', function () {
+      toggler.addEventListener('click', function (event) {
+        event.preventDefault();
         toggle(toggler.getAttribute(toggleTargetAttribute));
       });
     });
-  };
-
-  var registerEvents = function () {
-    registerDebugSectionToggle();
   };
 
   document.addEventListener('DOMContentLoaded', function () {
