@@ -45,7 +45,7 @@
     color: #fff;
     background-color: #77cafd; }
   .custom-control-input:disabled ~ .custom-control-label {
-    color: #868e96; }
+    color: #6f7780; }
     .custom-control-input:disabled ~ .custom-control-label::before {
       background-color: #e9ecef; }
 
@@ -134,7 +134,7 @@
     padding-right: 0.75rem;
     background-image: none; }
   .custom-select:disabled {
-    color: #868e96;
+    color: #6f7780;
     background-color: #e9ecef; }
   .custom-select::-ms-expand {
     opacity: 0; }
@@ -422,6 +422,8 @@ legend {
     border: 0; }
     .header .dropdown-notifications h2 {
       font-size: 0.9286rem; }
+  .header .dropdown-item:hover, .header .dropdown-item:focus {
+    color: #28466a; }
   .header .dropdown-menu::after {
     left: .65rem; }
   .header .dropdown-menu-right::after {
@@ -601,7 +603,7 @@ iframe {
               animation: none; } }
   .quick-icons a:hover, .quick-icons a:hover, .quick-icons a:focus {
     text-decoration: none;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3); }
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3); }
   .quick-icons a .j-links-link {
     display: block;
     width: 100%;
@@ -1356,7 +1358,7 @@ joomla-alert {
     border-color: #44b6fc;
     outline: none; }
   .chzn-container.chzn-container-single .chzn-single:disabled {
-    color: #868e96;
+    color: #6f7780;
     cursor: not-allowed;
     background-color: #e9ecef; }
   .chzn-container.chzn-container-single .chzn-single div b {

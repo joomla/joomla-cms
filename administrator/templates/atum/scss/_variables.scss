@@ -6,7 +6,7 @@ $gray-200:                         #e9ecef;
 $gray-300:                         #dee2e6;
 $gray-400:                         #ced4da;
 $gray-500:                         #adb5bd;
-$gray-600:                         #868e96;
+$gray-600:                         #6f7780;
 $gray-700:                         #495057;
 $gray-800:                         #343a40;
 $gray-900:                         #212529;
@@ -68,8 +68,8 @@ $atum-sidebar-bg:                  $atum-template-color-dark;
 $atum-sidebar-item-title:          .9rem;
 $atum-sidebar-hover:               #59daff;
 $atum-sidebar-active:              #59afff;
-$atum-level-1-bg:                  rgba(0,0,0,.65);
-$atum-level-2-bg:                  rgba(0,0,0,.05);
+$atum-level-1-bg:                  rgba($black, .65);
+$atum-level-2-bg:                  rgba($black, .05);
 $atum-sidebar-child-bg:            #0f2131;
 
 // Fonts
@@ -92,10 +92,10 @@ $table-bg-accent:                  rgba(0,0,0,.03);
 $table-row-selected:               #d9edf7;
 
 // Buttons + Forms
-$btn-border-width:            0;
-$btn-border-radius:           0;
-$btn-border-radius-lg:        0;
-$btn-border-radius-sm:        0;
+$btn-border-width:                 0;
+$btn-border-radius:                0;
+$btn-border-radius-lg:             0;
+$btn-border-radius-sm:             0;
 
 $input-border-width:               0;
 $input-box-shadow:            	   none;
@@ -165,7 +165,7 @@ $badge-default-bg:                 #5e7082;
 $quickicon-bg:                     $white;
 $quickicon-text-color:             $gray-100;
 $quickicon-box-shadow:             $atum-box-shadow;
-$quickicon-box-shadow-hover:       0 0 5px 0 rgba($black, .3);
+$quickicon-box-shadow-hover:       0 0 8px 0 rgba($black, .3);
 $quickicon-box-shadow-success:     0 0 3px 0 theme-color("success");
 $quickicon-box-shadow-danger:      0 0 3px 0 theme-color("danger");
 

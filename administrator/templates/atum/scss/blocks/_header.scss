@@ -71,6 +71,13 @@
     }
   }
 
+  .dropdown-item {
+    @include hover-focus {
+      color: $atum-template-color-dark;
+      //@include gradient-bg($dropdown-link-hover-bg);
+    }
+  }
+
   .dropdown-menu::after {
     left: .65rem;
   }
