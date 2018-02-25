@@ -10,6 +10,10 @@
   var debugSectionTogglerSelector = '.dbg-header';
   var toggleTargetAttribute = 'data-debug-toggle';
 
+  /**
+   * Toggle an element by id
+   * @param id
+   */
   var toggle = function (id) {
     var element = document.getElementById(id);
     if (element) {
@@ -17,6 +21,9 @@
     }
   };
 
+  /**
+   * Register events
+   */
   var registerEvents = function () {
     var sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
     sectionTogglers.forEach(function (toggler) {
@@ -29,14 +36,6 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     registerEvents();
-
-    var sidebarWrapper = document.getElementById('sidebar-wrapper');
-    var debugWrapper = document.getElementById('system-debug');
-
-    if (sidebarWrapper && debugWrapper) {
-      debugWrapper.style.marginLeft = '60px';
-    }
-
   });
 
 }(document));
