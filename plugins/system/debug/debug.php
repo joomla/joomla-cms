@@ -537,7 +537,9 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '"><a href="#"><h3>' . $sKey . '</h3></a></div>';
+					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<a href="#"><h3>' . $sKey . '</h3></a>';
+					$html[] = '</div>';
 					$html[] = '<div class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
 					$id++;
 
