@@ -3,23 +3,39 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || {};
- 
-(function( Joomla, document ) {
-	"use strict";
+(function (document) {
+  'use strict';
 
-	document.addEventListener('DOMContentLoaded', function() {
-		Joomla.toggleContainer = function(name)
-		{
-			var e = document.getElementById(name);
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		};
+  // Selectors used by this script
+  var debugSectionTogglerSelector = '.dbg-header';
+  var toggleTargetAttribute = 'data-debug-toggle';
 
-		var sidebarWrapper = document.getElementById('sidebar-wrapper'),
-		    debugWrapper   = document.getElementById('system-debug');
-		if (sidebarWrapper && debugWrapper) {
-			debugWrapper.style.marginLeft = '60px';
-		}
-	});
+  /**
+   * Toggle an element by id
+   * @param id
+   */
+  var toggle = function (id) {
+    var element = document.getElementById(id);
+    if (element) {
+      element.style.display = (element.style.display === 'block') ? 'none' : 'block';
+    }
+  };
 
-}( Joomla, document ));
+  /**
+   * Register events
+   */
+  var registerEvents = function () {
+    var sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
+    sectionTogglers.forEach(function (toggler) {
+      toggler.addEventListener('click', function (event) {
+        event.preventDefault();
+        toggle(toggler.getAttribute(toggleTargetAttribute));
+      });
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    registerEvents();
+  });
+
+}(document));
