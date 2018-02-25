@@ -33,30 +33,7 @@ th {
   }
 }
 
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-  border-top-left-radius: 0;
-  border-top-right-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
-  border-top-left-radius: $border-radius;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: $border-radius;
-}
-
-.switcher-labels {
-  margin-right: 10px;
-  margin-left: 0;
-  span {
-    right: 0;
-    left: auto;
-  }
-}
-
 .wrapper {
-  padding-right: 250px;
   padding-left: 0;
   &.closed {
     padding-right: 50px;

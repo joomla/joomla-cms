@@ -1,7 +1,6 @@
 // Sidebar
 
 .wrapper {
-  padding-left: 250px;
   transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
@@ -11,26 +10,12 @@
 }
 
 .sidebar-wrapper {
-  position: fixed;
-  left: 0;
   z-index: 10;
-  width: 250px;
-  height: 100%;
-  margin-left: 0;
+  width: $sidebar-width;
+  height: calc(100vh - $header-height);
   background-color: $atum-template-color-dark;
-  box-shadow: 0 3px 10px rgba(0,0,0,.5);
+  box-shadow: $atum-box-shadow;
   transition: all .3s ease;
-
-  .sidebar-brand {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    overflow: hidden;
-
-  }
 
   @include media-breakpoint-down(md) {
     margin-top: 3px;
@@ -42,29 +27,11 @@
   }
 
   .main-brand {
-    margin-left: 5px;
-    font-size: 30px;
-    line-height: 96px;
     text-align: center;
-    text-indent: 0;
-    border: 0;
-    box-shadow: none;
 
     a {
       display: block;
-      margin-right: 5px;
       overflow: hidden;
-      border: 0;
-      box-shadow: none;
-
-      &:hover {
-        background: none;
-      }
-
-    }
-
-    img {
-      width: 190px;
     }
 
   }
@@ -110,13 +77,11 @@
   }
 
   li {
-    max-height: 40px;
-    line-height: 40px;
 
     a {
       position: relative;
       display: block;
-      max-height: 40px;
+      padding: 15px 0;
       overflow: hidden;
       color: $white;
       text-decoration: none;
@@ -149,7 +114,7 @@
       left: 50px;
       z-index: -3;
       display: block;
-      width: 200px;
+      width: 190px;
       height: 100%;
       padding: 0;
       opacity: 0;
@@ -183,7 +148,7 @@
   .open {
 
     > a + ul {
-      left: 50px;
+      left: 60px;
       z-index: 1;
       opacity: 1;
       transition-delay: .2s;
@@ -197,6 +162,7 @@
     box-shadow: none;
 
     a {
+      padding: 7px 0;
       box-shadow: none;
 
       &:hover {
@@ -221,7 +187,7 @@
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 12px;
+    margin: 0 18px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
@@ -272,15 +238,15 @@
   // Parent arrow indicator
   .parent .collapse-arrow::after {
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 15px;
+    margin-top: -.45rem;
     font-family: FontAwesome;
     font-size: .75rem;
     color: $white;
     visibility: visible;
     content: "\f0da";
     transition-delay: .25s;
-
   }
 
   .closed & {
@@ -295,7 +261,7 @@
   overflow: visible;
 
   &::after {
-    width: 200px;
+    width: 190px;
   }
 
   > li {
@@ -325,16 +291,12 @@
 // Sidebar Closed
 .closed {
 
-  @include media-breakpoint-up(lg) {
-    padding-left: 50px;
-  }
-
   .child-open::after {
     display: none;
   }
 
   .sidebar-wrapper {
-    width: 50px;
+    width: $sidebar-width-closed;
     overflow: hidden;
   }
 

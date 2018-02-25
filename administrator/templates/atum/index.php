@@ -29,8 +29,8 @@ $itemid      = $input->get('Itemid', '');
 $sitename    = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
-$logoLg      = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-icon.svg';
+$logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Add JavaScript
 HTMLHelper::_('bootstrap.framework');
@@ -72,38 +72,35 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		</div>
 	</noscript>
 
+	<?php // Header ?>
+	<header id="header" class="header">
+		<div class="container-fluid">
+			<div class="d-flex row justify-content-end">
+				<div class="d-flex align-items-center">
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						<img src="<?php echo $logoBlue; ?>" alt="<?php echo $sitename; ?>">
+					</a>
+				</div>
+				<jdoc:include type="modules" name="title" />
+				<jdoc:include type="modules" name="status" style="no" />
+			</div>
+		</div>
+	</header>
+
 	<?php // Wrapper ?>
-	<div id="wrapper" class="wrapper<?php echo $hidden ? '0' : ''; ?>">
+	<div id="wrapper" class="d-flex wrapper<?php echo $hidden ? '0' : ''; ?>">
 
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
+			<jdoc:include type="modules" name="menu" style="none" />
 			<div id="main-brand" class="main-brand align-items-center">
-				<a href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logoLg; ?>" class="logo" alt="<?php echo $sitename; ?>">
+				<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+					<img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>">
 				</a>
 			</div>
-			<jdoc:include type="modules" name="menu" style="none" />
 		</div>
 		<?php endif; ?>
-
-		<?php // Header ?>
-		<header id="header" class="header">
-			<div class="container-fluid">
-				<div class="d-flex row justify-content-end">
-					<?php if (!$hidden) : ?>
-					<div class="menu-collapse">
-						<a id="menu-collapse" class="menu-toggle" href="#">
-							<span class="menu-toggle-icon fa fa-chevron-left fa-fw" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('TPL_ATUM_CONTROL_PANEL_MENU'); ?></span>
-						</a>
-					</div>
-					<?php endif; ?>
-					<jdoc:include type="modules" name="title" />
-					<jdoc:include type="modules" name="status" style="no" />
-				</div>
-			</div>
-		</header>
 
 		<?php // container-fluid ?>
 		<div class="container-fluid container-main">

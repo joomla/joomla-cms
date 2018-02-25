@@ -1,28 +1,12 @@
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
-// Global
-$atum-template-color:              #3887da;
-$atum-template-color-light:        #2e5a84;
-$atum-template-color-dark:         #28466a;
-$atum-container-main-bg:           #ebeff5;
-$atum-border-color:                #ccc;
-$atum-box-shadow:                  0 1px 2px rgba(0,0,0,0.25);
-$atum-block-header-bg:             #f5f5f5;
-$white-offset:                     #fefefe;
-$atum-hl-grad-inner:               #59afff;
-$atum-hl-grad-outer:               #59daff;
-$enable-rounded:                   false;
-$border-radius:                    none;
-$input-btn-padding-y:              .6rem;
-$input-btn-padding-x:              1rem;
-
 $white:                            #fff;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e9ecef;
 $gray-300:                         #dee2e6;
 $gray-400:                         #ced4da;
 $gray-500:                         #adb5bd;
-$gray-600:                         #868e96;
+$gray-600:                         #6f7780;
 $gray-700:                         #495057;
 $gray-800:                         #343a40;
 $gray-900:                         #212529;
@@ -51,9 +35,22 @@ $theme-colors: map-merge((
   dark: $gray-800
 ), $theme-colors);
 
+// Global
+$atum-template-color:              #3887da;
+$atum-template-color-light:        #2e5a84;
+$atum-template-color-dark:         #28466a;
+$atum-container-main-bg:           #ebeff5;
+$atum-border-color:                #ccc;
+$atum-box-shadow:                  0 0 3px 0 rgba($black, .3);
+$atum-block-header-bg:             #f5f5f5;
+$white-offset:                     #fefefe;
+$enable-rounded:                   false;
+$border-radius:                    none;
+$input-btn-padding-y:              .6rem;
+$input-btn-padding-x:              1rem;
+
 // Header
-$header-height:                    48px;
-$header-icons-bg:                  $atum-template-color-light;
+$header-height:                    55px;
 
 // Toolbar
 $atum-toolbar-line-height:         2.65rem;
@@ -67,13 +64,15 @@ $atum-button-bar-space:            3px;
 $atum-button-transistion-duration: .3s;
 
 // Sidebar
-$atum-sidebar-bg:                  darken($atum-template-color, 4%);
+$atum-sidebar-bg:                  $atum-template-color-dark;
 $atum-sidebar-item-title:          .9rem;
 $atum-sidebar-hover:               #59daff;
 $atum-sidebar-active:              #59afff;
-$atum-level-1-bg:                  rgba(0,0,0,.65);
-$atum-level-2-bg:                  rgba(0,0,0,.05);
+$atum-level-1-bg:                  rgba($black, .65);
+$atum-level-2-bg:                  rgba($black, .05);
 $atum-sidebar-child-bg:            #0f2131;
+$sidebar-width:                    250px;
+$sidebar-width-closed:             65px;
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;
@@ -95,10 +94,10 @@ $table-bg-accent:                  rgba(0,0,0,.03);
 $table-row-selected:               #d9edf7;
 
 // Buttons + Forms
-$btn-border-width:            0;
-$btn-border-radius:           0;
-$btn-border-radius-lg:        0;
-$btn-border-radius-sm:        0;
+$btn-border-width:                 0;
+$btn-border-radius:                0;
+$btn-border-radius-lg:             0;
+$btn-border-radius-sm:             0;
 
 $input-border-width:               0;
 $input-box-shadow:            	   none;
@@ -121,12 +120,10 @@ $table-border-width:               0;
 $table-head-bg:                    transparent;
 
 // Cards
-$atum-card-title-bg:               $atum-block-header-bg;
-$atum-card-title-icon-bg:          $atum-block-header-bg;
-$atum-card-title-icon-bg-hover:    darken($atum-card-title-bg, 2%);
-$card-bg-color-light:              #f8f8f8;
-$card-bg-color-dark:               $atum-template-color-dark;
-$card-border-color:                $atum-border-color;
+$card-bg:                          transparent;
+$card-cap-bg:                      transparent;
+$card-border-width:                0;
+$card-border-color:                transparent;
 
 // Alerts
 $state-success-text:               $white;
@@ -167,11 +164,12 @@ $modal-header-height:              46px;
 $badge-default-bg:                 #5e7082;
 
 // Quickicons
-$quickicon-bg:                     $atum-template-color;
-$quickicon-text-color:             $white;
-$quickicon-box-shadow:             0 0 5px 0 $quickicon-bg;
-$quickicon-box-shadow-success:     0 0 5px 0 lighten(theme-color("success"), 7%);
-$quickicon-box-shadow-danger:      0 0 5px 0 lighten(theme-color("danger"), 7%);
+$quickicon-bg:                     $white;
+$quickicon-text-color:             $gray-100;
+$quickicon-box-shadow:             $atum-box-shadow;
+$quickicon-box-shadow-hover:       0 0 8px 0 rgba($black, .3);
+$quickicon-box-shadow-success:     0 0 3px 0 theme-color("success");
+$quickicon-box-shadow-danger:      0 0 3px 0 theme-color("danger");
 
 // Gutter
 $grid-gutter-width:                15px;
