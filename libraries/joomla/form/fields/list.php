@@ -57,6 +57,12 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
+		// Check if value is JSON
+		if ($this->multiple && is_string($this->value) && is_array(json_decode($this->value, true)))
+		{
+			$this->value = (array) json_decode($this->value);
+		}
+
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
