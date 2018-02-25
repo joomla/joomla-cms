@@ -61,12 +61,17 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
   const initRotate = () => {
     const funct = () => {
-      // The listeners
-      document.getElementById('jform_rotate_angle').addEventListener('change', (event) => {
-        rotate(parseInt(event.target.value, 10));
-      });
+      // The number input listener
       document.getElementById('jform_rotate_a').addEventListener('input', (event) => {
         rotate(parseInt(event.target.value, 10));
+      });
+
+      // The 90 degree rotate buttons listeners
+      const elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
+      elements.forEach((element) => {
+        element.addEventListener('click', (event) => {
+          rotate(parseInt(event.target.querySelector('input').value, 10));
+        });
       });
     };
     setTimeout(funct, 1000);
