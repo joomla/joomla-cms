@@ -110,7 +110,7 @@ Joomla = window.Joomla || {};
 			loading.style.marginTop = '-10px';
 		}
 
-    document.getElementById(installPackageButtonId).addEventListener('click', function(event) {
+		document.getElementById(installPackageButtonId).addEventListener('click', function(event) {
       event.preventDefault();
       Joomla.submitbuttonpackage();
     })
