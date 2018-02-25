@@ -49,9 +49,6 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     preview.height = canvas.height;
     preview.src = Joomla.MediaManager.Edit.current.contents;
 
-    // Update the width input box
-    document.getElementById('jform_rotate_angle').value = angle;
-
     // Update the height input box
     document.getElementById('jform_rotate_a').value = angle;
 
