@@ -16,6 +16,14 @@
 		<nativeName>English (United States)</nativeName>
 		<tag>en-US</tag>
 		<rtl>0</rtl>
+		<!-- Calendar specific start -->
+		<!-- First day of the week, 0 = Sun, range 0 to 6 -->
+		<firstDay>0</firstDay>
+		<!-- Weekend days, one or two numbers comma separated, 0 = Sun, 6 = Sat, range 0 to 6 -->
+		<weekEnd>0,6</weekEnd>
+		<!-- Calendar, could be gregorian, jalali, NON TRANSLATABLE LOWER CASE -->
+		<calendar>gregorian</calendar>
+		<!-- Calendar specific end -->
 	</metadata>
 	<params />
 </metafile>
