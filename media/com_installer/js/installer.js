@@ -8,6 +8,8 @@ Joomla = window.Joomla || {};
 (function() {
 	'use strict';
 
+	var installPackageButtonId = 'installbutton_package';
+
 	document.addEventListener('DOMContentLoaded', function() {
 
 		Joomla.submitbuttonpackage = function() {
