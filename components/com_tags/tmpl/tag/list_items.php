@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::_('behavior.core');
 
-HTMLHelper::_('script', 'com_tags/list-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_tags/tag-list.js', ['relative' => true, 'version' => 'auto']);
 
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
