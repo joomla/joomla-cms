@@ -5,55 +5,25 @@
   position: relative;
   z-index: 5;
   height: $header-height;
-  background: $atum-template-color-dark;
+  background: $white;
+  box-shadow: $atum-box-shadow;
 
-  &::after {
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    height: 3px;
-    content: "";
-    background-color: theme-color("primary");
-    background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
+  .logo {
+    margin: 0 20px;
   }
 
   .page-title {
     display: inline-block;
     margin: 0 5px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: normal;
     line-height: $header-height;
-    color: $white-offset;
+    color: $atum-template-color-dark;
 
     [class^="icon-"] {
-      margin-right: 15px;
-      font-size: $h1-font-size$h1-font-size;
-      vertical-align: middle;
+      margin-right: 10px;
     }
 
-  }
-
-  .navbar-brand {
-    padding: 0;
-    font-size: 1.1rem;
-    color: $white-offset;
-
-    &:hover,
-    &:focus {
-      color: darken($white-offset, 6%);
-    }
-
-    @include media-breakpoint-only(sm) {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-    span {
-      margin-left: .4rem;
-    }
-  }
-  .nav-item {
-    background-color: $header-icons-bg;
-    border-left: 1px solid $atum-template-color;
   }
 
   .nav-link {
@@ -64,7 +34,7 @@
     .fa {
       width: $header-height + 2px;
       font-size: 1.2rem;
-      color: $white-offset;
+      color: $atum-template-color-dark;
       vertical-align: middle;
       transition: all .2s ease-in-out;
     }
@@ -76,8 +46,8 @@
 
     .badge {
       position: absolute;
-      top: 4px;
-      right: 2px;
+      top: 7px;
+      right: 7px;
     }
 
     &.dropdown-toggle::after {
@@ -122,13 +92,13 @@
 
   }
 
-  .header-profile-user {
+  .dropdown-header {
     padding-top: .5rem;
     padding-bottom: .5rem;
     margin-bottom: .3rem;
-    background-color: $atum-container-main-bg;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    border-radius: $border-radius $border-radius 0 0;
+    background-color: $atum-template-color-dark;
+    color: $white;
+    box-shadow: $atum-box-shadow;
   }
 
   .list-group-item-text:last-child {
@@ -139,7 +109,7 @@
     margin-right: .9rem;
     margin-bottom: 0;
     font-size: $h5-font-size;
-    color: $white-offset;
+    color: $atum-template-color-dark;
   }
 
 }
@@ -155,21 +125,6 @@
       margin-top: $header-height;
     }
 
-  }
-
-}
-
-// Mobile Toggle
-.menu-collapse {
-  font-size: 2rem;
-  text-align: center;
-
-  a {
-    display: block;
-    width: $header-height;
-    line-height: $header-height;
-    color: $white;
-    background-color: $header-icons-bg;
   }
 
 }

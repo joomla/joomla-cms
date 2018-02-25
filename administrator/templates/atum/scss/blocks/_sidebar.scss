@@ -1,7 +1,6 @@
 // Sidebar
 
 .wrapper {
-  padding-left: 250px;
   transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
@@ -11,26 +10,12 @@
 }
 
 .sidebar-wrapper {
-  position: fixed;
-  left: 0;
   z-index: 10;
   width: 250px;
-  height: 100%;
-  margin-left: 0;
+  height: calc(100vh - $header-height);
   background-color: $atum-template-color-dark;
-  box-shadow: 0 3px 10px rgba(0,0,0,.5);
+  box-shadow: $atum-box-shadow;
   transition: all .3s ease;
-
-  .sidebar-brand {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    overflow: hidden;
-
-  }
 
   @include media-breakpoint-down(md) {
     margin-top: 3px;
@@ -42,29 +27,12 @@
   }
 
   .main-brand {
-    margin-left: 5px;
-    font-size: 30px;
-    line-height: 96px;
     text-align: center;
-    text-indent: 0;
-    border: 0;
-    box-shadow: none;
 
     a {
       display: block;
-      margin-right: 5px;
       overflow: hidden;
-      border: 0;
-      box-shadow: none;
 
-      &:hover {
-        background: none;
-      }
-
-    }
-
-    img {
-      width: 190px;
     }
 
   }
@@ -110,13 +78,11 @@
   }
 
   li {
-    max-height: 40px;
-    line-height: 40px;
 
     a {
       position: relative;
       display: block;
-      max-height: 40px;
+      padding: 15px 0;
       overflow: hidden;
       color: $white;
       text-decoration: none;
@@ -272,8 +238,9 @@
   // Parent arrow indicator
   .parent .collapse-arrow::after {
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 15px;
+    margin-top: -.375rem;
     font-family: FontAwesome;
     font-size: .75rem;
     color: $white;
