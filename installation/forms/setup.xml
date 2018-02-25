@@ -76,9 +76,9 @@
 				id="db_type"
 				class="custom-select form-control"
 				label="INSTL_DATABASE_TYPE_DESC"
-				supported="mysql,mysqli,pgsql,postgresql"
+				supported="mysqli,mysql,postgresql,pgsql"
 				required="true"
-				default="mysql"
+				default="mysqli"
 				filter="string"
 		/>
 		<field
