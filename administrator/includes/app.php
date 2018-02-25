@@ -39,7 +39,13 @@ JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)-
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();
 
-// Alias the session service keys to the web session service as that is the primary session backend for this application
+/*
+ * Alias the session service keys to the web session service as that is the primary session backend for this application
+ *
+ * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
+ * is supported.  This includes aliases for aliased class names, and the keys for alised class names should be considered
+ * deprecated to be removed when the class name alias is removed as well.
+ */
 $container->alias('session.web', 'session.web.administrator')
 	->alias('session', 'session.web.administrator')
 	->alias('JSession', 'session.web.administrator')
