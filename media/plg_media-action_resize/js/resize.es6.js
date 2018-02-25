@@ -22,7 +22,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
     // The format
-    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+    const format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
 
     // The quality
     const quality = document.getElementById('jform_resize_quality').value;
