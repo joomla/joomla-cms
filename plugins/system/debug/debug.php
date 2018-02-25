@@ -454,11 +454,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
-
-		$class = 'dbg-header' . $status;
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="dbg-header' . $status . '" data-debug-toggle="dbg_container_' . $item . '"><a href="#"><h3>' . $title . '</h3></a></div>';
 
 		// @todo set with js.. ?
 		$style = ' style="display: none;"';

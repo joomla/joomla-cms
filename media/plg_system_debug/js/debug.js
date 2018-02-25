@@ -6,16 +6,32 @@
 (function (document) {
   'use strict';
 
+  // Selectors used by this script
+  var debugSectionTogglerSelector = '.dbg-header';
+  var toggleTargetAttribute = 'data-debug-toggle';
+
   var toggle = function (id) {
     var element = document.getElementById(id);
-    if(element) {
+    if (element) {
       element.style.display = (element.style.display == 'none') ? 'block' : 'none';
     }
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
+  var registerDebugSectionToggle = function () {
+    var sectionTogglers = [].slice.call(document.querySelectorAll(debugSectionTogglerSelector));
+    sectionTogglers.forEach(function (toggler) {
+      toggler.addEventListener('click', function () {
+        toggle(toggler.getAttribute(toggleTargetAttribute));
+      });
+    });
+  };
 
-    Joomla.toggleContainer = toggle;
+  var registerEvents = function () {
+    registerDebugSectionToggle();
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    registerEvents();
 
     var sidebarWrapper = document.getElementById('sidebar-wrapper');
     var debugWrapper = document.getElementById('system-debug');
@@ -23,6 +39,7 @@
     if (sidebarWrapper && debugWrapper) {
       debugWrapper.style.marginLeft = '60px';
     }
+
   });
 
 }(document));
