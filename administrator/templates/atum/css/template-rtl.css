@@ -384,7 +384,9 @@ legend {
   background: #fff;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3); }
   .header .logo {
-    margin: 0 20px; }
+    display: inline-block;
+    width: 65px;
+    text-align: center; }
   .header .page-title {
     display: inline-block;
     margin: 0 5px;
@@ -769,7 +771,7 @@ iframe {
     left: 50px;
     z-index: -3;
     display: block;
-    width: 200px;
+    width: 190px;
     height: 100%;
     padding: 0;
     opacity: 0;
@@ -789,7 +791,7 @@ iframe {
     .main-nav .close:hover {
       background-color: transparent; }
   .main-nav .open > a + ul {
-    left: 50px;
+    left: 60px;
     z-index: 1;
     opacity: 1;
     transition-delay: .2s; }
@@ -798,6 +800,7 @@ iframe {
     border: 0;
     box-shadow: none; }
     .main-nav li li a {
+      padding: 7px 0;
       box-shadow: none; }
       .main-nav li li a:hover {
         background-color: #3887da;
@@ -810,7 +813,7 @@ iframe {
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 12px;
+    margin: 0 18px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
@@ -842,7 +845,7 @@ iframe {
     position: absolute;
     top: 50%;
     right: 15px;
-    margin-top: -.375rem;
+    margin-top: -.45rem;
     font-family: FontAwesome;
     font-size: .75rem;
     color: #fff;
@@ -855,7 +858,7 @@ iframe {
 .child-open {
   overflow: visible; }
   .child-open::after {
-    width: 200px; }
+    width: 190px; }
   .child-open > li.parent > .collapse-arrow::after {
     visibility: hidden;
     opacity: 0;
@@ -871,15 +874,11 @@ iframe {
   .child-open .open > ul {
     display: block; }
 
-@media (min-width: 992px) {
-  .closed {
-    padding-left: 50px; } }
-
 .closed .child-open::after {
   display: none; }
 
 .closed .sidebar-wrapper {
-  width: 50px;
+  width: 65px;
   overflow: hidden; }
 
 .closed .parent .collapse-arrow::after {

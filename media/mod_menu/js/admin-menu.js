@@ -3,7 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
 Joomla = window.Joomla || {};
 
 (function(Joomla, document) {
@@ -78,28 +77,30 @@ Joomla = window.Joomla || {};
 		};
 
 		// Toggle menu
-		menuToggle.addEventListener('click', function(e) {
-			wrapper.classList.toggle('closed');
+		if (menuToggle) {
+			menuToggle.addEventListener('click', function(e) {
+				wrapper.classList.toggle('closed');
 
-			var listItems = document.querySelectorAll('.main-nav > li');
-			for (var i = 0; i < listItems.length; i++) {
-				listItems[i].classList.remove('open');
-			}
-
-			var elem = document.querySelector('.child-open');
-			if (elem) {
-				elem.classList.remove('child-open');
-			}
-
-			// Save the sidebar state
-			if (Joomla.localStorageEnabled()) {
-				if (wrapper.classList.contains('closed')) {
-					localStorage.setItem('atum-sidebar', 'closed');
-				} else {
-					localStorage.setItem('atum-sidebar', 'open');
+				var listItems = document.querySelectorAll('.main-nav > li');
+				for (var i = 0; i < listItems.length; i++) {
+					listItems[i].classList.remove('open');
 				}
-			}
-		});
+
+				var elem = document.querySelector('.child-open');
+				if (elem) {
+					elem.classList.remove('child-open');
+				}
+
+				// Save the sidebar state
+				if (Joomla.localStorageEnabled()) {
+					if (wrapper.classList.contains('closed')) {
+						localStorage.setItem('atum-sidebar', 'closed');
+					} else {
+						localStorage.setItem('atum-sidebar', 'open');
+					}
+				}
+			});
+		}
 
 
 		/**

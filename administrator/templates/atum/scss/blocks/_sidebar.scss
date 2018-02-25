@@ -11,7 +11,7 @@
 
 .sidebar-wrapper {
   z-index: 10;
-  width: 250px;
+  width: $sidebar-width;
   height: calc(100vh - $header-height);
   background-color: $atum-template-color-dark;
   box-shadow: $atum-box-shadow;
@@ -32,7 +32,6 @@
     a {
       display: block;
       overflow: hidden;
-
     }
 
   }
@@ -115,7 +114,7 @@
       left: 50px;
       z-index: -3;
       display: block;
-      width: 200px;
+      width: 190px;
       height: 100%;
       padding: 0;
       opacity: 0;
@@ -149,7 +148,7 @@
   .open {
 
     > a + ul {
-      left: 50px;
+      left: 60px;
       z-index: 1;
       opacity: 1;
       transition-delay: .2s;
@@ -163,6 +162,7 @@
     box-shadow: none;
 
     a {
+      padding: 7px 0;
       box-shadow: none;
 
       &:hover {
@@ -187,7 +187,7 @@
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 12px;
+    margin: 0 18px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
@@ -240,14 +240,13 @@
     position: absolute;
     top: 50%;
     right: 15px;
-    margin-top: -.375rem;
+    margin-top: -.45rem;
     font-family: FontAwesome;
     font-size: .75rem;
     color: $white;
     visibility: visible;
     content: "\f0da";
     transition-delay: .25s;
-
   }
 
   .closed & {
@@ -262,7 +261,7 @@
   overflow: visible;
 
   &::after {
-    width: 200px;
+    width: 190px;
   }
 
   > li {
@@ -292,16 +291,12 @@
 // Sidebar Closed
 .closed {
 
-  @include media-breakpoint-up(lg) {
-    padding-left: 50px;
-  }
-
   .child-open::after {
     display: none;
   }
 
   .sidebar-wrapper {
-    width: 50px;
+    width: $sidebar-width-closed;
     overflow: hidden;
   }
 
