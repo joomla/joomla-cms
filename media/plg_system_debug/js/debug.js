@@ -3,23 +3,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-Joomla = window.Joomla || {};
- 
-(function( Joomla, document ) {
-	"use strict";
+(function (document) {
+  'use strict';
 
-	document.addEventListener('DOMContentLoaded', function() {
-		Joomla.toggleContainer = function(name)
-		{
-			var e = document.getElementById(name);
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		};
+  var toggle = function (id) {
+    var element = document.getElementById(id);
+    if(element) {
+      element.style.display = (element.style.display == 'none') ? 'block' : 'none';
+    }
+  };
 
-		var sidebarWrapper = document.getElementById('sidebar-wrapper'),
-		    debugWrapper   = document.getElementById('system-debug');
-		if (sidebarWrapper && debugWrapper) {
-			debugWrapper.style.marginLeft = '60px';
-		}
-	});
+  document.addEventListener('DOMContentLoaded', function () {
 
-}( Joomla, document ));
+    Joomla.toggleContainer = toggle;
+
+    var sidebarWrapper = document.getElementById('sidebar-wrapper');
+    var debugWrapper = document.getElementById('system-debug');
+
+    if (sidebarWrapper && debugWrapper) {
+      debugWrapper.style.marginLeft = '60px';
+    }
+  });
+
+}(document));
