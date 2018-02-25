@@ -320,7 +320,9 @@
           "webcomponents-hi-sd-ce.js": "js/webcomponents-hi-sd-ce.js",
           "webcomponents-hi-sd-ce.js.map": "js/webcomponents-hi-sd-ce.js.map",
           "webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map"
+          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map",
+          "webcomponents-lite.js": "js/webcomponents-lite.js",
+          "webcomponents-lite.js.map": "js/webcomponents-lite.js.map"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
