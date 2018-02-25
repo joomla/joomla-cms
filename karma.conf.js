@@ -12,7 +12,7 @@ module.exports = function (config) {
 
 		// list of files / patterns to load in the browser
 		files: [
-			{pattern: 'media/polyfills/js/webcomponents-ce.min.js', included: true, served: true, watched: true},
+			{pattern: 'media/vendor/webcomponentsjs/js/webcomponents-lite.min.js', included: true, served: true, watched: true},
 			{pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
 			{pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
 			{pattern: 'node_modules/text/text.js', included: false},
