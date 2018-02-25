@@ -1422,18 +1422,19 @@ joomla-alert {
   margin-top: 0; }
 
 .com_cpanel .card p:first-of-type {
-  margin-top: 1rem; }
+  margin-top: 0; }
 
 .com_cpanel .card p:last-child {
   margin-bottom: 0; }
 
-.com_cpanel .card .list-group > .published {
-  padding-left: .9rem;
-  border-left: 5px solid #2f7d32; }
-
-.com_cpanel .card .list-group > .unpublished {
-  padding-left: .9rem;
-  border-left: 5px solid #c52827; }
+.com_cpanel .card .list-group {
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3); }
+  .com_cpanel .card .list-group > .published {
+    padding-left: .9rem;
+    border-left: 5px solid #2f7d32; }
+  .com_cpanel .card .list-group > .unpublished {
+    padding-left: .9rem;
+    border-left: 5px solid #c52827; }
 
 .com_cpanel .card-header {
   padding-left: 0;

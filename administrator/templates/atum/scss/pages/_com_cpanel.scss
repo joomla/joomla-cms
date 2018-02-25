@@ -17,6 +17,7 @@
     }
 
     .list-group {
+      box-shadow: $atum-box-shadow;
 
       > .published {
         padding-left: .9rem;
