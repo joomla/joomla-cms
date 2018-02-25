@@ -104,7 +104,7 @@ class PlgSystemStats extends CMSPlugin
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
 
-		HTMLHelper::_('script', 'plg_system_stats/stats.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
