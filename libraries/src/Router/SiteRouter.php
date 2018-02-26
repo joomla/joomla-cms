@@ -299,8 +299,8 @@ class SiteRouter extends Router
 			// If user not allowed to see default menu item then avoid notices
 			if (is_object($item))
 			{
-				// Set the information in the request
-				$vars = $item->query;
+				// Set query variables of default menu item into the request, but keep existing request variables
+				$vars = array_merge($vars, $item->query);
 
 				// Get the itemid
 				$vars['Itemid'] = $item->id;
