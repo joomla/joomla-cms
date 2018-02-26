@@ -68,7 +68,7 @@ $scriptOptions = [
 
 	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
 	<link href="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/css/joomla-alert.min.css" rel="stylesheet">
-	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo $this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css'; ?>" rel="stylesheet">
 
 	<?php $userCss = $this->baseurl . '/templates/' . $this->template . '/css/user.css'; ?>
 	<?php if (is_file(JPATH_ROOT . $userCss)) : ?>

@@ -86,11 +86,11 @@ compileFiles = (options, path) => {
 						});
 
 						// Write the minified file
-						fs.writeFile(cssFile.replace('.css', '.min.css'), UglyCss.processString(final.css.toString()), function(err){
+						/* fs.writeFile(cssFile.replace('.css', '.min.css'), UglyCss.processString(final.css.toString()), function(err){
 							if(!err){
 								//file written on disk
 							}
-						});
+						}); */
 					});
 				});
 			}
@@ -98,7 +98,7 @@ compileFiles = (options, path) => {
 	});
 
 	// Loop to get some text for the packgage.json
-	folders.forEach((folder) => {
+	/* folders.forEach((folder) => {
 		Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
 			(files) => {
 				files.forEach((file) => {
@@ -117,7 +117,7 @@ compileFiles = (options, path) => {
 					}
 				);
 			});
-	});
+	}); */
 
 };
 
