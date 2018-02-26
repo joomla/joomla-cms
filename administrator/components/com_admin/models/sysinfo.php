@@ -239,8 +239,6 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->php_settings;
 		}
 
-		$outputBuffering = ini_get('output_buffering');
-
 		$this->php_settings = array(
 			'safe_mode'          => ini_get('safe_mode') == '1',
 			'display_errors'     => ini_get('display_errors') == '1',
@@ -248,7 +246,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'file_uploads'       => ini_get('file_uploads') == '1',
 			'magic_quotes_gpc'   => ini_get('magic_quotes_gpc') == '1',
 			'register_globals'   => ini_get('register_globals') == '1',
-			'output_buffering'   => ($outputBuffering === 'On') ? true : is_numeric($outputBuffering),
+			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
 			'open_basedir'       => ini_get('open_basedir'),
 			'session.save_path'  => ini_get('session.save_path'),
 			'session.auto_start' => ini_get('session.auto_start'),
