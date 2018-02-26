@@ -94,10 +94,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		<?php if (!$hidden) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none" />
-			<div id="main-brand" class="main-brand align-items-center">
-				<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>">
-				</a>
+			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+				<img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>">
 			</div>
 		</div>
 		<?php endif; ?>

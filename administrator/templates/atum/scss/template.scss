@@ -66,6 +66,7 @@
 .container-main {
   position: relative;
   min-height: calc(100vh - 50px);
+  z-index: 12;
   padding-top: 22px;
   background-color: $atum-container-main-bg;
 
