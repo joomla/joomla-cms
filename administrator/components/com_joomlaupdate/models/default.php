@@ -1184,10 +1184,9 @@ ENDDATA;
 		}
 
 		// Check for output buffering.
-		$outputBuffering = ini_get('output_buffering');
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = ($outputBuffering === 'On') ? true : is_numeric($outputBuffering);
+		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
