@@ -59,14 +59,16 @@
 			}
 
 			var buttonValues = [];
-			options.joomlaExtButtons.names.forEach(function(name, index) {
-				var tmp = {};
-				tmp.text = name;
-				tmp.icon = options.joomlaExtButtons.icons[index];
+			var arr = Object.keys(options.joomlaExtButtons.names).map(function (key) { return options.joomlaExtButtons.names[key]; });
 
-				if (options.joomlaExtButtons.modals[index]) {
+			arr.forEach(function(name, index) {
+				var tmp = {};
+				tmp.text = name.name;
+				tmp.icon = name.icon;
+
+				if (name.href) {
 					tmp.onclick = function() {
-						var modal = document.getElementById(name.replace(' ', '') + 'Modal');
+						var modal = document.getElementById(name.name.replace(' ', '') + 'Modal');
 
 						jQuery(modal).modal('show');
 
@@ -74,7 +76,7 @@
 					};
 				} else {
 					tmp.onclick = function () {
-						new Function(options.joomlaExtButtons.script[index])();
+						new Function(name.click)();
 					};
 				}
 

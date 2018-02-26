@@ -678,13 +678,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			// Init the arrays for the buttons
-			$tinyBtns        = [];
 			$btnsNames       = [];
-			$btnNative       = [];
-			$btnsModal       = [];
-			$btnsIcon        = [];
-			$externalPlugins = [];
-
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
@@ -694,9 +688,7 @@ class PlgEditorTinymce extends CMSPlugin
 				{
 					// Set some vars
 					$name    = $button->get('text');
-					$title   = $button->get('text');
 					$onclick = $button->get('onclick') ?: null;
-					$options = $button->get('options');
 					$icon    = $button->get('name');
 
 					if ($button->get('link') !== '#')
@@ -708,28 +700,21 @@ class PlgEditorTinymce extends CMSPlugin
 						$href = null;
 					}
 
-					// We do some hack here to set the correct icon for 3PD buttons
-					$icon = 'none icon-' . $icon;
+					$coreButton = [];
+
+					$coreButton['name']  = $name;
+					$coreButton['href']  = $href;
+					$coreButton['icon']  = 'none icon-' . $icon;
+					$coreButton['click'] = $onclick;
 
 					// The array with the toolbar buttons
-					$btnsNames[] = $name;
-					$btnsModal[] = $href;
-					$btnsIcon[]  = $icon;
-
-
-					// The array with code for each button
-					$tinyBtns[] = $onclick;
+					$btnsNames[] = $coreButton;
 				}
 			}
 
-			return array(
-				'names'  => $btnsNames,
-				'script' => $tinyBtns,
-				'native' => $btnNative,
-				'paths'  => $externalPlugins,
-				'modals' => $btnsModal,
-				'icons'  => $btnsIcon,
-			);
+			sort($btnsNames);
+
+			return ['names'  => $btnsNames];
 		}
 	}
 
