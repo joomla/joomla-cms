@@ -10,9 +10,9 @@
 }
 
 .sidebar-wrapper {
+  position: relative;
   z-index: 10;
   width: $sidebar-width;
-  height: calc(100vh - $header-height);
   background-color: $atum-template-color-dark;
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
@@ -27,13 +27,11 @@
   }
 
   .main-brand {
-    text-align: center;
-
-    a {
-      display: block;
-      overflow: hidden;
-    }
-
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: $main-brand-height;
   }
 
 }
@@ -48,7 +46,6 @@
   position: relative;
   z-index: 1;
   width: 250px;
-  height: calc(100vh - 96px);
   list-style: none;
   background-color: $atum-template-color-dark;
   opacity: 1;

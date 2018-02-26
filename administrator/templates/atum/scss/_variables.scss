@@ -72,7 +72,8 @@ $atum-level-1-bg:                  rgba($black, .65);
 $atum-level-2-bg:                  rgba($black, .05);
 $atum-sidebar-child-bg:            #0f2131;
 $sidebar-width:                    250px;
-$sidebar-width-closed:             65px;
+$sidebar-width-closed:             64px;
+$main-brand-height:                50px;
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;
@@ -98,9 +99,6 @@ $btn-border-width:                 0;
 $btn-border-radius:                0;
 $btn-border-radius-lg:             0;
 $btn-border-radius-sm:             0;
-
-$input-border-width:               0;
-$input-box-shadow:            	   none;
 
 // Dropdowns
 $dropdown-padding-y:               0;
