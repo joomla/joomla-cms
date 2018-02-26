@@ -1532,6 +1532,57 @@
         ]
     },
     {
+        "name": "mso/idna-convert",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phlylabs/idna-convert.git",
+            "reference": "a6dfb6f87611e3a89d2eec4924a0f51db755c573"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phlylabs/idna-convert/zipball/a6dfb6f87611e3a89d2eec4924a0f51db755c573",
+            "reference": "a6dfb6f87611e3a89d2eec4924a0f51db755c573",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pcre": "*",
+            "php": ">=5.6.0"
+        },
+        "time": "2016-06-19T18:08:43+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Mso\\IdnaConvert\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1+"
+        ],
+        "authors": [
+            {
+                "name": "Matthias Sommerfeld",
+                "email": "mso@phlylabs.de",
+                "role": "Developer"
+            }
+        ],
+        "description": "A library for encoding and decoding internationalized domain names",
+        "homepage": "http://idnaconv.net/",
+        "keywords": [
+            "idn",
+            "idna",
+            "php"
+        ]
+    },
+    {
         "name": "paragonie/random_compat",
         "version": "v2.0.11",
         "version_normalized": "2.0.11.0",
