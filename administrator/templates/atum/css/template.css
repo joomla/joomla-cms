@@ -1265,6 +1265,9 @@ joomla-alert {
 .dropdown-item:focus {
   background-color: #17a2b8; }
 
+.dropdown-item + .dropdown-item {
+  border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
 .list-group-item {
   background-color: #fefefe; }
 

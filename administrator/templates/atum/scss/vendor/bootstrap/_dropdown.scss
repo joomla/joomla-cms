@@ -23,3 +23,7 @@
     background-color: theme-color("info");
   }
 }
+
+.dropdown-item + .dropdown-item {
+  border-top: 1px solid rgba(0,0,0,.1);
+}
