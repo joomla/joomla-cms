@@ -84,7 +84,7 @@
 			});
 
 			options.setup = function (editor) {
-				editor.addButton('mybutton', {
+				editor.addButton('jxtdbuttons', {
 					type   : 'menubutton',
 					text   : 'CMS Content',
 					icon   : 'none icon-joomla',

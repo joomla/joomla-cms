@@ -548,7 +548,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' mybutton',
+				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
 				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
 				'plugins'  => implode(',', array_unique($plugins)),
@@ -679,6 +679,7 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			// Init the arrays for the buttons
 			$btnsNames       = [];
+
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
@@ -994,7 +995,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext', 'mybutton'
+				'pastetext', 'jxtdbuttons'
 			],
 			'toolbar2' => [],
 		];
@@ -1011,7 +1012,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext' , 'preview', 'mybutton'
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1036,7 +1037,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'mybutton'
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
