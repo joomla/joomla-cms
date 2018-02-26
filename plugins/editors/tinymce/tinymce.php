@@ -575,7 +575,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($custom_button)
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
+			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
 		// Drag and drop Images
@@ -777,74 +777,74 @@ class PlgEditorTinymce extends JPlugin
 				// We do some hack here to set the correct icon for 3PD buttons
 				$icon = 'none icon-' . $icon;
 
+				$tempConstructor = array();
+
 				// Now we can built the script
-				$tempConstructor = '!(function(){';
+				$tempConstructor[] = '!(function(){';
 
 				// Get the modal width/height
 				if ($options && is_scalar($options))
 				{
-					$tempConstructor .= '
-				var getBtnOptions = new Function("return ' . addslashes($options) . '"),
-					btnOptions = getBtnOptions(),
-					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
-					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
+					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '"),';
+					$tempConstructor[] = 'btnOptions=getBtnOptions(),';
+					$tempConstructor[] = 'modalWidth=btnOptions.size&&btnOptions.size.x?btnOptions.size.x:null,';
+					$tempConstructor[] = 'modalHeight=btnOptions.size&&btnOptions.size.y?btnOptions.size.y:null;';
 				}
 				else
 				{
-					$tempConstructor .= '
-				var btnOptions = {}, modalWidth = null, modalHeight = null;';
+					$tempConstructor[] = 'var btnOptions={},modalWidth=null,modalHeight=null;';
 				}
 
-				$tempConstructor .= "
-				editor.addButton(\"" . $name . "\", {
-					text: \"" . $title . "\",
-					title: \"" . $title . "\",
-					icon: \"" . $icon . "\",
-					onclick: function () {";
+				// Now we can built the script
+				// AddButton starts here
+				$tempConstructor[] = 'editor.addButton("' . $name . '",{';
+				$tempConstructor[] = 'text:"' . $title . '",';
+				$tempConstructor[] = 'title:"' . $title . '",';
+				$tempConstructor[] = 'icon:"' . $icon . '",';
+
+				// Onclick starts here
+				$tempConstructor[] = 'onclick:function(){';
 
 				if ($href || $button->get('modal'))
 				{
-					$tempConstructor .= "
-							var modalOptions = {
-								title  : \"" . $title . "\",
-								url : '" . $href . "',
-								buttons: [{
-									text   : \"Close\",
-									onclick: \"close\"
-								}]
-							}
-							if(modalWidth){
-								modalOptions.width = modalWidth;
-							}
-							if(modalHeight){
-								modalOptions.height = modalHeight;
-							}
-							editor.windowManager.open(modalOptions);";
+					// TinyMCE standard modal options
+					$tempConstructor[] = 'var modalOptions={';
+					$tempConstructor[] = 'title:"' . $title . '",';
+					$tempConstructor[] = 'url:"' . $href . '",';
+					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]';
+					$tempConstructor[] = '};';
+
+					// Set width/height
+					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
+					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
+					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
-						$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+						// Adds callback for close button
+						$tempConstructor[] = $onclick . ';';
 					}
 				}
 				else
 				{
-					$tempConstructor .= "\r\n
-						" . $onclick . '
-							';
+					// Adds callback for the button, eg: readmore
+					$tempConstructor[] = $onclick . ';';
 				}
 
-				$tempConstructor .= '
-					}
-				});
-			})();';
+				// Onclick ends here
+				$tempConstructor[] = '}';
+
+				// AddButton ends here
+				$tempConstructor[] = '});';
+
+				// IIFE ends here
+				$tempConstructor[] = '})();';
 
 				// The array with the toolbar buttons
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = $tempConstructor;
+				$tinyBtns[] = implode($tempConstructor, '');
 			}
 		}
 
