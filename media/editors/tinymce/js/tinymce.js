@@ -6,11 +6,7 @@
 ;(function(tinyMCE, Joomla, window, document){
 	"use strict";
 
-	// This line is for Mootools b/c
-	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
-
 	var JoomlaTinyMCE = {
-
 		/**
 		 * Find all TinyMCE elements and initialize TinyMCE instance for each
 		 *
@@ -21,8 +17,8 @@
 		setupEditors: function ( target ) {
 			target = target || document;
 			var pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
-					:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
-				editors = target.querySelectorAll('.js-editor-tinymce');
+				:  (Joomla.optionsStorage.plg_editor_tinymce || {}),
+			    editors = target.querySelectorAll('.js-editor-tinymce');
 
 			for(var i = 0, l = editors.length; i < l; i++) {
 				var editor = editors[i].querySelector('textarea');
@@ -62,18 +58,37 @@
 				options.target   = element;
 			}
 
-			// @TODO: the ext-buttons should be as TinyMCE plugins, not the callback hack
-			if (options.joomlaExtButtons && options.joomlaExtButtons.names && options.joomlaExtButtons.names.length) {
-				options.toolbar1 += ' | ' + options.joomlaExtButtons.names.join(' ');
-				var callbackString = options.joomlaExtButtons.script.join(';');
-				options.setupCallbackString = options.setupCallbackString || '';
-				options.setupCallbackString = options.setupCallbackString + ';' + callbackString;
-				options.joomlaExtButtons = null;
-			}
+			var buttonValues = [];
+			options.joomlaExtButtons.names.forEach(function(name, index) {
+				var tmp = {};
+				tmp.text = name;
+				tmp.icon = options.joomlaExtButtons.icons[index];
 
-			if (options.setupCallbackString && !options.setup) {
-				options.setup = new Function('editor', options.setupCallbackString);
-			}
+				if (options.joomlaExtButtons.modals[index]) {
+					tmp.onclick = function() {
+						var modal = document.getElementById(name.replace(' ', '') + 'Modal');
+
+						jQuery(modal).modal('show');
+
+						Joomla.currentModal = modal;
+					};
+				} else {
+					tmp.onclick = function () {
+						new Function(options.joomlaExtButtons.script[index])();
+					};
+				}
+
+				buttonValues.push(tmp)
+			});
+
+			options.setup = function (editor) {
+				editor.addButton('mybutton', {
+					type   : 'menubutton',
+					text   : 'CMS Content',
+					icon   : 'none icon-joomla',
+					menu : buttonValues
+				});
+			};
 
 			// Create a new instance
 			var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
@@ -93,7 +108,7 @@
 
 			/** On save **/
 			document.getElementById(ed.id).form.addEventListener('submit', function() {
-        		return Joomla.editors.instances[ed.targetElm.id].onSave();
+				return Joomla.editors.instances[ed.targetElm.id].onSave();
 			})
 		}
 
