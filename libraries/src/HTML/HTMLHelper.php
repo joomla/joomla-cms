@@ -849,11 +849,6 @@ abstract class HTMLHelper
 
 		foreach ($component as $key => $value)
 		{
-			if ($key === 'fullPolyfill' && $value === true)
-			{
-				Factory::getDocument()->addScriptOptions('webcomponents', ['fullPolyfill' => true]);
-				continue;
-			}
 			$version      = '';
 			$mediaVersion = Factory::getDocument()->getMediaVersion();
 
