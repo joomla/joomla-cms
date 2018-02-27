@@ -61,23 +61,20 @@
 			var buttonValues = [];
 			var arr = Object.keys(options.joomlaExtButtons.names).map(function (key) { return options.joomlaExtButtons.names[key]; });
 
-			arr.forEach(function(name, index) {
+			arr.forEach(function(name) {
 				var tmp = {};
 				tmp.text = name.name;
 				tmp.icon = name.icon;
 
 				if (name.href) {
 					tmp.onclick = function() {
-						var modal = document.getElementById(name.name.replace(' ', '') + 'Modal');
+						var modal = document.getElementById(name.id + 'Modal');
 
 						jQuery(modal).modal('show');
-
 						Joomla.currentModal = modal;
 					};
 				} else {
-					tmp.onclick = function () {
-						new Function(name.click)();
-					};
+					tmp.onclick = function () { new Function(name.click)(); };
 				}
 
 				buttonValues.push(tmp)
@@ -86,7 +83,7 @@
 			options.setup = function (editor) {
 				editor.addButton('jxtdbuttons', {
 					type   : 'menubutton',
-					text   : 'CMS Content',
+					text   : Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
 					icon   : 'none icon-joomla',
 					menu : buttonValues
 				});

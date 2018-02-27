@@ -677,18 +677,22 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
+			Text::script('PLG_TINY_CORE_BUTTONS');
 			// Init the arrays for the buttons
 			$btnsNames       = [];
 
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
+				$button->id = $name . '_' . $button->text . 'Modal';
+
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
 
 				if ($button->get('name'))
 				{
 					// Set some vars
-					$name    = $button->get('text');
+					$btnName = $button->get('text');
+					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
 					$onclick = $button->get('onclick') ?: null;
 					$icon    = $button->get('name');
 
@@ -703,8 +707,9 @@ class PlgEditorTinymce extends CMSPlugin
 
 					$coreButton = [];
 
-					$coreButton['name']  = $name;
+					$coreButton['name']  = $btnName;
 					$coreButton['href']  = $href;
+					$coreButton['id']    = $modalId;
 					$coreButton['icon']  = 'none icon-' . $icon;
 					$coreButton['click'] = $onclick;
 
