@@ -34,7 +34,7 @@ var textpattern = (function () {
       getPatterns: getPatterns
     };
   };
-  var $_3jqwvhqgjdud7da9 = { get: get };
+  var $_nrzbfqgje5o2wh7 = { get: get };
 
   var defaultPatterns = [
     {
@@ -95,7 +95,7 @@ var textpattern = (function () {
   var getPatterns = function (editorSettings) {
     return editorSettings.textpattern_patterns !== undefined ? editorSettings.textpattern_patterns : defaultPatterns;
   };
-  var $_7lr1utqhjdud7daa = { getPatterns: getPatterns };
+  var $_x9knwqhje5o2wh8 = { getPatterns: getPatterns };
 
   var Delay = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
@@ -144,7 +144,7 @@ var textpattern = (function () {
       }
     }
   };
-  var $_bcy5bnqpjdud7dal = {
+  var $_25znbqpje5o2whi = {
     findPattern: findPattern,
     findEndPattern: findEndPattern
   };
@@ -166,7 +166,7 @@ var textpattern = (function () {
     if (container.nodeType !== 3) {
       return;
     }
-    var endPattern = $_bcy5bnqpjdud7dal.findEndPattern(patterns, text, rng.startOffset, delta);
+    var endPattern = $_25znbqpje5o2whi.findEndPattern(patterns, text, rng.startOffset, delta);
     if (endPattern === undefined) {
       return;
     }
@@ -179,7 +179,7 @@ var textpattern = (function () {
     var patternRng = document.createRange();
     patternRng.setStart(container, startOffset);
     patternRng.setEnd(container, endOffset + endPattern.end.length);
-    var startPattern = $_bcy5bnqpjdud7dal.findPattern(patterns, patternRng.toString());
+    var startPattern = $_25znbqpje5o2whi.findPattern(patterns, patternRng.toString());
     if (endPattern === undefined || startPattern !== endPattern || container.data.length <= endPattern.start.length + endPattern.end.length) {
       return;
     }
@@ -235,7 +235,7 @@ var textpattern = (function () {
         }
       }
       if (firstTextNode) {
-        pattern = $_bcy5bnqpjdud7dal.findPattern(patterns, firstTextNode.data);
+        pattern = $_25znbqpje5o2whi.findPattern(patterns, firstTextNode.data);
         if (!pattern) {
           return;
         }
@@ -267,7 +267,7 @@ var textpattern = (function () {
       }
     }
   };
-  var $_kx8jpqmjdud7dah = {
+  var $_c74arcqmje5o2whe = {
     patternFromRng: patternFromRng,
     applyInlineFormatSpace: applyInlineFormatSpace,
     applyInlineFormatEnter: applyInlineFormatEnter,
@@ -276,18 +276,18 @@ var textpattern = (function () {
 
   function handleEnter(editor, patterns) {
     var wrappedTextNode, rng;
-    wrappedTextNode = $_kx8jpqmjdud7dah.applyInlineFormatEnter(editor, patterns);
+    wrappedTextNode = $_c74arcqmje5o2whe.applyInlineFormatEnter(editor, patterns);
     if (wrappedTextNode) {
       rng = editor.dom.createRng();
       rng.setStart(wrappedTextNode, wrappedTextNode.data.length);
       rng.setEnd(wrappedTextNode, wrappedTextNode.data.length);
       editor.selection.setRng(rng);
     }
-    $_kx8jpqmjdud7dah.applyBlockFormat(editor, patterns);
+    $_c74arcqmje5o2whe.applyBlockFormat(editor, patterns);
   }
   function handleInlineKey(editor, patterns) {
     var wrappedTextNode, lastChar, lastCharNode, rng, dom;
-    wrappedTextNode = $_kx8jpqmjdud7dah.applyInlineFormatSpace(editor, patterns);
+    wrappedTextNode = $_c74arcqmje5o2whe.applyInlineFormatSpace(editor, patterns);
     if (wrappedTextNode) {
       dom = editor.dom;
       lastChar = wrappedTextNode.data.slice(-1);
@@ -319,7 +319,7 @@ var textpattern = (function () {
       return chr.charCodeAt(0) === event.charCode;
     });
   };
-  var $_9hysdsqljdud7dae = {
+  var $_4uqogkqlje5o2whb = {
     handleEnter: handleEnter,
     handleInlineKey: handleInlineKey,
     checkCharCode: checkCharCode,
@@ -338,28 +338,28 @@ var textpattern = (function () {
     var keyCodes = [32];
     editor.on('keydown', function (e) {
       if (e.keyCode === 13 && !VK.modifierPressed(e)) {
-        $_9hysdsqljdud7dae.handleEnter(editor, patternsState.get());
+        $_4uqogkqlje5o2whb.handleEnter(editor, patternsState.get());
       }
     }, true);
     editor.on('keyup', function (e) {
-      if ($_9hysdsqljdud7dae.checkKeyCode(keyCodes, e)) {
-        $_9hysdsqljdud7dae.handleInlineKey(editor, patternsState.get());
+      if ($_4uqogkqlje5o2whb.checkKeyCode(keyCodes, e)) {
+        $_4uqogkqlje5o2whb.handleInlineKey(editor, patternsState.get());
       }
     });
     editor.on('keypress', function (e) {
-      if ($_9hysdsqljdud7dae.checkCharCode(charCodes, e)) {
+      if ($_4uqogkqlje5o2whb.checkCharCode(charCodes, e)) {
         Delay.setEditorTimeout(editor, function () {
-          $_9hysdsqljdud7dae.handleInlineKey(editor, patternsState.get());
+          $_4uqogkqlje5o2whb.handleInlineKey(editor, patternsState.get());
         });
       }
     });
   };
-  var $_4y43hxqijdud7dac = { setup: setup };
+  var $_2hfp33qije5o2wh9 = { setup: setup };
 
   PluginManager.add('textpattern', function (editor) {
-    var patternsState = Cell($_7lr1utqhjdud7daa.getPatterns(editor.settings));
-    $_4y43hxqijdud7dac.setup(editor, patternsState);
-    return $_3jqwvhqgjdud7da9.get(patternsState);
+    var patternsState = Cell($_x9knwqhje5o2wh8.getPatterns(editor.settings));
+    $_2hfp33qije5o2wh9.setup(editor, patternsState);
+    return $_nrzbfqgje5o2wh7.get(patternsState);
   });
   function Plugin () {
   }
