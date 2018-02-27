@@ -525,13 +525,7 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
 			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
-			$toolbar2  = array_merge($toolbar2, $btns['native']);
 		}
-
-		$toolbar2        = array_merge($toolbar2, $btns['native']);
-
-		// Merge the custom plugins paths
-		$externalPlugins = array_merge($externalPlugins, $btns['paths']);
 
 		// Build the final options set
 		$scriptOptions   = array_merge(
