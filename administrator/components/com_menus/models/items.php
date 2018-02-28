@@ -535,7 +535,7 @@ class MenusModelItems extends JModelList
 					if ($client === 1)
 					{
 						$item->title = JText::_($item->title);
-					}			
+					}
 				}
 			}
 
