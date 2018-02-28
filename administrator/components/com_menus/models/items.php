@@ -533,9 +533,9 @@ class MenusModelItems extends JModelList
 
 					// Translate component name
 					if ($client === 1)
-					{	
-					$item->title = JText::_($item->title);
-					}				
+					{
+						$item->title = JText::_($item->title);
+					}			
 				}
 			}
 
