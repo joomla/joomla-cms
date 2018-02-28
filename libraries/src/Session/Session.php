@@ -829,7 +829,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function gc()
 	{

@@ -16,7 +16,7 @@
  *
  * @return  boolean
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.6
  */
 function recaptcha_postinstall_condition()
 {
@@ -39,7 +39,7 @@ function recaptcha_postinstall_condition()
  *
  * @return  void
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.8.6
  */
 function recaptcha_postinstall_action()
 {

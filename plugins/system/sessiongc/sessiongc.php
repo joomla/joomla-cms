@@ -17,7 +17,7 @@ use Joomla\CMS\Session\MetadataManager;
 /**
  * Garbage collection handler for session related data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.6
  */
 class PlgSystemSessionGc extends CMSPlugin
 {
@@ -25,7 +25,7 @@ class PlgSystemSessionGc extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	protected $app;
 
@@ -33,7 +33,7 @@ class PlgSystemSessionGc extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.6
 	 */
 	protected $db;
 
@@ -42,7 +42,7 @@ class PlgSystemSessionGc extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function onAfterRespond()
 	{
