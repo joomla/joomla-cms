@@ -91,11 +91,11 @@
       position: absolute;
       top: 50%;
       right: 15px;
-      margin-top: -.45rem;
       font-family: FontAwesome;
       font-size: .75rem;
       color: $white;
       content: "\f0da";
+      transform: translateY(-50%);
     }
 
     &.menuitem-group a:hover {
@@ -166,10 +166,6 @@
         box-shadow: inset 2px 0 2px rgba($black, .1);
       }
 
-    }
-
-    .collapse-arrow::after {
-      margin-top: -1rem;
     }
 
     > span {

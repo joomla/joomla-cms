@@ -755,11 +755,12 @@ iframe {
     position: absolute;
     top: 50%;
     right: 15px;
-    margin-top: -.45rem;
     font-family: FontAwesome;
     font-size: .75rem;
     color: #fff;
-    content: "\f0da"; }
+    content: "\f0da";
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
   .main-nav li.menuitem-group a:hover {
     cursor: text;
     background: none; }
@@ -804,8 +805,6 @@ iframe {
       .main-nav li li a:hover {
         background-color: #3887da;
         box-shadow: inset 2px 0 2px rgba(0, 0, 0, 0.1); }
-    .main-nav li li .collapse-arrow::after {
-      margin-top: -1rem; }
     .main-nav li li > span {
       color: rgba(255, 255, 255, 0.4); }
     .main-nav li li:last-of-type > a {
