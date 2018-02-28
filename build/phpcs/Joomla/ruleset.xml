@@ -11,9 +11,7 @@
 
 	<!-- Exclude 3rd party libraries and Framework code. -->
 	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
 	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->

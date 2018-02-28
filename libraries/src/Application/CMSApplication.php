@@ -23,7 +23,6 @@ use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -164,13 +163,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = $event->getSession();
+		parent::afterSessionStart($event);
 
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new User);
-		}
+		$session = $event->getSession();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db   = \JFactory::getDbo();

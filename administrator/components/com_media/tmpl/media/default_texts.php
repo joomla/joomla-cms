@@ -45,3 +45,4 @@ JText::script('COM_MEDIA_UPDLOAD_SUCCESS', true);
 JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
 JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
+JText::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
