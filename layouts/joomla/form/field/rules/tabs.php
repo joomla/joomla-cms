@@ -126,10 +126,10 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 
 								<td headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
-											<select data-onchange-task="permissions.apply"
-													class="custom-select novalidate"
-													name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
-													id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
+										<select data-onchange-task="permissions.apply"
+												class="custom-select novalidate"
+												name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
+												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 											<?php
 											/**
 											* Possible values:
