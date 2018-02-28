@@ -81,7 +81,8 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail"
+      "field-send-test-mail",
+      "field-permissions"
     ],
     "webcomponents": {
       "field-media": {
