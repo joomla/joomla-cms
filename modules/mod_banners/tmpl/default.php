@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
 <div class="bannergroup">
@@ -18,7 +21,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 
 <?php foreach ($list as $item) : ?>
 	<div class="banneritem">
-		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
+		<?php $link = Route::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
 		<?php if ($item->type == 1) : ?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
@@ -28,10 +31,10 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
 				<?php // Image based banner ?>
-				<?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : \JUri::base(); ?>
+				<?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
 				<?php $alt = $item->params->get('alt'); ?>
 				<?php $alt = $alt ?: $item->name; ?>
-				<?php $alt = $alt ?: JText::_('MOD_BANNERS_BANNER'); ?>
+				<?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
 				<?php if ($item->clickurl) : ?>
 					<?php // Wrap the banner in a link ?>
 					<?php $target = $params->get('target', 1); ?>
@@ -102,7 +105,6 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 				</object>
 			<?php endif; ?>
 		<?php endif; ?>
-		<div class="clr"></div>
 	</div>
 <?php endforeach; ?>
 

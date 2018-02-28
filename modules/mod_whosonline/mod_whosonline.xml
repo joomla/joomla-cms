@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WHOSONLINE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Whosonline</namespace>
 	<files>
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 		<folder>tmpl</folder>

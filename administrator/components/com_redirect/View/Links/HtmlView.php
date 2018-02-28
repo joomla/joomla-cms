@@ -154,7 +154,7 @@ class HtmlView extends BaseHtmlView
 				\JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
-			if ($state->get('filter.state') != -1 )
+			if ($state->get('filter.state') != -1)
 			{
 				\JToolbarHelper::divider();
 

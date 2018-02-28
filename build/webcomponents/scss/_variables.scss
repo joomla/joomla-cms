@@ -2,74 +2,53 @@
 // Variables
 //
 
+$font-size-base: 1rem;
+
 // Color system
-$blue:    #006898;
-$purple:  #6f42c1;
-$pink:    #e83e8c;
-$red:     #d9534f;
-$orange:  #fd7e14;
-$yellow:  #f0ad4e;
-$green:   #438243;
-$teal:    #20c997;
+$white:    #fff;
+$black:    #000;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
 
-$colors: (
-        blue: $blue,
-        indigo: $indigo,
-        purple: $purple,
-        pink: $pink,
-        red: $red,
-        orange: $orange,
-        yellow: $yellow,
-        green: $green,
-        teal: $teal,
-        cyan: $cyan,
-        white: $white,
-        gray: $gray-600,
-        gray-dark: $gray-800
-);
+$blue:    #1e87f0;
+$red:     #f0506e;
+$yellow:  #faa05a;
+$green:   #32d296;
 
-$theme-colors: (
+$grays: ();
+$grays: map-merge((
+        100: $gray-100,
+        200: $gray-200,
+        300: $gray-300,
+        400: $gray-400,
+        500: $gray-500,
+        600: $gray-600,
+        700: $gray-700,
+        800: $gray-800,
+        900: $gray-900
+), $grays);
+
+$theme-colors: ();
+$theme-colors: map-merge((
         primary: $blue,
         secondary: $gray-600,
         success: $green,
-        info: $cyan,
         warning: $yellow,
-        danger: $red,
-        light: $gray-100,
-        dark: $gray-800
-);
+        danger: $red
+), $theme-colors);
 
+// Set a specific jump point for requesting color jumps
+$theme-color-interval:            8%;
 
-// Alerts
-$alert-padding-y:                 .5rem;
-
-// Tabs
-$tab-border-radius:               .25rem;
-
-$tab-ul-bg:                       #f5f5f5;
-$tab-ul-border-color:             $gray-400 $gray-400 currentcolor;
-$tab-ul-border-width:             1px 1px 0;
-$tab-ul-border-radius:            $tab-border-radius $tab-border-radius 0 0;
-$tab-ul-box-shadow:               0 1px $white inset, 0 2px 3px -3px rgba(0, 0, 0, .15), 0 -4px 0 rgba(0, 0, 0, .05) inset, 0 0 3px rgba(0, 0, 0, .04);
-
-$tab-link-padding:                .75rem 1rem;
-$tab-link-colour:                 $gray-800;
-$tab-link-box-shadow:             1px 0 0 rgba(0, 0, 0, .05);
-
-$tab-link-width-active:           5px;
-$tab-link-bg-colour-active:       rgba(0, 0, 0, .03);
-$tab-link-bg-image-active:        linear-gradient(to bottom, transparent, rgba(0, 0, 0, .05) 100%);
-$tab-link-box-shadow-active:      2px 0 1px -1px rgba(0, 0, 0, .08) inset, -2px 0 1px -1px rgba(0, 0, 0, .08) inset, 0 1px 0 rgba(0, 0, 0, .02) inset;
-
-$tab-content-padding:             15px;
-$tab-content-bg:                  #fefefe;
-$tab-content-border:              1px solid $gray-400;
-$tab-content-border-radius:       0 0 $tab-border-radius $tab-border-radius;
-$tab-content-box-shadow:          0 0 3px rgba(0, 0, 0, .04);
-
-$tab-accordion-ul-border-radius:  $tab-border-radius;
-$tab-accordion-ul-box-shadow:     0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
-
-$tab-accordion-link-border:       1px solid #ddd;
-
-$tab-vertical-ul-border:          1px solid #ccc;
+// Define common padding and border radius sizes and more.
+$border-width:                    1px;
+$border-rounded:                  false;
+$border-radius:                   0;
+$transition-fade:                 opacity .15s linear;

@@ -142,7 +142,7 @@ class MenusController extends BaseController
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return  \JException|void  \JException instance on error
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

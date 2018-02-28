@@ -30,7 +30,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 class ApiModel extends BaseDatabaseModel
 {
 	/**
-	 * Holds available media file adapters.
+	 * Holds the available media file adapters.
 	 *
 	 * @var   ProviderManager
 	 * @since  4.0.0

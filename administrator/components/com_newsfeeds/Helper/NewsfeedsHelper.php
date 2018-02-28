@@ -112,11 +112,14 @@ class NewsfeedsHelper extends ContentHelper
 		$db = \JFactory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
+
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
+
 		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+
 		if ($section === 'category')
 		{
 			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
@@ -164,5 +167,5 @@ class NewsfeedsHelper extends ContentHelper
 		}
 
 		return $items;
-	}	
+	}
 }
