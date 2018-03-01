@@ -84,9 +84,6 @@ class MenutypeField extends \JFormFieldList
 				break;
 		}
 
-		// Include jQuery
-		\JHtml::_('jquery.framework');
-
 		$link = \JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
