@@ -93,28 +93,22 @@
 		const orders = [];
 		const that = this;
 
-		Joomla.request(
-			{
-				url: url,
+		Joomla.request({
+				url: `${url}client_id=${clientId}&position=${originalPosition}`,
 				method: 'GET',
-				data: 'client_id=' + clientId + '&position=' + originalPosition,
 				perform: true,
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				onSuccess: function(response, xhr)
-				{
-					if (response)
-					{
+				onSuccess: function(response, xhr) {
+					if (response) {
 						response = JSON.parse(response);
 
 						/** Check if everything is OK **/
-						if (response.data.length > 0)
-						{
+						if (response.data.length > 0) {
 							for (let i = 0; i < response.data.length; ++i) {
 								orders[i] = response.data[i].split(',');
 							}
 
-							that.writeDynaList(
-								{
+							that.writeDynaList({
 									name: name,
 									id: id,
 									itemClass: attr

@@ -63,6 +63,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 	}, {
 		key: 'writeDynaList',
 		value: function writeDynaList(selectProperties, source, originalPositionName, originalPositionValue) {
+			debugger;
 			var i = 0;
 			var selectNode = document.createElement('select');
 			if (this.hasOwnProperty('disabled')) {
@@ -114,11 +115,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			var id = this.getAttribute('id') + '_1';
 			var orders = [];
 			var that = this;
-
+			console.log(originalPosition);
+			console.log(clientId);
 			Joomla.request({
-				url: url,
+				url: url + 'client_id=' + clientId + '&position=' + originalPosition,
 				method: 'GET',
-				data: 'client_id=' + clientId + '&position=' + originalPosition,
 				perform: true,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 				onSuccess: function onSuccess(response, xhr) {
@@ -131,6 +132,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 								orders[i] = response.data[i].split(',');
 							}
 
+							console.log(orders);
 							that.writeDynaList({
 								name: name,
 								id: id,
