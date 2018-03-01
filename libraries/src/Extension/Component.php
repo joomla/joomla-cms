@@ -43,7 +43,7 @@ class Component implements ComponentInterface
 	 */
 	public function getCategories(array $options = [], $section = '')
 	{
-		if (!key_exists($section, $this->categories))
+		if (!array_key_exists($section, $this->categories))
 		{
 			return null;
 		}
