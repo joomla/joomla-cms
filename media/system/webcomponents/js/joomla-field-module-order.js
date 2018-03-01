@@ -42,7 +42,6 @@
 	}
 
 	writeDynaList (selectProperties, source, originalPositionName, originalPositionValue) {
-		debugger;
 		let i = 0;
 		const selectNode = document.createElement('select');
 		if (this.hasOwnProperty('disabled')) {
@@ -93,8 +92,7 @@
 		const id = this.getAttribute('id') + '_1';
 		const orders = [];
 		const that = this;
-console.log(originalPosition)
-console.log(clientId)
+
 		Joomla.request({
 				url: `${url}client_id=${clientId}&position=${originalPosition}`,
 				method: 'GET',
@@ -110,7 +108,6 @@ console.log(clientId)
 								orders[i] = response.data[i].split(',');
 							}
 
-							console.log(orders)
 							that.writeDynaList({
 									name: name,
 									id: id,
