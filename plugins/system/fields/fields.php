@@ -352,7 +352,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.4
 	 */
 	private function prepareTagItem($item)
 	{
