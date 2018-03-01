@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -888,14 +888,9 @@ abstract class FormField
 			$attributes = $this->element->attributes();
 
 			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
+			if ($attributes->$name !== null)
 			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
+				return (string) $attributes->$name;
 			}
 		}
 

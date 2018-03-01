@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -336,8 +336,12 @@ class MenusControllerItem extends JControllerForm
 			{
 				$segments = explode(':', $data['link']);
 				$protocol = strtolower($segments[0]);
-				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais','mid', 'cid', 'nntp',
-					 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms');
+				$scheme   = array(
+					'http', 'https', 'ftp', 'ftps', 'gopher', 'mailto',
+					'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais',
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax',
+					'modem', 'git', 'sms',
+				);
 
 				if (!in_array($protocol, $scheme))
 				{

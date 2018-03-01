@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -372,9 +372,10 @@ class InstallationModelSetup extends JModelBase
 		$settings[] = $setting;
 
 		// Check for output buffering.
+		$outputBuffering = ini_get('output_buffering');
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = ($outputBuffering === 'On') ? true : is_numeric($outputBuffering);
 		$setting->recommended = false;
 		$settings[] = $setting;
 

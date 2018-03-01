@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,9 +64,10 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
 				// Initialize some option attributes.
-				$checked  = ((string) $option->value === $value) ? 'checked="checked"' : '';
-				$disabled = !empty($option->disable) ? 'disabled' : '';
-				$style    = $disabled ? 'style="pointer-events: none"' : '';
+				$checked        = ((string) $option->value === $value) ? 'checked="checked"' : '';
+				$disabled       = !empty($option->disable) ? 'disabled' : '';
+				$style          = $disabled ? 'style="pointer-events: none"' : '';
+				$option->class  = !empty($option->class) ? $option->class : '';
 				$option->class  = trim($option->class . ' ' . $disabled);
 				$optionClass    = !empty($option->class) ? 'class="' . $option->class . '"' : '';
 

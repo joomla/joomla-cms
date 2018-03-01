@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,12 +196,13 @@ class ContactControllerContact extends JControllerForm
 		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
 			$output = FieldsHelper::render(
-			'com_contact.mail',
-			'fields.render',
-			array(
-				'context' => 'com_contact.mail',
-				'item'    => $contact,
-				'fields'  => $fields)
+				'com_contact.mail',
+				'fields.render',
+				array(
+					'context' => 'com_contact.mail',
+					'item'    => $contact,
+					'fields'  => $fields,
+				)
 			);
 
 			if ($output)

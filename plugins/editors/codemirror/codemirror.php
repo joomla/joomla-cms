@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -245,7 +245,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
 			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
@@ -255,7 +255,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
 			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);

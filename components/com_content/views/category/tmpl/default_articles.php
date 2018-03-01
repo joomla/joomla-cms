@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,14 +146,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
-							<?php if ($association['language']->lang_code != JFactory::getLanguage()->getTag()) : ?>
-								<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
-									<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-									&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
-								<?php else : ?>
-									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-									&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
-								<?php endif; ?>
+							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
