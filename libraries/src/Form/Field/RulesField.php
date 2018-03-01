@@ -282,8 +282,7 @@ class RulesField extends FormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. \JHtml::_('tooltipText', $action->title, $action->description) . '">';
+				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '">';
 				$html[] = \JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
