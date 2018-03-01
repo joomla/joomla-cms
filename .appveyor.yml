@@ -8,6 +8,7 @@ environment:
   - php_ver_target: 5.6
   - php_ver_target: 7.0
   - php_ver_target: 7.1
+  - php_ver_target: 7.2
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -45,7 +46,7 @@ install:
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
             Remove-Item C:\tools\php\* -include .zip
           } Else {
-            $DLLVersion = "4.1.6.1"
+            $DLLVersion = "4.3.0"
             cd c:\tools\php\ext
             appveyor-retry appveyor DownloadFile http://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip
             7z x -y php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip > $null
