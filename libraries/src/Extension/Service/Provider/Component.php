@@ -42,6 +42,16 @@ class Component implements ServiceProviderInterface
 					$component->setCategories($container->get('categories'));
 				}
 
+				if ($container->has('site.dispatcher'))
+				{
+					$component->setSiteDispatcher($container->get('site.dispatcher'));
+				}
+
+				if ($container->has('administrator.dispatcher'))
+				{
+					$component->setAdministratorDispatcher($container->get('administrator.dispatcher'));
+				}
+
 				return $component;
 			}
 		);

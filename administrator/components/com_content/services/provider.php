@@ -33,6 +33,24 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set('categories', ['' => new Category]);
+
+		$container->set(
+			'site.dispatcher',
+			function (Container $container)
+			{
+				$app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
+				return new \Joomla\Component\Content\Site\Dispatcher\Dispatcher($app, $app->input);
+			}
+		);
+		$container->set(
+			'administrator.dispatcher',
+			function (Container $container)
+			{
+				$app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
+				return new \Joomla\Component\Content\Administrator\Dispatcher\Dispatcher($app, $app->input);
+			}
+		);
+
 		$container->registerServiceProvider(new Component);
 	}
 }

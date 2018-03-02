@@ -88,8 +88,6 @@ abstract class Dispatcher implements DispatcherInterface
 				strtolower(str_replace('Dispatcher', '', get_class($this)))
 			);
 		}
-
-		$this->loadLanguage();
 	}
 
 	/**
@@ -131,6 +129,8 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
+		$this->loadLanguage();
+
 		// Check component access permission
 		$this->checkAccess();
 

@@ -10,7 +10,9 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
  * Access to component specific services.
@@ -36,6 +38,18 @@ class LegacyComponent implements ComponentInterface
 	public function __construct(string $component)
 	{
 		$this->component = str_replace('com_', '', $component);
+	}
+
+	/**
+	 * Returns the dispatcher for the given application, null if none exists.
+	 *
+	 * @return  DispatcherInterface|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getDispatcher(CMSApplicationInterface $application)
+	{
+		return null;
 	}
 
 	/**
