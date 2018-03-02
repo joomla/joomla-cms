@@ -356,7 +356,7 @@ class ComponentHelper
 			$contents = static::dispatchComponent($dispatcher);
 		}
 		// Will be removed once transition of all components is done
-		else if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		elseif (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
 		{
 			require_once JPATH_COMPONENT . '/dispatcher.php';
 			$class = ucwords($file) . 'Dispatcher';
