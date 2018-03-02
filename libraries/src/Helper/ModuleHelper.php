@@ -404,14 +404,8 @@ abstract class ModuleHelper
 		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 			->where('m.access IN (' . $groups . ')')
-			->where('m.client_id = ' . $clientId);
-
-		// Filter by menu itemId
-		$option = $app->input->get('option', '');
-		if ($option !== 'com_ajax')
-		{
-			$query->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
-		}
+			->where('m.client_id = ' . $clientId)
+			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
 		if ($app->isClient('site') && $app->getLanguageFilter())
