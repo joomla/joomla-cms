@@ -157,7 +157,7 @@ class ComponentHelper
 			{
 				// Maximum HTML filtering.
 			}
-			else if ($filterType === 'NONE')
+			elseif ($filterType === 'NONE')
 			{
 				// No HTML filtering.
 				$unfiltered = true;
@@ -199,7 +199,7 @@ class ComponentHelper
 					$blackListTags       = array_merge($blackListTags, $tempTags);
 					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
-				else if ($filterType === 'CBL')
+				elseif ($filterType === 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -209,7 +209,7 @@ class ComponentHelper
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				else if ($filterType === 'WL')
+				elseif ($filterType === 'WL')
 				{
 					$whiteList           = true;
 					$whiteListTags       = array_merge($whiteListTags, $tempTags);
