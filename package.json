@@ -82,7 +82,8 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail"
+      "field-send-test-mail",
+      "tab"
     ],
     "webcomponents": {
       "field-media": {
@@ -94,6 +95,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "tab": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
