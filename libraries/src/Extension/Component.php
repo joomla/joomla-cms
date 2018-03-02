@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
@@ -31,22 +33,13 @@ class Component implements ComponentInterface
 	private $categories;
 
 	/**
-	 * The site dispatcher.
+	 * The dispatcher factory.
 	 *
-	 * @var DispatcherInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $siteDispatcher;
-
-	/**
-	 * The admin dispatcher.
-	 *
-	 * @var DispatcherInterface
+	 * @var DispatcherFactoryInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $adminDispatcher;
+	private $factory;
 
 	/**
 	 * Returns the dispatcher for the given application, null if none exists.
@@ -57,45 +50,26 @@ class Component implements ComponentInterface
 	 */
 	public function getDispatcher(CMSApplicationInterface $application)
 	{
-		if ($application->isClient('site'))
+		if ($this->factory === null)
 		{
-			return $this->siteDispatcher;
+			return null;
 		}
 
-		if ($application->isClient('administrator'))
-		{
-			return $this->adminDispatcher;
-		}
-
-		return null;
+		return $this->factory->createDispatcher($application);
 	}
 
 	/**
-	 * Sets the site dispatcher.
+	 * Sets the dispatcher factory.
 	 *
-	 * @param    DispatcherInterface  $siteDispatcher  The dispatcher
+	 * @param    DispatcherFactoryInterface  $factory  The dispatcher factory
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setSiteDispatcher(DispatcherInterface $siteDispatcher)
+	public function setDispatcherFactory(DispatcherFactoryInterface $factory)
 	{
-		$this->siteDispatcher = $siteDispatcher;
-	}
-
-	/**
-	 * Sets the admin dispatcher.
-	 *
-	 * @param    DispatcherInterface  $administratorDispatcher  The dispatcher
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setAdministratorDispatcher(DispatcherInterface $administratorDispatcher)
-	{
-		$this->adminDispatcher = $administratorDispatcher;
+		$this->factory = $factory;
 	}
 
 	/**

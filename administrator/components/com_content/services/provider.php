@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\Component;
 use Joomla\CMS\Extension\Service\Provider\Dispatcher;
 use Joomla\Component\Content\Site\Service\Category;
@@ -33,9 +36,9 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->set('categories', ['' => new Category]);
+		$container->set(Categories::class, ['' => new Category]);
 
-		$container->registerServiceProvider(new Dispatcher('\\Joomla\\Component\\Content'));
+		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new Component);
 	}
 }
