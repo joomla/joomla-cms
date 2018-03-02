@@ -23,6 +23,8 @@ interface DispatcherFactoryInterface
 	/**
 	 * Creates a dispatcher.
 	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
 	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__

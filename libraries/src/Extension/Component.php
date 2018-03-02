@@ -44,6 +44,8 @@ class Component implements ComponentInterface
 	/**
 	 * Returns the dispatcher for the given application, null if none exists.
 	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
 	 * @return  DispatcherInterface|null
 	 *
 	 * @since   __DEPLOY_VERSION__
