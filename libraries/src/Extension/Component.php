@@ -39,7 +39,7 @@ class Component implements ComponentInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $factory;
+	private $dispatcherFactory;
 
 	/**
 	 * Returns the dispatcher for the given application, null if none exists.
@@ -50,26 +50,26 @@ class Component implements ComponentInterface
 	 */
 	public function getDispatcher(CMSApplicationInterface $application)
 	{
-		if ($this->factory === null)
+		if ($this->dispatcherFactory === null)
 		{
 			return null;
 		}
 
-		return $this->factory->createDispatcher($application);
+		return $this->dispatcherFactory->createDispatcher($application);
 	}
 
 	/**
 	 * Sets the dispatcher factory.
 	 *
-	 * @param    DispatcherFactoryInterface  $factory  The dispatcher factory
+	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setDispatcherFactory(DispatcherFactoryInterface $factory)
+	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
 	{
-		$this->factory = $factory;
+		$this->dispatcherFactory = $dispatcherFactory;
 	}
 
 	/**
