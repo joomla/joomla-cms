@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Input\Input;
@@ -82,13 +83,10 @@ abstract class Dispatcher implements DispatcherInterface
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
 		{
-			$className = get_class($this);
-			$pos       = strpos($className, 'Dispatcher');
-
-			if ($pos !== false)
-			{
-				$this->option = 'com_' . strtolower(substr($className, 0, $pos));
-			}
+			$this->option = ComponentHelper::getComponentName(
+				$this,
+				strtolower(str_replace('Dispatcher', '', get_class($this)))
+			);
 		}
 
 		$this->loadLanguage();
