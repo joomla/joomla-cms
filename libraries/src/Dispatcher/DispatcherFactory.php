@@ -15,7 +15,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class DispatcherFactory implements DispatcherFactoryInterface
 {
