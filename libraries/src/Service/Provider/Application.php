@@ -11,6 +11,7 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
@@ -18,6 +19,8 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Session\Session;
+use Joomla\Console\Loader\ContainerLoader;
+use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Storage\RuntimeStorage;
@@ -46,7 +49,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationAdministrator',
 				function (Container $container)
 				{
-					$app = new AdministratorApplication(null, null, null, $container);
+					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -68,7 +71,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationSite',
 				function (Container $container)
 				{
-					$app = new SiteApplication(null, null, null, $container);
+					$app = new SiteApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -90,19 +93,34 @@ class Application implements ServiceProviderInterface
 				BaseConsoleApplication::class,
 				function (Container $container)
 				{
-					$app = new ConsoleApplication;
+					$app = new ConsoleApplication(null, $container->get('config'));
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 
 					$session = new Session(new RuntimeStorage);
 					$session->setDispatcher($dispatcher);
 
+					$app->setCommandLoader($container->get(LoaderInterface::class));
 					$app->setContainer($container);
 					$app->setDispatcher($dispatcher);
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($session);
 
 					return $app;
+				},
+				true
+			);
+
+		$container->alias(ContainerLoader::class, LoaderInterface::class)
+			->share(
+				LoaderInterface::class,
+				function (Container $container)
+				{
+					$mapping = [
+						'session:gc' => SessionGcCommand::class,
+					];
+
+					return new ContainerLoader($container, $mapping);
 				},
 				true
 			);

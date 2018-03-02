@@ -46,6 +46,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
      *
      * @param string $key
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function __construct($key = '')
     {
@@ -83,6 +84,8 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
      *
      * @param string $message
      * @return self
+     * @throws SodiumException
+     * @throws TypeError
      */
     public function update($message = '')
     {
@@ -144,6 +147,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
      * @param string $message
      * @param int $bytes
      * @return self
+     * @throws TypeError
      */
     public function blocks($message, $bytes)
     {
@@ -178,43 +182,43 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
 
             /* h *= r */
             $d0 = (
-                self::mul($h0, $r0) +
-                self::mul($h1, $s4) +
-                self::mul($h2, $s3) +
-                self::mul($h3, $s2) +
-                self::mul($h4, $s1)
+                self::mul($h0, $r0, 31) +
+                self::mul($h1, $s4, 31) +
+                self::mul($h2, $s3, 31) +
+                self::mul($h3, $s2, 31) +
+                self::mul($h4, $s1, 31)
             );
 
             $d1 = (
-                self::mul($h0, $r1) +
-                self::mul($h1, $r0) +
-                self::mul($h2, $s4) +
-                self::mul($h3, $s3) +
-                self::mul($h4, $s2)
+                self::mul($h0, $r1, 31) +
+                self::mul($h1, $r0, 31) +
+                self::mul($h2, $s4, 31) +
+                self::mul($h3, $s3, 31) +
+                self::mul($h4, $s2, 31)
             );
 
             $d2 = (
-                self::mul($h0, $r2) +
-                self::mul($h1, $r1) +
-                self::mul($h2, $r0) +
-                self::mul($h3, $s4) +
-                self::mul($h4, $s3)
+                self::mul($h0, $r2, 31) +
+                self::mul($h1, $r1, 31) +
+                self::mul($h2, $r0, 31) +
+                self::mul($h3, $s4, 31) +
+                self::mul($h4, $s3, 31)
             );
 
             $d3 = (
-                self::mul($h0, $r3) +
-                self::mul($h1, $r2) +
-                self::mul($h2, $r1) +
-                self::mul($h3, $r0) +
-                self::mul($h4, $s4)
+                self::mul($h0, $r3, 31) +
+                self::mul($h1, $r2, 31) +
+                self::mul($h2, $r1, 31) +
+                self::mul($h3, $r0, 31) +
+                self::mul($h4, $s4, 31)
             );
 
             $d4 = (
-                self::mul($h0, $r4) +
-                self::mul($h1, $r3) +
-                self::mul($h2, $r2) +
-                self::mul($h3, $r1) +
-                self::mul($h4, $r0)
+                self::mul($h0, $r4, 31) +
+                self::mul($h1, $r3, 31) +
+                self::mul($h2, $r2, 31) +
+                self::mul($h3, $r1, 31) +
+                self::mul($h4, $r0, 31)
             );
 
             /* (partial) h %= p */
@@ -259,6 +263,7 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
      * @internal You should not use this directly from another application
      *
      * @return string
+     * @throws TypeError
      */
     public function finish()
     {

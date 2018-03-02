@@ -195,7 +195,7 @@ class LinksModel extends ListModel
 	 *
 	 * @param   array  $batch_urls  Array of URLs to enter into the database
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function batchProcess($batch_urls)
 	{

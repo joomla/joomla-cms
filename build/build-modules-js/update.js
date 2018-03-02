@@ -141,16 +141,22 @@ copyFiles = (options) => {
 				"media/vendor/codemirror/addon/fold/xml-fold.js",
 				"media/vendor/codemirror/addon/mode/loadmode.js",
 				"media/vendor/codemirror/addon/mode/multiplex.js",
+				"media/vendor/codemirror/addon/scroll/annotatescrollbar.js",
 				"media/vendor/codemirror/addon/scroll/simplescrollbars.js",
+				"media/vendor/codemirror/addon/scroll/matchesonscrollbar.js",
+				"media/vendor/codemirror/addon/scroll/match-highlighter.js",
+				"media/vendor/codemirror/addon/scroll/searchcursor.js",
 				"media/vendor/codemirror/addon/selection/active-line.js",
-				"media/vendor/codemirror/keymap/vim.js"
+				"media/vendor/codemirror/keymap/vim.js",
+				"media/vendor/codemirror/mode/meta.js",
 				],
 				'media/vendor/codemirror/lib/addons.js');
 
 			concatFiles([
 				"media/vendor/codemirror/addon/display/fullscreen.css",
 				"media/vendor/codemirror/addon/fold/foldgutter.css",
-				"media/vendor/codemirror/addon/scroll/simplescrollbars.css"
+				"media/vendor/codemirror/addon/search/matchesonscrollbar.css",
+				"media/vendor/codemirror/addon/scroll/simplescrollbars.css",
 			], 'media/vendor/codemirror/lib/addons.css');
 
 			// Update the XML file for Codemirror
@@ -204,12 +210,6 @@ copyFiles = (options) => {
 			) {
 				let dest  = Path.join(mediaVendorPath, vendorName);
 				fsExtra.copySync(Path.join(rootPath, 'node_modules/' + packageName) + '/' + options.settings.vendors[packageName].licenseFilename, dest + '/' + options.settings.vendors[packageName].licenseFilename);
-			}
-
-			if (packageName === 'joomla-ui-custom-elements') {
-				if (fs.existsSync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'))) {
-					fsExtra.copySync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'), Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
-				}
 			}
 		}
 
