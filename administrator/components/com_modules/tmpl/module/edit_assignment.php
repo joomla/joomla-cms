@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
-JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
