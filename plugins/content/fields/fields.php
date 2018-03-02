@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die();
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 /**
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
@@ -164,5 +170,176 @@ class PlgContentFields extends JPlugin
 		}
 
 		return $string;
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 1);
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 2);
+	}
+
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   integer   $limitstart  The start
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
+	{
+		return $this->display($context, $item, $params, 3);
+	}
+
+	/**
+	 * Performs the display event.
+	 *
+	 * @param   string    $context      The context
+	 * @param   stdClass  $item         The item
+	 * @param   Registry  $params       The params
+	 * @param   integer   $displayType  The type
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7.0
+	 */
+	private function display($context, $item, $params, $displayType)
+	{
+		$parts = FieldsHelper::extract($context, $item);
+
+		if (!$parts)
+		{
+			return '';
+		}
+
+		// If we have a category, set the catid field to fetch only the fields which belong to it
+		if ($parts[1] == 'categories' && !isset($item->catid))
+		{
+			$item->catid = $item->id;
+		}
+
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		if (is_string($params) || !$params)
+		{
+			$params = new Registry($params);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language == '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
+
+		if ($fields)
+		{
+			foreach ($fields as $key => $field)
+			{
+				$fieldDisplayType = $field->params->get('display', '2');
+
+				if ($fieldDisplayType == $displayType)
+				{
+					continue;
+				}
+
+				unset($fields[$key]);
+			}
+		}
+
+		if ($fields)
+		{
+			return FieldsHelper::render(
+				$context,
+				'fields.render',
+				array(
+					'item'            => $item,
+					'context'         => $context,
+					'fields'          => $fields
+				)
+			);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   3.8.4
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }
