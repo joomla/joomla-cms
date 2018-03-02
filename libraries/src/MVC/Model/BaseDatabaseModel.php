@@ -10,7 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Extension\ComponentContainerInterface;
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -665,11 +665,11 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @param   string  $component  The component name, eg. com_content.
 	 *
-	 * @return  ComponentContainerInterface  The service container
+	 * @return  ComponentInterface  The service container
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function bootComponent($component): ComponentContainerInterface
+	protected function bootComponent($component): ComponentInterface
 	{
 		return Factory::getApplication()->bootComponent($component);
 	}

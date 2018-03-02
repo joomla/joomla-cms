@@ -126,7 +126,7 @@ class Categories
 	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
 	 *
 	 * @since       1.6
-	 * @deprecated  5.0 Use the ComponentContainerInterface to get the categories
+	 * @deprecated  5.0 Use the ComponentInterface to get the categories
 	 */
 	public static function getInstance($extension, $options = array())
 	{

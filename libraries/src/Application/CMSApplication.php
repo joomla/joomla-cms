@@ -14,7 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
-use Joomla\CMS\Extension\ExtensionLoader;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
@@ -23,7 +23,6 @@ use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -37,7 +36,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait, ExtensionLoader, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -164,13 +163,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = $event->getSession();
+		parent::afterSessionStart($event);
 
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new User);
-		}
+		$session = $event->getSession();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db   = \JFactory::getDbo();
