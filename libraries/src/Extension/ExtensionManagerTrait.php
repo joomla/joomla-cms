@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\String\Normalise;
 
 /**
  * Trait for classes which can load extensions
@@ -26,7 +27,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = ['component' => []];
+	private $extensions = ['component' => [], 'module' => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -46,6 +47,32 @@ trait ExtensionManagerTrait
 		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
 		return $this->loadExtension('component', $component, $path);
+	}
+
+	/**
+	 * Boots the module with the given name.
+	 *
+	 * @param   string  $module           The module to boot
+	 * @param   string  $applicationName  The application name
+	 *
+	 * @return  ModuleInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootModule($module, $applicationName): ModuleInterface
+	{
+		// Normalize the module name
+		$module = strtolower(str_replace('mod_', '', $module));
+
+		// Path to to look for services
+		$path = JPATH_SITE . '/modules/mod_' . $module;
+
+		if ($applicationName == 'administrator')
+		{
+			$path = JPATH_ADMINISTRATOR . '/modules/mod_' . $module;
+		}
+
+		return $this->loadExtension('module', $module, $path);
 	}
 
 	/**
@@ -71,7 +98,7 @@ trait ExtensionManagerTrait
 		$container = new Container($this->getContainer());
 
 		// The class name to load
-		$className = ucfirst($extensionName) . ucfirst($type) . 'ServiceProvider';
+		$className = Normalise::toCamelCase($extensionName) . ucfirst($type) . 'ServiceProvider';
 
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
@@ -90,9 +117,17 @@ trait ExtensionManagerTrait
 		}
 
 		// Fallback to legacy
-		if (!$container->has($type) && $type == 'component')
+		if (!$container->has($type))
 		{
-			$container->set($type, new LegacyComponent('com_' . $extensionName));
+			switch ($type)
+			{
+				case 'component':
+					$container->set($type, new LegacyComponent('com_' . $extensionName));
+					break;
+				case 'module':
+					$container->set($type, new LegacyModule);
+					break;
+			}
 		}
 
 		// Cache the extension

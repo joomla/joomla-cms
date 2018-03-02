@@ -181,8 +181,19 @@ abstract class ModuleHelper
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
-		// Load the module
-		if (file_exists($path))
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
+		{
+			$dispatcher->setModule($module);
+
+			ob_start();
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
+		}
+		// Load the module the old way
+		elseif (file_exists($path))
 		{
 			$lang = \JFactory::getLanguage();
 
