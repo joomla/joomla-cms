@@ -14,7 +14,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * Service provider for the component's dispatcher dependency
+ * Service provider for the component service based components.
  *
  * @since  __DEPLOY_VERSION__
  */

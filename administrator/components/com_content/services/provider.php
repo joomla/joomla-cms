@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\Service\Provider\Component;
+use Joomla\CMS\Extension\Service\Provider\Dispatcher;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -34,23 +35,7 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 	{
 		$container->set('categories', ['' => new Category]);
 
-		$container->set(
-			'site.dispatcher',
-			function (Container $container)
-			{
-				$app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
-				return new \Joomla\Component\Content\Site\Dispatcher\Dispatcher($app, $app->input);
-			}
-		);
-		$container->set(
-			'administrator.dispatcher',
-			function (Container $container)
-			{
-				$app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);
-				return new \Joomla\Component\Content\Administrator\Dispatcher\Dispatcher($app, $app->input);
-			}
-		);
-
+		$container->registerServiceProvider(new Dispatcher('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new Component);
 	}
 }
