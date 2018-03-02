@@ -36,14 +36,14 @@ class Module implements ServiceProviderInterface
 			'module',
 			function (Container $container)
 			{
-				$component = new \Joomla\CMS\Extension\Module;
+				$module = new \Joomla\CMS\Extension\Module;
 
 				if ($container->has(DispatcherFactoryInterface::class))
 				{
-					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
+					$module->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
 				}
 
-				return $component;
+				return $module;
 			}
 		);
 	}

@@ -21,7 +21,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
- * Base class for a Joomla Dispatcher
+ * Base class for a Joomla Component Dispatcher
  *
  * Dispatchers are responsible for checking ACL of a component if appropriate and
  * choosing an appropriate controller (and if necessary, a task) and executing it.

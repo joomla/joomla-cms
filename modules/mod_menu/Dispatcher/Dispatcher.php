@@ -24,29 +24,35 @@ use Joomla\Registry\Registry;
 class Dispatcher extends ModuleDispatcher
 {
 	/**
-	 * Dispatch the extension.
+	 * Returns the layout data. This function can be overridden by subclasses to add more
+	 * attributes for the layout.
 	 *
-	 * @return  void
+	 * If false is returned, then it means that the dispatch process should be aborted.
 	 *
-	 * @since   4.0.0
+	 * @return  array|false
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function dispatch()
+	protected function getLayoutData()
 	{
-		$params = new Registry($this->module->params);
+		$data = parent::getLayoutData();
 
-		$list       = MenuHelper::getList($params);
-		$base       = MenuHelper::getBase($params);
-		$active     = MenuHelper::getActive($params);
-		$default    = MenuHelper::getDefault();
-		$active_id  = $active->id;
-		$default_id = $default->id;
-		$path       = $base->tree;
-		$showAll    = $params->get('showAllChildren');
-		$class_sfx  = htmlspecialchars($params->get('class_sfx'), ENT_COMPAT, 'UTF-8');
+		$data['list'] = MenuHelper::getList($data['params']);
 
-		if (count($list))
+		if (!count($data['list']))
 		{
-			require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+			return false;
 		}
+
+		$data['base']       = MenuHelper::getBase($data['params']);
+		$data['active']     = MenuHelper::getActive($data['params']);
+		$data['default']    = MenuHelper::getDefault();
+		$data['active_id']  = $data['active'] ->id;
+		$data['default_id'] = $data['default'] ->id;
+		$data['path']       = $data['base']->tree;
+		$data['showAll']    = $data['params']->get('showAllChildren');
+		$data['class_sfx']  = htmlspecialchars($data['params']->get('class_sfx'), ENT_COMPAT, 'UTF-8');
+
+		return $data;
 	}
 }

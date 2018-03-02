@@ -11,7 +11,9 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 
 /**
  * Base class for a Joomla Module Dispatcher.
@@ -56,12 +58,52 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 	{
 		$this->app   = $app;
 		$this->input = $input ?: $app->input;
-
-		$this->loadLanguage();
 	}
 
 	/**
-	 * Load the language
+	 * Dispatches the dispatcher.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function dispatch()
+	{
+		$this->loadLanguage();
+
+		$displayData = $this->getLayoutData();
+
+		// Abort when display data is false
+		if ($displayData === false)
+		{
+			return;
+		}
+
+		// Execute the layout without the module context
+		$loader = static function(array $displayData)
+		{
+			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));
+		};
+		$loader($displayData);
+	}
+
+	/**
+	 * Returns the layout data. This function can be overridden by subclasses to add more
+	 * attributes for the layout.
+	 *
+	 * If false is returned, then it means that the dispatch process should be aborted.
+	 *
+	 * @return  array|false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		return ['module' => $this->module, 'params' => new Registry($this->module->params), 'app' => $this->app];
+	}
+
+	/**
+	 * Load the language.
 	 *
 	 * @return  void
 	 *
@@ -72,7 +114,7 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 		$lang = $this->app->getLanguage();
 
 		$coreLanguageDirectory      = JPATH_BASE;
-		$extensionLanguageDirectory = dirname(JPATH_BASE . '/modules/' . $this->module);
+		$extensionLanguageDirectory = dirname(JPATH_BASE . '/modules/' . $this->module->module);
 
 		$langPaths = $lang->getPaths();
 
@@ -80,8 +122,8 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
 		{
 			// 1.5 or Core then 1.6 3PD
-			$lang->load($this->module, $coreLanguageDirectory, null, false, true) ||
-			$lang->load($this->module, $extensionLanguageDirectory, null, false, true);
+			$lang->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
+			$lang->load($this->module->module, $extensionLanguageDirectory, null, false, true);
 		}
 	}
 
