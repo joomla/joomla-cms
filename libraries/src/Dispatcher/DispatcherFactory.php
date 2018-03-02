@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 
 /**
- * Base class for a Joomla Dispatcher
+ * Namesapce based implementation of the DispatcherFactoryInterface
  *
  * @since   __DEPLOY_VERSION__
  */

@@ -9,14 +9,14 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
+
 /**
- * Joomla Platform CMS Dispatcher Interface
+ * Dispatcher factory interface
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 interface DispatcherFactoryInterface
 {
