@@ -161,6 +161,12 @@ class ContentModelCategory extends JModelList
 		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
 		$this->setState('filter.tag', $value);
 
+		$value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id_include', 'filter_article_id_include', false, 'boolen');
+		$this->setState('filter.article_id.include', $value);
+
+		$value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id', 'filter_article_id', null, 'array');
+		$this->setState('filter.article_id', $value);
+
 		// Optional filter text
 		$search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
@@ -242,6 +248,9 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.direction', $this->getState('list.direction'));
 			$model->setState('list.filter', $this->getState('list.filter'));
 			$model->setState('filter.tag', $this->getState('filter.tag'));
+
+			$model->setState('filter.article_id.include', $this->getState('filter.article_id.include'));
+			$model->setState('filter.article_id', $this->getState('filter.article_id'));
 
 			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
