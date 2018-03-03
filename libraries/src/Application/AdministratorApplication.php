@@ -481,12 +481,6 @@ class AdministratorApplication extends CMSApplication
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
 
-		if (!$user)
-		{
-			$app->loadIdentity(\JFactory::getUser());
-			$user = $app->getIdentity();
-		}
-
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
 			$option = 'com_login';

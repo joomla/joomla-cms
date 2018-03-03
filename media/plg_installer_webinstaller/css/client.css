@@ -65,7 +65,6 @@
   height: 100%;
   margin-top: 5px;
   text-align: center;
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(70%, rgba(255, 255, 255, 0)), color-stop(95%, white));
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 70%, white 95%);
   background-repeat: repeat-x; }
 
@@ -91,10 +90,8 @@
   cursor: pointer; }
 
 .com-apps-container .list-container {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; }
+  box-sizing: border-box; }
   .com-apps-container .list-container .fader {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), color-stop(25%, white));
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 25%);
     background-repeat: repeat-x; }
   .com-apps-container .list-container .list-group-item {
