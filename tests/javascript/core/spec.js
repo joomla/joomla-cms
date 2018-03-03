@@ -157,7 +157,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('should set the number of checked boxes in the form to form.boxchecked', function () {
-			expect(form.boxchecked.value).toEqual(3);
+			expect(form.boxchecked.value).toEqual('3');
 		});
 
 		it('should use passed in stub to look for input elements', function () {
@@ -210,14 +210,14 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
 	describe('Core Joomla.isChecked', function () {
 		var form = document.getElementById('ischecked-test-form');
-		form.boxchecked = {value: 5};
+		form.boxchecked.value = 5;
 
 		beforeAll(function () {
 			Joomla.isChecked(true, form);
 		});
 
 		it('should increase form.boxchecked.value from 5 to 6', function () {
-			expect(form.boxchecked.value).toEqual(6);
+			expect(form.boxchecked.value).toEqual('6');
 		});
 		it('should set checkAllToggle.checked to false', function () {
 			expect(form.elements[ 'checkall-toggle' ].checked).toEqual(false);
