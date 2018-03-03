@@ -201,15 +201,15 @@ class CategoriesViewCategories extends JViewLegacy
 			JToolbarHelper::archiveList('categories.archive');
 		}
 
-		if (JFactory::getUser()->authorise('core.admin'))
+		if ($user->authorise('core.admin'))
 		{
 			JToolbarHelper::checkin('categories.checkin');
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.create')
-			&& $canDo->get('core.edit')
-			&& $canDo->get('core.edit.state'))
+		if ($user->authorise('core.create', $component)
+			&& $user->authorise('core.edit', $component)
+			&& $user->authorise('core.edit.state', $component))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
