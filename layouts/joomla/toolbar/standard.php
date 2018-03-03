@@ -21,7 +21,7 @@ $btnClass = $displayData['btnClass'];
 $group    = $displayData['group'];
 $task     = '';
 $list     = !empty($displayData['list'])     ? ' list-selection' : '';
-$form     = !empty($displayData['form'])     ? ' form=' . $displayData['form'] . '"' : '';
+$form     = !empty($displayData['form'])     ? ' form="' . $displayData['form'] . '"' : '';
 $validate = !empty($displayData['validate']) ? ' form-validation' : '';
 $msg      = !empty($displayData['msg'])      ? ' confirm-message="' . $this->escape($displayData['msg']) . '"' : '';
 
