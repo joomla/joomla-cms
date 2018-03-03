@@ -203,7 +203,7 @@ class CategoriesModelCategories extends JModelList
 
 		if (is_numeric($categoryId))
 		{
-			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable = JTable::getInstance('Category', 'JTable');
 			$categoryTable->load($categoryId);
 			$rgt = $categoryTable->rgt;
 			$lft = $categoryTable->lft;
