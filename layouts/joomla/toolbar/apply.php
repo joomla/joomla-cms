@@ -32,7 +32,7 @@ if (!empty($displayData['task']))
 {
 	$task = ' task="' . $displayData['task'] . '"';
 }
-else if (!empty($displayData['doTask']))
+elseif (!empty($displayData['doTask']))
 {
 	$task = ' execute="' . $displayData['doTask'] . '"';
 }

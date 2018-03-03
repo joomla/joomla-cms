@@ -115,7 +115,7 @@ abstract class ToolbarButton
 	/**
 	 * Make sure the id is unique
 	 *
-	 * @param   string $id
+	 * @param   string  $id  The button ID attribute
 	 *
 	 * @return  string
 	 *

@@ -30,21 +30,21 @@ class StandardButton extends ToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type             Unused string.
-	 * @param   string   $name             The name of the button icon class.
-	 * @param   string   $text             Button text.
-	 * @param   string   $task             Task associated with the button.
-	 * @param   boolean  $list             True to allow lists
-	 * @param   boolean  $group            Does the button belong to a group?
-	 * @param   string   $form             The form CSS selector eg '#adminForm'
-	 * @param   bool     $formValidation   Whether should be called the form validation before task call
+	 * @param   string   $type            Unused string.
+	 * @param   string   $name            The name of the button icon class.
+	 * @param   string   $text            Button text.
+	 * @param   string   $task            Task associated with the button.
+	 * @param   boolean  $list            True to allow lists
+	 * @param   boolean  $group           Does the button belong to a group?
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true,
-								$group = false, $form = '', $formValidation = false)
+		$group = false, $form = '', $formValidation = false)
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();

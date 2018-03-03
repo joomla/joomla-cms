@@ -463,11 +463,11 @@ abstract class ToolbarHelper
 	 * Writes a save button for a given option.
 	 * Apply operation leads to a save action only (does not leave edit mode).
 	 *
-	 * @param   string   $task             An override for the task.
-	 * @param   string   $alt              An override for the alt text.
-	 * @param   boolean  $group            True or false
-	 * @param   string   $form             The form ID
-	 * @param   bool     $formValidation   Whether should be called the form validation before task call
+	 * @param   string   $task            An override for the task.
+	 * @param   string   $alt             An override for the alt text.
+	 * @param   boolean  $group           True or false
+	 * @param   string   $form            The form ID
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
@@ -485,11 +485,11 @@ abstract class ToolbarHelper
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string   $task             An override for the task.
-	 * @param   string   $alt              An override for the alt text.
-	 * @param   boolean  $group            True or false
-	 * @param   string   $form             The form CSS selector eg '#adminForm'
-	 * @param   bool     $formValidation   Whether should be called the form validation before task call
+	 * @param   string   $task            An override for the task.
+	 * @param   string   $alt             An override for the alt text.
+	 * @param   boolean  $group           True or false
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
@@ -507,18 +507,18 @@ abstract class ToolbarHelper
 	 * Writes a save and create new button for a given option.
 	 * Save and create operation leads to a save and then add action.
 	 *
-	 * @param   string   $task             An override for the task.
-	 * @param   string   $alt              An override for the alt text.
-	 * @param   boolean  $group            True or false
-	 * @param   string   $form             The form CSS selector eg '#adminForm'
-	 * @param   bool     $formValidation   Whether should be called the form validation before task call
+	 * @param   string   $task            An override for the task.
+	 * @param   string   $alt             An override for the alt text.
+	 * @param   boolean  $group           True or false
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
 	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false,
-									$form = '', $formValidation = true)
+		$form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
@@ -531,18 +531,18 @@ abstract class ToolbarHelper
 	 * Save as copy operation leads to a save after clearing the key,
 	 * then returns user to edit mode with new key.
 	 *
-	 * @param   string   $task             An override for the task.
-	 * @param   string   $alt              An override for the alt text.
-	 * @param   boolean  $group            True or false
-	 * @param   string   $form             The form CSS selector eg '#adminForm'
-	 * @param   bool     $formValidation   Whether should be called the form validation before task call
+	 * @param   string   $task            An override for the task.
+	 * @param   string   $alt             An override for the alt text.
+	 * @param   boolean  $group           True or false
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
 	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false,
-									 $form = '', $formValidation = true)
+		$form = '', $formValidation = true)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
