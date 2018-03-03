@@ -43,6 +43,7 @@ class CategoriesModelCategories extends JModelList
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'category_id',
 				'tag',
 			);
 		}
@@ -93,6 +94,7 @@ class CategoriesModelCategories extends JModelList
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.search', 'filter_search', '', 'string'));
 		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'string'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
@@ -127,6 +129,7 @@ class CategoriesModelCategories extends JModelList
 		$id .= ':' . $this->getState('filter.extension');
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
 		$id .= ':' . $this->getState('filter.level');
@@ -194,10 +197,29 @@ class CategoriesModelCategories extends JModelList
 			$query->where('a.extension = ' . $db->quote($extension));
 		}
 
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+
+		if (is_numeric($categoryId))
+		{
+			$categoryTable= JTable::getInstance('Category', 'JTable');
+			$categoryTable->load($categoryId);
+			$rgt = $categoryTable->rgt;
+			$lft = $categoryTable->lft;
+			$baselevel = (int) $categoryTable->level;
+			$query->where('a.lft >= ' . (int) $lft)
+				->where('a.rgt <= ' . (int) $rgt);
+		}
+		elseif (is_array($categoryId))
+		{
+			$query->where('a.id IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+		}
+
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('a.level <= ' . (int) $level);
+			$query->where('a.level <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by access level.
