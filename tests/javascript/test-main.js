@@ -17,12 +17,12 @@ require.config({
 	baseUrl: '/base',
 
 	paths: {
-		'core': 'media/system/js/core.min',
-		'jquery': 'node_modules/jquery/dist/jquery.min',
-		'jui': 'media/vendor/jquery-ui/js/jquery.ui.core.min',
-		'jui-sortable': 'media/vendor/jquery-ui/js/jquery.ui.sortable.min',
-		'bootstrap': 'media/vendor/bootstrap/js/bootstrap.min',
 		'jasmineJquery': 'node_modules/jasmine-jquery/lib/jasmine-jquery',
+		'core': 'media/system/js/core.min',
+
+		'jquery': 'node_modules/jquery/dist/jquery.min',
+		'bootstrap': 'media/vendor/bootstrap/js/bootstrap.min',
+
 		'libs': 'media/system/js',
 		'legacy': 'media/legacy/js',
 		'testsRoot': 'tests/javascript',
@@ -36,12 +36,11 @@ require.config({
 	shim: {
 		jasmineJquery: ['jquery'],
 		bootstrap: ['jquery'],
-		'jui-sortable': ['jquery'],
 		'libs/validate': {
 			deps: []
 		},
-		'libs/subform-repeatable': {
-			deps: ['jquery', 'jui', 'jui-sortable']
+		'JCE/joomla-field-subform': {
+			deps: []
 		},
 		'JCE/joomla-field-send-test-mail': {
 			deps: ['jquery']

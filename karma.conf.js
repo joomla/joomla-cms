@@ -13,6 +13,9 @@ module.exports = function (config) {
 		// list of files / patterns to load in the browser
 		files: [
 			{pattern: 'media/vendor/webcomponentsjs/js/webcomponents-lite.min.js', included: true, served: true, watched: true},
+			{pattern: 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js', included: false, served: true, watched: false },
+			{pattern: 'media/system/webcomponents/js/joomla-field-subform.min.js', included: false, served: true, watched: false },
+
 			{pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
 			{pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
 			{pattern: 'node_modules/text/text.js', included: false},
@@ -23,7 +26,7 @@ module.exports = function (config) {
 			{pattern: 'media/system/js/core.js', included: false,served: true, watched: true},
 			{pattern: 'media/legacy/js/*.js', included: false},
 			{pattern: 'media/system/js/fields/*.js', included: false},
-			{pattern: 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js', included: false, served: true, watched: true},
+
 			{pattern: 'media/system/js/fields/calendar-locales/*.js', included: false},
 			{pattern: 'media/system/js/fields/calendar-locales/date/gregorian/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
