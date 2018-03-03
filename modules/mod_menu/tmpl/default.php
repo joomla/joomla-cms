@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-extract($displayData);
-
 $id = '';
 
 if ($tagId = $params->get('tag_id', ''))
