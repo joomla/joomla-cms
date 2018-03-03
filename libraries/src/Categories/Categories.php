@@ -90,7 +90,7 @@ class Categories
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $_options = null;
+	protected $_options = [];
 
 	/**
 	 * Class constructor
@@ -101,20 +101,20 @@ class Categories
 	 */
 	public function __construct($options)
 	{
+		// Required options
 		$this->_extension  = $options['extension'];
 		$this->_table      = $options['table'];
 		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
 		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
 		$this->_statefield = $options['statefield'] ?? 'state';
 
-		$options['access']      = $options['access'] ?? 'true';
-		$options['published']   = $options['published'] ?? 1;
-		$options['countItems']  = $options['countItems'] ?? 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+		// Default some optional options
+		$this->_options['access']      = 'true';
+		$this->_options['published']   = 1;
+		$this->_options['countItems']  = 0;
+		$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
-		$this->_options = $options;
-
-		return true;
+		$this->setOptions($options);
 	}
 
 	/**
@@ -125,7 +125,8 @@ class Categories
 	 *
 	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the ComponentInterface to get the categories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -136,32 +137,11 @@ class Categories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.', $extension);
-		$component = 'com_' . strtolower($parts[0]);
-		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component, 4)) . ucfirst($section) . 'Categories';
+		$parts = explode('.', $extension, 2);
 
-		if (!class_exists($classname))
-		{
-			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories($options, count($parts) > 1 ? $parts[1] : '');
 
-			if (!is_file($path))
-			{
-				return false;
-			}
-
-			include_once $path;
-		}
-
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($classname))
-		{
-			self::$instances[$hash] = \JFactory::getContainer()->get($classname);
-		}
-		else
-		{
-			self::$instances[$hash] = new $classname($options);
-		}
+		self::$instances[$hash] = $categories;
 
 		return self::$instances[$hash];
 	}
@@ -388,5 +368,37 @@ class Categories
 		{
 			$this->_nodes[$id] = null;
 		}
+	}
+
+	/**
+	 * Allows to set some optional options, eg. if the access level should be considered.
+	 * Also clears the internal children cache.
+	 *
+	 * @param   array  $options  The new options
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setOptions(array $options)
+	{
+		if (isset($options['access']))
+		{
+			$this->_options['access'] = $options['access'];
+		}
+
+		if (isset($options['published']))
+		{
+			$this->_options['published'] = $options['published'];
+		}
+
+		if (isset($options['countItems']))
+		{
+			$this->_options['countItems'] = $options['countItems'];
+		}
+
+		// Reset the cache
+		$this->_nodes             = [];
+		$this->_checkedCategories = [];
 	}
 }

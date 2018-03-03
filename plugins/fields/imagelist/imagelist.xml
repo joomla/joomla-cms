@@ -26,7 +26,6 @@
 					type="folderlist"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
 					directory="images"
-					required="true"
 					hide_none="true"
 					hide_default="true"
 					recursive="true"

@@ -52,6 +52,10 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'M' => 
+        array (
+            'Mso\\IdnaConvert\\' => 16,
+        ),
         'J' => 
         array (
             'Joomla\\Utilities\\' => 17,
@@ -86,6 +90,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Inflector\\' => 26,
             'Defuse\\Crypto\\' => 14,
         ),
         'C' => 
@@ -142,6 +147,10 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Mso\\IdnaConvert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mso/idna-convert/src',
         ),
         'Joomla\\Utilities\\' => 
         array (
@@ -247,6 +256,10 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
         'Defuse\\Crypto\\' => 
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
@@ -273,6 +286,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Defuse\\Crypto\\KeyOrPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyOrPassword.php',
         'Defuse\\Crypto\\KeyProtectedByPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyProtectedByPassword.php',
         'Defuse\\Crypto\\RuntimeTests' => __DIR__ . '/..' . '/defuse/php-encryption/src/RuntimeTests.php',
+        'Doctrine\\Common\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector/Inflector.php',
         'Fig\\Link\\EvolvableLinkProviderTrait' => __DIR__ . '/..' . '/fig/link-util/src/EvolvableLinkProviderTrait.php',
         'Fig\\Link\\EvolvableLinkTrait' => __DIR__ . '/..' . '/fig/link-util/src/EvolvableLinkTrait.php',
         'Fig\\Link\\GenericLinkProvider' => __DIR__ . '/..' . '/fig/link-util/src/GenericLinkProvider.php',
@@ -306,7 +320,6 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Access\\Rules' => __DIR__ . '/../../..' . '/libraries/src/Access/Rules.php',
         'Joomla\\CMS\\Application\\AdministratorApplication' => __DIR__ . '/../../..' . '/libraries/src/Application/AdministratorApplication.php',
         'Joomla\\CMS\\Application\\ApplicationHelper' => __DIR__ . '/../../..' . '/libraries/src/Application/ApplicationHelper.php',
-        'Joomla\\CMS\\Application\\Autoconfigurable' => __DIR__ . '/../../..' . '/libraries/src/Application/Autoconfigurable.php',
         'Joomla\\CMS\\Application\\BaseApplication' => __DIR__ . '/../../..' . '/libraries/src/Application/BaseApplication.php',
         'Joomla\\CMS\\Application\\CLI\\CliInput' => __DIR__ . '/../../..' . '/libraries/src/Application/CLI/CliInput.php',
         'Joomla\\CMS\\Application\\CLI\\CliOutput' => __DIR__ . '/../../..' . '/libraries/src/Application/CLI/CliOutput.php',
@@ -379,6 +392,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Console\\CheckUpdatesCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/CheckUpdatesCommand.php',
         'Joomla\\CMS\\Console\\CleanCacheCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/CleanCacheCommand.php',
         'Joomla\\CMS\\Console\\RemoveOldFilesCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/RemoveOldFilesCommand.php',
+        'Joomla\\CMS\\Console\\SessionGcCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/SessionGcCommand.php',
         'Joomla\\CMS\\Crypt\\Cipher\\CryptoCipher' => __DIR__ . '/../../..' . '/libraries/src/Crypt/Cipher/CryptoCipher.php',
         'Joomla\\CMS\\Crypt\\Cipher\\SodiumCipher' => __DIR__ . '/../../..' . '/libraries/src/Crypt/Cipher/SodiumCipher.php',
         'Joomla\\CMS\\Crypt\\Crypt' => __DIR__ . '/../../..' . '/libraries/src/Crypt/Crypt.php',
@@ -555,6 +569,8 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Form\\Field\\UserstateField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/UserstateField.php',
         'Joomla\\CMS\\Form\\Form' => __DIR__ . '/../../..' . '/libraries/src/Form/Form.php',
         'Joomla\\CMS\\Form\\FormFactory' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactory.php',
+        'Joomla\\CMS\\Form\\FormFactoryAwareInterface' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryAwareInterface.php',
+        'Joomla\\CMS\\Form\\FormFactoryAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryAwareTrait.php',
         'Joomla\\CMS\\Form\\FormFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Form/FormFactoryInterface.php',
         'Joomla\\CMS\\Form\\FormField' => __DIR__ . '/../../..' . '/libraries/src/Form/FormField.php',
         'Joomla\\CMS\\Form\\FormHelper' => __DIR__ . '/../../..' . '/libraries/src/Form/FormHelper.php',
@@ -710,11 +726,15 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\Schema\\ChangeSet' => __DIR__ . '/../../..' . '/libraries/src/Schema/ChangeSet.php',
         'Joomla\\CMS\\Service\\Provider\\Application' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Application.php',
         'Joomla\\CMS\\Service\\Provider\\Authentication' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Authentication.php',
+        'Joomla\\CMS\\Service\\Provider\\Config' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Config.php',
+        'Joomla\\CMS\\Service\\Provider\\Console' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Console.php',
         'Joomla\\CMS\\Service\\Provider\\Database' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Database.php',
         'Joomla\\CMS\\Service\\Provider\\Dispatcher' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Dispatcher.php',
         'Joomla\\CMS\\Service\\Provider\\Document' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Document.php',
         'Joomla\\CMS\\Service\\Provider\\Form' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Form.php',
+        'Joomla\\CMS\\Service\\Provider\\Logger' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Logger.php',
         'Joomla\\CMS\\Service\\Provider\\Menu' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Menu.php',
+        'Joomla\\CMS\\Service\\Provider\\Pathway' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Pathway.php',
         'Joomla\\CMS\\Service\\Provider\\Session' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Session.php',
         'Joomla\\CMS\\Service\\Provider\\Toolbar' => __DIR__ . '/../../..' . '/libraries/src/Service/Provider/Toolbar.php',
         'Joomla\\CMS\\Session\\Exception\\UnsupportedStorageException' => __DIR__ . '/../../..' . '/libraries/src/Session/Exception/UnsupportedStorageException.php',
@@ -761,6 +781,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\CMS\\UCM\\UCMType' => __DIR__ . '/../../..' . '/libraries/src/UCM/UCMType.php',
         'Joomla\\CMS\\Updater\\Adapter\\CollectionAdapter' => __DIR__ . '/../../..' . '/libraries/src/Updater/Adapter/CollectionAdapter.php',
         'Joomla\\CMS\\Updater\\Adapter\\ExtensionAdapter' => __DIR__ . '/../../..' . '/libraries/src/Updater/Adapter/ExtensionAdapter.php',
+        'Joomla\\CMS\\Updater\\DownloadSource' => __DIR__ . '/../../..' . '/libraries/src/Updater/DownloadSource.php',
         'Joomla\\CMS\\Updater\\Update' => __DIR__ . '/../../..' . '/libraries/src/Updater/Update.php',
         'Joomla\\CMS\\Updater\\UpdateAdapter' => __DIR__ . '/../../..' . '/libraries/src/Updater/UpdateAdapter.php',
         'Joomla\\CMS\\Updater\\Updater' => __DIR__ . '/../../..' . '/libraries/src/Updater/Updater.php',
@@ -794,6 +815,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Crypt\\Cipher\\OpenSSL' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/OpenSSL.php',
         'Joomla\\Crypt\\Cipher\\Sodium' => __DIR__ . '/..' . '/joomla/crypt/src/Cipher/Sodium.php',
         'Joomla\\Crypt\\Crypt' => __DIR__ . '/..' . '/joomla/crypt/src/Crypt.php',
+        'Joomla\\Crypt\\Exception\\InvalidKeyTypeException' => __DIR__ . '/..' . '/joomla/crypt/src/Exception/InvalidKeyTypeException.php',
         'Joomla\\Crypt\\Key' => __DIR__ . '/..' . '/joomla/crypt/src/Key.php',
         'Joomla\\DI\\Container' => __DIR__ . '/..' . '/joomla/di/src/Container.php',
         'Joomla\\DI\\ContainerAwareInterface' => __DIR__ . '/..' . '/joomla/di/src/ContainerAwareInterface.php',
@@ -875,6 +897,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Event\\ListenersPriorityQueue' => __DIR__ . '/..' . '/joomla/event/src/ListenersPriorityQueue.php',
         'Joomla\\Event\\Priority' => __DIR__ . '/..' . '/joomla/event/src/Priority.php',
         'Joomla\\Event\\SubscriberInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberInterface.php',
+        'Joomla\\Event\\SubscriberManagerInterface' => __DIR__ . '/..' . '/joomla/event/src/SubscriberManagerInterface.php',
         'Joomla\\Filesystem\\Buffer' => __DIR__ . '/..' . '/joomla/filesystem/src/Buffer.php',
         'Joomla\\Filesystem\\Clients\\FtpClient' => __DIR__ . '/..' . '/joomla/filesystem/src/Clients/FtpClient.php',
         'Joomla\\Filesystem\\Exception\\FilesystemException' => __DIR__ . '/..' . '/joomla/filesystem/src/Exception/FilesystemException.php',
@@ -936,6 +959,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Session\\Handler\\WincacheHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/WincacheHandler.php',
         'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/src/Session.php',
         'Joomla\\Session\\SessionEvent' => __DIR__ . '/..' . '/joomla/session/src/SessionEvent.php',
+        'Joomla\\Session\\SessionEvents' => __DIR__ . '/..' . '/joomla/session/src/SessionEvents.php',
         'Joomla\\Session\\SessionInterface' => __DIR__ . '/..' . '/joomla/session/src/SessionInterface.php',
         'Joomla\\Session\\StorageInterface' => __DIR__ . '/..' . '/joomla/session/src/StorageInterface.php',
         'Joomla\\Session\\Storage\\NativeStorage' => __DIR__ . '/..' . '/joomla/session/src/Storage/NativeStorage.php',
@@ -952,6 +976,15 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Uri\\UriImmutable' => __DIR__ . '/..' . '/joomla/uri/src/UriImmutable.php',
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
+        'Mso\\IdnaConvert\\EncodingHelper' => __DIR__ . '/..' . '/mso/idna-convert/src/EncodingHelper.php',
+        'Mso\\IdnaConvert\\IdnaConvert' => __DIR__ . '/..' . '/mso/idna-convert/src/IdnaConvert.php',
+        'Mso\\IdnaConvert\\NamePrepData' => __DIR__ . '/..' . '/mso/idna-convert/src/NamePrepData.php',
+        'Mso\\IdnaConvert\\NamePrepData2003' => __DIR__ . '/..' . '/mso/idna-convert/src/NamePrepData2003.php',
+        'Mso\\IdnaConvert\\NamePrepDataInterface' => __DIR__ . '/..' . '/mso/idna-convert/src/NamePrepDataInterface.php',
+        'Mso\\IdnaConvert\\Punycode' => __DIR__ . '/..' . '/mso/idna-convert/src/Punycode.php',
+        'Mso\\IdnaConvert\\PunycodeInterface' => __DIR__ . '/..' . '/mso/idna-convert/src/PunycodeInterface.php',
+        'Mso\\IdnaConvert\\UnicodeTranscoder' => __DIR__ . '/..' . '/mso/idna-convert/src/UnicodeTranscoder.php',
+        'Mso\\IdnaConvert\\UnicodeTranscoderInterface' => __DIR__ . '/..' . '/mso/idna-convert/src/UnicodeTranscoderInterface.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
         'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
         'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
@@ -1125,6 +1158,7 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Zend\\Diactoros\\Response\\SapiStreamEmitter' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/SapiStreamEmitter.php',
         'Zend\\Diactoros\\Response\\Serializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/Serializer.php',
         'Zend\\Diactoros\\Response\\TextResponse' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/TextResponse.php',
+        'Zend\\Diactoros\\Response\\XmlResponse' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Response/XmlResponse.php',
         'Zend\\Diactoros\\Server' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Server.php',
         'Zend\\Diactoros\\ServerRequest' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/ServerRequest.php',
         'Zend\\Diactoros\\ServerRequestFactory' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/ServerRequestFactory.php',

@@ -106,7 +106,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
-		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		// @Todo mock the container properly
+		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config, null, JFactory::getContainer());
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
 
