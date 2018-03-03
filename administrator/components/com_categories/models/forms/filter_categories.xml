@@ -82,6 +82,8 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="a.lft DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>
 			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
