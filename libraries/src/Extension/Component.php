@@ -10,7 +10,11 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Dispatcher\DispatcherFactory;
+use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
  * Access to component specific services.
@@ -27,6 +31,48 @@ class Component implements ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $categories;
+
+	/**
+	 * The dispatcher factory.
+	 *
+	 * @var DispatcherFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $dispatcherFactory;
+
+	/**
+	 * Returns the dispatcher for the given application, null if none exists.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  DispatcherInterface|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getDispatcher(CMSApplicationInterface $application)
+	{
+		if ($this->dispatcherFactory === null)
+		{
+			return null;
+		}
+
+		return $this->dispatcherFactory->createDispatcher($application);
+	}
+
+	/**
+	 * Sets the dispatcher factory.
+	 *
+	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
+	{
+		$this->dispatcherFactory = $dispatcherFactory;
+	}
 
 	/**
 	 * Returns the category service. If the service is not available
