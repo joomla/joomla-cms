@@ -165,7 +165,7 @@ class ContentModelCategory extends JModelList
 			'com_content.category.list.' . $itemid . 'filter.article_id_include',
 			'filter_article_id_include',
 			false,
-			'boolen'
+			'boolean'
 		);
 		$this->setState('filter.article_id.include', $value);
 
