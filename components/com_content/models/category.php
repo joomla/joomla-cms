@@ -161,10 +161,20 @@ class ContentModelCategory extends JModelList
 		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
 		$this->setState('filter.tag', $value);
 
-		$value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id_include', 'filter_article_id_include', false, 'boolen');
+		$value = $this->getUserStateFromRequest(
+			'com_content.category.list.' . $itemid . 'filter.article_id_include',
+			'filter_article_id_include',
+			false,
+			'boolen'
+		);
 		$this->setState('filter.article_id.include', $value);
 
-		$value = $this->getUserStateFromRequest('com_content.category.list.' . $itemid . 'filter.article_id', 'filter_article_id', null, 'array');
+		$value = $this->getUserStateFromRequest(
+			'com_content.category.list.' . $itemid . 'filter.article_id',
+			'filter_article_id',
+			null,
+			'array'
+		);
 		$this->setState('filter.article_id', $value);
 
 		// Optional filter text
