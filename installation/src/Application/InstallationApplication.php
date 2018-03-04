@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
@@ -501,7 +502,7 @@ final class InstallationApplication extends CMSApplication
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = Document::getInstance($type, $attributes);
+			$document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
 			// Register the instance to Factory.
 			Factory::$document = $document;

@@ -75,7 +75,7 @@ abstract class JViewHtml extends JViewBase
 	public function escape($output)
 	{
 		// Escape the output.
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**

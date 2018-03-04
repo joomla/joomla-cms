@@ -70,6 +70,6 @@ if ($count)
 	// Load stylesheet and javascript to head:
 	HTMLHelper::_('bootstrap.popover');
 
-	HTMLHelper::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('script', 'system/frontediting.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('stylesheet', 'legacy/frontediting.css', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'legacy/frontediting.min.js', array('version' => 'auto', 'relative' => true));
 }

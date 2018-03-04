@@ -51,7 +51,7 @@ class Mail extends PHPMailer
 		parent::__construct($exceptions);
 
 		// PHPMailer has an issue using the relative path for its language files
-		$this->setLanguage('joomla', __DIR__ . '/language');
+		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
 		// Configure a callback function to handle errors when $this->edebug() is called
 		$this->Debugoutput = function ($message, $level)

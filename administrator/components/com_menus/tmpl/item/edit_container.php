@@ -15,7 +15,7 @@ $menuLinks = MenusHelper::getMenuLinks('main');
 
 JHtml::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
-JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <div id="menuselect-group" class="control-group">

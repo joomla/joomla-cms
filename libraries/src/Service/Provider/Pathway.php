@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * Service provider for the application's database dependency
+ * Service provider for the application's pathway dependency
  *
  * @since  4.0
  */
@@ -41,6 +41,18 @@ class Pathway implements ServiceProviderInterface
 				function (Container $container)
 				{
 					return new SitePathway($container->get(SiteApplication::class));
+				},
+				true
+			);
+
+		$container->alias('Pathway', \Joomla\CMS\Pathway\Pathway::class)
+			->alias('JPathway', \Joomla\CMS\Pathway\Pathway::class)
+			->alias('pathway', \Joomla\CMS\Pathway\Pathway::class)
+			->share(
+				\Joomla\CMS\Pathway\Pathway::class,
+				function (Container $container)
+				{
+					return new \Joomla\CMS\Pathway\Pathway;
 				},
 				true
 			);
