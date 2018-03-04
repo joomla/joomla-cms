@@ -48,13 +48,13 @@ Joomla.currentModal = {
 	 * Modals should implement
 	 * *****************************************************************
 	 *
-	 * get         Type  Function  Should return the modal element
-	 * set         Type  Function  Should set the modal element
-	 * currentId   Type  {string}  The modal ID, DO NOT access this directly!!!
+	 * get                  Type  Function  Should return the modal element
+	 * set                  Type  Function  Should set the modal element
+	 * currentModalElement  Type  {node}    The modal element, DO NOT access this directly!!!
 	 *
 	 * USAGE (assuming that exampleId is the modal id)
 	 *   To get the current modal element:
-	 *      Joomla.currentModal.get();
+	 *      Joomla.currentModal.get(); // Returns node element: document.getElementById('exampleId')
 	 *   To set the current modal element:
 	 *      Joomla.currentModal.set(document.getElementById('exampleId'));
 	 *
