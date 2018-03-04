@@ -70,25 +70,25 @@
 				var $self = $(this);
 
 				// element.id is mandatory for modals!!!
-				var id = this.id;
+				var element = $self.get(0);
 
 				// Comply with the Joomla API
 				// Bound element.open()
-				if (id) {
-					document.getElementById(this.id).open = function () {
-						return jQuery('#' + id).modal('show');
+				if (element) {
+					element.open = function () {
+						return $self.modal('show');
 					};
 
 					// Bound element.close()
-					document.getElementById(this.id).close = function () {
-						return jQuery('#' + id).modal('hide');
+					element.close = function () {
+						return $self.modal('hide');
 					};
 				}
 
 				$self.on('show.bs.modal', function() {
 					// Comply with the Joomla API
 					// Set the current Modal ID
-					Joomla.currentModal.set(id);
+					Joomla.currentModal.set(element);
 
 					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {

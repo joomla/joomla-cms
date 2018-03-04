@@ -88,7 +88,7 @@
 
 		// Closes the modal
 		modalClose() {
-			document.getElementById(Joomla.currentModal.get()).close();
+			Joomla.currentModal.get().close();
 			this.modalBody.innerHTML = '';
 		}
 

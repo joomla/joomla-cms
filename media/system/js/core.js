@@ -48,15 +48,15 @@ Joomla.currentModal = {
 	 * Modals should implement
 	 * *****************************************************************
 	 *
-	 * get         Type  Function  Should return the modal ID
-	 * set         Type  Function  Should set the modal ID
+	 * get         Type  Function  Should return the modal element
+	 * set         Type  Function  Should set the modal element
 	 * currentId   Type  {string}  The modal ID, DO NOT access this directly!!!
 	 *
 	 * USAGE (assuming that exampleId is the modal id)
-	 *   To get the current modal id:
+	 *   To get the current modal element:
 	 *      Joomla.currentModal.get();
-	 *   To set the current modal id:
-	 *      Joomla.currentModal.set('exampleId');
+	 *   To set the current modal element:
+	 *      Joomla.currentModal.set(document.getElementById('exampleId'));
 	 *
 	 * *************************************************************
 	 * Joomla's UI modal uses `element.close();` to close the modal
@@ -67,12 +67,12 @@ Joomla.currentModal = {
 	 * *************************************************************
 	 */
 	get: function() {
-		return this.currentId;
+		return this.currentModalElement;
 	},
-	set: function(elementId) {
-		this.currentId = elementId;
+	set: function(element) {
+		this.currentModalElement = element;
 	},
-	currentId: ''
+	currentModalElement: ''
 };
 
 (function( Joomla, document ) {
