@@ -69,8 +69,8 @@ Joomla.currentModal = {
 	get: function() {
 		return this.currentId;
 	},
-	set: function(element) {
-		this.currentId = element;
+	set: function(elementId) {
+		this.currentId = elementId;
 	},
 	currentId: ''
 };

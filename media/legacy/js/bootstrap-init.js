@@ -87,10 +87,8 @@
 
 				$self.on('show.bs.modal', function() {
 					// Comply with the Joomla API
-					if (id) {
-						// Set the current Modal ID
-						Joomla.currentModal.set(id);
-					}
+					// Set the current Modal ID
+					Joomla.currentModal.set(id);
 
 					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {
@@ -128,10 +126,11 @@
 						}
 					}
 					// @TODO throw the standard Joomla event
-				}).on('hide.bs.modal', function () {
+				}).on('hide.bs.modal', function() {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
 					$('.modalTooltip').tooltip('dispose');
-
+					// @TODO throw the standard Joomla event
+				}).on('hidden.bs.modal', function() {
 					// Comply with the Joomla API
 					// Remove the current Modal ID
 					Joomla.currentModal.set('');
