@@ -68,7 +68,7 @@
 
 			this.modalBody.appendChild(iframe);
 
-			window.jQuery(this.modal).modal('show');
+			this.modal.open();
 
 			const iframeEl = this.modalBody.querySelector('iframe');
 
@@ -88,7 +88,7 @@
 
 		// Closes the modal
 		modalClose() {
-			window.jQuery(this.modal).modal('hide');
+			document.getElementById(Joomla.currentModal.get()).close();
 			this.modalBody.innerHTML = '';
 		}
 

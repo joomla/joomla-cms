@@ -100,7 +100,7 @@ Joomla = window.Joomla || {};
 			}
 
 			if (task !== 'module.apply') {
-				window.parent.jQuery('#module' + options.state + options.itemId + 'Modal').modal('hide');
+				window.parent.document.getElementById(Joomla.currentModal.get()).close();
 			}
 		}
 	};

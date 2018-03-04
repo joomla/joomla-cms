@@ -21,7 +21,8 @@ Joomla = window.Joomla || {};
 					target.src = target.getAttribute('data-editurl') +
 						'&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + id;
 				}
-				jQuery('#associationSelect' + itemId + 'Modal').modal('hide');
+
+				document.getElementById(Joomla.currentModal.get()).close();
 			}
 		}
 	});
