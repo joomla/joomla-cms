@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class HTMLServiceRegistry implements ServiceProviderInterface
+class HTMLRegistry implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
