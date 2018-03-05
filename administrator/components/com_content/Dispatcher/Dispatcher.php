@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Content\Administrator\Dispatcher;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Dispatcher class for com_content
  *
  * @since  4.0.0
  */
-class ContentDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
 	 * The extension namespace

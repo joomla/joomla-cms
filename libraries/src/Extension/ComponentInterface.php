@@ -10,7 +10,9 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
  * Access to component specific services.
@@ -19,6 +21,17 @@ use Joomla\CMS\Categories\Categories;
  */
 interface ComponentInterface
 {
+	/**
+	 * Returns the dispatcher for the given application, null if none exists.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  DispatcherInterface|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getDispatcher(CMSApplicationInterface $application);
+
 	/**
 	 * Returns the category service. If the service is not available
 	 * null is returned.
