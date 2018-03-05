@@ -12,7 +12,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 /**
- * Joomla Platform CMS Dispatcher Module Interface
+ * Joomla Platform CMS Module Dispatcher Interface
  *
  * @since  4.0.0
  */

@@ -47,7 +47,7 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 	protected $module;
 
 	/**
-	 * Constructor for Dispatcher
+	 * Constructor for ModuleDispatcher
 	 *
 	 * @param   CMSApplication  $app    The application instance
 	 * @param   Input           $input  The input instance

@@ -82,7 +82,7 @@ trait ExtensionManagerTrait
 	 * @param   string  $extensionName  The extension name
 	 * @param   string  $extensionPath  The path of the extension
 	 *
-	 * @return  ComponentInterface
+	 * @return  ComponentInterface|ModuleInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

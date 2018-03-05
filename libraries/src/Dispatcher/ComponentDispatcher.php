@@ -63,7 +63,7 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * Constructor for Dispatcher
+	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication  $app    The application instance
 	 * @param   Input           $input  The input instance
