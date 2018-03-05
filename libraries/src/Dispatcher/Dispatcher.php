@@ -75,8 +75,9 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication  $app       The application instance
+	 * @param   Input           $input     The input instance
+	 * @param   Registry        $registry  The registry
 	 *
 	 * @since   4.0.0
 	 */
