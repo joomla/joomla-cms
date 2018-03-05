@@ -348,8 +348,15 @@ class ComponentHelper
 		// Handle template preview outlining.
 		$contents = null;
 
+		$dispatcher = $app->bootComponent($option)->getDispatcher($app);
+
 		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		if ($dispatcher)
+		{
+			$contents = static::dispatchComponent($dispatcher);
+		}
+		// Will be removed once transition of all components is done
+		elseif (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
 		{
 			require_once JPATH_COMPONENT . '/dispatcher.php';
 			$class = ucwords($file) . 'Dispatcher';

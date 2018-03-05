@@ -49,7 +49,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationAdministrator',
 				function (Container $container)
 				{
-					$app = new AdministratorApplication(null, null, null, $container);
+					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -71,7 +71,7 @@ class Application implements ServiceProviderInterface
 				'JApplicationSite',
 				function (Container $container)
 				{
-					$app = new SiteApplication(null, null, null, $container);
+					$app = new SiteApplication(null, $container->get('config'), null, $container);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
@@ -93,7 +93,7 @@ class Application implements ServiceProviderInterface
 				BaseConsoleApplication::class,
 				function (Container $container)
 				{
-					$app = new ConsoleApplication;
+					$app = new ConsoleApplication(null, $container->get('config'));
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 
