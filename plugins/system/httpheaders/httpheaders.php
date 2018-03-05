@@ -106,19 +106,19 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	private function setDefaultHeader()
 	{
 		// X-Frame-Options
-		if ($this->params->get('xframeoptions', 1) === '1')
+		if ($this->params->get('xframeoptions', '1') === '1')
 		{
 			$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 		}
 
 		// X-XSS-Protection
-		if ($this->params->get('xxssprotection', 1) === '1')
+		if ($this->params->get('xxssprotection', '1') === '1')
 		{
 			$this->app->setHeader('X-XSS-Protection', '1; mode=block');
 		}
 
 		// X-Content-Type-Options
-		if ($this->params->get('xcontenttypeoptions', 1) === '1')
+		if ($this->params->get('xcontenttypeoptions', '1') === '1')
 		{
 			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
 		}
