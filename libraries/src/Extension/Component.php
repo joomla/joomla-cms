@@ -15,6 +15,8 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Access to component specific services.
@@ -23,6 +25,13 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
  */
 class Component implements ComponentInterface
 {
+	/**
+	 * The MVC Factory.
+	 *
+	 * @var MVCFactoryFactoryInterface
+	 */
+	private $mvcFactory;
+
 	/**
 	 * An array of categories.
 	 *
@@ -72,6 +81,39 @@ class Component implements ComponentInterface
 	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
+	}
+
+	/**
+	 * Returns an MVCFactory.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	{
+		if ($this->mvcFactory === null)
+		{
+			return null;
+		}
+
+		return $this->mvcFactory->createFactory($application);
+	}
+
+	/**
+	 * The MVC Factory to create MVCFactories from.
+	 *
+	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The factory
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactory): void
+	{
+		$this->mvcFactory = $mvcFactory;
 	}
 
 	/**

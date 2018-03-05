@@ -208,7 +208,7 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$factory = $container->get(MVCFactoryFactoryInterface::class)->createFactory($this->option, $this->app);
+		$factory = $this->app->bootComponent($this->option)->createMVCFactory($this->app);
 
 		$controller = new $controllerClass($config, $factory, $this->app, $this->input);
 

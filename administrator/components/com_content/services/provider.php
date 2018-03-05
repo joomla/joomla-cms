@@ -13,6 +13,8 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\Component;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -38,6 +40,7 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 		$container->set(Categories::class, ['' => new Category]);
 
 		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->set(MVCFactoryFactoryInterface::class, new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new Component);
 	}
 }
