@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 \JLoader::register('TemplatesHelper', __DIR__ . '/helpers/templates.php');
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_templates
  *
  * @since  4.0.0
  */
-class TemplatesDispatcher extends Dispatcher
+class TemplatesDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_login
  *
  * @since  4.0.0
  */
-class LoginDispatcher extends Dispatcher
+class LoginDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

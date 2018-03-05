@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
  *
  * @since  4.0.0
  */
-class AssociationsDispatcher extends Dispatcher
+class AssociationsDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

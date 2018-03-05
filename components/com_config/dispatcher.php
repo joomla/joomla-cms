@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_config
  *
  * @since  4.0.0
  */
-class ConfigDispatcher extends Dispatcher
+class ConfigDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

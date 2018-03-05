@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 // TODO move
 JLoader::discover('ConfigHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helper');
@@ -19,7 +19,7 @@ JLoader::discover('ConfigHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helper');
  *
  * @since  4.0.0
  */
-class ConfigDispatcher extends Dispatcher
+class ConfigDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

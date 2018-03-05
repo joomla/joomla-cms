@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_contenthistory
  *
  * @since  4.0.0
  */
-class ContenthistoryDispatcher extends Dispatcher
+class ContenthistoryDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

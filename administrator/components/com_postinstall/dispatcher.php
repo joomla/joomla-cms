@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_postinstall
  *
  * @since  4.0.0
  */
-class PostinstallDispatcher extends Dispatcher
+class PostinstallDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

@@ -28,7 +28,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
  *
  * @since  4.0.0
  */
-abstract class Dispatcher implements DispatcherInterface
+abstract class ComponentDispatcher implements DispatcherInterface
 {
 	/**
 	 * The URL option for the component.

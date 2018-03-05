@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 \JLoader::register('UsersHelper', __DIR__ . '/helpers/users.php');
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_users
  *
  * @since  4.0.0
  */
-class UsersDispatcher extends Dispatcher
+class UsersDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace
