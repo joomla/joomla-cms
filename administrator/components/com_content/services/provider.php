@@ -39,8 +39,11 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 	{
 		$container->set(Categories::class, ['' => new Category]);
 
-		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Component\\Content'));
 		$container->set(MVCFactoryFactoryInterface::class, new MVCFactoryFactory('\\Joomla\\Component\\Content'));
+		$container->set(
+			DispatcherFactoryInterface::class,
+			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
+		);
 		$container->registerServiceProvider(new Component);
 	}
 }

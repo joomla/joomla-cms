@@ -63,22 +63,33 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
+	 * The MVC factory
+	 *
+	 * @var  MVCFactoryFactoryInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $mvcFactory;
+
+	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication              $app         The application instance
+	 * @param   Input                       $input       The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The input instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input = null)
+	public function __construct(CMSApplication $app, Input $input = null, MVCFactoryFactoryInterface $mvcFactory = null)
 	{
 		if (empty($this->namespace))
 		{
 			throw new \RuntimeException('Namespace can not be empty!');
 		}
 
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
+		$this->app        = $app;
+		$this->input      = $input ?: $app->input;
+		$this->mvcFactory = $mvcFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -205,8 +216,17 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		// The MVC factory
-		$factory = $this->app->bootComponent($this->option)->createMVCFactory($this->app);
+		$factory = null;
+
+		// Will be removed when all dispatchers are converted
+		if ($this->mvcFactory)
+		{
+			$factory = $this->mvcFactory->createFactory($this->app);
+		}
+		else
+		{
+			$factory = $this->app->bootComponent($this->option)->createMVCFactory($this->app);
+		}
 
 		// Create the controller instance
 		$controller = new $controllerClass($config, $factory, $this->app, $this->input);
