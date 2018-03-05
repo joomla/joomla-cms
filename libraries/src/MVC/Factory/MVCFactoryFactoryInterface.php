@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplicationInterface;
 
 /**
  * Factory to create MVC factories.
@@ -22,13 +22,12 @@ interface MVCFactoryFactoryInterface
 	/**
 	 * Method to load and return a factory object.
 	 *
-	 * @param   string                   $extensionName  The name of the extension, eg. com_content.
-	 * @param   CMSApplicationInterface  $app            The application.
+	 * @param   CMSApplicationInterface  $application  The application.
 	 *
-	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface  The factory object
+	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createFactory($extensionName, CMSApplicationInterface $app);
+	public function createFactory(CMSApplicationInterface $application): MVCFactoryInterface;
 }

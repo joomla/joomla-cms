@@ -10,7 +10,10 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Access to component specific services.
@@ -20,6 +23,13 @@ use Joomla\CMS\Categories\Categories;
 class Component implements ComponentInterface
 {
 	/**
+	 * The MVC Factory.
+	 *
+	 * @var MVCFactoryFactoryInterface
+	 */
+	private $mvcFactory;
+
+	/**
 	 * An array of categories.
 	 *
 	 * @var array
@@ -27,6 +37,39 @@ class Component implements ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $categories;
+
+	/**
+	 * Returns an MVCFactory.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	{
+		if ($this->mvcFactory === null)
+		{
+			return null;
+		}
+
+		return $this->mvcFactory->createFactory($application);
+	}
+
+	/**
+	 * The MVC Factory to create MVCFactories from.
+	 *
+	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The factory
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactory): void
+	{
+		$this->mvcFactory = $mvcFactory;
+	}
 
 	/**
 	 * Returns the category service. If the service is not available

@@ -201,9 +201,6 @@ abstract class ModuleHelper
 					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
 			}
 
-			// Make the MVCFactoryFactoryInterface available for modules
-			$mvc = Factory::getContainer()->get(MVCFactoryFactoryInterface::class);
-
 			$content = '';
 			ob_start();
 			include $path;

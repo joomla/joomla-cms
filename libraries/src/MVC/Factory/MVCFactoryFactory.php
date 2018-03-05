@@ -21,72 +21,42 @@ use Joomla\Database\DatabaseDriver;
 class MVCFactoryFactory implements MVCFactoryFactoryInterface
 {
 	/**
-	 * The cached db records.
+	 * The namespace.
 	 *
-	 * @var    \stdClass[]
+	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $cache;
-
-	/**
-	 * The database driver.
-	 *
-	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $db;
+	private $namespace;
 
 	/**
 	 * The constructor.
 	 *
-	 * @param   DatabaseDriver  $db  The database driver.
+	 * @param   string  $namespace  The extension namespace
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(string $namespace)
 	{
-		$this->db = $db;
+		$this->namespace = $namespace;
 	}
 
 	/**
 	 * Method to load and return a factory object.
 	 *
-	 * @param   string                   $extensionName  The name of the extension, eg. com_content.
-	 * @param   CMSApplicationInterface  $app            The application.
+	 * @param   CMSApplicationInterface  $application  The application.
 	 *
-	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface  The factory object
+	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function createFactory($extensionName, CMSApplicationInterface $app)
+	public function createFactory(CMSApplicationInterface $application): MVCFactoryInterface
 	{
-		if ($this->cache === null)
+		if (!$this->namespace)
 		{
-			$db    = $this->db;
-			$query = $db->getQuery(true)
-				->select($db->quoteName(['extension_id', 'name', 'namespace']))
-				->from($db->quoteName('#__extensions'))
-				->where('enabled = 1');
-			$db->setQuery($query);
-
-			$this->cache = [];
-			foreach ($db->loadObjectList() as $extension)
-			{
-				$this->cache[$extension->name] = $extension;
-			}
+			return new LegacyFactory;
 		}
 
-		if (empty($this->cache[$extensionName]))
-		{
-			throw new \RuntimeException('Extension '. $extensionName . ' not found to create a MVCFactory for!');
-		}
-
-		if ($this->cache[$extensionName]->namespace)
-		{
-			return new MVCFactory($this->cache[$extensionName]->namespace, $app);
-		}
-
-		return new LegacyFactory();
+		return new MVCFactory($this->namespace, $application);
 	}
 }

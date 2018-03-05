@@ -10,7 +10,11 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Access to component specific services.
@@ -36,6 +40,26 @@ class LegacyComponent implements ComponentInterface
 	public function __construct(string $component)
 	{
 		$this->component = str_replace('com_', '', $component);
+	}
+
+	/**
+	 * Returns an MVCFactory.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	{
+		// Will be removed when all extensions are converted to service providers
+		if (file_exists(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/dispatcher.php'))
+		{
+			return new MVCFactory('\\Joomla\\Component\\' . ucfirst($this->component), $application);
+		}
+
+		return new LegacyFactory;
 	}
 
 	/**

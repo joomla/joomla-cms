@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -314,8 +313,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if (!$factory)
 		{
-			$mvcFactory = Factory::getContainer()->get(MVCFactoryFactoryInterface::class);
-			$factory = $mvcFactory->createFactory($this->option, Factory::getApplication());
+			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
 		}
 
 		$this->factory = $factory;
