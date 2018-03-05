@@ -29,7 +29,7 @@ class InputFilter extends BaseInputFilter
 	 * @var    integer
 	 * @since  3.5
 	 */
-	public $stripUSC = 0;
+	private $stripUSC = 0;
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
@@ -49,37 +49,6 @@ class InputFilter extends BaseInputFilter
 
 		// Assign member variables
 		$this->stripUSC = $stripUSC;
-
-		/**
-		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
-		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
-		 */
-		if ($this->stripUSC === -1)
-		{
-			try
-			{
-				// Get the database driver
-				$db = \JFactory::getDbo();
-
-				if ($db instanceof UTF8MB4SupportInterface)
-				{
-					// This trick is required to let the driver determine the utf-8 multibyte support
-					$db->connect();
-
-					// And now we can decide if we should strip USCs
-					$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
-				}
-				else
-				{
-					$this->stripUSC = 1;
-				}
-			}
-			catch (\RuntimeException $e)
-			{
-				// Could not connect to the database. Strip USC to be on the safe side.
-				$this->stripUSC = 1;
-			}
-		}
 	}
 
 	/**
@@ -139,7 +108,7 @@ class InputFilter extends BaseInputFilter
 	public function clean($source, $type = 'string')
 	{
 		// Strip Unicode Supplementary Characters when requested to do so
-		if ($this->stripUSC)
+		if ($this->isStripUSC())
 		{
 			// Alternatively: preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xE2\xAF\x91", $source) but it'd be slower.
 			$source = $this->stripUSC($source);
@@ -527,5 +496,51 @@ class InputFilter extends BaseInputFilter
 		}
 
 		return preg_replace('/[\xF0-\xF7].../s', "\xE2\xAF\x91", $source);
+	}
+
+	/**
+	 * Returns if USC should be stripped.
+	 *
+	 * @return  boolean  If USC should be stripped
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function isStripUSC()
+	{
+		// Flag is set
+		if ($this->stripUSC != -1)
+		{
+			return $this->stripUSC;
+		}
+
+		/**
+		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
+		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
+		 */
+		try
+		{
+			// Get the database driver
+			$db = \JFactory::getDbo();
+
+			if ($db instanceof UTF8MB4SupportInterface)
+			{
+				// This trick is required to let the driver determine the utf-8 multibyte support
+				$db->connect();
+
+				// And now we can decide if we should strip USCs
+				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
+			}
+			else
+			{
+				$this->stripUSC = 1;
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			// Could not connect to the database. Strip USC to be on the safe side.
+			$this->stripUSC = 1;
+		}
+
+		return $this->stripUSC === 1;
 	}
 }
