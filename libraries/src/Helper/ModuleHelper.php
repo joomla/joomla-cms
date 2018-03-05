@@ -11,9 +11,7 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -145,7 +143,7 @@ abstract class ModuleHelper
 	{
 		static $chrome;
 
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Check that $module is a valid module object
 		if (!is_object($module) || !isset($module->module) || !isset($module->params))
@@ -186,7 +184,7 @@ abstract class ModuleHelper
 		// Load the module
 		if (file_exists($path))
 		{
-			$lang = Factory::getLanguage();
+			$lang = \JFactory::getLanguage();
 
 			$coreLanguageDirectory      = JPATH_BASE;
 			$extensionLanguageDirectory = dirname($path);
