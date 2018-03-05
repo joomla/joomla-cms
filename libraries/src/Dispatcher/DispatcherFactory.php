@@ -11,6 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\HTML\Registry;
 
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
@@ -29,15 +30,26 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	protected $namespace;
 
 	/**
-	 * DispatcherFactory constructor.
+	 * The HTML registry
 	 *
-	 * @param   string  $namespace  The namespace
+	 * @var  Registry
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $namespace)
+	protected $registry;
+
+	/**
+	 * DispatcherFactory constructor.
+	 *
+	 * @param   string    $namespace  The namespace
+	 * @param   Registry  $registry   The registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(string $namespace, Registry $registry)
 	{
 		$this->namespace = $namespace;
+		$this->registry  = $registry;
 	}
 
 	/**
@@ -60,6 +72,6 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
-		return new $className($application, $application->input);
+		return new $className($application, $application->input, $this->registry);
 	}
 }

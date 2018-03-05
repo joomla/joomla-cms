@@ -14,6 +14,8 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
+use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Input\Input;
 use Joomla\CMS\MVC\Factory\MVCFactory;
@@ -63,6 +65,14 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
+	 * The HTML registry
+	 *
+	 * @var    Registry
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $registry;
+
+	/**
 	 * Constructor for Dispatcher
 	 *
 	 * @param   CMSApplication  $app    The application instance
@@ -70,15 +80,16 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input = null)
+	public function __construct(CMSApplication $app, Input $input, Registry $registry)
 	{
 		if (empty($this->namespace))
 		{
 			throw new \RuntimeException('Namespace can not be empty!');
 		}
 
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
+		$this->app      = $app;
+		$this->input    = $input;
+		$this->registry = $registry;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -133,6 +144,8 @@ abstract class Dispatcher implements DispatcherInterface
 	{
 		// Check component access permission
 		$this->checkAccess();
+
+		$this->loadHTMLServices($this->registry);
 
 		$command = $this->input->getCmd('task', 'display');
 
@@ -213,5 +226,18 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		return $controller;
+	}
+
+	/**
+	 * Subclasses can register here HTML services.
+	 *
+	 * @param   Registry  $registry  The registry
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadHTMLServices(Registry $registry)
+	{
 	}
 }
