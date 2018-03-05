@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Dispatcher class for mod_menu
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends ModuleDispatcher
 {
