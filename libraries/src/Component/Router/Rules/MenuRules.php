@@ -202,7 +202,7 @@ class MenuRules implements RulesInterface
 
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view']))
+				if (isset($item->query['view'], $views[$item->query['view']]))
 				{
 					$view = $item->query['view'];
 

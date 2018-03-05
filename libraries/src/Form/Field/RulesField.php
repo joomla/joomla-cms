@@ -37,7 +37,7 @@ class RulesField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.rules.tabs';
 
@@ -68,7 +68,7 @@ class RulesField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -90,7 +90,7 @@ class RulesField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -234,7 +234,7 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getLayoutData()
 	{

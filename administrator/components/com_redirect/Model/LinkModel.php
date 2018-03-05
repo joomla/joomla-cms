@@ -230,6 +230,7 @@ class LinkModel extends AdminModel
 			{
 				$query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
 			}
+
 			$db->setQuery($query);
 
 			try

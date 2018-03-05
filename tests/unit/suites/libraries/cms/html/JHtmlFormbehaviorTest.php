@@ -88,13 +88,13 @@ class JHtmlFormbehaviorTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/legacy/chosen.min.js',
+			'/media/legacy/js/chosen.min.js',
 			$document->_scripts,
 			'Verify that the Chosen JS is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/css/legacy/chosen.css',
+			'/media/legacy/css/chosen.css',
 			$document->_styleSheets,
 			'Verify that the Chosen CSS is loaded'
 		);

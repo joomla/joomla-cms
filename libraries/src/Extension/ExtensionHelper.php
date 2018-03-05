@@ -74,10 +74,8 @@ class ExtensionHelper
 		array('language', 'en-GB', '', 0),
 
 		// Core library extensions
-		array('library', 'idna_convert', '', 0),
 		array('library', 'joomla', '', 0),
 		array('library', 'phpass', '', 0),
-		array('library', 'phputf8', '', 0),
 
 		// Core module extensions - administrator
 		array('module', 'mod_custom', '', 1),
@@ -135,8 +133,8 @@ class ExtensionHelper
 		// Core plugin extensions - behaviour
 		array('plugin', 'taggable', 'behaviour', 0),
 		array('plugin', 'versionable', 'behaviour', 0),
-		
-		
+
+
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
 
@@ -206,7 +204,7 @@ class ExtensionHelper
 		array('plugin', 'crop', 'media-action', 0),
 		array('plugin', 'resize', 'media-action', 0),
 		array('plugin', 'rotate', 'media-action', 0),
-		
+
 		// Core plugin extensions - quickicon
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),

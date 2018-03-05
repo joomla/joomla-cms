@@ -46,7 +46,7 @@ extract($displayData);
  */
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
