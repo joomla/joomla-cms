@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
+use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 
 /**
  * Base class for a Joomla Html View
@@ -19,8 +21,10 @@ use Joomla\CMS\Application\ApplicationHelper;
  *
  * @since  2.5.5
  */
-class HtmlView extends AbstractView
+class HtmlView extends AbstractView implements HTMLRegistryAwareInterface
 {
+	use HTMLRegistryAwareTrait;
+
 	/**
 	 * The base path of the view
 	 *

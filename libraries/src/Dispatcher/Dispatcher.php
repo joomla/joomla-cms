@@ -226,6 +226,11 @@ abstract class Dispatcher implements DispatcherInterface
 			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
 		}
 
+		if ($controller instanceof HTMLRegistryAwareInterface)
+		{
+			$controller->setRegistry($this->registry);
+		}
+
 		return $controller;
 	}
 
