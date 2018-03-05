@@ -76,25 +76,13 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <?php // Description ?>
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
-<div class="row mb-2" data-ajaxuri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
-	<div class="col-md-3">
-		<ul class="nav nav-pills flex-column">
-			<?php foreach ($groups as $group) : ?>
-				<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-				<li class="nav-item">
-					<a class="nav-link<?php echo $active; ?>"
-						href="#permission-<?php echo $group->value; ?>"
-						data-toggle="tab"><?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text; ?></a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
+<joomla-tab orientation="vertical" data-ajaxuri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
+
 
 	<?php // Initial Active Pane ?>
-	<div class="tab-content col-md-9">
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-			<div class="tab-pane<?php echo $active; ?>" id="permission-<?php echo $group->value; ?>">
+			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -231,10 +219,9 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-			</div>
+			</section>
 		<?php endforeach; ?>
-	</div>
-</div>
+</joomla-tab>
 
 <joomla-alert type="warning">
 	<?php
@@ -248,3 +235,4 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	}
 	?>
 </joomla-alert>
+
