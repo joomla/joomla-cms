@@ -20,7 +20,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 interface MVCFactoryFactoryInterface
 {
 	/**
-	 * Method to load and return a factory object.
+	 * Method to create a factory object.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application.
 	 *

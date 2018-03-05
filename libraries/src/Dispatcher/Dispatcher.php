@@ -192,9 +192,6 @@ abstract class Dispatcher implements DispatcherInterface
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
-		// The container
-		$container = Factory::getContainer();
-
 		// Set up the namespace
 		$namespace = rtrim($this->namespace, '\\') . '\\';
 
@@ -208,13 +205,16 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
+		// The MVC factory
 		$factory = $this->app->bootComponent($this->option)->createMVCFactory($this->app);
 
+		// Create the controller instance
 		$controller = new $controllerClass($config, $factory, $this->app, $this->input);
 
+		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
 		{
-			$controller->setFormFactory($container->get(FormFactoryInterface::class));
+			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
 		}
 
 		return $controller;

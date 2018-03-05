@@ -11,7 +11,6 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Factory to create MVC factories.
@@ -41,7 +40,7 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface
 	}
 
 	/**
-	 * Method to load and return a factory object.
+	 * Method to create a factory object.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application.
 	 *
