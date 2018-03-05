@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -47,6 +48,11 @@ class Component implements ServiceProviderInterface
 				if ($container->has(DispatcherFactoryInterface::class))
 				{
 					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
+				}
+
+				if ($container->has(ComponentHelperInterface::class))
+				{
+					$component->setHelper($container->get(ComponentHelperInterface::class));
 				}
 
 				return $component;

@@ -41,26 +41,12 @@ class FieldsHelper
 			return null;
 		}
 
-		$component = $parts[0];
-		$eName = str_replace('com_', '', $component);
+		$newSection = \Joomla\CMS\Factory::getApplication()
+			->bootComponent($parts[0])->getHelper()->validateSection($parts[1], $item);
 
-		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (file_exists($path))
+		if ($newSection)
 		{
-			$cName = ucfirst($eName) . 'Helper';
-
-			JLoader::register($cName, $path);
-
-			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
-			{
-				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
-
-				if ($section)
-				{
-					$parts[1] = $section;
-				}
-			}
+			$parts[1] = $newSection;
 		}
 
 		return $parts;

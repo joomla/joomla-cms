@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
@@ -24,15 +25,6 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
 class Component implements ComponentInterface
 {
 	/**
-	 * An array of categories.
-	 *
-	 * @var array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $categories;
-
-	/**
 	 * The dispatcher factory.
 	 *
 	 * @var DispatcherFactoryInterface
@@ -40,6 +32,24 @@ class Component implements ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $dispatcherFactory;
+
+	/**
+	 * The helper instance.
+	 *
+	 * @var ComponentHelperInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $helper;
+
+	/**
+	 * An array of categories.
+	 *
+	 * @var array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $categories;
 
 	/**
 	 * Returns the dispatcher for the given application, null if none exists.
@@ -72,6 +82,30 @@ class Component implements ComponentInterface
 	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
+	}
+
+	/**
+	 * Returns the helper.
+	 *
+	 * @return  ComponentHelperInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getHelper(): ComponentHelperInterface
+	{
+		return $this->helper;
+	}
+
+	/**
+	 * Sets the helper.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setHelper(ComponentHelperInterface $helper)
+	{
+		$this->helper = $helper;
 	}
 
 	/**

@@ -12,7 +12,8 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+
+\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
  * View class for a list of articles.
@@ -90,7 +91,7 @@ class HtmlView extends BaseHtmlView
 	{
 		if ($this->getLayout() !== 'modal')
 		{
-			ContentHelper::addSubmenu('articles');
+			\ContentHelper::addSubmenu('articles');
 		}
 
 		$this->items         = $this->get('Items');

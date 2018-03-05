@@ -10,10 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\Component;
 use Joomla\Component\Content\Site\Service\Category;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -38,6 +40,7 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 		$container->set(Categories::class, ['' => new Category]);
 
 		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->set(ComponentHelperInterface::class, new ContentHelper);
 		$container->registerServiceProvider(new Component);
 	}
 }

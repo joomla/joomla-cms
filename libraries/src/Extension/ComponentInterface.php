@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
@@ -31,6 +32,15 @@ interface ComponentInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDispatcher(CMSApplicationInterface $application);
+
+	/**
+	 * Returns the helper.
+	 *
+	 * @return  ComponentHelperInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getHelper(): ComponentHelperInterface;
 
 	/**
 	 * Returns the category service. If the service is not available

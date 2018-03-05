@@ -10,10 +10,10 @@ namespace Joomla\Component\Menus\Administrator\View\Menus;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
