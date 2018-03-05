@@ -141,7 +141,21 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 	}
 
 	/**
+	 * Returns the module.
+	 *
+	 * @return  \stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModule()
+	{
+		return $this->module;
+	}
+
+	/**
 	 * Sets the module.
+	 *
+	 * @param   \stdClass  $module  The module
 	 *
 	 * @return  void
 	 *

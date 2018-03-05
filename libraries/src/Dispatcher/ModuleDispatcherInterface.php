@@ -19,7 +19,18 @@ defined('_JEXEC') or die;
 interface ModuleDispatcherInterface extends DispatcherInterface
 {
 	/**
+	 * Returns the module.
+	 *
+	 * @return  \stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getModule();
+
+	/**
 	 * Sets the module.
+	 *
+	 * @param   \stdClass  $module  The module
 	 *
 	 * @return  void
 	 *
