@@ -31,7 +31,6 @@ class JErrorPageTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		TestReflection::setValue('JDocument', 'instances', array());
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -65,7 +64,30 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
+		$mockFactory = new class($mockErrorDocument) implements \Joomla\CMS\Document\FactoryInterface
+        {
+            private $mockErrorDoc;
+
+            public function __construct($mockErrorDoc)
+            {
+                $this->mockErrorDoc = $mockErrorDoc;
+            }
+
+			public function createDocument(string $type = 'html', array $attributes = []): \Joomla\CMS\Document\Document
+            {
+                return $this->mockErrorDoc;
+            }
+
+			public function createRenderer(\Joomla\CMS\Document\Document $document, string $type): \Joomla\CMS\Document\RendererInterface
+            {
+                throw new BadMethodCallException;
+            }
+		};
+
+		// Set our mock document into the container
+        $container = new \Joomla\DI\Container();
+        $container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
+		JFactory::$container = $container;
 
 		// Create an Exception to inject into the method
 		$exception = new RuntimeException('Testing JErrorPage::render() with RuntimeException', 500);
@@ -107,7 +129,30 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
+		$mockFactory = new class($mockErrorDocument) implements \Joomla\CMS\Document\FactoryInterface
+		{
+			private $mockErrorDoc;
+
+			public function __construct($mockErrorDoc)
+			{
+				$this->mockErrorDoc = $mockErrorDoc;
+			}
+
+			public function createDocument(string $type = 'html', array $attributes = []): \Joomla\CMS\Document\Document
+			{
+				return $this->mockErrorDoc;
+			}
+
+			public function createRenderer(\Joomla\CMS\Document\Document $document, string $type): \Joomla\CMS\Document\RendererInterface
+			{
+				throw new BadMethodCallException;
+			}
+		};
+
+		// Set our mock document into the container
+		$container = new \Joomla\DI\Container();
+		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
+		JFactory::$container = $container;
 
 		// Create an Error to inject into the method
 		$exception = new Error('Testing JErrorPage::render() with PHP 7 Error', 500);
