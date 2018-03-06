@@ -67,7 +67,7 @@ class LegacyComponentHelper implements ComponentHelperInterface
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   \stdClass[]  &$items     The content objects
+	 * @param   \stdClass[]  $items      The content objects
 	 * @param   string       $extension  The name of the active view.
 	 *
 	 * @return  void

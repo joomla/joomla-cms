@@ -99,6 +99,8 @@ class Component implements ComponentInterface
 	/**
 	 * Sets the helper.
 	 *
+	 * @param   ComponentHelperInterface  $helper  The helper
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
