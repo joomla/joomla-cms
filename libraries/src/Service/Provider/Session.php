@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
@@ -92,7 +93,7 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(Factory::getDbo());
+							$handler = new Handler\DatabaseHandler($container->get(DatabaseDriver::class));
 
 							break;
 
