@@ -18,9 +18,9 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The service provider.
+ * The content service provider.
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 return new class implements ServiceProviderInterface
 {
