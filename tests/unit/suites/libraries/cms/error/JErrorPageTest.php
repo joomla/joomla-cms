@@ -65,28 +65,28 @@ class JErrorPageTest extends TestCaseDatabase
 			->willReturn($documentResponse);
 
 		$mockFactory = new class($mockErrorDocument) implements \Joomla\CMS\Document\FactoryInterface
-        {
-            private $mockErrorDoc;
+		{
+			private $mockErrorDoc;
 
-            public function __construct($mockErrorDoc)
-            {
-                $this->mockErrorDoc = $mockErrorDoc;
-            }
+			public function __construct($mockErrorDoc)
+			{
+				$this->mockErrorDoc = $mockErrorDoc;
+			}
 
 			public function createDocument(string $type = 'html', array $attributes = []): \Joomla\CMS\Document\Document
-            {
-                return $this->mockErrorDoc;
-            }
+			{
+				return $this->mockErrorDoc;
+			}
 
 			public function createRenderer(\Joomla\CMS\Document\Document $document, string $type): \Joomla\CMS\Document\RendererInterface
-            {
-                throw new BadMethodCallException;
-            }
+			{
+				throw new BadMethodCallException;
+			}
 		};
 
 		// Set our mock document into the container
-        $container = new \Joomla\DI\Container();
-        $container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
+		$container = new \Joomla\DI\Container();
+		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
 		JFactory::$container = $container;
 
 		// Create an Exception to inject into the method
