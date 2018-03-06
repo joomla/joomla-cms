@@ -85,7 +85,7 @@ class JErrorPageTest extends TestCaseDatabase
 		};
 
 		// Set our mock document into the container
-		$container = new \Joomla\DI\Container();
+		$container = new \Joomla\DI\Container;
 		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
 		JFactory::$container = $container;
 
@@ -150,7 +150,7 @@ class JErrorPageTest extends TestCaseDatabase
 		};
 
 		// Set our mock document into the container
-		$container = new \Joomla\DI\Container();
+		$container = new \Joomla\DI\Container;
 		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
 		JFactory::$container = $container;
 
