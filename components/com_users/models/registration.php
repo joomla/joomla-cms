@@ -410,6 +410,10 @@ class UsersModelRegistration extends JModelForm
 		// Initialise the table with JUser.
 		$user = new JUser;
 		$data = (array) $this->getData();
+		$form = $this->getForm($data, false);
+
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$data = FieldsHelper::normaliseFieldsRequestData($form, $data);
 
 		// Merge in the registration data.
 		foreach ($temp as $k => $v)

@@ -45,7 +45,7 @@ class PlgSystemFields extends JPlugin
 	public function onContentAfterSave($context, $item, $isNew, $data = array())
 	{
 		// Check if data is an array and the item has an id
-		if (!is_array($data) || empty($item->id))
+		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
 			return true;
 		}
@@ -78,17 +78,35 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		// Get the fields data
-		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
-
 		// Loading the model
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
-			// Determine the value if it is available from the data
-			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+			// Determine the value if it is (un)available from the data
+			if (key_exists($field->name, $data['com_fields']))
+			{
+				if ($data['com_fields'][$field->name] === false)
+				{
+					$value = null;
+				}
+				else
+				{
+					$value = $data['com_fields'][$field->name];
+				}
+			}
+			// Field not available on form, use stored value
+			else
+			{
+				$value = $field->rawvalue;
+			}
+
+			// If no value set (empty) remove value fom database
+			if (empty($value))
+			{
+				$value = null;
+			}
 
 			// JSON encode value for complex fields
 			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))

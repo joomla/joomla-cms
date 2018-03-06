@@ -629,6 +629,10 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$input  = JFactory::getApplication()->input;
 		$filter = JFilterInput::getInstance();
+		$form = $this->getForm($data, false);
+
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$data = FieldsHelper::normaliseFieldsRequestData($form, $data);
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
