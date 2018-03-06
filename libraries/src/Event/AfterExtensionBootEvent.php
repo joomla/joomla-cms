@@ -22,18 +22,6 @@ defined('JPATH_PLATFORM') or die;
 class AfterExtensionBootEvent extends AbstractImmutableEvent
 {
 	/**
-	 * Get the event's extension.
-	 *
-	 * @return  ComponentInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getExtension()
-	{
-		return $this->getArgument('extension');
-	}
-
-	/**
 	 * Get the event's extension type. Can be:
 	 * - component
 	 *

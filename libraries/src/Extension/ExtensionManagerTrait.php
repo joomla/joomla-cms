@@ -110,9 +110,6 @@ trait ExtensionManagerTrait
 			$container->set($type, new LegacyComponent('com_' . $extensionName));
 		}
 
-		// Cache the extension
-		$this->extensions[$type][$extensionName] = $container->get($type);
-
 		$container->get(Dispatcher::class)->dispatch(
 			'onAfterExtensionBoot',
 			AbstractEvent::create(
@@ -121,11 +118,13 @@ trait ExtensionManagerTrait
 					'subject'       => $this,
 					'type'          => $type,
 					'extensionName' => $extensionName,
-					'container'     => $container,
-					'extension'     => $this->extensions[$type][$extensionName]
+					'container'     => $container
 				]
 			)
 		);
+
+		// Cache the extension
+		$this->extensions[$type][$extensionName] = $container->get($type);
 
 		return $this->extensions[$type][$extensionName];
 	}
