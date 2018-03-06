@@ -76,11 +76,11 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   CMSApplication              $app         The application instance
 	 * @param   Input                       $input       The input instance
-	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input = null, MVCFactoryFactoryInterface $mvcFactory = null)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactory)
 	{
 		if (empty($this->namespace))
 		{
@@ -88,7 +88,7 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		$this->app        = $app;
-		$this->input      = $input ?: $app->input;
+		$this->input      = $input;
 		$this->mvcFactory = $mvcFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
@@ -216,20 +216,8 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$factory = null;
-
-		// Will be removed when all dispatchers are converted
-		if ($this->mvcFactory)
-		{
-			$factory = $this->mvcFactory->createFactory($this->app);
-		}
-		else
-		{
-			$factory = $this->app->bootComponent($this->option)->createMVCFactory($this->app);
-		}
-
 		// Create the controller instance
-		$controller = new $controllerClass($config, $factory, $this->app, $this->input);
+		$controller = new $controllerClass($config, $this->mvcFactory->createFactory($this->app), $this->app, $this->input);
 
 		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
