@@ -69,8 +69,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
