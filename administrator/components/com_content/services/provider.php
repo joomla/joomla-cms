@@ -17,7 +17,11 @@ use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-
+/**
+ * The service provider.
+ *
+ * @since   __DEPLOY_VERSION__
+ */
 return new class implements ServiceProviderInterface
 {
 	/**
