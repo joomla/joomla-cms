@@ -9,35 +9,4 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Dispatcher\DispatcherFactory;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
-use Joomla\CMS\Extension\Service\Provider\Component;
-use Joomla\Component\Content\Site\Service\Category;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
-
-/**
- * The content service provider.
- *
- * @since  __DEPLOY_VERSION__
- */
-return new class implements ServiceProviderInterface
-{
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->set(Categories::class, ['' => new Category]);
-
-		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Component\\Content'));
-		$container->registerServiceProvider(new Component);
-	}
-};
+return new \Joomla\Component\Content\Administrator\Service\Provider\ContentComponent;
