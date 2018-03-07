@@ -20,11 +20,11 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * Content component loader.
+ * The content service provider.
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentComponentServiceProvider implements ServiceProviderInterface
+return new class implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -43,4 +43,4 @@ class ContentComponentServiceProvider implements ServiceProviderInterface
 		$container->set(ComponentHelperInterface::class, new ContentHelper);
 		$container->registerServiceProvider(new Component);
 	}
-}
+};
