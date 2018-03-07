@@ -53,7 +53,7 @@ abstract class Factory
 	public static $cache = null;
 
 	/**
-	 * Global configuraiton object
+	 * Global configuration object
 	 *
 	 * @var    \JConfig
 	 * @since  11.1
