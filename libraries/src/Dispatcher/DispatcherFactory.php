@@ -11,7 +11,6 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\HTML\Registry;
 
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
@@ -56,12 +55,13 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 * Creates a dispatcher.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
 	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createDispatcher(CMSApplicationInterface $application): DispatcherInterface
+	public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
 		$name = 'Site';
 
@@ -72,6 +72,6 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
-		return new $className($application, $application->input, $this->registry);
+		return new $className($application, $input ?: $application->input, $this->registry);
 	}
 }
