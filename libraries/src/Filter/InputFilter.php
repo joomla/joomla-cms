@@ -505,7 +505,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function isStripUSC()
+	protected function isStripUSC()
 	{
 		// Flag is set
 		if ($this->stripUSC != -1)
