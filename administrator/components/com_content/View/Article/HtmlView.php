@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
 
 /**
  * View to edit an article.
@@ -176,8 +177,7 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
-				$url = \ContentHelperPreview::url($this->item);
+				$url = PreviewHelper::url($this->item);
 				\JToolbarHelper::preview($url, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
 			}
 

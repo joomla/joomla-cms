@@ -7,6 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Helper;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since  4.0.0
  */
-class ContentHelperPreview
+class PreviewHelper
 {
 	/**
 	 * Get the article URL
@@ -31,7 +37,7 @@ class ContentHelperPreview
 		$sef  = '';
 
 		// Get the home Itemid for the language
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -40,7 +46,7 @@ class ContentHelperPreview
 			->where($db->qn('published') . '= 1')
 			->where($db->qn('client_id') . '= 0');
 
-		if (JLanguageMultilang::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$query->where($db->qn('language') . ' = ' . $db->q($article->language));
 		}
@@ -53,7 +59,7 @@ class ContentHelperPreview
 
 		$Itemid = '&amp;Itemid=' . (int) $db->loadResult();
 
-		if ($article->language && JLanguageMultilang::isEnabled())
+		if ($article->language && Multilanguage::isEnabled())
 		{
 			// Get the sef prefix for the language
 			$query->clear()
@@ -71,7 +77,7 @@ class ContentHelperPreview
 			}
 		}
 
-		return JUri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
+		return Uri::root() . 'index.php?option=com_content&amp;view=article&amp;id=' . (int) $article->id
 		. '&amp;catid=' . (int) $article->catid . $lang . $Itemid;
 	}
 }
