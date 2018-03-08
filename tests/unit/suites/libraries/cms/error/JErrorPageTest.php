@@ -66,7 +66,6 @@ class JErrorPageTest extends TestCaseDatabase
 
 		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
 		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
-		$mockFactory->method('createRenderer')->will($this->throwException(new BadMethodCallException));
 
 		// Set our mock document into the container
 		$container = new \Joomla\DI\Container;
@@ -115,7 +114,6 @@ class JErrorPageTest extends TestCaseDatabase
 
 		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
 		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
-		$mockFactory->method('createRenderer')->will($this->throwException(new BadMethodCallException));
 
 		// Set our mock document into the container
 		$container = new \Joomla\DI\Container;
