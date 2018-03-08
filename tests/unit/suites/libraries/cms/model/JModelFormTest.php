@@ -34,14 +34,11 @@ class JModelFormTest extends TestCase
 	{
 		$this->saveFactoryState();
 
+		JFactory::$application = $this->getMockCmsApp();
+
 		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockBuilder('JModelForm')
 			->getMockForAbstractClass();
-		$mockApp = $this->getMockCmsApp();
-		$mockApp->expects($this->any())
-			->method('getDispatcher')
-			->willReturn($this->getMockDispatcher());
-		JFactory::$application = $mockApp;
 		TestReflection::setValue('JPluginHelper', 'plugins', array());
 	}
 
