@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="contact-articles">

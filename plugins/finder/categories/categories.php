@@ -332,21 +332,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
-	}
-
-	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
 	 * @param   mixed  $query  A JDatabaseQuery object or null.

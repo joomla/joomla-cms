@@ -17,8 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_related_items
  *

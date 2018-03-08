@@ -20,8 +20,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_news
  *

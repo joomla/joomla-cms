@@ -23,8 +23,6 @@ use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Component\Content\Site\Model\ArticleModel;
 use Joomla\Component\Content\Site\Model\CategoriesModel;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * Helper for mod_articles_category
  *
