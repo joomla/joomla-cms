@@ -361,7 +361,7 @@ class InstallerModelUpdate extends JModelList
 			$this->preparePreUpdate($update, $instance);
 
 			// Install sets state and enqueues messages
-			$res = $this->install($update, $instance->detailsurl);
+			$res = $this->install($update);
 
 			if ($res)
 			{
@@ -388,14 +388,13 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   JUpdate  $update     An update definition
-	 * @param   string   $updateurl  Update Server manifest
+	 * @param   JUpdate  $update  An update definition
 	 *
 	 * @return  boolean   Result of install
 	 *
 	 * @since   1.6
 	 */
-	private function install($update, $updateurl)
+	private function install($update)
 	{
 		$app = JFactory::getApplication();
 
@@ -448,22 +447,6 @@ class InstallerModelUpdate extends JModelList
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
 		$update->set('type', $package['type']);
-
-		// Check the package
-		$check = JInstallerHelper::isChecksumValid($package['packagefile'], (string) $updateurl);
-
-		switch ($check)
-		{
-			case 0:
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-				break;
-			case 1:
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
-				break;
-			case 2:
-				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
-				break;
-		}
 
 		// Install the package
 		if (!$installer->update($package['dir']))
