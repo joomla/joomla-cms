@@ -10,6 +10,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\DI\Container;
@@ -47,6 +48,11 @@ class Component implements ServiceProviderInterface
 				if ($container->has(DispatcherFactoryInterface::class))
 				{
 					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
+				}
+
+				if ($container->has(AssociationExtensionInterface::class))
+				{
+					$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 				}
 
 				return $component;
