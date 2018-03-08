@@ -105,7 +105,7 @@ class PlgSystemRemember extends JPlugin
 	 *
 	 * @return    boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{

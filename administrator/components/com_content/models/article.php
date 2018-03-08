@@ -189,7 +189,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
