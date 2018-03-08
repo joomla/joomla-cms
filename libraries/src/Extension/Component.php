@@ -110,7 +110,7 @@ class Component implements ComponentInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactory): void
+	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactory)
 	{
 		$this->mvcFactory = $mvcFactory;
 	}
