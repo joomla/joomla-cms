@@ -68,25 +68,21 @@ trait ExtensionManagerTrait
 		}
 
 		// The container to get the services from
-		$container = new Container($this->getContainer());
-
-		// The class name to load
-		$className = ucfirst($extensionName) . ucfirst($type) . 'ServiceProvider';
+		$container = $this->getContainer()->createChild();
 
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
 
-		if (!class_exists($className) && file_exists($path))
+		if (file_exists($path))
 		{
 			// Load the file
-			require_once $path;
-		}
+			$provider = require_once $path;
 
-		// Check if the extension supports the service provider interface
-		if (class_exists($className) && is_subclass_of($className, ServiceProviderInterface::class))
-		{
-			$extensionLoader = new $className;
-			$extensionLoader->register($container);
+			// Check if the extension supports the service provider interface
+			if ($provider instanceof ServiceProviderInterface)
+			{
+				$provider->register($container);
+			}
 		}
 
 		// Fallback to legacy
