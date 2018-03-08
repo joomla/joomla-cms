@@ -12,7 +12,7 @@ namespace Joomla\Component\Content\Site\Dispatcher;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\Registry;
-use Joomla\Component\Content\Site\Service\Icon;
+use Joomla\Component\Content\Site\Service\HTML\Icon;
 
 /**
  * Dispatcher class for com_content

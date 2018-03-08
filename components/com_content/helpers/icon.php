@@ -28,7 +28,7 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
@@ -45,7 +45,7 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -67,7 +67,7 @@ abstract class JHtmlIcon
 	 *
 	 * @since   1.6
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -84,7 +84,7 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -101,7 +101,7 @@ abstract class JHtmlIcon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\Icon instead
+	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
 	 */
 	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -111,10 +111,10 @@ abstract class JHtmlIcon
 	/**
 	 * Creates an icon instance.
 	 *
-	 * @return  \Joomla\Component\Content\Site\Service\Icon
+	 * @return  \Joomla\Component\Content\Site\Service\HTML\Icon
 	 */
 	private static function getIcon()
 	{
-		return (new \Joomla\Component\Content\Site\Service\Icon(Joomla\CMS\Factory::getApplication()));
+		return (new \Joomla\Component\Content\Site\Service\HTML\Icon(Joomla\CMS\Factory::getApplication()));
 	}
 }
