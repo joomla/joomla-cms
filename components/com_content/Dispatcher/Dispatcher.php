@@ -60,7 +60,6 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 		\JLoader::register('ContentHelperQuery', JPATH_SITE . '/components/com_content/helpers/query.php');
-		\JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 		parent::dispatch();
 	}

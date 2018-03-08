@@ -7,18 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Site\Helper;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+
 defined('_JEXEC') or die;
 
-JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
-JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
+\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+\JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
  * Content Component Association Helper
  *
  * @since  3.0
  */
-abstract class ContentHelperAssociation extends CategoryHelperAssociation
+abstract class AssociationHelper extends \CategoryHelperAssociation
 {
 	/**
 	 * Method to get the associations for a given item
@@ -32,7 +39,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 */
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$jinput = JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
@@ -40,13 +47,13 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 				$return = array();
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
+					$return[$tag] = \ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;
@@ -76,8 +83,8 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 		if ($associations = self::getAssociations($id, 'article'))
 		{
-			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
-			$languages = JLanguageHelper::getLanguages();
+			$levels    = Factory::getUser()->getAuthorisedViewLevels();
+			$languages = LanguageHelper::getLanguages();
 
 			foreach ($languages as $language)
 			{
@@ -88,13 +95,13 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				}
 
 				// Do not display language without frontend UI
-				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
 				{
 					continue;
 				}
 
 				// Do not display language without specific home menu
-				if (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteHomePages()))
+				if (!array_key_exists($language->lang_code, Multilanguage::getSiteHomePages()))
 				{
 					continue;
 				}
