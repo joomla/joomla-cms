@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+
 /**
  * Test class for JModelForm.
  *
@@ -34,11 +36,16 @@ class JModelFormTest extends TestCase
 	{
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
-
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockBuilder('JModelForm')
-			->getMockForAbstractClass();
+		$this->object = $this->getMockForAbstractClass(
+			'JModelForm',
+			[[], $this->getMockBuilder(MVCFactoryInterface::class)->getMock()]
+		);
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
 		TestReflection::setValue('JPluginHelper', 'plugins', array());
 	}
 

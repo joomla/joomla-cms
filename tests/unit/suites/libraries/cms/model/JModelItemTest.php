@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+
 /**
  * Test class for JModelItem.
  *
@@ -32,13 +34,11 @@ class JModelItemTest extends TestCase
 	 */
 	public function setUp()
 	{
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockCmsApp();
-
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockBuilder('JModelItem')
-			->getMockForAbstractClass();
+		$this->object = $this->getMockForAbstractClass(
+			'JModelItem',
+			[[],$this->getMockBuilder(MVCFactoryInterface::class)->getMock()]
+		);
 	}
 
 	/**
@@ -52,8 +52,6 @@ class JModelItemTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->restoreFactoryState();
-
 		unset($this->object);
 	}
 
