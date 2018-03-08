@@ -42,7 +42,7 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
-	 * An array of categories.
+	 * The association extension.
 	 *
 	 * @var AssociationExtensionInterface
 	 *
@@ -141,6 +141,8 @@ class Component implements ComponentInterface
 	 * The association extension.
 	 *
 	 * @param   AssociationExtensionInterface  $associationExtension  The extension
+	 *
+	 * @return void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
