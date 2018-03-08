@@ -75,7 +75,7 @@ class JModelAdminTest extends TestCase
 			'text_prefix' => 'text_prefix'
 		);
 
-		$this->object->__construct($config);
+		$this->object->__construct($config, $this->getMockBuilder(MVCFactoryInterface::class)->getMock());
 
 		// Check if config was applied correctly
 		foreach ($config as $key => $value)
