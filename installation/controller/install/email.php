@@ -40,7 +40,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries. - @TODO - Restore this check
