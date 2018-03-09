@@ -15,8 +15,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 
@@ -28,7 +28,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
  *
  * @since  4.0.0
  */
-abstract class ComponentDispatcher implements DispatcherInterface
+abstract class ComponentDispatcher extends Dispatcher
 {
 	/**
 	 * The URL option for the component.
@@ -47,31 +47,18 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	protected $namespace;
 
 	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The input instance
-	 *
-	 * @var    Input
-	 * @since  4.0.0
-	 */
-	protected $input;
-
-	/**
 	 * Constructor for ComponentDispatcher
 	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication              $app                The application instance
+	 * @param   Input                       $input              The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input = null)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
+		parent::__construct($app, $input, $mvcFactoryFactory);
+
 		if (empty($this->namespace))
 		{
 			$reflect = new \ReflectionClass($this);
@@ -79,9 +66,6 @@ abstract class ComponentDispatcher implements DispatcherInterface
 			// Extract the first three segments from the namespace
 			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
 		}
-
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -171,18 +155,6 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * The application the dispatcher is working with.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getApplication(): CMSApplication
-	{
-		return $this->app;
-	}
-
-	/**
 	 * Get a controller from the component
 	 *
 	 * @param   string  $name    Controller name
@@ -208,8 +180,15 @@ abstract class ComponentDispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
+		// Create the controller instance
+		$controller = new $controllerClass(
+			$config,
+			$this->getMvcFactoryFactory()->createFactory($this->app),
+			$this->app,
+			$this->input
+		);
 
+		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
 		{
 			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));

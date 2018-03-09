@@ -20,24 +20,8 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class ModuleDispatcher implements ModuleDispatcherInterface
+abstract class ModuleDispatcher extends Dispatcher implements ModuleDispatcherInterface
 {
-	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
-	 * The input instance
-	 *
-	 * @var    Input
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $input;
-
 	/**
 	 * The module instance
 	 *
@@ -45,20 +29,6 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $module;
-
-	/**
-	 * Constructor for ModuleDispatcher
-	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(CMSApplication $app, Input $input = null)
-	{
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
-	}
 
 	/**
 	 * Dispatches the dispatcher.
@@ -126,18 +96,6 @@ abstract class ModuleDispatcher implements ModuleDispatcherInterface
 			$lang->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
 			$lang->load($this->module->module, $extensionLanguageDirectory, null, false, true);
 		}
-	}
-
-	/**
-	 * The application the dispatcher is working with.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getApplication(): CMSApplication
-	{
-		return $this->app;
 	}
 
 	/**
