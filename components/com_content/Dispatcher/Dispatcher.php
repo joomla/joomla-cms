@@ -19,15 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Content';
-
-	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
 	 * @return  void
@@ -59,7 +50,6 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 		}
 
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-		\JLoader::register('ContentHelperQuery', JPATH_SITE . '/components/com_content/helpers/query.php');
 
 		parent::dispatch();
 	}
