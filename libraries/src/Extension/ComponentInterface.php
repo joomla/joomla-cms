@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Access to component specific services.
@@ -32,6 +33,17 @@ interface ComponentInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDispatcher(CMSApplicationInterface $application);
+
+	/**
+	 * Returns an MVCFactory.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface;
 
 	/**
 	 * Returns the category service. If the service is not available
