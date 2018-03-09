@@ -18,12 +18,4 @@ defined('JPATH_PLATFORM') or die;
  */
 class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Content';
 }
