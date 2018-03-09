@@ -587,32 +587,25 @@ class FieldModel extends AdminModel
 		$needsInsert = false;
 		$needsUpdate = false;
 
-		if ($field->default_value == $value)
+		$oldValue = $this->getFieldValue($fieldId, $itemId);
+		$value    = (array) $value;
+
+		if ($oldValue === null)
 		{
-			$needsDelete = true;
+			// No records available, doing normal insert
+			$needsInsert = true;
+		}
+		elseif (count($value) == 1 && count((array) $oldValue) == 1)
+		{
+			// Only a single row value update can be done
+			$needsUpdate = true;
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $itemId);
-			$value    = (array) $value;
-
-			if ($oldValue === null)
-			{
-				// No records available, doing normal insert
-				$needsInsert = true;
-			}
-			elseif (count($value) == 1 && count((array) $oldValue) == 1)
-			{
-				// Only a single row value update can be done
-				$needsUpdate = true;
-			}
-			else
-			{
-				// Multiple values, we need to purge the data and do a new
-				// insert
-				$needsDelete = true;
-				$needsInsert = true;
-			}
+			// Multiple values, we need to purge the data and do a new
+			// insert
+			$needsDelete = true;
+			$needsInsert = true;
 		}
 
 		if ($needsDelete)
@@ -834,7 +827,7 @@ class FieldModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -974,7 +967,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Setting the context for the category field
-		$cat = \JCategories::getInstance(str_replace('com_', '', $component));
+		$cat = $this->bootComponent($component)->getCategories();
 
 		if ($cat && $cat->get('root')->hasChildren())
 		{

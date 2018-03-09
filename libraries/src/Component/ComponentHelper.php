@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
@@ -348,8 +349,15 @@ class ComponentHelper
 		// Handle template preview outlining.
 		$contents = null;
 
+		$dispatcher = $app->bootComponent($option)->getDispatcher($app);
+
 		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
+		if ($dispatcher)
+		{
+			$contents = static::dispatchComponent($dispatcher);
+		}
+		// Will be removed once transition of all components is done
+		elseif (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
 		{
 			require_once JPATH_COMPONENT . '/dispatcher.php';
 			$class = ucwords($file) . 'Dispatcher';
@@ -361,7 +369,7 @@ class ComponentHelper
 			}
 
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app, $app->input));
+			$contents = static::dispatchComponent(new $class($app, $app->input, new MVCFactoryFactory('Joomla\\Component\\' . ucwords($file))));
 		}
 		else
 		{

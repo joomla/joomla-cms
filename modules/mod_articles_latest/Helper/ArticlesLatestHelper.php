@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 
@@ -29,20 +31,18 @@ abstract class ArticlesLatestHelper
 	/**
 	 * Retrieve a list of article
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry       $params  The module parameters.
+	 * @param   ArticlesModel  $model   The model.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.6
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry $params, ArticlesModel $model)
 	{
 		// Get the Dbo and User object
 		$db   = Factory::getDbo();
 		$user = Factory::getUser();
-
-		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app       = Factory::getApplication();
@@ -105,10 +105,10 @@ abstract class ArticlesLatestHelper
 
 		// Set ordering
 		$order_map = array(
-			'm_dsc' => 'a.modified DESC, a.created',
+			'm_dsc'  => 'a.modified DESC, a.created',
 			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
-			'c_dsc' => 'a.created',
-			'p_dsc' => 'a.publish_up',
+			'c_dsc'  => 'a.created',
+			'p_dsc'  => 'a.publish_up',
 			'random' => $db->getQuery(true)->Rand(),
 		);
 
@@ -127,11 +127,11 @@ abstract class ArticlesLatestHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = \JRoute::_('index.php?option=com_users&view=login');
+				$item->link = Route::_('index.php?option=com_users&view=login');
 			}
 		}
 

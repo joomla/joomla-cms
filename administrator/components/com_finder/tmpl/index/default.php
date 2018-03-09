@@ -70,16 +70,16 @@ JFactory::getDocument()->addScriptDeclaration('
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down text-center">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down text-center">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="nowrap text-center hidden-sm-down text-center">
+							<th style="width:15%" class="nowrap text-center d-none d-md-table-cell text-center">
 								<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
-							<th style="width:30%" class="nowrap hidden-sm-down">
+							<th style="width:30%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -106,22 +106,22 @@ JFactory::getDocument()->addScriptDeclaration('
 									<?php echo $this->escape($item->title); ?>
 								</label>
 							</td>
-							<td class="small nowrap hidden-sm-down text-center">
+							<td class="small nowrap d-none d-md-table-cell text-center">
 								<?php
 								$key = FinderHelperLanguage::branchSingular($item->t_title);
 								echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 								?>
 							</td>
-							<td class="small nowrap hidden-sm-down text-center">
+							<td class="small nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
-							<td class="text-center hidden-sm-down text-center">
+							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
                                     <span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
                                     <span class="sr-only"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
 								<?php endif; ?>
 							</td>
-							<td class="small break-word hidden-sm-down">
+							<td class="small break-word d-none d-md-table-cell">
 								<?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
 							</td>
 						</tr>

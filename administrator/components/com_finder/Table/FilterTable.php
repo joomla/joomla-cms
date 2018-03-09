@@ -254,7 +254,7 @@ class FilterTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = new Filter($this->getDbo());
+		$table = new static($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{

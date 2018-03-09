@@ -165,7 +165,7 @@ class ExceptionHandler
 			header('HTTP/1.1 500 Internal Server Error');
 		}
 
-		$message = 'Error displaying the error page';
+		$message = 'Error';
 
 		// Make sure we do not display sensitive data in production environments
 		if (ini_get('display_errors'))

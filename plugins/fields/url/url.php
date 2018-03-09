@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
+
 /**
  * Fields URL Plugin
  *
@@ -27,7 +29,7 @@ class PlgFieldsUrl extends \Joomla\Component\Fields\Administrator\Plugin\FieldsP
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

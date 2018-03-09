@@ -44,7 +44,6 @@
 			label="JSTATUS"
 			class="custom-select-color-state"
 			size="1"
-			required="true"
 			default="1"
 			>
 			<option value="1">JENABLED</option>

@@ -36,7 +36,7 @@ class SelectModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Load the filter state.
 		$clientId = $app->getUserState('com_modules.modules.client_id', 0);

@@ -1,0 +1,23 @@
+{
+  // Extend the airbnb eslint config
+  "extends": "airbnb-base",
+  // ESLint will not look in parent folders for eslint configs
+  "root": true,
+  // An environment defines global variables that are predefined.
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  // Additional global variables your script accesses during execution
+  "globals": {
+    "Joomla": true
+  },
+  // Rule overrides
+  "rules": {
+    // Allow usage of dev-dependencies in js files in build directory
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
+    // Allow strict mode (we are not dealing with modules)
+    "strict": [0]
+  }
+}

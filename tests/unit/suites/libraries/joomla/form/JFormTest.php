@@ -1066,7 +1066,6 @@ class JFormTest extends TestCaseDatabase
 		$matcher = array(
 			'id' => 'params_show_title',
 			'tag' => 'fieldset',
-			'attributes' => array('class' => 'radio'),
 			'descendant' => array(
 				'tag' => 'input',
 				'attributes' => array(
