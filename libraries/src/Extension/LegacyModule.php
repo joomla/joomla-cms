@@ -14,7 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherInterface;
 
 /**
- * Access to component specific services.
+ * Access to module specific services.
  *
  * @since  __DEPLOY_VERSION__
  */

@@ -15,12 +15,7 @@ use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-/**
- * Menu module loader.
- *
- * @since  __DEPLOY_VERSION__
- */
-class MenuModuleServiceProvider implements ServiceProviderInterface
+return new class implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -36,4 +31,4 @@ class MenuModuleServiceProvider implements ServiceProviderInterface
 		$container->set(DispatcherFactoryInterface::class, new DispatcherFactory('\\Joomla\\Module\\Menu'));
 		$container->registerServiceProvider(new Module);
 	}
-}
+};
