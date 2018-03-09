@@ -21,16 +21,9 @@ JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-
-JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-var joomlaTargetVersion = '$latestJoomlaVersion';
-JS
-);
-
 ?>
 
-<div id="joomlaupdate-wrapper">
+<div id="joomlaupdate-wrapper" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
