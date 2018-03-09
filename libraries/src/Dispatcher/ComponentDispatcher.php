@@ -28,7 +28,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
  *
  * @since  4.0.0
  */
-abstract class ComponentDispatcher implements DispatcherInterface
+abstract class ComponentDispatcher extends Dispatcher
 {
 	/**
 	 * The URL option for the component.
@@ -47,31 +47,6 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	protected $namespace;
 
 	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The input instance
-	 *
-	 * @var    Input
-	 * @since  4.0.0
-	 */
-	protected $input;
-
-	/**
-	 * The MVC factory
-	 *
-	 * @var  MVCFactoryFactoryInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $mvcFactoryFactory;
-
-	/**
 	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
@@ -82,6 +57,8 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	 */
 	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
+		parent::__construct($app, $input, $mvcFactoryFactory);
+
 		if (empty($this->namespace))
 		{
 			$reflect = new \ReflectionClass($this);
@@ -89,10 +66,6 @@ abstract class ComponentDispatcher implements DispatcherInterface
 			// Extract the first three segments from the namespace
 			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
 		}
-
-		$this->app               = $app;
-		$this->input             = $input;
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -182,18 +155,6 @@ abstract class ComponentDispatcher implements DispatcherInterface
 	}
 
 	/**
-	 * The application the dispatcher is working with.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getApplication(): CMSApplication
-	{
-		return $this->app;
-	}
-
-	/**
 	 * Get a controller from the component
 	 *
 	 * @param   string  $name    Controller name
@@ -220,7 +181,12 @@ abstract class ComponentDispatcher implements DispatcherInterface
 		}
 
 		// Create the controller instance
-		$controller = new $controllerClass($config, $this->mvcFactoryFactory->createFactory($this->app), $this->app, $this->input);
+		$controller = new $controllerClass(
+			$config,
+			$this->getMvcFactoryFactory()->createFactory($this->app),
+			$this->app,
+			$this->input
+		);
 
 		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
