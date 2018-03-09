@@ -64,25 +64,8 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		$mockFactory = new class($mockErrorDocument) implements \Joomla\CMS\Document\FactoryInterface
-		{
-			private $mockErrorDoc;
-
-			public function __construct($mockErrorDoc)
-			{
-				$this->mockErrorDoc = $mockErrorDoc;
-			}
-
-			public function createDocument(string $type = 'html', array $attributes = []): \Joomla\CMS\Document\Document
-			{
-				return $this->mockErrorDoc;
-			}
-
-			public function createRenderer(\Joomla\CMS\Document\Document $document, string $type): \Joomla\CMS\Document\RendererInterface
-			{
-				throw new BadMethodCallException;
-			}
-		};
+		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
+		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
 
 		// Set our mock document into the container
 		$container = new \Joomla\DI\Container;
@@ -129,25 +112,8 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		$mockFactory = new class($mockErrorDocument) implements \Joomla\CMS\Document\FactoryInterface
-		{
-			private $mockErrorDoc;
-
-			public function __construct($mockErrorDoc)
-			{
-				$this->mockErrorDoc = $mockErrorDoc;
-			}
-
-			public function createDocument(string $type = 'html', array $attributes = []): \Joomla\CMS\Document\Document
-			{
-				return $this->mockErrorDoc;
-			}
-
-			public function createRenderer(\Joomla\CMS\Document\Document $document, string $type): \Joomla\CMS\Document\RendererInterface
-			{
-				throw new BadMethodCallException;
-			}
-		};
+		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
+		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
 
 		// Set our mock document into the container
 		$container = new \Joomla\DI\Container;
