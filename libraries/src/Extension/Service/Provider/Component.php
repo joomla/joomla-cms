@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -47,6 +48,11 @@ class Component implements ServiceProviderInterface
 				if ($container->has(DispatcherFactoryInterface::class))
 				{
 					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
+				}
+
+				if ($container->has(MVCFactoryFactoryInterface::class))
+				{
+					$component->setMvcFactory($container->get(MVCFactoryFactoryInterface::class));
 				}
 
 				return $component;
