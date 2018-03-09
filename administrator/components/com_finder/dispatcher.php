@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_finder
  *
  * @since  4.0.0
  */
-class FinderDispatcher extends Dispatcher
+class FinderDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

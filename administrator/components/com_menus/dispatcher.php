@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_menus
  *
  * @since  4.0.0
  */
-class MenusDispatcher extends Dispatcher
+class MenusDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 \JLoader::registerAlias('TagsHelperRoute', 'Joomla\\Component\\Tags\\Site\\Helper\\TagsHelperRoute');
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
  *
  * @since  4.0.0
  */
-class TagsDispatcher extends Dispatcher
+class TagsDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
  * Dispatcher class for com_banners
  *
  * @since  4.0.0
  */
-class BannersDispatcher extends Dispatcher
+class BannersDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

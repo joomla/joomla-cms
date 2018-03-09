@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
  *
  * @since  4.0.0
  */
-class ModulesDispatcher extends Dispatcher
+class ModulesDispatcher extends ComponentDispatcher
 {
 	/**
 	 * The extension namespace

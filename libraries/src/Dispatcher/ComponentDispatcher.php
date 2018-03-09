@@ -21,14 +21,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
- * Base class for a Joomla Dispatcher
+ * Base class for a Joomla Component Dispatcher
  *
  * Dispatchers are responsible for checking ACL of a component if appropriate and
  * choosing an appropriate controller (and if necessary, a task) and executing it.
  *
  * @since  4.0.0
  */
-abstract class Dispatcher implements DispatcherInterface
+abstract class ComponentDispatcher implements DispatcherInterface
 {
 	/**
 	 * The URL option for the component.
@@ -63,7 +63,7 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * Constructor for Dispatcher
+	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication  $app    The application instance
 	 * @param   Input           $input  The input instance
