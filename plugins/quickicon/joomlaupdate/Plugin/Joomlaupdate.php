@@ -7,8 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Quickicon\Joomlaupdate\Plugin;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -23,7 +26,7 @@ use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
  *
  * @since  2.5
  */
-class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
+class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Load the language file on instantiation.
@@ -32,6 +35,15 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * The document.
+	 *
+	 * @var Document
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $document;
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -45,6 +57,24 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		return [
 			'onGetIcons' => 'getCoreUpdateNotification',
 		];
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @param   DispatcherInterface  $subject   The object to observe
+	 * @param   Document             $document  The document
+	 * @param   array                $config    An optional associative array of configuration settings.
+	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
+	 *                                          (this list is not meant to be comprehensive).
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct($subject, Document $document, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		$this->document = $document;
 	}
 
 	/**
@@ -73,7 +103,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
 
-		Factory::getDocument()->addScriptOptions(
+		$this->document->addScriptOptions(
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Authentication;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -133,10 +134,6 @@ class Authentication extends \JObject
 
 		// Create authentication response
 		$response = new AuthenticationResponse;
-
-		// Get the dispatcher
-		$dispatcher = $this->getDispatcher();
-
 		/*
 		 * Loop through the plugins and check if the credentials can be used to authenticate
 		 * the user
@@ -146,16 +143,12 @@ class Authentication extends \JObject
 		 */
 		foreach ($plugins as $plugin)
 		{
-			$className = 'plg' . $plugin->type . $plugin->name;
+			$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($dispatcher, (array) $plugin);
-			}
-			else
+			if (!method_exists($plugin, 'onUserAuthenticate'))
 			{
 				// Bail here if the plugin can't be created
-				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), \JLog::WARNING, 'jerror');
+				\JLog::add(\JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $plugin->name), \JLog::WARNING, 'jerror');
 				continue;
 			}
 

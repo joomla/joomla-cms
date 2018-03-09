@@ -10,10 +10,12 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\String\Normalise;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Trait for classes which can load extensions
@@ -27,7 +29,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = ['component' => [], 'module' => []];
+	private $extensions = ['component' => [], 'module' => [], 'plugin' => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -73,6 +75,27 @@ trait ExtensionManagerTrait
 		}
 
 		return $this->loadExtension('module', $module, $path);
+	}
+
+	/**
+	 * Boots the plugin with the given name and type.
+	 *
+	 * @param   string  $plugin  The plugin name
+	 * @param   string  $type    The type of the plugin
+	 *
+	 * @return  PluginInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootPlugin($plugin, $type): PluginInterface
+	{
+		// Normalize the module name
+		$plugin = strtolower(str_replace('plg_', '', $plugin));
+
+		// Path to to look for services
+		$path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
+
+		return $this->loadExtension('plugin', $plugin . ':' . $type, $path);
 	}
 
 	/**
@@ -123,6 +146,9 @@ trait ExtensionManagerTrait
 				case 'module':
 					$container->set($type, new LegacyModule);
 					break;
+				case 'plugin':
+					list($pluginName, $pluginType) = explode(':', $extensionName);
+					$container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
 			}
 		}
 
@@ -130,6 +156,50 @@ trait ExtensionManagerTrait
 		$this->extensions[$type][$extensionName] = $container->get($type);
 
 		return $this->extensions[$type][$extensionName];
+	}
+
+	/**
+	 * Creates a CMS plugin from the filesystem.
+	 *
+	 * @param   string  $plugin  The plugin
+	 * @param   string  $type    The type
+	 *
+	 * @return CMSPlugin
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function loadPluginFromFilesystem(string $plugin, string $type)
+	{
+		// The dispatcher
+		$dispatcher = $this->getContainer()->get(DispatcherInterface::class);
+
+		// Clear the names
+		$plugin = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin);
+		$type   = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+
+		// The path of the plugin
+		$path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
+
+		// Return an empty class when the file doesn't exist
+		if (!file_exists($path))
+		{
+			return new class ($dispatcher) extends CMSPlugin {};
+		}
+
+		// Include the file of the plugin
+		require_once $path;
+
+		// Compile the classname
+		$className = 'Plg' . str_replace('-', '', $type) . $plugin;
+
+		// Return an empty class when the class doesn't exist
+		if (!class_exists($className))
+		{
+			return new class ($dispatcher) extends CMSPlugin {};
+		}
+
+		// Instantiate the plugin
+		return new $className($dispatcher, (array) PluginHelper::getPlugin($type, $plugin));
 	}
 
 	/**

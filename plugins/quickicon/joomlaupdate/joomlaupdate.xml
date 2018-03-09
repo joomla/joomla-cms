@@ -10,7 +10,8 @@
 	<version>3.0.0</version>
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="joomlaupdate">joomlaupdate.php</filename>
+		<folder>Plugin</folder>
+		<folder>services</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_quickicon_joomlaupdate.ini</language>

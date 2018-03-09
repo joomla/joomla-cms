@@ -39,4 +39,16 @@ interface ExtensionManagerInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function bootModule($module, $applicationName): ModuleInterface;
+
+	/**
+	 * Boots the plugin with the given name and type.
+	 *
+	 * @param   string  $plugin  The plugin name
+	 * @param   string  $type    The type of the plugin
+	 *
+	 * @return  PluginInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootPlugin($plugin, $type): PluginInterface;
 }
