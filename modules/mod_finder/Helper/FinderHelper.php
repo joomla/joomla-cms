@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -40,7 +41,7 @@ class FinderHelper
 		$needId = !Uri::getInstance($route)->getVar('Itemid');
 
 		$fields = array();
-		$uri = Uri::getInstance(\JRoute::_($route));
+		$uri = Uri::getInstance(Route::_($route));
 		$uri->delVar('q');
 
 		// Create hidden input elements for each part of the URI.

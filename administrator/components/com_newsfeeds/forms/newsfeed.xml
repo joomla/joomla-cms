@@ -101,7 +101,6 @@
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
@@ -110,7 +109,6 @@
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field
@@ -325,7 +323,6 @@
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 			default="5"
 			size="2"
-			required="true"
 		/>
 
 		<field
@@ -334,7 +331,6 @@
 			label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 			default="3600"
 			size="4"
-			required="true"
 		/>
 
 		<field

@@ -146,7 +146,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
 		it('should return false when input element is not inside a form', function () {
-			expect(Joomla.checkAll(document.getElementById('cb-no-form'))).toEqual(false);
+			expect(Joomla.checkAll($('#cb-no-form'))).toEqual(false);
 		});
 
 		it('should check all the checkboxes that has id starting with \'cb\' inside the form', function () {
@@ -197,12 +197,13 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect($messages[1]).toContainText('Error one');
 		});
 
-		it('removeMessages should remove all content from system-message-container', function () {
+		it('removeMessages should remove all content from system-message-container', function (done) {
 			Joomla.removeMessages();
 
 			// Alerts need some time for the close animation
 			setTimeout(function () {
 				expect($("#system-message-container")).toBeEmpty();
+				done();
 			}, 400);
 		});
 	});

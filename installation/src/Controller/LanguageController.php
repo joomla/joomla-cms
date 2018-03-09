@@ -156,7 +156,6 @@ class LanguageController extends JSONController
 			}
 
 			// Add menus
-			\JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
 			$siteLanguages       = $model->getInstalledlangsFrontend();

@@ -83,10 +83,10 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 		</div>
 		<div class="control-group">
-			<button class="btn btn-secondary" onclick="window.close();return false;">
+			<button type="button" class="btn btn-secondary" onclick="window.close();return false;">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-			<button class="btn btn-success" onclick="return Joomla.submitbutton('send');">
+			<button type="button" class="btn btn-success" onclick="return Joomla.submitbutton('send');">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>

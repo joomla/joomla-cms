@@ -49,16 +49,16 @@ extract($displayData);
  *     %3 - value
  *     %4 = any other attributes
  */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-$dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
+$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 ?>
 <?php // START SWITCHER ?>
 <?php if (strpos(trim($class), 'switcher') !== false) : ?>
 	<?php HTMLHelper::_('webcomponent',
 		['joomla-field-switcher' => 'system/webcomponents/joomla-field-switcher.min.js'],
-		['relative' => true, 'version' => 'auto']); ?>
+		['relative' => true, 'version' => 'auto']
+	); ?>
 
 	<?php
 	// Set the type of switcher
@@ -76,8 +76,8 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 			<?php foreach ($options as $i => $option) : ?>
 				<?php
 				// Initialize some option attributes.
-				$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
-				$active  = ((string) $option->value == $value) ? 'class="active"' : '';
+				$checked = ((string) $option->value === $value) ? 'checked="checked"' : '';
+				$active  = ((string) $option->value === $value) ? 'class="active"' : '';
 
 				// Initialize some JavaScript option attributes.
 				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
@@ -93,36 +93,62 @@ $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="but
 	<?php // END SWITCHER ?>
 <?php else: ?>
 	<?php // START RADIO TOGGLE ?>
-	<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
-		<?php echo $disabled ? 'disabled' : ''; ?>
-		<?php echo $required ? 'required aria-required="true"' : ''; ?>
-		<?php echo $autofocus ? 'autofocus' : ''; ?>
-		<?php echo $dataToggle; ?>>
+	<?php
+		$isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
+		$isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
+		$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
+		$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
+		$btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
+	?>
+	<fieldset id="<?php echo $id; ?>" >
+		<div class="<?php echo trim($class) . $classToggle; ?>"
+			<?php echo $disabled ? 'disabled' : ''; ?>
+			<?php echo $required ? 'required aria-required="true"' : ''; ?>
+			<?php echo $autofocus ? 'autofocus' : ''; ?>
+			<?php echo $dataToggle; ?>>
 
-		<?php if (!empty($options)) : ?>
-			<?php foreach ($options as $i => $option) : ?>
-				<?php
-				// Initialize some option attributes.
-				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+			<?php if (!empty($options)) : ?>
+				<?php foreach ($options as $i => $option) : ?>
+					<?php
+					// Initialize some option attributes.
+					if ($isBtnYesNo)
+					{
+						// Set the button classes for the yes/no group
+						if ($option->value === "0")
+						{
+							$optionClass = 'btn btn-outline-danger';
+						}
+						else
+						{
+							$optionClass = 'btn btn-outline-success';
+						}
+					}
+					else
+					{
+						$optionClass = !empty($option->class) ? $option->class : $btnClass;
+					}
 
-				// Initialize some JavaScript option attributes.
-				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-				$oid        = $id . $i;
-				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
-				?>
-				<?php if ($required) : ?>
-					<?php $attributes[] = 'required aria-required="true"'; ?>
-				<?php endif; ?>
-				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-					<?php echo $option->text; ?>
-				</label>
-			<?php endforeach; ?>
-		<?php endif; ?>
+					$checked     = ((string) $option->value === $value) ? 'checked' : '';
+					$optionClass .= $checked ? ' active' : '';
+					$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+
+					// Initialize some JavaScript option attributes.
+					$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+					$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+					$oid        = $id . $i;
+					$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+					$attributes = array_filter(array($checked, null, $disabled, $onchange, $onclick));
+					?>
+					<?php if ($required) : ?>
+						<?php $attributes[] = 'required aria-required="true"'; ?>
+					<?php endif; ?>
+					<label for="<?php echo $oid; ?>" class="<?php echo $optionClass; ?>">
+						<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+						<?php echo $option->text; ?>
+					</label>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
 	</fieldset>
 	<?php // END RADIO TOGGLE ?>
 <?php endif; ?>
