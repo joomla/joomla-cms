@@ -15,8 +15,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 
@@ -63,14 +63,24 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
+	 * The MVC factory
+	 *
+	 * @var  MVCFactoryFactoryInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $mvcFactoryFactory;
+
+	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication              $app                The application instance
+	 * @param   Input                       $input              The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input = null)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		if (empty($this->namespace))
 		{
@@ -80,8 +90,9 @@ abstract class Dispatcher implements DispatcherInterface
 			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
 		}
 
-		$this->app   = $app;
-		$this->input = $input ?: $app->input;
+		$this->app               = $app;
+		$this->input             = $input;
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -208,8 +219,10 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
 		}
 
-		$controller = new $controllerClass($config, new MVCFactory($namespace, $this->app), $this->app, $this->input);
+		// Create the controller instance
+		$controller = new $controllerClass($config, $this->mvcFactoryFactory->createFactory($this->app), $this->app, $this->input);
 
+		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
 		{
 			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
