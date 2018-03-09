@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Site\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Content Component Query Helper
  *
  * @since  1.5
  */
-class ContentHelperQuery
+class QueryHelper
 {
 	/**
 	 * Translate an order code to a field for primary category ordering.
@@ -110,12 +116,12 @@ class ContentHelperQuery
 				break;
 
 			case 'random' :
-				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
+				$orderby = Factory::getDbo()->getQuery(true)->Rand();
 				break;
 
 			case 'vote' :
 				$orderby = 'a.id DESC ';
-				if (JPluginHelper::isEnabled('content', 'vote'))
+				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count DESC ';
 				}
@@ -123,7 +129,7 @@ class ContentHelperQuery
 
 			case 'rvote' :
 				$orderby = 'a.id ASC ';
-				if (JPluginHelper::isEnabled('content', 'vote'))
+				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating_count ASC ';
 				}
@@ -131,7 +137,7 @@ class ContentHelperQuery
 
 			case 'rank' :
 				$orderby = 'a.id DESC ';
-				if (JPluginHelper::isEnabled('content', 'vote'))
+				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating DESC ';
 				}
@@ -139,7 +145,7 @@ class ContentHelperQuery
 
 			case 'rrank' :
 				$orderby = 'a.id ASC ';
-				if (JPluginHelper::isEnabled('content', 'vote'))
+				if (PluginHelper::isEnabled('content', 'vote'))
 				{
 					$orderby = 'rating ASC ';
 				}
@@ -164,7 +170,7 @@ class ContentHelperQuery
 	 */
 	public static function getQueryDate($orderDate)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		switch ($orderDate)
 		{
@@ -195,14 +201,14 @@ class ContentHelperQuery
 	 * @param   \Joomla\Registry\Registry  $params  An options object for the article.
 	 *
 	 * @return  array  A named array with "select" and "join" keys.
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function buildVotingQuery($params = null)
 	{
 		if (!$params)
 		{
-			$params = JComponentHelper::getParams('com_content');
+			$params = ComponentHelper::getParams('com_content');
 		}
 
 		$voting = $params->get('show_vote');
