@@ -17,7 +17,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
+class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * If true, language files will be loaded automatically.
@@ -79,7 +79,7 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 		$this->setDefaultHeader();
 
 		// Handle the additional httpheader
-		$httpHeaders = $this->params->get('additional_httpheader', array());
+		$httpHeaders = $this->params->get('additional_httpheaders', array());
 
 		foreach ($httpHeaders as $httpHeader)
 		{
@@ -106,24 +106,29 @@ class PlgSystemHttpHeader extends CMSPlugin implements SubscriberInterface
 	private function setDefaultHeader()
 	{
 		// X-Frame-Options
-		if ($this->params->get('xframeoptions', 1) === 1)
+		if ($this->params->get('xframeoptions', '1') === '1')
 		{
 			$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 		}
 
 		// X-XSS-Protection
-		if ($this->params->get('xxssprotection', 1) === 1)
+		if ($this->params->get('xxssprotection', '1') === '1')
 		{
 			$this->app->setHeader('X-XSS-Protection', '1; mode=block');
 		}
 
 		// X-Content-Type-Options
-		if ($this->params->get('xcontenttypeoptions', 1) === 1)
+		if ($this->params->get('xcontenttypeoptions', '1') === '1')
 		{
 			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
 		}
 
 		// Referrer-Policy
-		$this->app->setHeader('Referrer-Policy', $this->params->get('referrerpolicy', 'no-referrer-when-downgrade'));
+		$referrerpolicy = $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
+
+		if ($referrerpolicy !== 'disabled')
+		{
+			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+		}
 	}
 }
