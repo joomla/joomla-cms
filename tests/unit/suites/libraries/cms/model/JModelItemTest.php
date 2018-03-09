@@ -35,10 +35,9 @@ class JModelItemTest extends TestCase
 	public function setUp()
 	{
 		// Create mock of abstract class JModelForm to test concrete methods in there
-		$this->object = $this->getMockForAbstractClass(
-			'JModelItem',
-			[[],$this->getMockBuilder(MVCFactoryInterface::class)->getMock()]
-		);
+		$this->object = $this->getMockBuilder('JModelItem')
+			->setConstructorArgs([[], $this->getMockBuilder(MVCFactoryInterface::class)->getMock()])
+			->getMockForAbstractClass();
 	}
 
 	/**

@@ -35,10 +35,9 @@ class JModelAdminTest extends TestCase
 	public function setUp()
 	{
 		// Create mock of abstract class JModelAdmin to test concrete methods in there
-		$this->object = $this->getMockForAbstractClass(
-			'JModelAdmin',
-			[[], $this->getMockBuilder(MVCFactoryInterface::class)->getMock()]
-		);
+		$this->object = $this->getMockBuilder('JModelAdmin')
+			->setConstructorArgs([[], $this->getMockBuilder(MVCFactoryInterface::class)->getMock()])
+			->getMockForAbstractClass();
 	}
 
 	/**
