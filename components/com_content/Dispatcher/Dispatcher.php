@@ -22,15 +22,6 @@ use Joomla\Component\Content\Site\Service\HTML\Icon;
 class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Content';
-
-	/**
 	 * Dispatch a controller task. Redirecting the user if appropriate.
 	 *
 	 * @return  void
@@ -62,7 +53,6 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 		}
 
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-		\JLoader::register('ContentHelperQuery', JPATH_SITE . '/components/com_content/helpers/query.php');
 		\JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 		parent::dispatch();

@@ -22,15 +22,6 @@ use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Content';
-
-	/**
 	 * Subclasses can register here HTML services.
 	 *
 	 * @param   Registry  $registry  The registry
