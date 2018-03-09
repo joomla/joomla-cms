@@ -29,7 +29,7 @@ class Component implements ComponentInterface
 	 *
 	 * @var MVCFactoryFactoryInterface
 	 */
-	private $mvcFactory;
+	private $mvcFactoryFactory;
 
 	/**
 	 * An array of categories.
@@ -93,26 +93,26 @@ class Component implements ComponentInterface
 	 */
 	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
 	{
-		if ($this->mvcFactory === null)
+		if ($this->mvcFactoryFactory === null)
 		{
 			return null;
 		}
 
-		return $this->mvcFactory->createFactory($application);
+		return $this->mvcFactoryFactory->createFactory($application);
 	}
 
 	/**
 	 * The MVC Factory to create MVCFactories from.
 	 *
-	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The factory
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The factory
 	 *
 	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactory)
+	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		$this->mvcFactory = $mvcFactory;
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 	}
 
 	/**

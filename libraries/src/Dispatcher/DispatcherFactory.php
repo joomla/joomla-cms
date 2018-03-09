@@ -37,20 +37,20 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private $mvcFactory;
+	private $mvcFactoryFactory;
 
 	/**
 	 * DispatcherFactory constructor.
 	 *
-	 * @param   string                      $namespace   The namespace
-	 * @param   MVCFactoryFactoryInterface  $mvcFactory  The MVC factory
+	 * @param   string                      $namespace          The namespace
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactory)
+	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		$this->namespace  = $namespace;
-		$this->mvcFactory = $mvcFactory;
+		$this->namespace         = $namespace;
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 	}
 
 	/**
@@ -74,6 +74,6 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
-		return new $className($application, $input ?: $application->input, $this->mvcFactory);
+		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
 	}
 }
