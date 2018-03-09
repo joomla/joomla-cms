@@ -11,7 +11,8 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\HTML\Registry;
+use Joomla\Input\Input;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
@@ -23,33 +24,33 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	/**
 	 * The extension namespace
 	 *
-	 * @var    string
+	 * @var  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $namespace;
 
 	/**
-	 * The HTML registry
+	 * The MVC factory
 	 *
-	 * @var  Registry
+	 * @var  MVCFactoryFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected $registry;
+	private $mvcFactoryFactory;
 
 	/**
 	 * DispatcherFactory constructor.
 	 *
-	 * @param   string    $namespace  The namespace
-	 * @param   Registry  $registry   The registry
+	 * @param   string                      $namespace          The namespace
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $namespace, Registry $registry)
+	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		$this->namespace = $namespace;
-		$this->registry  = $registry;
+		$this->namespace         = $namespace;
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 	}
 
 	/**
@@ -73,6 +74,6 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
-		return new $className($application, $input ?: $application->input, $this->registry);
+		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
 	}
 }
