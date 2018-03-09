@@ -69,7 +69,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private $mvcFactory;
+	private $mvcFactoryFactory;
 
 	/**
 	 * Constructor for Dispatcher
@@ -80,7 +80,7 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactory)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		if (empty($this->namespace))
 		{
@@ -90,9 +90,9 @@ abstract class Dispatcher implements DispatcherInterface
 			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
 		}
 
-		$this->app        = $app;
-		$this->input      = $input;
-		$this->mvcFactory = $mvcFactory;
+		$this->app               = $app;
+		$this->input             = $input;
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -220,7 +220,7 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		// Create the controller instance
-		$controller = new $controllerClass($config, $this->mvcFactory->createFactory($this->app), $this->app, $this->input);
+		$controller = new $controllerClass($config, $this->mvcFactoryFactory->createFactory($this->app), $this->app, $this->input);
 
 		// Set the form factory when possible
 		if ($controller instanceof FormFactoryAwareInterface)
