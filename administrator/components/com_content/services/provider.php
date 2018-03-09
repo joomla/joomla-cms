@@ -49,7 +49,7 @@ return new class implements ServiceProviderInterface
 		$registry->register('contenticon', new Icon($container->get(SiteApplication::class)));
 
 		// The layout joomla.content.icons does need a general icon service
-		$registry->register('icon', $registry->getService('content.icon'));
+		$registry->register('icon', $registry->getService('contenticon'));
 
 		$container->set(Categories::class, ['' => new Category]);
 
