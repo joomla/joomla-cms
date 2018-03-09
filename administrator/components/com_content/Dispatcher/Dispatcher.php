@@ -11,9 +11,6 @@ namespace Joomla\Component\Content\Administrator\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\Registry;
-use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
-
 /**
  * Dispatcher class for com_content
  *
@@ -21,17 +18,4 @@ use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
  */
 class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * Subclasses can register here HTML services.
-	 *
-	 * @param   Registry  $registry  The registry
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function loadHTMLServices(Registry $registry)
-	{
-		$registry->register('contentadministrator', new AdministratorService);
-	}
 }

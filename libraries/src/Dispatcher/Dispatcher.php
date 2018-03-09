@@ -14,8 +14,6 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
-use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
-use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
@@ -150,8 +148,6 @@ abstract class Dispatcher implements DispatcherInterface
 		// Check component access permission
 		$this->checkAccess();
 
-		$this->loadHTMLServices($this->registry);
-
 		$command = $this->input->getCmd('task', 'display');
 
 		// Check for a controller.task command.
@@ -233,18 +229,5 @@ abstract class Dispatcher implements DispatcherInterface
 		}
 
 		return $controller;
-	}
-
-	/**
-	 * Subclasses can register here HTML services.
-	 *
-	 * @param   Registry  $registry  The registry
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function loadHTMLServices(Registry $registry)
-	{
 	}
 }
