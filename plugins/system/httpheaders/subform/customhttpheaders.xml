@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<field
+		name="key"
+		type="text"
+		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
+	/>
+	<field
+		name="value"
+		type="text"
+		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_VALUE"
+	/>
+	<field
+		name="client"
+		type="radio"
+		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_CLIENT"
+		default="site"
+		>
+		<option value="site">JSITE</option>
+		<option value="administrator">JADMINISTRATOR</option>
+		<option value="both">PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_CLIENT_BOTH</option>
+	</field>
+</form>
