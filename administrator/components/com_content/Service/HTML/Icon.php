@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
 /**
  * Content Component HTML Helper
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class Icon
 {
@@ -29,6 +29,7 @@ class Icon
 	 * The application
 	 *
 	 * @var    CMSApplication
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $application;
@@ -54,6 +55,8 @@ class Icon
 	 * @param   boolean   $legacy    True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the create item link
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function create($category, $params, $attribs = array(), $legacy = false)
 	{
@@ -89,6 +92,8 @@ class Icon
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function email($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -125,7 +130,7 @@ class Icon
 	 *
 	 * @return  string	The HTML for the article edit icon.
 	 *
-	 * @since   1.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function edit($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -202,6 +207,8 @@ class Icon
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -229,6 +236,8 @@ class Icon
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
