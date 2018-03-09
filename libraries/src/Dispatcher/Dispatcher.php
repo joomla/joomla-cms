@@ -84,7 +84,10 @@ abstract class Dispatcher implements DispatcherInterface
 	{
 		if (empty($this->namespace))
 		{
-			throw new \RuntimeException('Namespace can not be empty!');
+			$reflect = new \ReflectionClass($this);
+
+			// Extract the first three segments from the namespace
+			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
 		}
 
 		$this->app        = $app;
