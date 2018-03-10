@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -314,18 +313,10 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if (!$factory)
 		{
-			$reflect = new \ReflectionClass($this);
-			if ($reflect->getNamespaceName())
-			{
-				// Guess the root namespace
-				$ns = explode('\\', $reflect->getNamespaceName());
-				$ns = implode('\\', array_slice($ns, 0, 3));
-
-				$factory = new MVCFactory($ns, \JFactory::getApplication());
-			}
+			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
 		}
 
-		$this->factory = $factory ? : new LegacyFactory;
+		$this->factory = $factory;
 	}
 
 	/**
