@@ -589,8 +589,9 @@ class FieldsModelField extends JModelAdmin
 		}
 		elseif (count($value) == 1 && count((array) $oldValue) == 1)
 		{
-			// Only a single row value update can be done
-			$needsUpdate = true;
+			// Only a single row value update can be done when not empty
+			$needsUpdate = !empty($value[0]);
+			$needsDelete = empty($value[0]);
 		}
 		else
 		{
