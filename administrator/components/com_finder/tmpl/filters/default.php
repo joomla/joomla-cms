@@ -9,30 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(pressbutton)
-	{
-		if (pressbutton == "filters.delete")
-		{
-			if (confirm(Joomla.JText._("COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT")))
-			{
-				Joomla.submitform(pressbutton);
-			}
-			else
-			{
-				return false;
-			}
-		}
-		Joomla.submitform(pressbutton);
-	};
-');
+HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
