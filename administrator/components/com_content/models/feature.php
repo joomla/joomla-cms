@@ -19,6 +19,29 @@ JLoader::register('ContentModelArticle', __DIR__ . '/article.php');
 class ContentModelFeature extends ContentModelArticle
 {
 	/**
+	 * Method to test whether a record can have its state edited.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   1.6
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		// Check for existing article.
+		if (!empty($record->content_id))
+		{
+			return $user->authorise('core.edit.state', 'com_content.article.' . (int) $record->content_id);
+		}
+
+		// Default to component settings if article unknown.
+		return parent::canEditState($record);
+	}
+
+	/**
 	 * Returns a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate
