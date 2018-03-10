@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
@@ -17,6 +18,7 @@ use Joomla\CMS\Extension\Service\Provider\Component;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Joomla\Component\Content\Site\Service\Category;
@@ -52,6 +54,7 @@ return new class implements ServiceProviderInterface
 		$registry->register('icon', $registry->getService('contenticon'));
 
 		$container->set(Categories::class, ['' => new Category]);
+		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
 		$container->set(MVCFactoryFactoryInterface::class, new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->set(
