@@ -698,7 +698,7 @@ class FormController extends BaseController
 		$objData = (object) $data;
 		$app->triggerEvent(
 			'onContentNormaliseRequestData',
-			[$this->option . '.' . $this->context, $objData, $form]
+			array($this->option . '.' . $this->context, $objData, $form)
 		);
 		$data = (array) $objData;
 
