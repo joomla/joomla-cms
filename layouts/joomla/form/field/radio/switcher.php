@@ -60,7 +60,8 @@ $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 HTMLHelper::_('webcomponent',
 	['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
-	['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+	['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]
+);
 
 // Set the type of switcher
 $type = str_replace('switcher switcher-', '', trim($class));
