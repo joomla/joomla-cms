@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
@@ -22,23 +24,7 @@ JHtml::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto',
 JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
 JHtml::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
-
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($) {
-		$("#jform_searchstring").on("focus", function() {
-			if (!Joomla.overrider.states.refreshed)
-			{
-				var expired = "' . $expired . '";
-				if (expired)
-				{
-					Joomla.overrider.refreshCache();
-					Joomla.overrider.states.refreshed = true;
-				}
-			}
-			$(this).removeClass("invalid");
-		});
-	});
-');
+HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
@@ -138,9 +124,9 @@ JFactory::getDocument()->addScriptDeclaration('
 
 			<fieldset id="results-container" class="adminform">
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-				<div id="overrider-spinner" class="overrider-spinner text-center"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
+				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
 				<span id="more-results" class="mt-2">
-					<a href="javascript:Joomla.overrider.searchStrings(Joomla.overrider.states.more);" class="btn btn-secondary">
+					<a id="more-results-button" class="btn btn-secondary">
 						<span id="overrider-spinner-btn" class="overrider-spinner-btn fa fa-spinner fa-spin" aria-hidden="true"></span>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?></a>
 				</span>
