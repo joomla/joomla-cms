@@ -39,7 +39,10 @@ class JModelListTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
+
+		JFactory::$application = $mockApp;
 		JFactory::$session = $this->getMockSession();
 
 		$this->object = new \Joomla\CMS\MVC\Model\ListModel(array("filter_fields" => array("field1", "field2")));
