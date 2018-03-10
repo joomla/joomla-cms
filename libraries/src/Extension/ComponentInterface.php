@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -58,4 +59,13 @@ interface ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategories(array $options = [], $section = '');
+
+	/**
+	 * Returns the associations extension helper class.
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsExtension();
 }
