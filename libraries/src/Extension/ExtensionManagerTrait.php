@@ -14,7 +14,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\Dispatcher;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Trait for classes which can load extensions
@@ -72,7 +72,7 @@ trait ExtensionManagerTrait
 		// The container to get the services from
 		$container = $this->getContainer()->createChild();
 
-		$container->get(Dispatcher::class)->dispatch(
+		$container->get(DispatcherInterface::class)->dispatch(
 			'onBeforeExtensionBoot',
 			AbstractEvent::create(
 				'onBeforeExtensionBoot',
@@ -84,9 +84,6 @@ trait ExtensionManagerTrait
 				]
 			)
 		);
-
-		// The class name to load
-		$className = ucfirst($extensionName) . ucfirst($type) . 'ServiceProvider';
 
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
@@ -109,7 +106,7 @@ trait ExtensionManagerTrait
 			$container->set($type, new LegacyComponent('com_' . $extensionName));
 		}
 
-		$container->get(Dispatcher::class)->dispatch(
+		$container->get(DispatcherInterface::class)->dispatch(
 			'onAfterExtensionBoot',
 			AbstractEvent::create(
 				'onAfterExtensionBoot',
