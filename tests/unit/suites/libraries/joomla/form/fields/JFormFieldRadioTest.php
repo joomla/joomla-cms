@@ -6,8 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Factory;
 
-JFormHelper::loadFieldClass('radio');
+FormHelper::loadFieldClass('radio');
 require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
 
 /**
@@ -32,7 +35,7 @@ class JFormFieldRadioTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockCmsApp();
+		Factory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -85,7 +88,7 @@ class JFormFieldRadioTest extends TestCase
 	 */
 	public function testGetInput($element, $data, $expected)
 	{
-		$formField = new JFormFieldRadio;
+		$formField = new \JFormFieldRadio;
 
 		TestReflection::setValue($formField, 'element', simplexml_load_string($element));
 
@@ -116,7 +119,7 @@ class JFormFieldRadioTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$form = new JForm('form1');
+		$form = new Form('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="radio" type="radio"><option value="0">No</option><item value="1">Yes</item></field></form>'),
@@ -124,7 +127,7 @@ class JFormFieldRadioTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$field = new JFormFieldRadio($form);
+		$field = new \JFormFieldRadio($form);
 
 		$this->assertThat(
 			$field->setup($form->getXml()->field, 'value'),
