@@ -19,25 +19,8 @@ use Joomla\CMS\Language\Text;
  * None
  */
 
-Factory::getDocument()->addScriptDeclaration(
-	'
-		jQuery(document).ready(function($){
-			if ($("#batch-category-id").length){var batchSelector = $("#batch-category-id");}
-			if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
-			if ($("#batch-position-id").length){var batchSelector = $("#batch-position-id");}
-			if ($("#batch-copy-move").length && batchSelector) {
-				$("#batch-copy-move").hide();
-				batchSelector.on("change", function(){
-					if (batchSelector.val() != 0 || batchSelector.val() != "") {
-						$("#batch-copy-move").show();
-					} else {
-						$("#batch-copy-move").hide();
-					}
-				});
-			}
-		});
-			'
-);
+HTMLHelper::_('script', 'system/fields/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
+
 ?>
 <label id="batch-language-lbl" for="batch-language-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC'); ?>">
 	<?php echo Text::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'); ?>
