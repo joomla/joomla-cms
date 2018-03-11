@@ -6,15 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+namespace Joomla\Component\Content\Site\Service;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Categories\Categories;
 
 /**
  * Content Component Category Tree
  *
  * @since  1.6
  */
-class ContentCategories extends JCategories
+class Category extends Categories
 {
 	/**
 	 * Class constructor
@@ -25,7 +28,7 @@ class ContentCategories extends JCategories
 	 */
 	public function __construct($options = array())
 	{
-		$options['table'] = '#__content';
+		$options['table']     = '#__content';
 		$options['extension'] = 'com_content';
 
 		parent::__construct($options);
