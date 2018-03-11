@@ -66,12 +66,6 @@ class PlgEditorCodemirror extends CMSPlugin
 		Factory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
 
 		$displayData = (object) array('params'  => $this->params);
-
-		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
-		ob_start();
-		LayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
-		ob_end_clean();
-
 		$font = $this->params->get('fontFamily', 0);
 		$fontInfo = $this->getFontInfo($font);
 
