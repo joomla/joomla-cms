@@ -8,6 +8,8 @@
  */
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Component\Content\Site\Helper\QueryHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -75,8 +77,8 @@ class FeaturedModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
 
-		$secondary = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
-		$primary   = \ContentHelperQuery::orderbyPrimary($categoryOrderby);
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate);
+		$primary   = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
