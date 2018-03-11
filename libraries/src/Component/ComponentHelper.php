@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
@@ -368,7 +369,7 @@ class ComponentHelper
 			}
 
 			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app, $app->input));
+			$contents = static::dispatchComponent(new $class($app, $app->input, new MVCFactoryFactory('Joomla\\Component\\' . ucwords($file))));
 		}
 		else
 		{
