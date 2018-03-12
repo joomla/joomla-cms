@@ -18,9 +18,7 @@ $buttons = $displayData;
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 			<?php echo $this->sublayout('button', $button); ?>
-		<?php endforeach; ?>
-		<?php foreach ($buttons as $button) : ?>
-			<?php echo LayoutHelper::render('joomla.editors.buttons.modal', $button); ?>
+			<?php echo $this->sublayout('modal', $button); ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </div>
