@@ -53,13 +53,13 @@ class PlgSystemFields extends JPlugin
 		foreach ($form->getGroup('com_fields') as $field)
 		{
 			// Make sure the data object has an entry
-			if (isset($data->{$field->fieldname}))
+			if (isset($data->com_fields[$field->fieldname]))
 			{
 				continue;
 			}
 
 			// Set a default value for the field
-			$data->{$field->fieldname} = false;
+			$data->com_fields[$field->fieldname] = false;
 		}
 	}
 
