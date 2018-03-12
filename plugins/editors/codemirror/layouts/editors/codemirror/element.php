@@ -15,38 +15,31 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-$options = $displayData->options;
-$params  = $displayData->params;
-$name    = $displayData->name;
-$id      = $displayData->id;
-$cols    = $displayData->cols;
-$rows    = $displayData->rows;
-$content = $displayData->content;
-$buttons = $displayData->buttons;
-$basePath = $params->get('basePath', 'media/vendor/codemirror/');
-$modePath = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
-
-$modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
-$basePath = $params->get('basePath', 'media/vendor/codemirror/');
-$modePath = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
-$extJS    = JDEBUG ? '.js' : '.min.js';
-
+$options         = $displayData->options;
+$params          = $displayData->params;
+$name            = $displayData->name;
+$id              = $displayData->id;
+$cols            = $displayData->cols;
+$rows            = $displayData->rows;
+$content         = $displayData->content;
+$modifier        = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
+$basePath        = $params->get('basePath', 'media/vendor/codemirror/');
+$modePath        = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
+$modPath         = 'mod-path="' . Uri::root(true) . '/' . $modePath . $extJS . '"';
+$extJS           = JDEBUG ? '.js' : '.min.js';
+$extCSS          = JDEBUG ? '.css' : '.min.css';
 $fskeys          = $params->get('fullScreenMod', array());
 $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo);
-$modPath         = 'mod-path="' . Uri::root(true) . '/' . $modePath . $extJS . '"';
 $option          = 'options=' . json_encode($options);
 
-$basePath = $params->get('basePath', 'media/vendor/codemirror/');
-$modePath = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
-$extCSS   = JDEBUG ? '.css' : '.min.css';
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
 
-$editor   = Uri::root() . ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/');
-$addons    = Uri::root() . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/');
+$editor   = ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/');
+$addons    = ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/');
 
 HTMLHelper::_('webcomponent', ['joomla-editor-codemirror' => 'system/webcomponents/joomla-editor-codemirror.js'], array('version' => 'auto', 'relative' => true));
 

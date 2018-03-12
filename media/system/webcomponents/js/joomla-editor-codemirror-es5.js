@@ -56,7 +56,7 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 			var cmPath = _this.getAttribute('editor');
 			var script1 = document.createElement('script');
 
-			script1.src = cmPath;
+			script1.src = Joomla.getOptions('system.paths').rootFull + cmPath;
 			script1.id = 'cm-editor';
 			script1.setAttribute('async', false);
 			document.head.insertBefore(script1, _this.file);
@@ -73,11 +73,12 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 			var _this2 = this;
 
 			this.checkElement('CodeMirror').then(function () {
+				// Append the addons script
 				if (!document.head.querySelector('#cm-addons')) {
 					var addonsPath = _this2.getAttribute('addons');
 					var script2 = document.createElement('script');
 
-					script2.src = addonsPath;
+					script2.src = Joomla.getOptions('system.paths').rootFull + addonsPath;
 					script2.id = 'cm-addons';
 					script2.setAttribute('async', false);
 					document.head.insertBefore(script2, _this2.file);
@@ -119,7 +120,7 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 							_this2.parentNode.style.minWidth = 0;
 						}
 					});
-					console.log(_this2.element);
+
 					/** Register Editor */
 					_this2.instance = window.CodeMirror.fromTextArea(_this2.element, _this2.options);
 					Joomla.editors.instances[_this2.element.id] = _this2.instance;
@@ -129,7 +130,8 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 	}, {
 		key: 'disconnectedCallback',
 		value: function disconnectedCallback() {
-			// remove Joomla.editors.instances[this.element.id]
+			// Remove from the Joomla API
+			delete Joomla.editors.instances[this.element.id];
 		}
 	}, {
 		key: 'refresh',
