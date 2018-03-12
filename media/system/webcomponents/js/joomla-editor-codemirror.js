@@ -42,7 +42,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const buttons = [].slice.call(this.querySelectorAll('.editor-codemirror-xtd-buttons .xtd-button'));
+		const buttons = [].slice.call(this.querySelectorAll('.editor-xtd-buttons .xtd-button'));
 		this.checkElement('CodeMirror')
 			.then(() => {
 				// Append the addons script
