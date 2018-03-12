@@ -694,7 +694,7 @@ class FormController extends BaseController
 			return false;
 		}
 
-		// Send an object which can be modified trough the plugin event
+		// Send an object which can be modified through the plugin event
 		$objData = (object) $data;
 		$app->triggerEvent(
 			'onContentNormaliseRequestData',

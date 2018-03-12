@@ -135,7 +135,7 @@ class PlgSystemFields extends JPlugin
 				$value = $field->rawvalue;
 			}
 
-			// If no value set (empty) remove value fom database
+			// If no value set (empty) remove value from database
 			if (empty($value))
 			{
 				$value = null;
