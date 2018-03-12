@@ -299,6 +299,10 @@ class UsersModelProfile extends JModelForm
 		$userId = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 
 		$user = new JUser($userId);
+		$form = $this->getForm($data, false);
+
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$data = FieldsHelper::normaliseFieldsRequestData($form, $data);
 
 		// Prepare the data for the user object.
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);

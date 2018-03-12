@@ -211,6 +211,10 @@ class UsersModelUser extends JModelAdmin
 	{
 		$pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user = JUser::getInstance($pk);
+		$form = $this->getForm($data, false);
+
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$data = FieldsHelper::normaliseFieldsRequestData($form, $data);
 
 		$my = JFactory::getUser();
 		$iAmSuperAdmin = $my->authorise('core.admin');

@@ -750,4 +750,44 @@ class FieldsHelper
 		self::$fieldCache  = null;
 		self::$fieldsCache = null;
 	}
+
+	/**
+	 * Ensures that there is an entry in the data array for every field on the form. Groups will be respected too.
+	 * This is needed for:
+	 * 	+ checkboxes and radio fields as when no value is selected then the data array contains no entry.
+	 * 	+ fields that are configured to not show on the form in order to retain those fields data
+	 *
+	 * @param   Form   $form  The form
+	 * @param   array  $data  The data
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function normaliseFieldsRequestData($form, array $data)
+	{
+		// Loop over all fields
+		foreach ($form->getFieldset() as $field)
+		{
+			// If the field has no group, we are done here
+			if (!$field->group == 'com_fields')
+			{
+				continue;
+			}
+
+			// Ensure there is always an array for the group
+			if (!key_exists($field->group, $data))
+			{
+				$data[$field->group] = array();
+			}
+
+			// Make sure the data group array has an entry
+			if (!key_exists($field->fieldname, $data[$field->group]))
+			{
+				$data[$field->group][$field->fieldname] = false;
+			}
+		}
+
+		return $data;
+	}
 }

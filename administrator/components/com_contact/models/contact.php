@@ -383,6 +383,10 @@ class ContactModelContact extends JModelAdmin
 	public function save($data)
 	{
 		$input = JFactory::getApplication()->input;
+		$form = $this->getForm($data, false);
+
+		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+		$data = FieldsHelper::normaliseFieldsRequestData($form, $data);
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
