@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ class HtmlDocument extends Document
 		// Set document type
 		$this->_type = 'html';
 
-		// Set default mime type and document metadata (meta data syncs with mime type by default)
+		// Set default mime type and document metadata (metadata syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
 	}
 
@@ -145,7 +145,7 @@ class HtmlDocument extends Document
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
-		$data['scriptText']  = \JText::script();
+		$data['scriptText']  = \JText::getScriptStrings();
 
 		return $data;
 	}
@@ -755,6 +755,7 @@ class HtmlDocument extends Document
 					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
 			}
+
 			// Reverse the last array so the jdocs are in forward order.
 			$template_tags_last = array_reverse($template_tags_last);
 

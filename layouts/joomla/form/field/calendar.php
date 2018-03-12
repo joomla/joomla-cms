@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,7 +127,8 @@ JHtml::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
 			data-only-months-nav="<?php echo $singleheader; ?>"
 			<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 			<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-		><span class="icon-calendar"></span></button>
+			title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
+		><span class="icon-calendar" aria-hidden="true"></span></button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
 <?php endif; ?>

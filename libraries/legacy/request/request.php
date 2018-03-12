@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,7 +272,7 @@ class JRequest
 	}
 
 	/**
-	 * Cmd (Word and Integer0 filter
+	 * Cmd (Word and Integer) filter
 	 *
 	 * Fetches and returns a given filtered variable. The cmd
 	 * filter only allows the characters [A-Za-z0-9.-_]. This is

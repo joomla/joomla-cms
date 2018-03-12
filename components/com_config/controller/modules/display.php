@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 {
 	/**
@@ -84,7 +84,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 		if (class_exists($viewClass))
 		{
-
 			$model = new $modelClass;
 
 			// Access check.
@@ -95,7 +94,6 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);
-
 			}
 
 			// Need to add module name to the state of model
@@ -123,6 +121,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
 }

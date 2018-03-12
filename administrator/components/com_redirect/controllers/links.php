@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,7 +132,8 @@ class RedirectControllerLinks extends JControllerAdmin
 		{
 			if (!empty($batch_urls_line))
 			{
-				$batch_urls[] = array_map('trim', explode('|', $batch_urls_line));
+				$params = JComponentHelper::getParams('com_redirect');
+				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
 			}
 		}
 

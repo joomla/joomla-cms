@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,30 @@ jQuery(document).ready(function ($){
 			$('#jform_parent_id').trigger('liszt:updated');
 		});
 	});
+	
+	// Menu type Login Form specific
+	$('#item-form').on('submit', function() {
+		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
+			// Login
+			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_url').val('');
+
+			}
+
+			// Logout
+			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_url').val('');
+			}
+		}
+	});
 });
+
 Joomla.submitbutton = function(task, type){
 	if (task == 'item.setType' || task == 'item.setMenuType')
 	{
@@ -109,6 +132,11 @@ $clientId = $this->state->get('item.client_id', 0);
 				if ($this->item->type == 'alias')
 				{
 					echo $this->form->renderFieldset('aliasoptions');
+				}
+
+				if ($this->item->type == 'separator')
+				{
+					echo $this->form->renderField('text_separator', 'params');
 				}
 
 				echo $this->form->renderFieldset('request');

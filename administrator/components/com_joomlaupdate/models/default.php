@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -245,7 +245,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  bool|string False on failure, basename of the file in any other case.
+	 * @return  boolean|string  False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -253,6 +253,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
@@ -282,7 +283,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			$response['basename'] = $this->downloadPackage($packageURL, $target);
+			$mirror = 0;
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+			{
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
+				$mirror++;
+			}
+
+			$response['basename'] = $download;
 		}
 		else
 		{
@@ -291,7 +301,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			if (empty($filesize))
 			{
-				$response['basename'] = $this->downloadPackage($packageURL, $target);
+				$mirror = 0;
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+				{
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
+					$mirror++;
+				}
+
+				$response['basename'] = $download;
 			}
 
 			// Yes, it's there, skip downloading.
@@ -341,7 +360,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$result = $http->get($url);
+		try
+		{
+			$result = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
@@ -922,7 +948,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -958,7 +984,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */

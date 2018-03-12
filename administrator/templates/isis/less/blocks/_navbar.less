@@ -70,6 +70,9 @@ body .navbar-fixed-top {
 	.nav-user {
 		font-size: 13px;
 	}
+	.nav-user .dropdown-menu li span {
+		padding-left: 10px;
+	}
 	.nav > li ul {
 		overflow-y: auto;
 		overflow-x: hidden;
@@ -134,7 +137,7 @@ body .navbar-fixed-top {
 	margin-bottom: 2px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	.navbar .admin-logo {
 		margin-left: 10px;
 		padding: 9px 9px 0 9px;
@@ -146,7 +149,7 @@ body .navbar-fixed-top {
 	background: rgba(255, 255, 255, 0.3);
 }
 
-@media (max-width: 979px) {
+@media (max-width: @lg-max) {
 	.navbar {
 		.nav {
 			font-size: 13px;
@@ -160,7 +163,7 @@ body .navbar-fixed-top {
 	}
 }
 
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	.navbar-search.pull-right {
 		float: none;
 		text-align: center;
@@ -180,11 +183,6 @@ body .navbar-fixed-top {
 .nav-collapse .nav li a,
 .dropdown-menu a {
 	background-image: none;
-}
-
-.nav-collapse .dropdown-menu > li > span {
-	display: block;
-	padding: 3px 20px;
 }
 
 .nav-collapse .dropdown-menu > li {

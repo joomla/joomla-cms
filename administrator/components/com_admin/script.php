@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -430,6 +430,17 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			/*
+			 * Joomla 1.5
+			 *
+			 * Because of the way some sites were upgraded forward from 1.5, they may still have some files from the
+			 * core libraries that need to be explicitly checked for and removed because of the migration of the
+			 * core libraries to using PHP namespaces.  For example, the JVersion file is in an autoloaded path in 2.5+
+			 * and due to the autoloader priorities the JVersion class will be used before the namespaced
+			 * Joomla\CMS\Version.  This is a failsafe to ensure those files which MAY conflict with the current API
+			 * are removed.
+			 */
+			'/libraries/joomla/version.php',
 			// Joomla 1.6 - 1.7 - 2.5
 			'/libraries/cms/cmsloader.php',
 			'/libraries/joomla/database/databaseexception.php',
@@ -1566,6 +1577,7 @@ class JoomlaInstallerScript
 			'/components/com_wrapper/metadata.xml',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_cache/layouts/joomla/searchtools/default.php',
+			'/administrator/components/com_content/models/fields/votelist.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default/bar.php',
@@ -1596,29 +1608,30 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/postinstall/phpversion.php',
 			'/components/com_content/layouts/field/prepare/modal_article.php',
 			// Joomla 3.8.0
+			'/administrator/components/com_content/models/fields/votelist.php',
+			'/administrator/modules/mod_menu/preset/disabled.php',
+			'/administrator/modules/mod_menu/preset/enabled.php',
 			'/libraries/cms/application/administrator.php',
 			'/libraries/cms/application/cms.php',
 			'/libraries/cms/application/helper.php',
 			'/libraries/cms/application/site.php',
 			'/libraries/cms/authentication/helper.php',
 			'/libraries/cms/captcha/captcha.php',
+			'/libraries/cms/component/exception/missing.php',
 			'/libraries/cms/component/helper.php',
 			'/libraries/cms/component/record.php',
-			'/libraries/cms/component/exception/missing.php',
+			'/libraries/cms/component/router/base.php',
+			'/libraries/cms/component/router/interface.php',
+			'/libraries/cms/component/router/legacy.php',
 			'/libraries/cms/component/router/rules/interface.php',
 			'/libraries/cms/component/router/rules/menu.php',
 			'/libraries/cms/component/router/rules/nomenu.php',
 			'/libraries/cms/component/router/rules/standard.php',
-			'/libraries/cms/component/router/base.php',
-			'/libraries/cms/component/router/interface.php',
-			'/libraries/cms/component/router/legacy.php',
 			'/libraries/cms/component/router/view.php',
 			'/libraries/cms/component/router/viewconfiguration.php',
 			'/libraries/cms/editor/editor.php',
 			'/libraries/cms/error/page.php',
-			'/libraries/cms/filter/input.php',
-			'/libraries/cms/filter/output.php',
-			'/libraries/cms/filter/wrapper/output.php',
+			'/libraries/cms/extension/helper.php',
 			'/libraries/cms/form/field/author.php',
 			'/libraries/cms/form/field/captcha.php',
 			'/libraries/cms/form/field/chromestyle.php',
@@ -1627,7 +1640,7 @@ class JoomlaInstallerScript
 			'/libraries/cms/form/field/contenttype.php',
 			'/libraries/cms/form/field/editor.php',
 			'/libraries/cms/form/field/frontend_language.php',
-			'/libraries/cms/form/field/headertab.php',
+			'/libraries/cms/form/field/headertag.php',
 			'/libraries/cms/form/field/helpsite.php',
 			'/libraries/cms/form/field/lastvisitdaterange.php',
 			'/libraries/cms/form/field/limitbox.php',
@@ -1643,8 +1656,8 @@ class JoomlaInstallerScript
 			'/libraries/cms/form/field/status.php',
 			'/libraries/cms/form/field/tag.php',
 			'/libraries/cms/form/field/templatestyle.php',
-			'/libraries/cms/form/field/useractive.php',
 			'/libraries/cms/form/field/user.php',
+			'/libraries/cms/form/field/useractive.php',
 			'/libraries/cms/form/field/usergrouplist.php',
 			'/libraries/cms/form/field/userstate.php',
 			'/libraries/cms/form/rule/captcha.php',
@@ -1658,12 +1671,8 @@ class JoomlaInstallerScript
 			'/libraries/cms/helper/route.php',
 			'/libraries/cms/helper/tags.php',
 			'/libraries/cms/helper/usergroups.php',
+			'/libraries/cms/html/html.php',
 			'/libraries/cms/installer/adapter.php',
-			'/libraries/cms/installer/extension.php',
-			'/libraries/cms/installer/helper.php',
-			'/libraries/cms/installer/installer.php',
-			'/libraries/cms/installer/manifest.php',
-			'/libraries/cms/installer/script.php',
 			'/libraries/cms/installer/adapter/component.php',
 			'/libraries/cms/installer/adapter/file.php',
 			'/libraries/cms/installer/adapter/language.php',
@@ -1672,8 +1681,14 @@ class JoomlaInstallerScript
 			'/libraries/cms/installer/adapter/package.php',
 			'/libraries/cms/installer/adapter/plugin.php',
 			'/libraries/cms/installer/adapter/template.php',
+			'/libraries/cms/installer/extension.php',
+			'/libraries/cms/installer/helper.php',
+			'/libraries/cms/installer/installer.php',
+			'/libraries/cms/installer/manifest.php',
 			'/libraries/cms/installer/manifest/library.php',
 			'/libraries/cms/installer/manifest/package.php',
+			'/libraries/cms/installer/script.php',
+			'/libraries/cms/language/associations.php',
 			'/libraries/cms/language/multilang.php',
 			'/libraries/cms/layout/base.php',
 			'/libraries/cms/layout/file.php',
@@ -1718,6 +1733,7 @@ class JoomlaInstallerScript
 			'/libraries/cms/ucm/base.php',
 			'/libraries/cms/ucm/content.php',
 			'/libraries/cms/ucm/type.php',
+			'/libraries/cms/ucm/ucm.php',
 			'/libraries/cms/version/version.php',
 			'/libraries/joomla/access/access.php',
 			'/libraries/joomla/access/exception/notallowed.php',
@@ -1727,6 +1743,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/application/base.php',
 			'/libraries/joomla/application/cli.php',
 			'/libraries/joomla/application/daemon.php',
+			'/libraries/joomla/application/route.php',
 			'/libraries/joomla/application/web.php',
 			'/libraries/joomla/association/extension/helper.php',
 			'/libraries/joomla/association/extension/interface.php',
@@ -1825,6 +1842,16 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rule/url.php',
 			'/libraries/joomla/form/rule/username.php',
 			'/libraries/joomla/form/wrapper/helper.php',
+			'/libraries/joomla/http/factory.php',
+			'/libraries/joomla/http/http.php',
+			'/libraries/joomla/http/response.php',
+			'/libraries/joomla/http/transport.php',
+			'/libraries/joomla/http/transport/cacert.pem',
+			'/libraries/joomla/http/transport/curl.php',
+			'/libraries/joomla/http/transport/socket.php',
+			'/libraries/joomla/http/transport/stream.php',
+			'/libraries/joomla/http/wrapper/factory.php',
+			'/libraries/joomla/image/filter.php',
 			'/libraries/joomla/image/filter/backgroundfill.php',
 			'/libraries/joomla/image/filter/brightness.php',
 			'/libraries/joomla/image/filter/contrast.php',
@@ -1834,7 +1861,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/image/filter/negate.php',
 			'/libraries/joomla/image/filter/sketchy.php',
 			'/libraries/joomla/image/filter/smooth.php',
-			'/libraries/joomla/image/filter.php',
 			'/libraries/joomla/image/image.php',
 			'/libraries/joomla/input/cli.php',
 			'/libraries/joomla/input/cookie.php',
@@ -1845,6 +1871,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/language/language.php',
 			'/libraries/joomla/language/stemmer.php',
 			'/libraries/joomla/language/stemmer/porteren.php',
+			'/libraries/joomla/language/text.php',
 			'/libraries/joomla/language/transliterate.php',
 			'/libraries/joomla/language/wrapper/helper.php',
 			'/libraries/joomla/language/wrapper/text.php',
@@ -1865,6 +1892,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/mail/wrapper/helper.php',
 			'/libraries/joomla/microdata/microdata.php',
 			'/libraries/joomla/microdata/types.json',
+			'/libraries/joomla/object/object.php',
 			'/libraries/joomla/profiler/profiler.php',
 			'/libraries/joomla/session/exception/unsupported.php',
 			'/libraries/joomla/session/session.php',
@@ -1918,8 +1946,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/legacy.php',
 			'/libraries/legacy/web/client.php',
 			'/libraries/legacy/web/web.php',
-			'/administrator/modules/mod_menu/preset/enabled.php',
-			'/administrator/modules/mod_menu/preset/disabled.php',
+			// Joomla 3.8.4
+			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2052,6 +2080,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.7.4
 			'/components/com_fields/controllers',
 			// Joomla! 3.8.0
+			'/administrator/modules/mod_menu/preset',
 			'/libraries/cms/application',
 			'/libraries/cms/authentication',
 			'/libraries/cms/captcha',
@@ -2061,6 +2090,7 @@ class JoomlaInstallerScript
 			'/libraries/cms/component',
 			'/libraries/cms/editor',
 			'/libraries/cms/error',
+			'/libraries/cms/extension',
 			'/libraries/cms/form/field',
 			'/libraries/cms/form/rule',
 			'/libraries/cms/form',
@@ -2119,17 +2149,22 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filter',
 			'/libraries/joomla/form/rule',
 			'/libraries/joomla/form/wrapper',
+			'/libraries/joomla/http/transport',
+			'/libraries/joomla/http/wrapper',
+			'/libraries/joomla/http',
 			'/libraries/joomla/image/filter',
 			'/libraries/joomla/image',
 			'/libraries/joomla/input',
 			'/libraries/joomla/language/stemmer',
 			'/libraries/joomla/language/wrapper',
+			'/libraries/joomla/language',
 			'/libraries/joomla/log/logger',
 			'/libraries/joomla/log',
 			'/libraries/joomla/mail/language',
 			'/libraries/joomla/mail/wrapper',
 			'/libraries/joomla/mail',
 			'/libraries/joomla/microdata',
+			'/libraries/joomla/object',
 			'/libraries/joomla/profiler',
 			'/libraries/joomla/session/exception',
 			'/libraries/joomla/table',
@@ -2142,9 +2177,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/categories',
 			'/libraries/legacy/controller',
 			'/libraries/legacy/model',
+			'/libraries/legacy/table/menu',
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
-			'/administrator/modules/mod_menu/preset',
+			'/media/editors/tinymce/plugins/jdragdrop',
 		);
 
 		jimport('joomla.filesystem.file');

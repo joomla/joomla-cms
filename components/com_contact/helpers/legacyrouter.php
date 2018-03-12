@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,14 +86,14 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		}
 
 		// Are we dealing with a contact that is attached to a menu item?
-		if (isset($view) && ($mView == $view) and isset($query['id']) and ($mId == (int) $query['id']))
+		if (isset($view) && ($mView == $view) && isset($query['id']) && ($mId == (int) $query['id']))
 		{
 			unset($query['view'], $query['catid'], $query['id']);
 
 			return;
 		}
 
-		if (isset($view) and ($view == 'category' or $view == 'contact'))
+		if (isset($view) && ($view == 'category' || $view == 'contact'))
 		{
 			if ($mId != (int) $query['id'] || $mView != $view)
 			{
@@ -159,7 +159,6 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 			{
 				if ($query['layout'] == $menuItem->query['layout'])
 				{
-
 					unset($query['layout']);
 				}
 			}
@@ -213,6 +212,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		{
 			$vars['view'] = $segments[0];
 			$vars['id'] = $segments[$count - 1];
+
 			return;
 		}
 
