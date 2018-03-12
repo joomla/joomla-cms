@@ -50,13 +50,15 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 		_this.cm = '';
 		_this.file = document.currentScript;
 		_this.element = _this.querySelector('textarea');
+		_this.host = window.location.origin;
+		_this.port = window.location.port ? ':' + window.location.port : '';
 
 		// Append the editor script
 		if (!document.head.querySelector('#cm-editor')) {
 			var cmPath = _this.getAttribute('editor');
 			var script1 = document.createElement('script');
 
-			script1.src = Joomla.getOptions('system.paths').rootFull + cmPath;
+			script1.src = _this.host + _this.port + ('\\' + cmPath);
 			script1.id = 'cm-editor';
 			script1.setAttribute('async', false);
 			document.head.insertBefore(script1, _this.file);
@@ -79,7 +81,7 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 					var addonsPath = _this2.getAttribute('addons');
 					var script2 = document.createElement('script');
 
-					script2.src = Joomla.getOptions('system.paths').rootFull + addonsPath;
+					script2.src = _this2.host + _this2.port + ('\\' + addonsPath);
 					script2.id = 'cm-addons';
 					script2.setAttribute('async', false);
 					document.head.insertBefore(script2, _this2.file);
