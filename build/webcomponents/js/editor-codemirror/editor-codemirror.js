@@ -42,6 +42,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 	}
 
 	connectedCallback() {
+		const buttons = [].slice.call(this.querySelectorAll('.editor-codemirror-xtd-buttons .xtd-button'));
 		this.checkElement('CodeMirror')
 			.then(() => {
 				// Append the addons script
@@ -63,6 +64,16 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
 						// For mode autoloading.
 						window.CodeMirror.modeURL = this.getAttribute('mod-path');
+
+						window.CodeMirror.defineOption("buttons", [], (cm) => {
+							const panelNode = document.createElement('div');
+							panelNode.className = 'CodeMirror-buttonsPanel';
+							buttons.forEach((el) => {
+								panelNode.appendChild(el);
+							});
+
+							cm.addPanel(panelNode);
+						});
 
 						// Fire this function any time an editor is created.
 						window.CodeMirror.defineInitHook((editor) => {
