@@ -116,7 +116,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		// Irrelevant, because password was not changed by user
-		if ($data['password_clear'] == '')
+		if (empty($data['password_clear']))
 		{
 			return true;
 		}
