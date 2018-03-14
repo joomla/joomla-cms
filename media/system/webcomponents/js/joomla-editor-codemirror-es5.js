@@ -94,15 +94,16 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 					// For mode autoloading.
 					window.CodeMirror.modeURL = _this2.getAttribute('mod-path');
 
-					window.CodeMirror.defineOption("buttons", [], function (cm) {
-						var panelNode = document.createElement('div');
-						panelNode.className = 'CodeMirror-buttonsPanel';
-						buttons.forEach(function (el) {
-							panelNode.appendChild(el);
-						});
-
-						cm.addPanel(panelNode);
-					});
+					// Code for buttons consistency
+					// window.CodeMirror.defineOption("buttons", [], (cm) => {
+					// 	const panelNode = document.createElement('div');
+					// 	panelNode.className = 'CodeMirror-buttonsPanel';
+					// 	buttons.forEach((el) => {
+					// 		panelNode.appendChild(el);
+					// 	});
+					//
+					// 	cm.addPanel(panelNode);
+					// });
 
 					// Fire this function any time an editor is created.
 					window.CodeMirror.defineInitHook(function (editor) {
