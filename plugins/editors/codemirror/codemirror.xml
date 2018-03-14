@@ -170,10 +170,9 @@
 
 				<field
 					name="keyMap"
-					type="radio"
+					type="list"
 					label="PLG_CODEMIRROR_FIELD_KEYMAP_LABEL"
 					description="PLG_CODEMIRROR_FIELD_KEYMAP_DESC"
-					class="btn-group btn-group-yesno"
 					default=""
 					filter="options"
 					>
