@@ -59,8 +59,8 @@ $format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 HTMLHelper::_('webcomponent',
-	['joomla-switcher' => 'vendor/joomla-custom-elements/joomla-switcher.min.js'],
-	['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]
+	['joomla-switcher' => 'system/webcomponents/joomla-field-switcher.min.js'],
+	['relative' => true, 'version' => 'auto']
 );
 
 // Set the type of switcher
@@ -81,7 +81,7 @@ if (!empty($disabled))
 }
 
 ?>
-<joomla-switcher <?php echo implode(' ', $attribs); ?>>
+<joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
@@ -97,4 +97,4 @@ if (!empty($disabled))
 		?>
 		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 	<?php endforeach; ?>
-</joomla-switcher>
+</joomla-field-switcher>
