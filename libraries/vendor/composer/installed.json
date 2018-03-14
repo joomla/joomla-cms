@@ -1309,38 +1309,36 @@
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/session.git",
-            "reference": "a28836b46c3a83b0f1adeb4ef07112f3d1615f1a"
+            "reference": "fae9b43f5d6b2dee4efcc634545196ae418f8b53"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/session/zipball/a28836b46c3a83b0f1adeb4ef07112f3d1615f1a",
-            "reference": "a28836b46c3a83b0f1adeb4ef07112f3d1615f1a",
+            "url": "https://api.github.com/repos/joomla-framework/session/zipball/fae9b43f5d6b2dee4efcc634545196ae418f8b53",
+            "reference": "fae9b43f5d6b2dee4efcc634545196ae418f8b53",
             "shasum": ""
         },
         "require": {
             "php": "~7.0"
         },
         "require-dev": {
+            "joomla/coding-standards": "~2.0@alpha",
             "joomla/database": "~2.0@dev",
             "joomla/event": "~2.0@dev",
             "joomla/input": "~2.0@dev",
             "joomla/test": "~1.0",
-            "phpunit/dbunit": "~1.3",
-            "phpunit/phpunit": "^5.4.3",
-            "squizlabs/php_codesniffer": "1.*"
+            "phpunit/dbunit": "~3.0",
+            "phpunit/phpunit": "~6.3"
         },
         "suggest": {
             "ext-apcu": "To use APCu cache as a session handler",
-            "ext-memcache": "To use a Memcache server as a session handler",
             "ext-memcached": "To use a Memcached server as a session handler",
             "ext-redis": "To use a Redis server as a session handler",
             "ext-wincache": "To use WinCache as a session handler",
-            "ext-xcache": "To use XCache as a session handler",
             "joomla/database": "Install joomla/database if you want to use Database session storage.",
             "joomla/event": "The joomla/event package is required to use Joomla\\Session\\Session.",
             "joomla/input": "The joomla/input package is required to use Address and Forwarded session validators."
         },
-        "time": "2018-02-07T00:53:50+00:00",
+        "time": "2018-03-13T00:03:35+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
