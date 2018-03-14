@@ -36,7 +36,7 @@ if (is_array($button->get('options')) && isset($options['confirmText']) && isset
 		. $options['confirmText'] . '</a>';
 }
 
-if (null !== $button->get('text'))
+if (null !== $button->get('id'))
 {
 	$id = str_replace(' ', '', $button->get('id'));
 }
