@@ -52,9 +52,9 @@ Text::script('JHIDE');
 					required="required"
                     tabindex="2"
                 >
-				<span class="input-group-addon">
-					<span class="fa fa-eye" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+				<span class="input-group-addon input-group-append">
+					<span class="fa fa-eye input-group-text input-group-show" aria-hidden="true"></span>
+					<span class="sr-only input-group-text"><?php echo Text::_('JSHOW'); ?></span>
 				</span>
 			</div>
 		</div>
