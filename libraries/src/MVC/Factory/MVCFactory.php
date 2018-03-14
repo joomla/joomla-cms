@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects based on a namespace.
@@ -49,6 +50,36 @@ class MVCFactory implements MVCFactoryInterface
 	{
 		$this->namespace   = $namespace;
 		$this->application = $application;
+	}
+
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
+	{
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Controller\\' . ucfirst($name) . 'Controller', $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		return new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
 	}
 
 	/**
@@ -124,7 +155,7 @@ class MVCFactory implements MVCFactoryInterface
 	public function createTable($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
