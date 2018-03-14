@@ -66,17 +66,6 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 						// For mode autoloading.
 						window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
-						// Code for buttons consistency
-						// window.CodeMirror.defineOption("buttons", [], (cm) => {
-						// 	const panelNode = document.createElement('div');
-						// 	panelNode.className = 'CodeMirror-buttonsPanel';
-						// 	buttons.forEach((el) => {
-						// 		panelNode.appendChild(el);
-						// 	});
-						//
-						// 	cm.addPanel(panelNode);
-						// });
-
 						// Fire this function any time an editor is created.
 						window.CodeMirror.defineInitHook((editor) => {
 							// Try to set up the mode
@@ -101,7 +90,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 							});
 
 							// Some browsers do something weird with the fieldset which doesn't work well with CodeMirror. Fix it.
-							if (this.parentNode.tagName === 'fieldset') {
+							if (this.parentNode.tagName.toLowerCase() === 'fieldset') {
 								this.parentNode.style.minWidth = 0;
 							}
 						});
