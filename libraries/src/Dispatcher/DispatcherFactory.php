@@ -72,7 +72,12 @@ class DispatcherFactory implements DispatcherFactoryInterface
 			$name = 'Administrator';
 		}
 
-		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
+		$className = '\\Joomla\\CMS\\Dispatcher\\Dispatcher';
+
+		if ($this->namespace)
+		{
+			$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
+		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
 	}
