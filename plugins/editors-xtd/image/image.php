@@ -48,7 +48,7 @@ class PlgButtonImage extends JPlugin
 			$extension = $parts[0];
 		}
 
-		$asset = $asset !== '' ? $asset : $extension;
+		$asset = $asset ? $asset : $extension;
 
 		if ($user->authorise('core.edit', $asset)
 			|| $user->authorise('core.create', $asset)
