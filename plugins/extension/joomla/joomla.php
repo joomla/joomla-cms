@@ -76,7 +76,7 @@ class PlgExtensionJoomla extends JPlugin
 			}
 		}
 
-		// Check if it has an update site id (creation might have faileD)
+		// Check if it has an update site id (creation might have failed)
 		if ($update_site_id)
 		{
 			// Look for an update site entry that exists
