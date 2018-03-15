@@ -7,14 +7,15 @@
   float: none;
   width: 25%;
   padding: $gutter-width;
-  overflow: hidden;
+  overflow-y: scroll;
   background-color: $info-bg;
   border-left: 1px solid $border-color;
   h2 {
-    padding: 0 $gutter-width;
+    padding: 10px ($gutter-width + 30px) 10px $gutter-width;
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
     line-height: $info-title-height;
+    word-wrap: break-word;
     background-color: $info-title-bg;
     border-bottom: 1px solid #eee;
   }
