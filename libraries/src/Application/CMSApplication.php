@@ -64,14 +64,6 @@ class CMSApplication extends WebApplication
 	protected $_messageQueue = array();
 
 	/**
-	 * The session metadata manager
-	 *
-	 * @var    MetadataManager
-	 * @since  3.8.6
-	 */
-	protected $metadataManager = null;
-
-	/**
 	 * The name of the application.
 	 *
 	 * @var    array
@@ -115,8 +107,6 @@ class CMSApplication extends WebApplication
 	{
 		parent::__construct($input, $config, $client);
 
-		$this->metadataManager = new MetadataManager($this, \JFactory::getDbo());
-
 		// Load and set the dispatcher
 		$this->loadDispatcher();
 
@@ -158,7 +148,8 @@ class CMSApplication extends WebApplication
 	 */
 	public function checkSession()
 	{
-		$this->metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
+		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
+		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
 	}
 
 	/**
