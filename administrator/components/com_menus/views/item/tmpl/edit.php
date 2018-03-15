@@ -46,7 +46,7 @@ jQuery(document).ready(function ($){
 			$('#jform_parent_id').trigger('liszt:updated');
 		});
 	});
-	
+
 	// Menu type Login Form specific
 	$('#item-form').on('submit', function() {
 		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
@@ -114,10 +114,28 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+
+// Load mod_menu.ini file when client is administrator
+if ($clientId == 1)
+{
+	JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+
+		<?php // Add the translation of the menu item title when client is administrator ?>
+		<?php if ($clientId === 1) : ?>
+			<div class="control-group form-inline-header">
+				<div class="form-inline-header control-label">
+					<label><?php echo JText::_('COM_MENUS_TITLE_TRANSLATION'); ?></label>
+				</div>
+				<div class="form-inline-header controls">
+					<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="" type="text">
+				</div>
+			</div>
+		<?php endif; ?>
 
 	<div class="form-horizontal">
 
