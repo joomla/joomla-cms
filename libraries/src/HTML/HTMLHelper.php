@@ -424,14 +424,22 @@ abstract class HTMLHelper
 			$browser   = $navigator->getBrowser();
 			$major     = $navigator->getMajor();
 			$minor     = $navigator->getMinor();
+			$minExt    = '';
+
+			if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
+			{
+				$minExt    = '.min';
+				$strip = preg_replace('#\.min$#', '', $strip);
+
+			}
 
 			// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 			// where major and minor are the browser version names
 			$potential = array(
-				$strip,
-				$strip . '_' . $browser,
-				$strip . '_' . $browser . '_' . $major,
-				$strip . '_' . $browser . '_' . $major . '_' . $minor,
+				$strip . $minExt,
+				$strip . '_' . $browser . $minExt,
+				$strip . '_' . $browser . '_' . $major . $minExt,
+				$strip . '_' . $browser . '_' . $major . '_' . $minor . $minExt,
 			);
 		}
 		else
@@ -699,14 +707,14 @@ abstract class HTMLHelper
 			$attribs                  = $argList[1] ?? array();
 			$options['relative']      = $argList[2] ?? false;
 			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectBrowser'] = $argList[4] ?? false;
 			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
 		{
 			$options['relative']      = $options['relative'] ?? false;
 			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
@@ -772,7 +780,7 @@ abstract class HTMLHelper
 			$options['framework']     = $argList[1] ?? false;
 			$options['relative']      = $argList[2] ?? false;
 			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectBrowser'] = $argList[4] ?? false;
 			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
@@ -780,7 +788,7 @@ abstract class HTMLHelper
 			$options['framework']     = $options['framework'] ?? false;
 			$options['relative']      = $options['relative'] ?? false;
 			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
@@ -830,7 +838,7 @@ abstract class HTMLHelper
 	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
 	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
 	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
-	 *                             or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
+	 *                             or web component. Files need to have a -es5(.min).js for the non ES6
 	 *                             Browsers.
 	 *
 	 * @since   4.0.0
