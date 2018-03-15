@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -34,7 +35,7 @@ class Component implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set(
-			'component',
+			ComponentInterface::class,
 			function (Container $container)
 			{
 				$component = new \Joomla\CMS\Extension\Component;
