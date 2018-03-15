@@ -127,7 +127,7 @@ if ($clientId === 1)
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
-	<?php if ($clientId === 1) : ?>
+	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
 		<div class="control-group form-inline-header">
 			<div class="form-inline-header control-label">
 				<label><?php echo JText::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
