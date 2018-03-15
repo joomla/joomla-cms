@@ -114,6 +114,7 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+$lang     = JFactory::getLanguage()->getTag();
 
 // Load mod_menu.ini file when client is administrator
 if ($clientId == 1)
@@ -125,20 +126,19 @@ if ($clientId == 1)
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-		<?php // Add the translation of the menu item title when client is administrator ?>
-		<?php if ($clientId === 1) : ?>
-			<div class="control-group form-inline-header">
-				<div class="form-inline-header control-label">
-					<label><?php echo JText::_('COM_MENUS_TITLE_TRANSLATION'); ?></label>
-				</div>
-				<div class="form-inline-header controls">
-					<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="" type="text">
-				</div>
+	<?php // Add the translation of the menu item title when client is administrator ?>
+	<?php if ($clientId === 1) : ?>
+		<div class="control-group form-inline-header">
+			<div class="form-inline-header control-label">
+				<label><?php echo JText::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
 			</div>
-		<?php endif; ?>
+			<div class="form-inline-header controls">
+				<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="" type="text">
+			</div>
+		</div>
+	<?php endif; ?>
 
 	<div class="form-horizontal">
-
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
