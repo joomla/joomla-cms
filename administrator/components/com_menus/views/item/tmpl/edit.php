@@ -117,7 +117,7 @@ $clientId = $this->state->get('item.client_id', 0);
 $lang     = JFactory::getLanguage()->getTag();
 
 // Load mod_menu.ini file when client is administrator
-if ($clientId == 1)
+if ($clientId === 1)
 {
 	JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
 }
