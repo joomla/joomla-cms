@@ -128,11 +128,11 @@ if ($clientId === 1)
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
-		<div class="control-group form-inline-header">
-			<div class="form-inline-header control-label">
+		<div class="form-inline form-inline-header control-group">
+			<div class="control-label">
 				<label><?php echo JText::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
 			</div>
-			<div class="form-inline-header controls">
+			<div class="controls">
 				<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="" type="text">
 			</div>
 		</div>
