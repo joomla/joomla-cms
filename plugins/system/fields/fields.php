@@ -129,7 +129,7 @@ class PlgSystemFields extends JPlugin
 			}
 
 			// If no value set (empty) remove value from database
-			if (empty($value))
+			if (is_array($value) ? !count($value) : !strlen($value))
 			{
 				$value = null;
 			}
