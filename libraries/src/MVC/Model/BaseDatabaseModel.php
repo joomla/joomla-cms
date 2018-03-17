@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Base class for a Joomla Model
+ * Base class for a database aware Joomla Model
  *
  * Acts as a Factory class for application specific objects and provides many supporting API functions.
  *
  * @since  2.5.5
  */
-abstract class BaseModel extends \JObject
+abstract class BaseDatabaseModel extends \JObject
 {
 	/**
 	 * Indicates if the internal state has been set

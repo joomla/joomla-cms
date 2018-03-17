@@ -22,8 +22,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         '05d739a990f75f0c44ebe1f032b33148' => __DIR__ . '/..' . '/joomla/string/src/phputf8/ucwords.php',
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
@@ -48,7 +48,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Uri\\' => 11,
             'Joomla\\String\\' => 14,
             'Joomla\\Registry\\' => 16,
-            'Joomla\\Ldap\\Tests\\' => 18,
             'Joomla\\Ldap\\' => 12,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
@@ -59,7 +58,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
-            'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
@@ -107,10 +105,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
-        'Joomla\\Ldap\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/ldap/Tests',
-        ),
         'Joomla\\Ldap\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/ldap/src',
@@ -150,10 +144,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
-        ),
-        'Joomla\\DI\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/di/Tests',
         ),
         'Joomla\\DI\\' => 
         array (
@@ -213,25 +203,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\DI\\ContainerAwareTrait' => __DIR__ . '/..' . '/joomla/di/src/ContainerAwareTrait.php',
         'Joomla\\DI\\Exception\\DependencyResolutionException' => __DIR__ . '/..' . '/joomla/di/src/Exception/DependencyResolutionException.php',
         'Joomla\\DI\\ServiceProviderInterface' => __DIR__ . '/..' . '/joomla/di/src/ServiceProviderInterface.php',
-        'Joomla\\DI\\Tests\\AliasingTest' => __DIR__ . '/..' . '/joomla/di/Tests/AliasingTest.php',
-        'Joomla\\DI\\Tests\\ContainerAccessTest' => __DIR__ . '/..' . '/joomla/di/Tests/ContainerAccessTest.php',
-        'Joomla\\DI\\Tests\\ContainerAwareTraitTest' => __DIR__ . '/..' . '/joomla/di/Tests/ContainerAwareTraitTest.php',
-        'Joomla\\DI\\Tests\\ContainerSetupTest' => __DIR__ . '/..' . '/joomla/di/Tests/ContainerSetupTest.php',
-        'Joomla\\DI\\Tests\\HierachicalTest' => __DIR__ . '/..' . '/joomla/di/Tests/HierachicalTest.php',
-        'Joomla\\DI\\Tests\\ObjectBuildingTest' => __DIR__ . '/..' . '/joomla/di/Tests/ObjectBuildingTest.php',
-        'Joomla\\DI\\Tests\\ResourceDecoration' => __DIR__ . '/..' . '/joomla/di/Tests/ResourceDecorationTest.php',
-        'Joomla\\DI\\Tests\\ResourceTest' => __DIR__ . '/..' . '/joomla/di/Tests/ResourceTest.php',
-        'Joomla\\DI\\Tests\\ServiceProviderTest' => __DIR__ . '/..' . '/joomla/di/Tests/ServiceProviderTest.php',
-        'Joomla\\DI\\Tests\\Stub1' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub2' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub3' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub4' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub5' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub6' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub7' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub8' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\Stub9' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
-        'Joomla\\DI\\Tests\\StubInterface' => __DIR__ . '/..' . '/joomla/di/Tests/Stubs/stubs.php',
         'Joomla\\Data\\DataObject' => __DIR__ . '/..' . '/joomla/data/src/DataObject.php',
         'Joomla\\Data\\DataSet' => __DIR__ . '/..' . '/joomla/data/src/DataSet.php',
         'Joomla\\Data\\DumpableInterface' => __DIR__ . '/..' . '/joomla/data/src/DumpableInterface.php',
@@ -293,7 +264,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
-        'Joomla\\Ldap\\Tests\\LdapClientTest' => __DIR__ . '/..' . '/joomla/ldap/Tests/LdapClientTest.php',
         'Joomla\\Registry\\AbstractRegistryFormat' => __DIR__ . '/..' . '/joomla/registry/src/AbstractRegistryFormat.php',
         'Joomla\\Registry\\Factory' => __DIR__ . '/..' . '/joomla/registry/src/Factory.php',
         'Joomla\\Registry\\FormatInterface' => __DIR__ . '/..' . '/joomla/registry/src/FormatInterface.php',
@@ -319,7 +289,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Tests\\Handler\\NativeStorageTest' => __DIR__ . '/..' . '/joomla/session/tests/Storage/NativeStorageTest.php',
         'Joomla\\Session\\Tests\\Handler\\RedisHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/RedisHandlerTest.php',
         'Joomla\\Session\\Tests\\Handler\\WincacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/WincacheHandlerTest.php',
-        'Joomla\\Session\\Tests\\Handler\\XCacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/XCacheHandlerTest.php',
         'Joomla\\Session\\Tests\\SessionTest' => __DIR__ . '/..' . '/joomla/session/tests/SessionTest.php',
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
@@ -399,7 +368,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
-        'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
         'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -183,7 +183,6 @@ class PlgSearchCategories extends JPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-
 				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);

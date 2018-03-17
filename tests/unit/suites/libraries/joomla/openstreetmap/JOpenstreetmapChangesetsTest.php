@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,7 @@ XML;
 		$returnData->code = 200;
 		$returnData->body = $this->sampleXml;
 
-		// 		$path = 'http://api.openstreetmap.org/api/0.6/changeset/create';
+		// 		$path = 'https://api.openstreetmap.org/api/0.6/changeset/create';
 		$path = 'changeset/create';
 
 		$this->client->expects($this->once())

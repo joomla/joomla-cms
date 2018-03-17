@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,7 +115,8 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 	}
@@ -232,6 +233,70 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.2
+	 */
+	public function testPreprocessActive()
+	{
+		$this->saveFactoryState();
+
+		$router = $this->object->get('router');
+
+		// Set an active menu
+		$router->menu->active = 53;
+
+		// Test if the active Itemid is used although an article has other Itemid with id=52
+		$expect = $query = array('option' => 'com_content', 'view' => 'article', 'id' => '1', 'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Test if the active Itemid is used although an article has other Itemid with id=52
+		$expect = $query = array(
+			'option' => 'com_content',
+			'view' => 'article',
+			'id' => '1:some-alias',
+			'Itemid' => '53');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		$this->restoreFactoryState();
+	}
+
+	/**
+	 * Tests the preprocess() method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.2
+	 */
+	public function testPreprocessLayout()
+	{
+		$this->saveFactoryState();
+
+		$router = $this->object->get('router');
+
+		// Unset an active menu
+		$router->menu->active = null;
+
+		// Check link if default layout is set explicitly
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'default');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'default');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		// Check link if the layout is different than in menu item for parent category
+		$query = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'layout' => 'blog');
+		$expect = array('option' => 'com_content', 'view' => 'category', 'id' => '22', 'Itemid' => '49', 'layout' => 'blog');
+		$this->object->preprocess($query);
+		$this->assertEquals($expect, $query);
+
+		$this->restoreFactoryState();
+	}
+
+	/**
 	 * Tests the buildLookup() method
 	 *
 	 * @return  void
@@ -244,7 +309,8 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 
@@ -253,11 +319,13 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 			'*' => array(
 				'featured' => '47',
 				'categories' => array(14 => '48'),
-				'category' => array (20 => '49')),
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			'en-GB' => array(
 				'featured' => '51',
 				'categories' => array(14 => '50'),
-				'category' => array (20 => '49'))
+				'category' => array (20 => '49'),
+				'article' => array(1 => '52')),
 			), $this->object->get('lookup')
 		);
 	}
