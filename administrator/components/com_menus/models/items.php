@@ -519,6 +519,7 @@ class MenusModelItems extends JModelList
 		{
 			$items = parent::getItems();
 			$lang  = JFactory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -531,7 +532,10 @@ class MenusModelItems extends JModelList
 					}
 
 					// Translate component name
-					$item->title = JText::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = JText::_($item->title);
+					}
 				}
 			}
 
