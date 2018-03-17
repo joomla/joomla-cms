@@ -725,6 +725,31 @@
 			<option value="0">JNO</option>
 		</field>
 
+		<field
+			name="MetaGenerator"
+			type="list"
+			label="COM_CONFIG_FIELD_METAGENERATOR_LABEL"
+			description="COM_CONFIG_FIELD_METAGENERATOR_DESC"
+			default="1"
+			filter="integer"
+			>
+			<option value="1">JDEFAULT</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_DOMAIN</option>
+			<option value="3">COM_CONFIG_FIELD_VALUE_GENERATOR_TEXT</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="MetaGeneratorCustom"
+			type="text"
+			label="COM_CONFIG_FIELD_METAGENERATOR_CUSTOM_LABEL"
+			description="COM_CONFIG_FIELD_METAGENERATOR_CUSTOM_DESC"
+			filter="string"
+			size="50"
+			default=""
+			showon="MetaGenerator:3"
+		/>
+
 	</fieldset>
 
 	<fieldset

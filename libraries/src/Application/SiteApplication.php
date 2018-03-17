@@ -181,14 +181,37 @@ final class SiteApplication extends CMSApplication
 		$document->setTitle($params->get('page_title'));
 		$document->setDescription($params->get('page_description'));
 
-		// Add version number or not based on global configuration
-		if ($this->get('MetaVersion', 0))
+		$generatorType = $this->get('MetaGenerator');
+
+		switch ($generatorType) 
 		{
-			$document->setGenerator('Joomla! - Open Source Content Management - Version ' . JVERSION);
-		}
-		else
-		{
-			$document->setGenerator('Joomla! - Open Source Content Management');
+			case '1':
+				// Add version number or not based on global configuration
+				if ($this->get('MetaVersion', 0))
+				{
+					$document->setGenerator('Joomla! - Open Source Content Management - Version ' . JVERSION);
+				}
+				else
+				{
+					$document->setGenerator('Joomla! - Open Source Content Management');
+				}
+
+				break;
+
+			case '2':
+				$document->setGenerator(\JURI::root());
+
+				break;
+
+			case '3':
+				$document->setGenerator($this->get('MetaGeneratorCustom', ''));
+
+				break;
+
+			case '0':
+				$document->setGenerator('');
+
+				break;
 		}
 
 		$contents = ComponentHelper::renderComponent($component);

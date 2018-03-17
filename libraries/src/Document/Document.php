@@ -1018,7 +1018,14 @@ class Document
 	 */
 	public function setGenerator($generator)
 	{
-		$this->_generator = $generator;
+		if ($generator != '')
+		{
+			$this->_generator = $generator;
+		}
+		else 
+		{
+			$this->_generator = '';
+		}
 
 		return $this;
 	}
