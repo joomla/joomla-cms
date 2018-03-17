@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,19 +80,37 @@ class FeedEntry
 		// Validate that any authors that are set are instances of JFeedPerson or null.
 		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
-			throw new \InvalidArgumentException('FeedEntry "author" must be of type FeedPerson. ' . gettype($value) . 'given.');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		// Validate that any sources that are set are instances of JFeed or null.
 		if (($name == 'source') && (!($value instanceof Feed) || ($value === null)))
 		{
-			throw new \InvalidArgumentException('FeedEntry "source" must be of type Feed. ' . gettype($value) . 'given.');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		// Disallow setting categories, contributors, or links directly.
-		if (($name == 'categories') || ($name == 'contributors') || ($name == 'links'))
+		if (in_array($name, array('categories', 'contributors', 'links')))
 		{
-			throw new \InvalidArgumentException('Cannot directly set FeedEntry property "' . $name . '".');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'Cannot directly set %1$s property "%2$s".',
+					get_class($this),
+					$name
+				)
+			);
 		}
 
 		$this->properties[$name] = $value;

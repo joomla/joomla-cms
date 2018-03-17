@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,6 +77,14 @@ abstract class ContentHelperRoute
 			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
+			}
+
+			$jinput = JFactory::getApplication()->input;
+			$layout = $jinput->get('layout');
+
+			if ($layout !== '')
+			{
+				$link .= '&layout=' . $layout;
 			}
 		}
 
