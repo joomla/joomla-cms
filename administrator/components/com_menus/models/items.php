@@ -110,6 +110,12 @@ class MenusModelItems extends JModelList
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
 
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
+
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
@@ -519,6 +525,7 @@ class MenusModelItems extends JModelList
 		{
 			$items = parent::getItems();
 			$lang  = JFactory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -531,7 +538,10 @@ class MenusModelItems extends JModelList
 					}
 
 					// Translate component name
-					$item->title = JText::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = JText::_($item->title);
+					}
 				}
 			}
 

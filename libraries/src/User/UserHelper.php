@@ -611,7 +611,7 @@ abstract class UserHelper
 				}
 				break;
 
-			case 'aprmd5': /* 64 characters that are valid for APRMD5 passwords. */
+			case 'aprmd5': // 64 characters that are valid for APRMD5 passwords.
 				$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 				if ($seed)
@@ -690,7 +690,7 @@ abstract class UserHelper
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
-		/* 64 characters that are valid for APRMD5 passwords. */
+		// 64 characters that are valid for APRMD5 passwords.
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 		$aprmd5 = '';

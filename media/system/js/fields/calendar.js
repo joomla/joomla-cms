@@ -783,11 +783,10 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_clear = hh(JoomlaCalLocale.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
-		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('[data-action="clear"]');
-			savea.addEventListener("click", function (e) {
+			var cleara = row.querySelector('[data-action="clear"]');
+			cleara.addEventListener("click", function (e) {
 				e.preventDefault();
 				var days = self.table.querySelectorAll('td');
 				for (var i = 0; i < days.length; i++) {
@@ -800,7 +799,6 @@
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
 			});
-		}
 
 		if (this.params.showsTodayBtn) {
 			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});

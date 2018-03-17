@@ -76,12 +76,12 @@ class Browser
 	 * @since  12.1
 	 */
 	protected $robots = array(
-		/* The most common ones. */
+		// The most common ones.
 		'Googlebot',
 		'msnbot',
 		'Slurp',
 		'Yahoo',
-		/* The rest alphabetically. */
+		// The rest alphabetically.
 		'Arachnoidea',
 		'ArchitextSpider',
 		'Ask Jeeves',

@@ -34,7 +34,7 @@ function modChrome_beezDivision($module, &$params, &$attribs)
 function modChrome_beezHide($module, &$params, &$attribs)
 {
 	$headerLevel = isset($attribs['headerLevel']) ? (int) $attribs['headerLevel'] : 3;
-	$state = isset($attribs['state']) ? (int) $attribs['state'] :0;
+	$state = isset($attribs['state']) ? (int) $attribs['state'] : 0;
 
 	if (!empty ($module->content)) { ?>
 
@@ -60,7 +60,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
  */
 function modChrome_beezTabs($module, $params, $attribs)
 {
-	$area = isset($attribs['id']) ? (int) $attribs['id'] :'1';
+	$area = isset($attribs['id']) ? (int) $attribs['id'] : '1';
 	$area = 'area-'.$area;
 
 	static $modulecount;

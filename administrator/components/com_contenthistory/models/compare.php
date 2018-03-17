@@ -76,7 +76,7 @@ class ContenthistoryModelCompare extends JModelItem
 					$object->version_note = $table->version_note;
 
 					// Let's use custom calendars when present
-					$object->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
+					$object->save_date = JHtml::_('date', $table->save_date, JText::_('DATE_FORMAT_LC6'));
 
 					$dateProperties = array (
 						'modified_time',
@@ -92,7 +92,7 @@ class ContenthistoryModelCompare extends JModelItem
 					{
 						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
 						{
-							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, 'Y-m-d H:i:s');
+							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
 						}
 					}
 
