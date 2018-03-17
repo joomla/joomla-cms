@@ -629,7 +629,8 @@ class TemplatesModelStyle extends JModelAdmin
 		$query = $db->getQuery(true)
 			->update('#__template_styles')
 			->set('home = ' .  $db->q('0'))
-			->where('client_id = ' . (int) $style->client_id . ' AND home =  ' . $db->q('1'));
+			->where('client_id = ' . (int) $style->client_id)
+			->where('home = ' . $db->q('1'));
 		$db->setQuery($query);
 		$db->execute();
 
