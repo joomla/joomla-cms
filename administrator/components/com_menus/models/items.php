@@ -110,6 +110,12 @@ class MenusModelItems extends JModelList
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
 
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
+
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
 
