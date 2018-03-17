@@ -110,7 +110,7 @@ class ContactTableContact extends JTable
 		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Contact', 'ContactTable');
+		$table = JTable::getInstance('Contact', 'ContactTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
