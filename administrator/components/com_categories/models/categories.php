@@ -47,6 +47,11 @@ class CategoriesModelCategories extends JModelList
 			);
 		}
 
+		if (JLanguageAssociations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
+		}
+
 		parent::__construct($config);
 	}
 
