@@ -18,16 +18,41 @@ use Joomla\Registry\Registry;
  */
 class TagsViewTag extends JViewLegacy
 {
+	/**
+	 * The model state
+	 *
+	 * @var   \Joomla\Registry\Registry
+	 */
 	protected $state;
 
+	/**
+	 * An array of items.
+	 *
+	 * @var   array
+	 */
 	protected $items;
 
+	/**
+	 * The active JObject (on success, false on failure)
+	 *
+	 * @var   JObject|boolean
+	 */
 	protected $item;
 
 	protected $children;
 
+	/**
+	 * The pagination object.
+	 *
+	 * @var   JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The application parameters
+	 *
+	 * @var  \Joomla\Registry\Registry  The parameters object
+	 */
 	protected $params;
 
 	protected $tags_title;
