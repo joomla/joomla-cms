@@ -2087,6 +2087,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  The old debugging level.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  This will be removed in Joomla 4 without replacement
 	 */
 	public function setDebug($level)
 	{

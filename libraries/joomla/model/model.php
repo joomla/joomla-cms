@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Model Interface
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JModel
 {

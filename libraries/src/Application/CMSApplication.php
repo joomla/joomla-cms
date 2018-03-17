@@ -492,6 +492,8 @@ class CMSApplication extends WebApplication
 			$name = $app->getName();
 		}
 
+		$options['mode'] = \JFactory::getConfig()->get('sef');
+
 		try
 		{
 			$router = \JRouter::getInstance($name, $options);

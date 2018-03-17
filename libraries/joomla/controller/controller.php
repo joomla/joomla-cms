@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Controller Interface
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JController extends Serializable
 {
