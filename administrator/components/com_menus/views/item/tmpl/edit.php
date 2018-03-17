@@ -46,7 +46,7 @@ jQuery(document).ready(function ($){
 			$('#jform_parent_id').trigger('liszt:updated');
 		});
 	});
-	
+
 	// Menu type Login Form specific
 	$('#item-form').on('submit', function() {
 		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
@@ -114,13 +114,33 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+$lang     = JFactory::getLanguage()->getTag();
+
+// Load mod_menu.ini file when client is administrator
+if ($clientId === 1)
+{
+	JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<?php // Add the translation of the menu item title when client is administrator ?>
+	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
+		<div class="form-inline form-inline-header">
+			<div class="control-group">
+				<div class="control-label">
+					<label><?php echo JText::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+				</div>
+				<div class="controls">
+					<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="readonly" type="text">
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
 
+	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
