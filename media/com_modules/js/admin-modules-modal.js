@@ -10,18 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
 	var modulesLinks = document.querySelectorAll('.js-module-insert'), i,
 		positionsLinks = document.querySelectorAll('.js-position-insert');
 
-	/** Assign listener for click event (for single module id insertion) **/
+	/** Assign listener for click event (for single module insertion) **/
 	for (i= 0; modulesLinks.length > i; i++) {
 		modulesLinks[i].addEventListener('click', function(event) {
 			event.preventDefault();
-			var modid = event.target.getAttribute('data-module'),
+			var type = event.target.getAttribute('data-module'),
+				name = event.target.getAttribute('data-title'),
 				editor = event.target.getAttribute('data-editor');
 
 			/** Use the API, if editor supports it **/
 			if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-				window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmoduleid " + modid + "}")
+				window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}")
 			} else {
-				window.parent.jInsertEditorText("{loadmoduleid " + modid + "}", editor);
+				window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", editor);
 			}
 
 			window.parent.jModalClose();
@@ -45,5 +46,4 @@ document.addEventListener('DOMContentLoaded', function() {
 			window.parent.jModalClose();
 		});
 	}
-
 });
