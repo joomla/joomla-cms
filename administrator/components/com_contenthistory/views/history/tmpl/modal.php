@@ -147,7 +147,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<td>
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"
 							href="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1&version_id=' . $item->version_id); ?>">
-							<?php echo JHtml::_('date', $item->save_date, 'Y-m-d H:i:s'); ?>
+							<?php echo JHtml::_('date', $item->save_date, JText::_('DATE_FORMAT_LC6')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
 							<span class="icon-featured" aria-hidden="true"><span class="element-invisible"><?php echo JText::_('JFEATURED'); ?></span></span>&nbsp;

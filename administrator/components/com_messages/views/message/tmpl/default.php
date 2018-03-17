@@ -27,7 +27,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('date', $this->item->date_time); ?>
+				<?php echo JHtml::_('date', $this->item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 			</div>
 		</div>
 		<div class="control-group">

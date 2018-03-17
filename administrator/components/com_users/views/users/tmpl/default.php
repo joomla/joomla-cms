@@ -150,13 +150,13 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
-								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+								<?php echo JHtml::_('date', $item->lastvisitDate, JText::_('DATE_FORMAT_LC6')); ?>
 							<?php else : ?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
+							<?php echo JHtml::_('date', $item->registerDate, JText::_('DATE_FORMAT_LC6')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
