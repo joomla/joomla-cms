@@ -292,7 +292,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Creates the tags title for the output
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function getTagsTitle()
 	{

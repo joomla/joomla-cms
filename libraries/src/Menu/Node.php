@@ -136,7 +136,7 @@ class Node
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return  bool  True if there is a parent
+	 * @return  boolean  True if there is a parent
 	 *
 	 * @since   3.8.0
 	 */
@@ -160,7 +160,7 @@ class Node
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.8.0
 	 */
@@ -184,7 +184,7 @@ class Node
 	/**
 	 * Find the current node depth in the tree hierarchy
 	 *
-	 * @return  int  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, and so on.
+	 * @return  integer  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, and so on.
 	 *
 	 * @since   3.8.0
 	 */
@@ -196,7 +196,7 @@ class Node
 	/**
 	 * Check whether the object instance node is the root node
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.8.0
 	 */

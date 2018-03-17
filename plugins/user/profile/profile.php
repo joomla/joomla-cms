@@ -408,7 +408,7 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{

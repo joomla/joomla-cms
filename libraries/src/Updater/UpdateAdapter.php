@@ -207,7 +207,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  bool|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
 	 *
 	 * @throws  \Exception
 	 */

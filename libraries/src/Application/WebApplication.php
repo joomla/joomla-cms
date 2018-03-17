@@ -633,7 +633,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @param   integer  $state  The HTTP 1.1 status code.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.8.0
 	 */

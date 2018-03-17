@@ -227,7 +227,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
 	 *
-	 * @return  string|bool
+	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
@@ -244,7 +244,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|bool Package details or false on failure.
+	 * @return  array|boolean Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -1418,7 +1418,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID.
+	 * @return  integer|boolean One Administrator ID.
 	 *
 	 * @since   3.2
 	 */

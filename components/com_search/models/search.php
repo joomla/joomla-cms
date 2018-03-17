@@ -216,7 +216,7 @@ class SearchModelSearch extends JModelLegacy
 	/**
 	 * Method to get the search areas
 	 *
-	 * @return int
+	 * @return integer
 	 *
 	 * @since 1.5
 	 */
