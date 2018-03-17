@@ -182,8 +182,15 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'library':
-					$extension = 'lib_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+					$parts = explode('/', $item->element);
+					$vendor = (isset($parts[1]) ? $parts[0] : null);
+					$extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
+
+					if (!$lang->load("$extension.sys", $path, null, false, true))
+					{
+						$source = $path . '/libraries/' . ($vendor ? $vendor . '/' . $parts[1] : $item->element);
+						$lang->load("$extension.sys", $source, null, false, true);
+					}
 				break;
 				case 'module':
 					$extension = $item->element;
