@@ -126,6 +126,8 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 		$registry->set('MetaVersion', 0);
+		$registry->set('MetaGenerator', 1);
+		$registry->set('MetaGeneratorCustom', '');
 		$registry->set('robots', '');
 
 		// SEO settings.

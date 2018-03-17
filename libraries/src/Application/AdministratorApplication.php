@@ -96,7 +96,31 @@ class AdministratorApplication extends CMSApplication
 
 		$document->setTitle($this->get('sitename') . ' - ' . \JText::_('JADMINISTRATION'));
 		$document->setDescription($this->get('MetaDesc'));
-		$document->setGenerator('Joomla! - Open Source Content Management');
+
+		$generatorType = $this->get('MetaGenerator');
+
+		switch ($generatorType) 
+		{
+			case '1':
+				$document->setGenerator('Joomla! - Open Source Content Management');
+				
+				break;
+
+			case '2':
+				$document->setGenerator(\JURI::root());
+
+				break;
+
+			case '3':
+				$document->setGenerator($this->get('MetaGeneratorCustom', ''));
+
+				break;
+
+			case '0':
+				$document->setGenerator('');
+
+				break;
+		}
 
 		$contents = ComponentHelper::renderComponent($component);
 		$document->setBuffer($contents, 'component');

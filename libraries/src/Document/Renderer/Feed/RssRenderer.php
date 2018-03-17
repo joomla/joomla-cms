@@ -83,7 +83,12 @@ class RssRenderer extends DocumentRenderer
 		$feed .= "		<description><![CDATA[" . $data->getDescription() . "]]></description>\n";
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
 		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
-		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
+
+		if (!empty($data->getGenerator()))
+		{
+			$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
+		}
+
 		$feed .= "		<atom:link rel=\"self\" type=\"application/rss+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		if ($data->image != null)

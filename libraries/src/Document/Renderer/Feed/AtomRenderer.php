@@ -125,7 +125,11 @@ class AtomRenderer extends DocumentRenderer
 			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
-		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
+		if (!empty($data->getGenerator()))
+		{
+			$feed .= "	<generator>" . $data->getGenerator() . "</generator>\n";
+		}
+
 		$feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
