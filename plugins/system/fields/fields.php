@@ -120,14 +120,7 @@ class PlgSystemFields extends JPlugin
 			// Determine the value if it is (un)available from the data
 			if (key_exists($field->name, $data['com_fields']))
 			{
-				if ($data['com_fields'][$field->name] === false)
-				{
-					$value = null;
-				}
-				else
-				{
-					$value = $data['com_fields'][$field->name];
-				}
+				$value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
 			}
 			// Field not available on form, use stored value
 			else
