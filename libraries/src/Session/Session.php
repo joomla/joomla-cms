@@ -400,7 +400,7 @@ class Session implements \IteratorAggregate
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/joomla/session/storage');
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

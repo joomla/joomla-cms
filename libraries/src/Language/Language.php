@@ -244,7 +244,8 @@ class Language
 
 		if (class_exists($class))
 		{
-			/* Class exists. Try to find
+			/**
+			 * Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method

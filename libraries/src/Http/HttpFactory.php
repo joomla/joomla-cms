@@ -107,7 +107,7 @@ class HttpFactory
 		$names = array();
 		$iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
