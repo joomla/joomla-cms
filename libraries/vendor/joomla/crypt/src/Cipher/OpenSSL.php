@@ -9,6 +9,7 @@
 namespace Joomla\Crypt\Cipher;
 
 use Joomla\Crypt\CipherInterface;
+use Joomla\Crypt\Exception\InvalidKeyTypeException;
 use Joomla\Crypt\Key;
 
 /**
