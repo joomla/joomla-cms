@@ -228,7 +228,7 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Method to get the total number of items.
 	 *
-	 * @return  int	The total number of items.
+	 * @return  integer  The total number of items.
 	 *
 	 * @since   1.6
 	 */

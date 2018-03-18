@@ -12,7 +12,7 @@
  * Checks if hathor is the default backend template or currently used as default style.
  * If yes we want to show a message and action button.
  *
- * @return  bool
+ * @return  boolean
  *
  * @since   3.7
  */
