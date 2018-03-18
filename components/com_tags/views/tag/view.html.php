@@ -39,6 +39,11 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected $item;
 
+	/**
+	 * Array of Children objects
+	 *
+	 * @var  array
+	 */
 	protected $children;
 
 	/**
@@ -55,6 +60,11 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected $params;
 
+	/**
+	 * Array of tags title
+	 *
+	 * @var  array
+	 */
 	protected $tags_title;
 
 	/**
