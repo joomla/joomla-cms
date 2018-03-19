@@ -113,7 +113,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$this->assertInstanceOf('JComponentRouterView', $this->object->get('router'));
 		$this->assertEquals(array(
 			'*' => array(
-				'article' => array(1 => '52')),
+				'article' => array(1 => '52'),
 				'featured:default' => '47',
 				'categories:default' => array(14 => '48'),
 				'category:default' => array (20 => '49'),
@@ -308,7 +308,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 	{
 		$this->assertEquals(array(
 			'*' => array(
-				'article' => array(1 => '52')),
+				'article' => array(1 => '52'),
 				'featured:default' => '47',
 				'categories:default' => array(14 => '48'),
 				'category:default' => array (20 => '49'),
