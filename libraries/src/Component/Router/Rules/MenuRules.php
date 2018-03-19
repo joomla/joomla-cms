@@ -142,7 +142,7 @@ class MenuRules implements RulesInterface
 							if (isset($this->lookup[$language][$viewLayout][(int) $id]))
 							{
 								$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
-	
+
 								return;
 							}
 						}
