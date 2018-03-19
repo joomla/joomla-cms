@@ -126,7 +126,7 @@ class MenuRules implements RulesInterface
 				$viewLayouts[] = $view;
 				$viewLayouts[] = $view . ':default';
 
-				foreach($viewLayouts as $viewLayout)
+				foreach ($viewLayouts as $viewLayout)
 				{
 					if (isset($this->lookup[$language][$viewLayout]))
 					{
