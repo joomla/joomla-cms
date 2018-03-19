@@ -228,7 +228,7 @@ class InstallerModelDiscover extends InstallerModel
 	/**
 	 * Cleans out the list of discovered extensions.
 	 *
-	 * @return  bool True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.6
 	 */
