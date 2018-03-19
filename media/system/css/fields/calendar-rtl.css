@@ -91,7 +91,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 .calendar-container table tbody td.today {
 	position: relative;
 	height: 100%;
-	width: 100%;
+	width: auto;
 	font-weight: bold;
 }
 .calendar-container table tbody td.today:after {
