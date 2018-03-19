@@ -116,7 +116,7 @@ class MenuRules implements RulesInterface
 		{
 			foreach ($needles as $view => $ids)
 			{
-				$viewLayouts = $array(
+				$viewLayouts = array(
 					$view . $layout,
 					$view,
 					$view . ':default'
