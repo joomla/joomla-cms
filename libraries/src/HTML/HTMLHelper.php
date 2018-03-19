@@ -289,7 +289,7 @@ abstract class HTMLHelper
 	{
 		if (!static::$serviceRegistry)
 		{
-			static::$serviceRegistry = new Registry;
+			static::$serviceRegistry = Factory::getContainer()->get(Registry::class);
 		}
 
 		return static::$serviceRegistry;
