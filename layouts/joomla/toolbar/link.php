@@ -9,13 +9,34 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', ['joomla-toolbar-button' => 'system/webcomponents/joomla-toolbar-button.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+
 $id     = isset($displayData['id']) ? $displayData['id'] : '';
-$doTask = $displayData['doTask'];
+$task   = '';
 $class  = $displayData['class'];
 $text   = $displayData['text'];
-$margin = (strpos($doTask, 'index.php?option=com_config') === false) ? '' : ' ml-auto';
+
+if (!empty($displayData['task']))
+{
+	$task = ' task="' . $displayData['task'] . '"';
+}
+elseif (!empty($displayData['doTask']))
+{
+	$task = ' execute="location.href=\'' . $displayData['doTask'] . '\';"';
+}
+
+$margin = (strpos($task, 'index.php?option=com_config') === false) ? '' : 'ml-auto';
+
+if ($margin):
 ?>
-<button<?php echo $id; ?> class="btn btn-outline-danger btn-sm<?php echo $margin; ?>" onclick="location.href='<?php echo $doTask; ?>';">
-	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
-</button>
+<div class="<?php echo $margin; ?>"></div>
+<?php endif; ?>
+<joomla-toolbar-button <?php echo $id.$task; ?>>
+	<button type="button" class="btn btn-outline-danger btn-sm">
+		<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
+</joomla-toolbar-button>

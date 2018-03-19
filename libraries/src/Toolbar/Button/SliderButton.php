@@ -85,7 +85,7 @@ class SliderButton extends ToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-slider-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-slider-' . $name);
 	}
 
 	/**

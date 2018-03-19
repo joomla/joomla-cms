@@ -30,27 +30,36 @@ class ConfirmButton extends ToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type      Unused string.
-	 * @param   string   $msg       Message to render
-	 * @param   string   $name      Name to be used as apart of the id
-	 * @param   string   $text      Button text
-	 * @param   string   $task      The task associated with the button
-	 * @param   boolean  $list      True to allow use of lists
-	 * @param   boolean  $hideMenu  True to hide the menu on click
+	 * @param   string   $type            Unused string.
+	 * @param   string   $msg             Message to render
+	 * @param   string   $name            Name to be used as apart of the id
+	 * @param   string   $text            Button text
+	 * @param   string   $task            The task associated with the button
+	 * @param   boolean  $list            True to allow use of lists
+	 * @param   boolean  $hideMenu        True to hide the menu on click
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  string   HTML string for the button
 	 *
 	 * @since   3.0
 	 */
-	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false,
+		$form = '', $formValidation = false)
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']   = \JText::_($text);
-		$options['msg']    = \JText::_($msg, true);
-		$options['class']  = $this->fetchIconClass($name);
+		$options['text']     = \JText::_($text);
+		$options['msg']      = \JText::_($msg, true);
+		$options['class']    = $this->fetchIconClass($name);
+		$options['id']       = $this->fetchId('Confirm', '', $name);
+		$options['task']     = $task;
+		$options['list']     = $list;
+		$options['form']     = $form;
+		$options['validate'] = $formValidation;
+
+		// The 'doTask' option stays for B/C
 		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
-		$options['id']     = $this->fetchId('Confirm', $name);
 
 		if ($options['id'])
 		{
@@ -80,7 +89,7 @@ class ConfirmButton extends ToolbarButton
 	 */
 	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-' . $name);
 	}
 
 	/**
@@ -108,7 +117,7 @@ class ConfirmButton extends ToolbarButton
 			$message = "{'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
 			$alert = "Joomla.renderMessages(" . $message . ")";
 			$cmd   = "if (document.adminForm.boxchecked.value == 0) { " . $alert . " } else { " . $cmd . " }";
-			
+
 		}
 
 		return $cmd;

@@ -70,7 +70,7 @@ class LinkButton extends ToolbarButton
 	 */
 	public function fetchId($type = 'Link', $name = '')
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-' . $name);
 	}
 
 	/**

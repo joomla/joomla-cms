@@ -38,6 +38,15 @@ abstract class ToolbarButton
 	protected $_parent = null;
 
 	/**
+	 * Used to track an ids, to avoid duplication
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $idCounter = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   Toolbar  $parent  The parent
@@ -101,6 +110,31 @@ abstract class ToolbarButton
 		$layout = new FileLayout('joomla.toolbar.iconclass');
 
 		return $layout->render(array('icon' => $identifier));
+	}
+
+	/**
+	 * Make sure the id is unique
+	 *
+	 * @param   string  $id  The button ID attribute
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function ensureUniqueId($id)
+	{
+		if (array_key_exists($id, static::$idCounter))
+		{
+			static::$idCounter[$id]++;
+
+			$id .= static::$idCounter[$id];
+		}
+		else
+		{
+			static::$idCounter[$id] = 0;
+		}
+
+		return $id;
 	}
 
 	/**

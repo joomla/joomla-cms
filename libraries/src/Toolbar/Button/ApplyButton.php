@@ -31,24 +31,35 @@ class ApplyButton extends ToolbarButton
 	/**
 	 * Fetch the HTML for the button
 	 *
-	 * @param   string   $type  Unused string.
-	 * @param   string   $name  The name of the button icon class.
-	 * @param   string   $text  Button text.
-	 * @param   string   $task  Task associated with the button.
-	 * @param   boolean  $list  True to allow lists
+	 * @param   string   $type            Unused string.
+	 * @param   string   $name            The name of the button icon class.
+	 * @param   string   $text            Button text.
+	 * @param   string   $task            Task associated with the button.
+	 * @param   boolean  $list            True to allow lists
+	 * @param   boolean  $group           Does the button belong to a group?
+	 * @param   string   $form            The form CSS selector eg '#adminForm'
+	 * @param   bool     $formValidation  Whether should be called the form validation before task call
 	 *
 	 * @return  string  HTML string for the button
 	 *
 	 * @since   4.0.0
 	 */
-	public function fetchButton($type = 'Apply', $name = '', $text = '', $task = '', $list = true)
+	public function fetchButton($type = 'Apply', $name = '', $text = '', $task = '', $list = true,
+		$group = false, $form = '', $formValidation = false)
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']   = \JText::_($text);
-		$options['class']  = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
-		$options['id']     = $this->fetchId('Apply', $name);
+		$options['text']     = \JText::_($text);
+		$options['class']    = $this->fetchIconClass($name);
+		$options['id']       = $this->fetchId('Apply', $name);
+		$options['task']     = $task;
+		$options['list']     = $list;
+		$options['group']    = $group;
+		$options['form']     = $form;
+		$options['validate'] = $formValidation;
+
+		// The 'doTask' option stays for B/C
+		$options['doTask']   = $this->_getCommand($options['text'], $task, $list);
 
 		if ($options['id'])
 		{
@@ -87,7 +98,7 @@ class ApplyButton extends ToolbarButton
 	 */
 	public function fetchId($type = 'Apply', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		return $this->_parent->getName() . '-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-' . $name);
 	}
 
 	/**

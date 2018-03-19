@@ -119,7 +119,7 @@ class PopupButton extends ToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-popup-' . $name;
+		return $this->ensureUniqueId($this->_parent->getName() . '-popup-' . $name);
 	}
 
 	/**

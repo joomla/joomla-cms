@@ -55,6 +55,6 @@ class CustomButton extends ToolbarButton
 	 */
 	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
 	{
-		return $this->_parent->getName() . '-' . $id;
+		return $this->ensureUniqueId($this->_parent->getName() . '-' . $id);
 	}
 }

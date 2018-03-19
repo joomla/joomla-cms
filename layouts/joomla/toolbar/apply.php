@@ -13,24 +13,34 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', ['joomla-toolbar-button' => 'system/webcomponents/joomla-toolbar-button.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
-if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
-{
-	$ctrls = str_replace("Joomla.submitbutton('", '', $displayData['doTask']);
-	$ctrls = str_replace("')", '', $ctrls);
-	$ctrls = str_replace(";", '', $ctrls);
-
-	$options = array('task' => $ctrls);
-	Factory::getDocument()->addScriptOptions('keySave', $options);
-}
+$options = array('task' => $displayData['task']);
+Factory::getDocument()->addScriptOptions('keySave', $options);
 
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
-$doTask   = $displayData['doTask'];
 $class    = $displayData['class'];
 $text     = $displayData['text'];
 $btnClass = $displayData['btnClass'];
+$group    = $displayData['group'];
+$task     = '';
+$list     = !empty($displayData['list'])     ? ' list-selection' : '';
+$form     = !empty($displayData['form'])     ? ' form="' . $displayData['form'] . '"' : '';
+$validate = !empty($displayData['validate']) ? ' form-validation' : '';
+
+if (!empty($displayData['task']))
+{
+	$task = ' task="' . $displayData['task'] . '"';
+}
+elseif (!empty($displayData['doTask']))
+{
+	$task = ' execute="' . $displayData['doTask'] . '"';
+}
 ?>
-<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" class="<?php echo $btnClass; ?>">
-	<span class="<?php echo trim($class); ?>"></span>
-	<?php echo $text; ?>
-</button>
+
+<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate; ?>>
+	<button type="button" class="<?php echo $btnClass; ?>">
+		<span class="<?php echo trim($class); ?>" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
+</joomla-toolbar-button>

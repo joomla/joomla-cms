@@ -12,12 +12,15 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
+HTMLHelper::_('webcomponent', ['joomla-toolbar-button' => 'system/webcomponents/joomla-toolbar-button.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 
 $id     = $displayData['id'] ?? '';
 $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 ?>
-<button<?php echo $id; ?> onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-outline-info btn-sm">
-	<span class="fa fa-question" aria-hidden="true"></span>
-	<?php echo $text; ?>
-</button>
+<joomla-toolbar-button <?php echo $id; ?> execute="<?php echo $doTask; ?>">
+	<button type="button" class="btn btn-outline-info btn-sm" rel="help">
+		<span class="fa fa-question" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
+</joomla-toolbar-button>
