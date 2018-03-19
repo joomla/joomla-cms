@@ -116,11 +116,15 @@ class MenuRules implements RulesInterface
 		{
 			foreach ($needles as $view => $ids)
 			{
-				$viewLayouts = array(
-					$view . $layout,
-					$view,
-					$view . ':default'
-				);
+				$viewLayouts = array();
+
+				if ($layout)
+				{
+					$viewLayouts[] = $view . $layout;
+				}
+
+				$viewLayouts[] = $view;
+				$viewLayouts[] = $view . ':default';
 
 				foreach($viewLayouts as $viewLayout)
 				{
@@ -225,7 +229,12 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout][$item->query[$views[$view]->key]] = $item->id;
-							$this->lookup[$language][$view . ':default'][$item->query[$views[$view]->key]] = $item->id;
+
+							// Also if it specifies layout, then also add it as last choice fallback
+							if ($layout)
+							{
+								$this->lookup[$language][$view . ':default'][$item->query[$views[$view]->key]] = $item->id;
+							}
 						}
 					}
 					else
@@ -238,7 +247,12 @@ class MenuRules implements RulesInterface
 						if (!isset($this->lookup[$language][$view . $layout]) || $item->language !== '*')
 						{
 							$this->lookup[$language][$view . $layout] = $item->id;
-							$this->lookup[$language][$view . ':default'] = $item->id;
+
+							// Also if it specifies layout, then also add it as last choice fallback
+							if ($layout)
+							{
+								$this->lookup[$language][$view . ':default'] = $item->id;
+							}
 						}
 					}
 				}
