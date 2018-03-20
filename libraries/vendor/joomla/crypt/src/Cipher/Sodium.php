@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Crypt Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use ParagonIE\Sodium\Compat;
 /**
  * Cipher for sodium algorithm encryption, decryption and key generation.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class Sodium implements CipherInterface
 {
@@ -24,7 +24,7 @@ class Sodium implements CipherInterface
 	 * The message nonce to be used with encryption/decryption
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.4.0
 	 */
 	private $nonce;
 
@@ -36,7 +36,7 @@ class Sodium implements CipherInterface
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 * @throws  \RuntimeException
 	 */
 	public function decrypt($data, Key $key)
@@ -74,7 +74,7 @@ class Sodium implements CipherInterface
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 * @throws  \RuntimeException
 	 */
 	public function encrypt($data, Key $key)
@@ -104,7 +104,7 @@ class Sodium implements CipherInterface
 	 *
 	 * @return  Key
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 * @throws  RuntimeException
 	 */
 	public function generateKey(array $options = array())
@@ -134,7 +134,7 @@ class Sodium implements CipherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 */
 	public function setNonce($nonce)
 	{

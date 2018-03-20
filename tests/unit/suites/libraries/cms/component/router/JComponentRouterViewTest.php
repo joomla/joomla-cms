@@ -41,6 +41,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 
 		JFactory::$application = $app;
 		JFactory::$session = $this->getMockSession();
