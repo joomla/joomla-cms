@@ -856,6 +856,11 @@ class Form
 		// Attempt to load the XML file.
 		$xml = simplexml_load_file($file);
 
+		if ($xml === false)
+		{
+			throw new \RuntimeException(sprintf('%s() could not load file', __METHOD__));
+		}
+
 		return $this->load($xml, $reset, $xpath);
 	}
 
