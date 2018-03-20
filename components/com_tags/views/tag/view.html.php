@@ -42,7 +42,7 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * Array of Children objects
 	 *
-	 * @var  array
+	 * @var   array
 	 */
 	protected $children;
 
@@ -56,14 +56,14 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The application parameters
 	 *
-	 * @var  \Joomla\Registry\Registry  The parameters object
+	 * @var   \Joomla\Registry\Registry  The parameters object
 	 */
 	protected $params;
 
 	/**
 	 * Array of tags title
 	 *
-	 * @var  array
+	 * @var   array
 	 */
 	protected $tags_title;
 
