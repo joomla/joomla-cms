@@ -53,7 +53,8 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The pagination object.
 	 *
-	 * @var   JPagination
+	 * @var    JPagination
+	 * @since  3.1
 	 */
 	protected $pagination;
 
