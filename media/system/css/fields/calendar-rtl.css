@@ -75,6 +75,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	border: 0;
 	cursor : pointer;
 	font-size: 12px;
+	min-width: 38px;
 }
 
 .calendar-container table tbody td.day.wn {
