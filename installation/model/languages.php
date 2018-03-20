@@ -131,7 +131,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean  True if successful
 	 */
 	public function install($lids)
 	{
@@ -244,7 +244,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|boolean Package details or false on failure.
+	 * @return  array|boolean  Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -876,7 +876,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -948,7 +948,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1151,7 +1151,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Category Object. False otherwise.
+	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1214,7 +1214,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   int       $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean Article Object. False otherwise.
+	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1304,7 +1304,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   int       $categoryId    The id of the category displayed by the blog.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.8.0
 	 */
@@ -1418,7 +1418,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  integer|boolean One Administrator ID.
+	 * @return  integer|boolean  One Administrator ID.
 	 *
 	 * @since   3.2
 	 */
