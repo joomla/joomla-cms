@@ -67,8 +67,8 @@ class ContentViewArticle extends JViewLegacy
 			$item->parent_slug = null;
 		}
 
-		// Find prefered route for current page and add it as rel canonical
-		// This assumes that router maintains current menu item, when multiple menu items exists for same record (article)
+		// Find preferred route for current page and add it as rel canonical
+		// This assumes that router maintains current menu item, when multiple menu items exist for same record (article)
 		$page_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 		JFactory::getDocument()->addHeadLink($page_link, 'canonical', 'rel');
 
