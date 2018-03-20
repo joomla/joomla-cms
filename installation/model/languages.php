@@ -1212,7 +1212,7 @@ class InstallationModelLanguages extends JModelBase
 	 * Create an article in a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $categoryId    The id of the category where we want to add the article.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
@@ -1302,7 +1302,7 @@ class InstallationModelLanguages extends JModelBase
 	 * Add Blog Menu Item.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category displayed by the blog.
+	 * @param   integer   $categoryId    The id of the category displayed by the blog.
 	 *
 	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
