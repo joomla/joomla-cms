@@ -53,7 +53,7 @@ if ($item->browserNav == 1)
 
 	if ($item->anchor_rel == 'nofollow')
 	{
-		$attributes['rel'] = 'nofollow noopener noreferrer';
+		$attributes['rel'] .= ' nofollow';
 	}
 }
 elseif ($item->browserNav == 2)
