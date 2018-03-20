@@ -91,7 +91,7 @@ class RedirectTableLink extends JTable
 		$db->setQuery($query);
 		$urls = $db->loadAssocList();
 
-		foreach ($urls AS $url)
+		foreach ($urls as $url)
 		{
 			if ($url['old_url'] === $this->old_url && (int) $url['id'] != (int) $this->id)
 			{
