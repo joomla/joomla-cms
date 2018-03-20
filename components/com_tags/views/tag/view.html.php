@@ -21,28 +21,32 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The model state
 	 *
-	 * @var   \Joomla\Registry\Registry
+	 * @var    \Joomla\Registry\Registry
+	 * @since  3.1
 	 */
 	protected $state;
 
 	/**
 	 * An array of items.
 	 *
-	 * @var   array
+	 * @var    array
+	 * @since  3.1
 	 */
 	protected $items;
 
 	/**
 	 * The active JObject (on success, false on failure)
 	 *
-	 * @var   JObject|boolean
+	 * @var    JObject|boolean
+	 * @since  3.1
 	 */
 	protected $item;
 
 	/**
 	 * Array of Children objects
 	 *
-	 * @var   array
+	 * @var    array
+	 * @since  3.1
 	 */
 	protected $children;
 
@@ -56,14 +60,16 @@ class TagsViewTag extends JViewLegacy
 	/**
 	 * The application parameters
 	 *
-	 * @var   \Joomla\Registry\Registry  The parameters object
+	 * @var    \Joomla\Registry\Registry  The parameters object
+	 * @since  3.1
 	 */
 	protected $params;
 
 	/**
 	 * Array of tags title
 	 *
-	 * @var   array
+	 * @var    array
+	 * @since  3.1
 	 */
 	protected $tags_title;
 
