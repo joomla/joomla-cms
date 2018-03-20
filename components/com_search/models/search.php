@@ -95,9 +95,9 @@ class SearchModelSearch extends JModelLegacy
 	 * @param   string  $match     matching option, exact|any|all
 	 * @param   string  $ordering  option, newest|oldest|popular|alpha|category
 	 *
-	 * @return  void
-	 *
 	 * @access  public
+	 *
+	 * @return  void
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
