@@ -508,11 +508,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		switch (true)
 		{
 			case (is_object($node)):
-				$result = $node->{$nodes[$i]} = $value;
+				$result = $node->{$nodes[$i]};
+				$node->{$nodes[$i]} = $value;
 				break;
 
 			case (is_array($node)):
-				$result = $node[$nodes[$i]] = $value;
+				$result = $node[$nodes[$i]];
+				$node->{$nodes[$i]} = $value;
 				break;
 
 			default:
