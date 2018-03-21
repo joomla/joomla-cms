@@ -131,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function(){
 		/** Create a progress meter and the label **/
 		var meter = document.createElement('div');
 		meter.setAttribute('class', 'progress');
+		
+		/** Hide the progress meter to make the resize a little less buggy  **/
+		meter.style.display = 'none';
 
 		var meter2 = document.createElement('div');
 		meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
@@ -184,3 +187,24 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 	}
 });
+
+$(function() {
+	/** Resize the password bar as soon as the page is ready **/
+	resizePasswordStrengthBar();
+});
+
+/** Resize the password bar when the page size changes **/
+$(window).resize(resizePasswordStrengthBar);
+
+function resizePasswordStrengthBar() {
+	/** Finding all password strength bars **/
+	var fields = $('.js-password-strength');
+	for (var i = 0; i < fields.length; i++) {
+		var meter = $(fields[i]).parent().parent().find('.progress');
+
+		/** Setting the width **/
+		var children  = meter.parent().children().children();
+		meter.width($(children[0]).outerWidth() + $(children[1]).outerWidth());
+		meter.show();
+	}
+}
