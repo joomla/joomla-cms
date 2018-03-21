@@ -45,7 +45,7 @@ class PostinstallControllerMessage extends FOFController
 	 *
 	 * @return  void
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function hideAll()
 	{
