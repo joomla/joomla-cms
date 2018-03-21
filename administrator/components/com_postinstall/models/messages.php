@@ -110,7 +110,7 @@ class PostinstallModelMessages extends FOFModel
 	/**
 	 * Hides all messages for an extension
 	 *
-	 * @param   integer  $eid  The extension ID whose messages we'll reset
+	 * @param   integer  $eid  The extension ID whose messages we'll hide
 	 *
 	 * @return  mixed  False if we fail, a db cursor otherwise
 	 *
