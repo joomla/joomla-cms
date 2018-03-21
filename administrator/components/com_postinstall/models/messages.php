@@ -108,6 +108,28 @@ class PostinstallModelMessages extends FOFModel
 	}
 
 	/**
+	 * Hides all messages for an extension
+	 *
+	 * @param   integer  $eid  The extension ID whose messages we'll reset
+	 *
+	 * @return  mixed  False if we fail, a db cursor otherwise
+	 *
+	 * @since   3.9
+	 */
+	public function hideMessages($eid)
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->qn('#__postinstall_messages'))
+			->set($db->qn('enabled') . ' = ' . $db->q(0))
+			->where($db->qn('extension_id') . ' = ' . $db->q($eid));
+		$db->setQuery($query);
+
+		return $db->execute();
+	}
+
+	/**
 	 * List post-processing. This is used to run the programmatic display
 	 * conditions against each list item and decide if we have to show it or
 	 * not.

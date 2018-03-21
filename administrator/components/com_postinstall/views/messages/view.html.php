@@ -41,6 +41,7 @@ class PostinstallViewMessages extends FOFViewHtml
 		$this->extension_options = $model->getComponentOptions();
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
+		JToolbarHelper::custom('hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
 
 		return parent::onBrowse($tpl);
 	}
