@@ -208,12 +208,6 @@ abstract class Dispatcher implements DispatcherInterface
 			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
 		}
 
-		// Set the form factory when possible
-		if ($controller instanceof FormFactoryAwareInterface)
-		{
-			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
-		}
-
 		return $controller;
 	}
 }

@@ -437,14 +437,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$name = $this->context;
 		}
 
-		$model = parent::getModel($name, $prefix, $config);
-
-		if ($model instanceof FormFactoryAwareInterface)
-		{
-			$model->setFormFactory($this->formFactory);
-		}
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

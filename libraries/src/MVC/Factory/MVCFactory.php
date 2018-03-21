@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\Input\Input;
 
 /**
@@ -19,8 +21,10 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-class MVCFactory implements MVCFactoryInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * The namespace to create the objects from.
 	 *
@@ -41,7 +45,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string                   $namespace    The namespace.
+	 * @param   string                   $namespace    The namespace
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
 	 * @since   4.0.0
@@ -79,7 +83,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
+		$controller = new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
+		$this->setFormFactoryOnObject($controller);
+
+		return $controller;
 	}
 
 	/**
@@ -107,7 +114,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config, $this);
+		$model = new $className($config, $this);
+		$this->setFormFactoryOnObject($model);
+
+		return $model;
 	}
 
 	/**
@@ -137,7 +147,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config);
+		$view = new $className($config);
+		$this->setFormFactoryOnObject($view);
+
+		return $view;
 	}
 
 	/**
@@ -203,5 +216,28 @@ class MVCFactory implements MVCFactoryInterface
 		}
 
 		return $className;
+	}
+
+	/**
+	 * Sets the internal form factory on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setFormFactoryOnObject($object)
+	{
+		if (!$object instanceof FormFactoryAwareInterface)
+		{
+			return;
+		}
+
+		try {
+			$object->setFormFactory($this->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{}
 	}
 }
