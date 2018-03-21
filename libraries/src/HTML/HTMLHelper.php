@@ -834,18 +834,18 @@ abstract class HTMLHelper
 	/**
 	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
 	 *
-	 * @param   array  $component  The name and path of the web component.
-	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
-	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
-	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
-	 *                             or web component. Files need to have a -es5(.min).js for the non ES6
-	 *                             Browsers.
+	 * @param   string  $component  The path of the web component (expects the ES6 version).
+	 *                              Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
+	 *                              of just the custom element. (Polyfills loaded as needed, no force load)
+	 * @param   array   $options    The relative, version, detect browser and detect debug options for the custom element
+	 *                              or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
+	 *                              Browsers.
 	 *
 	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
-	public static function webcomponent(array $component = [], array $options = [])
+	public static function webcomponent(string $component, array $options = [])
 	{
 		if (empty($component))
 		{
@@ -855,47 +855,57 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		foreach ($component as $key => $value)
+		$version      = '';
+		$mediaVersion = Factory::getDocument()->getMediaVersion();
+
+		// Add the css if exists
+		self::_('stylesheet', str_replace('.js', '.css', $component), $options);
+
+		$includes = static::includeRelativeFiles(
+			'js',
+			$component,
+			$options['relative'] ?? true,
+			$options['detectBrowser'] ?? false,
+			$options['detectDebug'] ?? false
+		);
+
+		if (count($includes) === 0)
 		{
-			$version      = '';
-			$mediaVersion = Factory::getDocument()->getMediaVersion();
-
-			// Add the css if exists
-			self::_('stylesheet', str_replace('.js', '.css', $value), $options);
-
-			$includes = static::includeRelativeFiles(
-				'js',
-				$value,
-				$options['relative'] ?? true,
-				$options['detectBrowser'] ?? false,
-				$options['detectDebug'] ?? false
-			);
-
-			if (count($includes) === 0)
-			{
-				continue;
-			}
-
-			if (isset($options['version']))
-			{
-				if ($options['version'] === 'auto')
-				{
-					$version = '?' . $mediaVersion;
-				}
-				else
-				{
-					$version = '?' . $options['version'];
-				}
-			}
-
-			if (count($includes) === 1)
-			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
-				continue;
-			}
-
-			Factory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);
+			return;
 		}
+
+		if (isset($options['version']))
+		{
+			if ($options['version'] === 'auto')
+			{
+				$version = '?' . $mediaVersion;
+			}
+			else
+			{
+				$version = '?' . $options['version'];
+			}
+		}
+
+		if (count($includes) === 1)
+		{
+			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+
+			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+			{
+				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
+				return;
+			}
+
+			return;
+		}
+
+		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
+
+		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+		{
+			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
+		}
+
 	}
 
 	/**
