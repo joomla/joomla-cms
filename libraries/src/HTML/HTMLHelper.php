@@ -832,22 +832,22 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
+	 * Loads the path of a custom element or webcomponent into the scriptOptions object
 	 *
-	 * @param   string  $component  The path of the web component (expects the ES6 version).
-	 *                              Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
-	 *                              of just the custom element. (Polyfills loaded as needed, no force load)
-	 * @param   array   $options    The relative, version, detect browser and detect debug options for the custom element
-	 *                              or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
-	 *                              Browsers.
+	 * @param   string  $file     The path of the web component (expects the ES6 version). File need to have also an
+	 *                            -es5(.min).js version in the same folder for the non ES6 Browsers.
+	 * @param   array   $options  The extra options for the script
 	 *
 	 * @since   4.0.0
 	 *
+	 * @see     HTMLHelper::stylesheet()
+	 * @see     HTMLHelper::script()
+	 *
 	 * @return  void
 	 */
-	public static function webcomponent(string $component, array $options = [])
+	public static function webcomponent(string $file, array $options = [])
 	{
-		if (empty($component))
+		if (empty($file))
 		{
 			return;
 		}
@@ -859,11 +859,11 @@ abstract class HTMLHelper
 		$mediaVersion = Factory::getDocument()->getMediaVersion();
 
 		// Add the css if exists
-		self::_('stylesheet', str_replace('.js', '.css', $component), $options);
+		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
 
 		$includes = static::includeRelativeFiles(
 			'js',
-			$component,
+			$file,
 			$options['relative'] ?? true,
 			$options['detectBrowser'] ?? false,
 			$options['detectDebug'] ?? false
