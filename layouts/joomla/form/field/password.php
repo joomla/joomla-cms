@@ -78,7 +78,12 @@ $attributes = array(
 	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 );
+\Joomla\CMS\Factory::getDocument()->addStyleDeclaration('
+joomla-field-password > .progress {
+	max-width: 277px;
+}
 
+')
 ?>
 <div class="password-group">
 	<joomla-field-password <?php echo !empty($minLength) ? 'min-length="' . $minLength . '" ' : ''

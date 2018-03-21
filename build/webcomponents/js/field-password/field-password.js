@@ -86,73 +86,22 @@
 		}
 
 		connectedCallback() {
-			// Meter is enabled
-			// @TODO Remove Bootstrap dependency
-			if (this.minLength && this.minLength > 0
-				||this.minIntegers && this.minIntegers > 0
-				||this.minSymbols && this.minSymbols > 0
-				||this.minUppercase && this.minUppercase > 0
-				||this.minLowercase && this.minLowercase > 0
-			) {
-				let startClass = '';
-				let initialVal = '';
-				let el;
-
-				if (!this.input.value.length) {
-					startClass = ' bg-danger';
-					initialVal = 0;
-				}
-
-				const i = Math.random().toString(36).substr(2, 9);
-
-				/** Create a progress meter and the label **/
-				const meter = document.createElement('div');
-				meter.setAttribute('class', 'progress');
-
-				this.meter = document.createElement('div');
-				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
-				this.meter.style.width = 0 + initialVal;
-				this.meter.max = 100;
-				this.meter.setAttribute('aria-describedby', 'password-' + i);
-				meter.appendChild(this.meter);
-
-				this.meterLabel = document.createElement('div');
-				this.meterLabel.setAttribute('class', 'text-xs-center');
-				this.meterLabel.setAttribute('id', 'password-' + i);
-
-				this.insertAdjacentElement('afterEnd', this.meterLabel);
-				this.insertAdjacentElement('afterEnd', meter);
-
-				/** Add a data attribute for the required **/
-				if (this.input.value.length > 0) {
-					this.input.setAttribute('required', '');
-				}
-
-				/** Add a listener for input data change **/
-				this.input.addEventListener('keyup', this.getMeter.bind(this));
-
-				// Set the validation handler
-				// @TODO refactor the validation.js to reflect the changes here!
-				this.setAttribute('validation-handler', 'password-strength' + '_' + Math.random().toString(36).substr(2, 9));
-
-				if (document.formvalidator) {
-					document.formvalidator.setHandler(this.getAttribute('validation-handler'), this.handler.bind(this));
-				}
-			}
-
 			if (this.reveal === 'true') {
-				const parent = document.createElement('span');
+				const parent = document.createElement('div');
+				const parentSpan = document.createElement('span');
 				const firstSpan = document.createElement('span');
 				const secondSpan = document.createElement('span');
 
-				parent.classList.add('input-group-addon');
+				parent.classList.add('input-group-append');
+				parentSpan.setAttribute('class', 'input-group-text');
 				firstSpan.setAttribute('class', 'fa fa-eye');
 				firstSpan.setAttribute('aria-hidden', 'true');
 				secondSpan.setAttribute('class', 'sr-only');
 				secondSpan.innerText = this.showText;
 
-				parent.appendChild(firstSpan);
-				parent.appendChild(secondSpan);
+				parentSpan.appendChild(firstSpan);
+				parentSpan.appendChild(secondSpan);
+				parent.appendChild(parentSpan);
 
 				let groupInput = this.querySelector('.input-group');
 
@@ -196,6 +145,60 @@
 						secondSpan.innerText = that.hideText;
 					}
 				});
+			}
+
+			// Meter is enabled
+			// @TODO Remove Bootstrap dependency
+			if (this.minLength && this.minLength > 0
+				||this.minIntegers && this.minIntegers > 0
+				||this.minSymbols && this.minSymbols > 0
+				||this.minUppercase && this.minUppercase > 0
+				||this.minLowercase && this.minLowercase > 0
+			) {
+				let startClass = '';
+				let initialVal = '';
+				let el;
+
+				if (!this.input.value.length) {
+					startClass = ' bg-danger';
+					initialVal = 0;
+				}
+
+				const i = Math.random().toString(36).substr(2, 9);
+
+				/** Create a progress meter and the label **/
+				const meter = document.createElement('div');
+				meter.setAttribute('class', 'progress');
+
+				this.meter = document.createElement('div');
+				this.meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
+				this.meter.style.width = 0 + initialVal;
+				this.meter.max = 100;
+				this.meter.setAttribute('aria-describedby', 'password-' + i);
+				meter.appendChild(this.meter);
+
+				this.meterLabel = document.createElement('div');
+				this.meterLabel.setAttribute('class', 'text-xs-center');
+				this.meterLabel.setAttribute('id', 'password-' + i);
+
+				this.insertAdjacentElement('beforeend', this.meterLabel);
+				this.insertAdjacentElement('beforeend', meter);
+
+				/** Add a data attribute for the required **/
+				if (this.input.value.length > 0) {
+					this.input.setAttribute('required', '');
+				}
+
+				/** Add a listener for input data change **/
+				this.input.addEventListener('keyup', this.getMeter.bind(this));
+
+				// Set the validation handler
+				// @TODO refactor the validation.js to reflect the changes here!
+				this.setAttribute('validation-handler', 'password-strength' + '_' + Math.random().toString(36).substr(2, 9));
+
+				if (document.formvalidator) {
+					document.formvalidator.setHandler(this.getAttribute('validation-handler'), this.handler.bind(this));
+				}
 			}
 		}
 
