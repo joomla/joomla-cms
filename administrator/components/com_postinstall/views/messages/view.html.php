@@ -65,6 +65,4 @@ class PostinstallViewMessages extends FOFViewHtml
 
 		return $return;
 	}
-
-
 }
