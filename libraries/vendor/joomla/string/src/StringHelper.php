@@ -313,17 +313,17 @@ abstract class StringHelper
 	 *
 	 * Convert a string to an array.
 	 *
-	 * @param   string   $str        UTF-8 encoded string to process
-	 * @param   integer  $split_len  Number to characters to split string by
+	 * @param   string   $str       UTF-8 encoded string to process
+	 * @param   integer  $splitLen  Number to characters to split string by
 	 *
 	 * @return  array
 	 *
 	 * @link    https://secure.php.net/str_split
 	 * @since   1.3.0
 	 */
-	public static function str_split($str, $split_len = 1)
+	public static function str_split($str, $splitLen = 1)
 	{
-		return utf8_str_split($str, $split_len);
+		return utf8_str_split($str, $splitLen);
 	}
 
 	/**
@@ -697,9 +697,9 @@ abstract class StringHelper
 	/**
 	 * Transcode a string.
 	 *
-	 * @param   string  $source         The string to transcode.
-	 * @param   string  $from_encoding  The source encoding.
-	 * @param   string  $to_encoding    The target encoding.
+	 * @param   string  $source        The string to transcode.
+	 * @param   string  $fromEncoding  The source encoding.
+	 * @param   string  $toEncoding    The target encoding.
 	 *
 	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
@@ -707,18 +707,18 @@ abstract class StringHelper
 	 *
 	 * @since   1.3.0
 	 */
-	public static function transcode($source, $from_encoding, $to_encoding)
+	public static function transcode($source, $fromEncoding, $toEncoding)
 	{
 		if (is_string($source))
 		{
 			switch (ICONV_IMPL)
 			{
 				case 'glibc':
-					return @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
+					return @iconv($fromEncoding, $toEncoding . '//TRANSLIT,IGNORE', $source);
 
 				case 'libiconv':
 				default:
-					return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
+					return iconv($fromEncoding, $toEncoding . '//IGNORE//TRANSLIT', $source);
 			}
 		}
 

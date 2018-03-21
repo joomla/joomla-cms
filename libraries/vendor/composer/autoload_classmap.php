@@ -617,6 +617,8 @@ return array(
     'Joomla\\Database\\QueryInterface' => $vendorDir . '/joomla/database/src/QueryInterface.php',
     'Joomla\\Database\\QueryMonitorInterface' => $vendorDir . '/joomla/database/src/QueryMonitorInterface.php',
     'Joomla\\Database\\Query\\LimitableInterface' => $vendorDir . '/joomla/database/src/Query/LimitableInterface.php',
+    'Joomla\\Database\\Query\\MysqlQueryBuilder' => $vendorDir . '/joomla/database/src/Query/MysqlQueryBuilder.php',
+    'Joomla\\Database\\Query\\PostgresqlQueryBuilder' => $vendorDir . '/joomla/database/src/Query/PostgresqlQueryBuilder.php',
     'Joomla\\Database\\Query\\PreparableInterface' => $vendorDir . '/joomla/database/src/Query/PreparableInterface.php',
     'Joomla\\Database\\Query\\QueryElement' => $vendorDir . '/joomla/database/src/Query/QueryElement.php',
     'Joomla\\Database\\Service\\DatabaseProvider' => $vendorDir . '/joomla/database/src/Service/DatabaseProvider.php',

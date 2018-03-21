@@ -944,7 +944,7 @@ abstract class PdoDriver extends DatabaseDriver
 	/**
 	 * Wake up after serialization
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
