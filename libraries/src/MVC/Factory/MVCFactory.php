@@ -234,7 +234,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 			return;
 		}
 
-		try {
+		try
+		{
 			$object->setFormFactory($this->getFormFactory());
 		}
 		catch (\UnexpectedValueException $e)
