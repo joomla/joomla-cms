@@ -87,7 +87,10 @@ class LegacyDispatcher implements DispatcherInterface
 		// Load common and local language files.
 		$lang->load($this->app->scope, JPATH_BASE, null, false, true) || $lang->load($this->app->scope, JPATH_COMPONENT, null, false, true);
 
-		// Execute the component.
-		require_once $path;
+		// Execute the component
+		$loader = static function($path){
+			require_once $path;
+		};
+		$loader($path);
 	}
 }
