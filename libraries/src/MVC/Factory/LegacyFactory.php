@@ -37,7 +37,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
+	 * @throws  \BadFunctionCallException
 	 */
 	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
 	{
