@@ -19,9 +19,9 @@ $url             = htmlspecialchars($params->get('url'), ENT_COMPAT, 'UTF-8');
 $target          = htmlspecialchars($params->get('target'), ENT_COMPAT, 'UTF-8');
 $width           = htmlspecialchars($params->get('width'), ENT_COMPAT, 'UTF-8');
 $height          = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8');
-$scroll          = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
+$overflow        = htmlspecialchars($params->get('overflow'), ENT_COMPAT, 'UTF-8');
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$frameborder     = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
+$border          = htmlspecialchars($params->get('border'), ENT_COMPAT, 'UTF-8');
 $ititle          = $module->title;
 $id              = $module->id;
 
