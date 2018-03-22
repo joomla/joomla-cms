@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,9 +84,12 @@ class Socket extends AbstractTransport
 			$headers['Content-Length'] = strlen($data);
 		}
 
+		// Configure protocol version, use transport's default if not set otherwise.
+		$protocolVersion = $this->getOption('protocolVersion', '1.0');
+
 		// Build the request payload.
 		$request = [];
-		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
+		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/' . $protocolVersion;
 		$request[] = 'Host: ' . $uri->getHost();
 
 		// If an explicit user agent is given use it.
@@ -270,7 +273,7 @@ class Socket extends AbstractTransport
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$track_errors = ini_get('track_errors');
+		$trackErrors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		// PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
@@ -286,13 +289,13 @@ class Socket extends AbstractTransport
 			}
 
 			// Restore error tracking to give control to the exception handler
-			ini_set('track_errors', $track_errors);
+			ini_set('track_errors', $trackErrors);
 
 			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors', $track_errors);
+		ini_set('track_errors', $trackErrors);
 
 		// Since the connection was successful let's store it in case we need to use it later.
 		$this->connections[$key] = $connection;

@@ -16,6 +16,7 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Component\LegacyComponentHelper;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -47,17 +48,17 @@ class LegacyComponent implements ComponentInterface
 	}
 
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
-		return null;
+		return new LegacyDispatcher($application);
 	}
 
 	/**

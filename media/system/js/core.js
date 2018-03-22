@@ -939,28 +939,30 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		};
 
 		/* Load web components async */
-		var loadWC = function (wc) {
-			var el, p, es5;
-			for (p in wc) {
-				if (wc.hasOwnProperty(p)) {
-					if (wc[p].match(/\.js/g)) {
-						el = document.createElement('script');
+		var loadWC = function () {
+			var wc = Joomla.getOptions('webcomponents');
+
+			if (wc.length) {
+				wc.forEach(function(component) {
+					if (component.match(/\.js/g)) {
+						var el = document.createElement('script');
 						if (!checkES6()) {
+							var es5;
 							// Browser is not ES6!
-							if (wc[p].match(/\.min\.js/g)) {
-								es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
-							} else if (wc[p].match(/\.js/g)) {
-								es5 = wc[p].replace(/\.js/g, '-es5.js')
+							if (component.match(/\.min\.js/g)) {
+								es5 = component.replace(/\.min\.js/g, '-es5.min.js')
+							} else if (component.match(/\.js/g)) {
+								es5 = component.replace(/\.js/g, '-es5.js')
 							}
 							el.src = es5;
 						} else {
-							el.src = wc[p];
+							el.src = component;
 						}
 					}
 					if (el) {
 						document.head.appendChild(el);
 					}
-				}
+				});
 			}
 		};
 
