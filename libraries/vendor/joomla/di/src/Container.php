@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,10 +44,18 @@ class Container implements ContainerInterface
 	 *
 	 * In fact, this can be any PSR-11 compatible container, which gets decorated by this
 	 *
-	 * @var    ContainerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @var    Container|ContainerInterface
+	 * @since  1.0
 	 */
 	protected $parent;
+
+	/**
+	 * Holds the service tag mapping.
+	 *
+	 * @var    array
+	 * @since  1.5.0
+	 */
+	protected $tags = array();
 
 	/**
 	 * Constructor for the DI Container
@@ -95,7 +103,7 @@ class Container implements ContainerInterface
 	 *
 	 * @return  boolean  true if key is defined, false otherwise
 	 *
-	 * @since   1.0
+	 * @since   1.5.0
 	 */
 	public function has($resourceName)
 	{
@@ -241,6 +249,60 @@ class Container implements ContainerInterface
 	}
 
 	/**
+	 * Assign a tag to services.
+	 *
+	 * @param   string  $tag   The tag name
+	 * @param   array   $keys  The service keys to tag
+	 *
+	 * @return  Container  This object for chaining.
+	 *
+	 * @since   1.5.0
+	 */
+	public function tag($tag, array $keys)
+	{
+		foreach ($keys as $key)
+		{
+			$resolvedKey = $this->resolveAlias($key);
+
+			if (!isset($this->tags[$tag]))
+			{
+				$this->tags[$tag] = array();
+			}
+
+			$this->tags[$tag][] = $resolvedKey;
+		}
+
+		// Prune duplicates
+		$this->tags[$tag] = array_unique($this->tags[$tag]);
+
+		return $this;
+	}
+
+	/**
+	 * Fetch all services registered to the given tag.
+	 *
+	 * @param   string  $tag  The tag name
+	 *
+	 * @return  array  The resolved services for the given tag
+	 *
+	 * @since   1.5.0
+	 */
+	public function getTagged($tag)
+	{
+		$services = array();
+
+		if (isset($this->tags[$tag]))
+		{
+			foreach ($this->tags[$tag] as $service)
+			{
+				$services[] = $this->get($service);
+			}
+		}
+
+		return $services;
+	}
+
+	/**
 	 * Build an object of the requested class
 	 *
 	 * Creates an instance of the class specified by $resourceName with all dependencies injected.
@@ -364,7 +426,7 @@ class Container implements ContainerInterface
 	 * @return  void
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  KeyNotFoundException
 	 */
 	public function extend($resourceName, callable $callable)
 	{
@@ -476,33 +538,33 @@ class Container implements ContainerInterface
 	/**
 	 * Convenience method for creating protected keys.
 	 *
-	 * @param   string    $key       Name of resources key to set.
-	 * @param   callable  $callback  Callable function to run when requesting the specified $key.
-	 * @param   boolean   $shared    True to create and store a shared instance.
+	 * @param   string   $key     Name of dataStore key to set.
+	 * @param   mixed    $value   Callable function to run or string to retrive when requesting the specified $key.
+	 * @param   boolean  $shared  True to create and store a shared instance.
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
-	public function protect($key, $callback, $shared = false)
+	public function protect($key, $value, $shared = false)
 	{
-		return $this->set($key, $callback, $shared, true);
+		return $this->set($key, $value, $shared, true);
 	}
 
 	/**
 	 * Convenience method for creating shared keys.
 	 *
-	 * @param   string    $key        Name of resources key to set.
-	 * @param   callable  $callback   Callable function to run when requesting the specified $key.
-	 * @param   boolean   $protected  True to create and store a shared instance.
+	 * @param   string   $key        Name of dataStore key to set.
+	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
+	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
 	 *
 	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
-	public function share($key, $callback, $protected = false)
+	public function share($key, $value, $protected = false)
 	{
-		return $this->set($key, $callback, true, $protected);
+		return $this->set($key, $value, true, $protected);
 	}
 
 	/**
@@ -581,7 +643,7 @@ class Container implements ContainerInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.5.0
 	 */
 	public function getKeys()
 	{
