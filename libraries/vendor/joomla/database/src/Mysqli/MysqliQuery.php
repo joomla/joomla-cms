@@ -10,6 +10,7 @@ namespace Joomla\Database\Mysqli;
 
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Query\LimitableInterface;
+use Joomla\Database\Query\MysqlQueryBuilder;
 use Joomla\Database\Query\PreparableInterface;
 
 /**
@@ -19,6 +20,8 @@ use Joomla\Database\Query\PreparableInterface;
  */
 class MysqliQuery extends DatabaseQuery implements LimitableInterface, PreparableInterface
 {
+	use MysqlQueryBuilder;
+
 	/**
 	 * The offset for the result set.
 	 *
@@ -90,7 +93,7 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	 *
 	 * @param   string|integer  $key            The key that will be used in your SQL query to reference the value. Usually of
 	 *                                          the form ':key', but can also be an integer.
-	 * @param   mixed           &$value         The value that will be bound. The value is passed by reference to support output
+	 * @param   mixed           $value          The value that will be bound. The value is passed by reference to support output
 	 *                                          parameters such as those possible with stored procedures.
 	 * @param   string          $dataType       The corresponding bind type.
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters. (Unused)
@@ -176,59 +179,6 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 	}
 
 	/**
-	 * Method to modify a query already in string format with the needed additions to make the query limited to a particular number of
-	 * results, or start at a particular offset.
-	 *
-	 * @param   string   $query   The query in string format
-	 * @param   integer  $limit   The limit for the result set
-	 * @param   integer  $offset  The offset for the result set
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0
-	 */
-	public function processLimit($query, $limit, $offset = 0)
-	{
-		if ($limit > 0 && $offset > 0)
-		{
-			$query .= ' LIMIT ' . $offset . ', ' . $limit;
-		}
-		elseif ($limit > 0)
-		{
-			$query .= ' LIMIT ' . $limit;
-		}
-
-		return $query;
-	}
-
-	/**
-	 * Concatenates an array of column names or values.
-	 *
-	 * @param   array   $values     An array of values to concatenate.
-	 * @param   string  $separator  As separator to place between each value.
-	 *
-	 * @return  string  The concatenated values.
-	 *
-	 * @since   1.0
-	 */
-	public function concatenate($values, $separator = null)
-	{
-		if ($separator)
-		{
-			$concat_string = 'CONCAT_WS(' . $this->quote($separator);
-
-			foreach ($values as $value)
-			{
-				$concat_string .= ', ' . $value;
-			}
-
-			return $concat_string . ')';
-		}
-
-		return 'CONCAT(' . implode(',', $values) . ')';
-	}
-
-	/**
 	 * Sets the offset and limit for the result set, if the database driver supports it.
 	 *
 	 * Usage:
@@ -248,80 +198,5 @@ class MysqliQuery extends DatabaseQuery implements LimitableInterface, Preparabl
 		$this->offset = (int) $offset;
 
 		return $this;
-	}
-
-	/**
-	 * Get the regular expression operator
-	 *
-	 * Usage:
-	 * $query->where('field ' . $query->regexp($search));
-	 *
-	 * @param   string  $value  The regex pattern.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5.0
-	 */
-	public function regexp($value)
-	{
-		return ' REGEXP ' . $value;
-	}
-
-	/**
-	 * Get the function to return a random floating-point value
-	 *
-	 * Usage:
-	 * $query->rand();
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5.0
-	 */
-	public function rand()
-	{
-		return ' RAND() ';
-	}
-
-	/**
-	 * Find a value in a varchar used like a set.
-	 *
-	 * Ensure that the value is an integer before passing to the method.
-	 *
-	 * Usage:
-	 * $query->findInSet((int) $parent->id, 'a.assigned_cat_ids')
-	 *
-	 * @param   string  $value  The value to search for.
-	 * @param   string  $set    The set of values.
-	 *
-	 * @return  string  A representation of the MySQL find_in_set() function for the driver.
-	 *
-	 * @since   1.5.0
-	 */
-	public function findInSet($value, $set)
-	{
-		return ' find_in_set(' . $value . ', ' . $set . ')';
-	}
-
-	/**
-	 * Return the number of the current row.
-	 *
-	 * Usage:
-	 * $query->select('id');
-	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
-	 * $query->from('#__content');
-	 *
-	 * @param   string  $orderBy           An expression of ordering for window function.
-	 * @param   string  $orderColumnAlias  An alias for new ordering column.
-	 *
-	 * @return  $this
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \RuntimeException
-	 */
-	public function selectRowNumber($orderBy, $orderColumnAlias)
-	{
-		$this->validateRowNumber($orderBy, $orderColumnAlias);
-
-		return $this->select("(SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS $orderColumnAlias");
 	}
 }

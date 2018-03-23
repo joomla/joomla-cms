@@ -567,7 +567,7 @@ class Image implements LoggerAwareInterface
 	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  \LogicException

@@ -31,7 +31,7 @@ final class UriImmutable extends AbstractUri
 	 * @param   string  $name   This is an immutable object, setting $name is not allowed.
 	 * @param   mixed   $value  This is an immutable object, setting $value is not allowed.
 	 *
-	 * @return  null  This method always throws an exception.
+	 * @return  void  This method always throws an exception.
 	 *
 	 * @since   1.0
 	 * @throws  \BadMethodCallException

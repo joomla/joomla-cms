@@ -17,15 +17,14 @@
 class JHtmlFieldRadioTest_DataSet
 {
 	public static $getInputTest = array(
-// This throws PHPUnit\Framework\Exception: Could not load XML from empty string
-//		'NoOptions' => array(
-//			'<field name="myTestId" type="radio"></field>',
-//			array(
-//				'id' => 'myTestId',
-//				'name' => 'myTestName',
-//			),
-//			'<fieldset id="myTestId" class="radio" ></fieldset>',
-//		),
+		'NoOptions' => array(
+			'<field name="myTestId" type="radio"></field>',
+			array(
+				'id' => 'myTestId',
+				'name' => 'myTestName',
+			),
+			'<fieldset id="myTestId" class="radio" ></fieldset>',
+		),
 
 		'Options' => array(
 			'<field name="myTestId" type="radio">
