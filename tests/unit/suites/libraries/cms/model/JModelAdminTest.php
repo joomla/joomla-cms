@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+
 /**
  * Test class for JModelAdmin.
  *
@@ -34,6 +36,7 @@ class JModelAdminTest extends TestCase
 	{
 		// Create mock of abstract class JModelAdmin to test concrete methods in there
 		$this->object = $this->getMockBuilder('JModelAdmin')
+			->setConstructorArgs([[], $this->getMockBuilder(MVCFactoryInterface::class)->getMock()])
 			->getMockForAbstractClass();
 	}
 
@@ -71,7 +74,7 @@ class JModelAdminTest extends TestCase
 			'text_prefix' => 'text_prefix'
 		);
 
-		$this->object->__construct($config);
+		$this->object->__construct($config, $this->getMockBuilder(MVCFactoryInterface::class)->getMock());
 
 		// Check if config was applied correctly
 		foreach ($config as $key => $value)

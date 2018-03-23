@@ -262,9 +262,9 @@ interface DatabaseInterface
 	/**
 	 * Inserts a row into a table based on an object's properties.
 	 *
-	 * @param   string  $table    The name of the database table to insert into.
-	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
+	 * @param   string  $table   The name of the database table to insert into.
+	 * @param   object  $object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key     The name of the primary key. If provided the object property is updated.
 	 *
 	 * @return  boolean
 	 *
@@ -515,10 +515,10 @@ interface DatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string   $table    The name of the database table to update.
-	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   array    $key      The name of the primary key.
-	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
+	 * @param   string   $table   The name of the database table to update.
+	 * @param   object   $object  A reference to an object whose public properties match the table fields.
+	 * @param   array    $key     The name of the primary key.
+	 * @param   boolean  $nulls   True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean
 	 *

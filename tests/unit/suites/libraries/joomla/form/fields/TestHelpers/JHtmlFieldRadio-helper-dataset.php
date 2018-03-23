@@ -18,7 +18,7 @@ class JHtmlFieldRadioTest_DataSet
 {
 	public static $getInputTest = array(
 		'NoOptions' => array(
-			'<field name="myTestId" type="radio" />',
+			'<field name="myTestId" type="radio"></field>',
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
@@ -39,13 +39,16 @@ class JHtmlFieldRadioTest_DataSet
 		),
 
 		'FieldClass' => array(
-			'<field name="myTestId" class="foo bar" type="radio"></field>',
+			'<field name="myTestId" class="foo bar" type="radio">
+				<option value="1">Yes</option>
+				<option value="0">No</option>
+			</field>',
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 				'class' => 'foo bar',
 			),
-			'<fieldset id="myTestId" class="radio foo bar" ></fieldset>',
+			'<fieldset id="myTestId" class="radio foo bar" ><label class="radio"><input type="radio" name="myTestName" value="1">Yes</label><label class="radio"><input type="radio" name="myTestName" value="0">No</label></fieldset>'
 		),
 
 		'OptionClass' => array(
@@ -101,13 +104,16 @@ class JHtmlFieldRadioTest_DataSet
 		),
 
 		'Autofocus' => array(
-			'<field name="myTestId" type="radio" required="true"></field>',
+			'<field name="myTestId" type="radio" required="true">
+				<option value="1" class="foo">Yes</option>
+				<option value="0" class="bar">No</option>
+			</field>',
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<fieldset id="myTestId" class="radio" autofocus ></fieldset>',
+			'<fieldset id="myTestId" class="radio" autofocus ><label class="radio foo"><input type="radio" name="myTestName" value="1" required>Yes</label><label class="radio bar"><input type="radio" name="myTestName" value="0" required>No</label></fieldset>',
 		),
 
 		'OnclickOnchange' => array(
