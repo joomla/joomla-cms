@@ -61,12 +61,6 @@ if ($meter)
 
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-password.js', ['version' => 'auto', 'relative' => true]);
 
-// @TODO pass these as attributes
-Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE', true);
-Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE', true);
-Text::script('JSHOW', true);
-Text::script('JHIDE', true);
-
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
@@ -86,6 +80,7 @@ joomla-field-password > .progress {
 ')
 ?>
 <div class="password-group">
+	<joomla-field-password text-show="<?php echo Text::_('JSHOW'); ?>" text-hide="<?php echo Text::_('JHIDE'); ?>"
 	<joomla-field-password <?php echo !empty($minLength) ? 'min-length="' . $minLength . '" ' : ''
 		, !empty($minIntegers) ? ' min-integers="' . $minIntegers . '"' : ''
 		, !empty($minSymbols) ? ' min-symbols="' . $minSymbols . '"' : ''
