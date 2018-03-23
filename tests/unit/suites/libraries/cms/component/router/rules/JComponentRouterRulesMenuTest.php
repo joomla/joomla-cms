@@ -45,6 +45,7 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		JFactory::$session = $this->getMockSession();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 		JFactory::$application = $app;
 		$router = new JComponentRouterViewInspector($app, $app->getMenu());
 		$router->set('name', 'content');

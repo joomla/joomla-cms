@@ -91,7 +91,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -119,7 +119,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -147,7 +147,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -175,7 +175,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -209,7 +209,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -237,7 +237,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -283,7 +283,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the bootstrap-init.min.js is loaded'
 		);
@@ -311,7 +311,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -339,7 +339,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -368,7 +368,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -426,7 +426,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -482,7 +482,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -537,7 +537,7 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);

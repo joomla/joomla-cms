@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
@@ -92,15 +93,16 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(Factory::getDbo());
+							$handler = new Handler\DatabaseHandler($container->get(DatabaseDriver::class));
 
 							break;
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							// Try to use a custom configured path, fall back to the path in the PHP runtime configuration
+							$path = $config->get('session_filesystem_path', ini_get('session.save_path'));
 
-							// If no path is given, fall back to the system's temporary directory
+							// If we still have no path, as a last resort fall back to the system's temporary directory
 							if (empty($path))
 							{
 								$path = sys_get_temp_dir();

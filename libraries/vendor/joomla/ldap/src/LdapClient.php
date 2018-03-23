@@ -386,11 +386,11 @@ class LdapClient
 			$dn = $this->base_dn;
 		}
 
-		foreach ($filters as $search_filter)
+		foreach ($filters as $searchFilter)
 		{
-			$search_result = ldap_search($this->resource, $dn, $search_filter, $attributes);
+			$searchResult = ldap_search($this->resource, $dn, $searchFilter, $attributes);
 
-			if ($search_result && ($count = ldap_count_entries($this->resource, $search_result)) > 0)
+			if ($searchResult && ($count = ldap_count_entries($this->resource, $searchResult)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
@@ -398,7 +398,7 @@ class LdapClient
 
 					if (!$i)
 					{
-						$firstentry = ldap_first_entry($this->resource, $search_result);
+						$firstentry = ldap_first_entry($this->resource, $searchResult);
 					}
 					else
 					{
@@ -406,10 +406,10 @@ class LdapClient
 					}
 
 					// Load user-specified attributes
-					$result_array = ldap_get_attributes($this->resource, $firstentry);
+					$attributeResult = ldap_get_attributes($this->resource, $firstentry);
 
 					// LDAP returns an array of arrays, fit this into attributes result array
-					foreach ($result_array as $ki => $ai)
+					foreach ($attributeResult as $ki => $ai)
 					{
 						if (is_array($ai))
 						{
@@ -719,7 +719,7 @@ class LdapClient
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   1.0
 	 */
-	public static function LdapNetAddr($networkaddress)
+	public static function ldapNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = (int) substr($networkaddress, 0, 1);

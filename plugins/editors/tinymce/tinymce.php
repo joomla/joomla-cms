@@ -408,9 +408,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$levelParams->loadArray($preset);
 		}
 
-		$menubar         = (array) $levelParams->get('menu', array());
-		$toolbar1        = (array) $levelParams->get('toolbar1', array());
-		$toolbar2        = (array) $levelParams->get('toolbar2', array());
+		$menubar         = (array) $levelParams->get('menu', []);
+		$toolbar1        = (array) $levelParams->get('toolbar1', []);
+		$toolbar2        = (array) $levelParams->get('toolbar2', []);
 
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
@@ -426,7 +426,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Template
-		$templates = array();
+		$templates = [];
 
 		if (!empty($allButtons['template']))
 		{
@@ -525,30 +525,24 @@ class PlgEditorTinymce extends CMSPlugin
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
 			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
-			$toolbar2  = array_merge($toolbar2, $btns['native']);
 		}
 
-		$toolbar2  = array_merge($toolbar2, $btns['native']);
-
-		// Merge the custom plugins paths
-		$externalPlugins  = array_merge($externalPlugins, $btns['paths']);
-
 		// Build the final options set
-		$scriptOptions = array_merge(
+		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
-				'suffix'  => '.min',
-				'baseURL' => Uri::root(true) . '/media/vendor/tinymce',
+				'suffix'   => '.min',
+				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
 				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
-				'skin'   => $skin,
-				'theme'  => $theme,
-				'schema' => 'html5',
+				'skin'     => $skin,
+				'theme'    => $theme,
+				'schema'   => 'html5',
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1),
+				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
 				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
 				'plugins'  => implode(',', array_unique($plugins)),
@@ -584,7 +578,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'dndEnabled' => $dragdrop,
 
 				// Disable TinyMCE Branding
-				'branding'	=> false,
+				'branding'   => false,
 			)
 		);
 
@@ -677,102 +671,51 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
+			Text::script('PLG_TINY_CORE_BUTTONS');
+
 			// Init the arrays for the buttons
-			$tinyBtns  = array();
-			$btnsNames = array();
-			$btnNative = array();
-			$externalPlugins = array();
+			$btnsNames = [];
 
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
+				$button->id = $name . '_' . $button->text . 'Modal';
+
+				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
+
 				if ($button->get('name'))
 				{
-					switch ($button->get('name'))
+					// Set some vars
+					$btnName = $button->get('text');
+					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
+					$onclick = $button->get('onclick') ?: null;
+					$icon    = $button->get('name');
+
+					if ($button->get('link') !== '#')
 					{
-						case 'pictures':
-							$externalPlugins[Text::_('PLG_IMAGE_BUTTON_IMAGE')] = Uri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
-							$btnNative[] = str_replace(' ', '', $button->get('text'));
-							Factory::getDocument()->addScriptOptions('xtd-' . strtolower(Text::_('PLG_IMAGE_BUTTON_IMAGE')), $button->get('options'));
-							break;
-						default:
-							// Set some vars
-							$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
-							$title   = $button->get('text');
-							$onclick = $button->get('onclick') ?: null;
-							$options = $button->get('options');
-							$icon    = $button->get('name');
-
-							if ($button->get('link') !== '#')
-							{
-								$href = Uri::base() . $button->get('link');
-							}
-							else
-							{
-								$href = null;
-							}
-
-							// We do some hack here to set the correct icon for 3PD buttons
-							$icon = 'none icon-' . $icon;
-
-							// Now we can built the script
-							$tempConstructor = '!(function(){';
-							$tempConstructor .= "editor.addButton(\"" . $name . "\", {
-								text: \"" . $title . "\",
-								title: \"" . $title . "\",
-								icon: \"" . $icon . "\",
-								onclick: function () {";
-
-							if ($href || $button->get('modal'))
-							{
-								$tempConstructor .= "
-								var modalOptions = {
-									title  : \"" . $title . "\",
-									url : '" . $href . "',
-									buttons: [{
-										text   : \"Close\",
-										onclick: \"close\"
-									}]
-								}
-								modalOptions.width = parseInt(" . intval($options['width']) . ", 10);
-								modalOptions.height = parseInt(" . intval($options['height']) . ", 10);
-								editor.windowManager.open(modalOptions);";
-
-								if ($onclick && ($button->get('modal') || $href))
-								{
-									$tempConstructor .= "\r\n
-										" . $onclick . '
-									';
-								}
-							}
-							else
-							{
-								$tempConstructor .= "\r\n
-								" . $onclick . '
-								';
-							}
-
-							$tempConstructor .= '
+						$href = Uri::base() . $button->get('link');
 					}
-				});
-			})();';
-
-							// The array with the toolbar buttons
-							$btnsNames[] = $name . ' | ';
-
-							// The array with code for each button
-							$tinyBtns[] = $tempConstructor;
-							break;
+					else
+					{
+						$href = null;
 					}
+
+					$coreButton = [];
+
+					$coreButton['name']  = $btnName;
+					$coreButton['href']  = $href;
+					$coreButton['id']    = $modalId;
+					$coreButton['icon']  = 'none icon-' . $icon;
+					$coreButton['click'] = $onclick;
+
+					// The array with the toolbar buttons
+					$btnsNames[] = $coreButton;
 				}
 			}
 
-			return array(
-				'names'  => $btnsNames,
-				'script' => $tinyBtns,
-				'native' => $btnNative,
-				'paths'  => $externalPlugins
-			);
+			sort($btnsNames);
+
+			return ['names'  => $btnsNames];
 		}
 	}
 
@@ -792,14 +735,14 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$filters = $config->get('filters');
 
-		$blackListTags       = array();
-		$blackListAttributes = array();
+		$blackListTags        = array();
+		$blackListAttributes  = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
+		$whiteListTags        = array();
+		$whiteListAttributes  = array();
 
 		$whiteList  = false;
 		$blackList  = false;
@@ -835,8 +778,8 @@ class PlgEditorTinymce extends CMSPlugin
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
-				$tempTags       = array();
-				$tempAttributes = array();
+				$tempTags       = [];
+				$tempAttributes = [];
 
 				foreach ($tags as $tag)
 				{
@@ -904,7 +847,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = InputFilter::getInstance(array(), array(), 1, 1);
+				$filter = InputFilter::getInstance([], [], 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -965,7 +908,7 @@ class PlgEditorTinymce extends CMSPlugin
 	{
 		// See https://www.tinymce.com/docs/demo/full-featured/
 		// And https://www.tinymce.com/docs/plugins/
-		$buttons = array(
+		$buttons = [
 
 			// General buttons
 			'|'              => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
@@ -1030,7 +973,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
-		);
+		];
 
 		return $buttons;
 	}
@@ -1044,18 +987,18 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public static function getToolbarPreset()
 	{
-		$preset = array();
+		$preset = [];
 
-		$preset['simple'] = array(
-			'menu' => array(),
-			'toolbar1' => array(
+		$preset['simple'] = [
+			'menu' => [],
+			'toolbar1' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext'
-			),
-			'toolbar2' => array(),
-		);
+				'pastetext', 'jxtdbuttons'
+			],
+			'toolbar2' => [],
+		];
 
 		$preset['medium'] = array(
 			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
@@ -1069,7 +1012,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext' , 'preview'
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1094,7 +1037,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);

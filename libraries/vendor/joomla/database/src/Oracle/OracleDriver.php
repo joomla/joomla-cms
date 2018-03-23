@@ -65,7 +65,7 @@ class OracleDriver extends PdoDriver
 	public function __construct(array $options)
 	{
 		$options['driver']     = 'oci';
-		$options['charset']    = isset($options['charset']) ? $options['charset']   : 'AL32UTF8';
+		$options['charset']    = isset($options['charset']) ? $options['charset'] : 'AL32UTF8';
 		$options['dateformat'] = isset($options['dateformat']) ? $options['dateformat'] : 'RRRR-MM-DD HH24:MI:SS';
 
 		$this->charset    = $options['charset'];
@@ -143,7 +143,7 @@ class OracleDriver extends PdoDriver
 	{
 		$this->connect();
 
-		/** @type OracleQuery $query */
+		/** @var OracleQuery $query */
 		$query = $this->getQuery(true);
 		$query->setQuery('DROP TABLE :tableName');
 		$query->bind(':tableName', $tableName);
@@ -226,12 +226,13 @@ class OracleDriver extends PdoDriver
 
 		$result = [];
 
-		/** @type OracleQuery $query */
+		/** @var OracleQuery $query */
 		$query = $this->getQuery(true)
 			->select('dbms_metadata.get_ddl(:type, :tableName)')
 			->from('dual');
 
-		$query->bind(':type', 'TABLE');
+		$type = 'TABLE';
+		$query->bind(':type', $type);
 
 		// Sanitize input to an array and iterate over the list.
 		$tables = (array) $tables;
@@ -263,7 +264,7 @@ class OracleDriver extends PdoDriver
 
 		$columns = [];
 
-		/** @type OracleQuery $query */
+		/** @var OracleQuery $query */
 		$query = $this->getQuery(true);
 
 		$fieldCasing = $this->getOption(\PDO::ATTR_CASE);
@@ -315,7 +316,7 @@ class OracleDriver extends PdoDriver
 	{
 		$this->connect();
 
-		/** @type OracleQuery $query */
+		/** @var OracleQuery $query */
 		$query = $this->getQuery(true);
 
 		$fieldCasing = $this->getOption(\PDO::ATTR_CASE);
@@ -351,7 +352,7 @@ class OracleDriver extends PdoDriver
 	{
 		$this->connect();
 
-		/** @type OracleQuery $query */
+		/** @var OracleQuery $query */
 		$query = $this->getQuery(true);
 
 		$query->select('table_name');

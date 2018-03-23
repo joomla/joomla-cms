@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', ['joomla-field-send-mail' => 'system/webcomponents/joomla-field-send-test-mail.min.js'], ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');

@@ -157,7 +157,7 @@ abstract class JHtmlBootstrap
 		JHtml::_('behavior.core');
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
-		JHtml::_('script', 'system/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;
 	}

@@ -57,7 +57,7 @@ var help = (function () {
   };
   var never = constant(false);
   var always = constant(true);
-  var $_4r2zi8ahjd09evsm = {
+  var $_fnbmayaqjdud7a5y = {
     noop: noop,
     noarg: noarg,
     compose: compose,
@@ -73,8 +73,8 @@ var help = (function () {
     always: always
   };
 
-  var never$1 = $_4r2zi8ahjd09evsm.never;
-  var always$1 = $_4r2zi8ahjd09evsm.always;
+  var never$1 = $_fnbmayaqjdud7a5y.never;
+  var always$1 = $_fnbmayaqjdud7a5y.always;
   var none = function () {
     return NONE;
   };
@@ -117,7 +117,7 @@ var help = (function () {
       toArray: function () {
         return [];
       },
-      toString: $_4r2zi8ahjd09evsm.constant('none()')
+      toString: $_fnbmayaqjdud7a5y.constant('none()')
     };
     if (Object.freeze)
       Object.freeze(me);
@@ -186,7 +186,7 @@ var help = (function () {
   var from = function (value) {
     return value === null || value === undefined ? NONE : some(value);
   };
-  var $_d8659wagjd09evsc = {
+  var Option = {
     some: some,
     none: none,
     from: from
@@ -204,7 +204,7 @@ var help = (function () {
   }();
   var indexOf = function (xs, x) {
     var r = rawIndexOf(xs, x);
-    return r === -1 ? $_d8659wagjd09evsc.none() : $_d8659wagjd09evsc.some(r);
+    return r === -1 ? Option.none() : Option.some(r);
   };
   var contains = function (xs, x) {
     return rawIndexOf(xs, x) > -1;
@@ -310,19 +310,19 @@ var help = (function () {
     for (var i = 0, len = xs.length; i < len; i++) {
       var x = xs[i];
       if (pred(x, i, xs)) {
-        return $_d8659wagjd09evsc.some(x);
+        return Option.some(x);
       }
     }
-    return $_d8659wagjd09evsc.none();
+    return Option.none();
   };
   var findIndex = function (xs, pred) {
     for (var i = 0, len = xs.length; i < len; i++) {
       var x = xs[i];
       if (pred(x, i, xs)) {
-        return $_d8659wagjd09evsc.some(i);
+        return Option.some(i);
       }
     }
-    return $_d8659wagjd09evsc.none();
+    return Option.none();
   };
   var slowIndexOf = function (xs, x) {
     for (var i = 0, len = xs.length; i < len; ++i) {
@@ -388,12 +388,12 @@ var help = (function () {
     return copy;
   };
   var head = function (xs) {
-    return xs.length === 0 ? $_d8659wagjd09evsc.none() : $_d8659wagjd09evsc.some(xs[0]);
+    return xs.length === 0 ? Option.none() : Option.some(xs[0]);
   };
   var last = function (xs) {
-    return xs.length === 0 ? $_d8659wagjd09evsc.none() : $_d8659wagjd09evsc.some(xs[xs.length - 1]);
+    return xs.length === 0 ? Option.none() : Option.some(xs[xs.length - 1]);
   };
-  var $_d0axraafjd09evs6 = {
+  var $_bbqpapaojdud7a5o = {
     map: map,
     each: each,
     eachr: eachr,
@@ -518,13 +518,13 @@ var help = (function () {
       action: 'Find (if searchreplace plugin activated)'
     }
   ];
-  var $_7hd876ajjd09evsp = { shortcuts: shortcuts };
+  var $_6syzfjasjdud7a61 = { shortcuts: shortcuts };
 
   var makeTab = function () {
     var makeAriaLabel = function (shortcut) {
       return 'aria-label="Action: ' + shortcut.action + ', Shortcut: ' + shortcut.shortcut.replace(/Ctrl/g, 'Control') + '"';
     };
-    var shortcutLisString = $_d0axraafjd09evs6.map($_7hd876ajjd09evsp.shortcuts, function (shortcut) {
+    var shortcutLisString = $_bbqpapaojdud7a5o.map($_6syzfjasjdud7a61.shortcuts, function (shortcut) {
       return '<tr data-mce-tabstop="1" tabindex="-1" ' + makeAriaLabel(shortcut) + '>' + '<td>' + I18n.translate(shortcut.action) + '</td>' + '<td>' + shortcut.shortcut + '</td>' + '</tr>';
     }).join('');
     return {
@@ -537,7 +537,7 @@ var help = (function () {
         }]
     };
   };
-  var $_czlwknaejd09evs2 = { makeTab: makeTab };
+  var $_946r3ganjdud7a5j = { makeTab: makeTab };
 
   var keys = function () {
     var fastKeys = Object.keys;
@@ -601,10 +601,10 @@ var help = (function () {
       var i = props[k];
       var x = obj[i];
       if (pred(x, i, obj)) {
-        return $_d8659wagjd09evsc.some(x);
+        return Option.some(x);
       }
     }
-    return $_d8659wagjd09evsc.none();
+    return Option.none();
   };
   var values = function (obj) {
     return mapToArray(obj, function (v) {
@@ -614,7 +614,7 @@ var help = (function () {
   var size = function (obj) {
     return values(obj).length;
   };
-  var $_9az4yamjd09evsx = {
+  var $_66a94zavjdud7a6b = {
     bifilter: bifilter,
     each: each$1,
     map: objectMap,
@@ -638,7 +638,7 @@ var help = (function () {
   var removeFromEnd = function (str, numChars) {
     return str.substring(0, str.length - numChars);
   };
-  var $_bi7jzgaojd09evt4 = {
+  var $_d1wq8qaxjdud7a6q = {
     addToStart: addToStart,
     addToEnd: addToEnd,
     removeFromStart: removeFromStart,
@@ -652,12 +652,12 @@ var help = (function () {
     return str.substr(str.length - count, str.length);
   };
   var head$1 = function (str) {
-    return str === '' ? $_d8659wagjd09evsc.none() : $_d8659wagjd09evsc.some(str.substr(0, 1));
+    return str === '' ? Option.none() : Option.some(str.substr(0, 1));
   };
   var tail = function (str) {
-    return str === '' ? $_d8659wagjd09evsc.none() : $_d8659wagjd09evsc.some(str.substring(1));
+    return str === '' ? Option.none() : Option.some(str.substring(1));
   };
-  var $_bpykrapjd09evt5 = {
+  var $_91024gayjdud7a6r = {
     first: first,
     last: last$1,
     head: head$1,
@@ -683,23 +683,23 @@ var help = (function () {
     });
   };
   var removeLeading = function (str, prefix) {
-    return startsWith(str, prefix) ? $_bi7jzgaojd09evt4.removeFromStart(str, prefix.length) : str;
+    return startsWith(str, prefix) ? $_d1wq8qaxjdud7a6q.removeFromStart(str, prefix.length) : str;
   };
   var removeTrailing = function (str, prefix) {
-    return endsWith(str, prefix) ? $_bi7jzgaojd09evt4.removeFromEnd(str, prefix.length) : str;
+    return endsWith(str, prefix) ? $_d1wq8qaxjdud7a6q.removeFromEnd(str, prefix.length) : str;
   };
   var ensureLeading = function (str, prefix) {
-    return startsWith(str, prefix) ? str : $_bi7jzgaojd09evt4.addToStart(str, prefix);
+    return startsWith(str, prefix) ? str : $_d1wq8qaxjdud7a6q.addToStart(str, prefix);
   };
   var ensureTrailing = function (str, prefix) {
-    return endsWith(str, prefix) ? str : $_bi7jzgaojd09evt4.addToEnd(str, prefix);
+    return endsWith(str, prefix) ? str : $_d1wq8qaxjdud7a6q.addToEnd(str, prefix);
   };
   var contains$1 = function (str, substr) {
     return str.indexOf(substr) !== -1;
   };
   var capitalize = function (str) {
-    return $_bpykrapjd09evt5.head(str).bind(function (head) {
-      return $_bpykrapjd09evt5.tail(str).map(function (tail) {
+    return $_91024gayjdud7a6r.head(str).bind(function (head) {
+      return $_91024gayjdud7a6r.tail(str).map(function (tail) {
         return head.toUpperCase() + tail;
       });
     }).getOr(str);
@@ -719,7 +719,7 @@ var help = (function () {
   var rTrim = function (str) {
     return str.replace(/\s+$/g, '');
   };
-  var $_4b7dpzanjd09evt2 = {
+  var $_ac98kgawjdud7a6n = {
     supplant: supplant,
     startsWith: startsWith,
     removeLeading: removeLeading,
@@ -912,11 +912,11 @@ var help = (function () {
       name: 'Word Count'
     }
   ];
-  var $_c0pbvaqjd09evt7 = { urls: urls };
+  var $_a3tko2azjdud7a6t = { urls: urls };
 
-  var makeLink = $_4r2zi8ahjd09evsm.curry($_4b7dpzanjd09evt2.supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
+  var makeLink = $_fnbmayaqjdud7a5y.curry($_ac98kgawjdud7a6n.supplant, '<a href="${url}" target="_blank" rel="noopener">${name}</a>');
   var maybeUrlize = function (editor, key) {
-    return $_d0axraafjd09evs6.find($_c0pbvaqjd09evt7.urls, function (x) {
+    return $_bbqpapaojdud7a5o.find($_a3tko2azjdud7a6t.urls, function (x) {
       return x.key === key;
     }).fold(function () {
       var getMetadata = editor.plugins[key].getMetadata;
@@ -929,12 +929,12 @@ var help = (function () {
     });
   };
   var getPluginKeys = function (editor) {
-    var keys = $_9az4yamjd09evsx.keys(editor.plugins);
-    return editor.settings.forced_plugins === undefined ? keys : $_d0axraafjd09evs6.filter(keys, $_4r2zi8ahjd09evsm.not($_4r2zi8ahjd09evsm.curry($_d0axraafjd09evs6.contains, editor.settings.forced_plugins)));
+    var keys = $_66a94zavjdud7a6b.keys(editor.plugins);
+    return editor.settings.forced_plugins === undefined ? keys : $_bbqpapaojdud7a5o.filter(keys, $_fnbmayaqjdud7a5y.not($_fnbmayaqjdud7a5y.curry($_bbqpapaojdud7a5o.contains, editor.settings.forced_plugins)));
   };
   var pluginLister = function (editor) {
     var pluginKeys = getPluginKeys(editor);
-    var pluginLis = $_d0axraafjd09evs6.map(pluginKeys, function (key) {
+    var pluginLis = $_bbqpapaojdud7a5o.map(pluginKeys, function (key) {
       return '<li>' + maybeUrlize(editor, key) + '</li>';
     });
     var count = pluginLis.length;
@@ -972,7 +972,7 @@ var help = (function () {
       ]
     };
   };
-  var $_7bezmyaljd09evsr = { makeTab: makeTab$1 };
+  var $_6gczqwaujdud7a64 = { makeTab: makeTab$1 };
 
   var EditorManager = tinymce.util.Tools.resolve('tinymce.EditorManager');
 
@@ -1002,7 +1002,7 @@ var help = (function () {
       }
     ];
   };
-  var $_dubkovarjd09evt9 = { makeRow: makeRow };
+  var $_fljzamb0jdud7a6v = { makeRow: makeRow };
 
   var open = function (editor, pluginUrl) {
     return function () {
@@ -1011,10 +1011,10 @@ var help = (function () {
         bodyType: 'tabpanel',
         layout: 'flex',
         body: [
-          $_czlwknaejd09evs2.makeTab(),
-          $_7bezmyaljd09evsr.makeTab(editor)
+          $_946r3ganjdud7a5j.makeTab(),
+          $_6gczqwaujdud7a64.makeTab(editor)
         ],
-        buttons: $_dubkovarjd09evt9.makeRow(),
+        buttons: $_fljzamb0jdud7a6v.makeRow(),
         onPostRender: function () {
           var title = this.getEl('title');
           title.innerHTML = '<img src="' + pluginUrl + '/img/logo.png" alt="TinyMCE Logo" style="display: inline-block; width: 200px; height: 50px">';
@@ -1022,30 +1022,30 @@ var help = (function () {
       });
     };
   };
-  var $_8eu5ebadjd09evs0 = { open: open };
+  var $_fzvtfsamjdud7a5h = { open: open };
 
   var register = function (editor, pluginUrl) {
-    editor.addCommand('mceHelp', $_8eu5ebadjd09evs0.open(editor, pluginUrl));
+    editor.addCommand('mceHelp', $_fzvtfsamjdud7a5h.open(editor, pluginUrl));
   };
-  var $_90auybacjd09evrz = { register: register };
+  var $_55da83aljdud7a5g = { register: register };
 
   var register$1 = function (editor, pluginUrl) {
     editor.addButton('help', {
       icon: 'help',
-      onclick: $_8eu5ebadjd09evs0.open(editor, pluginUrl)
+      onclick: $_fzvtfsamjdud7a5h.open(editor, pluginUrl)
     });
     editor.addMenuItem('Help', {
       text: 'Help',
       icon: 'help',
       context: 'help',
-      onclick: $_8eu5ebadjd09evs0.open(editor, pluginUrl)
+      onclick: $_fzvtfsamjdud7a5h.open(editor, pluginUrl)
     });
   };
-  var $_f3e8r4atjd09evtb = { register: register$1 };
+  var $_2ugq2zb2jdud7a6x = { register: register$1 };
 
   PluginManager.add('help', function (editor, pluginUrl) {
-    $_f3e8r4atjd09evtb.register(editor, pluginUrl);
-    $_90auybacjd09evrz.register(editor, pluginUrl);
+    $_2ugq2zb2jdud7a6x.register(editor, pluginUrl);
+    $_55da83aljdud7a5g.register(editor, pluginUrl);
     editor.shortcuts.add('Alt+0', 'Open help dialog', 'mceHelp');
   });
   function Plugin () {
@@ -1054,4 +1054,4 @@ var help = (function () {
   return Plugin;
 
 }());
-})()
+})();
