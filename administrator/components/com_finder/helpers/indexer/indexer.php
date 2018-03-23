@@ -306,10 +306,10 @@ abstract class FinderIndexer
 		{
 			// Update the link counts for the terms.
 			$query->clear()
-				->update($db->qn('#__finder_terms', 't'))
-				->join('INNER', $db->qn('#__finder_links_terms' . dechex($i), 'm') . ' ON ' . $db->qn('m.term_id') . ' = ' . $db->qn('t.term_id'))
-				->set($db->qn('links') . ' = ' . $db->qn('links') . ' - 1')
-				->where($db->qn('m.link_id') . ' = ' . (int) $linkId);
+				->update($db->quoteName('#__finder_terms', 't'))
+				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
+				->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
+				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query)->execute();
 
 			// Remove all records from the mapping tables.
