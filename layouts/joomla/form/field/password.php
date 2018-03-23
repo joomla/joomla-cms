@@ -92,17 +92,11 @@ joomla-field-password > .progress {
 		, !empty($minUppercase) ? ' min-uppercase="' . $minUppercase . '"' : ''
 		, !empty($minLowercase) ? ' min-lowercase="' . $minLowercase . '"' : ''
 		, !empty($forcePassword) ? ' min-force="' . $forcePassword . '"' : ''; ?> reveal="true">
-		<div class="input-group">
 			<input
 				type="password"
 				name="<?php echo $name; ?>"
 				id="<?php echo $id; ?>"
 				value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 				<?php echo implode(' ', $attributes); ?>>
-			<span class="input-group-addon">
-				<span class="fa fa-eye" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			</span>
-		</div>
 	</joomla-field-password>
 </div>
