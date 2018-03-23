@@ -37,7 +37,9 @@ class FieldsModelFields extends JModelList
 				'name', 'a.name',
 				'state', 'a.state',
 				'access', 'a.access',
+				'access_form', 'a.access_form',
 				'access_level',
+				'access_form_level',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -134,7 +136,7 @@ class FieldsModelFields extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
-				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
+				', a.state, a.access, a.access_form, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'
 			)
@@ -150,6 +152,7 @@ class FieldsModelFields extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level')->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('afg.title AS access_form_level')->join('LEFT', '#__viewlevels AS afg ON afg.id = a.access_form');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
@@ -175,6 +178,20 @@ class FieldsModelFields extends JModelList
 			else
 			{
 				$query->where('a.access = ' . (int) $access);
+			}
+		}
+
+		// Filter by access_form level.
+		if ($accessForm = $this->getState('filter.access_form'))
+		{
+			if (is_array($accessForm))
+			{
+				$accessForm = ArrayHelper::toInteger($accessForm);
+				$query->where('a.access_form in (' . implode(',', $accessForm) . ')');
+			}
+			else
+			{
+				$query->where('a.access_form = ' . (int) $accessForm);
 			}
 		}
 

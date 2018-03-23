@@ -202,6 +202,13 @@
 		/>
 
 		<field
+			name="access_form"
+			type="accesslevel"
+			label="JFIELD_ACCESSFORM_LABEL"
+			description="JFIELD_ACCESSFORM_DESC"
+		/>
+
+		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"

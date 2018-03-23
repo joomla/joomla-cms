@@ -32,6 +32,14 @@
 		</field>
 
 		<field
+			name="access_form"
+			type="accesslevel"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_ACCESS_FORM</option>
+		</field>
+
+		<field
 			name="language"
 			type="contentlanguage"
 			onchange="this.form.submit();"
@@ -57,6 +65,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="a.access_form ASC">JGRID_HEADING_ACCESS_FORM_ASC</option>
+			<option value="a.access_form DESC">JGRID_HEADING_ACCESS_FORM_DESC</option>
 			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

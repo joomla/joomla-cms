@@ -74,6 +74,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							'group_id',
 							'assigned_cat_ids',
 							'access',
+							'access_form',
 							'language',
 							'note',
 						)

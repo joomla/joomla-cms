@@ -75,6 +75,9 @@ if ($saveOrder)
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS_FORM', 'a.access_form', $listDirn, $listOrder); ?>
+						</th>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
@@ -165,6 +168,9 @@ if ($saveOrder)
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
+							</td>
+							<td class="small hidden-phone">
+								<?php echo $this->escape($item->access_form_level); ?>
 							</td>
 							<td class="small nowrap hidden-phone">
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>

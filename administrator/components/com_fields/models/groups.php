@@ -44,7 +44,9 @@ class FieldsModelGroups extends JModelList
 				'type', 'a.type',
 				'state', 'a.state',
 				'access', 'a.access',
+				'access_form', 'a.access_form',
 				'access_level',
+				'access_form_level',
 				'language', 'a.language',
 				'ordering', 'a.ordering',
 				'checked_out', 'a.checked_out',
@@ -133,6 +135,7 @@ class FieldsModelGroups extends JModelList
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level')->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('afg.title AS access_form_level')->join('LEFT', '#__viewlevels AS afg ON afg.id = a.access_form');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
@@ -157,11 +160,26 @@ class FieldsModelGroups extends JModelList
 			}
 		}
 
+		// Filter by access_form level.
+		if ($accessForm = $this->getState('filter.access_form'))
+		{
+			if (is_array($accessForm))
+			{
+				$accessForm = ArrayHelper::toInteger($access);
+				$query->where('a.access_form in (' . implode(',', $accessForm) . ')');
+			}
+			else
+			{
+				$query->where('a.access_form = ' . (int) $accessForm);
+			}
+		}
+
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
+			$query->where('a.access_form IN (' . $groups . ')');
 		}
 
 		// Filter by published state

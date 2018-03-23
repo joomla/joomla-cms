@@ -912,6 +912,7 @@ CREATE TABLE "#__fields" (
   "modified_time" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "modified_by" bigint NOT NULL DEFAULT 0,
   "access" int NOT NULL DEFAULT 1,
+  "access_form" int NOT NULL DEFAULT 1,
 CONSTRAINT "PK_#__fields_id" PRIMARY KEY CLUSTERED(
   "id" ASC)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
