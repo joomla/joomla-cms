@@ -882,6 +882,8 @@ class ComposerStaticInit8462306b3e4ab2d2c9bfd5cc383e4b0c
         'Joomla\\Database\\QueryInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryInterface.php',
         'Joomla\\Database\\QueryMonitorInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryMonitorInterface.php',
         'Joomla\\Database\\Query\\LimitableInterface' => __DIR__ . '/..' . '/joomla/database/src/Query/LimitableInterface.php',
+        'Joomla\\Database\\Query\\MysqlQueryBuilder' => __DIR__ . '/..' . '/joomla/database/src/Query/MysqlQueryBuilder.php',
+        'Joomla\\Database\\Query\\PostgresqlQueryBuilder' => __DIR__ . '/..' . '/joomla/database/src/Query/PostgresqlQueryBuilder.php',
         'Joomla\\Database\\Query\\PreparableInterface' => __DIR__ . '/..' . '/joomla/database/src/Query/PreparableInterface.php',
         'Joomla\\Database\\Query\\QueryElement' => __DIR__ . '/..' . '/joomla/database/src/Query/QueryElement.php',
         'Joomla\\Database\\Service\\DatabaseProvider' => __DIR__ . '/..' . '/joomla/database/src/Service/DatabaseProvider.php',
