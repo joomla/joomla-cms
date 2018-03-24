@@ -18,7 +18,7 @@ HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => '
 	id="blockrandom"
 	name="<?php echo $target; ?>"
 	src="<?php echo $url; ?>"
-	style="	width: <?php echo $width; ?>; height: <?php echo $height; ?>; overflow: <?php echo $scroll; ?>;	border: <?php echo $frameborder; ?>;"
+	style="width: <?php echo $width; ?>; height: <?php echo $height; ?>; overflow: <?php echo $overflow; ?>; border: <?php echo $border; ?>;"
     title="<?php echo $ititle; ?>"
 	class="wrapper">
 	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
