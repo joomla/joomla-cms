@@ -32,7 +32,7 @@ class WrapperHelper
 	public static function getParams(&$params)
 	{
 		$params->def('url', '');
-		$params->def('scrolling', 'auto');
+		$params->def('overflow', 'auto');
 		$params->def('height', '200px');
 		$params->def('height_auto', '0');
 		$params->def('width', '100%');
