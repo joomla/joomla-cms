@@ -42,20 +42,6 @@ extract($displayData, null);
  * @var   array    $options         Options available for this field.
  */
 
-// If there are no options don't render anything
-if (empty($options))
-{
-	return '';
-}
-
-/**
- * The format of the input tag to be filled in using sprintf.
- *     %1 - id
- *     %2 - name
- *     %3 - value
- *     %4 = any other attributes
- */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
 
@@ -105,7 +91,7 @@ if (!empty($dataToggle))
 			<?php $attributes[] = 'required aria-required="true"'; ?>
 		<?php endif; ?>
 		<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+			<input type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 			<?php echo $option->text; ?>
 		</label>
 	<?php endforeach; ?>

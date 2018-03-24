@@ -234,7 +234,7 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 	 *
 	 * @param   string|integer  $key            The key that will be used in your SQL query to reference the value. Usually of
 	 *                                          the form ':key', but can also be an integer.
-	 * @param   mixed           &$value         The value that will be bound. The value is passed by reference to support output
+	 * @param   mixed           $value          The value that will be bound. The value is passed by reference to support output
 	 *                                          parameters such as those possible with stored procedures.
 	 * @param   string          $dataType       The corresponding bind type. (Unused)
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters. (Unused)
@@ -436,7 +436,15 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 		// Go through all joins and add them to the tables array
 		foreach ($this->join as $join)
 		{
-			$joinTbl = str_replace('#__', $this->db->getPrefix(), str_replace(']', '', preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", '$1', (string) $join)));
+			$joinTbl = str_replace(
+				'#__',
+				$this->db->getPrefix(),
+				str_replace(
+					']',
+					'',
+					preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", '$1', (string) $join)
+				)
+			);
 
 			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
 
@@ -591,7 +599,8 @@ class SqlsrvQuery extends DatabaseQuery implements PreparableInterface
 				|| $lastWord == 'END'
 				|| is_numeric($lastWord))
 			{
-				/* Ends with:
+				/*
+				 * Ends with:
 				 * - SQL function
 				 * - single static value like 'only '+'string'
 				 * - @@var
