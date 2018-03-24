@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -308,12 +308,10 @@ class Nested extends Table
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
 	{
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nMoving ReferenceId:$referenceId, Position:$position, PK:$pk";
 		}
-		// @codeCoverageIgnoreEnd
 
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -333,12 +331,10 @@ class Nested extends Table
 
 		$children = $this->_db->setQuery($query)->loadColumn();
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			$this->_logtable(false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Cannot move the node to be a child of itself.
 		if (in_array($referenceId, $children))
@@ -423,12 +419,10 @@ class Nested extends Table
 			$this->_db->setQuery($query, 0, 1);
 			$reference = $this->_db->loadObject();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable(false);
 			}
-			// @codeCoverageIgnoreEnd
 
 			// Get the reposition data for re-inserting the node after the found root.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
@@ -732,13 +726,11 @@ class Nested extends Table
 			$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 		}
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\n" . get_class($this) . "::store\n";
 			$this->_logtable(true, false);
 		}
-		// @codeCoverageIgnoreEnd
 
 		/*
 		 * If the primary key is empty, then we assume we are inserting a new node into the
@@ -772,12 +764,10 @@ class Nested extends Table
 					$this->_db->setQuery($query, 0, 1);
 					$reference = $this->_db->loadObject();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable(false);
 					}
-					// @codeCoverageIgnoreEnd
 				}
 				// We have a real node set as a location reference.
 				else
@@ -876,12 +866,10 @@ class Nested extends Table
 
 		if ($result)
 		{
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 
 		// Unlock the table for writing.
@@ -1476,12 +1464,10 @@ class Nested extends Table
 
 					$this->_db->setQuery($query)->execute();
 
-					// @codeCoverageIgnoreStart
 					if ($this->_debug)
 					{
 						$this->_logtable();
 					}
-					// @codeCoverageIgnoreEnd
 				}
 
 				return $this->rebuild();
@@ -1719,14 +1705,12 @@ class Nested extends Table
 				break;
 		}
 
-		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
 			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
 				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
 				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
 		}
-		// @codeCoverageIgnoreEnd
 
 		return $data;
 	}
@@ -1794,12 +1778,10 @@ class Nested extends Table
 		{
 			$this->_db->setQuery($query)->execute();
 
-			// @codeCoverageIgnoreStart
 			if ($this->_debug)
 			{
 				$this->_logtable();
 			}
-			// @codeCoverageIgnoreEnd
 		}
 		catch (\Exception $e)
 		{

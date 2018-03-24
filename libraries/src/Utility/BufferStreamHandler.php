@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class BufferStreamHandler
 	 * Status of registering the wrapper
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	static private $registered = false;
 
@@ -60,7 +60,7 @@ class BufferStreamHandler
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	public static function stream_register()
 	{
@@ -243,6 +243,7 @@ class BufferStreamHandler
 	protected function seek_end($offset)
 	{
 		$offset += strlen($this->buffers[$this->name]);
+
 		if ($offset < 0)
 		{
 			return false;

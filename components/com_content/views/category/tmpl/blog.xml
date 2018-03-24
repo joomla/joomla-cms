@@ -31,9 +31,7 @@
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
-				>
-				<option value="">JNONE</option>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 

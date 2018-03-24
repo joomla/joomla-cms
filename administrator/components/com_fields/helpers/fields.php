@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -201,7 +201,7 @@ class FieldsHelper
 
 					if (is_array($value))
 					{
-						$value = implode($value, ' ');
+						$value = implode(' ', $value);
 					}
 
 					// Event allow plugins to modfify the output of the prepared field
@@ -621,7 +621,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */

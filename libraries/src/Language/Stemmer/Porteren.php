@@ -2,7 +2,8 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 Richard Heyes (http://www.phpguru.org/). All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,13 +96,13 @@ class Porteren extends LanguageStemmer
 		if (substr($word, -1) == 's')
 		{
 				self::_replace($word, 'sses', 'ss')
-			or self::_replace($word, 'ies', 'i')
-			or self::_replace($word, 'ss', 'ss')
-			or self::_replace($word, 's', '');
+			|| self::_replace($word, 'ies', 'i')
+			|| self::_replace($word, 'ss', 'ss')
+			|| self::_replace($word, 's', '');
 		}
 
 		// Part b
-		if (substr($word, -2, 1) != 'e' or !self::_replace($word, 'eed', 'ee', 0))
+		if (substr($word, -2, 1) != 'e' || !self::_replace($word, 'eed', 'ee', 0))
 		{
 			// First rule
 			$v = self::$_regex_vowel;
@@ -109,17 +110,17 @@ class Porteren extends LanguageStemmer
 			// Check ing and ed
 			// Note use of && and OR, for precedence reasons
 			if (preg_match("#$v+#", substr($word, 0, -3)) && self::_replace($word, 'ing', '')
-				or preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
+				|| preg_match("#$v+#", substr($word, 0, -2)) && self::_replace($word, 'ed', ''))
 			{
 				// If one of above two test successful
-				if (!self::_replace($word, 'at', 'ate') and !self::_replace($word, 'bl', 'ble') and !self::_replace($word, 'iz', 'ize'))
+				if (!self::_replace($word, 'at', 'ate') && !self::_replace($word, 'bl', 'ble') && !self::_replace($word, 'iz', 'ize'))
 				{
 					// Double consonant ending
-					if (self::_doubleConsonant($word) and substr($word, -2) != 'll' and substr($word, -2) != 'ss' and substr($word, -2) != 'zz')
+					if (self::_doubleConsonant($word) && substr($word, -2) != 'll' && substr($word, -2) != 'ss' && substr($word, -2) != 'zz')
 					{
 						$word = substr($word, 0, -1);
 					}
-					elseif (self::_m($word) == 1 and self::_cvc($word))
+					elseif (self::_m($word) == 1 && self::_cvc($word))
 					{
 						$word .= 'e';
 					}
@@ -166,11 +167,11 @@ class Porteren extends LanguageStemmer
 		{
 			case 'a':
 					self::_replace($word, 'ational', 'ate', 0)
-				or self::_replace($word, 'tional', 'tion', 0);
+				|| self::_replace($word, 'tional', 'tion', 0);
 				break;
 			case 'c':
 					self::_replace($word, 'enci', 'ence', 0)
-				or self::_replace($word, 'anci', 'ance', 0);
+				|| self::_replace($word, 'anci', 'ance', 0);
 				break;
 			case 'e':
 				self::_replace($word, 'izer', 'ize', 0);
@@ -180,26 +181,26 @@ class Porteren extends LanguageStemmer
 				break;
 			case 'l':
 					self::_replace($word, 'entli', 'ent', 0)
-				or self::_replace($word, 'ousli', 'ous', 0)
-				or self::_replace($word, 'alli', 'al', 0)
-				or self::_replace($word, 'bli', 'ble', 0)
-				or self::_replace($word, 'eli', 'e', 0);
+				|| self::_replace($word, 'ousli', 'ous', 0)
+				|| self::_replace($word, 'alli', 'al', 0)
+				|| self::_replace($word, 'bli', 'ble', 0)
+				|| self::_replace($word, 'eli', 'e', 0);
 				break;
 			case 'o':
 					self::_replace($word, 'ization', 'ize', 0)
-				or self::_replace($word, 'ation', 'ate', 0)
-				or self::_replace($word, 'ator', 'ate', 0);
+				|| self::_replace($word, 'ation', 'ate', 0)
+				|| self::_replace($word, 'ator', 'ate', 0);
 				break;
 			case 's':
 					self::_replace($word, 'iveness', 'ive', 0)
-				or self::_replace($word, 'fulness', 'ful', 0)
-				or self::_replace($word, 'ousness', 'ous', 0)
-				or self::_replace($word, 'alism', 'al', 0);
+				|| self::_replace($word, 'fulness', 'ful', 0)
+				|| self::_replace($word, 'ousness', 'ous', 0)
+				|| self::_replace($word, 'alism', 'al', 0);
 				break;
 			case 't':
 					self::_replace($word, 'biliti', 'ble', 0)
-				or self::_replace($word, 'aliti', 'al', 0)
-				or self::_replace($word, 'iviti', 'ive', 0);
+				|| self::_replace($word, 'aliti', 'al', 0)
+				|| self::_replace($word, 'iviti', 'ive', 0);
 				break;
 		}
 
@@ -227,7 +228,7 @@ class Porteren extends LanguageStemmer
 				break;
 			case 't':
 					self::_replace($word, 'icate', 'ic', 0)
-				or self::_replace($word, 'iciti', 'ic', 0);
+				|| self::_replace($word, 'iciti', 'ic', 0);
 				break;
 			case 'u':
 				self::_replace($word, 'ful', '', 0);
@@ -261,7 +262,7 @@ class Porteren extends LanguageStemmer
 				break;
 			case 'c':
 					self::_replace($word, 'ance', '', 1)
-				or self::_replace($word, 'ence', '', 1);
+				|| self::_replace($word, 'ence', '', 1);
 				break;
 			case 'e':
 				self::_replace($word, 'er', '', 1);
@@ -271,16 +272,16 @@ class Porteren extends LanguageStemmer
 				break;
 			case 'l':
 					self::_replace($word, 'able', '', 1)
-				or self::_replace($word, 'ible', '', 1);
+				|| self::_replace($word, 'ible', '', 1);
 				break;
 			case 'n':
 					self::_replace($word, 'ant', '', 1)
-				or self::_replace($word, 'ement', '', 1)
-				or self::_replace($word, 'ment', '', 1)
-				or self::_replace($word, 'ent', '', 1);
+				|| self::_replace($word, 'ement', '', 1)
+				|| self::_replace($word, 'ment', '', 1)
+				|| self::_replace($word, 'ent', '', 1);
 				break;
 			case 'o':
-				if (substr($word, -4) == 'tion' or substr($word, -4) == 'sion')
+				if (substr($word, -4) == 'tion' || substr($word, -4) == 'sion')
 				{
 					self::_replace($word, 'ion', '', 1);
 				}
@@ -294,7 +295,7 @@ class Porteren extends LanguageStemmer
 				break;
 			case 't':
 					self::_replace($word, 'ate', '', 1)
-				or self::_replace($word, 'iti', '', 1);
+				|| self::_replace($word, 'iti', '', 1);
 				break;
 			case 'u':
 				self::_replace($word, 'ous', '', 1);
@@ -338,7 +339,7 @@ class Porteren extends LanguageStemmer
 		}
 
 		// Part b
-		if (self::_m($word) > 1 and self::_doubleConsonant($word) and substr($word, -1) == 'l')
+		if (self::_m($word) > 1 && self::_doubleConsonant($word) && substr($word, -1) == 'l')
 		{
 			$word = substr($word, 0, -1);
 		}
@@ -369,7 +370,7 @@ class Porteren extends LanguageStemmer
 		{
 			$substr = substr($str, 0, $len);
 
-			if (is_null($m) or self::_m($substr) > $m)
+			if (is_null($m) || self::_m($substr) > $m)
 			{
 				$str = $substr . $repl;
 			}
@@ -423,7 +424,7 @@ class Porteren extends LanguageStemmer
 	{
 		$c = self::$_regex_consonant;
 
-		return preg_match("#$c{2}$#", $str, $matches) and $matches[0]{0} == $matches[0]{1};
+		return preg_match("#$c{2}$#", $str, $matches) && $matches[0]{0} == $matches[0]{1};
 	}
 
 	/**
@@ -441,10 +442,10 @@ class Porteren extends LanguageStemmer
 		$v = self::$_regex_vowel;
 
 		$result = preg_match("#($c$v$c)$#", $str, $matches)
-			and strlen($matches[1]) == 3
-			and $matches[1]{2} != 'w'
-			and $matches[1]{2} != 'x'
-			and $matches[1]{2} != 'y';
+			&& strlen($matches[1]) == 3
+			&& $matches[1]{2} != 'w'
+			&& $matches[1]{2} != 'x'
+			&& $matches[1]{2} != 'y';
 
 		return $result;
 	}

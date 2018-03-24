@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -617,7 +617,6 @@ class ModulesModelModule extends JModelAdmin
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
 			if (empty($data->params))
 			{
-
 				// This allows us to inject parameter settings into a new module.
 				$params = $app->getUserState('com_modules.add.module.params');
 
@@ -927,7 +926,7 @@ class ModulesModelModule extends JModelAdmin
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -605,11 +605,11 @@ class ComponentAdapter extends InstallerAdapter
 			$db = $this->parent->getDbo();
 
 			$query = $db->getQuery(true)
-						->select($db->qn('extension_id'))
-						->from($db->qn('#__extensions'))
-						->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
-						->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
-						->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
+				->select($db->qn('extension_id'))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('name') . ' = ' . $db->q($this->extension->name))
+				->where($db->qn('type') . ' = ' . $db->q($this->extension->type))
+				->where($db->qn('element') . ' = ' . $db->q($this->extension->element));
 
 			$db->setQuery($query);
 
@@ -803,8 +803,8 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-					->delete('#__schemas')
-					->where('extension_id = ' . $id);
+			->delete('#__schemas')
+			->where('extension_id = ' . $id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -898,13 +898,13 @@ class ComponentAdapter extends InstallerAdapter
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
 		$query = $db->getQuery(true)
-					->select('m.id, e.extension_id')
-					->from('#__menu AS m')
-					->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-					->where('m.parent_id = 1')
-					->where('m.client_id = 1')
-					->where('m.menutype = ' . $db->quote('main'))
-					->where('e.element = ' . $db->quote($option));
+			->select('m.id, e.extension_id')
+			->from('#__menu AS m')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.parent_id = 1')
+			->where('m.client_id = 1')
+			->where('m.menutype = ' . $db->quote('main'))
+			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
@@ -1110,11 +1110,11 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Get the ids of the menu items
 		$query = $db->getQuery(true)
-					->select('id')
-					->from('#__menu')
-					->where($db->quoteName('client_id') . ' = 1')
-					->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
-					->where($db->quoteName('component_id') . ' = ' . (int) $id);
+			->select('id')
+			->from('#__menu')
+			->where($db->quoteName('client_id') . ' = 1')
+			->where($db->quoteName('menutype') . ' = ' . $db->q('main'))
+			->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -1176,13 +1176,13 @@ class ComponentAdapter extends InstallerAdapter
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
-					->update('#__menu')
-					->set('component_id = ' . $db->quote($component_id))
-					->where('type = ' . $db->quote('component'))
-					->where('(' .
-						'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR ' .
-						'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false) .
-					')');
+			->update('#__menu')
+			->set('component_id = ' . $db->quote($component_id))
+			->where('type = ' . $db->quote('component'))
+			->where('('
+				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '
+				. 'link LIKE ' . $db->q($db->escape('index.php?option=' . $option . '&') . '%', false)
+				. ')');
 
 		if (isset($clientId))
 		{
@@ -1336,14 +1336,14 @@ class ComponentAdapter extends InstallerAdapter
 		{
 			// The menu item already exists. Delete it and retry instead of throwing an error.
 			$query = $db->getQuery(true)
-						->select('id')
-						->from('#__menu')
-						->where('menutype = ' . $db->q($data['menutype']))
-						->where('client_id = 1')
-						->where('link = ' . $db->q($data['link']))
-						->where('type = ' . $db->q($data['type']))
-						->where('parent_id = ' . $db->q($data['parent_id']))
-						->where('home = ' . $db->q($data['home']));
+				->select('id')
+				->from('#__menu')
+				->where('menutype = ' . $db->q($data['menutype']))
+				->where('client_id = 1')
+				->where('link = ' . $db->q($data['link']))
+				->where('type = ' . $db->q($data['type']))
+				->where('parent_id = ' . $db->q($data['parent_id']))
+				->where('home = ' . $db->q($data['home']));
 
 			$db->setQuery($query);
 			$menu_id = $db->loadResult();

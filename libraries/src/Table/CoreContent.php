@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,15 +108,18 @@ class CoreContent extends Table
 		{
 			$this->core_alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
+
 		// Not Null sanity check
 		if (empty($this->core_images))
 		{
 			$this->core_images = '{}';
 		}
+
 		if (empty($this->core_urls))
 		{
 			$this->core_urls = '{}';
 		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
 		{
@@ -151,6 +154,7 @@ class CoreContent extends Table
 					$clean_keys[] = trim($key);
 				}
 			}
+
 			// Put array back together delimited by ", "
 			$this->core_metakey = implode(', ', $clean_keys);
 		}

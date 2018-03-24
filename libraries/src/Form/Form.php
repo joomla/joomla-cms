@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -2205,7 +2205,7 @@ class Form
 
 			if (empty($data))
 			{
-				throw new \InvalidArgumentException(sprintf('Form::getInstance(%s, *%s*)', $name, gettype($data)));
+				throw new \InvalidArgumentException(sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, gettype($data)));
 			}
 
 			// Instantiate the form.
@@ -2216,14 +2216,14 @@ class Form
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load form');
+					throw new \RuntimeException(sprintf('%s() could not load form', __METHOD__));
 				}
 			}
 			else
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new \RuntimeException('JForm::getInstance could not load file');
+					throw new \RuntimeException(sprintf('%s() could not load file', __METHOD__));
 				}
 			}
 		}

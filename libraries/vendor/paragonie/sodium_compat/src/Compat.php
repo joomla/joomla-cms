@@ -725,7 +725,7 @@ class ParagonIE_Sodium_Compat
      * This validates ciphertext integrity.
      *
      * @param string $ciphertext Sealed message to be opened
-     * @param string $keypair Your crypto_box keypair
+     * @param string $keypair    Your crypto_box keypair
      * @return string            The original plaintext message
      * @throws Error
      * @throws TypeError
@@ -1160,12 +1160,14 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
-            return sodium_crypto_kx(
-                $my_secret,
-                $their_public,
-                $client_public,
-                $server_public
-            );
+            if (is_callable('sodium_crypto_kx')) {
+                return sodium_crypto_kx(
+                    $my_secret,
+                    $their_public,
+                    $client_public,
+                    $server_public
+                );
+            }
         }
         if (self::use_fallback('crypto_kx')) {
             return call_user_func(
@@ -1978,7 +1980,9 @@ class ParagonIE_Sodium_Compat
             throw new Error('Argument 1 must be at least CRYPTO_SIGN_SEEDBYTES long.');
         }
         if (self::isPhp72OrGreater()) {
-            return sodium_crypto_sign_ed25519_sk_to_curve25519($sk);
+            if (is_callable('crypto_sign_ed25519_sk_to_curve25519')) {
+                return sodium_crypto_sign_ed25519_sk_to_curve25519($sk);
+            }
         }
         if (self::use_fallback('crypto_sign_ed25519_sk_to_curve25519')) {
             return call_user_func('\\Sodium\\crypto_sign_ed25519_sk_to_curve25519', $sk);
@@ -2018,7 +2022,7 @@ class ParagonIE_Sodium_Compat
     /**
      * Increase a string (little endian)
      *
-     * @param &string $var
+     * @param string $var
      *
      * @return void
      * @throws Error (Unless libsodium is installed)
@@ -2108,7 +2112,7 @@ class ParagonIE_Sodium_Compat
      * It's actually not possible to zero memory buffers in PHP. You need the
      * native library for that.
      *
-     * @param &string $var
+     * @param string|null $var
      *
      * @return void
      * @throws Error (Unless libsodium is installed)

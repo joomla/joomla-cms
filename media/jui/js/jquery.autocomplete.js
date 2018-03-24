@@ -1,5 +1,5 @@
 /**
-*  Ajax Autocomplete for jQuery, version 1.4.2
+*  Ajax Autocomplete for jQuery, version 1.4.7
 *  (c) 2017 Tomas Kirda
 *
 *  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.
@@ -192,7 +192,6 @@
                 container.children('.' + selected).removeClass(selected);
             });
 
-
             // Listen for click event on suggestions list:
             container.on('click.autocomplete', suggestionSelector, function () {
                 that.select($(this).data('index'));
@@ -248,9 +247,7 @@
 
         setOptions: function (suppliedOptions) {
             var that = this,
-                options = that.options;
-
-            this.options = $.extend({}, options, suppliedOptions);
+                options = $.extend({}, that.options, suppliedOptions);
 
             that.isLocal = Array.isArray(options.lookup);
 
@@ -266,6 +263,8 @@
                 'width': options.width + 'px',
                 'z-index': options.zIndex
             });
+
+            this.options = options;            
         },
 
 
@@ -337,6 +336,7 @@
 
                 parentOffsetDiff = $container.offsetParent().offset();
                 styles.top -= parentOffsetDiff.top;
+                styles.top += containerParent.scrollTop;
                 styles.left -= parentOffsetDiff.left;
 
                 if (!that.visible){
@@ -457,6 +457,11 @@
         },
 
         onValueChange: function () {
+            if (this.ignoreValueChange) {
+                this.ignoreValueChange = false;
+                return;
+            }
+
             var that = this,
                 options = that.options,
                 value = that.el.val(),
@@ -854,8 +859,9 @@
             }
 
             if (that.selectedIndex === 0) {
-                $(that.suggestionsContainer).children().first().removeClass(that.classes.selected);
+                $(that.suggestionsContainer).children('.' + that.classes.suggestion).first().removeClass(that.classes.selected);
                 that.selectedIndex = -1;
+                that.ignoreValueChange = false;
                 that.el.val(that.currentValue);
                 that.findBestHint();
                 return;
@@ -898,8 +904,14 @@
             }
 
             if (!that.options.preserveInput) {
+                // During onBlur event, browser will trigger "change" event,
+                // because value has changed, to avoid side effect ignore,
+                // that event, so that correct suggestion can be selected
+                // when clicking on suggestion with a mouse
+                that.ignoreValueChange = true;
                 that.el.val(that.getValue(that.suggestions[index].value));
             }
+
             that.signalHint(null);
         },
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -276,6 +276,7 @@ class FtpClient
 
 				return false;
 			}
+
 			// Set the timeout for this connection
 			ftp_set_option($this->_conn, FTP_TIMEOUT_SEC, $this->_timeout);
 
@@ -861,6 +862,7 @@ class FtpClient
 
 				return false;
 			}
+
 			// Read tmp buffer contents
 			rewind($tmp);
 			$buffer = '';
@@ -1668,11 +1670,13 @@ class FtpClient
 					$tmp_array['time'] = date('H:i', $timestamp);
 					$tmp_array['name'] = $regs[8];
 				}
+
 				// If we just want files, do not add a folder
 				if ($type == 'files' && $tmp_array['type'] == 1)
 				{
 					continue;
 				}
+
 				// If we just want folders, do not add a file
 				if ($type == 'folders' && $tmp_array['type'] == 0)
 				{
