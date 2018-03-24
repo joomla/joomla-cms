@@ -33,7 +33,7 @@ class WrapperHelper
 	{
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');
-		$params->def('height', '200');
+		$params->def('height', '200px');
 		$params->def('height_auto', '0');
 		$params->def('width', '100%');
 		$params->def('add', '1');
