@@ -35,10 +35,19 @@ if (is_array($button->get('options')) && isset($options['confirmText']) && isset
 	$confirm = '<a class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="' . $options['confirmCallback'] . '">'
 		. $options['confirmText'] . '</a>';
 }
+
+if (null !== $button->get('text'))
+{
+	$id = str_replace(' ', '', $button->get('id'));
+}
+else
+{
+	$id = str_replace(' ', '', $button->get('text')) . 'Modal';
+}
 // Create the modal
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
-	str_replace(' ', '', $button->get('text')) . 'Modal',
+	$id,
 	array(
 		'url'    => $link,
 		'title'  => $title,

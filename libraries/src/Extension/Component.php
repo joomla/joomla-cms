@@ -11,9 +11,12 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Access to component specific services.
@@ -22,6 +25,13 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
  */
 class Component implements ComponentInterface
 {
+	/**
+	 * The MVC Factory.
+	 *
+	 * @var MVCFactoryFactoryInterface
+	 */
+	private $mvcFactoryFactory;
+
 	/**
 	 * An array of categories.
 	 *
@@ -41,15 +51,24 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * The association extension.
+	 *
+	 * @var AssociationExtensionInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $associationExtension;
+
+	/**
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
 		if ($this->dispatcherFactory === null)
 		{
@@ -71,6 +90,39 @@ class Component implements ComponentInterface
 	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
+	}
+
+	/**
+	 * Returns an MVCFactory.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	{
+		if ($this->mvcFactoryFactory === null)
+		{
+			return null;
+		}
+
+		return $this->mvcFactoryFactory->createFactory($application);
+	}
+
+	/**
+	 * The MVC Factory to create MVCFactories from.
+	 *
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The factory
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
+	{
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 	}
 
 	/**
@@ -113,5 +165,31 @@ class Component implements ComponentInterface
 	public function setCategories(array $categories)
 	{
 		$this->categories = $categories;
+	}
+
+	/**
+	 * Returns the associations helper.
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsExtension()
+	{
+		return $this->associationExtension;
+	}
+
+	/**
+	 * The association extension.
+	 *
+	 * @param   AssociationExtensionInterface  $associationExtension  The extension
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
+	{
+		$this->associationExtension = $associationExtension;
 	}
 }
