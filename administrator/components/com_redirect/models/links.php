@@ -201,7 +201,7 @@ class RedirectModelLinks extends JModelList
 		$query = $db->getQuery(true);
 
 		$params = JComponentHelper::getParams('com_redirect');
-		$state  = $params->get('defaultImportState', 0);
+		$state  = (int) $params->get('defaultImportState', 0);
 
 		$columns = array(
 			$db->quoteName('old_url'),
