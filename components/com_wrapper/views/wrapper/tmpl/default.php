@@ -20,6 +20,10 @@ $height      = $this->escape($this->params->get('height', '500')) . ($isHtml5 ? 
 $scrolling   = $this->escape($this->params->get('scrolling', 'auto'));
 $frameborder = $this->escape($this->params->get('frameborder', 1));
 
+// Most current browsers don't support CSS rule "overflow" for scrollbars display
+// of IFRAME tags but support HTML4 attribute "scrolling" in HTML5 context.
+$scrollingFallback = $scrolling;
+
 if ($isHtml5)
 {
 	if ($scrolling !== 'auto')
@@ -46,6 +50,7 @@ if ($isHtml5)
 		id="blockrandom"
 		name="iframe"
 		src="<?php echo $this->escape($this->wrapper->url); ?>"
+		scrolling="<?php echo $scrollingFallback; ?>"
 		<?php if ($isHtml5) : ?>
 			style="width: <?php echo $width; ?>;
 			height: <?php echo $height; ?>;
@@ -54,7 +59,6 @@ if ($isHtml5)
 		<?php else : ?>
 			width="<?php echo $width; ?>"
 			height="<?php echo $height; ?>"
-			scrolling="<?php echo $scrolling; ?>"
 			frameborder="<?php echo $frameborder; ?>"
 		<?php endif; ?>
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
