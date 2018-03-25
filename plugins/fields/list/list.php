@@ -32,7 +32,7 @@ class PlgFieldsList extends FieldsListPlugin
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
 
-		// rawvalue should be an array
+		// The fields rawvalue should be an array
 		if(!is_array($field->rawvalue))
 		{
 			$field->rawvalue = (array) $field->rawvalue;
