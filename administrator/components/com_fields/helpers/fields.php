@@ -187,11 +187,6 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				// List fields need to always be an array.
-				if ($field->type === 'list' && !is_array($field->value)) {
-					$field->rawvalue = (array) $field->value;
-				}
-
 				if ($prepareValue)
 				{
 					JPluginHelper::importPlugin('fields');

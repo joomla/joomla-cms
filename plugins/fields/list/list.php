@@ -18,4 +18,26 @@ JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINI
  */
 class PlgFieldsList extends FieldsListPlugin
 {
+	/**
+	 * Prepares the field value.
+	 *
+	 * @param   string    $context  The context.
+	 * @param   stdclass  $item     The item.
+	 * @param   stdclass  $field    The field.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onCustomFieldsPrepareField($context, $item, $field)
+	{
+
+		// rawvalue should be an array
+		if(!is_array($field->rawvalue))
+		{
+			$field->rawvalue = (array) $field->rawvalue;
+		}
+
+		return parent::onCustomFieldsPrepareField($context, $item, $field);
+	}
 }
