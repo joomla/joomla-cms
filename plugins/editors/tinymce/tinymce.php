@@ -672,8 +672,9 @@ class PlgEditorTinymce extends CMSPlugin
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			Text::script('PLG_TINY_CORE_BUTTONS');
+
 			// Init the arrays for the buttons
-			$btnsNames       = [];
+			$btnsNames = [];
 
 			// Build the script
 			foreach ($buttons as $i => $button)

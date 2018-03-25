@@ -10,13 +10,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\Component;
+use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
+use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -39,6 +43,16 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		/**
+		 * @var Registry $registry
+		 */
+		$registry = $container->get(Registry::class);
+		$registry->register('contentadministrator', new AdministratorService);
+		$registry->register('contenticon', new Icon($container->get(SiteApplication::class)));
+
+		// The layout joomla.content.icons does need a general icon service
+		$registry->register('icon', $registry->getService('contenticon'));
+
 		$container->set(Categories::class, ['' => new Category]);
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 

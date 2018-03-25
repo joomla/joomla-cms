@@ -135,7 +135,7 @@ $url    = ($readonly ? ''
 		)
 	);
 
-	HTMLHelper::_('webcomponent', ['joomla-field-media' => 'system/webcomponents/joomla-field-media.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
+	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-media.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => true]);
 	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<?php if ($showPreview) : ?>

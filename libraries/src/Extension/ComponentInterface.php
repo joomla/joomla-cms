@@ -24,15 +24,15 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 interface ComponentInterface
 {
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application);
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 
 	/**
 	 * Returns an MVCFactory.
