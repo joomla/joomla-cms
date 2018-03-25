@@ -9,8 +9,27 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+if ($this->params->get('height_auto', 0))
+{
+	JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+}
 
+$isHtml5     = $this->params->get('mode', 'legacy') === 'html5';
+$width       = $this->escape($this->params->get('width', '100%'));
+$height      = $this->escape($this->params->get('height', '500')) . ($isHtml5 ? 'px' : '');
+$scrolling   = $this->escape($this->params->get('scrolling', 'auto'));
+$frameborder = $this->escape($this->params->get('frameborder', 1));
+
+if ($isHtml5)
+{
+
+	if ($scrolling !== 'auto')
+	{
+		$scrolling = ($scrolling === 'no' ? 'hidden' : 'scroll');
+	}
+
+	$frameborder = (!$frameborder ? 'none' : $frameborder . 'px solid #000');
+}
 ?>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -28,10 +47,17 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 		id="blockrandom"
 		name="iframe"
 		src="<?php echo $this->escape($this->wrapper->url); ?>"
-		width="<?php echo $this->escape($this->params->get('width')); ?>"
-		height="<?php echo $this->escape($this->params->get('height')); ?>"
-		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
-		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+		<?php if ($isHtml5) : ?>
+			style="width: <?php echo $width; ?>;
+			height: <?php echo $height; ?>;
+			overflow: <?php echo $scrolling; ?>;
+			border: <?php echo $frameborder; ?>"
+		<?php else : ?>
+			width="<?php echo $width; ?>"
+			height="<?php echo $height; ?>"
+			scrolling="<?php echo $scrolling; ?>"
+			frameborder="<?php echo $frameborder; ?>"
+		<?php endif; ?>
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
 		<?php else : ?>
