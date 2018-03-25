@@ -140,8 +140,10 @@ class RedirectControllerLinks extends JControllerAdmin
 				{
 					$this->setMessage(JText::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
 					$this->setRedirect('index.php?option=com_redirect&view=links');
+					
 					return false;
 				}
+				
 				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
 			}
 		}
