@@ -22,6 +22,17 @@
 			description="COM_REDIRECT_BULK_SEPARATOR_DESC"
 			default="|"
 		/>
+		<field
+				name="defaultImportState"
+				type="radio"
+				label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
+				description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+		>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+		</field>
 	</fieldset>
 
 	<fieldset
