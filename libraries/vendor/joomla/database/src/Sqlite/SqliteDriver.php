@@ -68,7 +68,7 @@ class SqliteDriver extends PdoDriver
 
 		$this->connection->sqliteCreateFunction(
 			'ROW_NUMBER',
-			function($init = null)
+			function ($init = null)
 			{
 				static $rownum, $partition;
 
@@ -308,7 +308,7 @@ class SqliteDriver extends PdoDriver
 
 		$type = 'table';
 
-		/** @type SqliteQuery $query */
+		/** @var SqliteQuery $query */
 		$query = $this->getQuery(true);
 		$query->select('name');
 		$query->from('sqlite_master');

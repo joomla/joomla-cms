@@ -173,13 +173,13 @@ class JLayoutBaseTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertThat(
 			$this->layoutBase->escape("'"),
-			$this->equalTo("'"),
-			'Test the single quote is not converted'
+			$this->equalTo("&#039;"),
+			'Test the single quote is converted to HTML code'
 		);
 
 		$this->assertThat(
 			$this->layoutBase->escape("<a href='test'>Test</a>"),
-			$this->equalTo("&lt;a href='test'&gt;Test&lt;/a&gt;"),
+			$this->equalTo("&lt;a href=&#039;test&#039;&gt;Test&lt;/a&gt;"),
 			'Test the characters <> are not converted'
 		);
 	}
