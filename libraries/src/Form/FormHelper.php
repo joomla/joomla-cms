@@ -333,7 +333,7 @@ class FormHelper
 		{
 			$path = trim($path);
 
-			if (!in_array($path, $paths) && is_dir($path))
+			if (!in_array($path, $paths))
 			{
 				array_unshift($paths, $path);
 			}
