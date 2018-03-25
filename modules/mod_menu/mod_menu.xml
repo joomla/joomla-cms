@@ -22,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic"  addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="menutype"
 					type="menu"
