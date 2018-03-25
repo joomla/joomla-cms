@@ -471,7 +471,7 @@ class PostinstallModelMessages extends FOFModel
 			// Otherwise it's not the same row. Remove the old row before insert a new one.
 			$query = $db->getQuery(true)
 				->delete($db->qn($tableName))
-				->where($db->q('extension_id') . ' = ' . $options['extension_id'])
+				->where($db->q('extension_id') . ' = ' . (int) $options['extension_id'])
 				->where($db->q('type') . ' = ' . $db->q($options['type']))
 				->where($db->q('title_key') . ' = ' . $db->q($options['title_key']));
 
