@@ -63,6 +63,18 @@
 		<!-- Advanced options. -->
 		<fieldset name="advanced">
 
+			<field
+				name="mode"
+				type="radio"
+				label="COM_WRAPPER_FIELD_MODE_LABEL"
+				description="COM_WRAPPER_FIELD_MODE_DESC"
+				class="btn-group"
+				default="legacy"
+				>
+				<option value="legacy">COM_WRAPPER_FIELD_VALUE_LEGACY</option>
+				<option value="html5">COM_WRAPPER_FIELD_VALUE_HTML5</option>
+			</field>
+
 			<field 
 				name="height_auto" 
 				type="radio"
