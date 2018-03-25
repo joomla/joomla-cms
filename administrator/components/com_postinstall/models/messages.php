@@ -442,7 +442,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn($tableName))
-			->where($db->qn('extension_id') . ' = ' . $options['extension_id'])
+			->where($db->qn('extension_id') . ' = ' . (int) $options['extension_id'])
 			->where($db->qn('type') . ' = ' . $db->q($options['type']))
 			->where($db->qn('title_key') . ' = ' . $db->q($options['title_key']));
 
