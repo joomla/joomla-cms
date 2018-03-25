@@ -22,13 +22,12 @@ $frameborder = $this->escape($this->params->get('frameborder', 1));
 
 if ($isHtml5)
 {
-
 	if ($scrolling !== 'auto')
 	{
-		$scrolling = ($scrolling === 'no' ? 'hidden' : 'scroll');
+		$scrolling = $scrolling === 'no' ? 'hidden' : 'scroll';
 	}
 
-	$frameborder = (!$frameborder ? 'none' : $frameborder . 'px solid #000');
+	$frameborder = !$frameborder ? 'none' : $frameborder . 'px solid #000';
 }
 ?>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
