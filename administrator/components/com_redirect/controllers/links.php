@@ -133,15 +133,16 @@ class RedirectControllerLinks extends JControllerAdmin
 			if (!empty($batch_urls_line))
 			{
 				$params = JComponentHelper::getParams('com_redirect');
-				$seperator  = $params->get('separator', '|');
+				$separator  = $params->get('separator', '|');
 
 				// Basic check to make sure the correct separator is being used
-				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $seperator)) {
-					$this->setMessage(JText::sprintf('COM_REDIRECT_NO_SEPERATOR_FOUND', $seperator), 'error');
+				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator))
+				{
+					$this->setMessage(JText::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
 					$this->setRedirect('index.php?option=com_redirect&view=links');
 					return false;
 				}
-				$batch_urls[] = array_map('trim', explode($seperator, $batch_urls_line));
+				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
 			}
 		}
 
