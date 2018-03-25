@@ -169,7 +169,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 			else
 			{
-				if (StringHelper::strpos(' ' . $orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
