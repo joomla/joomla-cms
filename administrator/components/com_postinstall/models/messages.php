@@ -37,7 +37,7 @@ class PostinstallModelMessages extends FOFModel
 
 		// Force filter only enabled messages
 		$published = $this->getState('published', 1, 'int');
-		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
+		$query->where($db->qn('enabled') . ' = ' . $published);
 
 		return $query;
 	}
@@ -59,7 +59,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $eid);
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
 
 		$db->setQuery($query, 0, 1);
 
@@ -101,7 +101,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->update($db->qn('#__postinstall_messages'))
 			->set($db->qn('enabled') . ' = 1')
-			->where($db->qn('extension_id') . ' = ' . $eid);
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -123,7 +123,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->update($db->qn('#__postinstall_messages'))
 			->set($db->qn('enabled') . ' = 0')
-			->where($db->qn('extension_id') . ' = ' . $eid);
+			->where($db->qn('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		return $db->execute();
