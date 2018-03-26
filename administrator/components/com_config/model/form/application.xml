@@ -1282,6 +1282,11 @@
 				description="COM_CONFIG_ACTION_EDITOWN_DESC"
 			/>
 			<action
+				name="core.display.field"
+				title="JACTION_DISPLAYFIELD"
+				description="COM_CONFIG_ACTION_DISPLAYFIELD_DESC"
+			/>
+			<action
 				name="core.edit.value"
 				title="JACTION_EDITVALUE"
 				description="COM_CONFIG_ACTION_EDITVALUE_DESC"

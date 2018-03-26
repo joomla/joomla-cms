@@ -365,6 +365,12 @@ class FieldsHelper
 
 		foreach ($fields as $field)
 		{
+			if (!FieldsHelper::canDisplayField($field) && JFactory::getApplication()->isClient('site'))
+			{
+				// If logged in user (front-end) does NOT have display rights on Custom Field
+				continue;
+			}
+
 			if (!array_key_exists($field->type, $fieldTypes))
 			{
 				// Field type is not available
@@ -538,7 +544,28 @@ class FieldsHelper
 	{
 		$parts = self::extract($field->context);
 
-		return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
+		if (JFactory::getUser()->authorise('core.display.field', $parts[0] . '.field.' . (int) $field->id))
+		{
+			return JFactory::getUser()->authorise('core.edit.value', $parts[0] . '.field.' . (int) $field->id);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Return a boolean if the actual logged in user can display the given field.
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.4
+	 */
+	public static function canDisplayField($field)
+	{
+		$parts = self::extract($field->context);
+
+		return JFactory::getUser()->authorise('core.display.field', $parts[0] . '.field.' . (int) $field->id);
 	}
 
 	/**
