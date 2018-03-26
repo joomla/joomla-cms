@@ -62,7 +62,7 @@ return new class implements ServiceProviderInterface
 
 		$container->set(
 			DispatcherFactoryInterface::class,
-			new DispatcherFactory('', $container->get(MVCFactoryFactoryInterface::class))
+			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
 		);
 		$container->registerServiceProvider(new Component);
 	}
