@@ -58,7 +58,10 @@ return new class implements ServiceProviderInterface
 		$container->set(Categories::class, ['' => new Category]);
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
-		$container->set(MVCFactoryFactoryInterface::class, new MVCFactoryFactory('\\Joomla\\Component\\Content'));
+		$factory = new MVCFactoryFactory('\\Joomla\\Component\\Content');
+		$factory->setFormFactory($container->get(\Joomla\CMS\Form\FormFactoryInterface::class));
+		$container->set(MVCFactoryFactoryInterface::class, $factory);
+
 		$container->set(
 			DispatcherFactoryInterface::class,
 			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
