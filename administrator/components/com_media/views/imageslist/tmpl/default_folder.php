@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$this->imagesListLayout = !empty($this->imagesListLayout)
-	? $this->imagesListLayout
+$this->viewLayout = !empty($this->viewLayout)
+	? $this->viewLayout
 	: 'default';
+
 $input = JFactory::getApplication()->input;
 ?>
 <li class="imgOutline thumbnail height-80 width-80 center">
-	<a href="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;layout=<?php echo $this->imagesListLayout; ?>&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>" target="imageframe">
+	<a href="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;layout=<?php echo $this->viewLayout; ?>&amp;folder=<?php echo $this->_tmp_folder->path_relative; ?>&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>" target="imageframe">
 		<div class="height-50">
 			<span class="icon-folder-2"></span>
 		</div>

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $lang = JFactory::getLanguage();
+$this->viewLayout = basename(__FILE__, '.php');
 
 JHtml::_('stylesheet', 'media/popup-imagelist.css', array('version' => 'auto', 'relative' => true));
 
