@@ -22,7 +22,7 @@ $user = JFactory::getUser();
 $canEdit      = $user->authorise('core.edit', 'com_tags');
 $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
-$items        = is_array($this->items) ? $this->items : (array) $this->items;
+$items        = $this->items;
 $n            = count($this->items);
 
 JFactory::getDocument()->addScriptDeclaration("
