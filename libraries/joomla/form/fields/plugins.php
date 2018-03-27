@@ -168,10 +168,11 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-
-		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE')) {
+		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
+		{
 			$this->readonly = true;
 		}
+		
 		return parent::getInput();
 	}
 }
