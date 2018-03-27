@@ -35,7 +35,7 @@ $link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=compon
 
 if (!empty($editor))
 {
-	$link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . $editor . '&'  . JSession::getFormToken() . '=1';
+	$link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . $editor . '&' . JSession::getFormToken() . '=1';
 }
 ?>
 <div class="container-popup">
