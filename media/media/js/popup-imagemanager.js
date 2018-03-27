@@ -32,6 +32,7 @@
 			this.author = options.author;
 			this.base   = options.base;
 			this.asset  = options.asset;
+			this.layout = !!options.layout ? options.layout : '';
 			this.editor = decodeURIComponent(q.e_name);
 
 			// Setup image manager fields object
@@ -176,7 +177,7 @@
 		 *
 		 * @return  void
 		 */
-		setFolder: function (folder, asset, author)
+		setFolder: function (folder, asset, author, layout)
 		{
 			for (var i = 0, l = this.folderlist.length; i < l; i++)
 			{
@@ -191,9 +192,9 @@
 				}
 			}
 
-			if (!!asset || !!author)
+			if (!!asset || !!author || !!layout)
 			{
-				this.setFrameUrl(folder, asset, author);
+				this.setFrameUrl(folder, asset, layout);
 			}
 		},
 
@@ -211,7 +212,7 @@
 			search = path.join('/');
 
 			this.setFolder(search);
-			this.setFrameUrl(search, this.asset, this.author);
+			this.setFrameUrl(search, this.asset, this.author, this.layout);
 		},
 
 		/**
@@ -268,15 +269,17 @@
 		 * @param  string  folder  Relative path to directory
 		 * @param  mixed   asset   Probably an integer or undefined, optional
 		 * @param  mixed   author  Probably an integer or undefined, optional
+		 * @param  mixed   layout  Text, the name of the layout file, optional
 		 */
-		setFrameUrl: function (folder, asset, author)
+		setFrameUrl: function (folder, asset, author, layout)
 		{
 			var qs = {
 				option: 'com_media',
 				view: 'imagesList',
 				tmpl: 'component',
 				asset: asset,
-				author: author
+				author: author,
+				layout: (!!layout ? layout : '')
 			};
 
 			// Don't run folder through params because / will end up double encoded.

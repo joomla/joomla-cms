@@ -19,6 +19,9 @@ $isMoo      = $input->getInt('ismoo', 1);
 $author     = $input->getCmd('author');
 $asset      = $input->getCmd('asset');
 
+// This needed if you are creating a custom named layout for 'imagesList' view
+$this->imagesListLayout = basename(__FILE__, '.php'); ;
+
 JHtml::_('formbehavior.chosen', 'select');
 
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
@@ -39,7 +42,8 @@ JFactory::getDocument()->addScriptOptions(
 	'mediamanager', array(
 		'base'   => $params->get('image_path', 'images') . '/',
 		'asset'  => $asset,
-		'author' => $author
+		'author' => $author,
+		'layout' => $this->imagesListLayout,
 	)
 );
 
@@ -91,7 +95,7 @@ else // XTD Image plugin
 			</div>
 		</div>
 
-		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>"></iframe>
+		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;layout=<?php echo $this->imagesListLayout; ?>&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>"></iframe>
 
 		<div class="well">
 			<div class="row-fluid">
