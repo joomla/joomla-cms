@@ -40,7 +40,6 @@ class MediaViewImagesList extends JViewLegacy
 
 		$this->docs    = &$docs;
 		$this->videos  = &$videos;
-		$this->videos  = &$videos;
 		$this->images  = &$images;
 		$this->folders = &$folders;
 
