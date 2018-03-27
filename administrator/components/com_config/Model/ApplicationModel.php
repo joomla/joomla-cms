@@ -881,7 +881,7 @@ class ApplicationModel extends FormModel
 	{
 		// Set the new values to test with the current settings
 		$app = \JFactory::getApplication();
-		$input = $app->input;
+		$input = $app->input->json;
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));

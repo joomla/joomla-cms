@@ -30,9 +30,7 @@
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
-				>
-				<option value="">JNONE</option>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 
@@ -323,7 +321,10 @@
 				</field>
 		</fieldset>
 
-		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+		<fieldset name="article"
+			label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 			<field
 				name="article_layout" type="componentlayout"
@@ -446,7 +447,7 @@
 
 			<field
 				name="show_associations"
-				type="list"
+				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
 				class="chzn-color"
@@ -592,8 +593,8 @@
 			<field
 				name="show_email_icon"
 				type="list"
-				label="JGLOBAL_Show_Email_Icon_Label"
-				description="JGLOBAL_Show_Email_Icon_Desc"
+				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
+				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>

@@ -43,7 +43,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -120,7 +120,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**

@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Languages</namespace>
 	<files>
 		<filename module="mod_languages">mod_languages.php</filename>
 		<folder>tmpl</folder>

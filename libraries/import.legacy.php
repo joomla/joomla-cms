@@ -52,8 +52,6 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {

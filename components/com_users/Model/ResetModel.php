@@ -137,7 +137,7 @@ class ResetModel extends FormModel
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */
@@ -183,7 +183,7 @@ class ResetModel extends FormModel
 		// Check the token and user id.
 		if (empty($token) || empty($userId))
 		{
-			return new \JException(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
+			return new \Exception(\JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
 		}
 
 		// Get the user object.
@@ -221,7 +221,7 @@ class ResetModel extends FormModel
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \JException(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Flush the user data from the session.
@@ -236,7 +236,7 @@ class ResetModel extends FormModel
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */
@@ -292,7 +292,7 @@ class ResetModel extends FormModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return new \JException(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 		}
 
 		// Check for a user.
@@ -339,7 +339,7 @@ class ResetModel extends FormModel
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  \Exception | \JException | boolean
+	 * @return  mixed  \Exception | boolean
 	 *
 	 * @since   1.6
 	 */
@@ -446,7 +446,7 @@ class ResetModel extends FormModel
 		// Save the user to the database.
 		if (!$user->save(true))
 		{
-			return new \JException(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+			return new \Exception(\JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
 		// Assemble the password reset confirmation link.

@@ -117,6 +117,18 @@ class SodiumCipher implements CipherInterface
 	}
 
 	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isSupported(): bool
+	{
+		return class_exists(Compat::class);
+	}
+
+	/**
 	 * Set the nonce to use for encrypting/decrypting messages
 	 *
 	 * @param   string  $nonce  The message nonce

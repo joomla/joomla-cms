@@ -7,8 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
-    'Symfony\\Polyfill\\Util\\' => array($vendorDir . '/symfony/polyfill-util'),
-    'Symfony\\Polyfill\\Php56\\' => array($vendorDir . '/symfony/polyfill-php56'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),
@@ -20,6 +18,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
+    'Mso\\IdnaConvert\\' => array($vendorDir . '/mso/idna-convert/src'),
     'Joomla\\Utilities\\' => array($vendorDir . '/joomla/utilities/src'),
     'Joomla\\Uri\\' => array($vendorDir . '/joomla/uri/src'),
     'Joomla\\String\\' => array($vendorDir . '/joomla/string/src'),
@@ -46,6 +45,7 @@ return array(
     'Joomla\\Archive\\' => array($vendorDir . '/joomla/archive/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Fig\\Link\\' => array($vendorDir . '/fig/link-util/src'),
+    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Defuse\\Crypto\\' => array($vendorDir . '/defuse/php-encryption/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

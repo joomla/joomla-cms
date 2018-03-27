@@ -1,5 +1,6 @@
 // Defaults
 $gutter-width:                      15px;
+$highlight-color:                   #007eb7;
 $border-color:                      #d8d8d8;
 $border-radius:                     .25rem;
 
@@ -7,6 +8,29 @@ $border-radius:                     .25rem;
 $col-main-panel-width:              83.3333%;
 $col-side-panel-width:              16.6667%;
 $col-gutter-width:                  $gutter-width;
+$col-box-shadow:                    0 0 3px rgba(0, 0, 0, .075);
+
+// Sidebar
+$sidebar-drive-bg:                  #fff;
+$sidebar-tree-line-color:           $border-color;
+$sidebar-tree-icon-color:           #aaa;
+$sidebar-tree-line-height:          26px;
+$sidebar-tree-folder-icon:          "\f114";
+$sidebar-tree-item-hover-bg:        #e1e1e1;
+$sidebar-active-icon-color:         $highlight-color;
+
+// Toolbar
+$toolbar-height:                    46px;
+$toolbar-bg:                        #f5f5f5;
+$toolbar-icon-width:                50px;
+$toolbar-icon-color:                #464a4c;
+$toolbar-icon-bg-hover:             #f0f0f0;
+$toolbar-loader-color:              linear-gradient(to right, #59afff 0, #59daff 100%);
+$toolbar-loader-height:             2px;
+
+// Breadcrumbs
+$breadcrumbs-bg:                    #fafafa;
+$breadcrumbs-current-bg:            #fff;
 
 // Media Browser Grid
 $grid-gutter-width:                 $col-gutter-width;
@@ -35,6 +59,15 @@ $table-item-icon-color-selected:    #fff;
 $table-item-icon-bg-selected:       #006898;
 $table-item-bg-hover:               rgba(0, 0, 0, .03);
 
+// Media Info bar
+$info-bg:                           #fafafa;
+$info-title-bg:                     #f6f6f6;
+$info-title-height:                 3.6rem;
+$info-dt-width:                     33.33333%;
+$info-dd-width:                     66.66667%;
+$info-close-color:                  #ccc;
+$info-close-color-hover:            #aaa;
+
 // Table Icon Mapping
 $icon-type-default:                 "\f016";
 $icon-type-folder:                  "\f114";
@@ -48,3 +81,8 @@ $icon-type-code:                    "\f1c9";
 $dnd-bg:                            rgba(245, 245, 245, .8);
 $dnd-icon-color:                    #1c3d5c;
 $dnd-border:                        3px dashed #999;
+
+// Modal
+$modal-backdrop-color:              rgba(0, 0, 0, .7);
+$modal-box-shadow:                  0 0 10px rgba(0, 0, 0, .5);
+$modal-preview-text-color:          #fff;

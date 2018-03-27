@@ -71,6 +71,12 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
+		if ((!\JLanguageMultilang::isEnabled()) && ($this->item->client_id == 0))
+		{
+			$this->form->setFieldAttribute('home', 'type', 'radio');
+			$this->form->setFieldAttribute('home', 'class', 'switcher');
+		}
+
 		$this->addToolbar();
 
 		return parent::display($tpl);

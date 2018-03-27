@@ -165,6 +165,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 *
 	 * @var    DatabaseDriver[]
 	 * @since  1.0
+	 * @deprecated  3.0  Singleton storage will no longer be supported.
 	 */
 	protected static $instances = [];
 
@@ -266,9 +267,19 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
+	 * @deprecated  3.0  Use DatabaseFactory::getDriver() instead
 	 */
 	public static function getInstance(array $options = [])
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::getDriver() instead.',
+				__METHOD__,
+				DatabaseFactory::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		// Sanitize the database connector options.
 		$options['driver']   = isset($options['driver']) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = isset($options['database']) ? $options['database'] : null;
@@ -427,19 +438,29 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since       1.4.0
-	 * @deprecated  1.4.0  This is a B/C proxy since $this->name was previously public
+	 * @deprecated  3.0  This is a B/C proxy since $this->name was previously public
 	 */
 	public function __get($name)
 	{
 		switch ($name)
 		{
 			case 'name':
+				@trigger_error(
+					'Accessing the name property of the database driver is deprecated, use the getName() method instead.',
+					E_USER_DEPRECATED
+				);
+
 				return $this->getName();
 
 			default:
 				$trace = debug_backtrace();
 				trigger_error(
-					'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
 					E_USER_NOTICE
 				);
 		}
@@ -495,8 +516,8 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	/**
 	 * Create a new database using information from $options object.
 	 *
-	 * @param   stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
-	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 * @param   \stdClass  $options  Object used to pass user and database name to database driver. This object must have "db_name" and "db_user" set.
+	 * @param   boolean    $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean|resource
 	 *
@@ -866,9 +887,9 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	/**
 	 * Inserts a row into a table based on an object's properties.
 	 *
-	 * @param   string  $table    The name of the database table to insert into.
-	 * @param   object  &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string  $key      The name of the primary key. If provided the object property is updated.
+	 * @param   string  $table   The name of the database table to insert into.
+	 * @param   object  $object  A reference to an object whose public properties match the table fields.
+	 * @param   string  $key     The name of the primary key. If provided the object property is updated.
 	 *
 	 * @return  boolean
 	 *
@@ -1562,10 +1583,10 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string   $table    The name of the database table to update.
-	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   array    $key      The name of the primary key.
-	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
+	 * @param   string   $table   The name of the database table to update.
+	 * @param   object   $object  A reference to an object whose public properties match the table fields.
+	 * @param   array    $key     The name of the primary key.
+	 * @param   boolean  $nulls   True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *

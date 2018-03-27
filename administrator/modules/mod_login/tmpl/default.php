@@ -9,43 +9,27 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 
-JText::script('JSHOW');
-JText::script('JHIDE');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-$spacing = 0;
+Text::script('JSHOW');
+Text::script('JHIDE');
 
-// Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
-if ($langs)
-{
-	$spacing += 33;
-}
-
-if (count($twofactormethods) > 1)
-{
-	$spacing += 33;
-}
-
-if ($spacing > 0)
-{
-	$marginTop = 240 + $spacing;
-
-	JFactory::getDocument()->addStyleDeclaration('
-		.view-login .container {
-			margin-top: -' . $marginTop . 'px;
-		}
-	');
-}
 ?>
-<form class="login-initial form-validate" action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+<form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 
 		<div class="form-group">
-			<label for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
+			<label for="mod-login-username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
 			<input
 				name="username"
 				id="mod-login-username"
@@ -58,7 +42,7 @@ if ($spacing > 0)
 		</div>
 
 		<div class="form-group">
-			<label for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
+			<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 			<div class="input-group">
 				<input
 					name="passwd"
@@ -70,13 +54,13 @@ if ($spacing > 0)
                 >
 				<span class="input-group-addon">
 					<span class="fa fa-eye" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo JText::_('JSHOW'); ?></span>
+					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
 				</span>
 			</div>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
-			<label for="mod-login-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
+			<label for="mod-login-secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 			<div class="form-group">
 				<input
 					name="secretkey"
@@ -91,42 +75,25 @@ if ($spacing > 0)
 
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label for="lang" class="sr-only"><?php echo JText::_('JDEFAULTLANGUAGE'); ?></label>
+				<label for="lang" class="sr-only"><?php echo Text::_('JDEFAULTLANGUAGE'); ?></label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
 
 		<div class="form-group">
 			<button tabindex="5" class="btn btn-success btn-block btn-lg" id="btn-login-submit">
-				<span class="fa fa-lock icon-white"></span> <?php echo JText::_('JLOGIN'); ?>
+				<span class="fa fa-lock icon-white" aria-hidden="true"></span> <?php echo Text::_('JLOGIN'); ?>
 			</button>
 		</div>
 
-		<div class="forgot">
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=remind"><?php echo JText::_('MOD_LOGIN_REMIND'); ?></a></div>
-			<div><a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset"><?php echo JText::_('MOD_LOGIN_RESET'); ?></a></div>
+		<div class="text-center">
+			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=remind"><?php echo Text::_('MOD_LOGIN_REMIND'); ?></a></div>
+			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=reset"><?php echo Text::_('MOD_LOGIN_RESET'); ?></a></div>
 		</div>
 
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>
-<script>
-	(function(){
-		document.addEventListener('DOMContentLoadded', function() {
-			var btn = document.getElementById('btn-login-submit');
-
-			if(btn) {
-				btn.addEventListener('click', function(e) {
-					e.preventDefault();
-					var form = document.getElementById('form-login');
-					if (form && document.formvalidator.isValid(form)) {
-						Joomla.submitbutton('login')
-					}
-				});
-			}
-		});
-	})();
-</script>

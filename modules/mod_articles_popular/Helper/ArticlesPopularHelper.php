@@ -14,9 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 
-\JLoader::register('\ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_popular
@@ -30,7 +31,7 @@ abstract class ArticlesPopularHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 */
 	public static function getList(&$params)
 	{
@@ -87,11 +88,11 @@ abstract class ArticlesPopularHelper
 			if ($access || in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
-				$item->link = \JRoute::_('index.php?option=com_users&view=login');
+				$item->link = Route::_('index.php?option=com_users&view=login');
 			}
 		}
 

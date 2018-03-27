@@ -88,9 +88,9 @@ class SHA256Handler implements HandlerInterface, CheckIfRehashNeededHandlerInter
 	 */
 	public function validatePassword($plaintext, $hashed)
 	{
-		$parts     = explode(':', $hash);
+		$parts     = explode(':', $hashed);
 		$salt      = @$parts[1];
-		$testcrypt = $this->hashPassword($password, ['salt' => $salt]);
+		$testcrypt = $this->hashPassword($plaintext, ['salt' => $salt]);
 
 		return Crypt::timingSafeCompare($hashed, $testcrypt);
 	}

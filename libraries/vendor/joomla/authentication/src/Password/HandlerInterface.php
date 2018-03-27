@@ -11,7 +11,7 @@ namespace Joomla\Authentication\Password;
 /**
  * Interface defining a password handler
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.2.0
  */
 interface HandlerInterface
 {
@@ -23,7 +23,7 @@ interface HandlerInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function hashPassword($plaintext, array $options = array());
 
@@ -32,7 +32,7 @@ interface HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public static function isSupported();
 
@@ -44,7 +44,7 @@ interface HandlerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function validatePassword($plaintext, $hashed);
 }

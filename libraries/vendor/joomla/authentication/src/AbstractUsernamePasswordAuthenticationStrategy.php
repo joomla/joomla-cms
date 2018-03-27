@@ -22,7 +22,7 @@ abstract class AbstractUsernamePasswordAuthenticationStrategy implements Authent
 	 * The password handler to validate the password against.
 	 *
 	 * @var    HandlerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  1.2.0
 	 */
 	protected $passwordHandler;
 
@@ -39,7 +39,7 @@ abstract class AbstractUsernamePasswordAuthenticationStrategy implements Authent
 	 *
 	 * @param   HandlerInterface  $passwordHandler  The password handler.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.2.0
 	 */
 	public function __construct(HandlerInterface $passwordHandler = null)
 	{

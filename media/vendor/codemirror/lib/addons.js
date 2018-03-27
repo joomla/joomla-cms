@@ -39,7 +39,6 @@
     cm.refresh();
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -163,7 +162,6 @@
     return false
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -295,11 +293,12 @@
         else
           curType = "skip";
       } else if (identical && cur.ch > 1 && triples.indexOf(ch) >= 0 &&
-                 cm.getRange(Pos(cur.line, cur.ch - 2), cur) == ch + ch &&
-                 (cur.ch <= 2 || cm.getRange(Pos(cur.line, cur.ch - 3), Pos(cur.line, cur.ch - 2)) != ch)) {
+                 cm.getRange(Pos(cur.line, cur.ch - 2), cur) == ch + ch) {
+        if (cur.ch > 2 && /\bstring/.test(cm.getTokenTypeAt(Pos(cur.line, cur.ch - 2)))) return CodeMirror.Pass;
         curType = "addFour";
       } else if (identical) {
-        if (!CodeMirror.isWordChar(next) && enteringString(cm, cur, ch)) curType = "both";
+        var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
+        if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
         else return CodeMirror.Pass;
       } else if (opening && (cm.getLine(cur.line).length == cur.ch ||
                              isClosingBracket(next, pairs) ||
@@ -351,28 +350,12 @@
     return str.length == 2 ? str : null;
   }
 
-  // Project the token type that will exists after the given char is
-  // typed, and use it to determine whether it would cause the start
-  // of a string token.
-  function enteringString(cm, pos, ch) {
-    var line = cm.getLine(pos.line);
-    var token = cm.getTokenAt(pos);
-    if (/\bstring2?\b/.test(token.type) || stringStartsAfter(cm, pos)) return false;
-    var stream = new CodeMirror.StringStream(line.slice(0, pos.ch) + ch + line.slice(pos.ch), 4);
-    stream.pos = stream.start = token.start;
-    for (;;) {
-      var type1 = cm.getMode().token(stream, token.state);
-      if (stream.pos >= pos.ch + 1) return /\bstring2?\b/.test(type1);
-      stream.start = stream.pos;
-    }
-  }
-
   function stringStartsAfter(cm, pos) {
     var token = cm.getTokenAt(Pos(pos.line, pos.ch + 1))
-    return /\bstring/.test(token.type) && token.start == pos.ch
+    return /\bstring/.test(token.type) && token.start == pos.ch &&
+      (pos.ch == 0 || !/\bstring/.test(cm.getTokenTypeAt(pos)))
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -428,13 +411,14 @@
   function autoCloseGT(cm) {
     if (cm.getOption("disableInput")) return CodeMirror.Pass;
     var ranges = cm.listSelections(), replacements = [];
+    var opt = cm.getOption("autoCloseTags");
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
       if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
 
-      var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
+      var html = inner.mode.configuration == "html";
       var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
       var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
 
@@ -456,13 +440,14 @@
                          newPos: indent ? CodeMirror.Pos(pos.line + 1, 0) : CodeMirror.Pos(pos.line, pos.ch + 1)};
     }
 
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnAutoClose);
     for (var i = ranges.length - 1; i >= 0; i--) {
       var info = replacements[i];
       cm.replaceRange(info.text, ranges[i].head, ranges[i].anchor, "+insert");
       var sel = cm.listSelections().slice(0);
       sel[i] = {head: info.newPos, anchor: info.newPos};
       cm.setSelections(sel);
-      if (info.indent) {
+      if (!dontIndentOnAutoClose && info.indent) {
         cm.indentLine(info.newPos.line, null, true);
         cm.indentLine(info.newPos.line + 1, null, true);
       }
@@ -472,6 +457,8 @@
   function autoCloseCurrent(cm, typingSlash) {
     var ranges = cm.listSelections(), replacements = [];
     var head = typingSlash ? "/" : "</";
+    var opt = cm.getOption("autoCloseTags");
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnSlash);
     for (var i = 0; i < ranges.length; i++) {
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
@@ -502,9 +489,11 @@
     }
     cm.replaceSelections(replacements);
     ranges = cm.listSelections();
-    for (var i = 0; i < ranges.length; i++)
-      if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
-        cm.indentLine(ranges[i].head.line);
+    if (!dontIndentOnAutoClose) {
+        for (var i = 0; i < ranges.length; i++)
+            if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
+                cm.indentLine(ranges[i].head.line);
+    }
   }
 
   function autoCloseSlash(cm) {
@@ -542,7 +531,6 @@
     return true;
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -647,18 +635,23 @@
     }
   }
 
-  var currentlyHighlighted = null;
   function doMatchBrackets(cm) {
     cm.operation(function() {
-      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
-      currentlyHighlighted = matchBrackets(cm, false, cm.state.matchBrackets);
+      if (cm.state.matchBrackets.currentlyHighlighted) {
+        cm.state.matchBrackets.currentlyHighlighted();
+        cm.state.matchBrackets.currentlyHighlighted = null;
+      }
+      cm.state.matchBrackets.currentlyHighlighted = matchBrackets(cm, false, cm.state.matchBrackets);
     });
   }
 
   CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
     if (old && old != CodeMirror.Init) {
       cm.off("cursorActivity", doMatchBrackets);
-      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
+      if (cm.state.matchBrackets && cm.state.matchBrackets.currentlyHighlighted) {
+        cm.state.matchBrackets.currentlyHighlighted();
+        cm.state.matchBrackets.currentlyHighlighted = null;
+      }
     }
     if (val) {
       cm.state.matchBrackets = typeof val == "object" ? val : {};
@@ -683,7 +676,6 @@
     return scanForBracket(this, pos, dir, style, config);
   });
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -750,7 +742,6 @@
     }
   };
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -856,7 +847,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 });
 
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1009,7 +999,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     return getOption(this, options, name);
   });
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1156,7 +1145,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       updateFoldInfo(cm, line, line + 1);
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1297,7 +1285,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     var iter = new Iter(cm, start.line, 0);
     for (;;) {
       var openTag = toNextTag(iter), end;
-      if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
+      if (!openTag || !(end = toTagEnd(iter)) || iter.line != start.line) return;
       if (!openTag[1] && end != "selfClose") {
         var startPos = Pos(iter.line, iter.ch);
         var endPos = findMatchingClose(iter, openTag[2]);
@@ -1339,7 +1327,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     return findMatchingClose(iter, name);
   };
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1404,7 +1391,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       });
   };
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1528,7 +1514,128 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 };
 
 });
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
 
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineExtension("annotateScrollbar", function(options) {
+    if (typeof options == "string") options = {className: options};
+    return new Annotation(this, options);
+  });
+
+  CodeMirror.defineOption("scrollButtonHeight", 0);
+
+  function Annotation(cm, options) {
+    this.cm = cm;
+    this.options = options;
+    this.buttonHeight = options.scrollButtonHeight || cm.getOption("scrollButtonHeight");
+    this.annotations = [];
+    this.doRedraw = this.doUpdate = null;
+    this.div = cm.getWrapperElement().appendChild(document.createElement("div"));
+    this.div.style.cssText = "position: absolute; right: 0; top: 0; z-index: 7; pointer-events: none";
+    this.computeScale();
+
+    function scheduleRedraw(delay) {
+      clearTimeout(self.doRedraw);
+      self.doRedraw = setTimeout(function() { self.redraw(); }, delay);
+    }
+
+    var self = this;
+    cm.on("refresh", this.resizeHandler = function() {
+      clearTimeout(self.doUpdate);
+      self.doUpdate = setTimeout(function() {
+        if (self.computeScale()) scheduleRedraw(20);
+      }, 100);
+    });
+    cm.on("markerAdded", this.resizeHandler);
+    cm.on("markerCleared", this.resizeHandler);
+    if (options.listenForChanges !== false)
+      cm.on("change", this.changeHandler = function() {
+        scheduleRedraw(250);
+      });
+  }
+
+  Annotation.prototype.computeScale = function() {
+    var cm = this.cm;
+    var hScale = (cm.getWrapperElement().clientHeight - cm.display.barHeight - this.buttonHeight * 2) /
+      cm.getScrollerElement().scrollHeight
+    if (hScale != this.hScale) {
+      this.hScale = hScale;
+      return true;
+    }
+  };
+
+  Annotation.prototype.update = function(annotations) {
+    this.annotations = annotations;
+    this.redraw();
+  };
+
+  Annotation.prototype.redraw = function(compute) {
+    if (compute !== false) this.computeScale();
+    var cm = this.cm, hScale = this.hScale;
+
+    var frag = document.createDocumentFragment(), anns = this.annotations;
+
+    var wrapping = cm.getOption("lineWrapping");
+    var singleLineH = wrapping && cm.defaultTextHeight() * 1.5;
+    var curLine = null, curLineObj = null;
+    function getY(pos, top) {
+      if (curLine != pos.line) {
+        curLine = pos.line;
+        curLineObj = cm.getLineHandle(curLine);
+      }
+      if ((curLineObj.widgets && curLineObj.widgets.length) ||
+          (wrapping && curLineObj.height > singleLineH))
+        return cm.charCoords(pos, "local")[top ? "top" : "bottom"];
+      var topY = cm.heightAtLine(curLineObj, "local");
+      return topY + (top ? 0 : curLineObj.height);
+    }
+
+    var lastLine = cm.lastLine()
+    if (cm.display.barWidth) for (var i = 0, nextTop; i < anns.length; i++) {
+      var ann = anns[i];
+      if (ann.to.line > lastLine) continue;
+      var top = nextTop || getY(ann.from, true) * hScale;
+      var bottom = getY(ann.to, false) * hScale;
+      while (i < anns.length - 1) {
+        if (anns[i + 1].to.line > lastLine) break;
+        nextTop = getY(anns[i + 1].from, true) * hScale;
+        if (nextTop > bottom + .9) break;
+        ann = anns[++i];
+        bottom = getY(ann.to, false) * hScale;
+      }
+      if (bottom == top) continue;
+      var height = Math.max(bottom - top, 3);
+
+      var elt = frag.appendChild(document.createElement("div"));
+      elt.style.cssText = "position: absolute; right: 0px; width: " + Math.max(cm.display.barWidth - 1, 2) + "px; top: "
+        + (top + this.buttonHeight) + "px; height: " + height + "px";
+      elt.className = this.options.className;
+      if (ann.id) {
+        elt.setAttribute("annotation-id", ann.id);
+      }
+    }
+    this.div.textContent = "";
+    this.div.appendChild(frag);
+  };
+
+  Annotation.prototype.clear = function() {
+    this.cm.off("refresh", this.resizeHandler);
+    this.cm.off("markerAdded", this.resizeHandler);
+    this.cm.off("markerCleared", this.resizeHandler);
+    if (this.changeHandler) this.cm.off("change", this.changeHandler);
+    this.div.parentNode.removeChild(this.div);
+  };
+});
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1681,7 +1788,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     return new SimpleScrollbars("CodeMirror-overlayscroll", place, scroll);
   };
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -1754,7 +1860,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     updateActiveLines(cm, sel.ranges);
   }
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -2598,7 +2703,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
 
         function handleKeyNonInsertMode() {
-          if (handleMacroRecording() || handleEsc()) { return true; };
+          if (handleMacroRecording() || handleEsc()) { return true; }
 
           var keys = vim.inputState.keyBuffer = vim.inputState.keyBuffer + key;
           if (/^[1-9]\d*$/.test(keys)) { return true; }
@@ -3183,7 +3288,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         } else {
           if (vim.visualMode) {
             showPrompt(cm, { onClose: onPromptClose, prefix: ':', value: '\'<,\'>',
-                onKeyDown: onPromptKeyDown});
+                onKeyDown: onPromptKeyDown, selectValueOnOpen: false});
           } else {
             showPrompt(cm, { onClose: onPromptClose, prefix: ':',
                 onKeyDown: onPromptKeyDown});
@@ -4394,25 +4499,32 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       incrementNumberToken: function(cm, actionArgs) {
         var cur = cm.getCursor();
         var lineStr = cm.getLine(cur.line);
-        var re = /-?\d+/g;
+        var re = /(-?)(?:(0x)([\da-f]+)|(0b|0|)(\d+))/gi;
         var match;
         var start;
         var end;
         var numberStr;
-        var token;
         while ((match = re.exec(lineStr)) !== null) {
-          token = match[0];
           start = match.index;
-          end = start + token.length;
+          end = start + match[0].length;
           if (cur.ch < end)break;
         }
         if (!actionArgs.backtrack && (end <= cur.ch))return;
-        if (token) {
+        if (match) {
+          var baseStr = match[2] || match[4]
+          var digits = match[3] || match[5]
           var increment = actionArgs.increase ? 1 : -1;
-          var number = parseInt(token) + (increment * actionArgs.repeat);
+          var base = {'0b': 2, '0': 8, '': 10, '0x': 16}[baseStr.toLowerCase()];
+          var number = parseInt(match[1] + digits, base) + (increment * actionArgs.repeat);
+          numberStr = number.toString(base);
+          var zeroPadding = baseStr ? new Array(digits.length - numberStr.length + 1 + match[1].length).join('0') : ''
+          if (numberStr.charAt(0) === '-') {
+            numberStr = '-' + baseStr + zeroPadding + numberStr.substr(1);
+          } else {
+            numberStr = baseStr + zeroPadding + numberStr;
+          }
           var from = Pos(cur.line, start);
           var to = Pos(cur.line, end);
-          numberStr = number.toString();
           cm.replaceRange(numberStr, from, to);
         } else {
           return;
@@ -5433,7 +5545,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function splitBySlash(argString) {
-      var slashes = findUnescapedSlashes(argString) || [];
+      return splitBySeparator(argString, '/');
+    }
+
+    function findUnescapedSlashes(argString) {
+      return findUnescapedSeparators(argString, '/');
+    }
+
+    function splitBySeparator(argString, separator) {
+      var slashes = findUnescapedSeparators(argString, separator) || [];
       if (!slashes.length) return [];
       var tokens = [];
       // in case of strings like foo/bar
@@ -5445,12 +5565,15 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return tokens;
     }
 
-    function findUnescapedSlashes(str) {
+    function findUnescapedSeparators(str, separator) {
+      if (!separator)
+        separator = '/';
+
       var escapeNextChar = false;
       var slashes = [];
       for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);
-        if (!escapeNextChar && c == '/') {
+        if (!escapeNextChar && c == separator) {
           slashes.push(i);
         }
         escapeNextChar = !escapeNextChar && (c == '\\');
@@ -6316,7 +6439,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               'any other getSearchCursor implementation.');
         }
         var argString = params.argString;
-        var tokens = argString ? splitBySlash(argString) : [];
+        var tokens = argString ? splitBySeparator(argString, argString[0]) : [];
         var regexPart, replacePart = '', trailing, flagsPart, count;
         var confirm = false; // Whether to confirm each replace.
         var global = false; // True to replace all instances on a line, false to replace only 1.
@@ -6360,7 +6483,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               global = true;
               flagsPart.replace('g', '');
             }
-            regexPart = regexPart + '/' + flagsPart;
+            regexPart = regexPart.replace(/\//g, "\\/") + '/' + flagsPart;
           }
         }
         if (regexPart) {
@@ -6576,7 +6699,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
       if (!confirm) {
         replaceAll();
-        if (callback) { callback(); };
+        if (callback) { callback(); }
         return;
       }
       showPrompt(cm, {
@@ -6712,7 +6835,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             exitInsertMode(cm);
           }
         }
-      };
+      }
       macroModeState.isPlaying = false;
     }
 
@@ -6916,7 +7039,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         exitInsertMode(cm);
       }
       macroModeState.isPlaying = false;
-    };
+    }
 
     function repeatInsertModeChanges(cm, changes, repeat) {
       function keyHandler(binding) {
@@ -6967,7 +7090,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   // Initialize Vim and make it available as an API.
   CodeMirror.Vim = Vim();
 });
-
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -6987,7 +7109,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "ASN.1", mime: "text/x-ttcn-asn", mode: "asn.1", ext: ["asn", "asn1"]},
     {name: "Asterisk", mime: "text/x-asterisk", mode: "asterisk", file: /^extensions\.conf$/i},
     {name: "Brainfuck", mime: "text/x-brainfuck", mode: "brainfuck", ext: ["b", "bf"]},
-    {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h"]},
+    {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h", "ino"]},
     {name: "C++", mime: "text/x-c++src", mode: "clike", ext: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"], alias: ["cpp"]},
     {name: "Cobol", mime: "text/x-cobol", mode: "cobol", ext: ["cob", "cpy"]},
     {name: "C#", mime: "text/x-csharp", mode: "clike", ext: ["cs"], alias: ["csharp"]},
@@ -7034,7 +7156,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Haxe", mime: "text/x-haxe", mode: "haxe", ext: ["hx"]},
     {name: "HXML", mime: "text/x-hxml", mode: "haxe", ext: ["hxml"]},
     {name: "ASP.NET", mime: "application/x-aspx", mode: "htmlembedded", ext: ["aspx"], alias: ["asp", "aspx"]},
-    {name: "HTML", mime: "text/html", mode: "htmlmixed", ext: ["html", "htm"], alias: ["xhtml"]},
+    {name: "HTML", mime: "text/html", mode: "htmlmixed", ext: ["html", "htm", "handlebars", "hbs"], alias: ["xhtml"]},
     {name: "HTTP", mime: "message/http", mode: "http"},
     {name: "IDL", mime: "text/x-idl", mode: "idl", ext: ["pro"]},
     {name: "Pug", mime: "text/x-pug", mode: "pug", ext: ["jade", "pug"], alias: ["jade"]},
@@ -7064,14 +7186,14 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "NSIS", mime: "text/x-nsis", mode: "nsis", ext: ["nsh", "nsi"]},
     {name: "NTriples", mimes: ["application/n-triples", "application/n-quads", "text/n-triples"],
      mode: "ntriples", ext: ["nt", "nq"]},
-    {name: "Objective C", mime: "text/x-objectivec", mode: "clike", ext: ["m", "mm"], alias: ["objective-c", "objc"]},
+    {name: "Objective-C", mime: "text/x-objectivec", mode: "clike", ext: ["m", "mm"], alias: ["objective-c", "objc"]},
     {name: "OCaml", mime: "text/x-ocaml", mode: "mllike", ext: ["ml", "mli", "mll", "mly"]},
     {name: "Octave", mime: "text/x-octave", mode: "octave", ext: ["m"]},
     {name: "Oz", mime: "text/x-oz", mode: "oz", ext: ["oz"]},
     {name: "Pascal", mime: "text/x-pascal", mode: "pascal", ext: ["p", "pas"]},
     {name: "PEG.js", mime: "null", mode: "pegjs", ext: ["jsonld"]},
     {name: "Perl", mime: "text/x-perl", mode: "perl", ext: ["pl", "pm"]},
-    {name: "PHP", mime: ["application/x-httpd-php", "text/x-php"], mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
+    {name: "PHP", mimes: ["text/x-php", "application/x-httpd-php", "application/x-httpd-php-open"], mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
     {name: "Pig", mime: "text/x-pig", mode: "pig", ext: ["pig"]},
     {name: "Plain Text", mime: "text/plain", mode: "null", ext: ["txt", "text", "conf", "def", "list", "log"]},
     {name: "PLSQL", mime: "text/x-plsql", mode: "sql", ext: ["pls"]},
@@ -7098,6 +7220,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Smalltalk", mime: "text/x-stsrc", mode: "smalltalk", ext: ["st"]},
     {name: "Smarty", mime: "text/x-smarty", mode: "smarty", ext: ["tpl"]},
     {name: "Solr", mime: "text/x-solr", mode: "solr"},
+    {name: "SML", mime: "text/x-sml", mode: "mllike", ext: ["sml", "sig", "fun", "smackspec"]},
     {name: "Soy", mime: "text/x-soy", mode: "soy", ext: ["soy"], alias: ["closure template"]},
     {name: "SPARQL", mime: "application/sparql-query", mode: "sparql", ext: ["rq", "sparql"], alias: ["sparul"]},
     {name: "Spreadsheet", mime: "text/x-spreadsheet", mode: "spreadsheet", alias: ["excel", "formula"]},
@@ -7107,7 +7230,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Stylus", mime: "text/x-styl", mode: "stylus", ext: ["styl"]},
     {name: "Swift", mime: "text/x-swift", mode: "swift", ext: ["swift"]},
     {name: "sTeX", mime: "text/x-stex", mode: "stex"},
-    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx"], alias: ["tex"]},
+    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx", "tex"], alias: ["tex"]},
     {name: "SystemVerilog", mime: "text/x-systemverilog", mode: "verilog", ext: ["v", "sv", "svh"]},
     {name: "Tcl", mime: "text/x-tcl", mode: "tcl", ext: ["tcl"]},
     {name: "Textile", mime: "text/x-textile", mode: "textile", ext: ["textile"]},

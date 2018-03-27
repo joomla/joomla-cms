@@ -11,8 +11,10 @@ namespace Joomla\CMS\Router;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Cms\Uri\Uri as JUri;
 use Joomla\String\StringHelper;
@@ -58,7 +60,7 @@ class SiteRouter extends Router
 	 */
 	public function __construct(CMSApplication $app = null, AbstractMenu $menu = null)
 	{
-		$this->app  = $app ?: CMSApplication::getInstance('site');
+		$this->app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
 		$this->menu = $menu ?: $this->app->getMenu();
 
 		// Add core rules
@@ -465,9 +467,6 @@ class SiteRouter extends Router
 	 */
 	public function buildSefRoute(&$router, &$uri)
 	{
-		// Get the route
-		$route = $uri->getPath();
-
 		// Get the query data
 		$query = $uri->getQuery(true);
 
@@ -476,37 +475,32 @@ class SiteRouter extends Router
 			return;
 		}
 
+		// Get Menu Item
+		$item = empty($query['Itemid']) ? null : $this->menu->getItem($query['Itemid']);
+
 		// Build the component route
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$tmp       = trim(implode('/', $parts));
 
-		if (empty($query['Itemid']) && !empty($itemID))
-		{
-			$query['Itemid'] = $itemID;
-		}
-
 		// Build the application route
-		if (isset($query['Itemid']) && $item = $this->menu->getItem($query['Itemid']))
+		if ($item !== null && $query['option'] === $item->component)
 		{
-			if (is_object($item) && $query['option'] === $item->component)
+			if (!$item->home)
 			{
-				if (!$item->home)
-				{
-					$tmp = !empty($tmp) ? $item->route . '/' . $tmp : $item->route;
-				}
-
-				unset($query['Itemid']);
+				$tmp = $item->route . '/' . $tmp;
 			}
+
+			unset($query['Itemid']);
 		}
 		else
 		{
 			$tmp = 'component/' . substr($query['option'], 4) . '/' . $tmp;
 		}
 
-		$route .= '/' . $tmp;
+		// Get the route
+		$route = $uri->getPath() . '/' . $tmp;
 
 		// Unset unneeded query information
 		unset($query['option']);

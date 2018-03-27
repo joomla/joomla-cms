@@ -31,6 +31,7 @@ abstract class SampledataHelper
 	public static function getList()
 	{
 		PluginHelper::importPlugin('sampledata');
+
 		return Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
 	}
 }

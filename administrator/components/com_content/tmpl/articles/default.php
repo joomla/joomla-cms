@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\PublishedButton;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
@@ -49,6 +50,14 @@ if ($saveOrder && !empty($this->items))
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+
+// Configure content state button renderer.
+$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
+
+// Configure featured button renderer.
+$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -65,14 +74,12 @@ $assoc = JLanguageAssociations::isEnabled();
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="text-center">
@@ -84,38 +91,40 @@ $assoc = JLanguageAssociations::isEnabled();
 								<th style="min-width:100px" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
 									<?php $columns++; ?>
-									<th style="width:5%" class="nowrap hidden-sm-down text-center">
+									<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:3%" class="nowrap hidden-sm-down text-center">
+								<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
 									<?php $columns++; ?>
-									<th style="width:3%" class="nowrap hidden-sm-down text-center">
+									<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
 									<?php $columns++; ?>
-									<th style="width:3%" class="nowrap hidden-sm-down text-center">
+									<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th style="width:3%" class="nowrap hidden-sm-down text-center">
+								<th style="width:3%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -136,7 +145,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
-								<td class="order nowrap text-center hidden-sm-down">
+								<td class="order nowrap text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -160,8 +169,8 @@ $assoc = JLanguageAssociations::isEnabled();
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
+										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 									</div>
 								</td>
 								<td class="has-context">
@@ -184,17 +193,17 @@ $assoc = JLanguageAssociations::isEnabled();
 										</div>
 									</div>
 								</td>
-								<td class="small hidden-sm-down text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
 										<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="small hidden-sm-down text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php if ((int) $item->created_by != 0) : ?>
 										<?php if ($item->created_by_alias) : ?>
                                             <a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
@@ -213,33 +222,35 @@ $assoc = JLanguageAssociations::isEnabled();
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>
-								<td class="small hidden-sm-down text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
-								</td>
-								<td class="nowrap small hidden-sm-down text-center">
+								<?php if (JLanguageMultilang::isEnabled()) : ?>
+									<td class="small d-none d-md-table-cell text-center">
+										<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									</td>
+								<?php endif; ?>
+								<td class="nowrap small d-none d-md-table-cell text-center">
 									<?php
 									$date = $item->{$orderingColumn};
 									echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<span class="badge badge-info">
 										<?php echo (int) $item->hits; ?>
 									</span>
 								</td>
 								<?php if ($this->vote) : ?>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span class="badge badge-success">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span class="badge badge-warning">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
 								<?php endif; ?>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

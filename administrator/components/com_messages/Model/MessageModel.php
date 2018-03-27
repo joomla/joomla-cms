@@ -311,7 +311,7 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new Config(array('ignore_request' => true));
+		$model  = new ConfigModel(array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 
@@ -389,7 +389,6 @@ class MessageModel extends AdminModel
 			$mailer->setSubject($subject);
 			$mailer->setBody($msg);
 
-			// The Send method will raise an error via JError on a failure, we do not need to check it ourselves here
 			$mailer->Send();
 		}
 

@@ -77,8 +77,8 @@
 				<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 				<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
 				<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
-				<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-				<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+				<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+				<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 				<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 				<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 			</field>

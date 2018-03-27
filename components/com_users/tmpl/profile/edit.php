@@ -18,7 +18,7 @@ $lang = JFactory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 ?>
-<div class="profile-edit<?php echo $this->pageclass_sfx; ?>">
+<div class="profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
 			<h1>
@@ -79,10 +79,6 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 									<?php endif; ?>
 								</div>
 								<div class="controls">
-									<?php if ($field->fieldname === 'password1') : ?>
-										<?php // Disables autocomplete ?>
-										<input type="password" style="display:none">
-									<?php endif; ?>
 									<?php echo $field->input; ?>
 								</div>
 							</div>
@@ -121,13 +117,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				<legend>
 					<?php echo JText::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
-				<div class="alert alert-info">
-					<?php echo JText::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
-				</div>
+				<joomla-alert type="info"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
 				<?php if (empty($this->otpConfig->otep)) : ?>
-					<div class="alert alert-warning">
-						<?php echo JText::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?></joomla-alert>
 				<?php else : ?>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<span class="col-md-3">

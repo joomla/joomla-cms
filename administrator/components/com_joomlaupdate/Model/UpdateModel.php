@@ -263,7 +263,7 @@ class UpdateModel extends BaseDatabaseModel
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  bool|string False on failure, basename of the file in any other case.
+	 * @return  boolean|string  False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -271,6 +271,7 @@ class UpdateModel extends BaseDatabaseModel
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
@@ -299,7 +300,16 @@ class UpdateModel extends BaseDatabaseModel
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			return $this->downloadPackage($packageURL, $target);
+			$mirror = 0;
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+			{
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
+				$mirror++;
+			}
+
+			return $download;
 		}
 		else
 		{
@@ -308,7 +318,16 @@ class UpdateModel extends BaseDatabaseModel
 
 			if (empty($filesize))
 			{
-				return $this->downloadPackage($packageURL, $target);
+				$mirror = 0;
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+				{
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
+					$mirror++;
+				}
+
+				return $download;
 			}
 
 			// Yes, it's there, skip downloading.
@@ -932,7 +951,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -968,7 +987,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -1312,7 +1331,7 @@ ENDDATA;
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, UpdateModel::class . '::isNonCoreExtension');
+		$rows = array_filter($rows, self::class . '::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{

@@ -216,7 +216,7 @@ class HtmlView extends BaseHtmlView
 		$item->tags = new TagsHelper;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		if ($item->params->get('show_associations'))
+		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
 			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
 		}

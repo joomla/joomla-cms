@@ -38,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	}
 ");
 ?>
-<div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
+<div class="edit item-page">
 	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -130,9 +130,13 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+			<?php if (\JLanguageMultilang::isEnabled()) : ?>
+				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+					<?php echo $this->form->renderField('language'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php else: ?>
 				<?php echo $this->form->renderField('language'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php endif; ?>
 
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>

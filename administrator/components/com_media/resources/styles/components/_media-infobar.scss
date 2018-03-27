@@ -1,45 +1,45 @@
 .media-infobar {
-  background-color: #fafafa;
-  top: 47px;
+  position: absolute;
+  top: ($toolbar-height + 1px);
   right: 0;
   bottom: 0;
   z-index: 4;
-  width: 25%;
-  padding: 15px;
-  overflow: hidden;
-  position: absolute;
   float: none;
-  border-left: 1px solid #ccc;
+  width: 25%;
+  padding: $gutter-width;
+  overflow: hidden;
+  background-color: $info-bg;
+  border-left: 1px solid $border-color;
   h2 {
-    padding: 0 15px;
-    margin: -15px -15px 15px;
+    padding: 0 $gutter-width;
+    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
-    line-height: 3.6rem;
-    background-color: rgba(0, 0, 0, .015);
+    line-height: $info-title-height;
+    background-color: $info-title-bg;
     border-bottom: 1px solid #eee;
   }
   dl {
     display: flex;
     flex-wrap: wrap;
-    margin-right: -7.5px;
-    margin-left: -7.5px;
+    margin-right: -($col-gutter-width / 2);
+    margin-left: -($col-gutter-width / 2);
   }
   dt, dd {
     position: relative;
     width: 100%;
     min-height: 1px;
-    padding-right: 7.5px;
-    padding-left: 7.5px;
+    padding-right: ($col-gutter-width / 2);
+    padding-left: ($col-gutter-width / 2);
   }
   dt {
-    flex: 0 0 33.33333%;
-    max-width: 33.33333%;
+    flex: 0 0 $info-dt-width;
+    max-width: $info-dt-width;
     font-weight: normal;
     color: rgba(0, 0, 0, .54);
   }
   dd {
-    flex: 0 0 66.66667%;
-    max-width: 66.66667%;
+    flex: 0 0 $info-dd-width;
+    max-width: $info-dd-width;
   }
 }
 
@@ -47,14 +47,15 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0 15px;
+  z-index: 2;
+  padding: 0 $gutter-width;
   font-size: 2.6rem;
-  line-height: 3.6rem;
-  color: #ccc;
+  line-height: $info-title-height;
+  color: $info-close-color;
   text-indent: 0;
   text-shadow: none;
   &:hover {
-    color: #aaa;
+    color: $info-close-color-hover;
     cursor: pointer;
   }
 }

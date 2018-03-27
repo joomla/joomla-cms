@@ -40,6 +40,7 @@ use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -118,6 +119,25 @@ class Application
             $output = new ConsoleOutput();
         }
 
+        $renderException = function ($e) use ($output) {
+            if (!$e instanceof \Exception) {
+                $e = class_exists(FatalThrowableError::class) ? new FatalThrowableError($e) : new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine());
+            }
+            if ($output instanceof ConsoleOutputInterface) {
+                $this->renderException($e, $output->getErrorOutput());
+            } else {
+                $this->renderException($e, $output);
+            }
+        };
+        if ($phpHandler = set_exception_handler($renderException)) {
+            restore_exception_handler();
+            if (!is_array($phpHandler) || !$phpHandler[0] instanceof ErrorHandler) {
+                $debugHandler = true;
+            } elseif ($debugHandler = $phpHandler[0]->setExceptionHandler($renderException)) {
+                $phpHandler[0]->setExceptionHandler($debugHandler);
+            }
+        }
+
         if (null !== $this->dispatcher && $this->dispatcher->hasListeners(ConsoleEvents::EXCEPTION)) {
             @trigger_error(sprintf('The "ConsoleEvents::EXCEPTION" event is deprecated since Symfony 3.3 and will be removed in 4.0. Listen to the "ConsoleEvents::ERROR" event instead.'), E_USER_DEPRECATED);
         }
@@ -125,24 +145,13 @@ class Application
         $this->configureIO($input, $output);
 
         try {
-            $e = null;
             $exitCode = $this->doRun($input, $output);
-        } catch (\Exception $x) {
-            $e = $x;
-        } catch (\Throwable $x) {
-            $e = new FatalThrowableError($x);
-        }
-
-        if (null !== $e) {
-            if (!$this->catchExceptions || !$x instanceof \Exception) {
-                throw $x;
+        } catch (\Exception $e) {
+            if (!$this->catchExceptions) {
+                throw $e;
             }
 
-            if ($output instanceof ConsoleOutputInterface) {
-                $this->renderException($e, $output->getErrorOutput());
-            } else {
-                $this->renderException($e, $output);
-            }
+            $renderException($e);
 
             $exitCode = $e->getCode();
             if (is_numeric($exitCode)) {
@@ -152,6 +161,20 @@ class Application
                 }
             } else {
                 $exitCode = 1;
+            }
+        } finally {
+            // if the exception handler changed, keep it
+            // otherwise, unregister $renderException
+            if (!$phpHandler) {
+                if (set_exception_handler($renderException) === $renderException) {
+                    restore_exception_handler();
+                }
+                restore_exception_handler();
+            } elseif (!$debugHandler) {
+                $finalHandler = $phpHandler[0]->setExceptionHandler(null);
+                if ($finalHandler !== $renderException) {
+                    $phpHandler[0]->setExceptionHandler($finalHandler);
+                }
             }
         }
 
@@ -457,14 +480,11 @@ class Application
     {
         $this->init();
 
-        if (isset($this->commands[$name])) {
-            $command = $this->commands[$name];
-        } elseif ($this->commandLoader && $this->commandLoader->has($name)) {
-            $command = $this->commandLoader->get($name);
-            $this->add($command);
-        } else {
+        if (!$this->has($name)) {
             throw new CommandNotFoundException(sprintf('The command "%s" does not exist.', $name));
         }
+
+        $command = $this->commands[$name];
 
         if ($this->wantHelps) {
             $this->wantHelps = false;
@@ -489,7 +509,7 @@ class Application
     {
         $this->init();
 
-        return isset($this->commands[$name]) || ($this->commandLoader && $this->commandLoader->has($name));
+        return isset($this->commands[$name]) || ($this->commandLoader && $this->commandLoader->has($name) && $this->add($this->commandLoader->get($name)));
     }
 
     /**
@@ -568,6 +588,7 @@ class Application
     {
         $this->init();
 
+        $aliases = array();
         $allCommands = $this->commandLoader ? array_merge($this->commandLoader->getNames(), array_keys($this->commands)) : array_keys($this->commands);
         $expr = preg_replace_callback('{([^:]+|)}', function ($matches) { return preg_quote($matches[1]).'[^:]*'; }, $name);
         $commands = preg_grep('{^'.$expr.'}', $allCommands);
@@ -600,14 +621,15 @@ class Application
         // filter out aliases for commands which are already on the list
         if (count($commands) > 1) {
             $commandList = $this->commandLoader ? array_merge(array_flip($this->commandLoader->getNames()), $this->commands) : $this->commands;
-            $commands = array_unique(array_filter($commands, function ($nameOrAlias) use ($commandList, $commands) {
+            $commands = array_unique(array_filter($commands, function ($nameOrAlias) use ($commandList, $commands, &$aliases) {
                 $commandName = $commandList[$nameOrAlias] instanceof Command ? $commandList[$nameOrAlias]->getName() : $nameOrAlias;
+                $aliases[$nameOrAlias] = $commandName;
 
                 return $commandName === $nameOrAlias || !in_array($commandName, $commands);
             }));
         }
 
-        $exact = in_array($name, $commands, true);
+        $exact = in_array($name, $commands, true) || isset($aliases[$name]);
         if (count($commands) > 1 && !$exact) {
             $usableWidth = $this->terminal->getWidth() - 10;
             $abbrevs = array_values($commands);
@@ -651,7 +673,7 @@ class Application
 
             $commands = $this->commands;
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name])) {
+                if (!isset($commands[$name]) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
@@ -668,7 +690,7 @@ class Application
 
         if ($this->commandLoader) {
             foreach ($this->commandLoader->getNames() as $name) {
-                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1)) {
+                if (!isset($commands[$name]) && $namespace === $this->extractNamespace($name, substr_count($namespace, ':') + 1) && $this->has($name)) {
                     $commands[$name] = $this->get($name);
                 }
             }
@@ -1064,8 +1086,8 @@ class Application
      * Finds alternative of $name among $collection,
      * if nothing is found in $collection, try in $abbrevs.
      *
-     * @param string             $name       The string
-     * @param array|\Traversable $collection The collection
+     * @param string   $name       The string
+     * @param iterable $collection The collection
      *
      * @return string[] A sorted array of similar string
      */

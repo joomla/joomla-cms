@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -37,13 +38,14 @@ class ProfileModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
 		$config = array_merge(
 			array(
@@ -51,7 +53,7 @@ class ProfileModel extends FormModel
 			), $config
 		);
 
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 	}
 
 	/**
@@ -168,7 +170,7 @@ class ProfileModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  \JForm|bool  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -181,10 +183,6 @@ class ProfileModel extends FormModel
 		{
 			return false;
 		}
-
-		// For com_fields the context is com_users.user
-		\JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		\FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;

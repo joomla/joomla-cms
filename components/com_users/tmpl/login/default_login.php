@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 $usersConfig = JComponentHelper::getParams('com_users');
 
 ?>
-<div class="login<?php echo $this->pageclass_sfx; ?>">
+<div class="login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>

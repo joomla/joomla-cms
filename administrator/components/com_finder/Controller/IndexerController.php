@@ -11,9 +11,10 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -167,7 +168,7 @@ class IndexerController extends BaseController
 		);
 
 		// Get the HTML document.
-		$html = Document::getInstance('html', $attributes);
+		$html = Factory::getContainer()->get(FactoryInterface::class)->createDocument('html', $attributes);
 
 		// TODO: Why is this document fetched and immediately overwritten?
 		$doc  = Factory::getDocument();
@@ -179,7 +180,7 @@ class IndexerController extends BaseController
 		$admin = clone Factory::getApplication();
 
 		// Get the site app.
-		$site = CMSApplication::getInstance('site');
+		$site = Factory::getContainer()->get(SiteApplication::class);
 
 		// Swap the app.
 		$app = Factory::getApplication();
@@ -402,6 +403,3 @@ class FinderIndexerResponse
 		}
 	}
 }
-
-// Register the error handler.
-\JError::setErrorHandling(E_ALL, 'callback', array('FinderControllerIndexer', 'sendResponse'));

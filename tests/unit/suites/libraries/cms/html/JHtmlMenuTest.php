@@ -54,13 +54,13 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
 		$dataSet->addTable('jos_menu_types', JPATH_TEST_DATABASE . '/jos_menu_types.csv');

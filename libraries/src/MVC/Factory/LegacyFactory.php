@@ -10,9 +10,11 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects in legacy mode.
@@ -23,6 +25,24 @@ use Joomla\CMS\Table\Table;
  */
 class LegacyFactory implements MVCFactoryInterface
 {
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \BadFunctionCallException
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
+	{
+		throw new \BadFunctionCallException('Legacy controller creation not supported.');
+	}
 
 	/**
 	 * Method to load and return a model object.
@@ -36,10 +56,10 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array())
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the model name
-		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$modelName   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		return BaseDatabaseModel::getInstance($modelName, $classPrefix, $config);
@@ -58,12 +78,12 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array())
+	public function createView($name, $prefix = '', $type = '', array $config = [])
 	{
 		// Clean the view name
-		$viewName = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$viewName    = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
+		$viewType    = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
@@ -101,10 +121,10 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = 'Table', array $config = array())
+	public function createTable($name, $prefix = 'Table', array $config = [])
 	{
 		// Clean the model name
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		return Table::getInstance($name, $prefix, $config);

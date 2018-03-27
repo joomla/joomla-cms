@@ -30,13 +30,13 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.7.0
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
 		$dataSet->addTable('jos_content', JPATH_TEST_DATABASE . '/jos_content.csv');
@@ -64,6 +64,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 		JFactory::$session = $this->getMockSession();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 		JFactory::$application = $app;
 
 		$router = new ContentRouterStandardRuleOnly($app, new JMenuSite(array('app' => $app, 'language' => self::getMockLanguage())), $noIds);
@@ -183,15 +184,42 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 					'view' => 'form',
 					'Itemid' => 263
 				),
-				// TODO: I think this might be a bug? I think view should be unset whatever the status of the layout
 				array(
 					'option' => 'com_content',
-					'view' => 'form',
 					'Itemid' => 263
 				),
 				array(
 				),
 				'Error building a URL for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'form',
+					'layout' => 'edit',
+					'Itemid' => 263
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 263
+				),
+				array(
+				),
+				'Error building a URL with layout=edit for a menu item that doesn\'t have a key'
+			),
+			array(
+				array(
+					'option' => 'com_content',
+					'view' => 'featured',
+					'Itemid' => 262
+				),
+				array(
+					'option' => 'com_content',
+					'Itemid' => 262
+				),
+				array(
+				),
+				'Error building a URL for featured that has a menu item without a key'
 			),
 			array(
 				array(

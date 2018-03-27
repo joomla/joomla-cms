@@ -11,6 +11,8 @@ namespace Joomla\Module\Search\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Helper for mod_search
  *
@@ -29,6 +31,6 @@ class SearchHelper
 	 */
 	public static function getSearchImage($button_text)
 	{
-		return \JHtml::_('image', 'searchButton.gif', $button_text, null, true, true);
+		return HTMLHelper::_('image', 'searchButton.gif', $button_text, null, true, true);
 	}
 }

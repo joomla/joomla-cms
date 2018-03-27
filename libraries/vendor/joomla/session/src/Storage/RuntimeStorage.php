@@ -19,42 +19,48 @@ class RuntimeStorage implements StorageInterface
 	/**
 	 * Flag if the session is active
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $active = false;
 
 	/**
 	 * Internal flag identifying whether the session has been closed
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $closed = false;
 
 	/**
 	 * Internal data store
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private $data = array();
+	private $data = [];
 
 	/**
 	 * Session ID
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $id = '';
 
 	/**
 	 * Session Name
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $name = 'MockSession';
 
 	/**
 	 * Internal flag identifying whether the session has been started
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $started = false;
 
@@ -72,6 +78,8 @@ class RuntimeStorage implements StorageInterface
 	 * Clears all variables from the session store
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function clear()
 	{
@@ -84,6 +92,7 @@ class RuntimeStorage implements StorageInterface
 	 * @return  void
 	 *
 	 * @see     session_write_close()
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function close()
 	{
@@ -92,9 +101,24 @@ class RuntimeStorage implements StorageInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		return 0;
+	}
+
+	/**
 	 * Generates a session ID
 	 *
 	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function generateId(): string
 	{
@@ -108,6 +132,8 @@ class RuntimeStorage implements StorageInterface
 	 * @param   mixed   $default  Default value of a variable if not set
 	 *
 	 * @return  mixed  Value of a variable
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function get(string $name, $default)
 	{
@@ -128,6 +154,8 @@ class RuntimeStorage implements StorageInterface
 	 * Get the session ID
 	 *
 	 * @return  string  The session ID
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getId(): string
 	{
@@ -138,6 +166,8 @@ class RuntimeStorage implements StorageInterface
 	 * Get the session name
 	 *
 	 * @return  string  The session name
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getName(): string
 	{
@@ -149,7 +179,9 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @param   string  $name  Name of variable
 	 *
-	 * @return  boolean  True if the variable exists
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function has(string $name): bool
 	{
@@ -165,6 +197,8 @@ class RuntimeStorage implements StorageInterface
 	 * Check if the session is active
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isActive(): bool
 	{
@@ -175,6 +209,8 @@ class RuntimeStorage implements StorageInterface
 	 * Check if the session is started
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isStarted(): bool
 	{
@@ -187,6 +223,8 @@ class RuntimeStorage implements StorageInterface
 	 * @param   string  $name  Name of variable
 	 *
 	 * @return  mixed  The value from session or NULL if not set
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function remove(string $name)
 	{
@@ -213,9 +251,15 @@ class RuntimeStorage implements StorageInterface
 	 * @return  boolean  True on success
 	 *
 	 * @see     session_regenerate_id()
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function regenerate(bool $destroy = false): bool
 	{
+		if (!$this->isActive())
+		{
+			return false;
+		}
+
 		if ($destroy)
 		{
 			$this->id = $this->generateId();
@@ -231,6 +275,8 @@ class RuntimeStorage implements StorageInterface
 	 * @param   mixed   $value  Value of a variable.
 	 *
 	 * @return  mixed  Old value of a variable.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function set(string $name, $value = null)
 	{
@@ -253,6 +299,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  $this
 	 *
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
 	public function setId(string $id)
@@ -274,6 +321,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  $this
 	 *
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
 	public function setName(string $name)
@@ -292,6 +340,8 @@ class RuntimeStorage implements StorageInterface
 	 * Start a session
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function start()
 	{
