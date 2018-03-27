@@ -111,7 +111,7 @@ class TagsModelTag extends JModelList
 				}
 			}
 		}
-	
+
 		return $items;
 	}
 
