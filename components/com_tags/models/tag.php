@@ -87,6 +87,11 @@ class TagsModelTag extends JModelList
 
 		if (!empty($items))
 		{
+			if(!is_array($items))
+			{
+				$items = (array) $items;
+			}
+			
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
