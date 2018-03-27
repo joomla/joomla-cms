@@ -3,7 +3,7 @@
 	<fieldset 
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
-	>
+		>
 		<field
 			name="mode"
 			type="radio"
@@ -11,7 +11,7 @@
 			description="COM_REDIRECT_MODE_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -29,7 +29,7 @@
 			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-		>
+			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
 		</field>
@@ -39,7 +39,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-	>
+		>
 		<field
 			name="rules"
 			type="rules"
