@@ -20,7 +20,7 @@ $author     = $input->getCmd('author');
 $asset      = $input->getCmd('asset');
 
 // This needed if you are creating a custom named layout for 'imagesList' view
-$this->imagesListLayout = basename(__FILE__, '.php'); ;
+$this->imagesListLayout = 'default';
 
 JHtml::_('formbehavior.chosen', 'select');
 
