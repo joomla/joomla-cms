@@ -87,10 +87,10 @@
 				type="radio"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 				class="switcher"
-				default="1"
+				default="thin solid #D3D3D3"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="none">JNO</option>
+				<option value="thin solid #D3D3D3">JYES</option>
 			</field>
 
 		</fieldset>
