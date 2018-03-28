@@ -1185,6 +1185,50 @@ class Access
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
+		return self::getNodesFromData($data, $xpath, array('action' => array('name', 'title', 'description')));
+	}
+
+
+	/**
+	 * Method to return a list of nodes from a permissions file
+	 *
+	 * @param   string  $file   The path to the XML file.
+	 * @param   string  $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of nodes available.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNodesFromFile($file, $xpath = "/access/section[@name='component']/")
+	{
+		if (!is_file($file) || !is_readable($file))
+		{
+			// If unable to find the file return false.
+			return false;
+		}
+		else
+		{
+			// Else return the actions from the xml.
+			//echo "<pre>"; echo $xpath . "\n"; debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS); echo "</pre>";
+			$xml = simplexml_load_file($file);
+
+			return self::getNodesFromData($xml, $xpath);
+		}
+	}
+
+
+	/**
+	 * Method to return a list of actions from a string or from an xml for which permissions can be set.
+	 *
+	 * @param   string|\SimpleXMLElement  $data   The XML string or an XML element.
+	 * @param   string                    $xpath  An optional xpath to search for the fields.
+	 *
+	 * @return  boolean|array   False if case of error or the list of actions available.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getNodesFromData($data, $xpath = "/access/section[@name='component']/", $node_attrs = array())
+	{
 		// If the data to load isn't already an XML element or string return false.
 		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
 		{
@@ -1211,26 +1255,34 @@ class Access
 		}
 
 		// Initialise the actions array
-		$actions = array();
+		$nodes = array();
+
+		// Default node attributes, if not provided
+		$node_attrs = $node_attrs ?: array(
+			'action' => array('name', 'title', 'description'),
+			'heading' =>array('name', 'title', 'description'),
+		);
 
 		// Get the elements from the xpath
-		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
+		foreach ($node_attrs as $node_name => $attr_names)
+		{
+			$paths[] = $xpath . $node_name . '[@' . implode($attr_names, '][@') . ']'; 
+		}
+		$elements = $data->xpath(implode($paths, ' | '));
 
 		// If there some elements, analyse them
 		if (!empty($elements))
 		{
-			foreach ($elements as $action)
+			foreach ($elements as $element)
 			{
-				// Add the action to the actions array
-				$actions[] = (object) array(
-					'name' => (string) $action['name'],
-					'title' => (string) $action['title'],
-					'description' => (string) $action['description'],
-				);
+				$el = (array) $element;
+				$el = reset($el);
+				$el['_node_name_'] = $element->getName();
+				$nodes[] = (object) $el;
 			}
 		}
 
 		// Finally return the actions array
-		return $actions;
+		return $nodes;
 	}
 }
