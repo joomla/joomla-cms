@@ -19,13 +19,13 @@ JLoader::import('components.com_fields.libraries.fieldslistplugin', JPATH_ADMINI
 class PlgFieldsList extends FieldsListPlugin
 {
 	/**
-	 * Prepares the field value.
+	 * Prepares the field
 	 *
 	 * @param   string    $context  The context.
 	 * @param   stdclass  $item     The item.
 	 * @param   stdclass  $field    The field.
 	 *
-	 * @return  array
+	 * @return  object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
