@@ -158,7 +158,9 @@ class JFormFieldPlugins extends JFormFieldList
 		return array_merge($parentOptions, $options);
 	}
 
-	/**
+	 /*
+	 * Method to get input and also set field readonly.
+	 *
 	 * @return  string  The field input markup.
 	 *
 	 * @since   __DEPLOY_VERSION__
