@@ -172,7 +172,7 @@ class JFormFieldPlugins extends JFormFieldList
 		{
 			$this->readonly = true;
 		}
-		
+
 		return parent::getInput();
 	}
 }
