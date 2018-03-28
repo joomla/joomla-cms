@@ -29,14 +29,14 @@
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 
 			<field 
-				name="scrolling" 
+				name="overflow" 
 				type="list"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
 				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
 				default="auto"
 				>
-				<option value="no">JNO</option>
-				<option value="yes">JYES</option>
+				<option value="hidden">JNO</option>
+				<option value="scroll">JYES</option>
 				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
 			</field>
 
@@ -51,10 +51,10 @@
 
 			<field 
 				name="height" 
-				type="number"
+				type="text"
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
 				description="COM_WRAPPER_FIELD_HEIGHT_DESC"
-				default="500"
+				default="500px"
 				size="5"
 			/>
 
@@ -88,15 +88,15 @@
 			</field>
 
 			<field 
-				name="frameborder"
+				name="border"
 				type="radio"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 				description="COM_WRAPPER_FIELD_FRAME_DESC"
 				class="btn-group btn-group-yesno"
-				default="1"
+				default="thin solid #D3D3D3"
 				>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+				<option value="thin solid #D3D3D3">JYES</option>
+				<option value="none">JNO</option>
 			</field>
 
 		</fieldset>
