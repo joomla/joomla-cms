@@ -159,9 +159,6 @@ class JFormFieldPlugins extends JFormFieldList
 	}
 
 	/**
-	 * Method to get the field input markup for a generic list.
-	 * Use the multiple attribute to enable multiselect.
-	 *
 	 * @return  string  The field input markup.
 	 *
 	 * @since   __DEPLOY_VERSION__
