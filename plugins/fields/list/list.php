@@ -25,7 +25,7 @@ class PlgFieldsList extends FieldsListPlugin
 	 * @param   stdclass  $item     The item.
 	 * @param   stdclass  $field    The field.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
