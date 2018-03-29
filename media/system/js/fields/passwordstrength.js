@@ -132,6 +132,9 @@ document.addEventListener('DOMContentLoaded', function(){
 		var meter = document.createElement('div');
 		meter.setAttribute('class', 'progress');
 
+		/** Hiding the bar to avoid making it look buggy **/
+		meter.style.visibility = false;
+
 		var meter2 = document.createElement('div');
 		meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
 		meter2.style.width = 0 + initialVal;
@@ -156,6 +159,9 @@ document.addEventListener('DOMContentLoaded', function(){
 			getMeter(event.target);
 		});
 	}
+
+	/** resizing the progress bar **/
+	resizeProgressBar();
 
 	/** Set a handler for the validation script **/
 	if (fields[0]) {
@@ -184,3 +190,18 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 	}
 });
+
+/** Resizing the bar when page is resized **/
+window.addEventListener('resize', resizeProgressBar);
+
+function resizeProgressBar() {
+	/** Finding all bars **/
+	var fields = document.querySelectorAll('.js-password-strength');
+	for (var i = 0; i < fields.length; i++) {
+		var meter = fields[0].parentElement.parentElement.children[1];
+
+		/** Setting the width **/
+		meter.style.width = meter.parentElement.children[0].children[0].offsetWidth + 'px';
+		meter.style.visibility = true;
+	}
+}
