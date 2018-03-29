@@ -79,7 +79,7 @@ class FieldsHelper
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
+	 * @param   int|bool  $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
 	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return  array
@@ -187,7 +187,8 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					JPluginHelper::importPlugin('fields');
 
