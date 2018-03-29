@@ -345,8 +345,9 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
+				useglobal="true"
+				class="chzn-color"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
