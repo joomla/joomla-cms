@@ -31,6 +31,12 @@ class PlgFieldsList extends FieldsListPlugin
 	 */
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
+		// Check if the field should be processed
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+		
 		// The field's rawvalue should be an array
 		if (!is_array($field->rawvalue))
 		{
