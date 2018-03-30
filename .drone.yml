@@ -33,3 +33,4 @@ pipeline:
       - ln -s /usr/bin/nodejs /usr/bin/node
       - composer update
       - libraries/vendor/bin/robo run:tests
+      - apt-get -y install php7.0-ldap
