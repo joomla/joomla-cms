@@ -24,10 +24,6 @@ if (!defined('_JDEFINES'))
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Configure error reporting to maximum for CLI output.
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
 $app->execute();
