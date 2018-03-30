@@ -25,3 +25,11 @@ pipeline:
       - node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
+  system-tests:
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - echo $(date)
+      - apt-get install nodejs npm
+      - ln -s /usr/bin/nodejs /usr/bin/node
+      - composer update
+      - libraries/vendor/bin/robo run:tests
