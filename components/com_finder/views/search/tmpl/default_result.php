@@ -26,7 +26,7 @@ if ($show_description)
 	// Make sure we highlight term both in introtext and fulltext
 	if (!empty($this->result->summary) && !empty($this->result->body))
 	{
-		$full_description = $this->result->summary . $this->result->body;
+		$full_description = FinderIndexerHelper::parse($this->result->summary . $this->result->body);
 	}
 	else
 	{
