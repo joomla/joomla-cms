@@ -31,6 +31,7 @@ pipeline:
       - echo $(date)
       - touch output.log
       - google-chrome --version
+      - mv RoboFile.dist.ini RoboFile.ini
       - wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
       - mkdir -p /usr/local/bin
       - unzip -o "chromedriver_linux64.zip" -d /usr/local/bin
