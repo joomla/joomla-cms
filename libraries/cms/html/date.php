@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Text;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -34,7 +37,7 @@ abstract class JHtmlDate
 		if ($time === null)
 		{
 			// Get now
-			$time = new JDate('now');
+			$time = new Date('now');
 		}
 
 		// Get the difference in seconds between now and the time
@@ -43,7 +46,7 @@ abstract class JHtmlDate
 		// Less than a minute
 		if ($diff < 60)
 		{
-			return JText::_('JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE');
+			return Text::_('JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE');
 		}
 
 		// Round to minutes
@@ -52,7 +55,7 @@ abstract class JHtmlDate
 		// 1 to 59 minutes
 		if ($diff < 60 || $unit === 'minute')
 		{
-			return JText::plural('JLIB_HTML_DATE_RELATIVE_MINUTES', $diff);
+			return Text::plural('JLIB_HTML_DATE_RELATIVE_MINUTES', $diff);
 		}
 
 		// Round to hours
@@ -61,7 +64,7 @@ abstract class JHtmlDate
 		// 1 to 23 hours
 		if ($diff < 24 || $unit === 'hour')
 		{
-			return JText::plural('JLIB_HTML_DATE_RELATIVE_HOURS', $diff);
+			return Text::plural('JLIB_HTML_DATE_RELATIVE_HOURS', $diff);
 		}
 
 		// Round to days
@@ -70,7 +73,7 @@ abstract class JHtmlDate
 		// 1 to 6 days
 		if ($diff < 7 || $unit === 'day')
 		{
-			return JText::plural('JLIB_HTML_DATE_RELATIVE_DAYS', $diff);
+			return Text::plural('JLIB_HTML_DATE_RELATIVE_DAYS', $diff);
 		}
 
 		// Round to weeks
@@ -79,7 +82,7 @@ abstract class JHtmlDate
 		// 1 to 4 weeks
 		if ($diff <= 4 || $unit === 'week')
 		{
-			return JText::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
+			return Text::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
 		}
 
 		// Over a month, return the absolute time

@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -36,12 +39,12 @@ abstract class JHtmlEmail
 		if ($mailto && (empty($text) || $email))
 		{
 			// Use dedicated $text whereas $mail is used as href and must be punycoded.
-			$text = JStringPunycode::emailToUTF8($text ?: $mail);
+			$text = PunycodeHelper::emailToUTF8($text ?: $mail);
 		}
 		elseif (!$mailto)
 		{
 			// In that case we don't use link - so convert $mail back to utf-8.
-			$mail = JStringPunycode::emailToUTF8($mail);
+			$mail = PunycodeHelper::emailToUTF8($mail);
 		}
 
 		// Convert mail
@@ -101,7 +104,7 @@ abstract class JHtmlEmail
 		// TODO: Use inline script for now
 		$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
 
-		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
+		return '<span id="cloak' . $rand . '">' . Text::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
 	}
 
 	/**
