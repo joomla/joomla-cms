@@ -40,5 +40,5 @@ pipeline:
       - ln -s /usr/bin/nodejs /usr/bin/node > output.log 2>&1
       - apt-get update > output.log 2>&1
       - apt-get -y install php7.0-ldap > output.log 2>&1
-      - composer update > output.log 2>&1
+      - composer install > output.log 2>&1
       - libraries/vendor/bin/robo run:tests
