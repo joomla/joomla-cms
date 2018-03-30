@@ -26,11 +26,10 @@ pipeline:
       - echo $(date)
 
   system-tests:
-    image: jatitoam/docker-systemtests:latest
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - echo $(date)
       - apt-get install nodejs npm
       - ln -s /usr/bin/nodejs /usr/bin/node
-      - apt-get -y install php7.1-ldap
       - composer update
       - libraries/vendor/bin/robo run:tests
