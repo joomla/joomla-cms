@@ -84,6 +84,7 @@ class FinderViewSearch extends JViewLegacy
 			$item->title       = $result->title;
 			$item->link        = JRoute::_($result->route);
 			$item->description = $result->description;
+
 			// Use Unix date to cope for non-english languages
 			$item->date        = (int) $result->start_date ? JHtml::_('date', $result->start_date, 'U') : $result->indexdate;
 
