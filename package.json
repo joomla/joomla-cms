@@ -13,7 +13,7 @@
     "watch:js": "node build --compilejs --watch",
     "watch:css": "node build --compilecss --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
-    "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "test": "node node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run",
     "update": "node build --update"
   },
   "dependencies": {
@@ -57,8 +57,7 @@
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "ini": "latest",
-    "joomla-javascript-tests": "0.0.1",
-    "karma-fixture-loader": "^1.0.1",
+    "joomla-javascript-tests": "0.0.2",
     "lodash.debounce": "^4.0.8",
     "node-sass": "^4.7.2",
     "path": "^0.12.7",

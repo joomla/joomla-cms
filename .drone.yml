@@ -22,6 +22,6 @@ pipeline:
       - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
       - npm install
-      - node_modules/karma/bin/karma start karma.conf.js --single-run
+      - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
       - echo $(date)
 
