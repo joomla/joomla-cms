@@ -266,7 +266,7 @@ class RoboFile extends \Robo\Tasks
 		}
 		else
 		{
-			$this->_exec("START java.exe -jar " . $this->getWebDriver()  . ' ' . $this->vendorPath . 'joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
+			$this->_exec("START java.exe -jar " . $this->vendorPath . 'joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
 		}
 
 		sleep(3);

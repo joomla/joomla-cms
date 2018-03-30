@@ -30,6 +30,11 @@ pipeline:
     commands:
       - echo $(date)
       - touch output.log
+      - google-chrome --version
+      - wget "https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip" > output.log 2>&1
+      - mkdir -p /usr/local/bin
+      - unzip -o "chromedriver_linux64.zip" -d /usr/local/bin
+      - chmod +x /usr/local/bin/chromedriver
       - apt-get install nodejs npm > output.log 2>&1
       - ln -s /usr/bin/nodejs /usr/bin/node > output.log 2>&1
       - apt-get update > output.log 2>&1
