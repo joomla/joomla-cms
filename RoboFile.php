@@ -333,21 +333,20 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @return  void
 	 */
-	public function runTest($pathToTestFile = null, $suite = 'acceptance')
+	public function runTest($pathToTestFile = null, $suite = 'acceptance', $opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$path = $this->vendorPath . 'bin/codecept';
-		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
-
+		$pathToCodeception = $this->vendorPath . 'bin/codecept';
+		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($pathToCodeception) : $pathToCodeception . ' build');
 		if (!$pathToTestFile)
 		{
 			$this->say('Available tests in the system:');
 
 			$iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
-					$this->vendorPath . $suite,
+					$this->vendorPath . 'joomla/test-system/src/' . $suite,
 					RecursiveDirectoryIterator::SKIP_DOTS
 				),
 				RecursiveIteratorIterator::SELF_FIRST
@@ -362,7 +361,6 @@ class RoboFile extends \Robo\Tasks
 			{
 				if (strripos($iterator->getSubPathName(), 'cept.php')
 					|| strripos($iterator->getSubPathName(), 'cest.php')
-					|| strripos($iterator->getSubPathName(), '.feature')
 				)
 				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
@@ -379,7 +377,7 @@ class RoboFile extends \Robo\Tasks
 			$test       = $tests[$testNumber];
 		}
 
-		$pathToTestFile = $this->vendorPath . 'joomla/test-system/' . $suite . '/' . $test;
+		$pathToTestFile = $this->vendorPath . 'joomla/test-system/src/' . $suite . '/' . $test;
 
 		// Loading the class to display the methods in the class
 
@@ -391,8 +389,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
-			require $this->vendorPath . $suite . '/' . $test;
-
+			require $this->vendorPath . 'joomla/test-system/src/' . $suite . '/' . $test;
 			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
 
@@ -428,9 +425,10 @@ class RoboFile extends \Robo\Tasks
 		$testPathCodecept = $this->vendorPath . 'bin/codecept';
 
 		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept) : $testPathCodecept)
-			->test($pathToTestFile)
+			->arg($pathToTestFile)
 			->arg('--steps')
 			->arg('--debug')
+			->env($opts['env'])
 			->run()
 			->stopOnFail();
 	}
