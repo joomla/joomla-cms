@@ -10,8 +10,8 @@
 /**
  * This is joomla project's console command file for Robo.li task runner.
  *
- * Or do: $ composer install, and afterwards you will be able to execute robo like
- * $ ./libraries/vendor/bin/robo
+ * Do a `$ composer install` afterwards you will be able to execute robo like
+ * `$ ./libraries/vendor/bin/robo` to see a list of commands
  *
  * @see         http://robo.li/
  */
@@ -31,6 +31,8 @@ if (!defined('JPATH_BASE'))
  */
 class RoboFile extends \Robo\Tasks
 {
+	use JoomlaRobo\Tasks;
+
 	/**
 	 * Path to the vendor folder
 	 *
@@ -236,43 +238,6 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
-	 * Downloads Composer
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  void
-	 */
-	private function getComposer()
-	{
-		// Make sure we have Composer
-		if (!file_exists($this->vendorPath . 'composer.phar'))
-		{
-			$this->_exec('curl -o ' . $this->vendorPath . 'composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
-		}
-	}
-
-	/**
-	 * Runs Selenium Standalone Server.
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  void
-	 */
-	public function runSelenium()
-	{
-		if (!$this->isWindows())
-		{
-			$this->_exec($this->vendorPath . "bin/selenium-server-standalone " . $this->getWebDriver() . ' >> selenium.log 2>&1 &');
-		}
-		else
-		{
-			$this->_exec("START java.exe -jar " . $this->getWebDriver()  . ' ' . $this->vendorPath . 'joomla-projects\selenium-server-standalone\bin\selenium-server-standalone.jar ');
-		}
-
-		sleep(3);
-	}
-
-	/**
 	 * Executes all the Selenium System Tests in a suite on your machine
 	 *
 	 * @param   array $opts   Array of configuration options:
@@ -289,7 +254,9 @@ class RoboFile extends \Robo\Tasks
 
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->runSelenium();
+		$this->taskRunSelenium('libraries/vendor/joomla-projects/selenium-server-standalone', $this->getWebdriver())->run();
+
+		sleep(3);
 
 		// Make sure to run the build command to generate AcceptanceTester
 		if ($this->isWindows())
@@ -335,7 +302,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
-		$this->runSelenium();
+		$this->taskRunSelenium('libraries/vendor/joomla-projects/selenium-server-standalone/bin', $this->getWebdriver());
 
 		// Make sure to run the build command to generate AcceptanceTester
 		$path = $this->vendorPath . 'bin/codecept';
@@ -470,73 +437,10 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function getWebdriver()
 	{
-		$suiteConfig        = $this->getSuiteConfig();
-		$codeceptMainConfig = \Codeception\Configuration::config();
-		$browser            = $suiteConfig['modules']['config']['JoomlaBrowser']['browser'];
+		$suiteConfig = $this->getSuiteConfig();
+		$driver      = $suiteConfig['modules']['config']['JoomlaBrowser']['browser'];
 
-		if ($browser == 'chrome')
-		{
-			$driver['type'] = 'webdriver.chrome.driver';
-		}
-		elseif ($browser == 'firefox')
-		{
-			$driver['type'] = 'webdriver.gecko.driver';
-		}
-		elseif ($browser == 'MicrosoftEdge')
-		{
-			$driver['type'] = 'webdriver.edge.driver';
-
-			// Check if we are using Windows Insider builds
-			if ($suiteConfig['modules']['config']['AcceptanceHelper']['MicrosoftEdgeInsiders'])
-			{
-				$browser = 'MicrosoftEdgeInsiders';
-			}
-		}
-		elseif ($browser == 'internet explorer')
-		{
-			$driver['type'] = 'webdriver.ie.driver';
-		}
-
-		// Check if we have a path for this browser and OS in the codeception settings
-		if (isset($codeceptMainConfig['webdrivers'][$browser][$this->getOs()]))
-		{
-			$driverPath = $codeceptMainConfig['webdrivers'][$browser][$this->getOs()];
-		}
-		else
-		{
-			$this->yell('No driver for your browser. Check your browser in acceptance.suite.yml and the webDrivers in codeception.yml');
-
-			// We can't do anything without a driver, exit
-			exit(1);
-		}
-
-		$driver['path'] = $driverPath;
-
-		return '-D' . implode('=', $driver);
-	}
-
-	/**
-	 * Return the os name
-	 *
-	 * @return string
-	 *
-	 * @since   3.7.3
-	 */
-	private function getOs()
-	{
-		$os = php_uname('s');
-
-		if (strpos(strtolower($os), 'windows') !== false)
-		{
-			return  'windows';
-		}
-
-		if (strpos(strtolower($os), 'darwin') !== false)
-		{
-			return 'mac';
-		}
-
-		return 'linux';
+		return $driver;
 	}
 
 	/**
