@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Text;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -106,7 +108,7 @@ abstract class JHtmlNumber
 		}
 
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }
