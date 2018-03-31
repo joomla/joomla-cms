@@ -29,12 +29,11 @@ pipeline:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - echo $(date)
-      - touch output.log
       - google-chrome --version
       - mv RoboFile.dist.ini RoboFile.ini
-      - apt-get install nodejs npm > output.log 2>&1
-      - ln -s /usr/bin/nodejs /usr/bin/node > output.log 2>&1
-      - apt-get update > output.log 2>&1
-      - apt-get -y install php7.0-ldap > output.log 2>&1
-      - composer install > output.log 2>&1
+      - apt-get install nodejs npm > /dev/null 2>&1
+      - ln -s /usr/bin/nodejs /usr/bin/node > /dev/null 2>&1
+      - apt-get update > /dev/null 2>&1
+      - apt-get -y install php7.0-ldap > /dev/null 2>&1
+      - composer install > /dev/null 2>&1
       - libraries/vendor/bin/robo run:tests
