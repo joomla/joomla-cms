@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
@@ -50,15 +51,24 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * The association extension.
+	 *
+	 * @var AssociationExtensionInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $associationExtension;
+
+	/**
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
 		if ($this->dispatcherFactory === null)
 		{
@@ -155,5 +165,31 @@ class Component implements ComponentInterface
 	public function setCategories(array $categories)
 	{
 		$this->categories = $categories;
+	}
+
+	/**
+	 * Returns the associations helper.
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsExtension()
+	{
+		return $this->associationExtension;
+	}
+
+	/**
+	 * The association extension.
+	 *
+	 * @param   AssociationExtensionInterface  $associationExtension  The extension
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
+	{
+		$this->associationExtension = $associationExtension;
 	}
 }

@@ -11,8 +11,10 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -44,17 +46,17 @@ class LegacyComponent implements ComponentInterface
 	}
 
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
-		return null;
+		return new LegacyDispatcher($application);
 	}
 
 	/**
@@ -112,5 +114,38 @@ class LegacyComponent implements ComponentInterface
 		}
 
 		return new $classname($options);
+	}
+
+	/**
+	 * Returns the associations helper.
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsExtension()
+	{
+		$className = ucfirst($this->component) . 'AssociationsHelper';
+
+		if (class_exists($className))
+		{
+			return new $className;
+		}
+
+		// Check if associations helper exists
+		if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php'))
+		{
+			return null;
+		}
+
+		require_once JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php';
+
+		if (!class_exists($className))
+		{
+			return null;
+		}
+
+		// Return an instance of the helper class
+		return new $className;
 	}
 }

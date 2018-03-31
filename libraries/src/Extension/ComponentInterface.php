@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -23,15 +24,15 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 interface ComponentInterface
 {
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface|null
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application);
+	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 
 	/**
 	 * Returns an MVCFactory.
@@ -58,4 +59,13 @@ interface ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategories(array $options = [], $section = '');
+
+	/**
+	 * Returns the associations extension helper class.
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssociationsExtension();
 }

@@ -7,16 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Table;
 
 /**
  * Content associations helper.
  *
  * @since  3.7.0
  */
-class ContentAssociationsHelper extends AssociationExtensionHelper
+class AssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
@@ -69,7 +73,7 @@ class ContentAssociationsHelper extends AssociationExtensionHelper
 		}
 
 		// Get the associations.
-		$associations = JLanguageAssociations::getAssociations(
+		$associations = Associations::getAssociations(
 			$this->extension,
 			$type['tables']['a'],
 			$context,
@@ -88,7 +92,7 @@ class ContentAssociationsHelper extends AssociationExtensionHelper
 	 * @param   string  $typeName  The item type
 	 * @param   int     $id        The id of item for which we need the associated items
 	 *
-	 * @return  JTable|null
+	 * @return  Table|null
 	 *
 	 * @since   3.7.0
 	 */
@@ -104,11 +108,11 @@ class ContentAssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'article':
-				$table = JTable::getInstance('Content');
+				$table = Table::getInstance('Content');
 				break;
 
 			case 'category':
-				$table = JTable::getInstance('Category');
+				$table = Table::getInstance('Category');
 				break;
 		}
 
