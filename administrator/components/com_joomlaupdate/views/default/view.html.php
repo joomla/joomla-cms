@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,33 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $methodSelectUpload = null;
 
 	/**
+	 * PHP options.
+	 *
+	 * @var   array  Array of PHP config options
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $phpOptions = null;
+
+	/**
+	 * PHP settings.
+	 *
+	 * @var   array  Array of PHP settings
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $phpSettings = null;
+
+	/**
+	 * Non Core Extensions.
+	 *
+	 * @var   array  Array of Non-Core-Extensions
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $nonCoreExtensions = null;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -69,6 +96,11 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
 		$this->methodSelectUpload = JoomlaupdateHelperSelect::getMethods($defaultMethod, 'method', 'upload_method');
+
+		// Get results of pre update check evaluations
+		$this->phpOptions        = $model->getPhpOptions();
+		$this->phpSettings       = $model->getPhpSettings();
+		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
@@ -216,5 +248,21 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 			return true;
 		}
+	}
+
+	/**
+	 * Returns true, if the pre update check should be displayed.
+	 * This logic is not hardcoded in tmpl files, because it is
+	 * used by the Hathor tmpl too.
+	 *
+	 * @return boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function shouldDisplayPreUpdateCheck()
+	{
+		return isset($this->updateInfo['object']->downloadurl->_data)
+			&& $this->getModel()->isDatabaseTypeSupported()
+			&& $this->getModel()->isPhpVersionSupported();
 	}
 }

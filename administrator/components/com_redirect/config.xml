@@ -15,6 +15,13 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field
+			name="separator"
+			type="text"
+			label="COM_REDIRECT_BULK_SEPARATOR_LABEL"
+			description="COM_REDIRECT_BULK_SEPARATOR_DESC"
+			default="|"
+		/>
 	</fieldset>
 
 	<fieldset

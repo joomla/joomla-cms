@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -61,15 +63,16 @@ class FormController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
@@ -873,7 +876,11 @@ class FormController extends BaseController
 
 		$recordId = $this->input->getInt($urlVar);
 
-		if (!$this->allowEdit($data, $key))
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
@@ -883,9 +890,6 @@ class FormController extends BaseController
 			);
 			$this->redirect();
 		}
-
-		// Populate the row id from the session.
-		$data[$key] = $recordId;
 
 		// The redirect url
 		$redirectUrl = \JRoute::_(

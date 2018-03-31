@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,8 +160,62 @@ class ContentControllerArticle extends JControllerForm
 	{
 		parent::cancel($key);
 
-		// Redirect to the return page.
-		$this->setRedirect(JRoute::_($this->getReturnPage(), false));
+		$app = JFactory::getApplication();
+
+		// Load the parameters.
+		$params = $app->getParams();
+
+		$customCancelRedir = (bool) $params->get('custom_cancel_redirect');
+
+		if ($customCancelRedir)
+		{
+			$cancelMenuitemId = (int) $params->get('cancel_redirect_menuitem');
+
+			if ($cancelMenuitemId > 0)
+			{
+				$item = $app->getMenu()->getItem($cancelMenuitemId);
+				$lang = '';
+
+				if (JLanguageMultilang::isEnabled())
+				{
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+
+				// Redirect to the user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $cancelMenuitemId;
+			}
+			else
+			{
+				// Redirect to the same article submission form (clean form).
+				$redirlink = $app->getMenu()->getActive()->link . '&Itemid=' . $app->getMenu()->getActive()->id;
+			}
+		}
+		else
+		{
+			$menuitemId = (int) $params->get('redirect_menuitem');
+			$lang = '';
+
+			if ($menuitemId > 0)
+			{
+				$lang = '';
+				$item = $app->getMenu()->getItem($menuitemId);
+
+				if (JLanguageMultilang::isEnabled())
+				{
+					$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				}
+
+				// Redirect to the general (redirect_menuitem) user specified return page.
+				$redirlink = $item->link . $lang . '&Itemid=' . $menuitemId;
+			}
+			else
+			{
+				// Redirect to the return page.
+				$redirlink = $this->getReturnPage();
+			}
+		}
+
+		$this->setRedirect(JRoute::_($redirlink, false));
 	}
 
 	/**
@@ -314,7 +368,7 @@ class ContentControllerArticle extends JControllerForm
 			if (JLanguageMultilang::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
-				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
 			// If ok, redirect to the return page.
@@ -333,6 +387,21 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to reload a record.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function reload($key = null, $urlVar = 'a_id')
+	{
+		return parent::reload($key, $urlVar);
 	}
 
 	/**

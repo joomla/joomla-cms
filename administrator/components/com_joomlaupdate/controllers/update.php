@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,11 +44,27 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->_applyCredentials();
 
 		/** @var JoomlaupdateModelDefault $model */
-		$model = $this->getModel('Default');
-		$file = $model->download();
-
-		$message = null;
+		$model       = $this->getModel('Default');
+		$result      = $model->download();
+		$file        = $result['basename'];
+		$message     = null;
 		$messageType = null;
+
+		switch ($result['check'])
+		{
+			case 0:
+				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+				$messageType = 'warning';
+				break;
+			case 1:
+				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_CORRECT');
+				$messageType = 'message';
+				break;
+			case 2:
+				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_NOT_FOUND');
+				$messageType = 'notice';
+				break;
+		}
 
 		if ($file)
 		{
@@ -469,5 +485,41 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		// Redirect back to the actual finalise page
 		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1');
+	}
+
+	/**
+	 * Fetch Extension update XML proxy. Used to prevent Access-Control-Allow-Origin errors.
+	 * Prints a JSON string.
+	 * Called from JS.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return void
+	 */
+	public function fetchExtensionCompatibility()
+	{
+		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
+		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+
+		$this->app = JFactory::getApplication();
+		$this->app->mimeType = 'application/json';
+		$this->app->charSet = 'utf-8';
+		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
+		$this->app->sendHeaders();
+
+		try
+		{
+			echo new JResponseJson($updateFileUrl);
+		}
+		catch (Exception $e)
+		{
+			echo $e;
+		}
+
+		$this->app->close();
 	}
 }

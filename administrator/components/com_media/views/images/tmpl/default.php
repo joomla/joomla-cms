@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,8 @@ $lang       = JFactory::getLanguage();
 $onClick    = '';
 $fieldInput = $this->state->get('field.id');
 $isMoo      = $input->getInt('ismoo', 1);
+$author     = $input->getCmd('author');
+$asset      = $input->getCmd('asset');
 
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -23,6 +25,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 // Include jQuery
+JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
 JHtml::_('script', 'media/popup-imagemanager.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('stylesheet', 'media/popup-imagemanager.css', array('version' => 'auto', 'relative' => true));
@@ -32,10 +35,12 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array('version' => 'auto', 'relative' => true));
 }
 
-JFactory::getDocument()->addScriptDeclaration(
-	"
-		var image_base_path = '" . $params->get('image_path', 'images') . "/';
-	"
+JFactory::getDocument()->addScriptOptions(
+	'mediamanager', array(
+		'base'   => $params->get('image_path', 'images') . '/',
+		'asset'  => $asset,
+		'author' => $author
+	)
 );
 
 /**
@@ -60,7 +65,7 @@ else // XTD Image plugin
 ?>
 <div class="container-popup">
 
-	<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
+	<form action="index.php?option=com_media&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 
 		<div id="messages" style="display: none;">
 			<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true); ?>
@@ -86,7 +91,7 @@ else // XTD Image plugin
 			</div>
 		</div>
 
-		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>"></iframe>
+		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>"></iframe>
 
 		<div class="well">
 			<div class="row-fluid">
@@ -166,7 +171,7 @@ else // XTD Image plugin
 	</form>
 
 	<?php if ($user->authorise('core.create', 'com_media')) : ?>
-		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $input->getCmd('asset'); ?>&amp;author=<?php echo $input->getCmd('author'); ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+		<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken(); ?>=1&amp;asset=<?php echo $asset; ?>&amp;author=<?php echo $author; ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 			<div id="uploadform" class="well">
 				<fieldset id="upload-noflash" class="actions">
 					<div class="control-group">
@@ -183,7 +188,7 @@ else // XTD Image plugin
 						</div>
 					</div>
 				</fieldset>
-				<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>
+				<?php JFactory::getSession()->set('com_media.return_url', 'index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $asset . '&author=' . $author); ?>
 			</div>
 		</form>
 	<?php endif; ?>

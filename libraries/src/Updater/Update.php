@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,6 +96,14 @@ class Update extends \JObject
 	 * @since  11.1
 	 */
 	protected $downloads;
+
+	/**
+	 * Update manifest `<downloadsource>` elements
+	 *
+	 * @var    DownloadSource[]
+	 * @since  3.8.3
+	 */
+	protected $downloadSources = array();
 
 	/**
 	 * Update manifest `<tags>` element
@@ -262,6 +270,20 @@ class Update extends \JObject
 				$this->currentUpdate = new \stdClass;
 				break;
 
+			// Handle the array of download sources
+			case 'DOWNLOADSOURCE':
+				$source = new DownloadSource;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->downloadSources[] = $source;
+
+				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
@@ -389,6 +411,11 @@ class Update extends \JObject
 							$this->latest = $this->currentUpdate;
 						}
 					}
+					else
+					{
+						$this->latest = new \stdClass;
+						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
+					}
 				}
 				break;
 			case 'UPDATES':
@@ -433,6 +460,15 @@ class Update extends \JObject
 		if ($tag == 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+
+			return;
+		}
+
+		if ($tag == 'downloadsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->downloadSources);
+			$source->url = $data;
 
 			return;
 		}

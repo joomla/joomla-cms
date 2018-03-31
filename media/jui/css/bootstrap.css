@@ -1738,12 +1738,6 @@ select:focus:invalid:focus {
           border-radius: 0;
 }
 
-.input-append .active,
-.input-prepend .active {
-  background-color: #a9dba9;
-  border-color: #46a546;
-}
-
 .input-prepend .add-on,
 .input-prepend .btn {
   margin-right: -1px;
