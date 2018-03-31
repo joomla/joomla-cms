@@ -244,7 +244,16 @@ class RoboFile extends \Robo\Tasks
 
 				if (is_dir($srcFile))
 				{
-					$this->_copyDir($srcFile, $destFile);
+
+					try
+					{
+						$this->_copyDir($srcFile, $destFile);
+					}
+					catch (Exception $e)
+					{
+						// Sorry, we tried :(
+						$this->say('Sorry, you will have to Skip ' . $srcFile . ' Copy manually.');
+					}
 				}
 				else
 				{
