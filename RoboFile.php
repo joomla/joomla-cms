@@ -184,7 +184,7 @@ class RoboFile extends \Robo\Tasks
 			'libraries/vendor/codeception',
 			'libraries/vendor/behat',
 			'libraries/vendor/joomla-projects',
-			'libraries/vendor/consolidation'
+			'./libraries/vendor/consolidation'
 		];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
