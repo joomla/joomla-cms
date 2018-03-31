@@ -192,7 +192,7 @@
 
 		<field
 			name="redis_server_db"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
 			default="0"
 			filter="integer"
@@ -206,7 +206,6 @@
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			min="1"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -575,7 +574,6 @@
 			hint="25"
 			validate="number"
 			filter="integer"
-			required="true"
 			size="5"
 		/>
 
@@ -678,8 +676,8 @@
 			default="1"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -690,8 +688,8 @@
 			default="0"
 			filter="boolean"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -898,6 +896,20 @@
 		/>
 
 		<field
+			name="session_redis_persist"
+			type="radio"
+			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			showon="session_handler:redis"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="session_redis_server_host"
 			type="text"
 			label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
@@ -923,13 +935,33 @@
 		/>
 
 		<field
+			name="session_redis_server_auth"
+			type="password"
+			label="COM_CONFIG_FIELD_REDIS_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_AUTH_DESC"
+			filter="raw"
+			showon="session_handler:redis"
+			autocomplete="off"
+			size="30"
+		/>
+
+		<field
+			name="session_redis_server_db"
+			type="number"
+			label="COM_CONFIG_FIELD_REDIS_DB_LABEL"
+			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
+			default="0"
+			filter="integer"
+			showon="session_handler:redis"
+			size="4"
+		/>
+		<field
 			name="lifetime"
 			type="number"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			min="1"
 			max="16383"
 			default="15"
-			required="true"
 			filter="integer"
 			validate="number"
 			size="6"
@@ -1156,62 +1188,50 @@
 			<action
 				name="core.login.site"
 				title="JACTION_LOGIN_SITE"
-				description="COM_CONFIG_ACTION_LOGIN_SITE_DESC"
 			/>
 			<action
 				name="core.login.admin"
 				title="JACTION_LOGIN_ADMIN"
-				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC"
 			/>
 			<action
 				name="core.login.offline"
 				title="JACTION_LOGIN_OFFLINE"
-				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC"
 			/>
 			<action
 				name="core.admin"
 				title="JACTION_ADMIN_GLOBAL"
-				description="COM_CONFIG_ACTION_ADMIN_DESC"
 			/>
 			<action
 				name="core.options"
 				title="JACTION_OPTIONS"
-				description="COM_CONFIG_ACTION_OPTIONS_DESC"
 			/>
 			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
-				description="COM_CONFIG_ACTION_MANAGE_DESC"
 			/>
 			<action
 				name="core.create"
 				title="JACTION_CREATE"
-				description="COM_CONFIG_ACTION_CREATE_DESC"
 			/>
 			<action
 				name="core.delete"
 				title="JACTION_DELETE"
-				description="COM_CONFIG_ACTION_DELETE_DESC"
 			/>
 			<action
 				name="core.edit"
 				title="JACTION_EDIT"
-				description="COM_CONFIG_ACTION_EDIT_DESC"
 			/>
 			<action
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
-				description="COM_CONFIG_ACTION_EDITSTATE_DESC"
 			/>
 			<action
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
-				description="COM_CONFIG_ACTION_EDITOWN_DESC"
 			/>
 			<action
 				name="core.edit.value"
 				title="JACTION_EDITVALUE"
-				description="COM_CONFIG_ACTION_EDITVALUE_DESC"
 			/>
 		</field>
 

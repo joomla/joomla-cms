@@ -128,12 +128,21 @@ class Log
 	protected $lookup = array();
 
 	/**
+	 * The registry of available loggers
+	 *
+	 * @var    LoggerRegistry
+	 * @since  4.0.0
+	 */
+	protected $loggerRegistry;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since   11.1
 	 */
 	protected function __construct()
 	{
+		$this->loggerRegistry = new LoggerRegistry;
 	}
 
 	/**
@@ -187,6 +196,28 @@ class Log
 		}
 
 		static::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+	}
+
+	/**
+	 * Register a logger to the registry
+	 *
+	 * @param   string   $key      The service key to be registered
+	 * @param   string   $class    The class name of the logger
+	 * @param   boolean  $replace  Flag indicating the service key may replace an existing definition
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function registerLogger(string $key, string $class, bool $replace = false)
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(static::$instance))
+		{
+			static::setInstance(new static);
+		}
+
+		static::$instance->loggerRegistry->register($key, $class, $replace);
 	}
 
 	/**
@@ -306,11 +337,27 @@ class Log
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-				$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
-
-				if (!class_exists($class))
+				if ($this->loggerRegistry->hasLogger($this->configurations[$signature]['logger']))
 				{
-					throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					$class = $this->loggerRegistry->getLoggerClass($this->configurations[$signature]['logger']);
+				}
+				else
+				{
+					@trigger_error(
+						sprintf(
+							'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
+							. ' Use the logger registry instead.',
+							__NAMESPACE__
+						),
+						E_USER_DEPRECATED
+					);
+
+					$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
+
+					if (!class_exists($class))
+					{
+						throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					}
 				}
 
 				$this->loggers[$signature] = new $class($this->configurations[$signature]);

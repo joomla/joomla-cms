@@ -148,7 +148,6 @@
 		// }
 
 		connectedCallback() {
-			console.log(this.buttonClear)
 			const button = this.querySelector(this.buttonSelect);
 			const buttonClear = this.querySelector(this.buttonClear);
 			this.show = this.show.bind(this);
@@ -191,7 +190,6 @@
 
 		modalClose() {
 			const input = this.querySelector(this.input);
-			console.log(this)
 			Joomla.getImage(Joomla.selectedFile, input, this);
 
 			window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
@@ -226,7 +224,7 @@
 
 					switch (this.type) {
 						case 'image':
-							imgPreview.src = imgPreview.src = /http/.test(value) ? value : '/' + value;
+							imgPreview.src = imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
 							break;
 						default:
 							// imgPreview.src = dummy image path;

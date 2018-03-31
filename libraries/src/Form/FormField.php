@@ -380,7 +380,7 @@ abstract class FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -446,7 +446,7 @@ abstract class FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -974,6 +974,8 @@ abstract class FormField
 			'label'   => $this->getLabel(),
 			'options' => $options,
 		);
+
+		$data = array_merge($this->getLayoutData(), $data);
 
 		return $this->getRenderer($this->renderLayout)->render($data);
 	}

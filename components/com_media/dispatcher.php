@@ -15,7 +15,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Dispatcher class for com_media
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MediaDispatcher extends Dispatcher
 {
@@ -24,16 +24,17 @@ class MediaDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Media';
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @param   CMSApplication  $app    The application instance
+	 * @param   Input           $input  The input instance
 	 *
-	 * @return  void
+	 * @since   4.0.0
 	 */
 	public function __construct(\Joomla\CMS\Application\CMSApplication $app, \JInput $input = null)
 	{
@@ -46,7 +47,7 @@ class MediaDispatcher extends Dispatcher
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -62,7 +63,7 @@ class MediaDispatcher extends Dispatcher
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -92,7 +93,7 @@ class MediaDispatcher extends Dispatcher
 	 *
 	 * @return  BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{

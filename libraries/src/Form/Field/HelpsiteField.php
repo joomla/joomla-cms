@@ -55,9 +55,9 @@ class HelpsiteField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		\JHtml::_('script', 'system/helpsite.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('script', 'legacy/helpsite.js', array('version' => 'auto', 'relative' => true));
 
-		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
+		$showDefault = (string) $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
 		$html = parent::getInput();
 		$button = '<button

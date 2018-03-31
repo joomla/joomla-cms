@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JForm
 	 * @since  3.6.3
 	 */
-	 public $filterForm;
+	public $filterForm;
 
 	/**
 	 * An array with active filters.
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JObject
 	 * @since  3.6.3
 	 */
-	 protected $canDo;
+	protected $canDo;
 
 	/**
 	 * An instance of \JDatabaseDriver.
@@ -76,13 +76,13 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * The sidebar markup
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-abstract class ItemModel extends BaseModel
+abstract class ItemModel extends BaseDatabaseModel
 {
 	/**
 	 * An item.

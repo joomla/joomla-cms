@@ -10,8 +10,8 @@ namespace Joomla\CMS\Utility;
 
 defined('JPATH_PLATFORM') or die;
 
-// Register the stream
-stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+// Workaround for B/C. Will be removed with 4.0
+BufferStreamHandler::stream_register();
 
 /**
  * Generic Buffer stream handler
@@ -46,6 +46,33 @@ class BufferStreamHandler
 	 * @since  12.1
 	 */
 	public $buffers = array();
+
+	/**
+	 * Status of registering the wrapper
+	 *
+	 * @var    boolean
+	 * @since  3.8.2
+	 */
+	static private $registered = false;
+
+	/**
+	 * Function to register the stream wrapper
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.2
+	 */
+	public static function stream_register()
+	{
+		if (!self::$registered)
+		{
+			stream_wrapper_register('buffer', '\\Joomla\\CMS\\Utility\\BufferStreamHandler');
+
+			self::$registered = true;
+		}
+
+		return;
+	}
 
 	/**
 	 * Function to open file or url

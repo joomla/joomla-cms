@@ -76,7 +76,7 @@ class TagField extends \JFormFieldList
 		if (!$this->isNested())
 		{
 			// Get the field id
-			$id    = isset($this->element['id']) ? $this->element['id'] : null;
+			$id    = $this->element['id'] ?? null;
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
 			// Load the ajax-chosen customised field
@@ -260,7 +260,7 @@ class TagField extends \JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && $this->element['custom'] === 'deny')
+		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
 		{
 			return false;
 		}

@@ -392,7 +392,7 @@ class Microdata
 						break;
 
 					case 'meta':
-						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
+						$html = $this->machineContent ?? $html;
 						$html = static::htmlMeta($html, $this->property);
 						break;
 
@@ -465,7 +465,7 @@ class Microdata
 						// Check if a $content is available, otherwise fallback to an 'inline' display type
 						if ($this->content !== null)
 						{
-							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = $this->machineContent ?? $this->content;
 							$html = static::htmlMeta($html, $this->property) . $this->content;
 						}
 						else
@@ -510,7 +510,7 @@ class Microdata
 						break;
 
 					case 'meta':
-						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
+						$html = $this->machineContent ?? $html;
 						$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
@@ -533,7 +533,7 @@ class Microdata
 						// Check if a $content is available, otherwise fallback to an 'inline' display Type
 						if ($this->content !== null)
 						{
-							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = $this->machineContent ?? $this->content;
 							$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						}
 						else

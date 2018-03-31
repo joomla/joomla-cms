@@ -26,7 +26,7 @@ class JToolbarTest extends TestCase
 	 * $_SERVER variable
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $server;
 

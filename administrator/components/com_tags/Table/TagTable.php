@@ -156,6 +156,7 @@ class TagTable extends Nested
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
+
 		// Not Null sanity check
 		$date = \JFactory::getDate();
 
@@ -254,7 +255,7 @@ class TagTable extends Nested
 		}
 
 		// Verify that the alias is unique
-		$table = new Tag($this->getDbo());
+		$table = new static($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{

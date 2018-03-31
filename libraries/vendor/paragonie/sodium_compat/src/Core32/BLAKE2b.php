@@ -294,12 +294,13 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @param SplFixedArray $ctx
      * @param int $inc
      * @return void
-     * @throws Error
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function increment_counter($ctx, $inc)
     {
         if ($inc < 0) {
-            throw new Error('Increasing by a negative number makes no sense.');
+            throw new SodiumException('Increasing by a negative number makes no sense.');
         }
         $t = self::to64($inc);
         # S->t is $ctx[1] in our implementation
@@ -380,7 +381,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
      * @param SplFixedArray $ctx
      * @param SplFixedArray $out
      * @return SplFixedArray
-     * @throws Error
+     * @throws SodiumException
      */
     public static function finish(SplFixedArray $ctx, SplFixedArray $out)
     {
@@ -390,7 +391,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
             self::compress($ctx, $ctx[3]);
             $ctx[4] -= 128;
             if ($ctx[4] > 128) {
-                throw new Error('Failed to assert that buflen <= 128 bytes');
+                throw new SodiumException('Failed to assert that buflen <= 128 bytes');
             }
             for ($i = $ctx[4]; $i--;) {
                 $ctx[3][$i] = $ctx[3][$i + 128];
@@ -428,13 +429,13 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
 
         if ($key !== null) {
             if (count($key) > 64) {
-                throw new Exception('Invalid key size');
+                throw new SodiumException('Invalid key size');
             }
             $klen = count($key);
         }
 
         if ($outlen > 64) {
-            throw new Exception('Invalid output size');
+            throw new SodiumException('Invalid output size');
         }
 
         $ctx = self::context();

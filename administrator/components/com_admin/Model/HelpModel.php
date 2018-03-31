@@ -11,7 +11,7 @@ namespace Joomla\Component\Admin\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Help\Help as JHelp;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class HelpModel extends BaseModel
+class HelpModel extends BaseDatabaseModel
 {
 	/**
 	 * The search string

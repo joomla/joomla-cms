@@ -27,7 +27,7 @@ Joomla = window.Joomla || {};
 					    tmpRow = parent.document.getElementById('tr-' + options.itemId),
 					    tmpStatus = parent.document.getElementById('status-' + options.itemId);
 					window.parent.inMenus = [];
-					window.parent.numMenus = document.querySelectorAll(':input[name="jform[assigned][]"]').length;
+					window.parent.numMenus = document.querySelectorAll('input[name="jform[assigned][]"]').length;
 
 					jQuery('input[name="jform[assigned][]"]').each(function(){
 						if (updMenus > 0 ) {
@@ -42,59 +42,59 @@ Joomla = window.Joomla || {};
 						}
 					});
 					if (updMenus == 0) {
-						tmpMenu.html('<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>');
-						if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
+						tmpMenu.innerHTML = '<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>';
+						if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no') }
 					}
 					if (updMenus == '-') {
-						tmpMenu.html('<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>');
-						if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
+                        tmpMenu.innerHTML = '<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>';
+                        if (!tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.add('no') }
 					}
 					if (updMenus > 0) {
 						if (window.parent.inMenus.indexOf(parent.menuId) >= 0) {
 							if (window.parent.numMenus == window.parent.inMenus.length) {
-								tmpMenu.html('<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>');
-								if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
+                                tmpMenu.innerHTML = '<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>';
+                                if (tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.remove('no') }
 							} else {
-								tmpMenu.html('<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>');
-								if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
+                                tmpMenu.innerHTML = '<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>';
+                                if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no') }
 							}
 						}
 						if (window.parent.inMenus.indexOf(parent.menuId) < 0) {
-							tmpMenu.html('<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>');
-							if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
+                            tmpMenu.innerHTML = '<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>';
+                            if (!tmpRow.classList.contains('no')) { tmpRow.classList.add('no') }
 						}
 					}
 					if (updMenus < 0) {
 						if (window.parent.inMenus.indexOf(parent.menuId) >= 0) {
 							if (window.parent.numMenus == window.parent.inMenus.length) {
-								tmpMenu.html('<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>');
-								if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
+                                tmpMenu.innerHTML = '<span class=\"badge badge-info\">' + Joomla.JText._('JALL') + '</span>';
+                                if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no') }
 							} else {
-								tmpMenu.html('<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>');
-								if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
+                                tmpMenu.innerHTML = '<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>';
+                                if (tmpRow.classList.contains('no')) { tmpRow.classList.remove('no') }
 							}
 						}
 						if (window.parent.inMenus.indexOf(parent.menuId) < 0) {
-							tmpMenu.html('<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>');
-							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
+                            tmpMenu.innerHTML = '<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>';
+                            if (!tmpRow.classList.contains('no') || tmpRow.classList.length === 0) { tmpRow.classList.add('no') }
 						}
 					}
 					if (updStatus == 1) {
-						tmpStatus.html('<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>');
-						if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
+						tmpStatus.innerHTML = '<span class=\"badge badge-success\">' + Joomla.JText._('JYES') + '</span>';
+                        if (tmpRow.classList.contains('unpublished')) { tmpRow.classList.remove('unpublished') }
 					}
 					if (updStatus == 0) {
-						tmpStatus.html('<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>');
-						if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+                        tmpStatus.innerHTML = '<span class=\"badge badge-danger\">' + Joomla.JText._('JNO') + '</span>';
+                        if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished') }
 					}
 					if (updStatus == -2) {
-						tmpStatus.html('<span class=\"badge badge-default\">' + Joomla.JText._('JTRASHED') + '</span>');
-						if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+                        tmpStatus.innerHTML = '<span class=\"badge badge-default\">' + Joomla.JText._('JTRASHED') + '</span>';
+                        if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished') }
 					}
 					if (document.formvalidator.isValid(document.getElementById('module-form'))) {
 						jQuery('#title-' + options.itemId, parent.document).text(updTitle);
 						jQuery('#position-' + options.itemId, parent.document).text(updPosition);
-						jQuery('#access-' + options.itemId, parent.document).html(parent.viewLevels[updAccess]);
+						jQuery('#access-' + options.itemId, parent.document).innerHTML = parent.viewLevels[updAccess];
 					}
 				}
 			}

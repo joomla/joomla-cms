@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_banners
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RedirectDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class RedirectDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Redirect';
 }

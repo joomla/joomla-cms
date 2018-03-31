@@ -17,7 +17,7 @@ use Joomla\Component\Config\Site\Model\ConfigModel;
 /**
  * Requests from the frontend
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RequestController extends BaseController
 {

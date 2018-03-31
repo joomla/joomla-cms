@@ -10,13 +10,32 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
+
 /**
  * Factory to create MVC objects.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface MVCFactoryInterface
 {
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null);
+
 	/**
 	 * Method to load and return a model object.
 	 *
@@ -24,12 +43,12 @@ interface MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array());
+	public function createModel($name, $prefix = '', array $config = []);
 
 	/**
 	 * Method to load and return a view object.
@@ -41,10 +60,10 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array());
+	public function createView($name, $prefix = '', $type = '', array $config = []);
 
 	/**
 	 * Method to load and return a table object.
@@ -55,8 +74,8 @@ interface MVCFactoryInterface
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array());
+	public function createTable($name, $prefix = '', array $config = []);
 }

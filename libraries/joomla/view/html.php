@@ -47,7 +47,7 @@ abstract class JViewHtml extends JViewBase
 		parent::__construct($model);
 
 		// Setup dependencies.
-		$this->paths = isset($paths) ? $paths : $this->loadPaths();
+		$this->paths = $paths ?? $this->loadPaths();
 	}
 
 	/**
@@ -75,7 +75,7 @@ abstract class JViewHtml extends JViewBase
 	public function escape($output)
 	{
 		// Escape the output.
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**

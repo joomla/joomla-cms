@@ -44,7 +44,7 @@ class TagsModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		// Load state from the request.
 		$pid = $app->input->getInt('parent_id');
@@ -115,7 +115,7 @@ class TagsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app            = \JFactory::getApplication('site');
+		$app            = \JFactory::getApplication();
 		$user           = \JFactory::getUser();
 		$groups         = implode(',', $user->getAuthorisedViewLevels());
 		$pid            = $this->getState('tag.parent_id');

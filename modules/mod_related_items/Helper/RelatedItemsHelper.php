@@ -12,8 +12,10 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -40,12 +42,12 @@ abstract class RelatedItemsHelper
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
-		BaseModel::addIncludePath(JPATH_SITE . '/components/com_content/models');
-		$articles = BaseModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
+		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
 
 		if ($articles === false)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}
@@ -62,7 +64,7 @@ abstract class RelatedItemsHelper
 		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now      = JFactory::getDate()->toSql();
+		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
 
@@ -80,7 +82,7 @@ abstract class RelatedItemsHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 				return array();
 			}
@@ -153,7 +155,7 @@ abstract class RelatedItemsHelper
 				}
 				catch (\RuntimeException $e)
 				{
-					$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+					$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return array();
 				}
@@ -182,7 +184,7 @@ abstract class RelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = \JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

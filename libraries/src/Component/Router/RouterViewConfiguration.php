@@ -42,7 +42,7 @@ class RouterViewConfiguration
 	public $parent = false;
 
 	/**
-	 * Key of the parentview
+	 * Key of the parent view
 	 *
 	 * @var    string
 	 * @since  3.5
@@ -141,7 +141,7 @@ class RouterViewConfiguration
 	 * Set the parent view of this view
 	 *
 	 * @param   RouterViewconfiguration  $parent      Parent view object
-	 * @param   string                             $parent_key  Key of the parent view in this context
+	 * @param   string                   $parent_key  Key of the parent view in this context
 	 *
 	 * @return  RouterViewconfiguration  This object for chaining
 	 *

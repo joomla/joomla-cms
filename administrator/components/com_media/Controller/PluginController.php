@@ -21,7 +21,7 @@ use Joomla\Component\Media\Administrator\Event\OAuthCallbackEvent;
  *
  * This controller handles OAuth2 Callbacks
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PluginController extends BaseController
 {
@@ -36,7 +36,7 @@ class PluginController extends BaseController
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function oauthcallback()
 	{
@@ -49,13 +49,13 @@ class PluginController extends BaseController
 			// If plugin name was not found in parameters redirect back to control panel
 			if (!$pluginName || !$this->containsPlugin($plugins, $pluginName))
 			{
-				throw new \Exception('Plugin not found!.', 'error');
+				throw new \Exception('Plugin not found!');
 			}
 
 			// Check if the plugin is disabled, if so redirect to control panel
 			if (!PluginHelper::isEnabled('filesystem', $pluginName))
 			{
-				throw new \Exception('Plugin ' . $pluginName . ' is disabled.', 'error');
+				throw new \Exception('Plugin ' . $pluginName . ' is disabled.');
 			}
 
 			// Only import our required plugin, not entire group
@@ -75,14 +75,14 @@ class PluginController extends BaseController
 					. 'onFileSystemOAuthCallback method');
 			}
 
-			$action = isset($eventResults['action']) ? $eventResults['action'] : null;
+			$action = $eventResults['action'] ?? null;
 			$message = null;
 
 			// If there are any messages display them
 			if (isset($eventResults['message']))
 			{
 				$message = $eventResults['message'];
-				$messageType = (isset($eventResults['message_type']) ? $eventResults['message_type'] : '');
+				$messageType = ($eventResults['message_type'] ?? '');
 
 				Factory::getApplication()->enqueueMessage($message, $messageType);
 			}
@@ -144,7 +144,7 @@ class PluginController extends BaseController
 	 *
 	 * @return bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function containsPlugin($plugins, $pluginName)
 	{

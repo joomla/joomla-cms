@@ -86,7 +86,7 @@
         label="PLG_TINY_FIELD_LANGCODE_LABEL"
         class="inputbox"
         stripext="1"
-        directory="media/editors/tinymce/langs/"
+        directory="media/vendor/tinymce/langs/"
         hide_none="1"
         default="en"
         hide_default="1"

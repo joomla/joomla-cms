@@ -133,11 +133,11 @@ class FiltersField extends FormField
 		$html[] = '</table>';
 
 		// Add notes
-		$html[] = '<div class="alert alert-warning">';
+		$html[] = '<joomla-alert type="warning">';
 		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
 		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
 		$html[] = '<p>' . \JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
-		$html[] = '</div>';
+		$html[] = '</joomla-alert>';
 
 		return implode("\n", $html);
 	}

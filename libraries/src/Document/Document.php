@@ -222,7 +222,7 @@ class Document
 	 * Factory for creating JDocument API objects
 	 *
 	 * @var    FactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $factory;
 
@@ -230,7 +230,7 @@ class Document
 	 * Preload manager
 	 *
 	 * @var    PreloadManagerInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadManager = null;
 
@@ -238,7 +238,7 @@ class Document
 	 * The supported preload types
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
 
@@ -319,7 +319,8 @@ class Document
 	 *
 	 * @return  static  The document object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -340,7 +341,7 @@ class Document
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setFactory(FactoryInterface $factory): self
 	{
@@ -951,7 +952,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setPreloadManager(PreloadManagerInterface $preloadManager): self
 	{
@@ -965,7 +966,7 @@ class Document
 	 *
 	 * @return  PreloadManagerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPreloadManager(): PreloadManagerInterface
 	{
@@ -1287,7 +1288,7 @@ class Document
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preloadAssets()
 	{

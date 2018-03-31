@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $canDo;
 

@@ -479,7 +479,7 @@ class UpdateController extends BaseController
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return void
 	 */

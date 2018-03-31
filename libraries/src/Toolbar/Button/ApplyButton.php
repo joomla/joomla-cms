@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 /**
  * Renders an apply/save button
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApplyButton extends ToolbarButton
 {
@@ -39,7 +39,7 @@ class ApplyButton extends ToolbarButton
 	 *
 	 * @return  string  HTML string for the button
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fetchButton($type = 'Apply', $name = '', $text = '', $task = '', $list = true)
 	{
@@ -83,7 +83,7 @@ class ApplyButton extends ToolbarButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fetchId($type = 'Apply', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -99,7 +99,7 @@ class ApplyButton extends ToolbarButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function _getCommand($name, $task, $list)
 	{

@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WRAPPER_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Wrapper</namespace>
 	<files>
 		<filename module="mod_wrapper">mod_wrapper.php</filename>
 		<folder>tmpl</folder>
@@ -123,7 +124,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

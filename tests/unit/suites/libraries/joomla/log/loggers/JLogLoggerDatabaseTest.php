@@ -68,7 +68,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger->addEntry(new JLogEntry('Testing3', JLog::EMERGENCY, 'deprecated', '2010-12-01 02:30:00'));
 
 		// Get the actual dataset from the database.
-		$actual = new PHPUnit_Extensions_Database_DataSet_QueryDataSet($this->getConnection());
+		$actual = new \PHPUnit\DbUnit\DataSet\QueryDataSet($this->getConnection());
 		$actual->addTable('jos_log_entries');
 
 		// Verify that the data sets are equal.
@@ -99,7 +99,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger->addEntry(new JLogEntry('Testing3', JLog::EMERGENCY, 'deprecated', '2010-12-01 02:30:00'));
 
 		// Get the actual dataset from the database.
-		$actual = new PHPUnit_Extensions_Database_DataSet_QueryDataSet($this->getConnection());
+		$actual = new \PHPUnit\DbUnit\DataSet\QueryDataSet($this->getConnection());
 		$actual->addTable('jos_log_entries');
 
 		// Verify that the data sets are equal.

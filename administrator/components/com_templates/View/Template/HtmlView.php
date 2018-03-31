@@ -1,11 +1,11 @@
 <?php
 /**
-* @package     Joomla.Administrator
-* @subpackage  com_templates
-*
-* @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 namespace Joomla\Component\Templates\Administrator\View\Template;
 
 defined('_JEXEC') or die;
@@ -14,10 +14,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
-* View to edit a template style.
-*
-* @since  1.6
-*/
+ * View to edit a template style.
+ *
+ * @since  1.6
+ */
 class HtmlView extends BaseHtmlView
 {
 	/**

@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGGED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Logged</namespace>
 	<files>
 		<filename module="mod_logged">mod_logged.php</filename>
 		<folder>tmpl</folder>
@@ -23,7 +24,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
 					default="5"
 				/>

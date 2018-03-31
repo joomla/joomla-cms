@@ -11,7 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\View\AbstractView;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * OpenSearch View class for Finder
@@ -25,7 +25,7 @@ class OpensearchView extends AbstractView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  \JError object on failure, void on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

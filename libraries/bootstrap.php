@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,9 +32,6 @@ if (!class_exists('JLoader'))
 
 // Setup the autoloaders.
 JLoader::setup();
-
-// Register the library base path for the legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);

@@ -40,7 +40,7 @@ abstract class JHtmlFilter
 		$filter = null;
 
 		// Get the configuration options.
-		$filterId    = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
+		$filterId    = $options['filter_id'] ?? null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
@@ -184,7 +184,7 @@ abstract class JHtmlFilter
 
 				// Build a node.
 				$html .= '<div class="form-check">';
-				$html .= '<label class="form-check-label" tax-' . $bk . '>';
+				$html .= '<label class="form-check-label" for="tax-' . $bk . '">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
 					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';

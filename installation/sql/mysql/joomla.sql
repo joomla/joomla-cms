@@ -353,7 +353,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)
+  KEY `idx_xreference` (`xreference`),
+  KEY `idx_alias` (`alias`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -492,7 +493,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (5, 0, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Cache'),
 (6, 0, 'com_categories', 'component', 'com_categories', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Categories'),
 (7, 0, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Checkin'),
-(8, 0, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, '', '{"contact_layout":"_:default","show_contact_category":"hide","save_history":"1","history_limit":10,"show_contact_list":"0","presentation_style":"sliders","show_tags":"1","show_info":"1","show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_image":"1","show_misc":"1","image":"","allow_vcard":"0","show_articles":"0","articles_display_num":"10","show_profile":"0","show_user_custom_fields":["-1"],"show_links":"0","linka_name":"","linkb_name":"","linkc_name":"","linkd_name":"","linke_name":"","contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"0","maxLevel":"-1","show_subcat_desc":"1","show_empty_categories":"0","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_subcat_desc_cat":"1","show_empty_categories_cat":"0","show_cat_items_cat":"1","filter_field":"0","show_pagination_limit":"0","show_headings":"1","show_image_heading":"0","show_position_headings":"1","show_email_headings":"0","show_telephone_headings":"1","show_mobile_headings":"0","show_fax_headings":"0","show_suburb_headings":"1","show_state_headings":"1","show_country_headings":"1","show_pagination":"2","show_pagination_results":"1","initial_sort":"ordering","captcha":"","show_email_form":"1","show_email_copy":"1","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0","redirect":"","show_feed_link":"1","sef_advanced":0,"sef_ids":0,"custom_fields_enable":"1"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Contact'),
+(8, 0, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, '', '{"contact_layout":"_:default","show_contact_category":"hide","save_history":"1","history_limit":10,"show_contact_list":"0","presentation_style":"sliders","show_tags":"1","show_info":"1","show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_image":"1","show_misc":"1","image":"","allow_vcard":"0","show_articles":"0","articles_display_num":"10","show_profile":"0","show_user_custom_fields":["-1"],"show_links":"0","linka_name":"","linkb_name":"","linkc_name":"","linkd_name":"","linke_name":"","contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"0","maxLevel":"-1","show_subcat_desc":"1","show_empty_categories":"0","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_subcat_desc_cat":"1","show_empty_categories_cat":"0","show_cat_items_cat":"1","filter_field":"0","show_pagination_limit":"0","show_headings":"1","show_image_heading":"0","show_position_headings":"1","show_email_headings":"0","show_telephone_headings":"1","show_mobile_headings":"0","show_fax_headings":"0","show_suburb_headings":"1","show_state_headings":"1","show_country_headings":"1","show_pagination":"2","show_pagination_results":"1","initial_sort":"ordering","captcha":"","show_email_form":"1","show_email_copy":"0","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0","redirect":"","show_feed_link":"1","sef_advanced":0,"sef_ids":0,"custom_fields_enable":"1"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Contact'),
 (9, 0, 'com_cpanel', 'component', 'com_cpanel', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Cpanel'),
 (10, 0, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, '', '{"show_jed_info":"1","cachetimeout":"6","minimum_stability":"4"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Installer'),
 (11, 0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Languages'),
@@ -518,7 +519,6 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Fields'),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Associations'),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(104, 0, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (200, 0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (201, 0, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -640,8 +640,10 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (483, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (484, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (485, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(486, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(487, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
-(510, 0, 'aurora', 'template', 'aurora', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -1637,8 +1639,7 @@ INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description
 (700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1),
 (700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1),
 (700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1),
-(700, 'COM_CPANEL_MSG_JOOMLA40_PRE_CHECKS_TITLE', 'COM_CPANEL_MSG_JOOMLA40_PRE_CHECKS_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/joomla40checks.php', 'admin_postinstall_joomla40checks_condition', '3.7.0', 1);
-
+(700, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1);
 -- --------------------------------------------------------
 
 --
@@ -1770,7 +1771,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
 (10, 'atum', 1, '1', 'atum - Default', ''),
-(11, 'aurora', 0, '1', 'aurora - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
+(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
 -- --------------------------------------------------------
 

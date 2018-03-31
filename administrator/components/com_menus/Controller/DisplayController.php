@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $default_view = 'menus';
 

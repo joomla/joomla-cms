@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -25,15 +25,15 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Api Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class ApiModel extends BaseModel
+class ApiModel extends BaseDatabaseModel
 {
 	/**
-	 * Holds available media file adapters.
+	 * Holds the available media file adapters.
 	 *
 	 * @var   ProviderManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $providerManager = null;
 
@@ -41,7 +41,7 @@ class ApiModel extends BaseModel
 	 * The available extensions.
 	 *
 	 * @var   string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $allowedExtensions = null;
 
@@ -50,7 +50,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @param   string  $name  Name of the provider
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @return AdapterInterface
 	 *
 	 * @throws \Exception
@@ -81,7 +81,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -108,6 +108,16 @@ class ApiModel extends BaseModel
 			}
 		}
 
+		if (isset($options['content']) && $options['content'] && $file->type == 'file')
+		{
+			$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+			if ($resource)
+			{
+				$file->content = base64_encode(stream_get_contents($resource));
+			}
+		}
+
 		$file->path    = $adapter . ":" . $file->path;
 		$file->adapter = $adapter;
 
@@ -124,7 +134,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::getFile()
 	 */
@@ -166,6 +176,16 @@ class ApiModel extends BaseModel
 				}
 			}
 
+			if (isset($options['content']) && $options['content'] && $file->type == 'file')
+			{
+				$resource = $this->getAdapter($adapter)->getResource($file->path);
+
+				if ($resource)
+				{
+					$file->content = base64_encode(stream_get_contents($resource));
+				}
+			}
+
 			$file->path    = $adapter . ":" . $file->path;
 			$file->adapter = $adapter;
 		}
@@ -178,14 +198,14 @@ class ApiModel extends BaseModel
 	 * Creates a folder with the given name in the given path. More information
 	 * can be found in AdapterInterface::createFolder().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
 	 * @param   boolean  $override  Should the folder being overriden when it exists
 	 *
-	 * @return  void
+	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFolder()
 	 */
@@ -201,27 +221,27 @@ class ApiModel extends BaseModel
 		}
 
 		// Check if the file exists
-		if ($file && !$override)
+		if (isset($file) && !$override)
 		{
 			throw new FileExistsException;
 		}
 
-		$this->getAdapter($adapter)->createFolder($name, $path);
+		return $this->getAdapter($adapter)->createFolder($name, $path);
 	}
 
 	/**
 	 * Creates a file with the given name in the given path with the data. More information
 	 * can be found in AdapterInterface::createFile().
 	 *
-	 * @param   string   $adapter  The adapter
-	 * @param   string   $name     The name
-	 * @param   string   $path     The folder
-	 * @param   binary   $data     The data
+	 * @param   string   $adapter   The adapter
+	 * @param   string   $name      The name
+	 * @param   string   $path      The folder
+	 * @param   binary   $data      The data
 	 * @param   boolean  $override  Should the file being overriden when it exists
 	 *
-	 * @return  void
+	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::createFile()
 	 */
@@ -248,7 +268,7 @@ class ApiModel extends BaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->getAdapter($adapter)->createFile($name, $path, $data);
+		return $this->getAdapter($adapter)->createFile($name, $path, $data);
 	}
 
 	/**
@@ -262,7 +282,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::updateFile()
 	 */
@@ -286,7 +306,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 * @see     AdapterInterface::delete()
 	 */
@@ -312,14 +332,14 @@ class ApiModel extends BaseModel
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function copy($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
+		return $this->getAdapter($adapter)->copy($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -331,14 +351,14 @@ class ApiModel extends BaseModel
 	 * @param   string  $destinationPath  Destination path(relative)
 	 * @param   bool    $force            Force to overwrite
 	 *
-	 * @return void
+	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function move($adapter, $sourcePath, $destinationPath, $force = false)
 	{
-		$this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
+		return $this->getAdapter($adapter)->move($sourcePath, $destinationPath, $force);
 	}
 
 	/**
@@ -348,10 +368,10 @@ class ApiModel extends BaseModel
 	 * @param   string  $adapter  The adapter
 	 * @param   string  $path     The relative path for the file
 	 *
-	 * @return string  Permalink to the relative file
+	 * @return  string  Permalink to the relative file
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws FileNotFoundException
+	 * @since   4.0.0
+	 * @throws  FileNotFoundException
 	 */
 	public function getUrl($adapter, $path)
 	{
@@ -374,7 +394,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function search($adapter, $needle, $path = '/', $recursive = true)
@@ -391,7 +411,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function getTemporaryUrl($adapter, $path)
@@ -412,7 +432,7 @@ class ApiModel extends BaseModel
 	 *
 	 * @return boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function isMediaFile($path)
 	{

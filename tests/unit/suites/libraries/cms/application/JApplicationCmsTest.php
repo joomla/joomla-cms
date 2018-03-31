@@ -106,7 +106,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
-		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		// @Todo mock the container properly
+		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config, null, JFactory::getContainer());
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
 
@@ -140,13 +141,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
@@ -213,6 +214,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testExecuteWithoutDocument()
 	{
 		$this->class->execute();
+
+		// Nothing happened, we just assert TRUE to pass test.
+		self::assertTrue(true);
 	}
 
 	/**

@@ -16,7 +16,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 /**
  * JDocument styles renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StylesRenderer extends DocumentRenderer
 {
@@ -29,7 +29,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render($head, $params = array(), $content = null)
 	{

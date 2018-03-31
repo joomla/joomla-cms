@@ -11,7 +11,7 @@ namespace Joomla\Component\Admin\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -20,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseModel
+class SysInfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -258,7 +258,6 @@ class SysInfoModel extends BaseModel
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
-			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -313,10 +312,10 @@ class SysInfoModel extends BaseModel
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
 			'phpversion'            => phpversion(),
-			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
+			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
 			'sapi_name'             => php_sapi_name(),
 			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;

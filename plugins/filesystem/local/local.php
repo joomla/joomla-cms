@@ -18,7 +18,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
  *
  * The plugin to deal with the local filesystem in Media Manager.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
@@ -26,7 +26,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,7 +37,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return   void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.0.0
 	 */
 	public function onSetupProviders(MediaProviderEvent $event)
 	{
@@ -49,7 +49,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getID()
 	{
@@ -61,11 +61,11 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name');
+		return $this->params->get('display_name', 'Local');
 	}
 
 	/**
@@ -73,7 +73,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 *
 	 * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAdapters()
 	{

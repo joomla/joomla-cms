@@ -26,7 +26,7 @@ class TagsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   3.1
 	 */

@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_contenthistory
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContenthistoryDispatcher extends Dispatcher
 {
@@ -25,14 +25,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Contenthistory';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -46,7 +46,7 @@ class ContenthistoryDispatcher extends Dispatcher
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -65,11 +65,11 @@ class ContenthistoryDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  Controller
+	 * @return  BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
 		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 

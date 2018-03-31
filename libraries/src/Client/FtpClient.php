@@ -11,6 +11,7 @@ namespace Joomla\CMS\Client;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Utility\BufferStreamHandler;
 
 /** Error Codes:
  * - 30 : Unable to connect to host
@@ -153,11 +154,7 @@ class FtpClient
 
 		if (FTP_NATIVE)
 		{
-			// Import the generic buffer stream handler
-			\JLoader::import('joomla.utilities.buffer');
-
-			// Autoloading fails for JBuffer as the class is used as a stream handler
-			\JLoader::load('JBuffer');
+			BufferStreamHandler::stream_register();
 		}
 	}
 

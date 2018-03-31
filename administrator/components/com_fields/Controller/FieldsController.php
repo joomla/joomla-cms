@@ -35,7 +35,7 @@ class FieldsController extends AdminController
 	 * @param   string  $prefix  The prefix for the PHP class name.
 	 * @param   array   $config  Array of configuration parameters.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 *
 	 * @since   3.7.0
 	 */

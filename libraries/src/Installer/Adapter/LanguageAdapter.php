@@ -49,7 +49,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * Flag indicating the uninstall process should not run SQL queries
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $ignoreUninstallQueries = false;
 
@@ -71,7 +71,7 @@ class LanguageAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseInstall()
@@ -84,7 +84,7 @@ class LanguageAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseUninstall(): bool
@@ -172,7 +172,7 @@ class LanguageAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -208,7 +208,7 @@ class LanguageAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{

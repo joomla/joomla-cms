@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * ---------------------
@@ -17,10 +20,10 @@ defined('JPATH_BASE') or die;
 
 ?>
 <label id="batch-tag-lbl" for="batch-tag-id" class="modalTooltip" title="<?php
-echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC'); ?>">
-<?php echo JText::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
+echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC'); ?>">
+<?php echo Text::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>
 </label>
 <select name="batch[tag]" class="custom-select" id="batch-tag-id">
-	<option value=""><?php echo JText::_('JLIB_HTML_BATCH_TAG_NOCHANGE'); ?></option>
-	<?php echo JHtml::_('select.options', JHtml::_('tag.tags', array('filter.published' => array(1))), 'value', 'text'); ?>
+	<option value=""><?php echo Text::_('JLIB_HTML_BATCH_TAG_NOCHANGE'); ?></option>
+	<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.tags', array('filter.published' => array(1))), 'value', 'text'); ?>
 </select>

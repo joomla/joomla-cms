@@ -16,7 +16,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 /**
  * Dispatcher class for com_associations
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AssociationsDispatcher extends Dispatcher
 {
@@ -25,14 +25,14 @@ class AssociationsDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Associations';
 
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 *

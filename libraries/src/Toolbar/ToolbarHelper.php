@@ -651,7 +651,7 @@ abstract class ToolbarHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{

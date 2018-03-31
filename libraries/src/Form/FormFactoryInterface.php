@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface defining a factory which can create Form objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface FormFactoryInterface
 {
@@ -25,7 +25,7 @@ interface FormFactoryInterface
 	 *
 	 * @return  Form
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createForm(string $name, array $options = array()): Form;
 }

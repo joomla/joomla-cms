@@ -12,6 +12,7 @@ namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -45,27 +46,27 @@ class StatsAdminHelper
 		if ($serverinfo)
 		{
 			$rows[$i]        = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_PHP');
+			$rows[$i]->title = Text::_('MOD_STATS_PHP');
 			$rows[$i]->icon  = 'cogs';
 			$rows[$i]->data  = phpversion();
 			$i++;
 
 			$rows[$i]        = new \stdClass;
-			$rows[$i]->title = \JText::_($db->name);
+			$rows[$i]->title = Text::_($db->name);
 			$rows[$i]->icon  = 'database';
 			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
 			$rows[$i]        = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_CACHING');
+			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
 			$rows[$i]->icon  = 'dashboard';
-			$rows[$i]->data  = $app->get('caching') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 
 			$rows[$i]        = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_GZIP');
+			$rows[$i]->title = Text::_('MOD_STATS_GZIP');
 			$rows[$i]->icon  = 'bolt';
-			$rows[$i]->data  = $app->get('gzip') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
+			$rows[$i]->data  = $app->get('gzip') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 		}
 
@@ -100,7 +101,7 @@ class StatsAdminHelper
 			if ($users)
 			{
 				$rows[$i]        = new \stdClass;
-				$rows[$i]->title = \JText::_('MOD_STATS_USERS');
+				$rows[$i]->title = Text::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
 				$i++;
@@ -109,7 +110,7 @@ class StatsAdminHelper
 			if ($items)
 			{
 				$rows[$i]        = new \stdClass;
-				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES');
+				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
 				$i++;
@@ -119,7 +120,6 @@ class StatsAdminHelper
 		// Include additional data defined by published system plugins
 		PluginHelper::importPlugin('system');
 
-		$app    = Factory::getApplication();
 		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
 
 		foreach ($arrays as $response)
@@ -131,7 +131,7 @@ class StatsAdminHelper
 				{
 					$rows[$i]        = new \stdClass;
 					$rows[$i]->title = $row['title'];
-					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
+					$rows[$i]->icon  = $row['icon'] ?? 'info';
 					$rows[$i]->data  = $row['data'];
 					$i++;
 				}

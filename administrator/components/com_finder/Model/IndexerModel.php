@@ -10,13 +10,13 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Indexer model class for Finder.
  *
  * @since  2.5
  */
-class IndexerModel extends BaseModel
+class IndexerModel extends BaseDatabaseModel
 {
 }

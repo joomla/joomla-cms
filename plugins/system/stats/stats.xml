@@ -36,7 +36,7 @@
 
 				<field
 					name="interval"
-					type="text"
+					type="number"
 					label="PLG_SYSTEM_STATS_INTERVAL_LABEL"
 					filter="integer"
 					default="12"
@@ -47,7 +47,7 @@
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
-				>
+					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>
 					<option value="3">PLG_SYSTEM_STATS_MODE_OPTION_NEVER_SEND</option>

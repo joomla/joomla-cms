@@ -14,6 +14,8 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Multilanguage;
+
 
 /**
  * Content Component Article Model
@@ -188,6 +190,11 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			$data['associations'] = $associations;
 		}
 
+		if (!Multilanguage::isEnabled())
+		{
+			$data['language'] = '*';
+		}
+
 		return parent::save($data);
 	}
 
@@ -212,6 +219,12 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			$form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
+		if (!Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'hidden');
+			$form->setFieldAttribute('language', 'default', '*');
+		}
+
 		return parent::preprocessForm($form, $data, $group);
 	}
 
@@ -224,7 +237,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())

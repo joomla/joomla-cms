@@ -24,7 +24,7 @@ $userFieldGroups    = array();
 	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups))) : ?>
 		<?php continue; ?>
 	<?php endif; ?>
-	<?php if (!key_exists($field->group_title, $userFieldGroups)) : ?>
+	<?php if (!array_key_exists($field->group_title, $userFieldGroups)) : ?>
 		<?php $userFieldGroups[$field->group_title] = array(); ?>
 	<?php endif; ?>
 	<?php $userFieldGroups[$field->group_title][] = $field; ?>
@@ -47,7 +47,10 @@ $userFieldGroups    = array();
 				<?php continue; ?>
 			<?php endif; ?>
 
-			<?php echo '<dt>' . $field->label . '</dt>'; ?>
+			<?php if ($field->params->get('showlabel')) : ?>
+				<?php echo '<dt>' . JText::_($field->label) . '</dt>'; ?>
+			<?php endif; ?>
+
 			<?php echo '<dd>' . $field->value . '</dd>'; ?>
 		<?php endforeach; ?>
 		</dl>

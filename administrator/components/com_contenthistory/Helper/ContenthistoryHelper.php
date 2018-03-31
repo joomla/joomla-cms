@@ -311,8 +311,8 @@ class ContenthistoryHelper
 		{
 			$result->$name = new \stdClass;
 			$result->$name->name = $name;
-			$result->$name->value = isset($valuesArray[$name]) ? $valuesArray[$name] : $value;
-			$result->$name->label = isset($labelsArray[$name]) ? $labelsArray[$name] : $name;
+			$result->$name->value = $valuesArray[$name] ?? $value;
+			$result->$name->label = $labelsArray[$name] ?? $name;
 
 			if (is_object($value))
 			{
@@ -322,8 +322,8 @@ class ContenthistoryHelper
 				{
 					$subObject->$subName = new \stdClass;
 					$subObject->$subName->name = $subName;
-					$subObject->$subName->value = isset($valuesArray[$subName]) ? $valuesArray[$subName] : $subValue;
-					$subObject->$subName->label = isset($labelsArray[$subName]) ? $labelsArray[$subName] : $subName;
+					$subObject->$subName->value = $valuesArray[$subName] ?? $subValue;
+					$subObject->$subName->label = $labelsArray[$subName] ?? $subName;
 					$result->$name->value = $subObject;
 				}
 			}
@@ -373,8 +373,8 @@ class ContenthistoryHelper
 			{
 				foreach ($options->displayLookup as $lookup)
 				{
-					$sourceColumn = isset($lookup->sourceColumn) ? $lookup->sourceColumn : false;
-					$sourceValue = isset($object->$sourceColumn->value) ? $object->$sourceColumn->value : false;
+					$sourceColumn = $lookup->sourceColumn ?? false;
+					$sourceValue = $object->$sourceColumn->value ?? false;
 
 					if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue)))
 					{

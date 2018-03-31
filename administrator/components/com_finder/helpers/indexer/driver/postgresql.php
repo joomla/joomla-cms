@@ -51,7 +51,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		// Get the signatures of the item.
 		$curSig = static::getSignature($item);
-		$oldSig = isset($link->md5sum) ? $link->md5sum : null;
+		$oldSig = $link->md5sum ?? null;
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;

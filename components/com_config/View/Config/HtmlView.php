@@ -12,7 +12,7 @@ namespace Joomla\Component\Config\Site\View\Config;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Administrator\Controller\Request;
+use Joomla\Component\Config\Administrator\Controller\RequestController;
 
 /**
  * View for the global configuration
@@ -24,7 +24,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object
 	 *
-	 * @var   JForm
+	 * @var   \JForm
 	 * @since 3.2
 	 */
 	public $form;
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		// Access backend com_config
-		$requestController = new Request;
+		$requestController = new RequestController;
 
 		// Execute backend controller
 		$serviceData = json_decode($requestController->getJson(), true);

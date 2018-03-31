@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla Platform CMS Dispatcher Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface DispatcherInterface
 {
@@ -23,7 +23,7 @@ interface DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch();
 }

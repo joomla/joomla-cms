@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FEED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Feed</namespace>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
 		<folder>tmpl</folder>
@@ -130,7 +131,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

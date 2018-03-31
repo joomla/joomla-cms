@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,7 @@ class Database implements ServiceProviderInterface
 				DatabaseInterface::class,
 			function (Container $container)
 			{
-				$conf = \JFactory::getConfig();
+				$conf = $container->get('config');
 
 				$dbtype = $conf->get('dbtype');
 

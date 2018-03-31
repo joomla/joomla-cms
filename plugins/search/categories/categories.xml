@@ -22,7 +22,7 @@
 			<fieldset name="basic">
 				<field
 					name="search_limit"
-					type="text"
+					type="number"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					default="50"
 					size="5"

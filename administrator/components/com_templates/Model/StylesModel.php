@@ -27,7 +27,7 @@ class StylesModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -178,7 +178,8 @@ class StylesModel extends ListModel
 					$db->quoteName('a.home') . ' IN (' . $menuItemLanguageSubQuery . ') OR ' .
 					// Custom template styles override (only if assigned to the selected menu item).
 					'(' . $db->quoteName('a.home') . ' = ' . $db->quote(0) . ' AND ' . $menuItemId . ' IN (' . $templateStylesMenuItemsSubQuery . '))' .
-				')');
+					')'
+				);
 			}
 		}
 

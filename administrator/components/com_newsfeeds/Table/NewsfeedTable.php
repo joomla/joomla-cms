@@ -62,6 +62,7 @@ class NewsfeedTable extends Table
 		if (trim($this->name) == '')
 		{
 			$this->setError(\JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -172,7 +173,7 @@ class NewsfeedTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('Newsfeed', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\');
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

@@ -31,7 +31,7 @@ class ExceptionHandler
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function handleUserDeprecatedErrors(int $errorNumber, string $errorMessage, string $errorFile, int $errorLine): bool
 	{
@@ -165,7 +165,7 @@ class ExceptionHandler
 			header('HTTP/1.1 500 Internal Server Error');
 		}
 
-		$message = 'Error displaying the error page';
+		$message = 'Error';
 
 		// Make sure we do not display sensitive data in production environments
 		if (ini_get('display_errors'))

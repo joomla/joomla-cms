@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractEvent;
 /**
  * Event object for retrieving pluggable quick icons
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class QuickIconsEvent extends AbstractEvent
 {
@@ -24,7 +24,7 @@ class QuickIconsEvent extends AbstractEvent
 	 * The event context
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $context;
 
@@ -33,7 +33,7 @@ class QuickIconsEvent extends AbstractEvent
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContext()
 	{
@@ -47,7 +47,7 @@ class QuickIconsEvent extends AbstractEvent
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setContext($context)
 	{

@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * File Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FileModel extends FormModel
 {
@@ -29,7 +29,7 @@ class FileModel extends FormModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -54,7 +54,7 @@ class FileModel extends FormModel
 	 *
 	 * @return  \stdClass  A object with file information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @see     ApiModel::getFile()
 	 */
 	public function getFileInformation($path)

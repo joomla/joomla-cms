@@ -14,7 +14,7 @@ use Joomla\CMS\Dispatcher\Dispatcher;
 /**
  * Dispatcher class for com_tags
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TagsDispatcher extends Dispatcher
 {
@@ -23,7 +23,7 @@ class TagsDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Tags';
 }

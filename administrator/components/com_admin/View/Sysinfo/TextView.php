@@ -8,10 +8,10 @@
  */
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
-use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\View\AbstractView;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * Sysinfo View class for the Admin component

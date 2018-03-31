@@ -16,7 +16,7 @@ use Joomla\DI\ContainerAwareTrait;
 /**
  * Default factory for creating toolbar objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, ContainerAwareInterface
 {
@@ -78,7 +78,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  Toolbar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createToolbar(string $name = 'toolbar'): Toolbar
 	{
@@ -92,7 +92,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function loadButtonClass(string $type)
 	{

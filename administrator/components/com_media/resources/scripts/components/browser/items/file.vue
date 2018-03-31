@@ -21,6 +21,11 @@
                       @click.stop="showActions = true"></span>
             </a>
             <div class="media-browser-actions-list">
+                <a href="#" class="action-download"
+                   :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')">
+                    <span class="image-browser-action fa fa-download" aria-hidden="true"
+                          @click.stop="download()"></span>
+                </a>
                 <a href="#" class="action-rename"
                   :aria-label="translate('COM_MEDIA_ACTIN_RENAME')">
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
@@ -47,6 +52,10 @@
         },
         props: ['item'],
         methods: {
+	        /* Preview an item */
+	        download() {
+		        this.$store.dispatch('download', this.item);
+	        },
             /* Delete an item */
             deleteItem() {
                 this.$store.dispatch('deleteItem', this.item);

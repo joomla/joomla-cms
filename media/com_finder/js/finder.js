@@ -56,7 +56,7 @@ Joomla = window.Joomla || {};
 		for (var i = 0; i < forms.length; i++) {
 			forms[i].addEventListener('submit', function(event) {
 				event.stopPropagation();
-				var advanced = forms[i].querySelector('.js-finder-advanced');
+				var advanced = event.target.querySelector('.js-finder-advanced');
 
 				// Disable select boxes with no value selected.
 				if (advanced.length) {

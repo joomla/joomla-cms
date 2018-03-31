@@ -181,8 +181,15 @@ class FormHelper
 			$name = Normalise::toSpaceSeparated($type);
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
+			$subPrefix = '';
+			if (strpos($name, '.'))
+			{
+				list($subPrefix, $name) = explode('.', $name);
+				$subPrefix = ucfirst($subPrefix) . '\\';
+			}
+
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
+			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))
@@ -449,7 +456,20 @@ class FormHelper
 
 		if ($group)
 		{
-			$formPath .= $formPath ? '[' . $group . ']' : $group;
+			$groups = explode('.', $group);
+
+			// An empty formControl leads to invalid shown property
+			// Use the 1st part of the group instead to avoid.
+			if (empty($formPath) && isset($groups[0]))
+			{
+				$formPath = $groups[0];
+				array_shift($groups);
+			}
+
+			foreach ($groups as $group)
+			{
+				$formPath .= '[' . $group . ']';
+			}
 		}
 
 		$showOnData  = array();

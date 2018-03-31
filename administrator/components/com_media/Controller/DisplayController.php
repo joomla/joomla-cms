@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Media Manager Component Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DisplayController extends BaseController
 {

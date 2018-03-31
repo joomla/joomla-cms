@@ -15,8 +15,8 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Html
-	|| $data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\Html)
+if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView
+	|| $data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView)
 {
 	// Client selector doesn't have to activate the filter bar.
 	unset($data['view']->activeFilters['client_id']);
@@ -27,12 +27,12 @@ if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Ht
 
 // Set some basic options
 $customOptions = array(
-	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
-	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
+	'filtersHidden'       => $data['options']['filtersHidden'] ?? empty($data['view']->activeFilters),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
-	'totalResults'        => isset($data['options']['totalResults']) ? $data['options']['totalResults'] : -1,
-	'noResultsText'       => isset($data['options']['noResultsText']) ? $data['options']['noResultsText'] : JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
+	'totalResults'        => $data['options']['totalResults'] ?? -1,
+	'noResultsText'       => $data['options']['noResultsText'] ?? JText::_('JGLOBAL_NO_MATCHING_RESULTS'),
 );
 
 $data['options'] = array_merge($customOptions, $data['options']);
@@ -47,7 +47,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 <div class="js-stools clearfix">
 	<div class="clearfix">
         <?php
-        if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\Html)
+        if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView)
         {
 	        // We will get the menutype filter & remove it from the form filters
 	        $menuTypeField = $data['view']->filterForm->getField('menutype');
@@ -69,7 +69,7 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
             </div>
 	        <?php
         }
-        elseif ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\Html)
+        elseif ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView)
         {
 	        // Add the client selector before the form filters.
 	        $clientIdField = $data['view']->filterForm->getField('client_id');

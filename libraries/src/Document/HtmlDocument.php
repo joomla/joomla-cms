@@ -281,7 +281,7 @@ class HtmlDocument extends Document
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
 			? $this->description . $data['description']
 			: $this->description;
-		$this->link = (isset($data['link'])) ? $data['link'] : $this->link;
+		$this->link = $data['link'] ?? $this->link;
 
 		if (isset($data['metaTags']))
 		{

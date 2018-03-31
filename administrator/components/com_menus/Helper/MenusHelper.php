@@ -157,7 +157,8 @@ class MenusHelper
 					  a.template_style_id,
 					  a.checked_out,
 					  a.language,
-					  a.lft')
+					  a.lft'
+			)
 			->from('#__menu AS a');
 
 		$query->select('e.name as componentname, e.element')
@@ -426,6 +427,8 @@ class MenusHelper
 			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
 		}
 
+		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
+
 		foreach ($items as &$item)
 		{
 			/** @var  \JTableMenu  $table */
@@ -453,6 +456,20 @@ class MenusHelper
 			}
 			elseif ($item->type == 'url' || $item->type == 'component')
 			{
+				if (substr($item->link, 0, 8) === 'special:')
+				{
+					$special = substr($item->link, 8);
+
+					if ($special === 'language-forum')
+					{
+						$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+					}
+					elseif ($special === 'custom-forum')
+					{
+						$item->link = '';
+					}
+				}
+
 				// Try to match an existing record to have minimum collision for a link
 				$keys  = array(
 					'menutype'  => $menutype,

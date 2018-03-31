@@ -41,6 +41,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 
 		JFactory::$application = $app;
 		JFactory::$session = $this->getMockSession();
@@ -65,13 +66,13 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
 

@@ -1,6 +1,8 @@
 import {api} from "../app/Api";
 import * as types from "./mutation-types";
+import translate from "../plugins/translate";
 import {notifications} from "../app/Notifications";
+import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -66,6 +68,41 @@ export const getFullContents = (context, payload) => {
 }
 
 /**
+ * Download a file
+ * @param context
+ * @param payload
+ */
+export const download = (context, payload) => {
+    api.getContents(payload.path, 0, 1)
+        .then(contents => {
+            var file = contents.files[0];
+
+            // Converte the base 64 encoded string to a blob
+	        var byteCharacters = atob(file.content);
+	        var byteArrays = [];
+
+	        for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+		        var slice = byteCharacters.slice(offset, offset + 512);
+
+		        var byteNumbers = new Array(slice.length);
+		        for (var i = 0; i < slice.length; i++) {
+			        byteNumbers[i] = slice.charCodeAt(i);
+		        }
+
+		        var byteArray = new Uint8Array(byteNumbers);
+
+		        byteArrays.push(byteArray);
+	        }
+
+	        // Open the save as file dialog
+	        FileSaver.saveAs(new Blob(byteArrays, {type: file.mime_type}), file.name);
+        })
+        .catch(error => {
+            console.log("error", error);
+        });
+}
+
+/**
  * Toggle the selection state of an item
  * @param commit
  * @param payload
@@ -117,7 +154,7 @@ export const uploadFile = (context, payload) => {
 
             // Handle file exists
             if (error.status === 409) {
-                if (notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {})) {
+                if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
                     payload.override = true;
                     uploadFile(context, payload);
                 }

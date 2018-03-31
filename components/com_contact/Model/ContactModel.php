@@ -15,7 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Component\Users\Administrator\Model\UserModel;
@@ -62,7 +62,7 @@ class ContactModel extends FormModel
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		$this->setState('contact.id', $app->input->getInt('id'));
 		$this->setState('params', $app->getParams());
@@ -395,7 +395,7 @@ class ContactModel extends FormModel
 	*
 	* @return  string
 	*
-	* @since   __DEPLOY_VERSION__
+	* @since   4.0.0
 	*/
 	private function getSlugColumn($query, $id, $alias)
 	{

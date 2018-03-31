@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Service registry for JHtml services
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class Registry
 {
@@ -23,7 +23,7 @@ final class Registry
 	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $coreServiceMap = [
 		'access'          => \JHtmlAccess::class,
@@ -63,7 +63,7 @@ final class Registry
 	 * Array holding the registered services
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $serviceMap = [];
 
@@ -74,7 +74,7 @@ final class Registry
 	 *
 	 * @return  string|object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getService(string $key)
 	{
@@ -93,7 +93,7 @@ final class Registry
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function hasService(string $key): bool
 	{
@@ -109,7 +109,7 @@ final class Registry
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(string $key, $handler, bool $replace = false)
 	{

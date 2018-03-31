@@ -82,7 +82,7 @@ class CalendarField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -112,7 +112,7 @@ class CalendarField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -223,7 +223,7 @@ class CalendarField extends FormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($config->get('offset')));
+					$date->setTimezone(new \DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

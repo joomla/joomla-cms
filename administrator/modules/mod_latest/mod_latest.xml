@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LATEST_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Latest</namespace>
 	<files>
 		<filename module="mod_latest">mod_latest.php</filename>
 		<filename>helper.php</filename>
@@ -24,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
 					default="5"
 				/>

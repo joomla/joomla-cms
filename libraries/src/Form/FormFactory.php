@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Default factory for creating Form objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FormFactory implements FormFactoryInterface
 {
@@ -25,7 +25,7 @@ class FormFactory implements FormFactoryInterface
 	 *
 	 * @return  Form
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createForm(string $name, array $options = array()): Form
 	{

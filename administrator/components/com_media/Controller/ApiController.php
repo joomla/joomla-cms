@@ -19,6 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
+use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 
 \JLoader::import('joomla.filesystem.file');
 
@@ -27,7 +28,7 @@ use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
  *
  * This is NO public api controller, it is internal for the com_media component only!
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiController extends BaseController
 {
@@ -38,7 +39,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  mixed   The value returned by the called method.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function execute($task)
@@ -78,6 +79,10 @@ class ApiController extends BaseController
 		catch (FileExistsException $e)
 		{
 			$this->sendResponse($e, 409);
+		}
+		catch (InvalidPathException $e)
+		{
+			$this->sendResponse($e, 400);
 		}
 		catch (\Exception $e)
 		{
@@ -122,7 +127,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getFiles()
@@ -133,6 +138,7 @@ class ApiController extends BaseController
 		$options['temp'] = $this->input->getBool('temp', false);
 		$options['search'] = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
+		$options['content'] = $this->input->getBool('content', false);
 
 		return $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
 	}
@@ -151,7 +157,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function deleteFiles()
@@ -182,7 +188,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function postFiles()
@@ -194,19 +200,17 @@ class ApiController extends BaseController
 		$mediaContent = base64_decode($content->get('content', '', 'raw'));
 		$override     = $content->get('override', false);
 
-		$name = $this->getSafeName($name);
-
 		if ($mediaContent)
 		{
-			$this->checkContent($name, $mediaContent);
+			$this->checkContent();
 
 			// A file needs to be created
-			$this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
+			$name = $this->getModel()->createFile($adapter, $name, $path, $mediaContent, $override);
 		}
 		else
 		{
 			// A file needs to be created
-			$this->getModel()->createFolder($adapter, $name, $path, $override);
+			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
 		return $this->getModel()->getFile($adapter, $path . '/' . $name);
@@ -250,7 +254,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  array  The data to send with the response
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function putFiles()
@@ -266,7 +270,7 @@ class ApiController extends BaseController
 
 		if ($mediaContent != null)
 		{
-			$this->checkContent($name, $mediaContent);
+			$this->checkContent();
 
 			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 		}
@@ -277,11 +281,11 @@ class ApiController extends BaseController
 
 			if ($move)
 			{
-				$this->getModel()->move($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, true);
 			}
 			else
 			{
-				$this->getModel()->copy($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->copy($adapter, $path, $destinationPath, true);
 			}
 
 			$path = $destinationPath;
@@ -300,7 +304,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function sendResponse($data = null, $responseCode = 200)
 	{
@@ -325,7 +329,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  Model|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
 	{
@@ -333,17 +337,14 @@ class ApiController extends BaseController
 	}
 
 	/**
-	 * Performs various check if it is allowed to save the content with the given name.
-	 *
-	 * @param   string  $name          The filename
-	 * @param   string  $mediaContent  The media content
+	 * Performs various checks if it is allowed to save the content.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function checkContent($name, $mediaContent)
+	private function checkContent()
 	{
 		if (!Factory::getUser()->authorise('core.create', 'com_media'))
 		{
@@ -352,7 +353,7 @@ class ApiController extends BaseController
 
 		$params = ComponentHelper::getParams('com_media');
 
-		$helper = new MediaHelper;
+		$helper       = new MediaHelper;
 		$serverlength = $this->input->server->get('CONTENT_LENGTH');
 
 		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
@@ -362,81 +363,44 @@ class ApiController extends BaseController
 		{
 			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}
-
-		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = $this->app->getConfig()->get('tmp_path') . '/' . uniqid() . $name;
-
-		if (!\JFile::write($tmpFile, $mediaContent))
-		{
-			throw new \Exception(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
-		}
-
-		$name = $this->getSafeName($name);
-		if (!$helper->canUpload(array('name' => $name, 'size' => count($mediaContent), 'tmp_name' => $tmpFile), 'com_media'))
-		{
-			\JFile::delete($tmpFile);
-
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
-		}
-
-		\JFile::delete($tmpFile);
 	}
 
 	/**
-	 * Creates a safe file name for the given name.
-	 *
-	 * @param   string  $name  The filename
+	 * Get the Adapter.
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	private function getSafeName($name)
-	{
-		// Make the filename safe
-		$name = \JFile::makeSafe($name);
-
-		// Transform filename to punycode
-		$name = \JStringPunycode::toPunycode($name);
-
-		$extension = \JFile::getExt($name);
-
-		if ($extension)
-		{
-			$extension = '.' . strtolower($extension);
-		}
-
-		// Transform filename to punycode, then neglect other than non-alphanumeric characters & underscores.
-		// Also transform extension to lowercase.
-		$nameWithoutExtension = substr($name, 0, strlen($name) - strlen($extension));
-		$name = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_]/'), array('_', ''), $nameWithoutExtension) . $extension;
-
-		return $name;
-	}
-
-	/**
-	 * Get the Adapter
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAdapter()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[0];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 1)
+		{
+			return null;
+		}
+
+		return $parts[0];
 	}
 
 	/**
-	 * Get the Path
+	 * Get the Path.
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getPath()
 	{
-		return explode(':', $this->input->getString('path', ''), 2)[1];
+		$parts = explode(':', $this->input->getString('path', ''), 2);
+
+		if (count($parts) < 2)
+		{
+			return null;
+		}
+
+		return $parts[1];
 	}
 
 }

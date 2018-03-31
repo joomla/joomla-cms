@@ -324,44 +324,44 @@ class JAccessTest extends TestCaseDatabase
 			array(
 				'<access component="com_banners">
 	<section name="component">
-		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
-		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
-		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="core.admin" title="JACTION_ADMIN" />
+		<action name="core.manage" title="JACTION_MANAGE" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 	<section name="category">
-		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 </access>',
 				"/access/section[@name='component']/",
 				array(
-					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
-					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
-					(object) array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
-					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
-					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
-					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")),
+					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN"),
+					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE"),
+					(object) array('name' => "core.create", 'title' => "JACTION_CREATE"),
+					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE"),
+					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT"),
+					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE")),
 				'Unable to get actions from the component section.'),
 			array(
 				'<access component="com_banners">
 	<section name="component">
-		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
-		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
-		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="core.admin" title="JACTION_ADMIN" />
+		<action name="core.manage" title="JACTION_MANAGE" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 	<section name="category">
-		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 </access>',
 				"/access/section[@name='unexisting']/",
@@ -394,7 +394,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
-		$this->assertThat(\Joomla\CMS\Access\Access::getActionsFromData($data, $xpath), $this->equalTo($expected), 'Line:' . __LINE__ . $msg);
+		$this->assertEquals($expected, \Joomla\CMS\Access\Access::getActionsFromData($data, $xpath), 'Line:' . __LINE__ . $msg);
 	}
 
 	/**
@@ -416,18 +416,18 @@ class JAccessTest extends TestCaseDatabase
 			$this->outputPath . '/access.xml',
 			'<access component="com_banners">
 	<section name="component">
-		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
-		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
-		<action name="core.create" title="JACTION_CREATE" description="JACTION_CREATE_COMPONENT_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="core.admin" title="JACTION_ADMIN" />
+		<action name="core.manage" title="JACTION_MANAGE" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 	<section name="category">
-		<action name="core.create" title="JACTION_CREATE" description="COM_CATEGORIES_ACCESS_CREATE_DESC" />
-		<action name="core.delete" title="JACTION_DELETE" description="COM_CATEGORIES_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="JACTION_EDIT" description="COM_CATEGORIES_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CATEGORIES_ACCESS_EDITSTATE_DESC" />
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 </access>'
 		);
@@ -436,12 +436,12 @@ class JAccessTest extends TestCaseDatabase
 			\Joomla\CMS\Access\Access::getActionsFromFile($this->outputPath . '/access.xml'),
 			$this->equalTo(
 				array(
-					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN", 'description' => "JACTION_ADMIN_COMPONENT_DESC"),
-					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE", 'description' => "JACTION_MANAGE_COMPONENT_DESC"),
-					(object) array('name' => "core.create", 'title' => "JACTION_CREATE", 'description' => "JACTION_CREATE_COMPONENT_DESC"),
-					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE", 'description' => "JACTION_DELETE_COMPONENT_DESC"),
-					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT", 'description' => "JACTION_EDIT_COMPONENT_DESC"),
-					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE", 'description' => "JACTION_EDITSTATE_COMPONENT_DESC")
+					(object) array('name' => "core.admin", 'title' => "JACTION_ADMIN"),
+					(object) array('name' => "core.manage", 'title' => "JACTION_MANAGE"),
+					(object) array('name' => "core.create", 'title' => "JACTION_CREATE"),
+					(object) array('name' => "core.delete", 'title' => "JACTION_DELETE"),
+					(object) array('name' => "core.edit", 'title' => "JACTION_EDIT"),
+					(object) array('name' => "core.edit.state", 'title' => "JACTION_EDITSTATE")
 				)
 			),
 			'Line:' . __LINE__ . ' Getting actions from an xml file must return correct array.'
@@ -451,13 +451,13 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
 		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');

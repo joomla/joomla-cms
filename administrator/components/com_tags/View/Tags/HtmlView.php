@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 	 * Array used for displaying the levels filter
 	 *
 	 * @return  \stdClass[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $f_levels;
 
@@ -114,6 +114,13 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
+
+			// We do not need to filter by language when multilingual is disabled
+			if (!\JLanguageMultilang::isEnabled())
+			{
+				unset($this->activeFilters['language']);
+				$this->filterForm->removeField('language', 'filter');
+			}
 		}
 
 		parent::display($tpl);

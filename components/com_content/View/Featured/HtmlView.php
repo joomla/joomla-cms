@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 
 /**
  * Frontpage View class
@@ -88,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params = null;
 
@@ -195,7 +196,7 @@ class HtmlView extends BaseHtmlView
 		if ($order == 0 && $this->columns > 1)
 		{
 			// Call order down helper
-			$this->intro_items = \ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.

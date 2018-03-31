@@ -537,12 +537,12 @@ final class SiteApplication extends CMSApplication
 		{
 			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
-			// Try to find data for 'aurora' template
+			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template === 'aurora')
+				if ($tmpl->template === 'cassiopeia')
 				{
 					$template = $tmpl;
 					break;

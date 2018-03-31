@@ -28,7 +28,7 @@ class NewsfeedsModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see    \Joomla\CMS\MVC\Model\BaseModel
+	 * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -57,7 +57,8 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc =  Associations::isEnabled();
+			$assoc = Associations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -286,6 +287,7 @@ class NewsfeedsModel extends ListModel
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

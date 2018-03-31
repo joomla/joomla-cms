@@ -368,6 +368,11 @@ class MenuHelper
 		$item->scope      = (string) $node['scope'] ?: 'default';
 		$item->submenu    = array();
 
+		if ($item->type == 'separator' && trim($item->title, '- '))
+		{
+			$item->params->set('text_separator', 1);
+		}
+
 		// Translate attributes for iterator values
 		foreach ($replace as $var => $val)
 		{

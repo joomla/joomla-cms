@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+
 $id = '';
 
 if ($tagId = $params->get('tag_id', ''))
@@ -73,11 +75,11 @@ if ($tagId = $params->get('tag_id', ''))
 		case 'component':
 		case 'heading':
 		case 'url':
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
+			require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
 			break;
 
 		default:
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_url');
+			require ModuleHelper::getLayoutPath('mod_menu', 'default_url');
 			break;
 	endswitch;
 

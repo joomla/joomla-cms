@@ -3,11 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 $button = $displayData;
 
@@ -19,7 +23,7 @@ if (!$button->get('modal'))
 $class    = ($button->get('class')) ? $button->get('class') : null;
 $class   .= ($button->get('modal')) ? ' modal-button' : null;
 $href     = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
-$link     = ($button->get('link')) ? JUri::base() . $button->get('link') : null;
+$link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 $options  = is_array($button->get('options')) ? $button->get('options') : array();
@@ -31,10 +35,19 @@ if (is_array($button->get('options')) && isset($options['confirmText']) && isset
 	$confirm = '<a class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="' . $options['confirmCallback'] . '">'
 		. $options['confirmText'] . '</a>';
 }
+
+if (null !== $button->get('text'))
+{
+	$id = str_replace(' ', '', $button->get('id'));
+}
+else
+{
+	$id = str_replace(' ', '', $button->get('text')) . 'Modal';
+}
 // Create the modal
-echo JHtml::_(
+echo HTMLHelper::_(
 	'bootstrap.renderModal',
-	str_replace(' ', '', $button->get('text')) . 'Modal',
+	$id,
 	array(
 		'url'    => $link,
 		'title'  => $title,
@@ -43,6 +56,6 @@ echo JHtml::_(
 		'bodyHeight'  => array_key_exists('wibodyHeightdth', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
 		'footer' => $confirm . '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );

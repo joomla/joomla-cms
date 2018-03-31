@@ -1073,7 +1073,7 @@ class Access
 		$user      = \JUser::getInstance($userId);
 		$root_user = \JFactory::getConfig()->get('root_user');
 
-		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
+		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
 			// Find the super user levels.
 			foreach (self::$viewLevels as $level => $rule)
@@ -1214,19 +1214,25 @@ class Access
 		$actions = array();
 
 		// Get the elements from the xpath
-		$elements = $data->xpath($xpath . 'action[@name][@title][@description]');
+		$elements = $data->xpath($xpath . 'action[@name][@title]');
 
 		// If there some elements, analyse them
 		if (!empty($elements))
 		{
-			foreach ($elements as $action)
+			foreach ($elements as $element)
 			{
 				// Add the action to the actions array
-				$actions[] = (object) array(
-					'name' => (string) $action['name'],
-					'title' => (string) $action['title'],
-					'description' => (string) $action['description'],
+				$action = array(
+					'name' => (string) $element['name'],
+					'title' => (string) $element['title'],
 				);
+
+				if (isset($element['description']))
+				{
+					$action['description'] = (string) $element['description'];
+				}
+
+				$actions[] = (object) $action;
 			}
 		}
 

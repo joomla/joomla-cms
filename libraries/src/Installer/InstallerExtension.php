@@ -88,7 +88,7 @@ class InstallerExtension extends \JObject
 	 * The namespace of the extension
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $namespace = null;
 

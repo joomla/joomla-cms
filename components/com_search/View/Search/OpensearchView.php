@@ -11,7 +11,7 @@ namespace Joomla\Component\Search\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\View\AbstractView;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * OpenSearch View class for the Search component

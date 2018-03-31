@@ -148,7 +148,7 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function finaliseUninstall(): bool
@@ -237,7 +237,7 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -326,7 +326,7 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{

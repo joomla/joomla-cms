@@ -17,7 +17,7 @@ use Psr\Link\EvolvableLinkProviderInterface;
 /**
  * Joomla! Preload Manager
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PreloadManager implements PreloadManagerInterface
 {
@@ -25,7 +25,7 @@ class PreloadManager implements PreloadManagerInterface
 	 * The link provider
 	 *
 	 * @var    EvolvableLinkProviderInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $linkProvider;
 
@@ -34,7 +34,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @param   EvolvableLinkProviderInterface  $linkProvider  The link provider
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(EvolvableLinkProviderInterface $linkProvider = null)
 	{
@@ -46,7 +46,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  EvolvableLinkProviderInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLinkProvider(): EvolvableLinkProviderInterface
 	{
@@ -60,7 +60,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setLinkProvider(EvolvableLinkProviderInterface $linkProvider)
 	{
@@ -77,7 +77,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preload(string $uri, array $attributes = [])
 	{
@@ -92,7 +92,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dnsPrefetch(string $uri, array $attributes = [])
 	{
@@ -107,7 +107,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preconnect(string $uri, array $attributes = [])
 	{
@@ -122,7 +122,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prefetch(string $uri, array $attributes = [])
 	{
@@ -137,7 +137,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prerender(string $uri, array $attributes = [])
 	{
@@ -153,7 +153,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function link(string $uri, string $rel, array $attributes = [])
 	{

@@ -15,7 +15,7 @@ use Psr\Link\EvolvableLinkProviderInterface;
 /**
  * Joomla! Preload Manager Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface PreloadManagerInterface
 {
@@ -24,7 +24,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  EvolvableLinkProviderInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLinkProvider(): EvolvableLinkProviderInterface;
 
@@ -35,7 +35,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setLinkProvider(EvolvableLinkProviderInterface $linkProvider);
 
@@ -47,7 +47,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preload(string $uri, array $attributes = []);
 
@@ -59,7 +59,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dnsPrefetch(string $uri, array $attributes = []);
 
@@ -71,7 +71,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preconnect(string $uri, array $attributes = []);
 
@@ -83,7 +83,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prefetch(string $uri, array $attributes = []);
 
@@ -95,7 +95,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prerender(string $uri, array $attributes = []);
 }

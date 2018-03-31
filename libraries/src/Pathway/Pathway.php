@@ -23,7 +23,7 @@ class Pathway
 	 * Array to hold the pathway item objects
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pathway = array();
 
@@ -31,7 +31,7 @@ class Pathway
 	 * Integer number of items in the pathway
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $count = 0;
 
@@ -46,35 +46,27 @@ class Pathway
 	/**
 	 * Returns a Pathway object
 	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
+	 * @param   string  $client  The name of the client
 	 *
 	 * @return  Pathway  A Pathway object.
 	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
+	 * @since       1.5
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Get the instance from the application, eg. $application->getPathway()
 	 */
-	public static function getInstance($client, $options = array())
+	public static function getInstance($client)
 	{
 		if (empty(self::$instances[$client]))
 		{
 			// Create a Pathway object
-			$classname = 'JPathway' . ucfirst($client);
+			$name = ucfirst($client) . 'Pathway';
 
-			if (!class_exists($classname))
+			if (!\JFactory::getContainer()->has($name))
 			{
 				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $client), 500);
 			}
 
-			// Check for a possible service from the container otherwise manually instantiate the class
-			if (\JFactory::getContainer()->has($classname))
-			{
-				self::$instances[$client] = \JFactory::getContainer()->get($classname);
-			}
-			else
-			{
-				self::$instances[$client] = new $classname($options);
-			}
+			self::$instances[$client] = \JFactory::getContainer()->get($name);
 		}
 
 		return self::$instances[$client];

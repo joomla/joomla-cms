@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ListModel extends BaseModel
+class ListModel extends BaseDatabaseModel
 {
 	/**
 	 * Internal memory based cache array of data.
@@ -688,7 +688,7 @@ class ListModel extends BaseModel
 		$app       = \JFactory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
-		$cur_state = $old_state !== null ? $old_state : $default;
+		$cur_state = $old_state ?? $default;
 		$new_state = $input->get($request, null, $type);
 
 		// BC for Search Tools which uses different naming

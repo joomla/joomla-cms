@@ -21,7 +21,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 /**
  * View to edit an file.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -33,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($tpl = null)
 	{
@@ -48,7 +48,7 @@ class HtmlView extends BaseHtmlView
 		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
 		// At the moment we only support local files to edit
-		if (strpos($this->file->adapter, 'local-') !== 0)
+		if (empty($this->file->localpath))
 		{
 			// @todo error handling controller redirect files
 			throw new \Exception('Image file is not locally');
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function addToolbar()
 	{

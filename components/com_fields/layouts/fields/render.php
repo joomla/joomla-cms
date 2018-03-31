@@ -48,16 +48,17 @@ if (!$fields)
 {
 	return;
 }
+
 ?>
 <dl class="fields-container">
-<?php foreach ($fields as $field) : ?>
-	<?php // If the value is empty do nothing
-	if (!isset($field->value) or $field->value == '') :
-		continue;
-	endif; ?>
-	<?php $class = $field->params->get('render_class'); ?>
-	<dd class="field-entry <?php echo $class; ?>">
-		<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
-	</dd>
-<?php endforeach; ?>
+	<?php foreach ($fields as $field) : ?>
+		<?php // If the value is empty do nothing ?>
+		<?php if (!isset($field->value) || $field->value == '') : ?>
+			<?php continue; ?>
+		<?php endif; ?>
+		<?php $class = $field->params->get('render_class'); ?>
+		<dd class="field-entry <?php echo $class; ?>">
+			<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
+		</dd>
+	<?php endforeach; ?>
 </dl>

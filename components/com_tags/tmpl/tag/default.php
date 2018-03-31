@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $isSingleTag = count($this->item) === 1;
+
 ?>
 
-<div class="tag-category<?php echo $this->pageclass_sfx; ?>">
+<div class="tag-category">
 
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
@@ -45,13 +46,12 @@ $isSingleTag = count($this->item) === 1;
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
 	<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)) : ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
-			<img src="<?php echo $this->params->get('tag_list_image'); ?>">
+			<img src="<?php echo $this->params->get('tag_list_image'); ?>" />
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
 			<?php echo JHtml::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
 		<?php endif; ?>
 	<?php endif; ?>
-
 	<?php echo $this->loadTemplate('items'); ?>
 
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>

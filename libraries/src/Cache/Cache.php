@@ -401,7 +401,7 @@ class Cache
 
 		if ($this->_options['locking'] == true)
 		{
-			$returning->locked = $handler->store(1, $id2, $group);
+			$returning->locked = $handler->store($id2, $group, 1);
 		}
 
 		// Revert lifetime to previous one

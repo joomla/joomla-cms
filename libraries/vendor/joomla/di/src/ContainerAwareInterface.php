@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,16 +17,6 @@ use Psr\Container\ContainerExceptionInterface;
  */
 interface ContainerAwareInterface
 {
-	/**
-	 * Get the DI container.
-	 *
-	 * @return  Container
-	 *
-	 * @since   1.0
-	 * @throws  ContainerExceptionInterface May be thrown if the container has not been set.
-	 */
-	public function getContainer();
-
 	/**
 	 * Set the DI container.
 	 *

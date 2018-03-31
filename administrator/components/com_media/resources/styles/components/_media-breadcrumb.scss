@@ -3,10 +3,10 @@
   padding: 0;
   margin: 0 auto 0 0;
   font-size: .9rem;
-  line-height: 46px;
+  line-height: $toolbar-height;
   list-style: outside none none;
   background: transparent;
-  border-left: 1px solid #dadada;
+  border-left: 1px solid $border-color;
   & > li > a {
     cursor: pointer;
   }
@@ -14,18 +14,18 @@
 
 .media-breadcrumb-item {
   padding: 0 8px 0 22px;
-  background-color: #fafafa;
+  background-color: $breadcrumbs-bg;
   &:first-of-type {
     padding-left: 16px;
   }
   &:last-of-type {
-    background-color: #fff;
+    background-color: $breadcrumbs-current-bg;
     &::after {
-      border-left-color: #fff;
+      border-left-color: $breadcrumbs-current-bg;
     }
   }
   &:hover {
-    color: #2e5a84;
+    color: $highlight-color;
   }
 }
 
@@ -47,10 +47,10 @@
     border-left: 10px solid transparent;
   }
   &::before {
-    border-left-color: rgba(0, 0, 0, .6);
+    border-left-color: $border-color;
   }
   &::after {
-    border-left-color: #fafafa;
+    border-left-color: $breadcrumbs-bg;
   }
 }
 

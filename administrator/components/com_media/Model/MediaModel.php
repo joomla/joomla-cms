@@ -12,7 +12,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
@@ -20,16 +20,16 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 /**
  * Media View Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class MediaModel extends BaseModel
+class MediaModel extends BaseDatabaseModel
 {
 	/**
 	 * Obtain list of supported providers
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function getProviders()
 	{

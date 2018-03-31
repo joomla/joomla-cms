@@ -112,7 +112,7 @@ class ContactTable extends Table
 		$this->webpage = \JStringPunycode::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('Contact', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\');
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

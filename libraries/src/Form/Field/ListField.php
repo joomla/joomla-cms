@@ -132,6 +132,12 @@ class ListField extends FormField
 				{
 					continue;
 				}
+
+				// Requires vote plugin
+				if (in_array('vote', $requires) && !\JPluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];
@@ -247,7 +253,7 @@ class ListField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *

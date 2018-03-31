@@ -35,7 +35,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<?php endif; ?>
 				<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 					<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-						data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right"><span class="icon-plus"></span></a>
+						data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo JText::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 				<?php endif; ?>
 			</h3>
 			<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>

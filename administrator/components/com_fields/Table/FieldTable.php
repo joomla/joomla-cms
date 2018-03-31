@@ -92,7 +92,7 @@ class FieldTable extends Table
 		// Check for valid name
 		if (trim($this->title) == '')
 		{
-			$this->setError(JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
+			$this->setError(\JText::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
 			return false;
 		}
@@ -112,7 +112,7 @@ class FieldTable extends Table
 		$this->name = str_replace(',', '-', $this->name);
 
 		// Verify that the name is unique
-		$table = new Field($this->_db);
+		$table = new static($this->_db);
 
 		if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0))
 		{

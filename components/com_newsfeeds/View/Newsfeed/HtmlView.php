@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
 	 * The current user instance
 	 *
 	 * @var    \JUser|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $user = null;
 
@@ -58,7 +58,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
 
@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params;
 
@@ -74,7 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * Clone of the $item property
 	 *
 	 * @var         object
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  4.0
 	 */
 	protected $newsfeed;

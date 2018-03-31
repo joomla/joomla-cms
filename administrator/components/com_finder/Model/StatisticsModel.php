@@ -10,7 +10,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -18,7 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  2.5
  */
-class StatisticsModel extends BaseModel
+class StatisticsModel extends BaseDatabaseModel
 {
 	/**
 	 * Method to get the component statistics

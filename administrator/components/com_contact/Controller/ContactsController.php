@@ -106,7 +106,7 @@ class ContactsController extends AdminController
 	 * @param   string  $prefix  The prefix for the PHP class name.
 	 * @param   array   $config  Array of configuration parameters.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 *
 	 * @since   1.6
 	 */

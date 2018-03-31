@@ -65,11 +65,11 @@ class AtomRenderer extends DocumentRenderer
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
+			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $data->getTitle());
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
+			$title = \JText::sprintf('JPAGETITLE', $data->getTitle(), $app->get('sitename'));
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
@@ -121,7 +121,7 @@ class AtomRenderer extends DocumentRenderer
 
 		if ($app->get('MetaVersion', 0))
 		{
-			$minorVersion       = JVersion::MAJOR_VERSION . '.' . JVersion::MINOR_VERSION;
+			$minorVersion       = \JVersion::MAJOR_VERSION . '.' . \JVersion::MINOR_VERSION;
 			$versionHtmlEscaped = ' version="' . htmlspecialchars($minorVersion, ENT_COMPAT, 'UTF-8') . '"';
 		}
 

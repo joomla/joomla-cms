@@ -26,7 +26,7 @@ class PreviewController extends BaseController
 	 * @param   string  $prefix  The prefix for the model
 	 * @param   array   $config  An additional array of parameters
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model
 	 *
 	 * @since   3.2
 	 */

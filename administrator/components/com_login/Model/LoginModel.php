@@ -10,14 +10,14 @@ namespace Joomla\Component\Login\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Login Model
  *
  * @since  1.5
  */
-class LoginModel extends BaseModel
+class LoginModel extends BaseDatabaseModel
 {
 	/**
 	 * Method to auto-populate the model state.

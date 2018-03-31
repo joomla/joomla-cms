@@ -28,7 +28,7 @@ class UsersModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseModel
+	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -70,7 +70,7 @@ class UsersModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout', 'default', 'cmd'))

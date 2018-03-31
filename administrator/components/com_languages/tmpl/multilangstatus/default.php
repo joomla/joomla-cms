@@ -16,9 +16,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 <div class="mod-multilangstatus">
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
-			<div class="alert alert-info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></div>
+			<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
 		<?php else : ?>
-			<div class="alert alert-info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></div>
+			<joomla-alert type="info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></joomla-alert>
 		<?php endif; ?>
 	<?php else : ?>
 	<table class="table table-striped table-sm">

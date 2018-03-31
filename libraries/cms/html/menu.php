@@ -198,8 +198,8 @@ abstract class JHtmlMenu
 		return JHtml::_(
 			'select.genericlist', $options, $name,
 			array(
-				'id'             => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr'      => $attribs === null ? 'class="inputbox" size="1"' : $attribs,
+				'id'             => $config['id'] ?? 'assetgroups_' . (++$count),
+				'list.attr'      => $attribs ?? 'class="inputbox" size="1"',
 				'list.select'    => (int) $selected,
 				'list.translate' => false,
 			)

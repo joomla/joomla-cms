@@ -522,7 +522,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	abstract protected function finaliseInstall();
@@ -532,7 +532,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	abstract protected function finaliseUninstall(): bool;
@@ -934,7 +934,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	abstract protected function removeExtensionFiles();
@@ -1016,7 +1016,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	abstract protected function setupUninstall();
 
@@ -1125,7 +1125,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function uninstall($id)
 	{

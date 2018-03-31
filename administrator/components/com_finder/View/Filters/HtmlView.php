@@ -72,7 +72,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -80,7 +80,7 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   2.5
 	 */

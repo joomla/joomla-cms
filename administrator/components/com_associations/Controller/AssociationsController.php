@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Associations\Administrator\Controller;
@@ -36,7 +36,7 @@ class AssociationsController extends AdminController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel|bool
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|bool
 	 *
 	 * @since  3.7.0
 	 */

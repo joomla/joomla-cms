@@ -5,7 +5,6 @@
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-		addfieldpath="/administrator/components/com_fields/models/fields"
 		>
 
 		<field
@@ -41,7 +40,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			default="10"
 			filter="integer"
@@ -243,7 +242,7 @@
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 			default="1"
 			class="switcher"
-			showon="show_info:1"			
+			showon="show_info:1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -343,6 +342,7 @@
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			multiple="true"
 			context="com_users.user"
+			addfieldprefix="Joomla\Component\Fields\Administrator\Field"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -870,9 +870,9 @@
 		<field
 			name="show_email_copy"
 			type="radio"
-			class="switcher"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
-			default="1"
+			default="0"
+			class="switcher"
 			showon="show_email_form:1"
 			>
 			<option value="0">JHIDE</option>
