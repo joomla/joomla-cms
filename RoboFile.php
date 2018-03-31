@@ -280,8 +280,8 @@ class RoboFile extends \Robo\Tasks
 		// Make sure to run the build command to generate AcceptanceTester
 		if ($this->isWindows())
 		{
-			$this->_exec('php ' . $this->getWindowsPath($this->vendorPath . 'bin/codecept') . ' build');
-			$pathToCodeception = $this->getWindowsPath($this->vendorPath . 'bin/codecept');
+			$this->_exec('php ' . $this->getWindowsPath($this->vendorPath . 'bin/codecept') . '.bat build');
+			$pathToCodeception = $this->getWindowsPath($this->vendorPath . 'bin/codecept') . '.bat';
 		}
 		else
 		{
@@ -325,7 +325,7 @@ class RoboFile extends \Robo\Tasks
 
 		// Make sure to run the build command to generate AcceptanceTester
 		$path = $this->vendorPath . 'bin/codecept';
-		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
+		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) . '.bat' : $path . ' build');
 
 		if (!$pathToTestFile)
 		{
@@ -413,7 +413,7 @@ class RoboFile extends \Robo\Tasks
 
 		$testPathCodecept = $this->vendorPath . 'bin/codecept';
 
-		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept) : $testPathCodecept)
+		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept) . '.bat' : $testPathCodecept)
 			->test($pathToTestFile)
 			->arg('--steps')
 			->arg('--debug')
