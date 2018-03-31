@@ -305,8 +305,9 @@ class RoboFile extends \Robo\Tasks
 			->arg('--fail-fast')
 			->env($opts['env'])
 			->arg($this->testsPath . 'acceptance/install/')
-			->run()
-			->stopOnFail();
+			->run();
+
+		$this->_exec("cat libraries/vendor/joomla/test-system/src/_output/InstallCest.installJoomla.fail.html");
 
 		$this->taskCodecept()
 			->arg('--steps')
