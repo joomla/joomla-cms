@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a40c4a28608eddbee33de7e82476a929",
+    "content-hash": "d03c348bc33d673dd750487429c8930a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3554,6 +3554,38 @@
                 "joomla"
             ],
             "time": "2018-03-30T15:17:52+00:00"
+        },
+        {
+            "name": "joomla/test-unit",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla/test-unit.git",
+                "reference": "267d30b99bff91b7d8a1b1cf5ebf03c0d9d43994"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla/test-unit/zipball/267d30b99bff91b7d8a1b1cf5ebf03c0d9d43994",
+                "reference": "267d30b99bff91b7d8a1b1cf5ebf03c0d9d43994",
+                "shasum": ""
+            },
+            "require": {
+                "phpunit/phpunit": "^6"
+            },
+            "type": "project",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla CMS Unit Tests",
+            "homepage": "https://github.com/joomla/test-unit",
+            "keywords": [
+                "cms",
+                "joomla",
+                "tests",
+                "unit-tests"
+            ],
+            "time": "2018-03-31T08:23:19+00:00"
         },
         {
             "name": "league/container",

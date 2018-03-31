@@ -89,6 +89,7 @@
         "squizlabs/php_codesniffer": "~1.5",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
-        "joomla/test-system": "dev-master"
+        "joomla/test-system": "dev-master",
+        "joomla/test-unit": "~4.0"
     }
 }
