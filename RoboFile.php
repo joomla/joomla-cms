@@ -34,6 +34,14 @@ class RoboFile extends \Robo\Tasks
 	use JoomlaRobo\Tasks;
 
 	/**
+	 * Path to the Selenium folder#
+	 *
+	 * @var   string
+	 * @since  3.7.3
+	 */
+	const SELENIUM_FOLDER = __DIR__ . '/libraries/vendor/joomla-projects/selenium-server-standalone';
+
+	/**
 	 * Path to the vendor folder
 	 *
 	 * @var   string
@@ -166,7 +174,18 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git', 'test-install', 'libraries/vendor/codeception', 'libraries/vendor/behat', 'libraries/vendor/joomla-projects', 'libraries/vendor'];
+		$exclude = [
+			'tests',
+			'tests-phpunit',
+			'.run',
+			'.github',
+			'.git',
+			'test-install',
+			'libraries/vendor/codeception',
+			'libraries/vendor/behat',
+			'libraries/vendor/joomla-projects',
+			'libraries/vendor/consolidation'
+		];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
 
@@ -254,7 +273,7 @@ class RoboFile extends \Robo\Tasks
 
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->taskRunSelenium('libraries/vendor/joomla-projects/selenium-server-standalone', $this->getWebdriver())->run();
+		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
 
 		sleep(3);
 
@@ -302,7 +321,7 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
-		$this->taskRunSelenium('libraries/vendor/joomla-projects/selenium-server-standalone/bin', $this->getWebdriver());
+		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver());
 
 		// Make sure to run the build command to generate AcceptanceTester
 		$path = $this->vendorPath . 'bin/codecept';
@@ -314,7 +333,7 @@ class RoboFile extends \Robo\Tasks
 
 			$iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
-					$this->vendorPath . $suite,
+					$this->testsPath . '/' . $suite,
 					RecursiveDirectoryIterator::SKIP_DOTS
 				),
 				RecursiveIteratorIterator::SELF_FIRST
@@ -346,7 +365,7 @@ class RoboFile extends \Robo\Tasks
 			$test       = $tests[$testNumber];
 		}
 
-		$pathToTestFile = $this->vendorPath . 'joomla/test-system/' . $suite . '/' . $test;
+		$pathToTestFile = $this->testsPath . '/' . $suite . '/' . $test;
 
 		// Loading the class to display the methods in the class
 
@@ -358,7 +377,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
-			require $this->vendorPath . $suite . '/' . $test;
+			require $this->testsPath . '/' . $suite . '/' . $test;
 
 			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
@@ -456,7 +475,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/' . $suite . '.suite.yml'));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/libraries/vendor/joomla/test-system/src/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;
