@@ -84,7 +84,7 @@ OR (`type` = 'module' AND `element` IN (
 ))
 OR (`type` = 'plugin' AND
 	(
-		(`folder` = 'system' AND `element` IN ('languagefilter', 'p3p', 'cache', 'debug', 'log', 'redirect', 'remember', 'sef', 'logout', 'languagecode', 'highlight', 'updatenotification', 'stats', 'fields'))
+		(`folder` = 'system' AND `element` IN ('languagefilter', 'p3p', 'cache', 'debug', 'log', 'redirect', 'remember', 'sef', 'logout', 'languagecode', 'highlight', 'updatenotification', 'stats', 'fields', 'sessiongc'))
 		OR (`folder` = 'content' AND `element` IN ('contact', 'emailcloak', 'loadmodule', 'pagebreak', 'pagenavigation', 'vote', 'joomla', 'finder', 'fields'))
 		OR (`folder` = 'user' AND `element` IN ('contactcreator', 'joomla', 'profile'))
 		OR (`folder` = 'quickicon' AND `element` IN ('joomlaupdate', 'extensionupdate', 'phpversioncheck'))
