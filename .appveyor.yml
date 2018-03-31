@@ -22,9 +22,12 @@ services:
 ## Install PHP and composer, and run the appropriate composer command
 install:
     - IF EXIST C:\tools\php (SET PHP=0)
-    - appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
-    - $VC = "vc14"
-    - $PHPBuild = "x64"
+    - ps: >-
+        If ($env:PHP -eq "1") {
+          appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+          $VC = "vc14"
+          $PHPBuild = "x64"
+        }
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
     # Get the MSSQL DLL's
@@ -52,9 +55,11 @@ install:
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
 
-    - Add-Content php.ini "`nextension=php_sqlsrv.dll"
-    - Add-Content php.ini "`nextension=php_pdo_sqlsrv.dll"
-    - Add-Content php.ini "`n"
+    - ps: >-
+        If ($env:PHP -eq "1") {
+          Add-Content php.ini "`nextension=php_sqlsrv.dll"
+          Add-Content php.ini "`nextension=php_pdo_sqlsrv.dll"
+          Add-Content php.ini "`n"}
 
     - IF %PHP%==1 echo extension=php_pgsql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_pgsql.dll >> php.ini
