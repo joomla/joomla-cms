@@ -29,7 +29,8 @@ pipeline:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - google-chrome --version
-      - ls -la
+      - sed -e 's/max_input_time = 60/max_input_time = 6000/' -i /etc/php/7.0/apache2/php.ini
+      - sed -e 's/max_execution_time = 30/max_execution_time = 6000/' -i /etc/php/7.0/apache2/php.ini
       - /usr/bin/mysqld_safe & apache2ctl -D FOREGROUND &
       - mv RoboFile.dist.ini RoboFile.ini
       - apt-get update > /dev/null 2>&1
