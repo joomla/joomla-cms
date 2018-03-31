@@ -189,7 +189,7 @@ abstract class ModArticlesCategoryHelper
 				break;
 		}
 
-		// Filter by multple tags
+		// Filter by multiple tags
 		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
