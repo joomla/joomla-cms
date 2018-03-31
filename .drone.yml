@@ -29,6 +29,7 @@ pipeline:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - google-chrome --version
+      - ls -la
       - /usr/bin/mysqld_safe & apache2ctl -D FOREGROUND &
       - mv RoboFile.dist.ini RoboFile.ini
       - apt-get update > /dev/null 2>&1
