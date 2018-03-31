@@ -30,6 +30,8 @@ pipeline:
     commands:
       - google-chrome --version
       - apache2ctl -D FOREGROUND &
+      - mysqld &
+      - mysql --host=localhost -uroot -e "create database temp"
       - mv RoboFile.dist.ini RoboFile.ini
       - apt-get update > /dev/null 2>&1
       - apt-get -y install php7.0-ldap > /dev/null 2>&1
