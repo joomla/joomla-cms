@@ -299,6 +299,7 @@ class RoboFile extends \Robo\Tasks
 			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
+		$this->_exec("curl http://localhost/test-install/installation/index.php");
 		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
 			->arg('--debug')
@@ -307,7 +308,7 @@ class RoboFile extends \Robo\Tasks
 			->arg($this->testsPath . 'acceptance/install/')
 			->run();
 
-		$this->_exec("cat libraries/vendor/joomla/test-system/src/_output/InstallCest.installJoomla.fail.html");
+		$this->_exec("curl http://localhost/test-install/installation/index.php");
 
 		$this->taskCodecept()
 			->arg('--steps')
