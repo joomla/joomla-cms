@@ -299,26 +299,23 @@ class RoboFile extends \Robo\Tasks
 			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
-		$this->_exec("curl http://localhost/test-install/installation/index.php");
 		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
 			->arg($this->testsPath . 'acceptance/install/')
-			->run();
-
-		$this->_exec("curl http://localhost/test-install/installation/index.php");
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/administrator/components/com_users')
-			->run();
-
-		return 0;
+			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
+			->run()
+			->stopOnFail();
 	}
 
 	/**
