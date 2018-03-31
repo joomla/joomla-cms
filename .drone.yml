@@ -35,5 +35,5 @@ pipeline:
       - ln -s /usr/bin/nodejs /usr/bin/node > /dev/null 2>&1
       - apt-get update > /dev/null 2>&1
       - apt-get -y install php7.0-ldap > /dev/null 2>&1
-      - composer install > /dev/null 2>&1
+      - composer update > /dev/null 2>&1
       - libraries/vendor/bin/robo run:tests
