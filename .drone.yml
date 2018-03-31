@@ -30,6 +30,7 @@ pipeline:
     commands:
       - google-chrome --version
       - apache2ctl -D FOREGROUND &
+      - apt-get -y install apparmor-utils
       - aa-complain /usr/sbin/mysqld
       - mysqld &
       - mysql --host=localhost -uroot -e "create database temp"
