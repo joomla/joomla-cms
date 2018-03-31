@@ -225,6 +225,7 @@ class ExtensionHelper
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
+		array('plugin', 'sessiongc', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
