@@ -184,7 +184,7 @@ class RoboFile extends \Robo\Tasks
 			'libraries/vendor/codeception',
 			'libraries/vendor/behat',
 			'libraries/vendor/joomla-projects',
-			'./libraries/vendor/consolidation'
+			'libraries/vendor/consolidation'
 		];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
@@ -192,7 +192,7 @@ class RoboFile extends \Robo\Tasks
 		// Optionally change owner to fix permissions issues
 		if (!empty($this->configuration->localUser))
 		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
+			$this->_exec('chown -R ' . $this->configuration->localUser . ':' . $this->configuration->localUser  . ' ' . $this->cmsPath);
 		}
 
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
