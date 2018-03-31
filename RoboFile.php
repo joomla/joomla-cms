@@ -254,7 +254,7 @@ class RoboFile extends \Robo\Tasks
 
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->taskRunSelenium('libraries/vendor/joomla-projects/selenium-server-standalone', $this->getWebdriver())->run();
+		$this->taskRunSelenium(__DIR__ . '/libraries/vendor/joomla-projects/selenium-server-standalone', $this->getWebdriver())->run();
 
 		sleep(3);
 
@@ -456,7 +456,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (!$this->suiteConfig)
 		{
-			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/' . $suite . '.suite.yml'));
+			$this->suiteConfig = Symfony\Component\Yaml\Yaml::parse(file_get_contents(__DIR__ . '/libraries/vendor/joomla/test-system/src/' . $suite . '.suite.yml'));
 		}
 
 		return $this->suiteConfig;
