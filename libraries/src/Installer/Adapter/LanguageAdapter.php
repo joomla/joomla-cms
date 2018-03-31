@@ -614,9 +614,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Check that the language is not locked, Normally en-GB.
-		$protected = $extension->get('locked');
-
-		if ($protected == 1)
+		if ($extension->get('locked') == 1)
 		{
 			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_LOCKED', $extension->name), \JLog::WARNING, 'jerror');
 
