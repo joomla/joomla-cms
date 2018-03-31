@@ -30,6 +30,7 @@ pipeline:
     commands:
       - google-chrome --version
       - apache2ctl -D FOREGROUND &
+      - aa-complain /usr/sbin/mysqld
       - mysqld &
       - mysql --host=localhost -uroot -e "create database temp"
       - mv RoboFile.dist.ini RoboFile.ini
