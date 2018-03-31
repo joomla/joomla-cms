@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -296,6 +296,7 @@ class MenusModelItem extends JModelAdmin
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -592,14 +593,28 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+
+		// Check the session for previously entered form data, providing it has an ID and it is the same.
+		$itemData = (array) $this->getItem();
+		$sessionData = (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
+
+		// Only merge if there is a session and itemId or itemid is null.
+		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
+			|| is_null($itemData['id']))
+		{
+			$data = array_merge($itemData, $sessionData);
+		}
+		else
+		{
+			$data = $itemData;
+		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
 		if ($this->getItem()->id == 0)
 		{
 			// Get selected fields
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
@@ -675,7 +690,7 @@ class MenusModelItem extends JModelAdmin
 		if ($link = $this->getState('item.link'))
 		{
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) != MenusHelper::getLinkKey($link))
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
 				$table->link = $link;
 			}
@@ -1190,8 +1205,8 @@ class MenusModelItem extends JModelAdmin
 			$helpURL = trim((string) $help[0]['url']);
 			$helpLoc = trim((string) $help[0]['local']);
 
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpKey = $helpKey ?: $this->helpKey;
+			$this->helpURL = $helpURL ?: $this->helpURL;
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
@@ -1476,7 +1491,8 @@ class MenusModelItem extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{
@@ -1675,7 +1691,7 @@ class MenusModelItem extends JModelAdmin
 	public function publish(&$pks, $value = 1)
 	{
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
 
 		// Default menu item existence checks.
 		if ($value != 1)

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ class InstallationModelFtp extends JModelBase
 		// Get a list of folders in the current working directory.
 		$cwdFolders = $ftp->listDetails(null, 'folders');
 
-		if ($cwdFolders === false || count($cwdFolders) == 0)
+		if ($cwdFolders === false || count($cwdFolders) === 0)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_FTP_NODIRECTORYLISTING'), 'error');
 
@@ -85,7 +85,7 @@ class InstallationModelFtp extends JModelBase
 		$paths = array();
 		$known = array('administrator', 'components', 'installation', 'language', 'libraries', 'plugins');
 
-		if (count(array_diff($known, $cwdFolders)) == 0)
+		if (count(array_diff($known, $cwdFolders)) === 0)
 		{
 			$paths[] = $cwd . '/';
 		}
@@ -98,7 +98,7 @@ class InstallationModelFtp extends JModelBase
 		{
 			$tmp = '/' . $parts[$i] . $tmp;
 
-			if (in_array($parts[$i], $cwdFolders))
+			if (in_array($parts[$i], $cwdFolders, true))
 			{
 				$paths[] = $cwd . $tmp;
 			}
@@ -115,7 +115,7 @@ class InstallationModelFtp extends JModelBase
 
 			@$ftp->read($filePath, $buffer);
 
-			if ($buffer == $checkValue)
+			if ($buffer === $checkValue)
 			{
 				$rootPath = $tmp;
 

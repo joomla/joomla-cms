@@ -3,7 +3,7 @@
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -85,18 +85,6 @@
 				</field>
 
 				<field
-					name="profilelink"
-					type="radio"
-					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					description="MOD_LOGIN_FIELD_PROFILE_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
 					name="name"
 					type="list"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
@@ -106,6 +94,18 @@
 					>
 					<option value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
+				</field>
+				
+				<field
+					name="profilelink"
+					type="radio"
+					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
+					description="MOD_LOGIN_FIELD_PROFILE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field

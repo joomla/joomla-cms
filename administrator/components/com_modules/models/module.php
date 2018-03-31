@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -530,7 +530,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Add the default fields directory
-		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$baseFolder = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
@@ -541,6 +541,12 @@ class ModulesModelModule extends JModelAdmin
 		if ($clientId == 1)
 		{
 			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+
+			// Display language field to filter admin custom menus per language
+			if (!JModuleHelper::isAdminMultilang())
+			{
+				$form->setFieldAttribute('language', 'type', 'hidden');
+			}
 		}
 		else
 		{
@@ -611,7 +617,6 @@ class ModulesModelModule extends JModelAdmin
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
 			if (empty($data->params))
 			{
-
 				// This allows us to inject parameter settings into a new module.
 				$params = $app->getUserState('com_modules.add.module.params');
 
@@ -853,8 +858,8 @@ class ModulesModelModule extends JModelAdmin
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+				$this->helpKey = $helpKey ?: $this->helpKey;
+				$this->helpURL = $helpURL ?: $this->helpURL;
 			}
 		}
 
@@ -921,7 +926,7 @@ class ModulesModelModule extends JModelAdmin
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 

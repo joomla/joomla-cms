@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canEdit   = $user->authorise('core.edit', 'com_users');
 
 					// If this group is super admin and this user is not super admin, $canEdit is false
-					if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+					if (!$user->authorise('core.admin') && JAccess::checkGroup($item->id, 'core.admin'))
 					{
 						$canEdit = false;
 					}

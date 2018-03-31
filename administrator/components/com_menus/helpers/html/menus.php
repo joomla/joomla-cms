@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,7 @@ abstract class MenusHtmlMenus
 				->from('#__menu as m')
 				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
+				->where('m.id != ' . $itemid)
 				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
@@ -106,95 +107,95 @@ abstract class MenusHtmlMenus
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
-			9 => array(
+			9  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_HEADING',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			8 => array(
+			8  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_HEADING',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			7 => array(
+			7  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			6 => array(
+			6  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			5 => array(
+			5  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			4 => array(
+			4  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_ALIAS',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			3 => array(
+			3  => array(
 				'unpublish',
 				'',
 				'COM_MENUS_HTML_UNPUBLISH_URL',
 				'',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			2 => array(
+			2  => array(
 				'publish',
 				'',
 				'COM_MENUS_HTML_PUBLISH_URL',
 				'',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
-			1 => array(
+			1  => array(
 				'unpublish',
 				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
 				'COM_MENUS_HTML_UNPUBLISH_ENABLED',
 				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
 				true,
 				'publish',
-				'publish'
+				'publish',
 			),
-			0 => array(
+			0  => array(
 				'publish',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
 				'COM_MENUS_HTML_PUBLISH_ENABLED',
 				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
 				true,
 				'unpublish',
-				'unpublish'
+				'unpublish',
 			),
 			-1 => array(
 				'unpublish',
@@ -203,7 +204,7 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
 				true,
 				'warning',
-				'warning'
+				'warning',
 			),
 			-2 => array(
 				'publish',
@@ -212,7 +213,7 @@ abstract class MenusHtmlMenus
 				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
 				true,
 				'trash',
-				'trash'
+				'trash',
 			),
 			-3 => array(
 				'publish',
@@ -221,7 +222,7 @@ abstract class MenusHtmlMenus
 				'',
 				true,
 				'trash',
-				'trash'
+				'trash',
 			),
 		);
 

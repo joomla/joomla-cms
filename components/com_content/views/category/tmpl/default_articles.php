@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,16 +47,21 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<legend class="hide"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
-				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
+				<?php if ($this->params->get('filter_field') === 'tag') : ?>
+					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
+						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
+					</select>
+				<?php elseif ($this->params->get('filter_field') === 'month') : ?>
+					<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();">
+						<option value=""><?php echo JText::_('JOPTION_SELECT_MONTH'); ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					</select>
+				<?php else : ?>
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
-				<?php else : ?>
-					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
-						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
-					</select>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -146,12 +151,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
-							<?php if ($this->params->get('flags', 1)) : ?>
+							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>

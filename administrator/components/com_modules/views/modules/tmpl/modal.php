@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ if (JFactory::getApplication()->isClient('site'))
 // Load needed scripts
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Scripts for the modules xtd-button
@@ -88,7 +89,7 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
 					<td class="has-context">
-						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>

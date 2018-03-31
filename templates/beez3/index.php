@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $showRightColumn = ($this->countModules('position-3') or $this->countModules('po
 $showbottom      = ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft        = ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0)
+if ($showRightColumn === false && $showleft === false)
 {
 	$showno = 0;
 }

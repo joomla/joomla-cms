@@ -3,7 +3,7 @@
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -59,7 +59,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
@@ -78,7 +78,7 @@
 				</field>
 
 				<field
-					name="filteringspacer1"
+					name="filteringspacer0"
 					type="spacer"
 					hr="true"
 				/>
@@ -121,11 +121,26 @@
 
 				<field
 					name="levels"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_DESC"
 					default="1"
 				/>
+
+				<field
+					name="filteringspacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="filter_tag"
+					type="tag"
+					label="JTAG"
+				       	description="JTAG_FIELD_SELECT_DESC"
+					>
+					<option value="">JNONE</option>
+				</field>
 
 				<field
 					name="filteringspacer2"
@@ -266,7 +281,7 @@
 
 				<field
 					name="relative_date"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_DESC"
 					default="30"
@@ -451,7 +466,7 @@
 
 				<field
 					name="introtext_limit"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_DESC"
 					default="100"
@@ -483,7 +498,7 @@
 
 				<field
 					name="readmore_limit"
-					type="text"
+					type="number"
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 					default="15"
@@ -521,7 +536,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"

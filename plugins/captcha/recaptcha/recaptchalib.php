@@ -53,11 +53,12 @@ class JReCaptcha
 	 */
 	public function __construct($secret)
 	{
-		if ($secret == null || $secret === '')
+		if ($secret === null || $secret === '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
 				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
 		}
+
 		$this->_secret = $secret;
 	}
 
@@ -71,15 +72,14 @@ class JReCaptcha
 	private function _encodeQS($data)
 	{
 		$req = '';
+
 		foreach ($data as $key => $value)
 		{
 			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
 		}
 
 		// Cut the last '&'
-		$req = substr($req, 0, strlen($req) - 1);
-
-		return $req;
+		return substr($req, 0, strlen($req) - 1);
 	}
 
 	/**
@@ -88,14 +88,23 @@ class JReCaptcha
 	 * @param string $path URL path to recaptcha server.
 	 * @param array  $data array of parameters to be sent.
 	 *
-	 * @return array response
+	 * @return mixed JSON string or false on error
 	 */
 	private function _submitHTTPGet($path, $data)
 	{
 		$req = $this->_encodeQS($data);
-		$http = JHttpFactory::getHttp();
 
-		return $http->get($path . '?' . $req)->body;
+		try
+		{
+			$http   = JHttpFactory::getHttp();
+			$result = $http->get($path . '?' . $req)->body;
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -110,7 +119,7 @@ class JReCaptcha
 	public function verifyResponse($remoteIp, $response)
 	{
 		// Discard empty solution submissions
-		if ($response == null || strlen($response) == 0)
+		if ($response === null || $response === '')
 		{
 			$recaptchaResponse = new JReCaptchaResponse();
 			$recaptchaResponse->success = false;
@@ -128,10 +137,17 @@ class JReCaptcha
 				'response' => $response
 			)
 		);
+
+		// Something is broken in submiting the http get request
+		if ($getResponse === false)
+		{
+			$recaptchaResponse->success = false;
+		}
+
 		$answers = json_decode($getResponse, true);
 		$recaptchaResponse = new JReCaptchaResponse();
 
-		if (trim($answers['success']) == true)
+		if (trim($answers['success']) !== '')
 		{
 			$recaptchaResponse->success = true;
 		}

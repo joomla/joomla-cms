@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_random_image
  *
- * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @since  1.5
  */
 class ModRandomImageHelper
 {

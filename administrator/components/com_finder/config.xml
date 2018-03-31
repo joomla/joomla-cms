@@ -3,7 +3,9 @@
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
-		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION" >
+		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION"
+		>
+
 		<field
 			name="enabled"
 			type="radio"
@@ -30,16 +32,17 @@
 
 		<field
 			name="description_length"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
-			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" 
+			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION"
 			size="5"
 			default="255"
 			filter="integer"
 			showon="show_description:1"
 		/>
 
-		<field 
+
+		<field
 			name="allow_empty_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
@@ -75,7 +78,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
+		<field
 			name="show_suggested_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
@@ -88,7 +91,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
+		<field
 			name="show_explained_query"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
@@ -113,7 +116,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
+		<field
 			name="show_advanced_tips"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
@@ -138,7 +141,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-	
+
 		<field
 			name="show_date_filters"
 			type="radio"
@@ -152,7 +155,7 @@
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field 
+		<field
 			name="sort_order"
 			type="list"
 			label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
@@ -165,7 +168,7 @@
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
 
-		<field 
+		<field
 			name="sort_direction"
 			type="list"
 			label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
@@ -194,6 +197,7 @@
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
 			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_DESCRIPTION"
+			default=""
 		/>
 
 		<field
@@ -201,22 +205,26 @@
 			type="textarea"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
 			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESCRIPTION"
-			cols="30" 
+			default=""
+			cols="30"
 			rows="2"
 		/>
+
 	</fieldset>
 
 	<fieldset
 		name="index"
 		label="COM_FINDER_FIELDSET_INDEX_OPTIONS_LABEL"
-		description="COM_FINDER_FIELDSET_INDEX_OPTIONS_DESCRIPTION" >
+		description="COM_FINDER_FIELDSET_INDEX_OPTIONS_DESCRIPTION"
+		>
+
 		<field
 			name="batch_size"
 			type="list"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"
 			description="COM_FINDER_CONFIG_BATCH_SIZE_DESCRIPTION"
 			default="50"
-			validate="options" 
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -232,17 +240,17 @@
 
 		<field
 			name="memory_table_limit"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
 			description="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_DESCRIPTION"
 			size="10"
 			default="30000"
-			filter="integer" 
+			filter="integer"
 		/>
 
 		<field
 			name="title_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_TITLE_MULTIPLIER_DESCRIPTION"
 			size="5"
@@ -251,7 +259,7 @@
 
 		<field
 			name="text_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_TEXT_MULTIPLIER_DESCRIPTION"
 			size="5"
@@ -260,16 +268,16 @@
 
 		<field
 			name="meta_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
-			description="COM_FINDER_CONFIG_META_MULTIPLIER_DESCRIPTION" 
+			description="COM_FINDER_CONFIG_META_MULTIPLIER_DESCRIPTION"
 			size="5"
 			default="1.2"
 		/>
 
 		<field
 			name="path_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_PATH_MULTIPLIER_DESCRIPTION"
 			size="5"
@@ -278,7 +286,7 @@
 
 		<field
 			name="misc_multiplier"
-			type="text"
+			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_MISC_MULTIPLIER_DESCRIPTION"
 			size="5"
@@ -321,12 +329,15 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
 	</fieldset>
-	
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC" >
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
 		<field
 			name="rules"
 			type="rules"
@@ -334,7 +345,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_finder"
-			section="component" 
+			section="component"
 		/>
+
 	</fieldset>
 </config>

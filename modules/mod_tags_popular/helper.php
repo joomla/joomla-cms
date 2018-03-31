@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_tags_popular
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_popular
- * @since       3.1
+ * @since  3.1
  */
 abstract class ModTagsPopularHelper
 {
@@ -54,6 +52,14 @@ abstract class ModTagsPopularHelper
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
+
+		// Filter by Parent Tag
+		$parentTags = $params->get('parentTag', 0);
+
+		if ($parentTags)
+		{
+			$query->where($db->quoteName('t.parent_id') . ' IN (' . implode(',', $parentTags) . ')');
+		}
 
 		// Optionally filter on language
 		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class JXMLElement extends SimpleXMLElement
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level
-		$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+		$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 
 		// Add a <, and add the name of the tag
 		$out .= '<' . $this->getName();
@@ -64,7 +64,7 @@ class JXMLElement extends SimpleXMLElement
 		}
 
 		// If there are no children and it contains no data, end it off with a />
-		if (!count($this->children()) && !(string) $this)
+		if (!(string) $this && !count($this->children()))
 		{
 			$out .= ' />';
 		}
@@ -87,7 +87,7 @@ class JXMLElement extends SimpleXMLElement
 				$level--;
 
 				// Add the newline and indentation to go along with the close tag
-				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+				$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 			}
 			elseif ((string) $this)
 			{

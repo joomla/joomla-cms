@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,55 @@ use Joomla\CMS\Helper\SearchHelper;
  */
 class FinderViewSearch extends JViewLegacy
 {
+	/**
+	 * The query object
+	 *
+	 * @var  FinderIndexerQuery
+	 */
 	protected $query;
 
+	/**
+	 * The application parameters
+	 *
+	 * @var  Registry  The parameters object
+	 */
 	protected $params;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
 	protected $user;
+
+	/**
+	 * An array of results
+	 *
+	 * @var    array
+	 *
+	 * @since  3.8.0
+	 */
+	protected $results;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var    integer
+	 *
+	 * @since  3.8.0
+	 */
+	protected $total;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var    JPagination
+	 *
+	 * @since  3.8.0
+	 */
+	protected $pagination;
 
 	/**
 	 * Method to display the view.
@@ -37,7 +79,7 @@ class FinderViewSearch extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get view data.
@@ -55,21 +97,22 @@ class FinderViewSearch extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Configure the pathway.
 		if (!empty($query->input))
 		{
-			$app->getPathWay()->addItem($this->escape($query->input));
+			$app->getPathway()->addItem($this->escape($query->input));
 		}
 
 		// Push out the view data.
-		$this->state = &$state;
-		$this->params = &$params;
-		$this->query = &$query;
-		$this->results = &$results;
-		$this->total = &$total;
+		$this->state      = &$state;
+		$this->params     = &$params;
+		$this->query      = &$query;
+		$this->results    = &$results;
+		$this->total      = &$total;
 		$this->pagination = &$pagination;
 
 		// Check for a double quote in the query string.
@@ -99,6 +142,7 @@ class FinderViewSearch extends JViewLegacy
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active = $app->getMenu()->getActive();
+
 		if (isset($active->query['layout']))
 		{
 			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
@@ -166,7 +210,7 @@ class FinderViewSearch extends JViewLegacy
 		// Check if the file exists.
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$exists = JPath::find($this->_path['template'], $filetofind);
+		$exists     = JPath::find($this->_path['template'], $filetofind);
 
 		return ($exists ? $layout : 'result');
 	}
@@ -182,7 +226,7 @@ class FinderViewSearch extends JViewLegacy
 	 */
 	protected function prepareDocument($query)
 	{
-		$app = JFactory::getApplication();
+		$app   = JFactory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -231,12 +275,12 @@ class FinderViewSearch extends JViewLegacy
 		// Configure the document meta-keywords.
 		if (!empty($query->highlight))
 		{
-			$this->document->setMetadata('keywords', implode(', ', $query->highlight));
+			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Add feed link to the document head.

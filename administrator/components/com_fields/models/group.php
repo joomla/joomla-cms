@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -220,10 +220,34 @@ class FieldsModelGroup extends JModelAdmin
 
 		$parts = FieldsHelper::extract($this->state->get('filter.context'));
 
+		// Extract the component name
+		$component = $parts[0];
+
+		// Extract the optional section name
+		$section = (count($parts) > 1) ? $parts[1] : null;
+
 		if ($parts)
 		{
 			// Set the access control rules field component value.
-			$form->setFieldAttribute('rules', 'component', $parts[0]);
+			$form->setFieldAttribute('rules', 'component', $component);
+		}
+
+		if ($section !== null)
+		{
+			// Looking first in the component models/forms folder
+			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fieldgroup/' . $section . '.xml');
+
+			if (file_exists($path))
+			{
+				$lang = JFactory::getLanguage();
+				$lang->load($component, JPATH_BASE, null, false, true);
+				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+				if (!$form->loadFile($path, false))
+				{
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+				}
+			}
 		}
 	}
 

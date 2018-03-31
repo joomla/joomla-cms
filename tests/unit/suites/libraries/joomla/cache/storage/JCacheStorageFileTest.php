@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,12 @@ class JCacheStorageFileTest extends TestCaseCache
 
 		parent::setUp();
 
-		$this->handler = new JCacheStorageFile(array('cachebase' => JPATH_CACHE));
+		// Use a uniq path for tests
+		$path = JPATH_CACHE . '/' . uniqid();
+
+		mkdir($path);
+
+		$this->handler = new JCacheStorageFile(array('cachebase' => $path));
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
 		$this->handler->_lifetime = 2;

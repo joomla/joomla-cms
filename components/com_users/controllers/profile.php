@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class UsersControllerProfile extends UsersController
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId     = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)

@@ -17,11 +17,18 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Version;
+
+if (version_compare(PHP_VERSION, '5.4', '<'))
+{
+	echo "The build script requires PHP 5.4.\n";
+
+	exit(1);
+}
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
@@ -33,13 +40,12 @@ umask(022);
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/src/Joomla/CMS/Version.php';
+require_once dirname(__DIR__) . '/libraries/src/Version.php';
 
 // Set version information for the build
-$version     = Version::RELEASE;
-$release     = Version::DEV_LEVEL;
-$stability   = Version::DEV_STATUS;
-$fullVersion = $version . '.' . $release;
+$version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+$release     = Version::PATCH_VERSION;
+$fullVersion = (new Version)->getShortVersion();
 
 // Shortcut the paths to the repository root and build folder
 $repo = dirname(__DIR__);
@@ -105,6 +111,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.github',
 	'.gitignore',
+	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
@@ -118,6 +125,11 @@ $doNotPackage = array(
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'Jenkinsfile',
+	'jenkins-phpunit.xml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -135,7 +147,7 @@ $doNotPatch = array(
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
-$packageStability = str_replace(' ', '_', $stability);
+$packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)

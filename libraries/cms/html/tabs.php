@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ abstract class JHtmlTabs
 			$opt['descriptionSelector'] = 'dd.tabs';
 
 			// When use storage is set and value is false - By default we allow to use storage
-			$opt['useStorage'] = (isset($params['useCookie']) && !$params['useCookie']) ? false : true;
+			$opt['useStorage'] = !(isset($params['useCookie']) && !$params['useCookie']);
 
 			$options = JHtml::getJSObject($opt);
 

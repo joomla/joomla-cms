@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -214,8 +214,7 @@ class FieldsModelFields extends JModelList
 			$categories = array_unique($categories);
 
 			// Join over the assigned categories
-			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id')
-			->group('a.id, l.title, l.image, uc.name, ag.title, ua.name, g.title, g.access, g.state');
+			$query->join('LEFT', $db->quoteName('#__fields_categories') . ' AS fc ON fc.field_id = a.id');
 
 			if (in_array('0', $categories))
 			{
@@ -241,6 +240,7 @@ class FieldsModelFields extends JModelList
 		$includeGroupState = !$app->isClient('administrator') ||
 			$app->input->get('option') != 'com_fields' ||
 			$app->input->get('view') != 'fields';
+
 		if (is_numeric($state))
 		{
 			$query->where('a.state = ' . (int) $state);
@@ -305,7 +305,7 @@ class FieldsModelFields extends JModelList
 		$listOrdering  = $this->state->get('list.ordering', 'a.ordering');
 		$orderDirn     = $this->state->get('list.direction', 'ASC');
 
-		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));		
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
 
 		return $query;
 	}

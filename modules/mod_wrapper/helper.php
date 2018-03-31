@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_wrapper
  *
- * @package     Joomla.Site
- * @subpackage  mod_wrapper
- * @since       1.5
+ * @since  1.5
  */
 class ModWrapperHelper
 {
@@ -56,7 +54,7 @@ class ModWrapperHelper
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$load = 'onload="iFrameHeight()"';
+			$load = 'onload="iFrameHeight(this)"';
 		}
 		else
 		{

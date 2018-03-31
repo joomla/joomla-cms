@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,8 +40,8 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
+		$this->schemaVersion = $this->schemaVersion ?: JText::_('JNONE');
+		$this->updateVersion = $this->updateVersion ?: JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 

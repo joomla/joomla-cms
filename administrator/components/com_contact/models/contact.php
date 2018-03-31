@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,9 +52,9 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
-		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'user_id' => 'batchUser'
+		'language_id'   => 'batchLanguage',
+		'tag'           => 'batchTag',
+		'user_id'       => 'batchUser',
 	);
 
 	/**

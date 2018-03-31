@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,15 +171,15 @@ class ContentViewFeatured extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'fp.ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
+			'fp.ordering'    => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'        => JText::_('JSTATUS'),
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
 			'category_title' => JText::_('JCATEGORY'),
-			'access_level' => JText::_('JGRID_HEADING_ACCESS'),
-			'a.created_by' => JText::_('JAUTHOR'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.created' => JText::_('JDATE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'access_level'   => JText::_('JGRID_HEADING_ACCESS'),
+			'a.created_by'   => JText::_('JAUTHOR'),
+			'language'       => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.created'      => JText::_('JDATE'),
+			'a.id'           => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

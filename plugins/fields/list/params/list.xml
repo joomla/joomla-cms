@@ -21,7 +21,7 @@
 				layout="joomla.form.field.subform.repeatable-table"
 				icon="list" 
 				multiple="true"
-			>
+				>
 				<form hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"

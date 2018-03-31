@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Helper for mod_tags_similar
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_similar
- * @since       3.1
+ * @since  3.1
  */
 abstract class ModTagssimilarHelper
 {
@@ -25,7 +23,7 @@ abstract class ModTagssimilarHelper
 	 *
 	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed  Results array / null
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
@@ -37,7 +35,7 @@ abstract class ModTagssimilarHelper
 		// This module does not apply to list views in general at this point.
 		if ($option === 'com_tags' || $view === 'category' || $option === 'com_users')
 		{
-			return;
+			return array();
 		}
 
 		$db         = JFactory::getDbo();
@@ -56,7 +54,7 @@ abstract class ModTagssimilarHelper
 
 		if (!$tagsToMatch || $tagsToMatch === null)
 		{
-			return;
+			return array();
 		}
 
 		$tagCount = substr_count($tagsToMatch, ',') + 1;

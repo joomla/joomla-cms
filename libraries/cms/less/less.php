@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  LESS
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ class JLess extends lessc
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $fname      Filename to process
-	 * @param   mided   $formatter  Formatter object
+	 * @param   string                 $fname      Filename to process
+	 * @param   \JLessFormatterJoomla  $formatter  Formatter object
 	 *
 	 * @since   3.4
 	 */

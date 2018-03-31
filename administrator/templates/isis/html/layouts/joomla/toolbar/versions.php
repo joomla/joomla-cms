@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ echo JHtml::_(
 	)
 );
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal" title="<?php echo $title; ?>">
-	<span class="icon-archive"></span><?php echo $title; ?>
+<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
+	<span class="icon-archive" aria-hidden="true"></span><?php echo $title; ?>
 </button>
 

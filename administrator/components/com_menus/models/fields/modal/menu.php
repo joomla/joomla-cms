@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $type = 'Modal_Menu';
-	
+
 	/**
 	 * Determinate, if the select button is shown
 	 *
@@ -32,7 +32,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowSelect = true;
-	
+
 	/**
 	 * Determinate, if the clear button is shown
 	 *
@@ -40,7 +40,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowClear = true;
-	
+
 	/**
 	 * Determinate, if the create button is shown
 	 *
@@ -48,7 +48,7 @@ class JFormFieldModal_Menu extends JFormField
 	 * @since   3.7.0
 	 */
 	protected $allowNew = false;
-	
+
 	/**
 	 * Determinate, if the edit button is shown
 	 *
@@ -60,7 +60,7 @@ class JFormFieldModal_Menu extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -83,7 +83,7 @@ class JFormFieldModal_Menu extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -98,6 +98,7 @@ class JFormFieldModal_Menu extends JFormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -175,7 +176,8 @@ class JFormFieldModal_Menu extends JFormField
 				function jSelectMenu_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -218,7 +220,20 @@ class JFormFieldModal_Menu extends JFormField
 			}
 		}
 
-		$title = empty($title) ? JText::_('COM_MENUS_SELECT_A_MENUITEM') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		// Placeholder if option is present or not
+		if (empty($title))
+		{
+			if ($this->element->option && (string) $this->element->option['value'] == '')
+			{
+				$title_holder = JText::_($this->element->option);
+			}
+			else
+			{
+				$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM');
+			}
+		}
+
+		$title = empty($title) ? $title_holder : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current menu item display field.
 		$html  = '<span class="input-append">';
@@ -359,8 +374,18 @@ class JFormFieldModal_Menu extends JFormField
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
+		// Placeholder if option is present or not when clearing field
+		if ($this->element->option && (string) $this->element->option['value'] == '')
+		{
+			$title_holder = JText::_($this->element->option);
+		}
+		else
+		{
+			$title_holder = JText::_('COM_MENUS_SELECT_A_MENUITEM');
+		}
+
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+			. '" data-text="' . htmlspecialchars($title_holder, ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;
 	}

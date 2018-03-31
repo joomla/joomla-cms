@@ -4,9 +4,10 @@
 		<fieldset name="fieldparams">
 			<field
 				name="options"
-				type="subform" layout="joomla.form.field.subform.repeatable-table"
+				type="subform" 
 				label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
 				description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
+				layout="joomla.form.field.subform.repeatable-table"
 				icon="list" 
 				multiple="true"
 			>

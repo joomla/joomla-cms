@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,10 +83,10 @@ class JHtmlTemplates
 					'bootstrap.renderModal',
 					$template . '-Modal',
 					array(
-						'title' => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+						'title'  => JText::_('COM_TEMPLATES_BUTTON_PREVIEW'),
 						'height' => '500px',
-						'width' => '800px',
-						'footer' => $footer
+						'width'  => '800px',
+						'footer' => $footer,
 					),
 					$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
 				);

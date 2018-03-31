@@ -2,12 +2,15 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Set flag that this is a parent file.
 const _JEXEC = 1;
+
+// Import namespaced classes
+use Joomla\CMS\Application\CliApplication;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -46,7 +49,7 @@ ini_set('display_errors', 1);
  *
  * @since  3.0
  */
-class StubGenerator extends JApplicationCli
+class StubGenerator extends CliApplication
 {
 	/**
 	 * Entry point for CLI script
@@ -57,23 +60,34 @@ class StubGenerator extends JApplicationCli
 	 */
 	public function doExecute()
 	{
-		// Get the aliased class names via Reflection as the property is protected
-		$refl = new ReflectionClass('JLoader');
-		$property = $refl->getProperty('classAliases');
-		$property->setAccessible(true);
-		$aliases = $property->getValue();
-
 		$file = "<?php\n";
 
 		// Loop the aliases to generate the stubs data
-		foreach ($aliases as $oldName => $newName)
+		foreach (JLoader::getDeprecatedAliases() as $alias)
 		{
+			$oldName           = $alias['old'];
+			$newName           = $alias['new'];
+			$deprecatedVersion = $alias['version'];
+
 			// Figure out if the alias is for a class or interface
 			$reflection = new ReflectionClass($newName);
-			$type = $reflection->isInterface() ? 'interface' : 'class';
-			$modifier = ($reflection->isAbstract() && !$reflection->isInterface()) ? 'abstract ' : '';
+			$type       = $reflection->isInterface() ? 'interface' : 'class';
+			$modifier   = (!$reflection->isInterface() && $reflection->isFinal()) ? 'final ' : '';
+			$modifier   = ($reflection->isAbstract() && !$reflection->isInterface()) ? $modifier . 'abstract ' : $modifier;
 
-			$file .= "$modifier$type $oldName extends $newName {}\n";
+			// If a deprecated version is available, write a stub class doc block with a deprecated tag
+			if ($deprecatedVersion !== false)
+			{
+				$file .= <<<PHP
+/**
+ * @deprecated $deprecatedVersion Use $newName instead.
+ */
+
+PHP;
+
+			}
+
+			$file .= "$modifier$type $oldName extends $newName {}\n\n";
 		}
 
 		// And save the file locally
@@ -84,4 +98,4 @@ class StubGenerator extends JApplicationCli
 }
 
 // Instantiate the application and execute it
-JApplicationCli::getInstance('StubGenerator')->execute();
+CliApplication::getInstance('StubGenerator')->execute();

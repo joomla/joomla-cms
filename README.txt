@@ -1,8 +1,8 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 3.7 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_3.7_version_history
-	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
+	* Joomla! 3.9 version history - https://docs.joomla.org/Special:MyLanguage/Joomla_3.9_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/staging
 
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
@@ -13,7 +13,7 @@
 3- Is Joomla! for you?
 	* Joomla! is the right solution for most content web projects: https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More
 	* See Joomla's core features - https://www.joomla.org/core-features.html
-	* Try out our online demo: https://demo.joomla.org/
+	* Try out our online demo: https://demo.joomla.org
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: https://community.joomla.org/translations.html
@@ -59,14 +59,14 @@
 	* How to migrate from 1.5.x to 3.x? Tutorial: https://docs.joomla.org/Special:MyLanguage/Joomla_1.5_to_3.x_Step_by_Step_Migration
 
 12- Do you want to improve Joomla?
-	* Where to request a feature? https://issues.joomla.org/
+	* Where to request a feature? https://issues.joomla.org
 	* How do you report a bug? https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues
-	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org/
+	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org
 	* Documentation for Developers: https://docs.joomla.org/Special:MyLanguage/Portal:Developers
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses

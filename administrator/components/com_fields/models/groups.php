@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -121,13 +121,7 @@ class FieldsModelGroups extends JModelList
 		$user = JFactory::getUser();
 
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'a.id, a.title, a.checked_out, a.checked_out_time, a.note' .
-				', a.state, a.access, a.created, a.created_by, a.ordering, a.language'
-			)
-		);
+		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('#__fields_groups AS a');
 
 		// Join over the language

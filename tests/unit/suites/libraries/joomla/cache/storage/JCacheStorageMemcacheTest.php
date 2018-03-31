@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,39 @@ class JCacheStorageMemcacheTest extends TestCaseCache
 		}
 
 		parent::setUp();
+
+		// Parse the DSN details for the test server
+		$dsn = defined('JTEST_CACHE_MEMCACHE_DSN') ? JTEST_CACHE_MEMCACHE_DSN : getenv('JTEST_CACHE_MEMCACHE_DSN');
+
+		if ($dsn)
+		{
+			// First let's trim the redis: part off the front of the DSN if it exists.
+			if (strpos($dsn, 'memcache:') === 0)
+			{
+				$dsn = substr($dsn, 9);
+			}
+
+			// Call getConfig once to have the registry object prepared
+			JFactory::getConfig();
+
+			// Split the DSN into its parts over semicolons.
+			$parts = explode(';', $dsn);
+
+			// Parse each part and populate the options array.
+			foreach ($parts as $part)
+			{
+				list ($k, $v) = explode('=', $part, 2);
+				switch ($k)
+				{
+					case 'host':
+						JFactory::$config->set("memcache_server_host", $v);
+						break;
+					case 'port':
+						JFactory::$config->set("memcache_server_port", $v);
+						break;
+				}
+			}
+		}
 
 		try
 		{

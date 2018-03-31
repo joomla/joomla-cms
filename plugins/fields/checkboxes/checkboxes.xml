@@ -3,7 +3,7 @@
 	<name>plg_fields_checkboxes</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -23,9 +23,10 @@
 			<fieldset name="basic">
 				<field
 					name="options"
-					type="subform" layout="joomla.form.field.subform.repeatable-table"
+					type="subform" 
 					label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
 					description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
+					layout="joomla.form.field.subform.repeatable-table"
 					icon="list" 
 					multiple="true"
 					>

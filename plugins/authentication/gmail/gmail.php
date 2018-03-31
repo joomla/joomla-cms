@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.gmail
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 
 		// Check if we have a username and password
-		if (strlen($credentials['username']) == 0 || strlen($credentials['password']) == 0)
+		if ($credentials['username'] === '' || $credentials['password'] === '')
 		{
 			$response->type          = 'GMail';
 			$response->status        = JAuthentication::STATUS_FAILURE;

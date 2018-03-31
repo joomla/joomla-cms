@@ -3,13 +3,14 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
 
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/../session/handler/array.php';
 
 /**
  * Test class for JOAuth1Client.
@@ -113,11 +114,7 @@ class JOAuth1ClientTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($this->options);
-		unset($this->client);
-		unset($this->input);
-		unset($this->application);
-		unset($this->object);
+		unset($this->options, $this->client, $this->input, $this->application, $this->object);
 	}
 
 	/**
@@ -203,8 +200,13 @@ class JOAuth1ClientTest extends TestCase
 			}
 			TestReflection::setValue($input, 'data', $data);
 
+			$memoryHandler = new JSessionHandlerArray;
+
 			// Get mock session
-			$mockSession = $this->getMockBuilder('JSession')->setMethods(array( '_start', 'get'))->getMock();
+			$mockSession = $this->getMockBuilder('JSession')
+				->setMethods(array( '_start', 'get'))
+				->setConstructorArgs(array('none', array(), $memoryHandler))
+				->getMock();
 
 			if ($fail)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,9 +36,9 @@ $dispatcher = JEventDispatcher::getInstance();
 			</label>
 		</div>
 
- 		<div class="imgPreview">
-			<a href="<?php echo COM_MEDIA_BASEURL, '/', $img->path_relative; ?>" title="<?php echo $img->name; ?>" class="preview">
-				<span class="icon-search"> </span>
+		<div class="imgPreview nowrap small">
+			<a href="<?php echo COM_MEDIA_BASEURL, '/', $img->path_relative; ?>" title="<?php echo $img->name; ?>" class="preview truncate">
+				<span class="icon-search" aria-hidden="true"></span><?php echo $img->name; ?>
 			</a>
 		</div>
 	</li>
