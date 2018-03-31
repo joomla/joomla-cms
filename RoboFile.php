@@ -166,7 +166,18 @@ class RoboFile extends \Robo\Tasks
 			}
 		}
 
-		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git', 'test-install', 'libraries/vendor/codeception', 'libraries/vendor/behat', 'libraries/vendor/joomla-projects'];
+		$exclude = [
+			'tests',
+			'tests-phpunit',
+			'.run',
+			'.github',
+			'.git',
+			'test-install',
+			'libraries/vendor/codeception',
+			'libraries/vendor/behat',
+			'libraries/vendor/joomla-projects',
+			'libraries/vendor/consolidation'
+		];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
 
