@@ -70,6 +70,12 @@ else
 					</h2>
 			<?php
 		}
+		// Feed date
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo JHtml::_('date', $feed->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+			</h3>
+		<?php endif;
 		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
@@ -103,7 +109,11 @@ else
 					<?php else : ?>
 						<span class="feed-link"><?php echo $title; ?></span>
 					<?php endif; ?>
-
+					<?php if ($params->get('rssitemdate')) : ?>
+						<div class="feed-item-date">
+							<?php echo JHtml::_('date', $feed[$i]->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+						</div>
+					<?php endif; ?>
 					<?php if (!empty($text) && $params->get('rssitemdesc')) : ?>
 						<div class="feed-item-description">
 						<?php

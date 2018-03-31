@@ -69,8 +69,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
@@ -257,7 +255,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

@@ -243,7 +243,7 @@ class PlgUserProfile extends JPlugin
 
 		// Add the registration fields to the form.
 		JForm::addFormPath(__DIR__ . '/profiles');
-		$form->loadFile('profile', false);
+		$form->loadFile('profile');
 
 		$fields = array(
 			'address1',

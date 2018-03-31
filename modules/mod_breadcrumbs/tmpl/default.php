@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-JHtml::_('bootstrap.tooltip');
 ?>
 
 <ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">

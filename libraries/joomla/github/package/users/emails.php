@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Management of email addresses via the API requires that you are authenticated
  * through basic auth or OAuth with the user scope.
  *
- * @documentation https://developer.github.com/v3/repos/users/emails
+ * @documentation https://developer.github.com/v3/users/emails
  *
  * @since       12.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead

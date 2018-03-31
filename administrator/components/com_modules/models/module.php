@@ -926,7 +926,7 @@ class ModulesModelModule extends JModelAdmin
 
 			if ($data['title'] == $orig_table->title)
 			{
-				$data['title'] .= ' ' . JText::_('JGLOBAL_COPY');
+				$data['title'] = StringHelper::increment($data['title']);
 			}
 		}
 

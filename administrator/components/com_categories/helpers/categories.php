@@ -111,11 +111,30 @@ class CategoriesHelper
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-		$associations = array();
+		$associations     = array();
+		$user             = JFactory::getUser();
+		$groups           = implode(',', $user->getAuthorisedViewLevels());
 
 		foreach ($langAssociations as $langAssociation)
 		{
-			$associations[$langAssociation->language] = $langAssociation->id;
+			// Include only published categories with user access
+			$arrId    = explode(':', $langAssociation->id);
+			$assocId  = $arrId[0];
+
+			$db    = \JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->qn('published'))
+				->from($db->qn('#__categories'))
+				->where('access IN (' . $groups . ')')
+				->where($db->qn('id') . ' = ' . (int) $assocId);
+
+			$result = (int) $db->setQuery($query)->loadResult();
+
+			if ($result === 1)
+			{
+				$associations[$langAssociation->language] = $langAssociation->id;
+			}
 		}
 
 		return $associations;

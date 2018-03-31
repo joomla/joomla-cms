@@ -52,7 +52,6 @@ class ContentModelArticles extends JModelList
 				'images', 'a.images',
 				'urls', 'a.urls',
 				'filter_tag',
-				'tag',
 			);
 		}
 
@@ -189,7 +188,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
@@ -476,9 +475,10 @@ class ContentModelArticles extends JModelList
 		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter     = StringHelper::strtolower($filter);
-			$hitsFilter = (int) $filter;
-			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$filter      = StringHelper::strtolower($filter);
+			$monthFilter = $filter;
+			$hitsFilter  = (int) $filter;
+			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -493,6 +493,21 @@ class ContentModelArticles extends JModelList
 					$query->where('a.hits >= ' . $hitsFilter . ' ');
 					break;
 
+				case 'month':
+					if ($monthFilter != '')
+					{
+						$query->where(
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+
+						$query->where(
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+					}
+					break;
+
 				case 'title':
 				default:
 					// Default to 'title' if parameter is not valid
@@ -504,37 +519,39 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tagId = $this->getState('filter.tag');
 
-		if (!empty($tagId) && is_numeric($tagId))
+		if (is_array($tagId) && count($tagId) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$tagId = current($tagId);
 		}
-		elseif (is_array($tagId))
+
+		if (is_array($tagId))
 		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
 
-			if (!empty($tagId))
+			if ($tagId)
 			{
-				$hasTag = true;
+				$subQuery = $db->getQuery(true)
+					->select('DISTINCT content_item_id')
+					->from($db->quoteName('#__contentitem_tag_map'))
+					->where('tag_id IN (' . $tagId . ')')
+					->where('type_alias = ' . $db->quote('com_content.article'));
 
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+				$query->innerJoin('(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
 			}
 		}
-
-		if ($hasTag)
+		elseif ($tagId)
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			$query->innerJoin(
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON tagmap.tag_id = ' . (int) $tagId
+				. ' AND tagmap.content_item_id = a.id'
+				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
 			);
 		}
 
@@ -707,5 +724,37 @@ class ContentModelArticles extends JModelList
 	public function getStart()
 	{
 		return $this->getState('list.start');
+	}
+
+	/**
+	 * Count Items by Month
+	 *
+	 * @return  mixed  An array of objects on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countItemsByMonth()
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('DATE(' .
+				$query->concatenate(
+					array(
+						$query->year($query->quoteName('publish_up')),
+						$query->quote('-'),
+						$query->month($query->quoteName('publish_up')),
+						$query->quote('-01')
+					)
+				) . ') as d'
+			)
+			->select('COUNT(*) as c')
+			->from('(' . $this->getListQuery() . ') as b')
+			->group($query->quoteName('d'))
+			->order($query->quoteName('d') . ' desc');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }
