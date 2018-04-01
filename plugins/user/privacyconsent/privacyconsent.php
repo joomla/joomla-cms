@@ -155,8 +155,8 @@ class PlgUserPrivacyconsent extends JPlugin
 		$userNote = (object) array(
 			'user_id'         => $userId,
 			'catid'           => 0,
-			'subject'         => JText::_('PLG_CONSENTNOTE_SUBJECT'),
-			'body'            => JText::sprintf('PLG_CONSENTNOTE_BODY', $ip, $user_agent),
+			'subject'         => JText::_('PLG_USER_PRIVACY_SUBJECT'),
+			'body'            => JText::sprintf('PLG_USER_PRIVACY_BODY', $ip, $user_agent),
 			'state'           => 1,
 			'created_user_id' => 42,
 			'created_time'    => $now
