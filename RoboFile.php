@@ -244,7 +244,6 @@ class RoboFile extends \Robo\Tasks
 
 				if (is_dir($srcFile))
 				{
-
 					try
 					{
 						$this->_copyDir($srcFile, $destFile);
@@ -313,7 +312,17 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
+			->arg($this->testsPath . '/acceptance/administrator/')
+			->run()
+			->stopOnFail();
+		
+		
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->env($opts['env'])
+			->arg($this->testsPath . '/acceptance/components/')
 			->run()
 			->stopOnFail();
 	}
