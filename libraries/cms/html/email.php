@@ -58,7 +58,7 @@ abstract class JHtmlEmail
 		$domain = @$mail[1];
 
 		// Include the email cloaking script
-		HTMLHelper::_('webcomponent', ['joomla-hidden-mail' => 'system/webcomponents/joomla-hidden-mail.js'], ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-hidden-mail.js', ['version' => 'auto', 'relative' => true]);
 
 		return '<joomla-hidden-mail '
 			. $attribsBefore . ' is-link="'
