@@ -175,16 +175,45 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		$exclude = [
-			'tests',
-			'tests-phpunit',
-			'.run',
+			'.drone',
 			'.github',
 			'.git',
+			'.run',
+			'.idea',
+			'build',
+			'dev',
+			'node_modules',
+			'tests',
 			'test-install',
-			'libraries/vendor/codeception',
-			'libraries/vendor/behat',
-			'libraries/vendor/joomla-projects',
-			'libraries/vendor/consolidation'
+			'.appveyor.yml',
+			'.babelrc',
+			'.drone.yml',
+			'.eslintignore',
+			'.eslintrc',
+			'.gitignore',
+			'.hound.yml',
+			'.php_cs',
+			'.travis.yml',
+			'appveyor-phpunit.xml',
+			'build.js',
+			'build.xml',
+			'codeception.yml',
+			'composer.json',
+			'composer.lock',
+			'configuration.php',
+			'drone-package.json',
+			'Gemfile',
+			'htaccess.txt',
+			'karma.conf.js',
+			'package.json',
+			'package-lock.json',
+			'phpunit.xml.dist',
+			'RoboFile.dist.ini',
+			'RoboFile.php',
+			'robots.txt.dist',
+			'scss-lint.yml',
+			'selenium.log',
+			'travisci-phpunit.xml',
 		];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
@@ -192,7 +221,7 @@ class RoboFile extends \Robo\Tasks
 		// Optionally change owner to fix permissions issues
 		if (!empty($this->configuration->localUser))
 		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ':' . $this->configuration->localUser  . ' ' . $this->cmsPath);
+			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
 		}
 
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
@@ -244,15 +273,7 @@ class RoboFile extends \Robo\Tasks
 
 				if (is_dir($srcFile))
 				{
-					try
-					{
-						$this->_copyDir($srcFile, $destFile);
-					}
-					catch (Exception $e)
-					{
-						// Sorry, we tried :(
-						$this->say('Sorry, you will have to Skip ' . $srcFile . ' Copy manually.');
-					}
+					$this->_copyDir($srcFile, $destFile);
 				}
 				else
 				{
@@ -298,32 +319,22 @@ class RoboFile extends \Robo\Tasks
 			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/install/')
-			->run()
-			->stopOnFail();
+		$suites = [
+			'acceptance/install/',
+			'acceptance/administrator/components/com_users',
+			'acceptance/administrator/components/com_media',
+		];
 
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_menu')
-			->run()
-			->stopOnFail();
-
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_users/')
-			->run()
-			->stopOnFail();
+		foreach ($suites as $suite) {
+			$this->taskCodecept($pathToCodeception)
+				->arg('--steps')
+				->arg('--debug')
+				->arg('--fail-fast')
+				->env($opts['env'])
+				->arg($this->testsPath . $suite)
+				->run()
+				->stopOnFail();
+		}
 	}
 
 	/**

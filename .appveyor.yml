@@ -7,6 +7,7 @@ environment:
   matrix:
   - php_ver_target: 7.0
   - php_ver_target: 7.1
+  - php_ver_target: 7.2
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
