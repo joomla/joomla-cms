@@ -229,7 +229,7 @@ class PlgUserPrivacyconsent extends JPlugin
 				return false;
 			}
 
-			// remove any user profile fields
+			// Remove any user profile fields
 			try
 			{
 				$db = JFactory::getDbo();
