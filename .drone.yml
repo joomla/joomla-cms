@@ -41,7 +41,7 @@ pipeline:
       - google-chrome --version
       - mv RoboFile.dist.ini RoboFile.ini
       - apt-get update > /dev/null 2>&1
-      - composer update
+      - composer update > /dev/null 2>&1
       - ls -la
       - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
       - mv libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
