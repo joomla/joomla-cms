@@ -46,6 +46,20 @@ pipeline:
       - npm install
       - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
+  system-tests:
+      image: joomlaprojects/docker-systemtests:latest
+      commands:
+        - date
+        - apache2ctl -D FOREGROUND &
+        - google-chrome --version
+        - mv RoboFile.dist.ini RoboFile.ini
+        - apt-get update > /dev/null 2>&1
+        - composer update > /dev/null 2>&1
+        - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
+        - mv libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
+        - libraries/vendor/bin/robo run:tests
+        - date
+
 services:
   mysql:
     image: mysql:5.7
