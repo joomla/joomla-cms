@@ -53,7 +53,7 @@ if (!$readonly)
 	// @TODO remove jQuery dependency once modal moves to webcomponents
 	HTMLHelper::_('jquery.framework');
 
-	HTMLHelper::_('webcomponent', ['joomla-field-user' =>'system/webcomponents/joomla-field-user.min.js'], ['version' => 'auto', 'relative' => true]);}
+	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);}
 
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 

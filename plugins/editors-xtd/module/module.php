@@ -35,7 +35,7 @@ class PlgButtonModule extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  JObject  The button options as JObject
+	 * @return  CMSObject  The button options as JObject
 	 *
 	 * @since   3.5
 	 */
@@ -55,16 +55,15 @@ class PlgButtonModule extends CMSPlugin
 					. $name . '&amp;' . Session::getFormToken() . '=1';
 			$button          = new CMSObject;
 			$button->modal   = true;
-			$button->class   = 'btn btn-secondary';
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_MODULE_BUTTON_MODULE');
 			$button->name    = 'file-add';
-			$button->options = array(
+			$button->options = [
 				'height'     => '300px',
 				'width'      => '800px',
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
-			);
+			];
 
 			return $button;
 		}

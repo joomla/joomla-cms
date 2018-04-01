@@ -36,6 +36,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 			'getUserState',
 			'getUserStateFromRequest',
 			'setUserState',
+			'getContainer',
 		);
 
 		return array_merge($methods, parent::getMethods());

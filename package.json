@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
+    "@webcomponents/webcomponentsjs": "1.1.0",
     "awesomplete": "1.1.2",
     "bootstrap": "4.0.0",
     "codemirror": "5.35.0",
@@ -36,9 +37,6 @@
     "tinymce": "4.7.7"
   },
   "devDependencies": {
-    "@polymer/test-fixture": "latest",
-    "@webcomponents/custom-elements": "latest",
-    "@webcomponents/webcomponentsjs": "latest",
     "autoprefixer": "^8.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.0",
@@ -73,8 +71,7 @@
     "requirejs": "latest",
     "text": "github:requirejs/text",
     "uglify-es": "^3.3.9",
-    "uglifycss": "0.0.27",
-    "web-component-tester": "latest"
+    "uglifycss": "0.0.27"
   },
   "settings": {
     "browsers": [
@@ -310,6 +307,25 @@
       "tinymce": {
         "name": "tinymce",
         "licenseFilename": "license.txt"
+      },
+      "@webcomponents/webcomponentsjs": {
+        "name": "webcomponentsjs",
+        "js": {
+          "webcomponents-hi.js": "js/webcomponents-hi.js",
+          "webcomponents-hi.js.map": "js/webcomponents-hi.js.map",
+          "webcomponents-hi-ce.js": "js/webcomponents-hi-ce.js",
+          "webcomponents-hi-ce.js.map": "js/webcomponents-hi-ce.js.map",
+          "webcomponents-hi-sd.js": "js/webcomponents-hi-sd.js",
+          "webcomponents-hi-sd.js.map": "js/webcomponents-hi-sd.js.map",
+          "webcomponents-hi-sd-ce.js": "js/webcomponents-hi-sd-ce.js",
+          "webcomponents-hi-sd-ce.js.map": "js/webcomponents-hi-sd-ce.js.map",
+          "webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
+          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map",
+          "webcomponents-lite.js": "js/webcomponents-lite.js",
+          "webcomponents-lite.js.map": "js/webcomponents-lite.js.map"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE.md"
       }
     }
   }
