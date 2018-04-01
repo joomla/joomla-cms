@@ -328,8 +328,6 @@ class RoboFile extends \Robo\Tasks
 
 		foreach ($suites as $suite) {
 			$this->taskCodecept($pathToCodeception)
-				->arg('--steps')
-				->arg('--debug')
 				->arg('--fail-fast')
 				->env($opts['env'])
 				->arg($this->testsPath . $suite)
