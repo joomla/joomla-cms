@@ -10,6 +10,9 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
+
 /**
  * Factory to create MVC objects.
  *
@@ -17,6 +20,22 @@ defined('JPATH_PLATFORM') or die;
  */
 interface MVCFactoryInterface
 {
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null);
+
 	/**
 	 * Method to load and return a model object.
 	 *

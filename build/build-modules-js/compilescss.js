@@ -6,10 +6,17 @@ const Recurs = require("recursive-readdir");
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
 const autoprefixer = require('autoprefixer');
-const postcss      = require('postcss');
+const postcss = require('postcss');
+const debounce = require('lodash.debounce');
 
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
+const watches = [
+	rootPath + '/' + 'templates/cassiopeia/scss',
+	rootPath + '/' + 'administrator/templates/atum/scss',
+	rootPath + '/' + 'media/plg_installer_webinstaller/scss',
+	rootPath + '/' + 'media',
+];
 
 compileFiles = (options, path) => {
 	let files = [], folders = [];
@@ -82,7 +89,6 @@ compileFiles = (options, path) => {
 							// Write the file
 							fs.writeFileSync(file.replace('.css', '.min.css'), UglyCss.processFiles([file], {expandVars: false }), {encoding: "utf8"});
 						}
-
 					},
 					(error) => {
 						console.error("something exploded", error);
@@ -93,6 +99,33 @@ compileFiles = (options, path) => {
 
 };
 
+watchFiles = function(options, folders, compileFirst = false) {
+	folders = folders || watches;
+
+	if (compileFirst) {
+		compileFiles(options);
+	}
+
+	folders.forEach((folder) => {
+		Recurs(folder, ['*.css', '*.map', '*.js', '*.svg', '*.png', '*.swf']).then(
+			(files) => {
+				files.forEach((file) => {
+						if (file.match(/.scss/)) {
+							fs.watchFile(file, () => {
+								console.log('File: ' + file + ' changed.');
+								debounce(() => compileFiles(options), 150)();
+							});
+						}
+					},
+					(error) => {
+						console.error("something exploded", error);
+					}
+				);
+			});
+	});
+
+	console.log('Now watching SASS files...');
+};
 
 sass = (options, path) => {
 	Promise.resolve()
@@ -107,3 +140,4 @@ sass = (options, path) => {
 };
 
 module.exports.css = sass;
+module.exports.watch = watchFiles;

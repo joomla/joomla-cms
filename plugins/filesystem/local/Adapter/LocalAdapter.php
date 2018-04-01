@@ -441,6 +441,9 @@ class LocalAdapter implements AdapterInterface
 			$this->copyFile($sourcePath, $destinationPath, $force);
 		}
 
+		// Get the relative path
+		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
+
 		return $destinationPath;
 	}
 
@@ -548,6 +551,9 @@ class LocalAdapter implements AdapterInterface
 		{
 			$this->moveFile($sourcePath, $destinationPath, $force);
 		}
+
+		// Get the relative path
+		$destinationPath = str_replace($this->rootPath, '', $destinationPath);
 
 		return $destinationPath;
 	}
@@ -823,6 +829,8 @@ class LocalAdapter implements AdapterInterface
 	 */
 	private function getFileName($path)
 	{
+		$path = \JPath::clean($path);
+
 		// Basename does not work here as it strips out certain characters like upper case umlaut u
 		$path = explode(DIRECTORY_SEPARATOR, $path);
 

@@ -51,7 +51,7 @@ abstract class QuickIconHelper
 		{
 			$context = $params->get('context', 'mod_quickicon');
 
-			if ($context == 'mod_quickicon')
+			if ($context === 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				Factory::getLanguage()->load('mod_quickicon');

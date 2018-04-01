@@ -127,7 +127,7 @@ abstract class LanguagesHelper
 						$itemid = $associations[$language->lang_code];
 						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 					}
-					elseif ($active && $active->language == '*')
+					elseif ($active && $active->language === '*')
 					{
 						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
 					}

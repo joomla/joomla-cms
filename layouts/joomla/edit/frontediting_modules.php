@@ -24,6 +24,7 @@ $menusEditing = $displayData['menusediting'];
 $parameters   = ComponentHelper::getParams('com_modules');
 $redirectUri  = '&return=' . urlencode(base64_encode(Uri::getInstance()->toString()));
 $target       = '_blank';
+$itemid       = Factory::getApplication()->input->get('Itemid', '0', 'int');
 
 if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {
@@ -36,7 +37,7 @@ $editUrl = Uri::base() . 'administrator/index.php?option=com_modules&task=module
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = Uri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . $redirectUri;
+	$editUrl = Uri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . '&Itemid=' . $itemid . $redirectUri;
 	$target  = '_self';
 }
 
@@ -69,6 +70,6 @@ if ($count)
 	// Load stylesheet and javascript to head:
 	HTMLHelper::_('bootstrap.popover');
 
-	HTMLHelper::_('stylesheet', 'system/frontediting.css', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('script', 'system/frontediting.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('stylesheet', 'legacy/frontediting.css', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('script', 'legacy/frontediting.min.js', array('version' => 'auto', 'relative' => true));
 }
