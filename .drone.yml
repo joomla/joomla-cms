@@ -52,7 +52,6 @@ pipeline:
         - date
         - apache2ctl -D FOREGROUND &
         - google-chrome --version
-        - mv RoboFile.dist.ini RoboFile.ini
         - apt-get update > /dev/null 2>&1
         - composer update > /dev/null 2>&1
         - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
