@@ -2,4 +2,4 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (481, 0, 'plg_user_privacyconsent', 'plugin', 'privacyconsent', 'user', 0, 0, 1, 0, '', '', '', '', 0, '1990-01-01 00:00:00', 0, 0);
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
 VALUES
-(700, 'PLG_USER_PRIVACYCONSENT_TITLE', 'PLG_USER_PRIVACYCONSENT_BODY', '', 'plg_user_privacyconsent', 1, 'message', '', '', ', '', '3.9.0', 1);
+(700, 'PLG_USER_PRIVACYCONSENT_TITLE', 'PLG_USER_PRIVACYCONSENT_BODY', '', 'plg_user_privacyconsent', 1, 'message', '', '', '', '', '3.9.0', 1);
