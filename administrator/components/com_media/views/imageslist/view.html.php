@@ -93,11 +93,11 @@ class MediaViewImagesList extends JViewLegacy
 	/**
 	 * Set the active video
 	 *
-	 * @param   integer  $index  Image position
+	 * @param   integer  $index  Video position
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setVideo($index = 0)
 	{
@@ -114,11 +114,11 @@ class MediaViewImagesList extends JViewLegacy
 	/**
 	 * Set the active document
 	 *
-	 * @param   integer  $index  Image position
+	 * @param   integer  $index  Document position
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setDocument($index = 0)
 	{
