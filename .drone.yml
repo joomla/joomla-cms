@@ -37,7 +37,7 @@ pipeline:
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - apache2ctl -D FOREGROUND &
-      - mysql --host=mysql -ujoomla_ut -pjoomla_ut -e "create database temp"
+      - mysql --host=mysql -uroot -pjoomla_ut -e "create database temp"
       - google-chrome --version
       - mv RoboFile.dist.ini RoboFile.ini
       - apt-get update > /dev/null 2>&1
