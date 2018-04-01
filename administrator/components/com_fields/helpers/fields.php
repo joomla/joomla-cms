@@ -543,7 +543,7 @@ class FieldsHelper
 	}
 
 	/**
-	 * Return a boolean if the actual logged in user is authorised display the given field on a form.
+	 * Return a boolean if the actual logged in user is authorised to display the given field on a form.
 	 *
 	 * @param   stdClass  $field  The field
 	 *
