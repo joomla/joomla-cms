@@ -312,17 +312,16 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/')
+			->arg($this->testsPath . '/acceptance/administrator/components/com_menu')
 			->run()
 			->stopOnFail();
-		
-		
+
 		$this->taskCodecept()
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/components/')
+			->arg($this->testsPath . '/acceptance/administrator/components/com_users/')
 			->run()
 			->stopOnFail();
 	}
