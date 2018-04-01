@@ -33,6 +33,19 @@ pipeline:
     commands:
       - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
+  javascript:
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - apt-get install nodejs npm
+      - ln -s /usr/bin/nodejs /usr/bin/node
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - mv -f drone-package.json package.json
+      - fluxbox  > /dev/null 2>&1 &
+      - npm install
+      - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
+
 services:
   mysql:
     image: mysql:5.7
