@@ -84,7 +84,6 @@ class PlgUserPrivacyconsent extends JPlugin
 		);
 
 		$privacyarticle = $this->params->get('privacy_article');
-		$privacyenabled = $this->params->get('require_privacy', 0);
 
 		// Push the privacy article ID into the privacy field.
 		$form->setFieldAttribute('privacy', 'article', $privacyarticle, 'privacyconsent');
@@ -109,10 +108,9 @@ class PlgUserPrivacyconsent extends JPlugin
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$privacyarticle = $this->params->get('privacy_article');
-		$privacyenabled = ($this->params->get('require_privacy', 0) == 2);
 
 		// Check that the privacy is checked.
-		if ($privacyenabled && $privacyarticle && $option === 'com_users' && !$data['privacyconsent'])
+		if (!$data['privacyconsent']['consent'])
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PRIVACY_FIELD_ERROR'));
 		}
