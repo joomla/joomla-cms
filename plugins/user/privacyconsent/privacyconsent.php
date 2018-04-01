@@ -95,7 +95,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 * Method is called before user data is stored in the database
 	 *
 	 * @param   array    $user   Holds the old user data.
-	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   boolean  $isNew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
 	 * @return  boolean
@@ -152,7 +152,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$now = JFactory::getDate()->toSql();
 
 		// Create the user note
-		$userNote = (object)array(
+		$userNote = (object) array(
 			'user_id'         => $userId,
 			'catid'           => 0,
 			'subject'         => JText::_('PLG_CONSENTNOTE_SUBJECT'),
@@ -172,7 +172,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		}
 
 		// Create the consent confirmation
-		$confirm = (object)array(
+		$confirm = (object) array(
 			'user_id'		=> $userId,
 			'profile_key'	=> 'consent',
 			'profile_value'	=> 1
@@ -211,7 +211,7 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		if ($userId)
 		{
-			// remove any user notes
+			// Remove any user notes
 			try
 			{
 				$db = JFactory::getDbo();
@@ -287,7 +287,7 @@ class PlgUserPrivacyconsent extends JPlugin
 			return;
 		}
 
-		// if the count of $consent is 0 then redirect to com_users profile edit
+		// If the count of $consent is 0 then redirect to com_users profile edit
 		$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
 		$this->app->redirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
 	}
