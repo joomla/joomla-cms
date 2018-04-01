@@ -110,7 +110,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$privacyarticle = $this->params->get('privacy_article');
 
 		// Check that the privacy is checked.
-		if (!$data['privacyconsent']['consent'])
+		if (!$data['privacyconsent']['privacy'])
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PRIVACY_FIELD_ERROR'));
 		}
