@@ -293,7 +293,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 * @since   1.0
 	 */
 
-	 private function getRedirectMessage()
+	private function getRedirectMessage()
 	{
 		$messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
 		if (empty($messageOnRedirect))
