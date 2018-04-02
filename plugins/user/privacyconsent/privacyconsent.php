@@ -182,6 +182,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		{
 			// Do nothing if the save fails
 		}
+
 		return true;
 	}
 
@@ -292,10 +293,10 @@ class PlgUserPrivacyconsent extends JPlugin
 	 *
 	 * @since   1.0
 	 */
-
 	private function getRedirectMessage()
 	{
 		$messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
+
 		if (empty($messageOnRedirect))
 		{
 			return \JText::_('PLG_USER_PRIVACY_REDIRECT_MESSAGE_DEFAULT');
