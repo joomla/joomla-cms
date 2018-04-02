@@ -168,7 +168,7 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		// Create the consent confirmation
 		$confirm = (object) array(
-			'user_id'		=> $userId,
+			'user_id'	=> $userId,
 			'profile_key'	=> 'consent',
 			'profile_value'	=> 1
 		);
