@@ -58,26 +58,10 @@ class RoboFile extends \Robo\Tasks
 	private $testsPath = 'libraries/vendor/joomla/test-system/src/';
 
 	/**
-	 * Local configuration parameters
-	 *
-	 * @var    array
-	 * @since  3.7.3
-	 */
-	private $configuration = array();
-
-	/**
 	 * @var array | null
 	 * @since  3.7.3
 	 */
 	private $suiteConfig;
-
-	/**
-	 * Path to the local CMS test folder
-	 *
-	 * @var    string
-	 * @since  3.7.3
-	 */
-	protected $cmsPath = null;
 
 	/**
 	 * RoboFile constructor.
@@ -86,65 +70,9 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function __construct()
 	{
-		$this->configuration = $this->getConfiguration();
-		$this->cmsPath       = $this->getTestingPath();
 
 		// Set default timezone (so no warnings are generated if it is not set)
 		date_default_timezone_set('UTC');
-	}
-
-	/**
-	 * Get (optional) configuration from an external file
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  \stdClass|null
-	 */
-	public function getConfiguration()
-	{
-		$configurationFile = __DIR__ . '/RoboFile.ini';
-
-		if (!file_exists($configurationFile))
-		{
-			$this->say('No local configuration file');
-
-			return null;
-		}
-
-		$configuration = parse_ini_file($configurationFile);
-
-		if ($configuration === false)
-		{
-			$this->say('Local configuration file is empty or wrong (check is it in correct .ini format');
-
-			return null;
-		}
-
-		return json_decode(json_encode($configuration));
-	}
-
-	/**
-	 * Get the correct CMS root path
-	 *
-	 * @since   3.7.3
-	 *
-	 * @return  string
-	 */
-	private function getTestingPath()
-	{
-		if (empty($this->configuration->cmsPath))
-		{
-			return 'test-install';
-		}
-
-		if (!file_exists(dirname($this->configuration->cmsPath)))
-		{
-			$this->say('CMS path written in local configuration does not exists or is not readable');
-
-			return 'test-install';
-		}
-
-		return $this->configuration->cmsPath;
 	}
 
 	/**
@@ -158,48 +86,80 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function createTestingSite($useHtaccess = false)
 	{
+		$cmsPath   = $this->getSuiteConfig()['modules']['config']['Helper\\Acceptance']['cmsPath'];
+		$localUser = $this->getSuiteConfig()['modules']['config']['Helper\\Acceptance']['localUser'];
+
 		// Clean old testing site
-		if (is_dir($this->cmsPath))
+		if (is_dir($cmsPath))
 		{
 			try
 			{
-				$this->taskDeleteDir($this->cmsPath)->run();
+				$this->taskDeleteDir($cmsPath)->run();
 			}
 			catch (Exception $e)
 			{
 				// Sorry, we tried :(
-				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually.');
+				$this->say('Sorry, you will have to delete ' . $cmsPath . ' manually.');
 
 				exit(1);
 			}
 		}
 
 		$exclude = [
-			'tests',
-			'tests-phpunit',
-			'.run',
+			'.drone',
 			'.github',
 			'.git',
+			'.run',
+			'.idea',
+			'build',
+			'dev',
+			'node_modules',
+			'tests',
 			'test-install',
-			'libraries/vendor/codeception',
-			'libraries/vendor/behat',
-			'libraries/vendor/joomla-projects',
-			'libraries/vendor/consolidation'
+			'.appveyor.yml',
+			'.babelrc',
+			'.drone.yml',
+			'.eslintignore',
+			'.eslintrc',
+			'.gitignore',
+			'.hound.yml',
+			'.php_cs',
+			'.travis.yml',
+			'appveyor-phpunit.xml',
+			'build.js',
+			'build.xml',
+			'codeception.yml',
+			'composer.json',
+			'composer.lock',
+			'configuration.php',
+			'drone-package.json',
+			'Gemfile',
+			'htaccess.txt',
+			'karma.conf.js',
+			'package.json',
+			'package-lock.json',
+			'phpunit.xml.dist',
+			'RoboFile.dist.ini',
+			'RoboFile.php',
+			'robots.txt.dist',
+			'scss-lint.yml',
+			'selenium.log',
+			'travisci-phpunit.xml',
 		];
 
-		$this->copyJoomla($this->cmsPath, $exclude);
+		$this->copyJoomla($cmsPath, $exclude);
 
 		// Optionally change owner to fix permissions issues
-		if (!empty($this->configuration->localUser))
+		if (!empty($localUser))
 		{
-			$this->_exec('chown -R ' . $this->configuration->localUser . ' ' . $this->cmsPath);
+			$this->_exec('chown -R ' . $localUser . ' ' . $cmsPath);
 		}
 
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
 		if ($useHtaccess == true)
 		{
 			$this->say('Renaming htaccess.txt to .htaccess');
-			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
+			$this->_copy('./htaccess.txt', $cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /test-install/joomla-cms,g" -in-place test-install/joomla-cms/.htaccess');
 		}
 	}
@@ -290,23 +250,21 @@ class RoboFile extends \Robo\Tasks
 			$pathToCodeception = $this->vendorPath . 'bin/codecept';
 		}
 
-		$this->taskCodecept($pathToCodeception)
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . 'acceptance/install/')
-			->run()
-			->stopOnFail();
+		$suites = [
+			'acceptance/install/',
+			'acceptance/administrator/components/com_users',
+			'acceptance/administrator/components/com_content',
+			'acceptance/administrator/components/com_menu',
+		];
 
-		$this->taskCodecept()
-			->arg('--steps')
-			->arg('--debug')
-			->arg('--fail-fast')
-			->env($opts['env'])
-			->arg($this->testsPath . '/acceptance/administrator/components/com_users')
-			->run()
-			->stopOnFail();
+		foreach ($suites as $suite) {
+			$this->taskCodecept($pathToCodeception)
+				->arg('--fail-fast')
+				->env($opts['env'])
+				->arg($this->testsPath . $suite)
+				->run()
+				->stopOnFail();
+		}
 	}
 
 	/**

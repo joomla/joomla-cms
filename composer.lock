@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d03c348bc33d673dd750487429c8930a",
+    "content-hash": "37c9cb831217eb8164cdee2bbd185c9f",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3345,12 +3345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "1ab94ea82b65eb0477c918e7ec17d1dd1ff4b96b"
+                "reference": "2a23ff98ccbca1aeecd3acc432157a14c4dd7a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/1ab94ea82b65eb0477c918e7ec17d1dd1ff4b96b",
-                "reference": "1ab94ea82b65eb0477c918e7ec17d1dd1ff4b96b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/2a23ff98ccbca1aeecd3acc432157a14c4dd7a23",
+                "reference": "2a23ff98ccbca1aeecd3acc432157a14c4dd7a23",
                 "shasum": ""
             },
             "require": {
@@ -3388,7 +3388,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2018-03-30T10:56:37+00:00"
+            "time": "2018-03-31T15:09:06+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
@@ -3523,16 +3523,16 @@
         },
         {
             "name": "joomla/test-system",
-            "version": "dev-master",
+            "version": "dev-4.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "2b755760e672c62e4094ca7db2ae382fda81c45b"
+                "reference": "7bd119b085058bb06393fea9401043547f3bc634"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/2b755760e672c62e4094ca7db2ae382fda81c45b",
-                "reference": "2b755760e672c62e4094ca7db2ae382fda81c45b",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/7bd119b085058bb06393fea9401043547f3bc634",
+                "reference": "7bd119b085058bb06393fea9401043547f3bc634",
                 "shasum": ""
             },
             "require": {
@@ -3553,7 +3553,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2018-03-30T15:17:52+00:00"
+            "time": "2018-04-01T10:28:20+00:00"
         },
         {
             "name": "joomla/test-unit",
