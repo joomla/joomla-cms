@@ -13,7 +13,9 @@ pipeline:
   initdb:
     image: joomlaprojects/docker-php70:develop
     commands:
-      - composer install
+      - composer install --no-progress --no-suggest
+      - composer update joomla/test-unit --no-progress --no-suggest
+      - composer update joomla/test-system --no-progress --no-suggest
 
   php70-unit:
     group: unit
