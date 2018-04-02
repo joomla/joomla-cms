@@ -41,6 +41,9 @@ JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang
 // Load custom.css
 JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
+// Load custom JS if exists
+JHtml::_('script', 'custom.js', array('version' => 'auto', 'relative' => true));
+
 // Link color
 if ($this->params->get('linkColor'))
 {
