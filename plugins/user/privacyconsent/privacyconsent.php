@@ -141,7 +141,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$ip = $this->app->input->server->get('REMOTE_ADDR');
 
 		// Get the user agent string
-		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+		$user_agent = $this->app->input->server->get('HTTP_USER_AGENT');
 
 		// Get the date in DB format
 		$now = JFactory::getDate()->toSql();
