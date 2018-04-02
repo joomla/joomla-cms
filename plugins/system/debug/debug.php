@@ -352,7 +352,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+		echo preg_replace('%</div>[\s]*</body>%', implode('', $html) . '</div></body>', $contents);
 	}
 
 	/**
