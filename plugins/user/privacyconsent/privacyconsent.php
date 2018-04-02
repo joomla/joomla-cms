@@ -301,6 +301,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		{
 			return \JText::_('PLG_USER_PRIVACY_REDIRECT_MESSAGE_DEFAULT');
 		}
+
 		return $messageOnRedirect;
 	}
 }
