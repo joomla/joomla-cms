@@ -27,7 +27,6 @@ $mainPageUri = $frontEndUri->toString();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-
 // Add filter polyfill for IE8
 JHtml::_('behavior.polyfill', array('filter'), 'lte IE 9');
 
