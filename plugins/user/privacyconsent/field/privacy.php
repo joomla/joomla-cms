@@ -56,7 +56,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
-		// Add the opening label tag and main attributes attributes.
+		// Add the opening label tag and main attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
 
 		// If a description is specified, use it to build a tooltip.

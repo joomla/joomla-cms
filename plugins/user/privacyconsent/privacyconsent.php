@@ -87,7 +87,6 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		// Push the privacy article ID into the privacy field.
 		$form->setFieldAttribute('privacy', 'article', $privacyarticle, 'privacyconsent');
-		
 	}
 
 	/**
@@ -105,8 +104,8 @@ class PlgUserPrivacyconsent extends JPlugin
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
 		// Check that the privacy is checked if required ie only in registration from frontend.
-		$task       = JFactory::getApplication()->input->getCmd('task');
-		$option     = JFactory::getApplication()->input->getCmd('option');
+		$task       	= JFactory::getApplication()->input->getCmd('task');
+		$option     	= JFactory::getApplication()->input->getCmd('option');
 		$privacyarticle = $this->params->get('privacy_article');
 
 		// Check that the privacy is checked.
@@ -130,18 +129,17 @@ class PlgUserPrivacyconsent extends JPlugin
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-	
 		// Only create an entry on front-end user creation/update
 		if ($this->app->isClient('administrator'))
 		{
 			return;
 		}
-	
+
 		// Get the user's ID
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		// Get the IP address
-		$ip=$_SERVER['HTTP_CLIENT_IP'];
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
 
 		// Get the user agent string
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -181,6 +179,7 @@ class PlgUserPrivacyconsent extends JPlugin
 			$result = JFactory::getDbo()->insertObject('#__user_profiles', $confirm);
 		}
 		catch (Exception $e)
+
 		{
 			// Do nothing if the save fails
 		}
@@ -218,7 +217,6 @@ class PlgUserPrivacyconsent extends JPlugin
 				);
 
 				$db->execute();
-
 			}
 			catch (Exception $e)
 			{
@@ -236,7 +234,6 @@ class PlgUserPrivacyconsent extends JPlugin
 				);
 
 				$db->execute();
-
 			}
 			catch (Exception $e)
 			{
@@ -244,7 +241,6 @@ class PlgUserPrivacyconsent extends JPlugin
 
 				return false;
 			}
-
 		}
 
 		return true;
@@ -262,7 +258,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
-	// Run this in frontend only
+		// Run this in frontend only
 		if ($this->app->isClient('administrator'))
 		{
 			return;
@@ -270,7 +266,7 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		$userId = JFactory::getUser()->id;
 		$db = JFactory::getDbo();
-		
+
 		$query = $db->getQuery(true)
 			->select('1')
 			->from($db->qn('#__user_profiles'))
@@ -290,7 +286,6 @@ class PlgUserPrivacyconsent extends JPlugin
 		$this->app->redirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
 	}
 
-
 	/**
 	 * Returns the configured redirect message and falls back to the default version.
 	 *
@@ -298,7 +293,8 @@ class PlgUserPrivacyconsent extends JPlugin
 	 *
 	 * @since   1.0
 	 */
-	private function getRedirectMessage()
+
+	 private function getRedirectMessage()
 	{
 		$messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
 		if (empty($messageOnRedirect))
