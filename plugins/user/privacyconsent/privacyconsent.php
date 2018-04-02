@@ -108,8 +108,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$option     	= JFactory::getApplication()->input->getCmd('option');
 		$privacyarticle = $this->params->get('privacy_article');
 
-		// Check that the privacy is checked.
-		if (!$data['privacyconsent']['privacy'])
+		if ($this->app->isClient('site') && (!$data['privacyconsent']['privacy']))
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PRIVACY_FIELD_ERROR'));
 		}
