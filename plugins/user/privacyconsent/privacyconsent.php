@@ -182,7 +182,6 @@ class PlgUserPrivacyconsent extends JPlugin
 		{
 			// Do nothing if the save fails
 		}
-
 		return true;
 	}
 
