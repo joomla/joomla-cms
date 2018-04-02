@@ -45,6 +45,12 @@ body {
   color: #fff;
   text-align: right;
   background-color: #0b3257;
+  a, a:visited {
+    color: #ffa119;
+  }
+  a:hover, a:focus {
+    color: #3a92d2;
+  }
 }
 
 .j-header-logo {
