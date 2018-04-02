@@ -14,8 +14,11 @@ pipeline:
     image: joomlaprojects/docker-php70:develop
     commands:
       - composer install --no-progress --no-suggest
+      # needed for unit testing
       - composer update joomla/test-unit --no-progress --no-suggest
+      # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
+      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
 
   php70-unit:
     group: unit
@@ -38,7 +41,6 @@ pipeline:
   javascript:
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - apt-get install nodejs npm
       - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -51,15 +53,11 @@ pipeline:
   system-tests:
       image: joomlaprojects/docker-systemtests:latest
       commands:
-        - date
         - apache2ctl -D FOREGROUND &
         - google-chrome --version
-        - apt-get update > /dev/null 2>&1
-        - composer update > /dev/null 2>&1
         - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
         - mv libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
         - libraries/vendor/bin/robo run:tests
-        - date
 
 services:
   mysql:
