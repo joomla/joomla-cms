@@ -71,7 +71,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 		$privacyarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($privacyarticle)
+		if ($privacyarticle && JFactory::getApplication()->isClient('site'))
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
