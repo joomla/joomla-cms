@@ -10,10 +10,32 @@ pipeline:
       - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
+  initdb:
+    image: joomlaprojects/docker-php70:develop
+    commands:
+      - composer install
+
+  php70-unit:
+    group: unit
+    image: joomlaprojects/docker-php70:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+
+  php71-unit:
+    group: unit
+    image: joomlaprojects/docker-php71:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+
+  php72-unit:
+    group: unit
+    image: joomlaprojects/docker-php72:develop
+    commands:
+      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+
   javascript:
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - echo $(date)
       - apt-get install nodejs npm
       - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
@@ -22,6 +44,34 @@ pipeline:
       - mv -f drone-package.json package.json
       - fluxbox  > /dev/null 2>&1 &
       - npm install
-      - node_modules/karma/bin/karma start karma.conf.js --single-run
-      - echo $(date)
+      - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
 
+  system-tests:
+      image: joomlaprojects/docker-systemtests:latest
+      commands:
+        - date
+        - apache2ctl -D FOREGROUND &
+        - google-chrome --version
+        - apt-get update > /dev/null 2>&1
+        - composer update > /dev/null 2>&1
+        - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
+        - mv libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
+        - libraries/vendor/bin/robo run:tests
+        - date
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+
+  memcached:
+    image: memcached:alpine
+
+  redis:
+    image: redis:alpine
+
+  postgres:
+    image: postgres
