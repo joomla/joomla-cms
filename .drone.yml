@@ -14,6 +14,8 @@ pipeline:
     image: joomlaprojects/docker-php70:develop
     commands:
       - composer install
+      - composer update joomla/test-unit
+      - composer update joomla/test-system
 
   php70-unit:
     group: unit
