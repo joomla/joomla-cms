@@ -137,8 +137,8 @@ class PlgUserPrivacyconsent extends JPlugin
 		// Get the user's ID
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-		// Get the IP address
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
+		// Get the user's IP address
+		$ip = $this->app->input->server->get('REMOTE_ADDR');
 
 		// Get the user agent string
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
