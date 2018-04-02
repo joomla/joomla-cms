@@ -520,6 +520,8 @@ class Editor extends \JObject
 		// Check whether editor is already loaded
 		if ($this->_editor !== null)
 		{
+			// Editor already loaded, but we have a new configuration array, set it into editor parameters
+			$this->_editor->params->loadArray($config);
 			return;
 		}
 
