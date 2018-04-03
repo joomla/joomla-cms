@@ -106,7 +106,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
 		// Check that the privacy is checked if required ie only in registration from frontend.
-		$option			= $this->app->input->getCmd('option');
+		$option = $this->app->input->getCmd('option');
 
 		if ($this->app->isClient('site') && (!$data['privacyconsent']['privacy']) || (!$data['privacyconsent']['privacy']) && $option === 'com_admin')
 		{
