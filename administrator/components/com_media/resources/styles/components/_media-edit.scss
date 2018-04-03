@@ -34,23 +34,6 @@
   }
 }
 
-.btn-group.btn-group-ratio {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-around;
-  .btn {
-    width: 100%;
-    font-size: .9rem;
-    background-color: #fff;
-    border-color: rgba(0, 0, 0, .14);
-    &:hover, &.active, &:focus {
-      color: inherit;
-      background-color: #e9ecef;
-      box-shadow: none;
-    }
-  }
-}
-
 .tab-pane {
   background-color: #fafafa;
   border-left: 1px solid #f0f0f0;

@@ -31,7 +31,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 	// Checks if a selector (e.g. client_id) exists.
 	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
 	{
-		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
+		$showSelector = $selectorField->getAttribute('filtermode', '') === 'selector' ? true : $showSelector;
 
 		// Checks if a selector should be shown in the current layout.
 		if (isset($data['view']->layout))

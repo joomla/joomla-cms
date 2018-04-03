@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 $value = $field->value;
 
 if ($value == '')
@@ -17,7 +19,7 @@ if ($value == '')
 
 $attributes = '';
 
-if (!JUri::isInternal($value))
+if (!Uri::isInternal($value))
 {
 	$attributes = ' rel="nofollow noopener noreferrer" target="_blank"';
 }

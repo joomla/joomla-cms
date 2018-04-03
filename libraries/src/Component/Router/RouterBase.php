@@ -49,7 +49,7 @@ abstract class RouterBase implements RouterInterface
 		}
 		else
 		{
-			$this->app = \JFactory::getApplication('site');
+			$this->app = \JFactory::getApplication();
 		}
 
 		if ($menu)

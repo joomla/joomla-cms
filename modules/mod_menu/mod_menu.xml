@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Menu</namespace>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
 		<folder>tmpl</folder>

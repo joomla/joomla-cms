@@ -117,6 +117,7 @@ class ParagonIE_Sodium_Compat
      *
      * @param string $string A string (probably raw binary)
      * @return string        A hexadecimal-encoded string
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function bin2hex($string)
@@ -142,6 +143,7 @@ class ParagonIE_Sodium_Compat
      * @return int          < 0 if the left operand is less than the right
      *                      = 0 if both strings are equal
      *                      > 0 if the right operand is less than the left
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function compare($left, $right)
@@ -200,6 +202,7 @@ class ParagonIE_Sodium_Compat
      *
      * @return string|bool       The original plaintext message
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_aead_aes256gcm_decrypt(
         $ciphertext = '',
@@ -345,6 +348,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_aead_chacha20poly1305_decrypt(
                 $ciphertext,
                 $assocData,
@@ -491,6 +498,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_aead_chacha20poly1305_ietf_decrypt(
                 $ciphertext,
                 $assocData,
@@ -931,6 +942,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_box_seal_open($ciphertext, $keypair);
         }
         if (self::use_fallback('crypto_box_seal_open')) {
@@ -1026,6 +1041,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_box_open($ciphertext, $nonce, $keypair);
         }
         if (self::use_fallback('crypto_box_open')) {
@@ -1132,6 +1151,8 @@ class ParagonIE_Sodium_Compat
      *
      * @param string $seed
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      * @psalm-suppress UndefinedFunction
      */
     public static function crypto_box_seed_keypair($seed)
@@ -1275,6 +1296,7 @@ class ParagonIE_Sodium_Compat
      *                        $ctx is passed by reference and gets updated in-place.
      * @param string $message The message to append to the existing hash state.
      * @return void
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function crypto_generichash_update(&$ctx, $message)
@@ -1400,6 +1422,7 @@ class ParagonIE_Sodium_Compat
      * @param int $memlimit
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash($outlen, $passwd, $salt, $opslimit, $memlimit)
     {
@@ -1446,6 +1469,7 @@ class ParagonIE_Sodium_Compat
      * @param int $memlimit
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash_str($passwd, $opslimit, $memlimit)
     {
@@ -1470,6 +1494,7 @@ class ParagonIE_Sodium_Compat
      * @param string $hash
      * @return bool
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash_str_verify($passwd, $hash)
     {
@@ -1496,6 +1521,7 @@ class ParagonIE_Sodium_Compat
      * @param int $memlimit
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash_scryptsalsa208sha256($outlen, $passwd, $salt, $opslimit, $memlimit)
     {
@@ -1542,6 +1568,7 @@ class ParagonIE_Sodium_Compat
      * @param int $memlimit
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash_scryptsalsa208sha256_str($passwd, $opslimit, $memlimit)
     {
@@ -1566,6 +1593,7 @@ class ParagonIE_Sodium_Compat
      * @param string $hash
      * @return bool
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_pwhash_scryptsalsa208sha256_str_verify($passwd, $hash)
     {
@@ -1729,6 +1757,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_secretbox_open($ciphertext, $nonce, $key);
         }
         if (self::use_fallback('crypto_secretbox_open')) {
@@ -1914,6 +1946,10 @@ class ParagonIE_Sodium_Compat
         }
 
         if (self::isPhp72OrGreater()) {
+            /**
+             * @psalm-suppress InvalidReturnStatement
+             * @psalm-suppress FalsableReturnStatement
+             */
             return sodium_crypto_sign_open($signedMessage, $publicKey);
         }
         if (self::use_fallback('crypto_sign_open')) {
@@ -1929,6 +1965,8 @@ class ParagonIE_Sodium_Compat
      * Generate a new random Ed25519 keypair.
      *
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_sign_keypair()
     {
@@ -1951,6 +1989,8 @@ class ParagonIE_Sodium_Compat
      *
      * @param string $seed Input seed
      * @return string      Keypair
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_sign_seed_keypair($seed)
     {
@@ -2135,11 +2175,43 @@ class ParagonIE_Sodium_Compat
     }
 
     /**
+     * Convert an Ed25519 public key to a Curve25519 public key
+     *
+     * @param string $pk
+     * @return string
+     * @throws SodiumException
+     * @throws TypeError
+     */
+    public static function crypto_sign_ed25519_pk_to_curve25519($pk)
+    {
+        /* Type checks: */
+        ParagonIE_Sodium_Core_Util::declareScalarType($pk, 'string', 1);
+
+        /* Input validation: */
+        if (ParagonIE_Sodium_Core_Util::strlen($pk) < self::CRYPTO_SIGN_PUBLICKEYBYTES) {
+            throw new SodiumException('Argument 1 must be at least CRYPTO_SIGN_PUBLICKEYBYTES long.');
+        }
+        if (self::isPhp72OrGreater()) {
+            if (is_callable('crypto_sign_ed25519_pk_to_curve25519')) {
+                return sodium_crypto_sign_ed25519_pk_to_curve25519($pk);
+            }
+        }
+        if (self::use_fallback('crypto_sign_ed25519_pk_to_curve25519')) {
+            return call_user_func('\\Sodium\\crypto_sign_ed25519_pk_to_curve25519', $pk);
+        }
+        if (PHP_INT_SIZE === 4) {
+            return ParagonIE_Sodium_Core32_Ed25519::pk_to_curve25519($pk);
+        }
+        return ParagonIE_Sodium_Core_Ed25519::pk_to_curve25519($pk);
+    }
+
+    /**
      * Convert an Ed25519 secret key to a Curve25519 secret key
      *
      * @param string $sk
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_sign_ed25519_sk_to_curve25519($sk)
     {
@@ -2270,6 +2342,7 @@ class ParagonIE_Sodium_Compat
      *
      * @param string $string Hexadecimal string
      * @return string        Raw binary string
+     * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress TooFewArguments
      */
@@ -2295,7 +2368,8 @@ class ParagonIE_Sodium_Compat
      * @param string $var
      *
      * @return void
-     * @throws SodiumException (Unless libsodium is installed)
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function increment(&$var)
     {
@@ -2366,6 +2440,7 @@ class ParagonIE_Sodium_Compat
      * @param string $left
      * @param string $right
      * @return int
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function memcmp($left, $right)
@@ -2388,6 +2463,7 @@ class ParagonIE_Sodium_Compat
      *
      * @return void
      * @throws SodiumException (Unless libsodium is installed)
+     * @throws TypeError
      * @psalm-suppress TooFewArguments
      */
     public static function memzero(&$var)

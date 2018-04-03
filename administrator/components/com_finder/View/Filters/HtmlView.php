@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   2.5
 	 */

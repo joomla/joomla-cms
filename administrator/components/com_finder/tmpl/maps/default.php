@@ -66,11 +66,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 						</tr>
 					</thead>

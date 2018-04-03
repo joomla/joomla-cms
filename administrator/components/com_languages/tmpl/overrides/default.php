@@ -40,7 +40,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 							</div>
 						</div>
 					</div>
-					<div class="btn-group float-right hidden-sm-down">
+					<div class="btn-group float-right d-none d-md-block">
 						<label for="limit" class="sr-only"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 						<?php echo $this->pagination->getLimitBox(); ?>
 					</div>
@@ -57,13 +57,13 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<th style="width:30%">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
-								<th class="hidden-sm-down">
+								<th class="d-none d-md-table-cell">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
-								<th class="hidden-sm-down">
+								<th class="d-none d-md-table-cell">
 									<?php echo JText::_('JCLIENT'); ?>
 								</th>
 							</tr>
@@ -91,13 +91,13 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo $language; ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo $client; ?>
 									<?php
 									if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))

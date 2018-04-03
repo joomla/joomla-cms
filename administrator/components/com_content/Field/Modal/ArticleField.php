@@ -93,7 +93,7 @@ class ArticleField extends FormField
 		}
 
 		$urlSelect = $linkArticles . '&amp;function=jSelectArticle_' . $this->id;
-		$urlEdit   = $linkArticle . '&amp;task=article.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+		$urlEdit   = $linkArticle . '&amp;task=article.edit&amp;id=\' + document.getElementById(&quot;' . $this->id . '_id&quot;).value + \'';
 		$urlNew    = $linkArticle . '&amp;task=article.add';
 
 		if ($value)

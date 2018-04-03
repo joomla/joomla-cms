@@ -16,7 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * Service provider for the application's database dependency
+ * Service provider for the application's document dependency
  *
  * @since  4.0
  */

@@ -9,15 +9,22 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Exception\ExceptionHandler;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Plugin class for redirect handling.
  *
  * @since  1.6
  */
-class PlgSystemRedirect extends JPlugin
+class PlgSystemRedirect extends CMSPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -47,25 +54,8 @@ class PlgSystemRedirect extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Set the JError handler for E_ERROR to be the class' handleError method.
-		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
-
 		// Register the previously defined exception handler so we can forward errors to it
 		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
-	}
-
-	/**
-	 * Method to handle an error condition from JError.
-	 *
-	 * @param   JException  $error  The JException object to be handled.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function handleError(JException $error)
-	{
-		self::doErrorHandling($error);
 	}
 
 	/**
@@ -105,21 +95,21 @@ class PlgSystemRedirect extends JPlugin
 			}
 			else
 			{
-				JErrorPage::render($error);
+				ExceptionHandler::render($error);
 			}
 		}
 
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		// These are the original URLs
 		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
 
 		// The above doesn't work for sub directories, so do this
-		$orgurlRootRel         = str_replace(JUri::root(), '', $orgurl);
+		$orgurlRootRel         = str_replace(Uri::root(), '', $orgurl);
 
 		// For when users have added / to the url
-		$orgurlRootRelSlash    = str_replace(JUri::root(), '/', $orgurl);
+		$orgurlRootRelSlash    = str_replace(Uri::root(), '/', $orgurl);
 		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
 		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
 
@@ -128,14 +118,14 @@ class PlgSystemRedirect extends JPlugin
 		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
 
 		// The above doesn't work for sub directories, so do this
-		$urlRootRel         = str_replace(JUri::root(), '', $url);
+		$urlRootRel         = str_replace(Uri::root(), '', $url);
 
 		// For when users have added / to the url
-		$urlRootRelSlash    = str_replace(JUri::root(), '/', $url);
+		$urlRootRelSlash    = str_replace(Uri::root(), '/', $url);
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
-		$plugin = JPluginHelper::getPlugin('system', 'redirect');
+		$plugin = PluginHelper::getPlugin('system', 'redirect');
 
 		$params = new Registry($plugin->params);
 
@@ -172,7 +162,7 @@ class PlgSystemRedirect extends JPlugin
 		// Why is this (still) here?
 		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
 		{
-			JErrorPage::render($error);
+			ExceptionHandler::render($error);
 		}
 
 		$db = JFactory::getDbo();
@@ -219,7 +209,7 @@ class PlgSystemRedirect extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+			ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 		}
 
 		$possibleMatches = array_unique(
@@ -255,7 +245,7 @@ class PlgSystemRedirect extends JPlugin
 		// A redirect object was found and, if published, will be used
 		if ($redirect !== null && ((int) $redirect->published === 1))
 		{
-			if (!$redirect->header || (bool) JComponentHelper::getParams('com_redirect')->get('mode', false) === false)
+			if (!$redirect->header || (bool) ComponentHelper::getParams('com_redirect')->get('mode', false) === false)
 			{
 				$redirect->header = 301;
 			}
@@ -271,21 +261,21 @@ class PlgSystemRedirect extends JPlugin
 					$redirect->new_url .= '?' . $urlQuery;
 				}
 
-				$dest = JUri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
-					JRoute::_($redirect->new_url) : $redirect->new_url;
+				$dest = Uri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
+					Route::_($redirect->new_url) : $redirect->new_url;
 
 				// In case the url contains double // lets remove it
-				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
+				$destination = str_replace(Uri::root() . '/', Uri::root(), $dest);
 
 				$app->redirect($destination, (int) $redirect->header);
 			}
 
-			JErrorPage::render(new RuntimeException($error->getMessage(), $redirect->header, $error));
+			ExceptionHandler::render(new RuntimeException($error->getMessage(), $redirect->header, $error));
 		}
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
+			$params = new Registry(PluginHelper::getPlugin('system', 'redirect')->params);
 
 			if ((bool) $params->get('collect_urls', true))
 			{
@@ -304,7 +294,7 @@ class PlgSystemRedirect extends JPlugin
 				}
 				catch (Exception $e)
 				{
-					JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+					ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 				}
 			}
 		}
@@ -319,10 +309,10 @@ class PlgSystemRedirect extends JPlugin
 			}
 			catch (Exception $e)
 			{
-				JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+				ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 			}
 		}
 
-		JErrorPage::render($error);
+		ExceptionHandler::render($error);
 	}
 }

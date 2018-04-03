@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die();
 
+use Joomla\CMS\Plugin\CMSPlugin;
+
 /**
  * Plug-in to show a custom field in eg an article
  * This uses the {fields ID} syntax
  *
  * @since  3.7.0
  */
-class PlgContentFields extends JPlugin
+class PlgContentFields extends CMSPlugin
 {
 	/**
 	 * Plugin that shows a custom field
@@ -31,9 +33,14 @@ class PlgContentFields extends JPlugin
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{
-		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		// If the item has a context, overwrite the existing one
+		if ($context == 'com_finder.indexer' && !empty($item->context))
 		{
+			$context = $item->context;
+		}
+		elseif ($context == 'com_finder.indexer')
+		{
+			// Don't run this plugin when the content is being indexed and we have no real context
 			return;
 		}
 
