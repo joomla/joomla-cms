@@ -151,7 +151,6 @@ class PlgUserPrivacyconsent extends JPlugin
 			'subject'         => JText::_('PLG_USER_PRIVACY_SUBJECT'),
 			'body'            => JText::sprintf('PLG_USER_PRIVACY_BODY', $ip, $user_agent),
 			'state'           => 1,
-			'created_user_id' => 42,
 			'created_time'    => $now
 		);
 
