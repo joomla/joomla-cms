@@ -3396,12 +3396,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/robo-joomla.git",
-                "reference": "511a56e3313cc731a902a6856052565d6203e1ff"
+                "reference": "3fafe32bd465af0576ac5800f716c8f0bdefb702"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/robo-joomla/zipball/511a56e3313cc731a902a6856052565d6203e1ff",
-                "reference": "511a56e3313cc731a902a6856052565d6203e1ff",
+                "url": "https://api.github.com/repos/joomla-projects/robo-joomla/zipball/3fafe32bd465af0576ac5800f716c8f0bdefb702",
+                "reference": "3fafe32bd465af0576ac5800f716c8f0bdefb702",
                 "shasum": ""
             },
             "require": {
@@ -3425,7 +3425,7 @@
                 }
             ],
             "description": "Robo tasks for Joomla! development, build, testing and everything",
-            "time": "2018-03-30T14:10:43+00:00"
+            "time": "2018-04-02T19:00:40+00:00"
         },
         {
             "name": "joomla-projects/selenium-server-standalone",
@@ -3527,12 +3527,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "2945ddd562197bd510578d0004bc3054e151fb8f"
+                "reference": "bfc17d460cc1373750c0328b19d1564403f81d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/2945ddd562197bd510578d0004bc3054e151fb8f",
-                "reference": "2945ddd562197bd510578d0004bc3054e151fb8f",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/bfc17d460cc1373750c0328b19d1564403f81d00",
+                "reference": "bfc17d460cc1373750c0328b19d1564403f81d00",
                 "shasum": ""
             },
             "require": {
@@ -3553,7 +3553,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2018-04-02T09:27:18+00:00"
+            "time": "2018-04-02T15:59:55+00:00"
         },
         {
             "name": "joomla/test-unit",
@@ -3561,12 +3561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-unit.git",
-                "reference": "c232c124d2d53786db674bb040357750529d6c4e"
+                "reference": "229979d3bfb1ad352b309c3da6638d3fd5df0fa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-unit/zipball/c232c124d2d53786db674bb040357750529d6c4e",
-                "reference": "c232c124d2d53786db674bb040357750529d6c4e",
+                "url": "https://api.github.com/repos/joomla/test-unit/zipball/229979d3bfb1ad352b309c3da6638d3fd5df0fa7",
+                "reference": "229979d3bfb1ad352b309c3da6638d3fd5df0fa7",
                 "shasum": ""
             },
             "require": {
@@ -3585,7 +3585,7 @@
                 "tests",
                 "unit-tests"
             ],
-            "time": "2018-04-02T09:25:15+00:00"
+            "time": "2018-04-02T16:39:34+00:00"
         },
         {
             "name": "league/container",
