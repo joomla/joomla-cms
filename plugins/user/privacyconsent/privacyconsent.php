@@ -209,10 +209,11 @@ class PlgUserPrivacyconsent extends JPlugin
 			try
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_notes WHERE user_id = ' . $userId
-				);
 
+				$query = $db->getQuery(true)
+					->delete($db->quotename('#__user_notes'))
+					->where($db->quotename('user_id') . ' = ' . (int) $userId);
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (Exception $e)
@@ -226,10 +227,11 @@ class PlgUserPrivacyconsent extends JPlugin
 			try
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId
-				);
 
+				$query = $db->getQuery(true)
+					->delete($db->quotename('#__user_profiles'))
+					->where($db->quotename('user_id') . ' = ' . (int) $userId);
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (Exception $e)
