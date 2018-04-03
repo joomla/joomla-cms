@@ -214,8 +214,8 @@ class PlgUserPrivacyconsent extends JPlugin
 				$db = JFactory::getDbo();
 
 				$query = $db->getQuery(true)
-					->delete($db->quotename('#__user_notes'))
-					->where($db->quotename('user_id') . ' = ' . (int) $userId);
+					->delete($db->quoteName('#__user_notes'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -232,8 +232,8 @@ class PlgUserPrivacyconsent extends JPlugin
 				$db = JFactory::getDbo();
 
 				$query = $db->getQuery(true)
-					->delete($db->quotename('#__user_profiles'))
-					->where($db->quotename('user_id') . ' = ' . (int) $userId);
+					->delete($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
 				$db->setQuery($query);
 				$db->execute();
 			}

@@ -81,9 +81,9 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quotename(array('id, alias, catid, language')))
-				->from($db->quotename('#__content'))
-				->where($db->quotename('id') . ' = ' . (int) $privacyarticle);
+				->select($db->quoteName(array('id, alias, catid, language')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $privacyarticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
