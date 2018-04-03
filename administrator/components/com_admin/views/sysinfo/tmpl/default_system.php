@@ -110,6 +110,14 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
+					<strong><?php echo JText::_('COM_ADMIN_JCA_PUBLICKEY'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['jcapk4dev']; ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>
