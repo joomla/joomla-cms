@@ -616,4 +616,132 @@ class InstallerModelUpdate extends JModelList
 				break;
 		}
 	}
+
+	/**
+	 * Validate Manifest function.
+	 *
+	 * Sets the "result" state with the result of the operation.
+	 *
+	 * @param   array  $uids               Array[int] List of updates to apply
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function validateManifest($uids)
+	{
+		$result = true;
+		$app = JFactory::getApplication();
+
+		foreach ($uids as $uid)
+		{
+			$update   = new JUpdate;
+			$instance = JTable::getInstance('update');
+			$instance->load($uid);
+			$update->loadFromXml($instance->detailsurl);
+			
+			// Check if there is a publickey tag
+			if ((!isset($update->publickey)) || (empty($update->publickey->_data)))
+			{
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_NO_PUBLICKEY', $instance->name) , 'warning');
+				continue;
+			}
+
+			// Check if there is a signature tag
+			if ((!isset($update->signature)) || (empty($update->signature->_data)))
+			{
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_NO_SIGNATURE', $instance->name), 'warning');
+				continue;
+			}
+
+			// Check if there is a certificate tag
+			if ((!isset($update->certificate)) || (empty($update->certificate->_data)))
+			{
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_NO_CERTIFICATE', $instance->name), 'warning');
+				continue;
+			}
+
+			// Check the certificate
+			if (!$this->validateCertificate($update->certificate->_data, $update->publickey->_data))
+			{
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_INVALID_CERTIFICATE', $instance->name), 'warning');
+				continue;
+			}
+
+			$publickey = ParagonIE_Sodium_Compat::hex2bin($update->publickey->_data);
+			$signature = ParagonIE_Sodium_Compat::hex2bin($update->signature->_data);
+
+			$file = file_get_contents($instance->detailsurl);
+	
+			// Remove the signature
+			$doc = new DOMDocument;
+			$doc->preserveWhiteSpace = false;
+			$dom->formatOutput = true;
+			$doc->loadxml( $file );
+			$xpath = new DOMXPath($doc);
+			foreach( $xpath->query("//signature") as $node) 
+			{
+    			$node->parentNode->removeChild($node);
+			}
+			// Write the unsigned manfifest
+			$xml = $doc->savexml();
+ 			$a= file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
+
+			// Read the unsigned manifest
+			$manifest = file_get_contents(dirname(__DIR__) . '/unsignedmanifest.xml'); 
+			// Calculate hash digest
+			$digest   = hash("sha384", $manifest);
+	
+			// Check the signature
+			if (ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $digest, $publickey)) { 
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_VALID', $instance->name), 'message');
+			} else { 
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_INVALID', $instance->name), 'error');
+			} 
+		}
+	}
+
+	/**
+	 * Method to validate the developer public key
+	 *
+	 * @param   string   $certificate  The developer publick key certificate
+	 * @param   string   $developerPK  The developer publick key
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function validateCertificate($certificate, $developerPK)
+	{
+		$isvalid = false;
+		// Get the Joomla CA public key for developers
+		$file = file_get_contents(dirname(__DIR__) . '/jcapk.xml');
+		if (!$file)
+		{
+			return $isvalid;
+		}
+		$xml  = new SimpleXMLElement($file);
+		// Parse the xml file.
+		if (!$xml)
+		{
+			return $isvalid;
+		}
+		// Check the tag
+		if (!isset($xml->pk4dev))
+		{
+			return $isvalid;
+		}
+
+		$joomlaPK = ParagonIE_Sodium_Compat::hex2bin((string) $xml->pk4dev);
+		// Hash the developer public key
+		$digest      = ParagonIE_Sodium_Compat::hex2bin(hash("sha384", $developerPK));
+		$certificate = ParagonIE_Sodium_Compat::hex2bin($certificate);
+		// Check the certificate
+		if (ParagonIE_Sodium_Compat::crypto_sign_verify_detached($certificate, $digest, $joomlaPK)) 
+		{ 
+			 $isvalid = true; 
+		}
+
+		return $isvalid;
+	}
 }
