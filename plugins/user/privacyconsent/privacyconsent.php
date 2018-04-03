@@ -67,10 +67,12 @@ class PlgUserPrivacyconsent extends JPlugin
 			return false;
 		}
 
-		// Check we are manipulating a valid form - we do not display this in the admin users form.
-		$name = $form->getName();
+		// Check we are manipulating a valid form - we do not display this in the admin users form or profile view.
+		$name 	= $form->getName();
+		$layout = $this->app->input->get('layout', 'default');
+		$view	= $this->app->input->get('view', ' default');
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')) || $layout != "edit" && $view != "registration")
 		{
 			return true;
 		}
