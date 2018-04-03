@@ -54,7 +54,8 @@ $document = Factory::getDocument();
  */
 
 // Add Javascript for permission change
-HTMLHelper::_('script', 'system/fields/permissions.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('form.csrf');
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -76,7 +77,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <?php // Description ?>
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
-<div class="row mb-2" data-ajaxuri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>" id="permissions-sliders">
 	<div class="col-md-3">
 		<ul class="nav nav-pills flex-column">
 			<?php foreach ($groups as $group) : ?>
@@ -126,33 +127,34 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 								</td>
 
 								<td headers="settings-th<?php echo $group->value; ?>">
+									<div class="d-flex align-items-center">
+										<select data-onchange-task="permissions.apply"
+												class="custom-select novalidate"
+												name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
+												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
+											<?php
+											/**
+											* Possible values:
+											* null = not set means inherited
+											* false = denied
+											* true = allowed
+											*/
 
-									<select onchange="sendPermissions.call(this, event)"
-											class="custom-select novalidate"
-											name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
-											id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
-										<?php
-										/**
-										* Possible values:
-										* null = not set means inherited
-										* false = denied
-										* true = allowed
-										*/
+											// Get the actual setting for the action for this group. ?>
+											<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;?>
 
-										// Get the actual setting for the action for this group. ?>
-										<?php $assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null; ?>
-
-										<?php // Build the dropdowns for the permissions sliders
-											// The parent group has "Not Set", all children can rightly "Inherit" from that.?>
-										<option value="" <?php echo ($assetRule === null ? ' selected="selected"' : ''); ?>>
-										<?php echo Text::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED'); ?></option>
-										<option value="1" <?php echo ($assetRule === true ? ' selected="selected"' : ''); ?>>
-										<?php echo Text::_('JLIB_RULES_ALLOWED'); ?></option>
-										<option value="0" <?php echo ($assetRule === false ? ' selected="selected"' : ''); ?>>
-										<?php echo Text::_('JLIB_RULES_DENIED'); ?></option>
+											<?php // Build the dropdowns for the permissions sliders
+												// The parent group has "Not Set", all children can rightly "Inherit" from that.?>
+											<option value="" <?php echo ($assetRule === null ? ' selected="selected"' : ''); ?>>
+											<?php echo Text::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED'); ?></option>
+											<option value="1" <?php echo ($assetRule === true ? ' selected="selected"' : ''); ?>>
+											<?php echo Text::_('JLIB_RULES_ALLOWED'); ?></option>
+											<option value="0" <?php echo ($assetRule === false ? ' selected="selected"' : ''); ?>>
+											<?php echo Text::_('JLIB_RULES_DENIED'); ?></option>
 								
-									</select>&#160;
-									<span id="icon_<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"></span>
+										</select>&#160;
+										<span id="icon_<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"></span>
+									</div>
 								</td>
 
 								<td headers="aclactionth<?php echo $group->value; ?>">
@@ -166,7 +168,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									if ($isSuperUserGroup)
 									{
 										$result['class'] = 'badge badge-success';
-										$result['text']  = '<span class="icon-lock icon-white"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+										$result['text']  = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 									}
 									else
 									{
@@ -223,7 +225,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = '<span class="icon-lock icon-white"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+											$result['text']  = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 										}
 									}
 									?>
@@ -236,7 +238,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 			</div>
 		<?php endforeach; ?>
 	</div>
-</div>
+</joomla-field-permissions>
 
 <joomla-alert type="warning">
 	<?php
