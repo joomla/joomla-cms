@@ -18,8 +18,33 @@ foreach ($this->levels as $key => $value)
 
 JFactory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 JHtml::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
+
+// TODO: Re-remove the jQuery dependency in the admin-item-edit_modules.js file:
+JHtml::_('jquery.framework');
 JHtml::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
 
+// Set up the bootstrap modal that will be used for all module editors
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'moduleEditModal',
+	array(
+		'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+		'backdrop'    => 'static',
+		'keyboard'    => false,
+		'closeButton' => false,
+		'bodyHeight'  => '70',
+		'modalWidth'  => '80',
+		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
+				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn" aria-hidden="true">'
+				. JText::_('JSAVE') . '</button>'
+				. '<button type="button" class="btn btn-success" data-target="#applyBtn" aria-hidden="true">'
+				. JText::_('JAPPLY') . '</button>',
+	)
+);
+
+?>
+<?php
 // Set main fields.
 $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 
@@ -63,8 +88,12 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<?php endif; ?>
 		<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>">
 			<td id="<?php echo $module->id; ?>" style="width:40%">
-				<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-				<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>" id="title-<?php echo $module->id; ?>">
+				<a href="#moduleEditModal"
+					role="button"
+					class="btn btn-link module-edit-link"
+					title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
+					id="title-<?php echo $module->id; ?>"
+					data-module-id="<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->title); ?></a>
 			</td>
 			<td id="access-<?php echo $module->id; ?>" style="width:15%" class="text-center">
@@ -109,30 +138,6 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					</span>
 				<?php endif; ?>
 			</td>
-			<?php echo JHtml::_(
-				'bootstrap.renderModal',
-				'moduleEdit' . $module->id . 'Modal',
-				array(
-					'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-					'backdrop'    => 'static',
-					'keyboard'    => false,
-					'closeButton' => false,
-					'url'         => $link,
-					'height'      => '400px',
-					'width'       => '800px',
-					'bodyHeight'  => 70,
-					'modalWidth'  => 80,
-					'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
-							. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-							. JText::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-							. JText::_('JAPPLY') . '</button>',
-				)
-			); ?>
 		</tr>
 	<?php endforeach; ?>
 	</tbody>

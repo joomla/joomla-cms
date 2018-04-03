@@ -142,6 +142,10 @@ Desktop.ini
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/mso/idna-convert/.gitattributes
+/libraries/vendor/mso/idna-convert/.gitignore
+/libraries/vendor/mso/idna-convert/composer.json
+/libraries/vendor/mso/idna-convert/README.md
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml

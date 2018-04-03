@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/joomla-field-send-test-mail/fixtures/fixture.html', 'media/system/webcomponents/js/joomla-field-send-test-mail', 'libs/core'], ($, fixture) => {
+define(['jquery', 'text!testsRoot/joomla-field-send-test-mail/fixtures/fixture.html', 'JCE/joomla-field-send-test-mail', 'libs/core'], ($, fixture) => {
 	$('body').append(fixture);
 
 	mailResponses = {

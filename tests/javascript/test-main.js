@@ -24,7 +24,7 @@ require.config({
 		'bootstrap': 'media/vendor/bootstrap/js/bootstrap.min',
 		'jasmineJquery': 'node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
-		'legacy_libs': 'media/system/js/legacy',
+		'legacy': 'media/legacy/js',
 		'testsRoot': 'tests/javascript',
 		'text': 'node_modules/text/text',
 		'fields': 'media/system/js/fields',
