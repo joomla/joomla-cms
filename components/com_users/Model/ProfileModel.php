@@ -170,7 +170,7 @@ class ProfileModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  \JForm|bool  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -183,10 +183,6 @@ class ProfileModel extends FormModel
 		{
 			return false;
 		}
-
-		// For com_fields the context is com_users.user
-		\JLoader::import('components.com_fields.helpers.fields', JPATH_ADMINISTRATOR);
-		\FieldsHelper::prepareForm('com_users.user', $form, $data);
 
 		// Check for username compliance and parameter set
 		$isUsernameCompliant = true;

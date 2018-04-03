@@ -12,15 +12,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_cache"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				/>
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				/>
-		</field>
+			section="component" />
 	</fieldset>
 </config>

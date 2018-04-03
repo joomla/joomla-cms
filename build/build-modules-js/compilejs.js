@@ -4,9 +4,15 @@ const fsExtra = require('fs-extra');
 const Recurs = require("recursive-readdir");
 const Chalk = require('chalk');
 const UglifyJS = require('uglify-es');
+const debounce = require('lodash.debounce');
 
 // Various variables
 const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
+const watches = [
+	rootPath + '/' + 'media',
+	rootPath + '/' + 'administrator/templates/atum/js',
+	rootPath + '/' + 'templates/cassiopeia/js'
+];
 
 uglifyJs = (options, path) => {
 	let folders = [];
@@ -46,6 +52,37 @@ uglifyJs = (options, path) => {
 	});
 };
 
+watchFiles = function(options, folders, compileFirst = false) {
+	folders = folders || watches;
+
+	if (compileFirst) {
+		uglifyJs(options);
+	}
+
+	folders.forEach((folder) => {
+		Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+			(files) => {
+				files.forEach((file) => {
+						if (file.match(/.js/)) {
+							fs.watchFile(file, () => {
+								console.log('File: ' + file + ' changed.');
+								debounce(() => {
+									fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
+								}, 150)();
+
+								console.log(Chalk.bgYellow(file + ' was updated.'));
+							});
+						}
+					},
+					(error) => {
+						console.error("something exploded", error);
+					}
+				);
+			});
+	});
+
+	console.log('Now watching JS files...');
+};
 
 ujs = (options, path) => {
 	Promise.resolve()
@@ -60,3 +97,4 @@ ujs = (options, path) => {
 };
 
 module.exports.js = ujs;
+module.exports.watch = watchFiles;

@@ -13,7 +13,7 @@ namespace Joomla\Event;
  *
  * @since  1.0
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface, SubscriberManagerInterface
 {
 	/**
 	 * An array of registered events indexed by the event names.
@@ -330,7 +330,7 @@ class Dispatcher implements DispatcherInterface
 	 *
 	 * @param   SubscriberInterface  $subscriber  The subscriber.
 	 *
-	 * @return  $this
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

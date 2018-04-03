@@ -111,7 +111,7 @@
   /* autoprefixer: off */
   display: grid;
   grid-gap: $cassiopeia-grid-gutter;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
 
   @include media-breakpoint-down(md) {
     grid-template-columns: 1fr 1fr;
