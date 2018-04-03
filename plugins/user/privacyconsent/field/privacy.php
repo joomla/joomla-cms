@@ -80,10 +80,10 @@ class JFormFieldprivacy extends JFormFieldRadio
 			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
 
 			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('id, alias, catid, language')
-				->from('#__content')
-				->where('id = ' . $privacyarticle);
+			$query = $db->getQuery(true)
+				->select($db->quotename(array('id, alias, catid, language')))
+				->from($db->quotename('#__content'))
+				->where($db->quotename('id') . ' = ' . (int) $privacyarticle);			
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
