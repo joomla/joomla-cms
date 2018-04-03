@@ -543,6 +543,34 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean based on field and field group display read-only setting
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function displayReadOnlyFieldOnForm($field)
+	{
+		if (!JFactory::getApplication()->isClient('administrator') || !$user->authorise('core.admin'))
+		{
+			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+			$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '1');
+
+			if (($groupDisplayReadOnly == 0 || $fieldDisplayReadOnly == 0) && !FieldsHelper::canEditFieldValue($field))
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
+		}
+
+		// Display field on form even when field is read-only
+		return true;
+	}
+
+	/**
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   stdClass[]  &$items  The field category objects

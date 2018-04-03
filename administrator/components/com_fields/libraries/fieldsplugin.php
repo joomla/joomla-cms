@@ -164,6 +164,12 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
+		// Detect if the field is configured to be displayed on the form based on field / group display read-only setting
+		if (!FieldsHelper::displayReadOnlyFieldOnForm($field))
+		{
+			return null;
+		}
+
 		// Create the node
 		$node = $parent->appendChild(new DOMElement('field'));
 
