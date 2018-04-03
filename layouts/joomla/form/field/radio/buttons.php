@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 extract($displayData, null);
 
 /**
@@ -42,28 +40,16 @@ extract($displayData, null);
  * @var   array    $options         Options available for this field.
  */
 
-// If there are no options don't render anything
-if (empty($options))
-{
-	return '';
-}
-
-/**
- * The format of the input tag to be filled in using sprintf.
- *     %1 - id
- *     %2 - name
- *     %3 - value
- *     %4 = any other attributes
- */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-$dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
+$alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+$isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
+$isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
+$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
+$classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
+$btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 
 // Add the attributes of the fieldset in an array
-$attribs = [
-	'id="' . $id . '"',
-	'class="' . trim($class . ' radio') . '"',
-];
+$attribs = ['class="' . trim($class . ' radio') . $classToggle . '"',
+	];
 
 if (!empty($disabled))
 {
@@ -86,27 +72,45 @@ if (!empty($dataToggle))
 }
 
 ?>
-<fieldset <?php echo implode(' ', $attribs); ?>>
-	<?php foreach ($options as $i => $option) : ?>
-		<?php
-		// Initialize some option attributes.
-		$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-		$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-		$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+<fieldset id="<?php echo $id; ?>" >
+	<div <?php echo implode(' ', $attribs); ?>>
+		<?php foreach ($options as $i => $option) : ?>
+			<?php
+			// Initialize some option attributes.
+			if ($isBtnYesNo)
+			{
+				// Set the button classes for the yes/no group
+				if ($option->value === "0")
+				{
+					$optionClass = 'btn btn-outline-danger';
+				}
+				else
+				{
+					$optionClass = 'btn btn-outline-success';
+				}
+			}
+			else
+			{
+				$optionClass = !empty($option->class) ? $option->class : $btnClass;
+			}
+			$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
+			$optionClass .= $checked ? ' active' : '';
+			$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
-		// Initialize some JavaScript option attributes.
-		$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-		$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-		$oid        = $id . $i;
-		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
-		?>
-		<?php if ($required) : ?>
-			<?php $attributes[] = 'required aria-required="true"'; ?>
-		<?php endif; ?>
-		<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-			<?php echo $option->text; ?>
-		</label>
-	<?php endforeach; ?>
+			// Initialize some JavaScript option attributes.
+			$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+			$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+			$oid        = $id . $i;
+			$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+			$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+			?>
+			<?php if ($required) : ?>
+				<?php $attributes[] = 'required aria-required="true"'; ?>
+			<?php endif; ?>
+			<label for="<?php echo $oid; ?>" class="<?php echo $optionClass; ?>">
+				<input type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
+				<?php echo $option->text; ?>
+			</label>
+		<?php endforeach; ?>
+	</div>
 </fieldset>

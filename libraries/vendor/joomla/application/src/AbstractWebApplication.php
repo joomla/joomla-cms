@@ -290,6 +290,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 				$this->setHeader('X-Content-Encoded-By', 'Joomla');
 
 				// Replace the output with the encoded data.
@@ -416,7 +417,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 			echo "<script>document.location.href='$url';</script>\n";
 		}
 		// We have to use a JavaScript redirect here because MSIE doesn't play nice with UTF-8 URLs.
-		elseif (($this->client->engine == Web\WebClient::TRIDENT) && !$this->isAscii($url))
+		elseif (($this->client->engine == Web\WebClient::TRIDENT) && !static::isAscii($url))
 		{
 			$html = '<html><head>';
 			$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -997,11 +998,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 	/**
 	 * Checks for a form token in the request.
 	 *
-	 * Use in conjunction with getFormToken.
-	 *
 	 * @param   string  $method  The request method in which to look for the token key.
 	 *
-	 * @return  boolean  True if found and valid, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
@@ -1009,18 +1008,19 @@ abstract class AbstractWebApplication extends AbstractApplication
 	{
 		$token = $this->getFormToken();
 
-		if (!$this->input->$method->get($token, '', 'alnum'))
-		{
-			if ($this->getSession()->isNew())
-			{
-				// Redirect to login screen.
-				$this->redirect('index.php');
-			}
+		// Support a token sent via the X-CSRF-Token header, then fall back to a token in the request
+		$requestToken = $this->input->server->get(
+			'HTTP_X_CSRF_TOKEN',
+			$this->input->$method->get($token, '', 'alnum'),
+			'alnum'
+		);
 
+		if (!$requestToken)
+		{
 			return false;
 		}
 
-		return true;
+		return $this->getSession()->hasToken($token);
 	}
 
 	/**
@@ -1032,7 +1032,10 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @since   1.0
 	 */
-	abstract public function getFormToken($forceNew = false);
+	public function getFormToken($forceNew = false)
+	{
+		return $this->getSession()->getToken($forceNew);
+	}
 
 	/**
 	 * Tests whether a string contains only 7bit ASCII bytes.
