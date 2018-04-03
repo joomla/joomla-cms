@@ -82,7 +82,8 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail",
+      "field-simple-color",
+      "field-send-test-mail"
       "hidden-mail"
     ],
     "webcomponents": {
@@ -94,6 +95,7 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
+      "field-simple-color": {
       "field-send-test-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
