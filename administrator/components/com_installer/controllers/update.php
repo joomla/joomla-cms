@@ -197,4 +197,25 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		$app->close();
 	}
+
+	/**
+	 * Check the manifest of a set of extensions.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function check()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		/** @var InstallerModelUpdate $model */
+		$model = $this->getModel('update');
+		$uid   = $this->input->get('cid', array(), 'array');
+		$uid   = ArrayHelper::toInteger($uid, array());
+		// Check the update manifest
+		$check = $model->validateManifest($uid);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
+	}
 }
