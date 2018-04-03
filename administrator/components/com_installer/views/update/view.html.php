@@ -83,6 +83,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 		JToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
 		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		JToolbarHelper::divider();
+		JToolbarHelper::custom('update.check', 'puzzle', 'puzzle', 'COM_INSTALLER_TOOLBAR_CHECK', true);
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
