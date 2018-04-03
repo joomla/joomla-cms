@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $value = $field->value;
 
 if ($value == '')
@@ -23,7 +25,7 @@ foreach ($options as $optionValue => $optionText)
 {
 	if (in_array((string) $optionValue, $value))
 	{
-		$texts[] = JText::_($optionText);
+		$texts[] = Text::_($optionText);
 	}
 }
 

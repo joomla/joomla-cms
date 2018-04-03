@@ -1,5 +1,10 @@
-(() => {
-	const Joomla = window.Joomla || {};
+// @todo remove jQuery, currently is used only to open/close the modal
+;((customElements, Joomla, jQuery) => {
+
+	if (!Joomla) {
+		throw new Error('Joomla API is not properly initiated');
+	}
+
 	Joomla.selectedFile = {};
 
 	window.document.addEventListener('onMediaFileSelected', (e) => {
@@ -110,42 +115,7 @@
 		set preview(value) { this.setAttribute('preview', value); }
 		get previewContainer() { return this.getAttribute('preview-container'); }
 
-		// attributeChangedCallback(attr, oldValue, newValue) {
-		//   switch (attr) {
-		//     case 'base-path':
-		//     case 'root-folder':
-		//     case 'url':
-		//     case 'modal-container':
-		//     case 'input':
-		//     case 'button-select':
-		//     case 'button-clear':
-		//     case 'button-save-selected':
-		//     case 'preview-container':
-		//       // string
-		//       break;
-		//     case 'modal-width':
-		//     case 'modal-height':
-		//     case 'preview-width':
-		//     case 'preview-height':
-		//       // int
-		//       // const value = parseInt(newValue, 10);
-		//       // if (value !== parseInt(oldValue, 10)) {
-		//       //  this.setAttribute(attr, value);
-		//       // }
-		//       break;
-		//     case 'preview':
-		//       // bool|string
-		//       if (['true', 'false', 'tooltip', 'static'].indexOf(newValue) > -1 && oldValue !== newValue) {
-		//         this.preview = newValue;
-		//       } else {
-		//         // if (oldValue )
-		//         //   this.preview = oldValue;
-		//       }
-		//       break;
-		//     default:
-		//       break;
-		//   }
-		// }
+		// attributeChangedCallback(attr, oldValue, newValue) {}
 
 		connectedCallback() {
 			const button = this.querySelector(this.buttonSelect);
@@ -167,15 +137,15 @@
 
 		disconnectedCallback() {
 			const button = this.querySelector(this.buttonClear);
-			button.removeEventListener('click', self);
+			button.removeEventListener('click', this);
 		}
 
 		show() {
 			const self = this;
-			const input = this.querySelector(this.input);
-			window.jQuery(this.querySelector('[role="dialog"]')).modal('show');
 
-			window.jQuery(this.querySelector(this.buttonSaveSelected)).on('click', (e) => {
+			jQuery(this.querySelector('[role="dialog"]')).modal('show');
+
+			jQuery(this.querySelector(this.buttonSaveSelected)).on('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -192,11 +162,11 @@
 			const input = this.querySelector(this.input);
 			Joomla.getImage(Joomla.selectedFile, input, this);
 
-			window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+			jQuery(this.querySelector('[role="dialog"]')).modal('hide');
 		}
 
 		setValue(value) {
-			const input = window.jQuery(this.querySelector(this.input));
+			const input = jQuery(this.querySelector(this.input));
 			input.val(value).trigger('change');
 			this.updatePreview();
 		}
@@ -210,7 +180,7 @@
 				return;
 			}
 
-			// Reset tooltip and preview
+			// Reset preview
 			if (this.preview) {
 				const input = this.querySelector(this.input);
 				const value = input.value;
@@ -239,4 +209,5 @@
 	}
 
 	customElements.define('joomla-field-media', JoomlaFieldMedia);
-})();
+
+})(customElements, Joomla, jQuery);

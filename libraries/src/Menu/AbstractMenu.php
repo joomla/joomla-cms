@@ -90,8 +90,9 @@ abstract class AbstractMenu
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @since   1.5
-	 * @throws  \Exception
+	 * @since       1.5
+	 * @throws      \Exception
+	 * @deprecated  5.0 Use the MenuFactoryInterface from the container instead
 	 */
 	public static function getInstance($client, $options = array())
 	{

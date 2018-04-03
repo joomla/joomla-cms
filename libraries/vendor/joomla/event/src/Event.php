@@ -101,6 +101,15 @@ class Event extends AbstractEvent
 	 */
 	public function stop()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::stopPropagation() instead.',
+				__METHOD__,
+				EventInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		$this->stopPropagation();
 	}
 

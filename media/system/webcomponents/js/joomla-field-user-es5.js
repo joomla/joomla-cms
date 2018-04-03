@@ -1,78 +1,188 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createClass = function () {
-  function a(a, b) {
-    for (var c, d = 0; d < b.length; d++) {
-      c = b[d], c.enumerable = c.enumerable || !1, c.configurable = !0, 'value' in c && (c.writable = !0), Object.defineProperty(a, c.key, c);
-    }
-  }return function (b, c, d) {
-    return c && a(b.prototype, c), d && a(b, d), b;
-  };
-}();function _classCallCheck(a, b) {
-  if (!(a instanceof b)) throw new TypeError('Cannot call a class as a function');
-}function _possibleConstructorReturn(a, b) {
-  if (!a) throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');return b && ('object' == (typeof b === 'undefined' ? 'undefined' : _typeof(b)) || 'function' == typeof b) ? b : a;
-}function _inherits(a, b) {
-  if ('function' != typeof b && null !== b) throw new TypeError('Super expression must either be null or a function, not ' + (typeof b === 'undefined' ? 'undefined' : _typeof(b)));a.prototype = Object.create(b && b.prototype, { constructor: { value: a, enumerable: !1, writable: !0, configurable: !0 } }), b && (Object.setPrototypeOf ? Object.setPrototypeOf(a, b) : a.__proto__ = b);
-}var JoomlaFieldUser = function (a) {
-  function b() {
-    return _classCallCheck(this, b), _possibleConstructorReturn(this, (b.__proto__ || Object.getPrototypeOf(b)).apply(this, arguments));
-  }return _inherits(b, a), _createClass(b, [{ key: 'connectedCallback', value: function connectedCallback() {
-      if (this.modal = this.querySelector(this.modalClass), this.modalBody = this.querySelector('.modal-body'), this.input = this.querySelector(this.inputId), this.inputName = this.querySelector(this.inputNameClass), this.buttonSelect = this.querySelector(this.buttonSelectClass), this.modalClose = this.modalClose.bind(this), this.setValue = this.setValue.bind(this), this.buttonSelect) {
-        this.buttonSelect.addEventListener('click', this.modalOpen.bind(this)), this.modal.addEventListener('hide', this.removeIframe.bind(this));var a,
-            b = this.input.getAttribute('data-onchange');b && (a = new Function(b), this.input.addEventListener('change', a.bind(this.input)));
-      }
-    } }, { key: 'disconnectedCallback', value: function disconnectedCallback() {
-      this.buttonSelect.removeEventListener('click', this), this.modal.removeEventListener('hide', this);
-    } }, { key: 'modalOpen', value: function modalOpen() {
-      var a = this;this.removeIframe();var b = document.createElement('iframe');b.setAttribute('name', 'field-user-modal'), b.src = this.url.replace('{field-user-id}', this.input.getAttribute('id')), b.setAttribute('width', this.modalWidth), b.setAttribute('height', this.modalHeight), this.modalBody.appendChild(b), window.jQuery(this.modal).modal('show');var c = this.modalBody.querySelector('iframe');c.addEventListener('load', function () {
-        var b = c.contentWindow.document,
-            d = [].slice.call(b.querySelectorAll('.button-select'));d.forEach(function (b) {
-          b.addEventListener('click', function (b) {
-            a.setValue(b.target.getAttribute('data-user-value'), b.target.getAttribute('data-user-name')), a.modalClose();
-          });
-        });
-      });
-    } }, { key: 'modalClose', value: function modalClose() {
-      window.jQuery(this.modal).modal('hide'), this.modalBody.innerHTML = '';
-    } }, { key: 'removeIframe', value: function removeIframe() {
-      this.modalBody.innerHTML = '';
-    } }, { key: 'setValue', value: function setValue(a, b) {
-      this.input.setAttribute('value', a), this.inputName.setAttribute('value', b || a);
-    } }, { key: 'url', get: function get() {
-      return this.getAttribute('url');
-    }, set: function set(a) {
-      this.setAttribute('url', a);
-    } }, { key: 'modalClass', get: function get() {
-      return this.getAttribute('modal');
-    }, set: function set(a) {
-      this.setAttribute('modal', a);
-    } }, { key: 'modalWidth', get: function get() {
-      return this.getAttribute('modal-width');
-    }, set: function set(a) {
-      this.setAttribute('modal-width', a);
-    } }, { key: 'modalHeight', get: function get() {
-      return this.getAttribute('modal-height');
-    }, set: function set(a) {
-      this.setAttribute('modal-height', a);
-    } }, { key: 'inputId', get: function get() {
-      return this.getAttribute('input');
-    }, set: function set(a) {
-      this.setAttribute('input', a);
-    } }, { key: 'inputNameClass', get: function get() {
-      return this.getAttribute('input-name');
-    }, set: function set(a) {
-      this.setAttribute('input-name', a);
-    } }, { key: 'buttonSelectClass', get: function get() {
-      return this.getAttribute('button-select');
-    }, set: function set(a) {
-      this.setAttribute('button-select', a);
-    } }], [{ key: 'observedAttributes', get: function get() {
-      return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
-    } }]), b;
-}(HTMLElement);customElements.define('joomla-field-user', JoomlaFieldUser);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var JoomlaFieldUser = function (_HTMLElement) {
+	_inherits(JoomlaFieldUser, _HTMLElement);
+
+	function JoomlaFieldUser() {
+		_classCallCheck(this, JoomlaFieldUser);
+
+		return _possibleConstructorReturn(this, (JoomlaFieldUser.__proto__ || Object.getPrototypeOf(JoomlaFieldUser)).apply(this, arguments));
+	}
+
+	_createClass(JoomlaFieldUser, [{
+		key: 'connectedCallback',
+
+
+		// attributeChangedCallback(attr, oldValue, newValue) {}
+
+		value: function connectedCallback() {
+			// Set up elements
+			this.modal = this.querySelector(this.modalClass);
+			this.modalBody = this.querySelector('.modal-body');
+			this.input = this.querySelector(this.inputId);
+			this.inputName = this.querySelector(this.inputNameClass);
+			this.buttonSelect = this.querySelector(this.buttonSelectClass);
+
+			// Bind events
+			this.modalClose = this.modalClose.bind(this);
+			this.setValue = this.setValue.bind(this);
+			if (this.buttonSelect) {
+				this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
+				this.modal.addEventListener('hide', this.removeIframe.bind(this));
+
+				// Check for onchange callback,
+				var onchangeStr = this.input.getAttribute('data-onchange');
+				var onUserSelect = void 0;
+				if (onchangeStr) {
+					/* eslint-disable */
+					onUserSelect = new Function(onchangeStr);
+					this.input.addEventListener('change', onUserSelect.bind(this.input));
+					/* eslint-enable */
+				}
+			}
+		}
+	}, {
+		key: 'disconnectedCallback',
+		value: function disconnectedCallback() {
+			this.buttonSelect.removeEventListener('click', this);
+			this.modal.removeEventListener('hide', this);
+		}
+
+		// Opens the modal
+
+	}, {
+		key: 'modalOpen',
+		value: function modalOpen() {
+			var self = this;
+
+			// Reconstruct the iframe
+			this.removeIframe();
+			var iframe = document.createElement('iframe');
+			iframe.setAttribute('name', 'field-user-modal');
+			iframe.src = this.url.replace('{field-user-id}', this.input.getAttribute('id'));
+			iframe.setAttribute('width', this.modalWidth);
+			iframe.setAttribute('height', this.modalHeight);
+
+			this.modalBody.appendChild(iframe);
+
+			window.jQuery(this.modal).modal('show');
+
+			var iframeEl = this.modalBody.querySelector('iframe');
+
+			// handle the selection on the iframe
+			iframeEl.addEventListener('load', function () {
+				var iframeDoc = iframeEl.contentWindow.document;
+				var buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
+
+				buttons.forEach(function (button) {
+					button.addEventListener('click', function (event) {
+						self.setValue(event.target.getAttribute('data-user-value'), event.target.getAttribute('data-user-name'));
+						self.modalClose();
+					});
+				});
+			});
+		}
+
+		// Closes the modal
+
+	}, {
+		key: 'modalClose',
+		value: function modalClose() {
+			window.jQuery(this.modal).modal('hide');
+			this.modalBody.innerHTML = '';
+		}
+
+		// Remove the iframe
+
+	}, {
+		key: 'removeIframe',
+		value: function removeIframe() {
+			this.modalBody.innerHTML = '';
+		}
+
+		// Sets the value
+
+	}, {
+		key: 'setValue',
+		value: function setValue(value, name) {
+			this.input.setAttribute('value', value);
+			this.inputName.setAttribute('value', name || value);
+		}
+	}, {
+		key: 'url',
+		get: function get() {
+			return this.getAttribute('url');
+		},
+		set: function set(value) {
+			this.setAttribute('url', value);
+		}
+	}, {
+		key: 'modalClass',
+		get: function get() {
+			return this.getAttribute('modal');
+		},
+		set: function set(value) {
+			this.setAttribute('modal', value);
+		}
+	}, {
+		key: 'modalWidth',
+		get: function get() {
+			return this.getAttribute('modal-width');
+		},
+		set: function set(value) {
+			this.setAttribute('modal-width', value);
+		}
+	}, {
+		key: 'modalHeight',
+		get: function get() {
+			return this.getAttribute('modal-height');
+		},
+		set: function set(value) {
+			this.setAttribute('modal-height', value);
+		}
+	}, {
+		key: 'inputId',
+		get: function get() {
+			return this.getAttribute('input');
+		},
+		set: function set(value) {
+			this.setAttribute('input', value);
+		}
+	}, {
+		key: 'inputNameClass',
+		get: function get() {
+			return this.getAttribute('input-name');
+		},
+		set: function set(value) {
+			this.setAttribute('input-name', value);
+		}
+	}, {
+		key: 'buttonSelectClass',
+		get: function get() {
+			return this.getAttribute('button-select');
+		},
+		set: function set(value) {
+			this.setAttribute('button-select', value);
+		}
+	}], [{
+		key: 'observedAttributes',
+		get: function get() {
+			return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
+		}
+	}]);
+
+	return JoomlaFieldUser;
+}(HTMLElement);
+
+customElements.define('joomla-field-user', JoomlaFieldUser);
 
 },{}]},{},[1]);

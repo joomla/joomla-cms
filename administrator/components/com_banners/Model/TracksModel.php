@@ -484,7 +484,7 @@ class TracksModel extends ListModel
 
 			if ($this->getState('compressed'))
 			{
-				$app = \JFactory::getApplication('administrator');
+				$app = \JFactory::getApplication();
 
 				$files = array(
 					'track' => array(

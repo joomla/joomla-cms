@@ -42,7 +42,7 @@ $scriptOptions = [
 		'base'     => JUri::base(true),
 	],
 	"webcomponents" => [
-		"joomla-alert" => Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js',
+		Uri::root() . 'media/vendor/joomla-custom-elements/js/joomla-alert.min.js',
 	]
 ];
 ?>
@@ -75,7 +75,6 @@ $scriptOptions = [
 	<script type="application/json" class="joomla-script-options new"><?php echo json_encode($scriptOptions); ?></script>
 
 	<script src="<?php echo Uri::root(); ?>media/system/js/core.js"></script>
-	<script src="<?php echo 'templates/' . $this->template . '/js/template.js'; ?>"></script>
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">

@@ -27,14 +27,18 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var array|string Holds a list of providers
+	 * Holds a list of providers
+	 *
+	 * @var array|string
 	 *
 	 * @since   4.0.0
 	 */
 	protected $providers = null;
 
 	/**
-	 * @var string The current path of the media manager
+	 * The current path of the media manager
+	 *
+	 * @var string
 	 *
 	 * @since 4.0.0
 	 */
@@ -43,7 +47,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse;
+	 *                        automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *

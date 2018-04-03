@@ -110,7 +110,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param SplFixedArray $x
      * @param SplFixedArray $y
      * @return SplFixedArray
-     * @throws Exception
+     * @throws SodiumException
+     * @throws TypeError
      */
     protected static function xor64(SplFixedArray $x, SplFixedArray $y)
     {
@@ -295,6 +296,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param SplFixedArray $ctx
      * @param SplFixedArray $buf
      * @return void
+     * @throws Exception
+     * @throws TypeError
      */
     protected static function compress(SplFixedArray $ctx, SplFixedArray $buf)
     {
@@ -349,6 +352,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param SplFixedArray $v
      * @param SplFixedArray $m
      * @return SplFixedArray
+     * @throws TypeError
+     * @throws Exception
      */
     public static function G($r, $i, $a, $b, $c, $d, SplFixedArray $v, SplFixedArray $m)
     {
@@ -395,6 +400,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param SplFixedArray $p
      * @param int $plen
      * @return void
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function update(SplFixedArray $ctx, SplFixedArray $p, $plen)
     {
@@ -489,7 +496,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      * @param SplFixedArray|null $key
      * @param int $outlen
      * @return SplFixedArray
-     * @throws Exception
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function init($key = null, $outlen = 64)
     {
@@ -559,6 +567,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      *
      * @param SplFixedArray $a
      * @return string
+     * @throws TypeError
      */
     public static function SplFixedArrayToString(SplFixedArray $a)
     {
@@ -576,6 +585,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      *
      * @param SplFixedArray[SplFixedArray] $ctx
      * @return string
+     * @throws TypeError
      */
     public static function contextToString(SplFixedArray $ctx)
     {
@@ -624,6 +634,8 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
      *
      * @param string $string
      * @return SplFixedArray
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function stringToContext($string)
     {

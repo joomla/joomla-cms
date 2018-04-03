@@ -70,7 +70,7 @@ class CaptchaRule extends FormRule
 			}
 			else
 			{
-				return new \JException($error);
+				return new \Exception($error);
 			}
 		}
 
