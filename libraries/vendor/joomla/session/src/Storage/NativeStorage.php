@@ -66,7 +66,11 @@ class NativeStorage implements StorageInterface
 			'use_trans_sid' => 0,
 		];
 
-		session_cache_limiter('none');
+		if (!headers_sent())
+		{
+			session_cache_limiter('none');
+		}
+
 		session_register_shutdown();
 
 		$this->setOptions($options);
