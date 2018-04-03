@@ -302,9 +302,10 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->info;
 		}
 
-		$version  = new JVersion;
-		$platform = new JPlatform;
-		$db       = $this->getDbo();
+		$version   = new JVersion;
+		$platform  = new JPlatform;
+		$db        = $this->getDbo();
+		$jcapk4dev = 'no Joomla CA public key';
 
 		$this->info = array(
 			'php'                   => php_uname(),
@@ -318,8 +319,28 @@ class AdminModelSysInfo extends JModelLegacy
 			'version'               => $version->getLongVersion(),
 			'platform'              => $platform->getLongVersion(),
 			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+			'jcapk4dev'             => $jcapk4dev,
 		);
 
+		// Get the Joomla CA public key for developers
+		$file = file_get_contents(JPATH_BASE . '/components/com_installer/jcapk.xml');
+		// Check the file
+		if (!$file)
+		{
+			return $this->info;
+		}
+		$xml  = new SimpleXMLElement($file);
+		// Parse the xml file.
+		if (!$xml)
+		{
+			return $this->info;
+		}
+		// Check the tag
+		if (!isset($xml->pk4dev))
+		{
+			return $this->info;
+		}
+		$this->info["jcapk4dev"] = (string) $xml->pk4dev;
 		return $this->info;
 	}
 
