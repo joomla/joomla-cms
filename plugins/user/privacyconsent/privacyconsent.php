@@ -70,7 +70,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		// Check we are manipulating a valid form - we do not display this in the admin users form or profile view.
 		$name 	= $form->getName();
 		$layout = $this->app->input->get('layout', 'default');
-		$view	= $this->app->input->get('view', ' default');
+		$view	= $this->app->input->get('view', 'default');
 
 		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')) || $layout != "edit" && $view != "registration")
 		{
@@ -128,7 +128,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-		$option			= $this->app->input->getCmd('option');
+		$option	= $this->app->input->getCmd('option');
 
 		// Only create an entry on front-end user creation/update and admin profile
 		if ($this->app->isClient('administrator') && $option != 'com_admin')
