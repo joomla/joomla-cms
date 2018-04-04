@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
 if (!count($images))
 {
-	echo JText::_('MOD_RANDOM_IMAGE_NO_IMAGES');
+	echo Text::_('MOD_RANDOM_IMAGE_NO_IMAGES');
 
 	return;
 }
@@ -21,7 +24,7 @@ if (!count($images))
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>
-	<?php echo JHtml::_('image', $image->folder . '/' . $image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
+	<?php echo HTMLHelper::_('image', $image->folder . '/' . $image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
 <?php if ($link) : ?>
 </a>
 <?php endif; ?>

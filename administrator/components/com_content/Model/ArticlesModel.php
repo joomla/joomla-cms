@@ -296,12 +296,13 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id');
+		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
 
-		$categoryId = $categoryId && !is_array($categoryId)
-			? array($categoryId)
-			: $categoryId;
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
 
 		// Case: Using both categories filter and by level filter
 		if (count($categoryId))

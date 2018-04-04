@@ -35,7 +35,6 @@ $logoSm      = $this->baseurl . '/templates/' . $this->template . '/images/logo-
 // Add JavaScript
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
@@ -46,7 +45,7 @@ HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : 
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));

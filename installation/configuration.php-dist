@@ -72,6 +72,9 @@ class JConfig
 	public $session_memcache_server_port = '11211';
 	public $session_memcached_server_host = 'localhost';
 	public $session_memcached_server_port = '11211';
+	public $session_redis_server_host = 'localhost';
+	public $session_redis_server_port = '6379';
+	public $session_redis_server_db = '0';
 
 
 	/* Mail Settings */
@@ -87,6 +90,8 @@ class JConfig
 	public $smtpuser    = '';
 	public $smtppass    = '';
 	public $smtphost    = 'localhost';
+	public $smtpsecure = 'none';
+	public $smtpport = '25';
 
 	/* Cache Settings */
 	public $caching = '0';

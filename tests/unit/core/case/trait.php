@@ -14,20 +14,6 @@ trait TestCaseTrait
 	use TestCaseDeprecated;
 
 	/**
-	 * @var         array  The list of errors expected to be encountered during the test.
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	protected $expectedErrors;
-
-	/**
-	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	private $_stashedErrorState = [];
-
-	/**
 	 * @var    array  Various JFactory static instances stashed away to be restored later.
 	 * @since  12.1
 	 */
@@ -43,21 +29,6 @@ trait TestCaseTrait
 		'acl' => null,
 		'mailer' => null
 	];
-
-	/**
-	 * Receives the callback from JError and logs the required error information for the test.
-	 *
-	 * @param   JException  $error  The JException object from JError
-	 *
-	 * @return  boolean  To not continue with JError processing
-	 *
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	public static function errorCallback($error)
-	{
-		return false;
-	}
 
 	/**
 	 * Assigns mock callbacks to methods.
@@ -110,46 +81,6 @@ trait TestCaseTrait
 				->method($method)
 				->willReturn($return);
 		}
-	}
-
-	/**
-	 * Callback receives the error from JError and deals with it appropriately
-	 * If a test expects a JError to be raised, it should call this setExpectedError first
-	 * If you don't call this method first, the test will fail.
-	 *
-	 * @param   JException  $error  The JException object from JError
-	 *
-	 * @return  JException
-	 *
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	public function expectedErrorCallback($error)
-	{
-		foreach ($this->expectedErrors as $key => $err)
-		{
-			$thisError = true;
-
-			foreach ($err as $prop => $value)
-			{
-				if ($error->get($prop) !== $value)
-				{
-					$thisError = false;
-				}
-			}
-
-			if ($thisError)
-			{
-				unset($this->expectedErrors[$key]);
-
-				return $error;
-			}
-
-		}
-
-		$this->fail('An unexpected error occurred - ' . $error->get('message'));
-
-		return $error;
 	}
 
 	/**
@@ -305,130 +236,5 @@ trait TestCaseTrait
 		class_exists('JApplicationWeb');
 
 		return TestMockApplicationWeb::create($this, $options);
-	}
-
-	/**
-	 * Tells the unit tests that a method or action you are about to attempt
-	 * is expected to result in JError::raiseSomething being called.
-	 *
-	 * If you don't call this method first, the test will fail.
-	 * If you call this method during your test and the error does not occur, then your test
-	 * will also fail because we assume you were testing to see that an error did occur when it was
-	 * supposed to.
-	 *
-	 * If passed without argument, the array is initialized if it hsn't been already
-	 *
-	 * @param   mixed  $error  The JException object to expect.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	public function setExpectedError($error = null)
-	{
-		if (!is_array($this->expectedErrors))
-		{
-			$this->expectedErrors = [];
-
-			// Handle optional usage of JError until removed.
-			if (class_exists('JError'))
-			{
-				JError::setErrorHandling(E_NOTICE, 'callback', [$this, 'expectedErrorCallback']);
-				JError::setErrorHandling(E_WARNING, 'callback', [$this, 'expectedErrorCallback']);
-				JError::setErrorHandling(E_ERROR, 'callback', [$this, 'expectedErrorCallback']);
-			}
-		}
-
-		if (!is_null($error))
-		{
-			$this->expectedErrors[] = $error;
-		}
-	}
-
-	/**
-	 * Sets the JError error handlers.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	protected function restoreErrorHandlers()
-	{
-		$this->setErrorHandlers($this->_stashedErrorState);
-	}
-
-	/**
-	 * Saves the current state of the JError error handlers.
-	 *
-	 * @return  void
-	 *
-	 * @deprecated  13.1
-	 * @since       12.1
-	 */
-	protected function saveErrorHandlers()
-	{
-		$this->_stashedErrorState = array();
-
-		// Handle optional usage of JError until removed.
-		if (class_exists('JError'))
-		{
-			$this->_stashedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
-			$this->_stashedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
-			$this->_stashedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
-		}
-	}
-
-	/**
-	 * Sets the JError error handlers.
-	 *
-	 * @param   array  $errorHandlers  araay of values and options to set the handlers
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setErrorHandlers($errorHandlers)
-	{
-		$mode = null;
-
-		foreach ($errorHandlers as $type => $params)
-		{
-			$mode = $params['mode'];
-
-			// Handle optional usage of JError until removed.
-			if (class_exists('JError'))
-			{
-				if (isset($params['options']))
-				{
-					JError::setErrorHandling($type, $mode, $params['options']);
-				}
-				else
-				{
-					JError::setErrorHandling($type, $mode);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sets the JError error handlers to callback mode and points them at the test logging method.
-	 *
-	 * @param   string  $testName  The name of the test class for which to set the error callback method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setErrorCallback($testName)
-	{
-		$callbackHandlers = array(
-			E_NOTICE => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_WARNING => array('mode' => 'callback', 'options' => array($testName, 'errorCallback')),
-			E_ERROR => array('mode' => 'callback', 'options' => array($testName, 'errorCallback'))
-		);
-
-		$this->setErrorHandlers($callbackHandlers);
 	}
 }

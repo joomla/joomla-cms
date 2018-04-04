@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Languages\Site\Helper\LanguagesHelper;
 
-$headerText      = $params->get('header_text');
-$footerText      = $params->get('footer_text');
-$list            = LanguagesHelper::getList($params);
+$headerText = $params->get('header_text');
+$footerText = $params->get('footer_text');
+$list       = LanguagesHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));

@@ -113,10 +113,12 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['apply', 'newsfeed.apply'];
 			$toolbarButtons[] = ['save', 'newsfeed.save'];
 		}
+
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			$toolbarButtons[] = ['save2new', 'newsfeed.save2new'];
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{

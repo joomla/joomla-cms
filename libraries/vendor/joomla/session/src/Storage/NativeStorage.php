@@ -60,15 +60,17 @@ class NativeStorage implements StorageInterface
 	 */
 	public function __construct(\SessionHandlerInterface $handler = null, array $options = [])
 	{
-		// Disable transparent sid support
-		$options['use_transport_sid'] = '0';
+		// Disable transparent sid support and default use cookies
+		$options += [
+			'use_cookies'   => 1,
+			'use_trans_sid' => 0,
+		];
 
-		if (!headers_sent() && (int) ini_get('session.use_cookies') !== 1)
+		if (!headers_sent())
 		{
-			ini_set('session.use_cookies', 1);
+			session_cache_limiter('none');
 		}
 
-		session_cache_limiter('none');
 		session_register_shutdown();
 
 		$this->setOptions($options);
@@ -113,6 +115,29 @@ class NativeStorage implements StorageInterface
 
 		$this->closed  = true;
 		$this->started = false;
+	}
+
+	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		if (!function_exists('session_gc'))
+		{
+			return false;
+		}
+
+		if (!$this->isStarted())
+		{
+			$this->start();
+		}
+
+		return session_gc();
 	}
 
 	/**
@@ -257,6 +282,11 @@ class NativeStorage implements StorageInterface
 	 */
 	public function regenerate(bool $destroy = false): bool
 	{
+		if (headers_sent() || !$this->isActive())
+		{
+			return false;
+		}
+
 		return session_regenerate_id($destroy);
 	}
 
@@ -311,7 +341,11 @@ class NativeStorage implements StorageInterface
 		}
 
 		$this->handler = $handler;
-		session_set_save_handler($this->handler, false);
+
+		if (!headers_sent() && !$this->isActive())
+		{
+			session_set_save_handler($this->handler, false);
+		}
 
 		return $this;
 	}
@@ -376,18 +410,18 @@ class NativeStorage implements StorageInterface
 	 */
 	public function setOptions(array $options)
 	{
-		if (headers_sent())
+		if (headers_sent() || $this->isActive())
 		{
 			return $this;
 		}
 
 		$validOptions = array_flip(
 			[
-				'cache_limiter', 'cookie_domain', 'cookie_httponly', 'cookie_lifetime', 'cookie_path', 'cookie_secure', 'entropy_file',
-				'entropy_length', 'gc_divisor', 'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character', 'hash_function', 'name',
-				'referer_check', 'serialize_handler', 'use_strict_mode', 'use_cookies', 'use_only_cookies', 'use_trans_sid',
-				'upload_progress.enabled', 'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',  'upload_progress.freq',
-				'upload_progress.min-freq', 'url_rewriter.tags', 'sid_length', 'sid_bits_per_character', 'trans_sid_hosts', 'trans_sid_tags',
+				'cache_limiter', 'cache_expire', 'cookie_domain', 'cookie_httponly', 'cookie_lifetime', 'cookie_path', 'cookie_secure', 'gc_divisor',
+				'gc_maxlifetime', 'gc_probability', 'lazy_write', 'name', 'referer_check', 'serialize_handler', 'use_strict_mode', 'use_cookies',
+				'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled', 'upload_progress.cleanup', 'upload_progress.prefix',
+				'upload_progress.name', 'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags', 'sid_length',
+				'sid_bits_per_character', 'trans_sid_hosts', 'trans_sid_tags',
 			]
 		);
 

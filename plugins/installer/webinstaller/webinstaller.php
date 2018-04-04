@@ -82,7 +82,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
 			$devLevel .= '-' . Version::EXTRA_VERSION;
 		}
 
-		$doc = Factory::getDocument();
+		$doc  = Factory::getDocument();
+		$lang = Factory::getLanguage();
 
 		$doc->addScriptOptions(
 			'plg_installer_webinstaller',
@@ -94,6 +95,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'release'         => base64_encode(Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION),
 				'dev_level'       => base64_encode($devLevel),
 				'installfromon'   => $installfrom ? 1 : 0,
+				'language'        => base64_encode($lang->getTag()),
 			]
 		);
 

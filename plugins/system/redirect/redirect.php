@@ -54,25 +54,8 @@ class PlgSystemRedirect extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Set the JError handler for E_ERROR to be the class' handleError method.
-		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
-
 		// Register the previously defined exception handler so we can forward errors to it
 		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
-	}
-
-	/**
-	 * Method to handle an error condition from JError.
-	 *
-	 * @param   JException  $error  The JException object to be handled.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function handleError(JException $error)
-	{
-		self::doErrorHandling($error);
 	}
 
 	/**

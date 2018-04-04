@@ -15,6 +15,7 @@ if (JFactory::getApplication()->isClient('site'))
 
 JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', '.advancedSelect');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));

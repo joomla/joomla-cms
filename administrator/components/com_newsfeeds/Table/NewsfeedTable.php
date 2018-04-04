@@ -62,6 +62,7 @@ class NewsfeedTable extends Table
 		if (trim($this->name) == '')
 		{
 			$this->setError(\JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 

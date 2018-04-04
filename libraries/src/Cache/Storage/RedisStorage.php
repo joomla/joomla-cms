@@ -79,31 +79,28 @@ class RedisStorage extends CacheStorage
 			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
+		// If you are trying to connect to a socket file, ignore the supplied port
+		if ($server['host'][0] === '/')
+		{
+			$server['port'] = 0;
+		}
+
 		static::$_redis = new \Redis;
 
-		if ($this->_persistent)
+		try
 		{
-			try
+			if ($this->_persistent)
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($connection == false)
@@ -113,7 +110,17 @@ class RedisStorage extends CacheStorage
 			throw new \JCacheExceptionConnecting('Redis connection failed', 500);
 		}
 
-		if ($auth == false)
+		try
+		{
+			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
+		}
+		catch (\RedisException $e)
+		{
+			$auth = false;
+			Log::add($e->getMessage(), Log::DEBUG);
+		}
+
+		if ($auth === false)
 		{
 			static::$_redis = null;
 

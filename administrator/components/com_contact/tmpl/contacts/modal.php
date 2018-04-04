@@ -21,6 +21,7 @@ JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/he
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 $function  = $app->input->getCmd('function', 'jSelectContact');

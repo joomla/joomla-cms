@@ -1,5 +1,6 @@
 import {api} from "../app/Api";
 import * as types from "./mutation-types";
+import translate from "../plugins/translate";
 import {notifications} from "../app/Notifications";
 import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
 
@@ -153,7 +154,7 @@ export const uploadFile = (context, payload) => {
 
             // Handle file exists
             if (error.status === 409) {
-                if (notifications.ask('"' + payload.name + '" does already exist. Do you want to override it?', {})) {
+                if (notifications.ask(translate.sprintf('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', payload.name), {})) {
                     payload.override = true;
                     uploadFile(context, payload);
                 }

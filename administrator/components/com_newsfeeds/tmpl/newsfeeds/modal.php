@@ -14,6 +14,7 @@ JLoader::register('NewsfeedsHelperRoute', JPATH_ROOT . '/components/com_newsfeed
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $app = JFactory::getApplication();
 

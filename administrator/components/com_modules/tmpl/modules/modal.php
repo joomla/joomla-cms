@@ -16,6 +16,7 @@ if (JFactory::getApplication()->isClient('site'))
 
 // Load needed scripts
 JHtml::_('behavior.core');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 // Scripts for the modules xtd-button
 JHtml::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));

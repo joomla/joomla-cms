@@ -97,8 +97,8 @@
 					class="switcher"
 					default="0"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
