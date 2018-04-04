@@ -1,24 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filesystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 /**
- * Wrapper class for JFilesystemFolder
+ * Wrapper class for Folder
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
  */
-class JFilesystemWrapperFolder
+class FolderWrapper
 {
 	/**
 	 * Helper wrapper method for copy
@@ -31,13 +32,13 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFolder::copy()
+	 * @see     Folder::copy()
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
 	public function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{
-		return JFolder::copy($src, $dest, $path, $force, $use_streams);
+		return Folder::copy($src, $dest, $path, $force, $use_streams);
 	}
 
 	/**
@@ -48,12 +49,12 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @see     JFolder::create()
+	 * @see     Folder::create()
 	 * @since   3.4
 	 */
 	public function create($path = '', $mode = 493)
 	{
-		return JFolder::create($path, $mode);
+		return Folder::create($path, $mode);
 	}
 
 	/**
@@ -63,13 +64,13 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFolder::delete()
+	 * @see     Folder::delete()
 	 * @since   3.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function delete($path)
 	{
-		return JFolder::delete($path);
+		return Folder::delete($path);
 	}
 
 	/**
@@ -82,12 +83,12 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  mixed  Error message on false or boolean true on success.
 	 *
-	 * @see     JFolder::move()
+	 * @see     Folder::move()
 	 * @since   3.4
 	 */
 	public function move($src, $dest, $path = '', $use_streams = false)
 	{
-		return JFolder::move($src, $dest, $path, $use_streams);
+		return Folder::move($src, $dest, $path, $use_streams);
 	}
 
 	/**
@@ -97,12 +98,12 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  boolean  True if path is a folder.
 	 *
-	 * @see     JFolder::exists()
+	 * @see     Folder::exists()
 	 * @since   3.4
 	 */
 	public function exists($path)
 	{
-		return JFolder::exists($path);
+		return Folder::exists($path);
 	}
 
 	/**
@@ -118,13 +119,13 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  array  Files in the given folder.
 	 *
-	 * @see     JFolder::files()
+	 * @see     Folder::files()
 	 * @since   3.4
 	 */
 	public function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
-		return JFolder::files($path, $filter, $recurse, $full, $exclude, $excludefilter, $naturalSort);
+		return Folder::files($path, $filter, $recurse, $full, $exclude, $excludefilter, $naturalSort);
 	}
 
 	/**
@@ -139,13 +140,13 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @see     JFolder::folders()
+	 * @see     Folder::folders()
 	 * @since   3.4
 	 */
 	public function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*'))
 	{
-		return JFolder::folders($path, $filter, $recurse, $full, $exclude, $excludefilter);
+		return Folder::folders($path, $filter, $recurse, $full, $exclude, $excludefilter);
 	}
 
 	/**
@@ -159,12 +160,12 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @see     JFolder::listFolderTree()
+	 * @see     Folder::listFolderTree()
 	 * @since   3.4
 	 */
 	public function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
-		return JFolder::listFolderTree($path, $filter, $maxLevel, $level, $parent);
+		return Folder::listFolderTree($path, $filter, $maxLevel, $level, $parent);
 	}
 
 	/**
@@ -174,11 +175,11 @@ class JFilesystemWrapperFolder
 	 *
 	 * @return  string  The sanitised string
 	 *
-	 * @see     JFolder::makeSafe()
+	 * @see     Folder::makeSafe()
 	 * @since   3.4
 	 */
 	public function makeSafe($path)
 	{
-		return JFolder::makeSafe($path);
+		return Folder::makeSafe($path);
 	}
 }

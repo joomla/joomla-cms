@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -16,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  11.1
  */
-class JFilesystemHelper
+class FilesystemHelper
 {
 	/**
 	 * Remote file size function for streams that don't support it
@@ -262,7 +263,7 @@ class JFilesystemHelper
 
 		if (!$streams)
 		{
-			$files = new DirectoryIterator(__DIR__ . '/streams');
+			$files = new \DirectoryIterator(__DIR__ . '/Streams');
 
 			/* @type  $file  DirectoryIterator */
 			foreach ($files as $file)
@@ -273,7 +274,7 @@ class JFilesystemHelper
 					continue;
 				}
 
-				$streams[] = $file->getBasename('.php');
+				$streams[] = str_replace('stream', '', strtolower($file->getBasename('.php')));
 			}
 		}
 
