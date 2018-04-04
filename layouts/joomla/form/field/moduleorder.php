@@ -76,6 +76,6 @@ if ($onchange)
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-HTMLHelper::_('webcomponent', ['joomla-field-module-order' => 'system/webcomponents/joomla-field-module-order.min.js'], ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>
