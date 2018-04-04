@@ -12,14 +12,19 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects based on a namespace.
  *
  * @since  4.0.0
  */
-class MVCFactory implements MVCFactoryInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * The namespace to create the objects from.
 	 *
@@ -40,7 +45,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string                   $namespace    The namespace.
+	 * @param   string                   $namespace    The namespace
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
 	 * @since   4.0.0
@@ -49,6 +54,39 @@ class MVCFactory implements MVCFactoryInterface
 	{
 		$this->namespace   = $namespace;
 		$this->application = $application;
+	}
+
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
+	{
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Controller\\' . ucfirst($name) . 'Controller', $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		$controller = new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
+		$this->setFormFactoryOnObject($controller);
+
+		return $controller;
 	}
 
 	/**
@@ -76,7 +114,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config, $this);
+		$model = new $className($config, $this);
+		$this->setFormFactoryOnObject($model);
+
+		return $model;
 	}
 
 	/**
@@ -106,7 +147,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config);
+		$view = new $className($config);
+		$this->setFormFactoryOnObject($view);
+
+		return $view;
 	}
 
 	/**
@@ -124,7 +168,7 @@ class MVCFactory implements MVCFactoryInterface
 	public function createTable($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
@@ -172,5 +216,30 @@ class MVCFactory implements MVCFactoryInterface
 		}
 
 		return $className;
+	}
+
+	/**
+	 * Sets the internal form factory on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setFormFactoryOnObject($object)
+	{
+		if (!$object instanceof FormFactoryAwareInterface)
+		{
+			return;
+		}
+
+		try
+		{
+			$object->setFormFactory($this->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
 	}
 }
