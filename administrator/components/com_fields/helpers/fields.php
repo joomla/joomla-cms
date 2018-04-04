@@ -553,14 +553,17 @@ class FieldsHelper
 	 */
 	public static function displayReadOnlyFieldOnForm($field)
 	{
-		$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
-		$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
-		$fieldDisplayReadOnly = $field->params->get('display_readonly', '1');
-
-		if (($groupDisplayReadOnly == 0 || $fieldDisplayReadOnly == 0) && !FieldsHelper::canEditFieldValue($field))
+		if (!FieldsHelper::canEditFieldValue($field))
 		{
-			// Do not display field on form when field is read-only
-			return false;
+			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+			$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '1');
+
+			if (($groupDisplayReadOnly == 0 || $fieldDisplayReadOnly == 0))
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
 		}
 
 		// Display field on form even when field is read-only
