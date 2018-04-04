@@ -284,6 +284,18 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	}
 
 	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	/**
 	 * Flag if the application instance is a CLI or web based application.
 	 *
 	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.
