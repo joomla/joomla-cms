@@ -569,9 +569,15 @@ class FieldsHelper
 		{
 			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
 			$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
-			$fieldDisplayReadOnly = $field->params->get('display_readonly', '1');
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
 
-			if (($groupDisplayReadOnly == 0 || $fieldDisplayReadOnly == 0))
+			if ($fieldDisplayReadOnly == '2')
+			{
+				// Inherit from field group display read-only setting
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
 			{
 				// Do not display field on form when field is read-only
 				return false;
