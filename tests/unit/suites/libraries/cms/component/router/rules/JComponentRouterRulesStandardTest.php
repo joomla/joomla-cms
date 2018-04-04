@@ -64,6 +64,7 @@ class JComponentRouterRulesStandardTest extends TestCaseDatabase
 		JFactory::$session = $this->getMockSession();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 		JFactory::$application = $app;
 
 		$router = new ContentRouterStandardRuleOnly($app, new JMenuSite(array('app' => $app, 'language' => self::getMockLanguage())), $noIds);
