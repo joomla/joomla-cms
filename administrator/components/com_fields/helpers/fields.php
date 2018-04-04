@@ -565,7 +565,7 @@ class FieldsHelper
 			return false;
 		}
 
-		if (!FieldsHelper::canEditFieldValue($field))
+		if (!self::canEditFieldValue($field))
 		{
 			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
 
