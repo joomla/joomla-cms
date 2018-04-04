@@ -296,9 +296,9 @@
 				class="btn-group btn-group-yesno"
 				default="2"
 				>
+				<option value="2">JGLOBAL_INHERIT</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
-				<option value="2">JGLOBAL_INHERIT</option>
 			</field>
 		</fieldset>
 	</fields>
