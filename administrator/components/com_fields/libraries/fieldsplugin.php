@@ -164,6 +164,12 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
+		// Detect if the current user has rights to display field on form
+		if (!FieldsHelper::canDisplayFieldOnForm($field))
+		{
+			return null;
+		}
+
 		// Create the node
 		$node = $parent->appendChild(new DOMElement('field'));
 

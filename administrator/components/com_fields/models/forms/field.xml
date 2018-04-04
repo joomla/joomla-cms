@@ -287,6 +287,15 @@
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
 			</field>
+
+			<field
+				name="display_on_form"
+				type="usergrouplist"
+				label="JFIELD_DISPLAY_ON_FORM_LABEL"
+				description="JFIELD_DISPLAY_ON_FORM_DESC"
+				multiple="true"
+				default="1"
+			/>
 		</fieldset>
 	</fields>
 </form>

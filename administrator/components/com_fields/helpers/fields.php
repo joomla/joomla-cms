@@ -543,6 +543,44 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean if the actual logged in user is authorised to display the given field on a form.
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function canDisplayFieldOnForm($field)
+	{
+		$user = JFactory::getUser();
+
+		if (!JFactory::getApplication()->isClient('administrator') || !$user->authorise('core.admin'))
+		{
+			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+			$groupDisplayLevel = (array) $groupModel->getItem($field->group_id)->params->get('display_on_form', '1');
+			$fieldDisplayLevel = (array) $field->params->get('display_on_form', '1');
+
+			if ((count($groupDisplayLevel) == 1 && $groupDisplayLevel[0] == '1') && (count($fieldDisplayLevel) == 1 && $fieldDisplayLevel[0] == '1'))
+			{
+				// No user groups configured (default = public) or user groups configured as public
+				return true;
+			}
+
+			$checkGroupDisplayLevel = count(array_intersect($groupDisplayLevel, $user->groups));
+			$checkFieldDisplayLevel = count(array_intersect($fieldDisplayLevel, $user->groups));
+
+			if ($checkGroupDisplayLevel == 0 && $checkFieldDisplayLevel == 0)
+			{
+				// User not in configured user groups for field group or field
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   stdClass[]  &$items  The field category objects
