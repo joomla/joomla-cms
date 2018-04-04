@@ -271,9 +271,9 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		$query = $db->getQuery(true)
 			->select('1')
-			->from($db->qn('#__user_profiles'))
-			->where($db->qn('user_id') . ' = ' . (int) $userId)
-			->where($db->qn('profile_key') . ' = ' . $db->q('consent'));
+			->from($db->quoteName('#__user_profiles'))
+			->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+			->where($db->quoteName('profile_key') . ' = ' . $db->quote('consent'));
 		$db->setQuery($query);
 
 		$consent = $db->loadObjectList();
