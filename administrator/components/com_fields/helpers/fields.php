@@ -567,13 +567,13 @@ class FieldsHelper
 
 		if (!FieldsHelper::canEditFieldValue($field))
 		{
-			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
-			$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
 			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
 
 			if ($fieldDisplayReadOnly == '2')
 			{
 				// Inherit from field group display read-only setting
+				$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
 				$fieldDisplayReadOnly = $groupDisplayReadOnly;
 			}
 
