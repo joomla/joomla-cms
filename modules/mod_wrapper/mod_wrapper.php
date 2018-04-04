@@ -21,8 +21,22 @@ $width           = htmlspecialchars($params->get('width'), ENT_COMPAT, 'UTF-8');
 $height          = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8');
 $scroll          = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$frameborder     = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
+$frameborder     = htmlspecialchars($params->get('frameborder', 1), ENT_COMPAT, 'UTF-8');
 $ititle          = $module->title;
 $id              = $module->id;
+$isHtml5         = $params->get('mode', 'legacy') === 'html5';
+
+if ($isHtml5)
+{
+	$overflow = $scroll;
+	
+	if ($overflow !== 'auto')
+	{
+		$overflow = $overflow === 'no' ? 'hidden' : 'scroll';
+	}
+
+	$frameborder = !$frameborder ? 'none' : $frameborder . 'px solid #000';
+	$height      = (int) $height . 'px';
+}
 
 require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

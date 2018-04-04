@@ -23,6 +23,18 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="mode"
+					type="radio"
+					label="MOD_WRAPPER_FIELD_MODE_LABEL"
+					description="MOD_WRAPPER_FIELD_MODE_DESC"
+					class="btn-group"
+					default="legacy"
+					>
+					<option value="legacy">MOD_WRAPPER_FIELD_VALUE_LEGACY</option>
+					<option value="html5">MOD_WRAPPER_FIELD_VALUE_HTML5</option>
+				</field>
+
+				<field
 					name="url"
 					type="text"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
