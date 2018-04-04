@@ -9,7 +9,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/permissions/fixtures/fixture.html', 'fields/permissions', 'libs/core'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/joomla-field-permissions/fixtures/fixture.html', 'media/system/webcomponents/js/joomla-field-permissions', 'libs/core'], function ($, fixture) {
 	$('body').append(fixture);
 
 	window.id = '0';
