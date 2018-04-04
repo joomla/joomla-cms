@@ -59,10 +59,7 @@ class PlgEditorNone extends CMSPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		HTMLHelper::_('webcomponent',
-			['joomla-editor-none' => 'system/webcomponents/joomla-editor-none.min.js'],
-			['version' => 'auto', 'relative' => true]
-		);
+		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
 
 		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
