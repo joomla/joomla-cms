@@ -66,6 +66,7 @@ services:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
       MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
 
   memcached:
     image: memcached:alpine
