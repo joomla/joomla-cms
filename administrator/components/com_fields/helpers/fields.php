@@ -551,8 +551,20 @@ class FieldsHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function displayReadOnlyFieldOnForm($field)
+	public static function displayFieldOnForm($field)
 	{
+		$app = JFactory::getApplication();
+
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
+
 		if (!FieldsHelper::canEditFieldValue($field))
 		{
 			$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
@@ -566,7 +578,7 @@ class FieldsHelper
 			}
 		}
 
-		// Display field on form even when field is read-only
+		// Display field on form
 		return true;
 	}
 
