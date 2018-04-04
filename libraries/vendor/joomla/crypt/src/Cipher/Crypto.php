@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Crypt Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,7 @@ use Defuse\Crypto\Exception\WrongKeyOrModifiedCiphertextException;
 use Defuse\Crypto\RuntimeTests;
 use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
+use Joomla\Crypt\Exception\InvalidKeyTypeException;
 
 /**
  * Joomla cipher for encryption, decryption and key generation via the php-encryption library.
@@ -40,7 +41,7 @@ class Crypto implements CipherInterface
 		// Validate key.
 		if ($key->getType() !== 'crypto')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
+			throw new InvalidKeyTypeException('crypto', $key->getType());
 		}
 
 		// Decrypt the data.
@@ -75,7 +76,7 @@ class Crypto implements CipherInterface
 		// Validate key.
 		if ($key->getType() !== 'crypto')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
+			throw new InvalidKeyTypeException('crypto', $key->getType());
 		}
 
 		// Encrypt the data.

@@ -38,9 +38,6 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session     = $this->getMockSession();
 
-		// Force the cloak JS inline so that we can unit test it easier than messing with script head in document
-		JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
-
 		// Create a mock dispatcher instance
 		$dispatcher = $this->getMockDispatcher();
 
@@ -82,270 +79,129 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
 				// This third row is the full output of the cloak with inline javascript mode enabled
 				''
-
 			),
 
 			// 1
 			array(
 				'<a href="mailto:toto@toto.com?subject=Mysubject" class="myclass" >email</a>',
-				"<a href='mailto:toto@toto.com?subject=Mysubject' class=\"myclass\" >email</a>",
-				"<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 't&#111;t&#111;' + '&#64;';
-				addy__HASH__ = addy__HASH__ + 't&#111;t&#111;' + '&#46;' + 'c&#111;m?s&#117;bj&#101;ct=Mys&#117;bj&#101;ct';
-				var addy_text__HASH__ = '&#101;m&#97;&#105;l';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\' class=\"myclass\" >'+addy_text__HASH__+'<\/a>';
-				</script>
-				"
+				'<joomla-hidden-mail  is-link="1" is-email="0" first="dG90bw==" last="dG90by5jb20/c3ViamVjdD1NeXN1YmplY3Q=" text="ZW1haWw=" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="mailto:toto@toto.com?subject=Mysubject" class="myclass" >email</a>',
 			),
 
 			// 2
 			array(
 				'<a href="http://mce_host/ourdirectory/email@example.org">anytext</a>',
-
-				"<a href='mailto:email@example.org'>anytext</a>",
-
-				"<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = '&#101;m&#97;&#105;l' + '&#64;';
-				addy__HASH__ = addy__HASH__ + '&#101;x&#97;mpl&#101;' + '&#46;' + '&#111;rg';
-				var addy_text__HASH__ = '&#97;nyt&#101;xt';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script>
-				"
+				'<joomla-hidden-mail  is-link="1" is-email="0" first="ZW1haWw=" last="ZXhhbXBsZS5vcmc=" text="YW55dGV4dA==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="http://mce_host/ourdirectory/email@example.org">anytext</a>',
 			),
 
 			// 3
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><span style="font-style: 8pt;">Joe_fontsize8</span></a></p>',
-
-				// This is out expected output - note the comment in above for the reason it doesnt have the surrounding <p> tags
-				"<a href='mailto:joe@nowhere.com'><span style=\"font-style: 8pt;\">Joe_fontsize8</span></a>",
-
-				"<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com';
-				var addy_text__HASH__ = '<span style=\"font-style: 8pt;\">Joe_fontsize8</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="0" first="am9l" last="bm93aGVyZS5jb20=" text="PHNwYW4gc3R5bGU9ImZvbnQtc3R5bGU6IDhwdDsiPkpvZV9mb250c2l6ZTg8L3NwYW4+" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com"><span style="font-style: 8pt;">Joe_fontsize8</span></a></p>',
 			),
 
 			// 4
 			array(
 				'<p><a href="mailto:joe@nowhere13.com?subject= A text"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
-
-				'<a href=\'mailto:joe@nowhere13.com?subject= A text\'><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere13' + '.' + 'com?subject= A text';
-				var addy_text__HASH__ = '<span style=\"font-size: 14pt;\">Joe_subject_ fontsize13</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="0" first="am9l" last="bm93aGVyZTEzLmNvbT9zdWJqZWN0PSBBIHRleHQ=" text="PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTRwdDsiPkpvZV9zdWJqZWN0XyBmb250c2l6ZTEzPC9zcGFuPg==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere13.com?subject= A text"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
 			),
 
 			// 5
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><strong>something</strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com\'><strong>something</strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com';
-				var addy_text__HASH__ = '<strong>something</strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="0" first="am9l" last="bm93aGVyZS5jb20=" text="PHN0cm9uZz5zb21ldGhpbmc8L3N0cm9uZz4=" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com"><strong>something</strong></a></p>',
 			),
 
 			// 6
 			// TODO: I would expect that the email in the strong tag should ALSO be converted?
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><strong>mymail@mysite.com</strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com\'><strong>mymail@mysite.com</strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com';
-				var addy_text__HASH__ = '<strong>mymail' + '@' + 'mysite' + '.' + 'com</strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="1" first="am9l" last="bm93aGVyZS5jb20=" text="PHN0cm9uZz5teW1haWxAbXlzaXRlLmNvbTwvc3Ryb25nPg==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com"><strong>mymail@mysite.com</strong></a></p>',
 			),
 
 			// 7
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><strong><span style="font-size: 14px;">mymail@mysite.com</span></strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com\'><strong><span style="font-size: 14px;">mymail@mysite.com</span></strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com';
-				var addy_text__HASH__ = '<strong><span style=\"font-size: 14px;\">mymail' + '@' + 'mysite' + '.' + 'com</span></strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="1" first="am9l" last="bm93aGVyZS5jb20=" text="PHN0cm9uZz48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyI+bXltYWlsQG15c2l0ZS5jb208L3NwYW4+PC9zdHJvbmc+" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com"><strong><span style="font-size: 14px;">mymail@mysite.com</span></strong></a></p>',
 			),
 
 			// 8
 			array(
 				'<p><a href="mailto:joe@nowhere.com"><strong><span style="font-size: 14px;">Joe Nobody</span></strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com\'><strong><span style="font-size: 14px;">Joe Nobody</span></strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com';
-				var addy_text__HASH__ = '<strong><span style=\"font-size: 14px;\">Joe Nobody</span></strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="0" first="am9l" last="bm93aGVyZS5jb20=" text="PHN0cm9uZz48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNHB4OyI+Sm9lIE5vYm9keTwvc3Bhbj48L3N0cm9uZz4=" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com"><strong><span style="font-size: 14px;">Joe Nobody</span></strong></a></p>',
 			),
 
 			// 9
 			// TODO: I would expect that the email in the strong tag should ALSO be converted?
 			array(
 				'<p><a href="mailto:joe@nowhere.com?subject= A text"><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com?subject= A text\'><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject= A text';
-				var addy_text__HASH__ = '<strong><span style=\"font-size: 16px;\">joe' + '@' + 'nowhere' + '.' + 'com</span></strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="1" first="am9l" last="bm93aGVyZS5jb20/c3ViamVjdD0gQSB0ZXh0" text="PHN0cm9uZz48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNnB4OyI+am9lQG5vd2hlcmUuY29tPC9zcGFuPjwvc3Ryb25nPg==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject= A text"><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a></p>',
 			),
 
 			// 10
 			array(
 				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg">joe@nowhere.com</a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com?subject=Text\'><img src="path/to/something.jpg">joe@nowhere.com</a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject=Text';
-				var addy_text__HASH__ = '<img src=\"path/to/something.jpg\">joe' + '@' + 'nowhere' + '.' + 'com';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="1" first="am9l" last="bm93aGVyZS5jb20/c3ViamVjdD1UZXh0" text="PGltZyBzcmM9InBhdGgvdG8vc29tZXRoaW5nLmpwZyI+am9lQG5vd2hlcmUuY29t" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject=Text"><img src="path/to/something.jpg">joe@nowhere.com</a></p>',
 			),
 
 			// 11
 			array(
 				'<a href="http://mce_host/ourdirectory/email@example.org">email@example.org</a>',
-
-				"<a href='mailto:email@example.org'>email@example.org</a>",
-
-				"<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = '&#101;m&#97;&#105;l' + '&#64;';
-				addy__HASH__ = addy__HASH__ + '&#101;x&#97;mpl&#101;' + '&#46;' + '&#111;rg';
-				var addy_text__HASH__ = '&#101;m&#97;&#105;l' + '&#64;' + '&#101;x&#97;mpl&#101;' + '&#46;' + '&#111;rg';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
-		</script>
-				"
+				'<joomla-hidden-mail  is-link="1" is-email="1" first="ZW1haWw=" last="ZXhhbXBsZS5vcmc=" text="ZW1haWxAZXhhbXBsZS5vcmc=" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="http://mce_host/ourdirectory/email@example.org">email@example.org</a>',
 			),
 
 			// 12 - similar to test 9 but with the addition of classes
 			// TODO: I would expect that the email in the strong tag should ALSO be converted?
 			array(
 				'<p><a href="mailto:joe@nowhere.com?subject= A text" class="class1 class2"><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a></p>',
-
-				'<a href=\'mailto:joe@nowhere.com?subject= A text\' class="class1 class2"><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere' + '.' + 'com?subject= A text';
-				var addy_text__HASH__ = '<strong><span style=\"font-size: 16px;\">joe' + '@' + 'nowhere' + '.' + 'com</span></strong>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\' class=\"class1 class2\">'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="1" first="am9l" last="bm93aGVyZS5jb20/c3ViamVjdD0gQSB0ZXh0" text="PHN0cm9uZz48c3BhbiBzdHlsZT0iZm9udC1zaXplOiAxNnB4OyI+am9lQG5vd2hlcmUuY29tPC9zcGFuPjwvc3Ryb25nPg==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere.com?subject= A text" class="class1 class2"><strong><span style="font-size: 16px;">joe@nowhere.com</span></strong></a></p>',
 			),
 
 			// 13 - Similar to test 4 but with the addition of classes
 			array(
 				'<p><a href="mailto:joe@nowhere13.com?subject= A text" class="class 1 class 2"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
-
-				'<a href=\'mailto:joe@nowhere13.com?subject= A text\' class="class 1 class 2"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a>',
-
-				"
-				<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = 'ma' + 'il' + 'to';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 'joe' + '@';
-				addy__HASH__ = addy__HASH__ + 'nowhere13' + '.' + 'com?subject= A text';
-				var addy_text__HASH__ = '<span style=\"font-size: 14pt;\">Joe_subject_ fontsize13</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\' class=\"class 1 class 2\">'+addy_text__HASH__+'<\/a>';
-		</script></p>
-				"
+				'<p><joomla-hidden-mail  is-link="1" is-email="0" first="am9l" last="bm93aGVyZTEzLmNvbT9zdWJqZWN0PSBBIHRleHQ=" text="PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTogMTRwdDsiPkpvZV9zdWJqZWN0XyBmb250c2l6ZTEzPC9zcGFuPg==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail></p>',
+				'<p><a href="mailto:joe@nowhere13.com?subject= A text" class="class 1 class 2"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
 			),
 
 			// 14
 			array(
 				'<a href="mailto:toto@toto.com" class="myclass" >toto@toto.com</a>',
-				"<a href='mailto:toto@toto.com' class=\"myclass\" >toto@toto.com</a>",
-				"<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 't&#111;t&#111;' + '&#64;';
-				addy__HASH__ = addy__HASH__ + 't&#111;t&#111;' + '&#46;' + 'c&#111;m';
-				var addy_text__HASH__ = 't&#111;t&#111;' + '&#64;' + 't&#111;t&#111;' + '&#46;' + 'c&#111;m';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\' class=\"myclass\" >'+addy_text__HASH__+'<\/a>';
-				</script>
-				"
+				'<joomla-hidden-mail  is-link="1" is-email="1" first="dG90bw==" last="dG90by5jb20=" text="dG90b0B0b3RvLmNvbQ==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="mailto:toto@toto.com" class="myclass" >toto@toto.com</a>',
 			),
 
 			// 15
 			array(
 				'<a href="mailto:toto@toto.com" class="myclass" >Click Here</a>',
-				"<a href='mailto:toto@toto.com' class=\"myclass\" >Click Here</a>",
-				"<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
-				document.getElementById('cloak__HASH__').innerHTML = '';
-				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
-				var path = 'hr' + 'ef' + '=';
-				var addy__HASH__ = 't&#111;t&#111;' + '&#64;';
-				addy__HASH__ = addy__HASH__ + 't&#111;t&#111;' + '&#46;' + 'c&#111;m';
-				var addy_text__HASH__ = 'Cl&#105;ck H&#101;r&#101;';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\' class=\"myclass\" >'+addy_text__HASH__+'<\/a>';
-				</script>
-				"
+				'<joomla-hidden-mail  is-link="1" is-email="0" first="dG90bw==" last="dG90by5jb20=" text="Q2xpY2sgSGVyZQ==" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="mailto:toto@toto.com" class="myclass" >Click Here</a>',
 			),
+
+			// 16 UTF8
+			array(
+				'<a href="mailto:joomlatest@xn----7sblgc4ag8bhcd.xn--p1ai"> joomlatest@джумла-тест.рф</a>',
+				'<joomla-hidden-mail  is-link="1" is-email="0" first="am9vbWxhdGVzdA==" last="eG4tLS0tN3NibGdjNGFnOGJoY2QueG4tLXAxYWk=" text="IGpvb21sYXRlc3RA0LTQttGD0LzQu9CwLdGC0LXRgdGCLtGA0YQ=" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="mailto:joomlatest@xn----7sblgc4ag8bhcd.xn--p1ai">Click Here</a>',
+			),
+
+			// 17 UTF8 and image
+			array(
+				'<a href="mailto:joomlatest@xn----7sblgc4ag8bhcd.xn--p1ai?subject= джумла-тес" rel="alternate"><img src="images/powered_by.png" alt="" /></a>',
+				'<joomla-hidden-mail  is-link="1" is-email="0" first="am9vbWxhdGVzdA==" last="eG4tLS0tN3NibGdjNGFnOGJoY2QueG4tLXAxYWk/c3ViamVjdD0g0LTQttGD0LzQu9CwLdGC0LXRgQ==" text="PGltZyBzcmM9ImltYWdlcy9wb3dlcmVkX2J5LnBuZyIgYWx0PSIiIC8+" base="" >JLIB_HTML_CLOAKING</joomla-hidden-mail>',
+				'<a href="mailto:joomlatest@xn----7sblgc4ag8bhcd.xn--p1ai?subject= джумла-тес" rel="alternate"><img src="images/powered_by.png" alt="" /></a>',
+			)
 		);
 	}
 
@@ -374,86 +230,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 		$res = $this->class->onContentPrepare('com_content.article', $row, $params);
 		$this->assertEquals(1, $res);
 
-		// Get the md5 hash
-		preg_match("/addy_text([0-9a-z]{32})/", $row->text, $output_array);
-
-		// If we did some cloaking then test the JS
-		if (count($output_array))
-		{
-			$hash = $output_array[1];
-
-			// Assert the JLIB_HTML_CLOAKING span is intact
-			$this->assertRegExp('/\<span\sid\=\"cloak[0-9a-z]{32}\"\>JLIB_HTML_CLOAKING\<\/span\>/', $row->text);
-			$cloakHTML = '<span id="cloak' . $hash . '">JLIB_HTML_CLOAKING</span>';
-			$this->assertContains($cloakHTML, $row->text);
-
-			// Need to do this to overcome whitespace comparison issue in phpunit for some reason...
-			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $row->text, $innerJS);
-			$result = trim($innerJS[1][0]);
-
-			preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expectedJs, $innerJS);
-			$expected = trim($innerJS[1][0]);
-
-			// Assert the render is as the expected render with injected hash
-			$this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
-
-			$html = $this->convertJStoHTML($result, $hash);
-			$this->assertEquals($html, $expectedHTML);
-		}
-		else
-		{
-			// We never cloaked an email but lets ensure we did not screw up the article text anyway!
-			$this->assertEquals($expectedHTML, $row->text);
-		}
-	}
-
-	/**
-	 * Because phpunit cannot evaluate JS like a browser rendering testing framework can
-	 * we convert the JS back to HTML by converting to PHP first
-	 * Yes its probably a fudge, but is better than nothing as Joomla has no JS testing framework
-	 *
-	 * @param string $js the resultant JS
-	 * @param string $hash the md5 hash
-	 * @return string $resultantHTML the resultant HTML that would be rendered by JS.
-	 */
-	private function convertJStoHTML($js, $hash)
-	{
-		$resultantHTML = null;
-		$debug = false;
-
-		$js = html_entity_decode($js);
-		$js = str_replace(sprintf('document.getElementById(\'cloak%s\').innerHTML = \'\';', $hash), '', $js);
-		$js = str_replace(sprintf('document.getElementById(\'cloak%s\').innerHTML +=', $hash), "\n\n" . '$resultantHTML = ', $js);
-		$js = str_replace('var ', '$', $js);
-		$js = str_replace("' + '", "", $js);
-		$js = preg_replace("/\saddy/", '$addy', $js);
-		$js = preg_replace(sprintf("/\'\+addy_text%s\+\'/", $hash), sprintf('\' . \$addy_text%s .\'', $hash), $js);
-		$js = preg_replace(sprintf("/\+\$addy%s\s\+/", $hash), sprintf('\' . \$addy_text%s .\'', $hash), $js);
-		$js = str_replace("+ path +", '. $path .', $js);
-		$js = str_replace("+ prefix +", '. $prefix .', $js);
-		$js = str_replace("+$", '.$', $js);
-		$js = str_replace("\/", '/', $js);
-		$js = str_replace(
-			sprintf('$addy%s +', $hash),
-			sprintf('$addy%s .', $hash),
-			$js);
-
-		// Because with all those replaces, you and I will need this a lot :)
-		if (true === $debug)
-		{
-			echo "\n\n" . trim($js) . "\n\n";
-			eval($js);
-			echo "\n\n";
-			var_dump(trim($resultantHTML));
-			die;
-		}
-		else
-		{
-			// EVAL IS EVIL - I know - but here its not a security risk, and is 'ok'-ish.
-			eval($js);
-		}
-
-		return trim($resultantHTML);
+		// We never cloaked an email but lets ensure we did not screw up the article text anyway!
+		$this->assertEquals($expectedHTML, $row->text);
 	}
 
 	/**

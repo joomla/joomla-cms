@@ -94,6 +94,45 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
     }
 
     /**
+     * @param $pk
+     * @return string
+     * @throws SodiumException
+     */
+    public static function pk_to_curve25519($pk)
+    {
+        if (self::small_order($pk)) {
+            throw new SodiumException('Public key is on a small order');
+        }
+        $A = self::ge_frombytes_negate_vartime($pk);
+        $p1 = self::ge_mul_l($A);
+        if (!self::fe_isnonzero($p1->X)) {
+            throw new SodiumException('Unexpected zero result');
+        }
+
+        # fe_1(one_minus_y);
+        # fe_sub(one_minus_y, one_minus_y, A.Y);
+        # fe_invert(one_minus_y, one_minus_y);
+        $one_minux_y = self::fe_invert(
+            self::fe_sub(
+                self::fe_1(),
+                $A->Y
+            )
+        );
+
+
+        # fe_1(x);
+        # fe_add(x, x, A.Y);
+        # fe_mul(x, x, one_minus_y);
+        $x = self::fe_mul(
+            self::fe_add(self::fe_1(), $A->Y),
+            $one_minux_y
+        );
+
+        # fe_tobytes(curve25519_pk, x);
+        return self::fe_tobytes($x);
+    }
+
+    /**
      * @internal You should not use this directly from another application
      *
      * @param string $sk

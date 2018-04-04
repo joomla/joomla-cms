@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Make thing clear
  *
@@ -29,8 +33,8 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
+	HTMLHelper::_('jquery.ui', array('core', 'sortable'));
+	HTMLHelper::_('script', 'system/fields/subform-repeatable.min.js', array('version' => 'auto', 'relative' => true));
 }
 
 // Build heading
@@ -39,11 +43,11 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th>' . JText::_($fieldset->label);
+		$table_head .= '<th>' . Text::_($fieldset->label);
 
 		if (!empty($fieldset->description))
 		{
-			$table_head .= '<br><small style="font-weight:normal">' . JText::_($fieldset->description) . '</small>';
+			$table_head .= '<br><small style="font-weight:normal">' . Text::_($fieldset->description) . '</small>';
 		}
 
 		$table_head .= '</th>';
@@ -55,14 +59,14 @@ else
 {
 	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
-		$table_head .= '<br><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
+		$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
 		$table_head .= '</th>';
 	}
 
 	$sublayout = 'section';
 
 	// Label will not be shown for sections layout, so reset the margin left
-	JFactory::getDocument()->addStyleDeclaration(
+	Factory::getDocument()->addStyleDeclaration(
 		'.subform-table-sublayout-section .controls { margin-left: 0px }'
 	);
 }
@@ -83,7 +87,7 @@ else
 					<th style="width:8%;">
 					<?php if (!empty($buttons['add'])) : ?>
 						<div class="btn-group">
-							<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus icon-white" aria-hidden="true"></span> </a>
+							<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>"><span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
 						</div>
 					<?php endif; ?>
 					</th>

@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 $data = $displayData;
@@ -32,28 +34,29 @@ $filters = $data['view']->filterForm->getGroup('filter');
 	<?php if ($searchButton) : ?>
 		<label for="filter_search" class="sr-only">
 			<?php if (isset($filters['filter_search']->label)) : ?>
-				<?php echo JText::_($filters['filter_search']->label); ?>
+				<?php echo Text::_($filters['filter_search']->label); ?>
 			<?php else : ?>
-				<?php echo JText::_('JSEARCH_FILTER'); ?>
+				<?php echo Text::_('JSEARCH_FILTER'); ?>
 			<?php endif; ?>
 		</label>
 		<div class="btn-toolbar" role="toolbar">
 			<div class="btn-group mr-2">
 				<div class="input-group">
 					<?php echo $filters['filter_search']->input; ?>
-					<span class="input-group-btn">
-						<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"  aria-label="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
-							<span class="icon-search" aria-hidden="true"></span>
+					<span class="input-group-append">
+						<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"  aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
+							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
-						<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-clear" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>">
-							<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
+						<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-clear" title="<?php echo HTMLHelper::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>">
+							<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
 						</button>
 					</span>
 				</div>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn btn-secondary hasTooltip js-stools-btn-filter">
-					<?php echo JText::_('JTABLE_OPTIONS'); ?> <span class="fa fa-caret-down"></span>
+					<?php echo Text::_('JTABLE_OPTIONS'); ?>
+					<span class="fa fa-caret-down" aria-hidden="true"></span>
 				</button>
 			</div>
 		</div>

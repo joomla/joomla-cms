@@ -66,7 +66,7 @@ if ($saveOrder && !empty($this->items))
 					<table class="table table-striped" id="categoryList">
 						<thead>
 							<tr>
-								<th style="width:1%" class="nowrap text-center hidden-sm-down">
+								<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th style="width:1%" class="text-center">
@@ -80,7 +80,7 @@ if ($saveOrder && !empty($this->items))
 								</th>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                         <span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
                                         </span>
@@ -88,7 +88,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                         <span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
                                         </span>
@@ -96,7 +96,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                         <span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
                                         </span>
@@ -104,27 +104,27 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 									$columns++; ?>
-									<th style="width:3%" class="nowrap text-center hidden-sm-down">
+									<th style="width:3%" class="nowrap text-center d-none d-md-table-cell">
                                         <span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
                                             <span class="sr-only"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
                                         </span>
 									</th>
 								<?php endif; ?>
-								<th style="width:10%" class="nowrap hidden-sm-down text-center">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) :
 									$columns++; ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if (JLanguageMultilang::isEnabled()) : ?>
-									<th style="width:10%" class="nowrap hidden-sm-down text-center">
+									<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>	
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -171,7 +171,7 @@ if ($saveOrder && !empty($this->items))
 								}
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id ?>" parents="<?php echo $parentsStr ?>" level="<?php echo $item->level ?>">
-									<td class="order nowrap text-center hidden-sm-down">
+									<td class="order nowrap text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 										if (!$canChange)
@@ -219,46 +219,46 @@ if ($saveOrder && !empty($this->items))
 										</span>
 									</td>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-										<td class="text-center btns hidden-sm-down">
+										<td class="text-center btns d-none d-md-table-cell">
 											<a class="badge <?php echo ($item->count_published > 0) ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_published; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-										<td class="text-center btns hidden-sm-down">
+										<td class="text-center btns d-none d-md-table-cell">
 											<a class="badge <?php echo ($item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_unpublished; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-										<td class="text-center btns hidden-sm-down">
+										<td class="text-center btns d-none d-md-table-cell">
 											<a class="badge <?php echo ($item->count_archived > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_archived; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-										<td class="text-center btns hidden-sm-down">
+										<td class="text-center btns d-none d-md-table-cell">
 											<a class="badge <?php echo ($item->count_trashed > 0) ? 'badge-inverse' : 'badge-secondary'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=1'); ?>">
 												<?php echo $item->count_trashed; ?></a>
 										</td>
 									<?php endif; ?>
 
-									<td class="small hidden-sm-down text-center">
+									<td class="small d-none d-md-table-cell text-center">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 									<?php if ($this->assoc) : ?>
-										<td class="hidden-sm-down text-center">
+										<td class="d-none d-md-table-cell text-center">
 											<?php if ($item->association) : ?>
 												<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>
 									<?php if (JLanguageMultilang::isEnabled()) : ?>
-										<td class="small nowrap hidden-sm-down text-center">
+										<td class="small nowrap d-none d-md-table-cell text-center">
 											<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
 									<?php endif; ?>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 											<?php echo (int) $item->id; ?></span>
 									</td>

@@ -10,9 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 $doc       = \Joomla\CMS\Factory::getDocument();
-$direction = $doc->direction == 'rtl' ? 'float-right' : '';
+$direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
 
 // Recurse through children of root node if they exist

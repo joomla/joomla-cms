@@ -9,7 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-$app       = JFactory::getApplication();
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Language\Text;
+
+$app       = Factory::getApplication();
 $form      = $displayData->getForm();
 $fieldSets = $form->getFieldsets();
 
@@ -98,25 +103,25 @@ foreach ($fieldSets as $name => $fieldSet)
 	// Determine the label
 	if (!empty($fieldSet->label))
 	{
-		$label = JText::_($fieldSet->label);
+		$label = Text::_($fieldSet->label);
 	}
 	else
 	{
 		$label = strtoupper('JGLOBAL_FIELDSET_' . $name);
-		if (JText::_($label) === $label)
+		if (Text::_($label) === $label)
 		{
 			$label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
 		}
-		$label = JText::_($label);
+		$label = Text::_($label);
 	}
 
 	// Start the tab
-	echo JHtml::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
+	echo HTMLHelper::_('bootstrap.addTab', $tabName, 'attrib-' . $name, $label);
 
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<joomla-alert type="info">' . $this->escape(JText::_($fieldSet->description)) . '</joomla-alert>';
+		echo '<joomla-alert type="info">' . $this->escape(Text::_($fieldSet->description)) . '</joomla-alert>';
 	}
 
 	// The name of the fieldset to render
@@ -126,8 +131,8 @@ foreach ($fieldSets as $name => $fieldSet)
 	$displayData->showOptions = true;
 
 	// Render the fieldset
-	echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
+	echo LayoutHelper::render('joomla.edit.fieldset', $displayData);
 
 	// End the tab
-	echo JHtml::_('bootstrap.endTab');
+	echo HTMLHelper::_('bootstrap.endTab');
 }

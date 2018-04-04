@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="system" method="upgrade">
+	<name>plg_system_httpheaders</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2017</creationDate>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_HTTPHEADERS_XML_DESCRIPTION</description>
+	<files>
+		<folder>subform</folder>
+		<filename plugin="httpheaders">httpheaders.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="xframeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="xxssprotection"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_XXSSPROTECTION"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="xcontenttypeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_XCONTENTTYPEOPTIONS"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="referrerpolicy"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
+					default="no-referrer-when-downgrade"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="no-referrer">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_NO_REFERRER</option>
+					<option value="no-referrer-when-downgrade">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_NO_REFERRER_WHEN_DOWNGRADE</option>
+					<option value="same-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_SAME_ORIGIN</option>
+					<option value="origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_ORIGIN</option>
+					<option value="strict-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_STRICT_ORIGIN</option>
+					<option value="origin-when-cross-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_ORIGIN_WHEN_CROSS_ORIGIN</option>
+					<option value="strict-origin-when-cross-origin">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_STRICT_ORIGIN_WEHN_CROSS_ORIGIN</option>
+					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_UNSAFE_URL</option>
+				</field>
+				<field
+					name="additional_httpheaders"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
+					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
+					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
+					multiple="true"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_httpheaders.ini</language>
+		<language tag="en-GB">en-GB.plg_system_httpheaders.sys.ini</language>
+	</languages>
+</extension>

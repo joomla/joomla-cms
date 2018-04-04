@@ -125,7 +125,7 @@ class ContactField extends FormField
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select contact button

@@ -109,6 +109,8 @@ $doNotPackage = array(
 	'dev',
 	'.appveyor.yml',
 	'.drone.yml',
+	'.eslintignore',
+	'.eslint',
 	'.github',
 	'.gitignore',
 	'.hound.yml',

@@ -28,8 +28,11 @@ require_once JPATH_BASE . '/includes/framework.php';
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
-// Instantiate the application.
-$app = JFactory::getApplication('site');
+// Get the application.
+$app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\SiteApplication::class);
+
+// Set the application as global app
+\Joomla\CMS\Factory::$application = $app;
 
 // Execute the application.
 $app->execute();

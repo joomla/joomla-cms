@@ -36,22 +36,22 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div class="row">
 		<div class="col-md-12">
 
-			<div role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
-				<div class="btn-group">
+			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
+				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('modules.apply')">
-						<span class="icon-apply"></span>
+						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
-				<div class="btn-group">
+				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('modules.save')">
-						<span class="icon-save"></span>
+						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('modules.cancel')">
-						<span class="icon-cancel"></span>
+						<span class="fa fa-times" aria-hidden="true"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>
 				</div>
@@ -100,8 +100,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 					<hr>
 
-					<?php
-					if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
+					<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('published'); ?>

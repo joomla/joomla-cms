@@ -9,7 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-$app = JFactory::getApplication();
+use Joomla\CMS\Factory;
+
+$app  = Factory::getApplication();
 $form = $displayData->getForm();
 
 $name = $displayData->get('fieldset');
@@ -21,7 +23,7 @@ if (empty($fieldSet))
 }
 
 $ignoreFields = $displayData->get('ignore_fields') ? : array();
-$extraFields = $displayData->get('extra_fields') ? : array();
+$extraFields  = $displayData->get('extra_fields') ? : array();
 
 if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 {

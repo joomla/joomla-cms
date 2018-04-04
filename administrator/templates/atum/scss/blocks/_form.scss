@@ -62,15 +62,11 @@
 }
 
 .custom-select {
-  min-width: 240px;
+  max-width: 240px;
 }
 
 .spacer hr {
   width: 380px;
-}
-
-.card .custom-select {
-  width: 100%;
 }
 
 td .form-control {

@@ -125,7 +125,7 @@ final class Version
 	 *
 	 * @since   3.4.3
 	 */
-	public function isInDevelopmentState()
+	public function isInDevelopmentState(): bool
 	{
 		return strtolower(self::DEV_STATUS) !== 'stable';
 	}
@@ -140,7 +140,7 @@ final class Version
 	 * @link    https://secure.php.net/version_compare
 	 * @since   1.0
 	 */
-	public function isCompatible($minimum)
+	public function isCompatible(string $minimum): bool
 	{
 		return version_compare(JVERSION, $minimum, 'ge');
 	}
@@ -152,7 +152,7 @@ final class Version
 	 *
 	 * @since   1.0
 	 */
-	public function getHelpVersion()
+	public function getHelpVersion(): string
 	{
 		return '.' . self::MAJOR_VERSION . self::MINOR_VERSION;
 	}
@@ -164,7 +164,7 @@ final class Version
 	 *
 	 * @since   1.5
 	 */
-	public function getShortVersion()
+	public function getShortVersion(): string
 	{
 		$version = self::MAJOR_VERSION . '.' . self::MINOR_VERSION . '.' . self::PATCH_VERSION;
 
@@ -183,7 +183,7 @@ final class Version
 	 *
 	 * @since   1.5
 	 */
-	public function getLongVersion()
+	public function getLongVersion(): string
 	{
 		return self::PRODUCT . ' ' . $this->getShortVersion() . ' '
 			. self::DEV_STATUS . ' [ ' . self::CODENAME . ' ] ' . self::RELDATE . ' '
@@ -201,9 +201,9 @@ final class Version
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $addVersion = true)
+	public function getUserAgent(string $component = '', bool $mask = false, bool $addVersion = true): string
 	{
-		if ($component === null)
+		if ($component === '')
 		{
 			$component = 'Framework';
 		}
@@ -225,7 +225,7 @@ final class Version
 	 *
 	 * @since   3.2
 	 */
-	public function generateMediaVersion()
+	public function generateMediaVersion(): string
 	{
 		return md5($this->getLongVersion() . \JFactory::getConfig()->get('secret') . (new \JDate)->toSql());
 	}
@@ -241,7 +241,7 @@ final class Version
 	 *
 	 * @since   3.2
 	 */
-	public function getMediaVersion()
+	public function getMediaVersion(): string
 	{
 		// Load the media version and cache it for future use
 		static $mediaVersion = null;
@@ -270,7 +270,7 @@ final class Version
 	 *
 	 * @since   3.2
 	 */
-	public function refreshMediaVersion()
+	public function refreshMediaVersion(): Version
 	{
 		return $this->setMediaVersion($this->generateMediaVersion());
 	}
@@ -284,7 +284,7 @@ final class Version
 	 *
 	 * @since   3.2
 	 */
-	public function setMediaVersion($mediaVersion)
+	public function setMediaVersion(string $mediaVersion): Version
 	{
 		// Do not allow empty media versions
 		if (!empty($mediaVersion))

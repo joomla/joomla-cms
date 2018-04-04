@@ -233,10 +233,20 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
-					Joomla.optionsStorage[p] = options[p];
-				}
-			}
-		}
+					/**
+					 * If both existing and new options are objects, merge them with Joomla.extend().  But test for new
+					 * option being null, as null is an object, but we want to allow clearing of options with ...
+					 *
+					 * Joomla.loadOptions({'joomla.jtext': null});
+					 */
+					if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
+						Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
+					} else {
+						Joomla.optionsStorage[p] = options[p];
+					}
+	            }
+            }
+        }
 	};
 
 	/**
@@ -357,7 +367,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					alertClass = 'info';
 				}
 
-				messagesBox.setAttribute('level', alertClass);
+				messagesBox.setAttribute('type', alertClass);
 				messagesBox.setAttribute('dismiss', 'true');
 
 				if (timeout && parseInt(timeout) > 0) {
@@ -770,6 +780,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
+		/**
+		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
+		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
+ 		 */
+		if (destination === null) {
+			destination = {};
+		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
@@ -903,12 +920,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
-		var wc, polyfills = [];
-
-		/* Get the web components */
-		if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
-			wc = Joomla.getOptions('webcomponents', {});
-		}
+		var polyfills = [];
+		var wc = Joomla.getOptions('webcomponents');
 
 		/* Check if ES6 then apply the shim */
 		var checkES6 = function () {
@@ -921,61 +934,48 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 		};
 
-		/* Check if we need the full polyfill set */
-		var checkWC = function (wc) {
-			if (wc.hasOwnProperty('fullPolyfill') && wc['fullPolyfill'] === true) {
-				return true;
-			}
-			return false;
-		};
-
 		/* Load web components async */
-		var loadWC = function (wc) {
-			var el, p, es5;
-			for (p in wc) {
-				if (wc.hasOwnProperty(p) && p !== 'fullPolyfill') {
-					if (wc[p].match(/\.js/g)) {
-						el = document.createElement('script');
+		var loadWC = function () {
+			if (wc && wc.length) {
+				wc.forEach(function(component) {
+					if (component.match(/\.js/g)) {
+						var el = document.createElement('script');
 						if (!checkES6()) {
+							var es5;
 							// Browser is not ES6!
-							if (wc[p].match(/\.min\.js/g)) {
-								es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
-							} else if (wc[p].match(/\.js/g)) {
-								es5 = wc[p].replace(/\.js/g, '-es5.js')
+							if (component.match(/\.min\.js/g)) {
+								es5 = component.replace(/\.min\.js/g, '-es5.min.js')
+							} else if (component.match(/\.js/g)) {
+								es5 = component.replace(/\.js/g, '-es5.js')
 							}
 							el.src = es5;
 						} else {
-							el.src = wc[p];
+							el.src = component;
 						}
 					}
 					if (el) {
 						document.head.appendChild(el);
 					}
-				}
+				});
 			}
 		};
 
-		if (checkWC(wc)) {
-			if (!('import' in document.createElement('link'))) {
-				polyfills.push('hi');
-			}
-			if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
-				polyfills.push('sd');
-			}
-			if (!window.customElements || window.customElements.forcePolyfill) {
-				polyfills.push('ce');
-			}
-			if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
-				polyfills = ['lite'];
-			}
-		} else {
-			if (!window.customElements || window.customElements.forcePolyfill) {
-				polyfills.push('ce');
-			}
+		if (!('import' in document.createElement('link'))) {
+			polyfills.push('hi');
+		}
+		if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
+			polyfills.push('sd');
+		}
+		if (!window.customElements || window.customElements.forcePolyfill) {
+			polyfills.push('ce');
+		}
+		if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
+			polyfills = ['lite'];
 		}
 
-		if (polyfills.length) {
-			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]');
+		if (polyfills.length && wc && wc.length) {
+			var name = "core.min.js";
+			var script = document.querySelector('script[src*="' + name + '"]');
 
 			if (!script) {
 				name = "core.js";
@@ -986,10 +986,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 				throw new Error('core(.min).js is not registered correctly!')
 			}
 
-			var newScript = document.createElement('script'),
-			    replacement = 'media/system/js/polyfills/webcomponents/webcomponents-' + polyfills.join('-') + '.min.js',
-			    mediaVersion = script.src.match(/\?.*/)[0],
-			    base = Joomla.getOptions('system.paths');
+			var newScript = document.createElement('script');
+			var replacement = 'media/vendor/webcomponentsjs/js/webcomponents-' + polyfills.join('-') + '.min.js';
+			var mediaVersion = script.src.match(/\?.*/)[0];
+			var base = Joomla.getOptions('system.paths');
 
 			if (!base) {
 				throw new Error('core(.min).js is not registered correctly!')
@@ -999,13 +999,17 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			document.head.appendChild(newScript);
 
 			document.addEventListener('WebComponentsReady', function () {
-				loadWC(wc);
+				loadWC();
 			});
 		} else {
+			if (!wc || !wc.length) {
+				return;
+			}
+
 			var fire = function () {
 				requestAnimationFrame(function () {
 					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
-					loadWC(wc);
+					loadWC();
 				});
 			};
 
@@ -1068,11 +1072,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 		params = params || {};
 
-		var event = new CustomEvent(name, {
-			detail:     params,
-			bubbles:    true,
-			cancelable: true
-		});
+		var event;
+
+		if (window.CustomEvent && typeof(window.CustomEvent) === 'function') {
+			event = new CustomEvent(name, {
+				detail:     params,
+				bubbles:    true,
+				cancelable: true
+			});
+		}
+		// IE trap
+		else {
+			event = document.createEvent('Event');
+			event.initEvent(name, true, true);
+			event.detail = params;
+		}
+
 		element.dispatchEvent(event);
 	};
 

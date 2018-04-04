@@ -18,34 +18,12 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('JSHOW');
 Text::script('JHIDE');
 
-$spacing = 0;
-
-// Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
-if ($langs)
-{
-	$spacing += 33;
-}
-
-if (count($twofactormethods) > 1)
-{
-	$spacing += 33;
-}
-
-if ($spacing > 0)
-{
-	$marginTop = 240 + $spacing;
-
-	Factory::getDocument()->addStyleDeclaration('
-		.view-login .container {
-			margin-top: -' . $marginTop . 'px;
-		}
-	');
-}
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
@@ -108,7 +86,7 @@ if ($spacing > 0)
 			</button>
 		</div>
 
-		<div class="forgot">
+		<div class="text-center">
 			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=remind"><?php echo Text::_('MOD_LOGIN_REMIND'); ?></a></div>
 			<div><a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=reset"><?php echo Text::_('MOD_LOGIN_RESET'); ?></a></div>
 		</div>
@@ -119,20 +97,3 @@ if ($spacing > 0)
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>
-<script>
-	(function(){
-		document.addEventListener('DOMContentLoadded', function() {
-			var btn = document.getElementById('btn-login-submit');
-
-			if(btn) {
-				btn.addEventListener('click', function(e) {
-					e.preventDefault();
-					var form = document.getElementById('form-login');
-					if (form && document.formvalidator.isValid(form)) {
-						Joomla.submitbutton('login')
-					}
-				});
-			}
-		});
-	})();
-</script>

@@ -62,6 +62,7 @@ class LinkTable extends Table
 
 			return false;
 		}
+
 		// Check for NOT NULL.
 		if (empty($this->referer))
 		{
