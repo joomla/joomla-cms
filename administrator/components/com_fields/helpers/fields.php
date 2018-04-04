@@ -543,7 +543,7 @@ class FieldsHelper
 	}
 
 	/**
-	 * Return a boolean based on field and field group display read-only setting
+	 * Return a boolean based on field (and field group) display / show_on settings
 	 *
 	 * @param   stdClass  $field  The field
 	 *
