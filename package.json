@@ -82,8 +82,9 @@
       "field-media",
       "field-user",
       "field-switcher",
+      "field-send-test-mail",
+      "field-permissions",
       "field-simple-color",
-      "field-send-test-mail"
       "hidden-mail",
       "editor-none"
     ],

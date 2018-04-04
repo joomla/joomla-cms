@@ -1,24 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filesystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem\Wrapper;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.path');
+use Joomla\CMS\Filesystem\Path;
 
 /**
- * Wrapper class for JPath
+ * Wrapper class for Path
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
  */
-class JFilesystemWrapperPath
+class PathWrapper
 {
 	/**
 	 * Helper wrapper method for canChmod
@@ -27,12 +28,12 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  boolean  True if path can have mode changed.
 	 *
-	 * @see     JPath::canChmod()
+	 * @see     Path::canChmod()
 	 * @since   3.4
 	 */
 	public function canChmod($path)
 	{
-		return JPath::canChmod($path);
+		return Path::canChmod($path);
 	}
 
 	/**
@@ -44,12 +45,12 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  boolean  True if successful [one fail means the whole operation failed].
 	 *
-	 * @see     JPath::setPermissions()
+	 * @see     Path::setPermissions()
 	 * @since   3.4
 	 */
 	public function setPermissions($path, $filemode = '0644', $foldermode = '0755')
 	{
-		return JPath::setPermissions($path, $filemode, $foldermode);
+		return Path::setPermissions($path, $filemode, $foldermode);
 	}
 
 	/**
@@ -59,12 +60,12 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  string  Filesystem permissions.
 	 *
-	 * @see     JPath::getPermissions()
+	 * @see     Path::getPermissions()
 	 * @since   3.4
 	 */
 	public function getPermissions($path)
 	{
-		return JPath::getPermissions($path);
+		return Path::getPermissions($path);
 	}
 
 	/**
@@ -74,13 +75,13 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
-	 * @see     JPath::check()
+	 * @see     Path::check()
 	 * @since   3.4
 	 * @throws  Exception
 	 */
 	public function check($path)
 	{
-		return JPath::check($path);
+		return Path::check($path);
 	}
 
 	/**
@@ -91,13 +92,13 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  string  The cleaned path.
 	 *
-	 * @see     JPath::clean()
+	 * @see     Path::clean()
 	 * @since   3.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		return JPath::clean($path, $ds);
+		return Path::clean($path, $ds);
 	}
 
 	/**
@@ -107,12 +108,12 @@ class JFilesystemWrapperPath
 	 *
 	 * @return  boolean  True if the php script owns the path passed.
 	 *
-	 * @see     JPath::isOwner()
+	 * @see     Path::isOwner()
 	 * @since   3.4
 	 */
 	public function isOwner($path)
 	{
-		return JPath::isOwner($path);
+		return Path::isOwner($path);
 	}
 
 	/**
@@ -123,11 +124,11 @@ class JFilesystemWrapperPath
 	 *
 	 * @return mixed   The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
-	 * @see     JPath::find()
+	 * @see     Path::find()
 	 * @since   3.4
 	 */
 	public function find($paths, $file)
 	{
-		return JPath::find($paths, $file);
+		return Path::find($paths, $file);
 	}
 }

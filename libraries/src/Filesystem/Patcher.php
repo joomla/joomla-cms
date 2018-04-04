@@ -1,16 +1,17 @@
 <?php
-
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Language\Text;
 
 /**
  * A Unified Diff Format Patcher class
@@ -18,7 +19,7 @@ jimport('joomla.filesystem.file');
  * @link   http://sourceforge.net/projects/phppatcher/ This has been derived from the PhpPatcher version 0.1.1 written by Giuseppe Mazzotta
  * @since  12.1
  */
-class JFilesystemPatcher
+class Patcher
 {
 	/**
 	 * Regular expression for searching source files
@@ -73,7 +74,7 @@ class JFilesystemPatcher
 	/**
 	 * Constructor
 	 *
-	 * The constructor is protected to force the use of JFilesystemPatcher::getInstance()
+	 * The constructor is protected to force the use of FilesystemPatcher::getInstance()
 	 *
 	 * @since   12.1
 	 */
@@ -84,7 +85,7 @@ class JFilesystemPatcher
 	/**
 	 * Method to get a patcher
 	 *
-	 * @return  JFilesystemPatcher  an instance of the patcher
+	 * @return  FilesystemPatcher  an instance of the patcher
 	 *
 	 * @since   12.1
 	 */
@@ -101,7 +102,7 @@ class JFilesystemPatcher
 	/**
 	 * Reset the pacher
 	 *
-	 * @return  JFilesystemPatcher  This object for chaining
+	 * @return  FilesystemPatcher  This object for chaining
 	 *
 	 * @since   12.1
 	 */
@@ -121,7 +122,7 @@ class JFilesystemPatcher
 	 * @return  integer  The number of files patched
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function apply()
 	{
@@ -156,7 +157,7 @@ class JFilesystemPatcher
 				// If no modifications were found, throw an exception
 				if (!$done)
 				{
-					throw new RuntimeException('Invalid Diff');
+					throw new \RuntimeException('Invalid Diff');
 				}
 			}
 		}
@@ -169,7 +170,7 @@ class JFilesystemPatcher
 		{
 			$buffer = implode("\n", $content);
 
-			if (JFile::write($file, $buffer))
+			if (File::write($file, $buffer))
 			{
 				if (isset($this->sources[$file]))
 				{
@@ -183,7 +184,7 @@ class JFilesystemPatcher
 		// Remove each removed file
 		foreach ($this->removals as $file)
 		{
-			if (JFile::delete($file))
+			if (File::delete($file))
 			{
 				if (isset($this->sources[$file]))
 				{
@@ -213,7 +214,7 @@ class JFilesystemPatcher
 	 * @param   string  $root      The files root path
 	 * @param   string  $strip     The number of '/' to strip
 	 *
-	 * @return	JFilesystemPatcher  $this for chaining
+	 * @return	FilesystemPatcher  $this for chaining
 	 *
 	 * @since   12.1
 	 */
@@ -229,7 +230,7 @@ class JFilesystemPatcher
 	 * @param   string  $root   The files root path
 	 * @param   string  $strip  The number of '/' to strip
 	 *
-	 * @return	JFilesystemPatcher  $this for chaining
+	 * @return	FilesystemPatcher  $this for chaining
 	 *
 	 * @since   12.1
 	 */
@@ -270,7 +271,7 @@ class JFilesystemPatcher
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected static function findHeader(&$lines, &$src, &$dst)
 	{
@@ -297,13 +298,13 @@ class JFilesystemPatcher
 
 		if ($line === false)
 		{
-			throw new RuntimeException('Unexpected EOF');
+			throw new \RuntimeException('Unexpected EOF');
 		}
 
 		// Search the destination file
 		if (!preg_match(self::DST_FILE, $line, $m))
 		{
-			throw new RuntimeException('Invalid Diff file');
+			throw new \RuntimeException('Invalid Diff file');
 		}
 
 		// Set the destination file
@@ -312,7 +313,7 @@ class JFilesystemPatcher
 		// Advance to the next line
 		if (next($lines) === false)
 		{
-			throw new RuntimeException('Unexpected EOF');
+			throw new \RuntimeException('Unexpected EOF');
 		}
 
 		return true;
@@ -332,7 +333,7 @@ class JFilesystemPatcher
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
 	{
@@ -358,7 +359,7 @@ class JFilesystemPatcher
 
 			if (next($lines) === false)
 			{
-				throw new RuntimeException('Unexpected EOF');
+				throw new \RuntimeException('Unexpected EOF');
 			}
 
 			return true;
@@ -381,7 +382,7 @@ class JFilesystemPatcher
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
 	{
@@ -410,7 +411,7 @@ class JFilesystemPatcher
 			{
 				if ($src_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
+					throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
 				}
 
 				$source[] = substr($line, 1);
@@ -420,7 +421,7 @@ class JFilesystemPatcher
 			{
 				if ($dst_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
+					throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
 				}
 
 				$destin[] = substr($line, 1);
@@ -444,7 +445,7 @@ class JFilesystemPatcher
 
 					if (!isset($src_lines))
 					{
-						throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
+						throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
 					}
 				}
 
@@ -459,7 +460,7 @@ class JFilesystemPatcher
 						{
 							if ($src_lines[$l] != $source[$l - $src_line])
 							{
-								throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
+								throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
 							}
 						}
 
@@ -484,7 +485,7 @@ class JFilesystemPatcher
 		}
 
 		while ($line !== false);
-		throw new RuntimeException('Unexpected EOF');
+		throw new \RuntimeException('Unexpected EOF');
 	}
 
 	/**
