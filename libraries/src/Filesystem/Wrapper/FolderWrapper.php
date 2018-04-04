@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Filesystem\Wrapper;
 
-use Joomla\CMS\Filesystem\Folder;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Wrapper class for Folder
