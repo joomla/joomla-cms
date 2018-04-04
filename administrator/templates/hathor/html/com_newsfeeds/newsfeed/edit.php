@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?></li>
 
-   			<li><?php echo $this->form->getLabel('alias'); ?>
+			<li><?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?></li>
 
 			<li><?php echo $this->form->getLabel('link'); ?>

@@ -32,6 +32,17 @@
 					<option value="0">JDISABLED</option>
 				</field>
 				<field
+					name="includeUrl"
+					type="radio"
+					label="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
 					name="exclude_urls"
 					type="subform"
 					label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_LABEL"

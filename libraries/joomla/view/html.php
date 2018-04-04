@@ -70,6 +70,8 @@ abstract class JViewHtml extends JViewBase
 	 *
 	 * @return  string  The escaped output.
 	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 *
 	 * @see     JView::escape()
 	 * @since   12.1
 	 */

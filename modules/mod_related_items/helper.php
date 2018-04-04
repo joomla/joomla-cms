@@ -179,7 +179,7 @@ abstract class ModRelatedItemsHelper
 			{
 				$item->slug    = $item->id . ':' . $item->alias;
 
-				/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+				/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 				$item->catslug = $item->catid . ':' . $item->category_alias;
 
 				$item->route   = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));

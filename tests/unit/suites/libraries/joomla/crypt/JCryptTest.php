@@ -56,7 +56,7 @@ class JCryptTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGenRandomBytes()
 	{
-		// We're just testing wether the value has the expected length.
+		// We're just testing whether the value has the expected length.
 		// We obviously can't test the result since it's random.
 
 		$randomBytes16 = JCrypt::genRandomBytes();

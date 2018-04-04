@@ -400,7 +400,7 @@ class Session implements \IteratorAggregate
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/joomla/session/storage');
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
@@ -797,18 +797,8 @@ class Session implements \IteratorAggregate
 			return false;
 		}
 
-		// Keep session config
-		$cookie = session_get_cookie_params();
-
-		// Re-register the session store after a session has been destroyed, to avoid PHP bug
-		$this->_store->register();
-
-		// Restore config
-		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
-
 		// Restart session with new id
 		$this->_handler->regenerate(true, null);
-		$this->_handler->start();
 
 		return true;
 	}
@@ -832,6 +822,18 @@ class Session implements \IteratorAggregate
 	{
 		$this->_handler->save();
 		$this->_state = 'inactive';
+	}
+
+	/**
+	 * Delete expired session data
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.8.6
+	 */
+	public function gc()
+	{
+		return $this->_store->gc($this->getExpire());
 	}
 
 	/**

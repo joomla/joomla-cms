@@ -35,11 +35,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<table class="category">
 		<?php if ($this->params->get('show_headings') == 1) : ?>
 		<thead><tr>
-
 				<th class="item-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-
 
 				<?php if ($this->params->get('show_articles')) : ?>
 				<th class="item-num-art" id="tableOrdering2">
@@ -59,30 +57,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
-		<?php if ($this->items[$i]->published == 0) : ?>
-			<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-		<?php else: ?>
-			<tr class="cat-list-row<?php echo $i % 2; ?>" >
-		<?php endif; ?>
+				<?php if ($this->items[$i]->published == 0) : ?>
+					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+				<?php else: ?>
+					<tr class="cat-list-row<?php echo $i % 2; ?>" >
+				<?php endif; ?>
 
-					<td class="item-title">
-						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
-							<?php echo $item->name; ?></a>
+				<td class="item-title">
+					<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
+						<?php echo $item->name; ?></a>
+				</td>
+
+				<?php if ($this->params->get('show_articles')) : ?>
+					<td class="item-num-art">
+						<?php echo $item->numarticles; ?>
 					</td>
+				<?php  endif; ?>
 
-					<?php  if ($this->params->get('show_articles')) : ?>
-						<td class="item-num-art">
-							<?php echo $item->numarticles; ?>
-						</td>
-					<?php  endif; ?>
+				<?php if ($this->params->get('show_link')) : ?>
+					<td class="item-link">
+						<a href="<?php echo $item->link; ?>"><?php echo $item->link; ?></a>
+					</td>
+				<?php endif; ?>
 
-					<?php  if ($this->params->get('show_link')) : ?>
-						<td class="item-link">
-							<a href="<?php echo $item->link; ?>"><?php echo $item->link; ?></a>
-						</td>
-					<?php  endif; ?>
-
-				</tr>
+					</tr>
 
 			<?php endforeach; ?>
 

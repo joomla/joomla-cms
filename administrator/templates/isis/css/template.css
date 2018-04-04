@@ -4743,6 +4743,14 @@ a.badge:focus {
 		padding-left: 10px;
 		padding-right: 10px;
 	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
+	}
 	.media .pull-left,
 	.media .pull-right {
 		float: none;
@@ -5870,6 +5878,12 @@ hr.hr-condensed {
 }
 .radio.btn-group input[type=radio] {
 	display: none;
+}
+.radio.btn-group > label {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 .radio.btn-group > label:first-of-type {
 	margin-left: 0;

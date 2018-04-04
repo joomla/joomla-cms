@@ -84,7 +84,7 @@ class RedirectHelper
 	/**
 	 * Gets the redirect system plugin extension id.
 	 *
-	 * @return  int  The redirect system plugin extension id.
+	 * @return  integer  The redirect system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */
