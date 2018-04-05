@@ -721,6 +721,7 @@ class Language
 		if ($internal)
 		{
 			$filenames[] = "$path/$lang.ini";
+			$filenames[] = "$path/joomla.ini";
 		}
 		else
 		{
