@@ -47,26 +47,35 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-$attr  = '';
-
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="module-ajax-ordering ' . $class . '"' : 'class="module-ajax-ordering"';
-$attr .= $disabled ? ' disabled' : '';
-$attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attributes['id'] = 'id="' . $id . '"';
+$attributes['data-url'] = 'data-url="index.php?option=com_modules&task=module.orderPosition&' . $token . '"';
+$attributes['data-element'] = 'data-element="parent_' . $id . '"';
+$attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
+$attributes['data-position-element'] = 'data-position-element="' . $element . '"';
+$attributes['data-client-id'] = 'data-client-id="' . $clientId . '"';
+$attributes['data-name'] = 'data-name="' . $name . '"';
 
-// Initialize JavaScript field attributes.
-$attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+if ($disabled)
+{
+	$attributes['disabled'] =  'disabled';
+}
 
-HTMLHelper::_('script', 'system/fields/moduleorder.min.js', array('version' => 'auto', 'relative' => true));
+if ($class)
+{
+	$attributes['class'] = 'class="' . $class . '"';
+}
+
+if ($size)
+{
+	$attributes['size'] = 'size="' . $size . '"';
+}
+
+if ($onchange)
+{
+	$attributes['onchange'] = 'onchange="' . $onchange . '"';
+}
+
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<div
-	id="parent_<?php echo $id; ?>"
-	<?php echo $attr; ?>
-	data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&' . $token; ?>"
-	data-element="<?php echo 'parent_' . $id; ?>"
-	data-ordering="<?php echo $ordering; ?>"
-	data-position-element="<?php echo $element; ?>"
-	data-client-id="<?php echo $clientId; ?>"
-	data-name="<?php echo $name; ?>"
-	data-attr="<?php echo $attr; ?>">
-</div>
+<joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>
