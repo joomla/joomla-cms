@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_honeypot</name>
+	<version>3.9.0</version>
+	<creationDate>January 2018</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_HONEYPOT_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="honeypot">honeypot.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB.plg_captcha_honeypot.ini</language>
+		<language tag="en-GB">language/en-GB.plg_captcha_honeypot.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="fieldname"
+					type="text"
+					label="PLG_CAPTCHA_HONEYPOT_FIELDNAME_LABEL"
+					description="PLG_CAPTCHA_HONEYPOT_FIELDNAME_DESC"
+					default="repeatmail"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
