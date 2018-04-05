@@ -252,14 +252,17 @@ class RoboFile extends \Robo\Tasks
 
 		$suites = [
 			'acceptance/install/',
-			'acceptance/administrator/components/com_users',
 			'acceptance/administrator/components/com_content',
+			'acceptance/administrator/components/com_media',
 			'acceptance/administrator/components/com_menu',
+			'acceptance/administrator/components/com_users',
 		];
 
 		foreach ($suites as $suite) {
 			$this->taskCodecept($pathToCodeception)
 				->arg('--fail-fast')
+				->arg('--steps')
+				->arg('--debug')
 				->env($opts['env'])
 				->arg($this->testsPath . $suite)
 				->run()
