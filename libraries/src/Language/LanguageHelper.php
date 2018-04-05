@@ -552,6 +552,12 @@ class LanguageHelper
 	public static function getMetadata($lang)
 	{
 		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+
+		if (!is_file($file))
+		{
+			$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
