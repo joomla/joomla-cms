@@ -330,15 +330,11 @@ class ContentModelArticles extends JModelList
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
-			elseif (stripos($search, 'content:') === 0)
-			{
-				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
-				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
-			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search
+				    . 'OR a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
 			}
 		}
 
