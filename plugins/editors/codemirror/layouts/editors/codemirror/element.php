@@ -37,7 +37,7 @@ $addons          = 'addons="' . Uri::root() . ltrim(HTMLHelper::_('script', $bas
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
-HTMLHelper::_('webcomponent', ['joomla-editor-codemirror' => 'system/webcomponents/joomla-editor-codemirror.js'], array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
 <joomla-editor-codemirror <?php echo $editor; ?> <?php echo $addons; ?> <?php echo $modPath; ?> <?php echo $fsCombo; ?> <?php echo $option; ?>>
