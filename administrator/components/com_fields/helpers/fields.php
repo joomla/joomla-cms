@@ -364,12 +364,22 @@ class FieldsHelper
 		// Organizing the fields according to their group
 		$fieldsPerGroup = array(0 => array());
 
+		// Limiting the Fields for the Form
+		$user  = JFactory::getUser();
+		$accessForm = $user->getAuthorisedViewLevels();
+
 		foreach ($fields as $field)
 		{
 			if (!array_key_exists($field->type, $fieldTypes))
 			{
 				// Field type is not available
 				continue;
+			}
+
+			if (!in_array($field->access_form, $accessForm))
+			{
+					// Field not available on Form
+					continue;
 			}
 
 			if (!array_key_exists($field->group_id, $fieldsPerGroup))

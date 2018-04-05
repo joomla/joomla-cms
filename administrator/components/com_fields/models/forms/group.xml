@@ -89,8 +89,8 @@
 			filter="user_utc"
 		/>
 
-		<field 
-			name="modified_by" 
+		<field
+			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			class="readonly"
@@ -129,6 +129,13 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
+		/>
+
+		<field
+			name="access_form"
+			type="accesslevel"
+			label="JFIELD_ACCESSFORM_LABEL"
+			description="JFIELD_ACCESSFORM_DESC"
 		/>
 
 		<field

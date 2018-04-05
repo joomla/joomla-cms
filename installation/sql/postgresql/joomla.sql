@@ -697,6 +697,7 @@ CREATE TABLE "#__fields" (
   "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
+  "access_form" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__fields_idx_checked_out" ON "#__fields" ("checked_out");
