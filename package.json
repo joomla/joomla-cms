@@ -83,6 +83,7 @@
       "field-user",
       "field-switcher",
       "field-send-test-mail",
+      "field-module-order",
       "field-permissions",
       "field-simple-color",
       "hidden-mail",
@@ -106,7 +107,12 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
+      "field-module-order": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-hidden-mail": {
+
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
