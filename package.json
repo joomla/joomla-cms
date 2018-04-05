@@ -86,8 +86,8 @@
       "field-module-order",
       "field-permissions",
       "field-simple-color",
-      "field-send-test-mail",
-      "hidden-mail"
+      "hidden-mail",
+      "editor-none"
     ],
     "webcomponents": {
       "field-media": {
@@ -100,6 +100,10 @@
       },
       "field-simple-color": {
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-none": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
