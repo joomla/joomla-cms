@@ -159,12 +159,12 @@ class JFormFieldPlugins extends JFormFieldList
 	}
 
 	/**
-	* Method to get input and also set field readonly.
-	*
-	* @return  string  The field input markup.
-	*
-	* @since   __DEPLOY_VERSION__
-	**/
+	 * Method to get input and also set field readonly.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	protected function getInput()
 	{
 		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
