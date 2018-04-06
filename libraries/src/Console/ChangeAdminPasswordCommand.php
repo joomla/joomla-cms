@@ -78,7 +78,7 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 		}
 		else
 		{
-			$user = new \stdClass();
+			$user = new \stdClass;
 
 			$user->id = UserHelper::getUserId($this->adminUser);
 			$user->password = $hashPasword;

@@ -75,7 +75,7 @@ class AddAdminCommand extends AbstractCommand
 		}
 		else 
 		{
-			$user = new \stdClass();
+			$user = new \stdClass;
 			$user->username = $this->adminUser;
 			$user->password = $hashPasword;
 			$user->params = "";
@@ -83,7 +83,7 @@ class AddAdminCommand extends AbstractCommand
 
 			$db->insertObject('#__users', $user);
 			$userID = UserHelper::getUserId($this->adminUser);
-			$userGroup = new \stdClass();
+			$userGroup = new \stdClass;
 			$userGroup->user_id = $userID;
 			$userGroup->group_id = 8;
 			$db->insertObject('#__user_usergroup_map', $userGroup);
