@@ -24,9 +24,6 @@ use Joomla\CMS\User\UserHelper;
  */
 class AddAdminCommand extends AbstractCommand
 {
-	
-
-	
 	/**
 	 * The username
 	 *
@@ -63,14 +60,15 @@ class AddAdminCommand extends AbstractCommand
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id')
-			->from('#__users')
-			->where("username = '" . $this->adminUser . "'");
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . '= ' . $db->quote($this->adminUser));
 		$db->setQuery($query);
 
 		if (isset($db->loadColumn()[0]))
 		{
 			$symfonyStyle->warning('User ' . $this->adminUser . 'already exists! Use admin:chpwd to set new password!');
+
 			return 2;
 		}
 		else 
@@ -90,6 +88,7 @@ class AddAdminCommand extends AbstractCommand
 		}
 
 		$symfonyStyle->success(array('User: ' . $this->adminUser,  'Password: ' . $this->password));
+
 		return 0;
 	}
 

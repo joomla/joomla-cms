@@ -24,9 +24,6 @@ use Joomla\CMS\User\UserHelper;
  */
 class ChangeAdminPasswordCommand extends AbstractCommand
 {
-	
-
-	
 	/**
 	 * The username 
 	 *
@@ -62,19 +59,21 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id')
-			->from('#__users')
-			->where("username = '" . $this->adminUser . "'");
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . '=' . $db->quote($this->adminUser));
 		$db->setQuery($query);
 
 		if (!isset($db->loadColumn()[0]))
 		{
 			$symfonyStyle->error('User ' . $this->adminUser . ' does not exist!');
+
 			return 1;
 		}
-		elseif(!in_array(8, UserHelper::getUserGroups(UserHelper::getUserId($this->adminUser))))
+		elseif (!in_array(8, UserHelper::getUserGroups(UserHelper::getUserId($this->adminUser))))
 		{
 			$symfonyStyle->error('User ' . $this->adminUser . ' is not an admin');
+
 			return 1;
 		}
 		else
@@ -87,6 +86,7 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 			$db->updateObject('#__users', $user, 'id');
 
 			$symfonyStyle->success(array('User: ' . $this->adminUser,  'Password: ' . $this->password));
+
 			return 0;
 		}
 	}
