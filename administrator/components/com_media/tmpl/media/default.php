@@ -39,7 +39,7 @@ $config = array(
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => JUri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl'     => $params->get('file_path', 'images'),
-	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file&tmpl=' . $tmpl,
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
