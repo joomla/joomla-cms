@@ -62,7 +62,7 @@ class AddAdminCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '= ' . $db->quote($this->adminUser));
+			->where($db->quoteName('username') . '=' . $db->quote($this->adminUser));
 		$db->setQuery($query);
 
 		if (isset($db->loadColumn()[0]))
