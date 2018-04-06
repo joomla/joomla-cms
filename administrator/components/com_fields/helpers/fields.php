@@ -616,7 +616,7 @@ class FieldsHelper
 
 		$db->setQuery($query);
 
-		return $db->loadColumn();
+		return array_filter($db->loadColumn());
 	}
 
 	/**
