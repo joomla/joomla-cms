@@ -149,7 +149,7 @@ if ($saveOrder)
 											<?php echo JText::_('JCATEGORY') . ': '; ?>
 											<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>
 											<?php if ($categories) : ?>
-												<?php echo implode(', ', array_filter($categories)); ?>
+												<?php echo implode(', ', $categories); ?>
 											<?php else : ?>
 												<?php echo JText::_('JALL'); ?>
 											<?php endif; ?>
