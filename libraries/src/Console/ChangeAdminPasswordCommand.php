@@ -41,7 +41,8 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 	 *
 	 * @var string
 	 *
-	 * @since 4.0.0 */private $password;
+	 * @since 4.0.0 */
+	private $password;
 
 	/**
 	 * Execute the command.
