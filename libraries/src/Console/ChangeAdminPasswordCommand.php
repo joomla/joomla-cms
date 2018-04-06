@@ -37,13 +37,11 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 	private $adminUser;
 
 	/**
-         * The password 
-         *
-         * @var string
-         *
-         * @since 4.0.0
-         */
-        private $password;
+	 * The password
+	 *
+	 * @var string
+	 *
+	 * @since 4.0.0 */private $password;
 
 	/**
 	 * Execute the command.
@@ -63,32 +61,33 @@ class ChangeAdminPasswordCommand extends AbstractCommand
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-            ->select('id')
-            ->from('#__users')
-            ->where("username = '" . $this->adminUser . "'");
+			->select('id')
+			->from('#__users')
+			->where("username = '" . $this->adminUser . "'");
 		$db->setQuery($query);
 
-        if (!isset($db->loadColumn()[0]))
+		if (!isset($db->loadColumn()[0]))
 		{
-		    $symfonyStyle->error('User ' . $this->adminUser . ' does not exist!');
-		    return 1;
+			$symfonyStyle->error('User ' . $this->adminUser . ' does not exist!');
+			return 1;
 		}
 		elseif(!in_array(8, UserHelper::getUserGroups(UserHelper::getUserId($this->adminUser))))
 		{
-		    $symfonyStyle->error('User ' . $this->adminUser . ' is not an admin');
-		    return 1;
-        }
-        else
-        {
-            $user = new \stdClass();
-            $user->id = UserHelper::getUserId($this->adminUser);
-            $user->password = $hashPasword;
+			$symfonyStyle->error('User ' . $this->adminUser . ' is not an admin');
+			return 1;
+		}
+		else
+		{
+			$user = new \stdClass();
 
-            $db->updateObject('#__users', $user, 'id');
+			$user->id = UserHelper::getUserId($this->adminUser);
+			$user->password = $hashPasword;
 
-            $symfonyStyle->success(array('User: ' . $this->adminUser,  'Password: ' . $this->password));
-            return 0;
-        }
+			$db->updateObject('#__users', $user, 'id');
+
+			$symfonyStyle->success(array('User: ' . $this->adminUser,  'Password: ' . $this->password));
+			return 0;
+		}
 	}
 
 	/**

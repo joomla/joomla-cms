@@ -28,7 +28,7 @@ class AddAdminCommand extends AbstractCommand
 
 	
 	/**
-	 * The username 
+	 * The username
 	 *
 	 * @var string
 	 *
@@ -37,13 +37,13 @@ class AddAdminCommand extends AbstractCommand
 	private $adminUser;
 
 	/**
-         * The password 
-         *
-         * @var string
-         *
-         * @since 4.0.0
-         */
-        private $password;
+	 * The password
+	 *
+	 * @var string
+	 *
+	 * @since 4.0.0
+	 */
+	private $password;
 
 	/**
 	 * Execute the command.
@@ -63,31 +63,31 @@ class AddAdminCommand extends AbstractCommand
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-            ->select('id')
-            ->from('#__users')
-            ->where("username = '" . $this->adminUser . "'");
+			->select('id')
+			->from('#__users')
+			->where("username = '" . $this->adminUser . "'");
 		$db->setQuery($query);
 
-        if (isset($db->loadColumn()[0]))
+		if (isset($db->loadColumn()[0]))
 		{
-		    $symfonyStyle->warning('User ' . $this->adminUser . 'already exists! Use admin:chpwd to set new password!');
-		    return 2;
+			$symfonyStyle->warning('User ' . $this->adminUser . 'already exists! Use admin:chpwd to set new password!');
+			return 2;
 		}
 		else 
 		{
-            $user = new \stdClass();
-            $user->username = $this->adminUser;
-            $user->password = $hashPasword;
-            $user->params = "";
-            $user->name = "Super User";
+			$user = new \stdClass();
+			$user->username = $this->adminUser;
+			$user->password = $hashPasword;
+			$user->params = "";
+			$user->name = "Super User";
 
-            $db->insertObject('#__users', $user);
-            $userID = UserHelper::getUserId($this->adminUser);
-            $userGroup = new \stdClass();
-            $userGroup->user_id = $userID;
-            $userGroup->group_id = 8;
-            $db->insertObject('#__user_usergroup_map', $userGroup);
-        }
+			$db->insertObject('#__users', $user);
+			$userID = UserHelper::getUserId($this->adminUser);
+			$userGroup = new \stdClass();
+			$userGroup->user_id = $userID;
+			$userGroup->group_id = 8;
+			$db->insertObject('#__user_usergroup_map', $userGroup);
+		}
 
 		$symfonyStyle->success(array('User: ' . $this->adminUser,  'Password: ' . $this->password));
 		return 0;

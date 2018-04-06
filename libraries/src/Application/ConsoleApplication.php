@@ -178,7 +178,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
 				new Console\AddAdminCommand,
-                		new Console\ChangeAdminPasswordCommand,
+				new Console\ChangeAdminPasswordCommand(),
 			]
 		);
 	}
