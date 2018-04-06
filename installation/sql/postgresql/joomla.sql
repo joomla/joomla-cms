@@ -442,7 +442,7 @@ CREATE TABLE IF NOT EXISTS "#__contentitem_tag_map" (
   "tag_id" integer NOT NULL,
   "tag_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "type_id" integer NOT NULL,
- CONSTRAINT "#__uc_ItemnameTagid" UNIQUE ("type_id", "content_item_id", "tag_id")
+ CONSTRAINT "#__uc_itemnametagid" UNIQUE ("type_id", "content_item_id", "tag_id")
 );
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
