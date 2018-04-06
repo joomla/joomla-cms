@@ -55,8 +55,8 @@ class AddAdminCommand extends AbstractCommand
 	public function execute(): int
 	{
 		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
-		$this->adminUser = $this->getApplication()->getConsoleInput()->getArgument('username');
-		$this->password = $this->getApplication()->getConsoleInput()->getArgument('password');
+		$this->adminUser = $this->getApplication()->input->getString('username');
+		$this->password = $this->getApplication()->input->getString('password');
 		$symfonyStyle->title('Add admin user');
 
 		$hashPasword = \JUserHelper::hashPassword($this->password);
