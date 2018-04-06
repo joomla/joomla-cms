@@ -32,7 +32,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 			const cmPath = this.getAttribute('editor');
 			const script1 = document.createElement('script');
 
-			script1.src = cmPath;
+			script1.src = `${this.host}/${cmPath}`;
 			script1.id = 'cm-editor';
 			script1.setAttribute('async', false);
 			document.head.insertBefore(script1, this.file);
@@ -51,7 +51,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 					const addonsPath = this.getAttribute('addons');
 					const script2 = document.createElement('script');
 
-					script2.src = addonsPath;
+					script2.src = `${this.host}/${addonsPath}`;
 					script2.id = 'cm-addons';
 					script2.setAttribute('async', false);
 					document.head.insertBefore(script2, this.file)
