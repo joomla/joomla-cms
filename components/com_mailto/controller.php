@@ -110,7 +110,7 @@ class MailtoController extends JControllerLegacy
 		$sender          = $this->input->post->getString('sender', '');
 		$from            = $this->input->post->getString('from', '');
 		$subject_default = JText::sprintf('COM_MAILTO_SENT_BY', $sender);
-		$subject         = $this->input->post->getString('subject', $subject_default);
+		$subject         = $this->input->post->getString('subject', '') !== '' ? $this->input->post->getString('subject') : $subject_default;
 
 		// Check for a valid to address
 		$error = false;
