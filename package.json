@@ -99,6 +99,9 @@
         "js": "media/system/webcomponents/js"
       },
       "field-simple-color": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-send-test-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
