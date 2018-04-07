@@ -17,16 +17,30 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
+// Check if the multilangstatus module is present in the site
+if (class_exists(MultilangstatusAdminHelper::class))
+{
+	// Check if the module is present and enabled in the extensions table
+	if (MultilangstatusAdminHelper::isEnabled())
+	{
+		// Publish/Unpublish the module if it exists in the modules table
+		// depending on the status of the languagefilter
+		MultilangstatusAdminHelper::publish();
+	}
+}
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-		<?php if (Multilanguage::isEnabled()) : ?>
-			<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-			<?php echo ModuleHelper::renderModule($module); ?>
-		<?php endif; ?>	
+		<?php if (class_exists(MultilangstatusAdminHelper::class)) : ?>
+			<?php if (Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
+				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
+				<?php echo ModuleHelper::renderModule($module); ?>
+			<?php endif; ?>
+		<?php endif; ?>
 
 		<li class="nav-item">
 			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
