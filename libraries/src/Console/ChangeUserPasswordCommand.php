@@ -122,15 +122,13 @@ class ChangeUserPasswordCommand extends AbstractCommand
 			if ($option === 'password')
 			{
 				$answer = (string) $this->createSymfonyStyle()->askHidden($question);
-
-				return $answer;
 			}
 			else
 			{
 				$answer = (string) $this->createSymfonyStyle()->ask($question);
-
-				return $answer;
 			}
+
+			return $answer;
 		}
 		else
 		{
