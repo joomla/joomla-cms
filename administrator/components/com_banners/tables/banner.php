@@ -173,6 +173,8 @@ class BannersTableBanner extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
+		$db = $this->getDbo();
+
 		if (empty($this->id))
 		{
 			$purchaseType = $this->purchase_type;
@@ -180,7 +182,7 @@ class BannersTableBanner extends JTable
 			if ($purchaseType < 0 && $this->cid)
 			{
 				/** @var BannersTableClient $client */
-				$client = JTable::getInstance('Client', 'BannersTable');
+				$client = JTable::getInstance('Client', 'BannersTable', array('dbo' => $db));
 				$client->load($this->cid);
 				$purchaseType = $client->purchase_type;
 			}
@@ -220,7 +222,7 @@ class BannersTableBanner extends JTable
 		{
 			// Get the old row
 			/** @var BannersTableBanner $oldrow */
-			$oldrow = JTable::getInstance('Banner', 'BannersTable');
+			$oldrow = JTable::getInstance('Banner', 'BannersTable', array('dbo' => $db));
 
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
@@ -229,7 +231,7 @@ class BannersTableBanner extends JTable
 
 			// Verify that the alias is unique
 			/** @var BannersTableBanner $table */
-			$table = JTable::getInstance('Banner', 'BannersTable');
+			$table = JTable::getInstance('Banner', 'BannersTable', array('dbo' => $db));
 
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{

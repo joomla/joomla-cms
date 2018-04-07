@@ -52,7 +52,7 @@ class Utility
 	 *
 	 * @param   mixed  $custom  A custom upper limit, if the PHP settings are all above this then this will be used
 	 *
-	 * @return  int  Size in number of bytes
+	 * @return  integer  Size in number of bytes
 	 *
 	 * @since   3.7.0
 	 */

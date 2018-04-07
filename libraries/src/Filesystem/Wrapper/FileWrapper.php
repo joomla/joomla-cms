@@ -1,24 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Filesystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem\Wrapper;
+
+use Joomla\Filesystem\File;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
- * Wrapper class for JFile
+ * Wrapper class for File
  *
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
  */
-class JFilesystemWrapperFile
+class FileWrapper
 {
 	/**
 	 * Helper wrapper method for getExt
@@ -27,12 +28,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  string  The file extension.
 	 *
-	 * @see     JFile::getExt()
+	 * @see     File::getExt()
 	 * @since   3.4
 	 */
 	public function getExt($file)
 	{
-		return JFile::getExt($file);
+		return File::getExt($file);
 	}
 
 	/**
@@ -42,12 +43,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  string  The file name without the extension.
 	 *
-	 * @see     JFile::stripExt()
+	 * @see     File::stripExt()
 	 * @since   3.4
 	 */
 	public function stripExt($file)
 	{
-		return JFile::stripExt($file);
+		return File::stripExt($file);
 	}
 
 	/**
@@ -57,12 +58,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  string  The sanitised string.
 	 *
-	 * @see     JFile::makeSafe()
+	 * @see     File::makeSafe()
 	 * @since   3.4
 	 */
 	public function makeSafe($file)
 	{
-		return JFile::makeSafe($file);
+		return File::makeSafe($file);
 	}
 
 	/**
@@ -75,12 +76,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFile::copy()
+	 * @see     File::copy()
 	 * @since   3.4
 	 */
 	public function copy($src, $dest, $path = null, $use_streams = false)
 	{
-		return JFile::copy($src, $dest, $path, $use_streams);
+		return File::copy($src, $dest, $path, $use_streams);
 	}
 
 	/**
@@ -90,12 +91,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFile::delete()
+	 * @see     File::delete()
 	 * @since   3.4
 	 */
 	public function delete($file)
 	{
-		return JFile::delete($file);
+		return File::delete($file);
 	}
 
 	/**
@@ -108,12 +109,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFile::move()
+	 * @see     File::move()
 	 * @since   3.4
 	 */
 	public function move($src, $dest, $path = '', $use_streams = false)
 	{
-		return JFile::move($src, $dest, $path, $use_streams);
+		return File::move($src, $dest, $path, $use_streams);
 	}
 
 	/**
@@ -127,12 +128,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return mixed  Returns file contents or boolean False if failed.
 	 *
-	 * @see     JFile::read()
+	 * @see     File::read()
 	 * @since   3.4
 	 */
 	public function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
-		return JFile::read($filename, $incpath, $amount, $chunksize, $offset);
+		return File::read($filename, $incpath, $amount, $chunksize, $offset);
 	}
 
 	/**
@@ -144,12 +145,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     JFile::write()
+	 * @see     File::write()
 	 * @since   3.4
 	 */
 	public function write($file, &$buffer, $use_streams = false)
 	{
-		return JFile::write($file, $buffer, $use_streams);
+		return File::write($file, $buffer, $use_streams);
 	}
 
 	/**
@@ -161,12 +162,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return boolean  True on success.
 	 *
-	 * @see     JFile::upload()
+	 * @see     File::upload()
 	 * @since   3.4
 	 */
 	public function upload($src, $dest, $use_streams = false)
 	{
-		return JFile::upload($src, $dest, $use_streams);
+		return File::upload($src, $dest, $use_streams);
 	}
 
 	/**
@@ -176,12 +177,12 @@ class JFilesystemWrapperFile
 	 *
 	 * @return boolean  True if path is a file.
 	 *
-	 * @see     JFile::exists()
+	 * @see     File::exists()
 	 * @since   3.4
 	 */
 	public function exists($file)
 	{
-		return JFile::exists($file);
+		return File::exists($file);
 	}
 
 	/**
@@ -191,11 +192,11 @@ class JFilesystemWrapperFile
 	 *
 	 * @return string  filename.
 	 *
-	 * @see     JFile::getName()
+	 * @see     File::getName()
 	 * @since   3.4
 	 */
 	public function getName($file)
 	{
-		return JFile::getName($file);
+		return File::getName($file);
 	}
 }

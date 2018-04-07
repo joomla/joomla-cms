@@ -52,7 +52,7 @@ class UsersTableNote extends JTable
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = JFactory::getDbo()->getNullDate();
+			$this->review_time = $this->_db->getNullDate();
 		}
 
 		if (empty($this->id))
