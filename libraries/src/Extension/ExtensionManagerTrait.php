@@ -28,7 +28,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = ['component' => []];
+	private $extensions = [ComponentInterface::class => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -47,7 +47,7 @@ trait ExtensionManagerTrait
 		// Path to to look for services
 		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
-		return $this->loadExtension('component', $component, $path);
+		return $this->loadExtension(ComponentInterface::class, $component, $path);
 	}
 
 	/**
@@ -101,7 +101,7 @@ trait ExtensionManagerTrait
 		}
 
 		// Fallback to legacy
-		if (!$container->has($type) && $type == 'component')
+		if (!$container->has($type) && $type == ComponentInterface::class)
 		{
 			$container->set($type, new LegacyComponent('com_' . $extensionName));
 		}
