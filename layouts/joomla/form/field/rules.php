@@ -119,8 +119,10 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php foreach ($actions as $action) : ?>
 							<tr>	
 								<td headers="actions-th<?php echo $group->value; ?>">
-									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" class="hasTooltip" > 
-											<?php echo Text::_($action->title); ?> 
+									<?php $description = (!empty($action->description)) ? ' class="hasTooltip" title="'
+										. \JHtml::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
+									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"<?php echo $description; ?>>
+										<?php echo Text::_($action->title); ?>
 									</label>
 								</td>
 
