@@ -171,7 +171,7 @@ class JNamespacePsr4Map
 
 		$query->select($db->quoteName(array('extension_id', 'element', 'namespace')))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ""');
+			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ' . $db->quote(""));
 
 		$db->setQuery($query);
 

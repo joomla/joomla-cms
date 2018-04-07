@@ -22,19 +22,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 class PlgEditorNone extends CMSPlugin
 {
 	/**
-	 * Method to handle the onInitEditor event.
-	 *  - Initialises the Editor
-	 *
-	 * @return  void
-	 *
-	 * @since 1.5
-	 */
-	public function onInit()
-	{
-		HTMLHelper::_('script', 'editors/none/editor-none.min.js', array('version' => 'auto', 'relative' => true));
-	}
-
-	/**
 	 * Display the editor area.
 	 *
 	 * @param   string   $name     The control name.
@@ -72,11 +59,13 @@ class PlgEditorNone extends CMSPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		return '<div class="js-editor-none">'
+		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
+
+		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
 			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
-			. $this->_displayButtons($id, $buttons, $asset, $author)
-			. '</div>';
+			. '</joomla-editor-none>'
+			. $this->_displayButtons($id, $buttons, $asset, $author);
 	}
 
 	/**
