@@ -154,8 +154,6 @@ class AddUserCommand extends AbstractCommand
 			else
 			{
 				$answer = (string) $this->createSymfonyStyle()->ask($question);
-
-				return $answer;
 			}
 
 			return $answer;
@@ -165,7 +163,7 @@ class AddUserCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @return array
 	 *
