@@ -500,6 +500,7 @@ abstract class Factory
 	protected static function createContainer(): Container
 	{
 		$container = (new Container)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Acl)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)

@@ -24,14 +24,6 @@ use Joomla\Utilities\ArrayHelper;
 class Access
 {
 	/**
-	 * Array of view levels
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $viewLevels = array();
-
-	/**
 	 * Array of rules for the asset
 	 *
 	 * @var    array
@@ -80,22 +72,6 @@ class Access
 	protected static $userGroups = array();
 
 	/**
-	 * Array of user group paths.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $userGroupPaths = array();
-
-	/**
-	 * Array of cached groups by user.
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $groupsByUser = array();
-
-	/**
 	 * Array of preloaded asset names and ids (key is the asset id).
 	 *
 	 * @var    array
@@ -120,15 +96,12 @@ class Access
 	 */
 	public static function clearStatics()
 	{
-		self::$viewLevels                      = array();
 		self::$assetRules                      = array();
 		self::$assetRulesIdentities            = array();
 		self::$assetPermissionsParentIdMapping = array();
 		self::$preloadedAssetTypes             = array();
 		self::$identities                      = array();
 		self::$userGroups                      = array();
-		self::$userGroupPaths                  = array();
-		self::$groupsByUser                    = array();
 		self::$preloadedAssets                 = array();
 		self::$rootAssetId                     = null;
 	}
@@ -172,7 +145,6 @@ class Access
 	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
-	 * @note    This method will return void in 4.0.
 	 */
 	public static function preload($assetTypes = 'components', $reload = false)
 	{
@@ -190,7 +162,7 @@ class Access
 		{
 			self::preloadComponents();
 
-			return true;
+			return;
 		}
 
 		// If we get to this point, this is a regular asset type and we'll proceed with the preloading process.
@@ -203,8 +175,6 @@ class Access
 		{
 			self::preloadPermissions($assetType, $reload);
 		}
-
-		return true;
 	}
 
 	/**
@@ -265,10 +235,9 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  boolean  True
+	 * @return  void
 	 *
 	 * @since   1.6
-	 * @note    This function will return void in 4.0.
 	 */
 	protected static function preloadPermissions($assetType, $reload = false)
 	{
@@ -344,17 +313,13 @@ class Access
 			}
 		}
 
-		// Get the database connection object.
-		$db = Factory::getDbo();
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
 
-		// Get the asset info for all assets in asset names list.
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
-
-		// Get the Name Permission Map List
-		$assets = $db->setQuery($query)->loadObjectList();
+		$refObject = new \ReflectionObject($acl);
+		$refProp = $refObject->getProperty('assets');
+		$refProp->setAccessible(true);
+		$assets = $refProp->getValue($acl);
 
 		$rootAsset = null;
 
@@ -410,30 +375,10 @@ class Access
 		$groupId = (int) $groupId;
 		$action  = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
 
-		return self::getAssetRules($assetKey, true, true, $preload)->allow($action, self::getGroupPath($groupId));
-	}
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
 
-	/**
-	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
-	 * (including the leaf group id).
-	 *
-	 * @param   mixed  $groupId  An integer or array of integers representing the identities to check.
-	 *
-	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
-	 *
-	 * @since   11.1
-	 */
-	protected static function getGroupPath($groupId)
-	{
-		// Load all the groups to improve performance on intensive groups checks
-		$groups = \JHelperUsergroups::getInstance()->getAll();
-
-		if (!isset($groups[$groupId]))
-		{
-			return array();
-		}
-
-		return $groups[$groupId]->path;
+		return $acl->checkGroup($groupId, $action, $assetKey);
 	}
 
 	/**
@@ -856,74 +801,10 @@ class Access
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
-		// Creates a simple unique string for each parameter combination:
-		$storeId = $userId . ':' . (int) $recursive;
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
 
-		if (!isset(self::$groupsByUser[$storeId]))
-		{
-			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('ComponentHelper'))
-			{
-				$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			}
-			else
-			{
-				$guestUsergroup = 1;
-			}
-
-			// Guest user (if only the actually assigned group is requested)
-			if (empty($userId) && !$recursive)
-			{
-				$result = array($guestUsergroup);
-			}
-			// Registered user and guest if all groups are requested
-			else
-			{
-				$db = Factory::getDbo();
-
-				// Build the database query to get the rules for the asset.
-				$query = $db->getQuery(true)
-					->select($recursive ? 'b.id' : 'a.id');
-
-				if (empty($userId))
-				{
-					$query->from('#__usergroups AS a')
-						->where('a.id = ' . (int) $guestUsergroup);
-				}
-				else
-				{
-					$query->from('#__user_usergroup_map AS map')
-						->where('map.user_id = ' . (int) $userId)
-						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
-				}
-
-				// If we want the rules cascading up to the global asset node we need a self-join.
-				if ($recursive)
-				{
-					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
-				}
-
-				// Execute the query and load the rules from the result.
-				$db->setQuery($query);
-				$result = $db->loadColumn();
-
-				// Clean up any NULL or duplicate values, just in case
-				$result = ArrayHelper::toInteger($result);
-
-				if (empty($result))
-				{
-					$result = array('1');
-				}
-				else
-				{
-					$result = array_unique($result);
-				}
-			}
-
-			self::$groupsByUser[$storeId] = $result;
-		}
-
-		return self::$groupsByUser[$storeId];
+		return array_reverse($acl->getGroupsByUser($userId, $recursive));
 	}
 
 	/**
@@ -973,75 +854,10 @@ class Access
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
-		// Only load the view levels once.
-		if (empty(self::$viewLevels))
-		{
-			// Get a database object.
-			$db = Factory::getDbo();
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
 
-			// Build the base query.
-			$query = $db->getQuery(true)
-				->select('id, rules')
-				->from($db->quoteName('#__viewlevels'));
-
-			// Set the query for execution.
-			$db->setQuery($query);
-
-			// Build the view levels array.
-			foreach ($db->loadAssocList() as $level)
-			{
-				self::$viewLevels[$level['id']] = (array) json_decode($level['rules']);
-			}
-		}
-
-		// Initialise the authorised array.
-		$authorised = array(1);
-
-		// Check for the recovery mode setting and return early.
-		$user      = \JUser::getInstance($userId);
-		$root_user = Factory::getConfig()->get('root_user');
-
-		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
-		{
-			// Find the super user levels.
-			foreach (self::$viewLevels as $level => $rule)
-			{
-				foreach ($rule as $id)
-				{
-					if ($id > 0 && self::checkGroup($id, 'core.admin'))
-					{
-						$authorised[] = $level;
-						break;
-					}
-				}
-			}
-
-			return $authorised;
-		}
-
-		// Get all groups that the user is mapped to recursively.
-		$groups = self::getGroupsByUser($userId);
-
-		// Find the authorised levels.
-		foreach (self::$viewLevels as $level => $rule)
-		{
-			foreach ($rule as $id)
-			{
-				if (($id < 0) && (($id * -1) == $userId))
-				{
-					$authorised[] = $level;
-					break;
-				}
-				// Check to see if the group is mapped to the level.
-				elseif (($id >= 0) && in_array($id, $groups))
-				{
-					$authorised[] = $level;
-					break;
-				}
-			}
-		}
-
-		return $authorised;
+		return array_values($acl->getAuthorisedViewLevels($userId));
 	}
 
 	/**
@@ -1056,18 +872,7 @@ class Access
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		if (!is_file($file) || !is_readable($file))
-		{
-			// If unable to find the file return false.
-			return false;
-		}
-		else
-		{
-			// Else return the actions from the xml.
-			$xml = simplexml_load_file($file);
-
-			return self::getActionsFromData($xml, $xpath);
-		}
+		return AccessControl::getActionsFromFile($file, $xpath);
 	}
 
 	/**
@@ -1082,58 +887,6 @@ class Access
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{
-		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
-		{
-			return false;
-		}
-
-		// Attempt to load the XML if a string.
-		if (is_string($data))
-		{
-			try
-			{
-				$data = new \SimpleXMLElement($data);
-			}
-			catch (\Exception $e)
-			{
-				return false;
-			}
-
-			// Make sure the XML loaded correctly.
-			if (!$data)
-			{
-				return false;
-			}
-		}
-
-		// Initialise the actions array
-		$actions = array();
-
-		// Get the elements from the xpath
-		$elements = $data->xpath($xpath . 'action[@name][@title]');
-
-		// If there some elements, analyse them
-		if (!empty($elements))
-		{
-			foreach ($elements as $element)
-			{
-				// Add the action to the actions array
-				$action = array(
-					'name' => (string) $element['name'],
-					'title' => (string) $element['title'],
-				);
-
-				if (isset($element['description']))
-				{
-					$action['description'] = (string) $element['description'];
-				}
-
-				$actions[] = (object) $action;
-			}
-		}
-
-		// Finally return the actions array
-		return $actions;
+		return AccessControl::getActionsFromData($data, $xpath);
 	}
 }

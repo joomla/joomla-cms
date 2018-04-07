@@ -10,6 +10,7 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\AccessControl;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -385,7 +386,7 @@ abstract class ModuleHelper
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
+			->select('m.id, m.asset_id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
 			->from('#__modules AS m')
 			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
 			->where('m.published = 1')
@@ -434,6 +435,14 @@ abstract class ModuleHelper
 			);
 
 			return array();
+		}
+
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
+
+		foreach ($modules as $m)
+		{
+			$acl->addAssetIdToPreload($m->asset_id, false);
 		}
 
 		return $modules;

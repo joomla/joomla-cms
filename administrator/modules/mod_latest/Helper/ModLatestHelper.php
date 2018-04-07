@@ -38,8 +38,11 @@ abstract class ModLatestHelper
 		$user = Factory::getUser();
 
 		// Set List SELECT
-		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
+		$model->setState('list.select',
+			'a.id, a.asset_id, a.title, a.checked_out, a.checked_out_time,'
+				. ' a.access, a.created, a.created_by, a.created_by_alias,'
+				. ' a.featured, a.state, a.publish_up, a.publish_down'
+		);
 
 		// Set Ordering filter
 		switch ($params->get('ordering'))
@@ -92,8 +95,16 @@ abstract class ModLatestHelper
 			return false;
 		}
 
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
+
+		foreach ($items as $item)
+		{
+			$acl->addAssetIdToPreload($item->asset_id ?: $item->category_asset_id);
+		}
+
 		// Set the links
-		foreach ($items as &$item)
+		foreach ($items as $item)
 		{
 			$item->link = '';
 

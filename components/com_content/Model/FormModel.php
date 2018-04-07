@@ -97,16 +97,18 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		// Compute selected asset permissions.
 		$user   = Factory::getUser();
 		$userId = $user->get('id');
-		$asset  = 'com_content.article.' . $value->id;
+
+		// If article asset id does not exists then fallback to category asset id
+		$assetId  = $value->asset_id ?: $value->category_asset_id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset))
+		if ($user->isAuthorised('core.edit', $assetId, 'com_content'))
 		{
 			$value->params->set('access-edit', true);
 		}
 
 		// Now check if edit.own is available.
-		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+		elseif (!empty($userId) && $user->isAuthorised('core.edit.own', $assetId, 'com_content'))
 		{
 			// Check for a valid user and that they are the owner.
 			if ($userId == $value->created_by)
@@ -119,7 +121,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		if ($itemId)
 		{
 			// Existing item
-			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
+			$value->params->set('access-change', $user->isAuthorised('core.edit.state', $assetId, 'com_content'));
 		}
 		else
 		{

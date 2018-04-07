@@ -57,8 +57,8 @@ class PlgContentPagenavigation extends CMSPlugin
 			$now  = $date->toSql();
 
 			$uid        = $row->id;
-			$option     = 'com_content';
-			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
+			$assetId    = $row->asset_id ?: $row->category_asset_id;
+			$canPublish = $user->isAuthorised('core.edit.state', $assetId, 'com_content');
 
 			/**
 			 * The following is needed as different menu items types utilise a different param to control ordering.

@@ -197,7 +197,7 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				'DISTINCT a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
 				', a.publish_up, a.publish_down'
 			)
@@ -218,6 +218,7 @@ class ArticlesModel extends ListModel
 
 		// Join over the categories.
 		$query->select('c.title AS category_title')
+			->select('c.asset_id AS category_asset_id')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.

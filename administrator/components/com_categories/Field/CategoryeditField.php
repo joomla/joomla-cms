@@ -156,7 +156,7 @@ class CategoryeditField extends \JFormFieldList
 		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
+			->select('a.id AS value, a.title AS text, a.asset_id, a.level, a.published, a.lft, a.language')
 			->from('#__categories AS a');
 
 		// Filter by the extension type
@@ -232,9 +232,14 @@ class CategoryeditField extends \JFormFieldList
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
+
 		// Pad the option text with spaces using depth level as a multiplier.
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
+			$acl->addAssetIdToPreload($options[$i]->asset_id);
+
 			// Translate ROOT
 			if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			{

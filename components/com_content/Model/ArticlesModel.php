@@ -201,7 +201,7 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
+				'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 				'a.checked_out, a.checked_out_time,' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
@@ -253,6 +253,7 @@ class ArticlesModel extends ListModel
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
 				'c.language AS category_language')
+			->select('c.asset_id AS category_asset_id')
 			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
@@ -597,8 +598,16 @@ class ArticlesModel extends ListModel
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
 
+		$acl = Factory::getContainer()->get('acl');
+
+		// Add to preload all required assets
+		foreach ($items as $item)
+		{
+			$acl->addAssetIdToPreload($item->asset_id ?: $item->category_asset_id);
+		}
+
 		// Convert the parameter fields into objects.
-		foreach ($items as &$item)
+		foreach ($items as $item)
 		{
 			$articleParams = new Registry($item->attribs);
 
@@ -674,16 +683,17 @@ class ArticlesModel extends ListModel
 			 */
 			if (!$guest)
 			{
-				$asset = 'com_content.article.' . $item->id;
+				// If article does not have own asset id then use category asset id
+				$assetId = $item->asset_id ?: $item->category_asset_id;
 
 				// Check general edit permission first.
-				if ($user->authorise('core.edit', $asset))
+				if ($user->isAuthorised('core.edit', $assetId, 'com_content'))
 				{
 					$item->params->set('access-edit', true);
 				}
 
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+				elseif (!empty($userId) && $user->isAuthorised('core.edit.own', $assetId, 'com_content'))
 				{
 					// Check for a valid user and that they are the owner.
 					if ($userId == $item->created_by)

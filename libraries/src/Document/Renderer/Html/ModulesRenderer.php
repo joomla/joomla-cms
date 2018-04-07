@@ -41,13 +41,13 @@ class ModulesRenderer extends DocumentRenderer
 		$app          = Factory::getApplication();
 		$user         = Factory::getUser();
 		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
-		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
+		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->isAuthorised('core.edit', 'com_menus');
 
 		foreach (ModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = $renderer->render($mod, $params, $content);
 
-			if ($frontediting && trim($moduleHtml) != '' && $user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
+			if ($frontediting && trim($moduleHtml) != '' && $user->isAuthorised('module.edit.frontend', $mod->asset_id, 'com_modules', false))
 			{
 				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
 				LayoutHelper::render('joomla.edit.frontediting_modules', $displayData);

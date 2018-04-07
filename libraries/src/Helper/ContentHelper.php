@@ -10,7 +10,7 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\AccessControl;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -68,7 +68,7 @@ class ContentHelper
 
 		$user = Factory::getUser();
 
-		$actions = Access::getActionsFromFile(
+		$actions = AccessControl::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', '/access/section[@name="component"]/'
 		);
 

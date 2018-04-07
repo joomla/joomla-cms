@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\AccessControl;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
@@ -177,11 +178,11 @@ class RulesField extends FormField
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$this->assetId       = $this->form->getValue($assetField);
-		$this->newItem       = empty($assetId) && $this->isGlobalConfig === false && $section !== 'component';
+		$this->newItem       = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
-		if (empty($assetId))
+		if (empty($this->assetId))
 		{
 			// Get the component asset id as fallback.
 			$db = Factory::getDbo();
@@ -192,7 +193,7 @@ class RulesField extends FormField
 
 			$db->setQuery($query);
 
-			$assetId = (int) $db->loadResult();
+			$this->assetId = (int) $db->loadResult();
 
 			/**
 			 * @to do: incorrect info
@@ -211,15 +212,18 @@ class RulesField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('id') . ' = ' . $assetId);
+				->where($db->quoteName('id') . ' = ' . $this->assetId);
 
 			$db->setQuery($query);
 
 			$this->parentAssetId = (int) $db->loadResult();
 		}
 
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
+
 		// Get the rules for just this asset (non-recursive).
-		$this->assetRules = Access::getAssetRules($assetId, false, false);
+		$this->assetRules = $acl->getAssetRules($this->assetId);
 
 		// Get the available user groups.
 		$this->groups = $this->getUserGroups();

@@ -217,6 +217,15 @@ class ModulesModel extends ListModel
 		// Process pagination.
 		$result = parent::_getList($query, $limitstart, $limit);
 
+		/** @var AccessControl */
+		$acl = Factory::getContainer()->get('acl');
+
+		foreach ($result as $item)
+		{
+			// Preload assets.
+			$acl->addAssetNameToPreload('com_modules.module.' . $item->id, 0);
+		}
+
 		// Translate the results.
 		$this->translate($result);
 

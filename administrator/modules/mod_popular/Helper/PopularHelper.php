@@ -38,7 +38,7 @@ abstract class PopularHelper
 		$user = Factory::getUser();
 
 		// Set List SELECT
-		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
+		$model->setState('list.select', 'a.id, a.asset_id, a.title, a.checked_out, a.checked_out_time, ' .
 				' a.publish_up, a.hits');
 
 		// Set Ordering filter
@@ -79,6 +79,13 @@ abstract class PopularHelper
 			throw new \Exception($error, 500);
 
 			return false;
+		}
+
+		$acl = Factory::getContainer()->get('acl');
+
+		foreach ($items as $item)
+		{
+			$acl->addAssetIdToPreload($item->asset_id ?: $item->category_asset_id);
 		}
 
 		// Set the links

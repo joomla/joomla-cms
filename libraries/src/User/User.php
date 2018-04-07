@@ -340,42 +340,57 @@ class User extends CMSObject
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Use User::isAuthorised instead.
 	 */
 	public function authorise($action, $assetname = null)
 	{
+		return $this->isAuthorised($action, $assetname);
+	}
+
+	/**
+	 * Method to check User object authorisation against an access control
+	 * object and optionally an access extension object
+	 *
+	 * @param   string           $action     The name of the action to check for permission.
+	 * @param   integer|string   $assetKey   The name of the asset on which to perform the action.
+	 * @param   string           $extension  The name of the extension, ex 'com_content'.
+	 * @param   boolean|integer  $nested     Indicates the level of optimalization. If True then default.
+	 *
+	 * @return  boolean  True if authorised
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isAuthorised($action, $assetKey = null, $extension = null, $nested = true)
+	{
+		$acl = Factory::getContainer()->get('acl');
+
 		// Make sure we only check for core.admin once during the run.
 		if ($this->isRoot === null)
 		{
 			$this->isRoot = false;
 
-			// Check for the configuration file failsafe.
-			$rootUser = Factory::getConfig()->get('root_user');
+			if ($this->id > 0)
+			{
+				// Check for the configuration file failsafe.
+				$rootUser = Factory::getConfig()->get('root_user');
 
-			// The root_user variable can be a numeric user ID or a username.
-			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
-			{
-				$this->isRoot = true;
-			}
-			elseif ($this->username && $this->username == $rootUser)
-			{
-				$this->isRoot = true;
-			}
-			elseif ($this->id > 0)
-			{
-				// Get all groups against which the user is mapped.
-				$identities = $this->getAuthorisedGroups();
-				array_unshift($identities, $this->id * -1);
-
-				if (Access::getAssetRules(1)->allow('core.admin', $identities))
+				// The root_user variable can be a numeric user ID or a username.
+				if (is_numeric($rootUser) && $this->id == $rootUser)
 				{
 					$this->isRoot = true;
-
-					return true;
+				}
+				elseif ($rootUser && $this->username === $rootUser)
+				{
+					$this->isRoot = true;
+				}
+				elseif ($acl->check($this->id, 'core.admin', 1))
+				{
+					$this->isRoot = true;
 				}
 			}
 		}
 
-		return $this->isRoot ? true : (bool) Access::check($this->id, $action, $assetname);
+		return $this->isRoot ?: $acl->check($this->id, $action, $assetKey, $extension, $nested);
 	}
 
 	/**
@@ -394,23 +409,27 @@ class User extends CMSObject
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = Factory::getDbo();
 
-		$subQuery = $db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('id,asset_id')
 			->from('#__categories')
 			->where('extension = ' . $db->quote($component))
 			->where('published = 1');
 
-		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
-		$db->setQuery($query);
-		$allCategories = $db->loadObjectList('id');
-		$allowedCategories = array();
+		$allCategories = $db->setQuery($query)->loadObjectList();
+
+		$acl = Factory::getContainer()->get('acl');
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			// Add assets to prelaod
+			$acl->addAssetIdToPreload($category->asset_id);
+		}
+
+		$allowedCategories = [];
+
+		foreach ($allCategories as $category)
+		{
+			if ($this->isAuthorised($action, $category->asset_id, $component))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -435,7 +454,9 @@ class User extends CMSObject
 
 		if (empty($this->_authLevels))
 		{
-			$this->_authLevels = Access::getAuthorisedViewLevels($this->id);
+			$acl = Factory::getContainer()->get('acl');
+
+			$this->_authLevels = $acl->getAuthorisedViewLevels($this->id);
 		}
 
 		return $this->_authLevels;
@@ -457,7 +478,9 @@ class User extends CMSObject
 
 		if (empty($this->_authGroups))
 		{
-			$this->_authGroups = Access::getGroupsByUser($this->id);
+			$acl = Factory::getContainer()->get('acl');
+
+			$this->_authGroups = $acl->getGroupsByUser($this->id);
 		}
 
 		return $this->_authGroups;
@@ -735,11 +758,13 @@ class User extends CMSObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			$acl = Factory::getContainer()->get('acl');
+
 			// We are only worried about edits to this account if I am not a Super Admin.
 			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
-				if (!$isNew && Access::check($this->id, 'core.admin'))
+				if (!$isNew && $acl->check($this->id, 'core.admin'))
 				{
 					throw new \RuntimeException('User not Super Administrator');
 				}
@@ -749,7 +774,7 @@ class User extends CMSObject
 					// I am not a Super Admin and I'm trying to make one.
 					foreach ($this->groups as $groupId)
 					{
-						if (Access::checkGroup($groupId, 'core.admin'))
+						if ($acl->checkGroup($groupId, 'core.admin'))
 						{
 							throw new \RuntimeException('User not Super Administrator');
 						}

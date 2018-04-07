@@ -117,6 +117,7 @@ class ArticleModel extends ItemModel
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
 						'c.language AS category_language')
+					->select('c.asset_id AS category_asset_id')
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
 
@@ -187,16 +188,16 @@ class ArticleModel extends ItemModel
 				if (!$user->get('guest'))
 				{
 					$userId = $user->get('id');
-					$asset = 'com_content.article.' . $data->id;
+					$assetId = $data->asset_id ?: $data->category_asset_id;
 
 					// Check general edit permission first.
-					if ($user->authorise('core.edit', $asset))
+					if ($user->isAuthorised('core.edit', $assetId, 'com_content'))
 					{
 						$data->params->set('access-edit', true);
 					}
 
 					// Now check if edit.own is available.
-					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+					elseif (!empty($userId) && $user->isAuthorised('core.edit.own', $assetId, 'com_content'))
 					{
 						// Check for a valid user and that they are the owner.
 						if ($userId == $data->created_by)
