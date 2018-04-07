@@ -20,7 +20,7 @@ use Joomla\CMS\User\User;
 	/**
 	 * Console command for adding an admin user
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 class ChangeUserPasswordCommand extends AbstractCommand
 {
@@ -80,7 +80,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	/**
 	 * Method to get a user object
 	 *
-	 * @param string $username username
+	 * @param   string  $username  username
 	 *
 	 * @return object
 	 *
@@ -104,13 +104,13 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	/**
 	 * Method to get an value from option
 	 *
-	 * @param string $option set the option name
+	 * @param   string  $option    set the option name
 	 *
-	 * @param string $question set the question if user gives no value to option
+	 * @param   string  $question  set the question if user gives no value to option
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @scince  __DEPLOY_VERSION__
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
@@ -141,9 +141,9 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	/**
 	 * Initialise the command.
 	 *
-	 * @return  void
+	 * @return   void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function initialise()
 	{

@@ -21,7 +21,7 @@ use Joomla\CMS\User\User;
 /**
  * Console command for adding an admin user
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class AddUserCommand extends AbstractCommand
 {
@@ -109,7 +109,7 @@ class AddUserCommand extends AbstractCommand
 	/**
 	 * Method to get groupId by groupNme
 	 *
-	 * @param string $groupName name of group
+	 * @param   string  $groupName  name of group
 	 *
 	 * @return int
 	 *
@@ -133,9 +133,9 @@ class AddUserCommand extends AbstractCommand
 	/**
 	 * Method to get an value from option
 	 *
-	 * @param string $option set the option name
+	 * @param   string  $option   set the option name
 	 *
-	 * @param string $question set the question if user gives no value to option
+	 * @param   string  $question set the question if user gives no value to option
 	 *
 	 * @return string
 	 *
