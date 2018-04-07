@@ -48,7 +48,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var string
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $name;
 
@@ -57,7 +57,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var string
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $email;
 
@@ -66,7 +66,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var array
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $userGroups = [];
 
@@ -94,6 +94,7 @@ class AddUserCommand extends AbstractCommand
 		$user['groups'] = $this->userGroups;
 		$userObj = User::getInstance();
 		$userObj->bind($user);
+
 		if (!$userObj->save())
 		{
 			$symfonyStyle->error($userObj->getError());
@@ -124,8 +125,7 @@ class AddUserCommand extends AbstractCommand
 			->where($db->quoteName('title') . '=' . $db->quote($groupName));
 		$db->setQuery($query);
 
-		$result = $db->loadResult();
-		$groupID = $result;
+		$groupID = $db->loadResult();
 
 		return $groupID;
 	}
@@ -139,7 +139,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return string
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getStringFromOption($option, $question): string
 	{
@@ -150,8 +150,6 @@ class AddUserCommand extends AbstractCommand
 			if ($option === 'password')
 			{
 				$answer = (string) $this->createSymfonyStyle()->askHidden($question);
-
-				return $answer;
 			}
 			else
 			{
@@ -159,12 +157,11 @@ class AddUserCommand extends AbstractCommand
 
 				return $answer;
 			}
-		}
-		else
-		{
 
-			return $value;
+			return $answer;
 		}
+
+		return $value;
 	}
 
 	/**
@@ -172,7 +169,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function getUserGroups(): array
 	{
@@ -190,6 +187,7 @@ class AddUserCommand extends AbstractCommand
 
 			$result = $db->loadObjectList();
 			$list = [];
+
 			foreach ($result as $key => $value)
 			{
 				$list[$key] = (array) $value;
@@ -205,6 +203,7 @@ class AddUserCommand extends AbstractCommand
 			$answer = (array) $this->createSymfonyStyle()->askQuestion($choice);
 
 			$groupList = [];
+
 			foreach ($answer as $group)
 			{
 				array_push($groupList, $this->getGroupId($group));
@@ -216,6 +215,7 @@ class AddUserCommand extends AbstractCommand
 		{
 			$groupList = [];
 			$option = explode(',', $option);
+
 			foreach ($option as $group)
 			{
 				array_push($groupList, $this->getGroupId($group));
@@ -235,8 +235,6 @@ class AddUserCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$this->setName('user:add');
-		/*$this->addArgument('username', InputArgument::REQUIRED, 'Input username');
-		$this->addArgument('password', InputArgument::REQUIRED, 'Input pasword');*/
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL);
 		$this->addOption('name', null, InputOption::VALUE_OPTIONAL);
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL);

@@ -17,11 +17,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Joomla\CMS\User\User;
 
-	/**
-	 * Console command for adding an admin user
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
+/**
+ * Console command for adding an admin user
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 class ChangeUserPasswordCommand extends AbstractCommand
 {
 	/**
@@ -65,6 +65,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$user['id'] = $oldUserObj->id;
 		$userObj = User::getInstance();
 		$userObj->bind($user);
+
 		if (!$userObj->save(true))
 		{
 			$symfonyStyle->error($userObj->getError());
@@ -84,7 +85,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return object
 	 *
-	 * @scince __DEPLOY_VERSION__
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function getUser($username)
 	{
@@ -110,7 +111,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @scince  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
