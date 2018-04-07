@@ -7,7 +7,6 @@
             <div class="media-main">
                 <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
-                <media-infobar v-if="!this.isModal"></media-infobar>
             </div>
         </div>
         <media-upload></media-upload>
@@ -26,16 +25,13 @@
         data() {
             return {
                 // The full height of the app in px
-                fullHeight: '',
+                fullHeight: ''
             };
         },
         computed: {
             disks() {
                 return this.$store.state.disks;
             },
-            isModal() {
-		return Joomla.getOptions('com_media', {}).isModal;
-            }
         },
         methods: {
             /* Set the full height on the app container */

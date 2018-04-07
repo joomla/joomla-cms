@@ -920,12 +920,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
-		var wc, polyfills = [];
-
-		/* Get the web components */
-		if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
-			wc = Joomla.getOptions('webcomponents', {});
-		}
+		var polyfills = [];
+		var wc = Joomla.getOptions('webcomponents');
 
 		/* Check if ES6 then apply the shim */
 		var checkES6 = function () {
@@ -940,9 +936,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		/* Load web components async */
 		var loadWC = function () {
-			var wc = Joomla.getOptions('webcomponents');
-
-			if (wc.length) {
+			if (wc && wc.length) {
 				wc.forEach(function(component) {
 					if (component.match(/\.js/g)) {
 						var el = document.createElement('script');
@@ -979,8 +973,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			polyfills = ['lite'];
 		}
 
-		if (polyfills.length) {
-			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]');
+		if (polyfills.length && wc && wc.length) {
+			var name = "core.min.js";
+			var script = document.querySelector('script[src*="' + name + '"]');
 
 			if (!script) {
 				name = "core.js";
@@ -991,10 +986,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 				throw new Error('core(.min).js is not registered correctly!')
 			}
 
-			var newScript = document.createElement('script'),
-			    replacement = 'media/vendor/webcomponentsjs/js/webcomponents-' + polyfills.join('-') + '.min.js',
-			    mediaVersion = script.src.match(/\?.*/)[0],
-			    base = Joomla.getOptions('system.paths');
+			var newScript = document.createElement('script');
+			var replacement = 'media/vendor/webcomponentsjs/js/webcomponents-' + polyfills.join('-') + '.min.js';
+			var mediaVersion = script.src.match(/\?.*/)[0];
+			var base = Joomla.getOptions('system.paths');
 
 			if (!base) {
 				throw new Error('core(.min).js is not registered correctly!')
@@ -1004,13 +999,17 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			document.head.appendChild(newScript);
 
 			document.addEventListener('WebComponentsReady', function () {
-				loadWC(wc);
+				loadWC();
 			});
 		} else {
+			if (!wc || !wc.length) {
+				return;
+			}
+
 			var fire = function () {
 				requestAnimationFrame(function () {
 					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
-					loadWC(wc);
+					loadWC();
 				});
 			};
 
