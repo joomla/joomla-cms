@@ -14,6 +14,7 @@ JText::script('COM_MEDIA_ACTION_EDIT', true);
 JText::script('COM_MEDIA_ACTION_PREVIEW', true);
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS', true);
+JText::script('COM_MEDIA_CREATE_NEW_FOLDER_ERROR', true);
 JText::script('COM_MEDIA_DECREASE_GRID', true);
 JText::script('COM_MEDIA_DELETE_ERROR', true);
 JText::script('COM_MEDIA_DELETE_SUCCESS', true);
