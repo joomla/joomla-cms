@@ -130,11 +130,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 
 			return $answer;
 		}
-		else
-		{
 
-			return $value;
-		}
+		return $value;
 	}
 
 	/**
