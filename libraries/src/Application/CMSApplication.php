@@ -334,6 +334,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				[
 					'subject'    => $this,
 					'eventClass' => BeforeExecuteEvent::class,
+					'container'  => $this->getContainer()
 				]
 			)
 		);

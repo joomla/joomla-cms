@@ -45,6 +45,7 @@
     "babel-plugin-static-fs": "latest",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-minify": "^0.3.0",
     "babelify": "^8.0.0",
     "browserify": "*",
     "eslint": "^4.17.0",
@@ -69,7 +70,7 @@
     "recursive-copy": "latest",
     "recursive-readdir": "^2.2.1",
     "requirejs": "latest",
-    "text": "github:requirejs/text",
+    "text": "requirejs/text",
     "uglify-es": "^3.3.9",
     "uglifycss": "0.0.27"
   },
@@ -81,7 +82,12 @@
       "field-media",
       "field-user",
       "field-switcher",
-      "field-send-test-mail"
+      "field-send-test-mail",
+      "field-module-order",
+      "field-permissions",
+      "field-simple-color",
+      "hidden-mail",
+      "editor-none"
     ],
     "webcomponents": {
       "field-media": {
@@ -92,7 +98,24 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
+      "field-simple-color": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-none": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-module-order": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-hidden-mail": {
+
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
