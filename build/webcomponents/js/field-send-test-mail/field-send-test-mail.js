@@ -1,6 +1,4 @@
-;((customElements, Joomla) => {
-
-	class JoomlaFieldSendTestMail extends HTMLElement {
+;customElements.define('joomla-field-send-test-mail', class extends HTMLElement {
 
 	// attributeChangedCallback(attr, oldValue, newValue) {}
 	constructor() {
@@ -58,8 +56,4 @@
 			},
 		});
 	}
-}
-
-customElements.define('joomla-field-send-test-mail', JoomlaFieldSendTestMail);
-
-})(customElements, Joomla);
+});

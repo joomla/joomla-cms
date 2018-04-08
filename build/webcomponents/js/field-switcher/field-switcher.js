@@ -5,7 +5,7 @@
 		SPACE: 32,
 	};
 
-	class JoomlaSwitcherElement extends HTMLElement {
+	customElements.define('joomla-field-switcher', 	class extends HTMLElement {
 		/* Attributes to monitor */
 		static get observedAttributes() { return ['type', 'off-text', 'on-text']; }
 
@@ -23,6 +23,15 @@
 			this.spans = [];
 			this.inputsContainer = '';
 			this.newActive = '';
+
+			this.css = `{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}`;
+			this.styleEl = document.createElement('style');
+			this.styleEl.id = 'joomla-field-switcher-css';
+			this.styleEl.innerHTML = this.css;
+
+			if (!document.head.querySelector('#joomla-field-switcher-css')) {
+				document.head.appendChild(this.styleEl)
+			}
 		}
 
 		/* Lifecycle, element appended to the DOM */
@@ -198,7 +207,5 @@
 				this.switch.bind(this)();
 			}
 		}
-	}
-
-	customElements.define('joomla-field-switcher', JoomlaSwitcherElement);
+	});
 })(customElements);

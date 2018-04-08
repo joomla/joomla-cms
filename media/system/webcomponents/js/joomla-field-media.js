@@ -1,5 +1,10 @@
-(() => {
-	const Joomla = window.Joomla || {};
+// @todo remove jQuery, currently is used only to open/close the modal
+;((customElements, Joomla, jQuery) => {
+
+	if (!Joomla) {
+		throw new Error('Joomla API is not properly initiated');
+	}
+
 	Joomla.selectedFile = {};
 
 	window.document.addEventListener('onMediaFileSelected', (e) => {
@@ -75,7 +80,19 @@
 		});
 	};
 
-	class JoomlaFieldMedia extends HTMLElement {
+	customElements.define('joomla-field-media', class extends HTMLElement {
+		constructor() {
+			super();
+
+			this.css = `joomla-field-media .field-media-preview{display:flex;align-items:center;justify-content:center;max-width:336px;height:180px !important;padding:10px;background-color:#f2f2f2;border:1px solid rgba(0,0,0,0.15);border-width:1px 1px 0;border-radius:.25rem .25rem 0 0;overflow:hidden}joomla-field-media .field-media-preview-icon{font-size:5rem;opacity:.25}joomla-field-media .field-media-input{border-top-left-radius:0}joomla-field-media .button-clear{border-top-right-radius:0}joomla-field-media img{max-width:100%;max-height:100%}`;
+			this.styleEl = document.createElement('style');
+			this.styleEl.id = 'joomla-field-media-css';
+			this.styleEl.innerHTML = this.css;
+
+			if (!document.head.querySelector('joomla-field-media-css')) {
+				document.head.appendChild(this.styleEl)
+			}
+		}
 		static get observedAttributes() {
 			return ['type', 'base-path', 'root-folder', 'url', 'modal-container', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'button-save-selected', 'preview', 'preview-width', 'preview-height'];
 		}
@@ -110,42 +127,7 @@
 		set preview(value) { this.setAttribute('preview', value); }
 		get previewContainer() { return this.getAttribute('preview-container'); }
 
-		// attributeChangedCallback(attr, oldValue, newValue) {
-		//   switch (attr) {
-		//     case 'base-path':
-		//     case 'root-folder':
-		//     case 'url':
-		//     case 'modal-container':
-		//     case 'input':
-		//     case 'button-select':
-		//     case 'button-clear':
-		//     case 'button-save-selected':
-		//     case 'preview-container':
-		//       // string
-		//       break;
-		//     case 'modal-width':
-		//     case 'modal-height':
-		//     case 'preview-width':
-		//     case 'preview-height':
-		//       // int
-		//       // const value = parseInt(newValue, 10);
-		//       // if (value !== parseInt(oldValue, 10)) {
-		//       //  this.setAttribute(attr, value);
-		//       // }
-		//       break;
-		//     case 'preview':
-		//       // bool|string
-		//       if (['true', 'false', 'tooltip', 'static'].indexOf(newValue) > -1 && oldValue !== newValue) {
-		//         this.preview = newValue;
-		//       } else {
-		//         // if (oldValue )
-		//         //   this.preview = oldValue;
-		//       }
-		//       break;
-		//     default:
-		//       break;
-		//   }
-		// }
+		// attributeChangedCallback(attr, oldValue, newValue) {}
 
 		connectedCallback() {
 			const button = this.querySelector(this.buttonSelect);
@@ -167,15 +149,15 @@
 
 		disconnectedCallback() {
 			const button = this.querySelector(this.buttonClear);
-			button.removeEventListener('click', self);
+			button.removeEventListener('click', this);
 		}
 
 		show() {
 			const self = this;
-			const input = this.querySelector(this.input);
-			window.jQuery(this.querySelector('[role="dialog"]')).modal('show');
 
-			window.jQuery(this.querySelector(this.buttonSaveSelected)).on('click', (e) => {
+			jQuery(this.querySelector('[role="dialog"]')).modal('show');
+
+			jQuery(this.querySelector(this.buttonSaveSelected)).on('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -192,11 +174,11 @@
 			const input = this.querySelector(this.input);
 			Joomla.getImage(Joomla.selectedFile, input, this);
 
-			window.jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+			jQuery(this.querySelector('[role="dialog"]')).modal('hide');
 		}
 
 		setValue(value) {
-			const input = window.jQuery(this.querySelector(this.input));
+			const input = jQuery(this.querySelector(this.input));
 			input.val(value).trigger('change');
 			this.updatePreview();
 		}
@@ -210,7 +192,7 @@
 				return;
 			}
 
-			// Reset tooltip and preview
+			// Reset preview
 			if (this.preview) {
 				const input = this.querySelector(this.input);
 				const value = input.value;
@@ -236,7 +218,6 @@
 				}
 			}
 		}
-	}
+	});
 
-	customElements.define('joomla-field-media', JoomlaFieldMedia);
-})();
+})(customElements, Joomla, jQuery);

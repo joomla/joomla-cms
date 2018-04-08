@@ -719,56 +719,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @since  3.6.0
 	 */
 	Joomla.loadingLayer = function(task, parentElement) {
-		// Set default values.
-		task          = task || 'show';
-		parentElement = parentElement || document.body;
 
-		// Create the loading layer (hidden by default).
-		if (task === 'load')
-		{
-			// Gets the site base path
-			var systemPaths = Joomla.getOptions('system.paths') || {},
-				basePath    = systemPaths.root || '';
+		if (task && task === 'load') {
+			return;
+		} else if (task === 'show') {
+			parentElement = parentElement || document.body;
 
-			var loadingDiv = document.createElement('div');
+			var loader = document.createElement('joomla-core-loader');
 
-			loadingDiv.id = 'loading-logo';
+			parentElement.appendChild(loader);
+		} else {
+			var loader = document.querySelector('joomla-core-loader');
 
-			// The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
-
-			// Loading layer style and positioning.
-			loadingDiv.style['position']              = 'fixed';
-			loadingDiv.style['top']                   = '0';
-			loadingDiv.style['left']                  = '0';
-			loadingDiv.style['width']                 = '100%';
-			loadingDiv.style['height']                = '100%';
-			loadingDiv.style['opacity']               = '0.8';
-			loadingDiv.style['filter']                = 'alpha(opacity=80)';
-			loadingDiv.style['overflow']              = 'hidden';
-			loadingDiv.style['z-index']               = '10000';
-			loadingDiv.style['display']               = 'none';
-			loadingDiv.style['background-color']      = '#fff';
-
-			// Loading logo positioning.
-			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/system/images/ajax-loader.gif")';
-			loadingDiv.style['background-position']   = 'center';
-			loadingDiv.style['background-repeat']     = 'no-repeat';
-			loadingDiv.style['background-attachment'] = 'fixed';
-
-			parentElement.appendChild(loadingDiv);
-		}
-		// Show or hide the layer.
-		else
-		{
-			if (!document.getElementById('loading-logo'))
-			{
-				Joomla.loadingLayer('load', parentElement);
+			if (loader) {
+				loader.parentNode.removeChild(loader);
 			}
-
-			document.getElementById('loading-logo').style['display'] = (task == 'show') ? 'block' : 'none';
 		}
-
-		return document.getElementById('loading-logo');
 	};
 
 	/**

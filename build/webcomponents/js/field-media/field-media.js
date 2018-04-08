@@ -80,7 +80,19 @@
 		});
 	};
 
-	class JoomlaFieldMedia extends HTMLElement {
+	customElements.define('joomla-field-media', class extends HTMLElement {
+		constructor() {
+			super();
+
+			this.css = `{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}`;
+			this.styleEl = document.createElement('style');
+			this.styleEl.id = 'joomla-field-media-css';
+			this.styleEl.innerHTML = this.css;
+
+			if (!document.head.querySelector('joomla-field-media-css')) {
+				document.head.appendChild(this.styleEl)
+			}
+		}
 		static get observedAttributes() {
 			return ['type', 'base-path', 'root-folder', 'url', 'modal-container', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'button-save-selected', 'preview', 'preview-width', 'preview-height'];
 		}
@@ -206,8 +218,6 @@
 				}
 			}
 		}
-	}
-
-	customElements.define('joomla-field-media', JoomlaFieldMedia);
+	});
 
 })(customElements, Joomla, jQuery);

@@ -1,5 +1,7 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -31,6 +33,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		_createClass(JoomlaFieldPermissions, [{
 			key: 'connectedCallback',
 			value: function connectedCallback() {
+				var _this2 = this;
+
 				var buttonDataSelector = 'data-onchange-task';
 				var buttons = [].slice.call(document.querySelectorAll('[' + buttonDataSelector + ']'));
 
@@ -39,9 +43,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 						button.addEventListener('change', function (e) {
 							e.preventDefault();
 							var task = e.target.getAttribute(buttonDataSelector);
-
 							if (task == 'permissions.apply') {
-								sendPermissions.call(e.target, e);
+								_this2.sendPermissions(e);
 							}
 						});
 					});
@@ -52,18 +55,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			value: function sendPermissions(event) {
 				var target = event.target;
 				//set the icon while storing the values
-				var icon = document.getElementById('icon_' + this.id);
+				var icon = document.getElementById('icon_' + target.id);
 				icon.removeAttribute('class');
 				icon.setAttribute('class', 'fa fa-spinner fa-spin');
 
 				//get values add prepare GET-Parameter
 				var asset = 'not';
-				var component = getUrlParam('component');
-				var extension = getUrlParam('extension');
-				var option = getUrlParam('option');
-				var view = getUrlParam('view');
+				var component = this.getUrlParam('component');
+				var extension = this.getUrlParam('extension');
+				var option = this.getUrlParam('option');
+				var view = this.getUrlParam('view');
 				var title = component;
-				var value = this.value;
+				var value = target.value;
 				var context = '';
 
 				if (document.getElementById('jform_context')) {
@@ -77,20 +80,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 					asset = component;
 				} else if (context) {
 					if (view == 'group') {
-						asset = context + '.fieldgroup.' + getUrlParam('id');
+						asset = context + '.fieldgroup.' + this.getUrlParam('id');
 					} else {
-						asset = context + '.field.' + getUrlParam('id');
+						asset = context + '.field.' + this.getUrlParam('id');
 					}
 					title = document.getElementById('jform_title').value;
 				} else if (extension != false && view != false) {
-					asset = extension + '.' + view + '.' + getUrlParam('id');
+					asset = extension + '.' + view + '.' + this.getUrlParam('id');
 					title = document.getElementById('jform_title').value;
 				} else if (extension == false && view != false) {
-					asset = option + '.' + view + '.' + getUrlParam('id');
+					asset = option + '.' + view + '.' + this.getUrlParam('id');
 					title = document.getElementById('jform_title').value;
 				}
 
-				var id = this.id.replace('jform_rules_', '');
+				var id = target.id.replace('jform_rules_', '');
 				var lastUnderscoreIndex = id.lastIndexOf('_');
 
 				var permissionData = {
@@ -106,7 +109,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 				// Ajax request
 				Joomla.request({
-					url: document.getElementById('permissions-sliders').getAttribute('data-uri'),
+					url: this.getAttribute('data-uri'),
 					method: 'POST',
 					data: JSON.stringify(permissionData),
 					perform: true,
@@ -146,7 +149,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 						icon.removeAttribute('style');
 
 						Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
-
 						icon.setAttribute('class', 'fa fa-times');
 					}
 				});
@@ -172,3 +174,5 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 	customElements.define('joomla-field-permissions', JoomlaFieldPermissions);
 })(customElements, Joomla);
+
+},{}]},{},[1]);

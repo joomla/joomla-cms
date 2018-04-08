@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9,17 +9,17 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-;(function () {
+;(function (customElements) {
 	// Keycodes
 	var KEYCODE = {
 		ENTER: 13,
 		SPACE: 32
 	};
 
-	var JoomlaSwitcherElement = function (_HTMLElement) {
-		_inherits(JoomlaSwitcherElement, _HTMLElement);
+	customElements.define('joomla-field-switcher', function (_HTMLElement) {
+		_inherits(_class, _HTMLElement);
 
-		_createClass(JoomlaSwitcherElement, [{
+		_createClass(_class, [{
 			key: 'type',
 			get: function get() {
 				return this.getAttribute('type');
@@ -37,6 +37,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			get: function get() {
 				return this.getAttribute('on-text') || 'On';
 			}
+
+			// attributeChangedCallback(attr, oldValue, newValue) {}
+
 		}], [{
 			key: 'observedAttributes',
 
@@ -46,23 +49,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			}
 		}]);
 
-		function JoomlaSwitcherElement() {
-			_classCallCheck(this, JoomlaSwitcherElement);
+		function _class() {
+			_classCallCheck(this, _class);
 
-			var _this = _possibleConstructorReturn(this, (JoomlaSwitcherElement.__proto__ || Object.getPrototypeOf(JoomlaSwitcherElement)).call(this));
+			var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
 
 			_this.inputs = [];
 			_this.spans = [];
 			_this.inputsContainer = '';
-			_this.spansContainer = '';
 			_this.newActive = '';
+
+			_this.css = '{{CSS_CONTENTS_AUTOMATICALLY_INSERTED_HERE}}';
+			_this.styleEl = document.createElement('style');
+			_this.styleEl.id = 'joomla-field-switcher-css';
+			_this.styleEl.innerHTML = _this.css;
+
+			if (!document.head.querySelector('#joomla-field-switcher-css')) {
+				document.head.appendChild(_this.styleEl);
+			}
 			return _this;
 		}
 
 		/* Lifecycle, element appended to the DOM */
 
 
-		_createClass(JoomlaSwitcherElement, [{
+		_createClass(_class, [{
 			key: 'connectedCallback',
 			value: function connectedCallback() {
 				var _this2 = this;
@@ -77,7 +88,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				this.createMarkup.bind(this)();
 
 				this.inputsContainer = this.firstElementChild;
-				this.spansContainer = this.lastElementChild;
 
 				this.inputsContainer.setAttribute('role', 'switch');
 
@@ -257,10 +267,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 			}
 		}]);
 
-		return JoomlaSwitcherElement;
-	}(HTMLElement);
-
-	customElements.define('joomla-field-switcher', JoomlaSwitcherElement);
-})();
+		return _class;
+	}(HTMLElement));
+})(customElements);
 
 },{}]},{},[1]);
