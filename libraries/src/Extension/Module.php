@@ -35,17 +35,12 @@ class Module implements ModuleInterface
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  ModuleDispatcherInterface|null
+	 * @return  ModuleDispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): ModuleDispatcherInterface
 	{
-		if ($this->dispatcherFactory === null)
-		{
-			return null;
-		}
-
 		return $this->dispatcherFactory->createDispatcher($application);
 	}
 

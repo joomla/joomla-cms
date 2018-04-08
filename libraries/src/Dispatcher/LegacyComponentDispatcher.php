@@ -21,7 +21,7 @@ use Joomla\Input\Input;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyDispatcher implements DispatcherInterface
+class LegacyComponentDispatcher implements DispatcherInterface
 {
 	/**
 	 * The application instance
