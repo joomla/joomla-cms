@@ -81,7 +81,7 @@ class Dispatcher implements DispatcherInterface
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
 		{
-			$this->option = $app->scope;
+			$this->option = $input->get('option');
 		}
 
 		$this->loadLanguage();
