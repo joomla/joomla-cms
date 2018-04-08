@@ -46,7 +46,6 @@ class JModelLegacyTest extends TestCaseDatabase
 		$mockApp->expects($this->any())
 			->method('getDispatcher')
 			->willReturn($this->getMockDispatcher());
-		$mockApp->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 		JFactory::$application = $mockApp;
 
 		$this->fixture = JModelLegacy::getInstance('Lead', 'TestModel');

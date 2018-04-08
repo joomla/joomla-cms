@@ -40,7 +40,6 @@ class JModelListTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		$mockApp = $this->getMockCmsApp();
-		$mockApp->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 
 		JFactory::$application = $mockApp;
 		JFactory::$session = $this->getMockSession();
