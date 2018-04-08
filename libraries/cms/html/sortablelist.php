@@ -49,7 +49,7 @@ abstract class JHtmlSortablelist
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
 		// Depends on Joomla.getOptions()
