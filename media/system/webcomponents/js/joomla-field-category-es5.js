@@ -559,34 +559,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 				this.element = this.querySelector('select');
 
+				this.check = this.check.bind(this);
+				window.accessibleAutocomplete.enhanceSelectElement({
+					autoselect: false,
+					defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
+					minLength: 1,
+					selectElement: this.element,
+					showAllValues: true,
+					onEnter: function onEnter(value) {
+						that.check(value);
+					}
+				});
+
+				this.values = [];
+				this.texts = [];
+
+				[].slice.call(this.element.options).forEach(function (option) {
+					if (option.value) {
+						_this2.values.push(option.value);
+					}
+					if (option.innerHTML) {
+						// @todo proper clean up
+						_this2.texts.push(option.innerHTML.replace('- ', '').replace('- - ', '').replace('- - - ', '').replace('- - - - ', ''));
+					}
+				});
+				console.log(this.values);
+				console.log(this.texts);
+
 				console.log(this.getAttribute('enable-create'));
 				if (this.getAttribute('enable-create') === 'true') {
-					this.check = this.check.bind(this);
-					window.accessibleAutocomplete.enhanceSelectElement({
-						autoselect: false,
-						defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
-						minLength: 1,
-						selectElement: this.element,
-						showAllValues: true,
-						onConfirm: function onConfirm(value) {
-							that.check(value);
-						}
-					});
+					this.addNew = this.addNew.bind(this);
+					this.confirm = this.confirm.bind(this);
+					var button = document.createElement('button');
+					button.innerText = 'Create';
+					button.classList.add('btn');
+					button.classList.add('btn-success');
+					button.setAttribute('type', 'button');
+					button.addEventListener('click', this.addNew);
 
-					this.values = [];
-					this.texts = [];
-
-					[].slice.call(this.element.options).forEach(function (option) {
-						if (option.value) {
-							_this2.values.push(option.value);
-						}
-						if (option.innerHTML) {
-							// @todo proper clean up
-							_this2.texts.push(option.innerHTML.replace('- ', '').replace('- - ', '').replace('- - - ', '').replace('- - - - ', ''));
-						}
-					});
-					console.log(this.values);
-					console.log(this.texts);
+					this.insertBefore(button, this.select);
 				}
 
 				this.categoryHasChanged = this.categoryHasChanged.bind(this);
@@ -619,6 +630,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 					this.element.insertAdjacentElement('afterbegin', el);
 				}
+			}
+		}, {
+			key: "addNew",
+			value: function addNew(event) {
+				event.target.removeEventListener('click', this.addNew);
+				this.newInput = document.createElement('input');
+				this.newInput.type = 'text';
+				event.target.innerText = 'apply';
+				event.target.classList.remove('btn-success');
+				event.target.classList.add('btn-warning');
+				this.insertBefore(this.newInput, event.target);
+				event.target.addEventListener('click', this.confirm);
+				this.querySelector('span').style.display = 'none';
+			}
+		}, {
+			key: "confirm",
+			value: function confirm(event) {
+				if (this.newInput.value && this.texts.indexOf(this.newInput.value) === -1) {
+					var el = document.createElement('option');
+					el.value = this.newInput.value;
+					[].slice.call(this.element.options).forEach(function (option) {
+						if (option.selected) {
+							option.removeAttribute('selected');
+						}
+					});
+					el.setAttribute('selected', 'selected');
+					el.innerText = this.newInput.value;
+
+					this.element.insertAdjacentElement('afterbegin', el);
+				}
+
+				event.target.classList.add('btn-success');
+				event.target.classList.remove('btn-warning');
+
+				event.target.removeEventListener('click', this.confirm);
+				event.target.addEventListener('click', this.addNew);
+				this.element = this.querySelector('select');
+				this.querySelector('span').remove();
+				this.newInput.remove();
+
+				window.accessibleAutocomplete.enhanceSelectElement({
+					autoselect: false,
+					defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
+					minLength: 1,
+					selectElement: this.element,
+					showAllValues: true
+				});
 			}
 		}]);
 

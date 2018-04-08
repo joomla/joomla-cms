@@ -30,35 +30,45 @@
 
 			this.element = this.querySelector('select');
 
+			this.check = this.check.bind(this);
+			window.accessibleAutocomplete.enhanceSelectElement({
+				autoselect: false,
+				defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
+				minLength: 1,
+				selectElement: this.element,
+				showAllValues: true,
+				onEnter: (value) => {
+					that.check(value)
+				}
+			});
+
+			this.values = [];
+			this.texts = [];
+
+			[].slice.call(this.element.options).forEach((option) => {
+				if (option.value) {
+					this.values.push(option.value)
+				}
+				if (option.innerHTML) {
+					// @todo proper clean up
+					this.texts.push(option.innerHTML.replace('- ', '').replace('- - ', '').replace('- - - ', '').replace('- - - - ', ''))
+				}
+			});
+			console.log(this.values)
+			console.log(this.texts)
 
 			console.log(this.getAttribute('enable-create'))
 			if (this.getAttribute('enable-create') === 'true') {
-				this.check = this.check.bind(this);
-				window.accessibleAutocomplete.enhanceSelectElement({
-					autoselect: false,
-					defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
-					minLength: 1,
-					selectElement: this.element,
-					showAllValues: true,
-					onConfirm: (value) => {
-						that.check(value)
-					}
-				});
+				this.addNew = this.addNew.bind(this)
+				this.confirm = this.confirm.bind(this)
+				const button = document.createElement('button');
+				button.innerText = 'Create'
+				button.classList.add('btn')
+				button.classList.add('btn-success')
+				button.setAttribute('type', 'button')
+				button.addEventListener('click', this.addNew);
 
-				this.values = [];
-				this.texts = [];
-
-				[].slice.call(this.element.options).forEach((option) => {
-					if (option.value) {
-						this.values.push(option.value)
-					}
-					if (option.innerHTML) {
-						// @todo proper clean up
-						this.texts.push(option.innerHTML.replace('- ', '').replace('- - ', '').replace('- - - ', '').replace('- - - - ', ''))
-					}
-				});
-				console.log(this.values)
-				console.log(this.texts)
+				this.insertBefore(button, this.select)
 			}
 
 			this.categoryHasChanged = this.categoryHasChanged.bind(this);
@@ -90,6 +100,51 @@
 				this.element.insertAdjacentElement('afterbegin', el)
 			}
 
+		}
+
+		addNew(event) {
+			event.target.removeEventListener('click', this.addNew)
+			this.newInput = document.createElement('input');
+			this.newInput.type = 'text';
+			event.target.innerText = 'apply';
+			event.target.classList.remove('btn-success');
+			event.target.classList.add('btn-warning');
+			this.insertBefore(this.newInput, event.target)
+			event.target.addEventListener('click', this.confirm);
+			this.querySelector('span').style.display = 'none'
+		}
+
+		confirm(event) {
+			if (this.newInput.value && this.texts.indexOf(this.newInput.value) === -1) {
+				const el = document.createElement('option');
+				el.value = this.newInput.value;
+				[].slice.call(this.element.options).forEach((option) => {
+					if (option.selected) {
+						option.removeAttribute('selected')
+					}
+				})
+				el.setAttribute('selected', 'selected')
+				el.innerText = this.newInput.value;
+
+				this.element.insertAdjacentElement('afterbegin', el)
+			}
+
+			event.target.classList.add('btn-success');
+			event.target.classList.remove('btn-warning');
+
+			event.target.removeEventListener('click', this.confirm);
+			event.target.addEventListener('click', this.addNew);
+			this.element = this.querySelector('select')
+			this.querySelector('span').remove();
+			this.newInput.remove()
+
+			window.accessibleAutocomplete.enhanceSelectElement({
+				autoselect: false,
+				defaultValue: this.element.options[this.element.options.selectedIndex].innerHTML,
+				minLength: 1,
+				selectElement: this.element,
+				showAllValues: true,
+			});
 		}
 	});
 })();
