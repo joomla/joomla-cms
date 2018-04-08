@@ -9202,6 +9202,19 @@ joomla-alert {
       margin-bottom: 20px; }
       .site-grid .container-header + div:not(.container-banner) {
         margin-top: 15px; }
+    .site-grid.wrapper-fluid .grid-child, .site-grid.wrapper-fluid .container-header header {
+      grid-column: full-start / full-end;
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+      padding-right: 0;
+      padding-left: 0; }
+    .site-grid.wrapper-fluid > .grid-child {
+      padding-right: 30px;
+      padding-left: 30px; }
+    .site-grid.wrapper-fluid .container-main {
+      padding-right: 22.5px;
+      padding-left: 22.5px; }
   .container-banner {
     z-index: 5;
     margin: -2rem 0 0;

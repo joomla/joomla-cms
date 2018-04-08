@@ -64,6 +64,25 @@
         margin-top: $cassiopeia-grid-gutter;
       }
     }
+
+    &.wrapper-fluid {
+      .grid-child, .container-header header {
+        grid-column: full-start / full-end;
+        max-width: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-right: 0;
+        padding-left: 0;
+      }
+      > .grid-child {
+        padding-right: ($cassiopeia-grid-gutter * 2);
+        padding-left: ($cassiopeia-grid-gutter * 2);        
+      }
+      .container-main {
+        padding-right: ($cassiopeia-grid-gutter * 1.5);
+        padding-left: ($cassiopeia-grid-gutter * 1.5);
+      }
+    }
   }
 
   .container-banner {
