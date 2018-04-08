@@ -389,11 +389,11 @@ class CategoryeditField extends \JFormFieldList
 		$options = (array) $this->getOptions();
 
 		// Form the custom element
-		$html[] = '<joomla-field-category'
+		$html[] = '<joomla-field-category enable-create="true"'
 			. ' custom-fields-enabled="' . $this->element['custom-fields-enabled'] . '"'
 			. ' custom-fields-cat-id="' . $this->element['custom-fields-cat-id'] . '"'
 			. ' custom-fields-form-id="' . $this->element['custom-fields-form-id'] . '"'
-			. ' custom-fields-section="' . $this->element['custom-fields-section']  . '"'
+			. ' custom-fields-section="' . $this->element['custom-fields-section'] . '"'
 			. '>';
 
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
@@ -438,7 +438,7 @@ class CategoryeditField extends \JFormFieldList
 
 		$html[] = '</joomla-field-category>';
 
-		\JHtml::_('webcomponent', ['joomla-field-category' => 'system/webcomponents/joomla-field-category.min.js'], ['relative' => true, 'version' => 'auto']);
+		\JHtml::_('webcomponent', 'system/webcomponents/joomla-field-category.min.js', ['relative' => true, 'version' => 'auto']);
 		return implode($html);
 	}
 }
