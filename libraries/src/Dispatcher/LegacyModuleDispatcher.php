@@ -74,7 +74,8 @@ class LegacyModuleDispatcher implements ModuleDispatcherInterface
 		$langPaths = $lang->getPaths();
 
 		// Only load the module's language file if it hasn't been already
-		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory]))) {
+		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
+		{
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
 			$lang->load($this->module->module, $extensionLanguageDirectory, null, false, true);

@@ -17,6 +17,11 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
+/**
+ * The menu module service provider.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 return new class implements ServiceProviderInterface
 {
 	/**
