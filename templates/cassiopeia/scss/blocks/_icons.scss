@@ -19,3 +19,9 @@
 .icon-unpublish {
   color: theme-color("danger");
 }
+
+.input-group-text {
+  &::before {
+    min-width: 16px;
+  }
+}

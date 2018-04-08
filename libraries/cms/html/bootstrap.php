@@ -256,7 +256,7 @@ abstract class JHtmlBootstrap
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
 
 		$opt     = (object) array_filter((array) $opt);
@@ -311,7 +311,7 @@ abstract class JHtmlBootstrap
 	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                              content into the dom.
 	 *                                placement    string|function  how to position the popover - top | bottom | left | right
-	 *                                selector     string           If a selector is provided, popover objects will be 
+	 *                                selector     string           If a selector is provided, popover objects will be
 	 *                                                              delegated to the specified targets.
 	 *                                template     string           Base HTML to use when creating the popover.
 	 *                                title        string|function  default title value if `title` tag isn't present
