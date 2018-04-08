@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\String\Normalise;
 
 /**
  * Trait for classes which can load extensions
@@ -27,7 +26,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = ['component' => [], 'module' => []];
+	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -46,7 +45,7 @@ trait ExtensionManagerTrait
 		// Path to to look for services
 		$path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
-		return $this->loadExtension('component', $component, $path);
+		return $this->loadExtension(ComponentInterface::class, $component, $path);
 	}
 
 	/**
@@ -72,7 +71,7 @@ trait ExtensionManagerTrait
 			$path = JPATH_ADMINISTRATOR . '/modules/mod_' . $module;
 		}
 
-		return $this->loadExtension('module', $module, $path);
+		return $this->loadExtension(ModuleInterface::class, $module, $path);
 	}
 
 	/**
@@ -117,10 +116,10 @@ trait ExtensionManagerTrait
 		{
 			switch ($type)
 			{
-				case 'component':
+				case ComponentInterface::class:
 					$container->set($type, new LegacyComponent('com_' . $extensionName));
 					break;
-				case 'module':
+				case ModuleInterface::class:
 					$container->set($type, new LegacyModule);
 					break;
 			}

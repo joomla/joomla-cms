@@ -13,12 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
  * Base class for a Joomla Component Dispatcher
@@ -39,14 +36,6 @@ abstract class ComponentDispatcher extends Dispatcher
 	protected $option;
 
 	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $namespace;
-
-	/**
 	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
@@ -58,14 +47,6 @@ abstract class ComponentDispatcher extends Dispatcher
 	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		parent::__construct($app, $input, $mvcFactoryFactory);
-
-		if (empty($this->namespace))
-		{
-			$reflect = new \ReflectionClass($this);
-
-			// Extract the first three segments from the namespace
-			$this->namespace = implode('\\', array_slice(explode('\\', $reflect->getNamespaceName()), 0, 3));
-		}
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -167,31 +148,22 @@ abstract class ComponentDispatcher extends Dispatcher
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
-		// Set up the namespace
-		$namespace = rtrim($this->namespace, '\\') . '\\';
-
 		// Set up the client
 		$client = $client ?: ucfirst($this->app->getName());
 
-		$controllerClass = $namespace . $client . '\\Controller\\' . ucfirst($name) . 'Controller';
-
-		if (!class_exists($controllerClass))
-		{
-			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $controllerClass));
-		}
-
-		// Create the controller instance
-		$controller = new $controllerClass(
+		// Get the controller instance
+		$controller = $this->getMvcFactoryFactory()->createFactory($this->app)->createController(
+			$name,
+			$client,
 			$config,
-			$this->getMvcFactoryFactory()->createFactory($this->app),
 			$this->app,
 			$this->input
 		);
 
-		// Set the form factory when possible
-		if ($controller instanceof FormFactoryAwareInterface)
+		// Check if the controller could be created
+		if (!$controller)
 		{
-			$controller->setFormFactory(Factory::getContainer()->get(FormFactoryInterface::class));
+			throw new \InvalidArgumentException(\JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $name));
 		}
 
 		return $controller;
