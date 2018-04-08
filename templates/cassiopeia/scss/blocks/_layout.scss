@@ -11,12 +11,12 @@
 .wrapper-fluid {
   > .grid-child,
   .container-header header {
-    padding-right: $cassiopeia-grid-gutter;     
-    padding-left: $cassiopeia-grid-gutter;     
+    padding-right: $cassiopeia-grid-gutter;
+    padding-left: $cassiopeia-grid-gutter;
   }
   .grid-child,
   .container-header header {
-    max-width: 100%;    
+    max-width: 100%;
   }
 
 }
