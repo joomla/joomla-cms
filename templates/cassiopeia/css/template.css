@@ -8899,12 +8899,21 @@ iframe {
   margin-right: auto;
   margin-left: auto; }
 
-.site {
+.wrapper-fluid > .grid-child,
+.wrapper-fluid .container-header header {
+  padding-right: 15px;
+  padding-left: 15px; }
+
+.wrapper-fluid .grid-child,
+.wrapper-fluid .container-header header {
+  max-width: 100%; }
+
+.container-header header .site {
   background-color: #fafafa; }
-  .site > .full-width {
+  .container-header header .site > .full-width {
     max-width: none; }
-  .site .container-footer,
-  .site .system-debug {
+  .container-header header .site .container-footer,
+  .container-header header .site .system-debug {
     display: block; }
 
 header {
