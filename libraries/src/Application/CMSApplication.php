@@ -14,6 +14,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
@@ -394,7 +395,20 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		}
 		catch (\Throwable $throwable)
 		{
-			ExceptionHandler::render($throwable);
+			/** @var ErrorEvent $event */
+			$event = AbstractEvent::create(
+				'onError',
+				[
+					'subject'     => $throwable,
+					'eventClass'  => ErrorEvent::class,
+					'application' => $this,
+				]
+			);
+
+			// Trigger the onError event.
+			$this->triggerEvent('onError', $event);
+
+			ExceptionHandler::render($event->getError());
 		}
 	}
 
