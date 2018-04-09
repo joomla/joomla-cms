@@ -75,6 +75,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		if ($this->getLayout() == 'pagebreak')
+		{
+			return parent::display($tpl);
+		}
+
 		$app        = \JFactory::getApplication();
 		$user       = \JFactory::getUser();
 
