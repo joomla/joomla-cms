@@ -237,7 +237,7 @@ class AddUserCommand extends AbstractCommand
 		$this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->addOption('email', null, InputOption::VALUE_OPTIONAL, 'email address');
-		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple grupus with comma ",")');
+		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
 		$this->setDescription('Adds an user');
 		$this->setHelp(
 <<<EOF
