@@ -48,7 +48,7 @@ HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => 
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Alerts progressive enhancement
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -84,7 +84,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 </head>
 
 <body class="site-grid site <?php echo $option
-	. ' ' . $container
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')

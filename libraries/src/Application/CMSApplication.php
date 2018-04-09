@@ -334,6 +334,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				[
 					'subject'    => $this,
 					'eventClass' => BeforeExecuteEvent::class,
+					'container'  => $this->getContainer()
 				]
 			)
 		);
@@ -718,9 +719,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = \JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
