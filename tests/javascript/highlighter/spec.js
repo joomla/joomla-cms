@@ -95,4 +95,18 @@ define(['jquery', 'testsRoot/highlighter/spec-setup', 'jasmineJquery'], function
 			expect($('#txtarea-highlight')).not.toContainHtml('<span rel="textarea" class="highlight">textarea</span>');
 		});
 	});
+
+	describe('Highlight single text with AutoUnhighlight false', function () {
+		beforeAll(function () {
+			highlighterAutohighlight.highlight(["text"]);
+		});
+
+		it('Should highlight sample text at depth 1', function () {
+			expect($('#text-depth-1').html()).toContain('class=\"highlight\"');
+		});
+
+		it('Should highlight sample text at depth 2', function () {
+			expect($('#text-depth-2').html()).toContain('class=\"highlight\"');
+		});
+	});
 });
