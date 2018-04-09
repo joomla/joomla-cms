@@ -195,7 +195,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<jdoc:include type="modules" name="footer" style="none" />
 
 		<?php endif; ?>
-		<joomla-debug><jdoc:include type="modules" name="debug" style="none" /></joomla-debug>
+		<joomla-debug></joomla-debug><jdoc:include type="modules" name="debug" style="none" />
 	</footer>
 
 

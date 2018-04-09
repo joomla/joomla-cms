@@ -4,7 +4,7 @@
  */
 
 Joomla = window.Joomla || {};
- 
+
 (function( Joomla, document ) {
 	"use strict";
 
@@ -14,12 +14,6 @@ Joomla = window.Joomla || {};
 			var e = document.getElementById(name);
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		};
-
-		var sidebarWrapper = document.getElementById('sidebar-wrapper'),
-		    debugWrapper   = document.getElementById('system-debug');
-		if (sidebarWrapper && debugWrapper) {
-			debugWrapper.style.marginLeft = '60px';
-		}
 	});
 
 }( Joomla, document ));

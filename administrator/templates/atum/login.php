@@ -101,7 +101,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 		</div>
 	</div>
 
-	<jdoc:include type="modules" name="debug" style="none" />
+	<joomla-debug></joomla-debug><jdoc:include type="modules" name="debug" style="none" />
 
 	<jdoc:include type="scripts" />
 </body>
