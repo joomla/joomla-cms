@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 
 // Load the scripts
-JHtml::_('script', 'com_joomlaupdate/json2.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
 

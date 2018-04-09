@@ -9,6 +9,6 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'legacy_libs/caption'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'legacy/caption'], function ($, fixture) {
 	$('body').append(fixture);
 });

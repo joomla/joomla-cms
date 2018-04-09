@@ -39,7 +39,7 @@ elseif ($current->hasChildren())
 	{
 		$class = ' class="parent"';
 	}
-	elseif ($current->get('class') == 'scrollable-menu')
+	elseif ($current->get('class') === 'scrollable-menu')
 	{
 		$class = ' class="dropdown scrollable-menu"';
 	}

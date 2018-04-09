@@ -10,13 +10,24 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * TinyMCE Editor Plugin
  *
  * @since  1.5
  */
-class PlgEditorTinymce extends JPlugin
+class PlgEditorTinymce extends CMSPlugin
 {
 	/**
 	 * Base path for editor files
@@ -50,9 +61,9 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::_('behavior.core');
-		JHtml::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		JHtml::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('behavior.core');
+		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
+		HTMLHelper::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -75,7 +86,7 @@ class PlgEditorTinymce extends JPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if (empty($id))
 		{
@@ -89,7 +100,7 @@ class PlgEditorTinymce extends JPlugin
 		$externalPlugins = array();
 
 		// Check for existing options
-		$doc     = JFactory::getDocument();
+		$doc     = Factory::getDocument();
 		$options = $doc->getScriptOptions('plg_editor_tinymce');
 
 		// Only add "px" to width and height if they are not given as a percentage
@@ -119,7 +130,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
-		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
@@ -130,7 +141,7 @@ class PlgEditorTinymce extends JPlugin
 
 			if (!empty($btns['names']))
 			{
-				JHtml::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
+				HTMLHelper::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
 			}
 
 			// Set editor to readonly mode
@@ -153,8 +164,8 @@ class PlgEditorTinymce extends JPlugin
 			return $editor;
 		}
 
-		$user     = JFactory::getUser();
-		$language = JFactory::getLanguage();
+		$user     = Factory::getUser();
+		$language = Factory::getLanguage();
 		$theme    = 'modern';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
@@ -229,7 +240,7 @@ class PlgEditorTinymce extends JPlugin
 		/*
 		 * Lets get the default template for the site application
 		 */
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('template')
 			->from('#__template_styles')
@@ -243,7 +254,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return '';
 		}
@@ -263,13 +274,13 @@ class PlgEditorTinymce extends JPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
+				$content_css = Uri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
 				{
-					$msg = sprintf(JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
-					JLog::add($msg, JLog::WARNING, 'jerror');
+					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
+					Log::add($msg, Log::WARNING, 'jerror');
 				}
 			}
 		}
@@ -285,16 +296,16 @@ class PlgEditorTinymce extends JPlugin
 					// If no editor.css file in system folder, show alert
 					if (!file_exists($templates_path . '/system/css/editor.css'))
 					{
-						JLog::add(JText::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), JLog::WARNING, 'jerror');
+						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
 					}
 					else
 					{
-						$content_css = JUri::root(true) . '/templates/system/css/editor.css';
+						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
 					}
 				}
 				else
 				{
-					$content_css = JUri::root(true) . '/templates/' . $template . '/css/editor.css';
+					$content_css = Uri::root(true) . '/templates/' . $template . '/css/editor.css';
 				}
 			}
 		}
@@ -317,7 +328,7 @@ class PlgEditorTinymce extends JPlugin
 			$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
 
 			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
-			$default_filter = JFilterInput::getInstance();
+			$default_filter = InputFilter::getInstance();
 			$valid_elements = implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
 
 			$extended_elements = '';
@@ -397,9 +408,9 @@ class PlgEditorTinymce extends JPlugin
 			$levelParams->loadArray($preset);
 		}
 
-		$menubar         = (array) $levelParams->get('menu', array());
-		$toolbar1        = (array) $levelParams->get('toolbar1', array());
-		$toolbar2        = (array) $levelParams->get('toolbar2', array());
+		$menubar         = (array) $levelParams->get('menu', []);
+		$toolbar1        = (array) $levelParams->get('toolbar1', []);
+		$toolbar2        = (array) $levelParams->get('toolbar2', []);
 
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
@@ -415,64 +426,35 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Template
-		$templates = array();
+		$templates = [];
 
 		if (!empty($allButtons['template']))
 		{
-			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (is_file(JPATH_ROOT . "/media/vendor/tinymce/templates/template_list.js"))
+			foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
 			{
-				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JPATH_ROOT . "/media/vendor/tinymce/templates/template_list.js");
+				$filename = basename($filename, '.html');
 
-				// Find from one [ to the last ]
-				$matches = array();
-				preg_match_all('/\[.*\]/', $str, $matches);
-
-				// Set variables
-				foreach ($matches['0'] as $match)
+				if ($filename !== 'index')
 				{
-					$values = array();
-					preg_match_all('/\".*\"/', $match, $values);
-					$result       = trim($values['0']['0'], '"');
-					$final_result = explode(',', $result);
+					$lang        = Factory::getLanguage();
+					$title       = $filename;
+					$description = ' ';
+
+					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
+					{
+						$title = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
+					}
+
+					if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
+					{
+						$description = Text::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
+					}
 
 					$templates[] = array(
-						'title' => trim($final_result['0'], ' " '),
-						'description' => trim($final_result['2'], ' " '),
-						'url' => JUri::root(true) . '/' . trim($final_result['1'], ' " '),
+						'title' => $title,
+						'description' => $description,
+						'url' => Uri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
 					);
-				}
-
-			}
-			else
-			{
-				foreach (glob(JPATH_ROOT . '/media/vendor/tinymce/templates/*.html') as $filename)
-				{
-					$filename = basename($filename, '.html');
-
-					if ($filename !== 'index')
-					{
-						$lang        = JFactory::getLanguage();
-						$title       = $filename;
-						$description = ' ';
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
-						{
-							$title = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE');
-						}
-
-						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC'))
-						{
-							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
-						}
-
-						$templates[] = array(
-							'title' => $title,
-							'description' => $description,
-							'url' => JUri::root(true) . '/media/vendor/tinymce/templates/' . $filename . '.html',
-						);
-					}
 				}
 			}
 		}
@@ -492,14 +474,14 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = JUri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragndrop'] = Uri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
 
 			$allowImgPaste = true;
 			$isSubDir      = '';
-			$session       = JFactory::getSession();
-			$uploadUrl     = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
+			$session       = Factory::getSession();
+			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
 				. $session->getName() . '=' . $session->getId()
-				. '&' . JSession::getFormToken() . '=1'
+				. '&' . Session::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
 			if ($app->isClient('site'))
@@ -508,9 +490,9 @@ class PlgEditorTinymce extends JPlugin
 			}
 
 			// Is Joomla installed in subdirectory
-			if (JUri::root(true) !== '/')
+			if (Uri::root(true) !== '/')
 			{
-				$isSubDir = JUri::root(true);
+				$isSubDir = Uri::root(true);
 			}
 
 			// Get specific path
@@ -519,10 +501,10 @@ class PlgEditorTinymce extends JPlugin
 			if (!empty($tempPath))
 			{
 				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
+				$tempPath = str_replace(ComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
 			}
 
-			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
+			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
 			$scriptOptions['mediaUploadPath'] = $tempPath;
@@ -543,30 +525,24 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
 			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
-			$toolbar2  = array_merge($toolbar2, $btns['native']);
 		}
 
-		$toolbar2  = array_merge($toolbar2, $btns['native']);
-
-		// Merge the custom plugins paths
-		$externalPlugins  = array_merge($externalPlugins, $btns['paths']);
-
 		// Build the final options set
-		$scriptOptions = array_merge(
+		$scriptOptions   = array_merge(
 			$scriptOptions,
 			array(
-				'suffix'  => '.min',
-				'baseURL' => JUri::root(true) . '/media/vendor/tinymce',
+				'suffix'   => '.min',
+				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
 				'directionality' => $text_direction,
 				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
-				'skin'   => $skin,
-				'theme'  => $theme,
-				'schema' => 'html5',
+				'skin'     => $skin,
+				'theme'    => $theme,
+				'schema'   => 'html5',
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1),
+				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
 				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
 				'plugins'  => implode(',', array_unique($plugins)),
@@ -587,7 +563,7 @@ class PlgEditorTinymce extends JPlugin
 
 				// Layout
 				'content_css'        => $content_css,
-				'document_base_url'  => JUri::root(true) . '/',
+				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
 				'importcss_append'   => true,
 				'image_title'        => true,
@@ -602,7 +578,7 @@ class PlgEditorTinymce extends JPlugin
 				'dndEnabled' => $dragdrop,
 
 				// Disable TinyMCE Branding
-				'branding'	=> false,
+				'branding'   => false,
 			)
 		);
 
@@ -668,7 +644,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
 	}
 
 	/**
@@ -695,102 +671,51 @@ class PlgEditorTinymce extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
+			Text::script('PLG_TINY_CORE_BUTTONS');
+
 			// Init the arrays for the buttons
-			$tinyBtns  = array();
-			$btnsNames = array();
-			$btnNative = array();
-			$externalPlugins = array();
+			$btnsNames = [];
 
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
+				$button->id = $name . '_' . $button->text . 'Modal';
+
+				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
+
 				if ($button->get('name'))
 				{
-					switch ($button->get('name'))
+					// Set some vars
+					$btnName = $button->get('text');
+					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
+					$onclick = $button->get('onclick') ?: null;
+					$icon    = $button->get('name');
+
+					if ($button->get('link') !== '#')
 					{
-						case 'pictures':
-							$externalPlugins[JText::_('PLG_IMAGE_BUTTON_IMAGE')] = JUri::root() . 'media/editors/tinymce/js/plugins/media/media.js';
-							$btnNative[] = str_replace(' ', '', $button->get('text'));
-							\JFactory::getDocument()->addScriptOptions('xtd-' . strtolower(JText::_('PLG_IMAGE_BUTTON_IMAGE')), $button->get('options'));
-							break;
-						default:
-							// Set some vars
-							$name    = 'button-' . $i . str_replace(' ', '', $button->get('text'));
-							$title   = $button->get('text');
-							$onclick = $button->get('onclick') ?: null;
-							$options = $button->get('options');
-							$icon    = $button->get('name');
-
-							if ($button->get('link') !== '#')
-							{
-								$href = JUri::base() . $button->get('link');
-							}
-							else
-							{
-								$href = null;
-							}
-
-							// We do some hack here to set the correct icon for 3PD buttons
-							$icon = 'none icon-' . $icon;
-
-							// Now we can built the script
-							$tempConstructor = '!(function(){';
-							$tempConstructor .= "editor.addButton(\"" . $name . "\", {
-								text: \"" . $title . "\",
-								title: \"" . $title . "\",
-								icon: \"" . $icon . "\",
-								onclick: function () {";
-
-							if ($href || $button->get('modal'))
-							{
-								$tempConstructor .= "
-								var modalOptions = {
-									title  : \"" . $title . "\",
-									url : '" . $href . "',
-									buttons: [{
-										text   : \"Close\",
-										onclick: \"close\"
-									}]
-								}
-								modalOptions.width = parseInt(" . intval($options['width']) . ", 10);
-								modalOptions.height = parseInt(" . intval($options['height']) . ", 10);
-								editor.windowManager.open(modalOptions);";
-
-								if ($onclick && ($button->get('modal') || $href))
-								{
-									$tempConstructor .= "\r\n
-										" . $onclick . '
-									';
-								}
-							}
-							else
-							{
-								$tempConstructor .= "\r\n
-								" . $onclick . '
-								';
-							}
-
-							$tempConstructor .= '
+						$href = Uri::base() . $button->get('link');
 					}
-				});
-			})();';
-
-							// The array with the toolbar buttons
-							$btnsNames[] = $name . ' | ';
-
-							// The array with code for each button
-							$tinyBtns[] = $tempConstructor;
-							break;
+					else
+					{
+						$href = null;
 					}
+
+					$coreButton = [];
+
+					$coreButton['name']  = $btnName;
+					$coreButton['href']  = $href;
+					$coreButton['id']    = $modalId;
+					$coreButton['icon']  = 'none icon-' . $icon;
+					$coreButton['click'] = $onclick;
+
+					// The array with the toolbar buttons
+					$btnsNames[] = $coreButton;
 				}
 			}
 
-			return array(
-				'names'  => $btnsNames,
-				'script' => $tinyBtns,
-				'native' => $btnNative,
-				'paths'  => $externalPlugins
-			);
+			sort($btnsNames);
+
+			return ['names'  => $btnsNames];
 		}
 	}
 
@@ -804,20 +729,20 @@ class PlgEditorTinymce extends JPlugin
 	protected static function getGlobalFilters()
 	{
 		// Filter settings
-		$config     = JComponentHelper::getParams('com_config');
-		$user       = JFactory::getUser();
-		$userGroups = JAccess::getGroupsByUser($user->get('id'));
+		$config     = ComponentHelper::getParams('com_config');
+		$user       = Factory::getUser();
+		$userGroups = Access::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
-		$blackListTags       = array();
-		$blackListAttributes = array();
+		$blackListTags        = array();
+		$blackListAttributes  = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
+		$whiteListTags        = array();
+		$whiteListAttributes  = array();
 
 		$whiteList  = false;
 		$blackList  = false;
@@ -853,8 +778,8 @@ class PlgEditorTinymce extends JPlugin
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
-				$tempTags       = array();
-				$tempAttributes = array();
+				$tempTags       = [];
+				$tempAttributes = [];
 
 				foreach ($tags as $tag)
 				{
@@ -922,7 +847,7 @@ class PlgEditorTinymce extends JPlugin
 			// Custom blacklist precedes Default blacklist
 			if ($customList)
 			{
-				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
+				$filter = InputFilter::getInstance([], [], 1, 1);
 
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
@@ -942,7 +867,7 @@ class PlgEditorTinymce extends JPlugin
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
@@ -960,12 +885,12 @@ class PlgEditorTinymce extends JPlugin
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter = JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
 			{
-				$filter = JFilterInput::getInstance();
+				$filter = InputFilter::getInstance();
 			}
 
 			return $filter;
@@ -983,10 +908,10 @@ class PlgEditorTinymce extends JPlugin
 	{
 		// See https://www.tinymce.com/docs/demo/full-featured/
 		// And https://www.tinymce.com/docs/plugins/
-		$buttons = array(
+		$buttons = [
 
 			// General buttons
-			'|'              => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
+			'|'              => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
 
 			'undo'           => array('label' => 'Undo'),
 			'redo'           => array('label' => 'Redo'),
@@ -995,10 +920,10 @@ class PlgEditorTinymce extends JPlugin
 			'italic'         => array('label' => 'Italic'),
 			'underline'      => array('label' => 'Underline'),
 			'strikethrough'  => array('label' => 'Strikethrough'),
-			'styleselect'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
-			'formatselect'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
-			'fontselect'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'),
-			'fontsizeselect' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'),
+			'styleselect'    => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
+			'formatselect'   => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
+			'fontselect'     => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font Family'),
+			'fontsizeselect' => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Font Sizes'),
 
 			'alignleft'     => array('label' => 'Align left'),
 			'aligncenter'   => array('label' => 'Align center'),
@@ -1048,7 +973,7 @@ class PlgEditorTinymce extends JPlugin
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
-		);
+		];
 
 		return $buttons;
 	}
@@ -1062,18 +987,18 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public static function getToolbarPreset()
 	{
-		$preset = array();
+		$preset = [];
 
-		$preset['simple'] = array(
-			'menu' => array(),
-			'toolbar1' => array(
+		$preset['simple'] = [
+			'menu' => [],
+			'toolbar1' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
-				'pastetext'
-			),
-			'toolbar2' => array(),
-		);
+				'pastetext', 'jxtdbuttons'
+			],
+			'toolbar2' => [],
+		];
 
 		$preset['medium'] = array(
 			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
@@ -1087,7 +1012,7 @@ class PlgEditorTinymce extends JPlugin
 				'link', 'unlink', 'anchor', 'code', '|',
 				'hr', 'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'pastetext' , 'preview'
+				'charmap', 'pastetext', 'preview', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1112,7 +1037,7 @@ class PlgEditorTinymce extends JPlugin
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
-				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
 			),
 			'toolbar2' => array(),
 		);
@@ -1129,7 +1054,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	private function getPluginId()
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))

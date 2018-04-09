@@ -10,8 +10,9 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-extract($displayData);
+extract($displayData, null);
 
 /**
  * Layout variables
@@ -45,25 +46,21 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   array    $colors          The specified colors
  */
 
-$class    = ' class="custom-select ' . trim('simplecolors chzn-done ' . $class) . '"';
+$class    = ' class="custom-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 
-// Include jQuery
-HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'system/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'system/simplecolors.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'system/fields/color-field-init.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-simple-color.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
-echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
-	<?php foreach ($colors as $i => $c) : ?>
-		<option<?php echo ($c == $color ? ' selected="selected"' : ''); ?>><?php echo $c; ?></option>
-		<?php if (($i + 1) % $split == 0) : ?>
-			<option>-</option>
-		<?php endif; ?>
-	<?php endforeach; ?>
-</select>
+<joomla-field-simple-color text-select="<?php echo Text::_('JFIELD_COLOR_SELECT'); ?>" text-color="<?php echo Text::_('JFIELD_COLOR_VALUE'); ?>" text-close="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" text-transparent="<?php echo Text::_('JFIELD_COLOR_TRANSPARENT'); ?>">
+	<select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
+	echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
+	echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
+		<?php foreach ($colors as $i => $c) : ?>
+			<option<?php echo ($c === $color ? ' selected="selected"' : ''); ?> value="<?php echo $c; ?>"></option>
+		<?php endforeach; ?>
+	</select>
+</joomla-field-simple-color>

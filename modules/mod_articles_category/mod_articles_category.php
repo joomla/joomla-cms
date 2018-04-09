@@ -52,7 +52,7 @@ switch ($mode)
 
 $cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
-$cacheparams               = new stdClass;
+$cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
 $cacheparams->class        = 'Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper';
 $cacheparams->method       = 'getList';

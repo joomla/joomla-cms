@@ -10,6 +10,7 @@ namespace Joomla\Module\Banners\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 
 /**
@@ -28,8 +29,8 @@ class ModBannersHelper
 	 */
 	public static function &getList(&$params)
 	{
-		$document = \JFactory::getDocument();
-		$app      = \JFactory::getApplication();
+		$document = Factory::getDocument();
+		$app      = Factory::getApplication();
 		$keywords = explode(',', $document->getMetaData('keywords'));
 
 		$model = new BannersModel(array('ignore_request' => true));

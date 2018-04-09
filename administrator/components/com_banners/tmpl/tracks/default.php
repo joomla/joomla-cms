@@ -32,13 +32,13 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<th style="width:20%" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_TYPE', 'a.track_type', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_COUNT', 'a.count', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="nowrap hidden-sm-down">
+								<th style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.track_date', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -62,13 +62,13 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									<td>
 										<?php echo $item->client_name; ?>
 									</td>
-									<td class="small hidden-sm-down">
+									<td class="small d-none d-md-table-cell">
 										<?php echo $item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'); ?>
 									</td>
-									<td class="hidden-sm-down">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->count; ?>
 									</td>
-									<td class="hidden-sm-down">
+									<td class="d-none d-md-table-cell">
 										<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4') . ' H:i'); ?>
 									</td>
 								</tr>

@@ -65,7 +65,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name');
+		return $this->params->get('display_name', 'Local');
 	}
 
 	/**

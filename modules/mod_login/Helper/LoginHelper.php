@@ -29,7 +29,7 @@ class LoginHelper
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 * @param   string                     $type    return type
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function getReturnUrl($params, $type)
 	{

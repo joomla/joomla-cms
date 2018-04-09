@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * Smart Search Content Plugin
  *
  * @since  2.5
  */
-class PlgContentFinder extends JPlugin
+class PlgContentFinder extends CMSPlugin
 {
 	/**
 	 * Smart Search after save content method.
@@ -31,10 +35,10 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
+		Factory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
 	}
 
 	/**
@@ -51,10 +55,10 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
 	{
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderBeforeSave event.
-		JFactory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
+		Factory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
 	}
 
 	/**
@@ -70,10 +74,10 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $article)
 	{
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
+		Factory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
 	}
 
 	/**
@@ -92,10 +96,10 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
+		Factory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
 	}
 
 	/**
@@ -113,9 +117,9 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onCategoryChangeState($extension, $pks, $value)
 	{
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderCategoryChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
+		Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
 	}
 }
