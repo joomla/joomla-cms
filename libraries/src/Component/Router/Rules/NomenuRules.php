@@ -121,7 +121,12 @@ class NomenuRules implements RulesInterface
 					if (is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
 					{
 						$result = call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
-						$segments[] = str_replace(':', '-', array_shift($result));
+
+						// Make sure the internal pointer is on the first element
+						reset($result);
+
+						// Get the id from the first segment, the key is always the id
+						$segments[] = str_replace(':', '-', key($result));
 					}
 					else
 					{
