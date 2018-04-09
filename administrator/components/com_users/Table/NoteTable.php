@@ -48,16 +48,19 @@ class NoteTable extends Table
 		$date = \JFactory::getDate()->toSql();
 		$userId = \JFactory::getUser()->get('id');
 
-		$this->modified_time = $date;
-		$this->modified_user_id = $userId;
-
 		if (!((int) $this->review_time))
 		{
 			// Null date.
 			$this->review_time = \JFactory::getDbo()->getNullDate();
 		}
 
-		if (empty($this->id))
+		if ($this->id)
+		{
+			// Existing item
+			$this->modified_time    = $date;
+			$this->modified_user_id = $userId;
+		}
+		else
 		{
 			// New record.
 			$this->created_time = $date;
@@ -157,5 +160,31 @@ class NoteTable extends Table
 		$this->setError('');
 
 		return true;
+	}
+
+	/**
+	 * Method to perform sanity checks on the Table instance properties to ensure they are safe to store in the database.
+	 *
+	 * @return  boolean  True if the instance is sane and able to be stored in the database.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function check()
+	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		if (empty($this->modified_time))
+		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+		}
 	}
 }

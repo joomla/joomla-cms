@@ -10,9 +10,11 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Trait for classes which can load extensions
@@ -70,6 +72,19 @@ trait ExtensionManagerTrait
 		// The container to get the services from
 		$container = $this->getContainer()->createChild();
 
+		$container->get(DispatcherInterface::class)->dispatch(
+			'onBeforeExtensionBoot',
+			AbstractEvent::create(
+				'onBeforeExtensionBoot',
+				[
+					'subject'       => $this,
+					'type'          => $type,
+					'extensionName' => $extensionName,
+					'container'     => $container
+				]
+			)
+		);
+
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
 
@@ -90,6 +105,19 @@ trait ExtensionManagerTrait
 		{
 			$container->set($type, new LegacyComponent('com_' . $extensionName));
 		}
+
+		$container->get(DispatcherInterface::class)->dispatch(
+			'onAfterExtensionBoot',
+			AbstractEvent::create(
+				'onAfterExtensionBoot',
+				[
+					'subject'       => $this,
+					'type'          => $type,
+					'extensionName' => $extensionName,
+					'container'     => $container
+				]
+			)
+		);
 
 		// Cache the extension
 		$this->extensions[$type][$extensionName] = $container->get($type);
