@@ -121,6 +121,11 @@ class NewsfeedTable extends Table
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
+		if (empty($this->modified))
+		{
+			$this->modified = $this->getDbo()->getNullDate();
+		}
+
 		return true;
 	}
 
@@ -138,12 +143,11 @@ class NewsfeedTable extends Table
 		$date = \JFactory::getDate();
 		$user = \JFactory::getUser();
 
-		$this->modified = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_by = $user->get('id');
+			$this->modified    = $date->toSql();
 		}
 		else
 		{
