@@ -156,7 +156,7 @@ Joomla = window.Joomla || {};
 				if (message === msg) {
 					removeElement('progress');
 					// TO-DO: Remove jQuery reference
-					window.parent.Joomla.currentModal.get().close();
+					window.parent.Joomla.Modal.current.close();
 				}
 			}
 		};

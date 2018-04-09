@@ -13,7 +13,7 @@
 			items.forEach(function(item) {
 				window['jSelectPosition_' + item] = function (name) {
 					document.getElementById(item).value = name;
-					Joomla.currentModal.get().close();
+					Joomla.Modal.current.close();
 				}
 			})
 		}

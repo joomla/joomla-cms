@@ -64,7 +64,7 @@ class FieldField extends FormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		Joomla.currentModal.get().close();';
+		$script[] = '		Joomla.Modal.current.close();';
 		$script[] = '	}';
 
 		// Clear button script

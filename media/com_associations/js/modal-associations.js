@@ -22,7 +22,7 @@ Joomla = window.Joomla || {};
 						'&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + id;
 				}
 
-				Joomla.currentModal.get().close();
+				Joomla.Modal.current.close();
 			}
 		}
 	});

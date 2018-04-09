@@ -21,7 +21,7 @@ $listDirn        = $this->escape($this->state->get('list.direction'));
 $enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $userRequired    = (int) $input->get('required', 0, 'int');
-$onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.currentModal.get().close();";
+$onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.current.close();";
 
 ?>
 <div class="container-popup">

@@ -42,21 +42,21 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 };
 
-Joomla.currentModal = {
+Joomla.Modal = {
 	/**
 	 * *****************************************************************
 	 * Modals should implement
 	 * *****************************************************************
 	 *
-	 * get                  Type  Function  Should return the modal element
-	 * set                  Type  Function  Should set the modal element
+	 * getCurrent           Type  Function  Should return the modal element
+	 * setCurrent           Type  Function  Should set the modal element
 	 * currentModalElement  Type  {node}    The modal element, DO NOT access this directly!!!
 	 *
 	 * USAGE (assuming that exampleId is the modal id)
 	 *   To get the current modal element:
-	 *      Joomla.currentModal.get(); // Returns node element: document.getElementById('exampleId')
+	 *      Joomla.Modal.current; // Returns node element: document.getElementById('exampleId')
 	 *   To set the current modal element:
-	 *      Joomla.currentModal.set(document.getElementById('exampleId'));
+	 *      Joomla.Modal.setCurrent(document.getElementById('exampleId'));
 	 *
 	 * *************************************************************
 	 * Joomla's UI modal uses `element.close();` to close the modal
@@ -66,13 +66,13 @@ Joomla.currentModal = {
 	 * @see media/legacy/bootstrap.init.js
 	 * *************************************************************
 	 */
-	get: function() {
-		return this.currentModalElement;
+	current: '',
+	setCurrent: function(element) {
+		this.current = element;
 	},
-	set: function(element) {
-		this.currentModalElement = element;
+	getCurrent: function() {
+		return this.current;
 	},
-	currentModalElement: ''
 };
 
 (function( Joomla, document ) {

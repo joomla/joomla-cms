@@ -88,7 +88,7 @@
 				$self.on('show.bs.modal', function() {
 					// Comply with the Joomla API
 					// Set the current Modal ID
-					Joomla.currentModal.set(element);
+					Joomla.Modal.setCurrent(element);
 
 					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {
@@ -133,7 +133,7 @@
 				}).on('hidden.bs.modal', function() {
 					// Comply with the Joomla API
 					// Remove the current Modal ID
-					Joomla.currentModal.set('');
+					Joomla.Modal.setCurrent('');
 					// @TODO throw the standard Joomla event
 				});
 			});
