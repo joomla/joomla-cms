@@ -8899,12 +8899,21 @@ iframe {
   margin-right: auto;
   margin-left: auto; }
 
-.site {
+.wrapper-fluid > .grid-child,
+.wrapper-fluid .container-header header {
+  padding-right: 15px;
+  padding-left: 15px; }
+
+.wrapper-fluid .grid-child,
+.wrapper-fluid .container-header header {
+  max-width: 100%; }
+
+.container-header header .site {
   background-color: #fafafa; }
-  .site > .full-width {
+  .container-header header .site > .full-width {
     max-width: none; }
-  .site .container-footer,
-  .site .system-debug {
+  .container-header header .site .container-footer,
+  .container-header header .site .system-debug {
     display: block; }
 
 header {
@@ -9202,6 +9211,19 @@ joomla-alert {
       margin-bottom: 20px; }
       .site-grid .container-header + div:not(.container-banner) {
         margin-top: 15px; }
+    .site-grid.wrapper-fluid .grid-child, .site-grid.wrapper-fluid .container-header header {
+      grid-column: full-start / full-end;
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+      padding-right: 0;
+      padding-left: 0; }
+    .site-grid.wrapper-fluid > .grid-child {
+      padding-right: 30px;
+      padding-left: 30px; }
+    .site-grid.wrapper-fluid .container-main {
+      padding-right: 22.5px;
+      padding-left: 22.5px; }
   .container-banner {
     z-index: 5;
     margin: -2rem 0 0;
