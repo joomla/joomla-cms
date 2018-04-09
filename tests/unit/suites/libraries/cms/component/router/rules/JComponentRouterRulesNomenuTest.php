@@ -158,6 +158,6 @@ class JComponentRouterRulesNomenuTest extends TestCase
 		$segments = array();
 		$this->object->build($query, $segments);
 		$this->assertEquals(array('option' => 'com_content'), $query);
-		$this->assertEquals(array('article', '42-the-answer'), $segments);
+		$this->assertEquals(array('article', '42'), $segments);
 	}
 }
