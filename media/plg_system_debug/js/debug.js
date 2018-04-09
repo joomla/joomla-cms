@@ -18,7 +18,7 @@ Joomla = window.Joomla || {};
 		var sidebarWrapper = document.getElementById('sidebar-wrapper'),
 		    debugWrapper   = document.getElementById('system-debug');
 		if (sidebarWrapper && debugWrapper) {
-			debugWrapper.style.marginLeft = '5px';
+			debugWrapper.style.marginLeft = '60px';
 		}
 	});
 
