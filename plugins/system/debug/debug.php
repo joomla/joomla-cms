@@ -352,7 +352,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+		echo str_replace('<joomla-debug></joomla-debug>', '<joomla-debug>' . implode('', $html) . '</joomla-debug>', $contents);
 	}
 
 	/**
