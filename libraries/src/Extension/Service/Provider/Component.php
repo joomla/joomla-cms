@@ -14,6 +14,7 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -37,7 +38,7 @@ class Component implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set(
-			'component',
+			ComponentInterface::class,
 			function (Container $container)
 			{
 				$component = new \Joomla\CMS\Extension\Component;
