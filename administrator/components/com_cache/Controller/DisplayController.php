@@ -115,20 +115,19 @@ class DisplayController extends BaseController
 		$app        = $this->app;
 		$model      = $this->getModel('cache');
 		$allCleared = true;
-		$clients    = array(1, 0);
 
-		foreach ($clients as $client)
+		$mCache = $model->getCache();
+
+		foreach ($mCache->getAll() as $cache)
 		{
-			$mCache    = $model->getCache($client);
-			$clientStr = \JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
-
-			foreach ($mCache->getAll() as $cache)
+			if ($mCache->clean($cache->group) === false)
 			{
-				if ($mCache->clean($cache->group) === false)
-				{
-					$app->enqueueMessage(\JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
-					$allCleared = false;
-				}
+				$app->enqueueMessage(
+					\JText::sprintf(
+						'COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', \JText::_('JADMINISTRATOR') . ' > ' . $cache->group
+					), 'error'
+				);
+				$allCleared = false;
 			}
 		}
 

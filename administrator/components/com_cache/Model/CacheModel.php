@@ -57,7 +57,6 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
-				'cliend_id',
 			);
 		}
 
@@ -81,11 +80,6 @@ class CacheModel extends ListModel
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		// Special case for client id.
-		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
-		$this->setState('client_id', $clientId);
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -105,7 +99,6 @@ class CacheModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':' . $this->getState('client_id');
 		$id	.= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
