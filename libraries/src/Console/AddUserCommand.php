@@ -81,8 +81,8 @@ class AddUserCommand extends AbstractCommand
 	{
 		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 		$this->user = $this->getStringFromOption('username', 'Please enter a username');
-		$this->name = $this->getStringFromOption('name', 'Please enter a name');
-		$this->email = $this->getStringFromOption('email', 'Please enter a email adress');
+		$this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
+		$this->email = $this->getStringFromOption('email', 'Please enter a email address');
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
 		$symfonyStyle->title('Add user');
@@ -193,7 +193,7 @@ class AddUserCommand extends AbstractCommand
 			}
 
 			$choice = new ChoiceQuestion(
-				'Please select a usergroup',
+				'Please select a usergroup (multiple select comma separated)',
 				$list
 			);
 			$choice->setMultiselect(true);
@@ -233,11 +233,11 @@ class AddUserCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$this->setName('user:add');
-		$this->addOption('username', null, InputOption::VALUE_OPTIONAL);
-		$this->addOption('name', null, InputOption::VALUE_OPTIONAL);
-		$this->addOption('password', null, InputOption::VALUE_OPTIONAL);
-		$this->addOption('email', null, InputOption::VALUE_OPTIONAL);
-		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL);
+		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
+		$this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');
+		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
+		$this->addOption('email', null, InputOption::VALUE_OPTIONAL, 'email address');
+		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple grupus with comma ",")');
 		$this->setDescription('Adds an user');
 		$this->setHelp(
 <<<EOF

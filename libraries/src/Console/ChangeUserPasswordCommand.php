@@ -144,8 +144,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$this->setName('user:reset-password');
-		$this->addOption('username', null, InputOption::VALUE_OPTIONAL);
-		$this->addOption('password', null, InputOption::VALUE_OPTIONAL);
+		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
+		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->setDescription('Changes a users password');
 		$this->setHelp(
 <<<EOF
