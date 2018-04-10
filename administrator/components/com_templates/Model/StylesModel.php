@@ -178,7 +178,8 @@ class StylesModel extends ListModel
 					$db->quoteName('a.home') . ' IN (' . $menuItemLanguageSubQuery . ') OR ' .
 					// Custom template styles override (only if assigned to the selected menu item).
 					'(' . $db->quoteName('a.home') . ' = ' . $db->quote(0) . ' AND ' . $menuItemId . ' IN (' . $templateStylesMenuItemsSubQuery . '))' .
-				')');
+					')'
+				);
 			}
 		}
 

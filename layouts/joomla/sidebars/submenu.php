@@ -9,18 +9,20 @@
 
 defined('JPATH_BASE') or die;
 
-JHtml::_('jquery.framework');
-JHtmlBehavior::core();
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Filter\OutputFilter;
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($)
-	{
-		if (window.toggleSidebar)
-		{
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('behavior.core');
+
+Factory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($) {
+		if (window.toggleSidebar) {
 			toggleSidebar(true);
 		}
-		else
-		{
+		else {
 			$("#j-toggle-sidebar-header").css("display", "none");
 			$("#j-toggle-button-wrapper").css("display", "none");
 		}
@@ -43,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<a class="nolink"><?php echo $item[0]; ?></a>
 				<?php else :
 					if ($item[1] !== '') : ?>
-						<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
+						<a href="<?php echo OutputFilter::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
 					<?php else : ?>
 						<?php echo $item[0]; ?>
 					<?php endif;
@@ -57,7 +59,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
 			<div class="filter-select hidden-sm-down">
-				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
+				<h4 class="page-header"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="sr-only"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">

@@ -16,6 +16,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 $lang = Factory::getLanguage();
 
+// Alerts
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);

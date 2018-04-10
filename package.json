@@ -2,79 +2,353 @@
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
+  "license": "GPL-2.0+",
   "repository": {
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "compile-js": "grunt uglify:allJs",
-    "compile-elements": "grunt createElements",
-    "compile-sass": "grunt sass:dist",
-    "update-dependencies": "grunt default",
-    "javascript-tests": "node node_modules/karma/bin/karma start karma.conf.js --single-run"
+    "build:js": "node build --compilejs",
+    "build:css": "node build --compilecss",
+    "watch:js": "node build --compilejs --watch",
+    "watch:css": "node build --compilecss --watch",
+    "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
+    "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "update": "node build --update"
   },
   "dependencies": {
-    "autoprefixer": "^7.2.3",
-    "grunt": "latest",
-    "grunt-babel": "latest",
-    "grunt-browserify": "latest",
-    "grunt-contrib-clean": "latest",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-copy": "latest",
-    "grunt-contrib-cssmin": "latest",
-    "grunt-contrib-uglify": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-cli": "latest",
-    "grunt-fetch-pages": "^2.0.0",
-    "grunt-postcss-x": "latest",
-    "grunt-sass": "latest",
-    "grunt-scss-lint": "^0.5.0",
-    "grunt-shell": "latest",
-    "ini": "latest"
+    "@claviska/jquery-minicolors": "2.2.6",
+    "@webcomponents/webcomponentsjs": "1.1.0",
+    "awesomplete": "1.1.2",
+    "bootstrap": "4.0.0",
+    "codemirror": "5.35.0",
+    "cropperjs": "1.2.2",
+    "diff": "3.4.0",
+    "dragula": "3.7.2",
+    "flying-focus-a11y": "1.5.5",
+    "font-awesome": "4.7.0",
+    "joomla-ui-custom-elements": "0.0.22",
+    "jquery": "3.3.1",
+    "jquery-migrate": "1.4.1",
+    "jquery-sortable": "0.9.13",
+    "jquery-ui-dist": "1.12.1",
+    "mediaelement": "4.2.8",
+    "punycode": "1.4.1",
+    "tinymce": "4.7.7"
   },
   "devDependencies": {
-    "@polymer/test-fixture": "latest",
-    "@webcomponents/custom-elements": "latest",
-    "@webcomponents/webcomponentsjs": "latest",
-    "babel-eslint": "^7.2.3",
-    "babel-minify": "latest",
+    "autoprefixer": "^8.0.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.0",
+    "babel-minify": "^0.3.0",
+    "babel-plugin-add-header-comment": "^1.0.3",
     "babel-plugin-static-fs": "latest",
-    "babel-preset-es2015": "latest",
-    "babelify": "latest",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-minify": "^0.3.0",
+    "babelify": "^8.0.0",
     "browserify": "*",
-    "eslint": "latest",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-airbnb-base": "latest",
-    "eslint-plugin-import": "latest",
-    "jasmine-core": "^2.4.1",
-    "jasmine-jquery": "^2.1.1",
-    "jquery": "^1.12.4",
-    "karma": "^0.13.22",
-    "karma-coverage": "^1.1.1",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-jasmine": "^0.3.8",
-    "karma-jasmine-ajax": "^0.1.13",
-    "karma-requirejs": "^1.0.0",
-    "karma-verbose-reporter": "0.0.3",
-    "requirejs": "^2.2.0",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^5.0.0",
+    "glob": "^7.1.2",
+    "ini": "latest",
+    "jasmine-core": "latest",
+    "jasmine-jquery": "latest",
+    "karma": "latest",
+    "karma-coverage": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-jasmine": "latest",
+    "karma-jasmine-ajax": "latest",
+    "karma-requirejs": "latest",
+    "karma-verbose-reporter": "latest",
+    "lodash.debounce": "^4.0.8",
+    "node-sass": "^4.7.2",
+    "path": "^0.12.7",
+    "recursive-copy": "latest",
+    "recursive-readdir": "^2.2.1",
+    "requirejs": "latest",
     "text": "requirejs/text",
-    "web-component-tester": "latest",
-    "webcomponentsjs": "latest"
+    "uglify-es": "^3.3.9",
+    "uglifycss": "0.0.27"
   },
-  "license": "GPL-2.0+",
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ],
-          "plugins": [
-            "static-fs"
-          ]
-        }
-      ]
-    ]
+  "settings": {
+    "browsers": [
+      "last 1 version"
+    ],
+    "elements": [
+      "field-media",
+      "field-user",
+      "field-switcher",
+      "field-send-test-mail",
+      "field-module-order",
+      "field-permissions",
+      "field-simple-color",
+      "hidden-mail",
+      "editor-none"
+    ],
+    "webcomponents": {
+      "field-media": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-switcher": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-simple-color": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-none": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-module-order": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-hidden-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      }
+    },
+    "vendors": {
+      "awesomplete": {
+        "name": "awesomplete",
+        "js": {
+          "awesomplete.js": "js/awesomplete.js",
+          "awesomplete.min.js": "js/awesomplete.min.js"
+        },
+        "css": {
+          "awesomplete.css": "css/awesomplete.css"
+        },
+        "filesExtra": {
+          "awesomplete.min.js.map": "js/awesomplete.min.js.map",
+          "awesomplete.css.map": "css/awesomplete.css.map"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "bootstrap": {
+        "name": "bootstrap",
+        "js": {
+          "dist/js/bootstrap.js": "js/bootstrap.js",
+          "dist/js/bootstrap.min.js": "js/bootstrap.min.js",
+          "dist/js/bootstrap.bundle.js": "js/bootstrap.bundle.js",
+          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js"
+        },
+        "css": {
+          "dist/css/bootstrap.css": "css/bootstrap.css",
+          "dist/css/bootstrap.min.css": "css/bootstrap.min.css",
+          "dist/css/bootstrap-grid.css": "css/bootstrap-grid.css",
+          "dist/css/bootstrap-grid.min.css": "css/bootstrap-grid.min.css",
+          "dist/css/bootstrap-reboot.css": "css/bootstrap-reboot.css",
+          "dist/css/bootstrap-reboot.min.css": "css/bootstrap-reboot.min.css"
+        },
+        "filesExtra": {
+          "dist/css/bootstrap.css.map": "css/bootstrap.css.map",
+          "dist/css/bootstrap.min.css.map": "css/bootstrap.min.css.map",
+          "dist/css/bootstrap-grid.css.map": "css/bootstrap-grid.css.map",
+          "dist/css/bootstrap-grid.min.css.map": "css/bootstrap-grid.min.css.map",
+          "dist/css/bootstrap-reboot.css.map": "css/bootstrap-reboot.css.map",
+          "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
+          "scss": "scss"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "cropperjs": {
+        "name": "cropperjs",
+        "js": {
+          "dist/cropper.js": "js/cropper.js",
+          "dist/cropper.min.js": "js/cropper.min.js"
+        },
+        "css": {
+          "dist/cropper.css": "css/cropper.css",
+          "dist/cropper.min.css": "css/cropper.min.css"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "diff": {
+        "name": "diff",
+        "js": {
+          "dist/diff.js": "js/diff.js",
+          "dist/diff.min.js": "js/diff.min.js"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "dragula": {
+        "name": "dragula",
+        "js": {
+          "dist/dragula.js": "js/dragula.js",
+          "dist/dragula.min.js": "js/dragula.min.js"
+        },
+        "css": {
+          "dist/dragula.css": "css/dragula.css",
+          "dist/dragula.min.css": "css/dragula.min.css"
+        },
+        "dependencies": [],
+        "licenseFilename": "license"
+      },
+      "flying-focus-a11y": {
+        "name": "flying-focus-a11y",
+        "js": {
+          "src/js/flying-focus.js": "js/flying-focus.js"
+        },
+        "filesExtra": {
+          "src/scss": "scss"
+        },
+        "dependencies": [],
+        "licenseFilename": "MIT-LICENSE.txt"
+      },
+      "font-awesome": {
+        "name": "font-awesome",
+        "css": {
+          "css/font-awesome.css": "css/font-awesome.css",
+          "css/font-awesome.min.css": "css/font-awesome.min.css"
+        },
+        "filesExtra": {
+          "css/font-awesome.css.map": "css/font-awesome.css.map",
+          "scss": "scss",
+          "fonts": "fonts"
+        },
+        "dependencies": [],
+        "licenseFilename": ""
+      },
+      "jquery": {
+        "name": "jquery",
+        "js": {
+          "dist/jquery.js": "js/jquery.js",
+          "dist/jquery.min.js": "js/jquery.min.js"
+        },
+        "filesExtra": {
+          "dist/jquery.min.map": "js/jquery.min.map"
+        },
+        "include": [
+          "jquery-migrate"
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "jquery-migrate": {
+        "name": "jquery-migrate",
+        "js": {
+          "dist/jquery-migrate.js": "js/jquery-migrate.js",
+          "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
+        },
+        "dependencies": [
+          "jquery"
+        ],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "joomla-ui-custom-elements": {
+        "name": "joomla-custom-elements",
+        "js": {
+          "dist/js/joomla-alert.js": "js/joomla-alert.js",
+          "dist/js/joomla-alert.min.js": "js/joomla-alert.min.js",
+          "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
+          "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
+          "dist/js/joomla-panels.js": "js/joomla-panels.js",
+          "dist/js/joomla-panels.min.js": "js/joomla-panels.js",
+          "dist/js/joomla-panels-es5.js": "js/joomla-panels-es5.js",
+          "dist/js/joomla-panels-es5.min.js": "js/joomla-panels-es5.min.js"
+        },
+        "css": {
+          "dist/css/joomla-alert.css": "css/joomla-alert.css",
+          "dist/css/joomla-alert.min.css": "css/joomla-alert.min.css",
+          "dist/css/joomla-panels.css": "css/joomla-panels.css",
+          "dist/css/joomla-panels.min.css": "css/joomla-panels.min.css"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "mediaelement": {
+        "name": "mediaelement",
+        "js": {
+          "build/mediaelement.js": "js/mediaelement.js",
+          "build/mediaelement.min.js": "js/mediaelement.min.js",
+          "build/mediaelement-and-player.min.js": "js/mediaelement-and-player.min.js",
+          "build/mediaelement-and-player.js": "js/mediaelement-and-player.js"
+        },
+        "css": {
+          "build/mediaelementplayer.css": "css/mediaelementplayer.css",
+          "build/mediaelementplayer.min.css": "css/mediaelementplayer.min.css",
+          "build/mediaelementplayer-legacy.min.css": "css/mediaelementplayer-legacy.min.css",
+          "build/mediaelementplayer-legacy.css": "css/mediaelementplayer-legacy.css"
+        },
+        "filesExtra": {
+          "build/mediaelement-flash-audio-ogg.swf": "js/mediaelement-flash-audio-ogg.swf",
+          "build/mediaelement-flash-audio.swf": "js/mediaelement-flash-audio.swf",
+          "build/mediaelement-flash-video-hls.swf": "js/mediaelement-flash-video-hls.swf",
+          "build/mediaelement-flash-video-mdash.swf": "js/mediaelement-flash-video-mdash.swf",
+          "build/mediaelement-flash-video.swf": "js/mediaelement-flash-video.swf",
+          "build/mejs-controls.png": "css/mejs-controls.png",
+          "build/mejs-controls.svg": "css/mejs-controls.svg"
+        },
+        "dependencies": [],
+        "licenseFilename": ""
+      },
+      "punycode": {
+        "name": "punycode",
+        "js": {
+          "punycode.js": "js/punycode.js"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE-MIT.txt"
+      },
+      "@claviska/jquery-minicolors": {
+        "name": "minicolors",
+        "js": {
+          "jquery.minicolors.js": "js/jquery-minicolors.js",
+          "jquery.minicolors.min.js": "js/jquery.minicolors.min.js"
+        },
+        "css": {
+          "jquery.minicolors.css": "css/jquery.minicolors.css"
+        },
+        "filesExtra": {
+          "jquery.minicolors.png": "css/jquery.minicolors.png"
+        },
+        "dependencies": [
+          "jquery"
+        ],
+        "licenseFilename": "LICENSE.md"
+      },
+      "codemirror": {
+        "name": "codemirror",
+        "licenseFilename": "LICENSE"
+      },
+      "tinymce": {
+        "name": "tinymce",
+        "licenseFilename": "license.txt"
+      },
+      "@webcomponents/webcomponentsjs": {
+        "name": "webcomponentsjs",
+        "js": {
+          "webcomponents-hi.js": "js/webcomponents-hi.js",
+          "webcomponents-hi.js.map": "js/webcomponents-hi.js.map",
+          "webcomponents-hi-ce.js": "js/webcomponents-hi-ce.js",
+          "webcomponents-hi-ce.js.map": "js/webcomponents-hi-ce.js.map",
+          "webcomponents-hi-sd.js": "js/webcomponents-hi-sd.js",
+          "webcomponents-hi-sd.js.map": "js/webcomponents-hi-sd.js.map",
+          "webcomponents-hi-sd-ce.js": "js/webcomponents-hi-sd-ce.js",
+          "webcomponents-hi-sd-ce.js.map": "js/webcomponents-hi-sd-ce.js.map",
+          "webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
+          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map",
+          "webcomponents-lite.js": "js/webcomponents-lite.js",
+          "webcomponents-lite.js.map": "js/webcomponents-lite.js.map"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE.md"
+      }
+    }
   }
 }

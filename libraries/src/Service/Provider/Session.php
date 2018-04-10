@@ -15,9 +15,11 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
+use Joomla\Session\SessionEvents;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\Validator\AddressValidator;
 use Joomla\Session\Validator\ForwardedValidator;
@@ -50,7 +52,7 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = Factory::getConfig();
+					$config = $container->get('config');
 					$app    = Factory::getApplication();
 
 					// Generate a session name.
@@ -91,15 +93,16 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(Factory::getDbo());
+							$handler = new Handler\DatabaseHandler($container->get(DatabaseDriver::class));
 
 							break;
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							// Try to use a custom configured path, fall back to the path in the PHP runtime configuration
+							$path = $config->get('session_filesystem_path', ini_get('session.save_path'));
 
-							// If no path is given, fall back to the system's temporary directory
+							// If we still have no path, as a last resort fall back to the system's temporary directory
 							if (empty($path))
 							{
 								$path = sys_get_temp_dir();
@@ -135,10 +138,37 @@ class Session implements ServiceProviderInterface
 							}
 
 							$redis = new Redis;
-							$redis->connect(
-								$config->get('session_redis_server_host', '127.0.0.1'),
-								$config->get('session_redis_server_port', 6379)
-							);
+							$host = $config->get('session_redis_server_host', '127.0.0.1');
+
+							// Use default port if connecting over a socket whatever the config value
+							$port = $host[0] === '/' ? $config->get('session_redis_server_port', 6379) : 6379;
+
+							if ($config->get('session_redis_persist', true))
+							{
+								$redis->pconnect(
+									$host,
+									$port
+								);
+							}
+							else
+							{
+								$redis->connect(
+									$host,
+									$port
+								);
+							}
+
+							if (!empty($config->get('session_redis_server_auth', '')))
+							{
+								$redis->auth($config->get('session_redis_server_auth', null));
+							}
+
+							$db = (int) $config->get('session_redis_server_db', 0);
+
+							if ($db !== 0)
+							{
+								$redis->select($db);
+							}
 
 							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
 
@@ -173,7 +203,7 @@ class Session implements ServiceProviderInterface
 
 					if (method_exists($app, 'afterSessionStart'))
 					{
-						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
+						$dispatcher->addListener(SessionEvents::START, array($app, 'afterSessionStart'));
 					}
 
 					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);

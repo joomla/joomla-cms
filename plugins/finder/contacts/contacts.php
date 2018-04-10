@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
+use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -251,7 +254,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) === false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -405,10 +408,10 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
 			->select('a.created_by_alias, a.modified, a.modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')

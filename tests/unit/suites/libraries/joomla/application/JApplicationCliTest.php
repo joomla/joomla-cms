@@ -133,70 +133,6 @@ class JApplicationCliTest extends TestCase
 	}
 
 	/**
-	 * Data for fetchConfigurationData method.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getFetchConfigurationData()
-	{
-		return array(
-			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(JPATH_TEST_STUBS . '/configuration.php', null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_TEST_STUBS . '/config.wrongclass.php', 'noclass', false, array(), true),
-		);
-	}
-
-	/**
-	 * Tests the JApplicationCli::fetchConfigurationData method.
-	 *
-	 * @param   string   $file               The name of the configuration file.
-	 * @param   string   $class              The name of the class.
-	 * @param   boolean  $expectsClass       The result is expected to be a class.
-	 * @param   array    $expects            The expected result as an array.
-	 * @param   boolean  $expectedException  The expected exception
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
-	 */
-	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
-	{
-		if ($expectedException)
-		{
-			$this->expectException('RuntimeException');
-		}
-
-		if (is_null($file) && is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData');
-		}
-		elseif (is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file);
-		}
-		else
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file, $class);
-		}
-
-		if ($expects == 'ConfigEval')
-		{
-			$expects = new JConfig;
-			$expects = (array) $expects;
-		}
-
-		if ($expectsClass)
-		{
-			$this->assertInstanceOf($expectsClass, $config, 'Checks the configuration object is the appropriate class.');
-		}
-
-		$this->assertEquals($expects, (array) $config, 'Checks the content of the configuration object.');
-	}
-
-	/**
 	 * Tests the JApplicationCli::get method.
 	 *
 	 * @return  void
@@ -240,28 +176,5 @@ class JApplicationCliTest extends TestCase
 	public function testGetInstanceForUnexistingClass()
 	{
 		JApplicationCli::getInstance('Foo');
-	}
-
-	/**
-	 * Tests the JApplicationCli::loadConfiguration method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadConfiguration()
-	{
-		$this->assertSame(
-			$this->class, $this->class->loadConfiguration(array('foo' => 'bar')));
-
-		$this->assertEquals('bar', TestReflection::getValue($this->class, 'config')->get('foo'), 'Check the configuration array was loaded.');
-
-		$this->class->loadConfiguration(
-			(object) array(
-				'goo' => 'car',
-			)
-		);
-
-		$this->assertEquals('car', TestReflection::getValue($this->class, 'config')->get('goo'), 'Check the configuration object was loaded.');
 	}
 }

@@ -20,7 +20,7 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['version' => 'auto', 'relative' => true]);
+JHtml::_('webcomponent', 'system/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);
@@ -68,7 +68,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				</div>
 				<div id="javascript-warning">
 					<noscript>
-						<joomla-alert level="danger text-center">
+						<joomla-alert type="danger" class="text-center">
 							<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 						</joomla-alert>
 					</noscript>

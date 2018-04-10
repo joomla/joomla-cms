@@ -723,7 +723,7 @@
 			<field 
 				name="show_feed_link" 
 				type="list"
-				label="JGLOBAL_Show_Feed_Link_Label"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
 				class="chzn-color"
 				>

@@ -37,8 +37,6 @@ Joomla = window.Joomla || {};
 
 	var wrapper = document.getElementById('wrapper');
 	var sidebar = document.getElementById('sidebar-wrapper');
-	var subhead = document.querySelector('.subhead');
-	var status  = document.getElementById('status');
 	var body    = document.body;
 
 	// Set the initial state of the sidebar based on the localStorage value
@@ -56,17 +54,6 @@ Joomla = window.Joomla || {};
 	// If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
 	if (!sidebar) {
 		wrapper.classList.remove('closed');
-	}
-
-	// Fix toolbar and footer width for edit views
-	if (wrapper.classList.contains('wrapper0')) {
-		if (subhead) {
-			subhead.style.left = 0;
-		}
-
-		if (status) {
-			status.style.marginLeft = 0;
-		}
 	}
 
 	if (sidebar && !sidebar.getAttribute('data-hidden')) {

@@ -40,4 +40,4 @@ $container = \Joomla\CMS\Factory::getContainer();
 $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application);
 
 // Instantiate and execute the application
-$container->get('InstallationApplicationWeb')->execute();
+$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();

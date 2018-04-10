@@ -9,6 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
@@ -16,7 +24,7 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
  *
  * @since  1.5
  */
-class PlgAuthenticationJoomla extends JPlugin
+class PlgAuthenticationJoomla extends CMSPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -36,14 +44,14 @@ class PlgAuthenticationJoomla extends JPlugin
 		// Joomla does not like blank passwords
 		if (empty($credentials['password']))
 		{
-			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+			$response->status        = Authentication::STATUS_FAILURE;
+			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return;
 		}
 
 		// Get a database object
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id, password')
 			->from('#__users')
@@ -54,16 +62,16 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			$match = JUserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
+			$match = UserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
 
 			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
-				$user               = JUser::getInstance($result->id);
+				$user               = User::getInstance($result->id);
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
-				if (JFactory::getApplication()->isClient('administrator'))
+				if (Factory::getApplication()->isClient('administrator'))
 				{
 					$response->language = $user->getParam('admin_language');
 				}
@@ -72,31 +80,31 @@ class PlgAuthenticationJoomla extends JPlugin
 					$response->language = $user->getParam('language');
 				}
 
-				$response->status        = JAuthentication::STATUS_SUCCESS;
+				$response->status        = Authentication::STATUS_SUCCESS;
 				$response->error_message = '';
 			}
 			else
 			{
 				// Invalid password
-				$response->status        = JAuthentication::STATUS_FAILURE;
-				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
+				$response->status        = Authentication::STATUS_FAILURE;
+				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
 		{
 			// Let's hash the entered password even if we don't have a matching user for some extra response time
 			// By doing so, we mitigate side channel user enumeration attacks
-			JUserHelper::hashPassword($credentials['password']);
+			UserHelper::hashPassword($credentials['password']);
 
 			// Invalid user
-			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
+			$response->status        = Authentication::STATUS_FAILURE;
+			$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
 		}
 
 		// Check the two factor authentication
-		if ($response->status === JAuthentication::STATUS_SUCCESS)
+		if ($response->status === Authentication::STATUS_SUCCESS)
 		{
-			$methods = JAuthenticationHelper::getTwoFactorMethods();
+			$methods = AuthenticationHelper::getTwoFactorMethods();
 
 			if (count($methods) <= 1)
 			{
@@ -126,11 +134,11 @@ class PlgAuthenticationJoomla extends JPlugin
 				{
 					try
 					{
-						$app = JFactory::getApplication();
+						$app = Factory::getApplication();
 
 						$this->loadLanguage();
 
-						$app->enqueueMessage(JText::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
+						$app->enqueueMessage(Text::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
 					}
 					catch (Exception $exc)
 					{
@@ -144,9 +152,9 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			// Try to validate the OTP
-			JPluginHelper::importPlugin('twofactorauth');
+			PluginHelper::importPlugin('twofactorauth');
 
-			$otpAuthReplies = JFactory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
+			$otpAuthReplies = Factory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
 
 			$check = false;
 
@@ -183,8 +191,8 @@ class PlgAuthenticationJoomla extends JPlugin
 						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
-						$response->status        = JAuthentication::STATUS_FAILURE;
-						$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
+						$response->status        = Authentication::STATUS_FAILURE;
+						$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
 
 						return;
 					}
@@ -212,8 +220,8 @@ class PlgAuthenticationJoomla extends JPlugin
 
 			if (!$check)
 			{
-				$response->status        = JAuthentication::STATUS_FAILURE;
-				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
+				$response->status        = Authentication::STATUS_FAILURE;
+				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
 			}
 		}
 	}

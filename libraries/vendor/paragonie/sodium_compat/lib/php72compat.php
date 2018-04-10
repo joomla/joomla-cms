@@ -728,6 +728,26 @@ if (!is_callable('sodium_crypto_sign_verify_detached')) {
         return ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $message, $pk);
     }
 }
+if (!is_callable('sodium_crypto_sign_ed25519_pk_to_curve25519')) {
+    /**
+     * @param string $pk
+     * @return string
+     */
+    function sodium_crypto_sign_ed25519_pk_to_curve25519($pk)
+    {
+        return ParagonIE_Sodium_Compat::crypto_sign_ed25519_pk_to_curve25519($pk);
+    }
+}
+if (!is_callable('sodium_crypto_sign_ed25519_sk_to_curve25519')) {
+    /**
+     * @param string $sk
+     * @return string
+     */
+    function sodium_crypto_sign_ed25519_sk_to_curve25519($sk)
+    {
+        return ParagonIE_Sodium_Compat::crypto_sign_ed25519_sk_to_curve25519($sk);
+    }
+}
 if (!is_callable('sodium_crypto_stream')) {
     /**
      * @param int $len

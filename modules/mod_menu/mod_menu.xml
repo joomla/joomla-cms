@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Menu</namespace>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
 		<folder>tmpl</folder>
@@ -21,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="menutype"
 					type="menu"
@@ -85,8 +86,8 @@
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 

@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Plugin\CMSPlugin;
+
 /**
  * Joomla! SEF Plugin.
  *
  * @since  1.5
  */
-class PlgSystemSef extends JPlugin
+class PlgSystemSef extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -67,12 +71,12 @@ class PlgSystemSef extends JPlugin
 			unset($doc->_links[$canonical]);
 
 			// Set the current canonical link but use the SEF system plugin domain field.
-			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . Uri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
 		}
 		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
 		else
 		{
-			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			$canonical = $sefDomain . Uri::getInstance()->toString(array('path', 'query', 'fragment'));
 		}
 
 		// Add the canonical link.
@@ -92,11 +96,11 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace src links.
-		$base   = JUri::base(true) . '/';
+		$base   = Uri::base(true) . '/';
 		$buffer = $this->app->getBody();
 
 		// For feeds we need to search for the URL with domain.
-		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
+		$prefix = $this->app->getDocument()->getType() === 'feed' ? Uri::root() : '';
 
 		// Replace index.php URI by SEF URI.
 		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
@@ -107,7 +111,7 @@ class PlgSystemSef extends JPlugin
 			{
 				$buffer = str_replace(
 					'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
-					'href="' . trim($prefix, '/') . JRoute::_('index.php?' . $urlQueryString) . '"',
+					'href="' . trim($prefix, '/') . Route::_('index.php?' . $urlQueryString) . '"',
 					$buffer
 				);
 			}
@@ -137,12 +141,14 @@ class PlgSystemSef extends JPlugin
 				$regex,
 				function ($match) use ($base, $protocols)
 				{
-					$data = array();
-					foreach (explode(",", $match[1]) as $url)
+					preg_match_all('#(?:[^\s]+)\s*(?:[\d\.]+[wx])?(?:\,\s*)?#i', $match[1], $matches);
+
+					foreach ($matches[0] as &$src)
 					{
-						$data[] = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', trim($url));
+						$src = preg_replace('#^(?!/|' . $protocols . '|\#|\')(.+)#', $base . '$1', $src);
 					}
-					return ' srcset="' . implode(",", $data) . '"';
+
+					return ' srcset="' . implode($matches[0]) . '"';
 				},
 				$buffer
 			);	

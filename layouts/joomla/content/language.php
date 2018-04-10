@@ -9,15 +9,18 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 $item = $displayData;
 
 if ($item->language === '*')
 {
-	echo JText::alt('JALL', 'language');
+	echo Text::alt('JALL', 'language');
 }
 elseif ($item->language_image)
 {
-	echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', '', null, true) . '&nbsp;' . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
+	echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', '', null, true) . '&nbsp;' . htmlspecialchars($item->language_title, ENT_COMPAT, 'UTF-8');
 }
 elseif ($item->language_title)
 {
@@ -25,5 +28,5 @@ elseif ($item->language_title)
 }
 else
 {
-	echo JText::_('JUNDEFINED');
+	echo Text::_('JUNDEFINED');
 }

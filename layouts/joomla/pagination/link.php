@@ -9,32 +9,34 @@
 
 defined('JPATH_BASE') or die;
 
-/** @var JPaginationObject $item */
-$item = $displayData['data'];
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Registry\Registry;
 
+$item    = $displayData['data'];
 $display = $item->text;
 
 switch ((string) $item->text)
 {
 	// Check for "Start" item
-	case JText::_('JLIB_HTML_START') :
-		$icon = 'icon-backward icon-first';
+	case Text::_('JLIB_HTML_START') :
+		$icon = 'fa fa-angle-double-left';
 		break;
 
 	// Check for "Prev" item
-	case $item->text === JText::_('JPREV') :
-		$item->text = JText::_('JPREVIOUS');
-		$icon = 'icon-step-backward icon-previous';
+	case $item->text === Text::_('JPREV') :
+		$item->text = Text::_('JPREVIOUS');
+		$icon = 'fa fa-angle-left';
 		break;
 
 	// Check for "Next" item
-	case JText::_('JNEXT') :
-		$icon = 'icon-step-forward icon-next';
+	case Text::_('JNEXT') :
+		$icon = 'fa fa-angle-right';
 		break;
 
 	// Check for "End" item
-	case JText::_('JLIB_HTML_END') :
-		$icon = 'icon-forward icon-last';
+	case Text::_('JLIB_HTML_END') :
+		$icon = 'fa fa-angle-double-right';
 		break;
 
 	default:
@@ -44,7 +46,7 @@ switch ((string) $item->text)
 
 if ($icon !== null)
 {
-	$display = '<span class="' . $icon . '"></span>';
+	$display = '<span class="' . $icon . '" aria-hidden="true"></span>';
 }
 
 if ($displayData['active'])

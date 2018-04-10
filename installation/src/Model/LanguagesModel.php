@@ -851,7 +851,6 @@ class LanguagesModel extends BaseInstallationModel
 	public function addMenuGroup($itemLanguage)
 	{
 		// Add menus.
-		\JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
 		// Add Menu Group.

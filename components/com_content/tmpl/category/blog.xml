@@ -30,9 +30,7 @@
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
-				>
-				<option value="">JNONE</option>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 
@@ -595,8 +593,8 @@
 			<field
 				name="show_email_icon"
 				type="list"
-				label="JGLOBAL_Show_Email_Icon_Label"
-				description="JGLOBAL_Show_Email_Icon_Desc"
+				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
+				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 				useglobal="true"
 				class="chzn-color"
 				>
