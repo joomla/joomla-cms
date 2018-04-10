@@ -17,6 +17,7 @@ use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Access to component specific services.
@@ -51,13 +52,25 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
-	 * The association extension.
+	 * The container for the additional services.
 	 *
-	 * @var AssociationExtensionInterface
+	 * @var ContainerInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $associationExtension;
+	private $container;
+
+	/**
+	 * Component constructor.
+	 *
+	 * @param   ContainerInterface  $container  The container
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct(ContainerInterface $container)
+	{
+		$this->container = $container;
+	}
 
 	/**
 	 * Returns the dispatcher for the given application.
@@ -168,28 +181,21 @@ class Component implements ComponentInterface
 	}
 
 	/**
-	 * Returns the associations helper.
+	 * Returns a service for the given key.
 	 *
-	 * @return  AssociationExtensionInterface|null
+	 * @param   string  $key  The key
+	 *
+	 * @return  mixed
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getAssociationsExtension()
+	public function getService(string $key)
 	{
-		return $this->associationExtension;
-	}
+		if (!$this->container->has($key))
+		{
+			return null;
+		}
 
-	/**
-	 * The association extension.
-	 *
-	 * @param   AssociationExtensionInterface  $associationExtension  The extension
-	 *
-	 * @return void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
-	{
-		$this->associationExtension = $associationExtension;
+		return $this->container->get($key);
 	}
 }
