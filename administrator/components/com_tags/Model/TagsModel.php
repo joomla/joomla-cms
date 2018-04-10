@@ -361,7 +361,7 @@ class TagsModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof ComponentHelperProviderInterface)
 		{
 			$component->getHelper()->countTagItems($items, $extension);
 		}

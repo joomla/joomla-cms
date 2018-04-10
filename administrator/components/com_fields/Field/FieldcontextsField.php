@@ -51,7 +51,7 @@ class FieldcontextsField extends \JFormFieldList
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof ComponentHelperProviderInterface)
 		{
 			return $component->getHelper()->getContexts();
 		}

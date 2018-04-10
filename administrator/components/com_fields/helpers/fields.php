@@ -48,7 +48,7 @@ class FieldsHelper
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof ComponentHelperProviderInterface)
 		{
 			$newSection = $component->getHelper()->validateSection($parts[1], $item);
 		}
