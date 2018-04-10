@@ -7,12 +7,12 @@
       white-space: nowrap;
       border-bottom-width: 1px;
 
-    a {
-      font-size: 0.9rem;
+      a {
+        font-size: .9rem;
 
+        }
       }
     }
-  } 
 
   th,
   td {
@@ -51,13 +51,13 @@
   display: inline-block;
 
   .fa {
-    color: $gray;
-    font-size: 1.3rem;
     width: 2.3rem;
+    font-size: 1.3rem;
+    color: $gray;
 
   }
 
-  .dropdown-item.active, 
+  .dropdown-item.active,
   .dropdown-item:active {
     background-color: $gray-light;
 
