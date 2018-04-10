@@ -62,7 +62,7 @@ class JSessionStorageRedis extends JSessionStorage
 		if (!empty($this->_server) && isset($this->_server['host'], $this->_server['port']))
 		{
 			// Headers_sent malfunctions if output_buffer is on, so we also confirm that output buffer is empty. 
-			if (!headers_sent() && empty(ob_get_length())) 
+			if (!headers_sent() && empty(ob_get_length()))
 			{
 				if ($this->_server['port'] === 0)
 				{
@@ -83,7 +83,8 @@ class JSessionStorageRedis extends JSessionStorage
 					$path .= '&auth=' . $this->_server['auth'];
 				}
 				// Check if session has already been started, depending on the php.ini settings the active status can be either a "2" or "PHP_SESSION_ACTIVE"
-				if ((session_status() !== 2) && (session_status() !== "PHP_SESSION_ACTIVE")) {
+				if ((session_status() !== 2) && (session_status() !== "PHP_SESSION_ACTIVE"))
+				{
 					ini_set('session.save_path', $path);
 					ini_set('session.save_handler', 'redis');
 				}
