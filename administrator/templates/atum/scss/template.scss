@@ -66,7 +66,6 @@
 .container-main {
   position: relative;
   min-height: calc(100vh - 50px);
-  padding-top: 22px;
   background-color: $atum-container-main-bg;
 
   @include media-breakpoint-down(md) {
@@ -85,12 +84,16 @@
 }
 
 .content {
-  margin-top: 45px;
+  padding-top: 22px;
   border-radius: $border-radius;
 
   > .row {
     margin-right: 0;
     margin-left: 0;
+  }
+  
+  .subhead + & {
+    padding-top: 0;
   }
 
 }

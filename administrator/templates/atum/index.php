@@ -106,16 +106,12 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<?php // Subheader ?>
 				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
-				<div class="subhead-collapse" data-scroll="<?php echo $hidden; ?>">
-					<div id="subhead" class="subhead">
-						<div class="container-fluid">
-							<div id="container-collapse" class="container-collapse"></div>
-							<div class="row">
-								<div class="col-md-12">
-									<jdoc:include type="modules" name="toolbar" style="no" />
-								</div>
+				<div id="subhead" class="subhead">
+						<div id="container-collapse" class="container-collapse"></div>
+						<div class="row">
+							<div class="col-md-12">
+								<jdoc:include type="modules" name="toolbar" style="no" />
 							</div>
-						</div>
 					</div>
 				</div>
 			<?php endif; ?>
