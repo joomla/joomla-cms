@@ -120,17 +120,17 @@ JHtml::_('behavior.core');
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_pagination', 2)) : ?>
-			<div class="pagination">
-				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter">
-						<?php echo $this->pagination->getPagesCounter(); ?>
-					</p>
-				<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_pagination', 2)) : ?>
+		<div class="pagination">
+			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+				<p class="counter">
+					<?php echo $this->pagination->getPagesCounter(); ?>
+				</p>
+			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
-			</div>
-		<?php endif; ?>
+		</div>
+	<?php endif; ?>
 	<div>
 		<input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->state->get('list.direction')); ?>" />
