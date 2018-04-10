@@ -82,9 +82,11 @@ class JSessionStorageRedis extends JSessionStorage
 				{
 					$path .= '&auth=' . $this->_server['auth'];
 				}
-
-				ini_set('session.save_path', $path);
-				ini_set('session.save_handler', 'redis');
+				// Check if session has already been started, depending on the php.ini settings the active status can be either a "2" or "PHP_SESSION_ACTIVE"
+				if ((session_status() !== 2) && (session_status() !== "PHP_SESSION_ACTIVE")) {
+					ini_set('session.save_path', $path);
+					ini_set('session.save_handler', 'redis');
+				}
 			}
 
 			// This is required if the configuration.php gzip is turned on
