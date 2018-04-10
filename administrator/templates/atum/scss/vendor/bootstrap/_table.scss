@@ -2,13 +2,17 @@
 
 .table {
 
-  thead th {
-    white-space: nowrap;
-    border-bottom-width: 1px;
+  thead {
+    th {
+      white-space: nowrap;
+      border-bottom-width: 1px;
+
     a {
-      font-size: .9rem;
+      font-size: 0.9rem;
+
+      }
     }
-  }
+  } 
 
   th,
   td {
@@ -17,6 +21,7 @@
 
     label {
       margin-bottom: 0;
+
     }
 
   }
@@ -26,25 +31,34 @@
 .table-actions {
   &:hover {
     cursor: pointer;
+
   }
   a {
     -webkit-appearance: none;
+
   }
   .dropdown-toggle::after {
     display: none;
+
   }
   .dropdown-menu::after {
     left: 9px;
   }
 }
+
 .table-row-actions {
   display: inline-block;
+
   .fa {
-    width: 2.3rem;
-    font-size: 1.3rem;
     color: $gray;
+    font-size: 1.3rem;
+    width: 2.3rem;
+
   }
-  .dropdown-item.active, .dropdown-item:active {
+
+  .dropdown-item.active, 
+  .dropdown-item:active {
     background-color: $gray-light;
+
   }
 }
