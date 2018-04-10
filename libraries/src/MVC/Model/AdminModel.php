@@ -366,7 +366,14 @@ abstract class AdminModel extends FormModel
 				}
 
 				// Trigger the before save event.
-				\JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$this->table, false));
+				$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$this->table, false, array('access' => (int) $value)));
+
+				if (in_array(false, $result, true))
+				{
+					$this->setError($table->getError());
+					
+					return false;
+				}
 
 				if (!$this->table->store())
 				{
