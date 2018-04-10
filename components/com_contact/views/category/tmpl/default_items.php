@@ -102,7 +102,7 @@ JHtml::_('behavior.core');
 						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
 							<?php $location[] = $item->country; ?>
 						<?php endif; ?>
-						<?php echo implode($location, ', '); ?>
+						<?php echo implode(', ', $location); ?>
 					</div>
 					<div class="span3 col-md-3">
 						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
