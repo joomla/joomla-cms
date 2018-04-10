@@ -371,7 +371,7 @@ abstract class AdminModel extends FormModel
 				if (in_array(false, $result, true))
 				{
 					$this->setError($table->getError());
-					
+
 					return false;
 				}
 
