@@ -11,6 +11,8 @@ namespace Joomla\Component\Tags\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\ComponentHelperProviderInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -350,7 +352,6 @@ class TagsModel extends ListModel
 	public function countItems(&$items, $extension)
 	{
 		$parts = explode('.', $extension);
-		$component = $parts[0];
 		$section = null;
 
 		if (count($parts) < 2)
@@ -358,6 +359,11 @@ class TagsModel extends ListModel
 			return;
 		}
 
-		Factory::getApplication()->bootComponent($component)->getHelper()->countTagItems($items, $extension);
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		if($component instanceof ComponentHelperProviderInterface)
+		{
+			$component->getHelper()->countTagItems($items, $extension);
+		}
 	}
 }

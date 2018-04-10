@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelperInterface;
+use Joomla\CMS\Component\ComponentHelperProviderInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -24,7 +25,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Component implements ComponentInterface
+class Component implements ComponentInterface, ComponentHelperProviderInterface
 {
 	/**
 	 * The dispatcher factory.
