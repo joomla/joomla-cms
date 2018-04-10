@@ -12,6 +12,6 @@
     <authorUrl>https://www.joomla.org</authorUrl>
     <packager>Joomla!</packager>
     <packagerurl>https://www.joomla.org</packagerurl>
-    <update>http://update.joomla.org/packages/joomla</update>
+    <update>https://update.joomla.org/packages/joomla</update>
     <files/>
 </extension>

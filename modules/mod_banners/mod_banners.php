@@ -18,6 +18,5 @@ $footerText = trim($params->get('footer_text'));
 
 BannersHelper::updateReset();
 $list = &ModBannersHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

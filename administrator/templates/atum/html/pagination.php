@@ -110,7 +110,7 @@ function pagination_list_render($list)
 		}
 	}
 
-	$html = '<ul class="pagination pagination-sm">';
+	$html = '<ul class="pagination pagination-sm justify-content-center">';
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
 
@@ -191,7 +191,6 @@ function pagination_item_active(&$item)
 	$title = '';
 	if (!is_numeric($item->text))
 	{
-		JHtml::_('bootstrap.tooltip');
 		$title = ' class="hasTooltip" title="' . $item->text . '"';
 	}
 
@@ -234,7 +233,7 @@ function pagination_item_inactive(&$item)
 	}
 
 	// Check if the item is the active page
-	if (isset($item->active) && ($item->active))
+	if (isset($item->active) && $item->active)
 	{
 		return '<li class="page-item active hidden-sm-down"><a class="page-link">' . $item->text . '</a></li>';
 	}

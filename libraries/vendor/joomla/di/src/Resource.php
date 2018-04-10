@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -96,11 +96,11 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(Container $container, $value, $mode = 0)
+	public function __construct(Container $container, $value, int $mode = 0)
 	{
 		$this->container = $container;
-		$this->shared    = ($mode & self::SHARE) == self::SHARE;
-		$this->protected = ($mode & self::PROTECT) == self::PROTECT;
+		$this->shared    = ($mode & self::SHARE) === self::SHARE;
+		$this->protected = ($mode & self::PROTECT) === self::PROTECT;
 
 		if (is_callable($value))
 		{
@@ -137,7 +137,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isShared()
+	public function isShared(): bool
 	{
 		return $this->shared;
 	}
@@ -149,7 +149,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isProtected()
+	public function isProtected(): bool
 	{
 		return $this->protected;
 	}
@@ -172,13 +172,13 @@ class Resource
 		{
 			if ($this->instance === null)
 			{
-				$this->instance = call_user_func($callable, $this->container);
+				$this->instance = $callable($this->container);
 			}
 
 			return $this->instance;
 		}
 
-		return call_user_func($callable, $this->container);
+		return $callable($this->container);
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Resource
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function reset()
+	public function reset(): bool
 	{
 		if ($this->isShared() && !$this->isProtected())
 		{

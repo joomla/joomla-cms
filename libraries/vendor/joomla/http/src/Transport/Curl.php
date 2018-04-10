@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -161,6 +161,12 @@ class Curl extends AbstractTransport
 			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
+		// Configure protocol version
+		if ($protocolVersion = $this->getOption('protocolVersion'))
+		{
+			$options[CURLOPT_HTTP_VERSION] = $this->mapProtocolVersion($protocolVersion);
+		}
+
 		// Set any custom transport options
 		foreach ($this->getOption('transport.curl', []) as $key => $value)
 		{
@@ -275,21 +281,44 @@ class Curl extends AbstractTransport
 	}
 
 	/**
+	 * Get the cURL constant for a HTTP protocol version
+	 *
+	 * @param   string  $version  The HTTP protocol version to use
+	 *
+	 * @return  integer
+	 *
+	 * @since   1.3.1
+	 */
+	private function mapProtocolVersion($version)
+	{
+		switch ($version)
+		{
+			case '1.0':
+				return CURL_HTTP_VERSION_1_0;
+
+			case '1.1':
+				return CURL_HTTP_VERSION_1_1;
+
+			case '2.0':
+			case '2':
+				if (defined('CURL_HTTP_VERSION_2'))
+				{
+					return CURL_HTTP_VERSION_2;
+				}
+		}
+
+		return CURL_HTTP_VERSION_NONE;
+	}
+
+	/**
 	 * Check if redirects are allowed
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.2.1
 	 */
-	private function redirectsAllowed()
+	private function redirectsAllowed(): bool
 	{
-		// There are no issues on PHP 5.6 and later
-		if (version_compare(PHP_VERSION, '5.6', '>='))
-		{
-			return true;
-		}
-
-		// For PHP 5.4 and 5.5, we only need to check if open_basedir is disabled
-		return !ini_get('open_basedir');
+		return true;
 	}
 }

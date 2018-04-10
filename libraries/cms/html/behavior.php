@@ -59,10 +59,20 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
-		static::$loaded[__METHOD__] = true;
 
-		return;
+		// Add core and base uri paths so javascript scripts can use them.
+		JFactory::getDocument()->addScriptOptions(
+			'system.paths',
+			[
+				'root' => JUri::root(true),
+				'rootFull' => JUri::root(),
+				'base' => JUri::base(true),
+			]
+		);
+
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -82,16 +92,10 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-document.addEventListener('DOMContentLoaded',  function() {
-	new JCaption('$selector');
-});
-JS
-		);
+		// Pass the required options to the javascript
+		JFactory::getDocument()->addScriptOptions('js-image-caption', ['selector' => $selector]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -456,11 +460,7 @@ JS
 		static::core();
 
 		// Add keepalive script options.
-		$options = array(
-			'interval' => $refreshTime * 1000,
-			'uri'      => JRoute::_($uri),
-		);
-		JFactory::getDocument()->addScriptOptions('system.keepalive', $options);
+		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.
 		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
@@ -510,7 +510,7 @@ JS
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
@@ -628,9 +628,10 @@ JS
 			return;
 		}
 
+		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
 		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', array('xpath'));
-		JHtml::_('script', 'system/tabs-state.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('behavior.polyfill', ['wgxpath']);
+		JHtml::_('script', 'legacy/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
 		self::$loaded[__METHOD__] = true;
 	}
 
@@ -646,17 +647,12 @@ JS
 	 */
 	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{
-		if (is_null($polyfillTypes))
+		if ($polyfillTypes === null)
 		{
-			return false;
+			return;
 		}
 
-		if (!is_array($polyfillTypes))
-		{
-			$polyfillTypes = array($polyfillTypes);
-		}
-
-		foreach ($polyfillTypes as $polyfillType)
+		foreach ((array) $polyfillTypes as $polyfillType)
 		{
 			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
 
@@ -670,7 +666,7 @@ JS
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'system/polyfill-' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

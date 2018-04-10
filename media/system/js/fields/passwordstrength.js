@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		var score = strength.getScore(element.value),
 			i = meter.getAttribute('aria-describedby').replace( /^\D+/g, ''),
-			label = element.parentNode.querySelector('#password-' + i);
+			label = element.parentNode.parentNode.querySelector('#password-' + i);
 
 		if (score > 79){
 			meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', function(){
 		var label = document.createElement('div');
 		label.setAttribute('class', 'text-xs-center');
 		label.setAttribute('id', 'password-' + i);
-
-		fields[i].parentNode.append(label);
-		fields[i].parentNode.append(meter);
+		
+		fields[i].parentNode.insertAdjacentElement('afterEnd', label);
+		fields[i].parentNode.insertAdjacentElement('afterEnd', meter);
 
 		/** Add a data attribute for the required **/
 		if (fields[i].value.length > 0) {

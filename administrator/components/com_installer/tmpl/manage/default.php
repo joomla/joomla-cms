@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
-JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -31,9 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
-					</div>
+						<joomla-alert type="warning"><?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
 					<?php else : ?>
 					<table class="table table-striped" id="manageList">
 						<thead>
@@ -53,22 +50,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th style="width:10%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JVERSION'); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JDATE'); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
+								<th style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo JText::_('JAUTHOR'); ?>
 								</th>
-								<th style="width:5%" class="hidden-sm-down text-center">
+								<th style="width:5%" class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="hidden-sm-down text-center">
+								<th class="d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:1%" class="nowrap hidden-sm-down text-center">
+								<th style="width:1%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -106,24 +103,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="text-center">
 									<?php echo $item->type_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 									</span>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->folder_translated; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->package_id ?: '&#160;'; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->extension_id; ?>
 								</td>
 							</tr>

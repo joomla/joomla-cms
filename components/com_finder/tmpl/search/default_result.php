@@ -21,7 +21,7 @@ if ($show_description)
 	// Calculate number of characters to display around the result
 	$term_length = StringHelper::strlen($this->query->input);
 	$desc_length = $this->params->get('description_length', 255);
-	$pad_length = $term_length < $desc_length ? (int) floor(($desc_length - $term_length) / 2) : 0;
+	$pad_length  = $term_length < $desc_length ? (int) floor(($desc_length - $term_length) / 2) : 0;
 
 	// Find the position of the search term
 	$pos = $term_length ? StringHelper::strpos(StringHelper::strtolower($this->result->description), StringHelper::strtolower($this->query->input)) : false;
@@ -48,18 +48,19 @@ if (!empty($this->query->highlight)
 }
 
 ?>
-
 <li>
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo JRoute::_($route); ?>"><?php echo $this->result->title; ?></a>
+		<a href="<?php echo JRoute::_($route); ?>">
+			<?php echo $this->result->title; ?>
+		</a>
 	</h4>
 	<?php if ($show_description && $description !== '') : ?>
-		<p class="result-text<?php echo $this->pageclass_sfx; ?>">
+		<p class="result-text">
 			<?php echo $description; ?>
 		</p>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-		<div class="small result-url<?php echo $this->pageclass_sfx; ?>">
+		<div class="small result-url">
 			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
 		</div>
 	<?php endif; ?>

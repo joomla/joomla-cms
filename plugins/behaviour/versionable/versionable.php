@@ -3,13 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Event as CmsEvent;
 
 /**
@@ -17,9 +21,9 @@ use Joomla\CMS\Event as CmsEvent;
  *
  * This plugin supersedes JTableObserverContenthistory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class PlgBehaviourVersionable extends JPlugin
+class PlgBehaviourVersionable extends CMSPlugin
 {
 	/**
 	 * Constructor
@@ -29,7 +33,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
 	 *                                          (this list is not meant to be comprehensive).
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -45,7 +49,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
 	{
@@ -68,7 +72,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		$table->contenthistoryHelper = new JHelperContenthistory($typeAlias);
+		$table->contenthistoryHelper = new ContentHistoryHelper($typeAlias);
 		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 	}
 
@@ -79,7 +83,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
@@ -93,7 +97,7 @@ class PlgBehaviourVersionable extends JPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof JTableInterface))
+		if (!is_object($table) || !($table instanceof TableInterface))
 		{
 			return;
 		}
@@ -118,7 +122,7 @@ class PlgBehaviourVersionable extends JPlugin
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->store($table);
 		}
@@ -131,7 +135,7 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
@@ -157,7 +161,7 @@ class PlgBehaviourVersionable extends JPlugin
 		$table->contenthistoryHelper->typeAlias = $typeAlias;
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
-		if ($aliasParts[0] && JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->deleteHistory($table);
 		}
@@ -171,11 +175,11 @@ class PlgBehaviourVersionable extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(JTableInterface &$table)
+	protected function parseTypeAlias(TableInterface &$table)
 	{
 		if (!isset($table->typeAlias))
 		{

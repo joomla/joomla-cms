@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_PLUGINS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Plugins</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>

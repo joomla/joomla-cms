@@ -8,7 +8,6 @@
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-require_once JPATH_TESTS . '/suites/libraries/joomla/database/stubs/nosqldriver.php';
 
 use Joomla\Registry\Registry;
 
@@ -57,13 +56,13 @@ class FinderIndexerTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 
@@ -115,7 +114,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceException()
 	{
-		JFactory::$database = $this->getMockDatabase('Nosql');
+		JFactory::$database = $this->getMockDatabase('Oracle');
 
 		FinderIndexer::getInstance();
 	}

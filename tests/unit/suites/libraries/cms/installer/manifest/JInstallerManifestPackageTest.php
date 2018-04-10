@@ -65,7 +65,7 @@ class JInstallerManifestPackageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'http://update.joomla.org/packages/joomla',
+			'https://update.joomla.org/packages/joomla',
 			$this->object->update
 		);
 

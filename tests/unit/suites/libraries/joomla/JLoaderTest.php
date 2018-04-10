@@ -61,6 +61,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
 		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
 		self::$cache['classAliasesInverse'] = TestReflection::getValue('JLoader', 'classAliasesInverse');
+		self::$cache['extensionRootFolders'] = TestReflection::getValue('JLoader', 'extensionRootFolders');
 	}
 
 	/**
@@ -79,6 +80,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
 		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
 		TestReflection::setValue('JLoader', 'classAliasesInverse', self::$cache['classAliasesInverse']);
+		TestReflection::setValue('JLoader', 'extensionRootFolders', self::$cache['extensionRootFolders']);
 	}
 
 	/**
@@ -91,8 +93,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	public function casesImport()
 	{
 		return array(
-			'factory' => array('joomla.factory', null, null, true, 'factory should load properly', true),
-			'jfactory' => array('joomla.jfactory', null, null, false, 'JFactory does not exist so should not load properly', true),
 			'fred.factory' => array('fred.factory', null, null, false, 'fred.factory does not exist', true),
 			'bogus' => array('bogusload', JPATH_TEST_STUBS, '', true, 'bogusload.php should load properly', false),
 			'class.loader' => array('cms.class.loader', null, '', true, 'class loader should load properly', true));
@@ -226,7 +226,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideAliasClass()
 	{
@@ -243,8 +243,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('AliasNewClass'));
 		$this->assertTrue(class_exists('AliasOldClass'));
 
-		$newClass = new AliasNewClass();
-		$oldClass = new AliasOldClass();
+		$newClass = new AliasNewClass;
+		$oldClass = new AliasOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Alias Override Class', $newClass->getName());
@@ -256,7 +256,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testLoadOverrideOriginalClass()
 	{
@@ -273,8 +273,8 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(class_exists('OriginalNewClass'));
 		$this->assertTrue(class_exists('OriginalOldClass'));
 
-		$newClass = new OriginalNewClass();
-		$oldClass = new OriginalOldClass();
+		$newClass = new OriginalNewClass;
+		$oldClass = new OriginalOldClass;
 
 		// Check if really the override is used
 		$this->assertEquals('Original Override Class', $newClass->getName());
@@ -282,11 +282,26 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests the JLoader::loadByPsr4 method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.3
+	 */
+	public function testLoadByPsr4()
+	{
+		// Register namespace at first. Odd leading and trailing backslashes must be automatically removed from namespace
+		JLoader::registerNamespace('\\DummyNamespace\\', JPATH_TEST_STUBS . '/DummyNamespace', $reset = true, $prepend = false, $type = 'psr4');
+
+		$this->assertThat(JLoader::loadByPsr4('DummyNamespace\DummyClass'), $this->isTrue(), 'Tests that the class file was loaded.');
+	}
+
+	/**
 	 * Tests the JLoader::registerAlias method if the alias is loaded when the original class is loaded.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public function testAliasInstanceOf()
 	{
@@ -301,6 +316,24 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue(
 			$object instanceof JLoaderAliasStubAlias
 		);
+	}
+
+	/**
+	 * Tests the JLoader::registerAlias method if the alias works ignoring cases
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function testAliasIgnoreCase()
+	{
+		// Normally register the class
+		JLoader::register('JLoaderAliasStub', JPATH_TEST_STUBS . '/loaderoveralias/jloaderaliasstub.php');
+
+		// Register the alias
+		JLoader::registerAlias('CASEinsensitiveALIAS', 'JLoaderAliasStub');
+
+		$this->assertTrue(class_exists('caseINSENSITIVEalias'));
 	}
 
 	/**
@@ -325,7 +358,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadComponentClass()
 	{
@@ -338,7 +371,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadModuleClass()
 	{
@@ -351,7 +384,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadPluginClass()
 	{
@@ -364,7 +397,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLoadNotExistingExtensionClass()
 	{
@@ -524,6 +557,32 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
+	 * Tests the JLoader::registerNamespace method for namespace trimming of leading and trailing backslashes.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testRegisterNamespaceTrimming()
+	{
+		// Try registering namespace with leading backslash.
+		$path = JPATH_TEST_STUBS . '/discover1';
+		JLoader::registerNamespace('\\discover1', $path);
+
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertContains($path, $namespaces['discover1']);
+
+		// Try registering namespace with trailing backslash.
+		$path = JPATH_TEST_STUBS . '/discover2';
+		JLoader::registerNamespace('discover2\\', $path);
+
+		$namespaces = JLoader::getNamespaces();
+
+		$this->assertContains($path, $namespaces['discover2']);
+	}
+
+	/**
 	 * Tests the JLoader::registerPrefix method.
 	 *
 	 * @return  void
@@ -537,7 +596,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		// Add the libraries/joomla and libraries/legacy folders to the array
 		JLoader::registerPrefix('J', JPATH_PLATFORM . '/joomla');
-		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 		// Get the current prefixes array
 		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
@@ -876,7 +934,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->bogusPath);
-		unset($this->bogusFullPath);
+		unset($this->bogusPath, $this->bogusFullPath);
 	}
 }

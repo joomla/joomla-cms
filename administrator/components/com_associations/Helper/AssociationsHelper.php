@@ -10,9 +10,11 @@ namespace Joomla\Component\Associations\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Associations component helper.
@@ -180,7 +182,7 @@ class AssociationsHelper extends ContentHelper
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = self::getContentLanguages();
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -244,7 +246,7 @@ class AssociationsHelper extends ContentHelper
 					$additional = '<strong>' . \JText::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
 				}
 
-				$labelClass  = 'badge-association';
+				$labelClass  = 'badge-secondary';
 				$target      = $langCode . ':' . $items[$langCode]['id'] . ':edit';
 				$allow       = $canEditReference
 								&& self::allowEdit($extensionName, $typeName, $items[$langCode]['id'])
@@ -279,7 +281,7 @@ class AssociationsHelper extends ContentHelper
 			$text    = strtoupper($language->sef);
 
 			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass . ' badge-' . $language->sef;
+			$classes = 'hasPopover badge ' . $labelClass;
 
 			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
 						. '" data-content="' . $tooltip . '" data-placement="top">'
@@ -340,23 +342,14 @@ class AssociationsHelper extends ContentHelper
 		$result->def('associationssupport', false);
 		$result->def('helper', null);
 
-		// Check if associations helper exists
-		if (!file_exists(JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php'))
+		// Get the associations class
+		$helper = Factory::getApplication()->bootComponent($extensionName)->getAssociationsExtension();
+
+		if (!$helper)
 		{
 			return $result;
 		}
 
-		require_once JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php';
-
-		$componentAssociationsHelperClassName = self::getExtensionHelperClassName($extensionName);
-
-		if (!class_exists($componentAssociationsHelperClassName, false))
-		{
-			return $result;
-		}
-
-		// Create an instance of the helper class
-		$helper = new $componentAssociationsHelperClassName;
 		$result->set('helper', $helper);
 
 		if ($helper->hasAssociationsSupport() === false)
@@ -388,7 +381,8 @@ class AssociationsHelper extends ContentHelper
 			$title       = $helper->getTypeTitle($typeName);
 			$languageKey = $typeName;
 
-			if ($typeName === 'category')
+			$typeNameExploded = explode('.', $typeName);
+			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';
 				$context     = 'category';
@@ -447,18 +441,7 @@ class AssociationsHelper extends ContentHelper
 	 */
 	public static function getContentLanguages()
 	{
-		$db = \JFactory::getDbo();
-
-		// Get all content languages.
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
-			->from($db->quoteName('#__languages'))
-			->where($db->quoteName('published') . ' != -2')
-			->order($db->quoteName('ordering') . ' ASC');
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList('lang_code');
+		return LanguageHelper::getContentLanguages(array(0, 1));
 	}
 
 	/**
@@ -668,7 +651,7 @@ class AssociationsHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

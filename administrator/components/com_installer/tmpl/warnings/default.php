@@ -19,15 +19,15 @@ defined('_JEXEC') or die;
 				<div id="j-main-container" class="j-main-container">
 					<?php if (count($this->messages)) : ?>
 						<?php foreach ($this->messages as $message) : ?>
-							<div class="alert alert-warning" role="alert">
+							<joomla-alert type="warning">
 								<h4 class="alert-heading"><?php echo $message['message']; ?></h4>
 								<p class="m-b-0"><?php echo $message['description']; ?></p>
-							</div>
+							</joomla-alert>
 						<?php endforeach; ?>
-						<div class="alert alert-info" role="alert">
+						<joomla-alert type="info">
 							<h4 class="alert-heading"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
 							<p class="m-b-0"><?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
-						</div>
+						</joomla-alert>
 						<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 					<?php endif; ?>
 					<div>

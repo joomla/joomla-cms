@@ -41,8 +41,10 @@ JHtml::_('script', 'com_banners/admin-banner-edit.min.js', array('version' => 'a
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>

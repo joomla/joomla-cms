@@ -1,6 +1,8 @@
 import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
+import Video from "./video.vue";
+import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
 export default {
@@ -9,14 +11,18 @@ export default {
     render: function (createElement, context) {
 
         const store = context.parent.$store;
-        const selectedItems = store.state.selectedItems;
         const item = context.props.item;
 
         /**
          * Return the correct item type component
          */
         function itemType() {
+            if (store.state.listView == 'table') {
+                return Row;
+            }
+
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+	        let videoExtensions = ['mp4'];
 
             // Render directory items
             if (item.type === 'dir') return Directory;
@@ -26,8 +32,27 @@ export default {
                 return Image;
             }
 
+	        // Render video items
+	        if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
+		        return Video;
+	        }
+
             // Default to file type
             return File;
+        }
+
+        /**
+         * Get the styles for the media browser item
+         * @returns {{}}
+         */
+        function styles() {
+		if (store.state.listView == 'table') {
+		        return {};
+	        }
+
+	        return {
+			        'width': 'calc(' + store.state.gridSize + '% - 20px)',
+	        };
         }
 
         /**
@@ -43,9 +68,21 @@ export default {
          * @param event
          */
         function handleClick(event) {
-            var e = new Event('onMediaFileSelected');
-            e.item = item;
-	        window.parent.document.dispatchEvent(e);
+	        let path = false;
+	        const data = {
+		        path: path,
+		        thumb: false,
+		        fileType: item.mime_type ? item.mime_type : false,
+		        extension: item.extension ? item.extension : false,
+	        };
+
+	        if (item.type === 'file') {
+	            data.path = item.path;
+	            data.thumb = item.thumb ? item.thumb : false;
+
+		        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
+		        window.parent.document.dispatchEvent(ev);
+	        }
 
             // Handle clicks when the item was not selected
             if (!isSelected()) {
@@ -73,7 +110,8 @@ export default {
                 on: {
                     click: handleClick,
                 }
-            }, [
+            },
+            [
                 createElement(itemType(), {
                     props: context.props,
                 })

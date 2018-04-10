@@ -14,9 +14,11 @@
 
 		<field
 			name="upload_maxsize"
-			type="text"
+			type="number"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
 			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" 
+			validate="number"
+			min="0"
 			size="50"
 			default="10"
 		/>
@@ -32,7 +34,7 @@
 			name="file_path"
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
-			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC" 
+			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
 			size="50"
 			default="images"
 		/>

@@ -15,7 +15,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -71,7 +72,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+							<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
@@ -109,7 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+					<joomla-alert type="danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)
@@ -122,32 +123,38 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<fieldset class="form-vertical form-no-margin">
-						<?php echo $this->form->renderField('showtitle'); ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('position'); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<fieldset class="form-vertical form-no-margin">
+							<?php echo $this->form->renderField('showtitle'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('position'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->loadTemplate('positions'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->loadTemplate('positions'); ?>
-							</div>
-						</div>
-					</fieldset>
-					<?php
-					// Set main fields.
-					$this->fields = array(
-						'published',
-						'publish_up',
-						'publish_down',
-						'access',
-						'ordering',
-						'language',
-						'note'
-					);
+						</fieldset>
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'published',
+							'publish_up',
+							'publish_down',
+							'access',
+							'ordering',
+							'language',
+							'note'
+						);
 
-					?>
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						?>
+						<?php if ($this->item->client_id == 0) : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php else : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+						<?php endif; ?>
+ 					</div>
 				</div>
 			</div>
 		</div>

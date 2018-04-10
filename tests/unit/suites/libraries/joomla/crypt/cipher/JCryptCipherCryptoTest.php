@@ -30,7 +30,7 @@ class JCryptCipherCryptoTest extends TestCase
 		}
 		catch (CannotPerformOperationException $e)
 		{
-			self::markTestSkipped('The environment does not have mcrypt enabled.');
+			self::markTestSkipped('The environment cannot safely perform encryption with this cipher.');
 		}
 	}
 

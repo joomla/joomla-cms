@@ -182,8 +182,8 @@ class JMailTest extends TestCase
 	 */
 	public function testAddAttachment()
 	{
-		$attachments = array(JPATH_PLATFORM . '/joomla/mail/mail.php');
-		$names = array('mail.php');
+		$attachments = array(__FILE__);
+		$names = array(basename(__FILE__));
 
 		$mail = new JMail;
 		$mail->addAttachment($attachments, $names);

@@ -29,12 +29,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!defined('IS_WIN'))
 {
-	define('IS_WIN', ($os === 'WIN') ? true : false);
+	define('IS_WIN', $os === 'WIN');
 }
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 // Import the library loader if necessary.
@@ -51,12 +51,6 @@ if (!class_exists('JLoader'))
 
 // Setup the autoloaders.
 JLoader::setup();
-
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
-// Register classes that don't follow one file per class naming conventions.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))

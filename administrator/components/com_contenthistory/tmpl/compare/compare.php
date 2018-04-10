@@ -44,7 +44,7 @@ JHtml::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('ver
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<?php foreach ($value->value as $subName => $subValue) : ?>
-						<?php $newSubValue = isset($object2->$name->value->$subName->value) ? $object2->$name->value->$subName->value : ''; ?>
+						<?php $newSubValue = $object2->$name->value->$subName->value ?? ''; ?>
 						<?php if ($subValue->value || $newSubValue) : ?>
 							<?php if ($subValue->value != $newSubValue) : ?>
 								<tr>

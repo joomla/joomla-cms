@@ -18,9 +18,16 @@
 class JObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * @var    JObject
+	 * @var  JObject  Test-Object
 	 */
 	protected $object;
+
+	/**
+	 * @var  JObject  Test-Object
+	 *
+	 * @since  3.7.3
+	 */
+	protected $o;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.

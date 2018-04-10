@@ -123,15 +123,15 @@ abstract class JHtmlSearchtools
 	{
 		$direction = strtolower($direction);
 		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');
-		$index = (int) ($direction == 'desc');
+		$index = (int) ($direction === 'desc');
 
-		if ($order != $selected)
+		if ($order !== $selected)
 		{
 			$direction = $new_direction;
 		}
 		else
 		{
-			$direction = ($direction == 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
 		// Create an object to pass it to the layouts

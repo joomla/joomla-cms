@@ -15,7 +15,6 @@ JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 JText::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 JText::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.tabstate');
 JHtml::_('stylesheet', 'com_installer/installer.css', false, true);
 JHtml::_('script', 'com_installer/installer.js', false, true);
@@ -35,21 +34,6 @@ $app = JFactory::getApplication();
 					<?php // Render messages set by extension install scripts here ?>
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
-					<?php elseif ($this->showJedAndWebInstaller) : ?>
-						<div class="alert alert-info j-jed-message">
-							<?php echo JHtml::_(
-								'link',
-								JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
-								'',
-								'class="alert-options float-right hasTooltip icon-options" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
-							);
-							?>
-							<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
-								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-							<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonInstallWebInstaller()">
-								<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>
-							</button>
-						</div>
 					<?php endif; ?>
 					<?php // Show installation tabs at the start ?>
 					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>

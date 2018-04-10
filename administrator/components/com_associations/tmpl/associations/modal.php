@@ -19,7 +19,6 @@ if ($app->isClient('site'))
 }
 
 JHtml::_('jquery.framework');
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -49,12 +48,10 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 	<div id="j-main-container" class="col-md-10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-warning alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+		<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 	<?php else : ?>
 		<table class="table table-striped" id="associationsList">
 			<thead>
@@ -79,11 +76,11 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th style="width:5%" class="nowrap hidden-xs-down">
+						<th style="width:5%" class="nowrap d-none d-sm-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 						</th>
 					<?php endif; ?>
-					<th style="width:1%" class="nowrap hidden-xs-down">
+					<th style="width:1%" class="nowrap d-none d-sm-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -147,11 +144,11 @@ JHtml::_('script', 'com_associations/admin-associations-modal.min.js', false, tr
 						</td>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<td class="small hidden-xs-down">
+						<td class="small d-none d-sm-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 					<?php endif; ?>
-					<td class="hidden-xs-down">
+					<td class="d-none d-sm-table-cell">
 						<?php echo $item->id; ?>
 					</td>
 				</tr>

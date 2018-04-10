@@ -48,14 +48,14 @@ $params = array('params' => json_encode($param));
 <?php else : ?>
 	<?php foreach ($this->items as $item) : ?>
 	<div class="card card-outline-secondary mb-3">
-		<div class="card-block">
+		<div class="card-body">
 			<h3><?php echo JText::_($item->title_key); ?></h3>
 			<p class="small">
 				<?php echo JText::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
 			</p>
-			<p><?php echo JText::_($item->description_key); ?></p>
 			<div>
-				<?php if ($item->type !== 'message') : ?>
+				<?php echo JText::_($item->description_key); ?>
+                <?php if ($item->type !== 'message') : ?>
                 <a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token . '=1'); ?>" class="btn btn-primary">
 					<?php echo JText::_($item->action_key); ?>
 				</a>

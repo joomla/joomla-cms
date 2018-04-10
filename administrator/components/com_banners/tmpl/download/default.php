@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 ?>
 <div class="container-popup">
 	<form

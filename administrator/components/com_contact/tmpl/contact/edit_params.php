@@ -15,7 +15,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 	echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label));
 
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<p class="alert alert-info">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
+		echo '<joomla-alert type="info">' . $this->escape(JText::_($fieldSet->description)) . '</joomla-alert>';
 	endif;
 	?>
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>

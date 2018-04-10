@@ -24,19 +24,20 @@ if (isset($fieldsets['params']))
 	unset($fieldsets['params']);
 }
 
-$tmp          = isset($this->data->fields) ? $this->data->fields : array();
+$tmp          = $this->data->jcfields ?? array();
 $customFields = array();
 
 foreach ($tmp as $customField)
 {
 	$customFields[$customField->name] = $customField;
 }
+
 ?>
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
 	<?php $fields = $this->form->getFieldset($group); ?>
 	<?php if (count($fields)) : ?>
 		<fieldset id="users-profile-custom-<?php echo $group; ?>" class="users-profile-custom-<?php echo $group; ?>">
-			<?php if (isset($fieldset->label) && strlen($legend = trim(JText::_($fieldset->label)))) : ?>
+			<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
 				<legend><?php echo $legend; ?></legend>
 			<?php endif; ?>
 			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
@@ -45,9 +46,11 @@ foreach ($tmp as $customField)
 			<dl class="dl-horizontal">
 				<?php foreach ($fields as $field) : ?>
 					<?php if (!$field->hidden && $field->type !== 'Spacer') : ?>
-						<dt><?php echo $field->title; ?></dt>
+						<dt>
+							<?php echo $field->title; ?>
+						</dt>
 						<dd>
-							<?php if (key_exists($field->fieldname, $customFields)) : ?>
+							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
 								<?php echo $customFields[$field->fieldname]->value ?: JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (JHtml::isRegistered('users.' . $field->id)) : ?>
 								<?php echo JHtml::_('users.' . $field->id, $field->value); ?>

@@ -41,17 +41,17 @@ class FinderHelper
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
-			$vName == 'index'
+			$vName === 'index'
 		);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
-			$vName == 'maps'
+			$vName === 'maps'
 		);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
-			$vName == 'filters'
+			$vName === 'filters'
 		);
 	}
 
@@ -78,7 +78,7 @@ class FinderHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

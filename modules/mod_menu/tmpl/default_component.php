@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+
 $attributes = array();
 
 if ($item->anchor_title)
@@ -30,7 +33,15 @@ $linktype = $item->title;
 
 if ($item->menu_image)
 {
-	$linktype = JHtml::_('image', $item->menu_image, $item->title);
+	if ($item->menu_image_css)
+	{
+		$image_attributes['class'] = $item->menu_image_css;
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title, $image_attributes);
+	}
+	else
+	{
+		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
+	}
 
 	if ($item->params->get('menu_text', 1))
 	{
@@ -49,4 +60,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);

@@ -12,6 +12,7 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_messages.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Messages</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>

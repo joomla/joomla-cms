@@ -37,7 +37,7 @@ class FinderIndexerStemmerSnowball extends FinderIndexerStemmer
 		if ($lang == '*' && $defaultLang == '')
 		{
 			$languages = JLanguageHelper::getLanguages();
-			$defaultLang = isset($languages[0]->sef) ? $languages[0]->sef : '*';
+			$defaultLang = $languages[0]->sef ?? '*';
 			$lang = $defaultLang;
 		}
 

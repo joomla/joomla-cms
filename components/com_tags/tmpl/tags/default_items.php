@@ -44,6 +44,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		document.getElementById('filter-search').value = '';
 	}
 ");
+
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -55,7 +56,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
-					<span class="input-group-btn">
+					<span class="input-group-append">
 						<button type="button" name="filter-search-button" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>" onclick="document.adminForm.submit();" class="btn btn-secondary">
 							<span class="fa fa-search" aria-hidden="true"></span>
 						</button>
@@ -81,22 +82,22 @@ JFactory::getDocument()->addScriptDeclaration("
 		</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->items == false || $n == 0) : ?>
+	<?php if ($this->items == false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
 	<?php else : ?>
 		<?php foreach ($this->items as $i => $item) : ?>
 
-			<?php if ($n == 1 || $i == 0 || $bscolumns == 1 || $i % $bscolumns == 0) : ?>
+			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
 				<ul class="category list-group">
 			<?php endif; ?>
 
 			<li class="list-group-item list-group-item-action">
 				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-				<h3 class="mb-0">
-					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
-						<?php echo $this->escape($item->title); ?>
-					</a>
-				</h3>
+					<h3 class="mb-0">
+						<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
+							<?php echo $this->escape($item->title); ?>
+						</a>
+					</h3>
 				<?php endif; ?>
 
 				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
@@ -119,18 +120,18 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="caption">
 					<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
 						<span class="tag-body">
-						<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('tag_list_item_maximum_characters')); ?>
-					</span>
+							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+						</span>
 					<?php endif; ?>
 					<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
 						<span class="list-hits badge badge-info">
-						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-					</span>
+							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+						</span>
 					<?php endif; ?>
 				</div>
 			</li>
 
-			<?php if (($i == 0 && $n == 1) || $i == $n - 1 || $bscolumns == 1 || (($i + 1) % $bscolumns == 0)) : ?>
+			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
 				</ul>
 			<?php endif; ?>
 
@@ -139,15 +140,15 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<?php // Add pagination links ?>
 	<?php if (!empty($this->items)) : ?>
-	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-		<div class="w-100">
-			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="counter float-right pt-3 pr-2">
-					<?php echo $this->pagination->getPagesCounter(); ?>
-				</p>
-			<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
-		</div>
+		<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+			<div class="w-100">
+				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+					<p class="counter float-right pt-3 pr-2">
+						<?php echo $this->pagination->getPagesCounter(); ?>
+					</p>
+				<?php endif; ?>
+				<?php echo $this->pagination->getPagesLinks(); ?>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
 </form>
-<?php endif; ?>

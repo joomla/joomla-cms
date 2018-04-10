@@ -31,6 +31,14 @@ abstract class FieldsPlugin extends CMSPlugin
 	 */
 	public function onCustomFieldsGetTypes()
 	{
+		// Cache filesystem access / checks
+		static $types_cache = array();
+
+		if (isset($types_cache[$this->_type . $this->_name]))
+		{
+			return $types_cache[$this->_type . $this->_name];
+		}
+
 		$types = array();
 
 		// The root of the plugin
@@ -89,7 +97,8 @@ abstract class FieldsPlugin extends CMSPlugin
 			$types[] = $data;
 		}
 
-		// Return the data
+		// Add to cache and return the data
+		$types_cache[$this->_type . $this->_name] = $types;
 		return $types;
 	}
 
@@ -165,12 +174,17 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Set the attributes
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
-		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
+
+		if ($field->default_value !== '')
+		{
+			$defaultNode = $node->appendChild(new \DOMElement('default'));
+			$defaultNode->appendChild(new \DOMCdataSection($field->default_value));
+		}
 
 		// Combine the two params
 		$params = clone $this->params;

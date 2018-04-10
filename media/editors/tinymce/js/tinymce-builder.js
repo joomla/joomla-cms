@@ -200,7 +200,7 @@
             $btn.html('<span class="mce-txt">' + tinymce.translate(info.label) + '</span> <i class="mce-caret"></i>');
         } else {
             $element.addClass('mce-btn-small');
-            $btn.html(info.text ? tinymce.translate(info.text) : '<span class="mce-ico mce-i-' + name + '"></span>');
+            $btn.html(info.text ? tinymce.translate(info.text) : '<i class="mce-ico mce-i-' + name + '"></i>');
         }
 
         return $element;

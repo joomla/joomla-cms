@@ -12,7 +12,7 @@
     <authorUrl>https://www.joomla.org</authorUrl>
     <packager>Joomla!</packager>
     <packagerurl>https://www.joomla.org</packagerurl>
-    <update>http://update.joomla.org/libraries/joomla</update>
+    <update>https://update.joomla.org/libraries/joomla</update>
     <files folder="libraries">
         <folder>joomla</folder>
         <file>import.php</file>

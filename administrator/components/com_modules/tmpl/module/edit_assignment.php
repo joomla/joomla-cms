@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
-JHtml::_('script', 'system/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
@@ -32,21 +32,20 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 		<?php $id = 'jform_menuselect'; ?>
 
 		<div class="card card-secondary">
-		<div class="card-header">
-			<span class="small"><?php echo JText::_('JSELECT'); ?>:
-				<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
-			</span>
-			<span class="width-20">|</span>
-			<span class="small"><?php echo JText::_('COM_MODULES_EXPAND'); ?>:
-				<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
-				<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
-			</span>
-			<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
-				autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
-		</div>
-			<div class="card-block">
-
+			<div class="card-header">
+				<span class="small"><?php echo JText::_('JSELECT'); ?>:
+					<a id="treeCheckAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
+					<a id="treeUncheckAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+				</span>
+				<span class="width-20">|</span>
+				<span class="small"><?php echo JText::_('COM_MODULES_EXPAND'); ?>:
+					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
+					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
+				</span>
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
+					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+			</div>
+			<div class="card-body">
 				<ul class="treeselect">
 					<?php foreach ($menuTypes as &$type) : ?>
 					<?php if (count($type->links)) : ?>
@@ -80,7 +79,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 								<li>
 									<div class="treeselect-item">
 										<?php
-										$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+										$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
 										?>
 										<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
 										<label for="<?php echo $id . $link->value; ?>" class="">
@@ -113,9 +112,7 @@ JHtml::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('ver
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<div id="noresultsfound" style="display:none;" class="alert alert-warning alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				</div>
+				<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">

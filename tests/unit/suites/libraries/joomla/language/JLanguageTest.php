@@ -39,15 +39,6 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		parent::setUp();
 
-		$path = JPATH_TESTS . '/tmp/language';
-
-		if (is_dir($path))
-		{
-			JFolder::delete($path);
-		}
-
-		JFolder::copy(__DIR__ . '/data/language', $path);
-
 		$this->object = new JLanguage;
 		$this->inspector = new JLanguageInspector('', true);
 	}
@@ -60,9 +51,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		JFolder::delete(JPATH_TESTS . '/tmp/language');
-		unset($this->object);
-		unset($this->inspector);
+		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
 
@@ -216,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
@@ -230,7 +219,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetTransliterator()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
@@ -307,8 +298,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getPluralSuffixesCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getPluralSuffixesCallback()
 		);
 	}
 
@@ -320,15 +312,19 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetPluralSuffixesCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getPluralSuffixesCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getPluralSuffixesCallback()
 		);
 
-		$this->assertTrue(
-			is_callable($lang->setPluralSuffixesCallback($function1))
+		$this->assertInternalType(
+			'callable',
+			$lang->setPluralSuffixesCallback($function1)
 		);
 
 		$get = $lang->getPluralSuffixesCallback();
@@ -396,8 +392,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getIgnoredSearchWordsCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getIgnoredSearchWordsCallback()
 		);
 	}
 
@@ -409,16 +406,20 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetIgnoredSearchWordsCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getIgnoredSearchWordsCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getIgnoredSearchWordsCallback()
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(
-			is_callable($lang->setIgnoredSearchWordsCallback($function1))
+		$this->assertInternalType(
+			'callable',
+			$lang->setIgnoredSearchWordsCallback($function1)
 		);
 
 		$get = $lang->getIgnoredSearchWordsCallback();
@@ -486,8 +487,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getLowerLimitSearchWordCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getLowerLimitSearchWordCallback()
 		);
 	}
 
@@ -499,16 +501,20 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetLowerLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getLowerLimitSearchWordCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getLowerLimitSearchWordCallback()
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(
-			is_callable($lang->setLowerLimitSearchWordCallback($function1))
+		$this->assertInternalType(
+			'callable',
+			$lang->setLowerLimitSearchWordCallback($function1)
 		);
 
 		$get = $lang->getLowerLimitSearchWordCallback();
@@ -576,8 +582,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getUpperLimitSearchWordCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getUpperLimitSearchWordCallback()
 		);
 	}
 
@@ -589,16 +596,20 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetUpperLimitSearchWordCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getUpperLimitSearchWordCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getUpperLimitSearchWordCallback()
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(
-			is_callable($lang->setUpperLimitSearchWordCallback($function1))
+		$this->assertInternalType(
+			'callable',
+			$lang->setUpperLimitSearchWordCallback($function1)
 		);
 
 		$get = $lang->getUpperLimitSearchWordCallback();
@@ -666,8 +677,9 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getSearchDisplayedCharactersNumberCallback()
 		);
 	}
 
@@ -679,16 +691,20 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testSetSearchDisplayedCharactersNumberCallback()
 	{
 		$function1 = 'phpinfo';
-		$function2 = function () { return; };
+		$function2 = function () {
+			return;
+		};
 		$lang = new JLanguage('');
 
-		$this->assertTrue(
-			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
+		$this->assertInternalType(
+			'callable',
+			$lang->getSearchDisplayedCharactersNumberCallback()
 		);
 
 		// Note: set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(
-			is_callable($lang->setSearchDisplayedCharactersNumberCallback($function1))
+		$this->assertInternalType(
+			'callable',
+			$lang->setSearchDisplayedCharactersNumberCallback($function1)
 		);
 
 		$get = $lang->getSearchDisplayedCharactersNumberCallback();

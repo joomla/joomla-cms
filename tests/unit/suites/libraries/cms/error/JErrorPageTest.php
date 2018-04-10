@@ -31,7 +31,6 @@ class JErrorPageTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		TestReflection::setValue('JDocument', 'instances', array());
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -65,7 +64,13 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
+		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
+		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
+
+		// Set our mock document into the container
+		$container = new \Joomla\DI\Container;
+		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
+		JFactory::$container = $container;
 
 		// Create an Exception to inject into the method
 		$exception = new RuntimeException('Testing JErrorPage::render() with RuntimeException', 500);
@@ -81,8 +86,6 @@ class JErrorPageTest extends TestCaseDatabase
 
 	/**
 	 * @covers  JErrorPage::render
-	 *
-	 * @requires  PHP 7.0
 	 */
 	public function testEnsureTheErrorPageIsCorrectlyRenderedWithThrowables()
 	{
@@ -109,7 +112,13 @@ class JErrorPageTest extends TestCaseDatabase
 			->method('render')
 			->willReturn($documentResponse);
 
-		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
+		$mockFactory = $this->getMockBuilder(\Joomla\CMS\Document\FactoryInterface::class)->getMock();
+		$mockFactory->method('createDocument')->willReturn($mockErrorDocument);
+
+		// Set our mock document into the container
+		$container = new \Joomla\DI\Container;
+		$container->set(\Joomla\CMS\Document\FactoryInterface::class, $mockFactory);
+		JFactory::$container = $container;
 
 		// Create an Error to inject into the method
 		$exception = new Error('Testing JErrorPage::render() with PHP 7 Error', 500);
@@ -121,21 +130,5 @@ class JErrorPageTest extends TestCaseDatabase
 
 		// Validate the mocked response from JDocument was received
 		$this->assertEquals($documentResponse, $output);
-	}
-
-	/**
-	 * @covers  JErrorPage::render
-	 */
-	public function testEnsureTheRenderMethodCorrectlyHandlesNonExceptionClasses()
-	{
-		// Create an object to inject into the method
-		$object = new stdClass;
-
-		// The render method echoes the output, so catch it in a buffer
-		ob_start();
-		JErrorPage::render($object);
-		$output = ob_get_clean();
-
-		$this->assertEquals('Error displaying the error page', $output);
 	}
 }

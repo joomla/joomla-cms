@@ -13,3 +13,42 @@
   transform: translateY(-10px);
   opacity: 0;
 }
+
+// Infobar
+.infobar-enter-active {
+  animation: slideOutRight .2s reverse;
+}
+
+.infobar-leave-active {
+  animation: slideOutRight .2s;
+}
+
+// Slide out right animation
+@keyframes slideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+// Bounce in animation
+.fade-in-enter-active {
+  animation: fadeIn .2s;
+}
+
+.fade-in-leave-active {
+  animation: fadeIn .2s reverse;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -13,21 +13,15 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-// Output as HTML5
-$this->setHtml5(true);
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 // Styles
-JHtml::_('stylesheet', 'templates/system/css/offline.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', array('version' => 'auto'));
+	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
 }
 
-JHtml::_('stylesheet', 'templates/system/css/general.css', array('version' => 'auto'));
+JHtml::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');

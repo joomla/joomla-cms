@@ -9,16 +9,17 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-$app = JFactory::getApplication('administrator');
+$app = Factory::getApplication();
 ?>
 
-<legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
+<legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <hr>
 <div class="control-group">
 	<label for="install_directory" class="control-label">
-		<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
+		<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
 		<input type="text" id="install_directory" name="install_directory" class="form-control input-xlarge"
@@ -29,7 +30,7 @@ $app = JFactory::getApplication('administrator');
 <div class="control-group">
 	<div class="controls">
 		<button type="button" class="btn btn-primary" id="installbutton_directory" onclick="Joomla.submitbuttonfolder()">
-			<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>
+			<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>
 		</button>
 	</div>
 </div>

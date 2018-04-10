@@ -106,7 +106,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$config->set('session', false);
 
 		// Get a new JApplicationCmsInspector instance.
-		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		// @Todo mock the container properly
+		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config, null, JFactory::getContainer());
 		$this->class->setSession(JFactory::$session);
 		$this->class->setDispatcher($this->getMockDispatcher());
 
@@ -131,9 +132,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$_SERVER = $this->backupServer;
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($config);
-		unset($this->class);
+		unset($this->backupServer, $config, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -142,13 +141,13 @@ class JApplicationCmsTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
 		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
@@ -184,11 +183,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		$mockInput = $this->getMockInput();
 
 		$config = new Registry;
@@ -220,6 +214,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 	public function testExecuteWithoutDocument()
 	{
 		$this->class->execute();
+
+		// Nothing happened, we just assert TRUE to pass test.
+		self::assertTrue(true);
 	}
 
 	/**
@@ -427,9 +424,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -536,7 +533,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array('Location: '  . $url, true, null),
+			array('Location: ' . $url, true, null),
 			$this->class->headers[1]
 		);
 
@@ -545,9 +542,9 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),

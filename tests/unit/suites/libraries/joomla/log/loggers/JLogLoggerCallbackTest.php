@@ -29,7 +29,9 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
+		$callback = function ($entry)
+		{
+		};
 
 		// Setup the basic configuration.
 		$config = array(
@@ -41,7 +43,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -68,7 +70,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -93,7 +95,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -143,7 +145,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -169,7 +171,7 @@ class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
 
 		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+		$this->assertInternalType('callable', $logger->callback, 'Line: ' . __LINE__);
 	}
 
 	/**

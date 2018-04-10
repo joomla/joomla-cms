@@ -9,12 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+
 /**
  * Joomla! update notification plugin
  *
  * @since  2.5
  */
-class PlgQuickiconExtensionupdate extends JPlugin
+class PlgQuickiconExtensionupdate extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -37,34 +44,34 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
 		{
 			return array();
 		}
 
-		$token    = JSession::getFormToken() . '=1';
+		$token    = Session::getFormToken() . '=1';
 		$options  = array(
-			'url' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-			'ajaxUrl' => JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
+			'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
+			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
 		);
 
-		JFactory::getDocument()->addScriptOptions('js-extensions-update', $options);
+		Factory::getDocument()->addScriptOptions('js-extensions-update', $options);
 
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
-		JText::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
+		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
 
-		JHtml::_('behavior.core');
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('behavior.core');
+		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'asterisk',
-				'icon'  => 'header/icon-48-extension.png',
-				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
+				'image' => 'fa fa-star-o',
+				'icon'  => '',
+				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)

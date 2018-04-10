@@ -66,8 +66,7 @@ class JRouterAdministratorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
-		unset($this->server);
-		unset($this->object);
+		unset($this->server, $this->object);
 
 		parent::tearDown();
 	}
@@ -84,7 +83,7 @@ class JRouterAdministratorTest extends TestCase
 		$uri = JUri::getInstance('http://localhost');
 
 		$vars = $this->object->parse($uri);
-		$this->assertTrue(is_array($vars));
+		$this->assertInternalType('array', $vars);
 	}
 
 	/**

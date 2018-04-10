@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Authentication\Authentication;
+
 /**
  * Joomla! System Logging Plugin.
  *
  * @since  1.5
  */
-class PlgSystemLog extends JPlugin
+class PlgSystemLog extends CMSPlugin
 {
 	/**
 	 * Called if user fails to be logged in.
@@ -31,12 +35,12 @@ class PlgSystemLog extends JPlugin
 
 		switch ($response['status'])
 		{
-			case JAuthentication::STATUS_SUCCESS:
+			case Authentication::STATUS_SUCCESS:
 				$errorlog['status']  = $response['type'] . ' CANCELED: ';
 				$errorlog['comment'] = $response['error_message'];
 				break;
 
-			case JAuthentication::STATUS_FAILURE:
+			case Authentication::STATUS_FAILURE:
 				$errorlog['status']  = $response['type'] . ' FAILURE: ';
 
 				if ($this->params->get('log_username', 0))
@@ -55,7 +59,15 @@ class PlgSystemLog extends JPlugin
 				break;
 		}
 
-		JLog::addLogger(array(), JLog::INFO);
-		JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);
+		Log::addLogger(array(), Log::INFO);
+		try
+		{
+			Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);
+		}
+		catch (Exception $e) 
+		{
+			// If the log file is unwriteable during login then we should not go to the error page
+			return;
+		}
 	}
 }

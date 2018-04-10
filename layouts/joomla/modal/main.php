@@ -9,8 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
@@ -67,27 +67,27 @@ if (isset($params['keyboard']))
 
 if (isset($params['url']))
 {
-	$url = 'data-url="' . $params['url'] . '"';
-	$iframeHtml = htmlspecialchars(JLayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
+	$url        = 'data-url="' . $params['url'] . '"';
+	$iframeHtml = htmlspecialchars(LayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?> <?php echo isset($url) ? $url : ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
 	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
 		<div class="modal-content">
 			<?php
 				// Header
 				if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
 				{
-					echo JLayoutHelper::render('joomla.modal.header', $displayData);
+					echo LayoutHelper::render('joomla.modal.header', $displayData);
 				}
 
 				// Body
-				echo JLayoutHelper::render('joomla.modal.body', $displayData);
+				echo LayoutHelper::render('joomla.modal.body', $displayData);
 
 				// Footer
 				if (isset($params['footer']))
 				{
-					echo JLayoutHelper::render('joomla.modal.footer', $displayData);
+					echo LayoutHelper::render('joomla.modal.footer', $displayData);
 				}
 			?>
 		</div>

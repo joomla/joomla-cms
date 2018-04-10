@@ -66,7 +66,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__construct()
 	{
-		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Input\\Input', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeEmpty('dispatcher', $this->class);
 
@@ -85,11 +85,6 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInputCli')
 					->setMethods(array('test'))
@@ -117,7 +112,9 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMockForAbstractClass('JApplicationCli', array($mockInput, $mockConfig, null, null, $mockDispatcher));
+		$class = $this->getMockBuilder('JApplicationCli')
+			->setConstructorArgs([$mockInput, $mockConfig, null, null, $mockDispatcher])
+			->getMockForAbstractClass();
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
@@ -133,70 +130,6 @@ class JApplicationCliTest extends TestCase
 	public function testExecute()
 	{
 		$this->class->execute();
-	}
-
-	/**
-	 * Data for fetchConfigurationData method.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getFetchConfigurationData()
-	{
-		return array(
-			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(JPATH_TEST_STUBS . '/configuration.php', null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_TEST_STUBS . '/config.wrongclass.php', 'noclass', false, array(), true),
-		);
-	}
-
-	/**
-	 * Tests the JApplicationCli::fetchConfigurationData method.
-	 *
-	 * @param   string   $file               The name of the configuration file.
-	 * @param   string   $class              The name of the class.
-	 * @param   boolean  $expectsClass       The result is expected to be a class.
-	 * @param   array    $expects            The expected result as an array.
-	 * @param   boolean  $expectedException  The expected exception
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
-	 */
-	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
-	{
-		if ($expectedException)
-		{
-			$this->setExpectedException('RuntimeException');
-		}
-
-		if (is_null($file) && is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData');
-		}
-		elseif (is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file);
-		}
-		else
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file, $class);
-		}
-
-		if ($expects == 'ConfigEval')
-		{
-			$expects = new JConfig;
-			$expects = (array) $expects;
-		}
-
-		if ($expectsClass)
-		{
-			$this->assertInstanceOf($expectsClass, $config, 'Checks the configuration object is the appropriate class.');
-		}
-
-		$this->assertEquals($expects, (array) $config, 'Checks the content of the configuration object.');
 	}
 
 	/**
@@ -243,28 +176,5 @@ class JApplicationCliTest extends TestCase
 	public function testGetInstanceForUnexistingClass()
 	{
 		JApplicationCli::getInstance('Foo');
-	}
-
-	/**
-	 * Tests the JApplicationCli::loadConfiguration method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadConfiguration()
-	{
-		$this->assertSame(
-			$this->class, $this->class->loadConfiguration(array('foo' => 'bar')));
-
-		$this->assertEquals('bar', TestReflection::getValue($this->class, 'config')->get('foo'), 'Check the configuration array was loaded.');
-
-		$this->class->loadConfiguration(
-			(object) array(
-				'goo' => 'car',
-			)
-		);
-
-		$this->assertEquals('car', TestReflection::getValue($this->class, 'config')->get('goo'), 'Check the configuration object was loaded.');
 	}
 }

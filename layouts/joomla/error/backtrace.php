@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var $displayData array */
 $backtraceList = $displayData['backtrace'];
 
@@ -17,7 +19,7 @@ if (!$backtraceList)
 	return;
 }
 
-$class = isset($displayData['class']) ? $displayData['class'] : 'table table-striped table-bordered';
+$class = $displayData['class'] ?? 'table table-striped table-bordered';
 ?>
 <table cellpadding="0" cellspacing="0" class="Table <?php echo $class ?>">
 	<tr>
@@ -56,7 +58,7 @@ $class = isset($displayData['class']) ? $displayData['class'] : 'table table-str
 
 		<?php if (isset($backtrace['file'])): ?>
 		<td class="TD">
-			<?php echo JHtml::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
+			<?php echo HTMLHelper::_('debug.xdebuglink', $backtrace['file'], $backtrace['line']); ?>
 		</td>
 		<?php else: ?>
 		<td class="TD">

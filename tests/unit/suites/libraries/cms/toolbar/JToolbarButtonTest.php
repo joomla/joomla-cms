@@ -74,9 +74,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->toolbar);
-		unset($this->object);
+		unset($this->backupServer, $this->toolbar, $this->object);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -123,7 +121,7 @@ class JToolbarButtonTest extends TestCaseDatabase
 	{
 		$type = array('Standard', 'test');
 
-		$expected = "\n<button onclick=\"if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton(''); }\" class=\"btn btn-sm btn-outline-primary\">\n\t<span class=\"icon-test\" aria-hidden=\"true\"></span>\n\t</button>\n";
+		$expected = "\n<button id=\"toolbar-test\" onclick=\"if (document.adminForm.boxchecked.value == 0) { Joomla.renderMessages({'error': [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}) } else { Joomla.submitbutton(''); }\" class=\"button-test btn btn-sm btn-outline-primary\">\n\t<span class=\"icon-test\" aria-hidden=\"true\"></span>\n\t</button>\n";
 
 		$this->assertEquals(
 			$expected,

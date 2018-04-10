@@ -437,6 +437,7 @@ class JViewLegacyTest extends TestCase
 		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
+		$_SERVER['REQUEST_URI'] = '/';
 
 		$this->class = new JViewLegacy;
 	}

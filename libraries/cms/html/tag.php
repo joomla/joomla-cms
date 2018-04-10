@@ -173,7 +173,8 @@ abstract class JHtmlTag
 		// Include scripts
 		JHtml::_('behavior.core');
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
+		JHtml::_('formbehavior.chosen');
+		JHtml::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, JDEBUG);
 
 		JFactory::getDocument()->addScriptOptions(
 			'ajax-chosen',

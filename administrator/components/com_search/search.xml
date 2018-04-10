@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_SEARCH_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Search</namespace>
 	<files folder="site">
 		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>		

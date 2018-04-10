@@ -62,15 +62,11 @@
 }
 
 .custom-select {
-  min-width: 240px;
+  max-width: 240px;
 }
 
 .spacer hr {
   width: 380px;
-}
-
-.card .custom-select {
-  width: 100%;
 }
 
 td .form-control {
@@ -103,15 +99,13 @@ legend {
 
 // Validation
 .invalid {
-  color: $switcher-color-danger;
-  border-color: $switcher-color-danger;
+  color: theme-color("danger");
+  border-color: theme-color("danger");
 }
 .valid {
-  border-color: $switcher-color-success;
+  border-color: theme-color("success");
 }
 
-// Possibly temporary until Bootstrap support it themselves
-.custom-select[multiple] {
-  height: auto;
-  background: none;
+.form-control-feedback {
+  display: block;
 }

@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGGED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Logged</namespace>
 	<files>
 		<filename module="mod_logged">mod_logged.php</filename>
 		<folder>tmpl</folder>
@@ -23,9 +24,8 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
-					description="MOD_LOGGED_FIELD_COUNT_DESC" 
 					default="5"
 				/>
 
@@ -33,7 +33,6 @@
 					name="name"
 					type="list"
 					label="MOD_LOGGED_NAME"
-					description="MOD_LOGGED_FIELD_NAME_DESC"
 					default="1"
 					>
 					<option value="1">MOD_LOGGED_NAME</option>
@@ -45,14 +44,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
-				/>
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -60,7 +57,6 @@
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="switcher"
 					default="0"
 					>

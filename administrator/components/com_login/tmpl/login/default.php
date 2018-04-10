@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ModuleHelper;
  * If you want to use a completely different login module change the value of name
  * in your layout override.
  */
-$loginmodule = \Joomla\Component\Login\Administrator\Model\Login::getLoginModule('mod_login');
+$loginmodule = \Joomla\Component\Login\Administrator\Model\LoginModel::getLoginModule('mod_login');
 echo ModuleHelper::renderModule($loginmodule, array('style' => 'rounded', 'id' => 'section-box'));
 
 

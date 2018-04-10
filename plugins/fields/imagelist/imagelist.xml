@@ -25,9 +25,7 @@
 					name="directory"
 					type="folderlist"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_DIRECTORY_DESC"
 					directory="images"
-					required="true"
 					hide_none="true"
 					hide_default="true"
 					recursive="true"
@@ -40,7 +38,6 @@
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -52,7 +49,6 @@
 					name="image_class"
 					type="textarea"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_LABEL"
-					description="PLG_FIELDS_IMAGELIST_PARAMS_IMAGE_CLASS_DESC"
 					size="40"
 				/>
 			</fieldset>

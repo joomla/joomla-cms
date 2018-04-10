@@ -9,9 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FEED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Feed</namespace>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
-		<filename>helper.php</filename>
+		<folder>Helper</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -26,7 +27,6 @@
 					name="rssurl"
 					type="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
-					description="MOD_FEED_FIELD_RSSURL_DESC"
 					filter="url"
 					size="50"
 					required="true"
@@ -37,21 +37,8 @@
 					name="rssrtl"
 					type="radio"
 					label="MOD_FEED_FIELD_RTL_LABEL"
-					description="MOD_FEED_FIELD_RTL_DESC"
 					class="switcher"
 					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="rsstitle"
-					type="radio"
-					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
-					description="MOD_FEED_FIELD_RSSTITLE_DESC"
-					class="switcher"
-					default="1"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -61,31 +48,28 @@
 					name="rssdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_DESCRIPTION_DESC"
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssimage"
 					type="radio"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					description="MOD_FEED_FIELD_IMAGE_DESC"
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
-					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
 				/>
 
@@ -93,36 +77,25 @@
 					name="rssitemdesc"
 					type="radio"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC"
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
-				<field
-					name="word_count"
-					type="text"
-					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
-					description="MOD_FEED_FIELD_WORDCOUNT_DESC" 
-					size="6"
-					default="0"
-				/>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
-				/>
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -130,7 +103,6 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -139,10 +111,9 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" 
-					default="900"
+ 					default="900"
 				/>
 			</fieldset>
 		</fields>

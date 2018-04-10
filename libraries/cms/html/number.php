@@ -58,7 +58,7 @@ abstract class JHtmlNumber
 			{
 				$oBase  = $iec && strpos($oUnit, 'i') === false ? 1000 : 1024;
 				$factor = pow($oBase, stripos('BKMGTPEZY', $oUnit[0]));
-				$oBytes = $oBytes * $factor;
+				$oBytes *= $factor;
 			}
 		}
 
@@ -91,7 +91,7 @@ abstract class JHtmlNumber
 			$i      = array_search($unit, $stdSuffixes, true);
 			$suffix = $unit;
 		}
-		elseif ($unit == 'binary')
+		elseif ($unit === 'binary')
 		{
 			$base   = 1024;
 			$i      = (int) floor(log($oBytes, $base));

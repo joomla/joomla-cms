@@ -10,13 +10,12 @@
 	</layout>
 	<fields name="params">
 		<fieldset name="basic"
-			addfieldpath="/administrator/components/com_categories/models/fields"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 		>
 			<field 
 				name="enable_category"
 				type="radio"
 				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
-				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC"
 				class="switcher"
 				default="0"
 				>
@@ -28,7 +27,6 @@
 				name="catid"
 				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				select="true"
 				new="true"
@@ -42,6 +40,28 @@
 				type="modal_menu"
 				label="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_LABEL"
 				description="COM_CONTENT_CREATE_ARTICLE_REDIRECTMENU_DESC"
+				>
+				<option value="">JDEFAULT</option>
+			</field>
+
+			<field
+				name="custom_cancel_redirect"
+				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="cancel_redirect_menuitem"
+				type="modal_menu"
+				label="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CANCEL_REDIRECT_MENU_DESC"
+				showon="custom_cancel_redirect:1"
 				>
 				<option value="">JDEFAULT</option>
 			</field>

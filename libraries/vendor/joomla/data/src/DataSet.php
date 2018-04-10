@@ -215,9 +215,9 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 
 		foreach ($this->objects as $object)
 		{
-			$object_vars = json_decode(json_encode($object), true);
+			$objectVars = json_decode(json_encode($object), true);
 
-			$keys = (is_null($keys)) ? $object_vars : $function($keys, $object_vars);
+			$keys = (is_null($keys)) ? $objectVars : $function($keys, $objectVars);
 		}
 
 		return array_keys($keys);
@@ -249,7 +249,7 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 
 		foreach ($this->objects as $key => $object)
 		{
-			$array_item = [];
+			$arrayItem = [];
 
 			$key = ($associative) ? $key : $i++;
 
@@ -257,11 +257,11 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 
 			foreach ($keys as $property)
 			{
-				$property_key              = ($associative) ? $property : $j++;
-				$array_item[$property_key] = (isset($object->$property)) ? $object->$property : null;
+				$propertyKey             = ($associative) ? $property : $j++;
+				$arrayItem[$propertyKey] = (isset($object->$property)) ? $object->$property : null;
 			}
 
-			$return[$key] = $array_item;
+			$return[$key] = $arrayItem;
 		}
 
 		return $return;
@@ -351,30 +351,19 @@ class DataSet implements DumpableInterface, \ArrayAccess, \Countable, \Iterator
 	 * Note that this method will not return an associative array, otherwise it would be encoded into an object.
 	 * JSON decoders do not consistently maintain the order of associative keys, whereas they do maintain the order of arrays.
 	 *
-	 * @param   mixed  $serialized  An array of objects that have already been serialized that is used to infinite loops
-	 *                              (null on first call).
-	 *
 	 * @return  array  An array that can be serialised by json_encode().
 	 *
 	 * @since   1.0
 	 */
-	public function jsonSerialize($serialized = null)
+	public function jsonSerialize()
 	{
-		// Check if we should initialise the recursion tracker.
-		if ($serialized === null)
-		{
-			$serialized = [];
-		}
-
-		// Add this object to the serialized stack.
-		$serialized[] = spl_object_hash($this);
-		$return       = [];
+		$return = [];
 
 		// Iterate through the objects.
 		foreach ($this->objects as $object)
 		{
 			// Call the method for the object.
-			$return[] = json_encode($object);
+			$return[] = $object;
 		}
 
 		return $return;

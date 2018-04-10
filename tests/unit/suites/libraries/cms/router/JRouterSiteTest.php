@@ -31,13 +31,13 @@ class JRouterSiteTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 
@@ -185,7 +185,7 @@ class JRouterSiteTest extends TestCaseDatabase
 		$server3 = array(
 			'HTTP_HOST'       => '',
 			'SCRIPT_NAME'     => '',
-			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/deletefiles.php',
+			'SCRIPT_FILENAME' => JPATH_SITE . '/cli/finder_indexer.php',
 			'PHP_SELF'        => '',
 			'REQUEST_URI'     => ''
 		);
@@ -201,7 +201,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'expUrl'  => 'blog/te st'
 			),
 			array(
-				'url'     => '/cli/deletefiles.php?var1=value1',
+				'url'     => '/cli/finder_indexer.php?var1=value1',
 				'server'  => $server3,
 				'expUrl'  => '?var1=value1'
 			)
@@ -385,24 +385,24 @@ class JRouterSiteTest extends TestCaseDatabase
 		// Assert a URL with option and Itemid is not touched
 		$uri = new JUri('index.php?option=com_test&Itemid=42');
 		$this->object->buildInit($this->object, $uri);
-		$this->assertEquals('index.php?option=com_test&Itemid=42', (string)$uri);
+		$this->assertEquals('index.php?option=com_test&Itemid=42', (string) $uri);
 
 		// Assert a URL with only an Itemid set gets the right option set in the request
 		$uri = new JUri('index.php?Itemid=42');
 		$this->object->buildInit($this->object, $uri);
-		$this->assertEquals('index.php?Itemid=42&option=com_test', (string)$uri);
+		$this->assertEquals('index.php?Itemid=42&option=com_test', (string) $uri);
 
 		// Assert current vars are merged into request if no option and Itemid set
 		$uri = new JUri('index.php?lang=en-GB');
 		$this->object->setVar('current', 'var');
 		$this->object->buildInit($this->object, $uri);
-		$this->assertEquals('index.php?current=var&lang=en-GB', (string)$uri);
+		$this->assertEquals('index.php?current=var&lang=en-GB', (string) $uri);
 
 		// Assert current vars don't overwrite query params of the request
 		$uri = new JUri('index.php?view=test42&data=42');
 		$this->object->setVar('view', 'test');
 		$this->object->buildInit($this->object, $uri);
-		$this->assertEquals('index.php?current=var&view=test42&data=42', (string)$uri);
+		$this->assertEquals('index.php?current=var&view=test42&data=42', (string) $uri);
 	}
 
 	/**
@@ -417,22 +417,22 @@ class JRouterSiteTest extends TestCaseDatabase
 		// Assert preprocess exits without option
 		$uri = new JUri('index.php?test=true');
 		$this->object->buildComponentPreprocess($this->object, $uri);
-		$this->assertEquals('index.php?test=true', (string)$uri);
+		$this->assertEquals('index.php?test=true', (string) $uri);
 
 		// Assert preprocess of Component router is run
 		$uri = new JUri('index.php?option=com_test');
 		$this->object->buildComponentPreprocess($this->object, $uri);
-		$this->assertEquals('index.php?option=com_test&testvar=testvalue', (string)$uri);
+		$this->assertEquals('index.php?option=com_test&testvar=testvalue', (string) $uri);
 
 		// Assert menu query is merged into request
 		$uri = new JUri('index.php?option=com_test42&Itemid=42');
 		$this->object->buildComponentPreprocess($this->object, $uri);
-		$this->assertEquals('index.php?option=com_test42&view=test&Itemid=42', (string)$uri);
+		$this->assertEquals('index.php?option=com_test42&view=test&Itemid=42', (string) $uri);
 
 		// Assert menu query is merged into request with language
 		$uri = new JUri('index.php?option=com_test42&Itemid=42&lang=en-GB');
 		$this->object->buildComponentPreprocess($this->object, $uri);
-		$this->assertEquals('index.php?option=com_test42&view=test&Itemid=42&lang=en-GB', (string)$uri);
+		$this->assertEquals('index.php?option=com_test42&view=test&Itemid=42&lang=en-GB', (string) $uri);
 	}
 
 	/**

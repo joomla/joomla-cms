@@ -1,10 +1,11 @@
+
 // Header
 
 .header {
   position: relative;
   z-index: 5;
   height: $header-height;
-  background: $atum-template-color-light;
+  background: $atum-template-color;
 
   &::after {
     position: absolute;
@@ -12,13 +13,13 @@
     width: 100%;
     height: 3px;
     content: "";
-    background-color: $brand-primary;
+    background-color: theme-color("primary");
     background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
   }
 
   .page-title {
     display: inline-block;
-    margin: 0 0 0 46px;
+    margin: 0 5px;
     font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
@@ -26,7 +27,7 @@
 
     [class^="icon-"] {
       margin-right: 15px;
-      font-size: $font-size-h1;
+      font-size: $h1-font-size$h1-font-size;
       vertical-align: middle;
     }
 
@@ -50,28 +51,27 @@
       margin-left: .4rem;
     }
   }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
-  }
-
   .nav-item {
-    background-color: darken($atum-template-color-light, 10%);
+    background-color: $header-icons-bg;
+    border-left: 1px solid $atum-template-color;
   }
 
   .nav-link {
     position: relative;
-    padding: 0 8px;
+    padding: 0;
     line-height: $header-height;
 
     .fa {
-      width: 30px;
-      height: 23px;
-      font-size: 1.1rem;
-      line-height: 23px;
+      width: $header-height + 2px;
+      font-size: 1.2rem;
       color: $white-offset;
       vertical-align: middle;
       transition: all .2s ease-in-out;
+    }
+
+    .fa-external-link { // Position correct
+      position: relative;
+      left: 2px;
     }
 
     .badge {
@@ -95,6 +95,10 @@
     min-width: 280px;
     padding: 0;
     border: 0;
+
+    h2 {
+      font-size: $h5-font-size;
+    }
   }
 
   .dropdown-menu::after {
@@ -131,6 +135,13 @@
     margin-bottom: 0;
   }
 
+  .joomla-version {
+    margin-right: .9rem;
+    margin-bottom: 0;
+    font-size: $h5-font-size;
+    color: $white-offset;
+  }
+
 }
 
 @include media-breakpoint-down(md) {
@@ -150,10 +161,6 @@
 
 // Mobile Toggle
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin-left: -7.5px;
   font-size: 2rem;
   text-align: center;
 
@@ -162,7 +169,7 @@
     width: $header-height;
     line-height: $header-height;
     color: $white;
-    background-color: rgba($white, .15);
+    background-color: $header-icons-bg;
   }
 
 }

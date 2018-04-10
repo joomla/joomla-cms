@@ -11,9 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
-
-JHtml::_('bootstrap.tooltip');
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
@@ -37,21 +34,19 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<div class="filter-search btn-group float-left">
 						<div class="input-group">
 							<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="form-control hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>">
-							<div class="input-group-btn">
+							<div class="input-group-append">
 								<button type="submit" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
 								<button type="button" class="btn btn-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
 							</div>
 						</div>
 					</div>
-					<div class="btn-group float-right hidden-sm-down">
+					<div class="btn-group float-right d-none d-md-block">
 						<label for="limit" class="sr-only"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 						<?php echo $this->pagination->getLimitBox(); ?>
 					</div>
 				</div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="overrideList">
 						<thead>
@@ -62,13 +57,13 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<th style="width:30%">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 								</th>
-								<th class="hidden-sm-down">
+								<th class="d-none d-md-table-cell">
 									<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
-								<th class="hidden-sm-down">
+								<th class="d-none d-md-table-cell">
 									<?php echo JText::_('JCLIENT'); ?>
 								</th>
 							</tr>
@@ -90,18 +85,19 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								</td>
 								<td>
 									<?php if ($canEdit) : ?>
-										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>"><?php echo $this->escape($key); ?></a>
+										<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id=' . $key); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($key)); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($key); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($key); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<span id="string[<?php echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo $language; ?>
 								</td>
-								<td class="hidden-sm-down">
+								<td class="d-none d-md-table-cell">
 									<?php echo $client; ?>
 									<?php
 									if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))

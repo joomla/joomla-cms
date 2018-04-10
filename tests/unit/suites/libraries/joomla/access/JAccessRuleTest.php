@@ -95,7 +95,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testMergeIdentity()
 	{
-		// Construct an rule with no identities.
+		// Construct a rule with no identities.
 		$rule = new \Joomla\CMS\Access\Rule('');
 
 		// Add the identity with allow.
@@ -135,7 +135,7 @@ class JAccessRuleTest extends \PHPUnit\Framework\TestCase
 			3 => 0
 		);
 
-		// Construct an rule with no identities.
+		// Construct a rule with no identities.
 		$rule = new \Joomla\CMS\Access\Rule('');
 
 		$rule->mergeIdentities($array);

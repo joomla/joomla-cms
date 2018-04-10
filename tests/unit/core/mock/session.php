@@ -40,7 +40,7 @@ class TestMockSession
 	/**
 	 * Creates an instance of the mock JSession object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase  $test     A test object.
+	 * @param   \PHPUnit\Framework\TestCase  $test     A test object.
 	 * @param   array                       $options  An array of optional configuration values.
 	 *                                                getId : the value to be returned by the mock getId method
 	 *                                                get.user.id : the value to assign to the user object id returned by get('user')
@@ -109,13 +109,14 @@ class TestMockSession
 	/**
 	 * Mocking the get method.
 	 *
-	 * @param   string  $key  The key to get.
+	 * @param   string  $key      The key to get.
+	 * @param   mixed   $default  The default value for the value.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   11.3
 	 */
-	public static function mockGet($key)
+	public static function mockGet($key, $default = null)
 	{
 		switch ($key)
 		{
@@ -130,6 +131,6 @@ class TestMockSession
 				return $user;
 		}
 
-		return null;
+		return $default;
 	}
 }

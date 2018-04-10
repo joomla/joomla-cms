@@ -20,6 +20,7 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_mailto.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Mailto</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>index.html</filename>

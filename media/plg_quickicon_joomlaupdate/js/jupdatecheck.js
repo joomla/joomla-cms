@@ -38,7 +38,7 @@
 								if (updateInfo.version != options.version) {
 									var messages = {
 										"message": [
-											Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace("%s", updateInfoList.length)
+											Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace("%s", '<span class="badge badge-light">' + updateInfoList.length + '</span>')
 											+ '<button class="btn btn-primary" onclick="document.location=\'' + options.url + '\'">'
 											+ Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTOON') + '</button>'
 										], "error": ["info"]
@@ -52,7 +52,7 @@
 
 									link.classList.add('danger');
 									for (var i = 0, len = linkSpan.length; i < len; i++) {
-										linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace("%s", updateInfoList.length);
+										linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace("%s", '<span class="badge badge-light">' + updateInfoList.length + '</span>');
 									}
 								} else {
 									for (var i = 0, len = linkSpan.length; i < len; i++) {

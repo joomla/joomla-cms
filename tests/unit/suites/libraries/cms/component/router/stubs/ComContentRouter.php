@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
 class ContentRouterStandardRuleOnly extends JComponentRouterView
 {
 	protected $noIDs = false;
+
 	protected $name = 'content';
 
 	/**

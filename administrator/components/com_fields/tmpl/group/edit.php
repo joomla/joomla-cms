@@ -28,7 +28,6 @@ $input = $app->input;
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('label'); ?>
-				<?php echo $this->form->renderField('context'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="col-md-3">

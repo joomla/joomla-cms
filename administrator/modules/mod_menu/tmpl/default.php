@@ -9,6 +9,31 @@
 
 defined('_JEXEC') or die;
 
-$direction = JFactory::getDocument()->direction == 'rtl' ? 'float-right' : '';
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
-$menu->renderMenu('menu', $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction);
+HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+
+$doc       = \Joomla\CMS\Factory::getDocument();
+$direction = $doc->direction === 'rtl' ? 'float-right' : '';
+$class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
+
+// Recurse through children of root node if they exist
+$menuTree = $menu->getTree();
+$root     = $menuTree->reset();
+
+if ($root->hasChildren())
+{
+	echo '<div class="main-nav-container" role="navigation" aria-label="Main menu">';
+	echo '<ul id="menu" class="' . $class . '">' . "\n";
+
+	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+
+	echo "</ul></div>\n";
+
+	if ($css = $menuTree->getCss())
+	{
+		$doc->addStyleDeclaration(implode("\n", $css));
+	}
+}

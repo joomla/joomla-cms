@@ -9,18 +9,23 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Application\ApplicationHelper;
+
 /**
  * Plugin class for logout redirect handling.
  *
  * @since  1.6
  */
-class PlgSystemLogout extends JPlugin
+class PlgSystemLogout extends CMSPlugin
 {
 	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.3
 	 */
 	protected $app;
 
@@ -50,15 +55,12 @@ class PlgSystemLogout extends JPlugin
 			return;
 		}
 
-		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
+		$hash  = ApplicationHelper::getHash('PlgSystemLogout');
 
 		if ($this->app->input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
 			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
-
-			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
 		}
 	}
 
@@ -78,7 +80,7 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Create the cookie.
 			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('PlgSystemLogout'),
+				ApplicationHelper::getHash('PlgSystemLogout'),
 				true,
 				time() + 86400,
 				$this->app->get('cookie_path', '/'),
@@ -89,33 +91,5 @@ class PlgSystemLogout extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to handle an error condition.
-	 *
-	 * @param   Exception  &$error  The Exception object to be handled.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function handleError(&$error)
-	{
-		// Get the application object.
-		$app = JFactory::getApplication();
-
-		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 && $app->isClient('site'))
-		{
-			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php');
-		}
-		else
-		{
-			// Render the custom error page.
-			JError::customErrorPage($error);
-		}
 	}
 }

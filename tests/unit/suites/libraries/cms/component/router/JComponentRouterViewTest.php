@@ -41,6 +41,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+		$app->method('getContainer')->willReturn(\Joomla\CMS\Factory::getContainer());
 
 		JFactory::$application = $app;
 		JFactory::$session = $this->getMockSession();
@@ -58,21 +59,20 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		unset($this->object);
-		unset($app);
+		unset($this->object, $app);
 		parent::tearDown();
 	}
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 * @return  \PHPUnit\DbUnit\DataSet\CsvDataSet
 	 *
 	 * @since   3.2
 	 */
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+		$dataSet = new \PHPUnit\DbUnit\DataSet\CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
 
@@ -129,6 +129,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 	public function casesGetPath()
 	{
 		$cases   = array();
+
 		// No view, so we don't have a path to return.
 		$cases[] = array(array('task' => 'edit'), array());
 
@@ -141,7 +142,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		// View with parent and children
 		$cases[] = array(array('view' => 'category', 'id' => '9'), array('category' => array(9 => '9:uncategorised'), 'categories' => array(9 => '9:uncategorised')));
 
-		//View with parent, no children
+		// View with parent, no children
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '9'),
 			array(
 				'article' => array(42 => '42:question-for-everything'),
@@ -150,7 +151,7 @@ class JComponentRouterViewTest extends TestCaseDatabase
 			)
 		);
 
-		//View with parent, no children and nested view
+		// View with parent, no children and nested view
 		$cases[] = array(array('view' => 'article', 'id' => '42:question-for-everything', 'catid' => '20'),
 			array(
 				'article' => array(42 => '42:question-for-everything'),

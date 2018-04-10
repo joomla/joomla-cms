@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_STATS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\StatsAdmin</namespace>
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
 		<folder>tmpl</folder>
@@ -27,24 +28,22 @@
 					name="serverinfo"
 					type="radio"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
-					description="MOD_STATS_FIELD_SERVERINFO_DESC"
 					class="switcher"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="siteinfo"
 					type="radio"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
-					description="MOD_STATS_FIELD_SITEINFO_DESC"
 					class="switcher"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -52,14 +51,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
-				/>
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				 	rows="3"
 				/>
 
@@ -67,7 +64,6 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
@@ -76,9 +72,8 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 

@@ -10,5 +10,9 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($title)) : ?>
-	<?php echo $title; ?>
+<div class="d-flex col">
+	<div class="container-title">
+		<?php echo $title; ?>
+	</div>
+</div>
 <?php endif; ?>

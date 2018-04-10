@@ -23,7 +23,6 @@
 					name="style"
 					type="list"
 					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
-					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
 					default="table"
 					>
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>

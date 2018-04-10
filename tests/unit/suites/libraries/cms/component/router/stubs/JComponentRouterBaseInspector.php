@@ -18,7 +18,7 @@ class JComponentRouterBaseInspector extends JComponentRouterBase
 {
 	/**
 	 * Runs the protected createURI() method
-	 * 
+	 *
 	 * @param   array   $url  valid inputs to the createURI() method
 	 *
 	 * @return  object  JUri object from the given parameters
@@ -29,13 +29,13 @@ class JComponentRouterBaseInspector extends JComponentRouterBase
 	{
 		return $this->$key;
 	}
-	
+
 	public function build(&$query)
 	{
 	}
-	
+
 	public function parse(&$segments)
 	{
-		
+
 	}
 }

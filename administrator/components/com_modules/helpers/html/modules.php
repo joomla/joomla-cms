@@ -83,7 +83,7 @@ abstract class JHtmlModules
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
-			1 => array(
+			1  => array(
 				'unpublish',
 				'COM_MODULES_EXTENSION_PUBLISHED_ENABLED',
 				'COM_MODULES_HTML_UNPUBLISH_ENABLED',
@@ -92,7 +92,7 @@ abstract class JHtmlModules
 				'publish',
 				'publish',
 			),
-			0 => array(
+			0  => array(
 				'publish',
 				'COM_MODULES_EXTENSION_UNPUBLISHED_ENABLED',
 				'COM_MODULES_HTML_PUBLISH_ENABLED',
@@ -228,7 +228,7 @@ abstract class JHtmlModules
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pop the first item off the array if it's blank

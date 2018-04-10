@@ -72,7 +72,7 @@ class TestMockCache
 	 */
 	public static function mockGet($id)
 	{
-		return isset(self::$cache[$id]) ? self::$cache[$id] : null;
+		return self::$cache[$id] ?? null;
 	}
 
 	/**

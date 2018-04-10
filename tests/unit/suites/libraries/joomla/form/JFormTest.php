@@ -91,19 +91,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFieldPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFieldPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/joomla/form') . '/fields';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries fields path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFieldPath(__DIR__);
 		$paths = JForm::addFieldPath();
@@ -124,19 +111,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddFormPath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addFormPath();
-
-		// The default path is the class file folder/forms
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/forms';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries forms path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addFormPath(__DIR__);
 		$paths = JForm::addFormPath();
@@ -157,19 +131,6 @@ class JFormTest extends TestCaseDatabase
 	 */
 	public function testAddRulePath()
 	{
-		// Check the default behaviour.
-		$paths = JForm::addRulePath();
-
-		// The default path is the class file folder/rules
-		// use of realpath to ensure test works for on all platforms
-		$valid = realpath(JPATH_PLATFORM . '/src/CMS/Form') . '/rules';
-
-		$this->assertThat(
-			in_array($valid, $paths),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The libraries rule path should be included by default.'
-		);
-
 		// Test adding a custom folder.
 		JForm::addRulePath(__DIR__);
 		$paths = JForm::addRulePath();
@@ -614,7 +575,7 @@ class JFormTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->findField('title', 'bogus'),
 			$this->isFalse(),
-			'Line:' . __LINE__ . ' An field in a group that does not exist should return false.'
+			'Line:' . __LINE__ . ' A field in a group that does not exist should return false.'
 		);
 
 		// Test various find combinations.
@@ -1105,7 +1066,6 @@ class JFormTest extends TestCaseDatabase
 		$matcher = array(
 			'id' => 'params_show_title',
 			'tag' => 'fieldset',
-			'attributes' => array('class' => 'radio'),
 			'descendant' => array(
 				'tag' => 'input',
 				'attributes' => array(

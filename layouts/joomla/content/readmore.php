@@ -9,25 +9,40 @@
 
 defined('JPATH_BASE') or die;
 
-$params = $displayData['params'];
-$item = $displayData['item'];
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+$params    = $displayData['params'];
+$item      = $displayData['item'];
+$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 ?>
 
 <p class="readmore">
-	<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url">
-		<span class="icon-chevron-right" aria-hidden="true"></span>
-		<?php if (!$params->get('access-view')) :
-			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $item->alternative_readmore) :
-			echo $readmore;
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit'));
-			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit'));
-		endif; ?>
-	</a>
+	<?php if (!$params->get('access-view')) : ?>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+			<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+			<?php echo '<span class="fa fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
+			<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+		</a>
+	<?php elseif ($readmore = $item->alternative_readmore) : ?>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+			<?php echo '<span class="fa fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?> 
+			<?php echo $readmore; ?>
+			<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
+				<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+			<?php endif; ?>
+		</a>
+	<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_READ_MORE'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+			<?php echo '<span class="fa fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?> 
+			<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE'); ?>
+		</a>
+	<?php else : ?>
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_READ_MORE'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+			<?php echo '<span class="fa fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?> 
+			<?php echo Text::_('COM_CONTENT_READ_MORE'); ?>
+			<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+		</a>
+	<?php endif; ?>
 </p>

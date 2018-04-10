@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-
 
 $clientId  = (int) $this->state->get('client_id', 0);
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = ($listOrder == 'a.ordering');
-if ($saveOrder)
+
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
 	JHtml::_('draggablelist.draggable');
@@ -32,7 +31,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
-						<th style="width:1%" class="nowrap text-center hidden-sm-down">
+						<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th style="width:1%" class="nowrap text-center">
@@ -44,26 +43,30 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($clientId === 0) : ?>
-						<th style="width:10%" class="nowrap hidden-sm-down text-center">
+						<?php if (($clientId === 0) && (JLanguageMultilang::isEnabled())) : ?>
+						<th style="width:10%" class="nowrap d-none d-md-table-cell text-center">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+						<th width="10%" class="nowrap d-none d-md-table-cell">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
 						<?php endif; ?>
-						<th style="width:5%" class="nowrap text-center hidden-sm-down">
+						<th style="width:5%" class="nowrap text-center d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -83,8 +86,8 @@ $colSpan = $clientId === 1 ? 8 : 10;
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ? $item->position : 'none'; ?>">
-						<td class="order nowrap text-center hidden-sm-down">
+					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ?: 'none'; ?>">
+						<td class="order nowrap text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -122,13 +125,14 @@ $colSpan = $clientId === 1 ? 8 : 10;
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="float-left">
+							<div>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
@@ -140,34 +144,44 @@ $colSpan = $clientId === 1 ? 8 : 10;
 								<?php endif; ?>
 							</div>
 						</td>
-						<td class="hidden-sm-down text-center">
+						<td class="d-none d-md-table-cell text-center">
 							<?php if ($item->position) : ?>
 								<span class="badge badge-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-default">
+								<span class="badge badge-secondary">
 									<?php echo JText::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-sm-down text-center">
+						<td class="small d-none d-md-table-cell text-center">
 							<?php echo $item->name; ?>
 						</td>
 						<?php if ($clientId === 0) : ?>
-						<td class="small hidden-sm-down text-center">
+						<td class="small d-none d-md-table-cell text-center">
 							<?php echo $item->pages; ?>
 						</td>
 						<?php endif; ?>
-						<td class="small hidden-sm-down text-center">
+						<td class="small d-none d-md-table-cell text-center">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($clientId === 0) : ?>
-						<td class="small hidden-sm-down text-center">
+						<?php if (($clientId === 0) && (JLanguageMultilang::isEnabled())) : ?>
+						<td class="small d-none d-md-table-cell text-center">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
+							<td class="small d-none d-md-table-cell">
+								<?php if ($item->language == ''):?>
+									<?php echo JText::_('JUNDEFINED'); ?>
+								<?php elseif ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $this->escape($item->language); ?>
+								<?php endif; ?>
+							</td>
 						<?php endif; ?>
-						<td class="hidden-sm-down text-center">
+						<td class="d-none d-md-table-cell text-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
@@ -184,8 +198,8 @@ $colSpan = $clientId === 1 ? 8 : 10;
 				'bootstrap.renderModal',
 				'collapseModal',
 				array(
-					'title' => JText::_('COM_MODULES_BATCH_OPTIONS'),
-					'footer' => $this->loadTemplate('batch_footer')
+					'title'  => JText::_('COM_MODULES_BATCH_OPTIONS'),
+					'footer' => $this->loadTemplate('batch_footer'),
 				),
 				$this->loadTemplate('batch_body')
 			); ?>

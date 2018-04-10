@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-JHtml::_('bootstrap.tooltip');
-
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -46,9 +43,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -62,16 +57,16 @@ JFactory::getDocument()->addScriptDeclaration('
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap hidden-sm-down">
+							<th style="width:10%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap hidden-sm-down">
+							<th style="width:5%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:1%" class="nowrap hidden-sm-down">
+							<th style="width:1%" class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -85,11 +80,15 @@ JFactory::getDocument()->addScriptDeclaration('
 					</tfoot>
 					<tbody>
 						<?php
+						$canCreate                  = $user->authorise('core.create',     'com_finder');
+						$canEdit                    = $user->authorise('core.edit',       'com_finder');
+						$userAuthoriseCoreManage    = $user->authorise('core.manage', 'com_checkin');
+						$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
+						$userId                     = $user->id;
 						foreach ($this->items as $i => $item) :
-						$canCreate  = $user->authorise('core.create',     'com_finder');
-						$canEdit    = $user->authorise('core.edit',       'com_finder');
-						$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
-						$canChange  = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
+							$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+							$canChange    = $userAuthoriseCoreEditState && $canCheckIn;
+							$escapedTitle = $this->escape($item->title);
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
@@ -100,25 +99,25 @@ JFactory::getDocument()->addScriptDeclaration('
 							</td>
 							<td>
 								<?php if ($item->checked_out) : ?>
-									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin); ?>
+									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
-										<?php echo $this->escape($item->title); ?></a>
+										<?php echo $escapedTitle; ?></a>
 								<?php else : ?>
-									<?php echo $this->escape($item->title); ?>
+									<?php echo $escapedTitle; ?>
 								<?php endif; ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
-								<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>
+							<td class="nowrap d-none d-md-table-cell">
+								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
+							<td class="nowrap d-none d-md-table-cell">
 								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
-							<td class="nowrap hidden-sm-down">
+							<td class="nowrap d-none d-md-table-cell">
 								<?php echo $item->map_count; ?>
 							</td>
-							<td class="hidden-sm-down">
+							<td class="d-none d-md-table-cell">
 								<?php echo (int) $item->filter_id; ?>
 							</td>
 						</tr>

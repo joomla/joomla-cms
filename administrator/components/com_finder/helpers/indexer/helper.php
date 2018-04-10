@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -362,7 +364,7 @@ class FinderIndexerHelper
 		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
-			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 		}
 
 		return $lang;
@@ -413,10 +415,10 @@ class FinderIndexerHelper
 		static $router;
 
 		// Only get the router once.
-		if (!($router instanceof JRouter))
+		if (!($router instanceof Router))
 		{
 			// Get and configure the site router.
-			$router = JFactory::getApplication()->getRouter('site');
+			$router = Router::getInstance('site');
 		}
 
 		// Build the relative route.
@@ -431,7 +433,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  &$item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -451,14 +453,15 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string    $text    The content to process.
-	 * @param   Registry  $params  The parameters object. [optional]
+	 * @param   string               $text    The content to process.
+	 * @param   Registry             $params  The parameters object. [optional]
+	 * @param   FinderIndexerResult  $item    The item which get prepared. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null)
+	public static function prepareContent($text, $params = null, FinderIndexerResult $item = null)
 	{
 		static $loaded;
 
@@ -479,6 +482,17 @@ class FinderIndexerHelper
 		// Create a mock content object.
 		$content = JTable::getInstance('Content');
 		$content->text = $text;
+
+		if ($item)
+		{
+			$content->bind((array) $item);
+			$content->bind($item->getElements());
+		}
+
+		if ($item && !empty($item->context))
+		{
+			$content->context = $item->context;
+		}
 
 		// Fire the onContentPrepare event.
 		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));

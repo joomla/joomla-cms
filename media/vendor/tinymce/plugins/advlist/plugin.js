@@ -1,283 +1,160 @@
 (function () {
+var advlist = (function () {
+  'use strict';
 
-var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
+  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-// Used when there is no 'main' module.
-// The name is probably (hopefully) unique so minification removes for releases.
-var register_3795 = function (id) {
-  var module = dem(id);
-  var fragments = id.split('.');
-  var target = Function('return this;')();
-  for (var i = 0; i < fragments.length - 1; ++i) {
-    if (target[fragments[i]] === undefined)
-      target[fragments[i]] = {};
-    target = target[fragments[i]];
-  }
-  target[fragments[fragments.length - 1]] = module;
-};
+  var Tools = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-var instantiate = function (id) {
-  var actual = defs[id];
-  var dependencies = actual.deps;
-  var definition = actual.defn;
-  var len = dependencies.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances[i] = dem(dependencies[i]);
-  var defResult = definition.apply(null, instances);
-  if (defResult === undefined)
-     throw 'module [' + id + '] returned undefined';
-  actual.instance = defResult;
-};
-
-var def = function (id, dependencies, definition) {
-  if (typeof id !== 'string')
-    throw 'module id must be a string';
-  else if (dependencies === undefined)
-    throw 'no dependencies for ' + id;
-  else if (definition === undefined)
-    throw 'no definition function for ' + id;
-  defs[id] = {
-    deps: dependencies,
-    defn: definition,
-    instance: undefined
+  var applyListFormat = function (editor, listName, styleValue) {
+    var cmd = listName === 'UL' ? 'InsertUnorderedList' : 'InsertOrderedList';
+    editor.execCommand(cmd, false, styleValue === false ? null : { 'list-style-type': styleValue });
   };
-};
+  var $_4yviym7ojdud79u1 = { applyListFormat: applyListFormat };
 
-var dem = function (id) {
-  var actual = defs[id];
-  if (actual === undefined)
-    throw 'module [' + id + '] was undefined';
-  else if (actual.instance === undefined)
-    instantiate(id);
-  return actual.instance;
-};
+  var register = function (editor) {
+    editor.addCommand('ApplyUnorderedListStyle', function (ui, value) {
+      $_4yviym7ojdud79u1.applyListFormat(editor, 'UL', value['list-style-type']);
+    });
+    editor.addCommand('ApplyOrderedListStyle', function (ui, value) {
+      $_4yviym7ojdud79u1.applyListFormat(editor, 'OL', value['list-style-type']);
+    });
+  };
+  var $_dbycya7njdud79tz = { register: register };
 
-var req = function (ids, callback) {
-  var len = ids.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
-};
+  var getNumberStyles = function (editor) {
+    var styles = editor.getParam('advlist_number_styles', 'default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman');
+    return styles ? styles.split(/[ ,]/) : [];
+  };
+  var getBulletStyles = function (editor) {
+    var styles = editor.getParam('advlist_bullet_styles', 'default,circle,disc,square');
+    return styles ? styles.split(/[ ,]/) : [];
+  };
+  var $_fn4kut7qjdud79uf = {
+    getNumberStyles: getNumberStyles,
+    getBulletStyles: getBulletStyles
+  };
 
-var ephox = {};
+  var isChildOfBody = function (editor, elm) {
+    return editor.$.contains(editor.getBody(), elm);
+  };
+  var isTableCellNode = function (node) {
+    return node && /^(TH|TD)$/.test(node.nodeName);
+  };
+  var isListNode = function (editor) {
+    return function (node) {
+      return node && /^(OL|UL|DL)$/.test(node.nodeName) && isChildOfBody(editor, node);
+    };
+  };
+  var getSelectedStyleType = function (editor) {
+    var listElm = editor.dom.getParent(editor.selection.getNode(), 'ol,ul');
+    return editor.dom.getStyle(listElm, 'listStyleType') || '';
+  };
+  var $_dhwhd47rjdud79uh = {
+    isTableCellNode: isTableCellNode,
+    isListNode: isListNode,
+    getSelectedStyleType: getSelectedStyleType
+  };
 
-ephox.bolt = {
-  module: {
-    api: {
-      define: def,
-      require: req,
-      demand: dem
+  var styleValueToText = function (styleValue) {
+    return styleValue.replace(/\-/g, ' ').replace(/\b\w/g, function (chr) {
+      return chr.toUpperCase();
+    });
+  };
+  var toMenuItems = function (styles) {
+    return Tools.map(styles, function (styleValue) {
+      var text = styleValueToText(styleValue);
+      var data = styleValue === 'default' ? '' : styleValue;
+      return {
+        text: text,
+        data: data
+      };
+    });
+  };
+  var $_1c0kpe7sjdud79ui = { toMenuItems: toMenuItems };
+
+  var findIndex = function (list, predicate) {
+    for (var index = 0; index < list.length; index++) {
+      var element = list[index];
+      if (predicate(element)) {
+        return index;
+      }
     }
-  }
-};
-
-var define = def;
-var require = req;
-var demand = dem;
-// this helps with minificiation when using a lot of global references
-var defineGlobal = function (id, ref) {
-  define(id, [], function () { return ref; });
-};
-/*jsc
-["tinymce.plugins.advlist.Plugin","tinymce.core.PluginManager","tinymce.core.util.Tools","global!tinymce.util.Tools.resolve"]
-jsc*/
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Tools',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Tools');
-  }
-);
-
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class contains all core logic for the advlist plugin.
- *
- * @class tinymce.plugins.advlist.Plugin
- * @private
- */
-define(
-  'tinymce.plugins.advlist.Plugin',
-  [
-    'tinymce.core.PluginManager',
-    'tinymce.core.util.Tools'
-  ],
-  function (PluginManager, Tools) {
-    PluginManager.add('advlist', function (editor) {
-      var olMenuItems, ulMenuItems;
-
-      var hasPlugin = function (editor, plugin) {
-        var plugins = editor.settings.plugins ? editor.settings.plugins : '';
-        return Tools.inArray(plugins.split(/[ ,]/), plugin) !== -1;
-      };
-
-      function isChildOfBody(elm) {
-        return editor.$.contains(editor.getBody(), elm);
-      }
-
-      function isListNode(node) {
-        return node && (/^(OL|UL|DL)$/).test(node.nodeName) && isChildOfBody(node);
-      }
-
-      function buildMenuItems(listName, styleValues) {
-        var items = [];
-        if (styleValues) {
-          Tools.each(styleValues.split(/[ ,]/), function (styleValue) {
-            items.push({
-              text: styleValue.replace(/\-/g, ' ').replace(/\b\w/g, function (chr) {
-                return chr.toUpperCase();
-              }),
-              data: styleValue == 'default' ? '' : styleValue
-            });
-          });
-        }
-        return items;
-      }
-
-      olMenuItems = buildMenuItems('OL', editor.getParam(
-        "advlist_number_styles",
-        "default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman"
-      ));
-
-      ulMenuItems = buildMenuItems('UL', editor.getParam("advlist_bullet_styles", "default,circle,disc,square"));
-
-      function applyListFormat(listName, styleValue) {
-        editor.undoManager.transact(function () {
-          var list, dom = editor.dom, sel = editor.selection;
-
-          // Check for existing list element
-          list = dom.getParent(sel.getNode(), 'ol,ul');
-
-          // Switch/add list type if needed
-          if (!list || list.nodeName != listName || styleValue === false) {
-            var detail = {
-              'list-style-type': styleValue ? styleValue : ''
-            };
-
-            editor.execCommand(listName == 'UL' ? 'InsertUnorderedList' : 'InsertOrderedList', false, detail);
-          }
-
-          list = dom.getParent(sel.getNode(), 'ol,ul');
-          if (list) {
-            Tools.each(dom.select('ol,ul', list).concat([list]), function (list) {
-              if (list.nodeName !== listName && styleValue !== false) {
-                list = dom.rename(list, listName);
-              }
-
-              dom.setStyle(list, 'listStyleType', styleValue ? styleValue : null);
-              list.removeAttribute('data-mce-style');
-            });
-          }
-
-          editor.focus();
-        });
-      }
-
-      function updateSelection(e) {
-        var listStyleType = editor.dom.getStyle(editor.dom.getParent(editor.selection.getNode(), 'ol,ul'), 'listStyleType') || '';
-
-        e.control.items().each(function (ctrl) {
-          ctrl.active(ctrl.settings.data === listStyleType);
-        });
-      }
-
-      var listState = function (listName) {
-        return function () {
-          var self = this;
-
-          editor.on('NodeChange', function (e) {
-            var lists = Tools.grep(e.parents, isListNode);
-            self.active(lists.length > 0 && lists[0].nodeName === listName);
-          });
-        };
-      };
-
-      if (hasPlugin(editor, "lists")) {
-        editor.addCommand('ApplyUnorderedListStyle', function (ui, value) {
-          applyListFormat('UL', value['list-style-type']);
-        });
-
-        editor.addCommand('ApplyOrderedListStyle', function (ui, value) {
-          applyListFormat('OL', value['list-style-type']);
-        });
-
-        editor.addButton('numlist', {
-          type: (olMenuItems.length > 0) ? 'splitbutton' : 'button',
-          tooltip: 'Numbered list',
-          menu: olMenuItems,
-          onPostRender: listState('OL'),
-          onshow: updateSelection,
-          onselect: function (e) {
-            applyListFormat('OL', e.control.settings.data);
-          },
-          onclick: function () {
-            applyListFormat('OL', false);
-          }
-        });
-
-        editor.addButton('bullist', {
-          type: (ulMenuItems.length > 0) ? 'splitbutton' : 'button',
-          tooltip: 'Bullet list',
-          onPostRender: listState('UL'),
-          menu: ulMenuItems,
-          onshow: updateSelection,
-          onselect: function (e) {
-            applyListFormat('UL', e.control.settings.data);
-          },
-          onclick: function () {
-            applyListFormat('UL', false);
-          }
-        });
+    return -1;
+  };
+  var listState = function (editor, listName) {
+    return function (e) {
+      var ctrl = e.control;
+      editor.on('NodeChange', function (e) {
+        var tableCellIndex = findIndex(e.parents, $_dhwhd47rjdud79uh.isTableCellNode);
+        var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
+        var lists = Tools.grep(parents, $_dhwhd47rjdud79uh.isListNode(editor));
+        ctrl.active(lists.length > 0 && lists[0].nodeName === listName);
+      });
+    };
+  };
+  var updateSelection = function (editor) {
+    return function (e) {
+      var listStyleType = $_dhwhd47rjdud79uh.getSelectedStyleType(editor);
+      e.control.items().each(function (ctrl) {
+        ctrl.active(ctrl.settings.data === listStyleType);
+      });
+    };
+  };
+  var addSplitButton = function (editor, id, tooltip, cmd, nodeName, styles) {
+    editor.addButton(id, {
+      active: false,
+      type: 'splitbutton',
+      tooltip: tooltip,
+      menu: $_1c0kpe7sjdud79ui.toMenuItems(styles),
+      onPostRender: listState(editor, nodeName),
+      onshow: updateSelection(editor),
+      onselect: function (e) {
+        $_4yviym7ojdud79u1.applyListFormat(editor, nodeName, e.control.settings.data);
+      },
+      onclick: function () {
+        editor.execCommand(cmd);
       }
     });
+  };
+  var addButton = function (editor, id, tooltip, cmd, nodeName, styles) {
+    editor.addButton(id, {
+      active: false,
+      type: 'button',
+      tooltip: tooltip,
+      onPostRender: listState(editor, nodeName),
+      onclick: function () {
+        editor.execCommand(cmd);
+      }
+    });
+  };
+  var addControl = function (editor, id, tooltip, cmd, nodeName, styles) {
+    if (styles.length > 0) {
+      addSplitButton(editor, id, tooltip, cmd, nodeName, styles);
+    } else {
+      addButton(editor, id, tooltip, cmd, nodeName, styles);
+    }
+  };
+  var register$1 = function (editor) {
+    addControl(editor, 'numlist', 'Numbered list', 'InsertOrderedList', 'OL', $_fn4kut7qjdud79uf.getNumberStyles(editor));
+    addControl(editor, 'bullist', 'Bullet list', 'InsertUnorderedList', 'UL', $_fn4kut7qjdud79uf.getBulletStyles(editor));
+  };
+  var $_7pwy37pjdud79u2 = { register: register$1 };
 
-    return function () { };
-
+  PluginManager.add('advlist', function (editor) {
+    var hasPlugin = function (editor, plugin) {
+      var plugins = editor.settings.plugins ? editor.settings.plugins : '';
+      return Tools.inArray(plugins.split(/[ ,]/), plugin) !== -1;
+    };
+    if (hasPlugin(editor, 'lists')) {
+      $_7pwy37pjdud79u2.register(editor);
+      $_dbycya7njdud79tz.register(editor);
+    }
+  });
+  function Plugin () {
   }
-);
-dem('tinymce.plugins.advlist.Plugin')();
+
+  return Plugin;
+
+}());
 })();

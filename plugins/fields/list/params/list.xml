@@ -6,7 +6,6 @@
 				name="multiple"
 				type="list"
 				label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
-				description="PLG_FIELDS_LIST_PARAMS_MULTIPLE_DESC"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -17,7 +16,6 @@
 				name="options"
 				type="subform" 
 				label="PLG_FIELDS_LIST_PARAMS_OPTIONS_LABEL"
-				description="PLG_FIELDS_LIST_PARAMS_OPTIONS_DESC"
 				layout="joomla.form.field.subform.repeatable-table"
 				icon="list" 
 				multiple="true"

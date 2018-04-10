@@ -18,7 +18,7 @@ class JComponentRouterRulesNomenuInspector extends JComponentRouterRulesNomenu
 {
 	/**
 	 * Gets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key  Attributename to return
 	 *
 	 * @return  mixed  Attributes of the object
@@ -32,7 +32,7 @@ class JComponentRouterRulesNomenuInspector extends JComponentRouterRulesNomenu
 
 	/**
 	 * Sets an attribute of the object
-	 * 
+	 *
 	 * @param   string   $key    Attributename to return
 	 * @param   mixed    $value  Value to be set
 	 *

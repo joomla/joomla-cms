@@ -8,8 +8,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
-
 /**
  * A unit test class for JFilesystemPatcher
  *
@@ -923,7 +921,7 @@ But after they are produced,
 	{
 		if ($throw)
 		{
-			$this->setExpectedException($throw);
+			$this->expectException($throw);
 		}
 
 		foreach ($sources as $path => $content)

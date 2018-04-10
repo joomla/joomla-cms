@@ -121,8 +121,7 @@ class JApplicationWebTest extends TestCase
 		TestReflection::setValue('JApplicationWeb', 'instance', null);
 
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->class);
+		unset($this->backupServer, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -157,11 +156,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
-		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
-		}
-
 		// Build the mock object.
 		$mockInput = $this->getMockBuilder('JInput')
 					->setMethods(array('test'))
@@ -255,70 +249,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Data for fetchConfigurationData method.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.3
-	 */
-	public function getFetchConfigurationData()
-	{
-		return array(
-			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(JPATH_TEST_STUBS . '/configuration.php', null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_TEST_STUBS . '/config.wrongclass.php', 'noclass', false, array(), true),
-		);
-	}
-
-	/**
-	 * Tests the JCli::fetchConfigurationData method.
-	 *
-	 * @param   string   $file               The name of the configuration file.
-	 * @param   string   $class              The name of the class.
-	 * @param   boolean  $expectsClass       The result is expected to be a class.
-	 * @param   array    $expects            The expected result as an array.
-	 * @param   bool     $expectedException  The expected exception.
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
-	 */
-	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
-	{
-		if ($expectedException)
-		{
-			$this->setExpectedException('RuntimeException');
-		}
-
-		if (is_null($file) && is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData');
-		}
-		elseif (is_null($class))
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file);
-		}
-		else
-		{
-			$config = TestReflection::invoke($this->class, 'fetchConfigurationData', $file, $class);
-		}
-
-		if ($expects == 'ConfigEval')
-		{
-			$expects = new JConfig;
-			$expects = (array) $expects;
-		}
-
-		if ($expectsClass)
-		{
-			$this->assertInstanceOf($expectsClass, $config);
-		}
-
-		$this->assertEquals($expects, (array) $config);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::getInstance method.
 	 *
 	 * @return  void
@@ -344,29 +274,6 @@ class JApplicationWebTest extends TestCase
 	public function testGetInstanceForUnexistingClass()
 	{
 		JApplicationWeb::getInstance('Foo');
-	}
-
-	/**
-	 * Tests the JApplicationWeb::loadConfiguration method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadConfiguration()
-	{
-		$this->assertSame(
-			$this->class, $this->class->loadConfiguration(array('foo' => 'bar')));
-
-		$this->assertEquals('bar', TestReflection::getValue($this->class, 'config')->get('foo'), 'Check the configuration array was loaded.');
-
-		$this->class->loadConfiguration(
-			(object) array(
-				'goo' => 'car',
-			)
-		);
-
-		$this->assertEquals('car', TestReflection::getValue($this->class, 'config')->get('goo'), 'Check the configuration object was loaded.');
 	}
 
 	/**
@@ -525,9 +432,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -572,7 +479,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->class->redirect($url, false);
 
-		// It has two statuses, but the second status will be the final status
+		// It has a status of 303 (as redirect is the final status setter)
 		$this->assertEquals(
 			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
@@ -588,9 +495,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -611,7 +518,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   11.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{	
+	{
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 
@@ -650,9 +557,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
@@ -762,9 +669,9 @@ class JApplicationWebTest extends TestCase
 			$this->class->headers[2]
 		);
 
-		$this->assertRegexp('/Expires/',$this->class->headers[3][0]);
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
 
-		$this->assertRegexp('/Last-Modified/',$this->class->headers[4][0]);
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
 
 		$this->assertEquals(
 			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),

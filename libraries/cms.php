@@ -48,12 +48,6 @@ spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true)
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
-// Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
-if (!class_exists('FOFAutoloaderFof'))
-{
-	include_once JPATH_LIBRARIES . '/fof/include.php';
-}
-
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
 
@@ -69,9 +63,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
 	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
-
-// Register JArrayHelper due to JRegistry moved to composer's vendor folder
-JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');

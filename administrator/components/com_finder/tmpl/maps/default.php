@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
-JHtml::_('bootstrap.tooltip');
-
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = JFactory::getLanguage();
@@ -47,9 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -70,11 +66,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-publish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th style="width:1%" class="nowrap text-center">
                                 <span class="icon-unpublish" aria-hidden="true"></span>
-								<span class="hidden-sm-down"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+								<span class="d-none d-md-inline"><?php echo JText::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 						</tr>
 					</thead>
@@ -97,7 +93,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							</td>
 							<td>
 							<?php
-							if (trim($item->parent_title, '**') == 'Language')
+							if (trim($item->parent_title, '**') === 'Language')
 							{
 								$title = FinderHelperLanguage::branchLanguageTitle($item->title);
 							}
@@ -113,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<label for="cb<?php echo $i; ?>" style="display:inline-block;">
 								<?php echo $this->escape($title); ?>
 							</label>
-							<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
+							<?php if ($this->escape(trim($title, '**')) === 'Language' && JLanguageMultilang::isEnabled()) : ?>
 								<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 							<?php endif; ?>
 							</td>

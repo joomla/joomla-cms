@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
+	<fieldset>
+		<field
+			name="language"
+			type="installation.language"
+			label="INSTL_LANGUAGE_LABEL"
+			id="language"
+			default="en-GB"
+			required="true"
+			onchange="Install.setlanguage();"
+		/>
+	</fieldset>
+	<fieldset name="basic">
+		<field
+				name="ftp_enable"
+				type="radio"
+				id="ftp_enable"
+				class="btn-group btn-group-reverse"
+				label="INSTL_FTP_ENABLE_LABEL"
+				default="0"
+				filter="int"
+				required="true"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				name="ftp_user"
+				type="text"
+				id="ftp_user"
+				class="form-control"
+				label="INSTL_FTP_USER_LABEL"
+		/>
+		<field
+				name="ftp_pass"
+				type="password"
+				id="ftp_pass"
+				class="form-control"
+				label="INSTL_FTP_PASSWORD_LABEL"
+				filter="raw"
+		/>
+		<field
+				name="ftp_root"
+				type="text"
+				id="ftp_root"
+				class="form-control"
+				label="INSTL_FTP_ROOT_LABEL"
+		/>
+	</fieldset>
+
+	<!-- Advanced Settings -->
+	<fieldset name="advanced">
+		<field
+				name="ftp_host"
+				type="text"
+				id="ftp_host"
+				class="form-control"
+				label="INSTL_FTP_HOST_LABEL"
+				default="127.0.0.1"
+		/>
+		<field
+				name="ftp_port"
+				type="text"
+				id="ftp_port"
+				class="form-control"
+				label="INSTL_FTP_PORT_LABEL"
+				default="21"
+				filter="int"
+		/>
+		<field
+				name="ftp_save"
+				type="radio"
+				id="ftp_save"
+				class="btn-group btn-group-reverse"
+				label="INSTL_FTP_SAVE_LABEL"
+				default="0"
+				required="true"
+				filter="int"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+</form>

@@ -25,7 +25,6 @@
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
 					class="switcher"
 					default="0"
 					>
@@ -37,30 +36,24 @@
 					name="first"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
 					default="1"
 					size="5"
-					required="true"
 				/>
 	
 				<field
 					name="last"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
 					default="100"
 					size="5"
-					required="true"
 				/>
 	
 				<field
 					name="step"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
-					description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
 					default="1"
 					size="5"
-					required="true"
 				/>
 			</fieldset>
 		</fields>

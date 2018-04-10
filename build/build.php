@@ -23,6 +23,13 @@
 
 use Joomla\CMS\Version;
 
+if (version_compare(PHP_VERSION, '5.4', '<'))
+{
+	echo "The build script requires PHP 5.4.\n";
+
+	exit(1);
+}
+
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
@@ -33,13 +40,12 @@ umask(022);
 
 // Import the version class to set the version information
 define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/src/Joomla/CMS/Version.php';
+require_once dirname(__DIR__) . '/libraries/src/Version.php';
 
 // Set version information for the build
-$version     = Version::RELEASE;
-$release     = Version::DEV_LEVEL;
-$stability   = Version::DEV_STATUS;
-$fullVersion = $version . '.' . $release;
+$version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+$release     = Version::PATCH_VERSION;
+$fullVersion = (new Version)->getShortVersion();
 
 // Shortcut the paths to the repository root and build folder
 $repo = dirname(__DIR__);
@@ -100,13 +106,18 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'dev',
 	'.appveyor.yml',
 	'.drone.yml',
+	'.eslintignore',
+	'.eslint',
 	'.github',
 	'.gitignore',
+	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
+	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
@@ -119,10 +130,17 @@ $doNotPackage = array(
 	'karma.conf.js',
 	'phpunit.xml.dist',
 	'scss-lint-report.xml',
-	'sccs-lint.yml',
+	'scss-lint.yml',
 	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'drone-package.json',
+	'package.json',
+	'codeception.yml',
+	'Jenkinsfile',
+	'jenkins-phpunit.xml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -139,7 +157,7 @@ $doNotPatch = array(
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
-$packageStability = str_replace(' ', '_', $stability);
+$packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
@@ -240,9 +258,6 @@ system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
 chdir($fullVersion);
 
-// The weblinks package manifest should not be present for new installs, temporarily move it
-system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
-
 // Create full archive packages.
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
 
@@ -259,9 +274,6 @@ system('rm -r images/headers');
 system('rm -r images/sampledata');
 system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
-
-// Move the weblinks manifest back
-system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 

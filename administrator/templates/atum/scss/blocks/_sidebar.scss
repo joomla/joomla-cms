@@ -17,9 +17,10 @@
   width: 250px;
   height: 100%;
   margin-left: 0;
-  background-color: $atum-template-color-light;
-  box-shadow: 0 3px 10px rgba(0,0,0,.5), inset -1px 0 0 rgba(0,0,0,.2);
+  background-color: $atum-template-color;
+  box-shadow: 0 3px 10px rgba(0,0,0,.5);
   transition: all .3s ease;
+
   .sidebar-brand {
     position: absolute;
     top: 0;
@@ -75,40 +76,33 @@
   font-size: 1.7rem;
 }
 
-.main-nav-container {
-  background-color: $atum-sidebar-child-bg;
-}
-
 // Sidebar navigation
 .main-nav {
   position: relative;
   z-index: 1;
   width: 250px;
   height: calc(100vh - 96px);
-  overflow-x: visible;
-  overflow-y: auto;
   list-style: none;
-  background-color: $atum-template-color-light;
+  background-color: $atum-template-color;
   opacity: 1;
-  transition: all .3s ease;
-  transition-delay: 0;
 
-  // Background for animation
+  // Animated child background
   &::after {
     position: absolute;
     top: 0;
+    right: 0;
     bottom: 0;
-    z-index: -1;
-    width: 250px;
+    width: 0;
     content: "";
-    background-color: $atum-template-color-light;
+    background-color: $atum-sidebar-child-bg;
     transition: all .3s ease;
   }
 
   // Parent items
   > li {
-    background-color: $atum-template-color-light;
+    background-color: $atum-template-color;
     border-bottom: 1px solid rgba(0,0,0,.15);
+
     &:first-of-type {
       border-top: 1px solid rgba(0,0,0,.15);
     }
@@ -118,6 +112,7 @@
   li {
     max-height: 40px;
     line-height: 40px;
+
     a {
       position: relative;
       display: block;
@@ -143,8 +138,9 @@
 
     }
 
-    a:not([href]):not([tabindex]) {
-      color: $white;
+    &.menuitem-group a:hover {
+      cursor: text;
+      background: none;
     }
 
     ul {
@@ -156,10 +152,10 @@
       width: 200px;
       height: 100%;
       padding: 0;
-      background-color: $atum-sidebar-child-bg;
       opacity: 0;
       transition: left .2s ease, opacity .2s ease;
-      transition-delay: .4s;
+      transition-delay: 0;
+
       ul {
         display: none;
         opacity: 1;
@@ -170,14 +166,6 @@
       }
     }
 
-    a:hover {
-
-      &::before {
-        width: 3px;
-      }
-
-    }
-
   }
 
   .close {
@@ -186,19 +174,19 @@
     color: rgba(255, 255, 255, .8);
     text-indent: 0;
     text-shadow: none;
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 
   .open {
 
-    > a {
-
-      + ul {
-        left: 50px;
-        z-index: -1;
-        opacity: 1;
-        transition-delay: 0s;
-      }
-
+    > a + ul {
+      left: 50px;
+      z-index: 1;
+      opacity: 1;
+      transition-delay: .2s;
     }
 
   }
@@ -212,8 +200,8 @@
       box-shadow: none;
 
       &:hover {
-        background-color: rgba(0,0,0,.2);
-        box-shadow: none;
+        background-color: $atum-template-color-light;
+        box-shadow: inset 2px 0 2px rgba(0,0,0,.1);
       }
 
     }
@@ -222,18 +210,8 @@
       color: rgba($white, .4);
     }
 
-    &:first-of-type {
-      margin: 6px 0 0;
-      color: rgba($white, .7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    &:last-of-type {
-      > a {
-        border-bottom: 0;
-      }
-
+    &:last-of-type > a {
+      border-bottom: 0;
     }
 
   }
@@ -243,7 +221,7 @@
     position: relative;
     top: -2px;
     display: inline-block;
-    margin: 0 8px 0 12px;
+    margin: 0 12px;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
@@ -254,8 +232,18 @@
     a::before {
       display: none;
     }
+
+    .menuitem-group,
+    > li:first-of-type {
+      margin: 6px 0 0;
+      color: rgba($white, .7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     li {
       position: relative;
+
       &:hover ul {
         display: block !important;
       }
@@ -269,7 +257,7 @@
     left: 100% !important;
     height: auto;
     padding: 2px 0;
-    background-color: darken($atum-template-color-light, 6%);
+    background-color: darken($atum-template-color, 6%);
     border-radius: 0 $border-radius $border-radius 0;
     box-shadow: 0 0 8px rgba($black,.2);
 
@@ -277,10 +265,6 @@
       color: $white;
       text-indent: 15px;
 
-    }
-
-    li:first-of-type {
-      display: none;
     }
 
   }
@@ -308,22 +292,19 @@
 
 // Child open
 .child-open {
-  width: 50px;
   overflow: visible;
 
   &::after {
-    width: 50px;
-    transition: all .3s ease;
+    width: 200px;
   }
+
   > li {
     &.parent > .collapse-arrow::after {
       visibility: hidden;
       opacity: 0;
       transition-delay: 0s;
     }
-    > a .sidebar-item-title {
-      visibility: hidden;
-    }
+
     &.open > a::before {
       position: absolute;
       top: 1px;
@@ -334,60 +315,14 @@
       background-color: $atum-sidebar-active;
     }
   }
-  .open {
-    background-color: $atum-sidebar-child-bg;
-    > ul {
-      display: block;
-    }
-  }
 
-
-  // Tooltips
-  .sidebar-item-title {
-    transition: opacity .2s ease;
-
-  }
-
-  > li:hover > a {
-    overflow: visible;
-
-    .sidebar-item-title {
-      position: absolute;
-      left: 100%;
-      padding: 6px 8px;
-      margin: 7px;
-      font-size: $font-size-sm;
-      line-height: 1rem;
-      color: #000;
-      visibility: visible;
-      background-color: $white;
-      border-radius: $border-radius;
-      opacity: 1;
-
-      &::before {
-        position: absolute;
-        top: 50%;
-        right: 100%;
-        width: 0;
-        height: 0;
-        content: "";
-        border-color: transparent $white transparent transparent;
-        border-style: solid;
-        border-width: $tooltip-arrow-width $tooltip-arrow-width $tooltip-arrow-width 0;
-        transform: translateY(-50%);
-
-      }
-    }
-  }
-
-  > .open:hover > a {
-    .sidebar-item-title {
-      visibility: hidden !important;
-    }
+  .open > ul {
+    display: block;
   }
 
 }
 
+// Sidebar Closed
 .closed {
 
   @include media-breakpoint-up(lg) {
@@ -398,8 +333,9 @@
     display: none;
   }
 
-  .sidebar-wrapper, .main-nav {
+  .sidebar-wrapper {
     width: 50px;
+    overflow: hidden;
   }
 
   .parent .collapse-arrow::after {
@@ -418,4 +354,9 @@
   color: $white;
   cursor: not-allowed;
   background: none;
+}
+
+.sidebar-item-title {
+  visibility: visible !important;
+  opacity: 1 !important;
 }

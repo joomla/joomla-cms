@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Class JNamespaceMap
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class JNamespacePsr4Map
 {
@@ -19,26 +19,16 @@ class JNamespacePsr4Map
 	 * Path to the autoloader
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected $file = '';
-
-	/**
-	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
-	}
+	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function exists()
 	{
@@ -55,7 +45,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function ensureMapFileExists()
 	{
@@ -72,7 +62,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function create()
 	{
@@ -87,16 +77,48 @@ class JNamespacePsr4Map
 
 			if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
 			{
-				$elements[$baseNamespace . '\\\\Administrator'] = array('/administrator/components/' . $element);
+				$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
 			}
 
 			if (file_exists(JPATH_ROOT . '/components/' . $element))
 			{
-				$elements[$baseNamespace . '\\\\Site'] = array('/components/' . $element);
+				$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
 			}
 		}
 
 		$this->writeNamespaceFile($elements);
+
+		return true;
+	}
+
+	/**
+	 * Load the PSR4 file
+	 *
+	 * @return  bool
+	 *
+	 * @since   4.0.0
+	 */
+	public function load()
+	{
+		if (!$this->exists())
+		{
+			// We can't continue here
+			if (!JFactory::getDbo()->connected())
+			{
+				return false;
+			}
+
+			$this->create();
+		}
+
+		$map = require $this->file;
+
+		$loader = include JPATH_LIBRARIES . '/vendor/autoload.php';
+
+		foreach ($map as $namespace => $path)
+		{
+			$loader->setPsr4($namespace, $path);
+		}
 
 		return true;
 	}
@@ -108,12 +130,13 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function writeNamespaceFile($elements)
 	{
 		$content   = array();
 		$content[] = "<?php";
+		$content[] = 'defined(\'_JEXEC\') or die;';
 		$content[] = 'return array(';
 
 		foreach ($elements as $namespace => $paths)
@@ -138,7 +161,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  mixed|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getNamespacedExtensions()
 	{
@@ -148,7 +171,7 @@ class JNamespacePsr4Map
 
 		$query->select($db->quoteName(array('extension_id', 'element', 'namespace')))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ""');
+			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ' . $db->quote(""));
 
 		$db->setQuery($query);
 

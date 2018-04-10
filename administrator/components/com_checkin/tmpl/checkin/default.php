@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -51,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</label>
 									</td>
 									<td>
-										<span class="badge badge-default"><?php echo $count; ?></span>
+										<span class="badge badge-secondary"><?php echo $count; ?></span>
 									</td>
 								</tr>
 								<?php $i++; ?>

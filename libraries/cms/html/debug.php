@@ -48,7 +48,7 @@ abstract class JHtmlDebug
 			static::$xdebugLinkFormat = ini_get('xdebug.file_link_format');
 		}
 
-		$link = str_replace(JPATH_ROOT, 'JROOT', $file);
+		$link = str_replace(JPATH_ROOT, 'JROOT', JPath::clean($file));
 		$link .= $line ? ':' . $line : '';
 
 		if (static::$xdebugLinkFormat)
