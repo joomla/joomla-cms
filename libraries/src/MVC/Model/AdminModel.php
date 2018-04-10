@@ -349,6 +349,9 @@ abstract class AdminModel extends FormModel
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
 
+		// Include the plugins for the save events.
+		\JPluginHelper::importPlugin($this->events_map['save']);
+
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -362,12 +365,18 @@ abstract class AdminModel extends FormModel
 					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 				}
 
+				// Trigger the before save event.
+				\JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$this->table, false));
+
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());
 
 					return false;
 				}
+
+				// Trigger the after save event.
+				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$this->table, false));
 			}
 			else
 			{
