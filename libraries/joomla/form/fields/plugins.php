@@ -163,7 +163,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	protected function getInput()
 	{

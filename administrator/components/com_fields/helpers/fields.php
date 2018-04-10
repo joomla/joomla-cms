@@ -549,7 +549,7 @@ class FieldsHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public static function displayFieldOnForm($field)
 	{
