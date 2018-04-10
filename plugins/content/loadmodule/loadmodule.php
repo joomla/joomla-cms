@@ -47,76 +47,44 @@ class PlgContentLoadmodule extends JPlugin
 			return true;
 		}
 
-		// Expression to search for (positions)
-		$regex = '/{loadposition\s(.*?)}/i';
-		$style = $this->params->def('style', 'none');
+		// Get a content parser.
+		$parser = new JStringParser;
 
-		// Expression to search for(modules)
-		$regexmod = '/{loadmodule\s(.*?)}/i';
-		$stylemod = $this->params->def('style', 'none');
-
-		// Find all instances of plugin and put in $matches for loadposition
-		// $matches[0] is full pattern match, $matches[1] is the position
-		preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
-
-		// No matches, skip this
-		if ($matches)
-		{
-			foreach ($matches as $match)
-			{
-				$matcheslist = explode(',', $match[1]);
-
-				// We may not have a module style so fall back to the plugin default.
-				if (!array_key_exists(1, $matcheslist))
+		// Register the loadposition token.
+		// Syntax: {loadposition <module-position>[,<style>]}
+		$parser->register(
+			'loadposition',
+			(new JStringTokenSimple)->callback(
+				function(JStringToken $token)
 				{
-					$matcheslist[1] = $style;
+					$tokenParams = $token->getParams();
+					$position = trim($tokenParams[0]);
+					$style = isset($tokenParams[1]) ? trim($tokenParams[1]) : $this->params->def('style', 'none');
+
+					return addcslashes($this->_load($position, $style), '\\$');
 				}
+			)
+		);
 
-				$position = trim($matcheslist[0]);
-				$style    = trim($matcheslist[1]);
-
-				$output = $this->_load($position, $style);
-
-				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
-				$style = $this->params->def('style', 'none');
-			}
-		}
-
-		// Find all instances of plugin and put in $matchesmod for loadmodule
-		preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
-
-		// If no matches, skip this
-		if ($matchesmod)
-		{
-			foreach ($matchesmod as $matchmod)
-			{
-				$matchesmodlist = explode(',', $matchmod[1]);
-
-				// We may not have a specific module so set to null
-				if (!array_key_exists(1, $matchesmodlist))
+		// Register the loadmodule token.
+		// Syntax: {loadmodule <module-type>[,<module-title>[,<style>]]}
+		$parser->register(
+			'loadmodule',
+			(new JStringTokenSimple)->callback(
+				function(JStringToken $token)
 				{
-					$matchesmodlist[1] = null;
+					$tokenParams = $token->getParams();
+					$moduleName = trim($tokenParams[0]);
+					$moduleTitle = isset($tokenParams[1]) ? htmlspecialchars_decode(trim($tokenParams[1])) : '';
+					$style = isset($tokenParams[2]) ? trim($tokenParams[2]) : $this->params->def('style', 'none');
+
+					return addcslashes($this->_loadmod($moduleName, $moduleTitle, $style), '\\$');
 				}
+			)
+		);
 
-				// We may not have a module style so fall back to the plugin default.
-				if (!array_key_exists(2, $matchesmodlist))
-				{
-					$matchesmodlist[2] = $stylemod;
-				}
-
-				$module = trim($matchesmodlist[0]);
-				$name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
-				$stylemod  = trim($matchesmodlist[2]);
-
-				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
-				$output = $this->_loadmod($module, $name, $stylemod);
-
-				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
-				$stylemod = $this->params->def('style', 'none');
-			}
-		}
+		// Parse and translate the content.
+		$article->text = $parser->translate($article->text);
 	}
 
 	/**
