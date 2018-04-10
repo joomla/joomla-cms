@@ -383,7 +383,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// Trigger the after save event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$this->table, false));
+				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$this->table, false, array('access' => (int) $value)));
 			}
 			else
 			{
