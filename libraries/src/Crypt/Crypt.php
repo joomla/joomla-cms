@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Crypt;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Crypt\Cipher\SimpleCipher;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.

@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Cache;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Log\Log;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract cache storage handler
