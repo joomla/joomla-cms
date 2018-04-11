@@ -215,7 +215,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
 		$results = Factory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
 
-		$results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
+		$results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts');
 
 		foreach (Factory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
