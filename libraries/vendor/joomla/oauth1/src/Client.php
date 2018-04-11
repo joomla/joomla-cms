@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework OAuth1 Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,7 +168,7 @@ abstract class Client
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 * @throws  \DomainException
 	 */
 	private function generateRequestToken()
@@ -205,7 +205,7 @@ abstract class Client
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function authorise()
 	{
@@ -228,7 +228,7 @@ abstract class Client
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function generateAccessToken()
 	{
@@ -281,21 +281,21 @@ abstract class Client
 		// Do not encode multipart parameters. Do not include $data in the signature if $data is not array.
 		if (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') !== false || !is_array($data))
 		{
-			$oauth_headers = $parameters;
+			$oauthHeaders = $parameters;
 		}
 		else
 		{
 			// Use all parameters for the signature.
-			$oauth_headers = array_merge($parameters, $data);
+			$oauthHeaders = array_merge($parameters, $data);
 		}
 
 		// Sign the request.
-		$oauth_headers = $this->signRequest($url, $method, $oauth_headers);
+		$oauthHeaders = $this->signRequest($url, $method, $oauthHeaders);
 
 		// Get parameters for the Authorisation header.
 		if (is_array($data))
 		{
-			$oauth_headers = array_diff_key($oauth_headers, $data);
+			$oauthHeaders = array_diff_key($oauthHeaders, $data);
 		}
 
 		// Send the request.
@@ -303,17 +303,21 @@ abstract class Client
 		{
 			case 'GET':
 				$url      = $this->toUrl($url, $data);
-				$response = $this->client->get($url, ['Authorization' => $this->createHeader($oauth_headers)]);
+				$response = $this->client->get($url, ['Authorization' => $this->createHeader($oauthHeaders)]);
 				break;
 
 			case 'POST':
+				$headers  = array_merge($headers, ['Authorization' => $this->createHeader($oauthHeaders)]);
+				$response = $this->client->post($url, $data, $headers);
+				break;
+
 			case 'PUT':
-				$headers  = array_merge($headers, ['Authorization' => $this->createHeader($oauth_headers)]);
-				$response = $this->client->{strtolower($method)}($url, $data, $headers);
+				$headers  = array_merge($headers, ['Authorization' => $this->createHeader($oauthHeaders)]);
+				$response = $this->client->put($url, $data, $headers);
 				break;
 
 			case 'DELETE':
-				$headers  = array_merge($headers, ['Authorization' => $this->createHeader($oauth_headers)]);
+				$headers  = array_merge($headers, ['Authorization' => $this->createHeader($oauthHeaders)]);
 				$response = $this->client->delete($url, $headers);
 				break;
 		}
@@ -344,7 +348,7 @@ abstract class Client
 	 *
 	 * @return  string  The header.
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function createHeader(array $parameters): string
 	{
@@ -427,7 +431,7 @@ abstract class Client
 	 *
 	 * @return  array  The array containing the request parameters, including signature.
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function signRequest(string $url, string $method, array $parameters): array
 	{
@@ -452,7 +456,7 @@ abstract class Client
 	 *
 	 * @return  string  The base string.
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function baseString(string $url, string $method, array $parameters): string
 	{
@@ -540,7 +544,7 @@ abstract class Client
 	 *
 	 * @return  string  The prepared signing key.
 	 *
-	 * @since   1.0
+	 * @since   1.1.2
 	 */
 	private function prepareSigningKey(): string
 	{

@@ -26,6 +26,6 @@ if (!count($list) && !$params->get('no_results_text'))
 	return;
 }
 
-$display_count   = $params->get('display_count', 0);
+$display_count = $params->get('display_count', 0);
 
 require ModuleHelper::getLayoutPath('mod_tags_popular', $params->get('layout', 'default'));

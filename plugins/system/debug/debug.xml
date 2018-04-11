@@ -35,8 +35,8 @@
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -46,8 +46,8 @@
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -57,8 +57,8 @@
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -68,8 +68,8 @@
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -79,8 +79,8 @@
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -90,8 +90,8 @@
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -157,8 +157,8 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -168,8 +168,8 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -179,8 +179,8 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field

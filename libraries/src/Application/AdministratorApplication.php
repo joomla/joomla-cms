@@ -475,17 +475,11 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @since   4.0.0
 	 */
-	public function findOption()
+	public function findOption(): string
 	{
 		$app = \JFactory::getApplication();
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
-
-		if (!$user)
-		{
-			$app->loadIdentity(\JFactory::getUser());
-			$user = $app->getIdentity();
-		}
 
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{

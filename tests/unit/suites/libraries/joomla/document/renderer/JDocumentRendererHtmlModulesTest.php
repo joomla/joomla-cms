@@ -95,7 +95,7 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 		$html = '<div class="moduletable"><h3>Search</h3><div class="search">'
 			. '<form action="index.php" method="post">'
 			. '<input name="searchword" id="mod-search-searchword63" class="form-control" type="search" placeholder="Search ...">'
-			. '<input type="hidden" name="task" value="search"><input type="hidden" name="option" value="com_search">'
+			. '<input type="hidden" name="option" value="com_search"><input type="hidden" name="task" value="search">'
 			. '<input type="hidden" name="Itemid" value=""></form></div></div>';
 		$this->assertEquals($html, $htmlClean, 'render output does not match expected content');
 	}

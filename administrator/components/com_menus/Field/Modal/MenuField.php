@@ -63,7 +63,7 @@ class MenuField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -86,7 +86,7 @@ class MenuField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -179,7 +179,8 @@ class MenuField extends FormField
 				function jSelectMenu_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -224,7 +225,7 @@ class MenuField extends FormField
 
 		// Placeholder if option is present or not
 		if (empty($title))
- 		{
+		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
 				$title_holder = \JText::_($this->element->option, true);
@@ -248,7 +249,7 @@ class MenuField extends FormField
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select menu item button

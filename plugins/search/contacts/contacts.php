@@ -9,12 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Contacts search plugin.
  *
  * @since  1.6
  */
-class PlgSearchContacts extends JPlugin
+class PlgSearchContacts extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -59,9 +64,9 @@ class PlgSearchContacts extends JPlugin
 	{
 		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 
-		$db     = JFactory::getDbo();
-		$app    = JFactory::getApplication();
-		$user   = JFactory::getUser();
+		$db     = Factory::getDbo();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
@@ -96,7 +101,7 @@ class PlgSearchContacts extends JPlugin
 			return array();
 		}
 
-		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACTS');
+		$section = Text::_('PLG_SEARCH_CONTACTS_CONTACTS');
 
 		switch ($ordering)
 		{
@@ -146,9 +151,9 @@ class PlgSearchContacts extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$tag = JFactory::getLanguage()->getTag();
+			$tag = Factory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 		}
@@ -162,7 +167,7 @@ class PlgSearchContacts extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$rows = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		if ($rows)

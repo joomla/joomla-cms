@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_STATS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\StatsAdmin</namespace>
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
 		<folder>tmpl</folder>
@@ -30,8 +31,8 @@
 					class="switcher"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -41,8 +42,8 @@
 					class="switcher"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

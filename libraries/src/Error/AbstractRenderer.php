@@ -11,6 +11,7 @@ namespace Joomla\CMS\Error;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 
 /**
@@ -109,6 +110,6 @@ abstract class AbstractRenderer implements RendererInterface
 			$attributes['direction'] = Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
 		}
 
-		return Document::getInstance($this->type, $attributes);
+		return Factory::getContainer()->get(FactoryInterface::class)->createDocument($this->type, $attributes);
 	}
 }

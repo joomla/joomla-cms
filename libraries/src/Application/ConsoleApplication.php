@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
@@ -30,7 +31,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
 
 	/**
 	 * The application message queue.
@@ -63,7 +64,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   11.1
+	 * @since   4.0.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null, Container $container = null)
 	{
@@ -79,9 +80,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -181,6 +179,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\RemoveOldFilesCommand,
 			]
 		);
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**

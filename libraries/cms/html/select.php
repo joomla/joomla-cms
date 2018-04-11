@@ -694,6 +694,8 @@ abstract class JHtmlSelect
 
 		foreach ($data as $obj)
 		{
+			$html .= '<div class="form-check form-check-inline">';
+
 			$k = $obj->$optKey;
 			$t = $translate ? JText::_($obj->$optText) : $obj->$optText;
 			$id = (isset($obj->id) ? $obj->id : null);
@@ -719,15 +721,13 @@ abstract class JHtmlSelect
 				$extra .= ((string) $k === (string) $selected ? ' checked="checked" ' : '');
 			}
 
-			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
-				. $attribs . '>' . $t;
-			$html .= "\n\t" . '</label>';
+			$html .= '<input type="radio" class="form-check-input" name="' . $name . '" id="' . $id . '" value="' . $k . '" '
+					. $extra . $attribs . '>';
+			$html .= '<label for="' . $id . '" class="form-check-label" id="' . $id . '-lbl">' . $t . '</label>';
+			$html .= '</div>';
 		}
 
-		$html .= "\n";
 		$html .= '</div>';
-		$html .= "\n";
 
 		return $html;
 	}

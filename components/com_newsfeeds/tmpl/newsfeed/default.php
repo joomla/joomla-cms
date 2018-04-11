@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
         <?php $direction = ' redirect-rtl'; ?>
     <?php endif; ?>
     <?php $images = json_decode($this->item->images); ?>
-	<div class="newsfeed<?php echo $this->pageclass_sfx; ?><?php echo $direction; ?>">
+	<div class="newsfeed<?php echo $direction; ?>">
         <?php if ($this->params->get('display_num')) : ?>
         <h1 class="<?php echo $direction; ?>">
             <?php echo $this->escape($this->params->get('page_heading')); ?>

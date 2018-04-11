@@ -98,6 +98,13 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
+		// We do not need to filter by language when multilingual is disabled
+		if (!\JLanguageMultilang::isEnabled())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
+
 		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'groups');
 		$this->sidebar = \JHtmlSidebar::render();
 

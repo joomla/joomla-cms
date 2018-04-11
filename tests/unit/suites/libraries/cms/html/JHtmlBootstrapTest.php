@@ -85,13 +85,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -113,13 +113,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -141,13 +141,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -169,13 +169,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -203,13 +203,13 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -231,13 +231,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -277,13 +277,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the bootstrap-init.min.js is loaded'
 		);
@@ -305,13 +305,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -333,13 +333,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -362,13 +362,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -420,13 +420,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -476,13 +476,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);
@@ -531,13 +531,13 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/vendor/bootstrap/js/bootstrap.bundle.js',
+			'/media/vendor/bootstrap/js/bootstrap.bundle.min.js',
 			$document->_scripts,
-			'Verify that bootstrap.min.js file is loaded'
+			'Verify that bootstrap.bundle.min.js file is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/system/js/bootstrap-init.min.js',
+			'/media/legacy/js/bootstrap-init.min.js',
 			$document->_scripts,
 			'Verify that the boostrap-init.min.js file is loaded'
 		);

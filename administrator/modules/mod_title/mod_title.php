@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Factory;
+
 // Get the component title div
-if (isset(JFactory::getApplication()->JComponentTitle))
+if (isset(Factory::getApplication()->JComponentTitle))
 {
-	$title = JFactory::getApplication()->JComponentTitle;
+	$title = Factory::getApplication()->JComponentTitle;
 }
 
-require JModuleHelper::getLayoutPath('mod_title', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_title', $params->get('layout', 'default'));

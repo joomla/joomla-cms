@@ -8,10 +8,10 @@
  */
 namespace Joomla\Module\Menu\Administrator\Menu;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filter\OutputFilter;
-
-defined('_JEXEC') or die;
 
 /**
  * A Node for JAdminCssMenu

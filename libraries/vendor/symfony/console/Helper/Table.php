@@ -263,6 +263,7 @@ class Table
      * Renders table to output.
      *
      * Example:
+     * <code>
      * +---------------+-----------------------+------------------+
      * | ISBN          | Title                 | Author           |
      * +---------------+-----------------------+------------------+
@@ -270,6 +271,7 @@ class Table
      * | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      * | 960-425-059-0 | The Lord of the Rings | J. R. R. Tolkien |
      * +---------------+-----------------------+------------------+
+     * </code>
      */
     public function render()
     {
@@ -303,7 +305,7 @@ class Table
     /**
      * Renders horizontal header separator.
      *
-     * Example: +-----+-----------+-------+
+     * Example: <code>+-----+-----------+-------+</code>
      */
     private function renderRowSeparator()
     {
@@ -334,7 +336,7 @@ class Table
     /**
      * Renders table row.
      *
-     * Example: | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
+     * Example: <code>| 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |</code>
      *
      * @param array  $row
      * @param string $cellFormat
@@ -452,11 +454,16 @@ class Table
      * @param int   $line
      *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
     private function fillNextRows(array $rows, $line)
     {
         $unmergedRows = array();
         foreach ($rows[$line] as $column => $cell) {
+            if (null !== $cell && !$cell instanceof TableCell && !is_scalar($cell) && !(is_object($cell) && method_exists($cell, '__toString'))) {
+                throw new InvalidArgumentException(sprintf('A cell must be a TableCell, a scalar or an object implementing __toString, %s given.', gettype($cell)));
+            }
             if ($cell instanceof TableCell && $cell->getRowspan() > 1) {
                 $nbLines = $cell->getRowspan() - 1;
                 $lines = array($cell);

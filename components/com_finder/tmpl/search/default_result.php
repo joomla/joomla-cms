@@ -55,12 +55,12 @@ if (!empty($this->query->highlight)
 		</a>
 	</h4>
 	<?php if ($show_description && $description !== '') : ?>
-		<p class="result-text<?php echo $this->pageclass_sfx; ?>">
+		<p class="result-text">
 			<?php echo $description; ?>
 		</p>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-		<div class="small result-url<?php echo $this->pageclass_sfx; ?>">
+		<div class="small result-url">
 			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
 		</div>
 	<?php endif; ?>

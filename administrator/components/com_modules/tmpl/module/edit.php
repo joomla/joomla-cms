@@ -15,7 +15,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
-JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
 JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 
@@ -111,7 +110,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+					<joomla-alert type="danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)
@@ -150,8 +149,12 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						);
 
 						?>
-						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-					</div>
+						<?php if ($this->item->client_id == 0) : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<?php else : ?>
+							<?php echo JLayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+						<?php endif; ?>
+ 					</div>
 				</div>
 			</div>
 		</div>

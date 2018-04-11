@@ -9,16 +9,21 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.framework');
-JHtml::_('script', 'mod_sampledata/sampledata-process.js', false, true);
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
-JText::script('MOD_SAMPLEDATA_CONFIRM_START');
-JText::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
-JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
+HTMLHelper::_('jquery.framework');
+HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', false, true);
 
-JFactory::getDocument()->addScriptDeclaration('
+Text::script('MOD_SAMPLEDATA_CONFIRM_START');
+Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
+Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
+
+Factory::getDocument()->addScriptDeclaration('
 	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
-		modSampledataIconProgress = "' . JUri::root(true) . '/media/system/images/ajax-loader.gif";
+		modSampledataIconProgress = "' . Uri::root(true) . '/media/system/images/ajax-loader.gif";
 ');
 ?>
 <?php if ($items) : ?>
@@ -31,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<a href="#" class="btn btn-primary btn-sm" onclick="sampledataApply(this)" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-					<?php echo JText::_('JLIB_INSTALLER_INSTALL'); ?></a>
+					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></a>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
 			</li>
@@ -48,5 +53,5 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<div class="alert"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></div>
+	<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 <?php endif; ?>

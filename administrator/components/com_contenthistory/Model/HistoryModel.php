@@ -245,7 +245,7 @@ class HistoryModel extends ListModel
 	 *
 	 * @since   3.2
 	 */
-	public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
 		return Table::getInstance($type, $prefix, $config);
 	}
@@ -419,7 +419,7 @@ class HistoryModel extends ListModel
 			$helper = new CMSHelper;
 
 			$dataObject = $helper->getDataObject($contentTable);
-			$result = $this->getTable('Contenthistory')->getSha1(json_encode($dataObject), $typeTable);
+			$result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
 		}
 
 		return $result;

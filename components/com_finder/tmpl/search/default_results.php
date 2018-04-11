@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<ul class="search-results<?php echo $this->pageclass_sfx; ?> list-striped">
+<ul class="search-results list-striped">
 	<?php $this->baseUrl = JUri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $result) : ?>
 		<?php $this->result = &$result; ?>

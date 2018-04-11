@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -731,7 +731,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @param   string        $separator  The key separator.
 	 * @param   array|object  $data       Data source of this scope.
-	 * @param   array         &$array     The result array, it is pass by reference.
+	 * @param   array         $array      The result array, it is passed by reference.
 	 * @param   string        $prefix     Last level key prefix.
 	 *
 	 * @return  void

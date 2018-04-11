@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -20,8 +23,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class FormController extends BaseController
+class FormController extends BaseController implements FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * The context for storing internal data, e.g. record.
 	 *
@@ -65,16 +70,18 @@ class FormController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   array                 $config       An optional associative array of configuration settings.
+	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                              'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   CMSApplication        $app          The JApplication for the dispatcher
+	 * @param   \JInput               $input        Input
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
+		FormFactoryInterface $formFactory = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -123,6 +130,8 @@ class FormController extends BaseController
 		{
 			$this->view_list = \Joomla\String\Inflector::getInstance()->toPlural($this->view_item);
 		}
+
+		$this->setFormFactory($formFactory);
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $input           = JFactory::getApplication()->input;
 $field           = $input->getCmd('field');
@@ -33,9 +34,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal
 		<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-warning alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 		<table class="table table-striped table-sm">
 			<thead>

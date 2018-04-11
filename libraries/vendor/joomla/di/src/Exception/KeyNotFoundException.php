@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ use Psr\Container\NotFoundExceptionInterface;
 /**
  * No entry was found in the container.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.0
  */
 class KeyNotFoundException extends \InvalidArgumentException implements NotFoundExceptionInterface
 {

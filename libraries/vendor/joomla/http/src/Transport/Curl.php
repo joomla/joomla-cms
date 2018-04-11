@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -161,6 +161,12 @@ class Curl extends AbstractTransport
 			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
+		// Configure protocol version
+		if ($protocolVersion = $this->getOption('protocolVersion'))
+		{
+			$options[CURLOPT_HTTP_VERSION] = $this->mapProtocolVersion($protocolVersion);
+		}
+
 		// Set any custom transport options
 		foreach ($this->getOption('transport.curl', []) as $key => $value)
 		{
@@ -272,6 +278,36 @@ class Curl extends AbstractTransport
 	public static function isSupported()
 	{
 		return function_exists('curl_version') && curl_version();
+	}
+
+	/**
+	 * Get the cURL constant for a HTTP protocol version
+	 *
+	 * @param   string  $version  The HTTP protocol version to use
+	 *
+	 * @return  integer
+	 *
+	 * @since   1.3.1
+	 */
+	private function mapProtocolVersion($version)
+	{
+		switch ($version)
+		{
+			case '1.0':
+				return CURL_HTTP_VERSION_1_0;
+
+			case '1.1':
+				return CURL_HTTP_VERSION_1_1;
+
+			case '2.0':
+			case '2':
+				if (defined('CURL_HTTP_VERSION_2'))
+				{
+					return CURL_HTTP_VERSION_2;
+				}
+		}
+
+		return CURL_HTTP_VERSION_NONE;
 	}
 
 	/**

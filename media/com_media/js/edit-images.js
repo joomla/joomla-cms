@@ -39,16 +39,19 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
 		for (var i = 0, l = links.length; i < l; i++){
-
-			if (links[i].classList.contains('active')) {
-				Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Deactivate();
-				if (!current || (current && current !== true)) {
-					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
-				} else {
-					Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.current);
-				}
-				break;
+			if (!links[i].classList.contains('active')) {
+				continue;
 			}
+
+			Joomla.MediaManager.Edit[links[i].hash.replace('#attrib-', '').toLowerCase()].Deactivate();
+
+			var data = Joomla.MediaManager.Edit.current;
+			if (!current || (current && current !== true)) {
+				data = Joomla.MediaManager.Edit.original;
+			}
+
+			activate(links[i].hash.replace('#attrib-', ''), data);
+			break;
 		}
 	};
 
@@ -182,33 +185,68 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 		var func = function() {
 			var links = [].slice.call(document.querySelectorAll('[data-toggle="tab"]'));
 
-			if (links.length) {
-				// Couple the tabs with the plugin objects
-				for (var i = 0, l = links.length; i < l; i++){
-					jQuery(links[i]).on('shown.bs.tab', function(event) {
-						var data, contents;
-						if (event.relatedTarget) {
-							Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].Deactivate();
-
-							// Clear the DOM
-							document.getElementById('media-manager-edit-container').innerHTML = '';
-						}
-
-						if (!contents in Joomla.MediaManager.Edit.current) {
-							data = Joomla.MediaManager.Edit.original;
-						} else {
-							data = Joomla.MediaManager.Edit.current;
-						}
-
-						Joomla.MediaManager.Edit[event.target.hash.replace('#attrib-', '').toLowerCase()].Activate(data);
-					});
-				}
-
-				// Activate the first plugin
-				Joomla.MediaManager.Edit[links[0].hash.replace('#attrib-', '').toLowerCase()].Activate(Joomla.MediaManager.Edit.original);
+			if (!links.length) {
+				return;
 			}
+
+			// Couple the tabs with the plugin objects
+			for (var i = 0, l = links.length; i < l; i++){
+				jQuery(links[i]).on('shown.bs.tab', function(event) {
+					if (event.relatedTarget) {
+						Joomla.MediaManager.Edit[event.relatedTarget.hash.replace('#attrib-', '').toLowerCase()].Deactivate();
+
+						// Clear the DOM
+						document.getElementById('media-manager-edit-container').innerHTML = '';
+					}
+
+					var contents;
+					var data = Joomla.MediaManager.Edit.current;;
+					if (!contents in Joomla.MediaManager.Edit.current) {
+						data = Joomla.MediaManager.Edit.original;
+					}
+
+					activate(event.target.hash.replace('#attrib-', ''), data);
+				});
+			}
+
+			activate(links[0].hash.replace('#attrib-', ''), Joomla.MediaManager.Edit.original);
 		};
 
 		setTimeout(func, 100); // jQuery...
 	});
+
+	var activate = function(name, data) {
+		// Amend the layout
+		var tabContent = document.getElementById('myTabContent'),
+			pluginControls = document.getElementById('attrib-' + name);
+
+		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
+		pluginControls.classList.add('col-md-3', 'p-4');
+
+		// Create the images for edit and preview
+		var baseContainer = document.getElementById('media-manager-edit-container'),
+			editContainer = document.createElement('div'),
+			previewContainer = document.createElement('div'),
+			imageSrc = document.createElement('img'),
+			imagePreview = document.createElement('img');
+
+		baseContainer.innerHTML = '';
+
+		imageSrc.src = data.contents;
+		imageSrc.id = 'image-source';
+		imageSrc.style.maxWidth = '100%';
+		imagePreview.src = data.contents;
+		imagePreview.id = 'image-preview';
+		imagePreview.style.maxWidth = '100%';
+		editContainer.style.display = 'none';
+
+		editContainer.appendChild(imageSrc);
+		baseContainer.appendChild(editContainer);
+
+		previewContainer.appendChild(imagePreview);
+		baseContainer.appendChild(previewContainer);
+
+		// Activate the first plugin
+		Joomla.MediaManager.Edit[name.toLowerCase()].Activate(data);
+	};
 })();

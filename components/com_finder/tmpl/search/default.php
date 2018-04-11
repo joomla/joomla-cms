@@ -20,7 +20,7 @@ JText::script('MOD_FINDER_SEARCH_VALUE', true);
 JHtml::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 
 ?>
-<div class="finder<?php echo $this->pageclass_sfx; ?>">
+<div class="finder">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php if ($this->escape($this->params->get('page_heading'))) : ?>

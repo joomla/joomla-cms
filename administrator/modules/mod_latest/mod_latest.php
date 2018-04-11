@@ -19,4 +19,4 @@ if ($params->get('automatic_title', 0))
 	$module->title = ModLatestHelper::getTitle($params);
 }
 
-require JModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
+require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));

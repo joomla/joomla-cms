@@ -15,7 +15,7 @@ use JLoader;
 /**
  * Trait for application classes which ensures the namespace mapper exists and includes it.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 trait ExtensionNamespaceMapper
 {

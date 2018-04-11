@@ -109,6 +109,8 @@ $doNotPackage = array(
 	'dev',
 	'.appveyor.yml',
 	'.drone.yml',
+	'.eslintignore',
+	'.eslint',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
@@ -149,6 +151,7 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/cache',
 	'administrator/logs',
 	'installation',
 	'images',

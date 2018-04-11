@@ -9,6 +9,7 @@
 namespace Joomla\Crypt\Cipher;
 
 use Joomla\Crypt\CipherInterface;
+use Joomla\Crypt\Exception\InvalidKeyTypeException;
 use Joomla\Crypt\Key;
 
 /**
@@ -65,7 +66,7 @@ class OpenSSL implements CipherInterface
 		// Validate key.
 		if ($key->getType() !== 'openssl')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected openssl.');
+			throw new InvalidKeyTypeException('openssl', $key->getType());
 		}
 
 		$cleartext = openssl_decrypt($data, $this->method, $key->getPrivate(), true, $this->iv);
@@ -95,7 +96,7 @@ class OpenSSL implements CipherInterface
 		// Validate key.
 		if ($key->getType() !== 'openssl')
 		{
-			throw new \InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected openssl.');
+			throw new InvalidKeyTypeException('openssl', $key->getType());
 		}
 
 		$encrypted = openssl_encrypt($data, $this->method, $key->getPrivate(), true, $this->iv);

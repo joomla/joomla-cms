@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -42,5 +44,5 @@ extract($displayData);
 ?>
 <input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
 <a class="btn btn-secondary" onclick="document.getElementById('<?php echo $id; ?>').value='';Joomla.submitbutton('plugin.apply');">
-	<span class="icon-refresh"></span> <?php echo JText::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
+	<span class="icon-refresh"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
 </a>

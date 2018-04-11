@@ -11,14 +11,14 @@ namespace Joomla\CMS\Document;
 defined('_JEXEC') or die;
 
 /**
- * Default factory for creating JDocument objects
+ * Default factory for creating Document objects
  *
  * @since  4.0.0
  */
 class Factory implements FactoryInterface
 {
 	/**
-	 * Creates a new JDocument object for the requested format.
+	 * Creates a new Document object for the requested format.
 	 *
 	 * @param   string  $type        The document type to instantiate
 	 * @param   array   $attributes  Array of attributes
@@ -66,7 +66,7 @@ class Factory implements FactoryInterface
 	/**
 	 * Creates a new renderer object.
 	 *
-	 * @param   Document  $document  The JDocument instance to attach to the renderer
+	 * @param   Document  $document  The Document instance to attach to the renderer
 	 * @param   string    $type      The renderer type to instantiate
 	 *
 	 * @return  RendererInterface

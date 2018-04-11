@@ -9,12 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * Joomla! Page Cache Plugin.
  *
  * @since  1.5
  */
-class PlgSystemCache extends JPlugin
+class PlgSystemCache extends CMSPlugin
 {
 	/**
 	 * Cache instance.
@@ -62,10 +69,10 @@ class PlgSystemCache extends JPlugin
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = Factory::getApplication();
 		}
 
-		$this->_cache = JCache::getInstance('page', $options);
+		$this->_cache = Cache::getInstance('page', $options);
 	}
 
 	/**
@@ -81,10 +88,10 @@ class PlgSystemCache extends JPlugin
 
 		if (!$key)
 		{
-			JPluginHelper::importPlugin('pagecache');
+			PluginHelper::importPlugin('pagecache');
 
 			$parts = $this->app->triggerEvent('onPageCacheGetKey');
-			$parts[] = JUri::getInstance()->toString();
+			$parts[] = Uri::getInstance()->toString();
 
 			$key = md5(serialize($parts));
 		}
@@ -102,7 +109,7 @@ class PlgSystemCache extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app  = $this->app;
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($app->isClient('administrator'))
 		{
@@ -115,7 +122,7 @@ class PlgSystemCache extends JPlugin
 		}
 
 		// If any pagecache plugins return false for onPageCacheSetCaching, do not use the cache.
-		JPluginHelper::importPlugin('pagecache');
+		PluginHelper::importPlugin('pagecache');
 
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
@@ -136,7 +143,7 @@ class PlgSystemCache extends JPlugin
 
 			if (JDEBUG)
 			{
-				JProfiler::getInstance('Application')->mark('afterCache');
+				Profiler::getInstance('Application')->mark('afterCache');
 			}
 
 			$app->close();
@@ -164,7 +171,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ($user->get('guest') && !$this->isExcluded())
 		{
@@ -204,7 +211,7 @@ class PlgSystemCache extends JPlugin
 			$exclusions = explode("\n", $exclusions);
 
 			// Get current path to match against
-			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+			$path = Uri::getInstance()->toString(array('path', 'query', 'fragment'));
 
 			// Loop through each pattern
 			if ($exclusions)
@@ -224,7 +231,7 @@ class PlgSystemCache extends JPlugin
 		}
 
 		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
-		JPluginHelper::importPlugin('pagecache');
+		PluginHelper::importPlugin('pagecache');
 
 		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
 
