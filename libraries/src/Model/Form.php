@@ -355,7 +355,7 @@ abstract class Form extends Model
 		$calledClass = get_called_class();
 		if (strpos($calledClass, 'User') === 0) {
 			// onUserBeforeDataValidation retained for backward compatibility
-			// See https://github.com/joomla/joomla-cms/issues/19584
+			// See Joomla Issue #19584
 			$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
 		}
 		// Trigger event name compatible with others in this class
