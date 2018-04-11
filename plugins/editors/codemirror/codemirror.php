@@ -66,12 +66,6 @@ class PlgEditorCodemirror extends CMSPlugin
 		Factory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
 
 		$displayData = (object) array('params'  => $this->params);
-
-		// We need to do output buffering here because layouts may actually 'echo' things which we do not want.
-		ob_start();
-		LayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
-		ob_end_clean();
-
 		$font = $this->params->get('fontFamily', 0);
 		$fontInfo = $this->getFontInfo($font);
 
@@ -239,31 +233,10 @@ class PlgEditorCodemirror extends CMSPlugin
 	 * @param   mixed   $asset    Unused.
 	 * @param   mixed   $author   Unused.
 	 *
-	 * @return  string  HTML
+	 * @return  string|void
 	 */
 	protected function displayButtons($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
-		$onGetInsertMethodEvent = new Event(
-			'onGetInsertMethod',
-			['name' => $name]
-		);
-
-		$rawResults = $this->getDispatcher()->dispatch('onGetInsertMethod', $onGetInsertMethodEvent);
-		$results    = $rawResults['result'];
-
-		if (is_array($results) && !empty($results))
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
-					$return .= $result;
-				}
-			}
-		}
-
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$buttonsEvent = new Event(
@@ -277,10 +250,8 @@ class PlgEditorCodemirror extends CMSPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
-			$return .= LayoutHelper::render('joomla.editors.buttons', $buttons);
+			return LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
-
-		return $return;
 	}
 
 	/**

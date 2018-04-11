@@ -53,7 +53,7 @@ echo HTMLHelper::_(
 		'title'  => $title,
 		'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
 		'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
-		'bodyHeight'  => array_key_exists('wibodyHeightdth', $options) ? $options['bodyHeight'] : '70',
+		'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
 		'footer' => $confirm . '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
