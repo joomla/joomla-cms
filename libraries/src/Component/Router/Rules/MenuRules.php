@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,6 +123,7 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$viewLayout];
+
 						return;
 					}
 
@@ -131,6 +132,7 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
+
 							return;
 						}
 					}
@@ -141,6 +143,7 @@ class MenuRules implements RulesInterface
 					if (is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$view];
+
 						return;
 					}
 
@@ -149,6 +152,7 @@ class MenuRules implements RulesInterface
 						if (isset($this->lookup[$language][$view][(int) $id]))
 						{
 							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
+
 							return;
 						}
 					}

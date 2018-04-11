@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -517,22 +517,30 @@ abstract class FinderIndexer
 		// Count the number of token values.
 		$values = 0;
 
-		// Iterate through the tokens to create SQL value sets.
-		foreach ($tokens as $token)
-		{
-			$query->values(
-				$db->quote($token->term) . ', '
-				. $db->quote($token->stem) . ', '
-				. (int) $token->common . ', '
-				. (int) $token->phrase . ', '
-				. (float) $token->weight . ', '
-				. (int) $context . ', '
-				. $db->quote($token->language)
-			);
-			++$values;
-		}
+		// Break into chunks of no more than 1000 items
+		$chunks = array_chunk($tokens, 1000);
 
-		$db->setQuery($query)->execute();
+		foreach ($chunks as $tokens)
+		{
+			$query->clear('values');
+
+			// Iterate through the tokens to create SQL value sets.
+			foreach ($tokens as $token)
+			{
+				$query->values(
+					$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. (float) $token->weight . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
+				);
+				++$values;
+			}
+
+			$db->setQuery($query)->execute();
+		}
 
 		return $values;
 	}

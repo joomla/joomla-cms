@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -94,6 +94,7 @@ abstract class FieldsPlugin extends JPlugin
 
 		// Add to cache and return the data
 		$types_cache[$this->_type . $this->_name] = $types;
+
 		return $types;
 	}
 
@@ -151,14 +152,8 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
-		$app = JFactory::getApplication();
-
-		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
-		{
-			return;
-		}
-		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		// Detect if the field is configured to be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
 		{
 			return null;
 		}

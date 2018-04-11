@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1946,6 +1946,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/legacy.php',
 			'/libraries/legacy/web/client.php',
 			'/libraries/legacy/web/web.php',
+			// Joomla 3.8.4
+			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
