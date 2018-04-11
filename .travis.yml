@@ -3,39 +3,23 @@ sudo: false
 
 language: php
 
-env:
-  global:
-    - RUN_UNIT_TESTS="yes"
-    - INSTALL_MEMCACHE="yes"
-    - INSTALL_MEMCACHED="yes"
-    - INSTALL_REDIS="yes"
-
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="yes"
-    - php: 7.1
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="yes"
-    - php: 7.2
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_LIBSODIUM="no"
     - php: nightly
-      env: INSTALL_APCU="yes" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_LIBSODIUM="no"
   allow_failures:
-    - php: 7.2
     - php: nightly
-
-services:
-  - memcache
-  - memcached
-  - redis-server
 
 before_script:
-  # Make sure all dev dependencies are installed
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
+  # Abort travis execution if setup fails
+  - set -e
+  # Disable xdebug.
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  # Make sure all dev dependencies are installed, ignore platform requirements because Travis is missing the LDAP tooling on all new images
+  - composer install --ignore-platform-reqs
 
 script:
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
+  - libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
 branches:
   except:

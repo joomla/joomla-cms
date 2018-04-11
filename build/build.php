@@ -151,6 +151,7 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/cache',
 	'administrator/logs',
 	'installation',
 	'images',
