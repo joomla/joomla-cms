@@ -62,7 +62,8 @@ class JSessionStorageRedis extends JSessionStorage
 		if (!empty($this->_server) && isset($this->_server['host'], $this->_server['port']))
 		{
 			// Headers_sent malfunctions if output_buffer is on, so we also confirm that output buffer is empty. 
-			if (!headers_sent() && empty(ob_get_length()))
+			$ob_length = ob_get_length();
+			if (!headers_sent() && empty($ob_length))
 			{
 				if ($this->_server['port'] === 0)
 				{
