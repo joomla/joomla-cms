@@ -76,7 +76,8 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate($list,
+				$list = ModArticlesCategoryHelper::groupByDate(
+							$list,
 							$article_grouping,
 							$article_grouping_direction,
 							$params->get('month_year_format', 'F Y'),
