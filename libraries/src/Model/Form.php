@@ -352,7 +352,14 @@ abstract class Form extends Model
 		\JPluginHelper::importPlugin($this->events_map['validate']);
 
 		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+		$calledClass = get_called_class();
+		if (strpos($calledClass, 'User') === 0) {
+			// onUserBeforeDataValidation retained for backward compatibility
+			// See https://github.com/joomla/joomla-cms/issues/19584
+			$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+		}
+		// Trigger event name compatible with others in this class
+		$dispatcher->trigger('onContentValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
