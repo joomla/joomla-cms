@@ -366,7 +366,7 @@
 					showon="article_grouping:year,month_year"
 					>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
-					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MONTHYEAR_VALUE</option>
+					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
 					<option value="publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE</option>
 				</field>
 				
