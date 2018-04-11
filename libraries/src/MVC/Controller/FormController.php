@@ -324,12 +324,21 @@ class FormController extends BaseController
 		$this->releaseEditId($context, $recordId);
 		\JFactory::getApplication()->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			\JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
+		$url = \JRoute::_(
+			'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend(), false
 		);
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(\JRoute::_($url, false));
 
 		return true;
 	}
@@ -812,11 +821,20 @@ class FormController extends BaseController
 				$this->releaseEditId($context, $recordId);
 				$app->setUserState($context . '.data', null);
 
+				// Check if there is a return value
+				$return = $this->input->get('return', null, 'base64');
+				$url    = '';
+
+				if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+				{
+					$url = '&return=' . $return;
+				}
+
 				// Redirect back to the edit screen.
 				$this->setRedirect(
 					\JRoute::_(
 						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend(null, $urlVar), false
+						. $this->getRedirectToItemAppend(null, $urlVar) . $url, false
 					)
 				);
 				break;
