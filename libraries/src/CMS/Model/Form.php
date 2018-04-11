@@ -332,7 +332,14 @@ abstract class Form extends Model
 		// Include the plugins for the delete events.
 		\JPluginHelper::importPlugin($this->events_map['validate']);
 
-		\JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		$calledClass = get_called_class();
+		if (strpos($calledClass, 'User') === 0) {
+			// onUserBeforeDataValidation retained for backward compatibility
+			// See Joomla Issue #19584
+			\JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		}
+		// Trigger event name compatible with others in this class
+		\JFactory::getApplication()->triggerEvent('onContentValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
