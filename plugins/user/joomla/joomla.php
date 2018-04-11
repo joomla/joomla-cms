@@ -393,4 +393,44 @@ class PlgUserJoomla extends JPlugin
 
 		return $instance;
 	}
+
+	/**
+	 * Check existence of content items for the user name
+	 *
+	 * Method is called before user data is deleted from the database
+	 *
+	 * @param   array   $user  Holds the user data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onUserBeforeDelete($user)
+	{
+		JPluginHelper::importPlugin('userdelete');
+		$i                    = 0;
+		$response             = array();
+		$response[0]          = new stdClass;
+		$response[0]->success = false;
+		$response[0]->message = 'delete';
+
+		// Trigger the userdelete events
+		$responses  = (array) $this->app->triggerEvent('onSystemUserBeforeDelete', array($user));
+
+		if (($responses !== false) && (count($responses) > 0))
+		{
+			foreach ($responses as $result)
+			{
+				if ($result['success'])
+				{
+					$i++;
+					$response[$i]          = new stdClass;
+					$response[$i]->message = $result['message'];
+					$response[$i]->success = true;
+				}
+			}
+		}
+
+		return $response;
+	}
 }

@@ -196,4 +196,31 @@ class UsersHelperRoute
 
 		return null;
 	}
+
+	/**
+	 * Method to get a route configuration for the delete view.
+	 *
+	 * @return  mixed  	Integer menu id on success, null on failure.
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  4.0
+	 */
+	public static function getDeleteRoute()
+	{
+		// Get the items.
+		$items  = self::getItems();
+		$itemid = null;
+
+		// Search for a suitable menu id.
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'delete')
+			{
+				$itemid = $item->id;
+				break;
+			}
+		}
+
+		return $itemid;
+	}
 }

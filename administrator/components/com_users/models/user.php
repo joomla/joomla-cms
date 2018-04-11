@@ -375,8 +375,23 @@ class UsersModelUser extends JModelAdmin
 					// Get users data for the users to delete.
 					$user_to_delete = JFactory::getUser($pk);
 
-					// Fire the before delete event.
-					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
+					// Fire the before delete events.
+					$content = $dispatcher->trigger($this->event_before_delete, array($user_to_delete->getProperties()));
+					$proceed = true;
+
+					foreach ($content[0] as $result)					
+					{
+						if ($result->success)
+						{
+							JFactory::getApplication()->enqueueMessage($result->message, 'error');
+							$proceed = false;
+						}
+					}
+
+					if (!$proceed)
+					{
+						return false;
+					}
 
 					if (!$table->delete($pk))
 					{
