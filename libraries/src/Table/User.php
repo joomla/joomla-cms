@@ -195,7 +195,15 @@ class User extends Table
 
 			return false;
 		}
+		
+		// Block using registration emails to send spam/malware/phishing emails with embedded links 
+		if (preg_match('#https?#', $this->username) || preg_match('#https?#', $this->name))
+		{
+			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_USERNAME_NAME_MUST_NOT_CONTAIN_LINKS', 2));
 
+			return false;			
+		}
+			
 		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
