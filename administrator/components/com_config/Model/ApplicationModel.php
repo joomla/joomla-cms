@@ -118,7 +118,8 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			\JDatabaseDriver::getInstance($options)->getVersion();
+			$revisedDbo = \JDatabaseDriver::getInstance($options);
+			$revisedDbo->getVersion();
 		}
 		catch (\Exception $e)
 		{
@@ -263,6 +264,43 @@ class ApplicationModel extends FormModel
 				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
+		}
+
+		// Purge the database session table if we are disabling session metadata
+		if ($prev['session_metadata'] == 1 && $data['session_metadata'] == 0)
+		{
+			try
+			{
+				// If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
+				if ($data['session_handler'] === 'database')
+				{
+					$revisedDbo->setQuery(
+						$revisedDbo->getQuery(true)
+							->update('#__session')
+							->set(
+								[
+									$revisedDbo->quoteName('client_id') . ' = 0',
+									$revisedDbo->quoteName('guest') . ' = NULL',
+									$revisedDbo->quoteName('userid') . ' = NULL',
+									$revisedDbo->quoteName('username') . ' = NULL',
+								]
+							)
+					)->execute();
+				}
+				else
+				{
+					$revisedDbo->truncateTable('#__session');
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Also, this data won't be added or checked anymore once the configuration is saved, so it'll purge itself
+				 * through normal garbage collection anyway or if not using the database handler someone can purge the
+				 * table on their own.  Either way, carry on Soldier!
+				 */
+			}
 		}
 
 		// Set the shared session configuration
