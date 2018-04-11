@@ -362,7 +362,7 @@ class ApplicationModel extends FormModel
 		}
 		else
 		{
-			$path = JPATH_SITE . '/cache';
+			$path = JPATH_CACHE;
 		}
 
 		// Give a warning if the cache-folder can not be opened
@@ -371,12 +371,12 @@ class ApplicationModel extends FormModel
 			$error = true;
 
 			// If a custom path is in use, try using the system default instead of disabling cache
-			if ($path !== JPATH_SITE . '/cache' && @opendir(JPATH_SITE . '/cache') != false)
+			if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false)
 			{
 				try
 				{
 					\JLog::add(
-						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
 						\JLog::WARNING,
 						'jerror'
 					);
@@ -384,12 +384,12 @@ class ApplicationModel extends FormModel
 				catch (\RuntimeException $logException)
 				{
 					$app->enqueueMessage(
-						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
 						'warning'
 					);
 				}
 
-				$path  = JPATH_SITE . '/cache';
+				$path  = JPATH_CACHE;
 				$error = false;
 
 				$data['cache_path'] = '';
