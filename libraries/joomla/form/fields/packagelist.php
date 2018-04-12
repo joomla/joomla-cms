@@ -102,10 +102,12 @@ class JFormFieldPackagelist extends JFormFieldList
 		{
 			$query->where('a.enabled = ' . $db->quote($this->packageenabled));
 		}
+
 		$db->setQuery($query);
 		$packages = $db->loadObjectList();
 
 		$options = array();
+
 		foreach ($packages as $package)
 		{
 			$options[] = JHtml::_('select.option', $package->extension_id, $package->name);

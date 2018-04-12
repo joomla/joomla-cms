@@ -108,8 +108,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									case 'package':
 										if (!empty($item->search_package_id) && $item->search_package_id == $item->extension_id)
 										{
-												// No link to current search package
-												break;
+											// No link to current search package
+											break;
 										}
 										$href = 'index.php?option=com_installer&view=manage&filter[package_id]=' . $item->extension_id;
 										break;

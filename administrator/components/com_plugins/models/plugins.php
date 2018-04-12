@@ -270,6 +270,7 @@ class PluginsModelPlugins extends JModelList
 
 		// Filter by package id.
 		$packageId = $this->getState('filter.package_id');
+
 		if ($packageId != '')
 		{
 			$query->select((int) $packageId . ' AS search_package_id')
