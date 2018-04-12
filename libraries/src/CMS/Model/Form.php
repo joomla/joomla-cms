@@ -333,7 +333,8 @@ abstract class Form extends Model
 		\JPluginHelper::importPlugin($this->events_map['validate']);
 
 		$calledClass = get_called_class();
-		if (strpos($calledClass, 'User') === 0) {
+		if (strpos($calledClass, 'User') === 0)
+		{
 			// onUserBeforeDataValidation retained for backward compatibility
 			// See Joomla Issue #19584
 			\JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
