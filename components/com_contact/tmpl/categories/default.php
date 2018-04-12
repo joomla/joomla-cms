@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
-JHtml::_('behavior.caption');
 JHtml::_('behavior.core');
 
 // Add strings for translations in Javascript.
