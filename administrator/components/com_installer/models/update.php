@@ -676,26 +676,31 @@ class InstallerModelUpdate extends JModelList
 			// Remove the signature
 			$doc = new DOMDocument;
 			$doc->preserveWhiteSpace = false;
-			$dom->formatOutput = true;
 			$doc->loadxml( $file );
 			$xpath = new DOMXPath($doc);
+
 			foreach( $xpath->query("//signature") as $node) 
 			{
-    			$node->parentNode->removeChild($node);
+	    			$node->parentNode->removeChild($node);
 			}
+
 			// Write the unsigned manfifest
 			$xml = $doc->savexml();
  			$a= file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
 
 			// Read the unsigned manifest
-			$manifest = file_get_contents(dirname(__DIR__) . '/unsignedmanifest.xml'); 
+			$manifest = file_get_contents(dirname(__DIR__) . '/unsignedmanifest.xml');
+
 			// Calculate hash digest
 			$digest   = hash("sha384", $manifest);
 	
 			// Check the signature
-			if (ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $digest, $publickey)) { 
+			if (ParagonIE_Sodium_Compat::crypto_sign_verify_detached($signature, $digest, $publickey))
+			{ 
 				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_VALID', $instance->name), 'message');
-			} else { 
+			}
+			else
+			{ 
 				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_INVALID', $instance->name), 'error');
 			} 
 		}
@@ -714,18 +719,23 @@ class InstallerModelUpdate extends JModelList
 	protected function validateCertificate($certificate, $developerPK)
 	{
 		$isvalid = false;
+
 		// Get the Joomla CA public key for developers
 		$file = file_get_contents(dirname(__DIR__) . '/jcapk.xml');
+
 		if (!$file)
 		{
 			return $isvalid;
 		}
+
 		$xml  = new SimpleXMLElement($file);
+
 		// Parse the xml file.
 		if (!$xml)
 		{
 			return $isvalid;
 		}
+
 		// Check the tag
 		if (!isset($xml->pk4dev))
 		{
@@ -733,13 +743,15 @@ class InstallerModelUpdate extends JModelList
 		}
 
 		$joomlaPK = ParagonIE_Sodium_Compat::hex2bin((string) $xml->pk4dev);
+
 		// Hash the developer public key
 		$digest      = ParagonIE_Sodium_Compat::hex2bin(hash("sha384", $developerPK));
 		$certificate = ParagonIE_Sodium_Compat::hex2bin($certificate);
+
 		// Check the certificate
 		if (ParagonIE_Sodium_Compat::crypto_sign_verify_detached($certificate, $digest, $joomlaPK)) 
-		{ 
-			 $isvalid = true; 
+		{
+			$isvalid = true;
 		}
 
 		return $isvalid;
