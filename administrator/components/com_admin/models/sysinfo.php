@@ -324,22 +324,27 @@ class AdminModelSysInfo extends JModelLegacy
 
 		// Get the Joomla CA public key for developers
 		$file = file_get_contents(JPATH_BASE . '/components/com_installer/jcapk.xml');
+
 		// Check the file
 		if (!$file)
 		{
 			return $this->info;
 		}
+
 		$xml  = new SimpleXMLElement($file);
+
 		// Parse the xml file.
 		if (!$xml)
 		{
 			return $this->info;
 		}
+
 		// Check the tag
 		if (!isset($xml->pk4dev))
 		{
 			return $this->info;
 		}
+
 		$this->info["jcapk4dev"] = (string) $xml->pk4dev;
 		return $this->info;
 	}
