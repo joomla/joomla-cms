@@ -37,9 +37,9 @@ Text::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-					<span class="input-group-addon">
-						<span class="icon-user hasTooltip" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+					<span class="input-group-append">
 						<label for="modlgn-username" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						<span class="input-group-text icon-user hasTooltip" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -52,9 +52,9 @@ Text::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-					<span class="input-group-addon">
-						<span class="fa fa-eye" aria-hidden="true"></span>
+					<span class="input-group-append">
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						<span class="input-group-text icon-eye" aria-hidden="true"></span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -67,13 +67,13 @@ Text::script('JHIDE');
 			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-group">
-						<span class="input-group-addon">
-							<span class="icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+						<span class="input-group-prepend">
+							<span class="input-group-text icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
 							<label for="modlgn-secretkey" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-addon hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help"></span>
+						<span class="input-group-append hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="input-group-text icon-help"></span>
 						</span>
 					</div>
 				<?php else : ?>
