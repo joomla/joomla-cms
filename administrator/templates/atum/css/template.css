@@ -1722,3 +1722,6 @@ joomla-alert {
 .item-associations li {
   display: inline-block;
   list-style: none; }
+.password-group .progress {
+  max-width:240px;
+}
