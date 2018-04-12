@@ -124,7 +124,7 @@ class Session implements ServiceProviderInterface
 							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
 							$memcached->addServer($host, $port);
 
-							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
+							$handler = new Handler\MemcachedHandler($memcached, ['ttl' => $lifetime]);
 
 							ini_set('session.save_path', "$host:$port");
 							ini_set('session.save_handler', 'memcached');
@@ -170,7 +170,7 @@ class Session implements ServiceProviderInterface
 								$redis->select($db);
 							}
 
-							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
+							$handler = new Handler\RedisHandler($redis, ['ttl' => $lifetime]);
 
 							break;
 

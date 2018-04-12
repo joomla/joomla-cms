@@ -9,14 +9,23 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Logged\Administrator\Helper\LoggedHelper;
-
-$users = LoggedHelper::getList($params);
 
 if ($params->get('automatic_title', 0))
 {
 	$module->title = LoggedHelper::getTitle($params);
 }
 
-require ModuleHelper::getLayoutPath('mod_logged', $params->get('layout', 'default'));
+// Check if session metadata tracking is enabled
+if (Factory::getConfig()->get('session_metadata', true))
+{
+	$users = LoggedHelper::getList($params);
+
+	require ModuleHelper::getLayoutPath('mod_logged', $params->get('layout', 'default'));
+}
+else
+{
+	require ModuleHelper::getLayoutPath('mod_logged', 'disabled');
+}
