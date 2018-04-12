@@ -622,7 +622,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids               Array[int] List of updates to apply
+	 * @param   array  $uids  Array[int] List of updates to apply
 	 *
 	 * @return  void
 	 *
@@ -643,7 +643,7 @@ class InstallerModelUpdate extends JModelList
 			// Check if there is a publickey tag
 			if ((!isset($update->publickey)) || (empty($update->publickey->_data)))
 			{
-				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_NO_PUBLICKEY', $instance->name) , 'warning');
+				$app->enqueueMessage(\JText::sprintf('COM_INSTALLER_MANIFEST_NO_PUBLICKEY', $instance->name), 'warning');
 				continue;
 			}
 
@@ -676,17 +676,17 @@ class InstallerModelUpdate extends JModelList
 			// Remove the signature
 			$doc = new DOMDocument;
 			$doc->preserveWhiteSpace = false;
-			$doc->loadxml( $file );
+			$doc->loadxml($file);
 			$xpath = new DOMXPath($doc);
 
-			foreach( $xpath->query("//signature") as $node) 
+			foreach($xpath->query("//signature") as $node) 
 			{
-	    			$node->parentNode->removeChild($node);
+				$node->parentNode->removeChild($node);
 			}
 
 			// Write the unsigned manfifest
 			$xml = $doc->savexml();
- 			$a= file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
+ 			$a   = file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
 
 			// Read the unsigned manifest
 			$manifest = file_get_contents(dirname(__DIR__) . '/unsignedmanifest.xml');
@@ -709,8 +709,8 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Method to validate the developer public key
 	 *
-	 * @param   string   $certificate  The developer publick key certificate
-	 * @param   string   $developerPK  The developer publick key
+	 * @param   string  $certificate  The developer publick key certificate
+	 * @param   string  $developerPK  The developer publick key
 	 *
 	 * @return  boolean
 	 *
