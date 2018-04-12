@@ -8,42 +8,38 @@
  *
  * Used for displaying image captions
  *
- * @package     Joomla
- * @since       1.5
- * @version  1.0
+ * @package  Joomla
+ * @since    1.5
+ * @version  1.1
  */
-var JCaption = function(_selector) {
-    var $, selector,
-    
-    initialize = function(_selector) {
-        $ = jQuery.noConflict();
-        selector = _selector;
-        $(selector).each(function(index, el) {
-            createCaption(el);
-        })
-    },
-    
-    createCaption = function(element) {
-        var $el = $(element), 
-        caption = $el.attr('title'),
-        width = $el.attr("width") || element.width,
-        align = $el.attr("align") || $el.css("float") || element.style.styleFloat || "none",
-        $p = $('<p/>', {
-            "text" : caption,
-            "class" : selector.replace('.', '_')
-        }),
-        $container = $('<div/>', {
-            "class" : selector.replace('.', '_') + " " + align,
-            "css" : {
-                "float" : align,
-                "width" : width
+
+jQuery.fn.JCaption = function () {
+	'use strict';
+
+	var $ = jQuery;
+	var selector = this.selector.replace('.', '_');
+
+    return this.each(function () {
+        var $el = $(this);
+        var caption = $el.prop('title');
+        var width = $el.prop('width') || this.width;
+        var align = $el.prop('align') || $el.css('float') || this.style.float || 'none';
+
+        var $container = $('<div/>', {
+            'class' : selector + ' ' + align,
+            'css' : {
+                'float' : align,
+                'width' : width
             }
-        });
-        $el.before($container);
-        $container.append($el);
-        if (caption !== "") {
-            $container.append($p);
+        }).insertBefore($el).append($el);
+
+        if (caption !== '') {
+            $('<p/>', {
+                'text' : caption,
+                'class' : selector
+            }).appendTo($container);
         }
-    }
-    initialize(_selector);
-}
+    });
+};
+
+function JCaption (selector) { jQuery(selector).JCaption(); }

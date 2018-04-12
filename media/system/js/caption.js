@@ -1,4 +1,4 @@
 /*
         GNU General Public License version 2 or later; see LICENSE.txt
 */
-var JCaption=function(c){var e,b,a=function(f){e=jQuery.noConflict();b=f;e(b).each(function(g,h){d(h)})},d=function(i){var h=e(i),f=h.attr("title"),j=h.attr("width")||i.width,l=h.attr("align")||h.css("float")||i.style.styleFloat||"none",g=e("<p/>",{text:f,"class":b.replace(".","_")}),k=e("<div/>",{"class":b.replace(".","_")+" "+l,css:{"float":l,width:j}});h.before(k);k.append(h);if(f!==""){k.append(g)}};a(c)};
+function JCaption(t){jQuery(t).JCaption()}jQuery.fn.JCaption=function(){"use strict";var t=jQuery,e=this.selector.replace(".","_");return this.each((function(){var i=t(this),s=i.prop("title"),n=i.prop("width")||this.width,o=i.prop("align")||i.css("float")||this.style.float||"none",a=t("<div/>",{class:e+" "+o,css:{float:o,width:n}}).insertBefore(i).append(i);""!==s&&t("<p/>",{text:s,class:e}).appendTo(a)}))};
