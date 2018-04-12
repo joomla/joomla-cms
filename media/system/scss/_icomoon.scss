@@ -1,7 +1,7 @@
 /* IcoMoon Conversion */
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"]:not(.input-group-text),
+[class*=" icon-"]:not(.input-group-text) {
     display: inline-block;
     width: 14px;
     height: 14px;

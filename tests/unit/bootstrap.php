@@ -65,10 +65,6 @@ if (!defined('JPATH_ROOT'))
 {
 	define('JPATH_ROOT', realpath(JPATH_BASE));
 }
-if (!defined('JPATH_CACHE'))
-{
-	define('JPATH_CACHE', JPATH_BASE . '/cache');
-}
 if (!defined('JPATH_CONFIGURATION'))
 {
 	define('JPATH_CONFIGURATION', JPATH_BASE);
@@ -88,6 +84,10 @@ if (!defined('JPATH_INSTALLATION'))
 if (!defined('JPATH_MANIFESTS'))
 {
 	define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
+}
+if (!defined('JPATH_CACHE'))
+{
+	define('JPATH_CACHE', JPATH_ADMINISTRATOR . '/cache');
 }
 if (!defined('JPATH_PLUGINS'))
 {

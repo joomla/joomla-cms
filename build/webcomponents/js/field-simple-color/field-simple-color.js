@@ -245,12 +245,14 @@
 			this.panel = document.createElement('div');
 			this.panel.classList.add('simplecolors-panel');
 			this.panel.setAttribute('aria-labelledby', uniqueId);
+			this.hide = this.hide.bind(this);
+			this.colorSelect = this.colorSelect.bind(this);
 
 			this.buttons.forEach((el) => {
 				if (el.classList.contains('btn-close')) {
-					el.addEventListener('click', this.hide.bind(this));
+					el.addEventListener('click', this.hide);
 				} else {
-					el.addEventListener('click', this.colorSelect.bind(this));
+					el.addEventListener('click', this.colorSelect);
 				}
 
 				this.panel.insertAdjacentElement('beforeend', el);
@@ -260,7 +262,7 @@
 
 			this.focusableElements = [].slice.call(this.panel.querySelectorAll(this.focusableSelectors.join()));
 
-			this.keys = this.keys .bind(this);
+			this.keys = this.keys.bind(this);
 			this.hide = this.hide.bind(this);
 			this.mousedown = this.mousedown.bind(this);
 		}
@@ -314,7 +316,7 @@
 				bgcolor = 'transparent';
 				clss    = 'nocolor';
 			} else {
-				color   = e.target.style.backgroundColor;
+				color   = this.rgb2hex(e.target.style.backgroundColor);
 				bgcolor = color;
 			}
 
@@ -390,6 +392,19 @@
 			}
 
 			return this.textColor + ' ' + value.replace('#', '').split('').join(', ')
+		}
+
+		/**
+		 * Converts a RGB color to its hexadecimal value.
+		 * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
+		 */
+		rgb2hex(rgb) {
+			const hex = (x) => {
+				return ("0" + parseInt(x, 10).toString(16)).slice(-2);
+			};
+			const matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
+			return '#' + hex(matches[1]) + hex(matches[2]) + hex(matches[3]);
 		}
 	}
 

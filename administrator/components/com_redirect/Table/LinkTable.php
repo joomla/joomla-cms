@@ -113,6 +113,11 @@ class LinkTable extends Table
 			return false;
 		}
 
+		if (empty($this->modified_date))
+		{
+			$this->modified_date = $this->getDbo()->getNullDate();
+		}
+
 		return true;
 	}
 
@@ -129,12 +134,11 @@ class LinkTable extends Table
 	{
 		$date = \JFactory::getDate()->toSql();
 
-		$this->modified_date = $date;
-
 		if (!$this->id)
 		{
 			// New record.
 			$this->created_date = $date;
+			$this->modified_date = $date;
 		}
 
 		return parent::store($updateNulls);

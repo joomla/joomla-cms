@@ -83,10 +83,13 @@
       "field-user",
       "field-switcher",
       "field-send-test-mail",
+      "field-module-order",
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
-      "hidden-mail"
+      "editor-codemirror",
+      "hidden-mail",
+      "editor-none"
     ],
     "webcomponents": {
       "field-media": {
@@ -98,7 +101,22 @@
         "js": "media/system/webcomponents/js"
       },
       "field-simple-color": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-codemirror": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-none": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-module-order": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
