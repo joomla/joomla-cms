@@ -679,14 +679,14 @@ class InstallerModelUpdate extends JModelList
 			$doc->loadxml($file);
 			$xpath = new DOMXPath($doc);
 
-			foreach($xpath->query("//signature") as $node) 
+			foreach ($xpath->query("//signature") as $node) 
 			{
 				$node->parentNode->removeChild($node);
 			}
 
 			// Write the unsigned manfifest
 			$xml = $doc->savexml();
- 			$a   = file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
+			$a   = file_put_contents(dirname(__DIR__) . '/unsignedmanifest.xml', $xml);
 
 			// Read the unsigned manifest
 			$manifest = file_get_contents(dirname(__DIR__) . '/unsignedmanifest.xml');
