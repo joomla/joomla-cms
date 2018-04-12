@@ -48,7 +48,7 @@ Text::script('JHIDE');
 			<?php endif; ?>
 		</div>
 
-		<div class="mod_login__password form-group">
+		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
