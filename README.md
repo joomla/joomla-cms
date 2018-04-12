@@ -89,6 +89,11 @@ Do you want to improve Joomla?
 * Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 
+Developer information
+--------------------
+To install Joomla from a Github clone, you need to run the following command after checkout:
+- `composer install` // How to install composer can be found [in the official composer docs](https://getcomposer.org/doc/00-intro.md)
+
 Copyright
 ---------------------
 * Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
