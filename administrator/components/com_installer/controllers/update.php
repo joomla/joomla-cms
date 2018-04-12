@@ -214,6 +214,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 		$uid   = ArrayHelper::toInteger($uid, array());
+	
 		// Check the update manifest
 		$check = $model->validateManifest($uid);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
