@@ -324,10 +324,8 @@ class FormController extends BaseController
 		$this->releaseEditId($context, $recordId);
 		\JFactory::getApplication()->setUserState($context . '.data', null);
 
-		$url = \JRoute::_(
-			'index.php?option=' . $this->option . '&view=' . $this->view_list
-			. $this->getRedirectToListAppend(), false
-		);
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend();
 
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
