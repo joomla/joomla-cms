@@ -352,6 +352,10 @@ abstract class AdminModel extends FormModel
 		// Include the plugins for the save events.
 		\JPluginHelper::importPlugin($this->events_map['save']);
 
+		$dispatcher = \JEventDispatcher::getInstance();
+
+		$context = $this->option . '.' . $this->name;
+
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -366,7 +370,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// Trigger the before save event.
-				$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$this->table, false, array('access' => (int) $value)));
+				$result = $dispatcher->triggerEvent($this->event_before_save, array($context, &$this->table, false, array('access' => (int) $value)));
 
 				if (in_array(false, $result, true))
 				{
@@ -383,7 +387,7 @@ abstract class AdminModel extends FormModel
 				}
 
 				// Trigger the after save event.
-				\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$this->table, false, array('access' => (int) $value)));
+				$dispatcher->triggerEvent($this->event_after_save, array($context, &$this->table, false, array('access' => (int) $value)));
 			}
 			else
 			{
