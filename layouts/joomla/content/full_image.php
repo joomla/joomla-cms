@@ -13,7 +13,6 @@ $params  = $displayData->params;
 $images  = json_decode($displayData->images);
 $caption = $images->image_fulltext_caption;
 ?>
-<?php  ?>
 <?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"<?php echo ($caption) ? ' role="group"' : ''; ?>>
