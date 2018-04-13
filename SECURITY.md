@@ -5,7 +5,7 @@ This document outlines security procedures and policies for the `Joomla! Project
   * [Reporting a Bug](#reporting-a-bug)
   * [Response Handling](#response-handling)
   * [Security Announcement Policy](#security-announcement-policy)
-  * [Further Details on the Joomla! Security Policyies](https://security.joomla.org)
+  * [Further Details on the Joomla! Security Policies](https://security.joomla.org)
 
 ## Reporting a Bug
 
