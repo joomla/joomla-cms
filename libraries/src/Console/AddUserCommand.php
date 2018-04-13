@@ -68,7 +68,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private $userGroups = [];
+	private $userGroups = array();
 
 	/**
 	 * Execute the command.
@@ -112,7 +112,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @param   string  $groupName  name of group
 	 *
-	 * @return int
+	 * @return integer
 	 *
 	 * since __DEPLOY_VERSION__
 	 */
@@ -177,14 +177,14 @@ class AddUserCommand extends AbstractCommand
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '!=' . $db->quote('Super Users'))
-			->order('id ASC');
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('title') . '!=' . $db->quote('Super Users'))
+				->order('id ASC');
 			$db->setQuery($query);
 
 			$result = $db->loadObjectList();
-			$list = [];
+			$list = array();
 
 			foreach ($result as $key => $value)
 			{
@@ -200,7 +200,7 @@ class AddUserCommand extends AbstractCommand
 
 			$answer = (array) $this->createSymfonyStyle()->askQuestion($choice);
 
-			$groupList = [];
+			$groupList = array();
 
 			foreach ($answer as $group)
 			{
@@ -211,7 +211,7 @@ class AddUserCommand extends AbstractCommand
 		}
 		else
 		{
-			$groupList = [];
+			$groupList = array();
 			$option = explode(',', $option);
 
 			foreach ($option as $group)

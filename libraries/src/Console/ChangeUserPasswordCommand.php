@@ -25,7 +25,7 @@ use Joomla\CMS\User\User;
 class ChangeUserPasswordCommand extends AbstractCommand
 {
 	/**
-	 * The username 
+	 * The username
 	 *
 	 * @var string
 	 *
