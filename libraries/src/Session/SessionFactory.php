@@ -41,7 +41,7 @@ class SessionFactory implements ContainerAwareInterface
 	public function createSessionHandler(): HandlerInterface
 	{
 		/** @var Registry $config */
-		$config = $container->get('config');
+		$config = $this->getContainer()->get('config');
 
 		$handlerType = $config->get('session_handler', 'filesystem');
 
