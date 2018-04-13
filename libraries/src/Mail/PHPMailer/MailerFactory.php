@@ -6,11 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Mail;
+namespace Joomla\CMS\Mail\PHPMailer;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailerFactoryInterface;
+use Joomla\CMS\Mail\MailerInterface;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -20,7 +21,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PHPMailerFactory implements MailerFactoryInterface, ContainerAwareInterface
+class MailerFactory implements MailerFactoryInterface, ContainerAwareInterface
 {
 	use ContainerAwareTrait;
 
@@ -33,7 +34,7 @@ class PHPMailerFactory implements MailerFactoryInterface, ContainerAwareInterfac
 	 */
 	public function createMailer(): MailerInterface
 	{
-		$mailer = new Mailer(Factory::getConfig());
+		$mailer = new Mailer($this->getContainer()->get('config'));
 		$mailer->setLogger($this->getContainer()->get(LoggerInterface::class));
 
 		return $mailer;

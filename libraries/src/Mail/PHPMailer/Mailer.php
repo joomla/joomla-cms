@@ -6,10 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Mail;
+namespace Joomla\CMS\Mail\PHPMailer;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mail\MailerInterface;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Mail\MailMessageInterface;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -87,7 +90,7 @@ class Mailer implements MailerInterface, LoggerAwareInterface
 		$mailer = new PHPMailer;
 
 		// Use our custom language source for translations
-		$mailer->setLanguage('joomla', __DIR__ . '/language');
+		$mailer->setLanguage('joomla', dirname(__DIR__) . '/language');
 
 		// Configure a callback function to handle errors when $this->edebug() is called
 		$mailer->Debugoutput = [$this, 'processMailerDebug'];

@@ -6,11 +6,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Mail;
+namespace Joomla\CMS\Mail\PHPMailer;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\InvalidAddressException;
+use Joomla\CMS\Mail\Exception\MailExceptionInterface;
+use Joomla\CMS\Mail\Exception\MailFunctionDisabledException;
+use Joomla\CMS\Mail\Exception\SendingDisabledException;
+use Joomla\CMS\Mail\Exception\SendingFailedException;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Mail\MailMessageInterface;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -61,7 +68,7 @@ class MailMessage implements MailMessageInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception\InvalidAddressException
+	 * @throws  InvalidAddressException
 	 */
 	protected function add(string $email, string $name = '', string $method = 'addAddress')
 	{
@@ -75,7 +82,7 @@ class MailMessage implements MailMessageInterface
 		}
 		catch (phpmailerException $e)
 		{
-			throw new Exception\InvalidAddressException($e->getMessage(), $e->getCode(), $e);
+			throw new InvalidAddressException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -175,18 +182,18 @@ class MailMessage implements MailMessageInterface
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception\MailExceptionInterface
+	 * @throws  MailExceptionInterface
 	 */
 	public function send(): bool
 	{
 		if (!$this->sendingEnabled)
 		{
-			throw new Exception\SendingDisabledException(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+			throw new SendingDisabledException(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 		}
 
 		if ($this->mailer->Mailer == 'mail' && !function_exists('mail'))
 		{
-			throw new Exception\MailFunctionDisabledException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			throw new MailFunctionDisabledException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'));
 		}
 
 		// Wrapped in try/catch if PHPMailer is configured to throw exceptions
@@ -199,7 +206,7 @@ class MailMessage implements MailMessageInterface
 		}
 		catch (phpmailerException $e)
 		{
-			throw new Exception\SendingFailedException($e->getMessage(), $e->getCode(), $e);
+			throw new SendingFailedException($e->getMessage(), $e->getCode(), $e);
 		}
 
 		return true;
@@ -256,7 +263,7 @@ class MailMessage implements MailMessageInterface
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  Exception\InvalidAddressException
+	 * @throws  InvalidAddressException
 	 */
 	public function setSender(string $email, string $name = '')
 	{
@@ -270,7 +277,7 @@ class MailMessage implements MailMessageInterface
 		}
 		catch (phpmailerException $e)
 		{
-			throw new Exception\InvalidAddressException($e->getMessage(), $e->getCode(), $e);
+			throw new InvalidAddressException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 

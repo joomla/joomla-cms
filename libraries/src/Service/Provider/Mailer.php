@@ -12,7 +12,7 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Mail\MailerFactoryInterface;
-use Joomla\CMS\Mail\PHPMailerFactory;
+use Joomla\CMS\Mail\PHPMailer\MailerFactory;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -35,12 +35,12 @@ class Mailer implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('mailer.factory', MailerFactoryInterface::class)
-			->alias(PHPMailerFactory::class, MailerFactoryInterface::class)
+			->alias(MailerFactory::class, MailerFactoryInterface::class)
 			->share(
 				MailerFactoryInterface::class,
 				function (Container $container)
 				{
-					$factory = new PHPMailerFactory;
+					$factory = new MailerFactory;
 					$factory->setContainer($container);
 
 					return $factory;
