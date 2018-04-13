@@ -34,6 +34,13 @@
 		/>
 
 		<field
+ 			name="allowedMailDomain"
+ 			type="text"
+			label="COM_USERS_CONFIG_FIELD_ALLOWED_MAILDOMAIN_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWED_MAILDOMAIN_DESC"
+		/>
+
+		<field
 			name="sendpassword"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"

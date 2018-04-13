@@ -422,6 +422,16 @@ class UsersModelRegistration extends JModelForm
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
+		$allowedMailDomain = $params->get('allowedMailDomain');
+
+		// Check in case can only register under a single mail domain
+		$userMailDomain = explode('@',$data['email']);
+		if (!empty($allowedMailDomain) && $userMailDomain[1] != $allowedMailDomain) 
+		{
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+			return false;
+		}
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))

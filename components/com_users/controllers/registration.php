@@ -105,7 +105,7 @@ class UsersControllerRegistration extends UsersController
 	 *
 	 * @since   1.6
 	 */
-	public function register()
+	public function register() 
 	{
 		// Check for request forgeries.
 		$this->checkToken();
