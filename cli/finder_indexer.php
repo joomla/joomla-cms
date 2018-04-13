@@ -157,7 +157,7 @@ class FinderCli extends JApplicationCli
 		// Disable caching.
 		$config = JFactory::getConfig();
 		$config->set('caching', 0);
-		$config->set('cache_handler', 'file');
+		$config->set('cache_handler', '');
 
 		// Reset the indexer state.
 		FinderIndexer::resetState();
