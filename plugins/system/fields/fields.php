@@ -203,8 +203,8 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$context = $parts[0] . '.' . $parts[1];		
-		
+		$context = $parts[0] . '.' . $parts[1];
+
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array('ignore_request' => true));
