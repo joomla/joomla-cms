@@ -1,7 +1,6 @@
 # Security Policies and Procedures
 
-This document outlines security procedures and policies for the `Joomla!
-project`.
+This document outlines security procedures and policies for the `Joomla! Project`.
 
   * [Reporting a Bug](#reporting-a-bug)
   * [Response Handling](#response-handling)
@@ -31,9 +30,9 @@ The JSST aims to ensure all issues are handled in a timely manner and for clear 
 * Within 7 days every report gets a further response stating either
     * the issue is closed (and why)
     * the issue is still under investigation; if needed, additional information will be requested
-* Within 21 days every report must be resolved unless there are exceptional circumstances requiring additional tim
+* Within 21 days every report must be resolved unless there are exceptional circumstances requiring additional time
 
 ## Security Announcement Policy
 * Verified vulnerabilities will only be publicly announced AFTER a release is issued which fixes the vulnerability.
 * All announcements will contain as much information as possible, but will NOT contain step-by-step instructions for the vulnerability.
-* The `Joomla! project` will properly credit individuals and/or organizations who responsibly disclose security issues to the JSST. You can indicate the way you would like to be referred to in the advisory about the vulnerability. Our preference is to use full names. If you do not specify then we will use the contact name associated with the email address the report was received from. You can also request a pseudonym or having your name withheld.
+* The `Joomla! Project` will properly credit individuals and/or organizations who responsibly disclose security issues to the JSST. You can indicate the way you would like to be referred to in the advisory about the vulnerability. Our preference is to use full names. If you do not specify then we will use the contact name associated with the email address the report was received from. You can also request a pseudonym or having your name withheld.
