@@ -42,7 +42,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 		JFormHelper::addFieldPath(__DIR__ . '/field');
