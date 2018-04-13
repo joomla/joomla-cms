@@ -211,8 +211,7 @@ class Session implements ServiceProviderInterface
 		CMSApplicationInterface $app,
 		DispatcherInterface $dispatcher,
 		array $options
-	): SessionInterface
-	{
+	): SessionInterface {
 		$input = $app->input;
 
 		if (method_exists($app, 'afterSessionStart'))
