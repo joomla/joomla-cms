@@ -53,11 +53,7 @@ pipeline:
   system-tests:
       image: joomlaprojects/docker-systemtests:latest
       commands:
-        - apache2ctl -D FOREGROUND &
-        - google-chrome --version
-        - chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
-        - mv libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
-        - libraries/vendor/bin/robo run:tests
+        - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
 
 services:
   mysql:
@@ -66,6 +62,7 @@ services:
       MYSQL_USER: joomla_ut
       MYSQL_PASSWORD: joomla_ut
       MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
 
   memcached:
     image: memcached:alpine

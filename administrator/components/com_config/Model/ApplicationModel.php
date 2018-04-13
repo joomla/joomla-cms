@@ -118,7 +118,8 @@ class ApplicationModel extends FormModel
 
 		try
 		{
-			\JDatabaseDriver::getInstance($options)->getVersion();
+			$revisedDbo = \JDatabaseDriver::getInstance($options);
+			$revisedDbo->getVersion();
 		}
 		catch (\Exception $e)
 		{
@@ -265,6 +266,43 @@ class ApplicationModel extends FormModel
 			$this->_db->execute();
 		}
 
+		// Purge the database session table if we are disabling session metadata
+		if ($prev['session_metadata'] == 1 && $data['session_metadata'] == 0)
+		{
+			try
+			{
+				// If we are are using the session handler, purge the extra columns, otherwise truncate the whole session table
+				if ($data['session_handler'] === 'database')
+				{
+					$revisedDbo->setQuery(
+						$revisedDbo->getQuery(true)
+							->update('#__session')
+							->set(
+								[
+									$revisedDbo->quoteName('client_id') . ' = 0',
+									$revisedDbo->quoteName('guest') . ' = NULL',
+									$revisedDbo->quoteName('userid') . ' = NULL',
+									$revisedDbo->quoteName('username') . ' = NULL',
+								]
+							)
+					)->execute();
+				}
+				else
+				{
+					$revisedDbo->truncateTable('#__session');
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Also, this data won't be added or checked anymore once the configuration is saved, so it'll purge itself
+				 * through normal garbage collection anyway or if not using the database handler someone can purge the
+				 * table on their own.  Either way, carry on Soldier!
+				 */
+			}
+		}
+
 		// Set the shared session configuration
 		if (isset($data['shared_session']))
 		{
@@ -324,7 +362,7 @@ class ApplicationModel extends FormModel
 		}
 		else
 		{
-			$path = JPATH_SITE . '/cache';
+			$path = JPATH_CACHE;
 		}
 
 		// Give a warning if the cache-folder can not be opened
@@ -333,12 +371,12 @@ class ApplicationModel extends FormModel
 			$error = true;
 
 			// If a custom path is in use, try using the system default instead of disabling cache
-			if ($path !== JPATH_SITE . '/cache' && @opendir(JPATH_SITE . '/cache') != false)
+			if ($path !== JPATH_CACHE && @opendir(JPATH_CACHE) != false)
 			{
 				try
 				{
 					\JLog::add(
-						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
 						\JLog::WARNING,
 						'jerror'
 					);
@@ -346,12 +384,12 @@ class ApplicationModel extends FormModel
 				catch (\RuntimeException $logException)
 				{
 					$app->enqueueMessage(
-						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_SITE . '/cache'),
+						\JText::sprintf('COM_CONFIG_ERROR_CUSTOM_CACHE_PATH_NOTWRITABLE_USING_DEFAULT', $path, JPATH_CACHE),
 						'warning'
 					);
 				}
 
-				$path  = JPATH_SITE . '/cache';
+				$path  = JPATH_CACHE;
 				$error = false;
 
 				$data['cache_path'] = '';
