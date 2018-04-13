@@ -188,8 +188,7 @@ class AddUserCommand extends AbstractCommand
 
 			foreach ($result as $key => $value)
 			{
-				$list[$key] = (array) $value;
-				$list[$key] = $list[$key]['title'];
+				$list[$key] = $value->title;
 			}
 
 			$choice = new ChoiceQuestion(
