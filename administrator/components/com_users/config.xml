@@ -33,11 +33,22 @@
 			checksuperusergroup="1"
 		/>
 
-		<field
- 			name="allowedMailDomain"
- 			type="text"
-			label="COM_USERS_CONFIG_FIELD_ALLOWED_MAILDOMAIN_LABEL"
-			description="COM_USERS_CONFIG_FIELD_ALLOWED_MAILDOMAIN_DESC"
+		<field 
+			name="whiteListMailDomain" 
+			type="textarea" 
+			label="COM_USERS_CONFIG_FIELD_WHITELIST_MAILDOMAIN_LABEL" 
+			description="COM_USERS_CONFIG_FIELD_WHITELIST_MAILDOMAIN_DESC" 
+			rows="7" 
+			cols="3" 
+		/>
+
+		<field 
+			name="blackListMailDomain" 
+			type="textarea" 
+			label="COM_USERS_CONFIG_FIELD_BLACKLIST_MAILDOMAIN_LABEL" 
+			description="COM_USERS_CONFIG_FIELD_BLACKLIST_MAILDOMAIN_DESC" 
+			rows="7" 
+			cols="3" 
 		/>
 
 		<field

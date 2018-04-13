@@ -422,11 +422,12 @@ class UsersModelRegistration extends JModelForm
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
-		$allowedMailDomain = $params->get('allowedMailDomain');
-
-		// Check in case can only register under a single mail domain
+		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
+		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));
 		$userMailDomain = explode('@',$data['email']);
-		if (!empty($allowedMailDomain) && $userMailDomain[1] != $allowedMailDomain) 
+
+		// Check if the user mail domain is disallowed
+		if ((!empty($blackListMailDomain) && in_array($userMailDomain[1], $blackListMailDomain)) || (!empty($whiteListMailDomain) && !in_array($userMailDomain[1], $whiteListMailDomain))) 
 		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 
