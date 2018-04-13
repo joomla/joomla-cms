@@ -1,7 +1,7 @@
 # Security Policies and Procedures
 
-This document outlines security procedures and policies for the `Joomla`
-project.
+This document outlines security procedures and policies for the `Joomla!
+project`.
 
   * [Reporting a Bug](#reporting-a-bug)
   * [Response Handling](#response-handling)
@@ -29,8 +29,8 @@ The JSST aims to ensure all issues are handled in a timely manner and for clear 
 
 * Within 24 hours every report gets acknowledged
 * Within 7 days every report gets a further response stating either
-* * the issue is closed (and why)
-* * the issue is still under investigation; if needed, additional information will be requested
+    * the issue is closed (and why)
+    * the issue is still under investigation; if needed, additional information will be requested
 * Within 21 days every report must be resolved unless there are exceptional circumstances requiring additional tim
 
 ## Security Announcement Policy
