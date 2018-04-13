@@ -17,7 +17,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 <form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
 <?php if ($params->get('greeting')) : ?>
-	<div class="mod-login-logout__login-greeting">
+	<div class="mod-login-logout__login-greeting login-greeting">
 	<?php if ($params->get('name') == 0) : ?>
 		<?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name'), ENT_COMPAT, 'UTF-8')); ?>
 	<?php else : ?>
@@ -33,7 +33,7 @@ HTMLHelper::_('behavior.keepalive');
 		</li>
 	</ul>
 <?php endif; ?>
-	<div class="mod-login-logout__button">
+	<div class="mod-login-logout__button logout-button">
 		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGOUT'); ?>">
 		<input type="hidden" name="option" value="com_users">
 		<input type="hidden" name="task" value="user.logout">

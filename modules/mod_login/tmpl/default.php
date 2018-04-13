@@ -27,12 +27,12 @@ Text::script('JHIDE');
 <form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
-		<div class="mod-login__pretext">
+		<div class="mod-login__pretext pretext">
 			<p><?php echo $params->get('pretext'); ?></p>
 		</div>
 	<?php endif; ?>
 
-	<div class="mod-login__userdata">
+	<div class="mod-login__userdata userdata">
 		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
@@ -125,7 +125,7 @@ Text::script('JHIDE');
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 	<?php if ($params->get('posttext')) : ?>
-		<div class="mod-login__posttext">
+		<div class="mod-login__posttext posttext">
 			<p><?php echo $params->get('posttext'); ?></p>
 		</div>
 	<?php endif; ?>
