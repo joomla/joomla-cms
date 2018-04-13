@@ -622,9 +622,10 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 		else
 		{
-			$this->addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
+
+		$this->addDirectory('media/cache', JPATH_ROOT . '/media/cache', 'COM_ADMIN_MEDIA_CACHE_DIRECTORY');
 
 		if ($public)
 		{
