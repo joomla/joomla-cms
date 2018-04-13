@@ -206,12 +206,9 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @since   4.0
 	 */
-	private function buildSession(
-		StorageInterface $storage,
-		CMSApplicationInterface $app,
-		DispatcherInterface $dispatcher,
-		array $options
-	): SessionInterface {
+	private function buildSession(StorageInterface $storage, CMSApplicationInterface $app, DispatcherInterface $dispatcher,
+		array $options): SessionInterface
+	{
 		$input = $app->input;
 
 		if (method_exists($app, 'afterSessionStart'))
