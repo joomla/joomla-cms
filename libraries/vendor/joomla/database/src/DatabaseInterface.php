@@ -84,7 +84,7 @@ interface DatabaseInterface
 	/**
 	 * Execute the SQL statement.
 	 *
-	 * @return  resource|boolean  A database cursor resource on success, boolean false on failure.
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
@@ -168,13 +168,11 @@ interface DatabaseInterface
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 *
-	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
-	 *
 	 * @return  integer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getNumRows($cursor = null);
+	public function getNumRows();
 
 	/**
 	 * Get the current query object or a new QueryInterface object.

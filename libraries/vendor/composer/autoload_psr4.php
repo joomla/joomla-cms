@@ -27,7 +27,6 @@ return array(
     'Joomla\\OAuth2\\' => array($vendorDir . '/joomla/oauth2/src'),
     'Joomla\\OAuth1\\' => array($vendorDir . '/joomla/oauth1/src'),
     'Joomla\\Ldap\\' => array($vendorDir . '/joomla/ldap/src'),
-    'Joomla\\Input\\Tests\\' => array($vendorDir . '/joomla/input/Tests'),
     'Joomla\\Input\\' => array($vendorDir . '/joomla/input/src'),
     'Joomla\\Image\\' => array($vendorDir . '/joomla/image/src'),
     'Joomla\\Http\\' => array($vendorDir . '/joomla/http/src'),
