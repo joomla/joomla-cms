@@ -27,6 +27,23 @@ class JFormFieldprivacy extends JFormFieldRadio
 	protected $type = 'privacy';
 
 	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string   The field input markup.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	 protected function getInput()
+	{
+		$privacynote = !empty($this->element['note']) ? $this->element['note'] : JText::_('PLG_USER_PRIVACY_NOTE_FIELD_DEFAULT');
+
+		echo '<div class="alert alert-info">' . $privacynote . '</div>';
+
+		return parent::getInput();
+	}
+
+
+	/**
 	 * Method to get the field label markup.
 	 *
 	 * @return  string  The field label markup.

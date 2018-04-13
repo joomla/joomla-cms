@@ -85,10 +85,12 @@ class PlgUserPrivacyconsent extends JPlugin
 			'privacy',
 		);
 
-		$privacyarticle = $this->params->get('privacy_article');
+		$privacyarticle	= $this->params->get('privacy_article');
+		$privacynote	= $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
 		$form->setFieldAttribute('privacy', 'article', $privacyarticle, 'privacyconsent');
+		$form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
 	}
 
 	/**
