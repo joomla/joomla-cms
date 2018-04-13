@@ -359,9 +359,13 @@ class MessagesModelMessage extends JModelAdmin
 
 			// Build the email subject and message
 			$sitename = JFactory::getApplication()->get('sitename');
+			$fromName = $fromUser->get('name');
 			$siteURL  = JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
-			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$title	  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
+			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+
+			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $fromName, $sitename );
+			$msg 	  = $title . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
 			$mailer = JFactory::getMailer();
