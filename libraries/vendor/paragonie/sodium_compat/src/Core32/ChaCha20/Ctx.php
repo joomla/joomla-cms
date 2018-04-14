@@ -24,6 +24,8 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
      * @param string $counter The initial counter value.
      *                        Defaults to 8 0x00 bytes.
      * @throws InvalidArgumentException
+     * @throws SodiumException
+     * @throws TypeError
      */
     public function __construct($key = '', $iv = '', $counter = '')
     {
@@ -89,6 +91,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
      *
      * @param mixed $offset
      * @return bool
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetExists($offset)
     {
@@ -100,6 +103,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
      *
      * @param mixed $offset
      * @return void
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetUnset($offset)
     {
@@ -111,6 +115,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
      *
      * @param mixed $offset
      * @return mixed|null
+     * @psalm-suppress MixedArrayOffset
      */
     public function offsetGet($offset)
     {

@@ -6,15 +6,13 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\Database\Sqlite;
-
-use Joomla\Database\Pdo\PdoIterator;
+namespace Joomla\Database\Exception;
 
 /**
- * SQLite Database Iterator.
+ * Exception class defining an error preparing the SQL statement for execution
  *
- * @since  1.0
+ * @since  __DEPLOY_VERSION__
  */
-class SqliteIterator extends PdoIterator
+class PrepareStatementFailureException extends \RuntimeException
 {
 }
