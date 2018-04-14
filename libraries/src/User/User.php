@@ -754,7 +754,7 @@ class User extends \JObject
 				$iAmRehashingSuperadmin = true;
 			}
 
-			// Check if ware are use a cli application
+			// Check if ware are using a cli application
 			$isCli = false;
 
 			if (\JFactory::getApplication()->input->get('format') === 'cli')
