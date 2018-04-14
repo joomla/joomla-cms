@@ -134,7 +134,7 @@
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
+					class="btn-group btn-group-yesno btn-group-reversed"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>

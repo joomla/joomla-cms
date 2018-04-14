@@ -49,7 +49,7 @@ class PlgSearchContent extends JPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = JFactory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());

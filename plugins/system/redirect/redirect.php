@@ -169,7 +169,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
@@ -297,6 +297,11 @@ class PlgSystemRedirect extends JPlugin
 
 			if ((bool) $params->get('collect_urls', true))
 			{
+				if (!$params->get('includeUrl', 1))
+				{
+					$url = $urlRel;
+				}
+
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,
@@ -331,6 +336,14 @@ class PlgSystemRedirect extends JPlugin
 			}
 		}
 
-		JErrorPage::render($error);
+		// Proxy to the previous exception handler if available, otherwise just render the error page
+		if (self::$previousExceptionHandler)
+		{
+			call_user_func_array(self::$previousExceptionHandler, array($error));
+		}
+		else
+		{
+			JErrorPage::render($error);
+		}
 	}
 }

@@ -146,7 +146,7 @@ class CategoriesHelper
 	 * @param   mixed   $catid      Name or ID of category.
 	 * @param   string  $extension  Extension that triggers this function
 	 *
-	 * @return int $catid  Category ID.
+	 * @return  integer  $catid  Category ID.
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{

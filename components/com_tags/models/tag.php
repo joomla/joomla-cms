@@ -110,13 +110,9 @@ class TagsModelTag extends JModelList
 						break;
 				}
 			}
+		}
 
-			return $items;
-		}
-		else
-		{
-			return false;
-		}
+		return $items;
 	}
 
 	/**

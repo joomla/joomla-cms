@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Helper;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 /**
  * Versions helper class, provides methods to perform various tasks relevant
