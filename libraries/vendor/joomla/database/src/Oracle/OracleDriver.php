@@ -8,8 +8,6 @@
 
 namespace Joomla\Database\Oracle;
 
-use Joomla\Database\DatabaseEvents;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Database\Pdo\PdoDriver;
 
 /**
@@ -109,22 +107,6 @@ class OracleDriver extends PdoDriver
 		}
 
 		$this->setDateFormat($this->dateformat);
-	}
-
-	/**
-	 * Disconnects the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disconnect()
-	{
-		// Close the connection.
-		$this->freeResult();
-		$this->connection = null;
-
-		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_DISCONNECT, $this));
 	}
 
 	/**
