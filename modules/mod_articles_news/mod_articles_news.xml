@@ -46,14 +46,14 @@
 
 				<field
 					name="image"
-					type="radio"
+					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
+					default="1"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
+					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
+					<option value="null">JNO</option>
 				</field>
 
 				<field
