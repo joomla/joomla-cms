@@ -110,7 +110,7 @@ abstract class ModArticlesNewsHelper
 				$item->link     = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
-			else 
+			else
 			{
 				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
 				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
