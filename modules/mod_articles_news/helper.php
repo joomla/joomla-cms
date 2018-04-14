@@ -119,32 +119,9 @@ abstract class ModArticlesNewsHelper
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
-			// Get the data of the image, if it is going to be shown
-			if ($params->get('image') != "none")
+			if (!$params->get('image'))
 			{
-				$images = json_decode($item->images);
-				$item->imageSrc = "";
-				$item->imageAlt = "";
-				$item->imageCaption = "";
-				if ($params->get('image') == "intro" && isset($images->image_intro) && !empty($images->image_intro))
-				{
-					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
-					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
-					if ($images->image_intro_caption) 
-					{
-						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
-					}					
-				}				
-				else if ($params->get('image') == "full" && isset($images->image_fulltext) && !empty($images->image_fulltext))
-				{
-					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
-					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
-					if ($images->image_intro_caption) 
-					{
-						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
-					}
-					
-				}
+				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
 			if ($triggerEvents)
