@@ -179,7 +179,6 @@ class AddUserCommand extends AbstractCommand
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('title') . '!=' . $db->quote('Super Users'))
 				->order('id ASC');
 			$db->setQuery($query);
 

@@ -754,8 +754,16 @@ class User extends \JObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if ware are use a cli application
+			$isCli = false;
+
+			if (\JFactory::getApplication()->input->get('format') === 'cli')
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))
