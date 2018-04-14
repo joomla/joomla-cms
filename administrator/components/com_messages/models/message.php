@@ -364,7 +364,7 @@ class MessagesModelMessage extends JModelAdmin
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
-			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $fromName, $sitename);
+			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
 			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
