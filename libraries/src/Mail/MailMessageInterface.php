@@ -18,6 +18,46 @@ defined('_JEXEC') or die;
 interface MailMessageInterface
 {
 	/**
+	 * Defines a message as having the highest priority
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PRIORITY_HIGHEST = 1;
+
+	/**
+	 * Defines a message as having a high priority
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PRIORITY_HIGH = 2;
+
+	/**
+	 * Defines a message as having a normal priority
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PRIORITY_NORMAL = 3;
+
+	/**
+	 * Defines a message as having a low priority
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PRIORITY_LOW = 4;
+
+	/**
+	 * Defines a message as having the lowest priority
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const PRIORITY_LOWEST = 5;
+
+	/**
 	 * Add a BCC address for the message.
 	 *
 	 * @param   string  $email  The email address of the recipient.
@@ -119,6 +159,19 @@ interface MailMessageInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setDate(\DateTimeInterface $date);
+
+	/**
+	 * Set the priority for the message.
+	 *
+	 * The value is an integer where 1 is the highest priority and 5 is the lowest.
+	 *
+	 * @param   integer  $priority  The priority of the email.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPriority(int $priority);
 
 	/**
 	 * Set the recipient of a read receipt for the message.

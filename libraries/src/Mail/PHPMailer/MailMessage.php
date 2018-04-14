@@ -255,6 +255,32 @@ class MailMessage implements MailMessageInterface
 	}
 
 	/**
+	 * Set the priority for the message.
+	 *
+	 * The value is an integer where 1 is the highest priority and 5 is the lowest.
+	 *
+	 * @param   integer  $priority  The priority of the email.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setPriority(int $priority)
+	{
+		// The priority can only be an integer between 1 and 5
+		if ($priority > 5)
+		{
+			$priority = 5;
+		}
+		elseif ($priority < 1)
+		{
+			$priority = 1;
+		}
+
+		$this->mailer->Priority = $priority;
+	}
+
+	/**
 	 * Set the sender of the message.
 	 *
 	 * @param   string  $email  The email address of the sender.
