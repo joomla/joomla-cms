@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
-use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryAwareInterface;
-use Joomla\CMS\Categories\CategoryNotFoundExceptionInterface;
-use Joomla\CMS\Categories\Exception\SectionNotFoundException;
+use Joomla\CMS\Categories\CategoryAwareTrait;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -28,6 +26,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  */
 class Component implements ComponentInterface, CategoryAwareInterface
 {
+	use CategoryAwareTrait;
+
 	/**
 	 * The MVC Factory.
 	 *
@@ -36,15 +36,6 @@ class Component implements ComponentInterface, CategoryAwareInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mvcFactoryFactory;
-
-	/**
-	 * An array of categories.
-	 *
-	 * @var array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $categories;
 
 	/**
 	 * The dispatcher factory.
@@ -128,48 +119,6 @@ class Component implements ComponentInterface, CategoryAwareInterface
 	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		$this->mvcFactoryFactory = $mvcFactoryFactory;
-	}
-
-	/**
-	 * Returns the category service
-	 *
-	 * @param   array   $options  The options
-	 * @param   string  $section  The section
-	 *
-	 * @return  Categories
-	 *
-	 * @see Categories::setOptions()
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  CategoryNotFoundExceptionInterface
-	 */
-	public function getCategories(array $options = [], $section = ''): Categories
-	{
-		if (!array_key_exists($section, $this->categories))
-		{
-			throw new SectionNotFoundException;
-		}
-
-		$categories = clone $this->categories[$section];
-		$categories->setOptions($options);
-
-		return $categories;
-	}
-
-	/**
-	 * An array of categories where the key is the name of the section.
-	 * If the component has no sections then the array must have at least
-	 * an empty key.
-	 *
-	 * @param   array  $categories  The categories
-	 *
-	 * @return  void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setCategories(array $categories)
-	{
-		$this->categories = $categories;
 	}
 
 	/**
