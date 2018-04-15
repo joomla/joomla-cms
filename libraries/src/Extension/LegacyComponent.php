@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryAwareInterface;
+use Joomla\CMS\Categories\CategoryNotFoundExceptionInterface;
+use Joomla\CMS\Categories\Exception\CategoriesNotImplementedException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -24,7 +27,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyComponent implements ComponentInterface
+class LegacyComponent implements ComponentInterface, CategoryAwareInterface
 {
 	/**
 	 * @var string
@@ -91,8 +94,9 @@ class LegacyComponent implements ComponentInterface
 	 * @see Categories::setOptions()
 	 *
 	 * @since  __DEPLOY_VERSION__
+	 * @throws CategoryNotFoundExceptionInterface
 	 */
-	public function getCategories(array $options = [], $section = '')
+	public function getCategories(array $options = [], $section = ''): Categories
 	{
 		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 
@@ -102,7 +106,7 @@ class LegacyComponent implements ComponentInterface
 
 			if (!is_file($path))
 			{
-				return null;
+				throw new CategoriesNotImplementedException;
 			}
 
 			include_once $path;
@@ -110,7 +114,7 @@ class LegacyComponent implements ComponentInterface
 
 		if (!class_exists($classname))
 		{
-			return null;
+			throw new CategoriesNotImplementedException;
 		}
 
 		return new $classname($options);
