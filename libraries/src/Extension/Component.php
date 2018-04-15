@@ -11,7 +11,8 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Association\AssociationExtensionInterface;
+use Joomla\CMS\Association\AssociationAwareInterface;
+use Joomla\CMS\Association\AssociationAwareTrait;
 use Joomla\CMS\Categories\CategoryAwareInterface;
 use Joomla\CMS\Categories\CategoryAwareTrait;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
@@ -24,9 +25,9 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Component implements ComponentInterface, CategoryAwareInterface
+class Component implements ComponentInterface, CategoryAwareInterface, AssociationAwareInterface
 {
-	use CategoryAwareTrait;
+	use CategoryAwareTrait, AssociationAwareTrait;
 
 	/**
 	 * The MVC Factory.
@@ -45,15 +46,6 @@ class Component implements ComponentInterface, CategoryAwareInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $dispatcherFactory;
-
-	/**
-	 * The association extension.
-	 *
-	 * @var AssociationExtensionInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $associationExtension;
 
 	/**
 	 * Returns the dispatcher for the given application.
@@ -119,31 +111,5 @@ class Component implements ComponentInterface, CategoryAwareInterface
 	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		$this->mvcFactoryFactory = $mvcFactoryFactory;
-	}
-
-	/**
-	 * Returns the associations helper.
-	 *
-	 * @return  AssociationExtensionInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAssociationsExtension()
-	{
-		return $this->associationExtension;
-	}
-
-	/**
-	 * The association extension.
-	 *
-	 * @param   AssociationExtensionInterface  $associationExtension  The extension
-	 *
-	 * @return void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
-	{
-		$this->associationExtension = $associationExtension;
 	}
 }

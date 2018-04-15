@@ -11,7 +11,9 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Association\AssociationAwareInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
+use Joomla\CMS\Association\Exception\AssociationsNotImplementedException;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryAwareInterface;
 use Joomla\CMS\Categories\CategoryNotFoundExceptionInterface;
@@ -27,7 +29,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyComponent implements ComponentInterface, CategoryAwareInterface
+class LegacyComponent implements ComponentInterface, CategoryAwareInterface, AssociationAwareInterface
 {
 	/**
 	 * @var string
@@ -123,11 +125,12 @@ class LegacyComponent implements ComponentInterface, CategoryAwareInterface
 	/**
 	 * Returns the associations helper.
 	 *
-	 * @return  AssociationExtensionInterface|null
+	 * @return  AssociationExtensionInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  AssociationsNotImplementedException
 	 */
-	public function getAssociationsExtension()
+	public function getAssociationsExtension(): AssociationExtensionInterface
 	{
 		$className = ucfirst($this->component) . 'AssociationsHelper';
 
@@ -139,7 +142,7 @@ class LegacyComponent implements ComponentInterface, CategoryAwareInterface
 		// Check if associations helper exists
 		if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php'))
 		{
-			return null;
+			throw new AssociationsNotImplementedException;
 		}
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php';
