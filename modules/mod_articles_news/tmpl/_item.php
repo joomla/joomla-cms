@@ -25,7 +25,8 @@ defined('_JEXEC') or die;
 <?php if ($params->get('image') != 'none' && !empty($item->imageSrc)) : ?>	
 	<figure class="newsflash-image">
 		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
-		<?php if(!empty($item->imageCaption)) : ?>
+		
+		<?php if (!empty($item->imageCaption)) : ?>
 			<figcaption>
 				<?php echo $item->imageCaption; ?>
 			</figcaption>

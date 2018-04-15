@@ -126,6 +126,7 @@ abstract class ModArticlesNewsHelper
 				$item->imageSrc = '';
 				$item->imageAlt = '';
 				$item->imageCaption = '';
+				
 				if ($params->get('image') === 'intro' && isset($images->image_intro) && !empty($images->image_intro))
 				{
 					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');

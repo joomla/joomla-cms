@@ -53,7 +53,7 @@
 					>
 					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
 					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
-					<option value="null">JNO</option>
+					<option value="none">JNO</option>
 				</field>
 
 				<field
