@@ -40,13 +40,15 @@ class LanguageHelper
 
 		foreach ($languages as $languageCode => $language)
 		{
-			$metadata = $installed ? $language->metadata : $language;
+			if ( is_numeric( $languageCode ) ){
+				$metadata = $installed ? $language->metadata : $language;
 
-			$list[] = array(
-				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
-				'value'    => $languageCode,
-				'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
-			);
+				$list[] = array(
+					'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
+					'value'    => $languageCode,
+					'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
+				);
+			}
 		}
 
 		return $list;
