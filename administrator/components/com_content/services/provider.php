@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\Service\Provider\Component;
@@ -32,6 +33,14 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
+	/**
+	 * The extension name to use
+	 *
+	 * @type   string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $extension_name = 'com_content';
+
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -56,13 +65,16 @@ return new class implements ServiceProviderInterface
 		$container->set(Categories::class, ['' => new Category]);
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
-		$factory = new MVCFactoryFactory('\\Joomla\\Component\\Content');
+		$factory = new MVCFactoryFactory(ComponentHelper::getComponent($this->extension_name)->namespace);
 		$factory->setFormFactory($container->get(\Joomla\CMS\Form\FormFactoryInterface::class));
 		$container->set(MVCFactoryFactoryInterface::class, $factory);
 
 		$container->set(
 			DispatcherFactoryInterface::class,
-			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
+			new DispatcherFactory(
+				ComponentHelper::getComponent($this->extension_name)->namespace,
+				$container->get(MVCFactoryFactoryInterface::class)
+			)
 		);
 		$container->registerServiceProvider(new Component);
 	}

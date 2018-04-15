@@ -13,6 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryAwareInterface;
+use Joomla\CMS\Categories\CategoryNotFoundExceptionInterface;
+use Joomla\CMS\Categories\Exception\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -23,12 +26,14 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Component implements ComponentInterface
+class Component implements ComponentInterface, CategoryAwareInterface
 {
 	/**
 	 * The MVC Factory.
 	 *
 	 * @var MVCFactoryFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mvcFactoryFactory;
 
@@ -126,23 +131,23 @@ class Component implements ComponentInterface
 	}
 
 	/**
-	 * Returns the category service. If the service is not available
-	 * null is returned.
+	 * Returns the category service
 	 *
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories|null
+	 * @return  Categories
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  CategoryNotFoundExceptionInterface
 	 */
-	public function getCategories(array $options = [], $section = '')
+	public function getCategories(array $options = [], $section = ''): Categories
 	{
 		if (!array_key_exists($section, $this->categories))
 		{
-			return null;
+			throw new SectionNotFoundException;
 		}
 
 		$categories = clone $this->categories[$section];
