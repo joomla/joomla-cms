@@ -40,7 +40,8 @@ class LanguageHelper
 
 		foreach ($languages as $languageCode => $language)
 		{
-			if ( is_numeric( $languageCode ) ){
+			if (is_numeric($languageCode))
+			{
 				$metadata = $installed ? $language->metadata : $language;
 
 				$list[] = array(
