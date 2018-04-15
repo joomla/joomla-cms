@@ -51,7 +51,6 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareI
 	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
 	 */
 	public function createFactory(CMSApplicationInterface $application): MVCFactoryInterface
 	{

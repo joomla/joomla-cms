@@ -27,7 +27,6 @@ interface MVCFactoryFactoryInterface
 	 * @return  \Joomla\CMS\MVC\Factory\MVCFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
 	 */
 	public function createFactory(CMSApplicationInterface $application): MVCFactoryInterface;
 }
