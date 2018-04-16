@@ -84,7 +84,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$view	= $this->app->input->get('view', 'default', 'string');
 
 		// Check for the correct form.
-		if (!in_array($name, array('com_users.profile', 'com_users.registration')))
+		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')))
 		{
 			return true;
 		}
@@ -135,6 +135,7 @@ class PlgUserPrivacyconsent extends JPlugin
 				if (!empty($results[0]))
 				{
 					$form->removeField('privacy', 'privacyconsent');
+					$form->removeGroup('privacyconsent');
 
 					return true;
 				}
