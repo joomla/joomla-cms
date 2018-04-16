@@ -49,11 +49,11 @@
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
-					default="intro"
+					default="0"
 					>
 					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
 					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
-					<option value="none">JNO</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
