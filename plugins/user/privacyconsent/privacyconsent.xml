@@ -8,7 +8,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
-	<description>PLG_USER_PRIVACY_XML_DESCRIPTION</description>
+	<description>PLG_USER_PRIVACYCONSENT_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="privacyconsent">privacyconsent.php</filename>
 		<folder>privacyconsent</folder>
@@ -24,9 +24,9 @@
 				<field 
 					name="privacy_note" 
 					type="textarea" 
-					label="PLG_USER_PRIVACY_NOTE_FIELD_LABEL" 
-					description="PLG_USER_PRIVACY_NOTE_FIELD_DESC"
-					hint="PLG_USER_PRIVACY_NOTE_FIELD_DEFAULT"
+					label="PLG_USER_PRIVACYCONSENT_NOTE_FIELD_LABEL" 
+					description="PLG_USER_PRIVACYCONSENT_NOTE_FIELD_DESC"
+					hint="PLG_USER_PRIVACYCONSENT_NOTE_FIELD_DEFAULT"
 					class="span12"
 					rows="7" 
 					cols="20" 
@@ -35,8 +35,8 @@
 				<field
 					name="privacy_article"
 					type="modal_article"
-					label="PLG_USER_PRIVACY_FIELD_ARTICLE_LABEL"
-					description="PLG_USER_PRIVACY_FIELD_ARTICLE_DESC"
+					label="PLG_USER_PRIVACYCONSENT_FIELD_ARTICLE_LABEL"
+					description="PLG_USER_PRIVACYCONSENT_FIELD_ARTICLE_DESC"
 					select="true"
 					new="true"
 					edit="true"
@@ -45,9 +45,9 @@
 				<field 
 					name="messageOnRedirect" 
 					type="textarea" 
-					label="PLG_USER_PRIVACY_REDIRECT_MESSAGE_LABEL" 
-					description="PLG_USER_PRIVACY_REDIRECT_MESSAGE_DESC"
-					hint="PLG_USER_PRIVACY_REDIRECT_MESSAGE_DEFAULT"
+					label="PLG_USER_PRIVACYCONSENT_REDIRECT_MESSAGE_LABEL" 
+					description="PLG_USER_PRIVACYCONSENT_REDIRECT_MESSAGE_DESC"
+					hint="PLG_USER_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT"
 					class="span12"
 					rows="7" 
 					cols="20" 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -30,10 +32,18 @@ class PlgUserPrivacyconsent extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
-	
+
+	/**
+	 * Database object.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
+
 	/**
 	 * Constructor
 	 *
@@ -45,6 +55,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
+
 		JFormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
@@ -69,14 +80,20 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		// Check we are manipulating a valid form - we do not display this in the admin users form or profile view.
 		$name 	= $form->getName();
-		$layout = $this->app->input->get('layout', 'default');
-		$view	= $this->app->input->get('view', 'default');
+		$layout = $this->app->input->get('layout', 'default', 'string');
+		$view	= $this->app->input->get('view', 'default', 'string');
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')) || $layout != "edit" && $view != "registration")
+		// Check for the correct form.
+		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')))
 		{
 			return true;
 		}
 
+		// Check for the correct layout and view.
+		if ($layout != 'edit' && $view != 'registration')
+		{
+			return true;
+		}
 		// Add the registration fields to the form.
 		JForm::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
@@ -112,7 +129,7 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		if ($this->app->isClient('site') && (!$data['privacyconsent']['privacy']) || (!$data['privacyconsent']['privacy']) && $option === 'com_admin')
 		{
-			throw new InvalidArgumentException(JText::_('PLG_USER_PRIVACY_FIELD_ERROR'));
+			throw new InvalidArgumentException(Text::_('PLG_USER_PRIVACYCONSENT_FIELD_ERROR'));
 		}
 
 		return true;
@@ -127,6 +144,8 @@ class PlgUserPrivacyconsent extends JPlugin
 	 * @param   string   $error   error message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -142,27 +161,24 @@ class PlgUserPrivacyconsent extends JPlugin
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		// Get the user's IP address
-		$ip = $this->app->input->server->get('REMOTE_ADDR');
+		$ip = $this->app->input->server->get('REMOTE_ADDR', '', 'string');
 
 		// Get the user agent string
-		$user_agent = $this->app->input->server->get('HTTP_USER_AGENT');
-
-		// Get the date in DB format
-		$now = JFactory::getDate()->toSql();
+		$userAgent = $this->app->input->server->get('HTTP_USER_AGENT', '', 'string');
 
 		// Create the user note
 		$userNote = (object) array(
 			'user_id'         => $userId,
 			'catid'           => 0,
-			'subject'         => JText::_('PLG_USER_PRIVACY_SUBJECT'),
-			'body'            => JText::sprintf('PLG_USER_PRIVACY_BODY', $ip, $user_agent),
+			'subject'         => Text::_('PLG_USER_PRIVACYCONSENT_SUBJECT'),
+			'body'            => Text::sprintf('PLG_USER_PRIVACYCONSENT_BODY', $ip, $userAgent),
 			'state'           => 1,
-			'created_time'    => $now
+			'created_time'    => Factory::getDate()->toSql(),
 		);
 
 		try
 		{
-			$result = JFactory::getDbo()->insertObject('#__user_notes', $userNote);
+			$this->db->insertObject('#__user_notes', $userNote);
 		}
 		catch (Exception $e)
 		{
@@ -171,20 +187,20 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		// Create the consent confirmation
 		$confirm = (object) array(
-			'user_id'	=> $userId,
-			'profile_key'	=> 'consent',
-			'profile_value'	=> 1
+			'user_id'       => $userId,
+			'profile_key'   => 'consent',
+			'profile_value' => 1
 		);
 
 		try
 		{
-			$result = JFactory::getDbo()->insertObject('#__user_profiles', $confirm);
+			$this->db->insertObject('#__user_profiles', $confirm);
 		}
 		catch (Exception $e)
-
 		{
 			// Do nothing if the save fails
 		}
+
 		return true;
 	}
 
@@ -198,6 +214,8 @@ class PlgUserPrivacyconsent extends JPlugin
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -213,13 +231,13 @@ class PlgUserPrivacyconsent extends JPlugin
 			// Remove any user notes
 			try
 			{
-				$db = JFactory::getDbo();
+				
 
-				$query = $db->getQuery(true)
-					->delete($db->quoteName('#__user_notes'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
-				$db->setQuery($query);
-				$db->execute();
+				$query = $this->db->getQuery(true)
+					->delete($this->db->quoteName('#__user_notes'))
+					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
+				$this->db->setQuery($query);
+				$this->db->execute();
 			}
 			catch (Exception $e)
 			{
@@ -231,13 +249,11 @@ class PlgUserPrivacyconsent extends JPlugin
 			// Remove any user profile fields
 			try
 			{
-				$db = JFactory::getDbo();
-
-				$query = $db->getQuery(true)
-					->delete($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId);
-				$db->setQuery($query);
-				$db->execute();
+				$query = $this->db->getQuery(true)
+					->delete($this->db->quoteName('#__user_profiles'))
+					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
+				$this->db->setQuery($query);
+				$this->db->execute();
 			}
 			catch (Exception $e)
 			{
@@ -258,7 +274,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterLogin($options)
 	{
@@ -268,17 +284,16 @@ class PlgUserPrivacyconsent extends JPlugin
 			return;
 		}
 
-		$userId = JFactory::getUser()->id;
-		$db = JFactory::getDbo();
+		$userId = Factory::getUser()->id;
 
-		$query = $db->getQuery(true)
+		$query = $this->db->getQuery(true)
 			->select('1')
-			->from($db->quoteName('#__user_profiles'))
-			->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-			->where($db->quoteName('profile_key') . ' = ' . $db->quote('consent'));
-		$db->setQuery($query);
+			->from($this->db->quoteName('#__user_profiles'))
+			->where($this->db->quoteName('user_id') . ' = ' . (int) $userId)
+			->where($this->db->quoteName('profile_key') . ' = ' . $this->db->quote('consent'));
+		$this->db->setQuery($query);
 
-		$consent = $db->loadObjectList();
+		$consent = $this->db->loadObjectList();
 
 		if (count($consent) != 0)
 		{
@@ -295,7 +310,7 @@ class PlgUserPrivacyconsent extends JPlugin
 	 *
 	 * @return  string  redirect message
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getRedirectMessage()
 	{
@@ -303,7 +318,7 @@ class PlgUserPrivacyconsent extends JPlugin
 
 		if (empty($messageOnRedirect))
 		{
-			return \JText::_('PLG_USER_PRIVACY_REDIRECT_MESSAGE_DEFAULT');
+			return Text::_('PLG_USER_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');
 		}
 
 		return $messageOnRedirect;

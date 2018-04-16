@@ -1646,7 +1646,7 @@ INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description
 (700, 'COM_CPANEL_MSG_JOOMLA40_PRE_CHECKS_TITLE', 'COM_CPANEL_MSG_JOOMLA40_PRE_CHECKS_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/joomla40checks.php', 'admin_postinstall_joomla40checks_condition', '3.7.0', 1),
 (700, 'TPL_HATHOR_MESSAGE_POSTINSTALL_TITLE', 'TPL_HATHOR_MESSAGE_POSTINSTALL_BODY', 'TPL_HATHOR_MESSAGE_POSTINSTALL_ACTION', 'tpl_hathor', 1, 'action', 'admin://templates/hathor/postinstall/hathormessage.php', 'hathormessage_postinstall_action', 'admin://templates/hathor/postinstall/hathormessage.php', 'hathormessage_postinstall_condition', '3.7.0', 1),
 (700, 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_TITLE', 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_BODY', 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_ACTION', 'plg_captcha_recaptcha', 1, 'action', 'site://plugins/captcha/recaptcha/postinstall/actions.php', 'recaptcha_postinstall_action', 'site://plugins/captcha/recaptcha/postinstall/actions.php', 'recaptcha_postinstall_condition', '3.8.6', 1);
-(700, 'PLG_USER_PRIVACYCONSENT_TITLE', 'PLG_USER_PRIVACYCONSENT_BODY', '', 'plg_user_privacyconsent', 1, 'message', '', '', '', '', '3.9.0', 1);
+(700, 'PLG_USER_PRIVACYCONSENT_POSTINSTALL_TITLE', 'PLG_USER_PRIVACYCONSENT_POSTINSTALL_BODY', '', 'plg_user_privacyconsent', 1, 'message', '', '', '', '', '3.9.0', 1);
 
 -- --------------------------------------------------------
 
