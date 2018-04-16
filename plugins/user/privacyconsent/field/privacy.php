@@ -36,7 +36,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	 protected function getInput()
+	protected function getInput()
 	{
 		$privacynote = !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_PRIVACYCONSENT_NOTE_FIELD_DEFAULT');
 
@@ -44,7 +44,6 @@ class JFormFieldprivacy extends JFormFieldRadio
 
 		return parent::getInput();
 	}
-
 
 	/**
 	 * Method to get the field label markup.

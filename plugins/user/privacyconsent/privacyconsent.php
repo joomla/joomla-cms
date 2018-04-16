@@ -276,8 +276,6 @@ class PlgUserPrivacyconsent extends JPlugin
 			// Remove any user notes
 			try
 			{
-				
-
 				$query = $this->db->getQuery(true)
 					->delete($this->db->quoteName('#__user_notes'))
 					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
