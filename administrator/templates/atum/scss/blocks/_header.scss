@@ -4,7 +4,6 @@
 .header {
   position: relative;
   z-index: 1060;
-  height: $header-height;
   background: $white;
   box-shadow: $atum-box-shadow;
 
@@ -12,6 +11,7 @@
     display: inline-block;
     width: $sidebar-width-closed;
     text-align: center;
+    line-height: $header-height;
   }
 
   .page-title {
@@ -125,12 +125,24 @@
 @include media-breakpoint-down(md) {
 
   .header {
-    position: fixed;
+    position: sticky;
     top: 0;
     width: 100%;
 
-    + .container-title {
-      margin-top: $header-height;
+    > div {
+      flex-direction: column;
+    }
+
+  }
+
+}
+
+@include media-breakpoint-down(sm) {
+
+  .header {
+
+    .header-items {
+      flex-direction: column;
     }
 
   }

@@ -17,8 +17,6 @@
   transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
-    margin-top: 3px;
-
     .main-nav {
       max-height: calc(100vh - 147px);
     }

@@ -380,13 +380,13 @@ legend {
 .header {
   position: relative;
   z-index: 1060;
-  height: 55px;
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   .header .logo {
     display: inline-block;
     width: 64px;
-    text-align: center; }
+    text-align: center;
+    line-height: 55px; }
   .header .page-title {
     display: inline-block;
     margin: 0 5px;
@@ -452,11 +452,16 @@ legend {
 
 @media (max-width: 991.98px) {
   .header {
-    position: fixed;
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
     width: 100%; }
-    .header + .container-title {
-      margin-top: 55px; } }
+    .header > div {
+      flex-direction: column; } }
+
+@media (max-width: 767.98px) {
+  .header .header-items {
+    flex-direction: column; } }
 
 .icon-back::before {
   content: "\e008"; }
@@ -708,10 +713,8 @@ iframe {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   transition: all .3s ease; }
   @media (max-width: 991.98px) {
-    .sidebar-wrapper {
-      margin-top: 3px; }
-      .sidebar-wrapper .main-nav {
-        max-height: calc(100vh - 147px); } }
+    .sidebar-wrapper .main-nav {
+      max-height: calc(100vh - 147px); } }
   .sidebar-wrapper .main-brand {
     position: absolute;
     bottom: 0;
@@ -1578,16 +1581,12 @@ joomla-alert {
   position: relative;
   min-height: calc(100vh - 50px);
   background-color: #ebeff5; }
-  @media (max-width: 991.98px) {
-    .container-main {
-      padding-left: 50px;
-      margin-top: 47px; } }
 
 .list-view-main .container-main {
   background-color: #ebeff5; }
 
 .content {
-  padding-top: 22px;
+  padding-top: 15px;
   border-radius: none; }
   .content > .row {
     margin-right: 0;

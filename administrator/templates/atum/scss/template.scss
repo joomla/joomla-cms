@@ -68,11 +68,6 @@
   min-height: calc(100vh - 50px);
   background-color: $atum-container-main-bg;
 
-  @include media-breakpoint-down(md) {
-    padding-left: 50px;
-    // 50px - 3px which is the header bottom border
-    margin-top: 47px;
-  }
 }
 
 .list-view-main {
@@ -84,7 +79,7 @@
 }
 
 .content {
-  padding-top: 22px;
+  padding-top: 15px;
   border-radius: $border-radius;
 
   > .row {
