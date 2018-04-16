@@ -84,7 +84,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		$view	= $this->app->input->get('view', 'default', 'string');
 
 		// Check for the correct form.
-		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, array('com_users.profile', 'com_users.registration')))
 		{
 			return true;
 		}
@@ -94,6 +94,7 @@ class PlgUserPrivacyconsent extends JPlugin
 		{
 			return true;
 		}
+
 		// Add the registration fields to the form.
 		JForm::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
@@ -123,6 +124,7 @@ class PlgUserPrivacyconsent extends JPlugin
 				{
 					$results = $db->loadRowList();
 				}
+
 				catch (RuntimeException $e)
 				{
 					$this->_subject->setError($e->getMessage());
