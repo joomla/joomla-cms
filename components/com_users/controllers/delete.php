@@ -48,7 +48,7 @@ class UsersControllerDelete extends UsersController
 
 			return false;
 		}
-		
+
 		// The request succeeded.
 		return true;
 	}
