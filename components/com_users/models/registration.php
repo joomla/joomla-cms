@@ -425,9 +425,16 @@ class UsersModelRegistration extends JModelForm
 		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
 		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));
 		$userMailDomain = explode('@', $data['email']);
+		$getTLD = explode('.', $userMailDomain[1]);
+		$userMailTLD = array_pop($getTLD);
+		$needles = array(
+			'userMailDomain'	=> $userMailDomain[1],
+			'userMailTLD'		=> $userMailTLD,
+		);
 
-		// Check if the user mail domain is disallowed
-		if ((!empty($blackListMailDomain) && in_array($userMailDomain[1], $blackListMailDomain)) || (!empty($whiteListMailDomain) && !in_array($userMailDomain[1], $whiteListMailDomain))) 
+		// Check if the user mail domain or TLD is disallowed
+		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
+			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
 		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 
