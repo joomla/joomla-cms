@@ -120,7 +120,7 @@ abstract class ModArticlesNewsHelper
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
 			// Get the data of the image, if it is going to be shown
-			if ($params->get('image') !== 0)
+			if ($params->get('image') !== '0')
 			{
 				$images = json_decode($item->images);
 				$item->imageSrc = '';

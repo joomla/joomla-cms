@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 	</<?php echo $item_heading; ?>>
 <?php endif; ?>
 
-<?php if ($params->get('image') !== 0 && !empty($item->imageSrc)) : ?>	
+<?php if ($params->get('image') !== '0' && !empty($item->imageSrc)) : ?>	
 	<figure class="newsflash-image">
 		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
 		<?php if (!empty($item->imageCaption)) : ?>
