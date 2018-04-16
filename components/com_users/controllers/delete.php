@@ -40,6 +40,7 @@ class UsersControllerDelete extends UsersController
 		if ($return === false)
 		{
 			$message = JText::sprintf('COM_USERS_DELETE_REQUEST_FAILED', $model->getError());
+
 			// The request failed. Go back to the request form.
 			$return = base64_encode(JUri::getInstance());
 			$delete_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
