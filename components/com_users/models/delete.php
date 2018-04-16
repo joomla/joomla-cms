@@ -138,14 +138,13 @@ class UsersModelDelete extends JModelForm
 
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JEventDispatcher::getInstance();
-		$table      = JTable::getInstance('User');
 
 		// Get user data for the user to delete.
 		$user_to_delete = JFactory::getUser(JFactory::getUser()->id);
-		
+
 		// Fire the before delete events.
 		$dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties()));
-		
+
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->update($db->quoteName('#__users'))
@@ -164,7 +163,6 @@ class UsersModelDelete extends JModelForm
 		catch (JDatabaseExceptionExecuting $e)
 		{
 			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
-
 		}
 
 		// Trigger the after delete event.
