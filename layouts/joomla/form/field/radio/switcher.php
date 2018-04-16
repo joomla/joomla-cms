@@ -68,7 +68,7 @@ $type = '';
 
 if ($pos = strpos($class, 'switcher-'))
 {
-	$type = 'type="' . strtok(substr($class, $pos+9), ' ') . '"';
+	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
 }
 
 // Add the attributes of the fieldset in an array
