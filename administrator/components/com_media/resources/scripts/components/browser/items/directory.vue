@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-item-directory">
+    <div class="media-browser-item-directory" @mouseleave="showActions = false">
         <div class="media-browser-item-preview"
              @dblclick.stop.prevent="onPreviewDblClick()">
             <div class="file-background">

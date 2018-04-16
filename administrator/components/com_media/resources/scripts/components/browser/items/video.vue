@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-image" @dblclick="openPreview()">
+    <div class="media-browser-image" @dblclick="openPreview()" @mouseleave="showActions = false">
         <div class="media-browser-item-preview">
             <div class="file-background">
                 <div class="file-icon">
