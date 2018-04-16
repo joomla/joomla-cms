@@ -135,8 +135,8 @@ abstract class ModArticlesNewsHelper
 					if ($images->image_intro_caption) 
 					{
 						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
-					}					
-				}				
+					}
+				}
 				elseif ($params->get('image') === 'full' && !empty($images->image_fulltext))
 				{
 					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
@@ -145,7 +145,7 @@ abstract class ModArticlesNewsHelper
 					if ($images->image_intro_caption) 
 					{
 						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
-					}					
+					}
 				}
 			}
 
