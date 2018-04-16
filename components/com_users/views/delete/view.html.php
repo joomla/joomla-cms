@@ -33,7 +33,6 @@ class UsersViewDelete extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$name = $this->getLayout();
 		// Get the view data.
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
