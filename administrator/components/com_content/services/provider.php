@@ -18,6 +18,7 @@ use Joomla\CMS\Extension\Service\Provider\Component;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -64,6 +65,6 @@ return new class implements ServiceProviderInterface
 			DispatcherFactoryInterface::class,
 			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
 		);
-		$container->registerServiceProvider(new Component);
+		$container->registerServiceProvider(new Component(ContentComponent::class));
 	}
 };
