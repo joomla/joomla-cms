@@ -40,7 +40,7 @@ class Component implements ServiceProviderInterface
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new \Joomla\CMS\Extension\Component;
+				$component = new \Joomla\CMS\Extension\Component($container);
 
 				if ($container->has(Categories::class))
 				{
@@ -55,11 +55,6 @@ class Component implements ServiceProviderInterface
 				if ($container->has(MVCFactoryFactoryInterface::class))
 				{
 					$component->setMvcFactory($container->get(MVCFactoryFactoryInterface::class));
-				}
-
-				if ($container->has(AssociationExtensionInterface::class))
-				{
-					$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 				}
 
 				return $component;

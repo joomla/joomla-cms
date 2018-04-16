@@ -117,13 +117,32 @@ class LegacyComponent implements ComponentInterface
 	}
 
 	/**
+	 * Returns a service for the given key.
+	 *
+	 * @param   string  $key  The key
+	 *
+	 * @return  mixed
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getService(string $key)
+	{
+		if ($key == AssociationExtensionInterface::class)
+		{
+			return $this->getAssociationsExtension();
+		}
+
+		return null;
+	}
+
+	/**
 	 * Returns the associations helper.
 	 *
 	 * @return  AssociationExtensionInterface|null
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getAssociationsExtension()
+	private function getAssociationsExtension()
 	{
 		$className = ucfirst($this->component) . 'AssociationsHelper';
 
