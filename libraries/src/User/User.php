@@ -754,7 +754,7 @@ class User extends \JObject
 				$iAmRehashingSuperadmin = true;
 			}
 
-			// Check if ware are using a CLI application
+			// Check if we are using a CLI application
 			// @todo this should only be a temporary solution. Need to find how can add super user on CLI without pass access rights check this way.
 			$isCli = false;
 

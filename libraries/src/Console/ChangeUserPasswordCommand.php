@@ -27,18 +27,18 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	/**
 	 * The username
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $username;
 
 	/**
 	 * The password
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $password;
 
@@ -47,7 +47,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  integer  The exit code for the command.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function execute(): int
 	{
@@ -83,9 +83,9 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @param   string  $username  username
 	 *
-	 * @return object
+	 * @return  object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getUser($username)
 	{
@@ -111,7 +111,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
@@ -137,9 +137,9 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	/**
 	 * Initialise the command.
 	 *
-	 * @return   void
+	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function initialise()
 	{

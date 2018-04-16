@@ -28,45 +28,45 @@ class AddUserCommand extends AbstractCommand
 	/**
 	 * The username
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $user;
 
 	/**
 	 * The password
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $password;
 
 	/**
 	 *  The name
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $name;
 
 	/**
 	 * The email address
 	 *
-	 * @var string
+	 * @var    string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $email;
 
 	/**
 	 * The usergroups
 	 *
-	 * @var array
+	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $userGroups = array();
 
@@ -75,7 +75,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  integer  The exit code for the command.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function execute(): int
 	{
@@ -112,9 +112,9 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @param   string  $groupName  name of group
 	 *
-	 * @return integer
+	 * @return  integer
 	 *
-	 * since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getGroupId($groupName)
 	{
@@ -137,9 +137,9 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @param   string  $question  set the question if user gives no value to option
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getStringFromOption($option, $question): string
 	{
@@ -165,9 +165,9 @@ class AddUserCommand extends AbstractCommand
 	/**
 	 * Method to get a value from option
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getUserGroups(): array
 	{
@@ -226,7 +226,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function initialise()
 	{
