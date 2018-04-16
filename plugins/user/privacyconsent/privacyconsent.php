@@ -102,6 +102,43 @@ class PlgUserPrivacyconsent extends JPlugin
 			'privacy',
 		);
 
+		if (is_object($data))
+		{
+			$userId = isset($data->id) ? $data->id : 0;
+
+			if ($userId > 0)
+			{
+				// Load the profile data from the database.
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select($db->quoteName('profile_value'))
+					->from($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+					->where($db->quoteName('profile_key') . ' = ' . $db->quote('consent'))
+					->where($db->quoteName('profile_value') . ' = ' . $db->quote('1'));
+				$db->setQuery($query);
+
+				try
+				{
+					$results = $db->loadRowList();
+				}
+				catch (RuntimeException $e)
+				{
+					$this->_subject->setError($e->getMessage());
+
+					return false;
+				}
+
+				if (!empty($results[0]))
+				{
+					$form->removeField('privacy', 'privacyconsent');
+
+					return true;
+				}
+			}
+		}
+
 		$privacyarticle	= $this->params->get('privacy_article');
 		$privacynote	= $this->params->get('privacy_note');
 
@@ -125,9 +162,14 @@ class PlgUserPrivacyconsent extends JPlugin
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
 		// Check that the privacy is checked if required ie only in registration from frontend.
-		$option = $this->app->input->getCmd('option');
+		$form   = $this->app->input->post->get('jform', array(), 'array');
 
-		if ($this->app->isClient('site') && (!$data['privacyconsent']['privacy']) || (!$data['privacyconsent']['privacy']) && $option === 'com_admin')
+		if ($this->app->isClient('administrator'))
+		{
+			return true;
+		}
+
+		if (isset($form['privacyconsent']['privacy']) && (!$form['privacyconsent']['privacy']))
 		{
 			throw new InvalidArgumentException(Text::_('PLG_USER_PRIVACYCONSENT_FIELD_ERROR'));
 		}
