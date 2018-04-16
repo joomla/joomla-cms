@@ -424,7 +424,7 @@ class UsersModelRegistration extends JModelForm
 		$sendpassword = $params->get('sendpassword', 1);
 		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
 		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));
-		$userMailDomain = explode('@',$data['email']);
+		$userMailDomain = explode('@', $data['email']);
 
 		// Check if the user mail domain is disallowed
 		if ((!empty($blackListMailDomain) && in_array($userMailDomain[1], $blackListMailDomain)) || (!empty($whiteListMailDomain) && !in_array($userMailDomain[1], $whiteListMailDomain))) 
