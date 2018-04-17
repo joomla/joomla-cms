@@ -75,7 +75,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<?php // Begin Content ?>
 				<div id="element-box" class="login-box">
 					<div class="login-box-header">
-						<h2 class="text-center m-0"><?php echo $sitename; ?></h2>
+						<h1 class="text-center m-0"><?php echo $sitename; ?></h1>
 					</div>
 					<div class="login-box-body">
 						<jdoc:include type="message" />
