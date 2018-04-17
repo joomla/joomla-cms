@@ -87,7 +87,7 @@ Text::script('JHIDE');
 
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label class="text-white" for="lang" class="sr-only"><?php echo Text::_('JDEFAULTLANGUAGE'); ?></label>
+				<label class="text-white" for="lang" class="sr-only"><?php echo Text::_('MOD_LOGIN_LANGUAGE'); ?></label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
