@@ -228,6 +228,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
+		array('plugin', 'trust', 'twofactorauth', 0),
 		array('plugin', 'yubikey', 'twofactorauth', 0),
 
 		// Core plugin extensions - user

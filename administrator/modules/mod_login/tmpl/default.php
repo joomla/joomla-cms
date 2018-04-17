@@ -63,6 +63,11 @@ if ($langs)
 						</label>
 					</span>
 					<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
+					<?php if (JPluginHelper::isEnabled('twofactorauth', 'trust')) : ?>
+					<span class="hasTooltip" title="<?php echo JText::_('MOD_LOGIN_TRUST_THIS_DEVICE'); ?>" style="position:absolute;right:70px">
+						<input id="mod-login-trust" type="checkbox" name="trust" class="inputbox" value="yes" />
+					</span>
+					<?php endif; ?>
 					<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 						<span class="icon-help"></span>
 					</span>

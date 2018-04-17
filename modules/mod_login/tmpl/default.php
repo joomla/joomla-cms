@@ -82,6 +82,11 @@ JHtml::_('bootstrap.tooltip');
 
 			</div>
 		</div>
+			<?php if (JPluginHelper::isEnabled('twofactorauth', 'trust')) : ?>
+		<div id="form-login-trust" class="control-group checkbox">
+			<label for="modlgn-trust" class="control-label"><?php echo JText::_('MOD_LOGIN_TRUST_THIS_DEVICE'); ?></label> <input id="modlgn-trust" type="checkbox" name="trust" class="inputbox" value="yes"/>
+		</div>
+			<?php endif; ?>	
 		<?php endif; ?>
 		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 		<div id="form-login-remember" class="control-group checkbox">

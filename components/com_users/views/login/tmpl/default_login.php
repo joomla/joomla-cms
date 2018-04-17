@@ -56,6 +56,18 @@ JHtml::_('behavior.formvalidator');
 						<?php echo $this->form->getField('secretkey')->input; ?>
 					</div>
 				</div>
+				<?php if (JPluginHelper::isEnabled('twofactorauth', 'trust')) : ?>
+				<div class="control-group">
+					<div class="control-label">
+						<label for="trust">
+							<?php echo JText::_('COM_USERS_LOGIN_TRUST_THIS_DEVICE'); ?>
+						</label>
+					</div>
+					<div class="controls">
+						<input id="trust" type="checkbox" name="trust" class="inputbox" value="yes" />
+					</div>
+				</div>
+				<?php endif; ?>
 			<?php endif; ?>
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">
