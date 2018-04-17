@@ -86,6 +86,8 @@
       "field-module-order",
       "field-permissions",
       "field-simple-color",
+      "field-send-test-mail",
+      "editor-codemirror",
       "hidden-mail",
       "editor-none"
     ],
@@ -103,6 +105,10 @@
         "js": "media/system/webcomponents/js"
       },
       "field-send-test-mail": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "editor-codemirror": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },

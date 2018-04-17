@@ -8,7 +8,7 @@ if (!is_callable('sodiumCompatAutoloader')) {
      *
      * @return bool         Stop autoloading?
      */
-    function sodiumCompatAutoader($class)
+    function sodiumCompatAutoloader($class)
     {
         $namespace = 'ParagonIE_Sodium_';
         // Does the class use the namespace prefix?
@@ -34,7 +34,7 @@ if (!is_callable('sodiumCompatAutoloader')) {
     }
 
     // Now that we have an autoloader, let's register it!
-    spl_autoload_register('sodiumCompatAutoader');
+    spl_autoload_register('sodiumCompatAutoloader');
 }
 
 require_once dirname(__FILE__) . '/src/SodiumException.php';
