@@ -29,7 +29,7 @@ Text::script('JHIDE');
 	<fieldset>
 
 		<div class="form-group">
-			<label for="mod-login-username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
+			<label class="text-white" for="mod-login-username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
 			<div class="input-group">
 				<span class="input-group-prepend">
 					<span class="input-group-text"><span class="fa fa-user" aria-hidden="true"></span></span>
@@ -47,7 +47,7 @@ Text::script('JHIDE');
 		</div>
 
 		<div class="form-group">
-			<label for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+			<label class="text-white" for="mod-login-password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 			<div class="input-group">
 				<span class="input-group-prepend">
 					<span class="input-group-text">
@@ -68,7 +68,7 @@ Text::script('JHIDE');
 
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
-			<label for="mod-login-secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+			<label class="text-white" for="mod-login-secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 				<div class="input-group">
 					<span class="input-group-prepend">
 						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
@@ -87,13 +87,13 @@ Text::script('JHIDE');
 
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label for="lang" class="sr-only"><?php echo Text::_('JDEFAULTLANGUAGE'); ?></label>
+				<label class="text-white" for="lang" class="sr-only"><?php echo Text::_('JDEFAULTLANGUAGE'); ?></label>
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
 
 		<div class="form-group">
-			<button tabindex="5" class="btn btn-primary btn-block btn-lg" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button tabindex="5" class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 
 		<div class="text-center">

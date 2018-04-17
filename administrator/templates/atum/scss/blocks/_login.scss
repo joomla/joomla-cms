@@ -1,8 +1,18 @@
 // Login page
 
 .view-login {
-  background: color("indigo");
-
+  background: $atum-template-color;
+  background-image: url('../images/joomla-pattern.svg');
+  background-size: 200px;
+  .login-bg-grad {
+    position: fixed;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(45deg, 
+    rgba($atum-template-color-dark, .9) 30%, 
+    rgba($atum-template-color-light, .2) 100%);;
+  }
   .login-initial {
     display: none;
   }
@@ -19,7 +29,7 @@
   }
 
   .login {
-    width: 430px;
+    width: 410px;
 
     @include media-breakpoint-down(sm) {
       padding: 0 15px;
@@ -27,7 +37,8 @@
   }
 
   .login-box {
-    background: rgba($black, .07);
+    background: darken($atum-template-color-dark, 8%);
+    box-shadow: 0 0 20px rgba($atum-template-color-dark, 1);
 
     a {
       color: $white;
@@ -37,10 +48,14 @@
   .login-box-header {
     padding: 15px 0;
     background: $white;
+    h2 {
+      color: $atum-template-color-dark;
+      font-weight: 400;
+    }
   }
 
   .login-box-body {
-    padding: 20px 50px;
+    padding: 60px 50px;
 
     @include media-breakpoint-only(xs) {
       padding: 10px;

@@ -13,7 +13,7 @@ $gray-900:                         #212529;
 $black:                            #000;
 
 // BS Colours
-$blue:                             #0377be;
+$blue:                             #3073bb;
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -36,9 +36,9 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 // Global
-$atum-template-color:              #3887da;
-$atum-template-color-light:        #2e5a84;
-$atum-template-color-dark:         #28466a;
+$atum-template-color:              #3073BB;
+$atum-template-color-light:        #3b97f9;
+$atum-template-color-dark:         #2b5c91;
 $atum-container-main-bg:           #ebeff5;
 $atum-border-color:                #ccc;
 $atum-box-shadow:                  0 1px 2px rgba(0,0,0,0.25);
@@ -142,8 +142,8 @@ $state-danger-border:              darken(theme-color("danger"), 5%);
 
 // Input Group
 $input-group-addon-color:          $white;
-$input-group-addon-bg:             $atum-template-color-dark;
-$input-group-addon-border-color:   $atum-template-color-dark;
+$input-group-addon-bg:             $atum-template-color;
+$input-group-addon-border-color:   $atum-template-color;
 
 // Treeselect
 $treeselect-line-height:           2.2rem;
