@@ -371,4 +371,13 @@ export default {
             state.gridSize = gridItemSizes[--currentSizeIndex];
         }
     },
+
+    /**
+    * Set search query
+    * @param state
+    * @param query
+    */
+    [types.SET_SEARCH_QUERY]: (state, query) => {
+        state.search = query;
+    },
 }

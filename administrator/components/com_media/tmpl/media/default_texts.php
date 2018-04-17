@@ -37,6 +37,7 @@ JText::script('COM_MEDIA_OPEN_ITEM_ACTIONS', true);
 JText::script('COM_MEDIA_RENAME', true);
 JText::script('COM_MEDIA_RENAME_ERROR', true);
 JText::script('COM_MEDIA_RENAME_SUCCESS', true);
+JText::script('COM_MEDIA_SEARCH', true);
 JText::script('COM_MEDIA_SELECT_ALL', true);
 JText::script('COM_MEDIA_SERVER_ERROR', true);
 JText::script('COM_MEDIA_TOGGLE_INFO', true);

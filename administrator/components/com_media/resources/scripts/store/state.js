@@ -68,4 +68,6 @@ export default {
     showRenameModal: false,
     // The preview item
     previewItem: null,
+    // The Search Query
+    search: ''
 }
