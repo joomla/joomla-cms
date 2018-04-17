@@ -70,15 +70,12 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 */
 		if (!$isNew)
 		{
-			for ($i = 0; $i <= 15; $i++)
-			{
-				// Flush the maps for the link.
-				$query->clear()
-					->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-					->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-				$db->setQuery($query);
-				$db->execute();
-			}
+			// Flush the maps for the link.
+			$query->clear()
+				->delete($db->quoteName('#__finder_links_terms'))
+				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			$db->setQuery($query);
+			$db->execute();
 
 			// Remove the taxonomy maps.
 			FinderIndexerTaxonomy::removeMaps($linkId);
@@ -379,19 +376,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterTerms') : null;
 
 		/*
-		 * Before we can insert all of the mapping rows, we have to figure out
-		 * which mapping table the rows need to be inserted into. The mapping
-		 * table for each term is based on the first character of the md5 of
-		 * the first character of the term. In php, it would be expressed as
-		 * substr(md5(substr($token, 0, 1)), 0, 1)
-		 */
-		$query->clear()
-			->update($db->quoteName('#__finder_tokens_aggregate'))
-			->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
-		$db->setQuery($query);
-		$db->execute();
-
-		/*
 		 * At this point, the aggregate table contains a record for each
 		 * term in each context. So, we're going to pull down all of that
 		 * data while grouping the records by term and add all of the
@@ -399,29 +383,18 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * this link. Then, we insert all of that data into the appropriate
 		 * mapping table.
 		 */
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
-
-			/*
-			 * We have to run this query 16 times, one for each link => term
-			 * mapping table.
-			 */
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix) .
-				' (' . $db->quoteName('link_id') .
-				', ' . $db->quoteName('term_id') .
-				', ' . $db->quoteName('weight') . ')' .
-				' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
-				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
-				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
-				' ORDER BY ' . $db->quoteName('term') . ' DESC'
-			);
-			$db->execute();
-		}
+		$db->setQuery(
+			'INSERT INTO ' . $db->quoteName('#__finder_links_terms') .
+			' (' . $db->quoteName('link_id') .
+			', ' . $db->quoteName('term_id') .
+			', ' . $db->quoteName('weight') . ')' .
+			' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
+			' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
+			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
+			' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
+			' ORDER BY ' . $db->quoteName('term') . ' DESC'
+		);
+		$db->execute();
 
 		// Mark afterMapping in the profiler.
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
@@ -479,14 +452,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links'));
 		$db->execute();
 
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Optimize the terms mapping table.
-			$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-			$db->execute();
-			$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
-			$db->execute();
-		}
+		// Optimize the terms mapping table.
+		$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links_terms'));
+		$db->execute();
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
+		$db->execute();
 
 		// Optimize the filters table.
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_filters'));
