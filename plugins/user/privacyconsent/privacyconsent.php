@@ -202,48 +202,53 @@ class PlgUserPrivacyconsent extends JPlugin
 			return;
 		}
 
-		// Get the user's ID
-		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+		$form = $this->app->input->post->get('jform', array(), 'array');
+		
+		if (isset($form['privacyconsent']['privacy']) && ($form['privacyconsent']['privacy']))
+		{	
+			// Get the user's ID
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-		// Get the user's IP address
-		$ip = $this->app->input->server->get('REMOTE_ADDR', '', 'string');
+			// Get the user's IP address
+			$ip = $this->app->input->server->get('REMOTE_ADDR', '', 'string');
 
-		// Get the user agent string
-		$userAgent = $this->app->input->server->get('HTTP_USER_AGENT', '', 'string');
+			// Get the user agent string
+			$userAgent = $this->app->input->server->get('HTTP_USER_AGENT', '', 'string');
 
-		// Create the user note
-		$userNote = (object) array(
-			'user_id'         => $userId,
-			'catid'           => 0,
-			'subject'         => Text::_('PLG_USER_PRIVACYCONSENT_SUBJECT'),
-			'body'            => Text::sprintf('PLG_USER_PRIVACYCONSENT_BODY', $ip, $userAgent),
-			'state'           => 1,
-			'created_time'    => Factory::getDate()->toSql(),
-		);
+			// Create the user note
+			$userNote = (object) array(
+				'user_id'         => $userId,
+				'catid'           => 0,
+				'subject'         => Text::_('PLG_USER_PRIVACYCONSENT_SUBJECT'),
+				'body'            => Text::sprintf('PLG_USER_PRIVACYCONSENT_BODY', $ip, $userAgent),
+				'state'           => 1,
+				'created_time'    => Factory::getDate()->toSql(),
+			);
 
-		try
-		{
-			$this->db->insertObject('#__user_notes', $userNote);
-		}
-		catch (Exception $e)
-		{
-			// Do nothing if the save fails
-		}
+			try
+			{
+				$this->db->insertObject('#__user_notes', $userNote);
+			}
+			catch (Exception $e)
+			{
+				// Do nothing if the save fails
+			}
 
-		// Create the consent confirmation
-		$confirm = (object) array(
-			'user_id'       => $userId,
-			'profile_key'   => 'consent',
-			'profile_value' => 1
-		);
+			// Create the consent confirmation
+			$confirm = (object) array(
+				'user_id'       => $userId,
+				'profile_key'   => 'consent',
+				'profile_value' => 1
+			);
 
-		try
-		{
-			$this->db->insertObject('#__user_profiles', $confirm);
-		}
-		catch (Exception $e)
-		{
-			// Do nothing if the save fails
+			try
+			{
+				$this->db->insertObject('#__user_profiles', $confirm);
+			}
+			catch (Exception $e)
+			{
+				// Do nothing if the save fails
+			}
 		}
 
 		return true;
