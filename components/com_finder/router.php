@@ -22,7 +22,14 @@ use Joomla\CMS\Component\Router\Rules\StandardRules;
  */
 class FinderRouter extends RouterView
 {
-	public function __construct($app = null, $menu = null) {
+	/**
+	 * Content Component router constructor
+	 *
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
+	 */
+	public function __construct($app = null, $menu = null)
+	{
 		$search = new RouterViewConfiguration('search');
 		$this->registerView($search);
 
