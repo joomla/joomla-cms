@@ -273,10 +273,18 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
+			
+			// Title priority
+			$case_whenp  = ' CASE WHEN ';
+			$case_whenp .= $wheres2[0];
+			$case_whenp .= ' THEN 1 ';		
+			$case_whenp .= ' ELSE 0 ';
+			$case_whenp .= ' END as priority';
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
+				->select($case_whenp)
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->where(
@@ -286,7 +294,7 @@ class PlgSearchContent extends JPlugin
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
-				->order($order);
+				->order('priority DESC, ' . $order);
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
@@ -342,11 +350,18 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			// Title priority
+			$case_whenp  = ' CASE WHEN ';
+			$case_whenp .= $wheres2[0];
+			$case_whenp .= ' THEN 1 ';		
+			$case_whenp .= ' ELSE 0 ';
+			$case_whenp .= ' END as priority';
+	
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
 				. $case_when . ',' . $case_when1 . ', '
-				. 'c.title AS section, \'2\' AS browsernav'
+				. 'c.title AS section, \'2\' AS browsernav ' . $case_whenp
 			);
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
@@ -358,7 +373,7 @@ class PlgSearchContent extends JPlugin
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
-				->order($order);
+				->order('priority DESC, ' . $order);
 
 			// Join over Fields is no longer neded
 
