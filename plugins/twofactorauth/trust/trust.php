@@ -69,6 +69,7 @@ class PlgTwofactorauthTrust extends JPlugin
 					$filter = new JFilterInput;
 					$old_series = $filter->clean($cookieArray[1], 'ALNUM');
 				}
+
 				// Destroy the cookie in the browser anyway
 				$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 			}
@@ -105,7 +106,6 @@ class PlgTwofactorauthTrust extends JPlugin
 					}
 				}
 			}
-
 			while ($unique === false);
 
 			// Get the parameter values
@@ -233,6 +233,7 @@ class PlgTwofactorauthTrust extends JPlugin
 		{
 			// Destroy the cookie in the browser.
 			$this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+
 			return false;
 		}
 
