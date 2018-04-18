@@ -236,7 +236,8 @@ small,
   font-size: 0.8rem; }
 
 legend {
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+  font-weight: 700; }
 
 .j-main-container .alert {
   margin: 10px; }
