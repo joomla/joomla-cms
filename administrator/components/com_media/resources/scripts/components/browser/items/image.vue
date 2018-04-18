@@ -39,6 +39,10 @@
                     :aria-label="translate('COM_MEDIA_ACTION_EDIT')">
                     <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
                 </a>
+                <a href="#" class="action-url"
+                  :aria-label="translate('COM_MEDIA_ACTION_SHARE')">
+                    <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
+                </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
                     <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
@@ -98,6 +102,11 @@
             /* Toggle the item selection */
             toggleSelect() {
                 this.$store.dispatch('toggleBrowserItemSelect', this.item);
+            },
+            /* Open modal for share url */
+            openShareUrlModal() {
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+                this.$store.commit(types.SHOW_SHARE_MODAL);
             },
         }
     }

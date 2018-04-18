@@ -48,3 +48,7 @@ JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
 JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
 JText::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
+JText::script('COM_MEDIA_SHARE', true);
+JText::script('COM_MEDIA_SHARE_DESC', true);
+JText::script('COM_MEDIA_ACTION_SHARE', true);
+JText::script('COM_MEDIA_SHARE_COPY_FAILED_ERROR', true);

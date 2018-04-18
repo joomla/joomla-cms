@@ -351,6 +351,22 @@ export default {
     },
 
     /**
+     * Show the share modal
+     * @param state
+     */
+    [types.SHOW_SHARE_MODAL]: (state) => {
+        state.showShareModal = true;
+    },
+
+    /**
+     * Hide the share modal
+     * @param state
+     */
+    [types.HIDE_SHARE_MODAL]: (state) => {
+        state.showShareModal = false;
+    },
+
+    /**
      * Increase the size of the grid items
      * @param state
      */

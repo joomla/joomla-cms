@@ -64,6 +64,8 @@ export default {
     showCreateFolderModal: false,
     // The state of preview model
     showPreviewModal: false,
+    // The state of share model
+    showShareModal: false,
     // The state of  model
     showRenameModal: false,
     // The preview item
