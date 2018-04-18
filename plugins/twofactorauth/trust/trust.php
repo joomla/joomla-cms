@@ -33,7 +33,7 @@ class PlgTwofactorauthTrust extends JPlugin
 	protected $db;
 
 	/**
-	 * Set the trust this device cookie only after login is successfullly finished.
+	 * Set the trust this device cookie only after login is successfully finished.
 	 *
 	 * @param   array  $options  Array holding options
 	 *
