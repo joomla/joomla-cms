@@ -83,7 +83,7 @@ class ContentModelFeatured extends ContentModelArticles
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
 					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
-				)
+			)
 		);
 		$query->from('#__content AS a');
 
