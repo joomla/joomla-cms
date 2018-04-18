@@ -94,77 +94,23 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Show the feature/unfeature links
 	 *
-	 * @param   integer  $value          The state value
-	 * @param   integer  $i              Row number
-	 * @param   boolean  $canChange      Is user allowed to change?
-	 * @param   string   $featured_up    An optional start featured date.
-	 * @param   string   $featured_down  An optional finish featured date.
+	 * @param   integer  $value      The state value
+	 * @param   integer  $i          Row number
+	 * @param   boolean  $canChange  Is user allowed to change?
 	 *
 	 * @return  string       HTML code
 	 */
-	public static function featured($value = 0, $i, $canChange = true, $featured_up = null, $featured_down = null)
+	public static function featured($value = 0, $i, $canChange = true)
 	{
 		JHtml::_('bootstrap.tooltip');
 
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JLIB_HTML_FEATURED_ITEM'),
+			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-
-		// Special state for dates
-		if (((int) $value == 1) && ($featured_up || $featured_down))
-		{
-			$nullDate = JFactory::getDbo()->getNullDate();
-			$nowDate = JFactory::getDate()->toUnix();
-
-			$tz = JFactory::getUser()->getTimezone();
-
-			$featured_up = ($featured_up != $nullDate) ? JFactory::getDate($featured_up, 'UTC')->setTimeZone($tz) : false;
-			$featured_down = ($featured_down != $nullDate) ? JFactory::getDate($featured_down, 'UTC')->setTimeZone($tz) : false;
-
-			// Create tip text, only we have featured up or down settings
-			$tips = array();
-
-			// Add tips and set icon
-			if ($featured_up > $nullDate)
-			{
-				if ($nowDate < $featured_up->toUnix())
-				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_START', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
-					$state[0] = 'pending';
-				}
-				else
-				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
-				}
-			}
-
-			if ($featured_down > $nullDate)
-			{
-				if ($nowDate > $featured_down->toUnix())
-				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISHED', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
-					$state[0] = 'expired';
-				}
-				else
-				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
-				}
-			}
-
-			// Add tips to titles
-			if (!empty($tips))
-			{
-				$tip = implode('<br />', $tips);
-				$state[1] = JText::_($state[1]);
-				$state[2] = JText::_($state[2]) . '<br />' . $tip;
-				$state[3] = JText::_($state[3]) . '<br />' . $tip;
-			}
-		}
-
-		$icon = $state[0];
+		$icon  = $state[0];
 
 		if ($canChange)
 		{

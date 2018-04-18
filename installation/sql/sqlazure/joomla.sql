@@ -491,8 +491,6 @@ CREATE TABLE "#__content" (
   "hits" bigint NOT NULL DEFAULT 0,
   "metadata" nvarchar(max) NOT NULL,
   "featured" tinyint NOT NULL DEFAULT 0,
-  "featured_up" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
-  "featured_down" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "language" nvarchar(7) NOT NULL,
   "xreference" nvarchar(50) NOT NULL DEFAULT '',
  CONSTRAINT "PK_#__content_id" PRIMARY KEY CLUSTERED

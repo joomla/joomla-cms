@@ -256,30 +256,6 @@
 			<option value="0">JNO</option>
 		</field>
 
-		<field
-			name="featured_up"
-			type="calendar"
-			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
-			description="COM_CONTENT_FIELD_FEATURED_UP_DESC"
-			translateformat="true"
-			showtime="true"
-			size="22"
-			filter="user_utc" 
-			showon="featured:1"
-		/>
-
-		<field
-			name="featured_down"
-			type="calendar"
-			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
-			description="COM_CONTENT_FIELD_FEATURED_DOWN_DESC"
-			translateformat="true"
-			showtime="true"
-			size="22"
-			filter="user_utc" 
-			showon="featured:1"
-		/>
-
 		<field 
 			name="rules" 
 			type="rules" 

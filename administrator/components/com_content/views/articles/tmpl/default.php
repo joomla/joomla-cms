@@ -164,7 +164,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						<td class="center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange, $item->featured_up, $item->featured_down); ?>
+								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{

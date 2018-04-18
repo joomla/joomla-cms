@@ -102,8 +102,6 @@ CREATE TABLE `jos_content` (
   `hits` INTEGER NOT NULL DEFAULT '0',
   `metadata` TEXT NOT NULL DEFAULT '',
   `featured` INTEGER NOT NULL DEFAULT '0',
-  `featured_up` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `featured_down` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` TEXT NOT NULL DEFAULT '',
   `xreference` TEXT NOT NULL DEFAULT ''
 );

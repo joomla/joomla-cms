@@ -123,8 +123,6 @@ CREATE TABLE "jos_content" (
   "metadata" text NOT NULL,
   -- Set if article is featured.
   "featured" smallint DEFAULT 0 NOT NULL,
-  "featured_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "featured_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   -- The language code for the article.
   "language" character(7) NOT NULL,
   -- A reference to enable linkages to external data sets.
