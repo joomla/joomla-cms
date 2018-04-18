@@ -71,7 +71,7 @@ else
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
-$container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
+$wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
@@ -84,7 +84,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 </head>
 
 <body class="site-grid site <?php echo $option
-	. ' ' . $container
+	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')

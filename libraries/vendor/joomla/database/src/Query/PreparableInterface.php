@@ -8,6 +8,8 @@
 
 namespace Joomla\Database\Query;
 
+use Joomla\Database\ParameterType;
+
 /**
  * Joomla Database Query Preparable Interface.
  *
@@ -33,7 +35,7 @@ interface PreparableInterface
 	 *
 	 * @since   1.0
 	 */
-	public function bind($key = null, &$value = null, $dataType = \PDO::PARAM_STR, $length = 0, $driverOptions = []);
+	public function bind($key = null, &$value = null, $dataType = ParameterType::STRING, $length = 0, $driverOptions = []);
 
 	/**
 	 * Retrieves the bound parameters array when key is null and returns it by reference. If a key is provided then that item is returned.
