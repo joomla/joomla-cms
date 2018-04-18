@@ -79,10 +79,8 @@ abstract class ContentHelperRoute
 				$link .= '&lang=' . $language;
 			}
 
-			$jinput = JFactory::getApplication()->input;
-			$layout = $jinput->get('layout');
-
-			if ($layout !== '')
+			$layout = JFactory::getApplication()->input->get('layout', '', 'string');
+			if (!empty($layout))
 			{
 				$link .= '&layout=' . $layout;
 			}
