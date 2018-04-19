@@ -197,9 +197,10 @@ class User extends Table
 		}
 		
 		// Block using registration emails to send spam/malware/phishing emails with embedded links 
-		if (preg_match('#https?#', $this->username) || preg_match('#https?#', $this->name))
+		// The regex blocks :// (as in http:// https:// ftp:// etc.) www. and ftp. in the username/name
+		if (preg_match('#(:\/\/|\bwww.|\bftp.)#i', $this->username) || preg_match('#(:\/\/|\bwww.|\bftp.)#i', $this->name))
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_USERNAME_NAME_MUST_NOT_CONTAIN_LINKS', 2));
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_NAME_MUST_NOT_CONTAIN_LINKS'));
 
 			return false;			
 		}
