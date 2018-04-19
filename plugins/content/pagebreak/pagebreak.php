@@ -319,7 +319,7 @@ class PlgContentPagebreak extends JPlugin
 			$list[$i]->class   = ($showall === 1) ? 'toclink active' : 'toclink';
 			$list[$i]->title   = JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 		}
-		
+
 		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
