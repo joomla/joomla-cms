@@ -55,12 +55,18 @@ Joomla = window.Joomla || {};
 		initialize(selector);
 	};
 
-	document.addEventListener('DOMContentLoaded',  function() {
-
+	var init = function() {
 		if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-image-caption')) {
 			if (Joomla.getOptions('js-image-caption').selector) {
 				new Joomla.JCaption(Joomla.getOptions('js-image-caption').selector);
 			}
 		}
-	});
+	};
+
+	if (document.readyState !== "loading") {
+		init();
+	} else {
+		document.addEventListener("DOMContentLoaded", init);
+	}
+
 })(Joomla);
