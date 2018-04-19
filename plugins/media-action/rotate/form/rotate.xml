@@ -3,11 +3,11 @@
 	<fieldset name="Rotate" label="PLG_MEDIA-ACTION_ROTATE_LABEL">
 		<field
 			name="rotate_quality"
-			type="integer"
+			type="number"
 			label="PLG_MEDIA-ACTION_ROTATE_QUALITY"
 			addonBefore="PLG_MEDIA-ACTION_ROTATE_QUALITY"
-			first="1"
-			last="100"
+			min="1"
+			max="100"
 			step="1"
 			default="80"
 		/>
@@ -18,24 +18,27 @@
 		/>
 
 		<field
-			name="rotate_angle"
-			type="text"
+			name="rotate_a"
+			type="number"
 			label="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
-			hiddenLabel="true"
-			addonBefore="PLG_MEDIA-ACTION_ROTATE_PARAM_ANGLE"
-			addonAfter=""
-			pattern="\d*\.?\d*"
+			min="0"
+			max="360"
+			step="1"
 			default="0"
 		/>
 
 		<field
-			name="rotate_a"
-			type="range"
-			label=""
-			value="0"
-			min="0"
-			max="360"
-			labelclass="d-none"
-		/>
+			name="rotate_distinct"
+			type="radio"
+			hiddenLabel="true"
+			class="btn-group btn-group-rotate"
+			default=""
+			>
+			<option value="0">0</option>
+			<option value="90">90</option>
+			<option value="180">180</option>
+			<option value="270">270</option>
+		</field>
+
 	</fieldset>
 </form>

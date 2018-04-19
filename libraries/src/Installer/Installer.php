@@ -955,6 +955,10 @@ class Installer extends \JAdapter
 			{
 				$fDriver = 'mysql';
 			}
+			elseif ($fDriver === 'pgsql')
+			{
+				$fDriver = 'postgresql';
+			}
 
 			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
 			{
@@ -1040,12 +1044,7 @@ class Installer extends \JAdapter
 
 			if (count($schemapaths))
 			{
-				$dbDriver = strtolower($db->name);
-
-				if ($db->getServerType() === 'mysql')
-				{
-					$dbDriver = 'mysql';
-				}
+				$dbDriver = $db->getServerType();
 
 				$schemapath = '';
 
@@ -1121,6 +1120,10 @@ class Installer extends \JAdapter
 					if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
 					{
 						$uDriver = 'mysql';
+					}
+					elseif ($uDriver === 'pgsql')
+					{
+						$uDriver = 'postgresql';
 					}
 
 					if ($uDriver == $dbDriver)

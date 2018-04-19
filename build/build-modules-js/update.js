@@ -211,12 +211,6 @@ copyFiles = (options) => {
 				let dest  = Path.join(mediaVendorPath, vendorName);
 				fsExtra.copySync(Path.join(rootPath, 'node_modules/' + packageName) + '/' + options.settings.vendors[packageName].licenseFilename, dest + '/' + options.settings.vendors[packageName].licenseFilename);
 			}
-
-			if (packageName === 'joomla-ui-custom-elements') {
-				if (fs.existsSync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'))) {
-					fsExtra.copySync(Path.join(rootPath, 'node_modules/joomla-ui-custom-elements/dist/polyfills'), Path.join(rootPath, 'media/system/js/polyfills/webcomponents'));
-				}
-			}
 		}
 
 		registry.vendors[vendorName] = registryItem;
