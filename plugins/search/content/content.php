@@ -361,7 +361,7 @@ class PlgSearchContent extends JPlugin
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
 				. $case_when . ',' . $case_when1 . ', '
-				. 'c.title AS section, \'2\' AS browsernav ' . $case_whenp
+				. 'c.title AS section, \'2\' AS browsernav, ' . $case_whenp
 			);
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
