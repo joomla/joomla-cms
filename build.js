@@ -20,6 +20,7 @@ Program
 	.option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
 	.option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
 	.option('--compilecescss, --compilecescss path', 'Compiles/traspiles all the custom elements files')
+	.option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
 	.option('--installer', 'Creates the language file for installer error page')
 	.on('--help', () => {
 		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
@@ -56,12 +57,20 @@ if (Program.installer) {
 
 // Convert scss to css
 if (Program['compilecss']) {
-	css.css(options, Program.args[0])
+	if (Program['watch']) {
+		css.watch(options, null, true);
+	} else {
+		css.css(options, Program.args[0])
+	}
 }
 
 // Compress/transpile the javascript files
 if (Program['compilejs']) {
-	Js.js(options, Program.args[0])
+	if (Program['watch']) {
+		Js.watch(options, null, false);
+	} else {
+		Js.js(options, Program.args[0])
+	}
 }
 
 // Compress/transpile the Custom Elements files

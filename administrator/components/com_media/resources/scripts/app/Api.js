@@ -169,7 +169,7 @@ class Api {
     }
 
     /**
-     * Upload a file
+     * Delete a file
      * @param path
      * @return {Promise.<T>}
      */

@@ -41,9 +41,13 @@ class SampleField extends RadioField
 		$type    = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
-		if ($type === 'mysqli' || $type === 'pdomysql')
+		if ($type === 'mysqli')
 		{
 			$type = 'mysql';
+		}
+		elseif ($type === 'pgsql')
+		{
+			$type = 'postgresql';
 		}
 
 		// Get a list of files in the search path with the given filter.

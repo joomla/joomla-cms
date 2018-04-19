@@ -92,6 +92,12 @@ class PlgSystemFields extends CMSPlugin
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
+			// JSON encode value for complex fields
+			if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+			{
+				$value = json_encode($value);
+			}
+
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
 		}
@@ -319,6 +325,15 @@ class PlgSystemFields extends CMSPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
@@ -396,7 +411,18 @@ class PlgSystemFields extends CMSPlugin
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
 		$item->jcfields = array();
@@ -466,5 +492,29 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }

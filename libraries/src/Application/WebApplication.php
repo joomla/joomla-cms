@@ -15,6 +15,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -316,7 +317,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
+		}
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity($session->get('user'));
 		}
 	}
 

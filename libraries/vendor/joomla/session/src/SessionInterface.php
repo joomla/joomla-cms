@@ -92,6 +92,32 @@ interface SessionInterface extends \IteratorAggregate
 	public function isStarted();
 
 	/**
+	 * Get a session token.
+	 *
+	 * Tokens are used to secure forms from spamming attacks. Once a token has been generated the system will check the request to see if
+	 * it is present, if not it will invalidate the session.
+	 *
+	 * @param   boolean  $forceNew  If true, forces a new token to be created
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getToken($forceNew = false);
+
+	/**
+	 * Check if the session has the given token.
+	 *
+	 * @param   string   $token        Hashed token to be verified
+	 * @param   boolean  $forceExpire  If true, expires the session
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasToken($token, $forceExpire = true);
+
+	/**
 	 * Get data from the session store
 	 *
 	 * @param   string  $name     Name of a variable

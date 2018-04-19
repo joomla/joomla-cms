@@ -409,7 +409,7 @@ abstract class ArticlesCategoryHelper
 
 		if (!is_array($list))
 		{
-			if ($list == '')
+			if ($list === '')
 			{
 				return $grouped;
 			}
@@ -459,7 +459,7 @@ abstract class ArticlesCategoryHelper
 
 		if (!is_array($list))
 		{
-			if ($list == '')
+			if ($list === '')
 			{
 				return $grouped;
 			}
