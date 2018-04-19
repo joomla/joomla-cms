@@ -7711,6 +7711,9 @@ textarea.noResize {
 .view-login .navbar-fixed-bottom {
 	position: absolute;
 }
+.view-login .input-submedium {
+	width: 137px;
+}
 .view-login .input-medium {
 	width: 176px;
 }
