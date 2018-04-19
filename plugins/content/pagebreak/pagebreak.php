@@ -271,7 +271,7 @@ class PlgContentPagebreak extends JPlugin
 
 		// TOC first Page link.
 		$list[1]          = new stdClass;
-		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';;
+		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
 		$list[1]->class   = $list[1]->liClass;
 		$list[1]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=');
 		$list[1]->title   = $heading;
