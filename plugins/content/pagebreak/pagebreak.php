@@ -315,7 +315,7 @@ class PlgContentPagebreak extends JPlugin
 		{
 			$list[$i]          = new stdClass;
 			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$list[$i]->liClass = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$list[$i]->liClass = ($limitstart === $i - 1) ? 'active' : '';
 			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 			$list[$i]->title   = JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 		}
