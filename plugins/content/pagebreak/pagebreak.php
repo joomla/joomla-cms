@@ -305,7 +305,7 @@ class PlgContentPagebreak extends JPlugin
 			$list[$i]          = new stdClass;
 			$list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1));
 			$list[$i]->title   = $title;
-			$list[$i]->liClass = ($limitstart === $i - 1) ? ' class="active"' : '';
+			$list[$i]->liClass = ($limitstart === $i - 1) ? 'active' : '';
 			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 
 			$i++;
