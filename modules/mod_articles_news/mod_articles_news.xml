@@ -59,8 +59,8 @@
 				<field
 					name="img_intro_full"
 					type="list"
-					label="MOD_ARTICLES_NEWS_FIELD_IMG_INTRO_FULL_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_IMG_INTRO_FULL_DESC"
+					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
 					default="none"
 					>
 					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
