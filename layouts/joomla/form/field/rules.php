@@ -92,9 +92,10 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</div>
 
 	<?php // Initial Active Pane ?>
+	<div class="tab-content col-md-9">
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
+			<div class="tab-pane<?php echo $active; ?>" id="permission-<?php echo $group->value; ?>">
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -234,7 +235,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-			</section>
+			</div>
 		<?php endforeach; ?>
 	</div>
 </joomla-field-permissions>
@@ -251,4 +252,3 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	}
 	?>
 </joomla-alert>
-
