@@ -8,8 +8,6 @@
 
 namespace Joomla\Database\Sqlite;
 
-use Joomla\Database\DatabaseEvents;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Database\Pdo\PdoDriver;
 
 /**
@@ -68,7 +66,7 @@ class SqliteDriver extends PdoDriver
 
 		$this->connection->sqliteCreateFunction(
 			'ROW_NUMBER',
-			function($init = null)
+			function ($init = null)
 			{
 				static $rownum, $partition;
 
@@ -98,21 +96,6 @@ class SqliteDriver extends PdoDriver
 				return $rownum;
 			}
 		);
-	}
-
-	/**
-	 * Disconnects the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disconnect()
-	{
-		$this->freeResult();
-		$this->connection = null;
-
-		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_DISCONNECT, $this));
 	}
 
 	/**
@@ -308,7 +291,7 @@ class SqliteDriver extends PdoDriver
 
 		$type = 'table';
 
-		/** @type SqliteQuery $query */
+		/** @var SqliteQuery $query */
 		$query = $this->getQuery(true);
 		$query->select('name');
 		$query->from('sqlite_master');

@@ -9,19 +9,28 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Whosonline\Site\Helper\WhosonlineHelper;
 
-$showmode = $params->get('showmode', 0);
-
-if ($showmode == 0 || $showmode == 2)
+// Check if session metadata tracking is enabled
+if (Factory::getConfig()->get('session_metadata', true))
 {
-	$count = WhosonlineHelper::getOnlineCount();
-}
+	$showmode = $params->get('showmode', 0);
 
-if ($showmode > 0)
+	if ($showmode == 0 || $showmode == 2)
+	{
+		$count = WhosonlineHelper::getOnlineCount();
+	}
+
+	if ($showmode > 0)
+	{
+		$names = WhosonlineHelper::getOnlineUserNames($params);
+	}
+
+	require ModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));
+}
+else
 {
-	$names = WhosonlineHelper::getOnlineUserNames($params);
+	require ModuleHelper::getLayoutPath('mod_whosonline', 'disabled');
 }
-
-require ModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

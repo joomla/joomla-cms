@@ -34,6 +34,9 @@
     max-height: 70vh;
   }
   .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     background-color: transparent;
     border: 0;
     box-shadow: none;

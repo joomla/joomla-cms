@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Crypt Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\Crypt\Exception;
 /**
  * Exception representing an invalid Joomla\Crypt\Key type for a cipher
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.4.0
  */
 class InvalidKeyTypeException extends \InvalidArgumentException
 {
@@ -21,7 +21,7 @@ class InvalidKeyTypeException extends \InvalidArgumentException
 	 * @param   string  $expectedKeyType  The expected key type.
 	 * @param   string  $actualKeyType    The actual key type.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.4.0
 	 */
 	public function __construct($expectedKeyType, $actualKeyType)
 	{

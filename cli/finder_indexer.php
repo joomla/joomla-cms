@@ -38,10 +38,6 @@ define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_f
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Configure error reporting to maximum for CLI output.
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Load Library language
 $lang = JFactory::getLanguage();
 

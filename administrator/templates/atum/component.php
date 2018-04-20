@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 $lang = Factory::getLanguage();
 
 // Alerts
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');

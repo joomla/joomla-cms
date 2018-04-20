@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
  * Component helper class
@@ -345,40 +344,9 @@ class ComponentHelper
 			throw new MissingComponentException(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		// Handle template preview outlining.
-		$contents = null;
-
-		// Check if we have a dispatcher
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
-		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
-			$class = ucwords($file) . 'Dispatcher';
-
-			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
-			{
-				throw new \LogicException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $option), 500);
-			}
-
-			// Dispatch the component.
-			$contents = static::dispatchComponent(new $class($app, $app->input));
-		}
-		else
-		{
-			$path = JPATH_COMPONENT . '/' . $file . '.php';
-
-			// If component file doesn't exist throw error
-			if (!file_exists($path))
-			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
-			}
-
-			// Load common and local language files.
-			$lang->load($option, JPATH_BASE, null, false, true) || $lang->load($option, JPATH_COMPONENT, null, false, true);
-
-			// Execute the component.
-			$contents = static::executeComponent($path);
-		}
+		ob_start();
+		$app->bootComponent($option)->getDispatcher($app)->dispatch();
+		$contents = ob_get_clean();
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -387,41 +355,6 @@ class ComponentHelper
 		{
 			\JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
 		}
-
-		return $contents;
-	}
-
-	/**
-	 * Execute the component.
-	 *
-	 * @param   string  $path  The component path.
-	 *
-	 * @return  string  The component output
-	 *
-	 * @since   1.7
-	 */
-	protected static function executeComponent($path)
-	{
-		ob_start();
-		require_once $path;
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Dispatch the component.
-	 *
-	 * @param   DispatcherInterface  $dispatcher  The dispatcher class.
-	 *
-	 * @return  string  The component output
-	 *
-	 * @since   4.0.0
-	 */
-	protected static function dispatchComponent(DispatcherInterface $dispatcher): string
-	{
-		ob_start();
-		$dispatcher->dispatch();
-		$contents = ob_get_clean();
 
 		return $contents;
 	}
