@@ -39,7 +39,7 @@ abstract class JHtmlUiTab
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include the custom element
-			JHtml::_('webcomponent', ['joomla-tab' => 'system/webcomponents/joomla-tab.min.js'], ['relative' => true, 'version' => 'auto']);
+			JHtml::_('webcomponent', 'system/webcomponents/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
