@@ -10,6 +10,7 @@ namespace Joomla\Component\Content\Administrator\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\DI\Container;
@@ -32,6 +33,10 @@ class Component extends \Joomla\CMS\Extension\Service\Provider\Component
 	 */
 	public function createComponentClass(Container $container): ComponentInterface
 	{
-		return new ContentComponent;
+		$component = new ContentComponent;
+
+		$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+
+		return $component;
 	}
 }
