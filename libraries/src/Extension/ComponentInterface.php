@@ -59,13 +59,4 @@ interface ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getCategories(array $options = [], $section = '');
-
-	/**
-	 * Returns the associations extension helper class.
-	 *
-	 * @return  AssociationExtensionInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAssociationsExtension();
 }

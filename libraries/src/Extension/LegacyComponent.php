@@ -115,37 +115,4 @@ class LegacyComponent implements ComponentInterface
 
 		return new $classname($options);
 	}
-
-	/**
-	 * Returns the associations helper.
-	 *
-	 * @return  AssociationExtensionInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAssociationsExtension()
-	{
-		$className = ucfirst($this->component) . 'AssociationsHelper';
-
-		if (class_exists($className))
-		{
-			return new $className;
-		}
-
-		// Check if associations helper exists
-		if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php'))
-		{
-			return null;
-		}
-
-		require_once JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/associations.php';
-
-		if (!class_exists($className))
-		{
-			return null;
-		}
-
-		// Return an instance of the helper class
-		return new $className;
-	}
 }

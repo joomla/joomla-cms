@@ -51,15 +51,6 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
-	 * The association extension.
-	 *
-	 * @var AssociationExtensionInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $associationExtension;
-
-	/**
 	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
@@ -165,31 +156,5 @@ class Component implements ComponentInterface
 	public function setCategories(array $categories)
 	{
 		$this->categories = $categories;
-	}
-
-	/**
-	 * Returns the associations helper.
-	 *
-	 * @return  AssociationExtensionInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAssociationsExtension()
-	{
-		return $this->associationExtension;
-	}
-
-	/**
-	 * The association extension.
-	 *
-	 * @param   AssociationExtensionInterface  $associationExtension  The extension
-	 *
-	 * @return void
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
-	{
-		$this->associationExtension = $associationExtension;
 	}
 }
