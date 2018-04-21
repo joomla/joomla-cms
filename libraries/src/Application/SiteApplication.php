@@ -383,7 +383,7 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = 'site', $options = array())
+	public function getPathway($name = null, $options = array())
 	{
 		return parent::getPathway($name, $options);
 	}
