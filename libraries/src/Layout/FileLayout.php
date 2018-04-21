@@ -469,8 +469,8 @@ class FileLayout extends BaseLayout
 
 		$this->options->set('component', $component);
 
-		// Refresh include paths
-		$this->refreshIncludePaths();
+		// Clear include paths
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -504,8 +504,8 @@ class FileLayout extends BaseLayout
 
 		$this->options->set('client', $client);
 
-		// Refresh include paths
-		$this->refreshIncludePaths();
+		// Clear include paths
+		$this->clearIncludePaths();
 	}
 
 	/**
