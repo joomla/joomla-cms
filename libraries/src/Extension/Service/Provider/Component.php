@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
-use Joomla\CMS\Extension\AssociationServiceInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\DI\Container;
@@ -24,28 +23,18 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Component implements ServiceProviderInterface
+abstract class Component implements ServiceProviderInterface
 {
 	/**
-	 * The component class name
+	 * Creates the ComponentInterface instance.
 	 *
-	 * @var  string
+	 * @param   Container  $container  The DI container.
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $componentClassName;
-
-	/**
-	 * Component service provider constructor.
-	 *
-	 * @param   string  $componentClassName  The component class name
+	 * @return  ComponentInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $componentClassName)
-	{
-		$this->componentClassName = $componentClassName;
-	}
+	public abstract function createComponentClass(Container $container): ComponentInterface;
 
 	/**
 	 * Registers the service provider with a DI container.
@@ -62,7 +51,7 @@ class Component implements ServiceProviderInterface
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new $this->componentClassName;
+				$component = $this->createComponentClass($container);
 
 				if ($container->has(Categories::class))
 				{

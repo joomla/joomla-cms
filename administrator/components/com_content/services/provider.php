@@ -14,14 +14,13 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactory;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
-use Joomla\CMS\Extension\Service\Provider\Component;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+use Joomla\Component\Content\Administrator\Service\Provider\Component;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -65,6 +64,6 @@ return new class implements ServiceProviderInterface
 			DispatcherFactoryInterface::class,
 			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
 		);
-		$container->registerServiceProvider(new Component(ContentComponent::class));
+		$container->registerServiceProvider(new Component);
 	}
 };
