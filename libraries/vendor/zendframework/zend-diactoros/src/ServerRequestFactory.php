@@ -244,9 +244,7 @@ abstract class ServerRequestFactory
         ) {
             $scheme = 'https';
         }
-        if (! empty($scheme)) {
-            $uri = $uri->withScheme($scheme);
-        }
+        $uri = $uri->withScheme($scheme);
 
         // Set the host
         $accumulator = (object) ['host' => '', 'port' => null];

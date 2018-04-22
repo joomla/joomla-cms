@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
-
+use Joomla\CMS\Factory;
 /**
  * Content Component HTML Helper
  *
@@ -134,8 +134,8 @@ class Icon
 	 */
 	public function edit($article, $params, $attribs = array(), $legacy = false)
 	{
-		$user = JFactory::getUser();
-		$uri  = JUri::getInstance();
+		$user = Factory::getUser();
+		$uri  = Uri::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))

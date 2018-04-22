@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Input\Cli;
+use Joomla\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -132,6 +132,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Throwable
 	 */
 	public function execute()
 	{
@@ -165,7 +166,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  CommandInterface[]
+	 * @return  \Joomla\Console\CommandInterface[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -179,6 +180,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\RemoveOldFilesCommand,
 			]
 		);
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**
