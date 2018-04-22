@@ -79,9 +79,10 @@ abstract class ContentHelperRoute
 				$link .= '&lang=' . $language;
 			}
 
-			$component = JFactory::getApplication()->input->get('option', '', 'CMD');
-			$view      = JFactory::getApplication()->input->get('view', '', 'CMD');
-			$layout    = JFactory::getApplication()->input->get('layout', '', 'string');
+			$app       = JFactory::getApplication();
+			$component = $app->input->get('option', '', 'CMD');
+			$view      = $app->input->get('view', '', 'CMD');
+			$layout    = $app->input->get('layout', '', 'string');
 
 			if ($component === 'com_content' && $view === 'category' && $layout)
 			{
