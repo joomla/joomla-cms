@@ -1312,7 +1312,7 @@ class ComponentAdapter extends InstallerAdapter
 	 * @param   array    &$data     The menu item data to create
 	 * @param   integer  $parentId  The parent menu item ID
 	 *
-	 * @return  bool|int  Menu item ID on success, false on failure
+	 * @return  boolean|integer  Menu item ID on success, false on failure
 	 */
 	protected function _createAdminMenuItem(array &$data, $parentId)
 	{

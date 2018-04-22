@@ -71,7 +71,7 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getString('view');
+			$this->view = \JFactory::getApplication()->input->getCmd('view');
 			$this->extension = \JFactory::getApplication()->input->getCmd('option');
 		}
 
