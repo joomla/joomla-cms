@@ -62,11 +62,6 @@ abstract class Component implements ServiceProviderInterface
 					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
 				}
 
-				if ($container->has(MVCFactoryFactoryInterface::class))
-				{
-					$component->setMvcFactory($container->get(MVCFactoryFactoryInterface::class));
-				}
-
 				return $component;
 			}
 		);

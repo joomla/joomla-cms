@@ -35,17 +35,6 @@ interface ComponentInterface
 	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 
 	/**
-	 * Returns an MVCFactory.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 *
-	 * @return  MVCFactoryInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface;
-
-	/**
 	 * Returns the category service. If the service is not available
 	 * null is returned.
 	 *

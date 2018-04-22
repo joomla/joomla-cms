@@ -15,8 +15,10 @@ use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\Component;
-use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryAwareInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 
@@ -25,8 +27,10 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ContentComponent extends Component implements BootableExtensionInterface, AssociationServiceInterface, HTMLRegistryAwareInterface
+class ContentComponent extends Component implements
+	BootableExtensionInterface, MVCFactoryServiceInterface, AssociationServiceInterface
 {
+	use MVCFactoryFactoryAwareTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
 
