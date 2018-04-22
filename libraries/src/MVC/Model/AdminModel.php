@@ -38,6 +38,14 @@ abstract class AdminModel extends FormModel
 	protected $text_prefix = null;
 
 	/**
+	 * The event to trigger after processing batch function.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_after_batch = null;
+
+	/**
 	 * The event to trigger after deleting the data.
 	 *
 	 * @var    string
@@ -52,6 +60,14 @@ abstract class AdminModel extends FormModel
 	 * @since  1.6
 	 */
 	protected $event_after_save = null;
+
+	/**
+	 * The event to trigger before processing batch function.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_before_batch = null;
 
 	/**
 	 * The event to trigger before deleting the data.
@@ -175,6 +191,15 @@ abstract class AdminModel extends FormModel
 	{
 		parent::__construct($config);
 
+		if (isset($config['event_after_batch']))
+		{
+			$this->event_after_batch = $config['event_after_batch'];
+		}
+		elseif (empty($this->event_after_batch))
+		{
+			$this->event_after_batch = 'onContentAfterBatch';
+		}
+
 		if (isset($config['event_after_delete']))
 		{
 			$this->event_after_delete = $config['event_after_delete'];
@@ -191,6 +216,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_after_save))
 		{
 			$this->event_after_save = 'onContentAfterSave';
+		}
+
+		if (isset($config['event_before_batch']))
+		{
+			$this->event_before_batch = $config['event_before_batch'];
+		}
+		elseif (empty($this->event_before_batch))
+		{
+			$this->event_before_batch = 'onContentBeforeBatch';
 		}
 
 		if (isset($config['event_before_delete']))
@@ -277,6 +311,11 @@ abstract class AdminModel extends FormModel
 		// Initialize re-usable member properties
 		$this->initBatch();
 
+		// Include the plugins for the batch events.
+		\JPluginHelper::importPlugin($this->events_map['batch']);
+
+		$dispatcher = \JEventDispatcher::getInstance();
+
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
 			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
@@ -311,10 +350,21 @@ abstract class AdminModel extends FormModel
 		{
 			if (!empty($commands[$identifier]))
 			{
+				// Trigger the before batch event.
+				$result = $dispatcher->trigger($this->event_before_batch, array($identifier, $commands[$identifier], &$pks, &$contexts));
+
+				if (in_array(false, $result, true))
+				{
+					return false;
+				}
+
 				if (!$this->$command($commands[$identifier], $pks, $contexts))
 				{
 					return false;
 				}
+
+				// Trigger the after batch event.
+				$dispatcher->trigger($this->event_after_batch, array($identifier, $commands[$identifier], $pks, $contexts));
 
 				$done = true;
 			}
