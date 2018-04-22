@@ -25,7 +25,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-abstract class Dispatcher implements DispatcherInterface
+class Dispatcher implements DispatcherInterface
 {
 	/**
 	 * The URL option for the component.
@@ -78,10 +78,7 @@ abstract class Dispatcher implements DispatcherInterface
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
 		{
-			$this->option = ComponentHelper::getComponentName(
-				$this,
-				strtolower(str_replace('Dispatcher', '', get_class($this)))
-			);
+			$this->option = $app->scope;
 		}
 
 		$this->loadLanguage();
