@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Extension\ComponentInterface;
+use Joomla\CMS\HTML\Registry;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\DI\Container;
 
@@ -35,6 +36,7 @@ class Component extends \Joomla\CMS\Extension\Service\Provider\Component
 	{
 		$component = new ContentComponent;
 
+		$component->setRegistry($container->get(Registry::class));
 		$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
 		return $component;
