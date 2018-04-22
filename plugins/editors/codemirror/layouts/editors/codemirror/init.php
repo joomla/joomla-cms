@@ -61,7 +61,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				// jQuery's ready function.
 				$(function () {
 					// Some browsers do something weird with the fieldset which doesn't work well with CodeMirror. Fix it.
-					$(editor.getTextArea()).parent('fieldset').css('min-width', 0);
+					$(editor.getWrapperElement()).parent('fieldset').css('min-width', 0);
 					// Listen for Bootstrap's 'shown' event. If this editor was in a hidden element when created, it may need to be refreshed.
 					$(document.body).on("shown shown.bs.tab shown.bs.modal", function () { editor.refresh(); });
 				});
@@ -80,6 +80,24 @@ JFactory::getDocument()->addScriptDeclaration(
 				marker.className = "CodeMirror-markergutter-mark";
 				return marker;
 			}
+
+			// Initialize any CodeMirrors on page load and when a subform is added
+			$(function ($) {
+				initCodeMirror();
+				$('body').on('subform-row-add', initCodeMirror);
+			});
+
+			function initCodeMirror(event, container)
+			{
+				container = container || document;
+				$(container).find('textarea.codemirror-source').each(function () {
+					var input = $(this).removeClass('codemirror-source');
+					var id = input.prop('id');
+
+					Joomla.editors.instances[id] = cm.fromTextArea(this, input.data('options'));
+				});
+			}
+
 		}(CodeMirror, jQuery));
 JS
 );
