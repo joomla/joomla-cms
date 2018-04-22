@@ -341,10 +341,9 @@ abstract class AdminModel extends FormModel
 			$done = true;
 		}
 
-		// Include the plugins for the batch events.
-		\JPluginHelper::importPlugin($this->events_map['batch']);
-
+		// Get the dispatcher and load the plugins for the batch events.
 		$dispatcher = \JEventDispatcher::getInstance();
+		\JPluginHelper::importPlugin($this->events_map['batch']);
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
