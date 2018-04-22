@@ -311,11 +311,6 @@ abstract class AdminModel extends FormModel
 		// Initialize re-usable member properties
 		$this->initBatch();
 
-		// Include the plugins for the batch events.
-		\JPluginHelper::importPlugin($this->events_map['batch']);
-
-		$dispatcher = \JEventDispatcher::getInstance();
-
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
 			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
@@ -345,6 +340,11 @@ abstract class AdminModel extends FormModel
 
 			$done = true;
 		}
+
+		// Include the plugins for the batch events.
+		\JPluginHelper::importPlugin($this->events_map['batch']);
+
+		$dispatcher = \JEventDispatcher::getInstance();
 
 		foreach ($this->batch_commands as $identifier => $command)
 		{
