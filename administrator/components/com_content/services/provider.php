@@ -12,11 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Dispatcher\DispatcherFactory;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -56,14 +54,8 @@ return new class implements ServiceProviderInterface
 		$container->set(Categories::class, ['' => new Category]);
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
-		$factory = new MVCFactoryFactory('\\Joomla\\Component\\Content');
-		$factory->setFormFactory($container->get(\Joomla\CMS\Form\FormFactoryInterface::class));
-		$container->set(MVCFactoryFactoryInterface::class, $factory);
-
-		$container->set(
-			DispatcherFactoryInterface::class,
-			new DispatcherFactory('\\Joomla\\Component\\Content', $container->get(MVCFactoryFactoryInterface::class))
-		);
+		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new Component);
 	}
 };
