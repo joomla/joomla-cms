@@ -13,11 +13,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\Component;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryAwareInterface;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryAwareTrait;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
@@ -28,9 +29,10 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, AssociationServiceInterface
 {
-	use MVCFactoryFactoryAwareTrait;
+	use MVCFactoryServiceTrait;
+	use CategoriesServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
 

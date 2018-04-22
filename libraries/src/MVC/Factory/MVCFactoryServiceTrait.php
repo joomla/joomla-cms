@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 
 /**
- * Defines the trait for a MVC factory factory aware class.
+ * Defines the trait for a MVC factory factory service class.
  *
  * @since  __DEPLOY_VERSION__
  */
-trait MVCFactoryFactoryAwareTrait
+trait MVCFactoryServiceTrait
 {
 	/**
 	 * The MVC Factory.

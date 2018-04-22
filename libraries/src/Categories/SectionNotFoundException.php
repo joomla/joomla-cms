@@ -9,10 +9,10 @@
 namespace Joomla\CMS\Categories;
 
 /**
- * Representing when a category cannot be found.
+ * Representing when a category section cannot be found.
  *
  * @since  __DEPLOY_VERSION__
  */
-class CategoriesNotFoundException extends \RuntimeException
+class SectionNotFoundException extends \RuntimeException
 {
 }

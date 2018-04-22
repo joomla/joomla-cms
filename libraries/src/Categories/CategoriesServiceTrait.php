@@ -11,7 +11,7 @@ namespace Joomla\CMS\Categories;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Trait for component Service Providers that support Categories built to implement CategoryAwareInterface
+ * Trait for component categories service.
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -27,7 +27,7 @@ trait CategoriesServiceTrait
 	private $categories;
 
 	/**
-	 * Returns the category service
+	 * Returns the category service.
 	 *
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
@@ -37,13 +37,13 @@ trait CategoriesServiceTrait
 	 * @see Categories::setOptions()
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  CategoriesNotFoundException
+	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
 	{
 		if (!array_key_exists($section, $this->categories))
 		{
-			throw new Exception\SectionNotFoundException;
+			throw new SectionNotFoundException;
 		}
 
 		$categories = clone $this->categories[$section];

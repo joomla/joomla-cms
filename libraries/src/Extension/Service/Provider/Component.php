@@ -52,12 +52,7 @@ abstract class Component implements ServiceProviderInterface
 			{
 				$component = $this->createComponentClass($container);
 
-				if ($container->has(Categories::class))
-				{
-					$component->setCategories($container->get(Categories::class));
-				}
-
-				if ($container->has(DispatcherFactoryInterface::class))
+				if ($component instanceof \Joomla\CMS\Extension\Component)
 				{
 					$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
 				}

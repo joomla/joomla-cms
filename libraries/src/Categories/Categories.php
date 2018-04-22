@@ -137,9 +137,15 @@ class Categories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.', $extension, 2);
-
-		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+		try
+		{
+			$parts = explode('.', $extension, 2);
+			$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+		}
+		catch (SectionNotFoundException $e)
+		{
+			$categories = null;
+		}
 
 		self::$instances[$hash] = $categories;
 

@@ -28,7 +28,7 @@ interface CategoriesServiceInterface
 	 * @see Categories::setOptions()
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  CategoriesNotFoundException
+	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories;
 }

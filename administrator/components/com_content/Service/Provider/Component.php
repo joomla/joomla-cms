@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -39,6 +40,7 @@ class Component extends \Joomla\CMS\Extension\Service\Provider\Component
 
 		$component->setRegistry($container->get(Registry::class));
 		$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+		$component->setCategories($container->get(Categories::class));
 		$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
 		return $component;

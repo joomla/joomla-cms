@@ -11,20 +11,22 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 
 /**
  * Access to component specific services.
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyComponent implements ComponentInterface
+class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface
 {
 	/**
 	 * @var string
@@ -80,19 +82,19 @@ class LegacyComponent implements ComponentInterface
 	}
 
 	/**
-	 * Returns the category service. If the service is not available
-	 * null is returned.
+	 * Returns the category service.
 	 *
 	 * @param   array   $options  The options
 	 * @param   string  $section  The section
 	 *
-	 * @return  Categories|null
+	 * @return  Categories
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  SectionNotFoundException
 	 */
-	public function getCategories(array $options = [], $section = '')
+	public function getCategories(array $options = [], $section = ''): Categories
 	{
 		$classname = ucfirst($this->component) . ucfirst($section) . 'Categories';
 
@@ -102,7 +104,7 @@ class LegacyComponent implements ComponentInterface
 
 			if (!is_file($path))
 			{
-				return null;
+				throw new SectionNotFoundException;
 			}
 
 			include_once $path;
@@ -110,7 +112,7 @@ class LegacyComponent implements ComponentInterface
 
 		if (!class_exists($classname))
 		{
-			return null;
+			throw new SectionNotFoundException;
 		}
 
 		return new $classname($options);
