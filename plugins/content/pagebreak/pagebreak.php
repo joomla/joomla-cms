@@ -269,7 +269,7 @@ class PlgContentPagebreak extends JPlugin
 				$headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
 			}
 
-			$row->toc .= '<h3>' . $headingtext . '</h3>';
+			$row->toc .= '<strong>' . $headingtext . '</strong>';
 		}
 
 		// TOC first Page link.
