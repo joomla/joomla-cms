@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelperProviderInterface;
+use Joomla\CMS\Factory;
+
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
 /**
@@ -41,26 +44,18 @@ class FieldsHelper
 			return null;
 		}
 
-		$component = $parts[0];
-		$eName = str_replace('com_', '', $component);
+		$newSection = '';
 
-		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if (file_exists($path))
+		if ($component instanceof ComponentHelperProviderInterface)
 		{
-			$cName = ucfirst($eName) . 'Helper';
+			$newSection = $component->getHelper()->validateSection($parts[1], $item);
+		}
 
-			JLoader::register($cName, $path);
-
-			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
-			{
-				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
-
-				if ($section)
-				{
-					$parts[1] = $section;
-				}
-			}
+		if ($newSection)
+		{
+			$parts[1] = $newSection;
 		}
 
 		return $parts;
