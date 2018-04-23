@@ -19,15 +19,16 @@ abstract class ContentHelperRoute
 	/**
 	 * Get the article route.
 	 *
-	 * @param   integer  $id        The route of the content item.
-	 * @param   integer  $catid     The category ID.
-	 * @param   integer  $language  The language code.
+	 * @param   integer $id       The route of the content item.
+	 * @param   integer $catid    The category ID.
+	 * @param   integer $language The language code.
+	 * @param   string  $layout   The Article layout
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getArticleRoute($id, $catid = 0, $language = 0)
+	public static function getArticleRoute($id, $catid = 0, $language = 0, $layout = null)
 	{
 		// Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
@@ -42,20 +43,26 @@ abstract class ContentHelperRoute
 			$link .= '&lang=' . $language;
 		}
 
+		if ($layout)
+		{
+			$link .= '&layout=' . $layout;
+		}
+
 		return $link;
 	}
 
 	/**
 	 * Get the category route.
 	 *
-	 * @param   integer  $catid     The category ID.
-	 * @param   integer  $language  The language code.
+	 * @param   integer $catid    The category ID.
+	 * @param   integer $language The language code.
+	 * @param   string  $layout   The category layout
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getCategoryRoute($catid, $language = 0)
+	public static function getCategoryRoute($catid, $language = 0, $layout = null)
 	{
 		if ($catid instanceof JCategoryNode)
 		{
@@ -77,6 +84,11 @@ abstract class ContentHelperRoute
 			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
+			}
+
+			if ($layout)
+			{
+				$link .= '&layout=' . $layout;
 			}
 		}
 
