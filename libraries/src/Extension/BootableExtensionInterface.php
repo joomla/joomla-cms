@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Psr\Container\ContainerInterface;
 
 /**
- * Access to component specific services.
+ * Interface which defines that an extension can be booted.
  *
  * @since  __DEPLOY_VERSION__
  */
