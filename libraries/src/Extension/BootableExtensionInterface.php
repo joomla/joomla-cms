@@ -26,6 +26,8 @@ interface BootableExtensionInterface
 	 * If required, some initial set up can be done from services of the container, eg.
 	 * registering HTML services.
 	 *
+	 * @param   ContainerInterface  $container  The container
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
