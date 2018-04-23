@@ -6,28 +6,27 @@
  * @since       3.0
  */
 
-(function($)
-{
-	$(document).ready(function()
-	{
-		var $w = $(window);
+var Joomla = window.Joomla || {};
 
-		$('*[rel=tooltip]').tooltip();
+!(function($) {
+	Joomla.TemplateJs = function(root)
+	{
+		var $root = $(root || document);
+
+		$root.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+		$root.find('.radio.btn-group label').addClass('btn');
 
-		$('.btn-group label:not(.active)').click(function()
+		$root.find('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
 
-			if (!input.prop('checked'))
-			{
+			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
 
-				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
-				{
+				if (label.closest('.btn-group').hasClass('btn-group-reversed')) {
 					if (input.val() == '')
 					{
 						label.addClass('active btn-primary');
@@ -61,7 +60,8 @@
 				input.trigger('change');
 			}
 		});
-		$('.btn-group input[checked=checked]').each(function()
+
+		$root.find('.btn-group input[checked=checked]').each(function()
 		{
 			var $self  = $(this);
 			var attrId = $self.attr('id');
@@ -97,8 +97,9 @@
 				}
 			}
 		});
+
 		// add color classes to chosen field based on value
-		$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
+		$root.find('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 			var select = $(this);
 			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '\1');
 			var container = select.next('.chzn-container').find('.chzn-single');
@@ -109,6 +110,16 @@
 			});
 
 		});
+	}
+})(jQuery);
+
+!(function($)
+{
+	$(document).ready(function()
+	{
+		Joomla.TemplateJs(document);
+
+		var $w = $(window);
 
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
@@ -405,5 +416,9 @@
 				}
 			}
 		}
+	});
+
+	$(document).on('subform-row-add', function(event, row) {
+		Joomla.TemplateJs(row);
 	});
 })(jQuery);
