@@ -35,7 +35,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	{
 		$jinput = JFactory::getApplication()->input;
 		$view   = $view === null ? $jinput->get('view') : $view;
-		$layout = $layout === null ? $jinput->get('view', '', 'string') : $view;
+		$layout = $layout === null ? $jinput->get('layout', '', 'string') : $layout;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
