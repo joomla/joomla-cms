@@ -19,10 +19,10 @@ abstract class ContentHelperRoute
 	/**
 	 * Get the article route.
 	 *
-	 * @param   integer $id       The route of the content item.
-	 * @param   integer $catid    The category ID.
-	 * @param   integer $language The language code.
-	 * @param   string  $layout   The Article layout
+	 * @param   integer  $id        The route of the content item.
+	 * @param   integer  $catid     The category ID.
+	 * @param   integer  $language  The language code.
+	 * @param   string   $layout    The Article layout
 	 *
 	 * @return  string  The article route.
 	 *
@@ -54,9 +54,9 @@ abstract class ContentHelperRoute
 	/**
 	 * Get the category route.
 	 *
-	 * @param   integer $catid    The category ID.
-	 * @param   integer $language The language code.
-	 * @param   string  $layout   The category layout
+	 * @param   integer  $catid     The category ID.
+	 * @param   integer  $language  The language code.
+	 * @param   string   $layout    The category layout
 	 *
 	 * @return  string  The article route.
 	 *
