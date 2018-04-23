@@ -25,7 +25,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-class Dispatcher implements DispatcherInterface
+abstract class Dispatcher implements DispatcherInterface
 {
 	/**
 	 * The URL option for the component.
@@ -80,7 +80,7 @@ class Dispatcher implements DispatcherInterface
 		{
 			$this->option = ComponentHelper::getComponentName(
 				$this,
-				str_replace('com_', '', $input->get('option'))
+				strtolower(str_replace('Dispatcher', '', get_class($this)))
 			);
 		}
 

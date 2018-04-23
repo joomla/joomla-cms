@@ -475,7 +475,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || strpos($reflect->getNamespaceName(), '\\Component') === false)
+		if (!$reflect->getNamespaceName())
 		{
 			return 'com_' . strtolower($alternativeName);
 		}
