@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
+use Joomla\CMS\Component\LegacyComponentHelper;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyDispatcher;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -77,6 +79,18 @@ class LegacyComponent implements ComponentInterface
 		}
 
 		return new LegacyFactory;
+	}
+
+	/**
+	 * Returns the helper.
+	 *
+	 * @return  ComponentHelperInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getHelper(): ComponentHelperInterface
+	{
+		return new LegacyComponentHelper('com_' . $this->component);
 	}
 
 	/**

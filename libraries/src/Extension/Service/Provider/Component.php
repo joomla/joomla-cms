@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -60,6 +61,11 @@ class Component implements ServiceProviderInterface
 				if ($container->has(AssociationExtensionInterface::class))
 				{
 					$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+				}
+
+				if ($container->has(ComponentHelperInterface::class))
+				{
+					$component->setHelper($container->get(ComponentHelperInterface::class));
 				}
 
 				return $component;

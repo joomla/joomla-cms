@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Component\ComponentHelperInterface;
+use Joomla\CMS\Component\ComponentHelperProviderInterface;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -23,14 +25,32 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Component implements ComponentInterface
+class Component implements ComponentInterface, ComponentHelperProviderInterface
 {
+	/**
+	 * The dispatcher factory.
+	 *
+	 * @var DispatcherFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $dispatcherFactory;
+
 	/**
 	 * The MVC Factory.
 	 *
 	 * @var MVCFactoryFactoryInterface
 	 */
 	private $mvcFactoryFactory;
+
+	/**
+	 * The helper instance.
+	 *
+	 * @var ComponentHelperInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $helper;
 
 	/**
 	 * An array of categories.
@@ -40,15 +60,6 @@ class Component implements ComponentInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $categories;
-
-	/**
-	 * The dispatcher factory.
-	 *
-	 * @var DispatcherFactoryInterface
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $dispatcherFactory;
 
 	/**
 	 * The association extension.
@@ -123,6 +134,32 @@ class Component implements ComponentInterface
 	public function setMvcFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
 		$this->mvcFactoryFactory = $mvcFactoryFactory;
+	}
+
+	/**
+	 * Returns the helper.
+	 *
+	 * @return  ComponentHelperInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getHelper(): ComponentHelperInterface
+	{
+		return $this->helper;
+	}
+
+	/**
+	 * Sets the helper.
+	 *
+	 * @param   ComponentHelperInterface  $helper  The helper
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setHelper(ComponentHelperInterface $helper)
+	{
+		$this->helper = $helper;
 	}
 
 	/**
