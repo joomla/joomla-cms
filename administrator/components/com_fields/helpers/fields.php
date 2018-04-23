@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelperProviderInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -48,9 +48,9 @@ class FieldsHelper
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof FieldsServiceInterface)
 		{
-			$newSection = $component->getHelper()->validateSection($parts[1], $item);
+			$newSection = $component->validateSection($parts[1], $item);
 		}
 
 		if ($newSection)

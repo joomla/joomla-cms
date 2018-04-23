@@ -17,6 +17,7 @@ use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\Component;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
@@ -29,7 +30,7 @@ use Joomla\Component\Content\Administrator\Service\HTML\Icon;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
 {
 	use MVCFactoryServiceTrait;
 	use CategoriesServiceTrait;
@@ -50,5 +51,75 @@ class ContentComponent extends Component implements
 
 		// The layout joomla.content.icons does need a general icon service
 		$this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
+	}
+
+	/**
+	 * Returns a valid section for the given section. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 * @param   object  $item     The item
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function validateSection($section, $item = null)
+	{
+		if (\JFactory::getApplication()->isClient('site'))
+		{
+			// On the front end we need to map some sections
+			switch ($section)
+			{
+				// Editing an article
+				case 'form':
+
+					// Category list view
+				case 'featured':
+				case 'category':
+					$section = 'article';
+			}
+		}
+
+		if ($section != 'article')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getContexts(): array
+	{
+		\JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_content.article'    => \JText::_('COM_CONTENT'),
+			'com_content.categories' => \JText::_('JCATEGORY')
+		);
+
+		return $contexts;
+	}
+
+	/**
+	 * Returns the table for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getTableNameForSection(string $section = null)
+	{
+		return '#__content';
 	}
 }

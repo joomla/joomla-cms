@@ -10,7 +10,7 @@ namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelperProviderInterface;
+use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -381,9 +381,9 @@ class CategoriesModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof CategoriesServiceInterface)
 		{
-			$component->getHelper()->countItems($items, $section);
+			$component->countItems($items, $section);
 		}
 	}
 }

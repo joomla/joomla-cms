@@ -10,8 +10,8 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelperProviderInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('list');
@@ -51,9 +51,9 @@ class FieldcontextsField extends \JFormFieldList
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof ComponentHelperProviderInterface)
+		if ($component instanceof FieldsServiceInterface)
 		{
-			return $component->getHelper()->getContexts();
+			return $component->getContexts();
 		}
 
 		return [];

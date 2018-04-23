@@ -31,4 +31,30 @@ interface CategoriesServiceInterface
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories;
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   \stdClass[]  $items    The category objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function countItems(array $items, string $section);
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   \stdClass[]  $items      The content objects
+	 * @param   string       $extension  The name of the active view.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function countTagItems(array $items, string $extension);
 }
