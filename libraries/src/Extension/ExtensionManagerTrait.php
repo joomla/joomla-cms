@@ -123,7 +123,7 @@ trait ExtensionManagerTrait
 
 		if ($extension instanceof BootableExtensionInterface)
 		{
-			$extension->boot();
+			$extension->boot($container);
 		}
 
 		// Cache the extension

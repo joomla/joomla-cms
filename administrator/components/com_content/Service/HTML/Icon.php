@@ -10,6 +10,7 @@ namespace Joomla\Component\Content\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -25,6 +26,27 @@ use Joomla\CMS\Factory;
  */
 class Icon
 {
+	/**
+	 * The application
+	 *
+	 * @var    CMSApplication
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $application;
+
+	/**
+	 * Service constructor
+	 *
+	 * @param   CMSApplication  $application  The application
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(CMSApplication $application)
+	{
+		$this->application = $application;
+	}
+
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
@@ -80,7 +102,7 @@ class Icon
 
 		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = Factory::getApplication()->getTemplate();
+		$template = $this->application->getTemplate();
 		$link     = $base . Route::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . \MailtoHelper::addLink($link);
 
