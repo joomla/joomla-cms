@@ -10058,10 +10058,3 @@ a.grid_true {
 	border-right: 0;
 	border-left: 1px solid rgba(0,0,0,0.08);
 }
-.btn-group > .btn:first-child,
-.radio.btn-group > label:first-of-type {
-	margin-left: 0;
-	-webkit-border-radius: 0 4px 4px 0;
-	-moz-border-radius: 0 4px 4px 0;
-	border-radius: 0 4px 4px 0;
-}
