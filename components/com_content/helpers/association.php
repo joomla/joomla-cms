@@ -50,10 +50,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				{
 					if ($item->language != JFactory::getLanguage()->getTag())
 					{
-						$arrId   = explode(':', $item->id);
-						$assocId = $arrId[0];
-
-						$return[$tag] = ContentHelperRoute::getArticleRoute($assocId, (int) $item->catid, $item->language, $layout);
+						$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
 					}
 				}
 
