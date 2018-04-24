@@ -23,18 +23,25 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	/**
 	 * Method to get the associations for a given item
 	 *
-	 * @param   integer $id   Id of the item
-	 * @param   string  $view Name of the view
+	 * @param   integer  $id      Id of the item
+	 * @param   string   $view    Name of the view
+	 * @param   string   $layout  View layout
 	 *
 	 * @return  array   Array of associations for the item
 	 *
 	 * @since  3.0
 	 */
-	public static function getAssociations($id = 0, $view = null)
+	public static function getAssociations($id = 0, $view = null, $layout = null)
 	{
-		$jinput = JFactory::getApplication()->input;
-		$view   = $view === null ? $jinput->get('view') : $view;
-		$id     = empty($id) ? $jinput->getInt('id') : $id;
+		$jinput    = JFactory::getApplication()->input;
+		$view      = $view === null ? $jinput->get('view') : $view;
+		$component = $jinput->getCmd('option');
+		$id        = empty($id) ? $jinput->getInt('id') : $id;
+
+		if ($layout === null && $jinput->get('view') == $view && $component == 'com_content')
+		{
+			$layout = $jinput->get('layout', '', 'string');
+		}
 
 		if ($view === 'article')
 		{
@@ -46,7 +53,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
 				}
 
 				return $return;
