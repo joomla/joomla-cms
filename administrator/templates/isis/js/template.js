@@ -13,6 +13,18 @@ jQuery(function($)
 	var $w = $(window);
 
 	$(document.body)
+		// add color classes to chosen field based on value
+		.on('liszt:ready', 'select[class^="chzn-color"], select[class*=" chzn-color"]', function() {
+			var $select = $(this);
+			var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '$1');
+			var $container = $select.next('.chzn-container').find('.chzn-single');
+
+			$container.addClass(cls).attr('rel', 'value_' + $select.val());
+			$select.on('change click', function() {
+				$container.attr('rel', 'value_' + $select.val());
+			});
+		})
+		// Handle clicks to button groups
 		.on('click', '.btn-group label:not(.active)', function() {
 			var $label = $(this);
 			var $input = $('#' + $label.attr('for'));
@@ -76,17 +88,6 @@ jQuery(function($)
 		});
 	}
 
-	// add color classes to chosen field based on value
-	$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
-		var $select = $(this);
-		var cls = this.className.replace(/^.(chzn-color[a-z0-9-_]*)$.*/, '$1');
-		var $container = $select.next('.chzn-container').find('.chzn-single');
-
-		$container.addClass(cls).attr('rel', 'value_' + $select.val());
-		$select.on('change click', function() {
-			$container.attr('rel', 'value_' + $select.val());
-		});
-	});
 
 	/**
 	 * Append submenu items to empty UL on hover allowing a scrollable dropdown
