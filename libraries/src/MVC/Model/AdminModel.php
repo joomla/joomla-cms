@@ -258,6 +258,7 @@ abstract class AdminModel extends FormModel
 
 		$this->events_map = array_merge(
 			array(
+				'batch'        => 'content',
 				'delete'       => 'content',
 				'save'         => 'content',
 				'change_state' => 'content',
