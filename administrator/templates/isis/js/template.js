@@ -105,16 +105,7 @@ jQuery(function($)
 			}
 		}
 	});
-	$('.btn-group input[checked=checked]').each(function()
-	{
-		if ($(this).val() == '') {
-			$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
-		} else if ($(this).val() == 0) {
-			$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
-		} else {
-			$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
-		}
-	});
+
 	// add color classes to chosen field based on value
 	$('select[class^="chzn-color"], select[class*=" chzn-color"]').on('liszt:ready', function(){
 		var select = $(this);
