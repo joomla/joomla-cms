@@ -364,9 +364,13 @@ abstract class JHtmlBootstrap
 
 		$options = JHtml::getJSObject($opt);
 
+		$initFunction = 'function initPopovers (event, container) { ' .
+				'$(container || document).find(' . json_encode($selector) . ').popover(' . $options . ');' .
+			'}';
+
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'jQuery(function($){ $(' . json_encode($selector) . ').popover(' . $options . '); });'
+			'jQuery(function($){ initPopovers(); $("body").on("subform-row-add", initPopovers); ' . $initFunction . ' });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
