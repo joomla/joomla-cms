@@ -349,6 +349,28 @@
 				</field>
 
 				<field
+					name="month_year_format"
+					type="text"
+					label="MOD_ARTICLES_CATEGORY_FIELD_MONTHYEARFORMAT_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_MONTHYEARFORMAT_DESC"
+					default="F Y"
+					showon="article_grouping:year,month_year"
+				/>
+
+				<field
+					name="date_grouping_field"
+					type="list"
+					label="MOD_ARTICLES_CATEGORY_FIELD_DATEGROUPINGFIELD_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_DATEGROUPINGFIELD_DESC"
+					default="created"
+					showon="article_grouping:year,month_year"
+					>
+					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
+					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
+					<option value="publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE</option>
+				</field>
+
+				<field
 					name="article_grouping_direction"
 					type="list"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_LABEL"
@@ -359,13 +381,6 @@
 					<option value="ksort">MOD_ARTICLES_CATEGORY_OPTION_ASCENDING_VALUE</option>
 				</field>
 
-				<field
-					name="month_year_format"
-					type="text"
-					label="MOD_ARTICLES_CATEGORY_FIELD_MONTHYEARFORMAT_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_MONTHYEARFORMAT_DESC"
-					default="F Y"
-				/>
 			</fieldset>
 
 			<fieldset
