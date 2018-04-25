@@ -47,22 +47,17 @@ jQuery(function($)
 			$label.addClass('active btn-' + btnClass);
 			$input.prop('checked', true).trigger('change');
 		})
-		.on('subform-row-add', initButtonGroup)
-		.on('subform-row-add', initTooltip);
+		.on('subform-row-add', initTemplate);
 
-	initButtonGroup();
-	initTooltip();
+	initTemplate();
 
 	// Called once on domready, again when a subform row is added
-	function initTooltip(event, container)
-	{
-		$(container || document).find('*[rel=tooltip]').tooltip();
-	}
-
-	// Called once on domready, again when a subform row is added
-	function initButtonGroup(event, container)
+	function initTemplate(event, container)
 	{
 		var $container = $(container || document);
+
+		// Create tooltips
+		$container.find('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$container.find('.radio.btn-group label').addClass('btn');
