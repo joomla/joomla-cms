@@ -92,7 +92,6 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
 
 				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
-				$relevance[] = ' CASE WHEN ' . $wheres2[1] . ' THEN 2 ELSE 0 END ';
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
@@ -150,7 +149,6 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
 
 					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
-					$relevance[] = ' CASE WHEN ' . $wheres2[1] . ' THEN 2 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
