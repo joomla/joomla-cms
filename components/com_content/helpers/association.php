@@ -97,7 +97,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	/**
 	 * Method to display in frontend the associations for a given article
 	 *
-	 * @param   integer  $id Id of the article
+	 * @param   integer  $id  Id of the article
 	 *
 	 * @return  array  An array containing the association URL and the related language object
 	 *
