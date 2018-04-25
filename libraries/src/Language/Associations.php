@@ -29,9 +29,9 @@ class Associations
 	 * @param   string   $pk          The name of the primary key in the given $table.
 	 * @param   string   $aliasField  If the table has an alias field set it here. Null to not use it
 	 * @param   string   $catField    If the table has a catid field set it here. Null to not use it
-	 * @param   array    $advClause   Array with advanced where clause use c as parent column key, c2 as associations column key
+	 * @param   array    $advClause   Additional advanced 'where' clause; use c as parent column key, c2 as associations column key
 	 *
-	 * @return  array                The associated items
+	 * @return  array  The associated items
 	 *
 	 * @since   3.1
 	 *
