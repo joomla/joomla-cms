@@ -44,7 +44,7 @@ class Associations
 		static $multilanguageAssociations = array();
 
 		// Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
-		$queryKey = implode('|', array($extension, $tablename, $context, $id));
+		$queryKey = md5(serialize(array_merge(array($extension, $tablename, $context, $id), $advClause)));
 
 		if (!isset($multilanguageAssociations[$queryKey]))
 		{
