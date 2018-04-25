@@ -56,7 +56,7 @@ abstract class ContentHelperRoute
 	 *
 	 * @param   integer  $catid     The category ID.
 	 * @param   integer  $language  The language code.
-	 * @param   string   $layout    TThe layout value.
+	 * @param   string   $layout    The layout value.
 	 *
 	 * @return  string  The article route.
 	 *
