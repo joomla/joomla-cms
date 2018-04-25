@@ -58,7 +58,6 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				// Filter by current language
 				$advClause[] = 'c2.language != '.$db->quote(JFactory::getLanguage()->getTag());
 
-
 				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 				{
 					// Filter by start and end dates.
@@ -74,9 +73,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 					$advClause[] = 'c2.state = 1';
 				}
 
-
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content',
-					'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
 
 				$return = array();
 
@@ -102,7 +99,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @param   integer $id Id of the article
 	 *
-	 * @return  array   An array containing the association URL and the related language object
+	 * @return  array  An array containing the association URL and the related language object
 	 *
 	 * @since  3.7.0
 	 */
