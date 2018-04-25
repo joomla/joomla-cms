@@ -23,7 +23,7 @@ class CategoriesHelper
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $filters = array();	
-	
+
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -128,8 +128,8 @@ class CategoriesHelper
 			foreach ($langAssociations as $langAssociation)
 			{
 				// Include only published categories with user access
-				$arrId      = explode(':', $langAssociation->id);
-				$assocId[]  = $arrId[0];
+				$arrId     = explode(':', $langAssociation->id);
+				$assocId[] = $arrId[0];
 			}
 
 			$catId = implode(',', $assocId);
@@ -147,7 +147,7 @@ class CategoriesHelper
 
 			foreach ($results as $result)
 			{
-				$associations[$result->language] = $result->id;
+				$associations[$result->language] = $langAssociations[$result->language]->id;
 			}
 
 			static::$filters[$pk] = $associations;
