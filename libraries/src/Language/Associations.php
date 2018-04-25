@@ -38,7 +38,7 @@ class Associations
 	 * @throws  \Exception
 	 */
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid',
-	                                       $advClause = array())
+		$advClause = array())
 	{
 		// To avoid doing duplicate database queries.
 		static $multilanguageAssociations = array();
