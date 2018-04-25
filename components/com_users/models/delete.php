@@ -143,7 +143,7 @@ class UsersModelDelete extends JModelForm
 		$user_to_delete = JFactory::getUser(JFactory::getUser()->id);
 
 		// Fire the before delete events.
-		$dispatcher->trigger('onUserBeforeDelete', array($user_to_delete->getProperties()));
+		$dispatcher->trigger('onUserBeforeGhost', array($user_to_delete->getProperties()));
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -152,7 +152,7 @@ class UsersModelDelete extends JModelForm
 				->set($db->quoteName('username') . ' = ' . $db->quote(microtime()))
 				->set($db->quoteName('email') . ' = ' . $db->quote(microtime()))
 				->set($db->quoteName('block') . ' = 1')
-				->where($db->quoteName('id') . ' = ' . JFactory::getUser()->id);
+				->where($db->quoteName('id') . ' = ' . (int) JFactory::getUser()->id);
 
 		$db->setQuery($query);
 
@@ -166,7 +166,7 @@ class UsersModelDelete extends JModelForm
 		}
 
 		// Trigger the after delete event.
-		$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
+		$dispatcher->trigger('onUserAfterGhost', array($user_to_delete->getProperties(), true, $this->getError()));
 
 		return true;
 	}
