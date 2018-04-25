@@ -281,7 +281,7 @@ class PlgSearchContent extends JPlugin
 			if (!empty($relevance))
 			{
 				$query->select(implode(' + ', $relevance) . ' AS relevance');
-				$order = ' relevance DESC, ';
+				$order = ' relevance DESC, ' . $order;
 			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
@@ -355,7 +355,7 @@ class PlgSearchContent extends JPlugin
 			if (!empty($relevance))
 			{
 				$query->select(implode(' + ', $relevance) . ' AS relevance');
-				$order = ' relevance DESC, ';
+				$order = ' relevance DESC, ' . $order;
 			}
 
 			$query->select(
