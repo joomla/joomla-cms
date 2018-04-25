@@ -56,7 +56,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				$advClause[] = 'c2.access IN (' . $groups . ')';
 
 				// Filter by current language
-				$advClause[] = 'c2.language != '.$db->quote(JFactory::getLanguage()->getTag());
+				$advClause[] = 'c2.language != ' . $db->quote(JFactory::getLanguage()->getTag());
 
 				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 				{
@@ -97,7 +97,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	/**
 	 * Method to display in frontend the associations for a given article
 	 *
-	 * @param   integer $id Id of the article
+	 * @param   integer  $id Id of the article
 	 *
 	 * @return  array  An array containing the association URL and the related language object
 	 *
