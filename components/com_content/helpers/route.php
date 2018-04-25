@@ -82,7 +82,7 @@ abstract class ContentHelperRoute
 			$jinput = JFactory::getApplication()->input;
 			$layout = $jinput->get('layout');
 
-			if ($layout !== '')
+			if (isset($layout) && $layout !== '')
 			{
 				$link .= '&layout=' . $layout;
 			}
