@@ -91,6 +91,8 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
 
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
 				$subQuery->select("cfv.item_id")
@@ -145,6 +147,8 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
@@ -273,18 +277,16 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
-			
-			// Title priority
-			$case_whenp  = ' CASE WHEN ';
-			$case_whenp .= $wheres2[0];
-			$case_whenp .= ' THEN 1 ';		
-			$case_whenp .= ' ELSE 0 ';
-			$case_whenp .= ' END as priority';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ';
+			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
-				->select($case_whenp)
 				->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->where(
@@ -294,7 +296,7 @@ class PlgSearchContent extends JPlugin
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
-				->order('priority DESC, ' . $order);
+				->order($order);
 
 			// Filter by language.
 			if ($app->isClient('site') && JLanguageMultilang::isEnabled())
@@ -350,18 +352,17 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
-			// Title priority
-			$case_whenp  = ' CASE WHEN ';
-			$case_whenp .= $wheres2[0];
-			$case_whenp .= ' THEN 1 ';		
-			$case_whenp .= ' ELSE 0 ';
-			$case_whenp .= ' END as priority';
-	
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ';
+			}
+
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
 				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
 				. $case_when . ',' . $case_when1 . ', '
-				. 'c.title AS section, \'2\' AS browsernav, ' . $case_whenp
+				. 'c.title AS section, \'2\' AS browsernav'
 			);
 
 			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
@@ -373,7 +374,7 @@ class PlgSearchContent extends JPlugin
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
 				)
-				->order('priority DESC, ' . $order);
+				->order($order);
 
 			// Join over Fields is no longer neded
 
