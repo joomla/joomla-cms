@@ -51,7 +51,7 @@ abstract class CategoryHelperAssociation
 				}
 				else
 				{
-					$viewLayout = ($layout) ? '&layout=' . $layout : '';
+					$viewLayout = $layout ? '&layout=' . $layout : '';
 
 					$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item . $viewLayout;
 				}

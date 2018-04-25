@@ -58,7 +58,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 				// Filter by current language
 				$advClause[] = 'c2.language != ' . $db->quote(JFactory::getLanguage()->getTag());
 
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
