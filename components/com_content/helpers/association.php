@@ -47,7 +47,36 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+				$user      = JFactory::getUser();
+				$groups    = implode(',', $user->getAuthorisedViewLevels());
+				$db        = JFactory::getDbo();
+				$advClause = array();
+
+				// Filter by user groups
+				$advClause[] = 'c2.access IN (' . $groups . ')';
+
+				// Filter by current language
+				$advClause[] = 'c2.language != '.$db->quote(JFactory::getLanguage()->getTag());
+
+
+				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				{
+					// Filter by start and end dates.
+					$nullDate = $db->quote($db->getNullDate());
+					$date = JFactory::getDate();
+
+					$nowDate = $db->quote($date->toSql());
+
+					$advClause[] = '(c2.publish_up = ' . $nullDate . ' OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_down = ' . $nullDate . ' OR c2.publish_down >= ' . $nowDate . ')';
+
+					// Filter by published
+					$advClause[] = 'c2.state = 1';
+				}
+
+
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content',
+					'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
 
 				$return = array();
 
