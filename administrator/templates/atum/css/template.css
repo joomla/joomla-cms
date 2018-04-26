@@ -382,6 +382,10 @@ legend {
 .form-control-feedback {
   display: block; }
 
+[aria-grabbed="true"] {
+  -webkit-box-shadow: 0 0 2px 1px #006898;
+          box-shadow: 0 0 2px 1px #006898; }
+
 .header {
   position: relative;
   z-index: 5;
