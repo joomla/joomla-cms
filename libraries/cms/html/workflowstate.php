@@ -37,19 +37,20 @@ abstract class JHtmlWorkflowState
 
 		// Build the query.
 		$query->select(
-				$db->quoteName(
-					[
-						'ws.id',
-						'ws.title',
-						'w.id',
-						'w.title'
-					],
-					[
-						'workflow_state_id',
-						'workflow_state_title',
-						'workflow_id',
-						'workflow_title'
-					])
+					$db->quoteName(
+						[
+							'ws.id',
+							'ws.title',
+							'w.id',
+							'w.title'
+						],
+						[
+							'workflow_state_id',
+							'workflow_state_title',
+							'workflow_id',
+							'workflow_title'
+						]
+					)
 				)
 			->from('#__workflow_states AS ws')
 			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')

@@ -179,6 +179,8 @@ class WorkflowHelper extends ContentHelper
 	 * @param   int     $stateId    id of state
 	 * @param   string  $extension  extension type
 	 *
+	 * @return  boolean
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function addAssociation($itemId, $stateId, $extension = 'com_content')
@@ -191,7 +193,7 @@ class WorkflowHelper extends ContentHelper
 			->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
 			->values((int) $itemId . ', ' . (int) $stateId . ', ' . $db->quote($extension));
 
-		$db->setQuery($query)->execute();
+		return $db->setQuery($query)->execute();
 	}
 
 	/**
