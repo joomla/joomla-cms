@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -18,7 +25,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  *
  * @since  1.6
  */
-class PlgContentJoomla extends JPlugin
+class PlgContentJoomla extends CMSPlugin
 {
 	/**
 	 * Example after save content method
@@ -54,7 +61,7 @@ class PlgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -68,12 +75,12 @@ class PlgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Messaging for new items
 
-		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getConfig()->get('debug_lang');
+		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = Factory::getConfig()->get('debug_lang');
 		$result = true;
 
 		foreach ($users as $user_id)
@@ -81,8 +88,8 @@ class PlgContentJoomla extends JPlugin
 			if ($user_id != $user->id)
 			{
 				// Load language for messaging
-				$receiver = JUser::getInstance($user_id);
-				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+				$receiver = User::getInstance($user_id);
+				$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 				$lang->load('com_content');
 				$message = array(
 					'user_id_to' => $user_id,
@@ -121,7 +128,7 @@ class PlgContentJoomla extends JPlugin
 			return true;
 		}
 
-		$extension = JFactory::getApplication()->input->getString('extension');
+		$extension = Factory::getApplication()->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;
@@ -153,9 +160,9 @@ class PlgContentJoomla extends JPlugin
 				// Show error if items are found in the category
 				if ($count > 0)
 				{
-					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-						. JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-					JFactory::getApplication()->enqueueMessage($msg, 'error');
+					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
+					Factory::getApplication()->enqueueMessage($msg, 'error');
 					$result = false;
 				}
 
@@ -170,9 +177,9 @@ class PlgContentJoomla extends JPlugin
 					}
 					elseif ($count > 0)
 					{
-						$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-							. JText::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-						JFactory::getApplication()->enqueueMessage($msg, 'error');
+						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
+							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
+						Factory::getApplication()->enqueueMessage($msg, 'error');
 						$result = false;
 					}
 				}
@@ -194,7 +201,7 @@ class PlgContentJoomla extends JPlugin
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Count the items in this category
@@ -209,7 +216,7 @@ class PlgContentJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -230,7 +237,7 @@ class PlgContentJoomla extends JPlugin
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Create subquery for list of child categories
 		$childCategoryTree = $data->getTree();
@@ -260,7 +267,7 @@ class PlgContentJoomla extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -287,7 +294,7 @@ class PlgContentJoomla extends JPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
@@ -296,7 +303,7 @@ class PlgContentJoomla extends JPlugin
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
-		$cctable = new JTableCorecontent($db);
+		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
 
 		// Check if this function is enabled.

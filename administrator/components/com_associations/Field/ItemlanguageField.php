@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -60,7 +61,7 @@ class ItemlanguageField extends \JFormFieldList
 		$canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
 		// Gets existing languages.
-		$existingLanguages = AssociationsHelper::getContentLanguages();
+		$existingLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		$options = array();
 

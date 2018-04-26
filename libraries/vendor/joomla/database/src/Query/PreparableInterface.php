@@ -8,6 +8,8 @@
 
 namespace Joomla\Database\Query;
 
+use Joomla\Database\ParameterType;
+
 /**
  * Joomla Database Query Preparable Interface.
  *
@@ -23,7 +25,7 @@ interface PreparableInterface
 	 *
 	 * @param   string|integer  $key            The key that will be used in your SQL query to reference the value. Usually of
 	 *                                          the form ':key', but can also be an integer.
-	 * @param   mixed           &$value         The value that will be bound. The value is passed by reference to support output
+	 * @param   mixed           $value          The value that will be bound. The value is passed by reference to support output
 	 *                                          parameters such as those possible with stored procedures.
 	 * @param   integer         $dataType       Constant corresponding to a SQL datatype.
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters.
@@ -33,7 +35,7 @@ interface PreparableInterface
 	 *
 	 * @since   1.0
 	 */
-	public function bind($key = null, &$value = null, $dataType = \PDO::PARAM_STR, $length = 0, $driverOptions = []);
+	public function bind($key = null, &$value = null, $dataType = ParameterType::STRING, $length = 0, $driverOptions = []);
 
 	/**
 	 * Retrieves the bound parameters array when key is null and returns it by reference. If a key is provided then that item is returned.

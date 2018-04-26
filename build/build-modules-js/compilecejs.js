@@ -8,7 +8,7 @@ const Promise = require('bluebird');
 const UglifyJS = require('uglify-es');
 
 // Various variables
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 
 compileCejs = (options) => {
 	// Make sure that the dist paths exist
@@ -42,7 +42,7 @@ compileCejs = (options) => {
 		b.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
 		c.add(rootPath + '/build/webcomponents/js/' + element + '/' + element + '.js');
 		b.transform(babelify, { presets: ["babel-preset-es2015"] }).bundle().pipe(bundleFs);
-		c.transform(babelify, { presets: ["babel-preset-es2015", "minify"] }).bundle().pipe(bundleFsMin);
+		c.transform(babelify, { presets: ["babel-preset-es2015", "babel-preset-minify"] }).bundle().pipe(bundleFsMin);
 	});
 }
 

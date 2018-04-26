@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\ListField;
+
 jimport('joomla.form.helper');
 
-JFormHelper::loadFieldClass('list');
 
 /**
  * Generates the list of options for available skins.
@@ -20,7 +22,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends JFormFieldList
+class JFormFieldSkins extends ListField
 {
 	protected $type = 'skins';
 
@@ -40,7 +42,7 @@ class JFormFieldSkins extends JFormFieldList
 		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
-			$options[] = JHtml::_('select.option', $i, $dir);
+			$options[] = HTMLHelper::_('select.option', $i, $dir);
 		}
 
 		$options = array_merge(parent::getOptions(), $options);
@@ -66,7 +68,7 @@ class JFormFieldSkins extends JFormFieldList
 		);
 
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
+		$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, $attrbs, 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}

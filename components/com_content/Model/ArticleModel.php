@@ -40,7 +40,7 @@ class ArticleModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('site');
+		$app = \JFactory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -69,7 +69,7 @@ class ArticleModel extends ItemModel
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  object|boolean|\JException  Menu item data object on success, boolean false or JException instance on error
+	 * @return  object|boolean  Menu item data object on success, boolean false
 	 */
 	public function getItem($pk = null)
 	{

@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));

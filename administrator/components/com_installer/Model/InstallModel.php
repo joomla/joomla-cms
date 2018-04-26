@@ -48,7 +48,7 @@ class InstallModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = \JFactory::getApplication();
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));

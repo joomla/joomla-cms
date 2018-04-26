@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_SEARCH_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Search</namespace>
 	<files>
 		<filename module="mod_search">mod_search.php</filename>
 		<folder>tmpl</folder>

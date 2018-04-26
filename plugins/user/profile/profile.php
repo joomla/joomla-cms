@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class PlgUserProfile extends JPlugin
+class PlgUserProfile extends CMSPlugin
 {
 	/**
 	 * Date of birth.
@@ -45,7 +52,7 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -73,7 +80,7 @@ class PlgUserProfile extends JPlugin
 			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
-				$db = JFactory::getDbo();
+				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select(
 						array(
@@ -104,24 +111,24 @@ class PlgUserProfile extends JPlugin
 				}
 			}
 
-			if (!JHtml::isRegistered('users.url'))
+			if (!HTMLHelper::isRegistered('users.url'))
 			{
-				JHtml::register('users.url', array(__CLASS__, 'url'));
+				HTMLHelper::register('users.url', array(__CLASS__, 'url'));
 			}
 
-			if (!JHtml::isRegistered('users.calendar'))
+			if (!HTMLHelper::isRegistered('users.calendar'))
 			{
-				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
+				HTMLHelper::register('users.calendar', array(__CLASS__, 'calendar'));
 			}
 
-			if (!JHtml::isRegistered('users.tos'))
+			if (!HTMLHelper::isRegistered('users.tos'))
 			{
-				JHtml::register('users.tos', array(__CLASS__, 'tos'));
+				HTMLHelper::register('users.tos', array(__CLASS__, 'tos'));
 			}
 
-			if (!JHtml::isRegistered('users.dob'))
+			if (!HTMLHelper::isRegistered('users.dob'))
 			{
-				JHtml::register('users.dob', array(__CLASS__, 'dob'));
+				HTMLHelper::register('users.dob', array(__CLASS__, 'dob'));
 			}
 		}
 
@@ -139,7 +146,7 @@ class PlgUserProfile extends JPlugin
 	{
 		if (empty($value))
 		{
-			return JHtml::_('users.value', $value);
+			return HTMLHelper::_('users.value', $value);
 		}
 		else
 		{
@@ -168,11 +175,11 @@ class PlgUserProfile extends JPlugin
 	{
 		if (empty($value))
 		{
-			return JHtml::_('users.value', $value);
+			return HTMLHelper::_('users.value', $value);
 		}
 		else
 		{
-			return JHtml::_('date', $value, null, null);
+			return HTMLHelper::_('date', $value, null, null);
 		}
 	}
 
@@ -190,7 +197,7 @@ class PlgUserProfile extends JPlugin
 			return '';
 		}
 
-		return JHtml::_('date', $value, JText::_('DATE_FORMAT_LC1'), false);
+		return HTMLHelper::_('date', $value, Text::_('DATE_FORMAT_LC1'), false);
 	}
 
 	/**
@@ -204,11 +211,11 @@ class PlgUserProfile extends JPlugin
 	{
 		if ($value)
 		{
-			return JText::_('JYES');
+			return Text::_('JYES');
 		}
 		else
 		{
-			return JText::_('JNO');
+			return Text::_('JNO');
 		}
 	}
 
@@ -224,9 +231,9 @@ class PlgUserProfile extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!($form instanceof JForm))
+		if (!($form instanceof Form))
 		{
-			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
+			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
 		}
 
 		// Check we are manipulating a valid form.
@@ -238,7 +245,7 @@ class PlgUserProfile extends JPlugin
 		}
 
 		// Add the registration fields to the form.
-		JForm::addFormPath(__DIR__ . '/profiles');
+		Form::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile', false);
 
 		$fields = array(
@@ -257,7 +264,7 @@ class PlgUserProfile extends JPlugin
 		);
 
 		// Change fields description when displayed in frontend or backend profile editing
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
 		{
@@ -360,30 +367,30 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
-				$date = new JDate($data['profile']['dob']);
+				$date = new Date($data['profile']['dob']);
 				$this->date = $date->format('Y-m-d H:i:s');
 			}
 			catch (Exception $e)
 			{
 				// Throw an exception if date is not valid.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
-			if (JDate::getInstance('now') < $date)
+			if (Date::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
+				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
 		// Check that the tos is checked if required ie only in registration from frontend.
-		$task       = JFactory::getApplication()->input->getCmd('task');
-		$option     = JFactory::getApplication()->input->getCmd('option');
+		$task       = Factory::getApplication()->input->getCmd('task');
+		$option     = Factory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
 		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
-			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
+			throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
 
 		return true;
@@ -405,7 +412,7 @@ class PlgUserProfile extends JPlugin
 
 		if ($userId && $result && isset($data['profile']) && count($data['profile']))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Sanitize the date
 			if (!empty($data['profile']['dob']))
@@ -478,7 +485,7 @@ class PlgUserProfile extends JPlugin
 
 		if ($userId)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__user_profiles'))
 				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))

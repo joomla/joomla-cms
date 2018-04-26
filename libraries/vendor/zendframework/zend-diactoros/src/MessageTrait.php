@@ -341,9 +341,9 @@ trait MessageTrait
     private function validateProtocolVersion($version)
     {
         if (empty($version)) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(
                 'HTTP protocol version can not be empty'
-            ));
+            );
         }
         if (! is_string($version)) {
             throw new InvalidArgumentException(sprintf(

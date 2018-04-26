@@ -12,6 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesPopular\Site\Helper\ArticlesPopularHelper;
 
-$list            = ArticlesPopularHelper::getList($params);
+$list = ArticlesPopularHelper::getList($params);
 
 require ModuleHelper::getLayoutPath('mod_articles_popular', $params->get('layout', 'default'));

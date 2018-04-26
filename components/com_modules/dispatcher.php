@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * @subpackage  com_modules
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -76,9 +76,10 @@ class ModulesDispatcher extends Dispatcher
 	 */
 	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
-		if ($this->input->get('task') === 'module.orderPosition')
+		if ($this->input->get('task') === 'orderPosition')
 		{
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+			$client = 'Administrator';
 		}
 
 		return parent::getController($name, $client, $config);

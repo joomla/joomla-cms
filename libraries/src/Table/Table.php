@@ -259,7 +259,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the MvcFactory instead
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -318,7 +319,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -1453,16 +1455,23 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			return false;
 		}
 
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(userid)')
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $against);
-		$db->setQuery($query);
-		$checkedOut = (boolean) $db->loadResult();
+		// This last check can only be relied on if tracking session metadata
+		if (\JFactory::getConfig()->get('session_metadata', true))
+		{
+			$db = \JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('COUNT(userid)')
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = ' . (int) $against);
+			$db->setQuery($query);
+			$checkedOut = (boolean) $db->loadResult();
 
-		// If a session exists for the user then it is checked out.
-		return $checkedOut;
+			// If a session exists for the user then it is checked out.
+			return $checkedOut;
+		}
+
+		// Assume if we got here that there is a value in the checked out column but it doesn't match the given user
+		return true;
 	}
 
 	/**

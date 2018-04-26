@@ -72,18 +72,6 @@
 			type="separator"
 		/>
 		<menuitem
-			title="MOD_MENU_COM_USERS_NOTES"
-			type="component"
-			element="com_users"
-			link="index.php?option=com_users&amp;view=notes">
-		</menuitem>
-		<menuitem
-			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
-			type="component"
-			element="com_categories"
-			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
-		</menuitem>
-		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -95,6 +83,21 @@
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
 		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
+			title="MOD_MENU_COM_USERS_NOTES"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=notes">
+		</menuitem>
+		<menuitem
+			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
+		</menuitem>
 		<menuitem
 			type="separator"
 		/>
@@ -150,7 +153,7 @@
 			sql_group="a.id, a.title, a.menutype, m.language, l.image"
 			sql_order="a.title ASC">
 			<menuitem
-				title="{sql:title}"
+				title="{sql:title} "
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -213,11 +216,24 @@
 			link="index.php?option=com_categories&amp;extension=com_content">
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_COM_CONTENT_WORKFLOW"
 			type="component"
 			element="com_workflow"
 			link="index.php?option=com_workflow&amp;extension=com_content">
 		</menuitem>
+		<menuitem
+			type="separator"
+		/>
 		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
@@ -229,12 +245,6 @@
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
-		/>
-		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
 		/>
 	</menuitem>
 	<menuitem
@@ -369,6 +379,9 @@
 			scope="help"
 		/>
 		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
@@ -395,6 +408,9 @@
 			title="MOD_MENU_HELP_DOCUMENTATION"
 			link="https://docs.joomla.org"
 			scope="help"
+		/>
+		<menuitem
+			type="separator"
 		/>
 		<menuitem
 			type="url"

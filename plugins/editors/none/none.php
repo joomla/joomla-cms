@@ -10,27 +10,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Plain Textarea Editor Plugin
  *
  * @since  1.5
  */
-class PlgEditorNone extends JPlugin
+class PlgEditorNone extends CMSPlugin
 {
-	/**
-	 * Method to handle the onInitEditor event.
-	 *  - Initialises the Editor
-	 *
-	 * @return  void
-	 *
-	 * @since 1.5
-	 */
-	public function onInit()
-	{
-		JHtml::_('script', 'editors/none/editor-none.min.js', array('version' => 'auto', 'relative' => true));
-	}
-
 	/**
 	 * Display the editor area.
 	 *
@@ -69,11 +59,13 @@ class PlgEditorNone extends JPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		return '<div class="js-editor-none">'
+		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
+
+		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
 			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
-			. $this->_displayButtons($id, $buttons, $asset, $author)
-			. '</div>';
+			. '</joomla-editor-none>'
+			. $this->_displayButtons($id, $buttons, $asset, $author);
 	}
 
 	/**
@@ -103,7 +95,7 @@ class PlgEditorNone extends JPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
-			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			return LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 	}
 }

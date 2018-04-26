@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 $value = $field->value;
 
 if ($value == '')
@@ -15,7 +17,7 @@ if ($value == '')
 	return;
 }
 
-$db        = JFactory::getDbo();
+$db        = Factory::getDbo();
 $value     = (array) $value;
 $condition = '';
 

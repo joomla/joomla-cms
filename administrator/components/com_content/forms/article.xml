@@ -79,7 +79,6 @@
 		<field
 			name="buttonspacer"
 			type="spacer" 
-			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 		/>
 
 		<field 

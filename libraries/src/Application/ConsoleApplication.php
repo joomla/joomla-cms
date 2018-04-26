@@ -11,7 +11,8 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
-use Joomla\CMS\Input\Cli;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -30,7 +31,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
 
 	/**
 	 * The application message queue.
@@ -79,9 +80,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
-
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -134,6 +132,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Throwable
 	 */
 	public function execute()
 	{
@@ -167,7 +166,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  CommandInterface[]
+	 * @return  \Joomla\Console\CommandInterface[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -181,6 +180,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\RemoveOldFilesCommand,
 			]
 		);
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**

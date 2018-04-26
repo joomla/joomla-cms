@@ -136,6 +136,8 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
 					<?php echo $this->form->renderField('language'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php else: ?>
+				<?php echo $this->form->renderField('language'); ?>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	

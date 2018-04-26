@@ -14,14 +14,15 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\User\User;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -35,7 +36,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -102,6 +103,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $template = null;
 
 	/**
+	 * The pathway object
+	 *
+	 * @var    Pathway
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pathway = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -154,51 +163,50 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
+		parent::afterSessionStart($event);
+
 		$session = $event->getSession();
 
-		if ($session->isNew())
+		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
+		if ($this->get('session_metadata', true))
 		{
-			$session->set('registry', new Registry);
-			$session->set('user', new User);
-		}
+			$db   = \JFactory::getDbo();
+			$time = time();
 
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db   = \JFactory::getDbo();
-		$time = time();
+			// Get the session handler from the configuration.
+			$handler = $this->get('session_handler', 'none');
 
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
-		if ($handler != 'database' && $time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
-			try
+			// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
+			if ($handler !== 'database' && $time % 2)
 			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
-				)->execute();
+				// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+				try
+				{
+					$db->setQuery(
+						$db->getQuery(true)
+							->delete($db->quoteName('#__session'))
+							->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+					)->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					/*
+					 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+					 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+					 */
+				}
 			}
-			catch (\RuntimeException $e)
-			{
-				/*
-				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-				 */
-			}
-		}
 
-		/*
-		 * Check for extra session metadata when:
-		 *
-		 * 1) The database handler is in use and the session is new
-		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-		 */
-		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
+			/*
+			 * Check for extra session metadata when:
+			 *
+			 * 1) The database handler is in use and the session is new
+			 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+			 */
+			if (($handler !== 'database' && ($time % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
+			{
+				$this->checkSession();
+			}
 		}
 	}
 
@@ -218,6 +226,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		$db = \JFactory::getDbo();
 		$session = \JFactory::getSession();
 		$user = \JFactory::getUser();
+
+		// If $user is still null at this point, we've hit an interesting chicken or egg problem getting the user loaded into the application
+		if (!$user)
+		{
+			$user = $session->get('user');
+			$this->loadIdentity($user);
+		}
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
@@ -261,7 +276,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$values[] = (int) $this->getClientId();
 			}
 
-			// If the insert failed, exit the application.
 			try
 			{
 				$db->setQuery(
@@ -273,7 +287,12 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			catch (\RuntimeException $e)
 			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * As this query only deals with session metadata, if the session handler is using the database then the handler will
+				 * try again to insert/update the important parts of the data otherwise in a worst case scenario the user's session does
+				 * not persist beyond this request.  When non-database session handlers are in use, this really doesn't matter.
+				 */
 			}
 		}
 	}
@@ -329,6 +348,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				[
 					'subject'    => $this,
 					'eventClass' => BeforeExecuteEvent::class,
+					'container'  => $this->getContainer()
 				]
 			)
 		);
@@ -580,23 +600,30 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JPathway object.
-	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * Returns the application Pathway object.
 	 *
 	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway()
 	{
-		if (!isset($name))
+		if (!$this->pathway)
 		{
-			$name = $this->getName();
+			$resourceName = ucfirst($this->getName()) . 'Pathway';
+
+			if (!$this->getContainer()->has($resourceName))
+			{
+				throw new \RuntimeException(
+					Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+					500
+				);
+			}
+
+			$this->pathway = $this->getContainer()->get($resourceName);
 		}
 
-		return Pathway::getInstance($name, $options);
+		return $this->pathway;
 	}
 
 	/**
@@ -706,9 +733,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = \JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -845,7 +869,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean|\JException  True on success, false if failed or silent handling is configured, or a \JException object on authentication error.
+	 * @return  boolean|\Exception  True on success, false if failed or silent handling is configured, or a \Exception object on authentication error.
 	 *
 	 * @since   3.2
 	 */
@@ -884,13 +908,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 					switch ($authorisation->status)
 					{
 						case Authentication::STATUS_EXPIRED:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_EXPIRED'), 'error');
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_EXPIRED'), 'error');
+
+							return false;
 
 						case Authentication::STATUS_DENIED:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_DENIED'), 'error');
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_DENIED'), 'error');
+
+							return false;
 
 						default:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+
+							return false;
 					}
 				}
 			}

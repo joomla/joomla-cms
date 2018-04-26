@@ -66,6 +66,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $key
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_chacha20poly1305_decrypt(
         $message = '',
@@ -136,6 +137,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_chacha20poly1305_encrypt(
         $message = '',
@@ -188,6 +191,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $key
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_chacha20poly1305_ietf_decrypt(
         $message = '',
@@ -264,6 +268,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_chacha20poly1305_ietf_encrypt(
         $message = '',
@@ -318,6 +324,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $key
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_xchacha20poly1305_ietf_decrypt(
         $message = '',
@@ -345,6 +352,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function aead_xchacha20poly1305_ietf_encrypt(
         $message = '',
@@ -370,6 +379,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $key
      * @return string
+     * @throws TypeError
      */
     public static function auth($message, $key)
     {
@@ -389,6 +399,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $key
      * @return bool
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function auth_verify($mac, $message, $key)
     {
@@ -407,6 +419,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $keypair
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box($plaintext, $nonce, $keypair)
     {
@@ -429,6 +443,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $publicKey
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_seal($message, $publicKey)
     {
@@ -473,6 +489,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $keypair
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_seal_open($message, $keypair)
     {
@@ -520,6 +538,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $sk
      * @param string $pk
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_beforenm($sk, $pk)
     {
@@ -533,6 +553,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @internal Do not use this directly. Use ParagonIE_Sodium_Compat.
      *
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_keypair()
     {
@@ -544,6 +566,8 @@ abstract class ParagonIE_Sodium_Crypto
     /**
      * @param string $seed
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_seed_keypair($seed)
     {
@@ -562,6 +586,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $sKey
      * @param string $pKey
      * @return string
+     * @throws TypeError
      */
     public static function box_keypair_from_secretkey_and_publickey($sKey, $pKey)
     {
@@ -575,6 +600,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $keypair
      * @return string
      * @throws RangeException
+     * @throws TypeError
      */
     public static function box_secretkey($keypair)
     {
@@ -590,6 +616,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $keypair
      * @return string
      * @throws RangeException
+     * @throws TypeError
      */
     public static function box_publickey($keypair)
     {
@@ -605,6 +632,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $sKey
      * @return string
      * @throws RangeException
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_publickey_from_secretkey($sKey)
     {
@@ -621,9 +650,10 @@ abstract class ParagonIE_Sodium_Crypto
      *
      * @param string $ciphertext
      * @param string $nonce
-     * @param string $nonce
      * @param string $keypair
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function box_open($ciphertext, $nonce, $keypair)
     {
@@ -647,6 +677,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param int $outlen
      * @return string
      * @throws RangeException
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function generichash($message, $key = '', $outlen = 32)
     {
@@ -686,6 +718,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $ctx
      * @param int $outlen
      * @return string
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function generichash_final($ctx, $outlen = 32)
@@ -715,6 +748,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param int $outputLength
      * @return string
      * @throws RangeException
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function generichash_init($key = '', $outputLength = 32)
     {
@@ -743,6 +778,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $ctx
      * @param string $message
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function generichash_update($ctx, $message)
     {
@@ -770,6 +807,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $client_pk
      * @param string $server_pk
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function keyExchange($my_sk, $their_pk, $client_pk, $server_pk)
     {
@@ -790,6 +829,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @return string
      *
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function scalarmult($sKey, $pKey)
     {
@@ -806,6 +846,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @return string
      *
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function scalarmult_base($secret)
     {
@@ -820,6 +861,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $q
      * @return void
      * @throws SodiumException
+     * @throws TypeError
      */
     protected static function scalarmult_throw_if_zero($q)
     {
@@ -843,6 +885,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function secretbox($plaintext, $nonce, $key)
     {
@@ -917,6 +961,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $key
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function secretbox_open($ciphertext, $nonce, $key)
     {
@@ -988,6 +1033,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $nonce
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function secretbox_xchacha20poly1305($plaintext, $nonce, $key)
     {
@@ -1066,6 +1113,7 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $key
      * @return string
      * @throws SodiumException
+     * @throws TypeError
      */
     public static function secretbox_xchacha20poly1305_open($ciphertext, $nonce, $key)
     {
@@ -1138,6 +1186,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $sk
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sign_detached($message, $sk)
     {
@@ -1152,6 +1202,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $sk
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sign($message, $sk)
     {
@@ -1166,6 +1218,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $signedMessage
      * @param string $pk
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sign_open($signedMessage, $pk)
     {
@@ -1181,6 +1235,8 @@ abstract class ParagonIE_Sodium_Crypto
      * @param string $message
      * @param string $pk
      * @return bool
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sign_verify_detached($signature, $message, $pk)
     {

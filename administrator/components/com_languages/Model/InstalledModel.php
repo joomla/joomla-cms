@@ -288,6 +288,7 @@ class InstalledModel extends ListModel
 		if ($limit !== 0)
 		{
 			$start = (int) $this->getState('list.start', 0);
+
 			return array_slice($installedLanguages, $start, $limit);
 		}
 

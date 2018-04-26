@@ -2,7 +2,7 @@ const fs = require('fs');
 const ini = require('ini');
 const Recurs = require("recursive-readdir");
 
-const rootPath = __dirname.replace('/build/build-modules-js', '');
+const rootPath = __dirname.replace('/build/build-modules-js', '').replace('\\build\\build-modules-js', '');
 const dir = rootPath + '/installation/language';
 const dest = rootPath + '/templates/system/js';
 
