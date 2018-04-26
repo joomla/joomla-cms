@@ -170,6 +170,7 @@ class ExtensionHelper
 		array('plugin', 'calendar', 'fields', 0),
 		array('plugin', 'checkboxes', 'fields', 0),
 		array('plugin', 'color', 'fields', 0),
+		array('plugin', 'displaylist', 'fields', 0),
 		array('plugin', 'editor', 'fields', 0),
 		array('plugin', 'imagelist', 'fields', 0),
 		array('plugin', 'integer', 'fields', 0),
