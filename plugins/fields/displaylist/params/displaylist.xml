@@ -9,8 +9,7 @@
 				description="PLG_FIELDS_DISPLAYLIST_PARAMS_LIST_NAME_DESC"
 				icon="list"
 				multiple="true"
-			>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 </form>
