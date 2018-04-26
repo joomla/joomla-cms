@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.8.0" group="fields" method="upgrade">
+	<name>plg_fields_displaylist</name>
+	<author>Joomla! Project</author>
+	<creationDate>April 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_FIELDS_DISPLAYLIST_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="displaylist">displaylist.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_fields_displaylist.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_fields_displaylist.sys.ini</language>
+	</languages>
+</extension>
