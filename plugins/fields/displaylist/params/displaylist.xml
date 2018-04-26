@@ -5,9 +5,9 @@
 			<field
 				name="options"
 				type="text"
-				icon="list"
 				label="PLG_FIELDS_DISPLAYLIST_PARAMS_LIST_NAME_LABEL"
 				description="PLG_FIELDS_DISPLAYLIST_PARAMS_LIST_NAME_DESC"
+				icon="list"
 				multiple="true"
 			>
 			</field>
