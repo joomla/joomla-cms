@@ -96,7 +96,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @return  \Joomla\CMS\Table\Table|null
 	 *
-	 * @since  3.7.00
+	 * @since  3.7.0
 	 */
 	public static function getItem($extensionName, $typeName, $itemId)
 	{
