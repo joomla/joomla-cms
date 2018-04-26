@@ -53,7 +53,7 @@ if (!empty($editor))
 				<thead>
 					<tr>
 						<th style="width:1%" class="text-center nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'ws.condition', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -85,7 +85,6 @@ if (!empty($editor))
 					-2 => 'icon-trash',
 					0  => 'icon-unpublish',
 					1  => 'icon-publish',
-					2  => 'icon-archive',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -111,7 +110,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							<span class="<?php echo $iconStates[$this->escape($item->status)]; ?>" aria-hidden="true"></span>
 						</td>
 						<td>
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'

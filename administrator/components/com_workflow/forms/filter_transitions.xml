@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+	<fields name="filter">
+
+		<field
+				name="search"
+				type="text"
+				label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
+				hint="JSEARCH_FILTER"
+		/>
+
+		<field
+				name="published"
+				type="status"
+				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
+				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+				onchange="this.form.submit();"
+				filter="-2,0,1"
+		>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+				name="from_state"
+				type="sql"
+				label="COM_WORKFLOW_FROM_STATE"
+				description="COM_WORKFLOW_FROM_STATE_DESC"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_WORKFLOW_SELECT_FROM_STATE</option>
+		</field>
+
+		<field
+				name="to_state"
+				type="sql"
+				label="COM_WORKFLOW_FROM_STATE"
+				description="COM_WORKFLOW_FROM_STATE_DESC"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_WORKFLOW_SELECT_TO_STATE</option>
+		</field>
+
+	</fields>
+
+	<fields name="list">
+
+		<field
+				name="fullordering"
+				type="list"
+				label="JGLOBAL_SORT_BY"
+				description="JGLOBAL_SORT_BY"
+				default="t.ordering ASC"
+				statuses="*,0,1,2,-2"
+				onchange="this.form.submit();"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option vaule="t.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option vaule="t.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="t.published ASC">JSTATUS_ASC</option>
+			<option value="t.published DESC">JSTATUS_DESC</option>
+			<option value="t.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="t.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+				name="limit"
+				type="limitbox"
+				label="COM_WORKFLOW_LIST_LIMIT"
+				description="COM_WORKFLOW_LIST_LIMIT_DESC"
+				default="25"
+				onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

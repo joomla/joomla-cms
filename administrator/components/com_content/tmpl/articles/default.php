@@ -49,10 +49,22 @@ if ($saveOrder && !empty($this->items))
 	JHtml::_('draggablelist.draggable');
 }
 
-$assoc = JLanguageAssociations::isEnabled();
+$js = "
+	;(function($)
+	{
+		$(function()
+		{
+			$('.article-status').on('click', function(e)
+			{
+				e.stopPropagation();
+			});
+		});
+	})(jQuery);
+";
 
-// Configure content state button renderer.
-$publishedButton = new PublishedButton(['task_prefix' => 'articles.', 'checkbox_name' => 'cb']);
+\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+
+$assoc = JLanguageAssociations::isEnabled();
 
 // Configure featured button renderer.
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
@@ -70,8 +82,8 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
-				// Search tools bar
-				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+					// Search tools bar
+					echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -86,7 +98,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
 								<th style="width:1%" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+									<?php echo JText::_("COM_CONTENT_STATE") ?>
 								</th>
 								<th style="min-width:100px" class="nowrap">
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -143,6 +155,18 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state_id);
+
+							$hasTransitions = count($transitions) > 0;
+
+							$default = [
+								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '-1', '--------', ['disable' => true])
+							];
+
+							$transitions = array_merge($default, $transitions);
+
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -167,10 +191,49 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="text-center">
-									<div class="btn-group">
-										<?php echo $publishedButton->render($item->state, $i, ['disabled' => !$canChange], $item->publish_up, $item->publish_down); ?>
+								<td class="article-status">
+									<div class="d-flex">
+										<div class="btn-group tbody-icon mr-1">
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+										<?php
+
+										$icon = 'publish';
+
+										switch ($item->state_condition) :
+
+											case -2:
+												$icon = 'trash';
+												break;
+
+											case 0:
+												$icon = 'unpublish';
+												break;
+
+										endswitch;
+										?>
+										<?php if ($hasTransitions) : ?>
+											<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
+												<span class="icon-<?php echo $icon; ?>"></span>
+											</a>
+										<?php else : ?>
+											<span class="icon-<?php echo $icon; ?>"></span>
+										<?php endif; ?>
+										</div>
+										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<?php if ($hasTransitions) : ?>
+										<div class="d-none">
+											<?php
+												$attribs = [
+													'id'	=> 'transition-select_' . (int) $item->id,
+													'list.attr' => [
+														'class'		=> 'custom-select custom-select-sm',
+														'style'     => 'min-width: 50%;',
+														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+													];
+												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
+											?>
+										</div>
+										<?php endif; ?>
 									</div>
 								</td>
 								<td class="has-context">
@@ -259,8 +322,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 					</table>
 					<?php // Load the batch processing form. ?>
 					<?php if ($user->authorise('core.create', 'com_content')
-						&& $user->authorise('core.edit', 'com_content')
-						&& $user->authorise('core.edit.state', 'com_content')) : ?>
+						&& $user->authorise('core.edit', 'com_content')) : ?>
 						<?php echo JHtml::_(
 							'bootstrap.renderModal',
 							'collapseModal',

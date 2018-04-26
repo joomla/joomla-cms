@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+    <fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+
+        <field
+                name="id"
+                type="text"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                default="0"
+                class="readonly"
+                size="10"
+                readonly="true"
+        />
+
+        <field
+                name="extension"
+                type="hidden"
+        />
+
+        <field
+                name="title"
+                type="text"
+                label="COM_WORKFLOW_FIELD_TITLE_LABEL"
+                class="input-xxlarge input-large-text"
+                size="40"
+                required="true"
+        />
+
+        <field
+                name="description"
+                type="editor"
+                label="COM_WORKFLOW_FIELD_DESC_LABEL"
+                class="input-xxlarge input-large-text"
+        />
+
+    </fieldset>
+
+    <fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
+
+        <field
+                name="published"
+                type="status"
+                label="COM_WORKFLOW_PUBLISHED_LABEL"
+                required="true"
+                default="1"
+		filter="-2,0,1"
+        />
+
+        <field
+                name="default"
+                type="radio"
+                label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
+                class="switcher"
+                default="0"
+                required="true"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="created"
+                type="text"
+                label="COM_WORKFLOW_CREATED_LABEL"
+                readonly="true"
+        />
+
+        <field
+                name="modified"
+                type="text"
+                label="COM_WORKFLOW_MODIFIED_LABEL"
+                readonly="true"
+        />
+
+    </fieldset>
+
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+    >
+        <field name="asset_id"
+               type="hidden"
+               filter="unset"/>
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                class="inputbox"
+                validate="rules"
+                filter="rules"
+                component="com_workflow"
+                section="workflow"
+        />
+    </fieldset>
+
+</form>

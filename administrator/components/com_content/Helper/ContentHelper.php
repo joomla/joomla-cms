@@ -9,6 +9,8 @@
 
 namespace Joomla\Component\Content\Administrator\Helper;
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
@@ -41,6 +43,34 @@ class ContentHelper extends \JHelperContent
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories'
 		);
+
+		if (\JComponentHelper::isEnabled('com_workflow') && \JComponentHelper::getParams('com_content')->get('workflows_enable', 1))
+		{
+			\JHtmlSidebar::addEntry(
+				\JText::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
+				'index.php?option=com_workflow&extension=com_content',
+				$vName == 'workflows'
+			);
+
+			if ($vName == 'states' || $vName == 'transitions')
+			{
+				$app        = Factory::getApplication();
+				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
+
+				\JHtmlSidebar::addEntry(
+					\JText::_('COM_WORKFLOW_STATES'),
+					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
+					$vName == 'states`'
+				);
+
+				\JHtmlSidebar::addEntry(
+					\JText::_('COM_WORKFLOW_TRANSITIONS'),
+					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
+					$vName == 'transitions'
+				);
+			}
+		}
+
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
@@ -104,36 +134,38 @@ class ContentHelper extends \JHelperContent
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
+			$item->count_trashed     = 0;
 			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
-				->from($db->qn('#__content'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$articles = $db->loadObjectList();
+			$item->count_published   = 0;
+
+			$query  = $db->getQuery(true);
+
+			$query	->select($db->qn('condition'))
+					->select('COUNT(*) AS ' . $db->qn('count'))
+					->from($db->qn('#__content', 'c'))
+					->from($db->qn('#__workflow_states', 's'))
+					->from($db->qn('#__workflow_associations', 'a'))
+					->where($db->qn('a.item_id') . ' = ' . $db->qn('c.id'))
+					->where($db->qn('s.id') . ' = ' . $db->qn('a.state_id'))
+					->where('catid = ' . (int) $item->id)
+					->where('a.extension = ' . $db->quote('com_content'))
+					->group($db->qn('condition'));
+
+			$articles = $db->setQuery($query)->loadObjectList();
 
 			foreach ($articles as $article)
 			{
-				if ($article->state == 1)
+				if ($article->condition == 1)
 				{
 					$item->count_published = $article->count;
 				}
 
-				if ($article->state == 0)
+				if ($article->condition == 0)
 				{
 					$item->count_unpublished = $article->count;
 				}
 
-				if ($article->state == 2)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->state == -2)
+				if ($article->condition == -2)
 				{
 					$item->count_trashed = $article->count;
 				}
@@ -155,9 +187,9 @@ class ContentHelper extends \JHelperContent
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = \JFactory::getDbo();
-		$parts     = explode('.', $extension);
-		$section   = null;
+		$db      = \JFactory::getDbo();
+		$parts   = explode('.', $extension);
+		$section = null;
 
 		if (count($parts) > 1)
 		{
@@ -169,17 +201,17 @@ class ContentHelper extends \JHelperContent
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join  = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
 			$state = 'published as state';
 		}
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
+			$item->count_trashed     = 0;
+			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
+			$item->count_published   = 0;
+			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
 				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
@@ -236,7 +268,7 @@ class ContentHelper extends \JHelperContent
 				// Editing an article
 				case 'form':
 
-				// Category list view
+					// Category list view
 				case 'featured':
 				case 'category':
 					$section = 'article';
@@ -269,5 +301,87 @@ class ContentHelper extends \JHelperContent
 		);
 
 		return $contexts;
+	}
+
+	/**
+	 * Check if state can be deleted
+	 *
+	 * @param   int  $stateID  Id of state to delete
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function canDeleteState($stateID)
+	{
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('id')
+			->from($db->qn('#__content'))
+			->where('state = ' . (int) $stateID);
+		$db->setQuery($query);
+		$states = $db->loadResult();
+
+		return empty($states);
+	}
+
+	/**
+	 * Method to filter transitions by given id of state
+	 *
+	 * @param   int  $transitions  Array of transitions
+	 * @param   int  $pk           Id of state
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function filterTransitions($transitions, $pk)
+	{
+		return array_values(
+			array_filter(
+				$transitions,
+				function ($var) use ($pk)
+				{
+					return $var['from_state_id'] == $pk;
+				}
+			)
+		);
+	}
+
+	/**
+	 * Method to change state of multiple ids
+	 *
+	 * @param   int  $pks         Array of IDs
+	 * @param   int  $condition  Condition of the workflow state
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateContentState($pks, $condition)
+	{
+		if (empty($pks))
+		{
+			return false;
+		}
+
+		try
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->update($db->qn('#__content'))
+				->set($db->qn('state') . '=' . (int) $condition)
+				->where($db->qn('id') . ' IN (' . implode(', ', $pks) . ')');
+
+			$db->setQuery($query)->execute();
+		}
+		catch (\Exception $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

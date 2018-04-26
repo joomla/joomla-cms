@@ -10,11 +10,26 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+				name="state"
+				type="workflowstate"
+				label="COM_CONTENT_STATES"
+				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+				onchange="this.form.submit();"
+				activeonly="true"
+		>
+			<option value="">COM_CONTENT_SELECT_STATE</option>
+		</field>
+
+		<field
+				name="condition"
+				type="list"
+				label="COM_CONTENT_STATES"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_CONTENT_SELECT_CONDITION</option>
+			<option value="-2">COM_CONTENT_TRASHED</option>
+			<option value="0">COM_CONTENT_UNPUBLISHED</option>
+			<option value="1">COM_CONTENT_PUBLISHED</option>
 		</field>
 
 		<field

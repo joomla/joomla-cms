@@ -24,6 +24,20 @@
 			>
 				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>
+
+			<field
+				name="state"
+			    type="sql"
+			    sql_select="id, title"
+			    sql_from="#__workflow_states"
+			    key_field="id"
+			    value_field="title"
+				multiple="true"
+				size="5"
+			    label="COM_CONTENT_STATE"
+			    >
+
+			</field>
 		</fieldset>
 	</fields>
 

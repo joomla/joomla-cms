@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+	<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+
+		<field
+			name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			default="0"
+			class="readonly"
+			size="10"
+			readonly="true"
+		/>
+
+		<field
+			name="title"
+			type="text"
+			label="COM_WORKFLOW_FIELD_TITLE_LABEL"
+			class="input-xxlarge input-large-text"
+			size="40"
+			required="true"
+		/>
+		<field
+			name="from_state_id"
+			type="sql"
+			label="COM_WORKFLOW_FROM_STATE"
+			required="true"
+		/>
+
+		<field
+			name="to_state_id"
+			type="sql"
+			label="COM_WORKFLOW_TO_STATE"
+			required="true"
+		/>
+		<field
+			name="description"
+			type="editor"
+			label="COM_WORKFLOW_FIELD_DESC_LABEL"
+			class="input-xxlarge input-large-text"
+		/>
+
+	</fieldset>
+
+	<fieldset name="params"
+	          label="COM_WORKFLOW_PARAMS_LABEL">
+		<field
+			name="published"
+			type="status"
+			label="COM_WORKFLOW_PUBLISHED_LABEL"
+			required="true"
+		        default="1"
+			filter="-2,0,1"
+		/>
+
+	</fieldset>
+
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+	>
+		<field 
+			name="asset_id"
+			type="hidden"
+			filter="unset"/>
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			validate="rules"
+			filter="rules"
+			component="com_workflow"
+			section="transition"
+		/>
+	</fieldset>
+</form>

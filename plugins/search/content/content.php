@@ -278,8 +278,9 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+				->join('LEFT', '#__workflow_states AS ws ON ws.id = state')
 				->where(
-					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'

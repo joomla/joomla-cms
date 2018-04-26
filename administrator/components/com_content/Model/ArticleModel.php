@@ -11,6 +11,13 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Model\Form;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -158,6 +165,48 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
+	 * Batch change workflow state or current.
+	 *
+	 * @param   integer  $value     The workflow state ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function batchWorkflowState($value, $pks, $contexts)
+	{
+		$user = Factory::getUser();
+
+		if (!$user->authorise('core.admin', 'com_content'))
+		{
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+		}
+
+		// Get state information
+		$state = new StateTable($this->_db);
+
+		if (empty($value) || !$state->load($value))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		if (empty($pks))
+		{
+			Factory::getApplication()->enqueueMessage(\JText::sprintf('JGLOBAL_BATCH_WORKFLOW_STATE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		// Update content state value and workflow associations
+		return ContentHelper::updateContentState($pks, $state->condition)
+				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value);
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object  $record  A record object.
@@ -170,7 +219,11 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			if ($record->state != -2)
+			$state = new StateTable($this->_db);
+
+			$workflowAssociation = WorkflowHelper::getAssociatedEntry((int) $record->id);
+
+			if (!$state->load($workflowAssociation->state_id) || $state->condition != -2)
 			{
 				return false;
 			}
@@ -305,7 +358,7 @@ class ArticleModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -320,6 +373,8 @@ class ArticleModel extends AdminModel
 		}
 
 		$jinput = \JFactory::getApplication()->input;
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -328,15 +383,23 @@ class ArticleModel extends AdminModel
 		$id = $jinput->get('a_id', $jinput->get('id', 0));
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id = $this->getState('article.id', $id))
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+
+			$table = $this->getTable();
+
+			if ($table->load(array('id' => $id)))
+			{
+				// Transition field
+				$workflowState = WorkflowHelper::getAssociatedEntry($table->id);
+				$form->setFieldAttribute('transition', 'workflow_state', (int) $workflowState->state_id);
+			}
+
 		}
 		else
 		{
@@ -344,7 +407,7 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = \JFactory::getUser();
+		$user  = \JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -481,6 +544,8 @@ class ArticleModel extends AdminModel
 	{
 		$input  = \JFactory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
+		$db     = $this->getDbo();
+		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -569,8 +634,68 @@ class ArticleModel extends AdminModel
 					$data['alias'] = '';
 				}
 			}
+		}
 
-			$data['state'] = 0;
+		$workflowId = 0;
+		$stateId = 0;
+
+		// Set status depending on category
+		if (empty($data['id']))
+		{
+			$workflow = $this->getWorkflowByCategory($data['catid']);
+
+			if (empty($workflow->id))
+			{
+				$this->setError(\JText::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+				return false;
+			}
+
+			$stateId = (int) $workflow->state_id;
+			$workflowId = (int) $workflow->id;
+
+			// B/C state
+			$data['state'] = (int) $workflow->condition;
+
+			// No transition for new articles
+			if (isset($data['transition']))
+			{
+				unset($data['transition']);
+			}
+		}
+		// Calculate new status depending on transition
+		elseif (!empty($data['transition']))
+		{
+			// Check if the user is allowed to execute this transition
+			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
+			{
+				$this->setError(JText::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+
+				return false;
+			}
+
+			// Set the new state
+			$query = $db->getQuery(true);
+
+			$query	->select($db->qn(['ws.id', 'ws.condition']))
+					->from($db->qn('#__workflow_states', 'ws'))
+					->from($db->qn('#__workflow_transitions', 'wt'))
+					->where($db->qn('wt.to_state_id') . ' = ' . $db->qn('ws.id'))
+					->where($db->qn('wt.id') . ' = ' . (int) $data['transition'])
+					->where($db->qn('ws.published') . ' = 1')
+					->where($db->qn('wt.published') . ' = 1');
+
+			$state = $db->setQuery($query)->loadObject();
+
+			if (empty($state->id))
+			{
+				$this->setError(JText::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
+
+				return false;
+			}
+
+			$data['state'] = (int) $state->condition;
+
 		}
 
 		// Automatic handling of alias for empty fields
@@ -609,6 +734,49 @@ class ArticleModel extends AdminModel
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+			}
+
+			// Run the transition and update the workflow association
+			if (!empty($data['transition']))
+			{
+				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
+			}
+
+			// Let's check if we have workflow association (perhaps something went wrong before)
+			if (empty($stateId))
+			{
+				$assoc = WorkflowHelper::getAssociatedEntry($this->getState($this->getName() . '.id'));
+
+				// If not, reset the state and let's create the associations
+				if (empty($assoc->item_id))
+				{
+					$table = $this->getTable();
+
+					$table->load((int) $this->getState($this->getName() . '.id'));
+
+					$workflow = $this->getWorkflowByCategory($table->catid);
+
+					if (empty($workflow->id))
+					{
+						$this->setError(\JText::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+						return false;
+					}
+
+					$stateId = (int) $workflow->state_id;
+					$workflowId = (int) $workflow->id;
+
+					// B/C state
+					$table->state = $workflow->condition;
+
+					$table->store();
+				}
+			}
+
+			// If we have a new state, create the workflow association
+			if (!empty($stateId))
+			{
+				WorkflowHelper::addAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
 			}
 
 			return true;
@@ -841,8 +1009,129 @@ class ArticleModel extends AdminModel
 				->where('content_id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 			$db->execute();
+
+			// Remove entry in workflow_association table
+			WorkflowHelper::removeAssociationsByItemIds($pks);
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Load the assigned workflow information by a given category ID
+	 *
+	 * @param   int  $catId  The give category
+	 *
+	 * @return  integer|boolean  If found, the workflow ID, otherwise false
+	 */
+	protected function getWorkflowByCategory($catId)
+	{
+		$db = $this->getDbo();
+
+		$category = Categories::getInstance('content')->get($catId);
+
+		if (!empty($category->id) && !empty($category->params))
+		{
+			$catparams = new Registry($category->params);
+
+			// Recheck if the workflow still exists
+			if ($catparams->get('workflow_id') > 0)
+			{
+				$query  = $db->getQuery(true);
+
+				$query	->select($db->qn(
+						[
+							'w.id',
+							'ws.condition'
+						]))
+						->select($db->qn('ws.id', 'state_id'))
+						->from($db->qn('#__workflow_states', 'ws'))
+						->from($db->qn('#__workflows', 'w'))
+						->where($db->qn('ws.default') . ' = 1')
+						->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
+						->where($db->qn('w.published') . ' = 1')
+						->where($db->qn('ws.published') . ' = 1')
+						->where($db->qn('w.id') . ' = ' . (int) $catparams->get('workflow_id'));
+
+				$workflow = $db->setQuery($query)->loadObject();
+
+				if (!empty($workflow->id))
+				{
+					return $workflow;
+				}
+			}
+		}
+
+		// Use default workflow
+		$query  = $db->getQuery(true);
+
+		$query	->select($db->qn(
+				[
+					'w.id',
+					'ws.condition'
+				]))
+				->select($db->qn('ws.id', 'state_id'))
+				->from($db->qn('#__workflow_states', 'ws'))
+				->from($db->qn('#__workflows', 'w'))
+				->where($db->qn('ws.default') . ' = 1')
+				->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
+				->where($db->qn('w.published') . ' = 1')
+				->where($db->qn('ws.published') . ' = 1')
+				->where($db->qn('w.default') . ' = 1');
+
+		$workflow = $db->setQuery($query)->loadObject();
+
+		// Last check if we have a workflow ID
+		if (!empty($workflow->id))
+		{
+			return $workflow;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Runs transition for item.
+	 *
+	 * @param   array  $pk          id of article
+	 * @param   array  $transition  id of transition
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0
+	 */
+	public function runTransition($pk, $transitionId)
+	{
+		$runTransaction = WorkflowHelper::runTransition($pk, $transitionId, 'com_content');
+
+		if (!$runTransaction)
+		{
+			$this->setError(\JText::_('COM_CONTENT_ERROR_UPDATE_STATE'));
+
+			return false;
+		}
+
+		// B/C state change trigger for UCM
+		$context = $this->option . '.' . $this->name;
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query	->select($db->qn('condition'))
+				->from($db->qn('#__workflow_states', 'ws'))
+				->from($db->qn('#__workflow_transitions', 'wt'))
+				->where($db->qn('ws.id') . ' = ' . $db->qn('wt.to_state_id'))
+				->where($db->qn('wt.id') . ' = ' . (int) $transitionId);
+
+		$value = (int) $db->setQuery($query)->loadResult();
+
+		// Include the plugins for the change of state event.
+		\JPluginHelper::importPlugin($this->events_map['change_state']);
+
+		// Trigger the change state event.
+		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $value]);
+
+		return true;
 	}
 }

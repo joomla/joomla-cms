@@ -50,21 +50,6 @@
 		/>
 
 		<field 
-			name="state" 
-			type="list" 
-			label="JSTATUS"
-			class="custom-select-color-state"
-			filter="intval" 
-			size="1" 
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
-		</field>
-
-		<field 
 			name="catid"
 			type="categoryedit"
 			class="advancedSelect"
@@ -73,6 +58,15 @@
 			required="true"
 			default=""
 		/>
+
+		<field
+			name="transition"
+			type="transition"
+			component="com_content"
+			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
+			label="COM_CONTENT_TRANSITION"
+		>
+		</field>
 
 		<field 
 			name="tags"

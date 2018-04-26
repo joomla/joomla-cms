@@ -350,8 +350,8 @@
 		</field>
 	</fieldset>
 
-	<fieldset 
-		name="editinglayout" 
+	<fieldset
+		name="editinglayout"
 		label="COM_CONTENT_EDITING_LAYOUT"
 		description="COM_CONTENT_CONFIG_EDITOR_LAYOUT"
 	>
@@ -518,7 +518,7 @@
 	>
 
 		<field
-			name="category_layout" 
+			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			menuitems="true"
@@ -537,7 +537,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -548,7 +548,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_description"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
@@ -559,7 +559,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_description_image"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
@@ -570,8 +570,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="maxLevel" 
+		<field
+			name="maxLevel"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
@@ -585,7 +585,7 @@
 			<option value="5">J5</option>
 		</field>
 
-		<field 
+		<field
 			name="show_empty_categories"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
@@ -596,7 +596,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
@@ -607,7 +607,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_subcat_desc"
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -618,7 +618,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_cat_num_articles"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
@@ -630,7 +630,7 @@
 		</field>
 
 		<field
-			name="show_cat_tags" 
+			name="show_cat_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 			default="1"
@@ -642,12 +642,12 @@
 
 	</fieldset>
 
-	<fieldset 
+	<fieldset
 		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_DESC"
 	>
-		<field 
+		<field
 			name="show_base_description"
 			type="radio"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
@@ -658,8 +658,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="maxLevelcat" 
+		<field
+			name="maxLevelcat"
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
@@ -673,7 +673,7 @@
 			<option value="5">J5</option>
 		</field>
 
-		<field 
+		<field
 			name="show_empty_categories_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
@@ -685,7 +685,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_subcat_desc_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -697,7 +697,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="show_cat_num_articles_cat"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
@@ -710,41 +710,41 @@
 
 	</fieldset>
 
-	<fieldset 
+	<fieldset
 		name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 	>
 
-		<field 
+		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
-			default="1"			
+			default="1"
 		/>
 
-		<field 
+		<field
 			name="num_intro_articles"
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			default="4"
 		/>
 
-		<field 
+		<field
 			name="num_columns"
 			type="number"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			default="2"
 		/>
 
-		<field 
+		<field
 			name="num_links"
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			default="4"
 		/>
 
-		<field 
+		<field
 			name="multi_column_order"
 			type="list"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
@@ -755,14 +755,14 @@
 			<option value="1">JGLOBAL_ACROSS</option>
 		</field>
 
-		<field 
+		<field
 			name="spacer1"
 			type="spacer"
 			hr="true"
 		/>
 
-		<field 
-			name="show_subcategory_content" 
+		<field
+			name="show_subcategory_content"
 			type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			default="0"
@@ -777,14 +777,14 @@
 		</field>
 	</fieldset>
 
-	<fieldset 
+	<fieldset
 		name="list_default_parameters"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
 		addfieldprefix="Joomla\Component\Content\Administrator\Field"
 	>
 
-		<field 
+		<field
 			name="show_pagination_limit"
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
@@ -795,7 +795,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="filter_field"
 			type="list"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
@@ -808,7 +808,7 @@
 			<option value="tag">JTAG</option>
 		</field>
 
-		<field 
+		<field
 			name="show_headings"
 			type="radio"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
@@ -819,7 +819,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="list_show_date"
 			type="list"
 			label="JGLOBAL_SHOW_DATE_LABEL"
@@ -831,7 +831,7 @@
 			<option value="published">JPUBLISHED</option>
 		</field>
 
-		<field 
+		<field
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
@@ -839,7 +839,7 @@
 			showon="list_show_date:created,modified,published"
 		/>
 
-		<field 
+		<field
 			name="list_show_hits"
 			type="radio"
 			label="JGLOBAL_LIST_HITS_LABEL"
@@ -850,7 +850,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="list_show_author"
 			type="radio"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
@@ -861,7 +861,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="list_show_votes"
 			type="voteradio"
 			label="JGLOBAL_LIST_VOTES_LABEL"
@@ -872,7 +872,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
+		<field
 			name="list_show_ratings"
 			type="voteradio"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
@@ -890,8 +890,8 @@
 		label="COM_CONTENT_SHARED_LABEL"
 		description="COM_CONTENT_SHARED_DESC"
 	>
-	
-		<field 
+
+		<field
 			name="orderby_pri"
 			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
@@ -926,7 +926,7 @@
 		</field>
 
 		<field
-			name="order_date" 
+			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
 			showon="orderby_sec:rdate,date"
@@ -937,7 +937,7 @@
 			<option value="published">JPUBLISHED</option>
 		</field>
 
-		<field 
+		<field
 			name="show_pagination"
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
@@ -948,7 +948,7 @@
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
-		<field 
+		<field
 			name="show_pagination_results"
 			type="radio"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
@@ -960,9 +960,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="show_featured" 
-			type="list" 
+		<field
+			name="show_featured"
+			type="list"
 			label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 			default="show"
 			>
@@ -973,7 +973,7 @@
 
 	</fieldset>
 
-	<fieldset 
+	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
@@ -1054,6 +1054,17 @@
 			name="custom_fields_enable"
 			type="radio"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="workflows_enable"
+			type="radio"
+			label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
 			class="switcher"
 			default="1"
 			>

@@ -17,6 +17,8 @@ use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Example Content Plugin
@@ -303,6 +305,91 @@ class PlgContentJoomla extends CMSPlugin
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
+
+		// Check if this function is enabled.
+		if (!$this->params->def('email_new_state', 0) || $context != 'com_content.article')
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
+
+		$users = (array) $db->setQuery($query)->loadColumn();
+
+		if (empty($users))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+
+		// Messaging for changed items
+		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = JFactory::getConfig()->get('debug_lang');
+		$result = true;
+
+		$article = new ArticleTable($db);
+
+		foreach ($pks as $pk)
+		{
+			if (!$article->load($pk))
+			{
+				continue;
+			}
+
+			$assoc = WorkflowHelper::getAssociatedEntry($pk);
+
+			// Load new transitions
+			$query = $db->getQuery(true)
+				->select($db->qn(['t.id']))
+				->from($db->qn('#__workflow_transitions', 't'))
+				->from($db->qn('#__workflow_states', 's'))
+				->where($db->qn('t.from_state_id') . ' = ' . (int) $assoc->state_id)
+				->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'))
+				->where($db->qn('t.published') . '= 1')
+				->where($db->qn('s.published') . '= 1')
+				->order($db->qn('t.ordering'));
+
+			$transitions = $db->setQuery($query)->loadObjectList();
+
+			foreach ($users as $user_id)
+			{
+				if ($user_id != $user->id)
+				{
+					// Check if the user has available transitions
+					$items = array_filter(
+						$transitions,
+						function ($item) use ($user)
+						{
+							return $user->authorise('core.execute.transition', 'com_content.transition.' . $item->id);
+						}
+					);
+
+					if (!count($items))
+					{
+						continue;
+					}
+
+					// Load language for messaging
+					$receiver = JUser::getInstance($user_id);
+					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+					$lang->load('plg_content_joomla');
+
+					$message = array(
+						'user_id_to' => $user_id,
+						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_SUBJECT'),
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_MSG'), $user->name, $article->title)
+					);
+
+					$model_message = new MessageModel;
+					$result = $model_message->save($message);
+				}
+			}
+		}
 
 		return true;
 	}

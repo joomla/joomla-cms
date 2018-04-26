@@ -111,6 +111,14 @@ class FeaturedModel extends ArticlesModel
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the states.
+		$query->select('wa.state_id AS state_id')
+			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+
+		// Join over the states.
+		$query->select('ws.title AS state_title, ws.condition AS state_condition')
+			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+
 		// Join on voting table
 		if (\JPluginHelper::isEnabled('content', 'vote'))
 		{
@@ -133,16 +141,25 @@ class FeaturedModel extends ArticlesModel
 		}
 
 		// Filter by published state
-		$published = $this->getState('filter.published');
+		$workflowState = (string) $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($workflowState))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('wa.state_id = ' . (int) $workflowState);
 		}
-		elseif ($published === '')
+
+		$condition = (string) $this->getState('filter.condition');
+
+		if (is_numeric($condition))
 		{
-			$query->where('(a.state = 0 OR a.state = 1)');
+			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
 		}
+		elseif (!is_numeric($workflowState))
+		{
+			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
+		}
+
+		$query->where($db->qn('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by a single or group of categories.
 		$baselevel = 1;

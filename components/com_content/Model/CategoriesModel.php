@@ -60,7 +60,7 @@ class CategoriesModel extends ListModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
+		$this->setState('filter.condition',	1);
 		$this->setState('filter.access',	true);
 	}
 
@@ -79,7 +79,7 @@ class CategoriesModel extends ListModel
 	{
 		// Compile the store id.
 		$id	.= ':' . $this->getState('filter.extension');
-		$id	.= ':' . $this->getState('filter.published');
+		$id	.= ':' . $this->getState('filter.condition');
 		$id	.= ':' . $this->getState('filter.access');
 		$id	.= ':' . $this->getState('filter.parentId');
 

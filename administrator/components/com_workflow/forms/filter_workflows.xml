@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+
+	<fields name="filter">
+
+		<field
+				name="search"
+				type="text"
+				label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
+				hint="JSEARCH_FILTER"
+		/>
+
+		<field
+				name="published"
+				type="status"
+				label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
+				description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+				onchange="this.form.submit();"
+				filter="-2,0,1"
+		>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+				name="created_by"
+				type="sql"
+				label="COM_CONTENT_FILTER_AUTHOR"
+				description="COM_CONTENT_FILTER_AUTHOR_DESC"
+				sql_select="u.id, u.name"
+				sql_from="#__users u, #__workflows w"
+				sql_where="u.id=w.created_by"
+				sql_group="u.id,u.name"
+				sql_order="u.name"
+				key_field="id"
+				value_field="name"
+				onchange="this.form.submit();"
+		>
+			<option value="">JOPTION_SELECT_AUTHOR</option>
+		</field>
+
+	</fields>
+
+	<fields name="list">
+
+		<field
+				name="fullordering"
+				type="list"
+				label="JGLOBAL_SORT_BY"
+				description="JGLOBAL_SORT_BY"
+				default="w.ordering ASC"
+				onchange="this.form.submit();"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="w.published ASC">JSTATUS_ASC</option>
+			<option value="w.published DESC">JSTATUS_DESC</option>
+			<option value="w.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="w.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="w.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="w.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="w.created_by ASC">JAUTHOR_ASC</option>
+			<option value="w.created_by DESC">JAUTHOR_DESC</option>
+			<option value="w.created ASC">COM_WORKFLOW_CREATED_AT_ASC</option>
+			<option value="w.created DESC">COM_WORKFLOW_CREATED_AT_DESC</option>
+			<option value="w.modified ASC">COM_WORKFLOW_MODIFIED_AT_ASC</option>
+			<option value="w.modified DESC">COM_WORKFLOW_MODIFIED_AT_DESC</option>
+			<option value="w.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="w.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+				name="limit"
+				type="limitbox"
+				label="COM_WORKFLOW_LIST_LIMIT"
+				description="COM_WORKFLOW_LIST_LIMIT_DESC"
+				default="25"
+				onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

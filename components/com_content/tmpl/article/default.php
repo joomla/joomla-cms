@@ -52,7 +52,7 @@ JHtml::_('behavior.caption');
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
-		<?php if ($this->item->state == 0) : ?>
+		<?php if ($this->item->condition == 2) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>

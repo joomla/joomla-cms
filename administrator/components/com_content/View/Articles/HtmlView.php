@@ -99,6 +99,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->transitions   = $this->get('Transitions');
 		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
@@ -165,18 +166,15 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			\JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			\JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
 			\JToolbarHelper::custom('articles.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			\JToolbarHelper::archiveList('articles.archive');
 			\JToolbarHelper::checkin('articles.checkin');
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_content')
 			&& $user->authorise('core.edit', 'com_content')
-			&& $user->authorise('core.edit.state', 'com_content'))
+			&& $user->authorise('core.execute.transition', 'com_content'))
 		{
 			$title = \JText::_('JTOOLBAR_BATCH');
 
@@ -187,13 +185,9 @@ class HtmlView extends BaseHtmlView
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.condition') == -2 && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('articles.trash');
 		}
 
 		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
