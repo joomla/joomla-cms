@@ -17,7 +17,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Display list plugin.
  *
- * @since    __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class PlgFieldsDisplayList extends FieldsPlugin
 {
