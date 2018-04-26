@@ -126,9 +126,9 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Runs a single transition for single item
 	 *
-	 * @param   array   $pk              id of article
-	 * @param   array   $transitionId    id of transition
-	 * @param   string  $extension       name of extension
+	 * @param   array   $pk            Id of article
+	 * @param   array   $transitionId  Id of transition
+	 * @param   string  $extension     Name of extension
 	 *
 	 * @return bool|resource
 	 *
@@ -175,9 +175,9 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Adds an association for the workflow_associations table
 	 *
-	 * @param   int     $itemId       id of content
-	 * @param   int     $stateId      id of state
-	 * @param   string  $extension    extension type
+	 * @param   int     $itemId     id of content
+	 * @param   int     $stateId    id of state
+	 * @param   string  $extension  extension type
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -197,8 +197,8 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Gets an association form the workflow_associations table
 	 *
-	 * @param   int     $itemId       id of content
-	 * @param   string  $extension    extension type
+	 * @param   int     $itemId     id of content
+	 * @param   string  $extension  extension type
 	 *
 	 * @return object
 	 *
@@ -221,8 +221,8 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Removes an association form the workflow_associations table
 	 *
-	 * @param   int     $itemId       id of content
-	 * @param   string  $extension    extension type
+	 * @param   int     $pks        id of content
+	 * @param   string  $extension  extension type
 	 *
 	 * @return boolean
 	 *
@@ -253,9 +253,9 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Updates an association in the workflow_associations table
 	 *
-	 * @param   int     $itemId       id of content
-	 * @param   int     $stateId       id of state
-	 * @param   string  $extension    extension type
+	 * @param   int     $itemId     id of content
+	 * @param   int     $stateId    id of state
+	 * @param   string  $extension  extension type
 	 *
 	 * @return boolean
 	 *
@@ -287,9 +287,9 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Updates multiple associations in the workflow_associations table to a given state
 	 *
-	 * @param   array   $itemIds      ids of content
-	 * @param   int     $stateId      id of state
-	 * @param   string  $extension    extension type
+	 * @param   array   $itemIds    ids of content
+	 * @param   int     $stateId    id of state
+	 * @param   string  $extension  extension type
 	 *
 	 * @return boolean
 	 *
@@ -326,7 +326,7 @@ class WorkflowHelper extends ContentHelper
 	/**
 	 * Gets the to_state of a transition
 	 *
-	 * @param   int  $transitionId    id of transition
+	 * @param   int  $transitionId  id of transition
 	 *
 	 * @return object
 	 *

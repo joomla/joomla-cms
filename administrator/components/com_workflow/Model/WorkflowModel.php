@@ -208,6 +208,17 @@ class WorkflowModel extends AdminModel
 		return $data;
 	}
 
+	/**
+	 * Method to preprocess the form.
+	 *
+	 * @param   \JForm  $form   A \JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
 		$extension = Factory::getApplication()->input->get('extension', 'com_content');
@@ -216,7 +227,7 @@ class WorkflowModel extends AdminModel
 		$form->setFieldAttribute('rules', 'component', $extension);
 		$form->setFieldAttribute('rules', 'section', 'workflow');
 
-		parent::preprocessData($form, $data, $group);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

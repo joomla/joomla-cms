@@ -352,7 +352,7 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Method to change state of multiple ids
 	 *
-	 * @param   int  $pks         Array of IDs
+	 * @param   int  $pks        Array of IDs
 	 * @param   int  $condition  Condition of the workflow state
 	 *
 	 * @return  boolean

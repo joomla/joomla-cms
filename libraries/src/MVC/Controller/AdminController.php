@@ -424,7 +424,10 @@ class AdminController extends BaseController
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 
-		if (count($pks) == 0) return false;
+		if (!count($pks))
+		{
+			return false;
+		}
 
 		$pk = (int) $pks[0];
 

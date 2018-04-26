@@ -1039,11 +1039,14 @@ class ArticleModel extends AdminModel
 			{
 				$query  = $db->getQuery(true);
 
-				$query	->select($db->qn(
-						[
-							'w.id',
-							'ws.condition'
-						]))
+				$query	->select(
+							$db->qn(
+								[
+									'w.id',
+									'ws.condition'
+								]
+							)
+						)
 						->select($db->qn('ws.id', 'state_id'))
 						->from($db->qn('#__workflow_states', 'ws'))
 						->from($db->qn('#__workflows', 'w'))
@@ -1065,11 +1068,14 @@ class ArticleModel extends AdminModel
 		// Use default workflow
 		$query  = $db->getQuery(true);
 
-		$query	->select($db->qn(
-				[
-					'w.id',
-					'ws.condition'
-				]))
+		$query	->select(
+				$db->qn(
+						[
+							'w.id',
+							'ws.condition'
+						]
+					)
+				)
 				->select($db->qn('ws.id', 'state_id'))
 				->from($db->qn('#__workflow_states', 'ws'))
 				->from($db->qn('#__workflows', 'w'))
@@ -1093,8 +1099,8 @@ class ArticleModel extends AdminModel
 	/**
 	 * Runs transition for item.
 	 *
-	 * @param   array  $pk          id of article
-	 * @param   array  $transition  id of transition
+	 * @param   array  $pk            Id of article
+	 * @param   array  $transitionId  Id of transition
 	 *
 	 * @return  boolean
 	 *

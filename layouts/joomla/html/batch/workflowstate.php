@@ -25,7 +25,7 @@ defined('JPATH_BASE') or die;
 $attr = array(
 	'id'        => 'batch-workflowstate-id',
 	'group.label' => 'text',
-    'group.items' => null
+	'group.items' => null
 );
 
 $groups = JHtml::_('workflowstate.existing', array('title' => JText::_('JLIB_HTML_BATCH_WORKFLOW_STATE_NOCHANGE')));
