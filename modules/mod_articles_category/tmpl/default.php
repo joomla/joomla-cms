@@ -86,7 +86,7 @@ $tagLayout = $params->get('show_tags', 0) ? new JLayoutFile('joomla.content.tags
 		<?php endforeach; ?>
 	<?php else : ?>
 		<?php foreach ($list as $item) : ?>
-						<li>
+			<li>
 				<?php if ($params->get('link_titles', 1)) : ?>
 					<a class="mod-articles-category-title<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 						<?php echo $item->title; ?>
