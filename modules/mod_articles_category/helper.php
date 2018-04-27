@@ -232,7 +232,6 @@ abstract class ModArticlesCategoryHelper
 		$showCategory   = $params->get('show_category', 0);
 		$showHits       = $params->get('show_hits', 0);
 		$showAuthor     = $params->get('show_author', 0);
-		$showTags       = $params->get('show_tags', 0);
 		$showIntrotext  = $params->get('show_introtext', 0);
 		$introtextLimit = $params->get('introtext_limit', 100);
 
@@ -297,7 +296,6 @@ abstract class ModArticlesCategoryHelper
 
 			$item->displayHits       = $showHits ? $item->hits : '';
 			$item->displayAuthorName = $showAuthor ? $item->author : '';
-			$item->displayTags       = $showTags ? $item->tags->itemTags : '';
 
 			if ($showIntrotext)
 			{
