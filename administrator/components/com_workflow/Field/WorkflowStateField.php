@@ -94,7 +94,7 @@ class WorkflowStateField extends GroupedlistField
 		// Select distinct states for existing articles
 		$query
 				->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
-				->select($db->qn(['ws.title', 'w.title', 'w.id'], ['workflow_state_title', 'workflow_title', 'workflow_id']))
+				->select($db->qn(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_state_title', 'workflow_title', 'workflow_id', 'ordering']))
 				->from($db->qn('#__workflow_states', 'ws'))
 				->from($db->qn('#__workflows', 'w'))
 				->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
