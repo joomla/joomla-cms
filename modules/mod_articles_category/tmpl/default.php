@@ -9,50 +9,62 @@
 
 defined('_JEXEC') or die;
 
+$tagLayout = $params->get('show_tags', 0) ? new JLayoutFile('joomla.content.tags') : null;
+
 ?>
 <ul class="category-module<?php echo $moduleclass_sfx; ?>">
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
-		<li>
-			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
-			<ul>
-				<?php foreach ($group as $item) : ?>
-					<li>
-						<?php if ($params->get('link_titles') == 1) : ?>
-							<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+			<li>
+				<div class="mod-articles-category-group">
+					<?php echo $group_name; ?>
+				</div>
+				<ul>
+					<?php foreach ($group as $item) : ?>
+						<li>
+							<?php if ($params->get('link_titles') == 1) : ?>
+								<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+									<?php echo $item->title; ?>
+								</a>
+							<?php else : ?>
 								<?php echo $item->title; ?>
-							</a>
-						<?php else : ?>
-							<?php echo $item->title; ?>
-						<?php endif; ?>
+							<?php endif; ?>
 
-						<?php if ($item->displayHits) : ?>
-							<span class="mod-articles-category-hits">
-								(<?php echo $item->displayHits; ?>)
-							</span>
-						<?php endif; ?>
+							<?php if ($item->displayHits) : ?>
+								<span class="mod-articles-category-hits">
+									(<?php echo $item->displayHits; ?>)
+								</span>
+							<?php endif; ?>
 
-						<?php if ($params->get('show_author')) : ?>
-							<span class="mod-articles-category-writtenby">
-								<?php echo $item->displayAuthorName; ?>
-							</span>
-						<?php endif; ?>
+							<?php if ($params->get('show_author')) : ?>
+								<span class="mod-articles-category-writtenby">
+									<?php echo $item->displayAuthorName; ?>
+								</span>
+							<?php endif; ?>
 
-						<?php if ($item->displayCategoryTitle) : ?>
-							<span class="mod-articles-category-category">
-								(<?php echo $item->displayCategoryTitle; ?>)
-							</span>
-						<?php endif; ?>
+							<?php if ($item->displayCategoryTitle) : ?>
+								<span class="mod-articles-category-category">
+									(<?php echo $item->displayCategoryTitle; ?>)
+								</span>
+							<?php endif; ?>
 
-						<?php if ($item->displayDate) : ?>
-							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
-						<?php endif; ?>
+							<?php if ($item->displayDate) : ?>
+								<span class="mod-articles-category-date">
+									<?php echo $item->displayDate; ?>
+								</span>
+							<?php endif; ?>
+			
+							<?php if($item->displayTags) : ?>
+								<p class="mod-articles-category-tags">
+									<?php echo $tagLayout->render($item->displayTags); ?>
+								</p>
+							<?php endif ;?>
 
-						<?php if ($params->get('show_introtext')) : ?>
-							<p class="mod-articles-category-introtext">
-								<?php echo $item->displayIntrotext; ?>
-							</p>
-						<?php endif; ?>
+							<?php if ($params->get('show_introtext')) : ?>
+								<p class="mod-articles-category-introtext">
+									<?php echo $item->displayIntrotext; ?>
+								</p>
+							<?php endif; ?>
 
 						<?php if ($params->get('show_readmore')) : ?>
 							<p class="mod-articles-category-readmore">
@@ -83,7 +95,9 @@ defined('_JEXEC') or die;
 		<?php foreach ($list as $item) : ?>
 			<li>
 				<?php if ($params->get('link_titles') == 1) : ?>
-					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>"><?php echo $item->title; ?></a>
+					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+						<?php echo $item->title; ?>
+					</a>
 				<?php else : ?>
 					<?php echo $item->title; ?>
 				<?php endif; ?>
@@ -111,6 +125,12 @@ defined('_JEXEC') or die;
 						<?php echo $item->displayDate; ?>
 					</span>
 				<?php endif; ?>
+
+				<?php if ($item->displayTags) : ?>
+					<p class="mod-articles-category-tags">
+						<?php echo $tagLayout->render($item->displayTags); ?>
+					</p>
+				<?php endif ;?>
 
 				<?php if ($params->get('show_introtext')) : ?>
 					<p class="mod-articles-category-introtext">
