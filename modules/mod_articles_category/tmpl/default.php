@@ -19,8 +19,10 @@ $tagLayout = $params->get('show_tags', 0) ? new JLayoutFile('joomla.content.tags
 				<div class="mod-articles-category-group">
 					<?php echo $groupName; ?>
 				</div>
-				<?php require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default') . '_items'); ?>
-		</li>
+				<ul>
+					<?php require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default') . '_items'); ?>
+				</ul>
+			</li>
 		<?php endforeach; ?>
 	<?php else : ?>
 		<?php require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default') . '_items'); ?>
