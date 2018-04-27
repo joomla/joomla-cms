@@ -106,6 +106,7 @@
 					class="multipleCategories"
 					extension="com_content"
 					multiple="true"
+					filter="int_array"
 				/>
 
 				<field
@@ -144,6 +145,7 @@
 					mode="nested"
 					multiple="true"
 					class="multipleTags"
+					filter="int_array"
 				/>
 
 				<field
@@ -171,6 +173,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
 					multiple="true"
 					class="multipleAuthors"
+					filter="int_array"
 					>
 					<option value="0">JNONE</option>
 				</field>
