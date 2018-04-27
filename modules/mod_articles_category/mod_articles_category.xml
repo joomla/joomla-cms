@@ -106,8 +106,7 @@
 					class="multipleCategories"
 					extension="com_content"
 					multiple="true"
-					>
-				</field>
+				/>
 
 				<field
 					name="show_child_category_articles"
@@ -204,8 +203,7 @@
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
-					>
-				</field>
+				/>
 
 				<field
 					name="filteringspacer4"
