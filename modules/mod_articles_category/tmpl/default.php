@@ -14,10 +14,10 @@ $tagLayout = $params->get('show_tags', 0) ? new JLayoutFile('joomla.content.tags
 ?>
 <ul class="category-module<?php echo $moduleclass_sfx; ?>">
 	<?php if ($grouped) : ?>
-		<?php foreach ($list as $group_name => $list) : ?>
+		<?php foreach ($list as $groupName => $list) : ?>
 			<li>
 				<div class="mod-articles-category-group">
-					<?php echo $group_name; ?>
+					<?php echo $groupName; ?>
 				</div>
 				<?php require JModuleHelper::getLayoutPath('mod_articles_category', $params->get('layout', 'default') . '_items'); ?>
 		</li>
