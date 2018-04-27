@@ -77,7 +77,7 @@ abstract class ModArticlesCategoryHelper
 							if ($params->get('show_on_article_page', 1))
 							{
 								$articleId = $app->input->getInt('id');
-								$catId      = $app->input->getInt('catid');
+								$catId     = $app->input->getInt('catid');
 
 								if (!$catId)
 								{
@@ -252,7 +252,7 @@ abstract class ModArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
 			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
 			$item->catslug = $item->catid . ':' . $item->category_alias;
@@ -281,7 +281,7 @@ abstract class ModArticlesCategoryHelper
 			}
 
 			// Used for styling the active article
-			$item->active      = $item->id === $activeArticleId ? ' active' : '';
+			$item->active = $item->id === $activeArticleId ? ' active' : '';
 	
 			$item->displayDate = $showDate ? JHtml::_('date', $item->$showDateField, $showDateFormat) : '';
 
