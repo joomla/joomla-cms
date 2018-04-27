@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -801,7 +801,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}

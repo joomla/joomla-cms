@@ -114,7 +114,7 @@ class PostinstallModelMessages extends FOFModel
 	 *
 	 * @return  mixed  False if we fail, a db cursor otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public function hideMessages($eid)
 	{
