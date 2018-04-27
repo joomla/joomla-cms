@@ -245,7 +245,7 @@ class WorkflowModel extends AdminModel
 	}
 
 	/**
-	 * Method to change the home state of one item.
+	 * Method to change the default state of one item.
 	 *
 	 * @param   array    $pk     A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
@@ -262,11 +262,13 @@ class WorkflowModel extends AdminModel
 		{
 			if ($table->published !== 1)
 			{
-				$this->setError(\JText::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+				$this->setError(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
 		}
+
+		$date = Factory::getDate()->toSql();
 
 		if ($value)
 		{
@@ -274,14 +276,14 @@ class WorkflowModel extends AdminModel
 			if ($table->load(array('default' => '1')))
 			{
 				$table->default = 0;
-				$table->modified = date("Y-m-d H:i:s");
+				$table->modified = $date;
 				$table->store();
 			}
 		}
 
 		if ($table->load(array('id' => $pk)))
 		{
-			$table->modified = date("Y-m-d H:i:s");
+			$table->modified = $date;
 			$table->default  = $value;
 			$table->store();
 		}
@@ -349,7 +351,9 @@ class WorkflowModel extends AdminModel
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
-		// Default menu item existence checks.
+		$date = Factory::getDate()->toSql();
+
+		// Default workflow item existence checks.
 		foreach ($pks as $i => $pk)
 		{
 			if ($value != 1 && $table->default)
@@ -360,7 +364,7 @@ class WorkflowModel extends AdminModel
 			}
 
 			$table->load($pk);
-			$table->modified = date("Y-m-d H:i:s");
+			$table->modified = $date;
 			$table->store();
 		}
 
