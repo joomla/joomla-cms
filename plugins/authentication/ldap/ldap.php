@@ -110,7 +110,7 @@ class PlgAuthenticationLdap extends JPlugin
 				else
 				{
 					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_NOT_BIND');
+					$response->error_message = JText::_('JGLOBAL_AUTH_NOT_CONNECT');
 				}
 			}	break;
 
