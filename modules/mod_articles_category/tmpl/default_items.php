@@ -57,12 +57,11 @@ defined('_JEXEC') or die;
 							<?php echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
 						<?php elseif (isset($item->alternative_readmore)) : ?>
 							<?php echo $item->alternative_readmore; ?>
-							<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit', 15)); ?>
-								<?php if ($params->get('show_readmore_title', 1)) : ?>
-									<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit', 15)); ?>
-								<?php endif; ?>
+							<?php if ($params->get('show_readmore_title', 1)) : ?>
+								<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit', 15)); ?>
+							<?php endif; ?>
 						<?php elseif (!$params->get('show_readmore_title', 1)) : ?>
-							<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
+							<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 						<?php else : ?>
 							<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
 							<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit', 15)); ?>
