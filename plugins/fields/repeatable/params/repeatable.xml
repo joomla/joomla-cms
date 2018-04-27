@@ -26,7 +26,7 @@
 								description="PLG_FIELDS__REPEATABLE_PARAMS_FIELDNAME_TYPE_DESC"
 								icon="list"
 								multiple="false"
-							>
+								>
 								<option value="text">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXT</option>
 								<option value="textarea">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXTAREA</option>
 								<option value="media">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_MEDIA</option>
