@@ -268,7 +268,7 @@ class StateModel extends AdminModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function setHome($pk, $value = 1)
+	public function setDefault($pk, $value = 1)
 	{
 		$table = $this->getTable();
 

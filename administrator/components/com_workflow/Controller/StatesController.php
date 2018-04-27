@@ -70,8 +70,6 @@ class StatesController extends AdminController
 		// Check for request forgeries
 		\JSession::checkToken('request') or die(\JText::_('JINVALID_TOKEN'));
 
-		$app = $this->app;
-
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
@@ -91,11 +89,11 @@ class StatesController extends AdminController
 			return;
 		}
 
-		if (empty($cid))
+		if (empty($cid) || !is_array($cid))
 		{
 			$this->setMessage(\JText::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
-		elseif (is_numeric($cid[1]))
+		elseif (count($cid) > 1)
 		{
 			$this->setMessage(\JText::_('COM_WORKFLOW_TO_MANY_ITEMS'), 'error');
 		}
@@ -105,24 +103,16 @@ class StatesController extends AdminController
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
+			$id = (int) reset($cid);
 
 			// Publish the items.
-			if (!$model->setHome((int) $cid[0], $value))
+			if (!$model->setDefault($id, $value))
 			{
 				$this->setMessage($model->getError(), 'warning');
 			}
 			else
 			{
-				if ($value == 1)
-				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
-				}
-				else
-				{
-					$ntext = 'COM_WORKFLOW_ITEM_UNSET_DEFAULT';
-				}
-
-				$this->setMessage(\JText::_($ntext, count($cid)));
+				$this->setMessage(\JText::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
 			}
 		}
 
