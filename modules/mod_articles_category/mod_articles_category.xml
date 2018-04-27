@@ -205,7 +205,6 @@
 					key_field="created_by_alias"
 					value_field="created_by_alias"
 					>
-					<option value="">JOPTION_SELECT_AUTHOR_ALIASES</option>
 				</field>
 
 				<field
@@ -552,7 +551,7 @@
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 					default="15"
-					showon="show_readmore:1"
+					showon="show_readmore_title:1"
 					filter="integer"
 				/>
 
