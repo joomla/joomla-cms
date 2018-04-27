@@ -28,7 +28,7 @@ $html = '<ul>';
 
 foreach ($fieldValues as $value)
 {
-	$html .= '<li>' . implode(',', $value) . '</li>';
+	$html .= '<li>' . implode(', ', $value) . '</li>';
 }
 
 $html .= '</ul>';
