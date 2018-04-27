@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 			<div class="mod-articles-category-tags">
 				<?php echo $tagLayout->render($item->tags->itemTags); ?>
 			</div>
-		<?php endif ;?>
+		<?php endif; ?>
 		<?php if ($params->get('show_introtext', 0)) : ?>
 			<p class="mod-articles-category-introtext">
 				<?php echo $item->displayIntrotext; ?>
