@@ -319,6 +319,25 @@ class CssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+			}
 
 			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
