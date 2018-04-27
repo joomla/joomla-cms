@@ -1,25 +1,24 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.DisplayList
+ * @subpackage  Fields.Repeatable
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\BaseModel;
 
 defined('_JEXEC') or die;
 
 JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 
 /**
- * Display list plugin.
+ * Repeatable plugin.
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFieldsDisplayList extends FieldsPlugin
+class PlgFieldsRepeatable extends FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -43,8 +42,24 @@ class PlgFieldsDisplayList extends FieldsPlugin
 
 		$fieldNode->setAttribute('type', 'subform');
 		$fieldNode->setAttribute('multiple', 'true');
-		$fieldNode->setAttribute('formsource', '/plugins/fields/displaylist/params/displaylist.xml');
 		$fieldNode->setAttribute('layout', 'joomla.form.field.subform.repeatable-table');
+
+		// Build the form source
+		$fieldsXml = new SimpleXMLElement('<form/>');
+		$fields    = $fieldsXml->addChild('fields');
+
+		// Get the form settings
+		$formFields = $field->fieldparams->get('fields');
+
+		// Add the fields to the form
+		foreach ($formFields as $index => $formField)
+		{
+			$child     = $fields->addChild('field');
+			$child->addAttribute('name', $formField->fieldname);
+			$child->addAttribute('type', $formField->fieldtype);
+		}
+
+		$fieldNode->setAttribute('formsource', $fieldsXml->asXML());
 
 		// Return the node
 		return $fieldNode;
@@ -102,7 +117,7 @@ class PlgFieldsDisplayList extends FieldsPlugin
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
-			// Find the field of this type displaylist
+			// Find the field of this type repeatable
 			if ($field->type === $this->_name)
 			{
 				// Determine the value if it is available from the data

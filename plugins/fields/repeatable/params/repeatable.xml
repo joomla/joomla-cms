@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+					name="fields"
+					type="subform"
+					label="PLG_FIELDS_REPEATABLE_PARAMS_FIELDS_LABEL"
+					description="PLG_FIELDS_REPEATABLE_PARAMS_FIELDS_DESC"
+					formsource="/plugins/fields/repeatable/params/fields.xml"
+					multiple="true"
+			/>
+		</fieldset>
+	</fields>
+</form>

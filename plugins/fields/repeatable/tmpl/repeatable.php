@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.DisplayList
+ * @subpackage  Fields.Repeatable
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -28,7 +28,7 @@ $html = '<ul>';
 
 foreach ($fieldValues as $value)
 {
-	$html .= '<li>' . $value['options'] . '</li>';
+	$html .= '<li>' . implode(',', $value) . '</li>';
 }
 
 $html .= '</ul>';
