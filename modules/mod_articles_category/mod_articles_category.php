@@ -21,8 +21,8 @@ $idbase = null;
 switch ($mode)
 {
 	case 'dynamic' :
-		$option = $input->get('option');
-		$view   = $input->get('view');
+		$option = $input->getCmd('option');
+		$view   = $input->getCmd('view');
 
 		if ($option === 'com_content')
 		{
@@ -66,7 +66,6 @@ if (!empty($list))
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
 	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
 	{
@@ -76,7 +75,16 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
+				$list = ModArticlesCategoryHelper::groupByDate(
+							$list,
+							$article_grouping,
+							$article_grouping_direction,
+							$params->get('month_year_format', 'F Y'),
+							$params->get('date_grouping_field', 'created')
+						);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			case 'author' :
 			case 'category_title' :
