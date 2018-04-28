@@ -46,7 +46,7 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
 
-		// This module does not use tags data
+		// Load tags only when needed
 		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags' ? true : false);
 
 		// Access filter
