@@ -125,6 +125,12 @@ class CategoriesHelper
 			$user             = JFactory::getUser();
 			$groups           = implode(',', $user->getAuthorisedViewLevels());
 
+			// No assocations
+			if (empty($langAssociations))
+			{
+				return $associations;
+			}
+
 			foreach ($langAssociations as $langAssociation)
 			{
 				// Include only published categories with user access
