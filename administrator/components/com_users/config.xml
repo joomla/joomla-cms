@@ -39,7 +39,7 @@
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
