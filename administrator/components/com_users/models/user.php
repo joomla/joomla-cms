@@ -137,13 +137,6 @@ class UsersModelUser extends JModelAdmin
 			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
-		// Passwords fields are required when we are not sending the pw in plain text
-		if ($userId === 0 && JComponentHelper::getParams('com_users')->get('sendpassword', '0') === '0')
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
-		}
-
 		// If the user needs to change their password, mark the password fields as required
 		if (JFactory::getUser()->requireReset)
 		{
