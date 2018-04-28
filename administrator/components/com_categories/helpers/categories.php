@@ -125,7 +125,7 @@ class CategoriesHelper
 			$user             = JFactory::getUser();
 			$groups           = implode(',', $user->getAuthorisedViewLevels());
 
-			// No assocations
+			// No associations
 			if (empty($langAssociations))
 			{
 				return $associations;
