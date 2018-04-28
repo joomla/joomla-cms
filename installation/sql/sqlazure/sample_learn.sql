@@ -873,4 +873,4 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 
 SET IDENTITY_INSERT "#__viewlevels" OFF;
 
-UPDATE "#__extensions" SET "params"='{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"2","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;
+UPDATE "#__extensions" SET "params"='{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"13","sendpassword":"0","useractivation":"2","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;
