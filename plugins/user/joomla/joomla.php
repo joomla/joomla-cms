@@ -100,6 +100,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
+		$sendpassword = JComponentHelper::getParams('com_users')->get('sendpassword', '0');
 
 		if (!$isnew || !$mail_to_user)
 		{
@@ -155,6 +156,19 @@ class PlgUserJoomla extends JPlugin
 			$user['username'],
 			$user['password_clear']
 		);
+
+		if ($sendpassword === '0')
+		{
+			// Compute the mail body without PW.
+			$emailBody = JText::sprintf(
+				'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY_NO_PW',
+				$user['name'],
+				$this->app->get('sitename'),
+				JUri::root(),
+				$user['username']
+			);
+		}
+
 
 		$res = JFactory::getMailer()->sendMail(
 			$this->app->get('mailfrom'),
