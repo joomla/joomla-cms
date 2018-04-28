@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 ?>
-<?php foreach ($list as $item) : ?>
+<?php foreach ($items as $item) : ?>
 	<li>
 		<?php if ($params->get('link_titles', 1)) : ?>
 			<a class="mod-articles-category-title<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
