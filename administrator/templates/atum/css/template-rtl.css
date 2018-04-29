@@ -561,6 +561,13 @@ iframe {
     @media (max-width: 575.98px) {
       .view-login .login-box-body {
         padding: 10px; } }
+  .view-login .form-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; }
+    .view-login .form-group label span {
+      font-size: .9rem;
+      color: #c6d2de; }
   .view-login h1 {
     text-align: center;
     margin: 0; }

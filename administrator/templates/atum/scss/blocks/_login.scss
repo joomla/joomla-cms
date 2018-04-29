@@ -62,6 +62,18 @@
     }
   }
 
+  .form-group {
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      span {
+        font-size: .9rem;
+        color: #c6d2de;
+      }
+    }
+  }
+
   h1 {
     text-align: center;
 	margin: 0;
