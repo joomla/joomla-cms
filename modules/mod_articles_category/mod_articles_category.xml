@@ -483,7 +483,7 @@
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
-				
+
 				<field
 					name="show_tags"
 					type="radio"
