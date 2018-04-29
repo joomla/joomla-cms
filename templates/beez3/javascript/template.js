@@ -11,7 +11,7 @@ jQuery(function($) {
 
 	$(document).on('click', ".btn-group label:not(.active)", function() {
 			var $label = $(this);
-			var $input = $('#' + label.attr('for'));
+			var $input = $('#' + $label.attr('for'));
 
 			if ($input.prop('checked'))
 			{
