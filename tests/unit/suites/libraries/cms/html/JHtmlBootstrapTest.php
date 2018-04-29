@@ -328,7 +328,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			'jQuery(function($){ $(".hasPopover").popover({"html": true,"trigger": "hover focus","container": "body"}); });',
+			'jQuery(function($){ initPopovers(); $("body").on("subform-row-add", initPopovers); function initPopovers (event, container) { $(container || document).find(".hasPopover").popover({"html": true,"trigger": "hover focus","container": "body"});} });',
 			'Verify that the popover script is initialised'
 		);
 	}
