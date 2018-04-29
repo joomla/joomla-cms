@@ -280,7 +280,7 @@ abstract class ModArticlesCategoryHelper
 			}
 
 			// Used for styling the active article
-			$item->active = $item->id === $activeArticleId ? ' active' : '';
+			$item->active = $item->id == $activeArticleId ? ' active' : '';
 	
 			$item->displayDate = $showDate ? JHtml::_('date', $item->$showDateField, $showDateFormat) : '';
 
