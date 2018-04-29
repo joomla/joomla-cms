@@ -1145,13 +1145,15 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
-					usort($files, 'version_compare');
+					$files = \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
 
-					if (!count($files))
+					if (empty($files))
 					{
 						return $update_count;
 					}
+
+					$files = str_replace('.sql', '', $files);
+					usort($files, 'version_compare');
 
 					$query = $db->getQuery(true)
 						->select('version_id')
