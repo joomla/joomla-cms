@@ -42,7 +42,6 @@ class MailtoController extends JControllerLegacy
 		$this->checkToken();
 
 		$app     = JFactory::getApplication();
-		$session = JFactory::getSession();
 		$model   = $this->getModel('mailto');
 		$data    = $model->getData();
 
