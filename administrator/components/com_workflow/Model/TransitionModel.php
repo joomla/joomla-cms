@@ -124,14 +124,14 @@ class TransitionModel extends AdminModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('id'))
-			->from($db->qn('#__workflow_transitions'))
-			->where($db->qn('from_state_id') . ' = ' . (int) $data['from_state_id'])
-			->where($db->qn('to_state_id') . ' = ' . (int) $data['to_state_id']);
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__workflow_transitions'))
+			->where($db->quoteName('from_state_id') . ' = ' . (int) $data['from_state_id'])
+			->where($db->quoteName('to_state_id') . ' = ' . (int) $data['to_state_id']);
 
 		if (!$isNew)
 		{
-			$query->where($db->qn('id') . ' <> ' . (int) $data['id']);
+			$query->where($db->quoteName('id') . ' <> ' . (int) $data['id']);
 		}
 
 		$db->setQuery($query);

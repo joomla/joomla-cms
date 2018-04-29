@@ -146,13 +146,13 @@ class StatesModel extends ListModel
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->qn('s.workflow_id') . ' = ' . $workflowID);
+			$query->where($db->quoteName('s.workflow_id') . ' = ' . $workflowID);
 		}
 
 		// Filter by condition
 		if ($condition = $this->getState('filter.condition'))
 		{
-			$query->where($db->qn('s.condition') . ' = ' . $db->quote($db->escape($condition)));
+			$query->where($db->quoteName('s.condition') . ' = ' . $db->quote($db->escape($condition)));
 		}
 
 		$status = (string) $this->getState('filter.published');
@@ -160,11 +160,11 @@ class StatesModel extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('s.published') . ' = ' . (int) $status);
+			$query->where($db->quoteName('s.published') . ' = ' . (int) $status);
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('s.published') . ' IN (0, 1)');
+			$query->where($db->quoteName('s.published') . ' IN (0, 1)');
 		}
 
 		// Filter by search in title
@@ -173,7 +173,7 @@ class StatesModel extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->qn('s.title') . ' LIKE ' . $search . ' OR ' . $db->qn('s.description') . ' LIKE ' . $search . ')');
+			$query->where('(' . $db->quoteName('s.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('s.description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.

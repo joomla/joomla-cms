@@ -93,20 +93,20 @@ class WorkflowStateField extends GroupedlistField
 
 		// Select distinct states for existing articles
 		$query
-				->select('DISTINCT ' . $db->qn('ws.id', 'workflow_state_id'))
-				->select($db->qn(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_state_title', 'workflow_title', 'workflow_id', 'ordering']))
-				->from($db->qn('#__workflow_states', 'ws'))
-				->from($db->qn('#__workflows', 'w'))
-				->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
-				->where($db->qn('w.extension') . ' = ' . $db->q($this->extension))
-				->order($db->qn('w.ordering'));
+				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_state_id'))
+				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_state_title', 'workflow_title', 'workflow_id', 'ordering']))
+				->from($db->quoteName('#__workflow_states', 'ws'))
+				->from($db->quoteName('#__workflows', 'w'))
+				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
+				->order($db->quoteName('w.ordering'));
 
 		if ($this->activeonly)
 		{
 			$query
-					->from($db->qn('#__workflow_associations', 'wa'))
-					->where($db->qn('wa.state_id') . ' = ' . $db->qn('ws.id'))
-					->where($db->qn('wa.extension') . ' = ' . $db->q($this->extension));
+					->from($db->quoteName('#__workflow_associations', 'wa'))
+					->where($db->quoteName('wa.state_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
 
 		}
 
