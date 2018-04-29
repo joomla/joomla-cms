@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '13-March-2018';
+	const RELDATE = '18-April-2018';
 
 	/**
 	 * Release time.

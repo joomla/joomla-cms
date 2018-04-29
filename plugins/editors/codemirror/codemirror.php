@@ -234,7 +234,9 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
 
 		// Load the theme if specified.
@@ -266,8 +268,19 @@ class PlgEditorCodemirror extends JPlugin
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
-		// Vim Keybindings.
-		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+		// KeyMap settings.
+		$options->keyMap = $this->params->get('keyMap', false);
+
+		// Support for older settings.
+		if ($options->keyMap === false)
+		{
+			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+		}
+
+		if ($options->keyMap && $options->keyMap != 'default')
+		{
+			$this->loadKeyMap($options->keyMap);
+		}
 
 		$displayData = (object) array(
 				'options' => $options,
@@ -354,5 +367,19 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
+
+	/**
+	 * Loads a keyMap file
+	 *
+	 * @param   string  $keyMap  The name of a keyMap file to load.
+	 *
+	 * @return  void
+	 */
+	protected function loadKeyMap($keyMap)
+	{
+		$basePath = $this->params->get('basePath', 'media/editors/codemirror/');
+		$ext = JDEBUG ? '.js' : '.min.js';
+		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

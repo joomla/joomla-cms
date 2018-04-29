@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 
 /**
  * Feed Parser class.

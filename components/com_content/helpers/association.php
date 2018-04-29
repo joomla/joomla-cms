@@ -21,6 +21,14 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 abstract class ContentHelperAssociation extends CategoryHelperAssociation
 {
 	/**
+	 * Cached array of the content item id.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $filters = array();
+
+	/**
 	 * Method to get the associations for a given item
 	 *
 	 * @param   integer  $id    Id of the item
@@ -42,35 +50,45 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-				$return = array();
-
-				foreach ($associations as $tag => $item)
+				if (!isset(static::$filters[$id])) 
 				{
-					if ($item->language != JFactory::getLanguage()->getTag())
+					$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+					$return = array();
+
+					foreach ($associations as $tag => $item)
 					{
-						$arrId   = explode(':', $item->id);
-						$assocId = $arrId[0];
-
-						$db    = JFactory::getDbo();
-						$query = $db->getQuery(true)
-							->select($db->qn('state'))
-							->from($db->qn('#__content'))
-							->where($db->qn('id') . ' = ' . (int) ($assocId))
-							->where('access IN (' . $groups . ')');
-						$db->setQuery($query);
-
-						$result = (int) $db->loadResult();
-
-						if ($result > 0)
+						if ($item->language != JFactory::getLanguage()->getTag())
 						{
-							$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+							$arrId   = explode(':', $item->id);
+							$assocId = $arrId[0];
+
+							$db    = JFactory::getDbo();
+							$query = $db->getQuery(true)
+								->select($db->qn('state'))
+								->from($db->qn('#__content'))
+								->where($db->qn('id') . ' = ' . (int) $assocId)
+								->where($db->qn('access') . ' IN (' . $groups . ')');
+							$db->setQuery($query);
+
+							$result = (int) $db->loadResult();
+
+							if ($result > 0)
+							{
+								$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+							}
 						}
+
+						static::$filters[$id] = $return;
+					}
+
+					if (count($associations) === 0)
+					{
+						static::$filters[$id] = array();
 					}
 				}
 
-				return $return;
+				return static::$filters[$id];
 			}
 		}
 
