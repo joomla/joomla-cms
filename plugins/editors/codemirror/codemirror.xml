@@ -169,16 +169,17 @@
 				</field>
 
 				<field
-					name="vimKeyBinding"
-					type="radio"
-					label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
-					description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
+					name="keyMap"
+					type="list"
+					label="PLG_CODEMIRROR_FIELD_KEYMAP_LABEL"
+					description="PLG_CODEMIRROR_FIELD_KEYMAP_DESC"
+					default=""
 					filter="options"
 					>
-					<option value="1">JON</option>
-					<option value="0">JOFF</option>
+					<option value="">JDEFAULT</option>
+					<option value="emacs">PLG_CODEMIRROR_FIELD_KEYMAP_EMACS</option>
+					<option value="sublime">PLG_CODEMIRROR_FIELD_KEYMAP_SUBLIME</option>
+					<option value="vim">PLG_CODEMIRROR_FIELD_KEYMAP_VIM</option>
 				</field>
 
 				<field
