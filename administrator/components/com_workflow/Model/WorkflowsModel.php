@@ -144,9 +144,9 @@ class WorkflowsModel extends ListModel
 		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($db->qn('#__workflow_states'))
-				->where($db->qn('workflow_id') . ' IN(' . implode(',', $ids) . ')')
-				->where($db->qn('published') . '>= 0')
+				->from($db->quoteName('#__workflow_states'))
+				->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
+				->where($db->quoteName('published') . '>= 0')
 				->group('workflow_id');
 
 		$status = $db->setQuery($query)->loadObjectList('workflow_id');
@@ -154,9 +154,9 @@ class WorkflowsModel extends ListModel
 		$query = $db->getQuery(true);
 
 		$query	->select('workflow_id, count(*) AS count')
-				->from($db->qn('#__workflow_transitions'))
-				->where($db->qn('workflow_id') . ' IN(' . implode(',', $ids) . ')')
-				->where($db->qn('published') . '>= 0')
+				->from($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('workflow_id') . ' IN(' . implode(',', $ids) . ')')
+				->where($db->quoteName('published') . '>= 0')
 				->group('workflow_id');
 
 		$transitions = $db->setQuery($query)->loadObjectList('workflow_id');
@@ -205,12 +205,12 @@ class WorkflowsModel extends ListModel
 		$query
 			->select($select)
 			->from($db->quoteName('#__workflows', 'w'))
-			->leftJoin($db->quoteName('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('w.created_by'));
+			->leftJoin($db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('w.created_by'));
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where($db->qn('extension') . ' = ' . $db->quote($db->escape($extension)));
+			$query->where($db->quoteName('extension') . ' = ' . $db->quote($db->escape($extension)));
 		}
 
 		// Filter by author
@@ -219,7 +219,7 @@ class WorkflowsModel extends ListModel
 		if (is_numeric($authorId))
 		{
 			$type = $this->getState('filter.created_by.include', true) ? '= ' : '<>';
-			$query->where($db->qn('w.created_by') . $type . (int) $authorId);
+			$query->where($db->quoteName('w.created_by') . $type . (int) $authorId);
 		}
 
 		$status = (string) $this->getState('filter.published');
@@ -227,11 +227,11 @@ class WorkflowsModel extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('w.published') . ' = ' . (int) $status);
+			$query->where($db->quoteName('w.published') . ' = ' . (int) $status);
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('w.published') . " IN ('0', '1')");
+			$query->where($db->quoteName('w.published') . " IN ('0', '1')");
 		}
 
 		// Filter by search in title
@@ -240,14 +240,14 @@ class WorkflowsModel extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->qn('w.title') . ' LIKE ' . $search . ' OR ' . $db->qn('w.description') . ' LIKE ' . $search . ')');
+			$query->where('(' . $db->quoteName('w.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('w.description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'w.ordering');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
 
-		$query->order($db->qn($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
+		$query->order($db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
 
 		return $query;
 	}

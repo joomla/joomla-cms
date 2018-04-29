@@ -162,8 +162,8 @@ class WorkflowController extends FormController
 			$query = $db->getQuery(true);
 
 			$query->select('*')
-				->from($db->qn('#__workflow_states'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $recordId);
+				->from($db->quoteName('#__workflow_states'))
+				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
 
 			$statuses = $db->setQuery($query)->loadAssocList();
 
@@ -191,8 +191,8 @@ class WorkflowController extends FormController
 			$query->clear();
 
 			$query->select('*')
-				->from($db->qn('#__workflow_transitions'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $recordId);
+				->from($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
 
 			$transitions = $db->setQuery($query)->loadAssocList();
 

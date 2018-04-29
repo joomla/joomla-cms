@@ -59,9 +59,9 @@ class WorkflowTable extends Table
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'title')))
-			->from($db->qn('#__workflows'))
-			->where($db->qn('id') . ' = ' . (int) $pk);
+			->select($db->quoteName(array('id', 'title')))
+			->from($db->quoteName('#__workflows'))
+			->where($db->quoteName('id') . ' = ' . (int) $pk);
 		$db->setQuery($query);
 		$workflow = $db->loadResult();
 
@@ -76,14 +76,14 @@ class WorkflowTable extends Table
 		try
 		{
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_states'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
+				->delete($db->quoteName('#__workflow_states'))
+				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();
 
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('workflow_id') . ' = ' . (int) $pk);
+				->delete($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -142,9 +142,9 @@ class WorkflowTable extends Table
 			$query = $db->getQuery(true);
 
 			$query
-				->select($db->qn('id'))
-				->from($db->qn('#__workflows'))
-				->where($db->qn('default') . '= 1');
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__workflows'))
+				->where($db->quoteName('default') . '= 1');
 
 			$state = $db->setQuery($query)->loadObject();
 
