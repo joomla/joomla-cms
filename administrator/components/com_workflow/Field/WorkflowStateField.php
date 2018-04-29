@@ -98,7 +98,7 @@ class WorkflowStateField extends GroupedlistField
 				->from($db->quoteName('#__workflow_states', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.extension') . ' = ' . $db->q($this->extension))
+				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
 				->order($db->quoteName('w.ordering'));
 
 		if ($this->activeonly)
@@ -106,7 +106,7 @@ class WorkflowStateField extends GroupedlistField
 			$query
 					->from($db->quoteName('#__workflow_associations', 'wa'))
 					->where($db->quoteName('wa.state_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->q($this->extension));
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
 
 		}
 
