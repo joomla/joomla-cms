@@ -427,7 +427,8 @@ class UsersModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->quoteName($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->quoteName($db->escape($this->getState('list.ordering', 'a.name'))) . ' '
+			. $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
