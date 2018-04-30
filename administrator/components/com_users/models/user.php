@@ -215,10 +215,10 @@ class UsersModelUser extends JModelAdmin
 		$my = JFactory::getUser();
 		$iAmSuperAdmin = $my->authorise('core.admin');		
 
+		// Check if the user mail domain or TLD is disallowed
 		$config = JComponentHelper::getParams('com_users');
 		$whiteListMailDomain = explode("\r\n", $config->get('whiteListMailDomain'));
-		$blackListMailDomain = explode("\r\n", $config->get('blackListMailDomain'));
-		
+		$blackListMailDomain = explode("\r\n", $config->get('blackListMailDomain'));		
 		$userMailDomain = explode('@', $data['email']);
 		$getTLD = explode('.', $userMailDomain[1]);
 		$userMailTLD = array_pop($getTLD);
@@ -227,7 +227,6 @@ class UsersModelUser extends JModelAdmin
 			'userMailTLD'		=> $userMailTLD,
 		);
 
-		// Check if the user mail domain or TLD is disallowed
 		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
 			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
 		{
