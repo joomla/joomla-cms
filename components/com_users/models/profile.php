@@ -302,7 +302,27 @@ class UsersModelProfile extends JModelForm
 
 		// Prepare the data for the user object.
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
-		$data['password'] = $data['password1'];
+		$data['password'] = $data['password1']; 
+
+		// Check if the user mail domain or TLD is disallowed
+		$params = $this->getState('params');
+		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
+		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));		
+		$userMailDomain = explode('@', $data['email']);
+		$getTLD = explode('.', $userMailDomain[1]);
+		$userMailTLD = array_pop($getTLD);
+		$needles = array(
+			'userMailDomain'	=> $userMailDomain[1],
+			'userMailTLD'		=> $userMailTLD,
+		);
+
+		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
+			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		{
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+			return false;
+		}
 
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
