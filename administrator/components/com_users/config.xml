@@ -271,6 +271,34 @@
 			<option value="0">JNO</option>
 		</field>
 
+		<field
+			name="gdpr13info"
+			type="radio"
+			label="COM_USERS_REGISTER_GDPR13INFO_LABEL"
+			description="COM_USERS_REGISTER_GDPR13INFO_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field 
+			name="gdpr13info_article" 
+			type="modal_article" 
+			label="COM_USERS_REGISTER_GDPR13INFO_ARTICLE_LABEL" 
+			description="COM_USERS_REGISTER_GDPR13INFO_ARTICLE_DESC" 
+			size="10" 
+			default="" 
+		/>
+
+		<field
+ 			name="gdpr13info_linktitle"
+ 			type="text"
+			label="COM_USERS_REGISTER_GDPR13INFO_LINKTITLE_LABEL"
+			description="COM_USERS_REGISTER_GDPR13INFO_LINKTITLE_DESC"
+		/>
+
 	</fieldset>
 
 	<fieldset name="integration"
