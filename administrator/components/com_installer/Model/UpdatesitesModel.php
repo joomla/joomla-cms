@@ -385,10 +385,14 @@ class UpdatesitesModel extends InstallerModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
-			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->quoteName('us.update_site_id') . ' = '
-				. $db->quoteName('use.update_site_id'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = '
-				. $db->quoteName('use.extension_id'))
+			->join(
+				'LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->quoteName('us.update_site_id') . ' = '
+				. $db->quoteName('use.update_site_id')
+			)
+			->join(
+				'LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = '
+				. $db->quoteName('use.extension_id')
+			)
 			->where('('
 				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element') . ' = '

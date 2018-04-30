@@ -68,10 +68,14 @@ class LanguagesModel extends ListModel
 			->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
 			->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
 			->where($db->quoteName('e.client_id') . ' = 0')
-			->join('LEFT', $db->quoteName('#__update_sites_extensions', 'use') . ' ON ' . $db->quoteName('use.extension_id') . ' = '
-				. $db->quoteName('e.extension_id'))
-			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->quoteName('us.update_site_id') . ' = '
-				. $db->quoteName('use.update_site_id'));
+			->join(
+				'LEFT', $db->quoteName('#__update_sites_extensions', 'use') . ' ON ' . $db->quoteName('use.extension_id') . ' = '
+				. $db->quoteName('e.extension_id')
+			)
+			->join(
+				'LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->quoteName('us.update_site_id') . ' = '
+				. $db->quoteName('use.update_site_id')
+			);
 
 		return $db->setQuery($query)->loadResult();
 	}
