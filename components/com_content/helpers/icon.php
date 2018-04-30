@@ -73,7 +73,7 @@ abstract class JHtmlIcon
 		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
+		$status = 'width=400,height=550,menubar=yes,resizable=yes';
 
 		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 

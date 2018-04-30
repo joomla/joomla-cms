@@ -67,15 +67,15 @@ class MailtoModelMailto extends JModelForm
 		}
 
 		// Load with previous data, if it exists
-		$data['sender']  = $app->input->post->getString('sender', '');
-		$data['subject'] = $app->input->post->getString('subject', '');
-		$data['from']    = JStringPunycode::emailToPunycode($app->input->post->getString('from', ''));
-		$data['mailto']  = JStringPunycode::emailToPunycode($app->input->post->getString('mailto', ''));
+		$data['sender']    = $app->input->post->getString('sender', '');
+		$data['subject']   = $app->input->post->getString('subject', '');
+		$data['emailfrom'] = JStringPunycode::emailToPunycode($app->input->post->getString('emailfrom', ''));
+		$data['emailto']   = JStringPunycode::emailToPunycode($app->input->post->getString('emailto', ''));
 
 		if (!$user->guest)
 		{
-			$data['sender'] = $user->name;
-			$data['from']   = $user->email;
+			$data['sender']    = $user->name;
+			$data['emailfrom'] = $user->email;
 		}
 
 		$app->setUserState('mailto.mailto.form.data', $data);
