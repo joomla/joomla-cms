@@ -213,7 +213,28 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
-		$iAmSuperAdmin = $my->authorise('core.admin');
+		$iAmSuperAdmin = $my->authorise('core.admin');		
+
+		$config = JComponentHelper::getParams('com_users');
+		$whiteListMailDomain = explode("\r\n", $config->get('whiteListMailDomain'));
+		$blackListMailDomain = explode("\r\n", $config->get('blackListMailDomain'));
+		
+		$userMailDomain = explode('@', $data['email']);
+		$getTLD = explode('.', $userMailDomain[1]);
+		$userMailTLD = array_pop($getTLD);
+		$needles = array(
+			'userMailDomain'	=> $userMailDomain[1],
+			'userMailTLD'		=> $userMailTLD,
+		);
+
+		// Check if the user mail domain or TLD is disallowed
+		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
+			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		{
+			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+			return false;
+		}
 
 		// User cannot modify own user groups
 		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
