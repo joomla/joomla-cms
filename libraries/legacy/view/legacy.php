@@ -643,7 +643,7 @@ class JViewLegacy extends JObject
 		$this->_output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
-		
+
 		if (is_null($layout))
 		{
 			$layout = $this->getLayout();
