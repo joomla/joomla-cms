@@ -52,7 +52,7 @@ JHtml::_('behavior.keepalive');
 		<input type="hidden" name="option" value="com_mailto" />
 		<input type="hidden" name="task" value="send" />
 		<input type="hidden" name="tmpl" value="component" />
-		<input type="hidden" name="link" value="<?php echo $this->get('link'); ?>" />
+		<input type="hidden" name="link" value="<?php echo $this->link; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

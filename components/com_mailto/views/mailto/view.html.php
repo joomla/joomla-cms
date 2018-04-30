@@ -28,8 +28,7 @@ class MailtoViewMailto extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form = $this->get('Form');
-
-		$this->set('link', urldecode(JFactory::getApplication()->input->get('link', '', 'BASE64')));
+		$this->link = urldecode(JFactory::getApplication()->input->get('link', '', 'BASE64'));
 
 		return parent::display($tpl);
 	}
