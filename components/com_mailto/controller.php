@@ -92,11 +92,14 @@ class MailtoController extends JControllerLegacy
 		 */
 		foreach ($fields as $field)
 		{
-			foreach ($headers as $header)
+			if (!empty($_POST[$field]))
 			{
-				if (strpos($_POST[$field], $header) !== false)
+				foreach ($headers as $header)
 				{
-					JError::raiseError(403, '');
+					if (strpos($_POST[$field], $header) !== false)
+					{
+						JError::raiseError(403, '');
+					}
 				}
 			}
 		}
