@@ -4049,7 +4049,7 @@ class JoomlaInstallerScript
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__session'));
+						->delete($db->quoteName('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}

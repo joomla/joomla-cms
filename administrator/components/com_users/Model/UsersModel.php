@@ -377,14 +377,14 @@ class UsersModel extends ListModel
 			if ($dates['dNow'] === false)
 			{
 				$query->where(
-					$db->qn('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->qn('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->qn('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->quoteName('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -400,20 +400,20 @@ class UsersModel extends ListModel
 			if (is_string($dates['dStart']))
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
+					$db->quoteName('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
 				);
 			}
 			elseif ($dates['dNow'] === false)
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->qn('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->qn('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
+					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -427,7 +427,7 @@ class UsersModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->qn($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->quoteName($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -504,10 +504,10 @@ class UsersModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('title'))
-			->from($db->qn('#__usergroups', 'ug'))
-			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
-			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups', 'ug'))
+			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
+			->where($db->quoteName('map.user_id') . ' = ' . (int) $user_id);
 
 		try
 		{

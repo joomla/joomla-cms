@@ -815,7 +815,7 @@ class CategoryModel extends AdminModel
 		{
 			$query->select('MAX(ordering)')
 				->from('#__content')
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -825,8 +825,8 @@ class CategoryModel extends AdminModel
 			$query->clear();
 
 			$query->update('#__content')
-				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->set($db->quoteName('ordering') . ' = ' . $max . ' - ' . $db->quoteName('ordering'))
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 

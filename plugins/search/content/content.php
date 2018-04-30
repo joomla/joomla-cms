@@ -102,7 +102,7 @@ class PlgSearchContent extends CMSPlugin
 				$subQuery->select("cfv.item_id")
 					->from("#__fields_values AS cfv")
 					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+					->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 					->where('(f.state IS NULL OR f.state = 1)')
 					->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 					->where('cfv.value LIKE ' . $text);
@@ -159,7 +159,7 @@ class PlgSearchContent extends CMSPlugin
 						$subQuery->select("cfv.item_id")
 							->from("#__fields_values AS cfv")
 							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+							->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 							->where('(f.state IS NULL OR f.state = 1)')
 							->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
@@ -199,7 +199,7 @@ class PlgSearchContent extends CMSPlugin
 					$subQuery->select("cfv.item_id")
 						->from("#__fields_values AS cfv")
 						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+						->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 						->where('(f.state IS NULL OR f.state = 1)')
 						->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');

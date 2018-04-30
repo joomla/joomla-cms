@@ -79,7 +79,7 @@ class ContactHelper extends ContentHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__contact_details'))
+				->from($db->quoteName('#__contact_details'))
 				->where('catid = ' . (int) $item->id)
 				->group('published');
 			$db->setQuery($query);
@@ -133,11 +133,11 @@ class ContactHelper extends ContentHelper
 			$section = $parts[1];
 		}
 
-		$join = $db->qn('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
+		$join = $db->quoteName('#__contact_details') . ' AS c ON ct.content_item_id=c.id';
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
 		}
 
 		foreach ($items as $item)
@@ -148,9 +148,9 @@ class ContactHelper extends ContentHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
+				->where('ct.type_alias =' . $db->quote($extension))
 				->join('LEFT', $join)
 				->group('published');
 

@@ -79,11 +79,11 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-					->update($db->qn('#__extensions'))
-					->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-					->where($db->qn('type') . ' = ' . $db->q('plugin'))
-					->where($db->qn('folder') . ' = ' . $db->q('system'))
-					->where($db->qn('element') . ' = ' . $db->q('updatenotification'));
+					->update($db->quoteName('#__extensions'))
+					->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))
+					->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+					->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('updatenotification'));
 
 		try
 		{
@@ -287,7 +287,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			foreach ($temp as $entry)
 			{
 				$entry    = trim($entry);
-				$emails[] = $db->q($entry);
+				$emails[] = $db->quote($entry);
 			}
 
 			$emails = array_unique($emails);
@@ -316,7 +316,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			{
 				if ($enabled)
 				{
-					$groups[] = $db->q($g);
+					$groups[] = $db->quote($g);
 				}
 			}
 
@@ -334,9 +334,9 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		try
 		{
 			$query = $db->getQuery(true)
-						->select($db->qn('user_id'))
-						->from($db->qn('#__user_usergroup_map'))
-						->where($db->qn('group_id') . ' IN(' . implode(',', $groups) . ')');
+						->select($db->quoteName('user_id'))
+						->from($db->quoteName('#__user_usergroup_map'))
+						->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
 			$db->setQuery($query);
 			$rawUserIDs = $db->loadColumn(0);
 
@@ -349,7 +349,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 			foreach ($rawUserIDs as $id)
 			{
-				$userIDs[] = $db->q($id);
+				$userIDs[] = $db->quote($id);
 			}
 		}
 		catch (Exception $exc)
@@ -363,18 +363,18 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			$query = $db->getQuery(true)
 						->select(
 							array(
-								$db->qn('id'),
-								$db->qn('username'),
-								$db->qn('email'),
+								$db->quoteName('id'),
+								$db->quoteName('username'),
+								$db->quoteName('email'),
 							)
-						)->from($db->qn('#__users'))
-						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
-						->where($db->qn('block') . ' = 0')
-						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
+						)->from($db->quoteName('#__users'))
+						->where($db->quoteName('id') . ' IN(' . implode(',', $userIDs) . ')')
+						->where($db->quoteName('block') . ' = 0')
+						->where($db->quoteName('sendEmail') . ' = ' . $db->quote('1'));
 
 			if (!empty($emails))
 			{
-				$query->where($db->qn('email') . 'IN(' . implode(',', $emails) . ')');
+				$query->where($db->quoteName('email') . 'IN(' . implode(',', $emails) . ')');
 			}
 
 			$db->setQuery($query);

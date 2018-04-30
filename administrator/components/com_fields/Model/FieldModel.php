@@ -195,7 +195,7 @@ class FieldModel extends AdminModel
 
 				foreach ($newParams as $param)
 				{
-					$names[] = $db->q($param['value']);
+					$names[] = $db->quote($param['value']);
 				}
 
 				$query = $db->getQuery(true);
@@ -462,16 +462,16 @@ class FieldModel extends AdminModel
 				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_values'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_values'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_categories'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 			}
@@ -613,9 +613,9 @@ class FieldModel extends AdminModel
 			// Deleting the existing record as it is a reset
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->delete($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->delete($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' = ' . (int) $fieldId)
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
@@ -700,10 +700,10 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->qn('field_id'), $query->qn('value')))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+				->from($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -755,15 +755,15 @@ class FieldModel extends AdminModel
 	{
 		// Delete with inner join is not possible so we need to do a subquery
 		$fieldsQuery = $this->getDbo()->getQuery(true);
-		$fieldsQuery->select($fieldsQuery->qn('id'))
-			->from($fieldsQuery->qn('#__fields'))
-			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+		$fieldsQuery->select($fieldsQuery->quoteName('id'))
+			->from($fieldsQuery->quoteName('#__fields'))
+			->where($fieldsQuery->quoteName('context') . ' = ' . $fieldsQuery->quote($context));
 
 		$query = $this->getDbo()->getQuery(true);
 
-		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
-			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+		$query->delete($query->quoteName('#__fields_values'))
+			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+			->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
 	}

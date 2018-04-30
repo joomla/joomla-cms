@@ -117,9 +117,9 @@ class ContentRouter extends RouterView
 		{
 			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('alias'))
-				->from($dbquery->qn('#__content'))
-				->where('id = ' . $dbquery->q($id));
+			$dbquery->select($dbquery->quoteName('alias'))
+				->from($dbquery->quoteName('#__content'))
+				->where('id = ' . $dbquery->quote($id));
 			$db->setQuery($dbquery);
 
 			$id .= ':' . $db->loadResult();
@@ -216,10 +216,10 @@ class ContentRouter extends RouterView
 		{
 			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('id'))
-				->from($dbquery->qn('#__content'))
-				->where('alias = ' . $dbquery->q($segment))
-				->where('catid = ' . $dbquery->q($query['id']));
+			$dbquery->select($dbquery->quoteName('id'))
+				->from($dbquery->quoteName('#__content'))
+				->where('alias = ' . $dbquery->quote($segment))
+				->where('catid = ' . $dbquery->quote($query['id']));
 			$db->setQuery($dbquery);
 
 			return (int) $db->loadResult();

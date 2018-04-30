@@ -1230,8 +1230,8 @@ abstract class DatabaseQuery implements QueryInterface
 	 *
 	 * Usage:
 	 * $query->quote('fulltext');
-	 * $query->q('fulltext');
-	 * $query->q(array('option', 'fulltext'));
+	 * $query->quote('fulltext');
+	 * $query->quote(array('option', 'fulltext'));
 	 *
 	 * @param   array|string  $text    A string or an array of strings to quote.
 	 * @param   boolean       $escape  True (default) to escape the string, false to leave it unchanged.
@@ -1280,7 +1280,7 @@ abstract class DatabaseQuery implements QueryInterface
 	 *
 	 * Usage:
 	 * $query->quoteName('#__a');
-	 * $query->qn('#__a');
+	 * $query->quoteName('#__a');
 	 *
 	 * @param   array|string  $name  The identifier name to wrap in quotes, or an array of identifier names to wrap in quotes.
 	 *                               Each type supports dot-notation name.

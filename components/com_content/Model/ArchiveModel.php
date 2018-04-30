@@ -188,10 +188,10 @@ class ArchiveModel extends ArticlesModel
 		$nowDate  = $db->quote(\JFactory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
-		$years = $query->year($db->qn('created'));
+		$years = $query->year($db->quoteName('created'));
 		$query->select('DISTINCT (' . $years . ')')
-			->from($db->qn('#__content'))
-			->where($db->qn('state') . '= 2')
+			->from($db->quoteName('#__content'))
+			->where($db->quoteName('state') . '= 2')
 			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
 			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');

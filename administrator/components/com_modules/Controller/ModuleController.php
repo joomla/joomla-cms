@@ -266,7 +266,7 @@ class ModuleController extends FormController
 		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->quote($position))
 			->order('ordering');
 
 		$db->setQuery($query);

@@ -321,7 +321,7 @@ class MenusHelper
 		// Prepare the query.
 		$query->select('m.*')
 			->from('#__menu AS m')
-			->where('m.menutype = ' . $db->q($menutype))
+			->where('m.menutype = ' . $db->quote($menutype))
 			->where('m.client_id = 1')
 			->where('m.id > 1');
 
@@ -422,7 +422,7 @@ class MenusHelper
 
 		if (!$components)
 		{
-			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->q('component'));
+			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->quote('component'));
 			$components = $db->setQuery($query)->loadObjectList();
 			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
 		}

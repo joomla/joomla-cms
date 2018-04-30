@@ -1239,26 +1239,26 @@ abstract class AdminModel extends FormModel
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select($db->qn('key'))
-				->from($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' = ' . (int) $table->$key);
+				->select($db->quoteName('key'))
+				->from($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
+				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
 			$db->setQuery($query);
 			$old_key = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+				->delete($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
 
 			if ($associations)
 			{
-				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
 			}
 			else
 			{
-				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
 			}
 
 			$db->setQuery($query);

@@ -78,12 +78,12 @@ class DisplayController extends BaseController
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select($db->qn('m.language'))
-				->from($db->qn('#__modules', 'm'))
-				->where($db->qn('m.module') . ' = ' . $db->quote('mod_menu'))
-				->where($db->qn('m.published') . ' = 1')
-				->where($db->qn('m.client_id') . ' = 1')
-				->group($db->qn('m.language'));
+			$query->select($db->quoteName('m.language'))
+				->from($db->quoteName('#__modules', 'm'))
+				->where($db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'))
+				->where($db->quoteName('m.published') . ' = 1')
+				->where($db->quoteName('m.client_id') . ' = 1')
+				->group($db->quoteName('m.language'));
 
 			$mLanguages = $db->setQuery($query)->loadColumn();
 

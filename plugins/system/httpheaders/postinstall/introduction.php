@@ -33,20 +33,20 @@ function httpheaders_postinstall_action()
 	$db = JFactory::getDbo();
 
 	$query = $db->getQuery(true)
-		->update($db->qn('#__extensions'))
-		->set($db->qn('enabled') . ' = 1')
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('folder') . ' = ' . $db->q('system'))
-		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
+		->update($db->quoteName('#__extensions'))
+		->set($db->quoteName('enabled') . ' = 1')
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+		->where($db->quoteName('element') . ' = ' . $db->quote('httpheaders'));
 	$db->setQuery($query);
 	$db->execute();
 
 	$query = $db->getQuery(true)
 		->select('extension_id')
-		->from($db->qn('#__extensions'))
-		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('folder') . ' = ' . $db->q('system'))
-		->where($db->qn('element') . ' = ' . $db->q('httpheaders'));
+		->from($db->quoteName('#__extensions'))
+		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+		->where($db->quoteName('element') . ' = ' . $db->quote('httpheaders'));
 	$db->setQuery($query);
 	$extensionId = $db->loadResult();
 

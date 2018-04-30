@@ -78,8 +78,8 @@ trait MysqlQueryBuilder
 	 *
 	 * Usage:
 	 * $query->quote('fulltext');
-	 * $query->q('fulltext');
-	 * $query->q(array('option', 'fulltext'));
+	 * $query->quote('fulltext');
+	 * $query->quote(array('option', 'fulltext'));
 	 *
 	 * @param   array|string  $text    A string or an array of strings to quote.
 	 * @param   boolean       $escape  True (default) to escape the string, false to leave it unchanged.

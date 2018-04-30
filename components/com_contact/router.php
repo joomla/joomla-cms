@@ -113,9 +113,9 @@ class ContactRouter extends RouterView
 		{
 			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('alias'))
-				->from($dbquery->qn('#__contact_details'))
-				->where('id = ' . $dbquery->q((int) $id));
+			$dbquery->select($dbquery->quoteName('alias'))
+				->from($dbquery->quoteName('#__contact_details'))
+				->where('id = ' . $dbquery->quote((int) $id));
 			$db->setQuery($dbquery);
 
 			$id .= ':' . $db->loadResult();
@@ -197,10 +197,10 @@ class ContactRouter extends RouterView
 		{
 			$db = \JFactory::getDbo();
 			$dbquery = $db->getQuery(true);
-			$dbquery->select($dbquery->qn('id'))
-				->from($dbquery->qn('#__contact_details'))
-				->where('alias = ' . $dbquery->q($segment))
-				->where('catid = ' . $dbquery->q($query['id']));
+			$dbquery->select($dbquery->quoteName('id'))
+				->from($dbquery->quoteName('#__contact_details'))
+				->where('alias = ' . $dbquery->quote($segment))
+				->where('catid = ' . $dbquery->quote($query['id']));
 			$db->setQuery($dbquery);
 
 			return (int) $db->loadResult();

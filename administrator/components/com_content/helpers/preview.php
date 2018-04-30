@@ -35,18 +35,18 @@ class ContentHelperPreview
 		$query = $db->getQuery(true);
 
 		$query->select('id')
-			->from($db->qn('#__menu'))
-			->where($db->qn('home') . '= 1')
-			->where($db->qn('published') . '= 1')
-			->where($db->qn('client_id') . '= 0');
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('home') . '= 1')
+			->where($db->quoteName('published') . '= 1')
+			->where($db->quoteName('client_id') . '= 0');
 
 		if (JLanguageMultilang::isEnabled())
 		{
-			$query->where($db->qn('language') . ' = ' . $db->q($article->language));
+			$query->where($db->quoteName('language') . ' = ' . $db->quote($article->language));
 		}
 		else
 		{
-			$query->where($db->qn('language') . ' = ' . $db->q('*'));
+			$query->where($db->quoteName('language') . ' = ' . $db->quote('*'));
 		}
 
 		$db->setQuery($query);
@@ -58,9 +58,9 @@ class ContentHelperPreview
 			// Get the sef prefix for the language
 			$query->clear()
 				->select('sef')
-				->from($db->qn('#__languages'))
-				->where($db->qn('published') . '= 1')
-				->where($db->qn('lang_code') . ' = ' . $db->q($article->language));
+				->from($db->quoteName('#__languages'))
+				->where($db->quoteName('published') . '= 1')
+				->where($db->quoteName('lang_code') . ' = ' . $db->quote($article->language));
 			$db->setQuery($query);
 
 			$sef = $db->loadResult();

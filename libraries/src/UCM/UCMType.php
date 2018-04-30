@@ -196,7 +196,7 @@ class UCMType implements UCM
 		$query = $this->db->getQuery(true);
 		$query->select('ct.type_id');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
-		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->q($alias));
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->quote($alias));
 
 		$this->db->setQuery($query);
 

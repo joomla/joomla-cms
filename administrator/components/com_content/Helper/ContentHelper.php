@@ -110,7 +110,7 @@ class ContentHelper extends \JHelperContent
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
-				->from($db->qn('#__content'))
+				->from($db->quoteName('#__content'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
@@ -164,12 +164,12 @@ class ContentHelper extends \JHelperContent
 			$section = $parts[1];
 		}
 
-		$join  = $db->qn('#__content') . ' AS c ON ct.content_item_id=c.id';
+		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
 		$state = 'state';
 
 		if ($section === 'category')
 		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
 			$state = 'published as state';
 		}
 
@@ -181,9 +181,9 @@ class ContentHelper extends \JHelperContent
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
+				->where('ct.type_alias =' . $db->quote($extension))
 				->join('LEFT', $join)
 				->group('state');
 			$db->setQuery($query);

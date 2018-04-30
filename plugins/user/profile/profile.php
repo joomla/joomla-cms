@@ -84,14 +84,14 @@ class PlgUserProfile extends CMSPlugin
 				$query = $db->getQuery(true)
 					->select(
 						array(
-							$db->qn('profile_key'),
-							$db->qn('profile_value'),
+							$db->quoteName('profile_key'),
+							$db->quoteName('profile_value'),
 						)
 					)
 					->from('#__user_profiles')
-					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-					->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'))
-					->order($db->qn('ordering'));
+					->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+					->order($db->quoteName('ordering'));
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();
@@ -444,7 +444,7 @@ class PlgUserProfile extends CMSPlugin
 
 			$order = 1;
 			$query->clear()
-				->insert($db->qn('#__user_profiles'));
+				->insert($db->quoteName('#__user_profiles'));
 
 			foreach ($data['profile'] as $k => $v)
 			{
@@ -487,9 +487,9 @@ class PlgUserProfile extends CMSPlugin
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__user_profiles'))
-				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-				->where($db->qn('profile_key') . ' LIKE ' . $db->q('profile.%'));
+				->delete($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
 
 			$db->setQuery($query);
 			$db->execute();

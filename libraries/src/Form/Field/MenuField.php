@@ -49,7 +49,7 @@ class MenuField extends \JFormFieldGroupedList
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+			->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
 			->from($db->quoteName('#__menu_types'))
 			->order('client_id, title');
 
