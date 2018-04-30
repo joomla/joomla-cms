@@ -630,7 +630,7 @@ class JViewLegacy extends JObject
 	 * Load a template file -- first look in the templates folder for an override
 	 *
 	 * @param   string  $tpl     The name of the template source file; automatically searches the template paths and compiles as needed.
-	 * @param   string  $layout  A optional layout which will be loaded.
+	 * @param   string  $layout  An optional layout which will be loaded.
 	 *
 	 * @return  string  The output of the the template script.
 	 *
@@ -648,7 +648,7 @@ class JViewLegacy extends JObject
 		{
 			$layout = $this->getLayout();
 		}
-		
+
 		$layoutTemplate = $this->getLayoutTemplate();
 
 		if (strpos($layout, ':') !== false)
