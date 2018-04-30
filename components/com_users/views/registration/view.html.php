@@ -124,5 +124,10 @@ class UsersViewRegistration extends JViewLegacy
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
+		
+		if ($this->params->get('gdpr13info'))
+		{
+			$this->gdpr13_info_display = 'href="index.php?option=com_content&view=article&id='.$this->escape($this->params->get('gdpr13info_article')).'" target=_Blank ';
+		}
 	}
 }

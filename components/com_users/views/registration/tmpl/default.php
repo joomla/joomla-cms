@@ -51,6 +51,12 @@ JHtml::_('behavior.formvalidator');
 				</fieldset>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		<?php if ($this->params->get('gdpr13info')) : ?>
+			<div class="control-group">
+				<div class="control-label"><?php echo JText::_('COM_USERS_REGISTER_GDPR13INFO_LABEL'); ?></div>
+				<div class="controls"><a <?php echo $this->gdpr13_info_display; ?> > <?php echo $this->params->get('gdpr13info_linktitle'); ?></a></div>
+			</div>
+		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate">
