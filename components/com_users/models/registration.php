@@ -422,6 +422,8 @@ class UsersModelRegistration extends JModelForm
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
+
+		// Check if the user mail domain or TLD is disallowed
 		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
 		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));
 		$userMailDomain = explode('@', $data['email']);
@@ -432,7 +434,6 @@ class UsersModelRegistration extends JModelForm
 			'userMailTLD'		=> $userMailTLD,
 		);
 
-		// Check if the user mail domain or TLD is disallowed
 		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
 			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
 		{
