@@ -48,6 +48,7 @@ JHtml::_('behavior.keepalive');
 					</button>
 				</div>
 			</div>
+		</fieldset>
 		<input type="hidden" name="layout" value="<?php echo htmlspecialchars($this->getLayout(), ENT_COMPAT, 'UTF-8'); ?>" />
 		<input type="hidden" name="option" value="com_mailto" />
 		<input type="hidden" name="task" value="send" />
