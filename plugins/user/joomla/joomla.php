@@ -42,16 +42,10 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @return  boolean
 	 *
+	 * @since  3.8
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid user form before modifying it.
 		$name = $form->getName();
 
