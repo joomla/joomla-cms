@@ -538,6 +538,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$user       = JFactory::getUser();
+		$config 	= JFactory::getConfig();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -584,6 +585,38 @@ class UsersModelUser extends JModelAdmin
 						{
 							// Plugin will have to raise it's own error or throw an exception.
 							return false;
+						}
+
+						// Compute the user mail notification subject.
+						$emailSubject = JText::sprintf(
+							'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
+							$table->name,
+							$config->get('sitename')
+						);
+
+						// Compute the user mail notification body.
+						$emailBody = JText::sprintf(
+							'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY',
+							$table->name,
+							JUri::root(),
+							$table->username
+						);
+
+						// Assemble the email data
+						$mail = JFactory::getMailer()
+							->setSender(
+								array(
+									$config->get('mailfrom'),
+									$config->get('fromname')
+								)
+							)
+							->addRecipient($table->email)
+							->setSubject($emailSubject)
+							->setBody($emailBody);
+
+						if (!$mail->Send())
+						{
+							$this->setError(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 						}
 
 						// Store the table.
