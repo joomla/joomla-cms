@@ -224,7 +224,7 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(JForm $form, $data)
 	{
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
