@@ -112,29 +112,12 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$pluginParams = new Registry;
-
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$plugin = JPluginHelper::getPlugin('user', 'joomla');
-			$pluginParams->loadString($plugin->params);
-		}
-
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
 			return false;
-		}
-
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
-		$userId = $form->getValue('id');
-
-		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
@@ -149,6 +132,8 @@ class UsersModelUser extends JModelAdmin
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
+
+		$userId = $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) JFactory::getUser()->id)

@@ -35,6 +35,40 @@ class PlgUserJoomla extends JPlugin
 	protected $db;
 
 	/**
+	 * Set as required the passwords fields when mail to user is set to No
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		if (!($form instanceof JForm))
+		{
+			$this->_subject->setError('JERROR_NOT_A_FORM');
+
+			return false;
+		}
+
+		// Check we are manipulating a valid user form before modifying it.
+		$name = $form->getName();
+
+		if ($name === 'com_users.user')
+		{
+			// Passwords fields are required when mail to user is set to No
+			if ($data->id === 0 && $this->params->get('mail_to_user', '1') === '0')
+			{
+				$form->setFieldAttribute('password', 'required', 'true');
+				$form->setFieldAttribute('password2', 'required', 'true');
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
