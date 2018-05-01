@@ -42,7 +42,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY__VERSION__
+	 * @since   __DEPLOY__VERSION__
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
