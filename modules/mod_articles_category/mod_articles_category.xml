@@ -32,12 +32,6 @@
 					<option value="normal">MOD_ARTICLES_CATEGORY_OPTION_NORMAL_VALUE</option>
 					<option value="dynamic">MOD_ARTICLES_CATEGORY_OPTION_DYNAMIC_VALUE</option>
 				</field>
-			</fieldset>
-
-			<fieldset
-				name="dynamic"
-				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_DYNAMIC_LABEL"
-			>
 
 				<field
 					name="show_on_article_page"
@@ -47,6 +41,7 @@
 					default="1"
 					filter="integer"
 					class="btn-group btn-group-yesno"
+					showon="mode:dynamic"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
