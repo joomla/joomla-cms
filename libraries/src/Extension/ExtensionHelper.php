@@ -234,6 +234,7 @@ class ExtensionHelper
 		// Core plugin extensions - user
 		array('plugin', 'contactcreator', 'user', 0),
 		array('plugin', 'joomla', 'user', 0),
+		array('plugin', 'privacyconsent', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
 
 		// Core template extensions - administrator
