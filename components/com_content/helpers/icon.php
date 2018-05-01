@@ -77,7 +77,7 @@ abstract class JHtmlIcon
 
 		if (JFactory::getApplication()->get('captcha', '0') === '0')
 		{
-			$status = 'width=400,height=350,menubar=yes,resizable=yes';
+			$status = 'width=400,height=400,menubar=yes,resizable=yes';
 		}
 
 		$text = JLayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
