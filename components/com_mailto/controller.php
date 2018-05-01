@@ -74,6 +74,49 @@ class MailtoController extends JControllerLegacy
 			return $this->mailto();
 		}
 
+		// An array of email headers we do not want to allow as input
+		$headers = array (
+			'Content-Type:',
+			'MIME-Version:',
+			'Content-Transfer-Encoding:',
+			'bcc:',
+			'cc:'
+		);
+
+		// An array of the input fields to scan for injected headers
+		$fields = array(
+			'emailto',
+			'sender',
+			'emailfrom',
+			'subject',
+			'link',
+			'captcha',
+		);
+
+		/*
+		 * Here is the meat and potatoes of the header injection test.  We
+		 * iterate over the array of form input and check for header strings.
+		 * If we find one, send an unauthorized header and die.
+		 */
+		foreach ($fields as $field)
+		{
+			if (!empty($_POST[$field]))
+			{
+				foreach ($headers as $header)
+				{
+					if (strpos($_POST[$field], $header) !== false)
+					{
+						JError::raiseError(403, '');
+					}
+				}
+			}
+		}
+
+		/*
+		 * Free up memory
+		 */
+		unset($headers, $fields);
+
 		$siteName = $app->get('sitename');
 		$link     = MailtoHelper::validateHash($this->input->post->get('link', '', 'post'));
 
