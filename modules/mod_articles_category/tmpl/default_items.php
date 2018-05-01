@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php foreach ($items as $item) : ?>
 	<li>
 		<?php if ($params->get('link_titles', 1)) : ?>
-			<a class="mod-articles-category-title<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+			<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 				<?php echo $item->title; ?>
 			</a>
 		<?php else : ?>
@@ -51,7 +51,7 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 		<?php if ($params->get('show_readmore', 0)) : ?>
 			<p class="mod-articles-category-readmore">
-				<a class="mod-articles-category-title<?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+				<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 					<?php if ($item->params->get('access-view') === false) : ?>
 						<?php echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
 					<?php elseif (isset($item->alternative_readmore)) : ?>
