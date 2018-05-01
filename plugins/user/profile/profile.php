@@ -226,13 +226,6 @@ class PlgUserProfile extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 

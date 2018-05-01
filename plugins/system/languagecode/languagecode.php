@@ -115,14 +115,6 @@ class PlgSystemLanguagecode extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		// Check we have a form.
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating the languagecode plugin.
 		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
