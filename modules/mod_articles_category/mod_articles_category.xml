@@ -44,9 +44,9 @@
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -90,9 +90,9 @@
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -103,10 +103,10 @@
 					type="category"
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
-					class="multipleCategories"
-					extension="com_content"
-					multiple="true"
 					filter="int_array"
+					multiple="true"
+					extension="com_content"
+					class="multipleCategories"
 				/>
 
 				<field
@@ -142,10 +142,10 @@
 					type="tag"
 					label="JTAG"
 					description="JTAG_FIELD_SELECT_DESC"
-					mode="nested"
-					multiple="true"
-					class="multipleTags"
 					filter="int_array"
+					multiple="true"
+					mode="nested"
+					class="multipleTags"
 				/>
 
 				<field
@@ -159,9 +159,9 @@
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -172,9 +172,9 @@
 					type="author"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
+					filter="int_array"
 					multiple="true"
 					class="multipleAuthors"
-					filter="int_array"
 					>
 					<option value="0">JNONE</option>
 				</field>
@@ -190,9 +190,9 @@
 					type="radio"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_DESC"
-					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
@@ -204,10 +204,10 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
 					multiple="true"
-					class="multipleAuthorAliases"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
+					class="multipleAuthorAliases"
 				/>
 
 				<field
@@ -267,10 +267,10 @@
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_DESC"
+					filter="user_utc"
 					translateformat="true"
 					showtime="true"
 					size="22"
-					filter="user_utc"
 					showon="date_filtering:range"
 				/>
 
@@ -279,10 +279,10 @@
 					type="calendar"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_DESC"
+					filter="user_utc"
 					translateformat="true"
 					showtime="true"
 					size="22"
-					filter="user_utc"
 					showon="date_filtering:range"
 				/>
 
@@ -404,8 +404,8 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -417,8 +417,8 @@
 					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -452,8 +452,8 @@
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -465,8 +465,8 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -478,8 +478,8 @@
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -491,8 +491,8 @@
 					label="JTAG"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWTAGS_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -504,8 +504,8 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -517,8 +517,8 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_DESC"
 					default="100"
-					showon="show_introtext:1"
 					filter="integer"
+					showon="show_introtext:1"
 				/>
 
 				<field
@@ -527,8 +527,8 @@
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					description="JGLOBAL_SHOW_READMORE_DESC"
 					default="0"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -540,9 +540,9 @@
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					showon="show_readmore:1"
-					filter="integer"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -554,8 +554,8 @@
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 					default="15"
-					showon="show_readmore:1[AND]show_readmore_title:1"
 					filter="integer"
+					showon="show_readmore:1[AND]show_readmore_title:1"
 				/>
 
 			</fieldset>
