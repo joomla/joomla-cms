@@ -174,7 +174,7 @@ class JFormFieldSQL extends JFormFieldList
 			$this->keyField   = (string) $this->element['key_field'] ?: 'value';
 			$this->valueField = (string) $this->element['value_field'] ?: (string) $this->element['name'];
 			$this->translate  = (string) $this->element['translate'] ?: false;
-			$this->header     = (string) $this->element['header'] ?: false;
+			$this->header     = \JText::_((string) $this->element['header']) ?: false;
 		}
 
 		return $return;
