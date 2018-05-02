@@ -83,31 +83,18 @@ class MailtoController extends JControllerLegacy
 			'cc:'
 		);
 
-		// An array of the input fields to scan for injected headers
-		$fields = array(
-			'emailto',
-			'sender',
-			'emailfrom',
-			'subject',
-			'link',
-			'captcha',
-		);
-
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
 		 * iterate over the array of form input and check for header strings.
 		 * If we find one, send an unauthorized header and die.
 		 */
-		foreach ($fields as $field)
+		foreach ($data as $key => $value)
 		{
-			if (!empty($_POST[$field]))
+			foreach ($headers as $header)
 			{
-				foreach ($headers as $header)
+				if (strpos($value, $header) !== false)
 				{
-					if (strpos($_POST[$field], $header) !== false)
-					{
-						JError::raiseError(403, '');
-					}
+					JError::raiseError(403, '');
 				}
 			}
 		}
