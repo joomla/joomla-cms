@@ -125,6 +125,26 @@ class AdminModelProfile extends UsersModelUser
 	{
 		$user = JFactory::getUser();
 
+		// Check if the user mail domain or TLD is disallowed
+		$config = JComponentHelper::getParams('com_users');
+		$whiteListMailDomain = explode("\r\n", $config->get('whiteListMailDomain'));
+		$blackListMailDomain = explode("\r\n", $config->get('blackListMailDomain'));
+		$userMailDomain = explode('@', $data['email']);
+		$getTLD = explode('.', $userMailDomain[1]);
+		$userMailTLD = array_pop($getTLD);
+		$needles = array(
+			'userMailDomain'	=> $userMailDomain[1],
+			'userMailTLD'		=> $userMailTLD,
+		);
+
+		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
+			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		{
+			$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+			return false;
+		}
+
 		unset($data['id']);
 		unset($data['groups']);
 		unset($data['sendEmail']);
