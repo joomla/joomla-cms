@@ -128,36 +128,36 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h9 = (self::load_3(self::substr($s, 29, 3)) & 8388607) << 2;
 
         $carry9 = ($h9 + (1 << 24)) >> 25;
-        $h0 += self::mul($carry9, 19);
-        $h9 -= self::mul($carry9,  1 << 25);
+        $h0 += self::mul($carry9, 19, 5);
+        $h9 -= $carry9 << 25;
         $carry1 = ($h1 + (1 << 24)) >> 25;
         $h2 += $carry1;
-        $h1 -= self::mul($carry1,  1 << 25);
+        $h1 -= $carry1 << 25;
         $carry3 = ($h3 + (1 << 24)) >> 25;
         $h4 += $carry3;
-        $h3 -= self::mul($carry3,  1 << 25);
+        $h3 -= $carry3 << 25;
         $carry5 = ($h5 + (1 << 24)) >> 25;
         $h6 += $carry5;
-        $h5 -= self::mul($carry5,  1 << 25);
+        $h5 -= $carry5 << 25;
         $carry7 = ($h7 + (1 << 24)) >> 25;
         $h8 += $carry7;
-        $h7 -= self::mul($carry7,  1 << 25);
+        $h7 -= $carry7 << 25;
 
         $carry0 = ($h0 + (1 << 25)) >> 26;
         $h1 += $carry0;
-        $h0 -= self::mul($carry0,  1 << 26);
+        $h0 -= $carry0 << 26;
         $carry2 = ($h2 + (1 << 25)) >> 26;
         $h3 += $carry2;
-        $h2 -= self::mul($carry2,  1 << 26);
+        $h2 -= $carry2 << 26;
         $carry4 = ($h4 + (1 << 25)) >> 26;
         $h5 += $carry4;
-        $h4 -= self::mul($carry4,  1 << 26);
+        $h4 -= $carry4 << 26;
         $carry6 = ($h6 + (1 << 25)) >> 26;
         $h7 += $carry6;
-        $h6 -= self::mul($carry6,  1 << 26);
+        $h6 -= $carry6 << 26;
         $carry8 = ($h8 + (1 << 25)) >> 26;
         $h9 += $carry8;
-        $h8 -= self::mul($carry8,  1 << 26);
+        $h8 -= $carry8 << 26;
 
         return ParagonIE_Sodium_Core_Curve25519_Fe::fromArray(
             array(
@@ -196,7 +196,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h[8] = (int) $h[8];
         $h[9] = (int) $h[9];
 
-        $q = (self::mul(19, $h[9]) + (1 << 24)) >> 25;
+        $q = (self::mul($h[9], 19, 5) + (1 << 24)) >> 25;
         $q = ($h[0] + $q) >> 26;
         $q = ($h[1] + $q) >> 25;
         $q = ($h[2] + $q) >> 26;
@@ -208,7 +208,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $q = ($h[8] + $q) >> 26;
         $q = ($h[9] + $q) >> 25;
 
-        $h[0] += self::mul(19, $q);
+        $h[0] += self::mul($q, 19, 5);
 
         $carry0 = $h[0] >> 26;
         $h[1] += $carry0;
@@ -350,15 +350,15 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $g7 = $g[7];
         $g8 = $g[8];
         $g9 = $g[9];
-        $g1_19 = self::mul(19, $g1);
-        $g2_19 = self::mul(19, $g2);
-        $g3_19 = self::mul(19, $g3);
-        $g4_19 = self::mul(19, $g4);
-        $g5_19 = self::mul(19, $g5);
-        $g6_19 = self::mul(19, $g6);
-        $g7_19 = self::mul(19, $g7);
-        $g8_19 = self::mul(19, $g8);
-        $g9_19 = self::mul(19, $g9);
+        $g1_19 = self::mul($g1, 19, 5);
+        $g2_19 = self::mul($g2, 19, 5);
+        $g3_19 = self::mul($g3, 19, 5);
+        $g4_19 = self::mul($g4, 19, 5);
+        $g5_19 = self::mul($g5, 19, 5);
+        $g6_19 = self::mul($g6, 19, 5);
+        $g7_19 = self::mul($g7, 19, 5);
+        $g8_19 = self::mul($g8, 19, 5);
+        $g9_19 = self::mul($g9, 19, 5);
         $f1_2 = $f1 << 1;
         $f3_2 = $f3 << 1;
         $f5_2 = $f5 << 1;
@@ -511,7 +511,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h8 -= $carry8 << 26;
 
         $carry9 = ($h9 + (1 << 24)) >> 25;
-        $h0 += self::mul($carry9, 19);
+        $h0 += self::mul($carry9, 19, 5);
         $h9 -= $carry9 << 25;
 
         $carry0 = ($h0 + (1 << 25)) >> 26;
@@ -584,11 +584,11 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $f5_2 = $f5 << 1;
         $f6_2 = $f6 << 1;
         $f7_2 = $f7 << 1;
-        $f5_38 = self::mul(38, $f5);
-        $f6_19 = self::mul(19, $f6);
-        $f7_38 = self::mul(38, $f7);
-        $f8_19 = self::mul(19, $f8);
-        $f9_38 = self::mul(38, $f9);
+        $f5_38 = self::mul($f5, 38, 6);
+        $f6_19 = self::mul($f6, 19, 5);
+        $f7_38 = self::mul($f7, 38, 6);
+        $f8_19 = self::mul($f8, 19, 5);
+        $f9_38 = self::mul($f9, 38, 6);
         $f0f0    = self::mul($f0,    $f0);
         $f0f1_2  = self::mul($f0_2,  $f1);
         $f0f2_2  = self::mul($f0_2,  $f2);
@@ -691,7 +691,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h8 -= $carry8 << 26;
 
         $carry9 = ($h9 + (1 << 24)) >> 25;
-        $h0 += self::mul($carry9, 19);
+        $h0 += self::mul($carry9, 19, 5);
         $h9 -= $carry9 << 25;
 
         $carry0 = ($h0 + (1 << 25)) >> 26;
@@ -746,11 +746,11 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $f5_2 = $f5 << 1;
         $f6_2 = $f6 << 1;
         $f7_2 = $f7 << 1;
-        $f5_38 = self::mul(38, $f5); /* 1.959375*2^30 */
-        $f6_19 = self::mul(19, $f6); /* 1.959375*2^30 */
-        $f7_38 = self::mul(38, $f7); /* 1.959375*2^30 */
-        $f8_19 = self::mul(19, $f8); /* 1.959375*2^30 */
-        $f9_38 = self::mul(38, $f9); /* 1.959375*2^30 */
+        $f5_38 = self::mul($f5, 38, 6); /* 1.959375*2^30 */
+        $f6_19 = self::mul($f6, 19, 5); /* 1.959375*2^30 */
+        $f7_38 = self::mul($f7, 38, 6); /* 1.959375*2^30 */
+        $f8_19 = self::mul($f8, 19, 5); /* 1.959375*2^30 */
+        $f9_38 = self::mul($f9, 38, 6); /* 1.959375*2^30 */
         $f0f0 = self::mul($f0, (int) $f0);
         $f0f1_2 = self::mul($f0_2, (int) $f1);
         $f0f2_2 = self::mul($f0_2, (int) $f2);
@@ -865,7 +865,7 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $h8 -= $carry8 << 26;
 
         $carry9 = ($h9 + (1 << 24)) >> 25;
-        $h0 += self::mul($carry9, 19);
+        $h0 += self::mul($carry9, 19, 5);
         $h9 -= $carry9 << 25;
 
         $carry0 = ($h0 + (1 << 25)) >> 26;
@@ -1892,320 +1892,318 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
 
         $carry0 = ($s0 + (1 << 20)) >> 21;
         $s1 += $carry0;
-        $s0 -= self::mul($carry0, 1 << 21);
+        $s0 -= $carry0 << 21;
         $carry2 = ($s2 + (1 << 20)) >> 21;
         $s3 += $carry2;
-        $s2 -= self::mul($carry2, 1 << 21);
+        $s2 -= $carry2 << 21;
         $carry4 = ($s4 + (1 << 20)) >> 21;
         $s5 += $carry4;
-        $s4 -= self::mul($carry4, 1 << 21);
+        $s4 -= $carry4 << 21;
         $carry6 = ($s6 + (1 << 20)) >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6, 1 << 21);
+        $s6 -= $carry6 << 21;
         $carry8 = ($s8 + (1 << 20)) >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8, 1 << 21);
+        $s8 -= $carry8 << 21;
         $carry10 = ($s10 + (1 << 20)) >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10, 1 << 21);
+        $s10 -= $carry10 << 21;
         $carry12 = ($s12 + (1 << 20)) >> 21;
         $s13 += $carry12;
-        $s12 -= self::mul($carry12, 1 << 21);
+        $s12 -= $carry12 << 21;
         $carry14 = ($s14 + (1 << 20)) >> 21;
         $s15 += $carry14;
-        $s14 -= self::mul($carry14, 1 << 21);
+        $s14 -= $carry14 << 21;
         $carry16 = ($s16 + (1 << 20)) >> 21;
         $s17 += $carry16;
-        $s16 -= self::mul($carry16, 1 << 21);
+        $s16 -= $carry16 << 21;
         $carry18 = ($s18 + (1 << 20)) >> 21;
         $s19 += $carry18;
-        $s18 -= self::mul($carry18, 1 << 21);
+        $s18 -= $carry18 << 21;
         $carry20 = ($s20 + (1 << 20)) >> 21;
         $s21 += $carry20;
-        $s20 -= self::mul($carry20, 1 << 21);
+        $s20 -= $carry20 << 21;
         $carry22 = ($s22 + (1 << 20)) >> 21;
         $s23 += $carry22;
-        $s22 -= self::mul($carry22, 1 << 21);
+        $s22 -= $carry22 << 21;
 
         $carry1 = ($s1 + (1 << 20)) >> 21;
         $s2 += $carry1;
-        $s1 -= self::mul($carry1, 1 << 21);
+        $s1 -= $carry1 << 21;
         $carry3 = ($s3 + (1 << 20)) >> 21;
         $s4 += $carry3;
-        $s3 -= self::mul($carry3, 1 << 21);
+        $s3 -= $carry3 << 21;
         $carry5 = ($s5 + (1 << 20)) >> 21;
         $s6 += $carry5;
-        $s5 -= self::mul($carry5, 1 << 21);
+        $s5 -= $carry5 << 21;
         $carry7 = ($s7 + (1 << 20)) >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7, 1 << 21);
+        $s7 -= $carry7 << 21;
         $carry9 = ($s9 + (1 << 20)) >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9, 1 << 21);
+        $s9 -= $carry9 << 21;
         $carry11 = ($s11 + (1 << 20)) >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11, 1 << 21);
+        $s11 -= $carry11 << 21;
         $carry13 = ($s13 + (1 << 20)) >> 21;
         $s14 += $carry13;
-        $s13 -= self::mul($carry13, 1 << 21);
+        $s13 -= $carry13 << 21;
         $carry15 = ($s15 + (1 << 20)) >> 21;
         $s16 += $carry15;
-        $s15 -= self::mul($carry15, 1 << 21);
+        $s15 -= $carry15 << 21;
         $carry17 = ($s17 + (1 << 20)) >> 21;
         $s18 += $carry17;
-        $s17 -= self::mul($carry17, 1 << 21);
+        $s17 -= $carry17 << 21;
         $carry19 = ($s19 + (1 << 20)) >> 21;
         $s20 += $carry19;
-        $s19 -= self::mul($carry19, 1 << 21);
+        $s19 -= $carry19 << 21;
         $carry21 = ($s21 + (1 << 20)) >> 21;
         $s22 += $carry21;
-        $s21 -= self::mul($carry21, 1 << 21);
+        $s21 -= $carry21 << 21;
 
-        $s11 += self::mul($s23, 666643);
-        $s12 += self::mul($s23, 470296);
-        $s13 += self::mul($s23, 654183);
-        $s14 -= self::mul($s23, 997805);
-        $s15 += self::mul($s23, 136657);
-        $s16 -= self::mul($s23, 683901);
+        $s11 += self::mul($s23, 666643, 20);
+        $s12 += self::mul($s23, 470296, 19);
+        $s13 += self::mul($s23, 654183, 20);
+        $s14 -= self::mul($s23, 997805, 20);
+        $s15 += self::mul($s23, 136657, 18);
+        $s16 -= self::mul($s23, 683901, 20);
 
-        $s10 += self::mul($s22, 666643);
-        $s11 += self::mul($s22, 470296);
-        $s12 += self::mul($s22, 654183);
-        $s13 -= self::mul($s22, 997805);
-        $s14 += self::mul($s22, 136657);
-        $s15 -= self::mul($s22, 683901);
+        $s10 += self::mul($s22, 666643, 20);
+        $s11 += self::mul($s22, 470296, 19);
+        $s12 += self::mul($s22, 654183, 20);
+        $s13 -= self::mul($s22, 997805, 20);
+        $s14 += self::mul($s22, 136657, 18);
+        $s15 -= self::mul($s22, 683901, 20);
 
-        $s9 += self::mul($s21,  666643);
-        $s10 += self::mul($s21,  470296);
-        $s11 += self::mul($s21,  654183);
-        $s12 -= self::mul($s21,  997805);
-        $s13 += self::mul($s21,  136657);
-        $s14 -= self::mul($s21,  683901);
+        $s9  += self::mul($s21,  666643, 20);
+        $s10 += self::mul($s21,  470296, 19);
+        $s11 += self::mul($s21,  654183, 20);
+        $s12 -= self::mul($s21,  997805, 20);
+        $s13 += self::mul($s21,  136657, 18);
+        $s14 -= self::mul($s21,  683901, 20);
 
-        $s8 += self::mul($s20,  666643);
-        $s9 += self::mul($s20,  470296);
-        $s10 += self::mul($s20,  654183);
-        $s11 -= self::mul($s20,  997805);
-        $s12 += self::mul($s20,  136657);
-        $s13 -= self::mul($s20,  683901);
+        $s8  += self::mul($s20,  666643, 20);
+        $s9  += self::mul($s20,  470296, 19);
+        $s10 += self::mul($s20,  654183, 20);
+        $s11 -= self::mul($s20,  997805, 20);
+        $s12 += self::mul($s20,  136657, 18);
+        $s13 -= self::mul($s20,  683901, 20);
 
-        $s7 += self::mul($s19,  666643);
-        $s8 += self::mul($s19,  470296);
-        $s9 += self::mul($s19,  654183);
-        $s10 -= self::mul($s19,  997805);
-        $s11 += self::mul($s19,  136657);
-        $s12 -= self::mul($s19,  683901);
+        $s7  += self::mul($s19,  666643, 20);
+        $s8  += self::mul($s19,  470296, 19);
+        $s9  += self::mul($s19,  654183, 20);
+        $s10 -= self::mul($s19,  997805, 20);
+        $s11 += self::mul($s19,  136657, 18);
+        $s12 -= self::mul($s19,  683901, 20);
 
-        $s6 += self::mul($s18,  666643);
-        $s7 += self::mul($s18,  470296);
-        $s8 += self::mul($s18,  654183);
-        $s9 -= self::mul($s18,  997805);
-        $s10 += self::mul($s18,  136657);
-        $s11 -= self::mul($s18,  683901);
+        $s6  += self::mul($s18,  666643, 20);
+        $s7  += self::mul($s18,  470296, 19);
+        $s8  += self::mul($s18,  654183, 20);
+        $s9  -= self::mul($s18,  997805, 20);
+        $s10 += self::mul($s18,  136657, 18);
+        $s11 -= self::mul($s18,  683901, 20);
 
         $carry6 = ($s6 + (1 << 20)) >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6, 1 << 21);
+        $s6 -= $carry6 << 21;
         $carry8 = ($s8 + (1 << 20)) >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8, 1 << 21);
+        $s8 -= $carry8 << 21;
         $carry10 = ($s10 + (1 << 20)) >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10, 1 << 21);
+        $s10 -= $carry10 << 21;
         $carry12 = ($s12 + (1 << 20)) >> 21;
         $s13 += $carry12;
-        $s12 -= self::mul($carry12, 1 << 21);
+        $s12 -= $carry12 << 21;
         $carry14 = ($s14 + (1 << 20)) >> 21;
         $s15 += $carry14;
-        $s14 -= self::mul($carry14, 1 << 21);
+        $s14 -= $carry14 << 21;
         $carry16 = ($s16 + (1 << 20)) >> 21;
         $s17 += $carry16;
-        $s16 -= self::mul($carry16, 1 << 21);
+        $s16 -= $carry16 << 21;
 
         $carry7 = ($s7 + (1 << 20)) >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7, 1 << 21);
+        $s7 -= $carry7 << 21;
         $carry9 = ($s9 + (1 << 20)) >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9, 1 << 21);
+        $s9 -= $carry9 << 21;
         $carry11 = ($s11 + (1 << 20)) >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11, 1 << 21);
+        $s11 -= $carry11 << 21;
         $carry13 = ($s13 + (1 << 20)) >> 21;
         $s14 += $carry13;
-        $s13 -= self::mul($carry13, 1 << 21);
+        $s13 -= $carry13 << 21;
         $carry15 = ($s15 + (1 << 20)) >> 21;
         $s16 += $carry15;
-        $s15 -= self::mul($carry15, 1 << 21);
+        $s15 -= $carry15 << 21;
 
-        $s5 += self::mul($s17,  666643);
-        $s6 += self::mul($s17,  470296);
-        $s7 += self::mul($s17,  654183);
-        $s8 -= self::mul($s17,  997805);
-        $s9 += self::mul($s17,  136657);
-        $s10 -= self::mul($s17,  683901);
+        $s5  += self::mul($s17,  666643, 20);
+        $s6  += self::mul($s17,  470296, 19);
+        $s7  += self::mul($s17,  654183, 20);
+        $s8  -= self::mul($s17,  997805, 20);
+        $s9  += self::mul($s17,  136657, 18);
+        $s10 -= self::mul($s17,  683901, 20);
 
-        $s4 += self::mul($s16,  666643);
-        $s5 += self::mul($s16,  470296);
-        $s6 += self::mul($s16,  654183);
-        $s7 -= self::mul($s16,  997805);
-        $s8 += self::mul($s16,  136657);
-        $s9 -= self::mul($s16,  683901);
+        $s4 += self::mul($s16,  666643, 20);
+        $s5 += self::mul($s16,  470296, 19);
+        $s6 += self::mul($s16,  654183, 20);
+        $s7 -= self::mul($s16,  997805, 20);
+        $s8 += self::mul($s16,  136657, 18);
+        $s9 -= self::mul($s16,  683901, 20);
 
-        $s3 += self::mul($s15,  666643);
-        $s4 += self::mul($s15,  470296);
-        $s5 += self::mul($s15,  654183);
-        $s6 -= self::mul($s15,  997805);
-        $s7 += self::mul($s15,  136657);
-        $s8 -= self::mul($s15,  683901);
+        $s3 += self::mul($s15,  666643, 20);
+        $s4 += self::mul($s15,  470296, 19);
+        $s5 += self::mul($s15,  654183, 20);
+        $s6 -= self::mul($s15,  997805, 20);
+        $s7 += self::mul($s15,  136657, 18);
+        $s8 -= self::mul($s15,  683901, 20);
 
-        $s2 += self::mul($s14,  666643);
-        $s3 += self::mul($s14,  470296);
-        $s4 += self::mul($s14,  654183);
-        $s5 -= self::mul($s14,  997805);
-        $s6 += self::mul($s14,  136657);
-        $s7 -= self::mul($s14,  683901);
+        $s2 += self::mul($s14,  666643, 20);
+        $s3 += self::mul($s14,  470296, 19);
+        $s4 += self::mul($s14,  654183, 20);
+        $s5 -= self::mul($s14,  997805, 20);
+        $s6 += self::mul($s14,  136657, 18);
+        $s7 -= self::mul($s14,  683901, 20);
 
-        $s1 += self::mul($s13,  666643);
-        $s2 += self::mul($s13,  470296);
-        $s3 += self::mul($s13,  654183);
-        $s4 -= self::mul($s13,  997805);
-        $s5 += self::mul($s13,  136657);
-        $s6 -= self::mul($s13,  683901);
+        $s1 += self::mul($s13,  666643, 20);
+        $s2 += self::mul($s13,  470296, 19);
+        $s3 += self::mul($s13,  654183, 20);
+        $s4 -= self::mul($s13,  997805, 20);
+        $s5 += self::mul($s13,  136657, 18);
+        $s6 -= self::mul($s13,  683901, 20);
 
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
         $s12 = 0;
 
         $carry0 = ($s0 + (1 << 20)) >> 21;
         $s1 += $carry0;
-        $s0 -= self::mul($carry0,  1 << 21);
+        $s0 -= $carry0 << 21;
         $carry2 = ($s2 + (1 << 20)) >> 21;
         $s3 += $carry2;
-        $s2 -= self::mul($carry2,  1 << 21);
+        $s2 -= $carry2 << 21;
         $carry4 = ($s4 + (1 << 20)) >> 21;
         $s5 += $carry4;
-        $s4 -= self::mul($carry4,  1 << 21);
+        $s4 -= $carry4 << 21;
         $carry6 = ($s6 + (1 << 20)) >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6,  1 << 21);
+        $s6 -= $carry6 << 21;
         $carry8 = ($s8 + (1 << 20)) >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8,  1 << 21);
+        $s8 -= $carry8 << 21;
         $carry10 = ($s10 + (1 << 20)) >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10,  1 << 21);
+        $s10 -= $carry10 << 21;
 
         $carry1 = ($s1 + (1 << 20)) >> 21;
         $s2 += $carry1;
-        $s1 -= self::mul($carry1,  1 << 21);
+        $s1 -= $carry1 << 21;
         $carry3 = ($s3 + (1 << 20)) >> 21;
         $s4 += $carry3;
-        $s3 -= self::mul($carry3,  1 << 21);
+        $s3 -= $carry3 << 21;
         $carry5 = ($s5 + (1 << 20)) >> 21;
         $s6 += $carry5;
-        $s5 -= self::mul($carry5,  1 << 21);
+        $s5 -= $carry5 << 21;
         $carry7 = ($s7 + (1 << 20)) >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7,  1 << 21);
+        $s7 -= $carry7 << 21;
         $carry9 = ($s9 + (1 << 20)) >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9,  1 << 21);
+        $s9 -= $carry9 << 21;
         $carry11 = ($s11 + (1 << 20)) >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11,  1 << 21);
+        $s11 -= $carry11 << 21;
 
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
         $s12 = 0;
 
         $carry0 = $s0 >> 21;
         $s1 += $carry0;
-        $s0 -= self::mul($carry0,  1 << 21);
+        $s0 -= $carry0 << 21;
         $carry1 = $s1 >> 21;
         $s2 += $carry1;
-        $s1 -= self::mul($carry1,  1 << 21);
+        $s1 -= $carry1 << 21;
         $carry2 = $s2 >> 21;
         $s3 += $carry2;
-        $s2 -= self::mul($carry2,  1 << 21);
+        $s2 -= $carry2 << 21;
         $carry3 = $s3 >> 21;
         $s4 += $carry3;
-        $s3 -= self::mul($carry3,  1 << 21);
+        $s3 -= $carry3 << 21;
         $carry4 = $s4 >> 21;
         $s5 += $carry4;
-        $s4 -= self::mul($carry4,  1 << 21);
+        $s4 -= $carry4 << 21;
         $carry5 = $s5 >> 21;
         $s6 += $carry5;
-        $s5 -= self::mul($carry5,  1 << 21);
+        $s5 -= $carry5 << 21;
         $carry6 = $s6 >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6,  1 << 21);
+        $s6 -= $carry6 << 21;
         $carry7 = $s7 >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7,  1 << 21);
+        $s7 -= $carry7 << 21;
         $carry8 = $s8 >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8,  1 << 21);
+        $s8 -= $carry8 << 21;
         $carry9 = $s9 >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9,  1 << 21);
+        $s9 -= $carry9 << 21;
         $carry10 = $s10 >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10,  1 << 21);
+        $s10 -= $carry10 << 21;
         $carry11 = $s11 >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11,  1 << 21);
+        $s11 -= $carry11 << 21;
 
-
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
 
         $carry0 = $s0 >> 21;
         $s1 += $carry0;
-        $s0 -= self::mul($carry0,  1 << 21);
+        $s0 -= $carry0 << 21;
         $carry1 = $s1 >> 21;
         $s2 += $carry1;
-        $s1 -= self::mul($carry1,  1 << 21);
+        $s1 -= $carry1 << 21;
         $carry2 = $s2 >> 21;
         $s3 += $carry2;
-        $s2 -= self::mul($carry2,  1 << 21);
+        $s2 -= $carry2 << 21;
         $carry3 = $s3 >> 21;
         $s4 += $carry3;
-        $s3 -= self::mul($carry3,  1 << 21);
+        $s3 -= $carry3 << 21;
         $carry4 = $s4 >> 21;
         $s5 += $carry4;
-        $s4 -= self::mul($carry4,  1 << 21);
+        $s4 -= $carry4 << 21;
         $carry5 = $s5 >> 21;
         $s6 += $carry5;
-        $s5 -= self::mul($carry5,  1 << 21);
+        $s5 -= $carry5 << 21;
         $carry6 = $s6 >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6,  1 << 21);
+        $s6 -= $carry6 << 21;
         $carry7 = $s7 >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7,  1 << 21);
+        $s7 -= $carry7 << 21;
         $carry8 = $s8 >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8,  1 << 21);
+        $s8 -= $carry8 << 21;
         $carry9 = $s9 >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9,  1 << 21);
+        $s9 -= $carry9 << 21;
         $carry10 = $s10 >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10,  1 << 21);
-
+        $s10 -= $carry10 << 21;
 
         /**
          * @var array<int, int>
@@ -2213,33 +2211,33 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $arr = array(
             (int) (0xff & ($s0 >> 0)),
             (int) (0xff & ($s0 >> 8)),
-            (int) (0xff & (($s0 >> 16) | self::mul($s1, 1 << 5))),
+            (int) (0xff & (($s0 >> 16) | $s1 << 5)),
             (int) (0xff & ($s1 >> 3)),
             (int) (0xff & ($s1 >> 11)),
-            (int) (0xff & (($s1 >> 19) | self::mul($s2, 1 << 2))),
+            (int) (0xff & (($s1 >> 19) | $s2 << 2)),
             (int) (0xff & ($s2 >> 6)),
-            (int) (0xff & (($s2 >> 14) | self::mul($s3, 1 << 7))),
+            (int) (0xff & (($s2 >> 14) | $s3 << 7)),
             (int) (0xff & ($s3 >> 1)),
             (int) (0xff & ($s3 >> 9)),
-            (int) (0xff & (($s3 >> 17) | self::mul($s4, 1 << 4))),
+            (int) (0xff & (($s3 >> 17) | $s4 << 4)),
             (int) (0xff & ($s4 >> 4)),
             (int) (0xff & ($s4 >> 12)),
-            (int) (0xff & (($s4 >> 20) | self::mul($s5, 1 << 1))),
+            (int) (0xff & (($s4 >> 20) | $s5 << 1)),
             (int) (0xff & ($s5 >> 7)),
-            (int) (0xff & (($s5 >> 15) | self::mul($s6, 1 << 6))),
+            (int) (0xff & (($s5 >> 15) | $s6 << 6)),
             (int) (0xff & ($s6 >> 2)),
             (int) (0xff & ($s6 >> 10)),
-            (int) (0xff & (($s6 >> 18) | self::mul($s7, 1 << 3))),
+            (int) (0xff & (($s6 >> 18) | $s7 << 3)),
             (int) (0xff & ($s7 >> 5)),
             (int) (0xff & ($s7 >> 13)),
             (int) (0xff & ($s8 >> 0)),
             (int) (0xff & ($s8 >> 8)),
-            (int) (0xff & (($s8 >> 16) | self::mul($s9, 1 << 5))),
+            (int) (0xff & (($s8 >> 16) | $s9 << 5)),
             (int) (0xff & ($s9 >> 3)),
             (int) (0xff & ($s9 >> 11)),
-            (int) (0xff & (($s9 >> 19) | self::mul($s10, 1 << 2))),
+            (int) (0xff & (($s9 >> 19) | $s10 << 2)),
             (int) (0xff & ($s10 >> 6)),
-            (int) (0xff & (($s10 >> 14) | self::mul($s11, 1 << 7))),
+            (int) (0xff & (($s10 >> 14) | $s11 << 7)),
             (int) (0xff & ($s11 >> 1)),
             (int) (0xff & ($s11 >> 9)),
             0xff & ($s11 >> 17)
@@ -2280,170 +2278,170 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $s22 = 2097151 & (self::load_4(self::substr($s, 57, 4)) >> 6);
         $s23 = (self::load_4(self::substr($s, 60, 4)) >> 3);
 
-        $s11 += self::mul($s23,  666643);
-        $s12 += self::mul($s23,  470296);
-        $s13 += self::mul($s23,  654183);
-        $s14 -= self::mul($s23,  997805);
-        $s15 += self::mul($s23,  136657);
-        $s16 -= self::mul($s23,  683901);
+        $s11 += self::mul($s23,  666643, 20);
+        $s12 += self::mul($s23,  470296, 19);
+        $s13 += self::mul($s23,  654183, 20);
+        $s14 -= self::mul($s23,  997805, 20);
+        $s15 += self::mul($s23,  136657, 18);
+        $s16 -= self::mul($s23,  683901, 20);
 
-        $s10 += self::mul($s22,  666643);
-        $s11 += self::mul($s22,  470296);
-        $s12 += self::mul($s22,  654183);
-        $s13 -= self::mul($s22,  997805);
-        $s14 += self::mul($s22,  136657);
-        $s15 -= self::mul($s22,  683901);
+        $s10 += self::mul($s22,  666643, 20);
+        $s11 += self::mul($s22,  470296, 19);
+        $s12 += self::mul($s22,  654183, 20);
+        $s13 -= self::mul($s22,  997805, 20);
+        $s14 += self::mul($s22,  136657, 18);
+        $s15 -= self::mul($s22,  683901, 20);
 
-        $s9 += self::mul($s21,  666643);
-        $s10 += self::mul($s21,  470296);
-        $s11 += self::mul($s21,  654183);
-        $s12 -= self::mul($s21,  997805);
-        $s13 += self::mul($s21,  136657);
-        $s14 -= self::mul($s21,  683901);
+        $s9  += self::mul($s21,  666643, 20);
+        $s10 += self::mul($s21,  470296, 19);
+        $s11 += self::mul($s21,  654183, 20);
+        $s12 -= self::mul($s21,  997805, 20);
+        $s13 += self::mul($s21,  136657, 18);
+        $s14 -= self::mul($s21,  683901, 20);
 
-        $s8 += self::mul($s20,  666643);
-        $s9 += self::mul($s20,  470296);
-        $s10 += self::mul($s20,  654183);
-        $s11 -= self::mul($s20,  997805);
-        $s12 += self::mul($s20,  136657);
-        $s13 -= self::mul($s20,  683901);
+        $s8  += self::mul($s20,  666643, 20);
+        $s9  += self::mul($s20,  470296, 19);
+        $s10 += self::mul($s20,  654183, 20);
+        $s11 -= self::mul($s20,  997805, 20);
+        $s12 += self::mul($s20,  136657, 18);
+        $s13 -= self::mul($s20,  683901, 20);
 
-        $s7 += self::mul($s19,  666643);
-        $s8 += self::mul($s19,  470296);
-        $s9 += self::mul($s19,  654183);
-        $s10 -= self::mul($s19,  997805);
-        $s11 += self::mul($s19,  136657);
-        $s12 -= self::mul($s19,  683901);
+        $s7  += self::mul($s19,  666643, 20);
+        $s8  += self::mul($s19,  470296, 19);
+        $s9  += self::mul($s19,  654183, 20);
+        $s10 -= self::mul($s19,  997805, 20);
+        $s11 += self::mul($s19,  136657, 18);
+        $s12 -= self::mul($s19,  683901, 20);
 
-        $s6 += self::mul($s18,  666643);
-        $s7 += self::mul($s18,  470296);
-        $s8 += self::mul($s18,  654183);
-        $s9 -= self::mul($s18,  997805);
-        $s10 += self::mul($s18,  136657);
-        $s11 -= self::mul($s18,  683901);
+        $s6  += self::mul($s18,  666643, 20);
+        $s7  += self::mul($s18,  470296, 19);
+        $s8  += self::mul($s18,  654183, 20);
+        $s9  -= self::mul($s18,  997805, 20);
+        $s10 += self::mul($s18,  136657, 18);
+        $s11 -= self::mul($s18,  683901, 20);
 
         $carry6 = ($s6 + (1 << 20)) >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6,  1 << 21);
+        $s6 -= $carry6 << 21;
         $carry8 = ($s8 + (1 << 20)) >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8,  1 << 21);
+        $s8 -= $carry8 << 21;
         $carry10 = ($s10 + (1 << 20)) >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10,  1 << 21);
+        $s10 -= $carry10 << 21;
         $carry12 = ($s12 + (1 << 20)) >> 21;
         $s13 += $carry12;
-        $s12 -= self::mul($carry12,  1 << 21);
+        $s12 -= $carry12 << 21;
         $carry14 = ($s14 + (1 << 20)) >> 21;
         $s15 += $carry14;
-        $s14 -= self::mul($carry14,  1 << 21);
+        $s14 -= $carry14 << 21;
         $carry16 = ($s16 + (1 << 20)) >> 21;
         $s17 += $carry16;
-        $s16 -= self::mul($carry16,  1 << 21);
+        $s16 -= $carry16 << 21;
 
         $carry7 = ($s7 + (1 << 20)) >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7,  1 << 21);
+        $s7 -= $carry7 << 21;
         $carry9 = ($s9 + (1 << 20)) >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9,  1 << 21);
+        $s9 -= $carry9 << 21;
         $carry11 = ($s11 + (1 << 20)) >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11,  1 << 21);
+        $s11 -= $carry11 << 21;
         $carry13 = ($s13 + (1 << 20)) >> 21;
         $s14 += $carry13;
-        $s13 -= self::mul($carry13,  1 << 21);
+        $s13 -= $carry13 << 21;
         $carry15 = ($s15 + (1 << 20)) >> 21;
         $s16 += $carry15;
-        $s15 -= self::mul($carry15,  1 << 21);
+        $s15 -= $carry15 << 21;
 
-        $s5 += self::mul($s17,  666643);
-        $s6 += self::mul($s17,  470296);
-        $s7 += self::mul($s17,  654183);
-        $s8 -= self::mul($s17,  997805);
-        $s9 += self::mul($s17,  136657);
-        $s10 -= self::mul($s17,  683901);
+        $s5  += self::mul($s17,  666643, 20);
+        $s6  += self::mul($s17,  470296, 19);
+        $s7  += self::mul($s17,  654183, 20);
+        $s8  -= self::mul($s17,  997805, 20);
+        $s9  += self::mul($s17,  136657, 18);
+        $s10 -= self::mul($s17,  683901, 20);
 
-        $s4 += self::mul($s16,  666643);
-        $s5 += self::mul($s16,  470296);
-        $s6 += self::mul($s16,  654183);
-        $s7 -= self::mul($s16,  997805);
-        $s8 += self::mul($s16,  136657);
-        $s9 -= self::mul($s16,  683901);
+        $s4 += self::mul($s16,  666643, 20);
+        $s5 += self::mul($s16,  470296, 19);
+        $s6 += self::mul($s16,  654183, 20);
+        $s7 -= self::mul($s16,  997805, 20);
+        $s8 += self::mul($s16,  136657, 18);
+        $s9 -= self::mul($s16,  683901, 20);
 
-        $s3 += self::mul($s15,  666643);
-        $s4 += self::mul($s15,  470296);
-        $s5 += self::mul($s15,  654183);
-        $s6 -= self::mul($s15,  997805);
-        $s7 += self::mul($s15,  136657);
-        $s8 -= self::mul($s15,  683901);
+        $s3 += self::mul($s15,  666643, 20);
+        $s4 += self::mul($s15,  470296, 19);
+        $s5 += self::mul($s15,  654183, 20);
+        $s6 -= self::mul($s15,  997805, 20);
+        $s7 += self::mul($s15,  136657, 18);
+        $s8 -= self::mul($s15,  683901, 20);
 
-        $s2 += self::mul($s14,  666643);
-        $s3 += self::mul($s14,  470296);
-        $s4 += self::mul($s14,  654183);
-        $s5 -= self::mul($s14,  997805);
-        $s6 += self::mul($s14,  136657);
-        $s7 -= self::mul($s14,  683901);
+        $s2 += self::mul($s14,  666643, 20);
+        $s3 += self::mul($s14,  470296, 19);
+        $s4 += self::mul($s14,  654183, 20);
+        $s5 -= self::mul($s14,  997805, 20);
+        $s6 += self::mul($s14,  136657, 18);
+        $s7 -= self::mul($s14,  683901, 20);
 
-        $s1 += self::mul($s13,  666643);
-        $s2 += self::mul($s13,  470296);
-        $s3 += self::mul($s13,  654183);
-        $s4 -= self::mul($s13,  997805);
-        $s5 += self::mul($s13,  136657);
-        $s6 -= self::mul($s13,  683901);
+        $s1 += self::mul($s13,  666643, 20);
+        $s2 += self::mul($s13,  470296, 19);
+        $s3 += self::mul($s13,  654183, 20);
+        $s4 -= self::mul($s13,  997805, 20);
+        $s5 += self::mul($s13,  136657, 18);
+        $s6 -= self::mul($s13,  683901, 20);
 
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
         $s12 = 0;
 
         $carry0 = ($s0 + (1 << 20)) >> 21;
         $s1 += $carry0;
-        $s0 -= self::mul($carry0,  1 << 21);
+        $s0 -= $carry0 << 21;
         $carry2 = ($s2 + (1 << 20)) >> 21;
         $s3 += $carry2;
-        $s2 -= self::mul($carry2,  1 << 21);
+        $s2 -= $carry2 << 21;
         $carry4 = ($s4 + (1 << 20)) >> 21;
         $s5 += $carry4;
-        $s4 -= self::mul($carry4,  1 << 21);
+        $s4 -= $carry4 << 21;
         $carry6 = ($s6 + (1 << 20)) >> 21;
         $s7 += $carry6;
-        $s6 -= self::mul($carry6,  1 << 21);
+        $s6 -= $carry6 << 21;
         $carry8 = ($s8 + (1 << 20)) >> 21;
         $s9 += $carry8;
-        $s8 -= self::mul($carry8,  1 << 21);
+        $s8 -= $carry8 << 21;
         $carry10 = ($s10 + (1 << 20)) >> 21;
         $s11 += $carry10;
-        $s10 -= self::mul($carry10,  1 << 21);
+        $s10 -= $carry10 << 21;
 
         $carry1 = ($s1 + (1 << 20)) >> 21;
         $s2 += $carry1;
-        $s1 -= self::mul($carry1,  1 << 21);
+        $s1 -= $carry1 << 21;
         $carry3 = ($s3 + (1 << 20)) >> 21;
         $s4 += $carry3;
-        $s3 -= self::mul($carry3,  1 << 21);
+        $s3 -= $carry3 << 21;
         $carry5 = ($s5 + (1 << 20)) >> 21;
         $s6 += $carry5;
-        $s5 -= self::mul($carry5,  1 << 21);
+        $s5 -= $carry5 << 21;
         $carry7 = ($s7 + (1 << 20)) >> 21;
         $s8 += $carry7;
-        $s7 -= self::mul($carry7,  1 << 21);
+        $s7 -= $carry7 << 21;
         $carry9 = ($s9 + (1 << 20)) >> 21;
         $s10 += $carry9;
-        $s9 -= self::mul($carry9,  1 << 21);
+        $s9 -= $carry9 << 21;
         $carry11 = ($s11 + (1 << 20)) >> 21;
         $s12 += $carry11;
-        $s11 -= self::mul($carry11,  1 << 21);
+        $s11 -= $carry11 << 21;
 
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
         $s12 = 0;
 
         $carry0 = $s0 >> 21;
@@ -2483,12 +2481,12 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $s12 += $carry11;
         $s11 -= $carry11 << 21;
 
-        $s0 += self::mul($s12,  666643);
-        $s1 += self::mul($s12,  470296);
-        $s2 += self::mul($s12,  654183);
-        $s3 -= self::mul($s12,  997805);
-        $s4 += self::mul($s12,  136657);
-        $s5 -= self::mul($s12,  683901);
+        $s0 += self::mul($s12,  666643, 20);
+        $s1 += self::mul($s12,  470296, 19);
+        $s2 += self::mul($s12,  654183, 20);
+        $s3 -= self::mul($s12,  997805, 20);
+        $s4 += self::mul($s12,  136657, 18);
+        $s5 -= self::mul($s12,  683901, 20);
 
         $carry0 = $s0 >> 21;
         $s1 += $carry0;
@@ -2530,33 +2528,33 @@ abstract class ParagonIE_Sodium_Core_Curve25519 extends ParagonIE_Sodium_Core_Cu
         $arr = array(
             (int) ($s0 >> 0),
             (int) ($s0 >> 8),
-            (int) (($s0 >> 16) | self::mul($s1, 1 << 5)),
+            (int) (($s0 >> 16) | $s1 << 5),
             (int) ($s1 >> 3),
             (int) ($s1 >> 11),
-            (int) (($s1 >> 19) | self::mul($s2, 1 << 2)),
+            (int) (($s1 >> 19) | $s2 << 2),
             (int) ($s2 >> 6),
-            (int) (($s2 >> 14) | self::mul($s3, 1 << 7)),
+            (int) (($s2 >> 14) | $s3 << 7),
             (int) ($s3 >> 1),
             (int) ($s3 >> 9),
-            (int) (($s3 >> 17) | self::mul($s4, 1 << 4)),
+            (int) (($s3 >> 17) | $s4 << 4),
             (int) ($s4 >> 4),
             (int) ($s4 >> 12),
-            (int) (($s4 >> 20) | self::mul($s5, 1 << 1)),
+            (int) (($s4 >> 20) | $s5 << 1),
             (int) ($s5 >> 7),
-            (int) (($s5 >> 15) | self::mul($s6, 1 << 6)),
+            (int) (($s5 >> 15) | $s6 << 6),
             (int) ($s6 >> 2),
             (int) ($s6 >> 10),
-            (int) (($s6 >> 18) | self::mul($s7, 1 << 3)),
+            (int) (($s6 >> 18) | $s7 << 3),
             (int) ($s7 >> 5),
             (int) ($s7 >> 13),
             (int) ($s8 >> 0),
             (int) ($s8 >> 8),
-            (int) (($s8 >> 16) | self::mul($s9, 1 << 5)),
+            (int) (($s8 >> 16) | $s9 << 5),
             (int) ($s9 >> 3),
             (int) ($s9 >> 11),
-            (int) (($s9 >> 19) | self::mul($s10, 1 << 2)),
+            (int) (($s9 >> 19) | $s10 << 2),
             (int) ($s10 >> 6),
-            (int) (($s10 >> 14) | self::mul($s11, 1 << 7)),
+            (int) (($s10 >> 14) | $s11 << 7),
             (int) ($s11 >> 1),
             (int) ($s11 >> 9),
             (int) $s11 >> 17

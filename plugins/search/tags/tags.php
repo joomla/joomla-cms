@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -152,7 +152,7 @@ class PlgSearchTags extends JPlugin
 
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->id);
+				$rows[$key]->href       = TagsHelperRoute::getTagRoute($row->slug);
 				$rows[$key]->text       = ($row->description !== '' ? $row->description : $row->title);
 				$rows[$key]->text      .= $row->note;
 				$rows[$key]->section    = $section;

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -534,27 +534,19 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
 		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+			hasSelection = key == orig_key, i, selected, item;
 
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
+		for (i = 0 ; i < source.length; i++) {
+			item = source[ i ];
 
 			if ( item[ 0 ] != key ) { continue; }
 
-			selected = '';
+			selected = hasSelection ? orig_val == item[ 1 ] : i === 0;
 
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
-
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
-
-			i++;
+			html += '<option value="' + item[ 1 ] + '"' + (selected ? ' selected="selected"' : '') + '>'
+				+ item[ 2 ] + '</option>';
 		}
+
 		html += '</select>';
 
 		if (element) {

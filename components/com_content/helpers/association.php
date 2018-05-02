@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,14 @@ JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/component
 abstract class ContentHelperAssociation extends CategoryHelperAssociation
 {
 	/**
+	 * Cached array of the content item id.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $filters = array();
+
+	/**
 	 * Method to get the associations for a given item
 	 *
 	 * @param   integer  $id    Id of the item
@@ -35,21 +43,52 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		$jinput = JFactory::getApplication()->input;
 		$view   = $view === null ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
+		$user   = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		if ($view === 'article')
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-				$return = array();
-
-				foreach ($associations as $tag => $item)
+				if (!isset(static::$filters[$id])) 
 				{
-					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+					$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+					$return = array();
+
+					foreach ($associations as $tag => $item)
+					{
+						if ($item->language != JFactory::getLanguage()->getTag())
+						{
+							$arrId   = explode(':', $item->id);
+							$assocId = $arrId[0];
+
+							$db    = JFactory::getDbo();
+							$query = $db->getQuery(true)
+								->select($db->qn('state'))
+								->from($db->qn('#__content'))
+								->where($db->qn('id') . ' = ' . (int) $assocId)
+								->where($db->qn('access') . ' IN (' . $groups . ')');
+							$db->setQuery($query);
+
+							$result = (int) $db->loadResult();
+
+							if ($result > 0)
+							{
+								$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
+							}
+						}
+
+						static::$filters[$id] = $return;
+					}
+
+					if (count($associations) === 0)
+					{
+						static::$filters[$id] = array();
+					}
 				}
 
-				return $return;
+				return static::$filters[$id];
 			}
 		}
 

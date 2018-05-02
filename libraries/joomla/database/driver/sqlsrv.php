@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,7 +118,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('PHP extension sqlsrv_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('The sqlsrv extension for PHP is not installed or enabled..');
 		}
 
 		// Attempt to connect to the server.
@@ -748,7 +748,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to SQL Server database.');
 		}
 
 		return true;

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,8 +21,8 @@ interface ContainerAwareInterface
 	 * @return  Container
 	 *
 	 * @since   1.0
-	 *
 	 * @throws  \UnexpectedValueException May be thrown if the container has not been set.
+	 * @deprecated  2.0  The getter will no longer be part of the interface.
 	 */
 	public function getContainer();
 

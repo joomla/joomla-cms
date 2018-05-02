@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -237,11 +237,6 @@
 		// bootstrap based Media field
 		if($.fn.fieldMedia){
 			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
-		// bootstrap tooltips
-		if($.fn.tooltip){
-			$row.find('.hasTooltip').tooltip({html: true, container: "body"});
 		}
 
 		// bootstrap based User field
