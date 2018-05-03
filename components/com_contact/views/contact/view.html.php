@@ -366,13 +366,9 @@ class ContactViewContact extends JViewLegacy
 
 		$captchaSet = $item->params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
 
-		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		if($captchaSet)
 		{
-			if ($captchaSet === $plugin->name)
-			{
-				$this->captchaEnabled = true;
-				break;
-			}
+			$this->captchaEnabled = JPluginHelper::getPlugin('captcha', $captchaSet) ? true : false;
 		}
 
 		$this->_prepareDocument();
