@@ -52,8 +52,9 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * Should we show a captcha form for the submission of the contact request?
 	 *
-	 * @var   bool
-	 * @since 3.6.3
+	 * @var         bool
+	 * @since       3.6.3
+	 * @deprecated  4.0
 	 */
 	protected $captchaEnabled = false;
 
