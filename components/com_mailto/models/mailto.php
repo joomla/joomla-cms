@@ -53,8 +53,6 @@ class MailtoModelMailto extends JModelForm
 	{
 		$user = JFactory::getUser();
 		$app  = JFactory::getApplication();
-		$data = array();
-
 		$data = $app->getUserState('mailto.mailto.form.data', array());
 
 		$data['link'] = urldecode($app->input->get('link', '', 'BASE64'));
@@ -100,7 +98,6 @@ class MailtoModelMailto extends JModelForm
 		$data['sender']    = $input->get('sender', '', 'string');
 		$data['emailfrom'] = $input->get('emailfrom', '', 'string');
 		$data['subject']   = $input->get('subject', '', 'string');
-		$data['captcha']   = $input->get('captcha', '', 'string');
 
 		return $data;
 	}
