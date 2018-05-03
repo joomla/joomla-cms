@@ -1,3 +1,14 @@
+/**
+ * Command line helper
+ *
+ * For maintainers, please run:
+ * node build.js --installer
+ * node build.js --update
+ * node build.js --compilejs
+ * node build.js --compilecss
+ * Before making any PRs or building any package!
+ * 
+ */
 const Program = require('commander');
 const Chalk = require('chalk');
 
