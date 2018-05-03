@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -63,6 +65,13 @@ $fieldsets = $this->form->getFieldsets();
 								<?php // Disables autocomplete ?> <input type="password" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
+							<?php // If the user has not logged into the site for the first time, then either an administrator has not activated it ?>
+							<?php // Or in some way the notification mail has not been received yet ?>
+							<?php if($field->fieldname == 'name' && $this->form->getValue('lastvisitDate') === JFactory::getDbo()->getNullDate()) : ?>
+								<?php $aUrl = '#'; ?>
+								<?php $aAttribs = array('class'=>'btn btn-warning', 'onclick'=>"Joomla.submitbutton('user.activate')"); ?>
+								<?php echo HTMLHelper::link($aUrl, $aText, $aAttribs); ?>								
+							<?php endif; ?>
 						</div>
 					</div>
 				<?php endforeach; ?>
