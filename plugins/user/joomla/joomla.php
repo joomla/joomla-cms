@@ -52,7 +52,7 @@ class PlgUserJoomla extends JPlugin
 		if ($name === 'com_users.user')
 		{
 			// Passwords fields are required when mail to user is set to No
-			if ($data->id === 0 && $this->params->get('mail_to_user', '1') === '0')
+			if (is_object($data) && $data->id === 0 && $this->params->get('mail_to_user', '1') === '0')
 			{
 				$form->setFieldAttribute('password', 'required', 'true');
 				$form->setFieldAttribute('password2', 'required', 'true');
