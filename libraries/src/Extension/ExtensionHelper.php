@@ -57,6 +57,7 @@ class ExtensionHelper
 		array('component', 'com_newsfeeds', '', 1),
 		array('component', 'com_plugins', '', 1),
 		array('component', 'com_postinstall', '', 1),
+		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
 		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),

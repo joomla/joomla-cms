@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.9" method="upgrade">
+	<name>com_privacy</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2018</creationDate>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>COM_PRIVACY_XML_DESCRIPTION</description>
+	<administration>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>privacy.php</filename>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_privacy.ini</language>
+			<language tag="en-GB">language/en-GB.com_privacy.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
+
