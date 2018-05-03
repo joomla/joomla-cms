@@ -20,7 +20,7 @@
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "1.1.0",
     "awesomplete": "1.1.2",
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
