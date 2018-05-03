@@ -69,6 +69,7 @@ $fieldsets = $this->form->getFieldsets();
 							<?php // Or in some way the notification mail has not been received yet ?>
 							<?php if($field->fieldname == 'name' && $this->form->getValue('lastvisitDate') === JFactory::getDbo()->getNullDate()) : ?>
 								<?php $aUrl = '#'; ?>
+								<?php $aText = (!$this->form->getValue('block')) ? JText::_('COM_USERS_USER_RESEND_BUTTONTEXT') : JText::_('COM_USERS_USER_SEND_BUTTONTEXT'); ?>
 								<?php $aAttribs = array('class'=>'btn btn-warning', 'onclick'=>"Joomla.submitbutton('user.activate')"); ?>
 								<?php echo HTMLHelper::link($aUrl, $aText, $aAttribs); ?>								
 							<?php endif; ?>

@@ -122,10 +122,12 @@ class UsersControllerUser extends JControllerForm
 			// Then we wanted active the user and send a email notification
 			elseif (!empty($wasActive))
 			{
+				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
 			}
 			// Then we wanted only send again the email notification
 			else 
 			{
+				$this->setMessage(JText::sprintf('COM_USERS_USER_NOTIFIED', $data['name']));
 			}
 		}
 
