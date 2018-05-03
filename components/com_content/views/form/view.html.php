@@ -27,8 +27,9 @@ class ContentViewForm extends JViewLegacy
 	/**
 	 * Should we show a captcha form for the submission of the article?
 	 *
-	 * @var   bool
-	 * @since 3.7.0
+	 * @var         bool
+	 * @since       3.7.0
+	 * @deprecated  4.0
 	 */
 	protected $captchaEnabled = false;
 
