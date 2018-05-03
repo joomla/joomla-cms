@@ -537,7 +537,7 @@ class UsersModelUser extends JModelAdmin
 	public function activate(&$pks)
 	{
 		$dispatcher = JEventDispatcher::getInstance();
-		$user       = JFactory::getUser();
+		$user 		= JFactory::getUser();
 		$config 	= JFactory::getConfig();
 
 		// Check if I am a Super Admin
