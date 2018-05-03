@@ -106,9 +106,11 @@ class UsersControllerUser extends JControllerForm
 		}
 		else
 		{
-			// Know if we call this for activate the user and send a email notification
-			// Or for only send a email notification
-			// In both case we active the user on table, but we show a different message
+			/* 
+			 *	Know if we call this for activate the user and send a email notification
+			 *	Or for only send a email notification
+			 *	In both case we active the user on table, but we show a different message
+			 */
 			$model = $this->getModel();
 			$table = $model->getTable();
 			$table->load($data['id']);
