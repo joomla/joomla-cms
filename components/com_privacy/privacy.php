@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+// Only authenticated user have access
+if (JFactory::getUser()->guest)
+{
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+}
+
 $controller = JControllerLegacy::getInstance('Privacy');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
