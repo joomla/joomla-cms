@@ -97,7 +97,7 @@ class UsersControllerUser extends JControllerForm
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));		
-		
+
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		if (empty($data['id']))
