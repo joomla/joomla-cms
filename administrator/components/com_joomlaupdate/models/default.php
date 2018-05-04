@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
-
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
@@ -1366,7 +1364,7 @@ ENDDATA;
 	 */
 	private static function isNonCoreExtension($extension)
 	{
-		$coreExtensions = ExtensionHelper::getCoreExtensions();
+		$coreExtensions = JExtensionHelper::getCoreExtensions();
 
 		foreach ($coreExtensions as $coreExtension)
 		{
