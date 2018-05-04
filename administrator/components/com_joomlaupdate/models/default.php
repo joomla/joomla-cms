@@ -1366,7 +1366,7 @@ ENDDATA;
 	 */
 	private static function isNonCoreExtension($extension)
 	{
-		$coreExtensions = JExtensionHelper::getCoreExtensions();
+		$coreExtensions = ExtensionHelper::getCoreExtensions();
 
 		foreach ($coreExtensions as $coreExtension)
 		{
