@@ -429,9 +429,9 @@ class ContentModelArticles extends JModelList
 			foreach (array_keys($items) as $x)
 			{
 				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
+				if (!in_array($x->access, $groups))
 				{
-					unset($items[$x]);
+					unset($x);
 				}
 			}
 		}
