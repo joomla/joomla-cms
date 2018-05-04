@@ -186,7 +186,7 @@ class JFormFieldFolderList extends JFormFieldList
 
 		$path = $this->directory;
 
-		if (!is_dir($path))
+		if (!is_dir($path) || is_dir(JPATH_ROOT . '/' . $path))
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
