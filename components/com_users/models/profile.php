@@ -326,7 +326,7 @@ class UsersModelProfile extends JModelForm
 
 					return false;
 				}
-				elseif (empty(array_intersect($needles, $whiteListMailDomain)))
+				elseif ($optionRestriction === 1 && empty(array_intersect($needles, $whiteListMailDomain)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 

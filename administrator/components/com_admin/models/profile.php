@@ -127,22 +127,34 @@ class AdminModelProfile extends UsersModelUser
 
 		// Check if the user mail domain or TLD is disallowed
 		$usersParams = JComponentHelper::getParams('com_users');
-		$whiteListMailDomain = explode("\r\n", $usersParams->get('whiteListMailDomain'));
-		$blackListMailDomain = explode("\r\n", $usersParams->get('blackListMailDomain'));
-		$userMailDomain = explode('@', $data['email']);
-		$getTLD = explode('.', $userMailDomain[1]);
-		$userMailTLD = array_pop($getTLD);
-		$needles = array(
-			'userMailDomain'	=> $userMailDomain[1],
-			'userMailTLD'		=> $userMailTLD,
-		);
+		$optionRestriction = $usersParams->get('domainTLDRestriction');
 
-		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
-			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		if ($optionRestriction !== '0')
 		{
-			$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+			$listMailDomainTLD = explode("\r\n", $usersParams->get('listMailDomainTLD'));
+			$userMailDomain = explode('@', $data['email']);
+			$getTLD = explode('.', $userMailDomain[1]);
+			$userMailTLD = array_pop($getTLD);
+			$needles = array(
+				'userMailDomain'	=> $userMailDomain[1],
+				'userMailTLD'		=> $userMailTLD,
+			);
 
-			return false;
+			if (!empty(array_filter($listMailDomainTLD)))
+			{
+				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+				elseif ($optionRestriction === 1 && empty(array_intersect($needles, $whiteListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+			}
 		}
 
 		unset($data['id']);
