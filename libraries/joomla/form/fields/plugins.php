@@ -157,5 +157,4 @@ class JFormFieldPlugins extends JFormFieldList
 
 		return array_merge($parentOptions, $options);
 	}
-
 }
