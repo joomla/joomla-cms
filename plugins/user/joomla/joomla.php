@@ -37,10 +37,10 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * Set as required the passwords fields when mail to user is set to No
 	 *
-	 * @param	JForm  $form  The form to be altered.
-	 * @param	mixed  $data  The associated data for the form.
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY__VERSION__
 	 */
