@@ -246,6 +246,7 @@ class UsersModelUser extends JModelAdmin
 				}
 			}
 		}
+		
 		// User cannot modify own user groups
 		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
