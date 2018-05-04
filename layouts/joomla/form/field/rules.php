@@ -83,7 +83,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
 			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th class="actions" id="actions-th<?php echo $group->value; ?>">

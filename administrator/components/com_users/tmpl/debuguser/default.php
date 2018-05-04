@@ -20,7 +20,7 @@ $colSpan   = 4 + count($this->actions);
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="table-responsive">
-			<table class="table table-striped">
+			<table class="table">
 				<thead>
 					<tr>
 						<th class="nowrap">

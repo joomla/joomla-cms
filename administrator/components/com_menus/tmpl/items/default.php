@@ -50,7 +50,7 @@ if ($menuType == '')
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="itemList">
+					<table class="table" id="itemList">
 						<thead>
 						<tr>
 							<?php if ($menuType) : ?>

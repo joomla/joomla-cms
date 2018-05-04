@@ -45,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
-				<table class="table table-striped">
+				<table class="table">
 					<thead>
 						<tr>
 							<th style="width:1%" class="nowrap text-center">

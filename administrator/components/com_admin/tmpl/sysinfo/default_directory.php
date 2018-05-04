@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
-	<table class="table table-striped">
+	<table class="table">
 		<thead>
 			<tr>
 				<th style="width:650px">

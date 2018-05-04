@@ -29,7 +29,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
-					<table class="table table-striped" id="styleList">
+					<table class="table" id="styleList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap text-center">

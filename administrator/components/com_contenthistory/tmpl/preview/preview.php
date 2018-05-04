@@ -17,7 +17,7 @@ JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 	&nbsp;&nbsp;<?php echo JText::sprintf('COM_CONTENTHISTORY_PREVIEW_SUBTITLE', $this->item->version_note); ?>
 <?php endif; ?>
 </h3>
-<table class="table table-striped">
+<table class="table">
 	<thead>
 		<tr>
 			<th style="width:25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
