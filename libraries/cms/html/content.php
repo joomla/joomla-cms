@@ -55,10 +55,12 @@ abstract class JHtmlContent
 	public static function months($state)
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
 		foreach ($state as $key => $value) 
 		{
 			$model->setState($key, $value);
 		}
+
 		$model->setState('filter.category_id', $state->get('category.id'));
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', -1);
@@ -66,10 +68,12 @@ abstract class JHtmlContent
 		$model->setState('list.filter', '');
 
 		$items = array();
+
 		foreach ($model->countItemsByMonth() as $item)
 		{
 			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
 		}
+
 		return $items;
 	}
 }
