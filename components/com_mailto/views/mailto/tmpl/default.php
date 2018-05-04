@@ -28,14 +28,7 @@ JHtml::_('behavior.keepalive');
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
+					<?php echo $field->renderField(); ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
 			<div class="control-group">
