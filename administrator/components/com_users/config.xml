@@ -33,22 +33,26 @@
 			checksuperusergroup="1"
 		/>
 
-		<field 
-			name="whiteListMailDomain" 
-			type="textarea" 
-			label="COM_USERS_CONFIG_FIELD_WHITELIST_MAILDOMAIN_LABEL" 
-			description="COM_USERS_CONFIG_FIELD_WHITELIST_MAILDOMAIN_DESC" 
-			rows="7" 
-			cols="3" 
-		/>
+		<field
+			name="domainTLDRestriction"
+			type="list"
+			label="COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_LABEL"
+			description="COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_DESC"
+			default="0"
+			>
+			<option value="0">JNONE</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_OPTION_WHITELIST</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_OPTION_BLACKLIST</option>
+		</field>
 
-		<field 
-			name="blackListMailDomain" 
+		<field
+			name="listMailDomainTLD"
 			type="textarea" 
-			label="COM_USERS_CONFIG_FIELD_BLACKLIST_MAILDOMAIN_LABEL" 
-			description="COM_USERS_CONFIG_FIELD_BLACKLIST_MAILDOMAIN_DESC" 
+			label="COM_USERS_CONFIG_FIELD_LIST_MAILDOMAIN_TLD_LABEL" 
+			description="COM_USERS_CONFIG_FIELD_LIST_MAILDOMAIN_TLD_DESC" 
 			rows="7" 
-			cols="3" 
+			cols="3"
+			showon="domainTLDRestriction:1,2"
 		/>
 
 		<field

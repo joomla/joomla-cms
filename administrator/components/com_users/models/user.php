@@ -216,25 +216,36 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// Check if the user mail domain or TLD is disallowed
-		$config = JComponentHelper::getParams('com_users');
-		$whiteListMailDomain = explode("\r\n", $config->get('whiteListMailDomain'));
-		$blackListMailDomain = explode("\r\n", $config->get('blackListMailDomain'));
-		$userMailDomain = explode('@', $data['email']);
-		$getTLD = explode('.', $userMailDomain[1]);
-		$userMailTLD = array_pop($getTLD);
-		$needles = array(
-			'userMailDomain'	=> $userMailDomain[1],
-			'userMailTLD'		=> $userMailTLD,
-		);
+		$usersParams = JComponentHelper::getParams('com_users');
+		$optionRestriction = $usersParams->get('domainTLDRestriction');
 
-		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
-			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		if ($optionRestriction !== '0')
 		{
-			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+			$listMailDomainTLD = explode("\r\n", $usersParams->get('listMailDomainTLD'));
+			$userMailDomain = explode('@', $data['email']);
+			$getTLD = explode('.', $userMailDomain[1]);
+			$userMailTLD = array_pop($getTLD);
+			$needles = array(
+				'userMailDomain'	=> $userMailDomain[1],
+				'userMailTLD'		=> $userMailTLD,
+			);
 
-			return false;
+			if (!empty(array_filter($listMailDomainTLD)))
+			{
+				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+					return false;
+				}
+				elseif (empty(array_intersect($needles, $whiteListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+					return false;
+				}
+			}
 		}
-
 		// User cannot modify own user groups
 		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin && isset($data['groups']))
 		{
