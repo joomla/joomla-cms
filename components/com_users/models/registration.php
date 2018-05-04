@@ -424,22 +424,34 @@ class UsersModelRegistration extends JModelForm
 		$sendpassword = $params->get('sendpassword', 1);
 
 		// Check if the user mail domain or TLD is disallowed
-		$whiteListMailDomain = explode("\r\n", $params->get('whiteListMailDomain'));
-		$blackListMailDomain = explode("\r\n", $params->get('blackListMailDomain'));
-		$userMailDomain = explode('@', $data['email']);
-		$getTLD = explode('.', $userMailDomain[1]);
-		$userMailTLD = array_pop($getTLD);
-		$needles = array(
-			'userMailDomain'	=> $userMailDomain[1],
-			'userMailTLD'		=> $userMailTLD,
-		);
+		$optionRestriction = $params->get('domainTLDRestriction');
 
-		if ((!empty(array_filter($blackListMailDomain)) && !empty(array_intersect($needles, $blackListMailDomain))) 
-			|| (!empty(array_filter($whiteListMailDomain)) && empty(array_intersect($needles, $whiteListMailDomain)))) 
+		if ($optionRestriction !== '0')
 		{
-			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+			$listMailDomainTLD = explode("\r\n", $params->get('listMailDomainTLD'));
+			$userMailDomain = explode('@', $data['email']);
+			$getTLD = explode('.', $userMailDomain[1]);
+			$userMailTLD = array_pop($getTLD);
+			$needles = array(
+				'userMailDomain'	=> $userMailDomain[1],
+				'userMailTLD'		=> $userMailTLD,
+			);
 
-			return false;
+			if (!empty(array_filter($listMailDomainTLD)))
+			{
+				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+					return false;
+				}
+				elseif (empty(array_intersect($needles, $whiteListMailDomain)))
+				{
+					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+
+					return false;
+				}
+			}
 		}
 
 		// Check if the user needs to activate their account.
