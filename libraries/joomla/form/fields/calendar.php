@@ -280,7 +280,11 @@ class JFormFieldCalendar extends JFormField
 		// Get the appropriate locale file for the current language
 		$localesPath = 'system/fields/calendar-locales/en.js';
 
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+		if (is_file(JPATH_ROOT . '/media/' . $tag . '/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+		{
+			$localesPath = $tag . '/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
 		}
