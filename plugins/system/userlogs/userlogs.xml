@@ -2,8 +2,8 @@
 <extension version="3.7" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_USERLOGS</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2017</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>May 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -15,10 +15,6 @@
 		<folder>field</folder>
 		<folder>layouts</folder>
 	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_userlogs.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_userlogs.sys.ini</language>
-	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/plugins/system/userlogs/models/field">
