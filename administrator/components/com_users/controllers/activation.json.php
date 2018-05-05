@@ -27,7 +27,7 @@ class UsersControllerActivation extends JControllerForm
      * @since   __DEPLOY_VERSION__
      */
     protected function checkFormData(&$message, &$error)
-	{
+    {
         $model = $this->getModel('User', 'UsersModel');
         $jinput = JFactory::getApplication()->input->json;
         $userID = $jinput->get('user_id', '', 'string');
@@ -86,7 +86,7 @@ class UsersControllerActivation extends JControllerForm
             echo new JResponseJson($checkResult, $message, $error);
         }
 
-        catch(Exception $e)
+        catch (Exception $e)
         {
             echo new JResponseJson($e);
         }
