@@ -43,6 +43,64 @@ JFactory::getDocument()->addScriptDeclaration("
 	};
 ");
 
+// Perform a ajax request to active and send a email
+$resendText = JText::_('COM_USERS_USER_RESEND_BUTTONTEXT');
+$sendingText = JText::_('COM_USERS_USER_SENDING_BUTTONTEXT');
+$script = "
+jQuery(function() {";
+	$script .= "
+	(function($){
+		$(document).ready(function() {
+			$('#sendActivationEmail').click(function(event)
+			{
+				event.preventDefault();
+				$('#sendActivationEmail').prop('disabled', true);	
+				$('#sendActivationEmail').hide().text('" . $sendingText ."').fadeIn(1000);	
+				var ajaxURL = 'index.php?option=com_users&task=activation.send&format=json';
+				var uid = $('#jform_id').val();
+				var reqdata = JSON.stringify({user_id: uid});
+				Joomla.request({
+					url: ajaxURL,
+					method: 'POST',
+					data: reqdata,
+					onSuccess: function(response, xhr)
+					{
+						response = $.parseJSON(response);
+						if (response.success && response.data)
+						{
+							$('#sendActivationEmail').hide().text('" . $resendText ."').fadeIn(1000);
+							$('#sendActivationEmail').prop('disabled', false);
+							if (response.messages)
+							{
+								$.each(response.messages, function(error, description) 
+								{
+									alert(error + ' : ' + description);
+								});
+								alert (response.message);
+							}
+							else
+							{
+								alert (response.message);
+							}							
+						}
+						else
+						{
+							alert ('Error: ' + response.message);
+						}
+						console.log(response.messages[0]);
+					},
+					onError: function(response, xhr)
+					{
+						alert ('Something went wrong');
+					}
+				})
+			});
+		})
+	})(jQuery);
+});";
+
+JFactory::getDocument()->addScriptDeclaration($script);
+
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 ?>
@@ -68,9 +126,9 @@ $fieldsets = $this->form->getFieldsets();
 							<?php // If the user has not logged into the site for the first time, then either an administrator has not activated it ?>
 							<?php // Or in some way the notification mail has not been received yet ?>
 							<?php if ($field->fieldname == 'name' && $this->form->getValue('lastvisitDate') === JFactory::getDbo()->getNullDate()) : ?>
-								<?php $bText = (!$this->form->getValue('block')) ? JText::_('COM_USERS_USER_RESEND_BUTTONTEXT') : JText::_('COM_USERS_USER_SEND_BUTTONTEXT'); ?>
-								<button class="btn btn-warning" onclick="Joomla.submitbutton('user.activate')">
-									<?php echo $bText; ?>
+								<?php $aText = (!$this->form->getValue('block')) ? $resendText : JText::_('COM_USERS_USER_SEND_BUTTONTEXT'); ?>
+								<button id="sendActivationEmail" class="btn btn-warning">
+									<?php echo $aText; ?>
 								</button>
 							<?php endif; ?>
 						</div>
