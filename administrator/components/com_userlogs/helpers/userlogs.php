@@ -28,7 +28,7 @@ class UserlogsHelper
 	public static function dataToCsv($data)
 	{
 		$date = JFactory::getDate();
-		$filename = "Logs_" . $date;
+		$filename = "logs_" . $date;
 		$data = json_decode(json_encode($data), true);
 		$dispatcher = JEventDispatcher::getInstance();
 
