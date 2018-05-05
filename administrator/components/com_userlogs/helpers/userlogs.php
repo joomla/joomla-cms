@@ -60,7 +60,7 @@ class UserlogsHelper
 	}
 
 	/**
-	 * Change the retrived extension name to more user friendly name
+	 * Change the retrieved extension name to more user friendly name
 	 *
 	 * @param   string  $extension  Extension name
 	 *
@@ -109,7 +109,7 @@ class UserlogsHelper
 	}
 
 	/**
-	 * Method to retrive data by primary keys from a table
+	 * Method to retrieve data by primary keys from a table
 	 *
 	 * @param   array   $pks          An array of primary key ids of the content that has changed state.
 	 * @param   string  $field        The field to get from the table
