@@ -39,7 +39,6 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 		'past_3month' => 'COM_USERLOGS_OPTION_RANGE_PAST_3MONTH',
 		'past_6month' => 'COM_USERLOGS_OPTION_RANGE_PAST_6MONTH',
 		'past_year'   => 'COM_USERLOGS_OPTION_RANGE_PAST_YEAR',
-		'post_year'   => 'COM_USERLOGS_OPTION_RANGE_POST_YEAR',
 	);
 
 	/**
