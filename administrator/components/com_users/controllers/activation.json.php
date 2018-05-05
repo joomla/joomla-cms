@@ -12,18 +12,21 @@ defined('_JEXEC') or die;
 /**
  * Activation controller class for manage the ajax request
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class UsersControllerActivation extends JControllerForm
 {
     /**
-	 * Method to check the form data
+     * Method to check the form data
+     * 
+     * @param   string   $message  The message that will be returned
+     * @param   boolean  $error    If there was an error obtaining the data
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
      * @since   __DEPLOY_VERSION__
-	 */
-	protected function checkFormData(&$message, &$error)
+     */
+    protected function checkFormData(&$message, &$error)
 	{
         $model = $this->getModel('User', 'UsersModel');
         $jinput = JFactory::getApplication()->input->json;
@@ -57,8 +60,8 @@ class UsersControllerActivation extends JControllerForm
 			}
 			// Then we wanted only send again the email notification
 			else 
-			{
-				$message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
+            {
+                $message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
             }
             
             return true;
@@ -68,7 +71,7 @@ class UsersControllerActivation extends JControllerForm
     /**
 	 * Method to send a email activatitaion to a user.
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

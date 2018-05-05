@@ -55,7 +55,7 @@ jQuery(function() {";
 			{
 				event.preventDefault();
 				$('#sendActivationEmail').prop('disabled', true);	
-				$('#sendActivationEmail').hide().text('" . $sendingText ."').fadeIn(1000);	
+				$('#sendActivationEmail').hide().text('" . $sendingText . "').fadeIn(1000);	
 				var ajaxURL = 'index.php?option=com_users&task=activation.send&format=json';
 				var uid = $('#jform_id').val();
 				var reqdata = JSON.stringify({user_id: uid});
@@ -68,7 +68,7 @@ jQuery(function() {";
 						response = $.parseJSON(response);
 						if (response.success && response.data)
 						{
-							$('#sendActivationEmail').hide().text('" . $resendText ."').fadeIn(1000);
+							$('#sendActivationEmail').hide().text('" . $resendText . "').fadeIn(1000);
 							$('#sendActivationEmail').prop('disabled', false);
 							if (response.messages)
 							{
