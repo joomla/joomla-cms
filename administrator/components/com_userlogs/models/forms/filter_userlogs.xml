@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_USERLOGS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="dateRange"
+			type="logsdaterange"
+			label="COM_USERS_OPTION_FILTER_DATE"
+			description="COM_USERS_OPTION_FILTER_DATE"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERLOGS_OPTION_FILTER_DATE</option>
+		</field>
+		<field
+			name="extension"
+			type="extension"
+			label="COM_USERLOGS_EXTENSION"
+			description="COM_USERLOGS_EXTENSION_FILTER_DESC"
+			onchange="this.form.submit()"
+			>
+			<option value="">COM_USERLOGS_SELECT_EXTENSION</option>
+		</field>
+		<field
+			name="user"
+			type="logcreator"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERLOGS_SELECT_USER</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_USERLOGS_LIST_FULL_ORDERING"
+			description="COM_USERLOGS_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="a.id DESC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="a.message ASC">COM_USERLOGS_MESSAGE_ASC</option>
+			<option value="a.message DESC">COM_USERLOGS_MESSAGE_DESC</option>
+			<option value="a.log_date ASC">JDATE_ASC</option>
+			<option value="a.log_date DESC">JDATE_DESC</option>
+			<option value="a.extension ASC">COM_USERLOGS_EXTENSION_ASC</option>
+			<option value="a.extension DESC">COM_USERLOGS_EXTENSION_DESC</option>
+			<option value="a.user_id ASC">JAUTHOR_ASC</option>
+			<option value="a.user_id DESC">JAUTHOR_DESC</option>
+			<option value="a.ip_address ASC">COM_USERLOGS_IP_ADDRESS_ASC</option>
+			<option value="a.ip_address DESC">COM_USERLOGS_IP_ADDRESS_DESC</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_USERLOGS_LIST_LIMIT"
+			description="COM_USERLOGS_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>
