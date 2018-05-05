@@ -19,8 +19,8 @@ class UsersControllerActivation extends JControllerForm
     /**
      * Method to check the form data
      * 
-     * @param   string   $message  The message that will be returned
-     * @param   boolean  $error    If there was an error obtaining the data
+     * @param   string   &$message  The message that will be returned
+     * @param   boolean  &$error    If there was an error obtaining the data
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -53,14 +53,14 @@ class UsersControllerActivation extends JControllerForm
 
                 return false;
 			}
-			// Then we wanted active the user and send a email notification
 			elseif (!empty($wasActive))
 			{
+                // Then we wanted active the user and send a email notification
 				$message = JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $table->name);
 			}
-			// Then we wanted only send again the email notification
-			else 
+			else
             {
+                // Then we wanted only send again the email notification
                 $message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
             }
             
