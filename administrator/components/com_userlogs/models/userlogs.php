@@ -209,8 +209,6 @@ class UserlogsModelUserlogs extends JModelList
 				$dStart->modify('-6 month');
 				break;
 
-			case 'post_year':
-				$dNow = false;
 			case 'past_year':
 				$dStart->modify('-1 year');
 				break;
@@ -228,14 +226,6 @@ class UserlogsModelUserlogs extends JModelList
 				$dStart->setTimezone($tz);
 				break;
 
-			case 'never':
-				$dNow = false;
-				$dStart = $this->_db->getNullDate();
-				break;
-
-			default:
-				return $range;
-			break;
 		}
 
 		return array('dNow' => $dNow, 'dStart' => $dStart);
