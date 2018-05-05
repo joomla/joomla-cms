@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.0.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>COM_USERLOGS_XML_DESCRIPTION</description>
 	<administration>
 		<menu>COM_USERLOGS</menu>
@@ -20,7 +20,6 @@
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
-			<folder>sql</folder>
 			<folder>tables</folder>
 		</files>
 		<languages folder="admin">
