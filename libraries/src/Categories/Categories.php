@@ -139,7 +139,22 @@ class Categories
 
 		$parts = explode('.', $extension, 2);
 
-		$categories = Factory::getApplication()->bootComponent($parts[0])->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+		// Setting the context for the category field
+		$componentClass = Factory::getApplication()->bootComponent($parts[0]);
+
+		if (!$componentClass instanceof CategoryAwareInterface)
+		{
+			return false;
+		}
+
+		try
+		{
+			$categories = $componentClass->getCategories($options, count($parts) > 1 ? $parts[1] : '');
+		}
+		catch (CategoryNotFoundExceptionInterface $e)
+		{
+			return false;
+		}
 
 		self::$instances[$hash] = $categories;
 
