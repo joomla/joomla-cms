@@ -59,7 +59,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_created = 1;
 
 		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
+		if (!$databaseModel->handleOldDatabase())
 		{
 			$this->deleteConfiguration();
 
