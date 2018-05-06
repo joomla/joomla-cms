@@ -622,26 +622,22 @@ class PlgSystemUserLogs extends JPlugin
 			case 'onContentChangeState':
 				if ($message_to_array['value'] == 0)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_UNPUBLISHED_MESSAGE',
-						ucfirst(JText::_($type)), $message_to_array['title']
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_UNPUBLISHED_MESSAGE', $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == 1)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_PUBLISHED_MESSAGE',
-						ucfirst(JText::_($type)), $message_to_array['title']
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_PUBLISHED_MESSAGE', $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == 2)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE',
-						ucfirst(JText::_($type)), $message_to_array['title'], $message_to_array['title']
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE',$message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == -2)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_TRASHED_MESSAGE',
-						ucfirst(JText::_($type)), $message_to_array['title']
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_TRASHED_MESSAGE', $message_to_array['title']
 					);
 				}
 
