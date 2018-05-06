@@ -69,22 +69,19 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		// Get the input
-		$app = JFactory::getApplication();
-
 		// Sanitize the input
-		$pks = ArrayHelper::toInteger($app->input->post->get('cid', array(), 'array'));
+		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
 
 		// Get the logs data
 		$data = $this->getModel('userlogs')->delete($pks);
 
 		if ($data)
 		{
-			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'), 'message');
+			$this->setMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'));
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_FAIL'), 'error');
+			$this->setMessage(JText::_('COM_USERLOGS_DELETE_FAIL'), 'error');
 		}
 
 		// Redirect to the list screen.
@@ -104,7 +101,7 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get selected logs
-		$pks = ArrayHelper::toInteger(JFactory::getApplication()->input->post->get('cid', array(), 'array'));
+		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
 
 		// Get the logs data
 		$data = $this->getModel('userlogs')->getLogsData($pks);
