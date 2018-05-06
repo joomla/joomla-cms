@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * View class for a list of logs.
  *
@@ -66,6 +69,12 @@ class UserlogsViewUserlogs extends JViewLegacy
 		if (!JFactory::getUser()->authorise('core.viewlogs', 'com_userlogs'))
 		{
 			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		if (PluginHelper::isEnabled('system', 'userlogs'))
+		{
+			$params   = new Registry(PluginHelper::getPlugin('system', 'userlogs')->params);
+			$this->ip = (bool) $params->get('ip_logging', 0);
 		}
 
 		$this->items         = $this->get('Items');
