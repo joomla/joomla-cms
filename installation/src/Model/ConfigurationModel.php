@@ -83,7 +83,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 
 		// Install CMS data
-		if (!$databaseModel->installCmsData($options))
+		if (!$databaseModel->installCmsData())
 		{
 			$this->deleteConfiguration();
 
@@ -96,7 +96,7 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *

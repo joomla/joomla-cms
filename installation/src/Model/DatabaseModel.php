@@ -295,7 +295,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   array  $options  The configuration options
+	 * @param   \stdClass  $options  The configuration options
 	 *
 	 * @return  boolean
 	 *
