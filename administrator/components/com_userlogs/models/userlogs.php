@@ -28,7 +28,8 @@ class UserlogsModelUserlogs extends JModelList
 				'a.user_id', 'user',
 				'a.message', 'message',
 				'a.log_date', 'log_date',
-				'a.ip_address', 'ip_address'
+				'a.ip_address', 'ip_address',
+				'dateRange',
 			);
 		}
 
