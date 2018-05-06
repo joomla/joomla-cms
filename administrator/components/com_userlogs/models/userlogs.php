@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_userlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -241,37 +241,21 @@ class UserlogsModelUserlogs extends JModelList
 	 */
 	public function getLogsData($pks = null)
 	{
-		if ($pks == null)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+				->select('a.*')
+				->from($db->quoteName('#__user_logs', 'a'));
+
+		if (is_array($pks) && count($pks) > 0)
 		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-					->select('a.*')
-					->from($db->quoteName('#__user_logs', 'a'));
-			$db->setQuery($query);
-
-			return $db->loadObjectList();
+			$logId = implode(',', $pks);
+			$query->where($db->qn('a.id') . ' IN (' . $logId . ')');
+		
 		}
-		else
-		{
-			$items = array();
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_userlogs/tables');
-			$table = $this->getTable('Userlogs', 'JTable');
 
-			foreach ($pks as $i => $pk)
-			{
-				$table->load($pk);
-				$items[] = (object) array(
-					'id'         => $table->id,
-					'message'    => $table->message,
-					'log_date'   => $table->log_date,
-					'extension'  => $table->extension,
-					'user_id'    => $table->user_id,
-					'ip_address' => $table->ip_address,
-				);
-			}
+		$db->setQuery($query);
 
-			return $items;
-		}
+		return $db->loadObjectList();
 	}
 
 	/**
@@ -294,29 +278,18 @@ class UserlogsModelUserlogs extends JModelList
 
 		if (!JFactory::getUser()->authorise('core.delete', $this->option))
 		{
-			$error = $this->getError();
-
-			if ($error)
-			{
-				$this->setError($error);
-			}
-			else
-			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-			}
+			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
-		else
-		{
-			foreach ($pks as $i => $pk)
-			{
-				if (!$table->delete($pk))
-				{
-					$this->setError($table->getError());
 
-					return false;
-				}
+		foreach ($pks as $i => $pk)
+		{
+			if (!$table->delete($pk))
+			{
+				$this->setError($table->getError());
+
+				return false;
 			}
 		}
 
