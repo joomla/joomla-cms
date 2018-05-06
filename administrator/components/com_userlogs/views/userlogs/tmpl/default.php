@@ -57,10 +57,10 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_MESSAGE', 'a.message', $listDirn, $listOrder); ?>
 					</th>
 					<th>
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 					</th>
 					<th>
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_USER', 'a.user_id', $listDirn, $listOrder); ?>
@@ -97,10 +97,10 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $this->escape($item->message); ?>
 							</td>
 							<td>
-								<?php echo $this->escape($item->log_date); ?>
+								<?php echo UserlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
 							</td>
 							<td>
-								<?php echo UserlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
+								<?php echo $this->escape($item->log_date); ?>
 							</td>
 							<td>
 								<?php echo JUser::getInstance($item->user_id)->name; ?>
