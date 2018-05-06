@@ -246,59 +246,6 @@ class SetupModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Generates the user ID.
-	 *
-	 * @return  integer  The user ID.
-	 *
-	 * @since   3.1
-	 */
-	protected static function generateRandUserId()
-	{
-		$session    = Factory::getSession();
-		$randUserId = $session->get('randUserId');
-
-		if (empty($randUserId))
-		{
-			// Create the ID for the root user only once and store in session.
-			$randUserId = mt_rand(1, 1000);
-			$session->set('randUserId', $randUserId);
-		}
-
-		return $randUserId;
-	}
-
-	/**
-	 * Resets the user ID.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public static function resetRandUserId()
-	{
-		self::$userId = 0;
-
-		Factory::getSession()->set('randUserId', self::$userId);
-	}
-
-	/**
-	 * Retrieves the default user ID and sets it if necessary.
-	 *
-	 * @return  integer  The user ID.
-	 *
-	 * @since   3.1
-	 */
-	public static function getUserId()
-	{
-		if (!self::$userId)
-		{
-			self::$userId = self::generateRandUserId();
-		}
-
-		return self::$userId;
-	}
-
-	/**
 	 * Method to validate the db connection properties.
 	 *
 	 * @return  boolean
