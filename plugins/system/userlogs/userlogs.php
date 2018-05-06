@@ -74,7 +74,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
- 	*/
+	 */
 	protected function addLogsToDb($message, $context)
 	{
 		$user       = JFactory::getUser();
@@ -285,11 +285,11 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$extensionName = (array) $installer->get('manifest')->name;
-		$message = array(
+		$manifest = $installer->get('manifest');
+		$message  = array(
 			'event'          => 'onExtensionAfterInstall',
-			'extension_name' => $extensionName[0],
-			'extension_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => (string) $manifest->name,
+			'extension_type' => (string) $manifest->attributes()->type,
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -317,11 +317,11 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$extensionName = (array) $installer->get('manifest')->name;
+		$manifest = $installer->get('manifest');
 		$message = array(
 			'event'          => 'onExtensionAfterUninstall',
-			'extension_name' => $extensionName[0],
-			'extension_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => (string) $manifest->name,
+			'extension_type' => (string) $manifest->attributes()->type,
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -348,11 +348,11 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$extensionName = (array) $installer->get('manifest')->name;
+		$manifest = $installer->get('manifest');
 		$message = array(
 			'event'          => 'onExtensionAfterUpdate',
-			'extension_name' => $extensionName[0],
-			'extension_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => (string) $manifest->name,
+			'extension_type' => (string) $manifest->attributes()->type,
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -570,7 +570,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
-  	 */
+	 */
 	public function onLogMessagePrepare(&$message, $extension)
 	{
 		// Load the language
@@ -798,7 +798,8 @@ class PlgSystemUserLogs extends JPlugin
 
 		foreach ($users as $user)
 		{
-			$extensions = json_decode($user->params, true)['logs_notification_extensions'];
+			$userParams = json_decode($user->params, true);
+			$extensions = $userParams['logs_notification_extensions'];
 
 			if (in_array(strtok($context, '.'), $extensions))
 			{
