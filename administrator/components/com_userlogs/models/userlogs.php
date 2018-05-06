@@ -28,7 +28,8 @@ class UserlogsModelUserlogs extends JModelList
 				'a.user_id', 'user',
 				'a.message', 'message',
 				'a.log_date', 'log_date',
-				'a.ip_address', 'ip_address'
+				'a.ip_address', 'ip_address',
+				'dateRange',
 			);
 		}
 
@@ -181,7 +182,7 @@ class UserlogsModelUserlogs extends JModelList
 	 *
 	 * @param   string  $range  The textual range to construct the filter for.
 	 *
-	 * @return  string  The date range to filter on.
+	 * @return  array  The date range to filter on.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -248,9 +249,7 @@ class UserlogsModelUserlogs extends JModelList
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$logId = implode(',', $pks);
-			$query->where($db->qn('a.id') . ' IN (' . $logId . ')');
-		
+			$query->where($db->qn('a.id') . ' IN (' . implode(',', $pks) . ')');
 		}
 
 		$db->setQuery($query);
@@ -273,7 +272,6 @@ class UserlogsModelUserlogs extends JModelList
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get the table
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_userlogs/tables');
 		$table = $this->getTable('Userlogs', 'JTable');
 
 		if (!JFactory::getUser()->authorise('core.delete', $this->option))
