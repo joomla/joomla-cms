@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_userlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,10 +68,13 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 					</th>
+					<th>
+						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					</th>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="7">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -102,6 +105,9 @@ JFactory::getDocument()->addScriptDeclaration('
 							</td>
 							<td>
 								<?php echo JText::_($this->escape($item->ip_address)); ?>
+							</td>
+							<td>
+								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
