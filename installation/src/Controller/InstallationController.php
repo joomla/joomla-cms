@@ -105,17 +105,17 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
 		$model->checkForm('setup');
-
-		// Get the options from the session
-		$options = $model->getOptions();
 
 		$r = new \stdClass;
 
 		// Attempt to create the database tables
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $dbModel */
 		$dbModel = $this->getModel('Database');
-		if (!$dbModel->initialise($options) || !$dbModel->installCmsData($options))
+
+		if (!$dbModel->initialise() || !$dbModel->installCmsData())
 		{
 			$r->view = 'database';
 		}
@@ -134,14 +134,14 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		// Get the options from the session.
-		$options = $this->getModel('Setup')->getOptions();
-
 		$r = new \stdClass;
 		$r->view = 'install';
 
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+		$model = $this->getModel('Database');
+
 		// Attempt to handle the old database.
-		if (!$this->getModel('Database')->handleOldDatabase($options))
+		if (!$model->handleOldDatabase())
 		{
 			$r->view = 'database';
 		}
@@ -172,6 +172,7 @@ class InstallationController extends JSONController
 		else
 		{
 			// Get the languages model.
+			/** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
 			$model = $this->getModel('Languages');
 
 			// Install selected languages
@@ -201,14 +202,14 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
-
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+		$model = $this->getModel('Database');
+
 		// Check if the database was initialised
-		if (!$this->getModel('Database')->installSampleData($options))
+		if (!$model->installSampleData())
 		{
 			$r->view = 'remove';
 		}
@@ -227,7 +228,9 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
-		$success = $this->getModel('Cleanup')->deleteInstallationFolder();
+		/** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
+		$model = $this->getModel('Cleanup');
+		$success = $model->deleteInstallationFolder();
 
 		// If an error was encountered return an error.
 		if (!$success)
