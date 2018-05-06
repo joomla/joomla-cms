@@ -102,14 +102,17 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   array  $options  The options to use for configuration.
-	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise($options)
+	public function initialise()
 	{
+		$options = $this->getOptions();
+
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
+
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
 		$currentLang = $lang->getTag();
@@ -292,7 +295,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   array  $options  The configuration options
+	 * @param   \stdClass  $options  The configuration options
 	 *
 	 * @return  boolean
 	 *
@@ -313,7 +316,7 @@ class DatabaseModel extends BaseInstallationModel
 
 		$options->db_select = false;
 
-		$db = $this->initialise($options);
+		$db = $this->initialise();
 
 		if ($db === false)
 		{
@@ -450,20 +453,23 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to process the old database.
 	 *
-	 * @param   array  $options  The options array.
-	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function handleOldDatabase($options)
+	public function handleOldDatabase()
 	{
-		if (!isset($options->db_created) || !$options->db_created)
+		$options = $this->getOptions();
+
+		if (!isset($options['db_created']) || !$options['db_created'])
 		{
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($options);
+
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -503,7 +509,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create the database tables.
 	 *
-	 * @param   array  $options  The options array.
+	 * @param   \stdClass  $options  The options array.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -513,16 +519,13 @@ class DatabaseModel extends BaseInstallationModel
 	{
 		if (!isset($options->db_created) || !$options->db_created)
 		{
-			return $this->createDatabase($options);
+			return $this->createDatabase((array) $options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
-
-		// Check database type.
-		$type = $options->db_type;
 
 		// Set the character set to UTF-8 for pre-existing databases.
 		try
@@ -711,51 +714,30 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to install the sample data.
 	 *
-	 * @param   array  $options  The options array.
-	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function installSampleData($options)
+	public function installSampleData()
 	{
-		if (empty($options) && !empty(Factory::getSession()->get('setup.options', array())))
-		{
-			$options = Factory::getSession()->get('setup.options', array());
-		}
-
-		if (is_array($options))
-		{
-			// Get the options as an object for easier handling.
-			$options = ArrayHelper::toObject($options);
-		}
-
-		if (!isset($options->db_created) || !$options->db_created)
-		{
-			return $this->createDatabase($options);
-		}
-
-		if (!$db = $this->initialise($options))
-		{
-			return false;
-		}
+		$db = \JFactory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();
 
 		if (Factory::getApplication()->input->get('sample_file', ''))
 		{
-			$options->sample_file = Factory::getApplication()->input->get('sample_file', '');
+			$sample_file = Factory::getApplication()->input->get('sample_file', '');
 		}
 		else
 		{
-			$options->sample_file = 'sample_testing.sql';
+			$sample_file = 'sample_testing.sql';
 		}
 
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
+		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
 
 		// Attempt to import the database schema if one is chosen.
-		if ($options->sample_file != '')
+		if ($sample_file != '')
 		{
 			if (!file_exists($data))
 			{
@@ -768,7 +750,7 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-			$this->postInstallSampleData($db, $options->sample_file);
+			$this->postInstallSampleData($db, $sample_file);
 		}
 
 		return true;
@@ -799,15 +781,13 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to install the cms data.
 	 *
-	 * @param   array  $options  The options array.
-	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.6.1
 	 */
-	public function installCmsData($options)
+	public function installCmsData()
 	{
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -1081,8 +1061,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to import a database schema from a file.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabase object.
-	 * @param   string            $schema  Path to the schema file.
+	 * @param   \Joomla\Database\DatabaseInterface  $db      JDatabase object.
+	 * @param   string                              $schema  Path to the schema file.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1095,7 +1075,7 @@ class DatabaseModel extends BaseInstallationModel
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			Factory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
 
 			return false;
 		}
