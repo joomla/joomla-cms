@@ -39,8 +39,12 @@ class UserlogsHelper
 
 		$app->sendHeaders();
 
+		$headers = ['Id', 'Message', 'Date', 'Extension', 'User', 'Ip'];
+
 		$fp = fopen('php://temp', 'r+');
 		ob_end_clean();
+
+		fputcsv($fp, $headers);
 
 		foreach ($data as $log)
 		{
