@@ -65,9 +65,11 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_USER', 'a.user_id', $listDirn, $listOrder); ?>
 					</th>
-					<th>
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
-					</th>
+					<?php if ($this->ip) : ?>
+						<th>
+							<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif; ?>
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
@@ -103,9 +105,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td>
 								<?php echo JUser::getInstance($item->user_id)->name; ?>
 							</td>
-							<td>
-								<?php echo JText::_($this->escape($item->ip_address)); ?>
-							</td>
+							<?php if ($this->ip) : ?>
+								<td>
+									<?php echo JText::_($this->escape($item->ip_address)); ?>
+								</td>
+							<?php endif;?>
 							<td>
 								<?php echo (int) $item->id; ?>
 							</td>
