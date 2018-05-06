@@ -68,7 +68,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * Function to add logs to the database
 	 * This method adds a record to #__user_logs contains (message, date, context, user)
 	 *
-	 * @param   string   $message  The contents of the message to be logged
+	 * @param   array    $message  The contents of the message to be logged
 	 * @param   string   $context  The context of the content passed to the plugin
 	 *
 	 * @return  void
@@ -418,8 +418,6 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$isNew_string = $isNew ? 'true' : 'false';
-
 		$message = array(
 			'event' => 'onExtensionAfterDelete',
 			'title' => $table->title,
@@ -453,7 +451,6 @@ class PlgSystemUserLogs extends JPlugin
 		}
 
 		$isNew_string   = $isnew ? 'true' : 'false';
-		$success_string = $success ? 'true' : 'false';
 
 		$message = array(
 			'edited_user' => $user['name'],
@@ -842,7 +839,7 @@ class PlgSystemUserLogs extends JPlugin
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
 
-		if (!$mail->Send())
+		if (!$mailer->Send())
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 		}
