@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.userlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -480,6 +480,8 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -511,6 +513,8 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   boolean  $isNew    Is new or not
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew)
 	{
@@ -542,6 +546,8 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterDeleteGroup($group, $success, $msg)
 	{
@@ -571,7 +577,9 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   string  $extension  Extension that caused this log
 	 *
 	 * @return  boolean
-  */
+	 *
+	 * @since   __DEPLOY_VERSION__
+  	 */
 	public function onLogMessagePrepare(&$message, $extension)
 	{
 		// Load the language
