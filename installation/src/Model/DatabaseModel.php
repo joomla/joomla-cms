@@ -461,7 +461,7 @@ class DatabaseModel extends BaseInstallationModel
 	{
 		$options = $this->getOptions();
 
-		if (!isset($options->db_created) || !$options->db_created)
+		if (!isset($options['db_created']) || !$options['db_created'])
 		{
 			return $this->createDatabase($options);
 		}
