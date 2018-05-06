@@ -79,7 +79,6 @@ class PlgSystemUserLogs extends JPlugin
 	{
 		$user       = JFactory::getUser();
 		$date       = JFactory::getDate();
-		$dispatcher = JEventDispatcher::getInstance();
 		$query      = $this->db->getQuery(true);
 
 		if ($this->params->get('ip_logging', 0))
@@ -126,7 +125,7 @@ class PlgSystemUserLogs extends JPlugin
 			return false;
 		}
 
-		$dispatcher->trigger('onUserLogsAfterMessageLog', array ($json_message, $date, $context, $user->name, $ip));
+		$this->app->triggerEvent('onUserLogsAfterMessageLog', array ($json_message, $date, $context, $user->name, $ip));
 	}
 
 	/**
@@ -776,7 +775,6 @@ class PlgSystemUserLogs extends JPlugin
 	 */
 	public function onUserLogsAfterMessageLog($message, $date, $context, $userName, $ip)
 	{
-		$dispatcher = JEventDispatcher::getInstance();
 		$query      = $this->db->getQuery(true);
 
 		$query->select('a.email, a.params')
@@ -813,7 +811,7 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$dispatcher->trigger('onLogMessagePrepare', array (&$message, $context));
+		$this->app->triggerEvent('onLogMessagePrepare', array (&$message, $context));
 		$layout = new JLayoutFile('plugins.system.userlogs.layouts.logstable', JPATH_ROOT);
 
 		$displayData = array(

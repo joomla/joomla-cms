@@ -83,6 +83,16 @@ class UserlogsViewUserlogs extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->pagination    = $this->get('Pagination');
 
+		if (!empty($this->items))
+		{
+			$app = JFactory::getApplication();
+
+			foreach ($this->items as $item)
+			{
+				$app->triggerEvent('onLogMessagePrepare', array (&$item->message, $item->extension));
+			}
+		}
+
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));

@@ -30,7 +30,6 @@ class UserlogsHelper
 		$date = JFactory::getDate();
 		$filename = "logs_" . $date;
 		$data = json_decode(json_encode($data), true);
-		$dispatcher = JEventDispatcher::getInstance();
 
 		$app = JFactory::getApplication();
 		$app->setHeader('Content-Type', 'application/csv', true)
@@ -39,7 +38,7 @@ class UserlogsHelper
 
 		$app->sendHeaders();
 
-		$headers = ['Id', 'Message', 'Date', 'Extension', 'User', 'Ip'];
+		$headers = array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
 
 		$fp = fopen('php://temp', 'r+');
 		ob_end_clean();
@@ -48,7 +47,7 @@ class UserlogsHelper
 
 		foreach ($data as $log)
 		{
-			$dispatcher->trigger('onLogMessagePrepare', array (&$log['message'], $log['extension']));
+			$app->triggerEvent('onLogMessagePrepare', array (&$log['message'], $log['extension']));
 			$log['ip_address'] = JText::_($log['ip_address']);
 			$log['extension'] = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
 

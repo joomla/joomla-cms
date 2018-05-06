@@ -92,8 +92,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td>
-								<?php JEventDispatcher::getInstance()->trigger('onLogMessagePrepare', array (&$item->message, $item->extension)); ?>
+							<td>								
 								<?php echo $this->escape($item->message); ?>
 							</td>
 							<td>
