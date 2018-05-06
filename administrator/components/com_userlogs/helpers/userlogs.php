@@ -97,7 +97,7 @@ class UserlogsHelper
 		$query = $db->getQuery(true)
 				->select('a.*')
 				->from($db->quoteName('#__user_logs_tables_data', 'a'))
-				->where($db->quoteName('a.type_alias') . ' = "' . $context . '"');
+				->where($db->quoteName('a.type_alias') . ' = ' .$db->quote($context));
 
 		$db->setQuery($query);
 
@@ -130,8 +130,10 @@ class UserlogsHelper
 
 		foreach ($pks as $pk)
 		{
-			$table->load($pk);
-			$items[] = $table->get($field);
+			if ($table->load($pk))
+			{
+				$items[] = $table->get($field);
+			}
 		}
 
 		return $items;
