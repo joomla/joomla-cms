@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_userlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,8 @@ class UserlogsViewUserlogs extends JViewLegacy
 	 * The model state
 	 *
 	 * @var  object
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $state;
 
@@ -36,6 +38,8 @@ class UserlogsViewUserlogs extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var  JPagination
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -43,6 +47,8 @@ class UserlogsViewUserlogs extends JViewLegacy
 	 * The active search filters
 	 *
 	 * @var  array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public $activeFilters;
 
