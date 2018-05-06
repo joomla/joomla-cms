@@ -140,12 +140,7 @@ class PlgSystemUserLogs extends JPlugin
 	 */
 	protected function checkLoggable($extension)
 	{
-		if (!in_array($extension, $this->loggableExtensions))
-		{
-			return false;
-		}
-
-		return true;
+		return in_array($extension, $this->loggableExtensions);
 	}
 
 	/**
