@@ -1075,8 +1075,7 @@ class DatabaseModel extends BaseInstallationModel
 		// Get the contents of the schema file.
 		if (!($buffer = file_get_contents($schema)))
 		{
-			// TODO: Language String this
-			Factory::getApplication()->enqueueMessage('File not found', 'error');
+			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_SAMPLE_DATA_NOT_FOUND'), 'error');
 
 			return false;
 		}
