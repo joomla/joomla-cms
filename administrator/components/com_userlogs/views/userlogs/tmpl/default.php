@@ -63,7 +63,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 					</th>
 					<th>
-						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_USERNAME', 'a.user_id', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 					</th>
 					<?php if ($this->ip) : ?>
 						<th>
