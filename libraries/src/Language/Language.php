@@ -105,6 +105,14 @@ class Language
 	protected $strings = array();
 
 	/**
+	 * Translations for the default language
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $defaultStrings = array();
+
+	/**
 	 * An array of used text, used during debugging.
 	 *
 	 * @var    array
@@ -177,6 +185,14 @@ class Language
 	protected $searchDisplayedCharactersNumberCallback = null;
 
 	/**
+	 * Tracking flag indicating a default language is being loaded.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $loadingDefault = false;
+
+	/**
 	 * Constructor activating the default information of the language.
 	 *
 	 * @param   string   $lang   The language
@@ -186,7 +202,8 @@ class Language
 	 */
 	public function __construct($lang = null, $debug = false)
 	{
-		$this->strings = array();
+		$this->defaultStrings = array();
+		$this->strings        = array();
 
 		if ($lang == null)
 		{
@@ -333,6 +350,24 @@ class Language
 		if (isset($this->strings[$key]))
 		{
 			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+
+			// Store debug information
+			if ($this->debug)
+			{
+				$caller = $this->getCallerInfo();
+
+				if (!array_key_exists($key, $this->used))
+				{
+					$this->used[$key] = array();
+				}
+
+				$this->used[$key][] = $caller;
+			}
+		}
+		// Only look in the default store if debugging is not active to allow a key to be reported as untranslated in the active language
+		elseif (!$this->debug && isset($this->defaultStrings[$key]))
+		{
+			$string = $this->debug ? '**' . $this->defaultStrings[$key] . '**' : $this->defaultStrings[$key];
 
 			// Store debug information
 			if ($this->debug)
@@ -721,7 +756,11 @@ class Language
 		// with $default set to true
 		if (!$this->debug && ($lang != $this->default) && $default)
 		{
+			$this->loadingDefault = true;
+
 			$this->load($extension, $basePath, $this->default, false, true);
+
+			$this->loadingDefault = false;
 		}
 
 		$path = LanguageHelper::getLanguagePath($basePath, $lang);
@@ -757,7 +796,7 @@ class Language
 					// If the one we tried is different than the new name, try again
 					if ($oldFilename != $filename)
 					{
-						$result = $this->loadLanguage($filename, $extension, false);
+						$result = $this->loadLanguage($filename, $extension);
 					}
 				}
 			}
@@ -795,7 +834,15 @@ class Language
 		{
 			if (is_array($strings) && count($strings))
 			{
-				$this->strings = array_replace($this->strings, $strings, $this->override);
+				if ($this->loadingDefault)
+				{
+					$this->defaultStrings = array_replace($this->defaultStrings, $strings, $this->override);
+				}
+				else
+				{
+					$this->strings = array_replace($this->strings, $strings, $this->override);
+				}
+
 				$result = true;
 			}
 		}
@@ -1220,7 +1267,7 @@ class Language
 	{
 		$key = strtoupper($string);
 
-		return isset($this->strings[$key]);
+		return isset($this->strings[$key]) || isset($this->defaultStrings[$key]);
 	}
 
 	/**
