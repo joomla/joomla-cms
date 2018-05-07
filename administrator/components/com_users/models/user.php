@@ -232,13 +232,13 @@ class UsersModelUser extends JModelAdmin
 
 			if (!empty(array_filter($listMailDomainTLD)))
 			{
-				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 
 					return false;
 				}
-				elseif ($optionRestriction === 1 && empty(array_intersect($needles, $whiteListMailDomain)))
+				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 

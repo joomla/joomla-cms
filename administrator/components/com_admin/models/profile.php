@@ -142,13 +142,13 @@ class AdminModelProfile extends UsersModelUser
 
 			if (!empty(array_filter($listMailDomainTLD)))
 			{
-				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
 
 					return false;
 				}
-				elseif ($optionRestriction === 1 && empty(array_intersect($needles, $whiteListMailDomain)))
+				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_MSG_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
 
