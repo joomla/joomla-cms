@@ -28,16 +28,16 @@ class UsersControllerActivation extends JControllerForm
 	 */
 	protected function checkFormData(&$message, &$error)
 	{
-        $model = $this->getModel('User', 'UsersModel');
-        $jinput = JFactory::getApplication()->input->json;
-        $userID = $jinput->get('user_id', '', 'string');
+		$model = $this->getModel('User', 'UsersModel');
+		$jinput = JFactory::getApplication()->input->json;
+		$userID = $jinput->get('user_id', '', 'string');
 
 		if (empty($userID))
 		{
-            $message = JText::_('COM_USERS_USERS_NO_ITEM_SELECTED');
-            $error = true;
+			$message = JText::_('COM_USERS_USERS_NO_ITEM_SELECTED');
+			$error = true;
 
-            return false;
+			return false;
 		}
 		else
 		{
@@ -48,27 +48,27 @@ class UsersControllerActivation extends JControllerForm
 			// Change the state of the records.
 			if (!$model->activate($userID))
 			{
-                $message = JError::raiseWarning(500, $model->getError());
-                $error = true;
+				$message = JError::raiseWarning(500, $model->getError());
+				$error = true;
 
-                return false;
+				return false;
 			}
 			elseif (!empty($wasActive))
 			{
-                // Then we wanted active the user and send a email notification
+				// Then we wanted active the user and send a email notification
 				$message = JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $table->name);
 			}
 			else
-            {
-                // Then we wanted only send again the email notification
-                $message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
-            }
-            
-            return true;
+			{
+				// Then we wanted only send again the email notification
+				$message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
+			}
+			
+			return true;
 		}
 	}
 
-    /**
+	/**
 	 * Method to send a email activatitaion to a user.
 	 *
 	 * @return  void
@@ -77,18 +77,18 @@ class UsersControllerActivation extends JControllerForm
 	 */
 	public function send()
 	{
-        $message = JText::_('COM_USERS_USER_NOTIFIED');
-        $error = false;
-        $checkResult = $this->checkFormData($message, $error);
-        
-        try
-        {
-            echo new JResponseJson($checkResult, $message, $error);
-        }
+		$message = JText::_('COM_USERS_USER_NOTIFIED');
+		$error = false;
+		$checkResult = $this->checkFormData($message, $error);
+		
+		try
+		{
+			echo new JResponseJson($checkResult, $message, $error);
+		}
 
-        catch (Exception $e)
-        {
-            echo new JResponseJson($e);
-        }
+		catch (Exception $e)
+		{
+			echo new JResponseJson($e);
+		}
 	}
 }
