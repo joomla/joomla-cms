@@ -16,18 +16,18 @@ defined('_JEXEC') or die;
  */
 class UsersControllerActivation extends JControllerForm
 {
-    /**
-     * Method to check the form data
-     * 
-     * @param   string   &$message  The message that will be returned
-     * @param   boolean  &$error    If there was an error obtaining the data
+	/**
+	 * Method to check the form data
+	 *
+	 * @param   string   &$message  The message that will be returned
+	 * @param   boolean  &$error    If there was an error obtaining the data
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function checkFormData(&$message, &$error)
-    {
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkFormData(&$message, &$error)
+	{
         $model = $this->getModel('User', 'UsersModel');
         $jinput = JFactory::getApplication()->input->json;
         $userID = $jinput->get('user_id', '', 'string');
@@ -65,8 +65,8 @@ class UsersControllerActivation extends JControllerForm
             }
             
             return true;
-        }
-    }
+		}
+	}
 
     /**
 	 * Method to send a email activatitaion to a user.
@@ -90,5 +90,5 @@ class UsersControllerActivation extends JControllerForm
         {
             echo new JResponseJson($e);
         }
-    }
+	}
 }
