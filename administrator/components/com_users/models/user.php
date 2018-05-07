@@ -565,6 +565,7 @@ class UsersModelUser extends JModelAdmin
 				}
 				elseif ($allow)
 				{
+					$wasActive = $table->activation;
 					$table->block      = 0;
 					$table->activation = '';
 
@@ -587,20 +588,40 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Compute the user mail notification subject.
-						$emailSubject = JText::sprintf(
-							'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
-							$table->name,
-							$config->get('sitename')
-						);
+						if (!empty($wasActive))
+						{
+							// Then we wanted active the user and send a email notification
+							// Compute the user mail notification subject.
+							$emailSubject = JText::sprintf(
+								'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
+								$table->name,
+								$config->get('sitename')
+							);
 
-						// Compute the user mail notification body.
-						$emailBody = JText::sprintf(
-							'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY',
-							$table->name,
-							JUri::root(),
-							$table->username
-						);
+							// Compute the user mail notification body.
+							$emailBody = JText::sprintf(
+								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_BODY',
+								$table->name,
+								JUri::root(),
+								$table->username
+							);
+						}
+						else
+						{
+							// Then we wanted only send again the email notification
+							$emailSubject = JText::sprintf(
+								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_SUBJECT',
+								$config->get('sitename')
+							);
+
+							// Compute the user mail notification body.
+							$emailBody = JText::sprintf(
+								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_BODY',
+								$table->name,
+								JUri::root(),
+								$table->username
+							);
+						}
 
 						// Assemble the email data
 						$mail = JFactory::getMailer()

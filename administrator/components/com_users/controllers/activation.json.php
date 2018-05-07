@@ -63,7 +63,7 @@ class UsersControllerActivation extends JControllerForm
 				// Then we wanted only send again the email notification
 				$message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
 			}
-			
+
 			return true;
 		}
 	}
@@ -80,7 +80,7 @@ class UsersControllerActivation extends JControllerForm
 		$message = JText::_('COM_USERS_USER_NOTIFIED');
 		$error = false;
 		$checkResult = $this->checkFormData($message, $error);
-		
+
 		try
 		{
 			echo new JResponseJson($checkResult, $message, $error);
