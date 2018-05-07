@@ -302,9 +302,10 @@ class UsersModelProfile extends JModelForm
 
 		// Prepare the data for the user object.
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
-		$data['password'] = $data['password1']; 
+		$data['password'] = $data['password1'];
 
 		// Check if the user mail domain or TLD is disallowed
+		$params = $this->getState('params');
 		$optionRestriction = $params->get('domainTLDRestriction');
 
 		if ($optionRestriction !== '0')
@@ -320,13 +321,13 @@ class UsersModelProfile extends JModelForm
 
 			if (!empty(array_filter($listMailDomainTLD)))
 			{
-				if ($optionRestriction === 2 && !empty(array_intersect($needles, $blackListMailDomain)))
+				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 
 					return false;
 				}
-				elseif ($optionRestriction === 1 && empty(array_intersect($needles, $whiteListMailDomain)))
+				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
 				{
 					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
 
