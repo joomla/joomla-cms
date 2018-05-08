@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
@@ -156,7 +157,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id);
 
 							$hasTransitions = count($transitions) > 0;
 

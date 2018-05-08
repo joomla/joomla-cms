@@ -10,6 +10,8 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('list');
@@ -46,30 +48,14 @@ class FieldcontextsField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$parts = explode('.', $this->value);
-		$eName = str_replace('com_', '', $parts[0]);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $parts[0] . '/helpers/' . $eName . '.php');
-		$contexts = array();
 
-		if (!file_exists($file))
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		if ($component instanceof FieldsServiceInterface)
 		{
-			return array();
+			return $component->getContexts();
 		}
 
-		$prefix = ucfirst($eName);
-		$cName = $prefix . 'Helper';
-
-		\JLoader::register($cName, $file);
-
-		if (class_exists($cName) && is_callable(array($cName, 'getContexts')))
-		{
-			$contexts = $cName::getContexts();
-		}
-
-		if (!$contexts || !is_array($contexts) || count($contexts) == 1)
-		{
-			return array();
-		}
-
-		return $contexts;
+		return [];
 	}
 }
