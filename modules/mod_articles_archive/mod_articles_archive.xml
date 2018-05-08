@@ -36,7 +36,6 @@
 					multiple="true"
 					size="5"
 					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"
-					addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 					default="4"
 				>
 				</field>

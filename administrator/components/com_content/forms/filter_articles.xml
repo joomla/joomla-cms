@@ -13,7 +13,6 @@
 				name="state"
 				type="workflowstate"
 				label="COM_CONTENT_STATES"
-				addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 				onchange="this.form.submit();"
 				activeonly="true"
 		>
