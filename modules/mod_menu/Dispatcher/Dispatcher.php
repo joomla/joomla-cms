@@ -12,9 +12,7 @@ namespace Joomla\Module\Menu\Site\Dispatcher;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcher;
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Site\Helper\MenuHelper;
-use Joomla\Registry\Registry;
 
 /**
  * Dispatcher class for mod_menu
