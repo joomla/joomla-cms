@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\DispatcherFactory;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
-use Joomla\CMS\Extension\Service\Provider\Module;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\Module;
 
 /**
  * The menu module service provider.
@@ -35,12 +32,8 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->set(MVCFactoryFactoryInterface::class, new MVCFactoryFactory('\\Joomla\\Module\\Menu'));
+	    $container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Module\\Menu'));
 
-		$container->set(
-			DispatcherFactoryInterface::class,
-			new DispatcherFactory('\\Joomla\\Module\\Menu', $container->get(MVCFactoryFactoryInterface::class))
-		);
 		$container->registerServiceProvider(new Module);
 	}
 };

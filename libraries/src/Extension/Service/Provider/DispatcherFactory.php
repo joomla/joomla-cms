@@ -58,10 +58,14 @@ class DispatcherFactory implements ServiceProviderInterface
 			DispatcherFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Dispatcher\DispatcherFactory(
-					$this->namespace,
-					$container->get(MVCFactoryFactoryInterface::class)
-				);
+				$mvcFactoryFactory = null;
+
+				if ($container->has(MVCFactoryFactoryInterface::class))
+				{
+					$mvcFactoryFactory = $container->get(MVCFactoryFactoryInterface::class);
+				}
+
+				return new \Joomla\CMS\Dispatcher\DispatcherFactory($this->namespace, $mvcFactoryFactory);
 			}
 		);
 	}

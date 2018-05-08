@@ -47,7 +47,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory = null)
 	{
 		$this->namespace         = $namespace;
 		$this->mvcFactoryFactory = $mvcFactoryFactory;

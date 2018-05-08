@@ -38,15 +38,6 @@ abstract class Dispatcher implements DispatcherInterface
 	protected $input;
 
 	/**
-	 * The MVC factory
-	 *
-	 * @var  MVCFactoryFactoryInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private $mvcFactoryFactory;
-
-	/**
 	 * Constructor for Dispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
@@ -55,11 +46,10 @@ abstract class Dispatcher implements DispatcherInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function __construct(CMSApplication $app, Input $input)
 	{
-		$this->app               = $app;
-		$this->input             = $input;
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
+		$this->app   = $app;
+		$this->input = $input;
 	}
 
 	/**
@@ -73,16 +63,5 @@ abstract class Dispatcher implements DispatcherInterface
 	{
 		return $this->app;
 	}
-
-	/**
-	 * The MVC Factory.
-	 *
-	 * @return  MVCFactoryFactoryInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getMvcFactoryFactory(): MVCFactoryFactoryInterface
-	{
-		return $this->mvcFactoryFactory;
-	}
 }
+

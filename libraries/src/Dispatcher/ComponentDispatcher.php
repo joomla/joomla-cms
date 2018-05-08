@@ -36,6 +36,15 @@ abstract class ComponentDispatcher extends Dispatcher
 	protected $option;
 
 	/**
+	 * The MVC factory
+	 *
+	 * @var  MVCFactoryFactoryInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $mvcFactoryFactory;
+
+	/**
 	 * Constructor for ComponentDispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
@@ -46,7 +55,9 @@ abstract class ComponentDispatcher extends Dispatcher
 	 */
 	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		parent::__construct($app, $input, $mvcFactoryFactory);
+		parent::__construct($app, $input);
+
+		$this->mvcFactoryFactory = $mvcFactoryFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
 		if (empty($this->option))
@@ -152,7 +163,7 @@ abstract class ComponentDispatcher extends Dispatcher
 		$client = $client ?: ucfirst($this->app->getName());
 
 		// Get the controller instance
-		$controller = $this->getMvcFactoryFactory()->createFactory($this->app)->createController(
+		$controller = $this->mvcFactoryFactory->createFactory($this->app)->createController(
 			$name,
 			$client,
 			$config,
