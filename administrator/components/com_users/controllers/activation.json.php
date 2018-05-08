@@ -85,7 +85,6 @@ class UsersControllerActivation extends JControllerForm
 		{
 			echo new JResponseJson($checkResult, $message, $error);
 		}
-
 		catch (Exception $e)
 		{
 			echo new JResponseJson($e);
