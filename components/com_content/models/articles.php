@@ -129,6 +129,12 @@ class ContentModelArticles extends JModelList
 		}
 
 		$this->setState('layout', $app->input->getString('layout'));
+
+		$this->setState('filter.date_filtering', $app->input->getString('date_filtering'));
+		$this->setState('filter.date_field', $app->input->getString('date_field'));
+		$this->setState('filter.start_date_range', $app->input->getString('start_date_range'));
+		$this->setState('filter.end_date_range', $app->input->getString('end_date_range'));
+		$this->setState('filter.relative_date', $app->input->getInt('relative_date'));
 	}
 
 	/**
@@ -450,12 +456,14 @@ class ContentModelArticles extends JModelList
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range', $nullDate));
-				$query->where(
-					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
-					' <= ' . $endDateRange . ')'
-				);
+				if ($startDateRange = $this->getState('filter.start_date_range'))
+				{
+					$query->where($dateField . ' >= ' . $db->quote($startDateRange));
+				}
+				if ($endDateRange = $this->getState('filter.end_date_range'))
+				{
+					$query->where($dateField . ' <= ' . $db->quote($endDateRange));
+				}
 				break;
 
 			case 'relative':
