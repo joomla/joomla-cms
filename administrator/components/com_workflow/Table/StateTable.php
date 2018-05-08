@@ -59,9 +59,9 @@ class StateTable extends Table
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'title')))
-			->from($db->qn('#__workflow_states'))
-			->where($db->qn('id') . ' = ' . (int) $pk);
+			->select($db->quoteName(array('id', 'title')))
+			->from($db->quoteName('#__workflow_states'))
+			->where($db->quoteName('id') . ' = ' . (int) $pk);
 		$db->setQuery($query);
 		$state = $db->loadResult();
 
@@ -76,9 +76,9 @@ class StateTable extends Table
 		try
 		{
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__workflow_transitions'))
-				->where($db->qn('to_state_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->qn('from_state_id') . ' = ' . (int) $pk);
+				->delete($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('to_state_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->quoteName('from_state_id') . ' = ' . (int) $pk);
 
 			$db->setQuery($query)->execute();
 
@@ -135,10 +135,10 @@ class StateTable extends Table
 			$query = $db->getQuery(true);
 
 			$query
-				->select($db->qn('id'))
-				->from($db->qn('#__workflow_states'))
-				->where($db->qn('workflow_id') . '=' . $this->workflow_id)
-				->where($db->qn('default') . '= 1');
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__workflow_states'))
+				->where($db->quoteName('workflow_id') . '=' . $this->workflow_id)
+				->where($db->quoteName('default') . '= 1');
 
 			$state = $db->setQuery($query)->loadObject();
 

@@ -140,23 +140,23 @@ class TransitionsModel extends ListModel
 			't.ordering',
 		)
 		);
-		$select[] = $db->qn('f_state.title', 'from_state');
-		$select[] = $db->qn('t_state.title', 'to_state');
-		$joinTo = $db->qn('#__workflow_states', 't_state') .
-			' ON ' . $db->qn('t_state.id') . ' = ' . $db->qn('t.to_state_id');
+		$select[] = $db->quoteName('f_state.title', 'from_state');
+		$select[] = $db->quoteName('t_state.title', 'to_state');
+		$joinTo = $db->quoteName('#__workflow_states', 't_state') .
+			' ON ' . $db->quoteName('t_state.id') . ' = ' . $db->quoteName('t.to_state_id');
 
 		$query
 			->select($select)
-			->from($db->qn('#__workflow_transitions', 't'))
+			->from($db->quoteName('#__workflow_transitions', 't'))
 			->leftJoin(
-				$db->qn('#__workflow_states', 'f_state') . ' ON ' . $db->qn('f_state.id') . ' = ' . $db->qn('t.from_state_id')
+				$db->quoteName('#__workflow_states', 'f_state') . ' ON ' . $db->quoteName('f_state.id') . ' = ' . $db->quoteName('t.from_state_id')
 			)
 			->leftJoin($joinTo);
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
 		{
-			$query->where($db->qn('t.workflow_id') . ' = ' . $workflowID);
+			$query->where($db->quoteName('t.workflow_id') . ' = ' . $workflowID);
 		}
 
 		$status = $this->getState('filter.published');
@@ -164,23 +164,23 @@ class TransitionsModel extends ListModel
 		// Filter by condition
 		if (is_numeric($status))
 		{
-			$query->where($db->qn('t.published') . ' = ' . (int) $status);
+			$query->where($db->quoteName('t.published') . ' = ' . (int) $status);
 		}
 		elseif ($status == '')
 		{
-			$query->where($db->qn('t.published') . ' IN (0, 1)');
+			$query->where($db->quoteName('t.published') . ' IN (0, 1)');
 		}
 
 		// Filter by column from_state_id
 		if ($fromState = $this->getState('filter.from_state'))
 		{
-			$query->where($db->qn('from_state_id') . ' = ' . (int) $fromState);
+			$query->where($db->quoteName('from_state_id') . ' = ' . (int) $fromState);
 		}
 
 		// Filter by column from_state_id
 		if ($toState = $this->getState('filter.to_state'))
 		{
-			$query->where($db->qn('to_state_id') . ' = ' . (int) $toState);
+			$query->where($db->quoteName('to_state_id') . ' = ' . (int) $toState);
 		}
 
 		// Filter by search in title
@@ -189,7 +189,7 @@ class TransitionsModel extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->qn('title') . ' LIKE ' . $search . ' OR ' . $db->qn('description') . ' LIKE ' . $search . ')');
+			$query->where('(' . $db->quoteName('title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
