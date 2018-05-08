@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * View class for a list of articles.
@@ -185,7 +186,7 @@ class HtmlView extends BaseHtmlView
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.condition') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.condition') == Workflow::TRASHED && $canDo->get('core.delete'))
 		{
 			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}

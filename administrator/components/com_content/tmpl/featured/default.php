@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Workflow\Workflow;
+
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
 JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
@@ -185,11 +187,11 @@ $js = "
 
 											switch ($item->state_condition) :
 
-												case -2:
+												case Workflow::TRASHED:
 													$icon = 'trash';
 													break;
 
-												case 0:
+												case Workflow::UNPUBLISHED:
 													$icon = 'unpublish';
 													break;
 

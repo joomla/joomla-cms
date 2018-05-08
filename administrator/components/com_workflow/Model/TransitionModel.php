@@ -221,10 +221,10 @@ class TransitionModel extends AdminModel
 
 		if ($loadData)
 		{
-			$data = $this->loadFormData();
+			$data = (object) $this->loadFormData();
 		}
 
-		if (!$this->canEditState((object) $data))
+		if (!$this->canEditState($data))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('published', 'disabled', 'true');
@@ -233,6 +233,15 @@ class TransitionModel extends AdminModel
 			// The controller has already verified this is a record you can edit.
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
+
+		$app = Factory::getApplication();
+
+		$workflow_id = $app->input->getInt('workflow_id');
+
+		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+
+		$form->setFieldAttribute('from_state_id', 'sql_where', $where, 'filter');
+		$form->setFieldAttribute('to_state_id', 'sql_where', $where, 'filter');
 
 		return $form;
 	}

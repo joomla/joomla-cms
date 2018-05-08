@@ -21,6 +21,7 @@ use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * Item Model for an Article.
@@ -201,9 +202,11 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
+		$workflow = new Workflow(['extension' => 'com_content']);
+
 		// Update content state value and workflow associations
 		return ContentHelper::updateContentState($pks, $state->condition)
-				&& WorkflowHelper::updateAssociationOfItemIdList($pks, $value);
+				&& $workflow->updateAssociations($pks, $value);
 	}
 
 	/**
@@ -221,9 +224,11 @@ class ArticleModel extends AdminModel
 		{
 			$state = new StateTable($this->_db);
 
-			$workflowAssociation = WorkflowHelper::getAssociatedEntry((int) $record->id);
+			$workflow = new Workflow(['extension' => 'com_content']);
 
-			if (!$state->load($workflowAssociation->state_id) || $state->condition != -2)
+			$assoc = $workflow->getAssociation($record->id);
+
+			if (!$state->load($assoc->state_id) || $state->condition != Workflow::TRASHED)
 			{
 				return false;
 			}
@@ -395,9 +400,14 @@ class ArticleModel extends AdminModel
 
 			if ($table->load(array('id' => $id)))
 			{
+
+
+				$workflow = new Workflow(['extension' => 'com_content']);
+
 				// Transition field
-				$workflowState = WorkflowHelper::getAssociatedEntry($table->id);
-				$form->setFieldAttribute('transition', 'workflow_state', (int) $workflowState->state_id);
+				$assoc = $workflow->getAssociation($table->id);
+
+				$form->setFieldAttribute('transition', 'workflow_state', (int) $assoc->state_id);
 			}
 
 		}
@@ -729,6 +739,8 @@ class ArticleModel extends AdminModel
 			}
 		}
 
+		$workflow = new Workflow(['extension' => 'com_content']);
+
 		if (parent::save($data))
 		{
 			if (isset($data['featured']))
@@ -745,7 +757,7 @@ class ArticleModel extends AdminModel
 			// Let's check if we have workflow association (perhaps something went wrong before)
 			if (empty($stateId))
 			{
-				$assoc = WorkflowHelper::getAssociatedEntry($this->getState($this->getName() . '.id'));
+				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
 
 				// If not, reset the state and let's create the associations
 				if (empty($assoc->item_id))
@@ -776,7 +788,7 @@ class ArticleModel extends AdminModel
 			// If we have a new state, create the workflow association
 			if (!empty($stateId))
 			{
-				WorkflowHelper::addAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
+				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stateId);
 			}
 
 			return true;
@@ -1010,8 +1022,9 @@ class ArticleModel extends AdminModel
 			$db->setQuery($query);
 			$db->execute();
 
-			// Remove entry in workflow_association table
-			WorkflowHelper::removeAssociationsByItemIds($pks);
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$workflow->deleteAssociation($pks);
 		}
 
 		return $return;
@@ -1099,16 +1112,18 @@ class ArticleModel extends AdminModel
 	/**
 	 * Runs transition for item.
 	 *
-	 * @param   array  $pk            Id of article
-	 * @param   array  $transitionId  Id of transition
+	 * @param   array  $pk             Id of article
+	 * @param   array  $transition_id  Id of transition
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function runTransition($pk, $transitionId)
+	public function runTransition($pk, $transition_id)
 	{
-		$runTransaction = WorkflowHelper::runTransition($pk, $transitionId, 'com_content');
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		$runTransaction = $workflow->executeTransition($pk, $transition_id);
 
 		if (!$runTransaction)
 		{
@@ -1120,23 +1135,11 @@ class ArticleModel extends AdminModel
 		// B/C state change trigger for UCM
 		$context = $this->option . '.' . $this->name;
 
-		$db = $this->getDbo();
-
-		$query = $db->getQuery(true);
-
-		$query	->select($db->qn('condition'))
-				->from($db->qn('#__workflow_states', 'ws'))
-				->from($db->qn('#__workflow_transitions', 'wt'))
-				->where($db->qn('ws.id') . ' = ' . $db->qn('wt.to_state_id'))
-				->where($db->qn('wt.id') . ' = ' . (int) $transitionId);
-
-		$value = (int) $db->setQuery($query)->loadResult();
-
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change state event.
-		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $value]);
+		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
 
 		return true;
 	}

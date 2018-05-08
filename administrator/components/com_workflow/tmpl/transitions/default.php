@@ -15,7 +15,6 @@ JHtml::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
 
-$columns = 6;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
@@ -129,7 +128,7 @@ if ($saveOrder)
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="<?php echo $columns; ?>">
+								<td colspan="7">
 									<?php echo $this->pagination->getListFooter(); ?>
 								</td>
 							</tr>

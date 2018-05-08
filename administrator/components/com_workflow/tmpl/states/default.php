@@ -16,7 +16,6 @@ JHtml::_('behavior.tooltip');
 $user      = JFactory::getUser();
 $userId    = $user->id;
 
-$columns = 5;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
@@ -71,6 +70,13 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<td colspan="7">
+									<?php echo $this->pagination->getListFooter(); ?>
+								</td>
+							</tr>
+						</tfoot>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->states as $i => $item):
 								$edit = JRoute::_('index.php?option=com_workflow&task=state.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
@@ -129,13 +135,6 @@ if ($saveOrder)
 								</tr>
 							<?php endforeach ?>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="<?php echo $columns; ?>">
-									<?php echo $this->pagination->getListFooter(); ?>
-								</td>
-							</tr>
-						</tfoot>
 					</table>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">

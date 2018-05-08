@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * Workflows view class for the Workflow package.
@@ -113,14 +114,17 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::callMethodFromHelper($this->extension, 'addSubmenu', 'states');
+		WorkflowHelper::addSubmenu('states');
+
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		if (!empty($this->states))
 		{
+			$workflow = new Workflow(['extension' => 'com_content']);
+
 			foreach ($this->states as $i => $item)
 			{
-				$item->condition = WorkflowHelper::getConditionName($item->condition);
+				$item->condition = $workflow->getConditionName($item->condition);
 			}
 		}
 

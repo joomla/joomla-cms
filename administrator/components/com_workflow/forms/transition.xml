@@ -26,6 +26,8 @@
 			type="sql"
 			label="COM_WORKFLOW_FROM_STATE"
 			required="true"
+			sql_select="id as value, title as from_state_id"
+			sql_from="#__workflow_states"
 		/>
 
 		<field
@@ -33,6 +35,8 @@
 			type="sql"
 			label="COM_WORKFLOW_TO_STATE"
 			required="true"
+			sql_select="id as value, title as to_state_id"
+			sql_from="#__workflow_states"
 		/>
 		<field
 			name="description"

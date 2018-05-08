@@ -123,35 +123,26 @@ class StateModel extends AdminModel
 	{
 		if (empty($record->id) || $record->published != -2)
 		{
+			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
 			return false;
 		}
 
 		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', 'com_content', 'cmd');
 
-		if (!Factory::getUser()->authorise('core.delete', $extension . '.state.' . (int) $record->id))
+		$parts = explode('.', $extension);
+
+		$component = reset($parts);
+
+		if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default)
 		{
 			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
 			return false;
 		}
 
-		$isAssigned = WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $record->id);
-
-		if ($isAssigned && !$record->default)
-		{
-			return true;
-		}
-		elseif ($isAssigned === null && !$record->default)
-		{
-			return true;
-		}
-		else
-		{
-			$this->setError(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'));
-
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -330,12 +321,6 @@ class StateModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					$app->enqueueMessage(\JText::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'), 'error');
-					unset($pks[$i]);
-				}
-
-				if (!WorkflowHelper::callMethodFromHelper($extension, 'canDeleteState', $pks[$i]))
-				{
-					$app->enqueueMessage(\JText::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED'), 'error');
 					unset($pks[$i]);
 				}
 			}

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * Methods supporting a list of article records.
@@ -221,13 +221,24 @@ class ArticlesModel extends ListModel
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-		// Join over the states.
-		$query->select('wa.state_id AS state_id')
-			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
+		// Join over the associations.
+		$query	->select($query->quoteName('wa.state_id', 'state_id'))
+				->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
+				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS state_condition')
-			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+		$query	->select($query->quoteName(
+					[
+						'ws.title',
+						'ws.condition'
+					],
+					[
+						'state_title',
+						'state_condition'
+					]
+				))
+				->innerJoin($query->quoteName('#__workflow_states', 'ws'))
+				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.state_id'));
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -308,11 +319,17 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($condition))
 		{
-			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
+			switch ((int) $condition)
+			{
+				case Workflow::PUBLISHED:
+				case Workflow::UNPUBLISHED:
+				case Workflow::TRASHED:
+					$query->where($db->qn('ws.condition') . ' = ' . (int) $condition);
+			}
 		}
 		elseif (!is_numeric($workflowState))
 		{
-			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
+			$query->where($db->qn('ws.condition') . ' IN (' . $query->quote(Workflow::PUBLISHED) . ',' . $query->quote(Workflow::UNPUBLISHED) . ')');
 		}
 
 		$query->where($db->qn('wa.extension') . '=' . $db->quote('com_content'));
@@ -498,6 +515,8 @@ class ArticlesModel extends ListModel
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
+				$workflow = new Workflow(['extension' => 'com_content']);
+
 				foreach ($transitions as $key => $transition)
 				{
 					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
@@ -507,7 +526,8 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$conditionName = WorkflowHelper::getConditionName($transitions[$key]['state_condition']);
+						$conditionName = $workflow->getConditionName($transition['state_condition']);
+
 						$transitions[$key]['text'] .=  ' [' . \JText::_($conditionName) . ']';
 					}
 				}

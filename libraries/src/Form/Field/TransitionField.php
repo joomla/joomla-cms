@@ -6,14 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\Field;
+namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Form\Field\ListField;
 
 FormHelper::loadFieldClass('list');
 
@@ -22,7 +23,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  __DEPLOY_VERSION__
  */
-class TransitionField extends \JFormFieldList
+class TransitionField extends ListField
 {
 	/**
 	 * The form field type.
@@ -31,6 +32,33 @@ class TransitionField extends \JFormFieldList
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Transition';
+
+	protected $extension;
+
+	/**
+	 * Method to setup the extension
+	 *
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		$result = parent::setup($element, $value, $group);
+
+		if ($result)
+		{
+			$this->extension = $element['extension'] ?? 'com_content';
+		}
+
+		return $result;
+	}
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -78,9 +106,13 @@ class TransitionField extends \JFormFieldList
 
 			Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
+			$workflow = new Workflow(['extension' => $this->extension]);
+
 			foreach ($items as $item)
 			{
-				$item->text .= ' [' . \JText::_(WorkflowHelper::getConditionName($item->condition)) . ']';
+				$conditionName = $workflow->getConditionName($item->condition);
+
+				$item->text .= ' [' . \JText::_($conditionName) . ']';
 			}
 		}
 
