@@ -32,7 +32,7 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-	    $container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Module\\Menu'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Module\\Menu'));
 
 		$container->registerServiceProvider(new Module);
 	}
