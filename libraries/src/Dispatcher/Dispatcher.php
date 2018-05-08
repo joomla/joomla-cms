@@ -47,7 +47,7 @@ abstract class Dispatcher implements DispatcherInterface
 	private $mvcFactoryFactory;
 
 	/**
-	 * Constructor for ComponentDispatcher
+	 * Constructor for Dispatcher
 	 *
 	 * @param   CMSApplication              $app                The application instance
 	 * @param   Input                       $input              The input instance
