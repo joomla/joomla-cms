@@ -11,7 +11,6 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
 
 /**
@@ -40,9 +39,8 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication              $app                The application instance
-	 * @param   Input                       $input              The input instance
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
+	 * @param   CMSApplication  $app    The application instance
+	 * @param   Input           $input  The input instance
 	 *
 	 * @since   4.0.0
 	 */
