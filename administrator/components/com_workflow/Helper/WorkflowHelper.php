@@ -11,8 +11,8 @@ namespace Joomla\Component\Workflow\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Factory;
 
 /**
  * The first example class, this is in the same
@@ -24,327 +24,37 @@ use Joomla\CMS\Helper\ContentHelper;
 class WorkflowHelper extends ContentHelper
 {
 	/**
-	 * Configure the Submenu links.
+	 * Configure the Linkbar. Must be implemented by each extension.
 	 *
-	 * @param   string  $extension  The extension from where Helper can find.
-	 * @param   string  $method     Method from that extension to invoke.
-	 * @param   string  $parameter  Parameters for that method.
+	 * @param   string  $vName  The name of the active view.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   3.1
 	 */
-	public static function callMethodFromHelper($extension, $method, $parameter)
+	public static function addSubmenu($vName)
 	{
-		// Avoid nonsense situation.
-		if ($extension == 'com_workflows')
+		$extension = Factory::getApplication()->input->getCmd('extension');
+
+		$parts = explode('.', $extension);
+
+		$component = reset($parts);
+
+		$eName = ucfirst(str_replace('com_', '', $component));
+		$cName = $eName . 'Helper';
+
+		$class = '\\Joomla\\Component\\' . $eName . '\\Administrator\\Helper\\' . $cName;
+
+		if (class_exists($class) && is_callable([$class, 'addSubmenu']))
 		{
-			return false;
+			$lang = Factory::getLanguage();
+
+			// Loading language file from the administrator/language directory then
+			// loading language file from the administrator/components/*extension*/language directory
+			$lang->load($component, JPATH_BASE, null, false, true)
+			|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+
+			call_user_func([$class, 'addSubmenu'], $vName);
 		}
-
-		$parts     = explode('.', $extension);
-		$component = $parts[0];
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file  = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (file_exists($file))
-		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName  = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, $method)))
-			{
-				$lang = \JFactory::getLanguage();
-
-				// Loading language file from the administrator/language directory then
-				// loading language file from the administrator/components/*extension*/language directory
-				$lang->load($component, JPATH_BASE, null, false, true)
-				|| $lang->load($component, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-				return call_user_func(array($cName, $method), $parameter);
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get SQL for select states field
-	 *
-	 * @param   string  $fieldName   The name of field to which will be that sql
-	 * @param   int     $workflowID  ID of workflo
-	 *
-	 * @return  string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getStatesSQL($fieldName, $workflowID)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select($db->quoteName(['id', 'title'], array('value', $fieldName)))
-			->from($db->quoteName('#__workflow_states'))
-			->where($db->quoteName('workflow_id') . ' = ' . (int) $workflowID)
-			->where($db->quoteName('published') . ' = 1');
-
-		return (string) $query;
-	}
-
-	/**
-	 * Get name by passing number
-	 *
-	 * @param   int  $number  Enum of condition
-	 *
-	 * @return  string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getConditionName($number)
-	{
-		switch ($number)
-		{
-			case 0:
-				return "COM_WORKFLOW_UNPUBLISHED";
-			case 1:
-				return "COM_WORKFLOW_PUBLISHED";
-			case -2:
-				return "COM_WORKFLOW_TRASHED";
-		}
-	}
-
-	/**
-	 * Runs a single transition for single item
-	 *
-	 * @param   array   $pk            Id of article
-	 * @param   array   $transitionId  Id of transition
-	 * @param   string  $extension     Name of extension
-	 *
-	 * @return bool|resource
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function runTransition($pk, $transitionId, $extension)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$select = $db->quoteName(
-			array(
-				'tran.id',
-				'tran.to_state_id',
-				'tran.from_state_id'
-			)
-		);
-
-		$query
-			->select($select)
-			->from($db->quoteName('#__workflow_transitions', 'tran'))
-			->where($db->qn('tran.id') . ' = ' . $db->quote($transitionId))
-			->andWhere($db->qn('tran.published') . ' = 1');
-
-		$transitionResult = $db->setQuery($query)->loadObject();
-
-		$associateEntry = self::getAssociatedEntry($pk);
-
-		if ($associateEntry->state_id != $transitionResult->from_state_id)
-		{
-			return false;
-		}
-
-		// If it can handle by itself, let's do it
-		if (self::callMethodFromHelper($extension, 'updateAfterTransaction', $transitionResult->to_state_id))
-		{
-			return true;
-		}
-
-		// Use default handling
-		return self::updateAssociationByItemId($pk, $transitionResult->to_state_id, $extension);
-	}
-
-	/**
-	 * Adds an association for the workflow_associations table
-	 *
-	 * @param   int     $itemId     id of content
-	 * @param   int     $stateId    id of state
-	 * @param   string  $extension  extension type
-	 *
-	 * @return  boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function addAssociation($itemId, $stateId, $extension = 'com_content')
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->insert($db->qn('#__workflow_associations'))
-			->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
-			->values((int) $itemId . ', ' . (int) $stateId . ', ' . $db->quote($extension));
-
-		return $db->setQuery($query)->execute();
-	}
-
-	/**
-	 * Gets an association form the workflow_associations table
-	 *
-	 * @param   int     $itemId     id of content
-	 * @param   string  $extension  extension type
-	 *
-	 * @return object
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getAssociatedEntry($itemId, $extension = 'com_content')
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select('*')
-			->from($db->qn('#__workflow_associations'))
-			->where($db->qn('item_id') . '=' . (int) $itemId)
-			->where($db->qn('extension') . '=' . $db->quote($extension));
-
-		return $db->setQuery($query)->loadObject();
-	}
-
-	/**
-	 * Removes an association form the workflow_associations table
-	 *
-	 * @param   int     $pks        id of content
-	 * @param   string  $extension  extension type
-	 *
-	 * @return boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function removeAssociationsByItemIds($pks, $extension = 'com_content')
-	{
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query
-				->delete($db->qn('#__workflow_associations'))
-				->where($db->qn('item_id') . 'IN (' . implode(',', $pks) . ')')
-				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Updates an association in the workflow_associations table
-	 *
-	 * @param   int     $itemId     id of content
-	 * @param   int     $stateId    id of state
-	 * @param   string  $extension  extension type
-	 *
-	 * @return boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function updateAssociationByItemId($itemId, $stateId, $extension = 'com_content')
-	{
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query
-				->update($db->qn('#__workflow_associations'))
-				->set($db->qn('state_id') . '=' . (int) $stateId)
-				->where($db->qn('item_id') . '=' . (int) $itemId)
-				->where($db->qn('extension') . '=' . $db->quote($extension));
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Updates multiple associations in the workflow_associations table to a given state
-	 *
-	 * @param   array   $itemIds    ids of content
-	 * @param   int     $stateId    id of state
-	 * @param   string  $extension  extension type
-	 *
-	 * @return boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function updateAssociationOfItemIdList($itemIds, $stateId, $extension = 'com_content')
-	{
-		if (empty($itemIds))
-		{
-			return false;
-		}
-
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query
-				->update($db->qn('#__workflow_associations'))
-				->set($db->qn('state_id') . '=' . (int) $stateId)
-				->where($db->qn('item_id') . ' IN (' . implode(', ', $itemIds) . ')')
-				->andWhere($db->qn('extension') . '=' . $db->quote($extension));
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Gets the to_state of a transition
-	 *
-	 * @param   int  $transitionId  id of transition
-	 *
-	 * @return object
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getUpdatedState($transitionId)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query
-			->select('*')
-			->from($db->quoteName('#__workflow_transitions', 'wt'))
-			->innerJoin($db->quoteName('#__workflow_states', 'ws') . ' ON ws.id = wt.to_state_id')
-			->where($db->qn('wt.id') . '=' . $db->quote($transitionId));
-
-		return $db->setQuery($query)->loadObject();
 	}
 }

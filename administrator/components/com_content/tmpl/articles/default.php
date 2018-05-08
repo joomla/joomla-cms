@@ -226,8 +226,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 												$attribs = [
 													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
-														'class'		=> 'custom-select custom-select-sm',
-														'style'     => 'min-width: 50%;',
+														'class'		=> 'custom-select custom-select-sm form-control form-control-sm',
 														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 													];
 												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);

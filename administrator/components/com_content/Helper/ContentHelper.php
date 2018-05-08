@@ -10,6 +10,7 @@
 namespace Joomla\Component\Content\Administrator\Helper;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Workflow\Workflow;
 
 defined('_JEXEC') or die;
 
@@ -64,13 +65,13 @@ class ContentHelper extends \JHelperContent
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					\JText::_('COM_WORKFLOW_STATES'),
+					'- ' . \JText::_('COM_WORKFLOW_STATES'),
 					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'states`'
 				);
 
 				\JHtmlSidebar::addEntry(
-					\JText::_('COM_WORKFLOW_TRANSITIONS'),
+					'- ' . \JText::_('COM_WORKFLOW_TRANSITIONS'),
 					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'transitions'
 				);
@@ -155,17 +156,17 @@ class ContentHelper extends \JHelperContent
 
 			foreach ($articles as $article)
 			{
-				if ($article->condition == 1)
+				if ($article->condition == Workflow::PUBLISHED)
 				{
 					$item->count_published = $article->count;
 				}
 
-				if ($article->condition == 0)
+				if ($article->condition == Workflow::UNPUBLISHED)
 				{
 					$item->count_unpublished = $article->count;
 				}
 
-				if ($article->condition == -2)
+				if ($article->condition == Workflow::TRASHED)
 				{
 					$item->count_trashed = $article->count;
 				}

@@ -18,7 +18,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Example Content Plugin
@@ -27,6 +28,8 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
  */
 class PlgContentJoomla extends CMSPlugin
 {
+	protected $db;
+
 	/**
 	 * Example after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
@@ -117,11 +120,23 @@ class PlgContentJoomla extends CMSPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context !== 'com_categories.category')
+		if (!in_array($context, ['com_categories.category', 'com_workflow.state']))
 		{
 			return true;
 		}
 
+		switch ($context)
+		{
+			case 'com_categories.category':
+				return $this->_canDeleteCategories($data);
+
+			case 'com_workflow.state':
+				return $this->_canDeleteStates($data->id);
+		}
+	}
+
+	private function _canDeleteCategories($data)
+	{
 		// Check if this function is enabled.
 		if (!$this->params->def('check_categories', 1))
 		{
@@ -184,9 +199,52 @@ class PlgContentJoomla extends CMSPlugin
 					}
 				}
 			}
-
-			return $result;
 		}
+
+		return $result;
+	}
+
+	private function _canDeleteStates($pk)
+	{
+		// Check if this function is enabled.
+		if (!$this->params->def('check_states', 1))
+		{
+			return true;
+		}
+
+		$extension = Factory::getApplication()->input->getString('extension');
+
+		// Default to true if not a core extension
+		$result = true;
+
+		$tableInfo = [
+			'com_content' => array('table_name' => '#__content')
+		];
+
+		// Now check to see if this is a known core extension
+		if (isset($tableInfo[$extension]))
+		{
+			// See if this category has any content items
+			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]);
+
+			// Return false if db error
+			if ($count === false)
+			{
+				$result = false;
+			}
+			else
+			{
+				// Show error if items are found assigned to the state
+				if ($count > 0)
+				{
+					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
+					Factory::getApplication()->enqueueMessage($msg, 'error');
+					$result = false;
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -199,7 +257,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	private function _countItemsInCategory($table, $catid)
+	private function _countItemsInCategory($extension, $catid, $table)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -281,6 +339,20 @@ class PlgContentJoomla extends CMSPlugin
 		}
 	}
 
+	private function _countItemsFromState($extension, $state_id, $table)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($this->db->quoteName($table, 'b'))
+				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
+				->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
+				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
+
+		return (int) $this->db->setQuery($query)->loadResult();
+	}
+
 	/**
 	 * Change the state in core_content if the state in a table is changed
 	 *
@@ -294,23 +366,38 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('core_content_id'))
-			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) . ')');
-		$db->setQuery($query);
-		$ccIds = $db->loadColumn();
+		$pks = ArrayHelper::toInteger($pks);
 
-		$cctable = new CoreContent($db);
-		$cctable->publish($ccIds, $value);
+		if ($context == 'com_workflow.state' && $value == -2)
+		{
+			foreach ($pks as $pk)
+			{
+				if (!$this->_canDeleteStates($pk))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 
 		// Check if this function is enabled.
 		if (!$this->params->def('email_new_state', 0) || $context != 'com_content.article')
 		{
 			return true;
 		}
+
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
+			->where($db->quoteName('core_content_item_id') . ' IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
+		$ccIds = $db->loadColumn();
+
+		$cctable = new CoreContent($db);
+		$cctable->publish($ccIds, $value);
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -334,6 +421,8 @@ class PlgContentJoomla extends CMSPlugin
 
 		$article = new ArticleTable($db);
 
+		$workflow = new Workflow(['extension' => 'com_content']);
+
 		foreach ($pks as $pk)
 		{
 			if (!$article->load($pk))
@@ -341,7 +430,7 @@ class PlgContentJoomla extends CMSPlugin
 				continue;
 			}
 
-			$assoc = WorkflowHelper::getAssociatedEntry($pk);
+			$assoc = $workflow->getAssociation($pk);
 
 			// Load new transitions
 			$query = $db->getQuery(true)

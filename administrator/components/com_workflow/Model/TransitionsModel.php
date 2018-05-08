@@ -214,15 +214,15 @@ class TransitionsModel extends ListModel
 	public function getFilterForm($data = array(), $loadData = true)
 	{
 		$form = parent::getFilterForm($data, $loadData);
-		$id = (int) $this->getState('filter.workflow_id');
 
-		$sqlStatesFrom = WorkflowHelper::getStatesSQL('from_state', $id);
-		$sqlStatesTo = WorkflowHelper::getStatesSQL('to_state', $id);
+		$id = (int) $this->getState('filter.workflow_id');
 
 		if ($form)
 		{
-			$form->setFieldAttribute('from_state', 'query', $sqlStatesFrom, 'filter');
-			$form->setFieldAttribute('to_state', 'query', $sqlStatesTo, 'filter');
+			$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+
+			$form->setFieldAttribute('from_state', 'sql_where', $where, 'filter');
+			$form->setFieldAttribute('to_state', 'sql_where', $where, 'filter');
 		}
 
 		return $form;

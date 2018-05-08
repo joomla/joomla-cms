@@ -113,7 +113,8 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID = $this->state->get('filter.workflow_id');
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::callMethodFromHelper($this->extension, 'addSubmenu', 'transitions');
+		WorkflowHelper::addSubmenu('transitions');
+
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
