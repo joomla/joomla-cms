@@ -63,8 +63,8 @@
 			name="transition"
 			type="transition"
 			component="com_content"
-			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 			label="COM_CONTENT_TRANSITION"
+			class="advancedSelect"
 		>
 		</field>
 
