@@ -266,30 +266,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		else
 		{
 			/*
-			 * If you are only allowed to edit in this category but not edit.state, you should not get any
-			 * option to change the category parent for a category or the category for a content item,
-			 * but you should be able to save in that category.
+			 * If you can core.create you can move this to another category for which you have
+			 * create permission and you should also still be able to save in the current category.
 			 */
 			foreach ($options as $i => $option)
 			{
-				$assetKey = $extension . '.category.' . $oldCat;
-
-				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.edit.state', $assetKey))
-				{
-					unset($options[$i]);
-					continue;
-				}
-
-				if ($option->level != 0	&& isset($oldParent) && $option->value != $oldParent && !$user->authorise('core.edit.state', $assetKey))
-				{
-					unset($options[$i]);
-					continue;
-				}
-
-				/*
-				 * However, if you can edit.state you can also move this to another category for which you have
-				 * create permission and you should also still be able to save in the current category.
-				 */
 				$assetKey = $extension . '.category.' . $option->value;
 
 				if ($option->level != 0 && !isset($oldParent) && $option->value != $oldCat && !$user->authorise('core.create', $assetKey))
