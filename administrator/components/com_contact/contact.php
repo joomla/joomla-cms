@@ -15,6 +15,9 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_contact'))
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
+// Contact plugins
+JPluginHelper::importPlugin('contact');
+
 $controller = JControllerLegacy::getInstance('contact');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
