@@ -13,12 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormFactoryInterface;
 
 /**
  * Base class for a Joomla Dispatcher

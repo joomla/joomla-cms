@@ -1,9 +1,9 @@
 Testing Joomla CMS
 ==========
 
-The current folder contains the Tests for Quality Assurance of the Joomla Content Management System.
+Our test are located in separate repositories. Please find more information in the documentation of the repositories:
 
-* unit: contains the Joomla-cms unit tests based on PHPUnit
-* javascript: contains the Joomla! javascript tests based on Jasmine and Karma
-
-Find more details inside each folder.
+* Unit: https://github.com/joomla/test-unit
+* Integration: https://github.com/joomla/test-integration
+* Javascript: https://github.com/joomla/test-javascript
+* System: https://github.com/joomla/test-system 

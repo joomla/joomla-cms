@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -311,12 +312,18 @@ abstract class BaseDatabaseModel extends CMSObject
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		if (!$factory)
+		if ($factory)
 		{
-			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
+			$this->factory = $factory;
+			return;
 		}
 
-		$this->factory = $factory;
+		$component = Factory::getApplication()->bootComponent($this->option);
+
+		if ($component instanceof MVCFactoryServiceInterface)
+		{
+			$this->factory = $component->createMVCFactory(Factory::getApplication());
+		}
 	}
 
 	/**
@@ -619,22 +626,21 @@ abstract class BaseDatabaseModel extends CMSObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string  $group  The cache group
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null)
 	{
 		$conf = \JFactory::getConfig();
 
-		$options = array(
-			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
-			'result' => true,
-		);
+		$options = [
+			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'result'       => true,
+		];
 
 		try
 		{

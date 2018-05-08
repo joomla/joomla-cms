@@ -669,7 +669,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.0.3';
+    const VERSION = '6.0.5';
 
     /**
      * Error severity: message only, continue processing.
@@ -1994,7 +1994,7 @@ class PHPMailer
         ];
         if (empty($lang_path)) {
             // Calculate an absolute path so it can work if CWD is not here
-            $lang_path = __DIR__ . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
+            $lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
         }
         //Validate $langcode
         if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $langcode)) {
@@ -3877,6 +3877,7 @@ class PHPMailer
             'midi' => 'audio/midi',
             'mp2' => 'audio/mpeg',
             'mp3' => 'audio/mpeg',
+            'm4a' => 'audio/mp4',
             'mpga' => 'audio/mpeg',
             'aif' => 'audio/x-aiff',
             'aifc' => 'audio/x-aiff',
@@ -3886,6 +3887,7 @@ class PHPMailer
             'rpm' => 'audio/x-pn-realaudio-plugin',
             'ra' => 'audio/x-realaudio',
             'wav' => 'audio/x-wav',
+            'mka' => 'audio/x-matroska',
             'bmp' => 'image/bmp',
             'gif' => 'image/gif',
             'jpeg' => 'image/jpeg',
@@ -3894,6 +3896,11 @@ class PHPMailer
             'png' => 'image/png',
             'tiff' => 'image/tiff',
             'tif' => 'image/tiff',
+            'webp' => 'image/webp',
+            'heif' => 'image/heif',
+            'heifs' => 'image/heif-sequence',
+            'heic' => 'image/heic',
+            'heics' => 'image/heic-sequence',
             'eml' => 'message/rfc822',
             'css' => 'text/css',
             'html' => 'text/html',
@@ -3909,14 +3916,19 @@ class PHPMailer
             'ics' => 'text/calendar',
             'xml' => 'text/xml',
             'xsl' => 'text/xml',
+            'wmv' => 'video/x-ms-wmv',
             'mpeg' => 'video/mpeg',
             'mpe' => 'video/mpeg',
             'mpg' => 'video/mpeg',
+            'mp4' => 'video/mp4',
+            'm4v' => 'video/mp4',
             'mov' => 'video/quicktime',
             'qt' => 'video/quicktime',
             'rv' => 'video/vnd.rn-realvideo',
             'avi' => 'video/x-msvideo',
             'movie' => 'video/x-sgi-movie',
+            'webm' => 'video/webm',
+            'mkv' => 'video/x-matroska',
         ];
         $ext = strtolower($ext);
         if (array_key_exists($ext, $mimes)) {

@@ -64,8 +64,12 @@ HTMLHelper::_('webcomponent',
 );
 
 // Set the type of switcher
-$type = str_replace('switcher switcher-', '', trim($class));
-$type = $type === 'switcher' ? '' : 'type="' . $type . '"';
+$type = '';
+
+if ($pos = strpos($class, 'switcher-'))
+{
+	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
+}
 
 // Add the attributes of the fieldset in an array
 $attribs = [

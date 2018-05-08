@@ -158,7 +158,7 @@ class Icon
 			&& $article->checked_out > 0
 			&& $article->checked_out != $user->get('id'))
 		{
-			$checkoutUser = JFactory::getUser($article->checked_out);
+			$checkoutUser = Factory::getUser($article->checked_out);
 			$date         = HTMLHelper::_('date', $article->checked_out_time);
 			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br> ' . $date;
