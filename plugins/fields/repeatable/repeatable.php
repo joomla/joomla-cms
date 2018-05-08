@@ -54,7 +54,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 		// Add the fields to the form
 		foreach ($formFields as $index => $formField)
 		{
-			$child     = $fields->addChild('field');
+			$child = $fields->addChild('field');
 			$child->addAttribute('name', $formField->fieldname);
 			$child->addAttribute('type', $formField->fieldtype);
 		}
