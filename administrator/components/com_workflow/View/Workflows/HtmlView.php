@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->extension = $this->state->get('filter.extension');
 
-		CategoriesHelper::addSubmenu($this->state->get('filter.extension'));
+		WorkflowHelper::addSubmenu($this->state->get('filter.extension'));
 		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
