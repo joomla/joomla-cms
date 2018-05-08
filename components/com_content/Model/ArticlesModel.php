@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 /**
  * This models supports retrieving lists of articles.
@@ -120,7 +121,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', 3);
+			$this->setState('filter.condition', Workflow::PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
