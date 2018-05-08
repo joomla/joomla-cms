@@ -153,10 +153,17 @@ trait ExtensionManagerTrait
 			)
 		);
 
-		// Cache the extension
-		$this->extensions[$type][$extensionName] = $container->get($type);
+		$extension = $container->get($type);
 
-		return $this->extensions[$type][$extensionName];
+		if ($extension instanceof BootableExtensionInterface)
+		{
+			$extension->boot($container);
+		}
+
+		// Cache the extension
+		$this->extensions[$type][$extensionName] = $extension;
+
+		return $extension;
 	}
 
 	/**

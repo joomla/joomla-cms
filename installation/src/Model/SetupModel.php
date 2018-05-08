@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -300,13 +301,11 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   array  $option  The options to use for configuration.
-	 *
 	 * @return  \JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise($option)
+	public function initialise()
 	{
 		$options = $this->getOptions();
 
@@ -377,7 +376,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Workaround for UPPERCASE table prefix for postgresql
-		if ($options->db_type == 'postgresql')
+		if (in_array($options->db_type, ['pgsql', 'postgresql']))
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
@@ -433,7 +432,7 @@ class SetupModel extends BaseInstallationModel
 
 		$options['db_select'] = false;
 
-		$db = $this->initialise($options);
+		$db = $this->initialise();
 
 		if ($db === false)
 		{
@@ -461,7 +460,7 @@ class SetupModel extends BaseInstallationModel
 			 * PDO MySQL: [1049] Unknown database 'database_name'
 			 * PostgreSQL: Error connecting to PGSQL database
 			 */
-			if ($type == 'pdomysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($type == 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
 			{
 				/*
 				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
@@ -516,15 +515,6 @@ class SetupModel extends BaseInstallationModel
 			throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db_version));
 		}
 
-		if ($db->getServerType() === 'mysql')
-		{
-			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL.
-			if (preg_match('#[\\\/\.\0]#', $options->db_name) && (!version_compare($db_version, '5.1.6', '>=')))
-			{
-				throw new \RuntimeException(\JText::sprintf('INSTL_DATABASE_INVALID_NAME', $db_version));
-			}
-		}
-
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
@@ -535,37 +525,6 @@ class SetupModel extends BaseInstallationModel
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
 			throw new \RuntimeException(\JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
-		}
-
-		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if ($db->getServerType() === 'postgresql' && !version_compare($db_version, '9.0.0', '>='))
-		{
-			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				throw new \RuntimeException(\JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-			}
-
-			$column = $db->loadResult();
-
-			if ($column != 't')
-			{
-				$db->setQuery('CREATE LANGUAGE plpgsql');
-
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					throw new \RuntimeException(\JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 500, $e);
-				}
-			}
 		}
 
 		// Get database's UTF support.
@@ -626,7 +585,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -682,7 +641,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -703,15 +662,10 @@ class SetupModel extends BaseInstallationModel
 			// Continue Anyhow
 		}
 
+		$serverType = $db->getServerType();
+
 		// Set the appropriate schema script based on UTF-8 support.
-		if ($db->getServerType() === 'mysql')
-		{
-			$schema = 'sql/mysql/joomla.sql';
-		}
-		else
-		{
-			$schema = 'sql/' . $type . '/joomla.sql';
-		}
+		$schema = 'sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
@@ -731,8 +685,6 @@ class SetupModel extends BaseInstallationModel
 		$query = $db->getQuery(true);
 
 		// MySQL only: Attempt to update the table #__utf8_conversion.
-		$serverType = $db->getServerType();
-
 		if ($serverType === 'mysql')
 		{
 			$query->clear()
@@ -753,16 +705,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Attempt to update the table #__schema.
-		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
-
-		if ($serverType === 'mysql')
-		{
-			$pathPart .= 'mysql/';
-		}
-		else
-		{
-			$pathPart .= $type . '/';
-		}
+		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/' . $serverType . '/';
 
 		$files = \JFolder::files($pathPart, '\.sql$');
 
@@ -837,14 +780,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		if ($serverType === 'mysql')
-		{
-			$dblocalise = 'sql/mysql/localise.sql';
-		}
-		else
-		{
-			$dblocalise = 'sql/' . $type . '/localise.sql';
-		}
+		$dblocalise = 'sql/' . $serverType . '/localise.sql';
 
 		if (is_file($dblocalise))
 		{
@@ -916,7 +852,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -925,12 +861,7 @@ class SetupModel extends BaseInstallationModel
 		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
-		$type = $options->db_type;
-
-		if ($db->getServerType() === 'mysql')
-		{
-			$type = 'mysql';
-		}
+		$type = $db->getServerType();
 
 		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
 
@@ -993,7 +924,7 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -1301,15 +1232,18 @@ class SetupModel extends BaseInstallationModel
 				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
 				 * necessary, so there's no need to check the conditions in JInstaller.
 				 */
-				$query = $db->convertUtf8mb4QueryToUtf8($query);
-
-				/**
-				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
-				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
-				 */
-				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				if ($db instanceof UTF8MB4SupportInterface)
 				{
-					continue;
+					$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+					/**
+					 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+					 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+					 */
+					if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+					{
+						continue;
+					}
 				}
 
 				// Execute the query.

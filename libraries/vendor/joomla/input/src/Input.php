@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -88,7 +88,7 @@ class Input implements \Serializable, \Countable
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($source = null, array $options = array())
+	public function __construct($source = array(), array $options = array())
 	{
 		if (isset($options['filter']))
 		{
@@ -132,7 +132,7 @@ class Input implements \Serializable, \Countable
 
 		if (class_exists($className))
 		{
-			$this->inputs[$name] = new $className(null, $this->options);
+			$this->inputs[$name] = new $className(array(), $this->options);
 
 			return $this->inputs[$name];
 		}
@@ -276,7 +276,7 @@ class Input implements \Serializable, \Countable
 	/**
 	 * Check if a value name exists.
 	 *
-	 * @param   string  $path  Value name
+	 * @param   string  $name  Value name
 	 *
 	 * @return  boolean
 	 *
@@ -354,7 +354,7 @@ class Input implements \Serializable, \Countable
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  Input  The input object.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
