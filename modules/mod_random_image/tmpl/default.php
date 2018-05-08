@@ -13,7 +13,11 @@ defined('_JEXEC') or die;
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>
+<?php if ($resp) : ?>
+	<?php echo '<img src="' . $image->folder . '/' . $image->name . '" style="max-width:100%; height:auto;" />'; ?>
+<?php else : ?>
 	<?php echo JHtml::_('image', $image->folder . '/' . $image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
+<?php endif; ?>
 <?php if ($link) : ?>
 </a>
 <?php endif; ?>

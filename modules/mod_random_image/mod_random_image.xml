@@ -45,10 +45,24 @@
 				/>
 
 				<field
+					name="responsive"
+					type="radio"
+					label="MOD_RANDOM_IMAGE_FIELD_RESP_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_RESP_DESC"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="width"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC"
+					filter="integer"
+					showon="responsive:0"
 				/>
 
 				<field
@@ -56,6 +70,8 @@
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC"
+					filter="integer"
+					showon="responsive:0"
 				/>
 
 			</fieldset>
