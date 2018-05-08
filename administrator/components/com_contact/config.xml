@@ -45,10 +45,10 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
-			default="5"
+			default="10"
 			filter="integer"
 			showon="save_history:1"
 		/>
@@ -70,6 +70,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+			default="sliders"
 			>
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
@@ -108,10 +109,11 @@
 			description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-		</field>
+		</field>	
 
 		<field
 			name="show_position"
@@ -120,6 +122,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"			
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -132,9 +135,23 @@
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 			default="0"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="add_mailto_link"
+			type="radio"
+			label="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_ADD_MAILTO_LINK_DESC"
+			class="btn-group btn-group-yesno"
+			showon="show_info:1[AND]show_email:1"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -144,6 +161,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -156,6 +174,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -168,6 +187,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -180,6 +200,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -192,6 +213,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -204,6 +226,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -216,6 +239,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -228,6 +252,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -240,6 +265,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"			
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -252,10 +278,20 @@
 			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			showon="show_info:1"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
+		<field
+			name="image"
+			type="media"
+			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+			default=""
+			showon="show_info:1[AND]show_image:1"
+		/>
 
 		<field
 			name="show_misc"
@@ -268,14 +304,6 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
-		<field
-			name="image"
-			type="media"
-			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
-			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
-			showon="show_image:1"
-		/>
 
 		<field
 			name="allow_vcard"
@@ -341,10 +369,10 @@
 		<field
 			name="show_user_custom_fields"
 			type="fieldgroups"
-			multiple="true"
-			context="com_users.user"
 			label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+			multiple="true"
+			context="com_users.user"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -353,7 +381,7 @@
 			name="show_links"
 			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
@@ -367,6 +395,7 @@
 			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -376,6 +405,7 @@
 			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -385,6 +415,7 @@
 			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -394,6 +425,7 @@
 			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -403,6 +435,7 @@
 			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 			size="30"
+			default=""
 			showon="show_links:1"
 		/>
 
@@ -432,6 +465,7 @@
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -441,6 +475,7 @@
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -450,6 +485,7 @@
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -459,6 +495,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -468,6 +505,7 @@
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 
@@ -477,6 +515,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
+			default=""
 			showon="contact_icons:0"
 		/>
 	</fieldset>
@@ -671,6 +710,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -868,6 +908,7 @@
 			<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
 			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
 		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -881,10 +922,10 @@
 			type="plugins"
 			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
-			default=""
 			folder="captcha"
-			filter="cmd" >
-			<option value="">JOPTION_USE_DEFAULT</option>
+			filter="cmd"
+			useglobal="true"
+			>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -905,7 +946,7 @@
 			type="radio"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
-			default="1"
+			default="0"
 			class="btn-group btn-group-yesno"
 			showon="show_email_form:1"
 			>
@@ -918,6 +959,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -928,6 +970,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -938,6 +981,7 @@
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
+			default=""
 			rows="3"
 			cols="30"
 			showon="show_email_form:1"
@@ -974,9 +1018,11 @@
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
+			default=""
 			size="30"
 			showon="show_email_form:1"
 		/>
+
 	</fieldset>
 
 	<fieldset
@@ -1000,24 +1046,26 @@
 		<field
 			name="sef_advanced"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			class="btn-group btn-group-yesno btn-group-reversed"
 			default="0"
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
-			filter="integer">
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+			filter="integer"
+		>
 			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
 		</field>
 
 		<field
 			name="sef_ids"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_SEF_NOIDS_LABEL"
 			description="JGLOBAL_SEF_NOIDS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			showon="sef_advanced:1"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -1025,10 +1073,10 @@
 		<field
 			name="custom_fields_enable"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			description="JGLOBAL_CUSTOM_FIELDS_ENABLE_DESC"
 			default="1"
+			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -1051,5 +1099,6 @@
 			component="com_contact"
 			section="component"
 		/>
+
 	</fieldset>
 </config>

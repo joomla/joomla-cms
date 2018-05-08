@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -71,7 +71,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @link    https://docs.joomla.org/JTable/check
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/check
 	 * @since   3.7.0
 	 */
 	public function check()
@@ -119,7 +119,9 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetName()
 	{
-		return $this->context . '.fieldgroup.' . (int) $this->id;
+		$component = explode('.', $this->context);
+
+		return $component[0] . '.fieldgroup.' . (int) $this->id;
 	}
 
 	/**
@@ -131,7 +133,7 @@ class FieldsTableGroup extends JTable
 	 *
 	 * @return  string  The string to use as the title in the asset table.
 	 *
-	 * @link    https://docs.joomla.org/JTable/getAssetTitle
+	 * @link    https://docs.joomla.org/Special:MyLanguage/JTable/getAssetTitle
 	 * @since   3.7.0
 	 */
 	protected function _getAssetTitle()
@@ -155,11 +157,12 @@ class FieldsTableGroup extends JTable
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
+		$component = explode('.', $this->context);
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($this->context));
+			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

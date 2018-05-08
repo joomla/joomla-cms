@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class InstallerModelLanguages extends JModelList
 	 * Language count
 	 *
 	 * @var     integer
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	private $languageCount;
 
@@ -49,26 +49,23 @@ class InstallerModelLanguages extends JModelList
 	/**
 	 * Get the Update Site
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 *
 	 * @return  string  The URL of the Accredited Languagepack Updatesite XML
 	 */
 	private function getUpdateSite()
 	{
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select($db->qn('us.location'))
+			->from($db->qn('#__extensions', 'e'))
+			->where($db->qn('e.type') . ' = ' . $db->q('package'))
+			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
+			->where($db->qn('e.client_id') . ' = 0')
+			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
+			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
 
-		$query->select($db->quoteName('us.location'));
-		$query->from($db->quoteName('#__extensions', 'e'))
-			->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
-			->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
-			->where($db->quoteName('e.client_id') . ' = 0');
-		$query->join('LEFT', $db->quoteName('#__update_sites_extensions', 'use') . ' ON use.extension_id = e.extension_id');
-		$query->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON us.update_site_id = use.update_site_id');
-
-		$db->setQuery($query);
-
-		return $db->loadResult();
+		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
@@ -76,7 +73,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public function getItems()
 	{
@@ -116,14 +113,27 @@ class InstallerModelLanguages extends JModelList
 	{
 		$updateSite = $this->getUpdateSite();
 
-		$jhttp = new JHttp;
-		$response = $jhttp->get($updateSite);
+		$http = new JHttp;
+
+		try
+		{
+			$response = $http->get($updateSite);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+
+			return;
+		}
 
 		$updateSiteXML = simplexml_load_string($response->body);
-
-		$languages = array();
-
-		$search = strtolower($this->getState('filter.search'));
+		$languages     = array();
+		$search        = strtolower($this->getState('filter.search'));
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
@@ -131,7 +141,7 @@ class InstallerModelLanguages extends JModelList
 
 			foreach ($extension->attributes() as $key => $value)
 			{
-				$language->$key =  (string) $value;
+				$language->$key = (string) $value;
 			}
 
 			if ($search)
@@ -146,14 +156,17 @@ class InstallerModelLanguages extends JModelList
 			$languages[$language->name] = $language;
 		}
 
+		// Workaround for php 5.3
+		$that = $this;
+
 		// Sort the array by value of subarray
 		usort(
 			$languages,
-			function($a, $b)
+			function($a, $b) use ($that)
 			{
-				$ordering = $this->getState('list.ordering');
+				$ordering = $that->getState('list.ordering');
 
-				if (strtolower($this->getState('list.direction')) === 'asc')
+				if (strtolower($that->getState('list.direction')) === 'asc')
 				{
 					return StringHelper::strcmp($a->$ordering, $b->$ordering);
 				}
@@ -166,10 +179,9 @@ class InstallerModelLanguages extends JModelList
 
 		// Count the non-paginated list
 		$this->languageCount = count($languages);
+		$limit               = ($this->getState('list.limit') > 0) ? $this->getState('list.limit') : $this->languageCount;
 
-		$languages = array_slice($languages, $this->getStart(), $this->getState('list.limit'));
-
-		return $languages;
+		return array_slice($languages, $this->getStart(), $limit);
 	}
 
 	/**
@@ -179,7 +191,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function _getListCount($query)
 	{
@@ -232,11 +244,10 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
-
 }

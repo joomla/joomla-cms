@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Input
  * @since       11.1
  */
-class JInputTest extends PHPUnit_Framework_TestCase
+class JInputTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * The test class.
@@ -358,7 +358,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

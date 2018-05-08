@@ -3,7 +3,7 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,7 +18,7 @@
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
 		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -29,11 +29,20 @@
 					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
+					class="multipleCategories"
 					default=""
 					size="10"
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+				/>
+
+				<field
+					name="tag"
+					type="tag"
+					label="JTAG"
+					description="JTAG_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="image"
@@ -88,6 +97,18 @@
 				</field>
 
 				<field
+					name="triggerevents"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="showLastSeparator"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
@@ -106,7 +127,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-				>
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
@@ -125,7 +146,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
 					default="5"
@@ -199,7 +220,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"

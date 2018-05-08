@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,8 +99,8 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @since   3.7.0
 	 * @note    The dates used in this method should correspond to the dates given on PHP.net
-	 * @see     https://secure.php.net/supported-versions.php
-	 * @see     https://secure.php.net/eol.php
+	 * @link    https://secure.php.net/supported-versions.php
+	 * @link    https://secure.php.net/eol.php
 	 */
 	private function getPhpSupport()
 	{
@@ -118,7 +118,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				'eos'      => '2016-07-21'
 			),
 			'5.6' => array(
-				'security' => '2016-12-31',
+				'security' => '2017-01-19',
 				'eos'      => '2018-12-31'
 			),
 			'7.0' => array(
@@ -128,6 +128,10 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			'7.1' => array(
 				'security' => '2018-12-01',
 				'eos'      => '2019-12-01'
+			),
+			'7.2' => array(
+				'security' => '2019-11-30',
+				'eos'      => '2020-11-30'
 			),
 		);
 
@@ -175,10 +179,11 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				);
 			}
 
-			// If the version is still supported, check if it has reached security support only
-			$phpSecurityOnlyDate = new JDate($phpSupportData[$activePhpVersion]['security']);
+			// If the version is still supported, check if it has reached eol minus 3 month
+			$interval = new DateInterval('P3M');
+			$phpEndOfSupport->sub($interval);
 
-			if (!$phpNotSupported && $today > $phpSecurityOnlyDate)
+			if (!$phpNotSupported && $today > $phpEndOfSupport)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
 				$supportStatus['message'] = JText::sprintf(

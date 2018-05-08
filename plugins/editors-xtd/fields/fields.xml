@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.7" type="plugin" group="editors-xtd" method="upgrade">
+	<name>plg_editors-xtd_fields</name>
+	<author>Joomla! Project</author>
+	<creationDate>February 2017</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_EDITORS-XTD_FIELDS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="fields">fields.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_editors-xtd_fields.ini</language>
+		<language tag="en-GB">en-GB.plg_editors-xtd_fields.sys.ini</language>
+	</languages>
+</extension>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<li>
 								<div class="treeselect-item pull-left">
 									<?php
-									$uselessMenuItem = (in_array($link->type, array('separator', 'heading', 'alias', 'url')));
+									$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
 									?>
 									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
@@ -153,14 +153,14 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						<ul class="dropdown-menu">
 							<li class="nav-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></li>
 							<li class="divider"></li>
-							<li class=""><a class="checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
+							<li class=""><a class="checkall" href="javascript://"><span class="icon-checkbox" aria-hidden="true"></span> <?php echo JText::_('JSELECT'); ?></a>
 							</li>
-							<li><a class="uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
+							<li><a class="uncheckall" href="javascript://"><span class="icon-checkbox-unchecked" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							</li>
 							<div class="treeselect-menu-expand">
 							<li class="divider"></li>
-							<li><a class="expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
-							<li><a class="collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
+							<li><a class="expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
+							<li><a class="collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
 							</div>
 						</ul>
 					</div>

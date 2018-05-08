@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/stubs/JTwitterObjectMock.php';
@@ -116,12 +116,7 @@ class JTwitterObjectTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
-		unset($this->options);
-		unset($this->input);
-		unset($this->client);
-		unset($this->oauth);
-		unset($this->object);
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**

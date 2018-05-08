@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -9,7 +9,7 @@
     /**
      * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  3.7.0
      */
     window.tinymce = {
         langCode: 'en',
@@ -200,7 +200,7 @@
             $btn.html('<span class="mce-txt">' + tinymce.translate(info.label) + '</span> <i class="mce-caret"></i>');
         } else {
             $element.addClass('mce-btn-small');
-            $btn.html(info.text ? tinymce.translate(info.text) : '<span class="mce-ico mce-i-' + name + '"></span>');
+            $btn.html(info.text ? tinymce.translate(info.text) : '<i class="mce-ico mce-i-' + name + '"></i>');
         }
 
         return $element;

@@ -21,7 +21,7 @@ use Symfony\Component\Yaml\Exception\DumpException;
  */
 class Inline
 {
-    const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'([^\']*(?:\'\'[^\']*)*)\')';
+    const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*+(?:\\\\.[^"\\\\]*+)*+)"|\'([^\']*+(?:\'\'[^\']*+)*+)\')';
 
     private static $exceptionOnInvalidType = false;
     private static $objectSupport = false;
@@ -31,9 +31,9 @@ class Inline
      * Converts a YAML string to a PHP value.
      *
      * @param string $value                  A YAML string
-     * @param bool   $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool   $objectSupport          true if object support is enabled, false otherwise
-     * @param bool   $objectForMap           true if maps should return a stdClass instead of array()
+     * @param bool   $exceptionOnInvalidType True if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool   $objectSupport          True if object support is enabled, false otherwise
+     * @param bool   $objectForMap           True if maps should return a stdClass instead of array()
      * @param array  $references             Mapping of variable names to values
      *
      * @return mixed A PHP value
@@ -87,8 +87,8 @@ class Inline
      * Dumps a given PHP variable to a YAML string.
      *
      * @param mixed $value                  The PHP variable to convert
-     * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool  $objectSupport          true if object support is enabled, false otherwise
+     * @param bool  $exceptionOnInvalidType True if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool  $objectSupport          True if object support is enabled, false otherwise
      *
      * @return string The YAML string representing the PHP value
      *
@@ -149,8 +149,8 @@ class Inline
             case Escaper::requiresDoubleQuoting($value):
                 return Escaper::escapeWithDoubleQuotes($value);
             case Escaper::requiresSingleQuoting($value):
-            case preg_match(self::getHexRegex(), $value):
-            case preg_match(self::getTimestampRegex(), $value):
+            case Parser::preg_match(self::getHexRegex(), $value):
+            case Parser::preg_match(self::getTimestampRegex(), $value):
                 return Escaper::escapeWithSingleQuotes($value);
             default:
                 return $value;
@@ -183,8 +183,8 @@ class Inline
      * Dumps a PHP array to a YAML string.
      *
      * @param array $value                  The PHP array to dump
-     * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
-     * @param bool  $objectSupport          true if object support is enabled, false otherwise
+     * @param bool  $exceptionOnInvalidType True if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
+     * @param bool  $objectSupport          True if object support is enabled, false otherwise
      *
      * @return string The YAML string representing the PHP array
      */
@@ -212,12 +212,12 @@ class Inline
     /**
      * Parses a YAML scalar.
      *
-     * @param string $scalar
-     * @param string $delimiters
-     * @param array  $stringDelimiters
-     * @param int    &$i
-     * @param bool   $evaluate
-     * @param array  $references
+     * @param string   $scalar
+     * @param string[] $delimiters
+     * @param string[] $stringDelimiters
+     * @param int      &$i
+     * @param bool     $evaluate
+     * @param array    $references
      *
      * @return string
      *
@@ -244,10 +244,10 @@ class Inline
                 $i += strlen($output);
 
                 // remove comments
-                if (preg_match('/[ \t]+#/', $output, $match, PREG_OFFSET_CAPTURE)) {
+                if (Parser::preg_match('/[ \t]+#/', $output, $match, PREG_OFFSET_CAPTURE)) {
                     $output = substr($output, 0, $match[0][1]);
                 }
-            } elseif (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
+            } elseif (Parser::preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
                 $output = $match[1];
                 $i += strlen($output);
             } else {
@@ -282,7 +282,7 @@ class Inline
      */
     private static function parseQuotedScalar($scalar, &$i)
     {
-        if (!preg_match('/'.self::REGEX_QUOTED_STRING.'/Au', substr($scalar, $i), $match)) {
+        if (!Parser::preg_match('/'.self::REGEX_QUOTED_STRING.'/Au', substr($scalar, $i), $match)) {
             throw new ParseException(sprintf('Malformed inline YAML string: %s.', substr($scalar, $i)));
         }
 
@@ -453,7 +453,7 @@ class Inline
      * @param string $scalar
      * @param array  $references
      *
-     * @return string A YAML string
+     * @return mixed The evaluated YAML string
      *
      * @throws ParseException when object parsing support was disabled and the parser detected a PHP object or when a reference could not be resolved
      */
@@ -491,7 +491,7 @@ class Inline
             case 'false' === $scalarLower:
                 return false;
             // Optimise for returning strings.
-            case $scalar[0] === '+' || $scalar[0] === '-' || $scalar[0] === '.' || $scalar[0] === '!' || is_numeric($scalar[0]):
+            case '+' === $scalar[0] || '-' === $scalar[0] || '.' === $scalar[0] || '!' === $scalar[0] || is_numeric($scalar[0]):
                 switch (true) {
                     case 0 === strpos($scalar, '!str'):
                         return (string) substr($scalar, 5);
@@ -530,16 +530,16 @@ class Inline
 
                         return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw === (string) $cast) ? $cast : $raw);
                     case is_numeric($scalar):
-                    case preg_match(self::getHexRegex(), $scalar):
+                    case Parser::preg_match(self::getHexRegex(), $scalar):
                         return '0x' === $scalar[0].$scalar[1] ? hexdec($scalar) : (float) $scalar;
                     case '.inf' === $scalarLower:
                     case '.nan' === $scalarLower:
                         return -log(0);
                     case '-.inf' === $scalarLower:
                         return log(0);
-                    case preg_match('/^(-|\+)?[0-9,]+(\.[0-9]+)?$/', $scalar):
+                    case Parser::preg_match('/^(-|\+)?[0-9,]+(\.[0-9]+)?$/', $scalar):
                         return (float) str_replace(',', '', $scalar);
-                    case preg_match(self::getTimestampRegex(), $scalar):
+                    case Parser::preg_match(self::getTimestampRegex(), $scalar):
                         $timeZone = date_default_timezone_get();
                         date_default_timezone_set('UTC');
                         $time = strtotime($scalar);
@@ -547,6 +547,7 @@ class Inline
 
                         return $time;
                 }
+                // no break
             default:
                 return (string) $scalar;
         }

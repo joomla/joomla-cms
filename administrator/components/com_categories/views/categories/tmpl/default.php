@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,25 +80,25 @@ if ($saveOrder)
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 							$columns++; ?>
 							<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+								<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 							$columns++; ?>
 							<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+								<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 							$columns++; ?>
 							<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+								<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 							$columns++; ?>
 							<th width="1%" class="nowrap center hidden-phone hidden-tablet">
-								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
+								<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"><span class="element-invisible"><?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-phone">
@@ -128,7 +128,6 @@ if ($saveOrder)
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php
-						$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 						$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
 						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 						$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
@@ -170,14 +169,14 @@ if ($saveOrder)
 								}
 								elseif (!$saveOrder)
 								{
-									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
 									<span class="icon-menu"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->lft; ?>" />
 								<?php endif; ?>
 							</td>
 							<td class="center">
@@ -220,25 +219,25 @@ if ($saveOrder)
 							</td>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level); ?>">
+									<a class="badge <?php if ($item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=1'); ?>">
 										<?php echo $item->count_published; ?></a>
 								</td>
 							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-important'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level); ?>">
+									<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-important'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=1'); ?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
 							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_archived > 0) echo 'badge-info'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level); ?>">
+									<a class="badge <?php if ($item->count_archived > 0) echo 'badge-info'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=1'); ?>">
 										<?php echo $item->count_archived; ?></a>
 								</td>
 							<?php endif; ?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 								<td class="center btns hidden-phone hidden-tablet">
-									<a class="badge <?php if ($item->count_trashed > 0) echo 'badge-inverse'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level); ?>">
+									<a class="badge <?php if ($item->count_trashed > 0) echo 'badge-inverse'; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=1'); ?>">
 										<?php echo $item->count_trashed; ?></a>
 								</td>
 							<?php endif; ?>
@@ -269,14 +268,14 @@ if ($saveOrder)
 				&& $user->authorise('core.edit', $extension)
 				&& $user->authorise('core.edit.state', $extension)) : ?>
 				<?php echo JHtml::_(
-						'bootstrap.renderModal',
-						'collapseModal',
-						array(
-							'title' => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
-							'footer' => $this->loadTemplate('batch_footer')
-						),
-						$this->loadTemplate('batch_body')
-					); ?>
+					'bootstrap.renderModal',
+					'collapseModal',
+					array(
+						'title'  => JText::_('COM_CATEGORIES_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
+					),
+					$this->loadTemplate('batch_body')
+				); ?>
 			<?php endif; ?>
 		<?php endif; ?>
 

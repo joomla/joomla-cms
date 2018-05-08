@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ if ($this->params->get('boldText'))
 }
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Load custom.css
 JHtml::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
@@ -126,11 +126,11 @@ else
 			// Fix wrong display of Joomla!® in RTL language
 			if ($lang->isRtl())
 			{
-				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank" rel="noopener noreferrer">Joomla!</a><sup>&#174;&#x200E;</sup>';
 			}
 			else
 			{
-				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				$joomla = '<a href="https://www.joomla.org" target="_blank" rel="noopener noreferrer">Joomla!</a><sup>&#174;</sup>';
 			}
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
 			?>

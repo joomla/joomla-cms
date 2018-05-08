@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 jimport('joomla.filesystem.folder');
@@ -22,7 +22,7 @@ if (!class_exists('En_GBLocalise'))
  * @subpackage  Language
  * @since       11.1
  */
-class JLanguageTest extends PHPUnit_Framework_TestCase
+class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var JLanguage
@@ -39,15 +39,6 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$path = JPATH_TESTS . '/tmp/language';
-
-		if (is_dir($path))
-		{
-			JFolder::delete($path);
-		}
-
-		JFolder::copy(__DIR__ . '/data/language', $path);
-
 		$this->object = new JLanguage;
 		$this->inspector = new JLanguageInspector('', true);
 	}
@@ -60,9 +51,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		JFolder::delete(JPATH_TESTS . '/tmp/language');
-		unset($this->object);
-		unset($this->inspector);
+		unset($this->object, $this->inspector);
 		parent::tearDown();
 	}
 
@@ -216,7 +205,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
@@ -739,22 +728,22 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testExists()
 	{
 		$this->assertFalse(
-			$this->object->exists(null)
+			JLanguageHelper::exists(null)
 		);
 
 		$basePath = __DIR__ . '/data';
 
 		$this->assertTrue(
-			$this->object->exists('en-GB', $basePath)
+			JLanguageHelper::exists('en-GB', $basePath)
 		);
 
 		$this->assertFalse(
-			$this->object->exists('es-ES', $basePath)
+			JLanguageHelper::exists('es-ES', $basePath)
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test parsing of language ini files
 	 *
 	 * @return void
 	 */
@@ -774,7 +763,11 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'Line: ' . __LINE__ . ' test that the strings were parsed correctly.'
 		);
 
-		$strings = $this->inspector->parse(__DIR__ . '/data/bad.ini');
+		/**
+		 * suppressor used as we know this will generate a warning message
+		 * syntax error, unexpected BOOL_TRUE in
+		 */
+		$strings = @$this->inspector->parse(__DIR__ . '/data/bad.ini');
 
 		$this->assertEquals(
 			$strings,

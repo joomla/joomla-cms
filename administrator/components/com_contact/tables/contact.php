@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,7 +110,7 @@ class ContactTableContact extends JTable
 		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Contact', 'ContactTable');
+		$table = JTable::getInstance('Contact', 'ContactTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
@@ -161,7 +161,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Sanity check for user_id
-		if (!($this->user_id))
+		if (!$this->user_id)
 		{
 			$this->user_id = 0;
 		}

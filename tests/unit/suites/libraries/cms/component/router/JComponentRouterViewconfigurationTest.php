@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -44,7 +44,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
@@ -144,6 +144,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->assertEquals(array($this->object), $parent2->children);
 		$this->assertEquals(array('category', 'test'), $this->object->path);
 		$this->assertEquals(array('catid'), $parent2->child_keys);
+
 		// Make sure that the original parent is cleaned up
 		$this->assertEquals(array(), $parent->children);
 		$this->assertEquals(array(), $parent->child_keys);
@@ -154,6 +155,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->assertEquals($parent3, $this->object->parent);
 		$this->assertEquals('formid', $this->object->parent_key);
 		$this->assertEquals(array('formid'), $parent3->child_keys);
+
 		// Make sure that the original parent is cleaned up
 		$this->assertEquals(array(), $parent2->children);
 		$this->assertEquals(array(), $parent2->child_keys);
@@ -191,6 +193,7 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->assertEquals(array('default'), $this->object->layouts);
 		$this->assertEquals($this->object, $this->object->addLayout('form'));
 		$this->assertEquals(array('default', 'form'), $this->object->layouts);
+
 		// Make sure that a layout can only be added once
 		$this->object->addLayout('form');
 		$this->assertEquals(array('default', 'form'), $this->object->layouts);
@@ -215,5 +218,4 @@ class JComponentRouterViewconfigurationTest extends TestCase
 		$this->object->removeLayout('form');
 		$this->assertEquals(array(), $this->object->layouts);
 	}
-
 }

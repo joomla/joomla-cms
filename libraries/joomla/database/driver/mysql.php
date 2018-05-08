@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver
  *
- * @see         http://dev.mysql.com/doc/
+ * @link        https://dev.mysql.com/doc/
  * @since       12.1
- * @deprecated  Will be removed when the minimum supported PHP version no longer includes the deprecated PHP `mysql` extension
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 {
@@ -55,16 +55,6 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	}
 
 	/**
-	 * Destructor.
-	 *
-	 * @since   12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
-	}
-
-	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -82,13 +72,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new JDatabaseExceptionUnsupported('Could not connect to MySQL.');
+			throw new JDatabaseExceptionUnsupported('Make sure the MySQL extension for PHP is installed and enabled.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL server.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -109,7 +99,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysql_query("SET profiling = 1;", $this->connection);
+			mysql_query('SET profiling = 1;', $this->connection);
 		}
 	}
 
@@ -376,7 +366,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new JDatabaseExceptionConnecting('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL database.');
 		}
 
 		return true;

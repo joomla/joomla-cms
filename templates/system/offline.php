@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,14 +20,14 @@ $this->setHtml5(true);
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Styles
-JHtml::_('stylesheet', 'offline.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/offline.css', array('version' => 'auto'));
 
 if ($this->direction === 'rtl')
 {
-	JHtml::_('stylesheet', 'offline_rtl.css', array('version' => 'auto', 'relative' => true));
+	JHtml::_('stylesheet', 'templates/system/css/offline_rtl.css', array('version' => 'auto'));
 }
 
-JHtml::_('stylesheet', 'general.css', array('version' => 'auto', 'relative' => true));
+JHtml::_('stylesheet', 'templates/system/css/general.css', array('version' => 'auto'));
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');

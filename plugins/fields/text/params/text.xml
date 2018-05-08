@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="filter"
+				type="list"
+				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_FILTER_DESC"
+				class="btn-group"
+				>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
+				<option value="safehtml">JLIB_FILTER_PARAMS_SAFEHTML</option>
+				<option value="JComponentHelper::filterText">JLIB_FILTER_PARAMS_TEXT</option>
+				<option value="alnum">JLIB_FILTER_PARAMS_ALNUM</option>
+				<option value="integer">JLIB_FILTER_PARAMS_INTEGER</option>
+				<option value="float">JLIB_FILTER_PARAMS_FLOAT</option>
+				<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
+			</field>
+
+			<field
+				name="maxlength"
+				type="number"
+				label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
+				description="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_DESC"
+				filter="integer"
+			/>
+		</fieldset>
+	</fields>
+</form>

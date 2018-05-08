@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,12 +62,9 @@ class PlgSearchNewsfeeds extends JPlugin
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -92,7 +89,7 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}

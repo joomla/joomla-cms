@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ if (!empty($description))
 	{
 		JHtml::_('bootstrap.tooltip');
 		$classes[] = 'hasTooltip';
-		$title     = ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
+		$title     = ' title="' . JHtml::_('tooltipText', trim($text, ':'), $description, 0) . '"';
 	}
 }
 
@@ -55,6 +55,6 @@ if ($required)
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>" class="<?php echo implode(' ', $classes); ?>"<?php echo $title; ?><?php echo $position; ?>>
+<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?><?php echo $position; ?>>
 	<?php echo $text; ?><?php if ($required) : ?><span class="star">&#160;*</span><?php endif; ?>
 </label>

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JImageInspector.php';
@@ -19,6 +19,35 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
  */
 class JImageTest extends TestCase
 {
+	/**
+	 * @var  string  TestFile-path for JPG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFile;
+
+	/**
+	 * @var  string  TestFile-path for GIF file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileGif;
+
+	/**
+	 * @var  string  TestFile-path for BMP file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFileBmp;
+
+	/**
+	 * @var  string  TestFile-path for PNG file
+	 *
+	 * @since  3.7.3
+	 */
+	protected $testFilePng;
+
+
 	/**
 	 * Setup for testing.
 	 *
@@ -51,15 +80,12 @@ class JImageTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->testFile);
-		unset($this->testFileGif);
-		unset($this->testFilePng);
-		unset($this->testFileBmp);
+		unset($this->testFile, $this->testFileGif, $this->testFilePng, $this->testFileBmp);
 		parent::tearDown();
 	}
 
@@ -358,7 +384,7 @@ class JImageTest extends TestCase
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = JPATH_TESTS . '/tmp/out.gif';
+		$outFileGif = JPATH_TESTS . '/tmp/' . uniqid() . '.gif';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
@@ -393,7 +419,7 @@ class JImageTest extends TestCase
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = JPATH_TESTS . '/tmp/out.png';
+		$outFilePng = JPATH_TESTS . '/tmp/' . uniqid() . '.png';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
@@ -429,7 +455,7 @@ class JImageTest extends TestCase
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = JPATH_TESTS . '/tmp/out.jpg';
+		$outFileJpg = JPATH_TESTS . '/tmp/' . uniqid() . '.jpg';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
@@ -464,7 +490,7 @@ class JImageTest extends TestCase
 	public function testToFileDefault()
 	{
 		// Write the file out to a JPG.
-		$outFileDefault = JPATH_TESTS . '/tmp/out.default';
+		$outFileDefault = JPATH_TESTS . '/tmp/' . uniqid() . '.default';
 
 		$image = new JImageInspector($this->testFile);
 		$image->toFile($outFileDefault);

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
+class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for append and __toString

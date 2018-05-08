@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,7 @@ JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesCategoryHelper
 {
@@ -50,6 +47,9 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
 
+		// This module does not use tags data
+		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -69,8 +69,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
@@ -191,7 +189,9 @@ abstract class ModArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
+
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
@@ -252,7 +252,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

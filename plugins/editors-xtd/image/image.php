@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,9 +53,9 @@ class PlgButtonImage extends JPlugin
 		if ($user->authorise('core.edit', $asset)
 			|| $user->authorise('core.create', $asset)
 			|| (count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
-			|| ($user->authorise('core.edit.own', $asset) && $author == $user->id)
+			|| ($user->authorise('core.edit.own', $asset) && $author === $user->id)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
-			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
+			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 

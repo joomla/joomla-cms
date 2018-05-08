@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @see    JFormFieldCheckbox
  * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldinterface
+class JFormFieldCheckboxes extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -54,7 +56,7 @@ class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldint
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -75,7 +77,7 @@ class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldint
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -117,7 +119,7 @@ class JFormFieldCheckboxes extends JFormAbstractlist implements JFormDomfieldint
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *

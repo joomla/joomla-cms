@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -50,6 +50,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="row-fluid">
 			<div class="span9">
 				<?php echo $this->form->renderField('type'); ?>
+				<?php echo $this->form->renderField('name'); ?>
 				<?php echo $this->form->renderField('label'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 				<?php echo $this->form->renderField('required'); ?>

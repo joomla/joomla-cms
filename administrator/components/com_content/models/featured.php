@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,8 @@ class ContentModelFeatured extends ContentModelArticles
 				'author_id',
 				'category_id',
 				'level',
-				'tag'
+				'tag',
+				'rating_count', 'rating',
 			);
 		}
 
@@ -81,7 +82,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
+					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -113,7 +114,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Join on voting table
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -177,6 +178,12 @@ class ContentModelFeatured extends ContentModelArticles
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
 		}
+		elseif (is_array($authorId))
+		{
+			$authorId = ArrayHelper::toInteger($authorId);
+			$authorId = implode(',', $authorId);
+			$query->where('a.created_by IN (' . $authorId . ')');
+		}
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
@@ -220,14 +227,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Add the list ordering clause.
-		$orderCol  = $this->state->get('list.fullordering', 'a.title');
-		$orderDirn = '';
-
-		if (empty($orderCol))
-		{
-			$orderCol  = $this->state->get('list.ordering', 'a.title');
-			$orderDirn = $this->state->get('list.direction', 'ASC');
-		}
+		$orderCol  = $this->state->get('list.ordering', 'a.title');
+		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 

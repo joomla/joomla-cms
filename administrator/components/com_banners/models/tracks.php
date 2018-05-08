@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Archive\Archive;
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
@@ -516,7 +518,9 @@ class BannersModelTracks extends JModelList
 					}
 				}
 
-				if (!$packager = JArchive::getAdapter('zip'))
+				$archive = new Archive;
+
+				if (!$packager = $archive->getAdapter('zip'))
 				{
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 

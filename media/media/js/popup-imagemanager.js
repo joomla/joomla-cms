@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,11 @@
 			var o = this.getUriObject(window.self.location.href),
 				q = this.getQueryObject(o.query);
 
+			var options = Joomla.getOptions('mediamanager');
+
+			this.author = options.author;
+			this.base   = options.base;
+			this.asset  = options.asset;
 			this.editor = decodeURIComponent(q.e_name);
 
 			// Setup image manager fields object
@@ -152,7 +157,12 @@
 				}
 			}
 
-			window.parent.jInsertEditorText(tag, this.editor);
+			/** Use the API, if editor supports it **/
+			if (window.Joomla && Joomla.editors.instances.hasOwnProperty(this.editor)) {
+				Joomla.editors.instances[editor].replaceSelection(tag)
+			} else {
+				window.parent.jInsertEditorText(tag, this.editor);
+			}
 
 			return true;
 		},
@@ -201,7 +211,7 @@
 			search = path.join('/');
 
 			this.setFolder(search);
-			this.setFrameUrl(search);
+			this.setFrameUrl(search, this.asset, this.author);
 		},
 
 		/**
@@ -221,7 +231,7 @@
 			}
 		    });
 
-		    $("#f_url").val(image_base_path + file);
+		    $("#f_url").val(this.base + file);
 		},
 
 		/**

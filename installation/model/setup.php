@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,9 +136,7 @@ class InstallationModelSetup extends JModelBase
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -272,14 +270,14 @@ class InstallationModelSetup extends JModelBase
 			// Check for default MB language.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
+			$option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
 			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
-			$option->state  = (ini_get('mbstring.func_overload') == 0);
+			$option->state  = ini_get('mbstring.func_overload') == 0;
 			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
@@ -296,13 +294,6 @@ class InstallationModelSetup extends JModelBase
 		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
-		$options[] = $option;
-
-		// Check for mcrypt support
-		$option = new stdClass;
-		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
-		$option->state  = is_callable('mcrypt_encrypt');
-		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
 		$options[] = $option;
 
 		// Check for configuration file writable.
@@ -332,7 +323,7 @@ class InstallationModelSetup extends JModelBase
 
 		foreach ($options as $option)
 		{
-			if (is_null($option->notice))
+			if ($option->notice === null)
 			{
 				$result = ($result && $option->state);
 			}
@@ -383,7 +374,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 

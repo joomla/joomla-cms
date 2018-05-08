@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('HtmlView', __DIR__ . '/stubs/thtml.php');
@@ -111,7 +111,8 @@ class JViewHtmlTest extends TestCase
 		$this->assertEquals(realpath(__DIR__ . '/layouts1/peter.php'), $this->_instance->getPath('peter'));
 		$this->assertEquals(realpath(__DIR__ . '/layouts2/fauxlivia.php'), $this->_instance->getPath('fauxlivia'));
 		$this->assertEquals(realpath(__DIR__ . '/layouts1/fringe/division.php'), $this->_instance->getPath('fringe/division'));
-		//$this->assertEquals(realpath(__DIR__ . '/layouts1/astrid.phtml'), $this->_instance->getPath('astrid', 'phtml'));
+
+		// $this->assertEquals(realpath(__DIR__ . '/layouts1/astrid.phtml'), $this->_instance->getPath('astrid', 'phtml'));
 		$this->assertFalse($this->_instance->getPath('walter'));
 
 		// Check dirty path.
@@ -237,7 +238,7 @@ class JViewHtmlTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

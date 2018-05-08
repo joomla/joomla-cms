@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Http
  * @since       3.4
  */
-class JHttpTransportTest extends PHPUnit_Framework_TestCase
+class JHttpTransportTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    \Joomla\Registry\Registry  Options for the JHttpTransport object.
@@ -56,13 +56,12 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->stubUrl);
+		unset($this->options, $this->stubUrl);
 		parent::tearDown();
 	}
 

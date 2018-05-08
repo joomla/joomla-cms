@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 	{
 		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
 
-		// Checks if a selector shoudl be shown in the current layout.
+		// Checks if a selector should be shown in the current layout.
 		if (isset($data['view']->layout))
 		{
 			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;

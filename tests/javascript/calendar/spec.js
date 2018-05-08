@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @package     Joomla
  * @subpackage  JavaScript Tests
@@ -11,15 +11,20 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 
 	describe('Calendar set for the input element', function () {
 		beforeAll(function () {
-			JoomlaCalendar.init(".field-calendar");
+			var element = document.querySelector(".field-calendar");
+			JoomlaCalendar.init(element);
 		});
 
 		it('Should have calendar element under the input element', function () {
 			expect($('body')).toContainElement('.js-calendar');
 		});
 
+		it('Calendar should be hidden', function () {
+			expect($('.js-calendar').css('display')).toEqual('none');
+		});
+
 		it('Should appear on button click', function () {
-			$('.field-calendar').find('button').click();
+			$('#jform_created_btn').trigger('click');
 
 			expect($('.js-calendar').css('display')).toEqual('block');
 		});

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,11 +69,11 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
 	 */
@@ -175,6 +175,10 @@ class MenusModelMenu extends JModelForm
 		if (empty($data))
 		{
 			$data = $this->getItem();
+		}
+		else
+		{
+			unset($data['preset']);
 		}
 
 		$this->preprocessData('com_menus.menu', $data);
@@ -352,6 +356,7 @@ class MenusModelMenu extends JModelForm
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

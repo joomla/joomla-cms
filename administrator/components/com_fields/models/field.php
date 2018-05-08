@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -41,6 +41,16 @@ class FieldsModelField extends JModelAdmin
 	 * @since  3.4
 	 */
 	protected $batch_copymove = 'group_id';
+
+	/**
+	 * Allowed batch commands
+	 *
+	 * @var array
+	 */
+	protected $batch_commands = array(
+		'assetgroup_id' => 'batchAccess',
+		'language_id'   => 'batchLanguage'
+	);
 
 	/**
 	 * @var array
@@ -99,20 +109,32 @@ class FieldsModelField extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['group_id'], $data['alias'], $data['title']);
+				list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
 				$data['title'] = $title;
 				$data['label'] = $title;
-				$data['alias'] = $alias;
+				$data['name'] = $name;
 			}
 			else
 			{
-				if ($data['alias'] == $origTable->alias)
+				if ($data['name'] == $origTable->name)
 				{
-					$data['alias'] = '';
+					$data['name'] = '';
 				}
 			}
 
 			$data['state'] = 0;
+		}
+
+		// Load the fields plugins, perhaps they want to do something
+		JPluginHelper::importPlugin('fields');
+
+		$message = $this->checkDefaultValue($data);
+
+		if ($message !== true)
+		{
+			$this->setError($message);
+
+			return false;
 		}
 
 		if (!parent::save($data))
@@ -156,20 +178,133 @@ class FieldsModelField extends JModelAdmin
 		// If the options have changed delete the values
 		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
-			$oldParams = json_decode($field->fieldparams['options']);
-			$newParams = json_decode($data['fieldparams']['options']);
+			$oldParams = $this->getParams($field->fieldparams['options']);
+			$newParams = $this->getParams($data['fieldparams']['options']);
 
-			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
+			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
+				$names = array();
+
+				foreach ($newParams as $param)
+				{
+					$names[] = $db->q($param['value']);
+				}
+
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where("value not in ('" . implode("','", $newParams->name) . "')");
+					->where('value NOT IN (' . implode(',', $names) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}
 		}
 
+		FieldsHelper::clearFieldsCache();
+
 		return true;
+	}
+
+
+	/**
+	 * Checks if the default value is valid for the given data. If a string is returned then
+	 * it can be assumed that the default value is invalid.
+	 *
+	 * @param   array  $data  The data.
+	 *
+	 * @return  true|string  true if valid, a string containing the exception message when not.
+	 *
+	 * @since   3.7.0
+	 */
+	private function checkDefaultValue($data)
+	{
+		// Empty default values are correct
+		if (empty($data['default_value']))
+		{
+			return true;
+		}
+
+		$types = FieldsHelper::getFieldTypes();
+
+		// Check if type exists
+		if (!key_exists($data['type'], $types))
+		{
+			return true;
+		}
+
+		$path = $types[$data['type']]['rules'];
+
+		// Add the path for the rules of the plugin when available
+		if ($path)
+		{
+			// Add the lookup path for the rule
+			JFormHelper::addRulePath($path);
+		}
+
+		// Create the fields object
+		$obj              = (object) $data;
+		$obj->params      = new Registry($obj->params);
+		$obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+
+		// Prepare the dom
+		$dom  = new DOMDocument;
+		$node = $dom->appendChild(new DOMElement('form'));
+
+		// Trigger the event to create the field dom node
+		JEventDispatcher::getInstance()->trigger('onCustomFieldsPrepareDom', array($obj, $node, new JForm($data['context'])));
+
+		// Check if a node is created
+		if (!$node->firstChild)
+		{
+			return true;
+		}
+
+		// Define the type either from the field or from the data
+		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
+
+		// Load the rule
+		$rule = JFormHelper::loadRuleType($type);
+
+		// When no rule exists, we allow the default value
+		if (!$rule)
+		{
+			return true;
+		}
+
+		try
+		{
+			// Perform the check
+			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+
+			// Check if the test succeeded
+			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+		}
+		catch (UnexpectedValueException $e)
+		{
+			return $e->getMessage();
+		}
+	}
+
+	/**
+	 * Converts the unknown params into an object.
+	 *
+	 * @param   mixed  $params  The params.
+	 *
+	 * @return  stdClass  Object on success, false on failure.
+	 *
+	 * @since   3.7.0
+	 */
+	private function getParams($params)
+	{
+		if (is_string($params))
+		{
+			$params = json_decode($params);
+		}
+
+		if (is_array($params))
+		{
+			$params = (object) $params;
+		}
+
+		return $params;
 	}
 
 	/**
@@ -260,34 +395,38 @@ class FieldsModelField extends JModelAdmin
 			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 		}
 
-		return JTable::getInstance($name, $prefix, $options);
+		// Default to text type
+		$table       = JTable::getInstance($name, $prefix, $options);
+		$table->type = 'text';
+
+		return $table;
 	}
 
 	/**
-	 * Method to change the title & alias.
+	 * Method to change the title & name.
 	 *
 	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
+	 * @param   string   $name         The name.
 	 * @param   string   $title        The title.
 	 *
-	 * @return  array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($category_id, $name, $title)
 	{
-		// Alter the title & alias
+		// Alter the title & name
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias)))
+		while ($table->load(array('name' => $name)))
 		{
 			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+			$name = StringHelper::increment($name, 'dash');
 		}
 
 		return array(
 			$title,
-			$alias,
+			$name,
 		);
 	}
 
@@ -363,12 +502,21 @@ class FieldsModelField extends JModelAdmin
 			}
 		}
 
+		if (isset($data['type']))
+		{
+			// This is needed that the plugins can determine the type
+			$this->setState('field.type', $data['type']);
+		}
+
+		// Load the fields plugin that they can add additional parameters to the form
+		JPluginHelper::importPlugin('fields');
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_fields.field' . $context, 'field',
 			array(
 				'control'   => 'jform',
-				'load_data' => $loadData,
+				'load_data' => true,
 			)
 		);
 
@@ -381,11 +529,6 @@ class FieldsModelField extends JModelAdmin
 		if (empty($data['context']))
 		{
 			$data['context'] = $context;
-		}
-
-		if (isset($data['type']))
-		{
-			$this->loadTypeForms($form, $data['type']);
 		}
 
 		$fieldId  = $jinput->get('id');
@@ -406,35 +549,9 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Load the form declaration for the type.
-	 *
-	 * @param   JForm   &$form  The form
-	 * @param   string  $type   The type
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	private function loadTypeForms(JForm &$form, $type)
-	{
-		FieldsHelper::loadPlugins();
-
-		$type = JFormHelper::loadFieldType($type);
-
-		// Load all children that's why we need to define the xpath
-		if (!($type instanceof JFormDomfieldinterface))
-		{
-			return;
-		}
-
-		$form->load($type->getFormParameters(), true, '/form/*');
-	}
-
-	/**
-	 * Setting the value for the gven field id, context and item id.
+	 * Setting the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 * @param   string  $value    The value.
 	 *
@@ -442,7 +559,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @since   3.7.0
 	 */
-	public function setFieldValue($fieldId, $context, $itemId, $value)
+	public function setFieldValue($fieldId, $itemId, $value)
 	{
 		$field  = $this->getItem($fieldId);
 		$params = $field->params;
@@ -452,9 +569,8 @@ class FieldsModelField extends JModelAdmin
 			$params = new Registry($params);
 		}
 
-		// Don't save the value when the field is disabled or the user is
-		// not authorized to change it
-		if (!$field || $params->get('disabled', 0) || !FieldsHelper::canEditFieldValue($field))
+		// Don't save the value when the user is not authorized to change it
+		if (!$field || !FieldsHelper::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -463,32 +579,26 @@ class FieldsModelField extends JModelAdmin
 		$needsInsert = false;
 		$needsUpdate = false;
 
-		if ($field->default_value == $value)
+		$oldValue = $this->getFieldValue($fieldId, $itemId);
+		$value    = (array) $value;
+
+		if ($oldValue === null)
 		{
-			$needsDelete = true;
+			// No records available, doing normal insert
+			$needsInsert = true;
+		}
+		elseif (count($value) == 1 && count((array) $oldValue) == 1)
+		{
+			// Only a single row value update can be done when not empty
+			$needsUpdate = is_array($value[0]) ? count($value[0]) : strlen($value[0]);
+			$needsDelete = !$needsUpdate;
 		}
 		else
 		{
-			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
-			$value    = (array) $value;
-
-			if ($oldValue === null)
-			{
-				// No records available, doing normal insert
-				$needsInsert = true;
-			}
-			elseif (count($value) == 1 && count((array) $oldValue) == 1)
-			{
-				// Only a single row value update can be done
-				$needsUpdate = true;
-			}
-			else
-			{
-				// Multiple values, we need to purge the data and do a new
-				// insert
-				$needsDelete = true;
-				$needsInsert = true;
-			}
+			// Multiple values, we need to purge the data and do a new
+			// insert
+			$needsDelete = true;
+			$needsInsert = true;
 		}
 
 		if ($needsDelete)
@@ -498,7 +608,6 @@ class FieldsModelField extends JModelAdmin
 
 			$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
@@ -509,7 +618,6 @@ class FieldsModelField extends JModelAdmin
 			$newObj = new stdClass;
 
 			$newObj->field_id = (int) $fieldId;
-			$newObj->context  = $context;
 			$newObj->item_id  = $itemId;
 
 			foreach ($value as $v)
@@ -525,14 +633,14 @@ class FieldsModelField extends JModelAdmin
 			$updateObj = new stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
-			$updateObj->context  = $context;
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
+		FieldsHelper::clearFieldsCache();
 
 		return true;
 	}
@@ -541,48 +649,88 @@ class FieldsModelField extends JModelAdmin
 	 * Returning the value for the given field id, context and item id.
 	 *
 	 * @param   string  $fieldId  The field ID.
-	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The ID of the item.
 	 *
 	 * @return  NULL|string
 	 *
 	 * @since  3.7.0
 	 */
-	public function getFieldValue($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $itemId)
 	{
-		$key = md5($fieldId . $context . $itemId);
+		$values = $this->getFieldValues(array($fieldId), $itemId);
 
-		if (!key_exists($key, $this->valueCache))
+		if (key_exists($fieldId, $values))
 		{
-			$this->valueCache[$key] = null;
-
-			$query = $this->getDbo()->getQuery(true);
-
-			$query->select($query->qn('value'))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('context') . ' = ' . $query->q($context))
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
-
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
-
-			if (count($rows) == 1)
-			{
-				$this->valueCache[$key] = array_shift($rows)->value;
-			}
-			elseif (count($rows) > 1)
-			{
-				$data = array();
-
-				foreach ($rows as $row)
-				{
-					$data[] = $row->value;
-				}
-
-				$this->valueCache[$key] = $data;
-			}
+			return $values[$fieldId];
 		}
 
+		return null;
+	}
+
+	/**
+	 * Returning the values for the given field ids, context and item id.
+	 *
+	 * @param   array   $fieldIds  The field Ids.
+	 * @param   string  $itemId    The ID of the item.
+	 *
+	 * @return  NULL|array
+	 *
+	 * @since  3.7.0
+	 */
+	public function getFieldValues(array $fieldIds, $itemId)
+	{
+		if (!$fieldIds)
+		{
+			return array();
+		}
+
+		// Create a unique key for the cache
+		$key = md5(serialize($fieldIds) . $itemId);
+
+		// Fill the cache when it doesn't exist
+		if (!key_exists($key, $this->valueCache))
+		{
+			// Create the query
+			$query = $this->getDbo()->getQuery(true);
+
+			$query->select(array($query->qn('field_id'), $query->qn('value')))
+				->from($query->qn('#__fields_values'))
+				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			// Fetch the row from the database
+			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+
+			$data = array();
+
+			// Fill the data container from the database rows
+			foreach ($rows as $row)
+			{
+				// If there are multiple values for a field, create an array
+				if (key_exists($row->field_id, $data))
+				{
+					// Transform it to an array
+					if (!is_array($data[$row->field_id]))
+					{
+						$data[$row->field_id] = array($data[$row->field_id]);
+					}
+
+					// Set the value in the array
+					$data[$row->field_id][] = $row->value;
+
+					// Go to the next row, otherwise the value gets overwritten in the data container
+					continue;
+				}
+
+				// Set the value
+				$data[$row->field_id] = $row->value;
+			}
+
+			// Assign it to the internal cache
+			$this->valueCache[$key] = $data;
+		}
+
+		// Return the value from the cache
 		return $this->valueCache[$key];
 	}
 
@@ -598,10 +746,16 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function cleanupValues($context, $itemId)
 	{
+		// Delete with inner join is not possible so we need to do a subquery
+		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery->select($fieldsQuery->qn('id'))
+			->from($fieldsQuery->qn('#__fields'))
+			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('context') . ' = ' . $query->q($context))
+			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
 			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
@@ -634,7 +788,7 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -735,7 +889,7 @@ class FieldsModelField extends JModelAdmin
 				);
 
 				// Set the type if available from the request
-				$data->set('type', $app->input->getWord('type', $data->get('type')));
+				$data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
 			}
 
 			if ($data->label && !isset($data->params['label']))
@@ -765,6 +919,7 @@ class FieldsModelField extends JModelAdmin
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
+		$section    = $this->state->get('field.section');
 		$dataObject = $data;
 
 		if (is_array($dataObject))
@@ -774,14 +929,33 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($dataObject->type))
 		{
-			$this->loadTypeForms($form, $dataObject->type);
-
 			$form->setFieldAttribute('type', 'component', $component);
 
 			// Not allowed to change the type of an existing record
 			if ($dataObject->id)
 			{
 				$form->setFieldAttribute('type', 'readonly', 'true');
+			}
+
+			// Allow to override the default value label and description through the plugin
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'label', $key);
+			}
+
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'description', $key);
+			}
+
+			// Remove placeholder field on list fields
+			if ($dataObject->type == 'list')
+			{
+				$form->removeField('hint', 'params');
 			}
 		}
 
@@ -800,6 +974,21 @@ class FieldsModelField extends JModelAdmin
 		$form->setFieldAttribute('type', 'component', $component);
 		$form->setFieldAttribute('group_id', 'context', $this->state->get('field.context'));
 		$form->setFieldAttribute('rules', 'component', $component);
+
+		// Looking first in the component models/forms folder
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/fields/' . $section . '.xml');
+
+		if (file_exists($path))
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+
+			if (!$form->loadFile($path, false))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
+		}
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);

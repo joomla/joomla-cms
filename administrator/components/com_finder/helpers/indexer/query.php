@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -346,9 +346,10 @@ class FinderIndexerQuery
 			// Get the menu item id.
 			$query = array(
 				'view' => $uri->getVar('view'),
-				'f' => $uri->getVar('f'),
-				'q' => $uri->getVar('q')
+				'f'    => $uri->getVar('f'),
+				'q'    => $uri->getVar('q'),
 			);
+
 			$item = FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
@@ -665,10 +666,10 @@ class FinderIndexerQuery
 	protected function processDates($date1, $date2, $when1, $when2)
 	{
 		// Clean up the inputs.
-		$date1 = StringHelper::trim(StringHelper::strtolower($date1));
-		$date2 = StringHelper::trim(StringHelper::strtolower($date2));
-		$when1 = StringHelper::trim(StringHelper::strtolower($when1));
-		$when2 = StringHelper::trim(StringHelper::strtolower($when2));
+		$date1 = trim(StringHelper::strtolower($date1));
+		$date2 = trim(StringHelper::strtolower($date2));
+		$when1 = trim(StringHelper::strtolower($when1));
+		$when2 = trim(StringHelper::strtolower($when2));
 
 		// Get the time offset.
 		$offset = JFactory::getApplication()->get('offset');
@@ -732,7 +733,7 @@ class FinderIndexerQuery
 		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 		$input = StringHelper::strtolower($input);
 		$input = preg_replace('#\s+#mi', ' ', $input);
-		$input = StringHelper::trim($input);
+		$input = trim($input);
 		$debug = JFactory::getConfig()->get('debug_lang');
 
 		/*
@@ -742,7 +743,7 @@ class FinderIndexerQuery
 		 */
 		$patterns = array(
 			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after' => JText::_('COM_FINDER_FILTER_WHEN_AFTER')
+			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER'),
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
@@ -753,7 +754,7 @@ class FinderIndexerQuery
 		}
 
 		// Container for search terms and phrases.
-		$terms = array();
+		$terms   = array();
 		$phrases = array();
 
 		// Cleared filter branches.
@@ -844,13 +845,13 @@ class FinderIndexerQuery
 						}
 
 						break;
-						}
+					}
 				}
 
 				// Clean up the input string again.
 				$input = str_replace($matches[0], '', $input);
 				$input = preg_replace('#\s+#mi', ' ', $input);
-				$input = StringHelper::trim($input);
+				$input = trim($input);
 			}
 		}
 
@@ -877,9 +878,9 @@ class FinderIndexerQuery
 					$len = StringHelper::strlen($matches[0][$key]);
 
 					// Add any terms that are before this phrase to the stack.
-					if (StringHelper::trim(StringHelper::substr($input, 0, $pos)))
+					if (trim(StringHelper::substr($input, 0, $pos)))
 					{
-						$terms = array_merge($terms, explode(' ', StringHelper::trim(StringHelper::substr($input, 0, $pos))));
+						$terms = array_merge($terms, explode(' ', trim(StringHelper::substr($input, 0, $pos))));
 					}
 
 					// Strip out everything up to and including the phrase.
@@ -887,7 +888,7 @@ class FinderIndexerQuery
 
 					// Clean up the input string again.
 					$input = preg_replace('#\s+#mi', ' ', $input);
-					$input = StringHelper::trim($input);
+					$input = trim($input);
 
 					// Get the number of words in the phrase.
 					$parts = explode(' ', $match);
@@ -964,8 +965,8 @@ class FinderIndexerQuery
 		// An array of our boolean operators. $operator => $translation
 		$operators = array(
 			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
-			'OR' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
-			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT'))
+			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
+			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 
 		// If language debugging is enabled you need to ignore the debug strings in matching.

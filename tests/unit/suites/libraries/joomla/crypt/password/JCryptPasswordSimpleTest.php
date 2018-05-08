@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Hash
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -14,7 +14,7 @@
  * @subpackage  Crypt
  * @since       11.1
  */
-class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
+class JCryptPasswordSimpleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testCreate method.

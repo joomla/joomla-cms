@@ -2,19 +2,16 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\DI;
 
-use Joomla\DI\Container;
-
 /**
  * Defines the trait for a Container Aware Class.
  *
  * @since  1.2
- *
  * @note   Traits are available in PHP 5.4+
  */
 trait ContainerAwareTrait
@@ -33,8 +30,8 @@ trait ContainerAwareTrait
 	 * @return  Container
 	 *
 	 * @since   1.2
-	 *
 	 * @throws  \UnexpectedValueException May be thrown if the container has not been set.
+	 * @note    As of 2.0 this method will be protected.
 	 */
 	public function getContainer()
 	{

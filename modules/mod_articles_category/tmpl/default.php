@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,9 +83,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($list as $item) : ?>
 			<li>
 				<?php if ($params->get('link_titles') == 1) : ?>
-					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-						<?php echo $item->title; ?>
-					</a>
+					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>"><?php echo $item->title; ?></a>
 				<?php else : ?>
 					<?php echo $item->title; ?>
 				<?php endif; ?>

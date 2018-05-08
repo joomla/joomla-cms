@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -15,7 +15,7 @@
  *
  * @since       11.1
  */
-class JGithubHttpTest extends PHPUnit_Framework_TestCase
+class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -68,9 +68,7 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->transport);
-		unset($this->object);
+		unset($this->options, $this->transport, $this->object);
 		parent::tearDown();
 	}
 

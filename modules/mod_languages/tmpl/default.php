@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+						&nbsp;<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $language->title_native; ?>
 				</a>
@@ -46,10 +46,10 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active || $params->get('show_active', 0)) : ?>
-				<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" >
+				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo $language->link; ?>">
 					<?php if ($language->image) : ?>
-						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 					<?php echo $language->title_native; ?>
 				</a>
@@ -62,7 +62,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
-			<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>

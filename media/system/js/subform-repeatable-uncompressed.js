@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,52 +154,55 @@
 		this.lastRowNum = countnew;
 		$row.attr('data-group', groupnew);
 
-		// fix inputs that have a "name" attribute
-		var haveName = $row.find('*[name]'),
-			ids = {}; // collect existing id`s for fix checkboxes and radio
-		for(var i=0, l = haveName.length; i<l; i++){
-				var $el = $(haveName[i]),
-				name = $el.attr('name'),
-				id = name.replace(/(\]|\[\]$)/g, '').replace(/\[/g, '_'), // count id from name, cause we lost it after cloning
-				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['),// count new name
-				idNew = id.replace(group, groupnew),// count new id
-				forOldAttr = id; // for fix "for" in the labels
+		// Fix inputs that have a "name" attribute
+		var haveName = $row.find('[name]'),
+			ids = {}; // Collect id for fix checkboxes and radio
 
-			if($el.prop('type') === 'checkbox'){// <input type="checkbox"> fix
-				//check if multiple
-				if(name.match(/\[\]$/)){
-					// replace a group label "for"
-					var groupLbl = $row.find('label[for="' + id + '"]');
-					if(groupLbl.length){
-						groupLbl.attr('for', idNew);
-						$el.parents('fieldset.checkboxes').attr('id', idNew);
-					}
-					// recount id
-					var count = ids[id] ? ids[id].length : 0;
-					forOldAttr = forOldAttr + count;
-					idNew = idNew + count;
+		for (var i = 0, l = haveName.length; i < l; i++) {
+			var $el     = $(haveName[i]),
+				name    = $el.attr('name'),
+				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
+				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
+				idNew   = id.replace(group, groupnew), // Count new id
+				countMulti = 0, // count for multiple radio/checkboxes
+				forOldAttr = id; // Fix "for" in the labels
+
+			if ($el.prop('type') === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
+				// Recount id
+				countMulti = ids[id] ? ids[id].length : 0;
+				if (!countMulti) {
+					// Set the id for fieldset and group label
+					$el.closest('fieldset.checkboxes').attr('id', idNew);
+					$row.find('label[for="' + id + '"]').attr('for', idNew).attr('id', idNew + '-lbl');
 				}
+				forOldAttr = forOldAttr + countMulti;
+				idNew = idNew + countMulti;
 			}
-			else if($el.prop('type') === 'radio'){// <input type="radio"> fix
-				// recount id
-				var count = ids[id] ? ids[id].length : 0;
-				forOldAttr = forOldAttr + count;
-				idNew = idNew + count;
+			else if ($el.prop('type') === 'radio') { // <input type="radio"> fix
+				// Recount id
+				countMulti = ids[id] ? ids[id].length : 0;
+				if (!countMulti) {
+					// Set the id for fieldset and group label
+					$el.closest('fieldset.radio').attr('id', idNew);
+					$row.find('label[for="' + id + '"]').attr('for', idNew).attr('id', idNew + '-lbl');
+				}
+				forOldAttr = forOldAttr + countMulti;
+				idNew = idNew + countMulti;
 			}
 
-			//cache ids
-			if(ids[id]){
+			// Cache already used id
+			if (ids[id]) {
 				ids[id].push(true);
 			} else {
 				ids[id] = [true];
 			}
 
-			// replace name to new
+			// Replace the name to new one
 			$el.attr('name', nameNew);
-			// set new id
+			// Set new id
 			$el.attr('id', idNew);
-			// guess there a lable for this input
-			$row.find('label[for="' + forOldAttr + '"]').attr('for', idNew);
+			// Guess there a label for this input
+			$row.find('label[for="' + forOldAttr + '"]').attr('for', idNew).attr('id', idNew + '-lbl');
 		}
 	};
 
@@ -214,28 +217,11 @@
 				$el.show().addClass('fix-chosen');
 			});
 		}
-
-		// colorpicker
-		if($.fn.minicolors){
-			$row.find('.minicolors input').each(function(){
-				$(this).minicolors('destroy', $(this));
-			});
-		}
 	};
 
 	// method for hack the scripts that can be related
 	// to the one of field that in given $row
 	$.subformRepeatable.prototype.fixScripts = function($row){
-		//color picker
-		$row.find('.minicolors').each(function() {
-			var $el = $(this);
-			$el.minicolors({
-				control: $el.attr('data-control') || 'hue',
-				position: $el.attr('data-position') || 'right',
-				theme: 'bootstrap'
-			});
-		});
-
 		// fix media field
 		$row.find('a[onclick*="jInsertFieldValue"]').each(function(){
 				var $el = $(this),
@@ -251,11 +237,6 @@
 		// bootstrap based Media field
 		if($.fn.fieldMedia){
 			$row.find('.field-media-wrapper').fieldMedia();
-		}
-
-		// bootstrap tooltips
-		if($.fn.tooltip){
-			$row.find('.hasTooltip').tooltip({html: true, container: "body"});
 		}
 
 		// bootstrap based User field

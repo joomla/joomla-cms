@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $legacy = $displayData['legacy'];
 	<?php if ($legacy) : ?>
 		<?php echo JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true); ?>
 	<?php else : ?>
-		<span class="icon-plus"></span>
+		<span class="icon-plus" aria-hidden="true"></span>
 		<?php echo JText::_('JNEW'); ?>
 	<?php endif; ?>
 <?php else : ?>

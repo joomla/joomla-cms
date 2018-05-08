@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,6 +74,7 @@ class LanguagesModelInstalled extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'name',
+				'nativeName',
 				'language',
 				'author',
 				'published',
@@ -82,7 +83,7 @@ class LanguagesModelInstalled extends JModelList
 				'author',
 				'authorEmail',
 				'extension_id',
-				'cliend_id',
+				'client_id',
 			);
 		}
 
@@ -279,6 +280,7 @@ class LanguagesModelInstalled extends JModelList
 		if ($limit !== 0)
 		{
 			$start = (int) $this->getState('list.start', 0);
+
 			return array_slice($installedLanguages, $start, $limit);
 		}
 

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JHtmlJqueryInspector.php';
@@ -124,5 +124,24 @@ class JHtmlJqueryTest extends TestCase
 			$document->_scripts,
 			'Verify that the jQueryUI sortable script is loaded'
 		);
+	}
+
+	/**
+	 * Tests the token() method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function testToken()
+	{
+		JHtmlJquery::token();
+		
+		$doc = JFactory::getDocument();
+		
+		$script = $doc->_script['text/javascript'];
+		$expected = ";(function ($) { $.ajaxSetup({ headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') } }); })(jQuery);";
+
+		self::assertEquals($expected, preg_replace('/\s+/', ' ', $script));
 	}
 }

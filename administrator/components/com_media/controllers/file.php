@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class MediaControllerFile extends JControllerLegacy
 		$params = JComponentHelper::getParams('com_media');
 
 		// Get some data from the request
-		$files        = $this->input->files->get('Filedata', '', 'array');
+		$files        = $this->input->files->get('Filedata', array(), 'array');
 		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
@@ -60,8 +60,22 @@ class MediaControllerFile extends JControllerLegacy
 			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
 		}
 
+		if (!$files)
+		{
+			// If we could not get any data from the request we can not upload it.
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENOTSAFE'), 'error');
+
+			return false;
+		}
+
 		// Authorize the user
 		if (!$this->authoriseUser('create'))
+		{
+			return false;
+		}
+
+		// If there are no files to upload - then bail
+		if (empty($files))
 		{
 			return false;
 		}
@@ -137,7 +151,6 @@ class MediaControllerFile extends JControllerLegacy
 			if (!MediaHelper::canUpload($file, $err))
 			{
 				// The file can't be uploaded
-
 				return false;
 			}
 

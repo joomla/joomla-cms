@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -49,8 +49,7 @@ class JCryptCipherSimpleTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->_cipher);
-		unset($this->key);
+		unset($this->_cipher, $this->key);
 		parent::tearDown();
 	}
 

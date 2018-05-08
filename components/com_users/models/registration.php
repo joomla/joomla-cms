@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -134,7 +134,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 
@@ -242,12 +243,26 @@ class UsersModelRegistration extends JModelForm
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
 
-			$form = $this->getForm(array());
+			// Don't load the data in this getForm call, or we'll call ourself
+			$form = $this->getForm(array(), false);
 
 			foreach ($temp as $k => $v)
 			{
+				// Here we could have a grouped field, let's check it
+				if (is_array($v))
+				{
+					$this->data->$k = new stdClass;
+
+					foreach ($v as $key => $val)
+					{
+						if ($form->getField($key, $k) !== false)
+						{
+							$this->data->$k->$key = $val;
+						}
+					}
+				}
 				// Only merge the field if it exists in the form.
-				if ($form->getField($k) !== false)
+				elseif ($form->getField($k) !== false)
 				{
 					$this->data->$k = $v;
 				}
@@ -324,6 +339,11 @@ class UsersModelRegistration extends JModelForm
 	protected function loadFormData()
 	{
 		$data = $this->getData();
+
+		if (JLanguageMultilang::isEnabled() && empty($data->language))
+		{
+			$data->language = JFactory::getLanguage()->getTag();
+		}
 
 		$this->preprocessData('com_users.registration', $data);
 
@@ -448,7 +468,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -492,7 +512,7 @@ class UsersModelRegistration extends JModelForm
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
-			// Remove administrator/ from activate url in case this method is called from admin
+			// Remove administrator/ from activate URL in case this method is called from admin
 			if (JFactory::getApplication()->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
@@ -582,7 +602,8 @@ class UsersModelRegistration extends JModelForm
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = 1')
+				->where($db->quoteName('block') . ' = 0');
 
 			$db->setQuery($query);
 

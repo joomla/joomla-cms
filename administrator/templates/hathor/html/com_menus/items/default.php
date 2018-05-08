@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,20 +14,20 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state', 'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && $listDirn == 'asc');
-$menutypeid	= (int) $this->state->get('menutypeid');
-$assoc     = JLanguageAssociations::isEnabled();
+$user       = JFactory::getUser();
+$app        = JFactory::getApplication();
+$userId     = $user->get('id');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$ordering   = ($listOrder == 'a.lft');
+$canOrder   = $user->authorise('core.edit.state', 'com_menus');
+$saveOrder  = ($listOrder == 'a.lft' && $listDirn == 'asc');
+$menutypeid = (int) $this->state->get('menutypeid');
+$assoc      = JLanguageAssociations::isEnabled() && $this->state->get('filter.client_id') == 0;
 ?>
 
 <?php // Set up the filter bar. ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -35,7 +35,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -49,39 +49,39 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<?php echo JText::_('TPL_HATHOR_COM_MENUS_MENU'); ?>
 			</label>
 			<select name="menutype" id="menutype">
-				<?php echo JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype'));?>
+				<?php echo JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_level">
 				<?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL'); ?>
 			</label>
 			<select name="filter_level" id="filter_level">
-				<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
-				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+				<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL'); ?></option>
+				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level')); ?>
 			</select>
 
-            		<label class="selectlabel" for="filter_published">
+			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_published" id="filter_published">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
+			<select name="filter[published]" id="filter_published">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
-            		<label class="selectlabel" for="filter_access">
+			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_access" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+			<select name="filter[access]" id="filter_access">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
 			</label>
-			<select name="filter_language" id="filter_language">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+			<select name="filter[language]" id="filter_language">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -114,14 +114,16 @@ $assoc     = JLanguageAssociations::isEnabled();
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
 				</th>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<th class="home-col">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
+				<?php endif; ?>
 				<?php if ($assoc) : ?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
-				<?php endif;?>
+				<?php endif; ?>
 				<th class="language-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 				</th>
@@ -139,7 +141,7 @@ $assoc     = JLanguageAssociations::isEnabled();
 			$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 			$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
-			?>
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -149,22 +151,22 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
-					<?php if ($canEdit) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id='.(int) $item->id);?>">
+					<?php if ($canEdit && !$item->protected) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&id='.(int) $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
-					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
+					<p class="smallsub" title="<?php echo $this->escape($item->path); ?>">
 						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level - 1) ?>
 						<?php if ($item->type != 'url') : ?>
 							<?php if (empty($item->note)) : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 							<?php else : ?>
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 							<?php endif; ?>
 						<?php elseif ($item->type == 'url' && $item->note) : ?>
-							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
+							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 						<?php endif; ?></p>
 				</td>
 				<td class="center">
@@ -176,10 +178,10 @@ $assoc     = JLanguageAssociations::isEnabled();
 							<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 						<?php endif; ?>
-						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
+						<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" value="<?php echo $orderkey + 1; ?>" <?php echo $disabled; ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
-						<?php echo $orderkey + 1;?>
+						<?php echo $orderkey + 1; ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
@@ -189,10 +191,11 @@ $assoc     = JLanguageAssociations::isEnabled();
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>
+				<?php if ($this->state->get('filter.client_id') == 0): ?>
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
 						<?php if ($item->language == '*' || $item->home == '0'):?>
-							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
+							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
 						<?php elseif ($canChange):?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1'); ?>">
 								<?php if ($item->language_image) : ?>
@@ -207,23 +210,22 @@ $assoc     = JLanguageAssociations::isEnabled();
 							<?php else : ?>
 								<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 							<?php endif; ?>
-						<?php endif;?>
+						<?php endif; ?>
 					<?php endif; ?>
 				</td>
-				<?php
-				if ($assoc):
-				?>
+				<?php endif; ?>
+				<?php if ($assoc) : ?>
 				<td class="center">
 					<?php if ($item->association):?>
-						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
-					<?php endif;?>
+						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
+					<?php endif; ?>
 				</td>
-				<?php endif;?>
+				<?php endif; ?>
 				<td class="center">
 					<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 				</td>
 				<td class="center">
-					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
+					<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 						<?php echo (int) $item->id; ?></span>
 				</td>
 			</tr>
@@ -240,12 +242,12 @@ $assoc     = JLanguageAssociations::isEnabled();
 			'bootstrap.renderModal',
 			'collapseModal',
 			array(
-				'title' => JText::_('COM_MENUS_BATCH_OPTIONS'),
-				'footer' => $this->loadTemplate('batch_footer')
+				'title'  => JText::_('COM_MENUS_BATCH_OPTIONS'),
+				'footer' => $this->loadTemplate('batch_footer'),
 			),
 			$this->loadTemplate('batch_body')
 		); ?>
-	<?php endif;?>
+	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />

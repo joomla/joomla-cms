@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -81,5 +81,25 @@ class JHtmlFormTest extends TestCase
 			JHtmlForm::token(),
 			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
 		);
+	}
+
+	/**
+	 * Tests the JHtmlForm::csrf method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function testCsrf()
+	{
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$document = new JDocumentHtml;
+
+		JHtmlForm::csrf();
+
+		$doc = JFactory::getDocument();
+		$options = $this->getObjectAttribute($doc, 'scriptOptions');
+
+		$this->assertEquals(JSession::getFormToken(), $options['csrf.token']);
 	}
 }

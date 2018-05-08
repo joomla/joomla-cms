@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/nested.php';
@@ -129,17 +129,17 @@ class JTableNestedTest extends TestCaseDatabase
 
 		// Change the id of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99 WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for lft = 0 case.');
 
 		// Change the lft of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET lft = 99, alias = ' . self::$driver->q('root') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for alias = root case.');
 
 		// Change the alias of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET alias = ' . self::$driver->q('foo') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertFalse($this->class->getRootId(), 'Checks for failure.');
 	}
 
@@ -410,6 +410,19 @@ class JTableNestedTest extends TestCaseDatabase
 		self::$driver->setQuery('UPDATE #__categories SET published = 0')
 			->execute();
 
+		// This query won't change any column because root.1 is unpublished.
+		$this->assertTrue($this->class->publish(array(101, 102), 1));
+
+		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
+
+		$this->assertEquals(0, $nodes[101]->published, 'Checks node 101.');
+		$this->assertEquals(0, $nodes[102]->published, 'Checks node 102.');
+		$this->assertEquals(0, $nodes[103]->published, 'Checks node 103.');
+
+		// Set root.1 as published
+		self::$driver->setQuery('UPDATE #__categories SET published = CASE WHEN id = 1 THEN 1 ELSE 0 END')
+			->execute();
+
 		$this->assertTrue($this->class->publish(array(101, 102), 1));
 
 		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
@@ -481,7 +494,8 @@ class JTableNestedTest extends TestCaseDatabase
 		// Reset the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
 			->execute();
-		$this->class->resetRootId();
+
+		NestedTable::resetRootId();
 
 		TestReflection::setValue($this->class, '_cache', array());
 		$this->assertFalse($this->class->rebuild(), 'Checks failure where no root node is found.');

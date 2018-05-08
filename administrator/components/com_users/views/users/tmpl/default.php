@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
+$debugUsers = $this->state->get('params')->get('debugUsers', 1);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -113,7 +114,7 @@ $loggeduser = JFactory::getUser();
 							<?php if ($item->requireReset == '1') : ?>
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
-							<?php if (JDEBUG) : ?>
+							<?php if ($debugUsers) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 							<?php endif; ?>
@@ -122,14 +123,14 @@ $loggeduser = JFactory::getUser();
 							<?php echo $this->escape($item->username); ?>
 						</td>
 						<td class="center">
-							<?php if ($canChange) : ?>
-								<?php
-								$self = $loggeduser->id == $item->id;
+							<?php
+							$self = $loggeduser->id == $item->id;
+
+							if ($canChange) :
 								echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
-								?>
-							<?php else : ?>
-								<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
-							<?php endif; ?>
+							else :
+								echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', false);
+							endif; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php
@@ -139,7 +140,7 @@ $loggeduser = JFactory::getUser();
 						</td>
 						<td>
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-								<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+								<span class="hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 							<?php else : ?>
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
@@ -149,13 +150,13 @@ $loggeduser = JFactory::getUser();
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
-								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
+								<?php echo JHtml::_('date', $item->lastvisitDate, JText::_('DATE_FORMAT_LC6')); ?>
 							<?php else : ?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
+							<?php echo JHtml::_('date', $item->registerDate, JText::_('DATE_FORMAT_LC6')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
@@ -172,8 +173,8 @@ $loggeduser = JFactory::getUser();
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_USERS_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_USERS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>

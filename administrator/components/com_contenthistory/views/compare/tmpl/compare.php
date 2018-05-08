@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,11 +41,11 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <button class="diff-header btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML_DESC'); ?>"
 	onclick="jQuery('.diffhtml, .diffhtml-header').show(); jQuery('.diff, .diff-header').hide()">
-	<span class="icon-wrench"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML'); ?></button>
+	<span class="icon-wrench" aria-hidden="true"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_HTML'); ?></button>
 
 <button class="diffhtml-header btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT_DESC'); ?>"
 	onclick="jQuery('.diffhtml, .diffhtml-header').hide(); jQuery('.diff, .diff-header').show()">
-	<span class="icon-pencil"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
+	<span class="icon-pencil" aria-hidden="true"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
 </div>
 </legend>
 <table id="diff" class="table table-striped table-condensed">

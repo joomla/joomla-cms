@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/JMediawikiObjectMock.php';
@@ -17,7 +17,7 @@ require_once __DIR__ . '/stubs/JMediawikiObjectMock.php';
  *
  * @since       12.3
  */
-class JMediawikiObjectTest extends PHPUnit_Framework_TestCase
+class JMediawikiObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Mediawiki object.
@@ -71,14 +71,12 @@ class JMediawikiObjectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
-		unset($this->options);
-		unset($this->client);
-		unset($this->object);
+		unset($this->options, $this->client, $this->object);
 	}
 
 	/**
@@ -93,5 +91,4 @@ class JMediawikiObjectTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('Joomla|Joomla|Joomla')
 		);
 	}
-
 }

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+JFormHelper::loadFieldClass('list');
 
 /**
  * A dropdown containing all valid HTTP 1.1 response codes.
@@ -16,7 +18,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  com_redirect
  * @since       3.4
  */
-class JFormFieldRedirect extends JFormAbstractlist
+class JFormFieldRedirect extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -31,7 +33,7 @@ class JFormFieldRedirect extends JFormAbstractlist
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @see    http://www.iana.org/assignments/http-status-codes/
+	 * @link   http://www.iana.org/assignments/http-status-codes/
 	 */
 	protected $responseMap = array(
 		100 => 'HTTP/1.1 100 Continue',

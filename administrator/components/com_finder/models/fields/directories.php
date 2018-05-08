@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,12 +12,14 @@ defined('_JEXEC') or die;
 // Load the base adapter.
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Renders a list of directories.
  *
  * @since  2.5
  */
-class JFormFieldDirectories extends JFormAbstractlist
+class JFormFieldDirectories extends JFormFieldList
 {
 	/**
 	 * The form field type.

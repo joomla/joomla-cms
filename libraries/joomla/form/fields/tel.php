@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  11.1
  */
-class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
+class JFormFieldTel extends JFormFieldText
 {
 	/**
 	 * The form field type.
@@ -34,7 +34,7 @@ class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.7.0
 	 */
 	protected $layout = 'joomla.form.field.tel';
 
@@ -56,7 +56,7 @@ class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.7.0
 	 */
 	protected function getLayoutData()
 	{
@@ -70,24 +70,5 @@ class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 		);
 
 		return array_merge($data, $extraData);
-	}
-
-	/**
-	 * Function to manipulate the DOM element of the field. The form can be
-	 * manipulated at that point.
-	 *
-	 * @param   stdClass    $field      The field.
-	 * @param   DOMElement  $fieldNode  The field node.
-	 * @param   JForm       $form       The form.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
-	{
-		$fieldNode->setAttribute('validate', 'tel');
-
-		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
 
 	// Hide all the folder when the page loads
-	$('.folder ul, .component-folder ul').hide();
+	$('.folder ul, .component-folder ul, .layout-folder ul').hide();
 
 	// Display the tree after loading
 	$('.directory-tree').removeClass('directory-tree');
@@ -45,7 +45,7 @@ jQuery(document).ready(function($){
 	$('.show > ul').show();
 
 	// Stop the default action of anchor tag on a click event
-	$('.folder-url, .component-folder-url').click(function(event){
+	$('.folder-url, .component-folder-url, .layout-folder-url').click(function(event){
 		event.preventDefault();
 	});
 
@@ -55,7 +55,7 @@ jQuery(document).ready(function($){
 	});
 
 	// Toggle the child indented list on a click event
-	$('.folder, .component-folder').bind('click',function(e){
+	$('.folder, .component-folder, .layout-folder').bind('click',function(e){
 		$(this).children('ul').toggle();
 		e.stopPropagation();
 	});
@@ -75,6 +75,38 @@ jQuery(document).ready(function($){
 		$('#folderModal input.address').val($(this).attr('data-id'));
 		$(this).addClass('selected');
 	});
+
+	var containerDiv = document.querySelector('.span3.tree-holder'),
+		treeContainer = containerDiv.querySelector('.nav.nav-list'),
+		liEls = treeContainer.querySelectorAll('.folder.show'),
+		filePathEl = document.querySelector('p.lead.hidden.path');
+
+	if(filePathEl)
+		var filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
+
+	 if(filePathTmp && filePathTmp.charAt( 0 ) === '/' ) {
+			filePathTmp = filePathTmp.slice( 1 );
+			filePathTmp = filePathTmp.split('/');
+			filePathTmp = filePathTmp[filePathTmp.length - 1];
+			var re = new RegExp( filePathTmp );
+
+		for (var i = 0, l = liEls.length; i < l; i++) {
+			liEls[i].querySelector('a').classList.add('active');
+			if (i === liEls.length - 1) {
+				var parentUl = liEls[i].querySelector('ul'),
+					allLi = parentUl.querySelectorAll('li'); 
+	
+				for (var i = 0, l = allLi.length; i < l; i++) {
+					aEl = allLi[i].querySelector('a'),
+					spanEl = aEl.querySelector('span');
+	
+					if (spanEl && re.test(spanEl.innerText)) {
+						aEl.classList.add('active');
+					}
+				}
+			}
+		}
+	}
 });");
 
 if ($this->type == 'image')
@@ -171,13 +203,18 @@ if ($this->type == 'font')
 <div class="row-fluid">
 	<div class="span12">
 		<?php if ($this->type == 'file') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
+
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
-			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
+
 		<?php endif; ?>
 	</div>
 </div>
@@ -194,7 +231,7 @@ if ($this->type == 'font')
 					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 					<p>
-						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+						<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 						</a>
 					</p>
@@ -221,10 +258,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
+								<span class="icon-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -318,7 +355,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -331,7 +368,7 @@ if ($this->type == 'font')
 			<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
-						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+						<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 					</a>
 					<ul class="nav nav-list">
 						<?php foreach ($value as $view) : ?>
@@ -341,7 +378,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-									<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -354,16 +391,25 @@ if ($this->type == 'font')
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
-			<?php foreach ($this->overridesList['layouts'] as $layout) : ?>
-				<li>
-					<?php
-					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
-							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
-					?>
-					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
-					</a>
-				</li>
+			<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
+			<li class="layout-folder">
+				<a href="#" class="layout-folder-url">
+					<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+				</a>
+				<ul class="nav nav-list">
+					<?php foreach ($value as $layout) : ?>
+						<li>
+							<?php
+							$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
+									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+							?>
+							<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
+								<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -377,12 +423,12 @@ if ($this->type == 'font')
 
 <?php // Collapse Modal
 $copyModalData = array(
-	'selector'	=> 'copyModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
-		'footer'	=> $this->loadTemplate('modal_copy_footer')
+	'selector' => 'copyModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
+		'footer' => $this->loadTemplate('modal_copy_footer'),
 	),
-	'body'		=> $this->loadTemplate('modal_copy_body')
+	'body'     => $this->loadTemplate('modal_copy_body'),
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
@@ -392,12 +438,12 @@ $copyModalData = array(
 <?php if ($this->type != 'home') : ?>
 	<?php // Rename Modal
 	$renameModalData = array(
-		'selector'	=> 'renameModal',
-		'params'	=> array(
-			'title'		=> JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
-			'footer'	=> $this->loadTemplate('modal_rename_footer')
+		'selector' => 'renameModal',
+		'params'   => array(
+			'title'  => JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+			'footer' => $this->loadTemplate('modal_rename_footer'),
 		),
-		'body'		=> $this->loadTemplate('modal_rename_body')
+		'body'     => $this->loadTemplate('modal_rename_body'),
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
@@ -408,47 +454,47 @@ $copyModalData = array(
 <?php if ($this->type != 'home') : ?>
 	<?php // Delete Modal
 	$deleteModalData = array(
-		'selector'	=> 'deleteModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
-			'footer'	=> $this->loadTemplate('modal_delete_footer')
+		'selector' => 'deleteModal',
+		'params'   => array(
+			'title'  => JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
+			'footer' => $this->loadTemplate('modal_delete_footer'),
 		),
-		'body'		=> $this->loadTemplate('modal_delete_body')
+		'body'     => $this->loadTemplate('modal_delete_body'),
 	);
 	?>
 	<?php echo JLayoutHelper::render('joomla.modal.main', $deleteModalData); ?>
 <?php endif; ?>
 <?php // File Modal
 $fileModalData = array(
-	'selector'	=> 'fileModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-		'footer'	=> $this->loadTemplate('modal_file_footer')
+	'selector' => 'fileModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'footer' => $this->loadTemplate('modal_file_footer'),
 	),
-	'body'		=> $this->loadTemplate('modal_file_body')
+	'body'     => $this->loadTemplate('modal_file_body'),
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $fileModalData); ?>
 <?php // Folder Modal
 $folderModalData = array(
-	'selector'	=> 'folderModal',
-	'params'	=> array(
-		'title'		=> JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
-		'footer'	=> $this->loadTemplate('modal_folder_footer')
+	'selector' => 'folderModal',
+	'params'   => array(
+		'title'  => JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'footer' => $this->loadTemplate('modal_folder_footer'),
 	),
-	'body'		=> $this->loadTemplate('modal_folder_body')
+	'body'     => $this->loadTemplate('modal_folder_body'),
 );
 ?>
 <?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
 <?php if ($this->type != 'home') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
-		'selector'	=> 'resizeModal',
-		'params'	=> array(
-			'title'		=> JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
-			'footer'	=> $this->loadTemplate('modal_resize_footer')
+		'selector' => 'resizeModal',
+		'params'   => array(
+			'title'  => JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
+			'footer' => $this->loadTemplate('modal_resize_footer'),
 		),
-		'body'		=> $this->loadTemplate('modal_resize_body')
+		'body'     => $this->loadTemplate('modal_resize_body'),
 	);
 	?>
 	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">

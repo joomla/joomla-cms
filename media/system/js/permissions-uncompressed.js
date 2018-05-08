@@ -19,6 +19,7 @@ function sendPermissions(event) {
 
 	if (document.getElementById('jform_context')){
 		context = document.getElementById('jform_context').value;
+		context = context.split('.')[0];
 	}
 
 	if (option == 'com_config' && component == false && extension == false)
@@ -29,7 +30,12 @@ function sendPermissions(event) {
 		asset = component;
 	}
 	else if (context){
-		asset = context + '.fieldgroup.' + getUrlParam('id');
+		if (view == 'group') {
+			asset = context + '.fieldgroup.' + getUrlParam('id');
+		}
+		else {
+			asset = context + '.field.' + getUrlParam('id');
+		}
 		title = document.getElementById('jform_title').value;
 	}
 	else if (extension != false && view != false){

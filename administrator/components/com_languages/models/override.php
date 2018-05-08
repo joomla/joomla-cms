@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		if (!$langName)
 		{
-			// If a language only exists in frontend, it's meta data cannot be
+			// If a language only exists in frontend, its metadata cannot be
 			// loaded in backend at the moment, so fall back to the language tag.
 			$langName = $language;
 		}
@@ -103,7 +103,9 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
+
 		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);

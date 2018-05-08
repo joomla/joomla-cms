@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -231,11 +231,11 @@ abstract class JFolder
 			{
 				if (IS_WIN)
 				{
-					$obdSeparator = ";";
+					$obdSeparator = ';';
 				}
 				else
 				{
-					$obdSeparator = ":";
+					$obdSeparator = ':';
 				}
 
 				// Create the array of open_basedir paths
@@ -247,7 +247,7 @@ abstract class JFolder
 				{
 					$test = $pathObject->clean($test);
 
-					if (strpos($path, $test) === 0)
+					if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0)
 					{
 						$inBaseDir = true;
 						break;

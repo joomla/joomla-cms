@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 
 // Special case for the search field tooltip.
@@ -78,9 +79,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php
 					$iconStates = array(
 						-2 => 'icon-trash',
-						0 => 'icon-unpublish',
-						1 => 'icon-publish',
-						2 => 'icon-archive',
+						0  => 'icon-unpublish',
+						1  => 'icon-publish',
+						2  => 'icon-archive',
 					);
 					?>
 					<?php foreach ($this->items as $i => $item) : ?>
@@ -107,13 +108,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
-								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
+								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 							</td>
 							<td>
 								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
-									<?php echo $this->escape($item->title); ?>
-								</a>
+									<?php echo $this->escape($item->title); ?></a>
+								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+									<?php if (empty($item->note)) : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
+								</span>
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>

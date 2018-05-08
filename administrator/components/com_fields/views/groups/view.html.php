@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -78,9 +78,7 @@ class FieldsViewGroups extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		// Display a warning if the fields system plugin is disabled
@@ -128,7 +126,9 @@ class FieldsViewGroups extends JViewLegacy
 		}
 
 		// Load component language file
-		JFactory::getLanguage()->load($component, JPATH_ADMINISTRATOR);
+		$lang = JFactory::getLanguage();
+		$lang->load($component, JPATH_ADMINISTRATOR)
+		|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 		$title = JText::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', JText::_(strtoupper($component)));
 
@@ -187,6 +187,8 @@ class FieldsViewGroups extends JViewLegacy
 		{
 			JToolbarHelper::trash('groups.trash');
 		}
+
+		JToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
 	}
 
 	/**

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -70,7 +70,7 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// execute() has no return, just make sure the method runs
+		// As execute() has no return, just make sure the method runs
 		$this->assertNull($this->class->execute());
 	}
 
@@ -309,7 +309,7 @@ class JApplicationBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.6
 	 */
 	protected function tearDown()

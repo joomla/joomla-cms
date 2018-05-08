@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/data/TestRouter.php';
@@ -68,7 +68,7 @@ class JRouterSiteTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   3.2
 	 */
 	protected function tearDown()
@@ -159,7 +159,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test.json/',
@@ -167,7 +167,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'Itemid' => '45'),
-				'expUrl'  => 'joomla/blog/test.json'
+				'expUrl'  => 'joomla/blog/test'
 			),
 			array(
 				'url'     => '/joomla/blog/test%202',
@@ -692,8 +692,8 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'          => '?testvar=testvalue',
 				'mode'         => JROUTER_MODE_RAW,
 				'appConfig'    => array(),
-				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
-				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
+				'expParseVars' => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
+				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
@@ -896,6 +896,7 @@ class JRouterSiteTest extends TestCaseDatabase
 				->will($this->returnValue(true));
 			unset($appConfig['languagefilter']);
 		}
+
 		$app->expects($this->any())
 			->method('get')
 			->will($this->returnValueMap($appConfig));

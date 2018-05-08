@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -36,6 +36,9 @@ class JUserTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
+		// Clear JAccess static caches.
+		JAccess::clearStatics();
+
 		$this->saveFactoryState();
 
 		$this->object = new JUser('42');
@@ -49,7 +52,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 * @since   12.1
 	 */
 	protected function tearDown()
