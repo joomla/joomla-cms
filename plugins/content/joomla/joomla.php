@@ -273,7 +273,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	private function _countItemsInCategory($extension, $catid, $table)
+	private function _countItemsInCategory($table, $catid)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -359,7 +359,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Get count of items assigned to a state
 	 *
 	 * @param   string   $extension  The extension to search for
-	 * @param   integer  $catid      ID of the state to check
+	 * @param   integer  $state_id   ID of the state to check
 	 * @param   string   $table      The table to search for
 	 *
 	 * @return  mixed  count of items found or false if db error

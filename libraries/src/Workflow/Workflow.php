@@ -238,7 +238,7 @@ class Workflow
 	/**
 	 * Removes associations form the workflow_associations table
 	 *
-	 * @param   int  $pks   ID of content
+	 * @param   int  $pks  ID of content
 	 *
 	 * @return  boolean
 	 *
