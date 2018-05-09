@@ -107,8 +107,8 @@ class UsersControllerUser extends JControllerForm
 		else
 		{
 			/*
-			 *	Know if we call this for activate the user and send a email notification
-			 *	Or for only send a email notification
+			 *	Know if we call this for activate the user and send an email notification
+			 *	Or for only send an email notification
 			 *	In both case we active the user on table, but we show a different message
 			 */
 			$model = $this->getModel();
@@ -121,12 +121,12 @@ class UsersControllerUser extends JControllerForm
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			// Then we wanted active the user and send a email notification
+			// Active the user and send an email notification
 			elseif (!empty($wasActive))
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
 			}
-			// Then we wanted only send again the email notification
+			// Resend again the email notification
 			else
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_NOTIFIED', $data['name']));
