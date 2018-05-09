@@ -111,10 +111,10 @@ abstract class JHtmlIcon
 	/**
 	 * Creates an icon instance.
 	 *
-	 * @return  \Joomla\Component\Content\Site\Service\HTML\Icon
+	 * @return  \Joomla\Component\Content\Administrator\Service\HTML\Icon
 	 */
 	private static function getIcon()
 	{
-		return (new \Joomla\Component\Content\Site\Service\HTML\Icon(Joomla\CMS\Factory::getApplication()));
+		return (new \Joomla\Component\Content\Administrator\Service\HTML\Icon(Joomla\CMS\Factory::getApplication()));
 	}
 }

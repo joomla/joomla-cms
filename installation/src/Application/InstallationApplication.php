@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
@@ -524,14 +525,19 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function render()
 	{
-		$file = $this->input->getCmd('tmpl', 'index');
+		$options = [];
 
-		$options = array(
-			'template' => 'template',
-			'file' => $file . '.php',
-			'directory' => JPATH_THEMES,
-			'params' => '{}',
-		);
+		if ($this->document instanceof HtmlDocument)
+		{
+			$file = $this->input->getCmd('tmpl', 'index');
+
+			$options = [
+				'template'  => 'template',
+				'file'      => $file . '.php',
+				'directory' => JPATH_THEMES,
+				'params'    => '{}',
+			];
+		}
 
 		// Parse the document.
 		$this->document->parse($options);
