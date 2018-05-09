@@ -590,7 +590,7 @@ class UsersModelUser extends JModelAdmin
 
 						if (!empty($wasActive))
 						{
-							// Then we wanted active the user and send a email notification
+							// Active the user and send an email notification
 							// Compute the user mail notification subject.
 							$emailSubject = JText::sprintf(
 								'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
@@ -608,7 +608,8 @@ class UsersModelUser extends JModelAdmin
 						}
 						else
 						{
-							// Then we wanted only send again the email notification
+							// Resend again the email notification
+							// Compute the user mail notification subject.
 							$emailSubject = JText::sprintf(
 								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_SUBJECT',
 								$config->get('sitename')

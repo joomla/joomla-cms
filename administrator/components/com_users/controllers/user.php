@@ -106,7 +106,7 @@ class UsersControllerUser extends JControllerForm
 		}
 		else
 		{
-			/* 
+			/*
 			 *	Know if we call this for activate the user and send a email notification
 			 *	Or for only send a email notification
 			 *	In both case we active the user on table, but we show a different message
@@ -127,7 +127,7 @@ class UsersControllerUser extends JControllerForm
 				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
 			}
 			// Then we wanted only send again the email notification
-			else 
+			else
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_NOTIFIED', $data['name']));
 			}
