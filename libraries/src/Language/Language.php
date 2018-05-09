@@ -797,7 +797,7 @@ class Language
 	 */
 	protected function parse($fileName)
 	{
-		$strings = JLanguageHelper::parseIniFile($fileName, $this->debug);
+		$strings = \JLanguageHelper::parseIniFile($fileName, $this->debug);
 
 		// Debug the ini file if needed.
 		if ($this->debug === true && file_exists($fileName))

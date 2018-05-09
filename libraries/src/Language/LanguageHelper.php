@@ -475,7 +475,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return JFile::write($fileName, $registry->toString('INI'));
+		return \JFile::write($fileName, $registry->toString('INI'));
 
 	}
 
