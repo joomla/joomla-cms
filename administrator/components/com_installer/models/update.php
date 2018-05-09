@@ -452,7 +452,7 @@ class InstallerModelUpdate extends JModelList
 		// Check the package
 		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
 
-		// The validation was not successful for now just a warning for now.
+		// The validation was not successful. Just a warning for now.
 		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
