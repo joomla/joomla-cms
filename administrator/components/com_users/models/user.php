@@ -608,7 +608,7 @@ class UsersModelUser extends JModelAdmin
 						}
 						else
 						{
-							// Resend again the email notification
+							// Resend the email notification
 							// Compute the user mail notification subject.
 							$emailSubject = JText::sprintf(
 								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_SUBJECT',

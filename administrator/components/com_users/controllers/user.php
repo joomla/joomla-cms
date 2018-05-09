@@ -126,7 +126,7 @@ class UsersControllerUser extends JControllerForm
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
 			}
-			// Resend again the email notification
+			// Resend the email notification
 			else
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_NOTIFIED', $data['name']));
