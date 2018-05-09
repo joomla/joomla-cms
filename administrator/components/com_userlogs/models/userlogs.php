@@ -236,7 +236,7 @@ class UserlogsModelUserlogs extends JModelList
 	 * Get logs data into JTable object
 	 *
 	 *
-	 * @return  Array  All logs in the table
+	 * @return  array  All logs in the table
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -268,29 +268,23 @@ class UserlogsModelUserlogs extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__user_logs'))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
 
-		// Get the table
-		$table = $this->getTable('Userlogs', 'JTable');
-
-		if (!JFactory::getUser()->authorise('core.delete', $this->option))
+		try
 		{
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+			$db->execute();
+
+			return true;
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 
 			return false;
 		}
-
-		foreach ($pks as $i => $pk)
-		{
-			if (!$table->delete($pk))
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return true;
 	}
 }

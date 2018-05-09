@@ -66,26 +66,14 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
-
-		// Get the logs data
-		$data = $this->getModel('userlogs')->delete($pks);
-
-		if ($data)
+		if (!JFactory::getUser()->authorise('core.delete', $this->option))
 		{
-			$this->setMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'));
-		}
-		else
-		{
-			$this->setMessage(JText::_('COM_USERLOGS_DELETE_FAIL'), 'error');
+			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+			return;
 		}
 
-		// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_userlogs&view=userlogs', false));
+		parent::delete();
 	}
 
 	/**
