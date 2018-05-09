@@ -50,20 +50,20 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$message     = null;
 		$messageType = null;
 
-		switch ($result['check'])
+		// The validation was not successful for now just a warning for now.
+		if ($result['check'] === false)
 		{
-			case 0:
-				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-				$messageType = 'warning';
-				break;
-			case 1:
-				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_CORRECT');
-				$messageType = 'message';
-				break;
-			case 2:
-				$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_NOT_FOUND');
-				$messageType = 'notice';
-				break;
+			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+			$messageType = 'warning';
+
+			try
+			{
+				JLog::add(JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), JLog::INFO, 'Update');
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
 		}
 
 		if ($file)
