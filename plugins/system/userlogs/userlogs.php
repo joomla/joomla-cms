@@ -120,9 +120,9 @@ class PlgSystemUserLogs extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $this->db->getMessage());
+			JError::raiseWarning(500, $e->getMessage());
 
-			return false;
+			return;
 		}
 
 		$this->app->triggerEvent('onUserLogsAfterMessageLog', array ($json_message, $date, $context, $user->name, $ip));
@@ -151,8 +151,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   object   $article  A JTableContent object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
-	 * @return  boolean   true if function not enabled, is in front-end or is new. Else true or
-	 *                    false depending on success of save function.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -470,7 +469,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -482,8 +481,6 @@ class PlgSystemUserLogs extends JPlugin
 		{
 			return;
 		}
-
-		$success_string = $success ? 'true' : 'false';
 
 		$message = array(
 			'deleted_user' => $user['name'],
@@ -503,7 +500,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   JTable   $table    DataBase Table object
 	 * @param   boolean  $isNew    Is new or not
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -536,7 +533,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -549,11 +546,8 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$success_string = $success ? 'true' : 'false';
-
 		$message = array(
 			'deleted_group' => $group['title'],
-			'isNew'         => $isNew_string,
 			'event'         => 'onUserAfterDeleteGroup',
 			'group_id'      => $group['id'],
 		);
@@ -567,7 +561,7 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   string  $message    Message
 	 * @param   string  $extension  Extension that caused this log
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -628,7 +622,7 @@ class PlgSystemUserLogs extends JPlugin
 				}
 				elseif ($message_to_array['value'] == 2)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE',$message_to_array['title']
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE', $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == -2)
@@ -730,52 +724,41 @@ class PlgSystemUserLogs extends JPlugin
 			return false;
 		}
 
-		$lang = JFactory::getLanguage();
-		$lang->load('plg_system_userlogs', JPATH_ADMINISTRATOR);
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
 			'com_users.profile',
-			'com_users.registration',
-			'com_users.user',
 			'com_admin.profile',
 		);
 
-		if (!in_array($formName, $allowedFormNames))
+		if (!in_array($formName, $allowedFormNames) || !JFactory::getUser()->authorise('core.viewlogs'))
 		{
 			return true;
 		}
 
-		if ($formName == 'com_admin.profile'
-			|| $formName == 'com_users.profile')
-		{
-			JForm::addFormPath(dirname(__FILE__) . '/forms');
-			$form->loadFile('userlogs', false);
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_system_userlogs', JPATH_ADMINISTRATOR);
 
-			if (!JFactory::getUser()->authorise('core.viewlogs'))
-			{
-				$form->removeField('logs_notification_option');
-				$form->removeField('logs_notification_extensions');
-			}
-		}
+		JForm::addFormPath(dirname(__FILE__) . '/forms');
+		$form->loadFile('userlogs', false);
 	}
 
 	/**
 	 * Method called after event log is stored to database
 	 *
-	 * @param   array  $message   The message
-	 * @param   array  $date      The Date
-	 * @param   array  $context   The Context
-	 * @param   array  $userName  The username
-	 * @param   array  $ip        The user ip
+	 * @param   array   $message   The message
+	 * @param   array   $date      The Date
+	 * @param   string  $context   The Context
+	 * @param   array   $userName  The username
+	 * @param   string  $ip        The user ip
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserLogsAfterMessageLog($message, $date, $context, $userName, $ip)
 	{
-		$query      = $this->db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		$query->select('a.email, a.params')
 			->from($this->db->quoteName('#__users', 'a'))
@@ -789,7 +772,7 @@ class PlgSystemUserLogs extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $this->db->getMessage());
+			JError::raiseWarning(500, $e->getMessage());
 
 			return;
 		}
@@ -818,20 +801,13 @@ class PlgSystemUserLogs extends JPlugin
 		$displayData = array(
 			'message' => $message,
 			'log_date' => $date,
-			'extension' => UserlogsHelper::translateExtensionName(strtoupper(strtok($extension), '.')),
+			'extension' => UserlogsHelper::translateExtensionName(strtoupper(strtok($context, '.'))),
 			'username' => $userName,
 			'ip' => JText::_($ip)
 		);
 
 		$body = $layout->render($displayData);
 		$mailer = JFactory::getMailer();
-
-		$sender = array(
-			JFactory::getConfig()->get('mailfrom'),
-			JFactory::getConfig()->get('fromname'),
-		);
-
-		$mailer->setSender($sender);
 		$mailer->addRecipient($recipients);
 		$mailer->setSubject(JText::_('PLG_SYSTEM_USERLOGS_EMAIL_SUBJECT'));
 		$mailer->isHTML(true);
