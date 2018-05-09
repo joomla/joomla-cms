@@ -59,7 +59,7 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->initialise() === false)
+		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
 		{
 			$r->messages = 'Check your DB credentials, db type, db name or hostname';
 			$r->view = 'setup';

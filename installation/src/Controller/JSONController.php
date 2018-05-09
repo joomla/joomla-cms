@@ -36,31 +36,26 @@ abstract class JSONController extends BaseController
 	 */
 	protected function sendJsonResponse($response)
 	{
+		$this->app->mimeType = 'application/json';
+
 		// Very crude workaround to give an error message when JSON is disabled
 		if (!function_exists('json_encode') || !function_exists('json_decode'))
 		{
 			$this->app->setHeader('status', 500);
-			$this->app->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->app->sendHeaders();
 			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
 				. '","error":true,"header":"' . \JText::_('INSTL_HEADER_ERROR') . '","message":"' . \JText::_('INSTL_WARNJSON') . '"}';
-			$this->app->close();
+			return;
 		}
 
 		// Check if we need to send an error code.
 		if ($response instanceof \Exception)
 		{
 			// Send the appropriate error code response.
-			$this->app->setHeader('status', $response->getCode());
-			$this->app->setHeader('Content-Type', 'application/json; charset=utf-8');
-			$this->app->sendHeaders();
+			$this->app->setHeader('status', $response->getCode(), true);
 		}
 
 		// Send the JSON response.
 		echo json_encode(new JsonResponse($response));
-
-		// Close the application.
-		$this->app->close();
 	}
 
 	/**
