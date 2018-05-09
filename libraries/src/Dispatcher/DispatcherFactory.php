@@ -74,6 +74,11 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
+		if (!class_exists($className))
+		{
+			$className = '\\Joomla\\CMS\\Dispatcher\\Dispatcher';
+		}
+
 		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
 	}
 }
