@@ -364,7 +364,7 @@ abstract class InstallerHelper
 	 * @param   string   $packagefile   Location of the package to be installed
 	 * @param   JUpdate  $updateObject  The Update Object
 	 *
-	 * @return  boolean    False in case the validation did not work; true in any other case.
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
