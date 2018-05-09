@@ -188,11 +188,15 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Set the character set (needed for MySQL 4.1.2+).
 		$this->utf = $this->setUtf();
 
-		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug && $this->hasProfiling())
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
 		{
-			mysqli_query($this->connection, 'SET profiling_history_size = 100;');
-			mysqli_query($this->connection, 'SET profiling = 1;');
+			mysqli_query($this->connection, 'SET query_cache_type = 0;');
+
+			if ($this->hasProfiling())
+			{
+				mysqli_query($this->connection, 'SET profiling_history_size = 100, profiling = 1;');
+			}
 		}
 	}
 
