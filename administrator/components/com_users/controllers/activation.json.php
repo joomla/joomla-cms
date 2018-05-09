@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class UsersControllerActivation extends JControllerForm
 {
 	/**
-	 * Method to check the form data
+	 * Method to Active the user and send an email notification
 	 *
 	 * @param   string   &$message  The message that will be returned
 	 * @param   boolean  &$error    If there was an error obtaining the data
@@ -69,7 +69,7 @@ class UsersControllerActivation extends JControllerForm
 	}
 
 	/**
-	 * Method to send an email activation to the user.
+	 * Method for generating JSON output
 	 *
 	 * @return  void
 	 *
