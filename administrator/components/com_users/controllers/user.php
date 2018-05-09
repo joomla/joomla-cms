@@ -114,7 +114,7 @@ class UsersControllerUser extends JControllerForm
 			$model = $this->getModel();
 			$table = $model->getTable();
 			$table->load($data['id']);
-			$wasActive = $table->activation;
+			$actived = $table->activation;
 
 			// Change the state of the records.
 			if (!$model->activate($data['id']))
@@ -122,7 +122,7 @@ class UsersControllerUser extends JControllerForm
 				JError::raiseWarning(500, $model->getError());
 			}
 			// Active the user and send an email notification
-			elseif (!empty($wasActive))
+			elseif (!empty($actived))
 			{
 				$this->setMessage(JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $data['name']));
 			}
