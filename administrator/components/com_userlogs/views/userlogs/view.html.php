@@ -66,6 +66,11 @@ class UserlogsViewUserlogs extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		if (!JFactory::getUser()->authorise('core.viewlogs', 'com_userlogs'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		if (PluginHelper::isEnabled('system', 'userlogs'))
 		{
 			$params   = new Registry(PluginHelper::getPlugin('system', 'userlogs')->params);
