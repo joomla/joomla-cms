@@ -43,7 +43,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	};
 ");
 
-// Perform a ajax request to active and send a email
+// An ajax request to active and send a email
 $resendText = JText::_('COM_USERS_USER_RESEND_BUTTONTEXT');
 $sendingText = JText::_('COM_USERS_USER_SENDING_BUTTONTEXT');
 $buttonText = (!$this->form->getValue('block')) ? $resendText : JText::_('COM_USERS_USER_SEND_BUTTONTEXT');
