@@ -46,10 +46,8 @@ if ($menuType == '')
 		</div>
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
-				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
-				<?php else : ?>
+				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if (!empty($this->items)) : ?>
 					<table class="table table-striped" id="itemList">
 						<thead>
 						<tr>

@@ -55,9 +55,7 @@ if ($saveOrder)
 				// Search tools bar
 				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
-				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
-				<?php else : ?>
+				<?php if (!empty($this->items)) : ?>
 					<table class="table table-striped" id="articleList">
 						<thead>
 							<tr>

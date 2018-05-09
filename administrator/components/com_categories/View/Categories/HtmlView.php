@@ -87,6 +87,7 @@ class HtmlView extends BaseHtmlView
 		$this->pagination    = $this->get('Pagination');
 		$this->assoc         = $this->get('Assoc');
 		$this->filterForm    = $this->get('FilterForm');
+		$this->total         = $this->get('Total');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.

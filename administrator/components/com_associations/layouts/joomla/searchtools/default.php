@@ -17,18 +17,17 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 $noResultsText   = '';
 $showSelector    = false;
 
-if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView
-	|| $data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView)
+if ($data['view'] instanceof \Joomla\Component\Associations\Administrator\View\Associations\HtmlView)
 {
 	// Client selector doesn't have to activate the filter bar.
-	unset($data['view']->activeFilters['client_id']);
+	unset($data['view']->activeFilters['itemtype']);
 
 	// Menutype filter doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['menutype']);
+	unset($data['view']->activeFilters['language']);
 }
 
 // Check if the no results message should appear.
-if (isset($data['view']->total) && !$data['view']->total)
+if (isset($data['view']->total) && (int) $data['view']->total === 0)
 {
 	$noResults = $data['view']->filterForm->getFieldAttribute('search', 'noresults', '', 'filter');
 
@@ -58,29 +57,20 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
-		<?php $menuTypeField = $data['view']->filterForm->getField('menutype'); ?>
-		<?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
+		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
+		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
 
-		<?php if ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Items\HtmlView) : ?>
-			<?php // Add the client and menutype selectors before the form filters ?>
-			<div class="js-stools-container-selector">
-				<div class="js-stools-field-selector js-stools-client_id">
-					<?php echo $clientIdField->input; ?>
-				</div>
+		<?php // Add the itemtype and language selectors before the form filters. ?>
+		<div class="js-stools-container-selector">
+			<div class="js-stools-field-selector js-stools-itemtype">
+				<?php echo $itemTypeField->input; ?>
 			</div>
-			<div class="js-stools-container-selector">
-				<div class="js-stools-field-selector js-stools-menutype">
-					<?php echo $menuTypeField->input; ?>
-				</div>
+		</div>
+		<div class="js-stools-container-selector">
+			<div class="js-stools-field-selector js-stools-language">
+				<?php echo $languageField->input; ?>
 			</div>
-		<?php elseif ($data['view'] instanceof \Joomla\Component\Menus\Administrator\View\Menus\HtmlView) : ?>
-			<?php // Add the client selector before the form filters. ?>
-			<div class="js-stools-container-selector">
-				<div class="js-stools-field-selector js-stools-client_id">
-					<?php echo $clientIdField->input; ?>
-				</div>
-			</div>
-		<?php endif; ?>
+		</div>
 
 		<div class="js-stools-container-bar">
 			<?php echo $this->sublayout('bar', $data); ?>

@@ -100,6 +100,7 @@ class HtmlView extends BaseHtmlView
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->total         = $this->get('Total');
 		$this->vote          = \JPluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.

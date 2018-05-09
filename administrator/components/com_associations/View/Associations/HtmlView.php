@@ -124,11 +124,6 @@ class HtmlView extends BaseHtmlView
 					$this->typeFields = $fields;
 				}
 
-				// Dynamic filter form.
-				// This selectors doesn't have to activate the filter bar.
-				unset($this->activeFilters['itemtype']);
-				unset($this->activeFilters['language']);
-
 				// Remove filters options depending on selected type.
 				if (empty($support['state']))
 				{
