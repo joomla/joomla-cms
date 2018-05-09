@@ -166,8 +166,8 @@ class Workflow
 	/**
 	 * Creates an association for the workflow_associations table
 	 *
-	 * @param   int     $pk      ID of the item
-	 * @param   int     $state   ID of state
+	 * @param   int  $pk     ID of the item
+	 * @param   int  $state  ID of state
 	 *
 	 * @return  boolean
 	 *
@@ -195,6 +195,16 @@ class Workflow
 		return true;
 	}
 
+	/**
+	 * Update an existing association with a new state
+	 *
+	 * @param   array  $pks    An Array of item IDs which should be changed
+	 * @param   int    $state  The new state ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function updateAssociations($pks, $state)
 	{
 		if (!is_array($pks))
@@ -258,6 +268,15 @@ class Workflow
 		return true;
 	}
 
+	/**
+	 * Loads an existing association item with state and item ID
+	 *
+	 * @param   int  $item_id  The item ID to load
+	 *
+	 * @return  object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function getAssociation($item_id)
 	{
 		$db = Factory::getDbo();

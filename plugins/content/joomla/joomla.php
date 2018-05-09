@@ -135,6 +135,13 @@ class PlgContentJoomla extends CMSPlugin
 		}
 	}
 
+	/**
+	 * Checks if a given category can be deleted
+	 *
+	 * @param   object  $data  The category object
+	 *
+	 * @return  boolean
+	 */
 	private function _canDeleteCategories($data)
 	{
 		// Check if this function is enabled.
@@ -204,6 +211,15 @@ class PlgContentJoomla extends CMSPlugin
 		return $result;
 	}
 
+	/**
+	 * Checks if a given state can be deleted
+	 *
+	 * @param   int  $pk  The state ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private function _canDeleteStates($pk)
 	{
 		// Check if this function is enabled.
@@ -339,6 +355,17 @@ class PlgContentJoomla extends CMSPlugin
 		}
 	}
 
+	/**
+	 * Get count of items assigned to a state
+	 *
+	 * @param   string   $extension  The extension to search for
+	 * @param   integer  $catid      ID of the state to check
+	 * @param   string   $table      The table to search for
+	 *
+	 * @return  mixed  count of items found or false if db error
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private function _countItemsFromState($extension, $state_id, $table)
 	{
 		$query = $this->db->getQuery(true);
@@ -350,7 +377,18 @@ class PlgContentJoomla extends CMSPlugin
 				->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
 				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
 
-		return (int) $this->db->setQuery($query)->loadResult();
+		try
+		{
+			$count = $this->db->setQuery($query)->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		return $count;
 	}
 
 	/**

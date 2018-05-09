@@ -227,7 +227,8 @@ class ArticlesModel extends ListModel
 				->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
 
 		// Join over the states.
-		$query	->select($query->quoteName(
+		$query	->select(
+					$query->quoteName(
 					[
 						'ws.title',
 						'ws.condition'
@@ -236,7 +237,8 @@ class ArticlesModel extends ListModel
 						'state_title',
 						'state_condition'
 					]
-				))
+					)
+				)
 				->innerJoin($query->quoteName('#__workflow_states', 'ws'))
 				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.state_id'));
 
