@@ -44,17 +44,13 @@ class UserlogsHelper
 
 		fputcsv($fp, $headers);
 
-		foreach ($data as $row)
+		foreach ($data as $log)
 		{
-			$log               = array();
-			$log['id']         = $row->id;
-			$log['message']    = $row->message;
-			$log['log_date']   = $row->log_date;
-			$log['extension']  = $row->extension;
-			$log['user_id']    = $row->user_id;
-			$log['ip_address'] = JText::_($row->ip_address);
+			$log               = (array) $log;
+			$log['ip_address'] = JText::_($log['ip_address']);
+			$log['extension']  = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
+
 			$app->triggerEvent('onLogMessagePrepare', array(&$log['message'], $log['extension']));
-			$log['extension'] = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
 
 			fputcsv($fp, $log, ',');
 		}
