@@ -600,7 +600,7 @@ class UsersModelUser extends JModelAdmin
 
 							// Compute the user mail notification body.
 							$emailBody = JText::sprintf(
-								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_BODY',
+								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_BODY',
 								$table->name,
 								JUri::root(),
 								$table->username
@@ -616,7 +616,7 @@ class UsersModelUser extends JModelAdmin
 
 							// Compute the user mail notification body.
 							$emailBody = JText::sprintf(
-								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_BODY',
+								'COM_USERS_EMAIL_NOTIFICATION_ACTIVATED_REMINDER_BODY',
 								$table->name,
 								JUri::root(),
 								$table->username
