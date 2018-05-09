@@ -366,7 +366,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Well nothing was provided or all worked
 		return true;
-
 	}
 
 	/**
