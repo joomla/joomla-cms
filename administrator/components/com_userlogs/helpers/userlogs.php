@@ -19,7 +19,7 @@ class UserlogsHelper
 	/**
 	 * Method to extract data array of objects into CSV file
 	 *
-	 * @param   array  $data  Has the data to be exported
+	 * @param   array $data The logs data to be exported
 	 *
 	 * @return  void
 	 *
@@ -27,9 +27,8 @@ class UserlogsHelper
 	 */
 	public static function dataToCsv($data)
 	{
-		$date = JFactory::getDate();
+		$date     = JFactory::getDate();
 		$filename = "logs_" . $date;
-		$data = json_decode(json_encode($data), true);
 
 		$app = JFactory::getApplication();
 		$app->setHeader('Content-Type', 'application/csv', true)
@@ -47,9 +46,11 @@ class UserlogsHelper
 
 		foreach ($data as $log)
 		{
-			$app->triggerEvent('onLogMessagePrepare', array (&$log['message'], $log['extension']));
+			$log               = (array) $log;
 			$log['ip_address'] = JText::_($log['ip_address']);
-			$log['extension'] = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
+			$log['extension']  = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
+
+			$app->triggerEvent('onLogMessagePrepare', array(&$log['message'], $log['extension']));
 
 			fputcsv($fp, $log, ',');
 		}
@@ -87,7 +88,7 @@ class UserlogsHelper
 	 *
 	 * @param   string   $context  The context of the content
 	 *
-	 * @return  mixed  An array of parameters, or false on error.
+	 * @return  mixed  An object contain type parameters, or null if not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -101,14 +102,7 @@ class UserlogsHelper
 
 		$db->setQuery($query);
 
-		$items = $db->loadObjectList();
-
-		if (empty($items))
-		{
-			return false;
-		}
-
-		return $items[0];
+		return $db->loadObject();
 	}
 
 	/**
@@ -127,6 +121,11 @@ class UserlogsHelper
 	{
 		$items = array();
 		$table = JTable::getInstance($tableType, $tablePrefix);
+
+		if ($table === false)
+		{
+			return $items;
+		}
 
 		foreach ($pks as $pk)
 		{
