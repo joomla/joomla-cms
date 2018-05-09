@@ -724,34 +724,23 @@ class PlgSystemUserLogs extends JPlugin
 			return false;
 		}
 
-		$lang = JFactory::getLanguage();
-		$lang->load('plg_system_userlogs', JPATH_ADMINISTRATOR);
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
 			'com_users.profile',
-			'com_users.registration',
-			'com_users.user',
 			'com_admin.profile',
 		);
 
-		if (!in_array($formName, $allowedFormNames))
+		if (!in_array($formName, $allowedFormNames) || !JFactory::getUser()->authorise('core.viewlogs'))
 		{
 			return true;
 		}
 
-		if ($formName == 'com_admin.profile'
-			|| $formName == 'com_users.profile')
-		{
-			JForm::addFormPath(dirname(__FILE__) . '/forms');
-			$form->loadFile('userlogs', false);
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_system_userlogs', JPATH_ADMINISTRATOR);
 
-			if (!JFactory::getUser()->authorise('core.viewlogs'))
-			{
-				$form->removeField('logs_notification_option');
-				$form->removeField('logs_notification_extensions');
-			}
-		}
+		JForm::addFormPath(dirname(__FILE__) . '/forms');
+		$form->loadFile('userlogs', false);
 	}
 
 	/**
