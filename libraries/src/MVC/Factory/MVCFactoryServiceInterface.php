@@ -6,28 +6,27 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Extension;
+namespace Joomla\CMS\MVC\Factory;
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
- * Access to component specific services.
+ * Interface to be implemented by classes depending on a MVC factory.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ComponentInterface
+interface MVCFactoryServiceInterface
 {
 	/**
-	 * Returns the dispatcher for the given application.
+	 * Creates an MVCFactory for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  DispatcherInterface
+	 * @return  MVCFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
+	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface;
 }

@@ -301,13 +301,11 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
-	 * @param   array  $option  The options to use for configuration.
-	 *
 	 * @return  \JDatabaseDriver|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function initialise($option)
+	public function initialise()
 	{
 		$options = $this->getOptions();
 
@@ -434,7 +432,7 @@ class SetupModel extends BaseInstallationModel
 
 		$options['db_select'] = false;
 
-		$db = $this->initialise($options);
+		$db = $this->initialise();
 
 		if ($db === false)
 		{
@@ -587,7 +585,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -643,7 +641,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -854,7 +852,7 @@ class SetupModel extends BaseInstallationModel
 			return $this->createDatabase($options);
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
@@ -926,7 +924,7 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
-		if (!$db = $this->initialise($options))
+		if (!$db = $this->initialise())
 		{
 			return false;
 		}
