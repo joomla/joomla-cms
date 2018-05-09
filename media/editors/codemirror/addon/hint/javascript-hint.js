@@ -32,9 +32,7 @@
     // Find the token at the cursor
     var cur = editor.getCursor(), token = getToken(editor, cur);
     if (/\b(?:string|comment)\b/.test(token.type)) return;
-    var innerMode = CodeMirror.innerMode(editor.getMode(), token.state);
-    if (innerMode.mode.helperType === "json") return;
-    token.state = innerMode.state;
+    token.state = CodeMirror.innerMode(editor.getMode(), token.state).state;
 
     // If it's not a 'word-style' token, ignore the token.
     if (!/^[\w$_]*$/.test(token.string)) {

@@ -22,7 +22,6 @@
       attributes: textMode,
       text: textMode,
       uri: textMode,
-      trusted_resource_uri: textMode,
       css: CodeMirror.getMode(config, "text/css"),
       js: CodeMirror.getMode(config, {name: "text/javascript", statementIndent: 2 * config.indentUnit})
     };

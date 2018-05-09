@@ -50,15 +50,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (found == stream.pos) {
             if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
-
-            // Get the outer indent, making sure to handle CodeMirror.Pass
-            var outerIndent = 0;
-            if (outer.indent) {
-              var possibleOuterIndent = outer.indent(state.outer, "");
-              if (possibleOuterIndent !== CodeMirror.Pass) outerIndent = possibleOuterIndent;
-            }
-
-            state.inner = CodeMirror.startState(other.mode, outerIndent);
+            state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
             return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
           } else if (found != -1 && found < cutOff) {
             cutOff = found;

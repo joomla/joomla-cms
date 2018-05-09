@@ -1293,14 +1293,12 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   CodeMirror.registerHelper("fold", "xml", function(cm, start) {
     var iter = new Iter(cm, start.line, 0);
     for (;;) {
-      var openTag = toNextTag(iter)
-      if (!openTag || iter.line != start.line) return
-      var end = toTagEnd(iter)
-      if (!end) return
+      var openTag = toNextTag(iter), end;
+      if (!openTag || !(end = toTagEnd(iter)) || iter.line != start.line) return;
       if (!openTag[1] && end != "selfClose") {
         var startPos = Pos(iter.line, iter.ch);
         var endPos = findMatchingClose(iter, openTag[2]);
-        return endPos && cmp(endPos.from, startPos) > 0 ? {from: startPos, to: endPos.from} : null
+        return endPos && {from: startPos, to: endPos.from};
       }
     }
   });
@@ -1456,15 +1454,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           if (found == stream.pos) {
             if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
-
-            // Get the outer indent, making sure to handle CodeMirror.Pass
-            var outerIndent = 0;
-            if (outer.indent) {
-              var possibleOuterIndent = outer.indent(state.outer, "");
-              if (possibleOuterIndent !== CodeMirror.Pass) outerIndent = possibleOuterIndent;
-            }
-
-            state.inner = CodeMirror.startState(other.mode, outerIndent);
+            state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
             return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
           } else if (found != -1 && found < cutOff) {
             cutOff = found;
@@ -2002,7 +1992,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     var state = cm.state.matchHighlighter;
     cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
     if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
-      var searchFor = hasBoundary ? new RegExp("\\b" + query.replace(/[\\\[.+*?(){|^$]/g, "\\$&") + "\\b") : query;
+      var searchFor = hasBoundary ? new RegExp("\\b" + query.replace(/[\\\[+*?(){|^$]/g, "\\$&") + "\\b") : query;
       state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, false,
         {className: "CodeMirror-selection-highlight-scrollbar"});
     }
