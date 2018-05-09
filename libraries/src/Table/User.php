@@ -195,16 +195,16 @@ class User extends Table
 
 			return false;
 		}
-		
+
 		// Block using registration emails to send spam/malware/phishing emails with embedded links 
 		// The regex blocks :// (as in http:// https:// ftp:// etc.) www. and ftp. in the username/name
 		if (preg_match('#(:\/\/|\bwww.|\bftp.)#i', $this->username) || preg_match('#(:\/\/|\bwww.|\bftp.)#i', $this->name))
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_NAME_MUST_NOT_CONTAIN_LINKS'));
 
-			return false;			
+			return false;
 		}
-			
+
 		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
