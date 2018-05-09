@@ -39,6 +39,7 @@
 			label="COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_DESC"
 			default="0"
+			showon="allowUserRegistration:1"
 			>
 			<option value="0">JNONE</option>
 			<option value="1">COM_USERS_CONFIG_FIELD_DOMAIN_TLD_RESTRICTION_OPTION_WHITELIST</option>
@@ -52,7 +53,7 @@
 			description="COM_USERS_CONFIG_FIELD_LIST_MAILDOMAIN_TLD_DESC" 
 			rows="7" 
 			cols="3"
-			showon="domainTLDRestriction:1,2"
+			showon="domainTLDRestriction:1,2[AND]allowUserRegistration:1"
 		/>
 
 		<field
