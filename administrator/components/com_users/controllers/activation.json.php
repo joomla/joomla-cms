@@ -43,7 +43,7 @@ class UsersControllerActivation extends JControllerForm
 		{
 			$table = $model->getTable();
 			$table->load($userID);
-			$wasActive = $table->activation;
+			$actived = $table->activation;
 
 			// Change the state of the records.
 			if (!$model->activate($userID))
@@ -53,14 +53,14 @@ class UsersControllerActivation extends JControllerForm
 
 				return false;
 			}
-			elseif (!empty($wasActive))
+			elseif (!empty($actived))
 			{
-				// Then we wanted active the user and send a email notification
+				// Active the user and send an email notification
 				$message = JText::sprintf('COM_USERS_USER_ACTIVATED_NOTIFIED', $table->name);
 			}
 			else
 			{
-				// Then we wanted only send again the email notification
+				// Resend the email notification
 				$message = JText::sprintf('COM_USERS_USER_NOTIFIED', $table->name);
 			}
 
@@ -69,7 +69,7 @@ class UsersControllerActivation extends JControllerForm
 	}
 
 	/**
-	 * Method to send a email activatitaion to a user.
+	 * Method to send an email activation to the user.
 	 *
 	 * @return  void
 	 *
