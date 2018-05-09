@@ -362,8 +362,8 @@ abstract class JHtmlSelect
 	 *                             option.key: The property that will hold the selection value.
 	 *                             Defaults to "value".
 	 *                             option.label: The property in each option array to use as the
-	 *                             selection label attribute. If a "label" option is provided, defaults to
-	 *                             "label", if no label is given, defaults to null (none).
+	 *                             selection label attribute. If a "badge" option is provided, defaults to
+	 *                             "badge", if no label is given, defaults to null (none).
 	 *                             option.text: The property that will hold the the displayed text.
 	 *                             Defaults to "text". If set to null, the option array is assumed to be a
 	 *                             list of displayable scalars.

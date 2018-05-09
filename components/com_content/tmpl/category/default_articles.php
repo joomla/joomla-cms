@@ -163,7 +163,7 @@ if (!empty($this->items))
 									<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 									&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 								<?php else : ?>
-									<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+									<?php $class = 'badge badge-association badge-' . $association['language']->sef; ?>
 									&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 								<?php endif; ?>
 							<?php endif; ?>
@@ -186,24 +186,24 @@ if (!empty($this->items))
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
-								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								<?php $class = 'badge badge-association badge-' . $association['language']->sef; ?>
 								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
-					<span class="list-published label label-warning">
+					<span class="list-published label badge-warning">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php endif; ?>
 				<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
-					<span class="list-published label label-warning">
+					<span class="list-published label badge-warning">
 						<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
 				<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()) : ?>
-					<span class="list-published label label-warning">
+					<span class="list-published label badge-warning">
 						<?php echo JText::_('JEXPIRED'); ?>
 					</span>
 				<?php endif; ?>

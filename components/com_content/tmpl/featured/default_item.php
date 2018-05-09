@@ -42,13 +42,13 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php endif; ?>
 
 	<?php if ($this->item->state == 0) : ?>
-		<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+		<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 	<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
-		<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+		<span class="badge badge-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
 	<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
-		<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+		<span class="badge badge-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
 	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
