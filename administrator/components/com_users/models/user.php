@@ -119,8 +119,8 @@ class UsersModelUser extends JModelAdmin
 		{
 			return false;
 		}
-		
-    // If the user needs to change their password, mark the password fields as required
+
+		// If the user needs to change their password, mark the password fields as required
 		if (JFactory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
