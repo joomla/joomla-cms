@@ -19,7 +19,6 @@ use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
-use Joomla\Component\Content\Administrator\Service\Provider\Component;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
