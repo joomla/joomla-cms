@@ -441,13 +441,13 @@ class UsersModelRegistration extends JModelForm
 			{
 				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
 				{
-					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
 
 					return false;
 				}
 				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
 				{
-					$this->setError(JText::sprintf('COM_USERS_REGISTRATION_USER_MAIL_DOMAIN_NOT_ALLOWED_MESSAGE', $userMailDomain[1]));
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
 
 					return false;
 				}
