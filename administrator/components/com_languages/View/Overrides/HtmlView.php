@@ -62,6 +62,28 @@ class HtmlView extends BaseHtmlView
 	protected $languages;
 
 	/**
+	 * Subnavigation entries
+	 *
+	 * @var  array
+	 * @since  4.0.0
+	 */
+	protected $entries;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var  \JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
 	 * Displays the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
@@ -76,6 +98,8 @@ class HtmlView extends BaseHtmlView
 		$this->items      = $this->get('Overrides');
 		$this->languages  = $this->get('Languages');
 		$this->pagination = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		LanguagesHelper::addSubmenu('overrides');
 
@@ -125,6 +149,7 @@ class HtmlView extends BaseHtmlView
 
 		\JToolbarHelper::divider();
 		\JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		\JToolbarHelper::subnavigation(['target_id' => 'js-subnavigation', 'label' => \JText::_('JGLOBAL_TOGGLE_NAVIGATION')]);
 
 		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
 
@@ -135,6 +160,7 @@ class HtmlView extends BaseHtmlView
 			true
 		);
 
+		$this->entries = \JHtmlSidebar::getEntries();
 		$this->sidebar = \JHtmlSidebar::render();
 	}
 }
