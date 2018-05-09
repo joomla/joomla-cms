@@ -270,8 +270,8 @@ class UserlogsModelUserlogs extends JModelList
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->delete('#__user_logs')
-			->where('id IN (' . implode(',', $pks) . ')');
+			->delete($db->quoteName('#__user_logs'))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 
 		try
