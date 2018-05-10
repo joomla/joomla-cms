@@ -14,6 +14,11 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>privacy.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_privacy.ini</language>

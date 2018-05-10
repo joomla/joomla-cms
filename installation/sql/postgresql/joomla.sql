@@ -1633,6 +1633,26 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 (700, 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_TITLE', 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_BODY', 'PLG_PLG_RECAPTCHA_VERSION_1_POSTINSTALL_ACTION', 'plg_captcha_recaptcha', 1, 'action', 'site://plugins/captcha/recaptcha/postinstall/actions.php', 'recaptcha_postinstall_action', 'site://plugins/captcha/recaptcha/postinstall/actions.php', 'recaptcha_postinstall_condition', '3.8.6', 1);
 
 --
+-- Table structure for table `#__privacy_requests`
+--
+
+CREATE TABLE "#__privacy_requests" (
+  "id" serial NOT NULL,
+  "email" varchar(100) DEFAULT '' NOT NULL,
+  "requested_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "status" smallint DEFAULT 0 NOT NULL,
+  "request_type" varchar(25) DEFAULT '' NOT NULL,
+  "confirm_token" varchar(100) DEFAULT '' NOT NULL,
+  "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "user_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
+CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+
+--
 -- Table structure for table `#__redirect_links`
 --
 
