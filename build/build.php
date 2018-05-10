@@ -188,6 +188,18 @@ $doNotPatch = array(
 	'images',
 );
 
+/*
+ * This array will contain the checksums for all files which are created by this script.
+ * This is an associative array with the following structure:
+ * array(
+ *   'filename' => array(
+ *     'type1' => 'hash',
+ *     'type2' => 'hash',
+ *   ),
+ * )
+ */
+$checksums = array();
+
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
@@ -272,19 +284,25 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Create the diff archive packages using the file name list.
 	if (!$excludeBzip2)
 	{
-		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
+		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages' . $version . '/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeGzip)
 	{
-		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
+		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages' . $version . '/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeZip)
 	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
 		chdir($time);
-		system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+		system('zip ../packages' . $version . '/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
 		chdir('..');
+		$checksums[$packageName] = array();
 	}
 }
 
@@ -307,17 +325,23 @@ system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml
 // Create full archive packages.
 if (!$excludeBzip2)
 {
-	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
-	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
+	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
-	system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
+	system('zip -r ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 // Create full update file without the default logs directory, installation folder, or sample images.
@@ -335,17 +359,64 @@ system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml
 
 if (!$excludeBzip2)
 {
-	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
-	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
+	system('tar --create --gzip --file ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
-	system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+	system('zip -r ../packages_full' . $fullVersion . '/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
 }
+
+chdir('..');
+
+foreach (array_keys($checksums) as $packageName)
+{
+	echo "Generating checksums for $packageName\n";
+
+	foreach (array('md5', 'sha1') as $hash)
+	{
+		if (file_exists('packages' . $version . '/' . $packageName))
+		{
+			$checksums[$packageName][$hash] = hash_file($hash, 'packages' . $version . '/' . $packageName);
+		}
+		elseif (file_exists('packages_full' . $fullVersion . '/' . $packageName))
+		{
+			$checksums[$packageName][$hash] = hash_file($hash, 'packages_full' . $fullVersion . '/' . $packageName);
+		}
+		else
+		{
+			echo "Package $packageName not found in build directories\n";
+		}
+	}
+}
+
+echo "Generating checksums.txt file\n";
+
+$checksumsContent = '';
+
+foreach ($checksums as $packageName => $packageHashes)
+{
+	$checksumsContent .= "Filename: $packageName\n";
+
+	foreach ($packageHashes as $hashType => $hash)
+	{
+		$checksumsContent .= "$hashType: $hash\n";
+	}
+
+	$checksumsContent .= "\n";
+}
+
+file_put_contents('checksums.txt', $checksumsContent);
 
 echo "Build of version $fullVersion complete!\n";
