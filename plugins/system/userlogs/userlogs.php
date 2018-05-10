@@ -849,7 +849,6 @@ class PlgSystemUserLogs extends JPlugin
 		}
 
 		// Update last run status
-		// If I have the time of the last run, I can update, otherwise insert
 		$this->params->set('lastrun', $now);
 
 		$db    = JFactory::getDbo();
