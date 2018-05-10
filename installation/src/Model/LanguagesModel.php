@@ -57,7 +57,7 @@ class LanguagesModel extends BaseInstallationModel
 	protected $langlist;
 
 	/**
-	 * @var    integer Admin Id, author of all generated content.
+	 * @var    integer  Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
 	protected $adminId;
