@@ -60,6 +60,7 @@ class RouterFactory implements RouterFactoryInterface
 	 * Creates a router.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   AbstractMenu             $menu         The menu object to work with
 	 *
 	 * @return  RouterInterface
 	 *
