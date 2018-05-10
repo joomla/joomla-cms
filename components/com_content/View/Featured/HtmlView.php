@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * The user object

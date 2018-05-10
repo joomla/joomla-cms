@@ -53,13 +53,14 @@ class VcfView extends AbstractView
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 
-		if (count($namearray) > 1 )
+		if (count($namearray) > 1)
 		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
 			$name_and_midname = trim($namearray[1]);
 
 			$firstname = '';
+
 			if (!empty($name_and_midname))
 			{
 				$namearray = explode(' ', $name_and_midname);
