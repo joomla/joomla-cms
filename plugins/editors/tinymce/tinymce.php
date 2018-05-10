@@ -199,6 +199,20 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
 
+		if (!isset($options['tinyMCE']))
+		{
+			$options['tinyMCE'] = array();
+		}
+
+		if ($options['tinyMCE'][$fieldName])
+		{
+			$options['tinyMCE'][$fieldName] = array_merge($options['tinyMCE'][$fieldName], $params);
+		}
+		else
+		{
+			$options['tinyMCE'][$fieldName] = $params;
+		}
+
 		// Prepare the instance specific options, actually the ext-buttons
 		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
 		{
@@ -1269,6 +1283,15 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
+
+		if ($options['tinyMCE'][$fieldName])
+		{
+			$options['tinyMCE'][$fieldName] = array_merge($options['tinyMCE'][$fieldName], $params);
+		}
+		else
+		{
+			$options['tinyMCE'][$fieldName] = $params;
+		}
 
 		// Prepare instance specific options, actually the ext-buttons
 		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
