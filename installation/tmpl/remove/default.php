@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-/* @var InstallationViewRemoveHtml $this */
+/* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 
