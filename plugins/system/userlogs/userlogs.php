@@ -827,7 +827,7 @@ class PlgSystemUserLogs extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterRender()
+	public function onAfterRespond()
 	{
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
 
