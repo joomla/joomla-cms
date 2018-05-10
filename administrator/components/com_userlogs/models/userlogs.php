@@ -74,8 +74,6 @@ class UserlogsModelUserlogs extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$this->checkIn();
-
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 				->select('a.*')
@@ -136,45 +134,6 @@ class UserlogsModelUserlogs extends JModelList
 		}
 
 		return $query;
-	}
-
-	/**
-	 * Check for old logs that needs to be deleted_comment
-	 *
-	 * @return void
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected function checkIn()
-	{
-		$plugin = JPluginHelper::getPlugin('system', 'userlogs');
-
-		if (!empty($plugin))
-		{
-			$pluginParams = new Registry($plugin->params);
-			$daysToDeleteAfter = (int) $pluginParams->get('logDeletePeriod', 0);
-
-			if ($daysToDeleteAfter > 0)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$conditions = array($db->quoteName('log_date') . ' < DATE_SUB(NOW(), INTERVAL ' . $daysToDeleteAfter . ' DAY)');
-
-				$query->delete($db->quoteName('#__user_logs'))->where($conditions);
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseWarning(500, $db->getMessage());
-
-					return false;
-				}
-			}
-		}
 	}
 
 	/**
