@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
-use Joomla\Input\Input;
 
 /**
  * Base class for a legacy Joomla Dispatcher
