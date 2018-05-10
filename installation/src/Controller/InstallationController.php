@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -61,7 +62,7 @@ class InstallationController extends JSONController
 		$model = $this->getModel('Setup');
 		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
 		{
-			$r->messages = 'Check your DB credentials, db type, db name or hostname';
+			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
 			$r->view = 'setup';
 		}
 
