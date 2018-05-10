@@ -65,6 +65,7 @@ class InstallationController extends JSONController
 			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
 			$r->validated = false;
 			$this->sendJsonResponse($r);
+
 			return;
 		}
 

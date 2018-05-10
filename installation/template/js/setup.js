@@ -88,7 +88,7 @@ Joomla.checkDbCredentials = function() {
 				Joomla.renderMessages(response.messages);
 			}
 
-            Joomla.replaceTokens(response.token);
+			Joomla.replaceTokens(response.token);
 			Joomla.loadingLayer("hide");
 
 			if (response.error) {
