@@ -28,14 +28,6 @@ use Joomla\Utilities\ArrayHelper;
 class SetupModel extends BaseInstallationModel
 {
 	/**
-	 * The generated user ID.
-	 *
-	 * @var    integer
-	 * @since  3.1
-	 */
-	protected static $userId = 0;
-
-	/**
 	 * Get the current setup options from the session.
 	 *
 	 * @return  array  An array of options from the session.
