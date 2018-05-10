@@ -368,7 +368,7 @@ abstract class InstallerHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function isChecksumValid($packagefile, $updateObject)
+	public static function isChecksumValid($packagefile, $updateObject)
 	{
 		$hashes     = array('sha256', 'sha384', 'sha512');
 		$hashOnFile = false;
