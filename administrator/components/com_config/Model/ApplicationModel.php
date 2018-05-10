@@ -730,7 +730,6 @@ class ApplicationModel extends FormModel
 			return false;
 		}
 
-
 		// All checks done.
 		$result = array(
 			'text'    => '',

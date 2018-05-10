@@ -119,7 +119,7 @@ class HtmlDocument extends Document
 		// Set document type
 		$this->_type = 'html';
 
-		// Set default mime type and document metadata (meta data syncs with mime type by default)
+		// Set default mime type and document metadata (metadata syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
 	}
 

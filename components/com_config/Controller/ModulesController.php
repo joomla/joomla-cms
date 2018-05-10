@@ -48,7 +48,7 @@ class ModulesController extends BaseController
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -61,7 +61,7 @@ class ModulesController extends BaseController
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

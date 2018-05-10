@@ -375,12 +375,14 @@ class PlgUserProfile extends CMSPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
+
 			if (Date::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
+
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');
