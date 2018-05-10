@@ -197,6 +197,7 @@ class ArchiveModel extends ArticlesModel
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 

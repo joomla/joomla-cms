@@ -87,7 +87,7 @@ class PlgContentPagebreak extends CMSPlugin
 			{
 				throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
-			
+
 			return true;
 		}
 

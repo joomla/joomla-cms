@@ -187,7 +187,6 @@ class PlgSearchCategories extends CMSPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-
 				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug);

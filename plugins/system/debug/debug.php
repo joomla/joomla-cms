@@ -1420,6 +1420,7 @@ class PlgSystemDebug extends CMSPlugin
 
 			$html[] = '</tr>';
 		}
+
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 
