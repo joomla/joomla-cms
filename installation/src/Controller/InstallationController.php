@@ -60,11 +60,15 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
+		if ($model->checkForm('setup') === false)
 		{
-			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
-			$r->view = 'setup';
+			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+			$r->validated = false;
+			$this->sendJsonResponse($r);
+			return;
 		}
+
+		$r->validated = $model->validateDbConnection();
 
 		$this->sendJsonResponse($r);
 	}
