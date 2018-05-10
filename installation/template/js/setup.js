@@ -93,12 +93,10 @@ Joomla.checkDbCredentials = function() {
 
 			if (response.error) {
 				Joomla.renderMessages({'error': [response.message]});
-			} else {
-				if (response.data && response.data.validated === true) {
-					// Run the installer - we let this handle the redirect for now
-					// TODO: Convert to promises
-					Joomla.install(['config'], form);
-				}
+			} else if (response.data && response.data.validated === true) {
+				// Run the installer - we let this handle the redirect for now
+				// TODO: Convert to promises
+				Joomla.install(['config'], form);
 			}
 		},
 		onError:   function(xhr){
