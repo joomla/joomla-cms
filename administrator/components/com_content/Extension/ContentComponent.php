@@ -25,6 +25,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 
 /**
  * Component class for com_content
@@ -32,11 +34,17 @@ use Psr\Container\ContainerInterface;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface,
+	MVCFactoryServiceInterface,
+	CategoriesServiceInterface,
+	FieldsServiceInterface,
+	AssociationServiceInterface,
+	RouterServiceInterface
 {
 	use MVCFactoryServiceTrait;
 	use CategoriesServiceTrait;
 	use AssociationServiceTrait;
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**

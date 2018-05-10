@@ -1,0 +1,60 @@
+<?php
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license	GNU General Public License version 2 or later; see LICENSE
+ */
+
+namespace Joomla\CMS\Component\Router;
+
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Menu\AbstractMenu;
+
+/**
+ * Trait to implement AssociationServiceInterface
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+trait RouterServiceTrait
+{
+	/**
+	 * The router factory.
+	 *
+	 * @var RouterFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $routerFactory = null;
+
+	/**
+	 * Returns the router.
+	 *
+	 * @param   CMSApplication  $application  The application object
+	 * @param   AbstractMenu    $menu         The menu object to work with
+	 *
+	 * @return  RouterInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createRouter(CMSApplication $application, AbstractMenu $menu): RouterInterface
+	{
+		return $this->routerFactory->createRouter($application, $menu);
+	}
+
+	/**
+	 * The router factory.
+	 *
+	 * @param   RouterFactoryInterface  $routerFactory  The router factory
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setRouterFactory(RouterFactoryInterface $routerFactory)
+	{
+		$this->routerFactory = $routerFactory;
+	}
+}

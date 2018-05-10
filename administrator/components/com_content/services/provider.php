@@ -23,6 +23,8 @@ use Joomla\Component\Content\Administrator\Service\Provider\Component;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\CMS\Component\Router\RouterFactoryInterface;
+use Joomla\Component\Content\Administrator\Service\Provider\RouterFactory;
 
 /**
  * The content service provider.
@@ -47,6 +49,7 @@ return new class implements ServiceProviderInterface
 
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new RouterFactory);
 
 		$container->set(
 			ComponentInterface::class,
@@ -59,6 +62,7 @@ return new class implements ServiceProviderInterface
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setCategories($container->get(Categories::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
 				return $component;
 			}

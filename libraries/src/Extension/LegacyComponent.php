@@ -21,13 +21,23 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Component\Router\RouterInterface;
+use Joomla\CMS\Component\Router\RouterLegacy;
 
 /**
  * Access to component specific services.
  *
  * @since  __DEPLOY_VERSION__
  */
-class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface
+class LegacyComponent implements
+	ComponentInterface,
+	MVCFactoryServiceInterface,
+	CategoriesServiceInterface,
+	FieldsServiceInterface,
+	RouterServiceInterface
 {
 	/**
 	 * @var string
@@ -205,6 +215,46 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 		}
 
 		return $helper::getContexts();
+	}
+
+	/**
+	* Returns the router.
+	*
+	* @param   CMSApplication  $application  The application object
+	* @param   AbstractMenu    $menu         The menu object to work with
+	*
+	* @return  RouterInterface
+	*
+	* @since  __DEPLOY_VERSION__
+	*/
+	public function createRouter(CMSApplication $application, AbstractMenu $menu): RouterInterface
+	{
+		$compname = ucfirst($this->component);
+		$class = $compname . 'Router';
+
+		if (!class_exists($class))
+		{
+			// Use the component routing handler if it exists
+			$path = JPATH_SITE . '/components/com_' . $this->component . '/router.php';
+
+			// Use the custom routing handler if it exists
+			if (file_exists($path))
+			{
+				require_once $path;
+			}
+		}
+
+		if (class_exists($class))
+		{
+			$reflection = new \ReflectionClass($class);
+
+			if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+			{
+				return new $class($application, $menu);
+			}
+		}
+
+		return new RouterLegacy($compname);
 	}
 
 	/**

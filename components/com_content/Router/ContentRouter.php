@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Site\Router;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
@@ -17,6 +19,8 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\Component\Content\Site\Service\Category;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Routing class of com_content
@@ -28,13 +32,36 @@ class ContentRouter extends RouterView
 	protected $noIDs = false;
 
 	/**
+	 * The category
+	 *
+	 * @var Category
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $category;
+
+	/**
+	 * The db
+	 *
+	 * @var DatabaseInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $db;
+
+	/**
 	 * Content Component router constructor
 	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
+	 * @param   CMSApplication     $app       The application object
+	 * @param   AbstractMenu       $menu      The menu object to work with
+	 * @param   Category           $category  The category object
+	 * @param   DatabaseInterface  $db        The database object
 	 */
-	public function __construct($app = null, $menu = null)
+	public function __construct(CMSApplication $app, AbstractMenu $menu, Category $category, DatabaseInterface $db)
 	{
+		$this->category = $category;
+		$this->db       = $db;
+
 		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new RouterViewConfiguration('categories');
@@ -69,7 +96,8 @@ class ContentRouter extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = \JCategories::getInstance($this->getName())->get($id);
+		$this->category->setOptions(array('access' => true));
+		$category = $this->category->get($id);
 
 		if ($category)
 		{
@@ -115,14 +143,13 @@ class ContentRouter extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = \JFactory::getDbo();
-			$dbquery = $db->getQuery(true);
+			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($dbquery->qn('alias'))
 				->from($dbquery->qn('#__content'))
 				->where('id = ' . $dbquery->q($id));
-			$db->setQuery($dbquery);
+			$this->db->setQuery($dbquery);
 
-			$id .= ':' . $db->loadResult();
+			$id .= ':' . $this->db->loadResult();
 		}
 
 		if ($this->noIDs)
@@ -162,7 +189,9 @@ class ContentRouter extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = \JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
+			$this->category->setOptions(array('access' => false));
+
+			$category = $this->category->get($query['id']);
 
 			if ($category)
 			{
@@ -214,15 +243,14 @@ class ContentRouter extends RouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = \JFactory::getDbo();
-			$dbquery = $db->getQuery(true);
+			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($dbquery->qn('id'))
 				->from($dbquery->qn('#__content'))
 				->where('alias = ' . $dbquery->q($segment))
 				->where('catid = ' . $dbquery->q($query['id']));
-			$db->setQuery($dbquery);
+			$this->db->setQuery($dbquery);
 
-			return (int) $db->loadResult();
+			return (int) $this->db->loadResult();
 		}
 
 		return (int) $segment;

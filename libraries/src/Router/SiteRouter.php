@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Cms\Uri\Uri as JUri;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
 
 /**
  * Class to create and parse routes for the site application
@@ -609,34 +610,16 @@ class SiteRouter extends Router
 	{
 		if (!isset($this->componentRouters[$component]))
 		{
-			$compname = ucfirst(substr($component, 4));
-			$class = $compname . 'Router';
+			$componentInstance = $this->app->bootComponent($component);
 
-			if (!class_exists($class))
+			if ($componentInstance instanceof RouterServiceInterface)
 			{
-				// Use the component routing handler if it exists
-				$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-				// Use the custom routing handler if it exists
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
-			}
-
-			if (class_exists($class))
-			{
-				$reflection = new \ReflectionClass($class);
-
-				if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
-				{
-					$this->componentRouters[$component] = new $class($this->app, $this->menu);
-				}
+				$this->componentRouters[$component] = $componentInstance->createRouter($this->app, $this->menu);
 			}
 
 			if (!isset($this->componentRouters[$component]))
 			{
-				$this->componentRouters[$component] = new RouterLegacy($compname);
+				$this->componentRouters[$component] = new RouterLegacy(ucfirst(substr($component, 4)));
 			}
 		}
 
