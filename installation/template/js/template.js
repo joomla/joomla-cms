@@ -182,7 +182,7 @@
 
 		Joomla.request({
 			method: "POST",
-			url : Joomla.baseUrl + '?task=installation.' + task,
+			url : Joomla.baseUrl + '?task=installation.' + task + '&format=json',
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){

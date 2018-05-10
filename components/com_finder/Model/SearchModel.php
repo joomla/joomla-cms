@@ -301,11 +301,13 @@ class SearchModel extends ListModel
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
 			$query->where('l.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
+
 		// Push the data into cache.
 		$this->store($store, $query, false);
 
@@ -387,6 +389,7 @@ class SearchModel extends ListModel
 			{
 				$maps[$suffix] = array();
 			}
+
 			// Add the terms to the mapping group.
 			$maps[$suffix] = array_merge($maps[$suffix], $ids);
 		}
@@ -568,6 +571,7 @@ class SearchModel extends ListModel
 
 				continue;
 			}
+
 			// Otherwise, end the loop.
 			{
 				// Merge the found items.
@@ -789,6 +793,7 @@ class SearchModel extends ListModel
 
 			// Sort the results.
 			natcasesort($items);
+
 			if ($direction === 'DESC')
 			{
 				$items = array_reverse($items, true);
@@ -897,7 +902,8 @@ class SearchModel extends ListModel
 
 				$more = false;
 			}
-		// End do-while loop.
+
+			// End do-while loop.
 		}
 		while ($more === true);
 
@@ -962,12 +968,13 @@ class SearchModel extends ListModel
 		 * Iterate through the mapping groups and load the excluded links ids
 		 * from each mapping table.
 		 */
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+
 		foreach ($maps as $suffix => $ids)
 		{
-
 			// Create the query to get the links ids.
 			$query->clear()
 				->select('link_id')
@@ -1106,6 +1113,7 @@ class SearchModel extends ListModel
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+
 		switch ($order)
 		{
 			case 'date':
@@ -1137,6 +1145,7 @@ class SearchModel extends ListModel
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
+
 		switch ($dirn)
 		{
 			case 'asc':

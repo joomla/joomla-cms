@@ -168,7 +168,7 @@ class TagsRouter extends RouterBase
 	 * @return  string  The segment with founded id
 	 *
 	 * @since   3.7
-	*/
+	 */
 	protected function fixSegment($segment)
 	{
 		$db = \JFactory::getDbo();

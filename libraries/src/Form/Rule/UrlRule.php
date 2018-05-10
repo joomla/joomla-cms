@@ -56,7 +56,7 @@ class UrlRule extends FormRule
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{
-			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
 				'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
@@ -70,13 +70,13 @@ class UrlRule extends FormRule
 		 * returns False for seriously malformed URLs instead of an associative array.
 		 * @link https://secure.php.net/manual/en/function.parse-url.php
 		 */
-		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
+		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
 		{
 			/*
 			 * The function parse_url() returned false (seriously malformed URL) or no scheme
 			 * was found and the relative option is not set: in both cases the field is not valid.
 			 */
-			if ($urlParts === false or !$element['relative'])
+			if ($urlParts === false || !$element['relative'])
 			{
 				$element->addAttribute('message', \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
 

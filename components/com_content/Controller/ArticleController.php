@@ -375,7 +375,7 @@ class ArticleController extends FormController
 			if (Multilanguage::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
-				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
 			// If ok, redirect to the return page.
