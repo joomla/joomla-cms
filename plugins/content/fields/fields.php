@@ -121,7 +121,6 @@ class PlgContentFields extends CMSPlugin
 			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
 
-
 			if ($match[1] == 'field' && $id)
 			{
 				if (isset($fieldsById[$id]))
