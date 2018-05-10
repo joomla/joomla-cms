@@ -48,9 +48,9 @@ $classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 
 // Add the attributes of the fieldset in an array
-$attribs = ['class="' . trim($class . ' radio' . ($readonly || $disabled ? ' disabled' : '') .
-        ($readonly ? ' readonly' : '')) . $classToggle . '"',
-	];
+$attribs = ['class="' . trim(
+		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
+	) . $classToggle . '"',];
 
 if (!empty($disabled))
 {
@@ -74,7 +74,7 @@ if (!empty($dataToggle))
 
 if ($readonly || $disabled)
 {
-    $attribs[] = 'style="pointer-events: none"';
+	$attribs[] = 'style="pointer-events: none"';
 }
 
 ?>

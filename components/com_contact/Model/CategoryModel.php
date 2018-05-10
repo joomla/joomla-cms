@@ -100,6 +100,7 @@ class CategoryModel extends ListModel
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
+
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -181,6 +182,7 @@ class CategoryModel extends ListModel
 
 		// Filter by search in title
 		$search = $this->getState('list.filter');
+
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . $db->escape($search, true) . '%');
@@ -259,10 +261,12 @@ class CategoryModel extends ListModel
 		$mergedParams->merge($menuParams);
 
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
@@ -319,6 +323,7 @@ class CategoryModel extends ListModel
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
 			$categories = \JCategories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
+
 			if (is_object($this->_item))
 			{
 				$this->_children = $this->_item->getChildren();
