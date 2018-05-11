@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
+<<<<<<< HEAD
 	<version>5.35.0</version>
+=======
+	<version>5.37.0</version>
+>>>>>>> staging
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
@@ -158,6 +162,7 @@
 				</field>
 
 				<field
+<<<<<<< HEAD
 					name="vimKeyBinding"
 					type="radio"
 					class="switcher"
@@ -167,6 +172,19 @@
 					>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+=======
+					name="keyMap"
+					type="list"
+					label="PLG_CODEMIRROR_FIELD_KEYMAP_LABEL"
+					description="PLG_CODEMIRROR_FIELD_KEYMAP_DESC"
+					default=""
+					filter="options"
+					>
+					<option value="">JDEFAULT</option>
+					<option value="emacs">PLG_CODEMIRROR_FIELD_KEYMAP_EMACS</option>
+					<option value="sublime">PLG_CODEMIRROR_FIELD_KEYMAP_SUBLIME</option>
+					<option value="vim">PLG_CODEMIRROR_FIELD_KEYMAP_VIM</option>
+>>>>>>> staging
 				</field>
 
 				<field

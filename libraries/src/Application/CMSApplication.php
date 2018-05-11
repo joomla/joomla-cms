@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
+<<<<<<< HEAD
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -26,6 +27,9 @@ use Joomla\CMS\Session\Session;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
+=======
+use Joomla\CMS\Session\MetadataManager;
+>>>>>>> staging
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
@@ -153,6 +157,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+<<<<<<< HEAD
 	 * After the session has been started we need to populate it with some default values.
 	 *
 	 * @param   SessionEvent  $event  Session event being triggered
@@ -211,6 +216,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+=======
+>>>>>>> staging
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -223,6 +230,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
+<<<<<<< HEAD
 		$db = \JFactory::getDbo();
 		$session = \JFactory::getSession();
 		$user = \JFactory::getUser();
@@ -295,6 +303,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				 */
 			}
 		}
+=======
+		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
+		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
+>>>>>>> staging
 	}
 
 	/**
@@ -610,7 +622,21 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		if (!$this->pathway)
 		{
+<<<<<<< HEAD
 			$resourceName = ucfirst($this->getName()) . 'Pathway';
+=======
+			$name = $this->getName();
+		}
+		else
+		{
+			// Name should not be used
+			$this->getLogger()->warning(
+				'Name attribute is deprecated, in the future fetch the pathway '
+				. 'through the respective application.',
+				array('category' => 'deprecated')
+			);
+		}
+>>>>>>> staging
 
 			if (!$this->getContainer()->has($resourceName))
 			{
@@ -855,6 +881,70 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Allows the application to load a custom or default session.
+	 *
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a session,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
+	 *
+	 * @return  CMSApplication  This method is chainable.
+	 *
+	 * @since   3.2
+	 */
+	public function loadSession(\JSession $session = null)
+	{
+		if ($session !== null)
+		{
+			$this->session = $session;
+
+			return $this;
+		}
+
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
+		/*
+		 * Note: The below code CANNOT change from instantiating a session via \JFactory until there is a proper dependency injection container supported
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated.
+		 * https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and burn if you ever attempt to make this change
+		 * without a proper dependency injection container.
+		 */
+
+		$session = \JFactory::getSession(
+			array(
+				'name'      => \JApplicationHelper::getHash($this->get('session_name', get_class($this))),
+				'expire'    => $this->get('lifetime') ? $this->get('lifetime') * 60 : 900,
+				'force_ssl' => $this->isHttpsForced(),
+			)
+		);
+
+		$session->initialise($this->input, $this->dispatcher);
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler !== 'database' && (time() % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
+		{
+			$this->checkSession();
+		}
+
+		// Set the session object.
+		$this->session = $session;
+
+		return $this;
+	}
+
+	/**
+>>>>>>> staging
 	 * Login authentication function.
 	 *
 	 * Username and encoded password are passed the onUserLogin event which

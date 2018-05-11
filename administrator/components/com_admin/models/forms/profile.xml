@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="user_details">
+		<field 
+			name="name" 
+			type="text"
+			label="COM_ADMIN_USER_HEADING_NAME"
+			description="COM_ADMIN_USER_FIELD_NAME_DESC"
+			required="true"
+			size="30"
+		/>
+
+		<field 
+			name="username" 
+			type="text"
+			label="COM_ADMIN_USER_FIELD_USERNAME_LABEL"
+			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
+			required="true"
+			size="30"
+		/>
+
+		<field 
+			name="password2" 
+			type="password"
+			label="JGLOBAL_PASSWORD"
+			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
+			autocomplete="off"
+			class="validate-password"
+			field="password"
+			filter="raw"
+			message="COM_ADMIN_USER_FIELD_PASSWORD1_MESSAGE"
+			size="30"
+			validate="equals"
+		/>
+
+		<field 
+			name="password" 
+			type="password"
+			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
+			description="COM_ADMIN_USER_FIELD_PASSWORD2_DESC"
+			autocomplete="off"
+			class="validate-password"
+			filter="raw"
+			size="30"
+			validate="password"
+		/>
+
+		<field 
+			name="email" 
+			type="email"
+			label="JGLOBAL_EMAIL"
+			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
+			class="validate-email"
+			required="true"
+			size="30"
+			validate="email"
+		/>
+
+		<field
+			name="registerDate"
+			type="calendar"
+			label="COM_ADMIN_USER_FIELD_REGISTERDATE_LABEL"
+			description="COM_ADMIN_USER_FIELD_REGISTERDATE_DESC"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="lastvisitDate"
+			type="calendar"
+			label="COM_ADMIN_USER_FIELD_LASTVISIT_LABEL"
+			description="COM_ADMIN_USER_FIELD_LASTVISIT_DESC"
+			class="readonly"
+			readonly="true"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		/>
+
+		<field
+			name="id"
+			type="number"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			class="readonly"
+			default="0"
+			readonly="true"
+			filter="unset"
+		/>
+
+	</fieldset>
+
+	<fields name="params">
+
+		<!--  Basic user account settings. -->
+		<fieldset name="settings" label="COM_ADMIN_USER_SETTINGS_FIELDSET_LABEL">
+
+			<field 
+				name="admin_style" 
+				type="templatestyle"
+				label="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+				description="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_DESC"
+				client="administrator"
+				filter="uint"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="admin_language" 
+				type="language"
+				label="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_LABEL"
+				description="COM_ADMIN_USER_FIELD_BACKEND_LANGUAGE_DESC"
+				client="administrator"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="language"
+				type="language"
+				label="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
+				description="COM_ADMIN_USER_FIELD_FRONTEND_LANGUAGE_DESC"
+				client="site"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="editor" 
+				type="plugins" 
+				label="COM_ADMIN_USER_FIELD_EDITOR_LABEL"
+				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
+				folder="editors"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="helpsite" 
+				type="helpsite"
+				label="COM_ADMIN_USER_FIELD_HELPSITE_LABEL"
+				description="COM_ADMIN_USER_FIELD_HELPSITE_DESC"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
+			<field 
+				name="timezone" 
+				type="timezone"
+				label="COM_ADMIN_USER_FIELD_TIMEZONE_LABEL"
+				description="COM_ADMIN_USER_FIELD_TIMEZONE_DESC"
+				>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

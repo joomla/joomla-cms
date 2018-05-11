@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.8"
+	client="installation">
+	<name>Welsh(United Kingdom)</name>
+	<version>3.8.2</version>
+	<creationDate>October 2017</creationDate>
+	<author>Welsh Translation Team : Joomla.cymru</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>cy-GB.ini</filename>
+	</files>
+	<metadata>
+		<name>Welsh (cy-GB)</name>
+		<nativeName>Cymraeg</nativeName>
+		<tag>cy-GB</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

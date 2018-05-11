@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,6 +107,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), tru
 	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-group">
 		<?php endif; ?>
+<<<<<<< HEAD
 		<input
 			type="text"
             id="<?php echo $id; ?>"
@@ -134,6 +135,30 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), tru
 				title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
 			><span class="fa fa-calendar" aria-hidden="true"></span></button>
 		</span>
+=======
+		<input type="text" id="<?php echo $id; ?>" name="<?php
+		echo $name; ?>" value="<?php
+		echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attributes; ?>
+		<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?> data-alt-value="<?php
+		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off"/>
+		<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
+			id="<?php echo  $id; ?>_btn"
+			data-inputfield="<?php echo $id; ?>"
+			data-dayformat="<?php echo $format; ?>"
+			data-button="<?php echo $id; ?>_btn"
+			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
+			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
+			data-today-btn="<?php echo $todaybutton; ?>"
+			data-week-numbers="<?php echo $weeknumbers; ?>"
+			data-show-time="<?php echo $showtime; ?>"
+			data-show-others="<?php echo $filltable; ?>"
+			data-time-24="<?php echo $timeformat; ?>"
+			data-only-months-nav="<?php echo $singleheader; ?>"
+			<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
+			<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
+			title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
+		><span class="icon-calendar" aria-hidden="true"></span></button>
+>>>>>>> staging
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
 <?php endif; ?>

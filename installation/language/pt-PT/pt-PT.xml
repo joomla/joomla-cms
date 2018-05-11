@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.7"
+	client="installation">
+	<name>Portuguese (pt-PT)</name>
+	<version>3.7.0</version>
+	<creationDate>2017-02-04</creationDate>
+	<author>Projeto Joomla!</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>pt-PT.ini</filename>
+	</files>
+	<metadata>
+		<name>Portuguese (pt-PT)</name>
+		<nativeName>Português (Portugal)</nativeName>
+		<tag>pt-PT</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

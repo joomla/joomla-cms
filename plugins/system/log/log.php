@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.log
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,12 @@ class PlgSystemLog extends CMSPlugin
 				break;
 		}
 
+<<<<<<< HEAD
 		Log::addLogger(array(), Log::INFO);
+=======
+		JLog::addLogger(array(), JLog::INFO);
+
+>>>>>>> staging
 		try
 		{
 			Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);

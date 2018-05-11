@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -205,6 +205,484 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Checks the accept encoding of the browser and compresses the data before
+	 * sending it to the client if possible.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function compress()
+	{
+		// Supported compression encodings.
+		$supported = array(
+			'x-gzip' => 'gz',
+			'gzip' => 'gz',
+			'deflate' => 'deflate',
+		);
+
+		// Get the supported encoding.
+		$encodings = array_intersect($this->client->encodings, array_keys($supported));
+
+		// If no supported encoding is detected do nothing and return.
+		if (empty($encodings))
+		{
+			return;
+		}
+
+		// Verify that headers have not yet been sent, and that our connection is still alive.
+		if ($this->checkHeadersSent() || !$this->checkConnectionAlive())
+		{
+			return;
+		}
+
+		// Iterate through the encodings and attempt to compress the data using any found supported encodings.
+		foreach ($encodings as $encoding)
+		{
+			if (($supported[$encoding] == 'gz') || ($supported[$encoding] == 'deflate'))
+			{
+				// Verify that the server supports gzip compression before we attempt to gzip encode the data.
+				if (!extension_loaded('zlib') || ini_get('zlib.output_compression'))
+				{
+					continue;
+				}
+
+				// Attempt to gzip encode the data with an optimal level 4.
+				$data = $this->getBody();
+				$gzdata = gzencode($data, 4, ($supported[$encoding] == 'gz') ? FORCE_GZIP : FORCE_DEFLATE);
+
+				// If there was a problem encoding the data just try the next encoding scheme.
+				if ($gzdata === false)
+				{
+					continue;
+				}
+
+				// Set the encoding headers.
+				$this->setHeader('Content-Encoding', $encoding);
+
+				// Header will be removed at 4.0
+				if ($this->get('MetaVersion'))
+				{
+					$this->setHeader('X-Content-Encoded-By', 'Joomla');
+				}
+
+				// Replace the output with the encoded data.
+				$this->setBody($gzdata);
+
+				// Compression complete, let's break out of the loop.
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Method to send the application response to the client.  All headers will be sent prior to the main
+	 * application output data.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	protected function respond()
+	{
+		// Send the content-type header.
+		$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+
+		// If the response is set to uncachable, we need to set some appropriate headers so browsers don't cache the response.
+		if (!$this->response->cachable)
+		{
+			// Expires in the past.
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+
+			// Always modified.
+			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+
+			// HTTP 1.0
+			$this->setHeader('Pragma', 'no-cache');
+		}
+		else
+		{
+			// Expires.
+			$this->setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
+
+			// Last modified.
+			if ($this->modifiedDate instanceof \JDate)
+			{
+				$this->setHeader('Last-Modified', $this->modifiedDate->format('D, d M Y H:i:s'));
+			}
+		}
+
+		$this->sendHeaders();
+
+		echo $this->getBody();
+	}
+
+	/**
+	 * Redirect to another URL.
+	 *
+	 * If the headers have not been sent the redirect will be accomplished using a "301 Moved Permanently"
+	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
+	 * sent this will be accomplished using a JavaScript statement.
+	 *
+	 * @param   string   $url     The URL to redirect to. Can only be http/https URL.
+	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function redirect($url, $status = 303)
+	{
+		// Check for relative internal links.
+		if (preg_match('#^index\.php#', $url))
+		{
+			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
+			$url = \JUri::base() . $url;
+		}
+
+		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
+		$url = preg_split("/[\r\n]/", $url);
+		$url = $url[0];
+
+		/*
+		 * Here we need to check and see if the URL is relative or absolute.  Essentially, do we need to
+		 * prepend the URL with our base URL for a proper redirect.  The rudimentary way we are looking
+		 * at this is to simply check whether or not the URL string has a valid scheme or not.
+		 */
+		if (!preg_match('#^[a-z]+\://#i', $url))
+		{
+			// Get a \JUri instance for the requested URI.
+			$uri = \JUri::getInstance($this->get('uri.request'));
+
+			// Get a base URL to prepend from the requested URI.
+			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+
+			// We just need the prefix since we have a path relative to the root.
+			if ($url[0] == '/')
+			{
+				$url = $prefix . $url;
+			}
+			// It's relative to where we are now, so lets add that.
+			else
+			{
+				$parts = explode('/', $uri->toString(array('path')));
+				array_pop($parts);
+				$path = implode('/', $parts) . '/';
+				$url = $prefix . $path . $url;
+			}
+		}
+
+		// If the headers have already been sent we need to send the redirect statement via JavaScript.
+		if ($this->checkHeadersSent())
+		{
+			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
+		}
+		else
+		{
+			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
+			if (($this->client->engine == \JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
+			{
+				$html = '<html><head>';
+				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
+				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
+				$html .= '</head><body></body></html>';
+
+				echo $html;
+			}
+			else
+			{
+				// Check if we have a boolean for the status variable for compatibility with old $move parameter
+				// @deprecated 4.0
+				if (is_bool($status))
+				{
+					$status = $status ? 301 : 303;
+				}
+
+				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
+				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
+				if (!is_int($status) || !$this->isRedirectState($status))
+				{
+					$status = 303;
+				}
+
+				// All other cases use the more efficient HTTP header for redirection.
+				$this->setHeader('Status', $status, true);
+				$this->setHeader('Location', $url, true);
+			}
+		}
+
+		// Set appropriate headers
+		$this->respond();
+
+		//  Close the application after the redirect.
+		$this->close();
+	}
+
+	/**
+	 * Checks if a state is a redirect state
+	 *
+	 * @param   integer  $state  The HTTP 1.1 status code.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.0
+	 */
+	protected function isRedirectState($state)
+	{
+		$state = (int) $state;
+
+		return ($state > 299 && $state < 400);
+	}
+
+	/**
+	 * Load an object or array into the application configuration object.
+	 *
+	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function loadConfiguration($data)
+	{
+		// Load the data into the configuration object.
+		if (is_array($data))
+		{
+			$this->config->loadArray($data);
+		}
+		elseif (is_object($data))
+		{
+			$this->config->loadObject($data);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set/get cachable state for the response.  If $allow is set, sets the cachable state of the
+	 * response.  Always returns the current state.
+	 *
+	 * @param   boolean  $allow  True to allow browser caching.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   11.3
+	 */
+	public function allowCache($allow = null)
+	{
+		if ($allow !== null)
+		{
+			$this->response->cachable = (bool) $allow;
+		}
+
+		return $this->response->cachable;
+	}
+
+	/**
+	 * Method to set a response header.  If the replace flag is set then all headers
+	 * with the given name will be replaced by the new one.  The headers are stored
+	 * in an internal array to be sent when the site is sent to the browser.
+	 *
+	 * @param   string   $name     The name of the header to set.
+	 * @param   string   $value    The value of the header to set.
+	 * @param   boolean  $replace  True to replace any headers with the same name.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function setHeader($name, $value, $replace = false)
+	{
+		// Sanitize the input values.
+		$name = (string) $name;
+		$value = (string) $value;
+
+		// Create an array of duplicate header names
+		$keys = false;
+
+		if ($this->response->headers)
+		{
+			$names = array();
+
+			foreach ($this->response->headers as $key => $header)
+			{
+				$names[$key] = $header['name'];
+			}
+
+			// Find existing headers by name
+			$keys = array_keys($names, $name);
+		}
+
+		// Remove if $replace is true and there are duplicate names
+		if ($replace && $keys)
+		{
+			$this->response->headers = array_diff_key($this->response->headers, array_flip($keys));
+		}
+
+		/*
+		 * If no keys found, safe to insert (!$keys)
+		 * If ($keys && $replace) it's a replacement and previous have been deleted
+		 * If ($keys && !in_array...) it's a multiple value header
+		 */
+		$single = in_array($name, $this->singleValueResponseHeaders);
+
+		if ($value && (!$keys || ($keys && ($replace || !$single))))
+		{
+			// Add the header to the internal array.
+			$this->response->headers[] = array('name' => $name, 'value' => $value);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get the array of response headers to be sent when the response is sent
+	 * to the client.
+	 *
+	 * @return  array	 *
+	 *
+	 * @since   11.3
+	 */
+	public function getHeaders()
+	{
+		return $this->response->headers;
+	}
+
+	/**
+	 * Method to clear any set response headers.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function clearHeaders()
+	{
+		$this->response->headers = array();
+
+		return $this;
+	}
+
+	/**
+	 * Send the response headers.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function sendHeaders()
+	{
+		if (!$this->checkHeadersSent())
+		{
+			// Creating an array of headers, making arrays of headers with multiple values
+			$val = array();
+
+			foreach ($this->response->headers as $header)
+			{
+				if ('status' == strtolower($header['name']))
+				{
+					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
+					$status = $this->getHttpStatusValue($header['value']);
+					$this->header($status, true, (int) $header['value']);
+				}
+				else
+				{
+					$val[$header['name']] = !isset($val[$header['name']]) ? $header['value'] : implode(', ', array($val[$header['name']], $header['value']));
+					$this->header($header['name'] . ': ' . $val[$header['name']], true);
+				}
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Check if a given value can be successfully mapped to a valid http status value
+	 *
+	 * @param   string  $value  The given status as int or string
+	 *
+	 * @return  string
+	 *
+	 * @since   3.8.0
+	 */
+	protected function getHttpStatusValue($value)
+	{
+		$code = (int) $value;
+
+		if (array_key_exists($code, $this->responseMap))
+		{
+			return $this->responseMap[$code];
+		}
+
+		return 'HTTP/1.1 ' . $code;
+	}
+
+	/**
+	 * Set body content.  If body content already defined, this will replace it.
+	 *
+	 * @param   string  $content  The content to set as the response body.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function setBody($content)
+	{
+		$this->response->body = array((string) $content);
+
+		return $this;
+	}
+
+	/**
+	 * Prepend content to the body content
+	 *
+	 * @param   string  $content  The content to prepend to the response body.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function prependBody($content)
+	{
+		array_unshift($this->response->body, (string) $content);
+
+		return $this;
+	}
+
+	/**
+	 * Append content to the body content
+	 *
+	 * @param   string  $content  The content to append to the response body.
+	 *
+	 * @return  WebApplication  Instance of $this to allow chaining.
+	 *
+	 * @since   11.3
+	 */
+	public function appendBody($content)
+	{
+		$this->response->body[] = (string) $content;
+
+		return $this;
+	}
+
+	/**
+	 * Return the body content
+	 *
+	 * @param   boolean  $asArray  True to return the body as an array of strings.
+	 *
+	 * @return  mixed  The response body either as an array or concatenated string.
+	 *
+	 * @since   11.3
+	 */
+	public function getBody($asArray = false)
+	{
+		return $asArray ? $this->response->body : implode((array) $this->response->body);
+	}
+
+	/**
+>>>>>>> staging
 	 * Method to get the application document object.
 	 *
 	 * @return  Document  The document object
@@ -229,6 +707,146 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	}
 
 	/**
+<<<<<<< HEAD
+=======
+	 * Method to get the application session object.
+	 *
+	 * @return  \JSession  The session object
+	 *
+	 * @since   11.3
+	 */
+	public function getSession()
+	{
+		return $this->session;
+	}
+
+	/**
+	 * Method to check the current client connection status to ensure that it is alive.  We are
+	 * wrapping this to isolate the connection_status() function from our code base for testing reasons.
+	 *
+	 * @return  boolean  True if the connection is valid and normal.
+	 *
+	 * @see     connection_status()
+	 * @since   11.3
+	 */
+	protected function checkConnectionAlive()
+	{
+		return connection_status() === CONNECTION_NORMAL;
+	}
+
+	/**
+	 * Method to check to see if headers have already been sent.  We are wrapping this to isolate the
+	 * headers_sent() function from our code base for testing reasons.
+	 *
+	 * @return  boolean  True if the headers have already been sent.
+	 *
+	 * @see     headers_sent()
+	 * @since   11.3
+	 */
+	protected function checkHeadersSent()
+	{
+		return headers_sent();
+	}
+
+	/**
+	 * Method to detect the requested URI from server environment variables.
+	 *
+	 * @return  string  The requested URI
+	 *
+	 * @since   11.3
+	 */
+	protected function detectRequestUri()
+	{
+		// First we need to detect the URI scheme.
+		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+		{
+			$scheme = 'https://';
+		}
+		else
+		{
+			$scheme = 'http://';
+		}
+
+		/*
+		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
+		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
+		 * information from Apache or IIS.
+		 */
+		// Define variable to return
+		$uri = '';
+
+		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
+		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
+		{
+			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
+			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		}
+		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
+		elseif (isset($_SERVER['HTTP_HOST']))
+		{
+			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
+			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+
+			// If the QUERY_STRING variable exists append it to the URI string.
+			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
+			{
+				$uri .= '?' . $_SERVER['QUERY_STRING'];
+			}
+		}
+
+		return trim($uri);
+	}
+
+	/**
+	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
+	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
+	 * for your specific application.
+	 *
+	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
+	 *                          in JPATH_CONFIGURATION will be used.
+	 * @param   string  $class  The class name to instantiate.
+	 *
+	 * @return  mixed   Either an array or object to be loaded into the configuration object.
+	 *
+	 * @since   11.3
+	 * @throws  \RuntimeException
+	 */
+	protected function fetchConfigurationData($file = '', $class = '\JConfig')
+	{
+		// Instantiate variables.
+		$config = array();
+
+		if (empty($file))
+		{
+			$file = JPATH_CONFIGURATION . '/configuration.php';
+
+			// Applications can choose not to have any configuration data
+			// by not implementing this method and not having a config file.
+			if (!file_exists($file))
+			{
+				$file = '';
+			}
+		}
+
+		if (!empty($file))
+		{
+			\JLoader::register($class, $file);
+
+			if (class_exists($class))
+			{
+				$config = new $class;
+			}
+			else
+			{
+				throw new \RuntimeException('Configuration class does not exist.');
+			}
+		}
+
+		return $config;
+	}
+
+	/**
+>>>>>>> staging
 	 * Flush the media version to refresh versionable assets
 	 *
 	 * @return  void
@@ -237,7 +855,45 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function flushAssets()
 	{
+<<<<<<< HEAD
 		(new Version)->refreshMediaVersion();
+=======
+		$version = new \JVersion;
+		$version->refreshMediaVersion();
+	}
+
+	/**
+	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
+	 * from our code base for testing reasons.
+	 *
+	 * @param   string   $string   The header string.
+	 * @param   boolean  $replace  The optional replace parameter indicates whether the header should
+	 *                             replace a previous similar header, or add a second header of the same type.
+	 * @param   integer  $code     Forces the HTTP response code to the specified value. Note that
+	 *                             this parameter only has an effect if the string is not empty.
+	 *
+	 * @return  void
+	 *
+	 * @see     header()
+	 * @since   11.3
+	 */
+	protected function header($string, $replace = true, $code = null)
+	{
+		$string = str_replace(chr(0), '', $string);
+		header($string, $replace, $code);
+	}
+
+	/**
+	 * Determine if we are using a secure (SSL) connection.
+	 *
+	 * @return  boolean  True if using SSL, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isSSLConnection()
+	{
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+>>>>>>> staging
 	}
 
 	/**
@@ -340,7 +996,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -349,7 +1004,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));

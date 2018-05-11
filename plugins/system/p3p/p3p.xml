@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+	<name>plg_system_p3p</name>
+	<author>Joomla! Project</author>
+	<creationDate>September 2010</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>PLG_P3P_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="p3p">p3p.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_p3p.ini</language>
+		<language tag="en-GB">en-GB.plg_system_p3p.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="header"
+					type="text"
+					label="PLG_P3P_HEADER_LABEL"
+					description="PLG_P3P_HEADER_DESCRIPTION"
+					default="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
+					size="37"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

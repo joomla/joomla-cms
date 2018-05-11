@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,52 @@ class Session extends BaseSession
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
+<<<<<<< HEAD
 	 * @param   boolean  $forceNew  If true, force a new token to be created
+=======
+	 * @since   11.1
+	 */
+	public static function getStores()
+	{
+		$connectors = array();
+
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/joomla/session/storage');
+
+		/** @type  $file  \DirectoryIterator */
+		foreach ($iterator as $file)
+		{
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			if (!$file->isFile() || $file->getExtension() != 'php')
+			{
+				continue;
+			}
+
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', 'JSessionStorage' . ucfirst(trim($fileName)));
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
+			{
+				continue;
+			}
+
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
+			{
+				// Connector names should not have file extensions.
+				$connectors[] = str_ireplace('.php', '', $fileName);
+			}
+		}
+
+		return $connectors;
+	}
+
+	/**
+	 * Shorthand to check if the session is active
+>>>>>>> staging
 	 *
 	 * @return  string  Hashed var name
 	 *
@@ -184,11 +229,142 @@ class Session extends BaseSession
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Clears all variables from the session store
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
+=======
+	 * Create a new session and copy variables from the old one
+	 *
+	 * @return  boolean $result true on success
+	 *
+	 * @since   11.1
+	 */
+	public function fork()
+	{
+		if ($this->getState() !== 'active')
+		{
+			// @TODO :: generated error here
+			return false;
+		}
+
+		// Restart session with new id
+		$this->_handler->regenerate(true, null);
+
+		return true;
+	}
+
+	/**
+	 * Writes session data and ends session
+	 *
+	 * Session data is usually stored after your script terminated without the need
+	 * to call Session::close(), but as session data is locked to prevent concurrent
+	 * writes only one script may operate on a session at any time. When using
+	 * framesets together with sessions you will experience the frames loading one
+	 * by one due to this locking. You can reduce the time needed to load all the
+	 * frames by ending the session as soon as all changes to session variables are
+	 * done.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function close()
+	{
+		$this->_handler->save();
+		$this->_state = 'inactive';
+	}
+
+	/**
+	 * Delete expired session data
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.8.6
+	 */
+	public function gc()
+	{
+		return $this->_store->gc($this->getExpire());
+	}
+
+	/**
+	 * Set the session handler
+	 *
+	 * @param   \JSessionHandlerInterface  $handler  The session handler
+	 *
+	 * @return  void
+	 */
+	public function setHandler(\JSessionHandlerInterface $handler)
+	{
+		$this->_handler = $handler;
+	}
+
+	/**
+	 * Create a token-string
+	 *
+	 * @param   integer  $length  Length of string
+	 *
+	 * @return  string  Generated token
+	 *
+	 * @since   11.1
+	 */
+	protected function _createToken($length = 32)
+	{
+		return UserHelper::genRandomPassword($length);
+	}
+
+	/**
+	 * Set counter of session usage
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	protected function _setCounter()
+	{
+		$counter = $this->get('session.counter', 0);
+		++$counter;
+
+		$this->set('session.counter', $counter);
+
+		return true;
+	}
+
+	/**
+	 * Set the session timers
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	protected function _setTimers()
+	{
+		if (!$this->has('session.timer.start'))
+		{
+			$start = time();
+
+			$this->set('session.timer.start', $start);
+			$this->set('session.timer.last', $start);
+			$this->set('session.timer.now', $start);
+		}
+
+		$this->set('session.timer.last', $this->get('session.timer.now'));
+		$this->set('session.timer.now', time());
+
+		return true;
+	}
+
+	/**
+	 * Set additional session options
+	 *
+	 * @param   array  $options  List of parameter
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+>>>>>>> staging
 	 */
 	public function clear()
 	{

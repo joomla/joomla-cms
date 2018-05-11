@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,10 +73,17 @@ else
 ?>
 
 	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
+<<<<<<< HEAD
 		<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-rows-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
+=======
+		<div class="subform-repeatable"
+			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
+			data-repeatable-element="tr.subform-repeatable-group"
+			data-rows-container="tbody.subform-repeatable-container" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+>>>>>>> staging
 
 		<table class="adminlist table table-striped table-bordered">
 			<thead>
@@ -94,7 +101,11 @@ else
 					<?php endif; ?>
 				</tr>
 			</thead>
+<<<<<<< HEAD
 			<tbody class="subform-repeatable-rows-container">
+=======
+			<tbody class="subform-repeatable-container">
+>>>>>>> staging
 			<?php
 			foreach ($forms as $k => $form) :
 				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));

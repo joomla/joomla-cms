@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -296,7 +296,11 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<div id="system-debug" class="system-debug profiler full-width">';
 
+<<<<<<< HEAD
 		$html[] = '<h1>' . Text::_('PLG_DEBUG_TITLE') . '</h1>';
+=======
+		$html[] = '<h2>' . JText::_('PLG_DEBUG_TITLE') . '</h2>';
+>>>>>>> staging
 
 		if (JDEBUG)
 		{

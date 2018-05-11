@@ -1,0 +1,374 @@
+@charset "UTF-8";
+
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	templates.hathor
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
+ *
+ * RTL CSS file for the color standard
+ */
+
+/**
+ * Overall Styles
+ */
+#header {
+	background: #ffffff url(../images/j_logo.png) no-repeat top right;
+}
+
+#element-box {
+	border-left: 1px solid #738498;
+	border-right: 1px solid #738498;
+}
+
+
+/**
+ * Various Styles
+ */
+
+div.checkin-tick {
+		background: url(../images/admin/tick.png) 20px 50% no-repeat;
+}
+
+/**
+ * Subheader, toolbar, page title
+ */
+
+div.toolbar-box {
+	border-left: 1px solid #738498;
+	border-right: 1px solid #738498;
+}
+
+div.toolbar-list li.divider {
+	border-left: 1px dotted #e5d9c3;
+	border-right: none;
+}
+
+div.toolbar-list a:hover {
+	border-right: 1px solid #e5d9c3;
+	border-left: 1px solid #738498;
+}
+
+/**
+ * Pane Slider pane Toggler styles
+ */
+.pane-toggler  span {
+	background: transparent url(../images/j_arrow_left.png) right 50% no-repeat;
+}
+
+.pane-toggler-down span {
+	background: transparent url(../images/j_arrow_down.png) right 50% no-repeat;
+}
+
+/**
+ * Cpanel Settings
+ */
+
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus {
+	border-right: 1px solid #e5d9c3;
+	border-left: 1px solid #738498;
+}
+
+fieldset#filter-bar {
+	border-left: none;
+	border-right: none;
+}
+
+/**
+ * Admintable Styles
+ */
+
+table.admintable td.key,table.admintable td.paramlist_key {
+	border-left: 1px solid #738498;
+	border-right: none;
+}
+
+table.paramlist td.paramlist_description {
+	border-left: 1px solid #738498;
+	border-right: none;
+}
+
+/**
+ * Admin Form Styles
+ */
+table.adminform tr {
+	border-left: 1px solid #738498;
+	border-right: none;
+}
+
+/**
+ * Adminlist Table layout
+ */
+
+table.adminlist.modal {
+	border-right: 1px solid #738498;
+	border-left: 1px solid #738498;
+}
+
+/* Table row styles */
+
+table.adminlist tbody tr td,
+table.adminlist tbody tr th {
+	border-left: 1px solid #738498;
+	border-right: none;
+}
+
+table.adminlist tbody tr td:last-child {
+	border-left: none;
+}
+
+/**
+ * Saving order icon styling in admin tables
+ */
+a.saveorder {
+	background: url(../images/admin/filesave.png) no-repeat;
+}
+
+a.saveorder.inactive {
+	background-position: 0 -16px;
+}
+
+/**
+ * Button styling
+ */
+
+/* Button 1 Type */
+
+	/* Use this if you add images to the buttons such as directional arrows */
+
+.button1 a {
+	/* add padding if you are using the directional images */
+	/* padding: 0 6px 0 30px; */
+}
+
+	/* Button 2 Type */
+
+.button2-right .prev {
+	background-image: url(../images/j_button2_prev.png);
+	background-position: right center;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background-image: url(../images/j_button2_first.png);
+	background-position: right center;
+}
+
+.button2-left .next {
+	background-image: url(../images/j_button2_next.png);
+	background-position: left center;
+}
+
+.button2-left.off .next { /* @TODO check the x position */
+	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background-image: url(../images/j_arrow_left.png);
+	background-position: left center;
+}
+
+.button2-left.off .end { /* @TODO check the x position */
+	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .image {
+	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+/**
+ * Tooltips
+ */
+
+/**
+ * System Standard Messages
+ */
+#system-message dd.message ul {
+	background: #C3D2E5 url(../images/notice-info.png) 99.5% center no-repeat;
+}
+
+/**
+ * System Error Messages
+ */
+#system-message dd.error ul {
+	background: #E6C0C0 url(../images/notice-alert.png) 99.5% top no-repeat;
+}
+
+/**
+ * System Notice Messages
+ */
+#system-message dd.notice ul {
+	background: #EFE7B8 url(../images/notice-note.png) 99%.5 top no-repeat;
+}
+
+/**
+ * JGrid styles
+ */
+
+/**
+ * Menu Icons
+ * These icons are used on the Administrator menu
+ * The classes are constructed dynamically when the menu is generated
+ */
+
+
+/**
+ * Toolbar icons
+ * These icons are used for the toolbar buttons
+ * The classes are constructed dynamically when the toolbar is created
+ */
+
+/**
+ * Quick Icons
+ * Also knows as Header Icons
+ * These are used for the Quick Icons on the Control Panel
+ * The same classes are also assigned the Component Title
+ */
+
+/**
+ * General styles
+ */
+
+.helpFrame {
+	border-right: 0 solid #738498;
+	border-left: none;
+	border-top: none;
+}
+
+/* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
+
+/* -- ACL PANEL STYLES  ----------- */
+
+
+/* All Tabs */
+
+table.aclsummary-table td.col2,
+table.aclsummary-table th.col2,
+table.aclsummary-table td.col3,
+table.aclsummary-table th.col3,
+table.aclsummary-table td.col4,
+table.aclsummary-table th.col4,
+table.aclsummary-table td.col5,
+table.aclsummary-table th.col5,
+table.aclsummary-table td.col6,
+table.aclsummary-table th.col6,
+table.aclmodify-table td.col2,
+table.aclmodify-table th.col2 {
+	border-right: 1px solid #738498;
+	border-left: none;
+}
+
+/* Icons */
+
+ul.acllegend li.acl-allowed {
+	background:url(../images/admin/icon-16-allow.png) no-repeat right;
+}
+ul.acllegend li.acl-denied {
+	background:url(../images/admin/icon-16-deny.png) no-repeat right;
+}
+
+table#acl-config th.acl-groups {
+	border-left: 1px solid #738498;
+}
+
+table#acl-config th.acl-groups {
+	text-align: right;
+}
+
+.acl-action {
+	margin: auto 0;
+}
+
+/* Icons */
+
+span.icon-16-unset {
+	background: url(../images/admin/icon-16-denyinactive.png) no-repeat right;
+}
+
+span.icon-16-allowed {
+	background: url(../images/admin/icon-16-allow.png) no-repeat right;
+}
+
+span.icon-16-denied {
+	background: url(../images/admin/icon-16-deny.png) no-repeat right;
+}
+
+span.icon-16-locked {
+	background: url(../images/admin/checked_out.png) no-repeat right;
+}
+
+/**
+* Mod_rewrite Warning
+*/
+#jform_sef_rewrite-lbl {
+	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
+}
+
+/**
+* Modal S-Box overrides
+*/
+
+#sbox-window {
+	text-align: right;
+}
+
+/**
+* Permission Rules
+*/
+
+#permissions-sliders ul#rules table.group-rules td
+{
+    border-left: solid 1px #738498;
+    border-right: solid 0 #738498;
+}
+
+#permissions-sliders ul#rules table.group-rules th
+{
+    border-left: solid 1px #738498;
+    border-right: solid 0 #738498;
+}
+
+/**
+ * Menu Styling
+ */
+
+#menu ul li.node {
+	background-image: url(../images/j_arrow_left.png);
+	background-repeat: no-repeat;
+	background-position: left 50%;
+}
+
+#menu a {
+	background-position: right 50%;
+}
+
+#menu li {
+	border-left: 1px solid #738498;
+	border-right: 0 solid #738498;
+}
+
+#menu li li li a:focus {
+	border-right: 1px solid #fafafa;
+}
+
+/* Installer Database */
+#installer-database p.warning {
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	background-position: center right;
+}

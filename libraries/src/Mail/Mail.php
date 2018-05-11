@@ -2,20 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 
+<<<<<<< HEAD
 defined('JPATH_PLATFORM') or die;
 
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
+=======
+>>>>>>> staging
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,8 +165,15 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Load the syntax mode.
+<<<<<<< HEAD
 		$syntax = $this->params->get('syntax', 'html');
 		$options->mode = $this->modeAlias[$syntax] ?? $syntax;
+=======
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
+		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
+>>>>>>> staging
 
 		// Load the theme if specified.
 		if ($theme = $this->params->get('theme'))
@@ -177,7 +184,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
 			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
@@ -187,7 +194,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
 			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
@@ -198,8 +205,19 @@ class PlgEditorCodemirror extends CMSPlugin
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
-		// Vim Keybindings.
-		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+		// KeyMap settings.
+		$options->keyMap = $this->params->get('keyMap', false);
+
+		// Support for older settings.
+		if ($options->keyMap === false)
+		{
+			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+		}
+
+		if ($options->keyMap && $options->keyMap != 'default')
+		{
+			$this->loadKeyMap($options->keyMap);
+		}
 
 		$displayData = (object) array(
 				'options' => $options,
@@ -271,5 +289,19 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
+
+	/**
+	 * Loads a keyMap file
+	 *
+	 * @param   string  $keyMap  The name of a keyMap file to load.
+	 *
+	 * @return  void
+	 */
+	protected function loadKeyMap($keyMap)
+	{
+		$basePath = $this->params->get('basePath', 'media/editors/codemirror/');
+		$ext = JDEBUG ? '.js' : '.min.js';
+		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

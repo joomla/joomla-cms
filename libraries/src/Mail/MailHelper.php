@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -153,7 +153,7 @@ abstract class MailHelper
 		}
 
 		// Check the domain
-		$domain_array = explode('.', rtrim($domain, '.'));
+		$domain_array = explode('.', $domain);
 		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 
 		foreach ($domain_array as $domain)

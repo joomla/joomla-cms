@@ -971,6 +971,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Registry\\Format\\Xml' => __DIR__ . '/..' . '/joomla/registry/src/Format/Xml.php',
         'Joomla\\Registry\\Format\\Yaml' => __DIR__ . '/..' . '/joomla/registry/src/Format/Yaml.php',
         'Joomla\\Registry\\Registry' => __DIR__ . '/..' . '/joomla/registry/src/Registry.php',
+<<<<<<< HEAD
         'Joomla\\Session\\Exception\\InvalidSessionException' => __DIR__ . '/..' . '/joomla/session/src/Exception/InvalidSessionException.php',
         'Joomla\\Session\\HandlerInterface' => __DIR__ . '/..' . '/joomla/session/src/HandlerInterface.php',
         'Joomla\\Session\\Handler\\ApcuHandler' => __DIR__ . '/..' . '/joomla/session/src/Handler/ApcuHandler.php',
@@ -989,6 +990,25 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Session\\ValidatorInterface' => __DIR__ . '/..' . '/joomla/session/src/ValidatorInterface.php',
         'Joomla\\Session\\Validator\\AddressValidator' => __DIR__ . '/..' . '/joomla/session/src/Validator/AddressValidator.php',
         'Joomla\\Session\\Validator\\ForwardedValidator' => __DIR__ . '/..' . '/joomla/session/src/Validator/ForwardedValidator.php',
+=======
+        'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Session.php',
+        'Joomla\\Session\\Storage' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage.php',
+        'Joomla\\Session\\Storage\\Apc' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Apc.php',
+        'Joomla\\Session\\Storage\\Database' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Database.php',
+        'Joomla\\Session\\Storage\\Memcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcache.php',
+        'Joomla\\Session\\Storage\\Memcached' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcached.php',
+        'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
+        'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
+        'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
+        'Joomla\\Session\\Tests\\Handler\\ApcuHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/ApcuHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\DatabaseHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/DatabaseHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\FilesystemHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/FilesystemHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\MemcachedHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/MemcachedHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\NativeStorageTest' => __DIR__ . '/..' . '/joomla/session/tests/Storage/NativeStorageTest.php',
+        'Joomla\\Session\\Tests\\Handler\\RedisHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/RedisHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\WincacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/WincacheHandlerTest.php',
+        'Joomla\\Session\\Tests\\SessionTest' => __DIR__ . '/..' . '/joomla/session/tests/SessionTest.php',
+>>>>>>> staging
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
         'Joomla\\String\\StringHelper' => __DIR__ . '/..' . '/joomla/string/src/StringHelper.php',
@@ -1154,6 +1174,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Symfony\\Component\\Yaml\\Tag\\TaggedValue' => __DIR__ . '/..' . '/symfony/yaml/Tag/TaggedValue.php',
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
+<<<<<<< HEAD
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',
@@ -1187,6 +1208,21 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Zend\\Diactoros\\Stream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Stream.php',
         'Zend\\Diactoros\\UploadedFile' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/UploadedFile.php',
         'Zend\\Diactoros\\Uri' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Uri.php',
+=======
+        'Symfony\\Polyfill\\Php55\\Php55' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55.php',
+        'Symfony\\Polyfill\\Php55\\Php55ArrayColumn' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55ArrayColumn.php',
+        'Symfony\\Polyfill\\Php56\\Php56' => __DIR__ . '/..' . '/symfony/polyfill-php56/Php56.php',
+        'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
+        'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
+        'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
+        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
+        'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
+>>>>>>> staging
     );
 
     public static function getInitializer(ClassLoader $loader)

@@ -1,0 +1,125 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+
+
+#messages {
+	right: 175px;
+	float: right;
+}
+
+/**
+ * Upload Widget CSS
+ */
+
+#upload-flash {
+	font-size: 11px;
+	margin-left: 0;
+}
+
+#upload-flash ul {
+	margin-left: 0;
+	margin-right: -15px;
+}
+
+#upload-flash .progress {
+	background: url(../images/progress.gif) no-repeat;
+	background-position: +50% 0;
+	margin-right: 0;
+	margin-left: 0.5em;
+}
+
+#upload-queue {
+	margin-left:0px;
+	margin-right:25px;
+}
+
+#upload-queue li.file {
+	background: url(../images/upload.png) no-repeat;
+	background-position: right 6px;
+}
+
+#upload-queue li.file.file-uploading {
+	background-image: url(../images/uploading.png);
+}
+
+#upload-queue li.file.file-success {
+	background-image: url(../images/success.png);
+}
+
+#upload-queue li.file.file-failed {
+	background-image: url(../images/failed.png);
+}
+
+#upload-queue li.file .file-name {
+	margin-left: 0;
+	margin-right: 25px;
+	clear: none;
+	clear: right;
+}
+
+#upload-queue li.file .file-remove {
+	float: left;
+	margin-right: 0;
+	margin-left: 6px;
+}
+
+
+#upload-queue li.file .file-size {
+	float: left;
+	margin-right: 0;
+	margin-left: 6px;
+}
+
+#upload-queue li.file .file-info {
+	margin-left: 0;
+	margin-right: 44px;
+}
+
+div#upload-flash ul li {
+	float: right;
+	clear: none;
+	clear: left;
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+/* added Angie */
+
+#imageForm fieldset,
+#uploadform,
+#upload-noflash {
+	text-align: right;
+}
+
+.fltrt {
+	float: left;
+}
+
+.fltlft {
+	float: right;
+}
+
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img,
+fieldset button {
+	float: right;
+    margin: 5px 0 5px 5px;
+}
+
+label.hidelabeltxt {
+	text-indent: -9999em;
+}
+#imageForm fieldset label,
+#uploadform fieldset label {
+    float: right;
+    clear: none;
+    clear: right;
+}
+.swiff-uploader-box {
+        right:auto!important;
+}

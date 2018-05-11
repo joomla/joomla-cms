@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,11 +82,13 @@ class UrlRule extends FormRule
 
 				return false;
 			}
+
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
 			if (!array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
 			{
 				return false;
 			}
+
 			// The internal URL seems to be good.
 			return true;
 		}

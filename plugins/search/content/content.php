@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,10 +54,17 @@ class PlgSearchContent extends CMSPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
+<<<<<<< HEAD
 		$db         = Factory::getDbo();
 		$serverType = $db->serverType;
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
+=======
+		$db         = JFactory::getDbo();
+		$serverType = $db->getServerType();
+		$app        = JFactory::getApplication();
+		$user       = JFactory::getUser();
+>>>>>>> staging
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$tag        = Factory::getLanguage()->getTag();
 
@@ -96,6 +103,8 @@ class PlgSearchContent extends CMSPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
+
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
@@ -151,6 +160,8 @@ class PlgSearchContent extends CMSPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
@@ -271,6 +282,12 @@ class PlgSearchContent extends CMSPlugin
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
 				. ' ELSE ' . $query->castAsChar('c.id') . ' END AS catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section')
@@ -325,6 +342,7 @@ class PlgSearchContent extends CMSPlugin
 		{
 			$query->clear();
 
+<<<<<<< HEAD
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 			. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
 			. ' ELSE ' . $query->castAsChar('a.id') . ' END AS slug';
@@ -341,6 +359,41 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid AND c.access IN (' . $groups . ')')
+=======
+			// SQLSRV changes.
+			$case_when  = ' CASE WHEN ';
+			$case_when .= $query->charLength('a.alias', '!=', '0');
+			$case_when .= ' THEN ';
+			$a_id       = $query->castAsChar('a.id');
+			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ';
+			$case_when .= $a_id . ' END as slug';
+
+			$case_when1  = ' CASE WHEN ';
+			$case_when1 .= $query->charLength('c.alias', '!=', '0');
+			$case_when1 .= ' THEN ';
+			$c_id = $query->castAsChar('c.id');
+			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+			$case_when1 .= ' ELSE ';
+			$case_when1 .= $c_id . ' END as catslug';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
+			$query->select(
+				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
+				. $query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text,'
+				. $case_when . ',' . $case_when1 . ', '
+				. 'c.title AS section, \'2\' AS browsernav'
+			);
+
+			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
+			$query->from('#__content AS a')
+				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
+>>>>>>> staging
 				->where(
 					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
 						. ') AND c.access IN (' . $groups . ') '

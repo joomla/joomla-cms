@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,6 +160,58 @@ abstract class JHtmlBootstrap
 		JHtml::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;
+<<<<<<< HEAD
+=======
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap modals
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $params    An array of options for the modal.
+	 *                             Options for the modal can be:
+	 *                             - backdrop  boolean  Includes a modal-backdrop element.
+	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
+	 *                             - show      boolean  Shows the modal when initialized.
+	 *                             - remote    string   An optional remote URL to load
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
+	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
+	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
+	 */
+	public static function modal($selector = 'modal', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+
+		if (!isset(static::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			JHtml::_('bootstrap.framework');
+
+			// Setup options object
+			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : false;
+			$opt['remote']   = isset($params['remote']) ? $params['remote'] : '';
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach the modal to document
+			JFactory::getDocument()->addScriptDeclaration(
+				'jQuery(function($){ $(' . json_encode('#' . $selector) . ').modal(' . $options . '); });'
+			);
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
+
+		return;
+>>>>>>> staging
 	}
 
 	/**
@@ -245,6 +297,7 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		JHtml::_('bootstrap.framework');
 
+<<<<<<< HEAD
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
 		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
 		$opt['content']     = isset($params['content']) ? $params['content'] : null;
@@ -257,6 +310,28 @@ abstract class JHtmlBootstrap
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
+=======
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
+
+		$options = JHtml::getJSObject($opt);
+
+		$initFunction = 'function initPopovers (event, container) { ' .
+				'$(container || document).find(' . json_encode($selector) . ').popover(' . $options . ');' .
+			'}';
+
+		// Attach the popover to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			'jQuery(function($){ initPopovers(); $("body").on("subform-row-add", initPopovers); ' . $initFunction . ' });'
+		);
+>>>>>>> staging
 
 
 		$opt     = (object) array_filter((array) $opt);
@@ -325,8 +400,86 @@ abstract class JHtmlBootstrap
 	 */
 	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
+<<<<<<< HEAD
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
+=======
+		if (!isset(static::$loaded[__METHOD__][$selector]))
+		{
+			// Include Bootstrap framework
+			JHtml::_('bootstrap.framework');
+
+			// Setup options object
+			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
+			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
+			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
+			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
+			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
+			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
+			$opt['delay']     = isset($params['delay']) ? (is_array($params['delay']) ? $params['delay'] : (int) $params['delay']) : null;
+			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
+			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
+			$onShow           = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown          = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+
+			$options = JHtml::getJSObject($opt);
+
+			// Build the script.
+			$script = array('$(container).find(' . json_encode($selector) . ').tooltip(' . $options . ')');
+
+			if ($onShow)
+			{
+				$script[] = 'on("show.bs.tooltip", ' . $onShow . ')';
+			}
+
+			if ($onShown)
+			{
+				$script[] = 'on("shown.bs.tooltip", ' . $onShown . ')';
+			}
+
+			if ($onHide)
+			{
+				$script[] = 'on("hide.bs.tooltip", ' . $onHide . ')';
+			}
+
+			if ($onHidden)
+			{
+				$script[] = 'on("hidden.bs.tooltip", ' . $onHidden . ')';
+			}
+
+			$initFunction = 'function initTooltips (event, container) { ' .
+				'container = container || document;' .
+				implode('.', $script) . ';' .
+				'}';
+
+			// Attach tooltips to document
+			JFactory::getDocument()
+				->addScriptDeclaration('jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); ' . $initFunction . ' });');
+
+			// Set static array
+			static::$loaded[__METHOD__][$selector] = true;
+		}
+
+		return;
+	}
+
+	/**
+	 * Loads js and css files needed by Bootstrap Tooltip Extended plugin
+	 *
+	 * @param   boolean  $extended  If true, bootstrap-tooltip-extended.js and .css files are loaded
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @deprecated  4.0 No replacement, use Bootstrap tooltips.
+	 */
+	public static function tooltipExtended($extended = true)
+	{
+		if ($extended)
+>>>>>>> staging
 		{
 			return;
 		}

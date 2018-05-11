@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.6"
+	client="installation">
+	<name>Russian (CIS)</name>
+	<version>3.2.0</version>
+	<creationDate>2012-09-27</creationDate>
+	<author>Joomlaportal.ru</author>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<files>
+		<filename>ru-RU.ini</filename>
+	</files>
+	<metadata>
+		<name>Russian Русский</name>
+		<tag>ru-RU</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
