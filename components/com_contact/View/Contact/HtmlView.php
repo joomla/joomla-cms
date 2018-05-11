@@ -199,7 +199,7 @@ class HtmlView extends BaseHtmlView
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
 			|| $item->params->get('show_postcode') || $item->params->get('show_country'))
 		{
-			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
+			if (!empty($item->address) || !empty($item->suburb) || !empty($item->state) || !empty($item->country) || !empty($item->postcode))
 			{
 				$item->params->set('address_check', 1);
 			}

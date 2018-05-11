@@ -204,8 +204,8 @@ class ContactController extends FormController
 				'fields.render',
 				array(
 					'context' => 'com_contact.mail',
-					'item' => $contact,
-					'fields' => $fields
+					'item'    => $contact,
+					'fields'  => $fields,
 				)
 			);
 

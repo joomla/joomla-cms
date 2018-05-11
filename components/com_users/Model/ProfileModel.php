@@ -387,7 +387,7 @@ class ProfileModel extends FormModel
 		PluginHelper::importPlugin('user');
 
 		// Retrieve the user groups so they don't get overwritten
-		unset ($user->groups);
+		unset($user->groups);
 		$user->groups = Access::getGroupsByUser($user->id, false);
 
 		// Store the data.
