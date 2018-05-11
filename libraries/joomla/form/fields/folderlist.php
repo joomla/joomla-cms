@@ -167,10 +167,38 @@ class JFormFieldFolderList extends JFormFieldList
 			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
 
 			// Get the path in which to search for file options.
-			$this->directory = (string) $this->element['directory'];
+			$basedir = $this->getBaseDir((string) $this->element['basedir']);
+			$this->directory = ($basedir ? $basedir . '/' : '') . (string) $this->element['directory'];
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to resolve the optional base directory as one of several configuration-dependent values
+	 * The base dir can be any of the defined 'JPATH_' constants or one of the directories configured by com_media
+	 *
+	 * @param   string  $basedir  The name of one of the 'JPATH_' constants, 'file_path', 'image_path', or empty
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDir($basedir = '')
+	{
+		// Basedir is any of the JPATH constants, resolve it
+		if (strpos($basedir, 'JPATH_') == 0 && defined($basedir))
+		{
+			return constant($basedir);
+		}
+
+		// Basedir is one of the folders configured in com_media
+		if (in_array($basedir, array('file_path', 'image_path')))
+		{
+			return JComponentHelper::getParams('com_media')->get($basedir);
+		}
+
+		return '';
 	}
 
 	/**
@@ -190,7 +218,7 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
-		
+
 		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
