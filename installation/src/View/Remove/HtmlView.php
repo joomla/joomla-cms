@@ -24,7 +24,7 @@ class HtmlView extends DefaultView
 	/**
 	 * Is the Joomla Version a development version?
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $development;
