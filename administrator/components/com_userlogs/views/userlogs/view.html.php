@@ -114,6 +114,8 @@ class UserlogsViewUserlogs extends JViewLegacy
 		if (JFactory::getUser()->authorise('core.delete', 'com_userlogs'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'userlogs.delete');
+			$bar = JToolbar::getInstance('toolbar');
+			$bar->appendButton('Confirm', 'COM_USERLOGS_PURGE_CONFIRM', 'delete', 'COM_USERLOGS_TOOLBAR_PURGE', 'userlogs.purge', false);
 		}
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_userlogs') || JFactory::getUser()->authorise('core.options', 'com_userlogs'))

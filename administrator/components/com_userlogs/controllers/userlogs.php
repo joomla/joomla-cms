@@ -100,4 +100,27 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 
 		parent::delete();
 	}
+
+	/**
+	 * Clean out the logs
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function purge()
+	{
+		$model = $this->getModel();
+
+		if ($model->purge())
+		{
+			$message = JText::_('COM_USERLOGS_PURGE_SUCCESS');
+		}
+		else
+		{
+			$message = JText::_('COM_REDIRECT_PURGE_FAIL');
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_userlogs&view=userlogs'), $message);
+	}
 }
