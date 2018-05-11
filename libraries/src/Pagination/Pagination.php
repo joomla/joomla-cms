@@ -582,7 +582,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="custom-select" onchange="Joomla.submitform();"',
+				'class="custom-select form-control" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
@@ -594,7 +594,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="custom-select" size="1" onchange="this.form.submit()"',
+				'class="custom-select form-control" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected
