@@ -199,7 +199,7 @@ abstract class ChangeItem
 
 			try
 			{
-				$rows = $this->db->loadObject();
+				$rows = $this->db->loadRowList(0);
 			}
 			catch (\RuntimeException $e)
 			{

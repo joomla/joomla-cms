@@ -156,20 +156,16 @@ class MenuRules implements RulesInterface
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
-		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !\JLanguageMultilang::isEnabled()))
+		// If there is no view and task in query then add the default item id
+		if (!isset($query['view']) && !isset($query['task']))
 		{
-			$query['Itemid'] = $active->id;
-			return;
-		}
+			// If not found, return language specific home link
+			$default = $this->router->menu->getDefault($language);
 
-		// If not found, return language specific home link
-		$default = $this->router->menu->getDefault($language);
-
-		if (!empty($default->id))
-		{
-			$query['Itemid'] = $default->id;
+			if (!empty($default->id))
+			{
+				$query['Itemid'] = $default->id;
+			}
 		}
 	}
 
