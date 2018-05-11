@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
+class ComposerStaticInitcacd7691af37f1e2d00cf043c0686e90
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -24,34 +24,29 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
-        'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
-        'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'Z' =>
+        'Z' => 
         array (
             'Zend\\Diactoros\\' => 15,
         ),
-        'S' =>
+        'S' => 
         array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\WebLink\\' => 26,
+            'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
         ),
-        'R' =>
+        'R' => 
         array (
             'ReCaptcha\\' => 10,
-            'Symfony\\Component\\VarDumper\\' => 28,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
@@ -59,11 +54,11 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
             'Psr\\Container\\' => 14,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'M' =>
+        'M' => 
         array (
             'Mso\\IdnaConvert\\' => 16,
         ),
-        'J' =>
+        'J' => 
         array (
             'Joomla\\Utilities\\' => 17,
             'Joomla\\Uri\\' => 11,
@@ -90,199 +85,192 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
         ),
-        'F' =>
+        'F' => 
         array (
             'Fig\\Link\\' => 9,
         ),
-        'D' =>
+        'D' => 
         array (
             'Doctrine\\Common\\Inflector\\' => 26,
             'Defuse\\Crypto\\' => 14,
-        ),
-        'D' =>
-        array (
             'DebugBar\\' => 9,
         ),
-        'C' =>
+        'C' => 
         array (
             'Composer\\CaBundle\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Zend\\Diactoros\\' =>
+        'Zend\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' =>
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
-        'Symfony\\Component\\Yaml\\' =>
+        'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Symfony\\Component\\WebLink\\' =>
+        'Symfony\\Component\\WebLink\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/web-link',
         ),
-        'Symfony\\Component\\Debug\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/symfony/debug',
-        ),
-        'Symfony\\Component\\Console\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/symfony/console',
-        ),
-        'ReCaptcha\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
-        ),
-        'Symfony\\Component\\VarDumper\\' =>
+        'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Psr\\Log\\' =>
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
+        ),
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Link\\' =>
+        'Psr\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
-        'Psr\\Http\\Message\\' =>
+        'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Container\\' =>
+        'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'PHPMailer\\PHPMailer\\' =>
+        'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Mso\\IdnaConvert\\' =>
+        'Mso\\IdnaConvert\\' => 
         array (
             0 => __DIR__ . '/..' . '/mso/idna-convert/src',
         ),
-        'Joomla\\Utilities\\' =>
+        'Joomla\\Utilities\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
         ),
-        'Joomla\\Uri\\' =>
+        'Joomla\\Uri\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
         ),
-        'Joomla\\String\\' =>
+        'Joomla\\String\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
-        'Joomla\\Session\\' =>
+        'Joomla\\Session\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/session/src',
         ),
-        'Joomla\\Registry\\' =>
+        'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
-        'Joomla\\OAuth2\\' =>
+        'Joomla\\OAuth2\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth2/src',
         ),
-        'Joomla\\OAuth1\\' =>
+        'Joomla\\OAuth1\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
-        'Joomla\\Ldap\\' =>
+        'Joomla\\Ldap\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/ldap/src',
         ),
-        'Joomla\\Input\\' =>
+        'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
-        'Joomla\\Image\\' =>
+        'Joomla\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/image/src',
         ),
-        'Joomla\\Http\\' =>
+        'Joomla\\Http\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/http/src',
         ),
-        'Joomla\\Filter\\' =>
+        'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
         ),
-        'Joomla\\Filesystem\\' =>
+        'Joomla\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
-        'Joomla\\Event\\' =>
+        'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Database\\' =>
+        'Joomla\\Database\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
-        'Joomla\\Data\\' =>
+        'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
-        'Joomla\\DI\\' =>
+        'Joomla\\DI\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
-        'Joomla\\Crypt\\' =>
+        'Joomla\\Crypt\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
         ),
-        'Joomla\\Controller\\' =>
+        'Joomla\\Controller\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/controller/src',
         ),
-        'Joomla\\Console\\' =>
+        'Joomla\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/console/src',
         ),
-        'Joomla\\CMS\\' =>
+        'Joomla\\CMS\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
-        'Joomla\\Authentication\\' =>
+        'Joomla\\Authentication\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/authentication/src',
         ),
-        'Joomla\\Archive\\' =>
+        'Joomla\\Archive\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/archive/src',
         ),
-        'Joomla\\Application\\' =>
+        'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
-        'Fig\\Link\\' =>
+        'Fig\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
-        'Doctrine\\Common\\Inflector\\' =>
+        'Doctrine\\Common\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
         ),
-        'Defuse\\Crypto\\' =>
+        'Defuse\\Crypto\\' => 
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
         ),
-        'DebugBar\\' =>
+        'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
         ),
-        'Composer\\CaBundle\\' =>
+        'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
@@ -290,6 +278,56 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
 
     public static $classMap = array (
         'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
+        'DebugBar\\Bridge\\CacheCacheCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/CacheCacheCollector.php',
+        'DebugBar\\Bridge\\DoctrineCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/DoctrineCollector.php',
+        'DebugBar\\Bridge\\MonologCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/MonologCollector.php',
+        'DebugBar\\Bridge\\Propel2Collector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Propel2Collector.php',
+        'DebugBar\\Bridge\\PropelCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/PropelCollector.php',
+        'DebugBar\\Bridge\\SlimCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SlimCollector.php',
+        'DebugBar\\Bridge\\SwiftMailer\\SwiftLogCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftLogCollector.php',
+        'DebugBar\\Bridge\\SwiftMailer\\SwiftMailCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftMailCollector.php',
+        'DebugBar\\Bridge\\TwigProfileCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/TwigProfileCollector.php',
+        'DebugBar\\Bridge\\Twig\\TimeableTwigExtensionProfiler' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TimeableTwigExtensionProfiler.php',
+        'DebugBar\\Bridge\\Twig\\TraceableTwigEnvironment' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigEnvironment.php',
+        'DebugBar\\Bridge\\Twig\\TraceableTwigTemplate' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigTemplate.php',
+        'DebugBar\\Bridge\\Twig\\TwigCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TwigCollector.php',
+        'DebugBar\\DataCollector\\AggregatedCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/AggregatedCollector.php',
+        'DebugBar\\DataCollector\\AssetProvider' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/AssetProvider.php',
+        'DebugBar\\DataCollector\\ConfigCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/ConfigCollector.php',
+        'DebugBar\\DataCollector\\DataCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/DataCollector.php',
+        'DebugBar\\DataCollector\\DataCollectorInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/DataCollectorInterface.php',
+        'DebugBar\\DataCollector\\ExceptionsCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/ExceptionsCollector.php',
+        'DebugBar\\DataCollector\\LocalizationCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/LocalizationCollector.php',
+        'DebugBar\\DataCollector\\MemoryCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/MemoryCollector.php',
+        'DebugBar\\DataCollector\\MessagesAggregateInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/MessagesAggregateInterface.php',
+        'DebugBar\\DataCollector\\MessagesCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/MessagesCollector.php',
+        'DebugBar\\DataCollector\\PDO\\PDOCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/PDO/PDOCollector.php',
+        'DebugBar\\DataCollector\\PDO\\TraceablePDO' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDO.php',
+        'DebugBar\\DataCollector\\PDO\\TraceablePDOStatement' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TraceablePDOStatement.php',
+        'DebugBar\\DataCollector\\PDO\\TracedStatement' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/PDO/TracedStatement.php',
+        'DebugBar\\DataCollector\\PhpInfoCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/PhpInfoCollector.php',
+        'DebugBar\\DataCollector\\Renderable' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/Renderable.php',
+        'DebugBar\\DataCollector\\RequestDataCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/RequestDataCollector.php',
+        'DebugBar\\DataCollector\\TimeDataCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataCollector/TimeDataCollector.php',
+        'DebugBar\\DataFormatter\\DataFormatter' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatter.php',
+        'DebugBar\\DataFormatter\\DataFormatterInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatterInterface.php',
+        'DebugBar\\DataFormatter\\DebugBarVarDumper' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/DebugBarVarDumper.php',
+        'DebugBar\\DataFormatter\\VarDumper\\DebugBarHtmlDumper' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/DebugBarHtmlDumper.php',
+        'DebugBar\\DataFormatter\\VarDumper\\SeekingData' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
+        'DebugBar\\DebugBar' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DebugBar.php',
+        'DebugBar\\DebugBarException' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DebugBarException.php',
+        'DebugBar\\HttpDriverInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/HttpDriverInterface.php',
+        'DebugBar\\JavascriptRenderer' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/JavascriptRenderer.php',
+        'DebugBar\\OpenHandler' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/OpenHandler.php',
+        'DebugBar\\PhpHttpDriver' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/PhpHttpDriver.php',
+        'DebugBar\\RequestIdGenerator' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/RequestIdGenerator.php',
+        'DebugBar\\RequestIdGeneratorInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/RequestIdGeneratorInterface.php',
+        'DebugBar\\StandardDebugBar' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/StandardDebugBar.php',
+        'DebugBar\\Storage\\FileStorage' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Storage/FileStorage.php',
+        'DebugBar\\Storage\\MemcachedStorage' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Storage/MemcachedStorage.php',
+        'DebugBar\\Storage\\PdoStorage' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Storage/PdoStorage.php',
+        'DebugBar\\Storage\\RedisStorage' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Storage/RedisStorage.php',
+        'DebugBar\\Storage\\StorageInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Storage/StorageInterface.php',
         'Defuse\\Crypto\\Core' => __DIR__ . '/..' . '/defuse/php-encryption/src/Core.php',
         'Defuse\\Crypto\\Crypto' => __DIR__ . '/..' . '/defuse/php-encryption/src/Crypto.php',
         'Defuse\\Crypto\\DerivedKeys' => __DIR__ . '/..' . '/defuse/php-encryption/src/DerivedKeys.php',
@@ -1163,6 +1201,44 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Symfony\\Component\\Debug\\FatalErrorHandler\\FatalErrorHandlerInterface' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/FatalErrorHandlerInterface.php',
         'Symfony\\Component\\Debug\\FatalErrorHandler\\UndefinedFunctionFatalErrorHandler' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/UndefinedFunctionFatalErrorHandler.php',
         'Symfony\\Component\\Debug\\FatalErrorHandler\\UndefinedMethodFatalErrorHandler' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/UndefinedMethodFatalErrorHandler.php',
+        'Symfony\\Component\\VarDumper\\Caster\\AmqpCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/AmqpCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ArgsStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ArgsStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\Caster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/Caster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ClassStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ClassStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ConstStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ConstStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\CutArrayStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/CutArrayStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\CutStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/CutStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\DOMCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/DOMCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\DoctrineCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/DoctrineCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\EnumStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/EnumStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ExceptionCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ExceptionCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\FrameStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/FrameStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\LinkStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/LinkStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\MongoCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/MongoCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\PdoCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/PdoCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\PgSqlCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/PgSqlCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\RedisCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/RedisCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ReflectionCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ReflectionCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\ResourceCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/ResourceCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\SplCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/SplCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\StubCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/StubCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\TraceStub' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/TraceStub.php',
+        'Symfony\\Component\\VarDumper\\Caster\\XmlReaderCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/XmlReaderCaster.php',
+        'Symfony\\Component\\VarDumper\\Caster\\XmlResourceCaster' => __DIR__ . '/..' . '/symfony/var-dumper/Caster/XmlResourceCaster.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\AbstractCloner' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/AbstractCloner.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\ClonerInterface' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/ClonerInterface.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\Cursor' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Cursor.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\Data' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Data.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\DumperInterface' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/DumperInterface.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\Stub' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Stub.php',
+        'Symfony\\Component\\VarDumper\\Cloner\\VarCloner' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/VarCloner.php',
+        'Symfony\\Component\\VarDumper\\Dumper\\AbstractDumper' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/AbstractDumper.php',
+        'Symfony\\Component\\VarDumper\\Dumper\\CliDumper' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/CliDumper.php',
+        'Symfony\\Component\\VarDumper\\Dumper\\DataDumperInterface' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/DataDumperInterface.php',
+        'Symfony\\Component\\VarDumper\\Dumper\\HtmlDumper' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/HtmlDumper.php',
+        'Symfony\\Component\\VarDumper\\Exception\\ThrowingCasterException' => __DIR__ . '/..' . '/symfony/var-dumper/Exception/ThrowingCasterException.php',
+        'Symfony\\Component\\VarDumper\\Test\\VarDumperTestTrait' => __DIR__ . '/..' . '/symfony/var-dumper/Test/VarDumperTestTrait.php',
+        'Symfony\\Component\\VarDumper\\VarDumper' => __DIR__ . '/..' . '/symfony/var-dumper/VarDumper.php',
         'Symfony\\Component\\WebLink\\EventListener\\AddLinkHeaderListener' => __DIR__ . '/..' . '/symfony/web-link/EventListener/AddLinkHeaderListener.php',
         'Symfony\\Component\\WebLink\\HttpHeaderSerializer' => __DIR__ . '/..' . '/symfony/web-link/HttpHeaderSerializer.php',
         'Symfony\\Component\\Yaml\\Command\\LintCommand' => __DIR__ . '/..' . '/symfony/yaml/Command/LintCommand.php',
@@ -1215,9 +1291,9 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitcacd7691af37f1e2d00cf043c0686e90::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitcacd7691af37f1e2d00cf043c0686e90::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitcacd7691af37f1e2d00cf043c0686e90::$classMap;
 
         }, null, ClassLoader::class);
     }

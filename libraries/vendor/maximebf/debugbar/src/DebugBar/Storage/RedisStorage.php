@@ -10,8 +10,6 @@
 
 namespace DebugBar\Storage;
 
-use Predis\Client;
-
 /**
  * Stores collected data into Redis
  */
@@ -25,7 +23,7 @@ class RedisStorage implements StorageInterface
      * @param  \Predis\Client $redis Redis Client
      * @param  string $hash
      */
-    public function __construct(Client $redis, $hash = 'phpdebugbar')
+    public function __construct($redis, $hash = 'phpdebugbar')
     {
         $this->redis = $redis;
         $this->hash = $hash;
@@ -36,7 +34,9 @@ class RedisStorage implements StorageInterface
      */
     public function save($id, $data)
     {
-        $this->redis->hset($this->hash, $id, serialize($data));
+        $this->redis->hset("$this->hash:meta", $id, serialize($data['__meta']));
+        unset($data['__meta']);
+        $this->redis->hset("$this->hash:data", $id, serialize($data));
     }
 
     /**
@@ -44,7 +44,8 @@ class RedisStorage implements StorageInterface
      */
     public function get($id)
     {
-        return unserialize($this->redis->hget($this->hash, $id));
+        return array_merge(unserialize($this->redis->hget("$this->hash:data", $id)),
+            array('__meta' => unserialize($this->redis->hget("$this->hash:meta", $id))));
     }
 
     /**
@@ -53,14 +54,23 @@ class RedisStorage implements StorageInterface
     public function find(array $filters = array(), $max = 20, $offset = 0)
     {
         $results = array();
-        foreach ($this->redis->hgetall($this->hash) as $id => $data) {
-            if ($data = unserialize($data)) {
-                $meta = $data['__meta'];
-                if ($this->filter($meta, $filters)) {
-                    $results[] = $meta;
+        $cursor = "0";
+        do {
+            list($cursor, $data) = $this->redis->hscan("$this->hash:meta", $cursor);
+
+            foreach ($data as $meta) {
+                if ($meta = unserialize($meta)) {
+                    if ($this->filter($meta, $filters)) {
+                        $results[] = $meta;
+                    }
                 }
             }
-        }
+        } while($cursor);
+        
+        usort($results, function ($a, $b) {
+            return $a['utime'] < $b['utime'];
+        });
+        
         return array_slice($results, $offset, $max);
     }
 

@@ -15,7 +15,31 @@ namespace DebugBar\DataCollector;
  */
 class MemoryCollector extends DataCollector implements Renderable
 {
+    protected $realUsage = false;
+
     protected $peakUsage = 0;
+
+    /**
+     * Returns whether total allocated memory page size is used instead of actual used memory size
+     * by the application.  See $real_usage parameter on memory_get_peak_usage for details.
+     *
+     * @return bool
+     */
+    public function getRealUsage()
+    {
+        return $this->realUsage;
+    }
+
+    /**
+     * Sets whether total allocated memory page size is used instead of actual used memory size
+     * by the application.  See $real_usage parameter on memory_get_peak_usage for details.
+     *
+     * @param bool $realUsage
+     */
+    public function setRealUsage($realUsage)
+    {
+        $this->realUsage = $realUsage;
+    }
 
     /**
      * Returns the peak memory usage
@@ -32,7 +56,7 @@ class MemoryCollector extends DataCollector implements Renderable
      */
     public function updatePeakUsage()
     {
-        $this->peakUsage = memory_get_peak_usage(true);
+        $this->peakUsage = memory_get_peak_usage($this->realUsage);
     }
 
     /**

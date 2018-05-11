@@ -11,6 +11,7 @@
 namespace DebugBar\Storage;
 
 use Memcached;
+use ReflectionMethod;
 
 /**
  * Stores collected data into Memcache using the Memcached extension
@@ -21,13 +22,20 @@ class MemcachedStorage implements StorageInterface
 
     protected $keyNamespace;
 
+    protected $expiration;
+
+    protected $newGetMultiSignature;
+
     /**
      * @param Memcached $memcached
+     * @param string $keyNamespace Namespace for Memcached key names (to avoid conflict with other Memcached users).
+     * @param int $expiration Expiration for Memcached entries (see Expiration Times in Memcached documentation).
      */
-    public function __construct(Memcached $memcached, $keyNamespace = 'phpdebugbar')
+    public function __construct(Memcached $memcached, $keyNamespace = 'phpdebugbar', $expiration = 0)
     {
         $this->memcached = $memcached;
         $this->keyNamespace = $keyNamespace;
+        $this->expiration = $expiration;
     }
 
     /**
@@ -36,9 +44,12 @@ class MemcachedStorage implements StorageInterface
     public function save($id, $data)
     {
         $key = $this->createKey($id);
-        $this->memcached->set($key, $data);
+        $this->memcached->set($key, $data, $this->expiration);
         if (!$this->memcached->append($this->keyNamespace, "|$key")) {
-            $this->memcached->set($this->keyNamespace, $key);
+            $this->memcached->set($this->keyNamespace, $key, $this->expiration);
+        } else if ($this->expiration) {
+            // append doesn't support updating expiration, so do it here:
+            $this->memcached->touch($this->keyNamespace, $this->expiration);
         }
     }
 
@@ -60,15 +71,32 @@ class MemcachedStorage implements StorageInterface
         }
 
         $results = array();
-        foreach (explode('|', $keys) as $key) {
-            if ($data = $this->memcached->get($key)) {
-                $meta = $data['__meta'];
-                if ($this->filter($meta, $filters)) {
-                    $results[] = $meta;
+        $keys = array_reverse(explode('|', $keys)); // Reverse so newest comes first
+        $keyPosition = 0; // Index in $keys to try to get next items from
+        $remainingItems = $max + $offset; // Try to obtain this many remaining items
+        // Loop until we've found $remainingItems matching items or no more items may exist.
+        while ($remainingItems > 0 && $keyPosition < count($keys)) {
+            // Consume some keys from $keys:
+            $itemsToGet = array_slice($keys, $keyPosition, $remainingItems);
+            $keyPosition += $remainingItems;
+            // Try to get them, and filter them:
+            $newItems = $this->memcachedGetMulti($itemsToGet, Memcached::GET_PRESERVE_ORDER);
+            if ($newItems) {
+                foreach ($newItems as $data) {
+                    $meta = $data['__meta'];
+                    if ($this->filter($meta, $filters)) {
+                        $remainingItems--;
+                        // Keep the result only if we've discarded $offset items first
+                        if ($offset <= 0) {
+                            $results[] = $meta;
+                        } else {
+                            $offset--;
+                        }
+                    }
                 }
             }
         }
-        return array_slice($results, $offset, $max);
+        return $results;
     }
 
     /**
@@ -107,5 +135,24 @@ class MemcachedStorage implements StorageInterface
     protected function createKey($id)
     {
         return md5("{$this->keyNamespace}.$id");
+    }
+
+    /**
+     * The memcached getMulti function changed in version 3.0.0 to only have two parameters.
+     *
+     * @param array $keys
+     * @param int $flags
+     */
+    protected function memcachedGetMulti($keys, $flags)
+    {
+        if ($this->newGetMultiSignature === null) {
+            $this->newGetMultiSignature = (new ReflectionMethod('Memcached', 'getMulti'))->getNumberOfParameters() === 2;
+        }
+        if ($this->newGetMultiSignature) {
+            return $this->memcached->getMulti($keys, $flags);
+        } else {
+            $null = null;
+            return $this->memcached->getMulti($keys, $null, $flags);
+        }
     }
 }

@@ -8,5 +8,5 @@ div.phpdebugbar-widgets-mails li.phpdebugbar-widgets-list-item pre.phpdebugbar-w
   margin: 10px;
   padding: 5px;
   border: 1px solid #ddd;
-  font-family: monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }

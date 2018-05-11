@@ -204,14 +204,33 @@ class DebugBar implements ArrayAccess
      */
     public function collect()
     {
-        $this->data = array(
-            '__meta' => array(
-                'id' => $this->getCurrentRequestId(),
-                'datetime' => date('Y-m-d H:i:s'),
-                'utime' => microtime(true),
+        if (php_sapi_name() === 'cli') {
+            $ip = gethostname();
+            if ($ip) {
+                $ip = gethostbyname($ip);
+            } else {
+                $ip = '127.0.0.1';
+            }
+            $request_variables = array(
+                'method' => 'CLI',
+                'uri' => isset($_SERVER['SCRIPT_FILENAME']) ? realpath($_SERVER['SCRIPT_FILENAME']) : null,
+                'ip' => $ip
+            );
+        } else {
+            $request_variables = array(
                 'method' => isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : null,
                 'uri' => isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
                 'ip' => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null
+            );
+        }
+        $this->data = array(
+            '__meta' => array_merge(
+                array(
+                    'id' => $this->getCurrentRequestId(),
+                    'datetime' => date('Y-m-d H:i:s'),
+                    'utime' => microtime(true)
+                ),
+                $request_variables
             )
         );
 

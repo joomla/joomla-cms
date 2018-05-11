@@ -17,6 +17,16 @@
 
             this.$list = new  PhpDebugBar.Widgets.ListWidget({ itemRenderer: function(li, tpl) {
                 $('<span />').addClass(csscls('name')).text(tpl.name).appendTo(li);
+
+                if (typeof tpl.xdebug_link !== 'undefined') {
+                    if (tpl.xdebug_link.ajax) {
+                        $('<a title="' + tpl.xdebug_link.url + '"></a>').on('click', function () {
+                            $.ajax(tpl.xdebug_link.url);
+                        }).addClass(csscls('editor-link')).appendTo(li);
+                    } else {
+                        $('<a href="' + tpl.xdebug_link.url + '"></a>').addClass(csscls('editor-link')).appendTo(li);
+                    }
+                }
                 if (tpl.render_time_str) {
                     $('<span title="Render time" />').addClass(csscls('render-time')).text(tpl.render_time_str).appendTo(li);
                 }
@@ -47,19 +57,30 @@
                 }
             }});
             this.$list.$el.appendTo(this.$el);
+            this.$callgraph = $('<div />').addClass(csscls('callgraph')).appendTo(this.$el);
 
             this.bindAttr('data', function(data) {
                 this.$list.set('data', data.templates);
                 this.$status.empty();
+                this.$callgraph.empty();
 
                 var sentence = data.sentence || "templates were rendered";
-                $('<span />').text(data.templates.length + " " + sentence).appendTo(this.$status);
+                $('<span />').text(data.nb_templates + " " + sentence).appendTo(this.$status);
 
                 if (data.accumulated_render_time_str) {
                     this.$status.append($('<span title="Accumulated render time" />').addClass(csscls('render-time')).text(data.accumulated_render_time_str));
                 }
                 if (data.memory_usage_str) {
                     this.$status.append($('<span title="Memory usage" />').addClass(csscls('memory')).text(data.memory_usage_str));
+                }
+                if (data.nb_blocks > 0) {
+                    $('<div />').text(data.nb_blocks + " blocks were rendered").appendTo(this.$status);
+                }
+                if (data.nb_macros > 0) {
+                    $('<div />').text(data.nb_macros + " macros were rendered").appendTo(this.$status);
+                }
+                if (typeof data.callgraph !== 'undefined') {
+                    this.$callgraph.html(data.callgraph);
                 }
             });
         }

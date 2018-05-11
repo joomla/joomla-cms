@@ -1,8 +1,41 @@
+pre.phpdebugbar-widgets-code-block {
+    white-space: pre;
+    word-wrap: normal;
+    overflow: hidden;
+}
+  pre.phpdebugbar-widgets-code-block code {
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  pre.phpdebugbar-widgets-code-block code.phpdebugbar-widgets-numbered-code {
+    padding: 5px;
+  }
+    pre.phpdebugbar-widgets-code-block code span.phpdebugbar-widgets-highlighted-line {
+      background: #800000;
+      color: #fff;
+      display: inline-block;
+      min-width: 100%;
+    }
+      pre.phpdebugbar-widgets-code-block code span.phpdebugbar-widgets-highlighted-line span {
+        background: none !important;
+        color: inherit !important;
+      }
+  pre.phpdebugbar-widgets-code-block ul {
+    float: left;
+    padding: 5px;
+    background: #cacaca;
+    border-right: 1px solid #aaa;
+    text-align: right;
+  }
+
+/* -------------------------------------- */
+
 ul.phpdebugbar-widgets-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-family: monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
   ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item {
     padding: 3px 6px;
@@ -20,7 +53,7 @@ div.phpdebugbar-widgets-messages {
   position: relative;
   height: 100%;
 }
-  div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-list {
+  div.phpdebugbar-widgets-messages ul.phpdebugbar-widgets-list {
     padding-bottom: 20px;
   }
   div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-value.phpdebugbar-widgets-warning:before {
@@ -39,6 +72,9 @@ div.phpdebugbar-widgets-messages {
     margin-right: 8px;
     font-size: 11px;
     color: red;
+  }
+  div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item pre.sf-dump {
+    display: inline;
   }
   div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-collector,
   div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-label {
@@ -113,9 +149,13 @@ dl.phpdebugbar-widgets-kvlist {
 
 /* -------------------------------------- */
 
-dl.phpdebugbar-widgets-varlist {
-  font-family: monospace;
+dl.phpdebugbar-widgets-varlist,
+dl.phpdebugbar-widgets-htmlvarlist {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
+  dl.phpdebugbar-widgets-htmlvarlist dd {
+    cursor: initial;
+  }
 
 /* -------------------------------------- */
 
@@ -137,7 +177,7 @@ ul.phpdebugbar-widgets-timeline {
     ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
       position: absolute;
       font-size: 12px;
-      font-family: monospace;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       color: #555;
       top: 4px;
       left: 5px;
@@ -151,7 +191,7 @@ ul.phpdebugbar-widgets-timeline {
       right: 5px;
     }
     ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
-      display: block; 
+      display: block;
       position: absolute;
       height: 10px;
       background: #3db9ec;
@@ -164,7 +204,7 @@ ul.phpdebugbar-widgets-timeline {
       width: 70%;
       margin: 10px;
       border: 1px solid #ddd;
-      font-family: monospace;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       border-collapse: collapse;
     }
       ul.phpdebugbar-widgets-timeline table.phpdebugbar-widgets-params td {
@@ -205,5 +245,17 @@ div.phpdebugbar-widgets-exceptions li.phpdebugbar-widgets-list-item {
     margin: 10px;
     padding: 5px;
     border: 1px solid #ddd;
-    font-family: monospace;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   }
+
+div.phpdebugbar-widgets-exceptions a.phpdebugbar-widgets-editor-link:before {
+  font-family: PhpDebugbarFontAwesome;
+  margin-right: 4px;
+  font-size: 12px;
+  font-style: normal;
+}
+
+div.phpdebugbar-widgets-exceptions a.phpdebugbar-widgets-editor-link:before {
+  content: "\f08e";
+  margin-left: 4px;
+}

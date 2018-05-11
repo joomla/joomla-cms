@@ -50,7 +50,7 @@ class TimeDataCollector extends DataCollector implements Renderable
                 $requestStartTime = microtime(true);
             }
         }
-        $this->requestStartTime = $requestStartTime;
+        $this->requestStartTime = (float)$requestStartTime;
     }
 
     /**

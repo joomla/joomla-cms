@@ -22,7 +22,7 @@ div.phpdebugbar-openhandler {
     border: 2px solid #888;
     overflow: auto;
     z-index: 20001;
-    font-family: arial;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     padding-bottom: 10px;
 }

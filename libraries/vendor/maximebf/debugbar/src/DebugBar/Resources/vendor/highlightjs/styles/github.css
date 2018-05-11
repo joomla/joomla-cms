@@ -4,122 +4,122 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 */
 
-.hljs {
+div.phpdebugbar .hljs {
   display: block; padding: 0.5em;
   color: #333;
   background: #f8f8f8
 }
 
-.hljs-comment,
-.hljs-template_comment,
-.diff .hljs-header,
-.hljs-javadoc {
+div.phpdebugbar .hljs-comment,
+div.phpdebugbar .hljs-template_comment,
+div.phpdebugbar .diff .hljs-header,
+div.phpdebugbar .hljs-javadoc {
   color: #998;
   font-style: italic
 }
 
-.hljs-keyword,
-.css .rule .hljs-keyword,
-.hljs-winutils,
-.javascript .hljs-title,
-.nginx .hljs-title,
-.hljs-subst,
-.hljs-request,
-.hljs-status {
+div.phpdebugbar .hljs-keyword,
+div.phpdebugbar .css .rule .hljs-keyword,
+div.phpdebugbar .hljs-winutils,
+div.phpdebugbar .javascript .hljs-title,
+div.phpdebugbar .nginx .hljs-title,
+div.phpdebugbar .hljs-subst,
+div.phpdebugbar .hljs-request,
+div.phpdebugbar .hljs-status {
   color: #333;
   font-weight: bold
 }
 
-.hljs-number,
-.hljs-hexcolor,
-.ruby .hljs-constant {
+div.phpdebugbar .hljs-number,
+div.phpdebugbar .hljs-hexcolor,
+div.phpdebugbar .ruby .hljs-constant {
   color: #099;
 }
 
-.hljs-string,
-.hljs-tag .hljs-value,
-.hljs-phpdoc,
-.tex .hljs-formula {
+div.phpdebugbar .hljs-string,
+div.phpdebugbar .hljs-tag .hljs-value,
+div.phpdebugbar .hljs-phpdoc,
+div.phpdebugbar .tex .hljs-formula {
   color: #d14
 }
 
-.hljs-title,
-.hljs-id,
-.coffeescript .hljs-params,
-.scss .hljs-preprocessor {
+div.phpdebugbar .hljs-title,
+div.phpdebugbar .hljs-id,
+div.phpdebugbar .coffeescript .hljs-params,
+div.phpdebugbar .scss .hljs-preprocessor {
   color: #900;
   font-weight: bold
 }
 
-.javascript .hljs-title,
-.lisp .hljs-title,
-.clojure .hljs-title,
-.hljs-subst {
+div.phpdebugbar .javascript .hljs-title,
+div.phpdebugbar .lisp .hljs-title,
+div.phpdebugbar .clojure .hljs-title,
+div.phpdebugbar .hljs-subst {
   font-weight: normal
 }
 
-.hljs-class .hljs-title,
-.haskell .hljs-type,
-.vhdl .hljs-literal,
-.tex .hljs-command {
+div.phpdebugbar .hljs-class .hljs-title,
+div.phpdebugbar .haskell .hljs-type,
+div.phpdebugbar .vhdl .hljs-literal,
+div.phpdebugbar .tex .hljs-command {
   color: #458;
   font-weight: bold
 }
 
-.hljs-tag,
-.hljs-tag .hljs-title,
-.hljs-rules .hljs-property,
-.django .hljs-tag .hljs-keyword {
+div.phpdebugbar .hljs-tag,
+div.phpdebugbar .hljs-tag .hljs-title,
+div.phpdebugbar .hljs-rules .hljs-property,
+div.phpdebugbar .django .hljs-tag .hljs-keyword {
   color: #000080;
   font-weight: normal
 }
 
-.hljs-attribute,
-.hljs-variable,
-.lisp .hljs-body {
+div.phpdebugbar .hljs-attribute,
+div.phpdebugbar .hljs-variable,
+div.phpdebugbar .lisp .hljs-body {
   color: #008080
 }
 
-.hljs-regexp {
+div.phpdebugbar .hljs-regexp {
   color: #009926
 }
 
-.hljs-symbol,
-.ruby .hljs-symbol .hljs-string,
-.lisp .hljs-keyword,
-.tex .hljs-special,
-.hljs-prompt {
+div.phpdebugbar .hljs-symbol,
+div.phpdebugbar .ruby .hljs-symbol .hljs-string,
+div.phpdebugbar .lisp .hljs-keyword,
+div.phpdebugbar .tex .hljs-special,
+div.phpdebugbar .hljs-prompt {
   color: #990073
 }
 
-.hljs-built_in,
-.lisp .hljs-title,
-.clojure .hljs-built_in {
+div.phpdebugbar .hljs-built_in,
+div.phpdebugbar .lisp .hljs-title,
+div.phpdebugbar .clojure .hljs-built_in {
   color: #0086b3
 }
 
-.hljs-preprocessor,
-.hljs-pragma,
-.hljs-pi,
-.hljs-doctype,
-.hljs-shebang,
-.hljs-cdata {
+div.phpdebugbar .hljs-preprocessor,
+div.phpdebugbar .hljs-pragma,
+div.phpdebugbar .hljs-pi,
+div.phpdebugbar .hljs-doctype,
+div.phpdebugbar .hljs-shebang,
+div.phpdebugbar .hljs-cdata {
   color: #999;
   font-weight: bold
 }
 
-.hljs-deletion {
+div.phpdebugbar .hljs-deletion {
   background: #fdd
 }
 
-.hljs-addition {
+div.phpdebugbar .hljs-addition {
   background: #dfd
 }
 
-.diff .hljs-change {
+div.phpdebugbar .diff .hljs-change {
   background: #0086b3
 }
 
-.hljs-chunk {
+div.phpdebugbar .hljs-chunk {
   color: #aaa
 }

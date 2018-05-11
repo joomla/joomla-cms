@@ -11,7 +11,7 @@ div.phpdebugbar {
   left: 0;
   width: 100%;
   border-top: 0;
-  font-family: arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background: #fff;
   z-index: 10000;
   font-size: 14px;
@@ -64,13 +64,32 @@ div.phpdebugbar table {
   border-spacing: 0;
 }
 
-div.phpdebugbar code, div.phpdebugbar pre {
+div.phpdebugbar input[type='text'], div.phpdebugbar input[type='password'] {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #fff;
+  font-size: 14px;
+  color: #000;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.phpdebugbar code, div.phpdebugbar pre, div.phpdebugbar samp {
   background: none;
-  font-family: monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 1em;
   border: 0;
   padding: 0;
   margin: 0;
+}
+
+div.phpdebugbar code, div.phpdebugbar pre {
+  color: #000;
+}
+
+div.phpdebugbar pre.sf-dump {
+  color: #a0a000;
+  outline: 0;
 }
 
 a.phpdebugbar-restore-btn {
@@ -158,7 +177,7 @@ a.phpdebugbar-tab.phpdebugbar-active {
     margin-left: 5px;
     font-size: 11px;
     line-height: 14px;
-    padding: 0px 6px;
+    padding: 0 6px;
     background: #ccc;
     border-radius: 4px;
     color: #555;
@@ -169,6 +188,9 @@ a.phpdebugbar-tab.phpdebugbar-active {
   a.phpdebugbar-tab i {
     display: none;
     vertical-align: middle;
+  }
+  a.phpdebugbar-tab span.phpdebugbar-badge.phpdebugbar-visible {
+    display: inline;
   }
   a.phpdebugbar-tab span.phpdebugbar-badge.phpdebugbar-important {
     background: #ed6868;
@@ -181,7 +203,7 @@ a.phpdebugbar-close-btn, a.phpdebugbar-open-btn, a.phpdebugbar-restore-btn, a.ph
 }
 
 a.phpdebugbar-minimize-btn , a.phpdebugbar-maximize-btn {
-  padding-right: 0px !important;
+  padding-right: 0 !important;
 }
 
 a.phpdebugbar-maximize-btn { display: none}
