@@ -33,14 +33,14 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 	public static function getAssociations($id = 0, $view = null)
 	{
 		$jinput = JFactory::getApplication()->input;
-		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view == 'newsfeed')
+		if ($view === 'newsfeed')
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
+				$associations = \Joomla\CMS\Language\Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
 				$return = array();
 
@@ -53,7 +53,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 			}
 		}
 
-		if ($view == 'category' || $view == 'categories')
+		if ($view === 'category' || $view === 'categories')
 		{
 			return self::getCategoryAssociations($id, 'com_newsfeeds');
 		}

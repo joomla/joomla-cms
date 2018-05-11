@@ -1,0 +1,21 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+Joomla = window.Joomla || {};
+ 
+(function(Joomla, document) {
+	'use strict';
+
+	Joomla.setMenuType = function(type, tmpl) {
+		if (tmpl != '') {
+			window.parent.Joomla.submitbutton('item.setType', type);
+			window.parent.jQuery('#menuTypeModal').modal('hide');
+		}
+		else {
+			window.location = 'index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=' + type;
+		}
+	};
+
+})(Joomla, document);

@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\Route;
+
 ?>
-<div class="search<?php echo $moduleclass_sfx; ?>">
-	<form action="<?php echo JRoute::_('index.php'); ?>" method="post">
+<div class="search">
+	<form action="<?php echo Route::_('index.php'); ?>" method="post">
 		<?php
 			$input  = '<input name="searchword" id="mod-search-searchword' . $module->id . '" class="form-control" type="search" placeholder="' . $text . '">';
 			$output = '';
@@ -25,7 +27,7 @@ defined('_JEXEC') or die;
 
 				$output .= '<div class="input-group">';
 				$output .= $input;
-				$output .= '<span class="input-group-btn">';
+				$output .= '<span class="input-group-append">';
 				$output .= $btn_output;
 				$output .= '</span>';
 				$output .= '</div>';
@@ -35,8 +37,8 @@ defined('_JEXEC') or die;
 
 			echo $output;
 		?>
-		<input type="hidden" name="task" value="search">
 		<input type="hidden" name="option" value="com_search">
+		<input type="hidden" name="task" value="search">
 		<input type="hidden" name="Itemid" value="<?php echo $mitemid; ?>">
 	</form>
 </div>

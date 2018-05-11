@@ -4,7 +4,7 @@
  * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -47,9 +47,9 @@ abstract class JHtmlSortablelist
 		}
 
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
+		if ($saveOrderingUrl === null)
 		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
+			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
 		}
 
 		// Depends on Joomla.getOptions()
@@ -58,8 +58,8 @@ abstract class JHtmlSortablelist
 		// Depends on jQuery UI
 		JHtml::_('jquery.ui', array('core', 'sortable'));
 
-		JHtml::_('script', 'system/legacy/sortablelist.min.js', false, true);
-		JHtml::_('stylesheet', 'system/sortablelist.css', false, true, false);
+		JHtml::_('script', 'legacy/sortablelist.min.js', false, true);
+		JHtml::_('stylesheet', 'legacy/sortablelist.css', false, true, false);
 
 		// Attach sortable to document
 		JFactory::getDocument()->addScriptOptions(

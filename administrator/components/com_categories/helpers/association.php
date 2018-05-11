@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Category Component Association Helper

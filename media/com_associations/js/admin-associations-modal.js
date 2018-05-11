@@ -5,18 +5,23 @@
 
 Joomla = window.Joomla || {};
 
-document.addEventListener('DOMContentLoaded', function() {
-	if (Joomla.getOptions('modal-associations')) {
-		var fnName = Joomla.getOptions('modal-associations').func,
-		    links  = [].slice.call(document.querySelectorAll('.select-link'));
+(function( Joomla, document ) {
+	'use strict';
 
-		links.forEach(function (item) {
-			item.addEventListener('click', function (event) {
-				if (self != top) {
-					// Run function on parent window.
-					window.parent[fnName](event.target.getAttribute('data-id'));
-				}
+	document.addEventListener('DOMContentLoaded', function() {
+		
+		if (Joomla.getOptions('modal-associations')) {
+			var fnName = Joomla.getOptions('modal-associations').func,
+				links  = [].slice.call(document.querySelectorAll('.select-link'));
+
+			links.forEach(function (item) {
+				item.addEventListener('click', function (event) {
+					if (self != top) {
+						// Run function on parent window.
+						window.parent[fnName](event.target.getAttribute('data-id'));
+					}
+				});
 			});
-		});
-	}
-});
+		}
+	});
+})();

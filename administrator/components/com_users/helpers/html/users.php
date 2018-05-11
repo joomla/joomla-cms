@@ -55,8 +55,8 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-		. '" class="hasTooltip btn btn-secondary btn-xs" title="' . $title . '"><span class="icon-vcard" aria-hidden="true">'
-		. '</span><span class="hidden-sm-down">' . $title . '</span></a>';
+		. '" class="hasTooltip btn btn-secondary btn-sm" title="' . $title . '"><span class="fa fa-plus">'
+		. '</span> ' . $title . '</a>';
 	}
 
 	/**
@@ -79,7 +79,7 @@ class JHtmlUsers
 		$title = JText::_('COM_USERS_FILTER_NOTES');
 
 		return '<a href="' . JRoute::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
-			. '" class="hasTooltip btn btn-secondary btn-xs" title="' . $title . '"><span class="icon-filter"></span></a>';
+			. '" class="dropdown-item"><span class="fa fa-list"></span> ' . $title . '</a>';
 	}
 
 	/**
@@ -101,8 +101,8 @@ class JHtmlUsers
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId . '" data-toggle="modal" class="hasTooltip btn btn-mini" title="'
-			. $title . '"><span class="icon-drawer-2"></span><span class="hidden-sm-down">' . $title . '</span></a>';
+		return '<a href="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId 
+			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye"></span> ' . $title . '</a>';
 	}
 
 	/**
@@ -114,7 +114,7 @@ class JHtmlUsers
 	 * @return  string   The html for the rendered modal
 	 *
 	 * @since   3.4.1
-	*/
+	 */
 	public static function notesModal($count, $userId)
 	{
 		if (empty($count))
@@ -130,14 +130,14 @@ class JHtmlUsers
 			'bootstrap.renderModal',
 			'userModal_' . (int) $userId,
 			array(
-				'title' => $title,
-				'backdrop' => 'static',
-				'keyboard' => true,
+				'title'       => $title,
+				'backdrop'    => 'static',
+				'keyboard'    => true,
 				'closeButton' => true,
-				'footer' => $footer,
-				'url' => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
-				'height' => '300px',
-				'width' => '800px'
+				'footer'      => $footer,
+				'url'         => JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
+				'height'      => '300px',
+				'width'       => '800px',
 			)
 		);
 

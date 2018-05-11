@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -46,8 +49,8 @@ extract($displayData);
 
 if ($meter)
 {
-	JHtml::_('behavior.formvalidator');
-	JHtml::_('script', 'system/fields/passwordstrength.js', false, true);
+	HTMLHelper::_('behavior.formvalidator');
+	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
 
 	$class = 'js-password-strength ' . $class;
 
@@ -57,11 +60,15 @@ if ($meter)
 	}
 }
 
-JText::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-JText::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
+HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+
+Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
+Text::script('JSHOW');
+Text::script('JHIDE');
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
@@ -79,9 +86,17 @@ $attributes = array(
 );
 
 ?>
-<input
-	type="password"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+<div class="password-group">
+	<div class="input-group">
+		<input
+			type="password"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo implode(' ', $attributes); ?>>
+		<span class="input-group-addon">
+			<span class="fa fa-eye" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+		</span>
+	</div>
+</div>

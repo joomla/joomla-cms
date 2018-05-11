@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_WHOSONLINE_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Whosonline</namespace>
 	<files>
 		<filename module="mod_whosonline">mod_whosonline.php</filename>
 		<folder>tmpl</folder>
@@ -26,7 +27,6 @@
 					name="showmode"
 					type="list"
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
-					description="MOD_WHOSONLINE_SHOWMODE_DESC"
 					default="0"
 					>
 					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
@@ -51,14 +51,12 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -66,7 +64,6 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="0"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -74,9 +71,8 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 				/>
 			</fieldset>

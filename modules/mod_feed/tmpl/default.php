@@ -8,16 +8,27 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<?php
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+// Check if feed URL has been set
+if (empty ($rssurl))
+{
+	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+	return;
+}
+
 if (!empty($feed) && is_string($feed))
 {
 	echo $feed;
 }
 else
 {
-	$lang      = JFactory::getLanguage();
+	$lang      = Factory::getLanguage();
 	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
@@ -55,19 +66,19 @@ else
 	if ($feed !== false)
 	{
 		// Image handling
-		$iUrl   = isset($feed->image) ? $feed->image : null;
-		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
+		$iUrl   = $feed->image ?? null;
+		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
-					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-					</h2>
+				<h2 class="<?php echo $direction; ?>">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<?php echo $feed->title; ?></a>
+				</h2>
 			<?php
 		}
 		// Feed description
@@ -87,7 +98,7 @@ else
 	<!-- Show items -->
 	<?php if (!empty($feed))
 	{ ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<ul class="newsfeed">
 		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
 				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
@@ -108,9 +119,9 @@ else
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
-							$text = JFilterOutput::stripImages($text);
+							$text = OutputFilter::stripImages($text);
 
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count'));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

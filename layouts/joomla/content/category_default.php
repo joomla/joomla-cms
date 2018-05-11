@@ -9,6 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
 /**
  * Note that this layout opens a div with the page class suffix. If you do not use the category children
  * layout you need to close this div either by overriding this file or in your main layout.
@@ -19,7 +24,7 @@ $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
 $className = substr($extension, 4);
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 $category->text = $category->description;
 $app->triggerEvent('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
@@ -55,13 +60,13 @@ $tagsData = $category->tags->itemTags;
 
 		<?php if ($params->get('show_category_title', 1)) : ?>
 			<h2>
-				<?php echo JHtml::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
+				<?php echo HTMLHelper::_('content.prepare', $category->title, '', $extension . '.category.title'); ?>
 			</h2>
 		<?php endif; ?>
 		<?php echo $afterDisplayTitle; ?>
 
 		<?php if ($params->get('show_cat_tags', 1)) : ?>
-			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
+			<?php echo LayoutHelper::render('joomla.content.tags', $tagsData); ?>
 		<?php endif; ?>
 
 		<?php if ($beforeDisplayContent || $afterDisplayContent || $params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
@@ -71,10 +76,9 @@ $tagsData = $category->tags->itemTags;
 				<?php endif; ?>
 				<?php echo $beforeDisplayContent; ?>
 				<?php if ($params->get('show_description') && $category->description) : ?>
-					<?php echo JHtml::_('content.prepare', $category->description, '', $extension . '.category.description'); ?>
+					<?php echo HTMLHelper::_('content.prepare', $category->description, '', $extension . '.category.description'); ?>
 				<?php endif; ?>
 				<?php echo $afterDisplayContent; ?>
-				<div class="clr"></div>
 			</div>
 		<?php endif; ?>
 		<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
@@ -83,7 +87,7 @@ $tagsData = $category->tags->itemTags;
 			<div class="cat-children">
 				<?php if ($params->get('show_category_heading_title_text', 1) == 1) : ?>
 					<h3>
-						<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
+						<?php echo Text::_('JGLOBAL_SUBCATEGORIES'); ?>
 					</h3>
 				<?php endif; ?>
 				<?php echo $displayData->loadTemplate('children'); ?>

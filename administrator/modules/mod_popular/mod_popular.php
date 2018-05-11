@@ -9,23 +9,17 @@
 
 defined('_JEXEC') or die;
 
-// Include the mod_popular functions only once.
-JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Module\Popular\Administrator\Helper\PopularHelper;
 
-JLoader::register('ContentDispatcher', JPATH_ADMINISTRATOR . '/components/com_content/dispatcher.php');
-$oldScope = $app->scope;
-$app->scope = 'com_content';
-$namespace = \Joomla\CMS\Component\ComponentHelper::getComponent($app->scope)->namespace;
-$dispatcher = new ContentDispatcher($namespace, JFactory::getApplication());
-
-$list = ModPopularHelper::getList($params, $dispatcher->getFactory());
-$app->scope = $oldScope;
+$list = PopularHelper::getList($params, new ArticlesModel(array('ignore_request' => true)));
 
 // Get module data.
 if ($params->get('automatic_title', 0))
 {
-	$module->title = ModPopularHelper::getTitle($params);
+	$module->title = PopularHelper::getTitle($params);
 }
 
 // Render the module
-require JModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));

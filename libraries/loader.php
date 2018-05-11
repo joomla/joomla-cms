@@ -3,7 +3,7 @@
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -73,6 +73,14 @@ abstract class JLoader
 	protected static $deprecatedAliases = array();
 
 	/**
+	 * The root folders where extensions can be found.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected static $extensionRootFolders = array();
+
+	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
@@ -106,13 +114,13 @@ abstract class JLoader
 				$fileName = $file->getFilename();
 
 				// Only load for php files.
-				if ($file->isFile() && $file->getExtension() == 'php')
+				if ($file->isFile() && $file->getExtension() === 'php')
 				{
 					// Get the class name and full path for each file.
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
 
 					// Register the class with the autoloader if not already registered or the force flag is set.
-					if (empty(self::$classes[$class]) || $force)
+					if ($force || empty(self::$classes[$class]))
 					{
 						self::register($class, $file->getPath() . '/' . $fileName);
 					}
@@ -191,7 +199,7 @@ abstract class JLoader
 			$path    = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
-			if ($class == 'helper')
+			if ($class === 'helper')
 			{
 				$class = ucfirst(array_pop($parts)) . ucfirst($class);
 			}
@@ -257,7 +265,12 @@ abstract class JLoader
 		// If the class is registered include the file.
 		if (isset(self::$classes[$key]))
 		{
-			include_once self::$classes[$key];
+			$found = (bool) include_once self::$classes[$key];
+
+			if ($found)
+			{
+				self::loadAliasFor($class);
+			}
 
 			// If the class doesn't exists, we probably have a class alias available
 			if (!class_exists($class, false))
@@ -292,9 +305,9 @@ abstract class JLoader
 	public static function register($class, $path, $force = true)
 	{
 		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
+		if (array_key_exists(strtolower($class), self::$classAliases))
 		{
-			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
+			self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
 		}
 
 		// Sanitize class name.
@@ -304,7 +317,7 @@ abstract class JLoader
 		if (!empty($class) && is_file($path))
 		{
 			// Register the class with the autoloader if not already registered or the force flag is set.
-			if (empty(self::$classes[$class]) || $force)
+			if ($force || empty(self::$classes[$class]))
 			{
 				self::$classes[$class] = $path;
 			}
@@ -340,7 +353,7 @@ abstract class JLoader
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
-		if (!isset(self::$prefixes[$prefix]) || $reset)
+		if ($reset || !isset(self::$prefixes[$prefix]))
 		{
 			self::$prefixes[$prefix] = array($path);
 		}
@@ -372,6 +385,9 @@ abstract class JLoader
 	 */
 	public static function registerAlias($alias, $original, $version = false)
 	{
+		// PHP is case insensitive so support all kind of alias combination
+		$alias = strtolower($alias);
+
 		if (!isset(self::$classAliases[$alias]))
 		{
 			self::$classAliases[$alias] = $original;
@@ -430,8 +446,11 @@ abstract class JLoader
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
+		// Trim leading and trailing backslashes from namespace, allowing "\Parent\Child", "Parent\Child\" and "\Parent\Child\" to be treated the same way.
+		$namespace = trim($namespace, '\\');
+
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if (!isset(self::$namespaces[$type][$namespace]) || $reset)
+		if ($reset || !isset(self::$namespaces[$type][$namespace]))
 		{
 			self::$namespaces[$type][$namespace] = array($path);
 		}
@@ -448,6 +467,23 @@ abstract class JLoader
 				self::$namespaces[$type][$namespace][] = $path;
 			}
 		}
+	}
+
+	/**
+	 * Root folders where extensions can be found. For example:
+	 * JLoader::registerExtensionRootFolder(JPATH_SITE, 'Site');
+	 * JLoader::registerExtensionRootFolder(JPATH_ADMINISTRATOR, 'Administrator');
+	 *
+	 * @param   string  $key   The key.
+	 * @param   string  $path  A absolute file path to the root where extensions can be found.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public static function registerExtensionRootFolder($key, $path)
+	{
+		self::$extensionRootFolders[$key] = $path;
 	}
 
 	/**
@@ -487,8 +523,104 @@ abstract class JLoader
 			// Register the PSR based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
+			spl_autoload_register(array('JLoader', 'loadByExtension'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
+	}
+
+	/**
+	 * Method to autoload classes that are namespaced and do belong to an extension. The
+	 * extension must have the following pattern to be autoloaded:
+	 * - Component: Joomla\Component\Content\Site
+	 * - Module:    Joomla\Module\ArticlesLatest\Administrator
+	 * - Plugin:    Joomla\Plugin\System\Cache
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadByExtension($class)
+	{
+		// Check if it is a namespaced class
+		if (strrpos($class, '\\') === false)
+		{
+			return false;
+		}
+
+		// Splice into segments
+		$segments = explode('\\', $class);
+
+		// Check if there are enough segments
+		if (count($segments) < 5)
+		{
+			return false;
+		}
+
+		// Check if it is an extension class
+		if (!in_array($segments[1], array('Component', 'Module', 'Plugin')))
+		{
+			return false;
+		}
+
+		// Normally Administrator or Site
+		$key = $segments[3];
+
+		// If it is a plugin, then the key is empty
+		if ($segments[1] == 'Plugin')
+		{
+			$key = '';
+		}
+
+		// Check if it is an extension class
+		if (!array_key_exists($key, self::$extensionRootFolders))
+		{
+			return false;
+		}
+
+		// Define the root of the path
+		$path = self::$extensionRootFolders[$key];
+
+		// Add the extension specific folder to the path
+		switch ($segments[1])
+		{
+			case 'Component':
+				$name = strtolower($segments[2]);
+				$path .= '/components/com_' . $name;
+				break;
+			case 'Module':
+				// Convert the name of the extension from camelcase to underscore for module
+				$name = strtolower(implode('_', self::fromCamelCase($segments[2], true)));
+				$path .= '/modules/mod_' . $name;
+				break;
+			case 'Plugin':
+				$group = strtolower($segments[2]);
+				$name  = strtolower($segments[3]);
+				$path .= '/plugins/' . $group . '/' . $name;
+				break;
+		}
+
+		// Check if the extension supports a nice and clean folder structure
+		if (file_exists($path . '/src'))
+		{
+			$path .= '/src';
+		}
+
+		// Extension can't be autoloaded
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
+		// Compile the namespace
+		$ns = implode('\\', array_slice($segments, 0, 4));
+
+		// Register the namespace
+		self::registerNamespace($ns, $path, false, false, 'psr4');
+
+		// Load the class by default PSR-4 routine
+		return self::loadByPsr4($class);
 	}
 
 	/**
@@ -525,19 +657,26 @@ abstract class JLoader
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
-			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
-
-			if (strpos($class, $ns) === 0)
+			if (strpos($class, "{$ns}\\") === 0)
 			{
+				$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . str_replace($nsPath, '', $classPath);
+					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
 					{
-						return (bool) include_once $classFilePath;
+						$found = (bool) include_once $classFilePath;
+
+						if ($found)
+						{
+							self::loadAliasFor($class);
+						}
+
+						return $found;
 					}
 				}
 			}
@@ -592,7 +731,14 @@ abstract class JLoader
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
 					{
-						return (bool) include_once $classFilePath;
+						$found = (bool) include_once $classFilePath;
+
+						if ($found)
+						{
+							self::loadAliasFor($class);
+						}
+
+						return $found;
 					}
 				}
 			}
@@ -612,7 +758,7 @@ abstract class JLoader
 	 */
 	public static function loadByAlias($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		$class = strtolower(self::stripFirstBackslash($class));
 
 		if (isset(self::$classAliases[$class]))
 		{
@@ -698,7 +844,14 @@ abstract class JLoader
 			// Load the file if it exists.
 			if (file_exists($path))
 			{
-				return include $path;
+				$found = (bool) include_once $path;
+
+				if ($found)
+				{
+					self::loadAliasFor($class);
+				}
+
+				return $found;
 			}
 
 			// Backwards compatibility patch
@@ -712,12 +865,42 @@ abstract class JLoader
 				// Load the file if it exists.
 				if (file_exists($path))
 				{
-					return include $path;
+					$found = (bool) include_once $path;
+
+					if ($found)
+					{
+						self::loadAliasFor($class);
+					}
+
+					return $found;
 				}
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Loads the aliases for the given class.
+	 *
+	 * @param   string  $class  The class.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	private static function loadAliasFor($class)
+	{
+		if (!array_key_exists($class, self::$classAliasesInverse))
+		{
+			return;
+		}
+
+		foreach (self::$classAliasesInverse[$class] as $alias)
+		{
+			// Force auto-load of the alias class
+			class_exists($alias, true);
+		}
 	}
 
 	/**
@@ -727,11 +910,28 @@ abstract class JLoader
 	 *
 	 * @return  string  The striped class name.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	private static function stripFirstBackslash($class)
 	{
-		return $class && $class[0] == '\\' ? substr($class, 1) : $class;
+		return $class && $class[0] === '\\' ? substr($class, 1) : $class;
+	}
+
+	/**
+	 * Copied form Normalise class, JLoader should not have an external dependency.
+	 *
+	 * @param   string   $input    The string input (ASCII only).
+	 * @param   boolean  $grouped  Optionally allows splitting on groups of uppercase characters.
+	 *
+	 * @return  string  The space separated string.
+	 *
+	 * @since   4.0.0
+	 */
+	private static function fromCamelCase($input, $grouped = false)
+	{
+		return $grouped
+			? preg_split('/(?<=[^A-Z_])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][^A-Z_])/x', $input)
+			: trim(preg_replace('#([A-Z])#', ' $1', $input));
 	}
 }
 

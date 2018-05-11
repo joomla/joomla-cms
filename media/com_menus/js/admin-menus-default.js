@@ -26,3 +26,12 @@
 		});
 	});
 })();
+
+(function (originalFn) {
+    Joomla.submitform = function(task, form) {
+        originalFn(task, form);
+        if (task === "menu.exportXml") {
+            document.adminForm.task.value = "";
+        }
+    };
+})(Joomla.submitform);

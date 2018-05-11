@@ -22,165 +22,170 @@
     > * {
       margin-left: .5rem;
     }
+  }
 
-    .btn-group {
-      margin-right: .25rem;
+  .btn-group {
+    margin-right: .25rem;
 
-      .btn {
-        margin-left: 0;
-      }
-
-    }
-
-    .btn-group-sm > .btn,
-    .btn-sm {
-      padding: 0 .8rem;
-      line-height: 24px;
-    }
-
-    .btn-sm {
-      padding: 0 10px;
-      line-height: $atum-toolbar-line-height;
-      color: $body-color;
-      background-color: $white-offset;
-      border-color: $atum-border-color;
-      box-shadow: 0 1px 2px rgba(0,0,0,.05);
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        z-index: -1;
-        display: inline-block;
-        width: 28px;
-        height: auto;
-        margin: 0 6px 0 -10px;
-        line-height: $atum-toolbar-line-height;
-        color: inherit;
-        background-color: $gray-lighter;
-        border-right: 1px solid $atum-border-color;
-        border-radius: 3px 0 0 3px;
-      }
-
-      &:hover {
-        background-color: $gray-lighter;
-        border-color: $atum-border-color;
-      }
-
-    }
-
-    .btn-primary,
-	.btn-outline-primary {
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: $brand-primary;
-      }
-
-    }
-
-    .btn-success,
-	.btn-outline-success {
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: $brand-success;
-      }
-
-    }
-
-    .btn-info,
-	.btn-outline-info {
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: $brand-info;
-      }
-
-    }
-
-    .btn-danger,
-	.btn-outline-danger {
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: $brand-danger;
-      }
-
-    }
-
-    .btn-warning,
-    .btn-outline-warning {
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        color: $brand-warning;
-      }
-
-    }
-
-    .btn-success:not(.dropdown-toggle) {
-      width: 140px;
-      color: $white-offset;
-      background-color: $brand-success;
-      border-color: rgba(0,0,0,.2);
-
-      [class^="icon-"],
-      [class*=" icon-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        width: 16px;
-        margin-right: 0;
-        margin-left: 0;
-        color: $white-offset;
-        background-color: transparent;
-        border-right: 0 none;
-        border-left: 0 none;
-      }
-
-      &:hover {
-        background-color: darken($brand-success, 10%);
-      }
-
-    }
-
-    .btn-success.dropdown-toggle {
-      background: darken($brand-success, 12%);
-      border-color: darken($brand-success, 12%);
-
-      &::after {
-        color: $white-offset;
-      }
-
-    }
-
-    > *:first-child:not(.float-sm-right) {
+    .btn {
       margin-left: 0;
     }
 
-    .float-sm-right {
-      margin-left: .8rem;
+  }
+
+  button:first-of-type {
+    margin: 0;
+  }
+
+  .btn-group-sm > .btn,
+  .btn-sm {
+    padding: 0 .8rem;
+    line-height: 24px;
+  }
+
+  .btn-sm {
+    padding: 0 10px;
+    font-size: .875rem;
+    line-height: $atum-toolbar-line-height;
+    color: $body-color;
+    background-color: $white-offset;
+    border-color: $atum-border-color;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      z-index: -1;
+      display: inline-block;
+      width: 28px;
+      height: auto;
+      margin: 0 6px 0 -10px;
+      line-height: $atum-toolbar-line-height;
+      color: inherit;
+      background-color: $gray-200;
+      border-right: 1px solid $atum-border-color;
+      border-radius: 3px 0 0 3px;
     }
 
+    &:hover {
+      background-color: $gray-200;
+      border-color: $atum-border-color;
+    }
+
+  }
+
+  .btn-primary,
+  .btn-outline-primary {
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      color: theme-color("primary");
+    }
+
+  }
+
+  .btn-success,
+  .btn-outline-success {
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      color: theme-color("success");
+    }
+
+  }
+
+  .btn-info,
+  .btn-outline-info {
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      color: theme-color("info");
+    }
+
+  }
+
+  .btn-danger,
+  .btn-outline-danger {
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      color: theme-color("danger");
+    }
+
+  }
+
+  .btn-warning,
+  .btn-outline-warning {
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      color: theme-color("warning");
+    }
+
+  }
+
+  .btn-success:not(.dropdown-toggle) {
+    width: 140px;
+    color: $white-offset;
+    background-color: theme-color("success");
+    border-color: rgba(0,0,0,.2);
+
+    [class^="icon-"],
+    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      width: 16px;
+      margin-right: 0;
+      margin-left: 0;
+      color: $white-offset;
+      background-color: transparent;
+      border-right: 0 none;
+      border-left: 0 none;
+    }
+
+    &:hover {
+      background-color: darken(theme-color("success"), 10%);
+    }
+
+  }
+
+  .btn-success.dropdown-toggle {
+    background: darken(theme-color("success"), 12%);
+    border-color: darken(theme-color("success"), 12%);
+
+    &::after {
+      color: $white-offset;
+    }
+
+  }
+
+  > *:first-child:not(.float-sm-right) {
+    margin-left: 0;
+  }
+
+  .float-sm-right {
+    margin-left: .8rem;
   }
 
   &.subhead-fixed {
     position: fixed;
     top: 0;
-    left: 55px;
+    left: 250px;
     z-index: 9;
     padding-top: 12px;
     padding-bottom: 12px;
+    border-bottom: 1px solid $gray-500;
   }
 
 }

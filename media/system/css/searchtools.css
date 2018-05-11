@@ -49,10 +49,6 @@ html[dir=rtl] .js-stools .js-stools-container-list {
 html[dir=rtl] .js-stools .chzn-container {
 	text-align: right;
 }
-.js-stools .js-stools-container-filters select.active,
-.js-stools .js-stools-container-filters .chzn-container.active .chzn-single{
-	border: 2px solid #2384D3;
-}
 .js-stools .js-stools-container-filters-visible {
 	display: inline-block;
 }
@@ -66,16 +62,6 @@ html[dir=rtl] .js-stools .chzn-container {
 }
 .js-stools .js-stools-container-list .js-stools-field-list:last-child {
 	margin-right: 0;
-}
-
-/* Fix for IE8 */
-@media all\0 {
-	.js-stools .js-stools-field-list,
-	.js-stools .js-stools-field-filter {
-		display:  block;
-		width: 180px;
-		float:left;
-	}
 }
 
 /* Media queries */
@@ -94,10 +80,10 @@ html[dir=rtl] .js-stools .chzn-container {
 	}
 }
 @media (min-width: 768px) and (max-width: 979px) {
+	.js-stools .js-stools-container-selector,
 	.js-stools .js-stools-container-bar,
 	.js-stools .js-stools-container-list {
 		float: none;
 		display: block;
-		margin-top: 10px;
 	}
 }

@@ -9,15 +9,17 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
 $buttons = $displayData;
+
 ?>
-<div id="editor-xtd-buttons" class="btn-toolbar float-left">
+<div class="editor-xtd-buttons" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 	<?php if ($buttons) : ?>
 		<?php foreach ($buttons as $button) : ?>
 			<?php echo $this->sublayout('button', $button); ?>
-		<?php endforeach; ?>
-		<?php foreach ($buttons as $button) : ?>
-			<?php echo JLayoutHelper::render('joomla.editors.buttons.modal', $button); ?>
+			<?php echo $this->sublayout('modal', $button); ?>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </div>

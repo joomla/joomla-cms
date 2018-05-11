@@ -24,10 +24,10 @@
 				<field
 					name="query"
 					type="textarea"
-					filter="raw"
 					label="PLG_FIELDS_SQL_PARAMS_QUERY_LABEL"
 					description="PLG_FIELDS_SQL_PARAMS_QUERY_DESC"
 					rows="10"
+					filter="raw"
 					required="true"
 				/>
 	
@@ -37,8 +37,7 @@
 					class="switcher"
 					default="0"
 					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
-					description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

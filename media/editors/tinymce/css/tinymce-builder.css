@@ -1,0 +1,30 @@
+/**
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+#joomla-tinymce-builder {
+	margin-left: -220px;
+}
+.mce-menubar,
+.mce-panel {
+	min-height: 18px;
+	border-bottom: 1px solid rgba(217,217,217,.52);
+	white-space: normal;
+}
+.mce-tinymce {
+	margin-bottom: 20px;
+	clear: both;
+}
+.mce-panel .drop-area-highlight {
+	background-color: #d0d0d0;
+}
+.mce-panel .mce-btn.ui-state-highlight {
+	height: 28px;
+	width: 40px;
+	background-color: #409740;
+	border: 1px solid #f0f0f0;
+}
+.timymce-builder-toolbar .mce-btn.ui-state-highlight {
+	height: 22px;
+}

@@ -9,14 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Contact Plugin
  *
  * @since  3.2
  */
-class PlgContentContact extends JPlugin
+class PlgContentContact extends CMSPlugin
 {
 	/**
 	 * Database object
@@ -60,10 +64,10 @@ class PlgContentContact extends JPlugin
 		$contact = $this->getContactId($row->created_by);
 		$row->contactid = $contact->contactid;
 
-		if ($contact)
+		if ($row->contactid)
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
-			$row->contact_link = JRoute::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
 		else
 		{
@@ -96,10 +100,10 @@ class PlgContentContact extends JPlugin
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);
 
-		if (JLanguageMultilang::isEnabled() == 1)
+		if (Multilanguage::isEnabled() === true)
 		{
 			$query->where('(contact.language in '
-				. '(' . $this->db->quote(JFactory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
+				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
 				. ' OR contact.language IS NULL)');
 		}
 

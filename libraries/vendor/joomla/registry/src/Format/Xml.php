@@ -2,13 +2,13 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 use SimpleXMLElement;
 use stdClass;
 
@@ -17,7 +17,7 @@ use stdClass;
  *
  * @since  1.0
  */
-class Xml extends AbstractRegistryFormat
+class Xml implements FormatInterface
 {
 	/**
 	 * Converts an object into an XML formatted string.
@@ -31,10 +31,10 @@ class Xml extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function objectToString($object, $options = array())
+	public function objectToString($object, array $options = [])
 	{
-		$rootName = (isset($options['name'])) ? $options['name'] : 'registry';
-		$nodeName = (isset($options['nodeName'])) ? $options['nodeName'] : 'node';
+		$rootName = $options['name'] ?? 'registry';
+		$nodeName = $options['nodeName'] ?? 'node';
 
 		// Create the root node.
 		$root = simplexml_load_string('<' . $rootName . ' />');
@@ -55,7 +55,7 @@ class Xml extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function stringToObject($data, array $options = array())
+	public function stringToObject($data, array $options = [])
 	{
 		$obj = new stdClass;
 
@@ -106,7 +106,7 @@ class Xml extends AbstractRegistryFormat
 				break;
 
 			case 'array':
-				$value = array();
+				$value = [];
 
 				foreach ($node->children() as $child)
 				{

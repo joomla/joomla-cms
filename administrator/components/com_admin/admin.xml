@@ -10,6 +10,7 @@
 	<version>3.0.0</version>
 	<description>COM_ADMIN_XML_DESCRIPTION</description>
 	<media />
+	<namespace>Joomla\Component\Admin</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>admin.php</filename>

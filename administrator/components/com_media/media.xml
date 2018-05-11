@@ -17,14 +17,14 @@
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_media.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Media</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>media.php</filename>
 			<folder>controllers</folder>
-			<folder>helpers</folder>
-			<folder>layouts</folder>
+			<folder>legacy</folder>
 			<folder>models</folder>
 			<folder>views</folder>
 		</files>

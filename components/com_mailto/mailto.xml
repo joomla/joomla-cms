@@ -10,14 +10,17 @@
 	<version>3.0.0</version>
 	<description>COM_MAILTO_XML_DESCRIPTION</description>
 	<files folder="site">
-		<filename>controller.php</filename>
-		<filename>index.html</filename>
-		<filename>mailto.php</filename>
+		<filename>dispatcher.php</filename>
+		<folder>Controller</folder>
+		<folder>Helper</folder>
+		<folder>helpers</folder>
+		<folder>View</folder>
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB.com_mailto.ini</language>
 	</languages>
+	<namespace>Joomla\Component\Mailto</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>index.html</filename>

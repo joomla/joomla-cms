@@ -9,38 +9,24 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonurl = function()
-	{
-		var form = document.getElementById("adminForm");
-
-		// do field validation 
-		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
-			alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
-		}
-		else
-		{
-			JoomlaInstaller.showLoading();
-			form.installtype.value = "url"
-			form.submit();
-		}
-	};
-');
+use Joomla\CMS\Language\Text;
 ?>
-<legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
+
+<legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
+<hr>
 <div class="control-group">
 	<label for="install_url" class="control-label">
-		<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
+		<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
+		<input type="text" id="install_url" name="install_url" class="form-control input-xlarge" placeholder="https://">
 	</div>
 </div>
+<hr>
 <div class="control-group">
 	<div class="controls">
-		<input type="button" class="btn btn-primary" id="installbutton_url"
-			value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonurl()">
+		<button type="button" class="btn btn-primary" id="installbutton_url" onclick="Joomla.submitbuttonurl()">
+			<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>
+		</button>
 	</div>
 </div>

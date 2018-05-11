@@ -12,6 +12,8 @@ var _ = function (input, o) {
 
 	// Setup
 
+	this.isOpened = false;
+
 	this.input = $(input);
 	this.input.setAttribute("autocomplete", "off");
 	this.input.setAttribute("aria-autocomplete", "list");
@@ -24,7 +26,7 @@ var _ = function (input, o) {
 		autoFirst: false,
 		data: _.DATA,
 		filter: _.FILTER_CONTAINS,
-		sort: _.SORT_BYLENGTH,
+		sort: o.sort === false ? false : _.SORT_BYLENGTH,
 		item: _.ITEM,
 		replace: _.REPLACE
 	}, o);
@@ -53,47 +55,55 @@ var _ = function (input, o) {
 
 	// Bind events
 
-	$.bind(this.input, {
-		"input": this.evaluate.bind(this),
-		"blur": this.close.bind(this, { reason: "blur" }),
-		"keydown": function(evt) {
-			var c = evt.keyCode;
+	this._events = {
+		input: {
+			"input": this.evaluate.bind(this),
+			"blur": this.close.bind(this, { reason: "blur" }),
+			"keydown": function(evt) {
+				var c = evt.keyCode;
 
-			// If the dropdown `ul` is in view, then act on keydown for the following keys:
-			// Enter / Esc / Up / Down
-			if(me.opened) {
-				if (c === 13 && me.selected) { // Enter
-					evt.preventDefault();
-					me.select();
+				// If the dropdown `ul` is in view, then act on keydown for the following keys:
+				// Enter / Esc / Up / Down
+				if(me.opened) {
+					if (c === 13 && me.selected) { // Enter
+						evt.preventDefault();
+						me.select();
+					}
+					else if (c === 27) { // Esc
+						me.close({ reason: "esc" });
+					}
+					else if (c === 38 || c === 40) { // Down/Up arrow
+						evt.preventDefault();
+						me[c === 38? "previous" : "next"]();
+					}
 				}
-				else if (c === 27) { // Esc
-					me.close({ reason: "esc" });
-				}
-				else if (c === 38 || c === 40) { // Down/Up arrow
-					evt.preventDefault();
-					me[c === 38? "previous" : "next"]();
+			}
+		},
+		form: {
+			"submit": this.close.bind(this, { reason: "submit" })
+		},
+		ul: {
+			"mousedown": function(evt) {
+				var li = evt.target;
+
+				if (li !== this) {
+
+					while (li && !/li/i.test(li.nodeName)) {
+						li = li.parentNode;
+					}
+
+					if (li && evt.button === 0) {  // Only select on left click
+						evt.preventDefault();
+						me.select(li, evt.target);
+					}
 				}
 			}
 		}
-	});
+	};
 
-	$.bind(this.input.form, {"submit": this.close.bind(this, { reason: "submit" })});
-
-	$.bind(this.ul, {"mousedown": function(evt) {
-		var li = evt.target;
-
-		if (li !== this) {
-
-			while (li && !/li/i.test(li.nodeName)) {
-				li = li.parentNode;
-			}
-
-			if (li && evt.button === 0) {  // Only select on left click
-				evt.preventDefault();
-				me.select(li, evt.target);
-			}
-		}
-	}});
+	$.bind(this.input, this._events.input);
+	$.bind(this.input.form, this._events.form);
+	$.bind(this.ul, this._events.ul);
 
 	if (this.input.hasAttribute("list")) {
 		this.list = "#" + this.input.getAttribute("list");
@@ -143,7 +153,7 @@ _.prototype = {
 	},
 
 	get opened() {
-		return !this.ul.hasAttribute("hidden");
+		return this.isOpened;
 	},
 
 	close: function (o) {
@@ -152,6 +162,7 @@ _.prototype = {
 		}
 
 		this.ul.setAttribute("hidden", "");
+		this.isOpened = false;
 		this.index = -1;
 
 		$.fire(this.input, "awesomplete-close", o || {});
@@ -159,6 +170,7 @@ _.prototype = {
 
 	open: function () {
 		this.ul.removeAttribute("hidden");
+		this.isOpened = true;
 
 		if (this.autoFirst && this.index === -1) {
 			this.goto(0);
@@ -167,16 +179,39 @@ _.prototype = {
 		$.fire(this.input, "awesomplete-open");
 	},
 
+	destroy: function() {
+		//remove events from the input and its form
+		$.unbind(this.input, this._events.input);
+		$.unbind(this.input.form, this._events.form);
+
+		//move the input out of the awesomplete container and remove the container and its children
+		var parentNode = this.container.parentNode;
+
+		parentNode.insertBefore(this.input, this.container);
+		parentNode.removeChild(this.container);
+
+		//remove autocomplete and aria-autocomplete attributes
+		this.input.removeAttribute("autocomplete");
+		this.input.removeAttribute("aria-autocomplete");
+
+		//remove this awesomeplete instance from the global array of instances
+		var indexOfAwesomplete = _.all.indexOf(this);
+
+		if (indexOfAwesomplete !== -1) {
+			_.all.splice(indexOfAwesomplete, 1);
+		}
+	},
+
 	next: function () {
 		var count = this.ul.children.length;
-
-		this.goto(this.index < count - 1? this.index + 1 : -1);
+		this.goto(this.index < count - 1 ? this.index + 1 : (count ? 0 : -1) );
 	},
 
 	previous: function () {
 		var count = this.ul.children.length;
+		var pos = this.index - 1;
 
-		this.goto(this.selected? this.index - 1 : count - 1);
+		this.goto(this.selected && pos !== -1 ? pos : count - 1);
 	},
 
 	// Should not be used, highlights specific item without any checks!
@@ -192,6 +227,9 @@ _.prototype = {
 		if (i > -1 && lis.length > 0) {
 			lis[i].setAttribute("aria-selected", "true");
 			this.status.textContent = lis[i].textContent;
+
+			// scroll to highlighted element in case parent's height is fixed
+			this.ul.scrollTop = lis[i].offsetTop - this.ul.clientHeight + lis[i].clientHeight;
 
 			$.fire(this.input, "awesomplete-highlight", {
 				text: this.suggestions[this.index]
@@ -239,9 +277,13 @@ _.prototype = {
 				})
 				.filter(function(item) {
 					return me.filter(item, value);
-				})
-				.sort(this.sort)
-				.slice(0, this.maxItems);
+				});
+
+			if (this.sort !== false) {
+				this.suggestions = this.suggestions.sort(this.sort);
+			}
+
+			this.suggestions = this.suggestions.slice(0, this.maxItems);
 
 			this.suggestions.forEach(function(text) {
 					me.ul.appendChild(me.item(text, value));
@@ -280,7 +322,7 @@ _.SORT_BYLENGTH = function (a, b) {
 };
 
 _.ITEM = function (text, input) {
-	var html = input === '' ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
+	var html = input.trim() === "" ? text : text.replace(RegExp($.regExpEscape(input.trim()), "gi"), "<mark>$&</mark>");
 	return $.create("li", {
 		innerHTML: html,
 		"aria-selected": "false"
@@ -378,6 +420,18 @@ $.bind = function(element, o) {
 
 			event.split(/\s+/).forEach(function (event) {
 				element.addEventListener(event, callback);
+			});
+		}
+	}
+};
+
+$.unbind = function(element, o) {
+	if (element) {
+		for (var event in o) {
+			var callback = o[event];
+
+			event.split(/\s+/).forEach(function(event) {
+				element.removeEventListener(event, callback);
 			});
 		}
 	}

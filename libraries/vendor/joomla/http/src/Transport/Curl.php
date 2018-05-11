@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,11 +95,21 @@ class Curl extends AbstractTransport
 		// Build the headers string for the request.
 		$headerArray = [];
 
-		if (isset($headers))
+		if (!empty($headers))
 		{
 			foreach ($headers as $key => $value)
 			{
-				$headerArray[] = $key . ': ' . $value;
+				if (is_array($value))
+				{
+					foreach ($value as $header)
+					{
+						$headerArray[] = "$key: $header";
+					}
+				}
+				else
+				{
+					$headerArray[] = "$key: $value";
+				}
 			}
 
 			// Add the headers string into the stream context options array.
@@ -151,6 +161,12 @@ class Curl extends AbstractTransport
 			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
+		// Configure protocol version
+		if ($protocolVersion = $this->getOption('protocolVersion'))
+		{
+			$options[CURLOPT_HTTP_VERSION] = $this->mapProtocolVersion($protocolVersion);
+		}
+
 		// Set any custom transport options
 		foreach ($this->getOption('transport.curl', []) as $key => $value)
 		{
@@ -200,21 +216,37 @@ class Curl extends AbstractTransport
 	 */
 	protected function getResponse($content, $info)
 	{
-		// Get the number of redirects that occurred.
-		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
+		// Try to get header size
+		if (isset($info['header_size']))
+		{
+			$headerString = trim(substr($content, 0, $info['header_size']));
+			$headerArray  = explode("\r\n\r\n", $headerString);
 
-		/*
-		 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
-		 * also be included. So we split the response into header + body + the number of redirects and only use the last two
-		 * sections which should be the last set of headers and the actual body.
-		 */
-		$response = explode("\r\n\r\n", $content, 2 + $redirects);
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($headerArray));
 
-		// Set the body for the response.
-		$body = array_pop($response);
+			// Set the body for the response.
+			$body = substr($content, $info['header_size']);
+		}
+		// Fallback and try to guess header count by redirect count
+		else
+		{
+			// Get the number of redirects that occurred.
+			$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
 
-		// Get the last set of response headers as an array.
-		$headers = explode("\r\n", array_pop($response));
+			/*
+			 * Split the response into headers and body. If cURL encountered redirects, the headers for the redirected requests will
+			 * also be included. So we split the response into header + body + the number of redirects and only use the last two
+			 * sections which should be the last set of headers and the actual body.
+			 */
+			$response = explode("\r\n\r\n", $content, 2 + $redirects);
+
+			// Set the body for the response.
+			$body = array_pop($response);
+
+			// Get the last set of response headers as an array.
+			$headers = explode("\r\n", array_pop($response));
+		}
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
@@ -249,21 +281,44 @@ class Curl extends AbstractTransport
 	}
 
 	/**
+	 * Get the cURL constant for a HTTP protocol version
+	 *
+	 * @param   string  $version  The HTTP protocol version to use
+	 *
+	 * @return  integer
+	 *
+	 * @since   1.3.1
+	 */
+	private function mapProtocolVersion($version)
+	{
+		switch ($version)
+		{
+			case '1.0':
+				return CURL_HTTP_VERSION_1_0;
+
+			case '1.1':
+				return CURL_HTTP_VERSION_1_1;
+
+			case '2.0':
+			case '2':
+				if (defined('CURL_HTTP_VERSION_2'))
+				{
+					return CURL_HTTP_VERSION_2;
+				}
+		}
+
+		return CURL_HTTP_VERSION_NONE;
+	}
+
+	/**
 	 * Check if redirects are allowed
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.2.1
 	 */
-	private function redirectsAllowed()
+	private function redirectsAllowed(): bool
 	{
-		// There are no issues on PHP 5.6 and later
-		if (version_compare(PHP_VERSION, '5.6', '>='))
-		{
-			return true;
-		}
-
-		// For PHP 5.4 and 5.5, we only need to check if open_basedir is disabled
-		return !ini_get('open_basedir');
+		return true;
 	}
 }

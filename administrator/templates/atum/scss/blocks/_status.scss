@@ -3,12 +3,12 @@
 .status {
   z-index: 9;
   padding: 5px 10px;
-  margin-left: 55px;
+  margin-left: 250px;
   color: #626262;
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba($white,.8) inset;
-  transition: all .4s ease;
+  transition: all .3s ease;
   transition-delay: 0s;
 
   p {
@@ -19,6 +19,10 @@
   a {
     font-size: $font-size-root;
     color: #555;
+  }
+
+  .closed & {
+    margin-left: 50px;
   }
 
 }

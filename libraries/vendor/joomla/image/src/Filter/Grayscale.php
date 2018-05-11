@@ -26,7 +26,7 @@ class Grayscale extends ImageFilter
 	 *
 	 * @since   1.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the grayscale filter.
 		imagefilter($this->handle, IMG_FILTER_GRAYSCALE);

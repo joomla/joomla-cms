@@ -1,0 +1,74 @@
+.media-infobar {
+  position: absolute;
+  top: ($toolbar-height + 1px);
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  float: none;
+  width: 25%;
+  padding: $gutter-width;
+  overflow-y: scroll;
+  background-color: $info-bg;
+  border-left: 1px solid $border-color;
+  h2 {
+    padding: 10px ($gutter-width + 30px) 10px $gutter-width;
+    margin: (-$gutter-width) (-$gutter-width) $gutter-width;
+    font-weight: normal;
+    line-height: $info-title-height;
+    word-wrap: break-word;
+    background-color: $info-title-bg;
+    border-bottom: 1px solid #eee;
+  }
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -($col-gutter-width / 2);
+    margin-left: -($col-gutter-width / 2);
+  }
+  dt, dd {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: ($col-gutter-width / 2);
+    padding-left: ($col-gutter-width / 2);
+  }
+  dt {
+    flex: 0 0 $info-dt-width;
+    max-width: $info-dt-width;
+    font-weight: normal;
+    color: rgba(0, 0, 0, .54);
+  }
+  dd {
+    flex: 0 0 $info-dd-width;
+    max-width: $info-dd-width;
+  }
+}
+
+.infobar-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  padding: 0 $gutter-width;
+  font-size: 2.6rem;
+  line-height: $info-title-height;
+  color: $info-close-color;
+  text-indent: 0;
+  text-shadow: none;
+  &:hover {
+    color: $info-close-color-hover;
+    cursor: pointer;
+  }
+}
+
+.placeholder-icon.fa {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  margin: 20px auto 15px;
+  font-size: 2rem;
+  line-height: calc(4rem - 4px);
+  color: #ccc;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+}

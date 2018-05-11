@@ -58,9 +58,9 @@ abstract class AbstractTransport implements TransportInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getOption($key, $default = null)
+	protected function getOption(string $key, $default = null)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 	/**
@@ -72,7 +72,7 @@ abstract class AbstractTransport implements TransportInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function processHeaders(array $headers)
+	protected function processHeaders(array $headers): array
 	{
 		$verifiedHeaders = [];
 

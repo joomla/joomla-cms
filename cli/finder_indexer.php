@@ -36,18 +36,7 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
-
-// Import the configuration.
-require_once JPATH_CONFIGURATION . '/configuration.php';
-
-// System configuration.
-$config = new JConfig;
-define('JDEBUG', $config->debug);
-
-// Configure error reporting to maximum for CLI output.
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Load Library language
 $lang = JFactory::getLanguage();
@@ -62,7 +51,7 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  *
  * @since  2.5
  */
-class FinderCli extends JApplicationCli
+class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
 	/**
 	 * Start time for the index process
@@ -109,7 +98,6 @@ class FinderCli extends JApplicationCli
 
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
-		JFactory::getApplication('site');
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -368,6 +356,22 @@ class FinderCli extends JApplicationCli
 	}
 }
 
-// Instantiate the application object, passing the class name to JCli::getInstance
-// and use chaining to execute the application.
-JApplicationCli::getInstance('FinderCli')->execute();
+// Set up the container
+JFactory::getContainer()->share(
+	'FinderCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new FinderCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+);
+$app = JFactory::getContainer()->get('FinderCli');
+JFactory::$application = $app;
+$app->execute();

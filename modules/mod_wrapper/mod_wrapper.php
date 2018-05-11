@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
-// Include the wrapper functions only once
-JLoader::register('ModWrapperHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Wrapper\Site\Helper\WrapperHelper;
 
-$params = ModWrapperHelper::getParams($params);
+$params = WrapperHelper::getParams($params);
 
-$load            = $params->get('load');
-$url             = htmlspecialchars($params->get('url'), ENT_COMPAT, 'UTF-8');
-$target          = htmlspecialchars($params->get('target'), ENT_COMPAT, 'UTF-8');
-$width           = htmlspecialchars($params->get('width'), ENT_COMPAT, 'UTF-8');
-$height          = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8');
-$scroll          = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$frameborder     = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
+$load        = $params->get('load');
+$url         = htmlspecialchars($params->get('url'), ENT_COMPAT, 'UTF-8');
+$target      = htmlspecialchars($params->get('target'), ENT_COMPAT, 'UTF-8');
+$width       = htmlspecialchars($params->get('width'), ENT_COMPAT, 'UTF-8');
+$height      = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8');
+$scroll      = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
+$frameborder = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
+$ititle      = $module->title;
 
-require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

@@ -9,9 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Helper\RouteHelper;
+
+JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
-<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
-<div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
+
+<div class="tagssimilar">
 <?php if ($list) : ?>
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>
@@ -21,8 +26,8 @@ defined('_JEXEC') or die;
 					echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
 				endif; ?>
 			<?php else : ?>
-				<?php $item->route = new JHelperRoute; ?>
-				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+				<?php $item->route = new RouteHelper; ?>
+				<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 					<?php if (!empty($item->core_title)) :
 						echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
 					endif; ?>
@@ -32,6 +37,6 @@ defined('_JEXEC') or die;
 	<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<span><?php echo JText::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS'); ?></span>
+	<span><?php echo Text::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS'); ?></span>
 <?php endif; ?>
 </div>

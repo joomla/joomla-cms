@@ -26,7 +26,7 @@ class Emboss extends ImageFilter
 	 *
 	 * @since   1.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the emboss filter.
 		imagefilter($this->handle, IMG_FILTER_EMBOSS);

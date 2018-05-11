@@ -2,11 +2,12 @@
 
 html,
 body {
+  height: 100%;
   font-size: $font-size-root;
 }
 
 body {
-  padding: 0 0 30px;
+  padding: 0;
   margin: 0;
 }
 
@@ -19,7 +20,11 @@ h6 {
   font-weight: bold;
 }
 
+h1 {
+  font-weight: normal;
+}
+
 small,
 .small {
-  font-size: $font-size-small;
+  font-size: $font-size-sm;
 }

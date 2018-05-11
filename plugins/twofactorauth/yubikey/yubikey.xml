@@ -24,7 +24,6 @@
 					name="section"
 					type="list"
 					label="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_LABEL"
-					description="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_DESC"
 					default="3"
 					>
 					<option value="1">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_SITE</option>

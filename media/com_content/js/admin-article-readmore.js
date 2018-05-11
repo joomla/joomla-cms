@@ -10,16 +10,18 @@ window.insertReadmore = function(editor) {
 		return false;
 	}
 
-	var options, content;
+	var content, options = window.Joomla.getOptions('xtd-readmore');
 
-	options = window.parent.Joomla.getOptions('xtd-readmore');
-
-	content = (new Function('return ' + options.editor))();
+	if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
+		content = window.Joomla.editors.instances[editor].getValue();
+	} else {
+		content = (new Function('return ' + options.editor))();
+	}
 
 	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
 		alert(options.exists);
 		return false;
 	} else {
-		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
+		Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
 	}
 };

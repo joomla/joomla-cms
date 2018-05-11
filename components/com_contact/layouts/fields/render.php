@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Check if we have all the data
-if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
+if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
 {
 	return;
 }
@@ -35,7 +35,7 @@ $parts     = explode('.', $context);
 $component = $parts[0];
 $fields    = null;
 
-if (key_exists('fields', $displayData))
+if (array_key_exists('fields', $displayData))
 {
 	$fields = $displayData['fields'];
 }
@@ -61,8 +61,8 @@ if (!$isMail)
 // Loop through the fields and print them
 foreach ($fields as $field)
 {
-	// If the value is empty dp nothing
-	if (!isset($field->value) || !$field->value)
+	// If the value is empty do nothing
+	if (empty($field->value) && !$isMail)
 	{
 		continue;
 	}
@@ -75,3 +75,4 @@ if (!$isMail)
 	// Close the container
 	echo '</dl>';
 }
+

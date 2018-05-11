@@ -32,7 +32,7 @@ function twofactorauth_postinstall_condition()
 	$db->setQuery($query);
 	$enabled_plugins = $db->loadObjectList();
 
-	return count($enabled_plugins) == 0;
+	return count($enabled_plugins) === 0;
 }
 
 /**

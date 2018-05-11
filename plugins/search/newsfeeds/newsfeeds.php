@@ -9,12 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
+
 /**
  * Newsfeeds search plugin.
  *
  * @since  1.6
  */
-class PlgSearchNewsfeeds extends JPlugin
+class PlgSearchNewsfeeds extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -57,17 +62,14 @@ class PlgSearchNewsfeeds extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$db 	= Factory::getDbo();
+		$app 	= Factory::getApplication();
+		$user 	= Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
+		if (is_array($areas) && !array_intersect($areas, array_keys($this->onContentSearchAreas())))
 		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
-				return array();
-			}
+			return array();
 		}
 
 		$sContent = $this->params->get('search_content', 1);
@@ -92,7 +94,7 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}
@@ -143,7 +145,7 @@ class PlgSearchNewsfeeds extends JPlugin
 				$order = 'a.name ASC';
 		}
 
-		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
+		$searchNewsfeeds = Text::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
 		$query = $db->getQuery(true);
 
@@ -167,9 +169,9 @@ class PlgSearchNewsfeeds extends JPlugin
 			->order($order);
 
 		// Filter by language.
-		if ($app->isClient('site') && JLanguageMultilang::isEnabled())
+		if ($app->isClient('site') && Multilanguage::isEnabled())
 		{
-			$tag = JFactory::getLanguage()->getTag();
+			$tag = Factory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 		}
@@ -183,7 +185,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		catch (RuntimeException $e)
 		{
 			$rows = array();
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		if ($rows)

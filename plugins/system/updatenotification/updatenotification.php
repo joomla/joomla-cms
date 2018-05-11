@@ -9,6 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Version;
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Installer\Administrator\Model\UpdateModel;
+
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
@@ -23,7 +35,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.5
  */
-class PlgSystemUpdatenotification extends JPlugin
+class PlgSystemUpdatenotification extends CMSPlugin
 {
 	/**
 	 * Load plugin language files automatically
@@ -44,7 +56,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	{
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
 		JLoader::import('joomla.application.component.helper');
-		$component = JComponentHelper::getComponent('com_installer');
+		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
 		$params        = $component->params;
@@ -65,7 +77,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		// If I have the time of the last run, I can update, otherwise insert
 		$this->params->set('lastrun', $now);
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 					->update($db->qn('#__extensions'))
 					->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
@@ -89,7 +101,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(array('com_plugins'));
 		}
 		catch (Exception $exc)
 		{
@@ -119,7 +131,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		$eid = 700;
 
 		// Get any available updates
-		$updater = JUpdater::getInstance();
+		$updater = Updater::getInstance();
 		$results = $updater->findUpdates(array($eid), $cache_timeout);
 
 		// If there are no updates our job is done. We need BOTH this check AND the one below.
@@ -128,11 +140,8 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Unfortunately Joomla! MVC doesn't allow us to autoload classes
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
-
 		// Get the update model and retrieve the Joomla! core updates
-		$model = JModelLegacy::getInstance('Update', 'InstallerModel');
+		$model = new UpdateModel(array('ignore_request' => true));
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
@@ -145,18 +154,18 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Get the available update
 		$update = array_pop($updates);
 
-		// Check the available version. If it's the same as the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'eq'))
+		// Check the available version. If it's the same or less than the installed version we have no updates to notify about.
+		if (version_compare($update->version, JVERSION, 'le'))
 		{
 			return;
 		}
 
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
-		$baseURL  = JUri::base();
+		$baseURL  = Uri::base();
 		$baseURL  = rtrim($baseURL, '/');
 		$baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
-		$uri      = new JUri($baseURL);
+		$uri      = new Uri($baseURL);
 
 		/**
 		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
@@ -171,7 +180,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * The plugins should modify the $uri object directly and return null.
 		 */
 
-		JFactory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
+		Factory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
 
 		// Let's find out the email addresses to notify
 		$superUsers    = array();
@@ -197,7 +206,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
 		 * solution! */
-		$jLanguage = JFactory::getLanguage();
+		$jLanguage = Factory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
 
@@ -211,27 +220,28 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		// Set up the email subject and body
 
-		$email_subject = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT');
-		$email_body    = JText::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
+		$email_subject = Text::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT');
+		$email_body    = Text::_('PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY');
 
 		// Replace merge codes with their values
 		$newVersion = $update->version;
 
-		$jVersion       = new JVersion;
+		$jVersion       = new Version;
 		$currentVersion = $jVersion->getShortVersion();
 
-		$jConfig  = JFactory::getConfig();
+		$jConfig  = Factory::getConfig();
 		$sitename = $jConfig->get('sitename');
 		$mailFrom = $jConfig->get('mailfrom');
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => Uri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)
@@ -243,7 +253,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Send the emails to the Super Users
 		foreach ($superUsers as $superUser)
 		{
-			$mailer = JFactory::getMailer();
+			$mailer = Factory::getMailer();
 			$mailer->setSender(array($mailFrom, $fromName));
 			$mailer->addRecipient($superUser->email);
 			$mailer->setSubject($email_subject);
@@ -266,7 +276,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	private function getSuperUsers($email = null)
 	{
 		// Get a reference to the database object
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Convert the email list to an array
 		if (!empty($email))
@@ -292,8 +302,8 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
-			$rules     = JAccess::getAssetRules($rootId)->getData();
+			$rootId    = Table::getInstance('Asset', 'Table')->getRootId();
+			$rules     = Access::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
 
@@ -381,36 +391,31 @@ class PlgSystemUpdatenotification extends JPlugin
 	/**
 	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
 	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
+	 * @param   array  $clearGroups  The cache groups to clean
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups)
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			try
 			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
+				$options = [
+					'defaultgroup' => $group,
+					'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+				];
 
-					$cache = JCache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
+				$cache = Cache::getInstance('callback', $options);
+				$cache->clean();
+			}
+			catch (Exception $e)
+			{
+				// Ignore it
 			}
 		}
 	}

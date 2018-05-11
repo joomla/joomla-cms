@@ -1,11 +1,11 @@
+
 // Header
 
 .header {
   position: relative;
   z-index: 5;
   height: $header-height;
-  margin-bottom: 3px;
-  background: $atum-template-color-light;
+  background: $atum-template-color;
 
   &::after {
     position: absolute;
@@ -13,36 +13,29 @@
     width: 100%;
     height: 3px;
     content: "";
-    background-color: $brand-primary;
+    background-color: theme-color("primary");
     background-image: linear-gradient(to right, $atum-hl-grad-inner 0%, $atum-hl-grad-outer 100%);
   }
 
   .page-title {
     display: inline-block;
-    margin: 0 0 0 25px;
-    font-size: 1.25rem;
+    margin: 0 5px;
+    font-size: 1.3rem;
     font-weight: normal;
     line-height: $header-height;
-    color: $atum-inverted-text-color;
-    border-bottom: 1px solid #20252e;
-
-    .icon-list {
-      color: $atum-inverted-text-color;
-    }
+    color: $white-offset;
 
     [class^="icon-"] {
       margin-right: 15px;
+      font-size: $h1-font-size$h1-font-size;
+      vertical-align: middle;
     }
 
   }
 
   .navbar-brand {
-    position: relative;
-    display: inline-block;
-    float: none;
     padding: 0;
-    font-size: 1.3rem;
-    line-height: $header-height;
+    font-size: 1.1rem;
     color: $white-offset;
 
     &:hover,
@@ -54,43 +47,46 @@
       margin-right: 0;
       margin-left: 10px;
     }
-
+    span {
+      margin-left: .4rem;
+    }
   }
-
-  nav {
-    position: absolute;
-    top: 0;
-    right: 15px;
-  }
-
-  .nav-item + .nav-item {
-    margin-left: 1px;
+  .nav-item {
+    background-color: $header-icons-bg;
+    border-left: 1px solid $atum-template-color;
   }
 
   .nav-link {
     position: relative;
     padding: 0;
-    margin-left: 4px;
     line-height: $header-height;
 
     .fa {
-      width: 30px;
-      height: 23px;
-      font-size: 1.1rem;
-      line-height: 23px;
+      width: $header-height + 2px;
+      font-size: 1.2rem;
       color: $white-offset;
-      background-color: lighten($atum-template-color-light, 10%);
-      border-radius: 2px;
+      vertical-align: middle;
+      transition: all .2s ease-in-out;
+    }
+
+    .fa-external-link { // Position correct
+      position: relative;
+      left: 2px;
     }
 
     .badge {
       position: absolute;
       top: 4px;
-      right: -5px;
+      right: 2px;
     }
 
     &.dropdown-toggle::after {
       display: none;
+    }
+
+    &:hover .fa {
+      font-size: 1.3rem;
+      transition: all .2s ease-in-out;
     }
 
   }
@@ -99,23 +95,19 @@
     min-width: 280px;
     padding: 0;
     border: 0;
+
+    h2 {
+      font-size: $h5-font-size;
+    }
   }
 
-  .dropdown-menu {
-
-    &::after {
-      left: .65rem;
-    }
-
+  .dropdown-menu::after {
+    left: .65rem;
   }
 
-  .dropdown-menu-right {
-
-    &::after {
-      right: .65rem;
-      left: auto;
-    }
-
+  .dropdown-menu-right::after {
+    right: .65rem;
+    left: auto;
   }
 
   .header-profile {
@@ -139,33 +131,15 @@
     border-radius: $border-radius $border-radius 0 0;
   }
 
-}
-
-.container-title {
-  padding-top: 13px;
-  padding-bottom: 13px;
-  color: $white;
-  background-color: $atum-template-color-light;
-
-  .row {
-    margin-right: 0;
-    margin-left: 0;
+  .list-group-item-text:last-child {
+    margin-bottom: 0;
   }
 
-  .page-title {
+  .joomla-version {
+    margin-right: .9rem;
     margin-bottom: 0;
-    font-size: 1.3rem;
-    font-weight: normal;
-
-    span {
-      position: relative;
-      top: 3px;
-      margin-right: 15px;
-      margin-left: 5px;
-      font-size: $font-size-h1;
-      color: $white-offset;
-    }
-
+    font-size: $h5-font-size;
+    color: $white-offset;
   }
 
 }
@@ -187,9 +161,6 @@
 
 // Mobile Toggle
 .menu-collapse {
-  position: absolute;
-  top: 0;
-  left: 0;
   font-size: 2rem;
   text-align: center;
 
@@ -198,6 +169,7 @@
     width: $header-height;
     line-height: $header-height;
     color: $white;
+    background-color: $header-icons-bg;
   }
 
 }

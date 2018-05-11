@@ -9,17 +9,19 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
-$baseurl = JUri::base();
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Banners\Site\Helper\BannerHelper;
 ?>
-<div class="bannergroup<?php echo $moduleclass_sfx; ?>">
+<div class="bannergroup">
 <?php if ($headerText) : ?>
 	<?php echo $headerText; ?>
 <?php endif; ?>
 
 <?php foreach ($list as $item) : ?>
 	<div class="banneritem">
-		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
+		<?php $link = Route::_('index.php?option=com_banners&task=click&id=' . $item->id); ?>
 		<?php if ($item->type == 1) : ?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
@@ -29,9 +31,10 @@ $baseurl = JUri::base();
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
 				<?php // Image based banner ?>
+				<?php $baseurl = strpos($imageurl, 'http') === 0 ? '' : Uri::base(); ?>
 				<?php $alt = $item->params->get('alt'); ?>
 				<?php $alt = $alt ?: $item->name; ?>
-				<?php $alt = $alt ?: JText::_('MOD_BANNERS_BANNER'); ?>
+				<?php $alt = $alt ?: Text::_('MOD_BANNERS_BANNER'); ?>
 				<?php if ($item->clickurl) : ?>
 					<?php // Wrap the banner in a link ?>
 					<?php $target = $params->get('target', 1); ?>
@@ -87,8 +90,8 @@ $baseurl = JUri::base();
 				<object
 					classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
-					<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-					<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+					<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+					<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 				>
 					<param name="movie" value="<?php echo $imageurl; ?>" />
 					<embed
@@ -96,13 +99,12 @@ $baseurl = JUri::base();
 						loop="false"
 						pluginspage="http://www.macromedia.com/go/get/flashplayer"
 						type="application/x-shockwave-flash"
-						<?php if (!empty($width)) echo ' width="' . $width . '"';?>
-						<?php if (!empty($height)) echo ' height="' . $height . '"';?>
+						<?php if (!empty($width)) echo ' width="' . $width . '"'; ?>
+						<?php if (!empty($height)) echo ' height="' . $height . '"'; ?>
 					/>
 				</object>
 			<?php endif; ?>
 		<?php endif; ?>
-		<div class="clr"></div>
 	</div>
 <?php endforeach; ?>
 

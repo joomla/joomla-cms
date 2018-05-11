@@ -41,6 +41,11 @@ class ContentHelper extends \JHelperContent
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories'
 		);
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
+			'index.php?option=com_content&view=featured',
+			$vName == 'featured'
+		);
 
 		if (\JComponentHelper::isEnabled('com_fields') && \JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 		{
@@ -55,12 +60,6 @@ class ContentHelper extends \JHelperContent
 				$vName == 'fields.groups'
 			);
 		}
-
-		\JHtmlSidebar::addEntry(
-			\JText::_('COM_CONTENT_SUBMENU_FEATURED'),
-			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
-		);
 	}
 
 	/**
@@ -93,9 +92,9 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   \stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   3.5
 	 */
@@ -147,10 +146,10 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items     The content objects
-	 * @param   string      $extension  The name of the active view.
+	 * @param   \stdClass[]  &$items     The content objects
+	 * @param   string       $extension  The name of the active view.
 	 *
-	 * @return  stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   3.6
 	 */
