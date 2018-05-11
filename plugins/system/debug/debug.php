@@ -1761,7 +1761,7 @@ class PlgSystemDebug extends CMSPlugin
 			Log::WARNING   => '<span class="badge badge-warning">WARNING</span>',
 			Log::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
 			Log::INFO      => '<span class="badge badge-info">INFO</span>',
-			Log::DEBUG     => '<span class="badge badge-secondary">DEBUG</span>',
+			Log::DEBUG     => '<span class="badge">DEBUG</span>',
 		);
 
 		$out = '';

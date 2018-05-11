@@ -134,7 +134,7 @@ if (!empty($editor))
 									<?php if ($item->language_image) : ?>
 										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>
