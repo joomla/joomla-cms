@@ -29,14 +29,14 @@ JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 // Check for OpenSearch
 if ($params->get('opensearch', 1))
 {
-/*
-This code intentionally commented
+	/*
+	This code intentionally commented
 	$ostitle = $params->get('opensearch_title', Text::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . Factory::getApplication()->get('sitename'));
 	Factory::getDocument()->addHeadLink(
 		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_finder&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 	);
-*/
+	*/
 }
 
 // Get the route.

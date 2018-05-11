@@ -135,21 +135,25 @@ class HtmlView extends BaseHtmlView
 					unset($this->activeFilters['state']);
 					$this->filterForm->removeField('state', 'filter');
 				}
+
 				if (empty($support['category']))
 				{
 					unset($this->activeFilters['category_id']);
 					$this->filterForm->removeField('category_id', 'filter');
 				}
+
 				if ($extensionName !== 'com_menus')
 				{
 					unset($this->activeFilters['menutype']);
 					$this->filterForm->removeField('menutype', 'filter');
 				}
+
 				if (empty($support['level']))
 				{
 					unset($this->activeFilters['level']);
 					$this->filterForm->removeField('level', 'filter');
 				}
+
 				if (empty($support['acl']))
 				{
 					unset($this->activeFilters['access']);
@@ -228,6 +232,7 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
 				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
+
 			ToolbarHelper::preferences('com_associations');
 		}
 

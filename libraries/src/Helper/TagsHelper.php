@@ -802,6 +802,7 @@ class TagsHelper extends CMSHelper
 			{
 				$newTags = implode(',', $newTags);
 			}
+
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) ||(!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
 		}

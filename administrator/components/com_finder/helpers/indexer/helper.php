@@ -313,11 +313,21 @@ class FinderIndexerHelper
 	public static function isCommon($token, $lang)
 	{
 		static $data;
+		static $default;
+
+		$langCode = $lang;
+
+		// If language requested is wildcard, use the default language.
+		if ($lang == '*')
+		{
+			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
+			$langCode = $default;
+		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$lang]))
+		if (!isset($data[$langCode]))
 		{
-			$data[$lang] = self::getCommonWords($lang);
+			$data[$langCode] = self::getCommonWords($langCode);
 		}
 
 		// Check if the token is in the common array.

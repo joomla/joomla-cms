@@ -60,6 +60,7 @@ class PlgSystemLog extends CMSPlugin
 		}
 
 		Log::addLogger(array(), Log::INFO);
+
 		try
 		{
 			Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);
