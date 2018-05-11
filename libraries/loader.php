@@ -386,21 +386,21 @@ abstract class JLoader
 	public static function registerAlias($alias, $original, $version = false)
 	{
 		// PHP is case insensitive so support all kind of alias combination
-		$alias = strtolower($alias);
+		$lowercasedAlias = strtolower($alias);
 
-		if (!isset(self::$classAliases[$alias]))
+		if (!isset(self::$classAliases[$lowercasedAlias]))
 		{
-			self::$classAliases[$alias] = $original;
+			self::$classAliases[$lowercasedAlias] = $original;
 
 			$original = self::stripFirstBackslash($original);
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
-				self::$classAliasesInverse[$original] = array($alias);
+				self::$classAliasesInverse[$original] = array($lowercasedAlias);
 			}
 			else
 			{
-				self::$classAliasesInverse[$original][] = $alias;
+				self::$classAliasesInverse[$original][] = $lowercasedAlias;
 			}
 
 			// If given a version, log this alias as deprecated

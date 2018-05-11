@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 				$itemElement->event = new \stdClass;
 
 				// For some plugins.
-				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+				!empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
 				Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 

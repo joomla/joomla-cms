@@ -321,6 +321,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 			}
+
 			$this->document->setTitle($title);
 		}
 

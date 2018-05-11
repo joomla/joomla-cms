@@ -148,7 +148,7 @@ class CategoryNode extends \JObject
 	public $metadesc = null;
 
 	/**
-	 * Key words for meta data
+	 * Key words for metadata
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -156,7 +156,7 @@ class CategoryNode extends \JObject
 	public $metakey = null;
 
 	/**
-	 * JSON string of other meta data
+	 * JSON string of other metadata
 	 *
 	 * @var    string
 	 * @since  1.6

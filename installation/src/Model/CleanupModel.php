@@ -25,7 +25,7 @@ class CleanupModel extends BaseInstallationModel
 	 *
 	 * @since   4.0.0
 	 */
-	protected function deleteInstallationFolder()
+	public function deleteInstallationFolder()
 	{
 		$return = \JFolder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || \JFile::delete(JPATH_ROOT . '/joomla.xml'));
 
