@@ -154,7 +154,6 @@ class UsersViewUsers extends JViewLegacy
 			if ($state !== '0')
 			{
 				JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-
 			}
 
 			JToolbarHelper::divider();
