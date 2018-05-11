@@ -75,7 +75,7 @@ class TransitionField extends ListField
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->getInt('extension', 0);
+		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->getInt('id', 0);
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
