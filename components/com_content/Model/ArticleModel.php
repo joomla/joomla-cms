@@ -59,7 +59,6 @@ class ArticleModel extends ItemModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -103,6 +102,9 @@ class ArticleModel extends ItemModel
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
+				$query->select($db->qn('ws.condition'))
+					->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state');
+
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->innerJoin('#__categories AS c on c.id = a.catid')
@@ -140,12 +142,12 @@ class ArticleModel extends ItemModel
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where($db->qn('ws.condition') . ' = ' . $db->quote((int) $published));
 				}
+
 
 				$db->setQuery($query);
 
@@ -157,7 +159,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if (is_numeric($published) && $data->condition != $published)
 				{
 					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}

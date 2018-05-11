@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Workflow\Workflow;
+
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
 JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR')));
@@ -40,6 +42,22 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
+$js = "
+	;(function($)
+	{
+		$(function()
+		{
+			$('.article-status').on('click', function(e)
+			{
+				e.stopPropagation();
+			});
+		});
+	})(jQuery);
+";
+
+\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
@@ -67,8 +85,8 @@ if ($saveOrder)
 								<th style="width:1%" class="text-center">
 									<?php echo JHtml::_('grid.checkall'); ?>
 								</th>
-								<th style="width:1%; min-width:85px" class="nowrap text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+								<th style="width:1%" class="nowrap text-center">
+									<?php echo JText::_("COM_CONTENT_STATE") ?>
 								</th>
 								<th>
 									<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -122,6 +140,18 @@ if ($saveOrder)
 							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state_id);
+
+							$hasTransitions = count($transitions) > 0;
+
+							$default = [
+								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '-1', '--------', ['disable' => true])
+							];
+
+							$transitions = array_merge($default, $transitions);
+
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="order nowrap text-center d-none d-md-table-cell">
@@ -147,10 +177,49 @@ if ($saveOrder)
 								<td class="text-center">
 									<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="text-center">
-									<div class="btn-group">
-										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+								<td class="article-status">
+									<div class="d-flex">
+										<div class="btn-group tbody-icon mr-1">
+											<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+											<?php
+
+											$icon = 'publish';
+
+											switch ($item->state_condition) :
+
+												case Workflow::TRASHED:
+													$icon = 'trash';
+													break;
+
+												case Workflow::UNPUBLISHED:
+													$icon = 'unpublish';
+													break;
+
+											endswitch;
+											?>
+											<?php if ($hasTransitions) : ?>
+												<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
+													<span class="icon-<?php echo $icon; ?>"></span>
+												</a>
+											<?php else : ?>
+												<span class="icon-<?php echo $icon; ?>"></span>
+											<?php endif; ?>
+										</div>
+										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<?php if ($hasTransitions) : ?>
+											<div class="d-none">
+												<?php
+												$attribs = [
+													'id'	=> 'transition-select_' . (int) $item->id,
+													'list.attr' => [
+														'class'		=> 'custom-select custom-select-sm',
+														'style'     => 'min-width: 50%;',
+														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
+												];
+												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
+												?>
+											</div>
+										<?php endif; ?>
 									</div>
 								</td>
 								<td class="has-context">
@@ -166,8 +235,8 @@ if ($saveOrder)
 											<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
 										<span class="small break-word">
-										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-									</span>
+											<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+										</span>
 										<div class="small">
 											<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 										</div>

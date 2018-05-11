@@ -9,6 +9,7 @@
 namespace Joomla\Component\Content\Site\Model;
 
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 defined('_JEXEC') or die;
 
@@ -59,11 +60,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', Workflow::PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(Workflow::UNPUBLISHED, Workflow::PUBLISHED));
 		}
 
 		// Check for category selection

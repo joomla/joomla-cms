@@ -145,7 +145,7 @@ if (!empty($this->items))
 		<?php endif; ?>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
-			<?php if ($this->items[$i]->state == 0) : ?>
+			<?php if ($this->items[$i]->condition == 2) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
@@ -192,7 +192,7 @@ if (!empty($this->items))
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($article->state == 0) : ?>
+				<?php if ($article->condition == 2) : ?>
 					<span class="list-published label label-warning">
 						<?php echo JText::_('JUNPUBLISHED'); ?>
 					</span>

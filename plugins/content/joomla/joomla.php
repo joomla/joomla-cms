@@ -17,6 +17,9 @@ use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\CMS\Workflow\Workflow;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Example Content Plugin
@@ -25,6 +28,8 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
  */
 class PlgContentJoomla extends CMSPlugin
 {
+	protected $db;
+
 	/**
 	 * Example after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
@@ -115,11 +120,30 @@ class PlgContentJoomla extends CMSPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context !== 'com_categories.category')
+		if (!in_array($context, ['com_categories.category', 'com_workflow.state']))
 		{
 			return true;
 		}
 
+		switch ($context)
+		{
+			case 'com_categories.category':
+				return $this->_canDeleteCategories($data);
+
+			case 'com_workflow.state':
+				return $this->_canDeleteStates($data->id);
+		}
+	}
+
+	/**
+	 * Checks if a given category can be deleted
+	 *
+	 * @param   object  $data  The category object
+	 *
+	 * @return  boolean
+	 */
+	private function _canDeleteCategories($data)
+	{
 		// Check if this function is enabled.
 		if (!$this->params->def('check_categories', 1))
 		{
@@ -182,9 +206,61 @@ class PlgContentJoomla extends CMSPlugin
 					}
 				}
 			}
-
-			return $result;
 		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks if a given state can be deleted
+	 *
+	 * @param   int  $pk  The state ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function _canDeleteStates($pk)
+	{
+		// Check if this function is enabled.
+		if (!$this->params->def('check_states', 1))
+		{
+			return true;
+		}
+
+		$extension = Factory::getApplication()->input->getString('extension');
+
+		// Default to true if not a core extension
+		$result = true;
+
+		$tableInfo = [
+			'com_content' => array('table_name' => '#__content')
+		];
+
+		// Now check to see if this is a known core extension
+		if (isset($tableInfo[$extension]))
+		{
+			// See if this category has any content items
+			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]);
+
+			// Return false if db error
+			if ($count === false)
+			{
+				$result = false;
+			}
+			else
+			{
+				// Show error if items are found assigned to the state
+				if ($count > 0)
+				{
+					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
+					Factory::getApplication()->enqueueMessage($msg, 'error');
+					$result = false;
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -280,6 +356,42 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
+	 * Get count of items assigned to a state
+	 *
+	 * @param   string   $extension  The extension to search for
+	 * @param   integer  $state_id   ID of the state to check
+	 * @param   string   $table      The table to search for
+	 *
+	 * @return  mixed  count of items found or false if db error
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function _countItemsFromState($extension, $state_id, $table)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($this->db->quoteName($table, 'b'))
+				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
+				->where($this->db->quoteName('wa.state_id') . ' = ' . (int) $state_id)
+				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
+
+		try
+		{
+			$count = $this->db->setQuery($query)->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		return $count;
+	}
+
+	/**
 	 * Change the state in core_content if the state in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
@@ -292,17 +404,119 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
+		$pks = ArrayHelper::toInteger($pks);
+
+		if ($context == 'com_workflow.state' && $value == -2)
+		{
+			foreach ($pks as $pk)
+			{
+				if (!$this->_canDeleteStates($pk))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		// Check if this function is enabled.
+		if (!$this->params->def('email_new_state', 0) || $context != 'com_content.article')
+		{
+			return true;
+		}
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
 			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) . ')');
+			->where($db->quoteName('core_content_item_id') . ' IN (' . implode(',', $pks) . ')');
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1')
+			->where($db->quoteName('block') . ' = 0');
+
+		$users = (array) $db->setQuery($query)->loadColumn();
+
+		if (empty($users))
+		{
+			return true;
+		}
+
+		$user = JFactory::getUser();
+
+		// Messaging for changed items
+		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = JFactory::getConfig()->get('debug_lang');
+		$result = true;
+
+		$article = new ArticleTable($db);
+
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		foreach ($pks as $pk)
+		{
+			if (!$article->load($pk))
+			{
+				continue;
+			}
+
+			$assoc = $workflow->getAssociation($pk);
+
+			// Load new transitions
+			$query = $db->getQuery(true)
+				->select($db->qn(['t.id']))
+				->from($db->qn('#__workflow_transitions', 't'))
+				->from($db->qn('#__workflow_states', 's'))
+				->where($db->qn('t.from_state_id') . ' = ' . (int) $assoc->state_id)
+				->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'))
+				->where($db->qn('t.published') . '= 1')
+				->where($db->qn('s.published') . '= 1')
+				->order($db->qn('t.ordering'));
+
+			$transitions = $db->setQuery($query)->loadObjectList();
+
+			foreach ($users as $user_id)
+			{
+				if ($user_id != $user->id)
+				{
+					// Check if the user has available transitions
+					$items = array_filter(
+						$transitions,
+						function ($item) use ($user)
+						{
+							return $user->authorise('core.execute.transition', 'com_content.transition.' . $item->id);
+						}
+					);
+
+					if (!count($items))
+					{
+						continue;
+					}
+
+					// Load language for messaging
+					$receiver = JUser::getInstance($user_id);
+					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+					$lang->load('plg_content_joomla');
+
+					$message = array(
+						'user_id_to' => $user_id,
+						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_SUBJECT'),
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STATE_CHANGE_MSG'), $user->name, $article->title)
+					);
+
+					$model_message = new MessageModel;
+					$result = $model_message->save($message);
+				}
+			}
+		}
 
 		return true;
 	}

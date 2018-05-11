@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldprefix="Joomla\Component\Content\Administrator\Field">
+		<fieldset name="workflow" label="COM_CONTENT_WORKFLOW">
+			<field
+				name="workflow_id"
+				type="sql"
+				label="COM_CONTENT_WORKFLOWS"
+				default="1"
+				class="custom-select"
+				size="1"
+				sql_select="id, title"
+				sql_from="#__workflows"
+				sql_where="published = 1"
+				sql_order="ordering"
+				key_field="id"
+				value_field="title"
+				required="1"
+			>
+				<option value="0">COM_CONTENT_DEFAULT_WORKFLOW</option>
+ 			</field>
+		</fieldset>
+	</fields>
+
+</form>

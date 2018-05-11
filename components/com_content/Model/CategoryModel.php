@@ -145,11 +145,11 @@ class CategoryModel extends ListModel
 		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.published', 1);
+			$this->setState('filter.condition', 1);
 		}
 		else
 		{
-			$this->setState('filter.published', array(0, 1, 2));
+			$this->setState('filter.condition', array(0, 1));
 		}
 
 		// Process show_noauth parameter
@@ -238,7 +238,7 @@ class CategoryModel extends ListModel
 			$model = new ArticlesModel(array('ignore_request' => true));
 			$model->setState('params', \JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
-			$model->setState('filter.published', $this->getState('filter.published'));
+			$model->setState('filter.condition', $this->getState('filter.condition'));
 			$model->setState('filter.access', $this->getState('filter.access'));
 			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('filter.featured', $this->getState('filter.featured'));

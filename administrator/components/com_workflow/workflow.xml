@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="4.0" method="upgrade">
+    <name>com_workflow</name>
+    <author>Joomla! Project</author>
+    <creationDate>June 2017</creationDate>
+    <copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>4.0.0</version>
+    <description>COM_WORKFLOW_XML_DESCRIPTION</description>
+    <namespace>Joomla\Component\Workflow</namespace>
+    <!--<languages folder="site">
+        <language tag="en-GB">language/en-GB.com_workflow.ini</language>
+    </languages>-->
+    <administration>
+        <menu>COM_WORKFLOW</menu>
+        <files folder="admin">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>workflow.php</filename>
+            <filename>dispacher.php</filename>
+            <folder>Controller</folder>
+            <folder>Field</folder>
+            <folder>forms</folder>
+            <folder>Helper</folder>
+            <folder>helpers</folder>
+            <folder>Model</folder>
+            <folder>Table</folder>
+            <folder>tmpl</folder>
+            <folder>View</folder>
+        </files>
+        <!--<languages folder="admin">
+            <language tag="en-GB">language/en-GB.com_workflow.ini</language>
+            <language tag="en-GB">language/en-GB.com_workflow.sys.ini</language>
+        </languages>-->
+    </administration>
+</extension>

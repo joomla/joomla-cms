@@ -29,6 +29,16 @@
 					label="MOD_ARTICLES_ARCHIVE_FIELD_COUNT_LABEL"
 					default="10"
 				/>
+
+				<field
+					name="state"
+					type="workflowstate"
+					multiple="true"
+					size="5"
+					label="MOD_ARTICLES_ARCHIVE_CHOOSE_STATE"
+					default="4"
+				>
+				</field>
 			</fieldset>
 
 			<fieldset name="advanced">

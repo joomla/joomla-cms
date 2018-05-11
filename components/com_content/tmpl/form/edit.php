@@ -110,8 +110,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 					<?php echo $this->form->renderField('created_by_alias'); ?>
 				<?php endif; ?>
+				<?php if ((int) $this->item->id > 0) : ?>
+					<?php echo $this->form->renderField('transition'); ?>
+				<?php endif; ?>
 				<?php if ($this->item->params->get('access-change')) : ?>
-					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
 					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
 						<?php echo $this->form->renderField('publish_up'); ?>

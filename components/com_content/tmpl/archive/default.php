@@ -21,7 +21,7 @@ JHtml::_('behavior.caption');
 </h1>
 </div>
 <?php endif; ?>
-<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-inline">
+<form id="adminForm" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="">
 	<fieldset class="filters">
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
