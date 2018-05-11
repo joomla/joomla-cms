@@ -203,27 +203,21 @@ abstract class ChangeItem
 			}
 			catch (\RuntimeException $e)
 			{
-				$rows = false;
-
 				// Still render the error message from the Exception object
 				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$this->checkStatus = -2;
+
+				return $this->checkStatus;
 			}
 
-			if ($rows !== false)
+			if (count($rows) === $this->checkQueryExpected)
 			{
-				if (count($rows) === $this->checkQueryExpected)
-				{
-					$this->checkStatus = 1;
-				}
-				else
-				{
-					$this->checkStatus = -2;
-				}
+				$this->checkStatus = 1;
+
+				return $this->checkStatus;
 			}
-			else
-			{
-				$this->checkStatus = -2;
-			}
+
+			$this->checkStatus = -2;
 		}
 
 		return $this->checkStatus;
