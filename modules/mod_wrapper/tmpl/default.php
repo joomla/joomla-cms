@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <iframe <?php echo $load; ?>
-	id="blockrandom"
+	id="blockrandom-<?php echo $id; ?>"
 	name="<?php echo $target; ?>"
 	src="<?php echo $url; ?>"
 	width="<?php echo $width; ?>"

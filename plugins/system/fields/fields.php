@@ -93,7 +93,7 @@ class PlgSystemFields extends CMSPlugin
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// JSON encode value for complex fields
-			if (is_array($value) && count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE))
+			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
 			{
 				$value = json_encode($value);
 			}

@@ -331,7 +331,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang], true);
+		return in_array($token, $data[$langCode], true);
 	}
 
 	/**
