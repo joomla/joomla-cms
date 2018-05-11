@@ -133,16 +133,34 @@ class UsersViewUsers extends JViewLegacy
 			JToolbarHelper::editList('user.edit');
 		}
 
+		// Get states
+		$state = $this->state->get('filter.state');
+		$active = $this->state->get('filter.active');
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::divider();
-			JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
+
+			if ($active !== '0')
+			{
+				JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			}
+
+			if ($state !== '1')
+			{
+				JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			}
+
+			if ($state !== '0')
+			{
+				JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
+
+			}
+
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.delete'))
+		if ($canDo->get('core.delete') && $state)
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
