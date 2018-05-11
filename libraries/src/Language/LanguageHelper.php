@@ -476,7 +476,6 @@ class LanguageHelper
 		$registry = new Registry($strings);
 
 		return \JFile::write($fileName, $registry->toString('INI'));
-
 	}
 
 	/**

@@ -103,9 +103,8 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
-
 		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
-							. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
+			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
