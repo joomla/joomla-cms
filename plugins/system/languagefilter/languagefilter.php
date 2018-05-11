@@ -652,64 +652,64 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$lang_code = $this->current_lang;
 				}
 
-				$foundAssociation = false;
-
-				$assoc = Associations::isEnabled();
-
-				// If association is enabled
-				if ($assoc)
-				{
-					// Retrieves the Itemid from a login form.
-					$uri = new JUri($this->app->getUserState('users.login.form.return'));
-
-					// Get Itemid from SEF or home page
-					$query = $this->app->getRouter()->parse($uri);
-
-					// Check, if the login form contains a menu item redirection.
-					if (!empty($query['Itemid']))
-					{
-						// Try to get associations from that menu item.
-						$associations = MenusHelper::getAssociations($query['Itemid']);
-
-						// If any association set to the user preferred site language, redirect to that page.
-						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
-						{
-							$associationItemid = $associations[$lang_code];
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
-							$foundAssociation = true;
-						}
-					}
-				}
-
 				// Try to get association from the current active menu item
 				$active = $menu->getActive();
+
+				$foundAssociation = false;
 
 				/**
 				 * Looking for associations.
 				 * If the login menu item form contains an internal URL redirection,
-				 * This will override the automatic change to the user preferred site language.
+				 * this will override the automatic change to the user preferred site language.
 				 * In that case we use the redirect as defined in the menu item.
-				 *  Otherwise we redirect, when available, to the user preferred site language.
+				 * Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if (!$foundAssociation && $active && !$active->params['login_redirect_url'])
+				if (!$active || !$active->params['login_redirect_url'])
 				{
-					if ($assoc)
+					if (Associations::isEnabled())
 					{
-						$associations = MenusHelper::getAssociations($active->id);
+						// Retrieves the Itemid from a login form.
+						$uri = new JUri($this->app->getUserState('users.login.form.return'));
+
+						$Itemid = $uri->getVar('Itemid');
+
+						if (!$Itemid && $this->mode_sef)
+						{
+							// Workaround to not use current active item id
+							$activeId = $this->app->input->get('Itemid');
+							$this->app->input->set('Itemid', null);
+
+							// Get Itemid from SEF or home page
+							$query  = $this->app->getRouter()->parse($uri);
+							$Itemid = isset($query['Itemid']) ? $query['Itemid'] : null;
+
+							// Restore active item id
+							$this->app->input->set('Itemid', $activeId);
+						}
+
+						if ($Itemid)
+						{
+							// Assign the active item from previous page to check for home page below
+							$active = $menu->getItem($Itemid);
+
+							// The login form contains a menu item redirection. Try to get associations from that menu item.
+							$associations = MenusHelper::getAssociations($Itemid);
+						}
+						else
+						{
+							// Return URL does not have any Itemid
+							$active = null;
+						}
 					}
 
+					// If any association set to the user preferred site language, redirect to that page.
 					if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 					{
-						/**
-						 * The login form does not contain a menu item redirection.
-						 * The active menu item has associations.
-						 * We redirect to the user preferred site language associated page.
-						 */
 						$associationItemid = $associations[$lang_code];
 						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 						$foundAssociation = true;
 					}
-					elseif ($active->home)
+					elseif ($active && $active->home)
 					{
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);

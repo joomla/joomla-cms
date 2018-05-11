@@ -8,9 +8,12 @@
  */
 namespace Joomla\Component\Content\Site\Model;
 
-use Joomla\Component\Content\Site\Helper\QueryHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Registry\Registry;
+
+\JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Frontpage Component Model
@@ -44,12 +47,25 @@ class FeaturedModel extends ArticlesModel
 
 		$input = \JFactory::getApplication()->input;
 		$user  = \JFactory::getUser();
+		$app   = \JFactory::getApplication('site');
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $menuParams;
+		$mergedParams->merge($params);
+
+		$this->setState('params', $mergedParams);
+
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
@@ -64,6 +80,16 @@ class FeaturedModel extends ArticlesModel
 		else
 		{
 			$this->setState('filter.published', array(0, 1, 2));
+		}
+
+		// Process show_noauth parameter
+		if (!$params->get('show_noauth'))
+		{
+			$this->setState('filter.access', true);
+		}
+		else
+		{
+			$this->setState('filter.access', false);
 		}
 
 		// Check for category selection
