@@ -888,14 +888,9 @@ abstract class FormField
 			$attributes = $this->element->attributes();
 
 			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
+			if ($attributes->$name !== null)
 			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
+				return (string) $attributes->$name;
 			}
 		}
 

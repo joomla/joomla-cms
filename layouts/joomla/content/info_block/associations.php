@@ -21,14 +21,12 @@ use Joomla\CMS\Router\Route;
 <dd class="association">
 	<?php echo Text::_('JASSOCIATIONS'); ?>
 	<?php foreach ($associations as $association) : ?>
-		<?php if ($association['language']->lang_code != JFactory::getLanguage()->getTag()) : ?>
-			<?php if ($displayData['item']->params->get('flags', 1) && $association['language']->image) : ?>
-				<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
-				&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
-			<?php else : ?>
-				<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
-				&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
-			<?php endif; ?>
+		<?php if ($displayData['item']->params->get('flags', 1) && $association['language']->image) : ?>
+			<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+			&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+		<?php else : ?>
+			<?php $class = 'badge badge-secondary label-' . $association['language']->sef; ?>
+			&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 		<?php endif; ?>
 	<?php endforeach; ?>
 </dd>

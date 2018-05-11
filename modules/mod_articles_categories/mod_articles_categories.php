@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Categories\CategoryNode;
-use Joomla\Module\ArticlesCategories\Site\Helper\ArticlesCategoriesHelper;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 

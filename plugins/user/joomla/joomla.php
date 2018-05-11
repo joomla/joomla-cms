@@ -130,6 +130,7 @@ class PlgUserJoomla extends CMSPlugin
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
+
 			return;
 		}
 

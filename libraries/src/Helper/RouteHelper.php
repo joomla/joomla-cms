@@ -280,7 +280,6 @@ class RouteHelper
 				$catids                = array_reverse($category->getPath());
 				$needles['category']   = $catids;
 				$needles['categories'] = $catids;
-
 			}
 
 			if ($item = static::lookupItem($needles))
