@@ -2,13 +2,11 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
-
-defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -16,6 +14,8 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\UTF8MB4SupportInterface;
+
+defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -790,7 +790,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(\JText::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
+				$this->abort(\JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
 
 				return false;
 			}
@@ -1135,15 +1135,13 @@ class Installer extends \JAdapter
 
 				if ($schemapath !== '')
 				{
-					$files = \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$');
+					$files = str_replace('.sql', '', \JFolder::files($this->getPath('extension_root') . '/' . $schemapath, '\.sql$'));
+					usort($files, 'version_compare');
 
-					if (empty($files))
+					if (!count($files))
 					{
 						return $update_count;
 					}
-
-					$files = str_replace('.sql', '', $files);
-					usort($files, 'version_compare');
 
 					$query = $db->getQuery(true)
 						->select('version_id')

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class RouteHelper
 		}
 		else
 		{
-			$this->view = \JFactory::getApplication()->input->getCmd('view');
+			$this->view = \JFactory::getApplication()->input->getString('view');
 			$this->extension = \JFactory::getApplication()->input->getCmd('option');
 		}
 
@@ -280,6 +280,7 @@ class RouteHelper
 				$catids                = array_reverse($category->getPath());
 				$needles['category']   = $catids;
 				$needles['categories'] = $catids;
+
 			}
 
 			if ($item = static::lookupItem($needles))

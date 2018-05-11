@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class PlgExtensionJoomla extends CMSPlugin
 			}
 		}
 
-		// Check if it has an update site id (creation might have failed)
+		// Check if it has an update site id (creation might have faileD)
 		if ($update_site_id)
 		{
 			// Look for an update site entry that exists

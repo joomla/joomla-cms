@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,13 +63,8 @@ class PlgAuthenticationLdap extends CMSPlugin
 
 		if (!$ldap->connect())
 		{
-<<<<<<< HEAD
 			$response->status = Authentication::STATUS_FAILURE;
 			$response->error_message = Text::_('JGLOBAL_AUTH_NO_CONNECT');
-=======
-			$response->status = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NOT_CONNECT');
->>>>>>> staging
 
 			return;
 		}
@@ -117,13 +112,8 @@ class PlgAuthenticationLdap extends CMSPlugin
 				}
 				else
 				{
-<<<<<<< HEAD
 					$response->status = Authentication::STATUS_FAILURE;
 					$response->error_message = Text::_('JGLOBAL_AUTH_NO_BIND');
-=======
-					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_NOT_CONNECT');
->>>>>>> staging
 				}
 			}	break;
 

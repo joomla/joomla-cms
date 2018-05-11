@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +151,7 @@ class PlgSystemRedirect extends CMSPlugin
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
+				if (StringHelper::strpos($orgurlRel, $exclude->term))
 				{
 					$skipUrl = true;
 					break;
@@ -279,11 +279,6 @@ class PlgSystemRedirect extends CMSPlugin
 
 			if ((bool) $params->get('collect_urls', true))
 			{
-				if (!$params->get('includeUrl', 1))
-				{
-					$url = $urlRel;
-				}
-
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,
@@ -318,18 +313,6 @@ class PlgSystemRedirect extends CMSPlugin
 			}
 		}
 
-<<<<<<< HEAD
 		ExceptionHandler::render($error);
-=======
-		// Proxy to the previous exception handler if available, otherwise just render the error page
-		if (self::$previousExceptionHandler)
-		{
-			call_user_func_array(self::$previousExceptionHandler, array($error));
-		}
-		else
-		{
-			JErrorPage::render($error);
-		}
->>>>>>> staging
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -185,20 +185,10 @@ abstract class JHtmlFilter
 				$checked = in_array($nk, $activeNodes) ? ' checked="checked"' : '';
 
 				// Build a node.
-<<<<<<< HEAD
 				$html .= '<div class="form-check">';
 				$html .= '<label class="form-check-label" for="tax-' . $bk . '">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
 					. $bk . '"' . $checked . '> ' . $nv->title;
-=======
-				$html .= '<div class="control-group">';
-				$html .= '<div class="controls">';
-				$html .= '<label class="checkbox" for="tax-'
-					. $nk . '">';
-				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . ' />';
-				$html .= $nv->title;
->>>>>>> staging
 				$html .= '</label>';
 				$html .= '</div>';
 			}

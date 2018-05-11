@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -468,25 +468,6 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-<<<<<<< HEAD
-=======
-		// User custom plugins and buttons
-		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
-		$custom_button = trim($levelParams->get('custom_button', ''));
-
-		if ($custom_plugin)
-		{
-			$separator = strpos($custom_plugin, ',') !== false ? ',' : ' ';
-			$plugins   = array_merge($plugins, explode($separator, $custom_plugin));
-		}
-
-		if ($custom_button)
-		{
-			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
-		}
-
->>>>>>> staging
 		// Drag and drop Images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
@@ -695,46 +676,15 @@ class PlgEditorTinymce extends CMSPlugin
 			// Init the arrays for the buttons
 			$btnsNames = [];
 
-<<<<<<< HEAD
 			// Build the script
 			foreach ($buttons as $i => $button)
 			{
 				$button->id = $name . '_' . $button->text . 'Modal';
 
 				echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
-=======
-				$tempConstructor = array();
-
-				// Now we can built the script
-				$tempConstructor[] = '!(function(){';
-
-				// Get the modal width/height
-				if ($options && is_scalar($options))
-				{
-					$tempConstructor[] = 'var getBtnOptions=new Function("return ' . addslashes($options) . '"),';
-					$tempConstructor[] = 'btnOptions=getBtnOptions(),';
-					$tempConstructor[] = 'modalWidth=btnOptions.size&&btnOptions.size.x?btnOptions.size.x:null,';
-					$tempConstructor[] = 'modalHeight=btnOptions.size&&btnOptions.size.y?btnOptions.size.y:null;';
-				}
-				else
-				{
-					$tempConstructor[] = 'var btnOptions={},modalWidth=null,modalHeight=null;';
-				}
-
-				// Now we can built the script
-				// AddButton starts here
-				$tempConstructor[] = 'editor.addButton("' . $name . '",{';
-				$tempConstructor[] = 'text:"' . $title . '",';
-				$tempConstructor[] = 'title:"' . $title . '",';
-				$tempConstructor[] = 'icon:"' . $icon . '",';
-
-				// Onclick starts here
-				$tempConstructor[] = 'onclick:function(){';
->>>>>>> staging
 
 				if ($button->get('name'))
 				{
-<<<<<<< HEAD
 					// Set some vars
 					$btnName = $button->get('text');
 					$modalId = $name . '_' . str_replace(' ', '', $button->get('text'));
@@ -749,40 +699,6 @@ class PlgEditorTinymce extends CMSPlugin
 					{
 						$href = null;
 					}
-=======
-					// TinyMCE standard modal options
-					$tempConstructor[] = 'var modalOptions={';
-					$tempConstructor[] = 'title:"' . $title . '",';
-					$tempConstructor[] = 'url:"' . $href . '",';
-					$tempConstructor[] = 'buttons:[{text: "Close",onclick:"close"}]';
-					$tempConstructor[] = '};';
-
-					// Set width/height
-					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
-					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
-					$tempConstructor[] = 'editor.windowManager.open(modalOptions);';
-
-					if ($onclick && ($button->get('modal') || $href))
-					{
-						// Adds callback for close button
-						$tempConstructor[] = $onclick . ';';
-					}
-				}
-				else
-				{
-					// Adds callback for the button, eg: readmore
-					$tempConstructor[] = $onclick . ';';
-				}
-
-				// Onclick ends here
-				$tempConstructor[] = '}';
-
-				// AddButton ends here
-				$tempConstructor[] = '});';
-
-				// IIFE ends here
-				$tempConstructor[] = '})();';
->>>>>>> staging
 
 					$coreButton = [];
 
@@ -792,14 +708,9 @@ class PlgEditorTinymce extends CMSPlugin
 					$coreButton['icon']  = 'none icon-' . $icon;
 					$coreButton['click'] = $onclick;
 
-<<<<<<< HEAD
 					// The array with the toolbar buttons
 					$btnsNames[] = $coreButton;
 				}
-=======
-				// The array with code for each button
-				$tinyBtns[] = implode($tempConstructor, '');
->>>>>>> staging
 			}
 
 			sort($btnsNames);

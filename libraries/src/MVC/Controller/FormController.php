@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -689,14 +689,6 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			return false;
 		}
-
-		// Send an object which can be modified through the plugin event
-		$objData = (object) $data;
-		$app->triggerEvent(
-			'onContentNormaliseRequestData',
-			array($this->option . '.' . $this->context, $objData, $form)
-		);
-		$data = (array) $objData;
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);

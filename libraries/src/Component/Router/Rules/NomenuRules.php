@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,7 +110,6 @@ class NomenuRules implements RulesInterface
 		if (!$menu_found && isset($query['view']))
 		{
 			$views = $this->router->getViews();
-
 			if (isset($views[$query['view']]))
 			{
 				$view = $views[$query['view']];
@@ -127,10 +126,8 @@ class NomenuRules implements RulesInterface
 					{
 						$segments[] = str_replace(':', '-', $query[$view->key]);
 					}
-
 					unset($query[$views[$query['view']]->key]);
 				}
-
 				unset($query['view']);
 			}
 		}

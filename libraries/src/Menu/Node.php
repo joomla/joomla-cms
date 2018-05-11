@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Menu;
@@ -136,7 +136,7 @@ class Node
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return  boolean  True if there is a parent
+	 * @return  bool  True if there is a parent
 	 *
 	 * @since   3.8.0
 	 */
@@ -160,7 +160,7 @@ class Node
 	/**
 	 * Test if this node has children
 	 *
-	 * @return  boolean
+	 * @return  bool
 	 *
 	 * @since   3.8.0
 	 */
@@ -184,7 +184,7 @@ class Node
 	/**
 	 * Find the current node depth in the tree hierarchy
 	 *
-	 * @return  integer  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, and so on.
+	 * @return  int  The node level in the hierarchy, where ROOT == 0, First level menu item == 1, and so on.
 	 *
 	 * @since   3.8.0
 	 */
@@ -196,7 +196,7 @@ class Node
 	/**
 	 * Check whether the object instance node is the root node
 	 *
-	 * @return  boolean
+	 * @return  bool
 	 *
 	 * @since   3.8.0
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,12 +129,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
 		if (strpos($this->app->get('mailfrom'), '@') === false)
 		{
-<<<<<<< HEAD
 			$this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
-=======
-			$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
-
->>>>>>> staging
 			return;
 		}
 
@@ -300,7 +295,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  boolean  True on success
+	 * @return  bool  True on success
 	 *
 	 * @since   1.5
 	 */

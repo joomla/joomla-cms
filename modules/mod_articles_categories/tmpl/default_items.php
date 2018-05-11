@@ -3,28 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-<<<<<<< HEAD
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
 foreach ($list as $item) : ?>
 	<li <?php if ($_SERVER['REQUEST_URI'] === Route::_(ContentHelperRoute::getCategoryRoute($item->id))) echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
-=======
-$input  = JFactory::getApplication()->input;
-$option = $input->getCmd('option');
-$view   = $input->getCmd('view');
-$id     = $input->getInt('id');
-
-foreach ($list as $item) : ?>
-	<li<?php if ($id == $item->id && $view == 'category' && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
->>>>>>> staging
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 		<?php echo $item->title; ?>
@@ -32,7 +22,7 @@ foreach ($list as $item) : ?>
 				(<?php echo $item->numitems; ?>)
 			<?php endif; ?>
 		</a>
-		</h<?php echo $params->get('item_heading') + $levelup; ?>>
+   		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 
 		<?php if ($params->get('show_description', 0)) : ?>
 			<?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>

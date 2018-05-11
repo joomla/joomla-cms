@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Cache;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
-use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -280,19 +279,7 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		try
-		{
-			return $this->_getStorage()->remove($id, $group);
-		}
-		catch (CacheExceptionInterface $e)
-		{
-			if (!$this->getCaching())
-			{
-				return false;
-			}
-
-			throw $e;
-		}
+		return $this->_getStorage()->remove($id, $group);
 	}
 
 	/**
@@ -313,19 +300,7 @@ class Cache
 		// Get the default group
 		$group = $group ?: $this->_options['defaultgroup'];
 
-		try
-		{
-			return $this->_getStorage()->clean($group, $mode);
-		}
-		catch (CacheExceptionInterface $e)
-		{
-			if (!$this->getCaching())
-			{
-				return false;
-			}
-
-			throw $e;
-		}
+		return $this->_getStorage()->clean($group, $mode);
 	}
 
 	/**
@@ -337,19 +312,7 @@ class Cache
 	 */
 	public function gc()
 	{
-		try
-		{
-			return $this->_getStorage()->gc();
-		}
-		catch (CacheExceptionInterface $e)
-		{
-			if (!$this->getCaching())
-			{
-				return false;
-			}
-
-			throw $e;
-		}
+		return $this->_getStorage()->gc();
 	}
 
 	/**

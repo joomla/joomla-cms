@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -313,25 +313,15 @@ class FinderIndexerHelper
 	public static function isCommon($token, $lang)
 	{
 		static $data;
-		static $default;
-
-		$langCode = $lang;
-
-		// If language requested is wildcard, use the default language.
-		if ($lang == '*')
-		{
-			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
-			$langCode = $default;
-		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$langCode]))
+		if (!isset($data[$lang]))
 		{
-			$data[$langCode] = self::getCommonWords($langCode);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$langCode], true);
+		return in_array($token, $data[$lang], true);
 	}
 
 	/**

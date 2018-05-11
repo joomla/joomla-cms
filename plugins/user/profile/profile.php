@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,7 +140,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   string  $value  URL to use
 	 *
-	 * @return  mixed|string
+	 * @return mixed|string
 	 */
 	public static function url($value)
 	{
@@ -205,7 +205,7 @@ class PlgUserProfile extends CMSPlugin
 	 *
 	 * @param   boolean  $value  input value
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public static function tos($value)
 	{
@@ -245,13 +245,8 @@ class PlgUserProfile extends CMSPlugin
 		}
 
 		// Add the registration fields to the form.
-<<<<<<< HEAD
 		Form::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile', false);
-=======
-		JForm::addFormPath(__DIR__ . '/profiles');
-		$form->loadFile('profile');
->>>>>>> staging
 
 		$fields = array(
 			'address1',
@@ -307,13 +302,8 @@ class PlgUserProfile extends CMSPlugin
 			// Case using the users manager in admin
 			if ($name === 'com_users.user')
 			{
-				// Toggle whether the field is required.
-				if ($this->params->get('profile-require_' . $field, 1) > 0)
-				{
-					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
-				}
 				// Remove the field if it is disabled in registration and profile
-				elseif ($this->params->get('register-require_' . $field, 1) == 0
+				if ($this->params->get('register-require_' . $field, 1) == 0
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
@@ -365,10 +355,10 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return  boolean
+	 * @return    boolean
 	 *
 	 * @since   3.1
-	 * @throws  InvalidArgumentException on invalid date.
+	 * @throws    InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -416,7 +406,7 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return bool
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{

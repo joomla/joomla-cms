@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,11 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-<<<<<<< HEAD
 	const PATCH_VERSION = 0;
-=======
-	const PATCH_VERSION = 8;
->>>>>>> staging
 
 	/**
 	 * Extra release version info.
@@ -67,27 +63,6 @@ final class Version
 	const EXTRA_VERSION = 'dev';
 
 	/**
-<<<<<<< HEAD
-=======
-	 * Release version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 * @deprecated  4.0  Use separated version constants instead
-	 */
-	const RELEASE = '3.8';
-
-	/**
-	 * Maintenance version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 * @deprecated  4.0  Use separated version constants instead
-	 */
-	const DEV_LEVEL = '8-dev';
-
-	/**
->>>>>>> staging
 	 * Development status.
 	 *
 	 * @var    string
@@ -109,11 +84,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
 	const RELDATE = '19-November-2017';
-=======
-	const RELDATE = '18-April-2018';
->>>>>>> staging
 
 	/**
 	 * Release time.
@@ -121,11 +92,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
 	const RELTIME = '16:34';
-=======
-	const RELTIME = '14:00';
->>>>>>> staging
 
 	/**
 	 * Release timezone.
@@ -141,7 +108,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.

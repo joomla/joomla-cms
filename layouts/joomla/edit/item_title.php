@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @deprecated  3.2
@@ -17,9 +17,9 @@ $name  = $displayData->getForm()->getValue('name');
 ?>
 
 <?php if ($title) : ?>
-	<h2><?php echo $title; ?></h2>
+	<h4><?php echo $title; ?></h4>
 <?php endif; ?>
 
 <?php if ($name) : ?>
-	<h2><?php echo $name; ?></h2>
+	<h4><?php echo $name; ?></h4>
 <?php endif;

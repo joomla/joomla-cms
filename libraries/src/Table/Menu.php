@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,13 +116,11 @@ class Menu extends Nested
 		{
 			$this->path = $this->alias;
 		}
-
 		// Check for params.
 		if (trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
-
 		// Check for img.
 		if (trim($this->img) === '')
 		{
@@ -155,10 +153,10 @@ class Menu extends Nested
 	 */
 	public function store($updateNulls = false)
 	{
-		$db = $this->getDbo();
+		$db = \JFactory::getDbo();
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $db));
+		$table = Table::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
 		$originalAlias = trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
@@ -167,7 +165,7 @@ class Menu extends Nested
 		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
 			// Verify that a first level menu item alias is not 'component'.
-			if ($this->alias == 'component')
+			if ( $this->alias == 'component')
 			{
 				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
@@ -238,7 +236,7 @@ class Menu extends Nested
 			// The alias already exists. Enqueue an error message.
 			if ($error)
 			{
-				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
+				$menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $this->getDbo()));
 				$menuTypeTable->load(array('menutype' => $table->menutype));
 				$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
 

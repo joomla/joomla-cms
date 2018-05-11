@@ -3,15 +3,10 @@
 	version="3.9"
 	client="installation">
 	<name>English (United Kingdom)</name>
-<<<<<<< HEAD
 	<version>4.0.0</version>
 	<creationDate>November 2017</creationDate>
-=======
-	<version>3.8.8</version>
-	<creationDate>April 2018</creationDate>
->>>>>>> staging
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>en-GB.ini</filename>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,7 +178,7 @@ class CategoryView extends HtmlView
 				$itemElement->event = new \stdClass;
 
 				// For some plugins.
-				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
+				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
 				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
@@ -222,20 +222,17 @@ class CategoryView extends HtmlView
 		// If it is the active menu item, then the view and category id will match
 		$active = $app->getMenu()->getActive();
 
-		if ($active
-			&& $active->component == $this->extension
-			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'category'
-			&& $active->query['id'] == $this->category->id)
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
-			if (isset($active->query['layout']))
+			if ($layout = $category->params->get('category_layout'))
 			{
-				$this->setLayout($active->query['layout']);
+				$this->setLayout($layout);
 			}
 		}
-		elseif ($layout = $category->params->get('category_layout'))
+		elseif (isset($active->query['layout']))
 		{
-			$this->setLayout($layout);
+			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
+			$this->setLayout($active->query['layout']);
 		}
 
 		$this->category->tags = new \JHelperTags;

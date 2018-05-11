@@ -1,14 +1,17 @@
-function iFrameHeight(iframe)
+function iFrameHeight()
 {
+    var height = 0;
+    var iframe = document.getElementById('blockrandom');
     var doc    = 'contentDocument' in iframe ? iframe.contentDocument : iframe.contentWindow.document;
-    var height = parseInt(doc.body.scrollHeight);
 
     if (!document.all)
     {
+        height = doc.body.scrollHeight;
         iframe.style.height = parseInt(height) + 60 + 'px';
     }
-    else if (document.all && iframe.id)
+    else if (document.all)
     {
-        document.all[iframe.id].style.height = parseInt(height) + 20 + 'px';
+        height = doc.body.scrollHeight;
+        document.all.blockrandom.style.height = parseInt(height) + 20 + 'px';
     }
 }

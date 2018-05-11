@@ -34,19 +34,6 @@ install:
     # Get the MSSQL DLL's
     - ps: >-
         If ($env:PHP -eq "1") {
-<<<<<<< HEAD
-=======
-          If ($env:php_ver_target -eq "5.6") {
-            $source = "https://cdn.joomla.org/ci/php-sqlsrv.zip"
-            $destination = "c:\tools\php\php-sqlsrv.zip"
-            Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile https://cdn.joomla.org/ci/php-sqlsrv.zip
-            7z x -y php-sqlsrv.zip > $null
-            copy SQLSRV\php_sqlsrv_56_nts.dll ext\php_sqlsrv_nts.dll
-            copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
-            Remove-Item C:\tools\php\* -include .zip
-          } Else {
->>>>>>> staging
             $DLLVersion = "4.3.0"
             cd c:\tools\php\ext
             $source = "http://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"

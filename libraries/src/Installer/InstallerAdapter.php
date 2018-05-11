@@ -2,24 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
-
-defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 
-<<<<<<< HEAD
 defined('JPATH_PLATFORM') or die;
-=======
-\JLoader::import('joomla.base.adapterinstance');
->>>>>>> staging
 
 /**
  * Abstract adapter for the installer.
@@ -202,9 +196,6 @@ abstract class InstallerAdapter
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(

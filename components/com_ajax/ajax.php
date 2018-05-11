@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,11 +46,14 @@ if (!$format)
  */
 elseif ($input->get('module'))
 {
-	$module   = $input->get('module');
-	$table    = JTable::getInstance('extension');
-	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
+	$module       = $input->get('module');
+	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
 
-	if ($moduleId && $table->load($moduleId) && $table->enabled)
+	/*
+	 * As JModuleHelper::isEnabled always returns true, we check
+	 * for an id other than 0 to see if it is published.
+	 */
+	if ($moduleObject->id != 0)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 

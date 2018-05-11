@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,34 +209,7 @@ class SiteRouter extends Router
 		// If the URL is empty, we handle this in the non-SEF parse URL
 		if (empty($route))
 		{
-<<<<<<< HEAD
 			return;
-=======
-			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
-			if (isset($vars['option']) || isset($vars['Itemid']))
-			{
-				return $this->parseRawRoute($uri);
-			}
-
-			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
-
-			// If user not allowed to see default menu item then avoid notices
-			if (is_object($item))
-			{
-				// Set query variables of default menu item into the request, but keep existing request variables
-				$vars = array_merge($vars, $item->query);
-
-				// Get the itemid
-				$vars['Itemid'] = $item->id;
-
-				// Set the active menu item
-				$this->menu->setActive($vars['Itemid']);
-
-				$this->setVars($vars);
-			}
-
-			return $vars;
->>>>>>> staging
 		}
 
 		// Parse the application route
@@ -568,57 +541,7 @@ class SiteRouter extends Router
 	 */
 	public function buildFormat(&$router, &$uri)
 	{
-<<<<<<< HEAD
 		$route = $uri->getPath();
-=======
-		if ($stage === self::PROCESS_DURING)
-		{
-			// Make sure any menu vars are used if no others are specified
-			$query = $uri->getQuery(true);
-
-			if ($this->_mode != 1
-				&& isset($query['Itemid'])
-				&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
-			{
-				// Get the active menu item
-				$itemid = $uri->getVar('Itemid');
-				$lang = $uri->getVar('lang');
-				$item = $this->menu->getItem($itemid);
-
-				if ($item)
-				{
-					$uri->setQuery($item->query);
-				}
-
-				$uri->setVar('Itemid', $itemid);
-
-				if ($lang)
-				{
-					$uri->setVar('lang', $lang);
-				}
-			}
-		}
-
-		// Process the attached build rules
-		parent::processBuildRules($uri, $stage);
-
-		if ($stage === self::PROCESS_BEFORE)
-		{
-			// Get the query data
-			$query = $uri->getQuery(true);
-
-			if (!isset($query['option']))
-			{
-				return;
-			}
-
-			// Build the component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-			$router   = $this->getComponentRouter($component);
-			$query     = $router->preprocess($query);
-			$uri->setQuery($query);
-		}
->>>>>>> staging
 
 		// Identify format
 		if (!(substr($route, -9) === 'index.php' || substr($route, -1) === '/') && $format = $uri->getVar('format', 'html'))
