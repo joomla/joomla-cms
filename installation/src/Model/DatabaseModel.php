@@ -202,7 +202,7 @@ class DatabaseModel extends BaseInstallationModel
 		{
 			$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
 
-		// When all checks have been passed we don't need to do this here again.
+			// When all checks have been passed we don't need to do this here again.
 			if ($remoteDbFileTestsPassed === false)
 			{
 				$generalRemoteDatabaseMessage = \JText::sprintf(

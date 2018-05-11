@@ -21,7 +21,7 @@ $this->hiddenFieldsets  = array('basic-limited');
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
 // Create shortcut to parameters.
-$params = clone($this->state->get('params'));
+$params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
 $app = JFactory::getApplication();

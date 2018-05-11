@@ -48,7 +48,7 @@ class OverrideModel extends AdminModel
 
 		if (!$langName)
 		{
-			// If a language only exists in frontend, it's meta data cannot be
+			// If a language only exists in frontend, its metadata cannot be
 			// loaded in backend at the moment, so fall back to the language tag.
 			$langName = $language;
 		}

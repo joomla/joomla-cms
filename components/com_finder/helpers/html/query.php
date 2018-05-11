@@ -83,10 +83,12 @@ abstract class JHtmlQuery
 			{
 				// Process the taxonomy nodes.
 				$lang = JFactory::getLanguage();
+
 				foreach ($nodes as $title => $id)
 				{
 					// Translate the title for Types
 					$key = FinderHelperLanguage::branchPlural($title);
+
 					if ($lang->hasKey($key))
 					{
 						$title = JText::_($key);

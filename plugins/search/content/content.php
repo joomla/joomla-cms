@@ -189,6 +189,7 @@ class PlgSearchContent extends CMSPlugin
 					{
 						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
 					}
+
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
@@ -306,6 +307,7 @@ class PlgSearchContent extends CMSPlugin
 				$list = array();
 				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))
