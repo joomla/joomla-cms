@@ -9,7 +9,9 @@
 
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
+use DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Registry\Registry;
 
 /**
  * QueryDataCollector
@@ -19,6 +21,30 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 class QueryCollector extends AbstractDataCollector
 {
 	private $name = 'queries';
+
+	/**
+	 * The query monitor.
+	 *
+	 * @var    DebugMonitor
+	 * @since  4.0.0
+	 */
+	private $queryMonitor;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   Registry      $params        Parameters.
+	 * @param   DebugMonitor  $queryMonitor  Query monitor.
+	 *
+	 * @since 4.0
+	 */
+	public function __construct(Registry $params, DebugMonitor $queryMonitor)
+	{
+		$this->queryMonitor = $queryMonitor;
+
+		return parent::__construct($params);
+	}
+
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
@@ -80,7 +106,7 @@ class QueryCollector extends AbstractDataCollector
 	 */
 	private function getData()
 	{
-		return \JFactory::getDbo()->getLog();
+		return $this->queryMonitor->getLog();
 	}
 
 	/**
@@ -92,6 +118,6 @@ class QueryCollector extends AbstractDataCollector
 	 */
 	private function getCount()
 	{
-		return count(\JFactory::getDbo()->getLog());
+		return count($this->queryMonitor->getLog());
 	}
 }

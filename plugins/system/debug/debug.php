@@ -199,9 +199,6 @@ class PlgSystemDebug extends CMSPlugin
 			{
 				$const = 'Log::' . strtoupper($p);
 
-		$this->debugBar = new DebugBar;
-		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
-
 				$priority |= constant($const);
 			}
 
@@ -231,6 +228,9 @@ class PlgSystemDebug extends CMSPlugin
 		$this->queryMonitor = new DebugMonitor((bool) JDEBUG);
 
 		$this->db->setMonitor($this->queryMonitor);
+
+		$this->debugBar = new DebugBar;
+		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
 	}
 
 	/**
@@ -340,7 +340,7 @@ class PlgSystemDebug extends CMSPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html[] = $this->display('queries');
-				$this->debugBar->addCollector(new QueryCollector($this->params));
+				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor));
 			}
 
 			if (!empty($this->logEntries) && $this->params->get('logs', 1))
