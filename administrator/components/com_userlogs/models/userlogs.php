@@ -246,4 +246,25 @@ class UserlogsModelUserlogs extends JModelList
 			return false;
 		}
 	}
+
+	/**
+	 * Removes all of logs from the table.
+	 *
+	 * @return  boolean result of operation
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function purge()
+	{
+		try
+		{
+			$this->getDbo()->truncateTable('#__user_logs');
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
 }
