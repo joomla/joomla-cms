@@ -337,7 +337,7 @@ class ContentHelper extends \JHelperContent
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function filterTransitions($transitions, $pk)
+	public static function filterTransitions($transitions, $pk): array
 	{
 		return array_values(
 			array_filter(
@@ -353,14 +353,14 @@ class ContentHelper extends \JHelperContent
 	/**
 	 * Method to change state of multiple ids
 	 *
-	 * @param   int  $pks        Array of IDs
-	 * @param   int  $condition  Condition of the workflow state
+	 * @param   array  $pks        Array of IDs
+	 * @param   int    $condition  Condition of the workflow state
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function updateContentState($pks, $condition)
+	public static function updateContentState($pks, $condition): bool
 	{
 		if (empty($pks))
 		{

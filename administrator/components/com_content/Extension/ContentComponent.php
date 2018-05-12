@@ -22,6 +22,8 @@ use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
@@ -32,7 +34,7 @@ use Psr\Container\ContainerInterface;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface, WorkflowServiceInterface
 {
 	use MVCFactoryServiceTrait;
 	use CategoriesServiceTrait;
@@ -129,5 +131,32 @@ class ContentComponent extends Component implements
 	protected function getTableNameForSection(string $section = null)
 	{
 		return '#__content';
+	}
+
+	/**
+	 * Method to filter transitions by given id of state.
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function filterTransitions($transitions, $pk): array
+	{
+		return ContentHelper::filterTransitions($transitions, $pk);
+	}
+
+	/**
+	 * Method to change state of multiple ids
+	 *
+	 * @param   array  $pks        Array of IDs
+	 * @param   int    $condition  Condition of the workflow state
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function updateContentState($pks, $condition): bool
+	{
+		return ContentHelper::updateContentState($pks, $condition);
 	}
 }

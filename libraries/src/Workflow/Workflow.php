@@ -118,19 +118,21 @@ class Workflow
 
 		$select = $db->quoteName(
 					[
-						'id',
-						'to_state_id',
-						'from_state_id'
+						't.id',
+						't.to_state_id',
+						't.from_state_id',
+						's.condition',
 					]
 				);
 
 		$query	->select($select)
-				->from($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('id') . ' = ' . (int) $transition_id);
+				->from($db->quoteName('#__workflow_transitions', 't'))
+				->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_state_id'))
+				->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
 
 		if (!empty($this->options['published']))
 		{
-			$query	->where($db->quoteName('published') . ' = 1');
+			$query	->where($db->quoteName('t.published') . ' = 1');
 		}
 
 		$transition = $db->setQuery($query)->loadObject();
@@ -150,14 +152,11 @@ class Workflow
 
 		$component = reset($parts);
 
-		$eName = ucfirst(str_replace('com_', '', $component));
-		$cName = $eName . 'Helper';
+		$componentInterface = Factory::getApplication()->bootComponent($component);
 
-		$class = '\\Joomla\\Component\\' . $eName . '\\Administrator\\Helper\\' . $cName;
-
-		if (class_exists($class) && is_callable([$class, 'executeTransition']))
+		if ($componentInterface instanceof WorkflowServiceInterface)
 		{
-			return call_user_func([$class, 'executeTransition']);
+			$componentInterface->updateContentState($pks, $transition->condition);
 		}
 
 		return $this->updateAssociations($pks, $transition->to_state_id);
