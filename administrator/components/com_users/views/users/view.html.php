@@ -134,7 +134,7 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		// Get states
-		$state = $this->state->get('filter.state');
+		$state  = $this->state->get('filter.state');
 		$active = $this->state->get('filter.active');
 
 		if ($canDo->get('core.edit.state'))
