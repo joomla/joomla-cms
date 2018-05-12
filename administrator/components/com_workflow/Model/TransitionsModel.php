@@ -136,10 +136,13 @@ class TransitionsModel extends ListModel
 			array(
 			't.id',
 			't.title',
+			't.from_state_id',
+			't.to_state_id',
 			't.published',
 			't.ordering',
 		)
 		);
+
 		$select[] = $db->quoteName('f_state.title', 'from_state');
 		$select[] = $db->quoteName('t_state.title', 'to_state');
 		$joinTo = $db->quoteName('#__workflow_states', 't_state') .

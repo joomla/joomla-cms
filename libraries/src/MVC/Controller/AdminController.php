@@ -417,7 +417,7 @@ class AdminController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function runTransition()
 	{
@@ -439,7 +439,7 @@ class AdminController extends BaseController
 
 		if ($return === false)
 		{
-			// Reorder failed.
+			// Transition execution failed.
 			$message = \JText::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
 			$this->setRedirect(\JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 

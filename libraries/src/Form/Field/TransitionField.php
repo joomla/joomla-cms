@@ -81,10 +81,11 @@ class TransitionField extends ListField
 			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
 			->from($db->quoteName('#__workflow_transitions', 't'))
 			->from($db->quoteName('#__workflow_states', 's'))
-			->where($db->quoteName('t.from_state_id') . ' = ' . $workflowState)
+			->where($db->quoteName('t.from_state_id') . ' IN(-1, ' . (int) $workflowState . ')')
 			->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('t.published') . '=1')
-			->where($db->quoteName('s.published') . '=1')
+			->where($db->quoteName('t.to_state_id') . ' != ' . (int) $workflowState)
+			->where($db->quoteName('t.published') . '= 1')
+			->where($db->quoteName('s.published') . '= 1')
 			->order($db->quoteName('t.ordering'));
 
 		$items = $db->setQuery($query)->loadObjectList();
@@ -121,7 +122,7 @@ class TransitionField extends ListField
 			->clear()
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflow_states'))
-			->where($db->quoteName('id') . '=' . $workflowState);
+			->where($db->quoteName('id') . ' = ' . (int) $workflowState);
 
 		$workflowName = $db->setQuery($query)->loadResult();
 

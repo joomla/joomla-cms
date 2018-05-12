@@ -137,12 +137,12 @@ class Workflow
 
 		$transition = $db->setQuery($query)->loadObject();
 
-		// Check if the items can exetute this transition
+		// Check if the items can execute this transition
 		foreach ($pks as $pk)
 		{
 			$assoc = $this->getAssociation($pk);
 
-			if ($assoc->state_id != $transition->from_state_id)
+			if (!in_array($transition->from_state_id, [-1, $assoc->state_id]))
 			{
 				return false;
 			}

@@ -65,13 +65,13 @@ class ContentHelper extends \JHelperContent
 				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
 
 				\JHtmlSidebar::addEntry(
-					'- ' . \JText::_('COM_WORKFLOW_STATES'),
+					\JText::_('COM_WORKFLOW_STATES'),
 					'index.php?option=com_workflow&view=states&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'states`'
 				);
 
 				\JHtmlSidebar::addEntry(
-					'- ' . \JText::_('COM_WORKFLOW_TRANSITIONS'),
+					\JText::_('COM_WORKFLOW_TRANSITIONS'),
 					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
 					$vName == 'transitions'
 				);
@@ -344,7 +344,7 @@ class ContentHelper extends \JHelperContent
 				$transitions,
 				function ($var) use ($pk)
 				{
-					return $var['from_state_id'] == $pk;
+					return in_array($var['from_state_id'], [-1, $pk]) && $var['to_state_id'] != $pk;
 				}
 			)
 		);

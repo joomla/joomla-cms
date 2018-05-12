@@ -28,8 +28,9 @@
 			required="true"
 			sql_select="id as value, title as from_state_id"
 			sql_from="#__workflow_states"
-		/>
-
+		>
+			<option value="-1">JALL</option>
+		</field>
 		<field
 			name="to_state_id"
 			type="sql"
@@ -64,7 +65,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 	>
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"/>

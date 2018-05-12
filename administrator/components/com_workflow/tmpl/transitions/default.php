@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.tooltip');
 
 $user      = JFactory::getUser();
@@ -115,10 +117,14 @@ if ($saveOrder)
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
+									<?php if ($item->from_state_id < 0) : ?>
+										<?php echo Text::_('JALL'); ?>
+									<?php else : ?>
 										<?php echo $item->from_state; ?>
+									<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo $item->to_state; ?>
+										<?php echo $this->escape($item->to_state); ?>
 									</td>
 									<td class="text-right">
 										<?php echo $item->id; ?>

@@ -326,7 +326,7 @@ class ArticlesModel extends ListModel
 				case Workflow::PUBLISHED:
 				case Workflow::UNPUBLISHED:
 				case Workflow::TRASHED:
-					$query->where($db->qn('ws.condition') . ' = ' . (int) $condition);
+					$query->where($db->qn('ws.condition') . ' = ' . $query->quote($condition));
 			}
 		}
 		elseif (!is_numeric($workflowState))
@@ -478,6 +478,8 @@ class ArticlesModel extends ListModel
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
+		$ids[] = -1;
+
 		$this->cache[$store] = array();
 
 		try
@@ -493,6 +495,7 @@ class ArticlesModel extends ListModel
 						't.id',
 						't.title',
 						't.from_state_id',
+						't.to_state_id',
 						's.id',
 						's.title',
 						's.condition'
@@ -501,6 +504,7 @@ class ArticlesModel extends ListModel
 						'value',
 						'text',
 						'from_state_id',
+						'to_state_id',
 						'state_id',
 						'state_title',
 						'state_condition'
