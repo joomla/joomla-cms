@@ -239,11 +239,6 @@
 			$row.find('.field-media-wrapper').fieldMedia();
 		}
 
-		// bootstrap tooltips
-		if($.fn.tooltip){
-			$row.find('.hasTooltip').tooltip({html: true, container: "body"});
-		}
-
 		// bootstrap based User field
 		if($.fn.fieldUser){
 			$row.find('.field-user-wrapper').fieldUser();
