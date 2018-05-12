@@ -84,55 +84,6 @@
 				</field>
 
 				<field
-					name="logs"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					default="1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="log_priorities"
-					type="list"
-					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					multiple="true"
-					default="all"
-					>
-					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
-					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
-					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
-					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
-					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
-					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
-					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
-					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
-					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
-				</field>
-
-				<field
-					name="log_categories"
-					type="text"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
-					size="60"
-					default=""
-				/>
-
-				<field
-					name="log_category_mode"
-					type="radio"
-					class="switcher switcher-danger"
-					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					default="0"
-					>
-					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
-					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
-				</field>
-
-				<field
 					name="refresh_assets"
 					type="radio"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
@@ -217,6 +168,55 @@
 				name="logging"
 				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
 				>
+				<field
+						name="logs"
+						type="radio"
+						class="switcher"
+						label="PLG_DEBUG_FIELD_LOGS_LABEL"
+						default="1"
+				>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+						name="log_priorities"
+						type="list"
+						label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
+						multiple="true"
+						default="all"
+				>
+					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
+					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
+					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
+					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
+					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
+					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
+					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
+				</field>
+
+				<field
+						name="log_categories"
+						type="text"
+						label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
+						description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
+						size="60"
+						default=""
+				/>
+
+				<field
+						name="log_category_mode"
+						type="radio"
+						class="switcher switcher-danger"
+						label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
+						default="0"
+				>
+					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+				</field>
+
 				<field
 					name="log-deprecated"
 					type="radio"

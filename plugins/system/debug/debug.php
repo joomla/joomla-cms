@@ -59,7 +59,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Holds log entries handled by the plugin.
 	 *
-	 * @var    array
+	 * @var    LogEntry[]
 	 * @since  3.1
 	 */
 	private $logEntries = array();
@@ -169,7 +169,7 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
 		{
-			Factory::getConfig()->set('gzip', 0);
+			$this->app->getConfig()->set('gzip', 0);
 			ob_start();
 			ob_implicit_flush(false);
 		}
@@ -1708,6 +1708,14 @@ class PlgSystemDebug extends CMSPlugin
 					}
 					$file = isset($entry->callStack[2]['file']) ? str_replace(JPATH_ROOT, 'JROOT', $entry->callStack[2]['file']) : '';
 					$line = isset($entry->callStack[2]['line']) ? $entry->callStack[2]['line'] : '';
+
+					if (!$file)
+					{
+						// In case trigger_error is used
+						$file = isset($entry->callStack[4]['file']) ? str_replace(JPATH_ROOT, 'JROOT', $entry->callStack[4]['file']) : '';
+						$line = isset($entry->callStack[4]['line']) ? $entry->callStack[4]['line'] : '';
+					}
+
 					$category = $entry->category;
 					if (0 === strpos($file, 'JROOT/libraries/joomla')
 						|| 0 === strpos($file, 'JROOT/libraries/cms')
@@ -1726,7 +1734,7 @@ class PlgSystemDebug extends CMSPlugin
 
 					$message = [
 						'message' => $entry->message,
-						'caller' => $file . ':' . $line
+						'caller' => $file . ':' . $line,
 						// @todo 'stack' => $entry->callStack;
 					];
 					$this->debugBar[$category]->addMessage($message, 'warning');
@@ -1737,10 +1745,24 @@ class PlgSystemDebug extends CMSPlugin
 				break;
 
 				default:
-					$level = 'info';
-					if (0 != strpos($entry->message, 'error'))
+					switch ($entry->priority)
 					{
-						$level = 'error';
+						case Log::EMERGENCY:
+						case Log::ALERT:
+						case Log::CRITICAL:
+						case Log::ERROR:
+							$level = 'error';
+							break;
+						case Log::WARNING:
+							$level = 'warning';
+							break;
+						case Log::NOTICE:
+						case Log::INFO:
+						case Log::DEBUG:
+							$level = 'info';
+							break;
+						default:
+							$level = 'info';
 					}
 					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
 					break;
