@@ -31,7 +31,7 @@ class PreviewModel extends ItemModel
 	public function getItem()
 	{
 		/** @var \Joomla\CMS\Table\ContentHistory $table */
-		$table = $this->getTable('Contenthistory');
+		$table = $this->getTable('ContentHistory');
 		$versionId = \JFactory::getApplication()->input->getInt('version_id');
 
 		if (!$table->load($versionId))
@@ -41,7 +41,7 @@ class PreviewModel extends ItemModel
 
 		// Get the content type's record so we can check ACL
 		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-		$contentTypeTable = $this->getTable('Contenttype');
+		$contentTypeTable = $this->getTable('ContentType');
 
 		if (!$contentTypeTable->load($table->ucm_type_id))
 		{
@@ -108,7 +108,7 @@ class PreviewModel extends ItemModel
 	 *
 	 * @since   3.2
 	 */
-	public function getTable($type = 'Contenthistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+	public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
 	{
 		return Table::getInstance($type, $prefix, $config);
 	}
@@ -132,7 +132,7 @@ class PreviewModel extends ItemModel
 			$typeAlias = \JFactory::getApplication()->input->get('type_alias');
 
 			/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('Contenttype');
+			$contentTypeTable = $this->getTable('ContentType');
 
 			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
 			{

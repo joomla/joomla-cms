@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -311,12 +312,18 @@ abstract class BaseDatabaseModel extends CMSObject
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		if (!$factory)
+		if ($factory)
 		{
-			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
+			$this->factory = $factory;
+			return;
 		}
 
-		$this->factory = $factory;
+		$component = Factory::getApplication()->bootComponent($this->option);
+
+		if ($component instanceof MVCFactoryServiceInterface)
+		{
+			$this->factory = $component->createMVCFactory(Factory::getApplication());
+		}
 	}
 
 	/**

@@ -177,7 +177,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Special options for tagged modes (xml/html).
-		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
+		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
 			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
@@ -187,7 +187,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Special options for non-tagged modes.
-		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
+		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
 			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);

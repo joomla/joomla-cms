@@ -12,9 +12,15 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
+
+$input  = Factory::getApplication()->input;
+$option = $input->getCmd('option');
+$view   = $input->getCmd('view');
+$id     = $input->getInt('id');
 
 foreach ($list as $item) : ?>
-	<li <?php if ($_SERVER['REQUEST_URI'] === Route::_(ContentHelperRoute::getCategoryRoute($item->id))) echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
+	<li<?php if ($id == $item->id && $view == 'category' && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 		<?php echo $item->title; ?>

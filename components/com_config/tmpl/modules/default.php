@@ -62,11 +62,11 @@ JFactory::getDocument()->addScriptDeclaration("
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
+				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
-				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module'] ?></span>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
+				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
 

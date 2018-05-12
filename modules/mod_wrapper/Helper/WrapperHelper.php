@@ -60,7 +60,7 @@ class WrapperHelper
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$load = 'onload="iFrameHeight()"';
+			$load = 'onload="iFrameHeight(this)"';
 		}
 
 		$params->set('load', $load);

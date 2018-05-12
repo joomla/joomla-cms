@@ -106,7 +106,7 @@ class DisplayController extends BaseController
 		/*
 		 * Free up memory
 		 */
-		unset ($headers, $fields);
+		unset($headers, $fields);
 
 		$email           = $this->input->post->getString('mailto', '');
 		$sender          = $this->input->post->getString('sender', '');

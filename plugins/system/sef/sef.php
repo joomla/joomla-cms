@@ -132,11 +132,11 @@ class PlgSystemSef extends CMSPlugin
 				$this->checkBuffer($buffer);
 			}
 		}
-		
-		if (strpos($buffer, 'srcset=') !== false) 
+
+		if (strpos($buffer, 'srcset=') !== false)
 		{
 			$regex = '#\s+srcset="([^"]+)"#m';
-			
+
 			$buffer = preg_replace_callback(
 				$regex,
 				function ($match) use ($base, $protocols)
@@ -151,7 +151,7 @@ class PlgSystemSef extends CMSPlugin
 					return ' srcset="' . implode($matches[0]) . '"';
 				},
 				$buffer
-			);	
+			);
 
 			$this->checkBuffer($buffer);
 		}

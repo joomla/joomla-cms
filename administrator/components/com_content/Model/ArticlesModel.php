@@ -264,6 +264,7 @@ class ArticlesModel extends ListModel
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
@@ -385,6 +386,7 @@ class ArticlesModel extends ListModel
 		{
 			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

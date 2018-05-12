@@ -302,8 +302,13 @@ class PlgUserProfile extends CMSPlugin
 			// Case using the users manager in admin
 			if ($name === 'com_users.user')
 			{
+				// Toggle whether the field is required.
+				if ($this->params->get('profile-require_' . $field, 1) > 0)
+				{
+					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
+				}
 				// Remove the field if it is disabled in registration and profile
-				if ($this->params->get('register-require_' . $field, 1) == 0
+				elseif ($this->params->get('register-require_' . $field, 1) == 0
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
@@ -375,12 +380,14 @@ class PlgUserProfile extends CMSPlugin
 				// Throw an exception if date is not valid.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
+
 			if (Date::getInstance('now') < $date)
 			{
 				// Throw an exception if dob is greather than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
+
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');

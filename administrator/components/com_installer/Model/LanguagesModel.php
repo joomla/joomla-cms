@@ -145,7 +145,7 @@ class LanguagesModel extends ListModel
 
 			foreach ($extension->attributes() as $key => $value)
 			{
-				$language->$key =  (string) $value;
+				$language->$key = (string) $value;
 			}
 
 			if ($search)

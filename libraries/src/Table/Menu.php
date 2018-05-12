@@ -116,11 +116,13 @@ class Menu extends Nested
 		{
 			$this->path = $this->alias;
 		}
+
 		// Check for params.
 		if (trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
+
 		// Check for img.
 		if (trim($this->img) === '')
 		{
@@ -165,7 +167,7 @@ class Menu extends Nested
 		if ($this->parent_id == 1 && $this->client_id == 0)
 		{
 			// Verify that a first level menu item alias is not 'component'.
-			if ( $this->alias == 'component')
+			if ($this->alias == 'component')
 			{
 				$this->setError(\JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 

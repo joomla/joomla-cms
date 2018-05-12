@@ -345,7 +345,7 @@ class CategoryModel extends ListModel
 	{
 		if (!is_object($this->_item))
 		{
-			if (isset( $this->state->params))
+			if (isset($this->state->params))
 			{
 				$params = $this->state->params;
 				$options = array();

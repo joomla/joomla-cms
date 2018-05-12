@@ -60,11 +60,12 @@ class PlgSystemLog extends CMSPlugin
 		}
 
 		Log::addLogger(array(), Log::INFO);
+
 		try
 		{
 			Log::add($errorlog['comment'], Log::INFO, $errorlog['status']);
 		}
-		catch (Exception $e) 
+		catch (Exception $e)
 		{
 			// If the log file is unwriteable during login then we should not go to the error page
 			return;

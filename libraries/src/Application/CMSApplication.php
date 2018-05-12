@@ -166,36 +166,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		parent::afterSessionStart($event);
 
 		$session = $event->getSession();
+		$time    = time();
 
 		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
 		if ($this->get('session_metadata', true))
 		{
-			$db   = \JFactory::getDbo();
-			$time = time();
-
 			// Get the session handler from the configuration.
 			$handler = $this->get('session_handler', 'none');
-
-			// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
-			if ($handler !== 'database' && $time % 2)
-			{
-				// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
-				try
-				{
-					$db->setQuery(
-						$db->getQuery(true)
-							->delete($db->quoteName('#__session'))
-							->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
-					)->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					/*
-					 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-					 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-					 */
-				}
-			}
 
 			/*
 			 * Check for extra session metadata when:
@@ -207,6 +184,40 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				$this->checkSession();
 			}
+		}
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
+		if ($handler !== 'database' && $time % 5 === 0)
+		{
+			$this->registerEvent(
+				'onAfterResponse',
+				function () use ($session, $time)
+				{
+					// TODO: At some point we need to get away from having session data always in the db.
+					$db = \JFactory::getDbo();
+
+					$query = $db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (\JDatabaseExceptionExecuting $exception)
+					{
+						/*
+						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+						 */
+					}
+				}
+			);
 		}
 	}
 

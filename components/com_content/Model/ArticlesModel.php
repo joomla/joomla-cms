@@ -57,7 +57,7 @@ class ArticlesModel extends ListModel
 				'images', 'a.images',
 				'urls', 'a.urls',
 				'filter_tag',
-				'tag'
+				'tag',
 			);
 		}
 
@@ -125,7 +125,7 @@ class ArticlesModel extends ListModel
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Process show_noauth parameter
-		if (!$params->get('show_noauth'))
+		if ((!$params->get('show_noauth')) || (!JComponentHelper::getParams('com_content')->get('show_noauth')))
 		{
 			$this->setState('filter.access', true);
 		}
@@ -258,7 +258,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($this->getState('filter.access', true))	
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -270,8 +270,10 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($published) && $published == 2)
 		{
-			// If category is archived then article has to be published or archived.
-			// If categogy is published then article has to be archived.
+			/**
+			 * If category is archived then article has to be published or archived.
+			 * Or categogy is published then article has to be archived.
+			 */
 			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}
 		elseif (is_numeric($published))
@@ -303,8 +305,7 @@ class ArticlesModel extends ListModel
 
 			case 'show':
 			default:
-				// Normally we do not discriminate
-				// between featured/unfeatured items.
+				// Normally we do not discriminate between featured/unfeatured items.
 				break;
 		}
 
@@ -525,6 +526,7 @@ class ArticlesModel extends ListModel
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
@@ -579,9 +581,11 @@ class ArticlesModel extends ListModel
 
 			$item->params = clone $this->getState('params');
 
-			/*For blogs, article params override menu item params only if menu param = 'use_article'
-			Otherwise, menu item params control the layout
-			If menu item is 'use_article' and there is no article param, use global*/
+			/**
+			 * For blogs, article params override menu item params only if menu param = 'use_article'
+			 * Otherwise, menu item params control the layout
+			 * If menu item is 'use_article' and there is no article param, use global
+			 */
 			if (($input->getString('layout') === 'blog') || ($input->getString('view') === 'featured')
 				|| ($this->getState('params')->get('layout_type') === 'blog'))
 			{
@@ -637,8 +641,10 @@ class ArticlesModel extends ListModel
 					break;
 			}
 
-			// Compute the asset access permissions.
-			// Technically guest could edit an article, but lets not check that to improve performance a little.
+			/**
+			 * Compute the asset access permissions.
+			 * Technically guest could edit an article, but lets not check that to improve performance a little.
+			 */
 			if (!$guest)
 			{
 				$asset = 'com_content.article.' . $item->id;

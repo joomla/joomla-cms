@@ -340,7 +340,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -349,7 +348,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));

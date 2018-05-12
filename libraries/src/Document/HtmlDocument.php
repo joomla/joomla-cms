@@ -119,7 +119,7 @@ class HtmlDocument extends Document
 		// Set document type
 		$this->_type = 'html';
 
-		// Set default mime type and document metadata (meta data syncs with mime type by default)
+		// Set default mime type and document metadata (metadata syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
 	}
 
@@ -753,6 +753,7 @@ class HtmlDocument extends Document
 					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
 			}
+
 			// Reverse the last array so the jdocs are in forward order.
 			$template_tags_last = array_reverse($template_tags_last);
 

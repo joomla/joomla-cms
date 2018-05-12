@@ -203,6 +203,7 @@ class ContactModel extends FormModel
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
+
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
@@ -247,7 +248,6 @@ class ContactModel extends FormModel
 				// Compute access permissions.
 				if (($access = $this->getState('filter.access')))
 				{
-
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -311,7 +311,6 @@ class ContactModel extends FormModel
 		// Get the com_content articles by the linked user
 		if ((int) $contact->user_id && $this->getState('params')->get('show_articles'))
 		{
-
 			$query->select('a.id')
 				->select('a.title')
 				->select('a.state')
@@ -466,7 +465,6 @@ class ContactModel extends FormModel
 
 			if ($result)
 			{
-
 				$contactParams = new Registry($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority

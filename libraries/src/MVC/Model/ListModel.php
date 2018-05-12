@@ -542,7 +542,6 @@ class ListModel extends BaseDatabaseModel
 										// Fallback to the default value
 										$value = $ordering . ' ' . $direction;
 									}
-
 								}
 								else
 								{

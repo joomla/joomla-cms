@@ -35,6 +35,8 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		$jinput = JFactory::getApplication()->input;
 		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
+		$user   = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		if ($view === 'article')
 		{
@@ -46,7 +48,26 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
+					if ($item->language != JFactory::getLanguage()->getTag())
+					{
+						$arrId   = explode(':', $item->id);
+						$assocId = $arrId[0];
+
+						$db    = JFactory::getDbo();
+						$query = $db->getQuery(true)
+							->select($db->qn('state'))
+							->from($db->qn('#__content'))
+							->where($db->qn('id') . ' = ' . (int) ($assocId))
+							->where('access IN (' . $groups . ')');
+						$db->setQuery($query);
+
+						$result = (int) $db->loadResult();
+
+						if ($result > 0)
+						{
+							$return[$tag] = ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
+						}
+					}
 				}
 
 				return $return;

@@ -24,7 +24,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
+<form action="<?php echo Route::_('index.php?option=com_users&task=user.login', true); ?>" method="post" id="login-form">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
@@ -119,8 +119,6 @@ Text::script('JHIDE');
 					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 			</ul>
-		<input type="hidden" name="option" value="com_users">
-		<input type="hidden" name="task" value="user.login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

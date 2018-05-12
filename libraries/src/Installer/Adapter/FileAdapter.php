@@ -466,6 +466,7 @@ class FileAdapter extends InstallerAdapter
 			// Install failed, rollback changes - error logged by the installer
 			return false;
 		}
+
 		$id = $db->loadResult();
 
 		if (empty($id))

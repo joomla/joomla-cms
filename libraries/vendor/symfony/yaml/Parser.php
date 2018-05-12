@@ -402,7 +402,7 @@ class Parser
                     throw new ParseException('Multiple documents are not supported.', $this->currentLineNb + 1, $this->currentLine, $this->filename);
                 }
 
-                if (isset($this->currentLine[1]) && '?' === $this->currentLine[0] && ' ' === $this->currentLine[1]) {
+                if ($deprecatedUsage = (isset($this->currentLine[1]) && '?' === $this->currentLine[0] && ' ' === $this->currentLine[1])) {
                     @trigger_error($this->getDeprecationMessage('Starting an unquoted string with a question mark followed by a space is deprecated since Symfony 3.3 and will throw \Symfony\Component\Yaml\Exception\ParseException in 4.0.'), E_USER_DEPRECATED);
                 }
 
@@ -422,54 +422,43 @@ class Parser
 
                 // try to parse the value as a multi-line string as a last resort
                 if (0 === $this->currentLineNb) {
-                    $parseError = false;
                     $previousLineWasNewline = false;
                     $previousLineWasTerminatedWithBackslash = false;
                     $value = '';
 
                     foreach ($this->lines as $line) {
-                        try {
-                            if (isset($line[0]) && ('"' === $line[0] || "'" === $line[0])) {
-                                $parsedLine = $line;
-                            } else {
-                                $parsedLine = Inline::parse($line, $flags, $this->refs);
-                            }
+                        // If the indentation is not consistent at offset 0, it is to be considered as a ParseError
+                        if (0 === $this->offset && !$deprecatedUsage && isset($line[0]) && ' ' === $line[0]) {
+                            throw new ParseException('Unable to parse.', $this->getRealCurrentLineNb() + 1, $this->currentLine, $this->filename);
+                        }
+                        if ('' === trim($line)) {
+                            $value .= "\n";
+                        } elseif (!$previousLineWasNewline && !$previousLineWasTerminatedWithBackslash) {
+                            $value .= ' ';
+                        }
 
-                            if (!is_string($parsedLine)) {
-                                $parseError = true;
-                                break;
-                            }
+                        if ('' !== trim($line) && '\\' === substr($line, -1)) {
+                            $value .= ltrim(substr($line, 0, -1));
+                        } elseif ('' !== trim($line)) {
+                            $value .= trim($line);
+                        }
 
-                            if ('' === trim($parsedLine)) {
-                                $value .= "\n";
-                            } elseif (!$previousLineWasNewline && !$previousLineWasTerminatedWithBackslash) {
-                                $value .= ' ';
-                            }
-
-                            if ('' !== trim($parsedLine) && '\\' === substr($parsedLine, -1)) {
-                                $value .= ltrim(substr($parsedLine, 0, -1));
-                            } elseif ('' !== trim($parsedLine)) {
-                                $value .= trim($parsedLine);
-                            }
-
-                            if ('' === trim($parsedLine)) {
-                                $previousLineWasNewline = true;
-                                $previousLineWasTerminatedWithBackslash = false;
-                            } elseif ('\\' === substr($parsedLine, -1)) {
-                                $previousLineWasNewline = false;
-                                $previousLineWasTerminatedWithBackslash = true;
-                            } else {
-                                $previousLineWasNewline = false;
-                                $previousLineWasTerminatedWithBackslash = false;
-                            }
-                        } catch (ParseException $e) {
-                            $parseError = true;
-                            break;
+                        if ('' === trim($line)) {
+                            $previousLineWasNewline = true;
+                            $previousLineWasTerminatedWithBackslash = false;
+                        } elseif ('\\' === substr($line, -1)) {
+                            $previousLineWasNewline = false;
+                            $previousLineWasTerminatedWithBackslash = true;
+                        } else {
+                            $previousLineWasNewline = false;
+                            $previousLineWasTerminatedWithBackslash = false;
                         }
                     }
 
-                    if (!$parseError) {
+                    try {
                         return Inline::parse(trim($value));
+                    } catch (ParseException $e) {
+                        // fall-through to the ParseException thrown below
                     }
                 }
 

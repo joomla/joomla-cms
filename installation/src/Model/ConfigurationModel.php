@@ -59,7 +59,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_created = 1;
 
 		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
+		if (!$databaseModel->handleOldDatabase())
 		{
 			$this->deleteConfiguration();
 
@@ -83,7 +83,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 
 		// Install CMS data
-		if (!$databaseModel->installCmsData($options))
+		if (!$databaseModel->installCmsData())
 		{
 			$this->deleteConfiguration();
 
@@ -96,7 +96,7 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
