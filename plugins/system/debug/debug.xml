@@ -229,6 +229,18 @@
 				</field>
 
 				<field
+					name="log-deprecated-core"
+					type="radio"
+					class="switcher"
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_DESC"
+					default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="log-everything"
 					type="radio"
 					class="switcher"

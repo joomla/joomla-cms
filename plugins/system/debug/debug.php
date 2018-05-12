@@ -9,13 +9,24 @@
 
 defined('_JEXEC') or die;
 
+use DebugBar\DataCollector\MemoryCollector;
+use DebugBar\DataCollector\MessagesCollector;
+use DebugBar\DataCollector\RequestDataCollector;
+use DebugBar\DebugBar;
+use DebugBar\Storage\FileStorage;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
+use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
+use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
+use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
+use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Database\Event\ConnectionEvent;
@@ -110,6 +121,12 @@ class PlgSystemDebug extends CMSPlugin
 	private static $displayCallbacks = array();
 
 	/**
+	 * @var DebugBar
+	 * @since version
+	 */
+	private $debugBar = null;
+
+	/**
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
@@ -128,18 +145,6 @@ class PlgSystemDebug extends CMSPlugin
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
-		}
-
-		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
-		{
-			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
-		}
 
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
@@ -171,48 +176,15 @@ class PlgSystemDebug extends CMSPlugin
 
 		$this->linkFormat = ini_get('xdebug.file_link_format');
 
-		if ($this->params->get('logs', 1))
-		{
-			$priority = 0;
-
-			foreach ($this->params->get('log_priorities', array()) as $p)
-			{
-				$const = 'Log::' . strtoupper($p);
-
-				if (!defined($const))
-				{
-					continue;
-				}
-
-				$priority |= constant($const);
-			}
-
-			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
-			$mode       = $this->params->get('log_category_mode', 0);
-
-			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
-		}
-
-		// Log deprecated class aliases
-		foreach (JLoader::getDeprecatedAliases() as $deprecation)
-		{
-			Log::add(
-				sprintf(
-					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
-					$deprecation['old'],
-					$deprecation['new'],
-					$deprecation['version']
-				),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-
 		// Attach our query monitor to the database driver
 		$this->queryMonitor = new DebugMonitor((bool) JDEBUG);
 
 		$this->db->setMonitor($this->queryMonitor);
+
+		$this->debugBar = new DebugBar;
+		$this->debugBar->setStorage(new FileStorage($this->app->get('tmp_path')));
+
+		$this->setupLogging();
 	}
 
 	/**
@@ -298,51 +270,45 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<h1>' . Text::_('PLG_DEBUG_TITLE') . '</h1>';
 
+		$this->debugBar->addCollector(new InfoCollector($this->params, $this->debugBar->getCurrentRequestId()));
+		$this->debugBar->addCollector(new RequestDataCollector);
+
 		if (JDEBUG)
 		{
 			if ($this->params->get('session', 1))
 			{
-				$html[] = $this->display('session');
+				$this->debugBar->addCollector(new SessionCollector($this->params));
 			}
 
 			if ($this->params->get('profile', 1))
 			{
 				$html[] = $this->display('profile_information');
+				$this->debugBar->addCollector(new ProfileCollector($this->params));
 			}
 
 			if ($this->params->get('memory', 1))
 			{
-				$html[] = $this->display('memory_usage');
+				$this->debugBar->addCollector(new MemoryCollector);
 			}
 
 			if ($this->params->get('queries', 1))
 			{
 				$html[] = $this->display('queries');
+				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor));
 			}
 
 			if (!empty($this->logEntries) && $this->params->get('logs', 1))
 			{
 				$html[] = $this->display('logs');
+				$this->collectLogs();
 			}
 		}
 
 		if ($this->debugLang)
 		{
-			if ($this->params->get('language_errorfiles', 1))
-			{
-				$languageErrors = Factory::getLanguage()->getErrorFiles();
-				$html[]         = $this->display('language_files_in_error', $languageErrors);
-			}
-
-			if ($this->params->get('language_files', 1))
-			{
-				$html[] = $this->display('language_files_loaded');
-			}
-
-			if ($this->params->get('language_strings'))
-			{
-				$html[] = $this->display('untranslated_strings');
-			}
+				$this->debugBar->addCollector(new LanguageFilesCollector($this->params));
+				$this->debugBar->addCollector(new LanguageStringsCollector($this->params));
+				$this->debugBar->addCollector(new LanguageErrorsCollector($this->params));
 		}
 
 		foreach (self::$displayCallbacks as $name => $callable)
@@ -352,7 +318,12 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '</div>';
 
-		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
+		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
+
+		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
+
+		echo str_replace('</body>', implode('', $html) . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**
@@ -386,6 +357,68 @@ class PlgSystemDebug extends CMSPlugin
 		unset(self::$displayCallbacks[$name]);
 
 		return true;
+	}
+
+	/**
+	 * Setup logging fuctionality.
+	 *
+	 * @return $this
+	 *
+	 * @since version
+	 */
+	private function setupLogging()
+	{
+		// Log the deprecated API.
+		if ($this->params->get('log-deprecated'))
+		{
+			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+		}
+
+		// Log everything (except deprecated APIs, these are logged separately with the option above).
+		if ($this->params->get('log-everything'))
+		{
+			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+		}
+
+		if ($this->params->get('logs', 1))
+		{
+			$priority = 0;
+
+			foreach ($this->params->get('log_priorities', array()) as $p)
+			{
+				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
+
+				if (!defined($const))
+				{
+					continue;
+				}
+
+				$priority |= constant($const);
+			}
+
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$mode = $this->params->get('log_category_mode', 0);
+
+			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+		}
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecation-notes'
+			);
+		}
+
+		return $this;
 	}
 
 	/**
@@ -433,6 +466,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @return  string
 	 *
 	 * @since   2.5
+	 * @deprecated Use DataCollectors
 	 */
 	protected function display($item, array $errors = array())
 	{
@@ -498,82 +532,6 @@ class PlgSystemDebug extends CMSPlugin
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
 		$html[] = call_user_func($callable);
 		$html[] = '</div>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display session information.
-	 *
-	 * Called recursively.
-	 *
-	 * @param   string   $key      A session key.
-	 * @param   mixed    $session  The session array, initially null.
-	 * @param   integer  $id       Used to identify the DIV for the JavaScript toggling code.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displaySession($key = '', $session = null, $id = 0)
-	{
-		if (!$session)
-		{
-			$session = $this->app->getSession()->all();
-		}
-
-		$html = array();
-		static $id;
-
-		if (!is_array($session))
-		{
-			$html[] = '<pre>' . $key . ': ' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
-		}
-		else
-		{
-			foreach ($session as $sKey => $entries)
-			{
-				$display = true;
-
-				if (is_array($entries) && $entries)
-				{
-					$display = false;
-				}
-
-				if (is_object($entries))
-				{
-					$o = ArrayHelper::fromObject($entries);
-
-					if ($o)
-					{
-						$entries = $o;
-						$display = false;
-					}
-				}
-
-				if (!$display)
-				{
-					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
-					$id++;
-
-					// Recurse...
-					$html[] = $this->displaySession($sKey, $entries, $id);
-
-					$html[] = '</div>';
-
-					continue;
-				}
-
-				$html[] = '<pre>' . $sKey . ': ' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
-			}
-		}
 
 		return implode('', $html);
 	}
@@ -1507,161 +1465,6 @@ class PlgSystemDebug extends CMSPlugin
 	}
 
 	/**
-	 * Displays errors in language files.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayLanguageFilesInError()
-	{
-		$errorfiles = Factory::getLanguage()->getErrorFiles();
-
-		if (!count($errorfiles))
-		{
-			return '<p>' . Text::_('JNONE') . '</p>';
-		}
-
-		$html = array();
-
-		$html[] = '<ul>';
-
-		foreach ($errorfiles as $file => $error)
-		{
-			$html[] = '<li>' . $this->formatLink($file) . str_replace($file, '', $error) . '</li>';
-		}
-
-		$html[] = '</ul>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display loaded language files.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayLanguageFilesLoaded()
-	{
-		$html = array();
-
-		$html[] = '<ul>';
-
-		foreach (Factory::getLanguage()->getPaths() as /* $extension => */ $files)
-		{
-			foreach ($files as $file => $status)
-			{
-				$html[] = '<li>';
-
-				$html[] = $status
-					? Text::_('PLG_DEBUG_LANG_LOADED')
-					: Text::_('PLG_DEBUG_LANG_NOT_LOADED');
-
-				$html[] = ' : ';
-				$html[] = $this->formatLink($file);
-				$html[] = '</li>';
-			}
-		}
-
-		$html[] = '</ul>';
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display untranslated language strings.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayUntranslatedStrings()
-	{
-		$stripFirst = $this->params->get('strip-first');
-		$stripPref  = $this->params->get('strip-prefix');
-		$stripSuff  = $this->params->get('strip-suffix');
-
-		$orphans = Factory::getLanguage()->getOrphans();
-
-		if (!count($orphans))
-		{
-			return '<p>' . Text::_('JNONE') . '</p>';
-		}
-
-		ksort($orphans, SORT_STRING);
-
-		$guesses = array();
-
-		foreach ($orphans as $key => $occurance)
-		{
-			if (is_array($occurance) && isset($occurance[0]))
-			{
-				$info = $occurance[0];
-				$file = $info['file'] ?: '';
-
-				if (!isset($guesses[$file]))
-				{
-					$guesses[$file] = array();
-				}
-
-				// Prepare the key.
-				if (($pos = strpos($info['string'], '=')) > 0)
-				{
-					$parts = explode('=', $info['string']);
-					$key   = $parts[0];
-					$guess = $parts[1];
-				}
-				else
-				{
-					$guess = str_replace('_', ' ', $info['string']);
-
-					if ($stripFirst)
-					{
-						$parts = explode(' ', $guess);
-
-						if (count($parts) > 1)
-						{
-							array_shift($parts);
-							$guess = implode(' ', $parts);
-						}
-					}
-
-					$guess = trim($guess);
-
-					if ($stripPref)
-					{
-						$guess = trim(preg_replace(chr(1) . '^' . $stripPref . chr(1) . 'i', '', $guess));
-					}
-
-					if ($stripSuff)
-					{
-						$guess = trim(preg_replace(chr(1) . $stripSuff . '$' . chr(1) . 'i', '', $guess));
-					}
-				}
-
-				$key = strtoupper(trim($key));
-				$key = preg_replace('#\s+#', '_', $key);
-				$key = preg_replace('#\W#', '', $key);
-
-				// Prepare the text.
-				$guesses[$file][] = $key . '="' . $guess . '"';
-			}
-		}
-
-		$html = array();
-
-		foreach ($guesses as $file => $keys)
-		{
-			$html[] = "\n\n# " . ($file ? $this->formatLink($file) : Text::_('PLG_DEBUG_UNKNOWN_FILE')) . "\n\n";
-			$html[] = implode("\n", $keys);
-		}
-
-		return '<pre>' . implode('', $html) . '</pre>';
-	}
-
-	/**
 	 * Simple highlight for SQL queries.
 	 *
 	 * @param   string  $query  The query to highlight.
@@ -1857,6 +1660,94 @@ class PlgSystemDebug extends CMSPlugin
 		$out .= '</ol>';
 
 		return $out;
+	}
+
+	/**
+	 * Collect log messages.
+	 *
+	 * @return $this
+	 *
+	 * @since version
+	 */
+	protected function collectLogs()
+	{
+		if (!$this->logEntries)
+		{
+			return $this;
+		}
+
+		$logDeprecated = $this->params->get('log-deprecated', 0);
+		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
+
+		$this->debugBar->addCollector(new MessagesCollector('log'));
+
+		if ($logDeprecated)
+		{
+			$this->debugBar->addCollector(new MessagesCollector('deprecated'));
+			$this->debugBar->addCollector(new MessagesCollector('deprecation-notes'));
+		}
+		if ($logDeprecatedCore)
+		{
+			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
+		}
+
+		foreach ($this->logEntries as $entry)
+		{
+			switch ($entry->category)
+			{
+				case 'deprecation-notes':
+					if ($logDeprecated)
+					{
+						$this->debugBar[$entry->category]->addMessage($entry->message);
+					}
+				break;
+				case 'deprecated':
+					if (!$logDeprecated && !$logDeprecatedCore)
+					{
+						continue;
+					}
+					$file = isset($entry->callStack[2]['file']) ? str_replace(JPATH_ROOT, 'JROOT', $entry->callStack[2]['file']) : '';
+					$line = isset($entry->callStack[2]['line']) ? $entry->callStack[2]['line'] : '';
+					$category = $entry->category;
+					if (0 === strpos($file, 'JROOT/libraries/joomla')
+						|| 0 === strpos($file, 'JROOT/libraries/cms')
+						|| 0 === strpos($file, 'JROOT/libraries/src'))
+					{
+						if (!$logDeprecatedCore)
+						{
+							continue;
+						}
+						$category .= '-core';
+					}
+					elseif (!$logDeprecated)
+					{
+						continue;
+					}
+
+					$message = [
+						'message' => $entry->message,
+						'caller' => $file . ':' . $line
+						// @todo 'stack' => $entry->callStack;
+					];
+					$this->debugBar[$category]->addMessage($message, 'warning');
+				break;
+
+				case 'databasequery':
+					// Should be collected by its own collector
+				break;
+
+				default:
+					$level = 'info';
+					if (0 != strpos($entry->message, 'error'))
+					{
+						$level = 'error';
+					}
+					$this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
+					break;
+			}
+		}
+
+		return $this;
 	}
 
 	/**
