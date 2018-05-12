@@ -254,7 +254,7 @@ class PlgSystemUserLogs extends JPlugin
 		}
 
 		$message = array(
-			'title' => implode('\",\"', $titles),
+			'title' => implode(',', $titles),
 			'event' => 'onContentChangeState',
 			'type'  => $parameters->type_title,
 			'value' => (string) $value,
