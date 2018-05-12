@@ -78,7 +78,8 @@
         "psr/link": "~1.0",
         "symfony/console": "3.4.*",
         "symfony/web-link": "3.4.*",
-        "symfony/yaml": "3.4.*"
+        "symfony/yaml": "3.4.*",
+        "maximebf/debugbar": "^1.15"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
