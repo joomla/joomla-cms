@@ -240,8 +240,8 @@ class TransitionModel extends AdminModel
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
-		$form->setFieldAttribute('from_state_id', 'sql_where', $where, 'filter');
-		$form->setFieldAttribute('to_state_id', 'sql_where', $where, 'filter');
+		$form->setFieldAttribute('from_state_id', 'sql_where', $where);
+		$form->setFieldAttribute('to_state_id', 'sql_where', $where);
 
 		return $form;
 	}
