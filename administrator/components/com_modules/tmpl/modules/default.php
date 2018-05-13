@@ -28,7 +28,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
-			<table class="table table-striped" id="moduleList">
+			<table class="table" id="moduleList">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap text-center d-none d-md-table-cell">

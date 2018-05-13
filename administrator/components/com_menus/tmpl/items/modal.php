@@ -44,7 +44,7 @@ if (!empty($editor))
 		<?php if (empty($this->items)) : ?>
 			<joomla-alert type="warning"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
 		<?php else : ?>
-			<table class="table table-striped table-sm">
+			<table class="table table-sm">
 				<thead>
 					<tr>
 						<th style="width:1%" class="nowrap text-center">

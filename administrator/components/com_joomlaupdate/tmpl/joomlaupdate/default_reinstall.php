@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 	<joomla-alert type="success"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?></joomla-alert>
 
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>
-		<table class="table table-striped">
+		<table class="table">
 			<tbody>
 			<tr>
 				<td>

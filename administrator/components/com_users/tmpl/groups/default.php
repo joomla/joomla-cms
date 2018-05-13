@@ -34,7 +34,7 @@ JHtml::_('script', 'com_users/admin-users-groups.min.js', array('version' => 'au
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
-					<table class="table table-striped" id="groupList">
+					<table class="table" id="groupList">
 						<thead>
 							<tr>
 								<th style="width:1%" class="nowrap">
