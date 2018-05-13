@@ -149,7 +149,7 @@ class ArticleModel extends ItemModel
 
 				if (is_numeric($published))
 				{
-					$query->where($db->qn('ws.condition') . ' = ' . $db->quote((int) $published));
+					$query->where($db->quoteName('ws.condition') . ' = ' . $db->quote((int) $published));
 				}
 
 

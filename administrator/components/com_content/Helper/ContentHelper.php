@@ -141,16 +141,16 @@ class ContentHelper extends \JHelperContent
 
 			$query  = $db->getQuery(true);
 
-			$query	->select($db->qn('condition'))
-					->select('COUNT(*) AS ' . $db->qn('count'))
-					->from($db->qn('#__content', 'c'))
-					->from($db->qn('#__workflow_states', 's'))
-					->from($db->qn('#__workflow_associations', 'a'))
-					->where($db->qn('a.item_id') . ' = ' . $db->qn('c.id'))
-					->where($db->qn('s.id') . ' = ' . $db->qn('a.state_id'))
+			$query	->select($db->quoteName('condition'))
+					->select('COUNT(*) AS ' . $db->quoteName('count'))
+					->from($db->quoteName('#__content', 'c'))
+					->from($db->quoteName('#__workflow_states', 's'))
+					->from($db->quoteName('#__workflow_associations', 'a'))
+					->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
+					->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.state_id'))
 					->where('catid = ' . (int) $item->id)
 					->where('a.extension = ' . $db->quote('com_content'))
-					->group($db->qn('condition'));
+					->group($db->quoteName('condition'));
 
 			$articles = $db->setQuery($query)->loadObjectList();
 
@@ -197,12 +197,12 @@ class ContentHelper extends \JHelperContent
 			$section = $parts[1];
 		}
 
-		$join  = $db->qn('#__content') . ' AS c ON ct.content_item_id=c.id';
+		$join  = $db->quoteName('#__content') . ' AS c ON ct.content_item_id=c.id';
 		$state = 'state';
 
 		if ($section === 'category')
 		{
-			$join  = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$join  = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
 			$state = 'published as state';
 		}
 
@@ -214,7 +214,7 @@ class ContentHelper extends \JHelperContent
 			$item->count_published   = 0;
 			$query                   = $db->getQuery(true);
 			$query->select($state . ', count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $join)
@@ -319,7 +319,7 @@ class ContentHelper extends \JHelperContent
 		$query = $db->getQuery(true);
 
 		$query->select('id')
-			->from($db->qn('#__content'))
+			->from($db->quoteName('#__content'))
 			->where('state = ' . (int) $stateID);
 		$db->setQuery($query);
 		$states = $db->loadResult();
@@ -372,9 +372,9 @@ class ContentHelper extends \JHelperContent
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->update($db->qn('#__content'))
-				->set($db->qn('state') . '=' . (int) $condition)
-				->where($db->qn('id') . ' IN (' . implode(', ', $pks) . ')');
+			$query->update($db->quoteName('#__content'))
+				->set($db->quoteName('state') . '=' . (int) $condition)
+				->where($db->quoteName('id') . ' IN (' . implode(', ', $pks) . ')');
 
 			$db->setQuery($query)->execute();
 		}

@@ -200,7 +200,7 @@ class Module extends Table
 		if (!$this->ordering)
 		{
 			$query = $this->_db->getQuery(true);
-			$this->ordering = $this->getNextOrder($query->qn('position') . ' = ' . $query->q($this->position));
+			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

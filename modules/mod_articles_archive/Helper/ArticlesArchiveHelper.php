@@ -46,8 +46,8 @@ class ArticlesArchiveHelper
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
-			->from($db->qn('#__content', 'c'))
-			->innerJoin($db->qn('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
+			->from($db->quoteName('#__content', 'c'))
+			->innerJoin($db->quoteName('#__workflow_associations', 'wa') . ' ON wa.item_id = c.id')
 			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
 			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 

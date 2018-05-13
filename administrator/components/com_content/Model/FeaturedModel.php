@@ -152,14 +152,14 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_numeric($condition))
 		{
-			$query->where($db->qn('ws.condition') . '=' . $db->quote($condition));
+			$query->where($db->quoteName('ws.condition') . '=' . $db->quote($condition));
 		}
 		elseif (!is_numeric($workflowState))
 		{
-			$query->where($db->qn('ws.condition') . ' IN ("0","1")');
+			$query->where($db->quoteName('ws.condition') . ' IN ("0","1")');
 		}
 
-		$query->where($db->qn('wa.extension') . '=' . $db->quote('com_content'));
+		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by a single or group of categories.
 		$baselevel = 1;

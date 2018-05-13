@@ -472,14 +472,14 @@ class PlgContentJoomla extends CMSPlugin
 
 			// Load new transitions
 			$query = $db->getQuery(true)
-				->select($db->qn(['t.id']))
-				->from($db->qn('#__workflow_transitions', 't'))
-				->from($db->qn('#__workflow_states', 's'))
-				->where($db->qn('t.from_state_id') . ' = ' . (int) $assoc->state_id)
-				->where($db->qn('t.to_state_id') . ' = ' . $db->qn('s.id'))
-				->where($db->qn('t.published') . '= 1')
-				->where($db->qn('s.published') . '= 1')
-				->order($db->qn('t.ordering'));
+				->select($db->quoteName(['t.id']))
+				->from($db->quoteName('#__workflow_transitions', 't'))
+				->from($db->quoteName('#__workflow_states', 's'))
+				->where($db->quoteName('t.from_state_id') . ' = ' . (int) $assoc->state_id)
+				->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('t.published') . '= 1')
+				->where($db->quoteName('s.published') . '= 1')
+				->order($db->quoteName('t.ordering'));
 
 			$transitions = $db->setQuery($query)->loadObjectList();
 

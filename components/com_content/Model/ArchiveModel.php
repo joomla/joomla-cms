@@ -125,7 +125,7 @@ class ArchiveModel extends ArticlesModel
 
 		if (count($states) > 0)
 		{
-			$query->where($db->qn('state_id') . ' IN (' . implode(', ', $states) . ')');
+			$query->where($db->quoteName('state_id') . ' IN (' . implode(', ', $states) . ')');
 		}
 
 		return $query;
@@ -200,10 +200,10 @@ class ArchiveModel extends ArticlesModel
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
-		$years = $query->year($db->qn('created'));
+		$years = $query->year($db->quoteName('created'));
 		$query->select('DISTINCT (' . $years . ')')
-			->from($db->qn('#__content'))
-			->where($db->qn('state') . '= 3')
+			->from($db->quoteName('#__content'))
+			->where($db->quoteName('state') . '= 3')
 			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
 			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
