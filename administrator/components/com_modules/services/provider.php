@@ -19,7 +19,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The content service provider.
+ * The module service provider.
  *
  * @since  4.0.0
  */
