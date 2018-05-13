@@ -3,12 +3,6 @@
 .fg-1 {
   flex-grow: 1;
 }
-.fg-2 {
-  flex-grow: 2;
-}
-.fg-3 {
-  flex-grow: 3;
-}
 
 // Keep B/C
 .element-invisible {
@@ -26,8 +20,4 @@
 .hidden {
   display: none;
   visibility: hidden;
-}
-
-joomla-alert {
-  display: none;
 }

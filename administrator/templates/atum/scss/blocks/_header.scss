@@ -15,10 +15,8 @@
   }
 
   .page-title {
-    display: inline-block;
     margin: 0 5px;
     font-size: 1.2rem;
-    font-weight: normal;
     line-height: $header-height;
     color: $atum-template-color-dark;
 
@@ -39,11 +37,6 @@
       color: $atum-template-color-dark;
       vertical-align: middle;
       transition: all .2s ease-in-out;
-    }
-
-    .fa-external-link { // Position correct
-      position: relative;
-      left: 2px;
     }
 
     .badge {
@@ -103,7 +96,6 @@
   .dropdown-header {
     padding-top: .5rem;
     padding-bottom: .5rem;
-    margin-bottom: .3rem;
     background-color: $atum-template-color-dark;
     color: $white;
     box-shadow: $atum-box-shadow;

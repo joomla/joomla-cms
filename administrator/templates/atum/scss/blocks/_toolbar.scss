@@ -62,7 +62,6 @@
       margin-right: 0;
       background-color: transparent;
     }
-
   }
   
 
@@ -90,33 +89,5 @@
     }
 
   }
-  
 
-  > *:first-child:not(.float-sm-right) {
-    margin-left: 0;
-  }
-
-  .float-sm-right {
-    margin-left: .8rem;
-  }
-
-  &.subhead-fixed {
-    position: fixed;
-    top: 0;
-    left: 250px;
-    z-index: 9;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid $gray-500;
-  }
-
-}
-
-.closed .subhead-fixed {
-  left: 55px;
-}
-
-.btn-toolbar {
-  margin-bottom: 20px;
-  margin-left: 0;
 }

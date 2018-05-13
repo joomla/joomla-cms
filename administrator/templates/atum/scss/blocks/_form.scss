@@ -3,19 +3,6 @@
 .form-control {
   max-width: 240px;
   background-color: $white-offset;
-
-  &.input-xlarge {
-    max-width: 350px;
-  }
-
-  &.input-xxlarge {
-    max-width: 550px;
-  }
-
-  &.input-full {
-    max-width: 100%;
-  }
-
 }
 
 .control-group {

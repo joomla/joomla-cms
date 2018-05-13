@@ -315,12 +315,6 @@ legend {
 .form-control {
   max-width: 240px;
   background-color: #fefefe; }
-  .form-control.input-xlarge {
-    max-width: 350px; }
-  .form-control.input-xxlarge {
-    max-width: 550px; }
-  .form-control.input-full {
-    max-width: 100%; }
 
 .control-group {
   margin-bottom: 18px; }
@@ -392,10 +386,8 @@ legend {
     text-align: center;
     line-height: 55px; }
   .header .page-title {
-    display: inline-block;
     margin: 0 5px;
     font-size: 1.2rem;
-    font-weight: normal;
     line-height: 55px;
     color: #2b5c91; }
     .header .page-title [class^="icon-"] {
@@ -410,9 +402,6 @@ legend {
       color: #2b5c91;
       vertical-align: middle;
       transition: all .2s ease-in-out; }
-    .header .nav-link .fa-external-link {
-      position: relative;
-      left: 2px; }
     .header .nav-link .badge {
       position: absolute;
       top: 7px;
@@ -442,7 +431,6 @@ legend {
   .header .dropdown-header {
     padding-top: .5rem;
     padding-bottom: .5rem;
-    margin-bottom: .3rem;
     background-color: #2b5c91;
     color: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
@@ -623,15 +611,6 @@ iframe {
   transition: all .25s ease; }
   .quick-icons a > div {
     flex: 1 0 0; }
-  @media (max-width: 575.98px) {
-    .quick-icons a.pulse {
-      box-shadow: 0 0 0 0 rgba(48, 115, 187, 0.7);
-      -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
-              animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1); } }
-  @media (max-width: 575.98px) {
-    .quick-icons a.pulse.danger, .quick-icons a.pulse.success {
-      -webkit-animation: none;
-              animation: none; } }
   .quick-icons a:hover, .quick-icons a:hover, .quick-icons a:focus {
     text-decoration: none;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3); }
@@ -643,9 +622,7 @@ iframe {
     line-height: 1.1; }
   .quick-icons a .fa {
     margin: 5px auto 0;
-    font-size: 2.5rem;
-    font-weight: normal;
-    line-height: 3rem; }
+    font-size: 2.5rem; }
   .quick-icons a.danger {
     color: #c52827;
     box-shadow: 0 0 3px 0 #c52827; }
@@ -653,25 +630,11 @@ iframe {
     color: #2f7d32;
     box-shadow: 0 0 3px 0 #2f7d32; }
 
-.quick-icons [id*="plg_quickicon"] a,
-.quick-icons [id*="plg_quickicon"] a::before {
-  transition-delay: .4s; }
-
-@-webkit-keyframes pulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(232, 76, 61, 0); } }
-
-@keyframes pulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(232, 76, 61, 0); } }
-
 .js-stools {
   display: flex;
   justify-content: flex-end;
   position: relative;
   padding: 5px 0 0; }
-  .js-stools .btn-toolbar > * {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   .js-stools .js-stools-container-filters {
     position: absolute;
     top: 100%;
@@ -685,8 +648,6 @@ iframe {
     border: 1px solid #ccc;
     border-radius: 0 0 0 none;
     box-shadow: -1px 1px 4px rgba(0, 0, 0, 0.05); }
-    .js-stools .js-stools-container-filters .js-stools-field-list:last-of-type .custom-select {
-      min-width: auto; }
     .js-stools .js-stools-container-filters .custom-select {
       width: 100%;
       max-width: none; }
@@ -907,28 +868,6 @@ iframe {
   .sidebar-nav li a {
     color: #23558a; }
 
-.status {
-  z-index: 9;
-  padding: 5px 10px;
-  margin-left: 250px;
-  color: #626262;
-  background: #ebebeb;
-  border-top: 1px solid #d4d4d4;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: all .3s ease;
-  transition-delay: 0s; }
-  .status p {
-    margin: 0; }
-  .status li,
-  .status a {
-    font-size: 15px;
-    color: #555; }
-  .closed .status {
-    margin-left: 50px; }
-
-.sidebar-wrapper[data-hidden="1"] ~ .status {
-  margin-left: 0; }
-
 .subhead {
   position: -webkit-sticky;
   position: sticky;
@@ -988,25 +927,6 @@ iframe {
       background-color: #128294; }
     .subhead .dropdown-toggle.btn-danger {
       background-color: #a32120; }
-  .subhead > *:first-child:not(.float-sm-right) {
-    margin-left: 0; }
-  .subhead .float-sm-right {
-    margin-left: .8rem; }
-  .subhead.subhead-fixed {
-    position: fixed;
-    top: 0;
-    left: 250px;
-    z-index: 9;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #adb5bd; }
-
-.closed .subhead-fixed {
-  left: 55px; }
-
-.btn-toolbar {
-  margin-bottom: 20px;
-  margin-left: 0; }
 
 .treeselect {
   display: block;
@@ -1091,12 +1011,6 @@ iframe {
 .fg-1 {
   flex-grow: 1; }
 
-.fg-2 {
-  flex-grow: 2; }
-
-.fg-3 {
-  flex-grow: 3; }
-
 .element-invisible {
   position: absolute;
   width: 1px;
@@ -1112,9 +1026,6 @@ iframe {
 .hidden {
   display: none;
   visibility: hidden; }
-
-joomla-alert {
-  display: none; }
 
 .awesomplete {
   display: block; }
