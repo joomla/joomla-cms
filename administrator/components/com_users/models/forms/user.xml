@@ -53,6 +53,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			validDomains="com_users.domains"
 		/>
 
 		<field
