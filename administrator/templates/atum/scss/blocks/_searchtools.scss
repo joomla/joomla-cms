@@ -1,23 +1,15 @@
 // Search tools
 
 .js-stools {
+  display: flex;
+  justify-content: flex-end;
   position: relative;
-  width: 100%;
-
-  .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px;
-  }
-
-  .btn-toolbar {
-    > * {
-      box-shadow: $atum-box-shadow;
-    }
-  }
+  padding: 5px 0 0;
 
   .js-stools-container-filters {
     position: absolute;
-    right: -1px;
+    top: 100%;
+    right: 0;
     z-index: 1;
     display: none;
     flex-direction: column;
@@ -36,6 +28,7 @@
 
     .custom-select {
       width: 100%;
+      max-width: none;
     }
 
     &.js-filters-show {
@@ -58,57 +51,27 @@
         color: #fff;
         background: #fefefe url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23fff\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E") no-repeat scroll right .75rem center / 8px 10px;
         background-color: theme-color("primary");
-
       }
 
       option {
         color: $gray-700;
         background-color: #fff;
-
       }
-
     }
   }
 
   .js-stools-container-selector {
-    float: left;
+    margin-right: auto;
   }
 
   .js-stools-container-bar {
-    float: right;
 
     .btn-toolbar {
-      float: left;
       margin-bottom: 8px;
-
-      .btn-group:first-child {
-        margin-left: 0;
-      }
-
-  }
+    }
 
     .input-append {
       margin-bottom: 0;
     }
   }
-
-  .js-stools-container-list {
-    float: left;
-    text-align: left;
-
-    .js-stools-field-list:last-child {
-      margin-right: 0;
-    }
-
-  }
-
-}
-
-.js-stools-column-order {
-
-  [class*=" icon-"],
-  [class^="icon-"] {
-    text-align: center;
-  }
-
 }
