@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
@@ -75,6 +76,8 @@ class EmailRule extends FormRule
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
+				$this->message = \JText::_('JGLOBAL_EMAIL_INVALID');
+
 				return false;
 			}
 		}
@@ -90,6 +93,72 @@ class EmailRule extends FormRule
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
+					$this->message = \JText::_('JGLOBAL_EMAIL_INVALID');
+
+					return false;
+				}
+			}
+		}
+
+		/**
+		 * validDomains value should consist of component name and the name of domain list field in component's configuration, separated by a dot.
+		 * This allows different components and contexts to use different lists.
+		 * If value is incomplete, com_users.domains is used as fallback.
+		 */
+		$validDomains = (isset($element['validDomains']) && $element['validDomains'] != 'false');
+
+		if ($validDomains && !$multiple)
+		{
+			$config = explode('.', $element['validDomains'], 2);
+
+			if (count($config) > 1)
+			{
+				$domains = ComponentHelper::getParams($config[0])->get($config[1]);
+			}
+			else
+			{
+				$domains = ComponentHelper::getParams('com_users')->get('domains');
+			}
+
+			if ($domains)
+			{
+				$emailDomain = explode('@', $value)[1];
+				$emailParts  = array_reverse(explode('.', $emailDomain));
+				$emailCount  = count($emailParts);
+				$allowed     = true;
+
+				foreach ($domains as $domain)
+				{
+					$domainParts = array_reverse(explode('.', $domain->name));
+					$status      = 0;
+
+					foreach ($emailParts as $key => $emailPart)
+					{
+						if (!isset($domainParts[$key]) || $domainParts[$key] == $emailPart || $domainParts[$key] == '*')
+						{
+							$status++;
+						}
+					}
+
+					// All segments match, check whether to allow the domain or not.
+					if ($status === $emailCount)
+					{
+						if ($domain->rule == 0)
+						{
+							$allowed = false;
+						}
+						else
+						{
+							$allowed = true;
+						}
+					}
+				}
+
+				// If domain is not allowed, fail validation. Otherwise continue.
+				if (!$allowed)
+				{
+					$this->message = \JText::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain);
+
 					return false;
 				}
 			}
@@ -119,6 +188,8 @@ class EmailRule extends FormRule
 
 			if ($duplicate)
 			{
+				$this->message = \JText::_('JGLOBAL_EMAIL_IN_USE');
+
 				return false;
 			}
 		}
