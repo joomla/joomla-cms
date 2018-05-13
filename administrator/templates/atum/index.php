@@ -74,7 +74,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 	<?php // Header ?>
 	<header id="header" class="header">
-		<div class="container-fluid d-flex align-items-center">
+		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
