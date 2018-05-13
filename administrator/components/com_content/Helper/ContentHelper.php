@@ -337,14 +337,14 @@ class ContentHelper extends \JHelperContent
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function filterTransitions($transitions, $pk): array
+	public static function filterTransitions($transitions, $pk, $workflow_id = 0): array
 	{
 		return array_values(
 			array_filter(
 				$transitions,
-				function ($var) use ($pk)
+				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_state_id'], [-1, $pk]) && $var['to_state_id'] != $pk;
+					return in_array($var['from_state_id'], [-1, $pk]) && $var['to_state_id'] != $pk && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);

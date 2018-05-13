@@ -157,7 +157,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 							$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 

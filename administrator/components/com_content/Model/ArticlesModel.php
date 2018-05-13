@@ -231,11 +231,13 @@ class ArticlesModel extends ListModel
 					$query->quoteName(
 					[
 						'ws.title',
-						'ws.condition'
+						'ws.condition',
+						'ws.workflow_id'
 					],
 					[
 						'state_title',
-						'state_condition'
+						'state_condition',
+						'workflow_id'
 					]
 					)
 				)
@@ -498,7 +500,8 @@ class ArticlesModel extends ListModel
 						't.to_state_id',
 						's.id',
 						's.title',
-						's.condition'
+						's.condition',
+						's.workflow_id'
 					),
 					array(
 						'value',
@@ -507,7 +510,8 @@ class ArticlesModel extends ListModel
 						'to_state_id',
 						'state_id',
 						'state_title',
-						'state_condition'
+						'state_condition',
+						'workflow_id'
 					)
 				);
 
