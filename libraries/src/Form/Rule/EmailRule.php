@@ -133,14 +133,17 @@ class EmailRule extends FormRule
 					$domainParts = array_reverse(explode('.', $domain->name));
 					$status      = 0;
 
-					if ($emailCount >= count($domainParts))
+					// Don't run if the email has less segments than the rule.
+					if ($emailCount < count($domainParts))
 					{
-						foreach ($emailParts as $key => $emailPart)
+						continue;
+					}
+
+					foreach ($emailParts as $key => $emailPart)
+					{
+						if (!isset($domainParts[$key]) || $domainParts[$key] == $emailPart || $domainParts[$key] == '*')
 						{
-							if ($domainParts[$key] == $emailPart || $domainParts[$key] == '*')
-							{
-								$status++;
-							}
+							$status++;
 						}
 					}
 
