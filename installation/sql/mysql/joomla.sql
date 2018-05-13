@@ -2229,6 +2229,6 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_state_id`, `to_state_id`) VALUES
 (1, 61, 1, 1, 1, 'Unpublish', '', -1, 1),
-(2, 62, 2, 1, 1, 'Publish', '', -1, 2),
-(3, 63, 3, 1, 1, 'Trash', '', -1, 3),
-(4, 64, 4, 1, 1, 'Archive', '', -1, 4);
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4);
