@@ -121,6 +121,46 @@ class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 					{
 						$query .= (string) $this->having;
 					}
+
+					if ($this->merge)
+					{
+						// Special case for merge
+						foreach ($this->merge as $idx => $element)
+						{
+							$query .= (string) $element . ' AS merge_' . (int) ($idx + 1);
+						}
+					}
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+				else
+				{
+					$query .= PHP_EOL . '/*ORDER BY (SELECT 0)*/';
+				}
+
+				$query = $this->processLimit($query, $this->limit, $this->offset);
+
+				break;
+
+			case 'querySet':
+				$query = $this->querySet;
+
+				if ($query->order || $query->limit || $query->offset)
+				{
+					// If ORDER BY or LIMIT statement exist then parentheses is required for the first query
+					$query = PHP_EOL . "SELECT * FROM ($query) AS merge_0";
+				}
+
+				if ($this->merge)
+				{
+					// Special case for merge
+					foreach ($this->merge as $idx => $element)
+					{
+						$query .= (string) $element . ' AS merge_' . (int) ($idx + 1);
+					}
 				}
 
 				if ($this->order)
@@ -128,10 +168,7 @@ class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 					$query .= (string) $this->order;
 				}
 
-				if ($this->limit > 0 || $this->offset > 0)
-				{
-					$query = $this->processLimit($query, $this->limit, $this->offset);
-				}
+				$query = $this->processLimit($query, $this->limit, $this->offset);
 
 				break;
 
@@ -1199,19 +1236,39 @@ class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
-		$orderBy = stristr($query, 'ORDER BY');
-
-		if (is_null($orderBy) || empty($orderBy))
+		if ($offset > 0)
 		{
-			$orderBy = 'ORDER BY (select 0)';
+			// Find a position of the last comment
+			$commentPos = strrpos($query, '/*ORDER BY (SELECT 0)*/');
+
+			// If the last comment belongs to this query, not previous subquery
+			if ($commentPos !== false && $commentPos + 2 === strripos($query, 'ORDER BY', $commentPos + 2))
+			{
+				// We can not use OFFSET without ORDER BY
+				$query = substr_replace($query, 'ORDER BY (SELECT 0)', $commentPos, 23);
+			}
+
+			$query .= PHP_EOL . 'OFFSET ' . (int) $offset . ' ROWS';
+
+			if ($limit > 0)
+			{
+				$query .= PHP_EOL . 'FETCH NEXT ' . (int) $limit . ' ROWS ONLY';
+			}
 		}
+		elseif ($limit > 0)
+		{
+			$position = stripos($query, 'SELECT');
+			$distinct = stripos($query, 'SELECT DISTINCT');
 
-		$query = str_ireplace($orderBy, '', $query);
-
-		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
-
-		$query = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $query, 1);
-		$query = 'SELECT TOP ' . $limit . ' * FROM (' . $query . ') _myResults WHERE RowNumber > ' . $offset;
+			if ($position === $distinct)
+			{
+				$query = substr_replace($query, 'SELECT DISTINCT TOP ' . (int) $limit, $position, 15);
+			}
+			else
+			{
+				$query = substr_replace($query, 'SELECT TOP ' . (int) $limit, $position, 6);
+			}
+		}
 
 		return $query;
 	}
@@ -1236,5 +1293,25 @@ class SqlsrvQuery extends DatabaseQuery implements LimitableInterface
 		$this->offset = (int) $offset;
 
 		return $this;
+	}
+
+	/**
+	 * Add a query to UNION with the current query.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo', true)
+	 *
+	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  True to only return distinct rows from the union.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0
+	 */
+	public function union($query, $distinct = true)
+	{
+		// Set up the name with parentheses, the DISTINCT flag is redundant
+		return $this->merge($distinct ? 'UNION SELECT * FROM ()' : 'UNION ALL SELECT * FROM ()', $query);
 	}
 }

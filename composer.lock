@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "d8819994c766a2b1a3c706224100c425",
@@ -665,12 +665,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "b86cdbd8dbff6073464ef8dae9d4d2e05000096d"
+                "reference": "5af1be74abd6e3356a7e61963871ffc473955a80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/b86cdbd8dbff6073464ef8dae9d4d2e05000096d",
-                "reference": "b86cdbd8dbff6073464ef8dae9d4d2e05000096d",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/5af1be74abd6e3356a7e61963871ffc473955a80",
+                "reference": "5af1be74abd6e3356a7e61963871ffc473955a80",
                 "shasum": ""
             },
             "require": {
@@ -716,7 +716,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-04-13T18:37:27+00:00"
+            "time": "2018-05-12T19:26:07+00:00"
         },
         {
             "name": "joomla/di",
@@ -1267,12 +1267,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/session.git",
-                "reference": "218c6b9fce6d09fc05bf5ed772a804428520fd1b"
+                "reference": "f7cca05d546fb12da488e42a753b703bf51c63a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/session/zipball/218c6b9fce6d09fc05bf5ed772a804428520fd1b",
-                "reference": "218c6b9fce6d09fc05bf5ed772a804428520fd1b",
+                "url": "https://api.github.com/repos/joomla-framework/session/zipball/f7cca05d546fb12da488e42a753b703bf51c63a7",
+                "reference": "f7cca05d546fb12da488e42a753b703bf51c63a7",
                 "shasum": ""
             },
             "require": {
@@ -1318,7 +1318,7 @@
                 "joomla",
                 "session"
             ],
-            "time": "2018-03-25T02:00:51+00:00"
+            "time": "2018-05-13T22:56:54+00:00"
         },
         {
             "name": "joomla/string",
