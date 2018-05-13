@@ -122,7 +122,8 @@ class EmailRule extends FormRule
 
 			if ($domains)
 			{
-				$emailDomain = explode('@', $value)[1];
+				$emailDomain = explode('@', $value);
+				$emailDomain = $emailDomain[1];
 				$emailParts  = array_reverse(explode('.', $emailDomain));
 				$emailCount  = count($emailParts);
 				$allowed     = true;
