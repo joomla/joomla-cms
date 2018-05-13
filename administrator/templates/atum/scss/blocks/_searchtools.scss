@@ -20,12 +20,6 @@
     border-radius: 0 0 0 $border-radius;
     box-shadow: -1px 1px 4px rgba(0, 0, 0, .05);
 
-    .js-stools-field-list:last-of-type {
-      .custom-select {
-        min-width: auto;
-      }
-    }
-
     .custom-select {
       width: 100%;
       max-width: none;

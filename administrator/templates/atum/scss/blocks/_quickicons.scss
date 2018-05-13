@@ -19,20 +19,6 @@
       flex: 1 0 0;
     }
 
-    &.pulse {
-      @include media-breakpoint-only(xs) {
-        box-shadow: 0 0 0 0 rgba($atum-template-color,.7);
-        animation: pulse 1.25s infinite cubic-bezier(.66,0,0,1);
-      }
-
-      &.danger,
-      &.success {
-        @include media-breakpoint-only(xs) {
-          animation: none;
-        }
-      }
-    }
-
     &:hover,
     &:hover,
     &:focus {
@@ -51,8 +37,6 @@
     .fa {
       margin: 5px auto 0;
       font-size: 2.5rem;
-      font-weight: normal;
-      line-height: 3rem;
     }
 
     &.danger {
@@ -67,15 +51,4 @@
 
   }
 
-  [id*="plg_quickicon"] a,
-  [id*="plg_quickicon"] a::before {
-    transition-delay: .4s;
-  }
-
-}
-
-@keyframes pulse {
-  to {
-    box-shadow: 0 0 0 15px rgba(232,76,61,0);
-  }
 }
