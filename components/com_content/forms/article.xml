@@ -62,7 +62,7 @@
 			type="transition"
 			component="com_content"
 			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
-			label="COM_CONTENT_TRANSITION"
+			label="COM_CONTENT_STATE"
 		>
 		</field>
 
