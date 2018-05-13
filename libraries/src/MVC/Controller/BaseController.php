@@ -558,7 +558,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  BaseDatabaseModel|boolean   Model object on success; otherwise false on failure.
+	 * @return  Model|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
