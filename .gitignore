@@ -142,6 +142,7 @@ Desktop.ini
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/maximebf/debugbar/src/DebugBar/Resources/*
 /libraries/vendor/mso/idna-convert/.gitattributes
 /libraries/vendor/mso/idna-convert/.gitignore
 /libraries/vendor/mso/idna-convert/composer.json
