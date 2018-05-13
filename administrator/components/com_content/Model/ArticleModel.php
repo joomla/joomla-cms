@@ -687,13 +687,13 @@ class ArticleModel extends AdminModel
 			// Set the new state
 			$query = $db->getQuery(true);
 
-			$query	->select($db->qn(['ws.id', 'ws.condition']))
-					->from($db->qn('#__workflow_states', 'ws'))
-					->from($db->qn('#__workflow_transitions', 'wt'))
-					->where($db->qn('wt.to_state_id') . ' = ' . $db->qn('ws.id'))
-					->where($db->qn('wt.id') . ' = ' . (int) $data['transition'])
-					->where($db->qn('ws.published') . ' = 1')
-					->where($db->qn('wt.published') . ' = 1');
+			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
+					->from($db->quoteName('#__workflow_states', 'ws'))
+					->from($db->quoteName('#__workflow_transitions', 'wt'))
+					->where($db->quoteName('wt.to_state_id') . ' = ' . $db->quoteName('ws.id'))
+					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+					->where($db->quoteName('ws.published') . ' = 1')
+					->where($db->quoteName('wt.published') . ' = 1');
 
 			$state = $db->setQuery($query)->loadObject();
 
@@ -1053,21 +1053,21 @@ class ArticleModel extends AdminModel
 				$query  = $db->getQuery(true);
 
 				$query	->select(
-							$db->qn(
+							$db->quoteName(
 								[
 									'w.id',
 									'ws.condition'
 								]
 							)
 						)
-						->select($db->qn('ws.id', 'state_id'))
-						->from($db->qn('#__workflow_states', 'ws'))
-						->from($db->qn('#__workflows', 'w'))
-						->where($db->qn('ws.default') . ' = 1')
-						->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
-						->where($db->qn('w.published') . ' = 1')
-						->where($db->qn('ws.published') . ' = 1')
-						->where($db->qn('w.id') . ' = ' . (int) $catparams->get('workflow_id'));
+						->select($db->quoteName('ws.id', 'state_id'))
+						->from($db->quoteName('#__workflow_states', 'ws'))
+						->from($db->quoteName('#__workflows', 'w'))
+						->where($db->quoteName('ws.default') . ' = 1')
+						->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+						->where($db->quoteName('w.published') . ' = 1')
+						->where($db->quoteName('ws.published') . ' = 1')
+						->where($db->quoteName('w.id') . ' = ' . (int) $catparams->get('workflow_id'));
 
 				$workflow = $db->setQuery($query)->loadObject();
 
@@ -1082,21 +1082,21 @@ class ArticleModel extends AdminModel
 		$query  = $db->getQuery(true);
 
 		$query	->select(
-				$db->qn(
+				$db->quoteName(
 						[
 							'w.id',
 							'ws.condition'
 						]
 					)
 				)
-				->select($db->qn('ws.id', 'state_id'))
-				->from($db->qn('#__workflow_states', 'ws'))
-				->from($db->qn('#__workflows', 'w'))
-				->where($db->qn('ws.default') . ' = 1')
-				->where($db->qn('ws.workflow_id') . ' = ' . $db->qn('w.id'))
-				->where($db->qn('w.published') . ' = 1')
-				->where($db->qn('ws.published') . ' = 1')
-				->where($db->qn('w.default') . ' = 1');
+				->select($db->quoteName('ws.id', 'state_id'))
+				->from($db->quoteName('#__workflow_states', 'ws'))
+				->from($db->quoteName('#__workflows', 'w'))
+				->where($db->quoteName('ws.default') . ' = 1')
+				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+				->where($db->quoteName('w.published') . ' = 1')
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('w.default') . ' = 1');
 
 		$workflow = $db->setQuery($query)->loadObject();
 
