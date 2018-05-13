@@ -110,8 +110,9 @@ $dropdown-spacer:                  0;
 
 // Tabs
 $atum-tabs-header-bg:              $atum-block-header-bg;
-$atum-tabs-active-bg:              rgba(0,0,0,.03);
-$atum-tabs-active-highlight:       theme-color("primary");
+$nav-tabs-border-width:             0;
+$nav-tabs-border-radius:            0;
+$nav-tabs-link-active-bg:           rgba(0,0,0,.1);
 
 // Tables
 $table-border-width:               0;
