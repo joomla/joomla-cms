@@ -666,16 +666,16 @@ iframe {
     box-shadow: 0 0 0 15px rgba(232, 76, 61, 0); } }
 
 .js-stools {
+  display: flex;
+  justify-content: flex-end;
   position: relative;
-  width: 100%; }
-  .js-stools .btn-wrapper {
-    display: inline-block;
-    margin-right: 5px; }
+  padding: 5px 0 0; }
   .js-stools .btn-toolbar > * {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
   .js-stools .js-stools-container-filters {
     position: absolute;
-    right: -1px;
+    top: 100%;
+    right: 0;
     z-index: 1;
     display: none;
     flex-direction: column;
@@ -688,7 +688,8 @@ iframe {
     .js-stools .js-stools-container-filters .js-stools-field-list:last-of-type .custom-select {
       min-width: auto; }
     .js-stools .js-stools-container-filters .custom-select {
-      width: 100%; }
+      width: 100%;
+      max-width: none; }
     .js-stools .js-stools-container-filters.js-filters-show {
       display: flex; }
     .js-stools .js-stools-container-filters .chzn-container-single {
@@ -704,25 +705,11 @@ iframe {
     color: #495057;
     background-color: #fff; }
   .js-stools .js-stools-container-selector {
-    float: left; }
-  .js-stools .js-stools-container-bar {
-    float: right; }
-    .js-stools .js-stools-container-bar .btn-toolbar {
-      float: left;
-      margin-bottom: 8px; }
-      .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
-        margin-left: 0; }
-    .js-stools .js-stools-container-bar .input-append {
-      margin-bottom: 0; }
-  .js-stools .js-stools-container-list {
-    float: left;
-    text-align: left; }
-    .js-stools .js-stools-container-list .js-stools-field-list:last-child {
-      margin-right: 0; }
-
-.js-stools-column-order [class*=" icon-"],
-.js-stools-column-order [class^="icon-"] {
-  text-align: center; }
+    margin-right: auto; }
+  .js-stools .js-stools-container-bar .btn-toolbar {
+    margin-bottom: 8px; }
+  .js-stools .js-stools-container-bar .input-append {
+    margin-bottom: 0; }
 
 .wrapper {
   transition: all .3s ease; }
@@ -1552,9 +1539,6 @@ joomla-alert {
     line-height: 2.6em;
     color: #2b5c91;
     text-align: center; }
-
-.admin.com_modules .js-stools-container-bar .btn-toolbar {
-  float: left; }
 
 .menu-assignment {
   position: relative; }
