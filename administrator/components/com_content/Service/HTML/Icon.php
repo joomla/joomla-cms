@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Administrator\Service\HTML;
@@ -21,7 +21,7 @@ use Joomla\CMS\Factory;
 /**
  * Content Component HTML Helper
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Icon
 {
@@ -30,7 +30,7 @@ class Icon
 	 *
 	 * @var    CMSApplication
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $application;
 
@@ -39,7 +39,7 @@ class Icon
 	 *
 	 * @param   CMSApplication  $application  The application
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(CMSApplication $application)
 	{
@@ -56,7 +56,7 @@ class Icon
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function create($category, $params, $attribs = array(), $legacy = false)
 	{
@@ -93,7 +93,7 @@ class Icon
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function email($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -130,7 +130,7 @@ class Icon
 	 *
 	 * @return  string	The HTML for the article edit icon.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function edit($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -208,7 +208,7 @@ class Icon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -237,7 +237,7 @@ class Icon
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
