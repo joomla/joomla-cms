@@ -831,6 +831,8 @@ iframe {
       opacity: 1; }
     .main-nav li ul li {
       text-indent: 15px; }
+    .main-nav li ul:not(.show) {
+      display: block; }
   .main-nav .close {
     padding: 2px 10px;
     font-size: 1.7rem;
@@ -842,8 +844,7 @@ iframe {
   .main-nav .open > a + ul {
     left: 60px;
     z-index: 1080;
-    opacity: 1;
-    transition-delay: .2s; }
+    opacity: 1; }
   .main-nav li li {
     line-height: 2.2rem;
     border: 0;
