@@ -42,6 +42,14 @@ class FormRule
 	protected $modifiers;
 
 	/**
+	 * Translated error message to display when validation fails.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $message;
+
+	/**
 	 * Method to test the value.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
