@@ -121,6 +121,10 @@
       li {
         text-indent: 15px;
       }
+
+      &:not(.show) {
+        display: block;
+      }
     }
 
   }
@@ -143,7 +147,6 @@
       left: 60px;
       z-index: 1080;
       opacity: 1;
-      transition-delay: .2s;
     }
 
   }
