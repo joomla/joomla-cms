@@ -233,7 +233,6 @@
 					type="radio"
 					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_DESC"
 					default="0"
 				>
 				<option value="0">JNO</option>
