@@ -133,7 +133,7 @@ class EmailRule extends FormRule
 					$domainParts = array_reverse(explode('.', $domain->name));
 					$status      = 0;
 
-					if($emailCount >= count($domainParts))
+					if ($emailCount >= count($domainParts))
 					{
 						foreach ($emailParts as $key => $emailPart)
 						{
