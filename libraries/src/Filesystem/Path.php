@@ -1,18 +1,23 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Filesystem;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
+use Joomla\CMS\Crypt\Crypt;
 
 if (!defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	$pathHelper = new JFilesystemWrapperPath;
+	$pathHelper = new PathWrapper;
 	define('JPATH_ROOT', $pathHelper->clean(JPATH_SITE));
 }
 
@@ -21,7 +26,7 @@ if (!defined('JPATH_ROOT'))
  *
  * @since  11.1
  */
-class JPath
+class Path
 {
 	/**
 	 * Checks if a path's permissions can be changed.
@@ -167,7 +172,7 @@ class JPath
 		if (strpos($path, '..') !== false)
 		{
 			// Don't translate
-			throw new Exception(
+			throw new \Exception(
 				sprintf(
 					'%s() - Use of relative paths not permitted',
 					__METHOD__
@@ -180,7 +185,7 @@ class JPath
 
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
-			throw new Exception(
+			throw new \Exception(
 				sprintf(
 					'%1$s() - Snooping out of bounds @ %2$s',
 					__METHOD__,
@@ -208,7 +213,7 @@ class JPath
 	{
 		if (!is_string($path) && !empty($path))
 		{
-			throw new UnexpectedValueException(
+			throw new \UnexpectedValueException(
 				sprintf(
 					'%s() - $path is not a string',
 					__METHOD__
@@ -248,9 +253,7 @@ class JPath
 	 */
 	public static function isOwner($path)
 	{
-		jimport('joomla.filesystem.file');
-
-		$tmp = md5(JCrypt::genRandomBytes());
+		$tmp = md5(Crypt::genRandomBytes());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 
@@ -269,7 +272,7 @@ class JPath
 
 		if ($dir)
 		{
-			$fileObject = new JFilesystemWrapperFile;
+			$fileObject = new FileWrapper;
 			$test       = $dir . '/' . $tmp;
 
 			// Create the test file
@@ -301,7 +304,7 @@ class JPath
 	public static function find($paths, $file)
 	{
 		// Force to array
-		if (!is_array($paths) && !($paths instanceof Iterator))
+		if (!is_array($paths) && !($paths instanceof \Iterator))
 		{
 			settype($paths, 'array');
 		}

@@ -182,8 +182,8 @@ class SiteRouter extends Router
 			}
 		}
 
-		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		// Add frontend basepath to the uri
+		$uri->setPath(\JUri::root(true) . '/' . $route);
 
 		return $uri;
 	}
