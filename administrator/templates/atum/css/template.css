@@ -679,6 +679,8 @@ iframe {
       padding-left: 0; } }
 
 .sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
   position: relative;
   width: 250px;
   background-color: #2b5c91;
@@ -688,18 +690,14 @@ iframe {
     .sidebar-wrapper .main-nav {
       max-height: calc(100vh - 147px); } }
   .sidebar-wrapper .main-brand {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    height: 50px; }
+    padding: 15px;
+    margin-top: auto; }
 
 .menu-toggle-icon {
   width: 55px;
   font-size: 1.7rem; }
 
 .main-nav {
-  position: relative;
   width: 250px;
   list-style: none;
   background-color: #2b5c91;
@@ -742,11 +740,11 @@ iframe {
   .main-nav li ul {
     position: absolute;
     top: 0;
+    bottom: 0;
     left: 50px;
     z-index: -3;
     display: block;
     width: 250px;
-    height: calc(100vh - 55px);
     padding: 0;
     background-color: #0f2131;
     opacity: 0;

@@ -10,6 +10,8 @@
 }
 
 .sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
   position: relative;
   width: $sidebar-width;
   background-color: $atum-template-color-dark;
@@ -24,11 +26,8 @@
   }
 
   .main-brand {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    height: $main-brand-height;
+    padding: 15px;
+    margin-top: auto;
   }
 
 }
@@ -40,7 +39,6 @@
 
 // Sidebar navigation
 .main-nav {
-  position: relative;
   width: $sidebar-width;
   list-style: none;
   background-color: $atum-template-color-dark;
@@ -104,11 +102,11 @@
     ul {
       position: absolute;
       top: 0;
+      bottom: 0;
       left: 50px;
       z-index: -3;
       display: block;
       width: $sidebar-width;
-      height: calc(100vh - #{$header-height});
       padding: 0;
       background-color: $atum-sidebar-child-bg;
       opacity: 0;
