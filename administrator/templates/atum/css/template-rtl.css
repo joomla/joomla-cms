@@ -1008,9 +1008,6 @@ iframe {
   .tree-holder li li {
     padding-left: 20px; }
 
-.fg-1 {
-  flex-grow: 1; }
-
 .element-invisible {
   position: absolute;
   width: 1px;
