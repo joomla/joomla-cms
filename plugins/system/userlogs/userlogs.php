@@ -43,6 +43,14 @@ class PlgSystemUserLogs extends JPlugin
 	protected $db;
 
 	/**
+	 * Language plugin language file automatically so that it can be used inside component
+	 *
+	 * @var    bool
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -66,20 +74,20 @@ class PlgSystemUserLogs extends JPlugin
 
 	/**
 	 * Function to add logs to the database
-	 * This method adds a record to #__user_logs contains (message, date, context, user)
+	 * This method adds a record to #__user_logs contains (message_language_key, message, date, context, user)
 	 *
-	 * @param   array    $message  The contents of the message to be logged
-	 * @param   string   $context  The context of the content passed to the plugin
+	 * @param   array    $messages            The contents of the messages to be logged
+	 * @param   string   $messageLanguageKey  The language key of the message
+	 * @param   string   $context             The context of the content passed to the plugin
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addLogsToDb($message, $context)
+	protected function addLogsToDb($messages, $messageLanguageKey, $context)
 	{
 		$user       = JFactory::getUser();
 		$date       = JFactory::getDate();
-		$query      = $this->db->getQuery(true);
 
 		if ($this->params->get('ip_logging', 0))
 		{
@@ -90,42 +98,33 @@ class PlgSystemUserLogs extends JPlugin
 			$ip = JText::_('PLG_SYSTEM_USERLOGS_DISABLED');
 		}
 
-		$json_message = json_encode($message);
 
-		$columns = array(
-			'message',
-			'log_date',
-			'extension',
-			'user_id',
-			'ip_address',
-		);
+		$loggedMessages = array();
 
-		$values = array(
-			$this->db->quote($json_message),
-			$this->db->quote($date),
-			$this->db->quote($context),
-			$this->db->quote($user->id),
-			$this->db->quote($ip),
-		);
-
-		$query->insert($this->db->quoteName('#__user_logs'))
-			->columns($this->db->quoteName($columns))
-			->values(implode(',', $values));
-
-		$this->db->setQuery($query);
-
-		try
+		foreach ($messages as $message)
 		{
-			$this->db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
+			$logMessage                       = new stdClass;
+			$logMessage->message_language_key = $messageLanguageKey;
+			$logMessage->message              = json_encode($message);
+			$logMessage->log_date             = (string) $date;
+			$logMessage->extension            = $context;
+			$logMessage->user_id              = $user->id;
+			$logMessage->ip_address           = $ip;
 
-			return;
+			try
+			{
+				$this->db->insertObject('#__user_logs', $logMessage);
+				$loggedMessages[] = $logMessage;
+
+			}
+			catch (RuntimeException $e)
+			{
+				// Ignore it
+			}
 		}
 
-		$this->app->triggerEvent('onUserLogsAfterMessageLog', array ($json_message, $date, $context, $user->name, $ip));
+		// Send notification email to users who choose to be notified about the action logs
+		$this->sendNotificationEmails($loggedMessages, $user->name, $context);
 	}
 
 	/**
@@ -157,31 +156,41 @@ class PlgSystemUserLogs extends JPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
-		if (!$this->checkLoggable($this->app->input->get('option')))
+		if (!$this->checkLoggable($this->app->input->getCmd('option')))
 		{
 			return;
 		}
 
-		$isNew_string = $isNew ? 'true' : 'false';
-		$parameters   = UserlogsHelper::getLogMessageParams($context);
-		$title_holder = '';
-		$type_title   = '';
-		$strContext   = (string) $context;
+		$params = UserlogsHelper::getLogContentTypeParams($context);
 
-		if ($parameters)
+		// Not found a valid content type, don't process further
+		if ($params === null)
 		{
-			$title_holder = $article->get($parameters->title_holder);
-			$type_title   = $parameters->type_title;
+			return;
 		}
 
+		if ($isNew)
+		{
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_ADDED');
+			$action             = 'add';
+		}
+		else
+		{
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_UPDATED');
+			$action             = 'update';
+		}
+
+		$user = JFactory::getUser();
+
 		$message = array(
-			'title' => $title_holder,
-			'isNew' => $isNew_string,
-			'event' => 'onContentAfterSave',
-			'type'  => $type_title,
+			'id'       => empty($params->id_holder) ? 0 : $article->get($params->id_holder),
+			'title'    => $article->get($params->title_holder),
+			'userid'   => $user->id,
+			'username' => $user->username,
+			'action'   => $action
 		);
 
-		$this->addLogsToDb($message, $strContext);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -203,24 +212,27 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$parameters   = UserlogsHelper::getLogMessageParams($context);
-		$title_holder = '';
-		$type_title   = '';
-		$strContext   = (string) $context;
+		$params = UserlogsHelper::getLogContentTypeParams($context);
 
-		if ($parameters)
+		// Not found a valid content type, don't process further
+		if ($params === null)
 		{
-			$title_holder = $article->get($parameters->title_holder);
-			$type_title   = $parameters->type_title;
+			return;
 		}
 
+		$user = JFactory::getUser();
+
+		$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_DELETED');
+
 		$message = array(
-			'title' => $title_holder,
-			'event' => 'onContentAfterDelete',
-			'type'  => $type_title,
+			'id'       => empty($params->id_holder) ? 0 : $article->get($params->id_holder),
+			'title'    => $article->get($params->title_holder),
+			'userid'   => $user->id,
+			'username' => $user->username,
+			'action'   => 'delete',
 		);
 
-		$this->addLogsToDb($message, $strContext);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -243,24 +255,58 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$parameters = UserlogsHelper::getLogMessageParams($context);
-		$titles     = array();
-		$strContext = (string) $context;
+		$params = UserlogsHelper::getLogContentTypeParams($context);
 
-		if ($parameters)
+		// Not found a valid content type, don't process further
+		if ($params === null)
 		{
-			$table_values = json_decode($parameters->table_values, true);
-			$titles       = UserlogsHelper::getDataByPks($pks, $parameters->title_holder, $table_values['table_type'], $table_values['table_prefix']);
+			return;
 		}
 
-		$message = array(
-			'title' => implode(',', $titles),
-			'event' => 'onContentChangeState',
-			'type'  => $parameters->type_title,
-			'value' => (string) $value,
-		);
+		$user = JFactory::getUser();
 
-		$this->addLogsToDb($message, $strContext);
+		switch ($value)
+		{
+			case 0:
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_UNPUBLISHED');
+				$action             = 'unpublish';
+				break;
+			case 1:
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_PUBLISHED');
+				$action             = 'publish';
+				break;
+			case 2:
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_ARCHIVED');
+				$action             = 'archive';
+				break;
+			case -2:
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $params->type_title . '_TRASHED');
+				$action             = 'trash';
+				break;
+			default:
+				$messageLanguageKey = '';
+				$action             = '';
+				break;
+		}
+
+		$items = UserlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
+
+		$messages = array();
+
+		foreach ($pks as $pk)
+		{
+			$message = array(
+				'id'       => $pk,
+				'title'    => $items[$pk]->{$params->title_holder},
+				'userid'   => $user->id,
+				'username' => $user->username,
+				'action'   => $action,
+			);
+
+			$messages[] = $message;
+		}
+
+		$this->addLogsToDb($messages, $messageLanguageKey, $context);
 	}
 
 	/**
@@ -284,14 +330,20 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$user     = JFactory::getUser();
 		$manifest = $installer->get('manifest');
-		$message  = array(
-			'event'          => 'onExtensionAfterInstall',
+
+		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_INSTALLED');
+
+		$message = array(
+			'id' => $eid,
 			'extension_name' => (string) $manifest->name,
-			'extension_type' => (string) $manifest->attributes()->type,
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'action'         => 'install',
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -316,14 +368,20 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$user     = JFactory::getUser();
 		$manifest = $installer->get('manifest');
+
+		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_UNINSTALLED');
+
 		$message = array(
-			'event'          => 'onExtensionAfterUninstall',
+			'id' => $eid,
 			'extension_name' => (string) $manifest->name,
-			'extension_type' => (string) $manifest->attributes()->type,
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'action'         => 'install',
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -347,14 +405,20 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$user     = JFactory::getUser();
 		$manifest = $installer->get('manifest');
+
+		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_UPDATED');
+
 		$message = array(
-			'event'          => 'onExtensionAfterUpdate',
+			'id'             => $eid,
 			'extension_name' => (string) $manifest->name,
-			'extension_type' => (string) $manifest->attributes()->type,
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'action'         => 'update',
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -376,26 +440,37 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$parameters   = UserlogsHelper::getLogMessageParams($context);
-		$title_holder = '';
-		$type_title   = '';
+		$params = UserlogsHelper::getLogContentTypeParams($context);
 
-		if ($parameters)
+		// Not found a valid content type, don't process further
+		if ($params === null)
 		{
-			$title_holder = $table->get($parameters->title_holder);
-			$type_title   = $parameters->type_title;
+			return;
 		}
 
-		$isNew_string = $isNew ? 'true' : 'false';
+		if ($isNew)
+		{
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_ADDED');
+			$action             = 'add';
+		}
+		else
+		{
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_UPDATED');
+			$action             = 'update';
+		}
+
+		$user = JFactory::getUser();
 
 		$message = array(
-			'title' => $title_holder,
-			'isNew' => $isNew_string,
-			'event' => 'onExtensionAfterSave',
-			'type'  => $type_title,
+			'id'             => $table->get($params->id_holder),
+			'title'          => $table->get($params->title_holder),
+			'extension_name' => $table->get($params->title_holder),
+			'userid'         => $user->id,
+			'username'       => $user->username,
+			'action'         => $action
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -416,12 +491,25 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$params = UserlogsHelper::getLogContentTypeParams($context);
+
+		// Not found a valid content type, don't process further
+		if ($params === null)
+		{
+			return;
+		}
+
+		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_DELETED');
+		$user = JFactory::getUser();
+
 		$message = array(
-			'event' => 'onExtensionAfterDelete',
-			'title' => $table->title,
+			'title' => $table->get($params->title_holder),
+			'userid'   => $user->id,
+			'username' => $user->username,
+			'action'   => 'delete',
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -448,16 +536,28 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$isNew_string   = $isnew ? 'true' : 'false';
+		$jUser = JFactory::getUser();
+
+		if ($isnew)
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_ADDED';
+			$action             = 'add';
+		}
+		else
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_ADDED_UPDATED';
+			$action             = 'update';
+		}
 
 		$message = array(
-			'edited_user' => $user['name'],
-			'isNew'       => $isNew_string,
-			'event'       => 'onUserAfterSave',
-			'user_id'     => $user['id'],
+			'id'       => $user['id'],
+			'name'     => $user['name'],
+			'userid'   => $jUser->id,
+			'username' => $jUser->username,
+			'action'   => $action,
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -482,13 +582,18 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_DELETED';
+		$jUser              = JFactory::getUser();
+
 		$message = array(
-			'deleted_user' => $user['name'],
-			'event'        => 'onUserAfterDelete',
-			'user_id'      => $user['id'],
+			'id'       => $user['id'],
+			'name'     => $user['name'],
+			'userid'   => $jUser->id,
+			'username' => $jUser->username,
+			'action'   => 'delete_user',
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -513,15 +618,28 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$isNew_string = $isNew ? 'true' : 'false';
+		if ($isNew)
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_ADDED';
+			$action             = 'add_user_group';
+		}
+		else
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_UPDATED';
+			$action             = 'update_user_group';
+		}
+
+		$user = JFactory::getUser();
 
 		$message = array(
-			'title' => $table->title,
-			'isNew' => $isNew_string,
-			'event' => 'onUserAfterSaveGroup',
+			'id'       => $table->id,
+			'name'     => $table->title,
+			'userid'   => $user->id,
+			'username' => $user->username,
+			'action'   => $action,
 		);
 
-		$this->addLogsToDb($message, $context);
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -546,163 +664,19 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$user = JFactory::getUser();
+
+		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_DELETED';
+
 		$message = array(
-			'deleted_group' => $group['title'],
-			'event'         => 'onUserAfterDeleteGroup',
-			'group_id'      => $group['id'],
+			'id'       => $group['id'],
+			'title'    => $group['title'],
+			'userid'   => $user->id,
+			'username' => $user->username,
+			'action'   => 'delete',
 		);
 
-		$this->addLogsToDb($message, $context);
-	}
-
-	/**
-	 * Method is called before writing logs message to make it more readable
-	 *
-	 * @param   string  $message    Message
-	 * @param   string  $extension  Extension that caused this log
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onLogMessagePrepare(&$message, $extension)
-	{
-		// Load the language
-		$this->loadLanguage();
-
-		$extension = UserlogsHelper::translateExtensionName(strtoupper(strtok($extension, '.')));
-		$extension = preg_replace('/s$/', '', $extension);
-		$message_to_array = json_decode($message, true);
-		$type = '';
-
-		if (!empty($message_to_array['type']))
-		{
-			$type = 'PLG_SYSTEM_USERLOGS_TYPE_' . strtoupper($message_to_array['type']);
-		}
-
-		switch ($message_to_array['event'])
-		{
-			case 'onContentAfterSave':
-				if ($message_to_array['isNew'] == 'false')
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
-				}
-				else
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
-				}
-
-				if (!empty($message_to_array['title']))
-				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', $message_to_array['title']);
-				}
-
-				break;
-
-			case 'onContentAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_DELETE_MESSAGE', ucfirst(JText::_($type)));
-
-				if (!empty($message_to_array['title']))
-				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', $message_to_array['title']);
-				}
-
-				break;
-
-			case 'onContentChangeState':
-				if ($message_to_array['value'] == 0)
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_UNPUBLISHED_MESSAGE', $message_to_array['title']
-					);
-				}
-				elseif ($message_to_array['value'] == 1)
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_PUBLISHED_MESSAGE', $message_to_array['title']
-					);
-				}
-				elseif ($message_to_array['value'] == 2)
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE', $message_to_array['title']
-					);
-				}
-				elseif ($message_to_array['value'] == -2)
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_TRASHED_MESSAGE', $message_to_array['title']
-					);
-				}
-
-				break;
-			case 'onExtensionAfterInstall':
-				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_INSTALL_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
-
-				break;
-			case 'onExtensionAfterUninstall':
-				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_UNINSTALL_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
-
-				break;
-			case 'onExtensionAfterUpdate':
-				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_UPDATE_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
-
-				break;
-			case 'onUserAfterSave':
-				if ($message_to_array['isNew'] == 'false')
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_MESSAGE', $message_to_array['edited_user']);
-				}
-				else
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_NEW_MESSAGE', $message_to_array['edited_user']);
-				}
-
-				break;
-			case 'onUserAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_MESSAGE', $message_to_array['deleted_user']);
-
-				break;
-			case 'onUserAfterSaveGroup':
-				if ($message_to_array['isNew'] == 'false')
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_GROUP_MESSAGE', $message_to_array['title']);
-				}
-				else
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_GROUP_NEW_MESSAGE', $message_to_array['title']);
-				}
-
-				break;
-			case 'onUserAfterDeleteGroup':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_GROUP_MESSAGE', $message_to_array['deleted_group']);
-
-				break;
-			case 'onExtensionAfterSave':
-				if ($message_to_array['isNew'] == 'false')
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
-				}
-				else
-				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
-				}
-
-				if (!empty($message_to_array['title']))
-				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
-				}
-
-				break;
-			case 'onExtensionAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_DELETE_MESSAGE', $extension);
-
-				if (!empty($message_to_array['title']))
-				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
-				}
-
-				break;
-		}
+		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
 	}
 
 	/**
@@ -744,19 +718,17 @@ class PlgSystemUserLogs extends JPlugin
 	}
 
 	/**
-	 * Method called after event log is stored to database
+	 * Send notification emails about the action log
 	 *
-	 * @param   array   $message   The message
-	 * @param   array   $date      The Date
+	 * @param   array   $messages  The logged messages
+	 * @param   string  $username  The username
 	 * @param   string  $context   The Context
-	 * @param   array   $userName  The username
-	 * @param   string  $ip        The user ip
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserLogsAfterMessageLog($message, $date, $context, $userName, $ip)
+	public function sendNotificationEmails($messages, $username, $context)
 	{
 		$query = $this->db->getQuery(true);
 
@@ -795,15 +767,18 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$this->app->triggerEvent('onLogMessagePrepare', array (&$message, $context));
 		$layout = new JLayoutFile('plugins.system.userlogs.layouts.logstable', JPATH_ROOT);
+		$extension = UserlogsHelper::translateExtensionName(strtoupper(strtok($context, '.')));
+
+		foreach ($messages as $message)
+		{
+			$message->extension = $extension;
+			$message->message = UserlogsHelper::getHumanReadableLogMessage($message);
+		}
 
 		$displayData = array(
-			'message' => $message,
-			'log_date' => $date,
-			'extension' => UserlogsHelper::translateExtensionName(strtoupper(strtok($context, '.'))),
-			'username' => $userName,
-			'ip' => JText::_($ip)
+			'messages' => $messages,
+			'username' => $username,
 		);
 
 		$body = $layout->render($displayData);
