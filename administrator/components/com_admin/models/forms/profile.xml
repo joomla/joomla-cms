@@ -54,6 +54,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			unique="true"
 			validDomains="com_users.domains"
 		/>
 
