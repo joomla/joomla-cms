@@ -72,6 +72,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	{
 		$installfrom = $this->getInstallFrom();
 
+		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
+		HTMLHelper::_('bootstrap.framework');
 		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
 		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
 
@@ -98,42 +100,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'language'        => base64_encode($lang->getTag()),
 			]
 		);
-
-		$javascript = <<<END
-jQuery(document).ready(function ($) {
-	var options = Joomla.getOptions('plg_installer_webinstaller', {});
-
-	if (options.installfromon) {
-		$('#myTabTabs a[href="#web"]').click();
-	}
-
-	var link = $('#myTabTabs a[href="#web"]');
-
-	if (link.hasClass('active')) {
-		if (!Joomla.apps.loaded) {
-			Joomla.apps.initialize();
-		}
-	}
-
-	link.closest('li').click(function () {
-		if (!Joomla.apps.loaded) {
-			Joomla.apps.initialize();
-		}
-	});
-	
-	if (options.installfrom_url != '') {
-		link.closest('li').click();
-	}
-
-	$('#myTabTabs a[href="#web"]').on('shown.bs.tab', function () {
-		if (!Joomla.apps.loaded) {
-			Joomla.apps.initialize();
-		}
-	});
-});
-		
-END;
-		$doc->addScriptDeclaration($javascript);
 
 		$tab = [
 			'name'  => 'web',

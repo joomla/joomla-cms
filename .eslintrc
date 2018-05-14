@@ -15,6 +15,8 @@
   },
   // Rule overrides
   "rules": {
+    // Disable no-params-reassign for properties
+    "no-param-reassign": ["error", { "props": false }],
     // Allow usage of dev-dependencies in js files in build directory
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
     // Allow strict mode (we are not dealing with modules)
