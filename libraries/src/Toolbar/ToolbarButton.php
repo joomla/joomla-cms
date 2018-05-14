@@ -68,7 +68,6 @@ abstract class ToolbarButton
 	 */
 	protected $options = [];
 
-
 	/**
 	 * Used to track an ids, to avoid duplication
 	 *
