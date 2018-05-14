@@ -60,8 +60,16 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			// Load callback first for browser compatibility
 			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
-
-			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			
+			if ($this->params->get('version') === 'invisible')
+			{
+				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptchaInvisible&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			}
+			else
+			{
+				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			}
+			
 			JHtml::_('script', $file);
 		}
 
@@ -85,6 +93,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			return '<div id="' . $id . '" ' . $class . '></div>';
+		}
+		elseif ($this->params->get('version') === 'invisible')
+		{
+			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
+					. ' data-sitekey="' . $this->params->get('public_key', '')
+					. '" data-callback="JoomlaSubmitReCaptchaInvisible'
+					. '" data-badge="' . $this->params->get('badge', 'bottomright')
+					. '" data-size="invisible'
+					. '"></div>';
 		}
 		else
 		{
@@ -120,6 +137,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
+			case 'invisible':		
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
 				$response  = $input->get('g-recaptcha-response', '', 'string');
@@ -194,6 +212,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				break;
 			case '2.0':
+			case 'invisible':		
 				require_once 'recaptchalib.php';
 
 				$reCaptcha = new JReCaptcha($privatekey);

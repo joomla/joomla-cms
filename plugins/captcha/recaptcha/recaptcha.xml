@@ -33,6 +33,7 @@
 					>
 					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
+					<option value="invisible">PLG_RECAPTCHA_VERSION_INVISIBLE</option>
 				</field>
 
 				<field
@@ -96,6 +97,20 @@
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
+				</field>
+				<field
+					name="badge"
+					type="list"
+					label="PLG_RECAPTCHA_BADGE"
+					description="PLG_RECAPTCHA_BADGE_DESC"
+					default="bottomright"
+					required="false"
+					showon="version:invisible"
+					filter=""
+					>
+					<option value="bottomright">PLG_RECAPTCHA_BADGE_BOTTOMRIGHT</option>
+					<option value="bottomleft">PLG_RECAPTCHA_BADGE_BOTTOMLEFT</option>
+					<option value="inline">PLG_RECAPTCHA_BADGE_INLINE</option>
 				</field>
 			</fieldset>
 		</fields>
