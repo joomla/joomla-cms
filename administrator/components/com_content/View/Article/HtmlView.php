@@ -12,8 +12,6 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Button\LinkButton;
-use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
