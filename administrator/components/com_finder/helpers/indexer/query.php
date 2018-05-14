@@ -180,7 +180,6 @@ class FinderIndexerQuery
 
 		// Get the input language.
 		$this->language = !empty($options['language']) ? $options['language'] : FinderIndexerHelper::getDefaultLanguage();
-		$this->language = FinderIndexerHelper::getPrimaryLanguage($this->language);
 
 		// Get the matching mode.
 		$this->mode = 'AND';

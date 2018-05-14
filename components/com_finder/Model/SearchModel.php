@@ -18,9 +18,9 @@ use Joomla\Utilities\ArrayHelper;
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 \JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
+\JLoader::register('FinderIndexerLanguage', FINDER_PATH_INDEXER . '/language.php');
 \JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 \JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
-\JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 
 /**
  * Search model class for the Finder package.
@@ -1060,12 +1060,6 @@ class SearchModel extends ListModel
 		$user   = \JFactory::getUser();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
-
-		// Setup the stemmer.
-		if ($params->get('stem', 1) && $params->get('stemmer', 'porter_en'))
-		{
-			\FinderIndexerHelper::$stemmer = \FinderIndexerStemmer::getInstance($params->get('stemmer', 'porter_en'));
-		}
 
 		$request = $input->request;
 		$options = array();

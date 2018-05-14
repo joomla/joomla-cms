@@ -1,26 +1,21 @@
 <?php
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 
-defined('_JEXEC') or die;
-
-JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
-
-/**
- * Porter English stemmer class for the Finder indexer package.
- *
- * This class was adapted from one written by Richard Heyes.
- * See copyright and link information above.
- *
- * @since  2.5
- */
-class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
+class FinderIndexerLanguageen_GB extends FinderIndexerLanguage
 {
+	/**
+	 * An internal cache of stemmed tokens.
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
+	public $cache = array();
+
 	/**
 	 * Regex for matching a consonant.
 	 *
@@ -47,7 +42,7 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 	 *
 	 * @since   2.5
 	 */
-	public function stem($token, $lang)
+	public function stem($token)
 	{
 		// Check if the token is long enough to merit stemming.
 		if (strlen($token) <= 2)
@@ -55,14 +50,8 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			return $token;
 		}
 
-		// Check if the language is English or All.
-		if ($lang !== 'en' && $lang != '*')
-		{
-			return $token;
-		}
-
 		// Stem the token if it is not in the cache.
-		if (!isset($this->cache[$lang][$token]))
+		if (!isset($this->cache[$token]))
 		{
 			// Stem the token.
 			$result = $token;
@@ -74,10 +63,10 @@ class FinderIndexerStemmerPorter_En extends FinderIndexerStemmer
 			$result = self::step5($result);
 
 			// Add the token to the cache.
-			$this->cache[$lang][$token] = $result;
+			$this->cache[$token] = $result;
 		}
 
-		return $this->cache[$lang][$token];
+		return $this->cache[$token];
 	}
 
 	/**
