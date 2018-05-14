@@ -423,6 +423,37 @@ class UsersModelRegistration extends JModelForm
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
 
+		// Check if the user mail domain or TLD is disallowed
+		$optionRestriction = $params->get('domainTLDRestriction');
+
+		if ($optionRestriction !== '0')
+		{
+			$listMailDomainTLD = explode("\r\n", $params->get('listMailDomainTLD'));
+			$userMailDomain = explode('@', $data['email']);
+			$getTLD = explode('.', $userMailDomain[1]);
+			$userMailTLD = array_pop($getTLD);
+			$needles = array(
+				'userMailDomain'	=> $userMailDomain[1],
+				'userMailTLD'		=> $userMailTLD,
+			);
+
+			if (!empty(array_filter($listMailDomainTLD)))
+			{
+				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
+				{
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
+				{
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+			}
+		}
+
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
 		{

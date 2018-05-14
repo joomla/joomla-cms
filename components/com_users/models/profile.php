@@ -304,6 +304,38 @@ class UsersModelProfile extends JModelForm
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
+		// Check if the user mail domain or TLD is disallowed
+		$params = $this->getState('params');
+		$optionRestriction = $params->get('domainTLDRestriction');
+
+		if ($optionRestriction !== '0')
+		{
+			$listMailDomainTLD = explode("\r\n", $params->get('listMailDomainTLD'));
+			$userMailDomain = explode('@', $data['email']);
+			$getTLD = explode('.', $userMailDomain[1]);
+			$userMailTLD = array_pop($getTLD);
+			$needles = array(
+				'userMailDomain'	=> $userMailDomain[1],
+				'userMailTLD'		=> $userMailTLD,
+			);
+
+			if (!empty(array_filter($listMailDomainTLD)))
+			{
+				if ($optionRestriction === '2' && !empty(array_intersect($needles, $listMailDomainTLD)))
+				{
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+				elseif ($optionRestriction === '1' && empty(array_intersect($needles, $listMailDomainTLD)))
+				{
+					$this->setError(JText::sprintf('JGLOBAL_USER_MAIL_DOMAIN_NOT_ALLOWED', $userMailDomain[1]));
+
+					return false;
+				}
+			}
+		}
+
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
