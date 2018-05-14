@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -360,8 +360,8 @@ abstract class BaseDatabaseModel extends CMSObject
 		if ($query instanceof \JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
-			&& $query->union === null
-			&& $query->unionAll === null
+			&& $query->merge === null
+			&& $query->querySet === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
@@ -664,7 +664,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @return  ComponentInterface  The service container
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function bootComponent($component): ComponentInterface
 	{

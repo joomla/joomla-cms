@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,38 @@ use Joomla\CMS\Version;
  */
 class HtmlView extends DefaultView
 {
+	/**
+	 * Is the Joomla Version a development version?
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $development;
+
+	/**
+	 * List of language choices to install
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $items;
+
+	/**
+	 * Full list of recommended PHP Settings
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $phpsettings;
+
+	/**
+	 * Array of PHP config options
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $phpoptions;
+
 	/**
 	 * Execute and display a template script.
 	 *
