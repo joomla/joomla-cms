@@ -28,10 +28,9 @@ JFactory::getDocument()->addScriptDeclaration("
         var selectedPane = 'com_users_twofactor_' + document.getElementById('jform_twofactor_method').value;
 
         document.querySelector('#com_users_twofactor_forms_container>div').forEach(function(el) {
-            if (el.id != selectedPane)
-            {
+            if (el.id != selectedPane) {
                 document.getElementById(el.id).style.display = 'none';
-		continue;
+                continue;
             }
 
 	    document.getElementById(el.id).style.display = 'block';
