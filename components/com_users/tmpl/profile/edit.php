@@ -22,6 +22,23 @@ HTMLHelper::_('behavior.formvalidator');
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
+JFactory::getDocument()->addScriptDeclaration("
+    Joomla.twoFactorMethodChange = function(e)
+    {
+        var selectedPane = 'com_users_twofactor_' + document.getElementById('jform_twofactor_method').value;
+
+        document.querySelector('#com_users_twofactor_forms_container>div').foreach(function(el) {
+            if (el.id != selectedPane)
+            {
+                document.getElementById(el.id).style.display = 'none';
+            }
+            else
+            {
+                document.getElementById(el.id).style.display = 'block';
+            }
+        });
+    }
+")
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -31,25 +48,6 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			</h1>
 		</div>
 	<?php endif; ?>
-
-	<script type="text/javascript">
-		Joomla.twoFactorMethodChange = function(e)
-		{
-			var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
-
-			jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el)
-			{
-				if (el.id != selectedPane)
-				{
-					jQuery('#' + el.id).hide(0);
-				}
-				else
-				{
-					jQuery('#' + el.id).show(0);
-				}
-			});
-		}
-	</script>
 
 	<form id="member-profile" action="<?php echo Route::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="com-users-profile__edit-form form-validate form-horizontal well" enctype="multipart/form-data">
 		<?php // Iterate through the form fieldsets and display each one. ?>
