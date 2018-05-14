@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Factory;
 
 /**
  * Renders a modal window button
@@ -93,14 +94,6 @@ class PopupButton extends ToolbarButton
 		}
 
 		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
-
-		// If an $onClose event is passed, add it to the modal JS object
-		if ($onClose !== '')
-		{
-			$html[] = '<script>'
-				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. '</script>';
-		}
 
 		$html[] = '</div>';
 
