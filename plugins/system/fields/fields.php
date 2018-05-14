@@ -40,7 +40,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public function onContentNormaliseRequestData($context, $data, Form $form)
 	{

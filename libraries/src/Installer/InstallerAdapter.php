@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.base.adapterinstance');
 

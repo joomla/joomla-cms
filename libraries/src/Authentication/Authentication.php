@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Authentication;
 
-use Joomla\CMS\Plugin\PluginHelper;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system

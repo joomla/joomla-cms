@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Toolbar;
 
-use Joomla\CMS\Layout\FileLayout;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Button base class

@@ -283,7 +283,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<h2>' . JText::_('PLG_DEBUG_TITLE') . '</h2>';
 
 		if (JDEBUG)
 		{
