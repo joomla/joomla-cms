@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Archive;
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			$months,
 			'month',
 			array(
-				'list.attr' => 'size="1" class="custom-select"',
+				'list.attr' => 'class="form-control"',
 				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
@@ -186,7 +186,7 @@ class HtmlView extends BaseHtmlView
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'size="1" class="custom-select"', 'list.select' => $state->get('filter.year'))
+			array('list.attr' => 'class="form-control"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 
