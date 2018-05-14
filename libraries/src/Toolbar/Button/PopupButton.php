@@ -10,6 +10,7 @@ namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
@@ -97,7 +98,13 @@ class PopupButton extends ToolbarButton
 		// If an $onClose event is passed, add it to the modal JS object
 		if ($onClose !== '')
 		{
-			$html[] = '<script>'
+			$nonce = '';
+			$nonceValue = Factory::getApplication()->get('script_nonce');
+			if ($nonceValue)
+			{
+				$nonce = ' none="' . $nonceValue . '"';
+			}
+			$html[] = '<script' . $nonce . '>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
 				. '</script>';
 		}
