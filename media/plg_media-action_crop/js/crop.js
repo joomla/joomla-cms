@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -15,7 +15,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
 		// Initiate the cropper
 		Joomla.MediaManager.Edit.crop.cropper = new Cropper(image, {
-			// viewMode: 1,
+			viewMode: 1,
 			responsive: true,
 			restore: true,
 			autoCrop: true,
@@ -56,13 +56,24 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 		document.getElementById('jform_crop_height').addEventListener('change', function (e) {
 			Joomla.MediaManager.Edit.crop.cropper.setData({height: parseInt(this.value)});
 		});
+		document.getElementById('jform_aspectRatio').addEventListener("change", function (e) {
+			Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(this.value);
+		});
 
-		var elements = document.querySelectorAll("#jform_aspectRatio input");
-		for (var i = 0; i < elements.length; i++) {
-			elements[i].addEventListener('click', function (e) {
-				Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(this.value);
-			});
-		}
+		// Wait for the image to load its data
+		image.addEventListener('load', function() {
+
+			// Get all option elements if future need
+			var elements = [].slice.call(document.querySelectorAll(".crop-aspect-ratio-option"));
+
+			// Set default aspect ratio after numeric check, option has a dummy value
+			var defaultCropFactor = image.naturalWidth / image.naturalHeight;
+			if (!isNaN(+defaultCropFactor) && isFinite(defaultCropFactor)){
+				elements[0].value = defaultCropFactor;
+			}
+			Joomla.MediaManager.Edit.crop.cropper.setAspectRatio(elements[0].value);
+
+		});
 	};
 
 	// Register the Events

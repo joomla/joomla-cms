@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,10 +74,8 @@ class ExtensionHelper
 		array('language', 'en-GB', '', 0),
 
 		// Core library extensions
-		array('library', 'idna_convert', '', 0),
 		array('library', 'joomla', '', 0),
 		array('library', 'phpass', '', 0),
-		array('library', 'phputf8', '', 0),
 
 		// Core module extensions - administrator
 		array('module', 'mod_custom', '', 1),
@@ -128,15 +126,14 @@ class ExtensionHelper
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
-		array('plugin', 'gmail', 'authentication', 0),
 		array('plugin', 'joomla', 'authentication', 0),
 		array('plugin', 'ldap', 'authentication', 0),
 
 		// Core plugin extensions - behaviour
 		array('plugin', 'taggable', 'behaviour', 0),
 		array('plugin', 'versionable', 'behaviour', 0),
-		
-		
+
+
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
 
@@ -201,12 +198,13 @@ class ExtensionHelper
 		array('plugin', 'folderinstaller', 'installer', 0),
 		array('plugin', 'packageinstaller', 'installer', 0),
 		array('plugin', 'urlinstaller', 'installer', 0),
+		array('plugin', 'webinstaller', 'installer', 0),
 
 		// Core plugin extensions - media-action
 		array('plugin', 'crop', 'media-action', 0),
 		array('plugin', 'resize', 'media-action', 0),
 		array('plugin', 'rotate', 'media-action', 0),
-		
+
 		// Core plugin extensions - quickicon
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
@@ -227,6 +225,7 @@ class ExtensionHelper
 		array('plugin', 'debug', 'system', 0),
 		array('plugin', 'fields', 'system', 0),
 		array('plugin', 'highlight', 'system', 0),
+		array('plugin', 'httpheaders', 'system', 0),
 		array('plugin', 'languagecode', 'system', 0),
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),

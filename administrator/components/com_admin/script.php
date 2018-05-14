@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -3648,6 +3648,8 @@ class JoomlaInstallerScript
 			'/media/system/images/modal/closebox.png',
 			'/media/system/images/modal/spinner.gif',
 			'/media/system/js/associations-edit-uncompressed.js',
+			'/media/system/js/associations-edit.js',
+			'/media/system/js/associations-edit.min.js',
 			'/media/system/js/calendar-setup-uncompressed.js',
 			'/media/system/js/calendar-setup.js',
 			'/media/system/js/calendar-uncompressed.js',

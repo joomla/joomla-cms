@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
@@ -92,15 +93,16 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(Factory::getDbo());
+							$handler = new Handler\DatabaseHandler($container->get(DatabaseDriver::class));
 
 							break;
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							// Try to use a custom configured path, fall back to the path in the PHP runtime configuration
+							$path = $config->get('session_filesystem_path', ini_get('session.save_path'));
 
-							// If no path is given, fall back to the system's temporary directory
+							// If we still have no path, as a last resort fall back to the system's temporary directory
 							if (empty($path))
 							{
 								$path = sys_get_temp_dir();
@@ -122,7 +124,7 @@ class Session implements ServiceProviderInterface
 							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
 							$memcached->addServer($host, $port);
 
-							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
+							$handler = new Handler\MemcachedHandler($memcached, ['ttl' => $lifetime]);
 
 							ini_set('session.save_path', "$host:$port");
 							ini_set('session.save_handler', 'memcached');
@@ -168,7 +170,7 @@ class Session implements ServiceProviderInterface
 								$redis->select($db);
 							}
 
-							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
+							$handler = new Handler\RedisHandler($redis, ['ttl' => $lifetime]);
 
 							break;
 

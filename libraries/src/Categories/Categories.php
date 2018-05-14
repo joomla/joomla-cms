@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class Categories
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected $_options = null;
+	protected $_options = [];
 
 	/**
 	 * Class constructor
@@ -101,20 +101,20 @@ class Categories
 	 */
 	public function __construct($options)
 	{
+		// Required options
 		$this->_extension  = $options['extension'];
 		$this->_table      = $options['table'];
 		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
 		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
 		$this->_statefield = $options['statefield'] ?? 'state';
 
-		$options['access']      = $options['access'] ?? 'true';
-		$options['published']   = $options['published'] ?? 1;
-		$options['countItems']  = $options['countItems'] ?? 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+		// Default some optional options
+		$this->_options['access']      = 'true';
+		$this->_options['published']   = 1;
+		$this->_options['countItems']  = 0;
+		$this->_options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
-		$this->_options = $options;
-
-		return true;
+		$this->setOptions($options);
 	}
 
 	/**
@@ -125,7 +125,8 @@ class Categories
 	 *
 	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  5.0 Use the ComponentInterface to get the categories
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -136,32 +137,24 @@ class Categories
 			return self::$instances[$hash];
 		}
 
-		$parts = explode('.', $extension);
-		$component = 'com_' . strtolower($parts[0]);
-		$section = count($parts) > 1 ? $parts[1] : '';
-		$classname = ucfirst(substr($component, 4)) . ucfirst($section) . 'Categories';
-
-		if (!class_exists($classname))
+		$categories = null;
+		try
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+			$parts = explode('.', $extension, 2);
 
-			if (!is_file($path))
+			$component = Factory::getApplication()->bootComponent($parts[0]);
+
+			if ($component instanceof CategoriesServiceInterface)
 			{
-				return false;
+				$categories = $component->getCategories($options, count($parts) > 1 ? $parts[1] : '');
 			}
-
-			include_once $path;
 		}
-
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (\JFactory::getContainer()->exists($classname))
+		catch (SectionNotFoundException $e)
 		{
-			self::$instances[$hash] = \JFactory::getContainer()->get($classname);
+			$categories = null;
 		}
-		else
-		{
-			self::$instances[$hash] = new $classname($options);
-		}
+
+		self::$instances[$hash] = $categories;
 
 		return self::$instances[$hash];
 	}
@@ -219,6 +212,7 @@ class Categories
 	 */
 	protected function _load($id)
 	{
+		/** @var JDatabaseDriver */
 		$db   = Factory::getDbo();
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
@@ -227,13 +221,13 @@ class Categories
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+				c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+				c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+				c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
+			);
 
-		// Right join with c for category
-		$query->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-			c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version');
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -241,8 +235,8 @@ class Categories
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $c_id . ' END as slug';
+
 		$query->select($case_when)
-			->from('#__categories as c')
 			->where('(c.extension=' . $db->quote($extension) . ' OR c.extension=' . $db->quote('system') . ')');
 
 		if ($this->_options['access'])
@@ -261,51 +255,59 @@ class Categories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->where('s.id=' . (int) $id);
+			$query->from($db->quoteName('#__categories', 's'))
+				->where('s.id = ' . (int) $id);
 
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(Factory::getLanguage()->getTag())
-					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
+					. ' ON (s.lft < c.lft AND c.lft < s.rgt AND c.language IN ('
+					. $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . '))'
+					. ' OR (c.lft <= s.lft AND s.rgt <= c.rgt)'
+				);
 			}
 			else
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
+					. ' ON (s.lft <= c.lft AND c.lft < s.rgt)'
+					. ' OR (c.lft < s.lft AND s.rgt < c.rgt)'
+				);
 			}
 		}
 		else
 		{
+			$query->from($db->quoteName('#__categories', 'c'));
+
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->where('c.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where('c.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
 		{
-			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(i.' . $db->quoteName($this->_key) . ')')
+				->from($db->quoteName($this->_table, 'i'))
+				->where('i.' . $db->quoteName($this->_field) . ' = c.id');
 
 			if ($this->_options['published'] == 1)
 			{
-				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
+				$subQuery->where('i.' . $this->_statefield . ' = 1');
 			}
 
 			if ($this->_options['currentlang'] !== 0)
 			{
-				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+				$subQuery->where('(i.language = ' . $db->quote('*')
+					. ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')'
+				);
 			}
 
-			$query->join('LEFT', $queryjoin);
-			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
-
-			// Group by
-			$query->group(
-				'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
-			);
+			$query->select('(' . $subQuery . ') AS numitems');
 		}
 
 		// Get the results
@@ -388,5 +390,37 @@ class Categories
 		{
 			$this->_nodes[$id] = null;
 		}
+	}
+
+	/**
+	 * Allows to set some optional options, eg. if the access level should be considered.
+	 * Also clears the internal children cache.
+	 *
+	 * @param   array  $options  The new options
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	public function setOptions(array $options)
+	{
+		if (isset($options['access']))
+		{
+			$this->_options['access'] = $options['access'];
+		}
+
+		if (isset($options['published']))
+		{
+			$this->_options['published'] = $options['published'];
+		}
+
+		if (isset($options['countItems']))
+		{
+			$this->_options['countItems'] = $options['countItems'];
+		}
+
+		// Reset the cache
+		$this->_nodes             = [];
+		$this->_checkedCategories = [];
 	}
 }

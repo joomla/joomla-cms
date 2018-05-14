@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -480,12 +480,6 @@ class AdministratorApplication extends CMSApplication
 		$app = \JFactory::getApplication();
 		$option = strtolower($app->input->get('option'));
 		$user = $app->getIdentity();
-
-		if (!$user)
-		{
-			$app->loadIdentity(\JFactory::getUser());
-			$user = $app->getIdentity();
-		}
 
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{

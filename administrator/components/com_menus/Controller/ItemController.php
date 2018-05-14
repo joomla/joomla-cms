@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Controller;
@@ -357,24 +357,26 @@ class ItemController extends FormController
 
 		$data = $model->validate($form, $data);
 
+		// Preprocess request fields to ensure that we remove not set or empty request params
+		$request = $form->getGroup('request');
+
 		// Check for the special 'request' entry.
-		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request']))
+		if ($data['type'] == 'component' && !empty($request))
 		{
 			$removeArgs = array();
 
-			// Preprocess request fields to ensure that we remove not set or empty request params
-			$request = $form->getGroup('request');
-
-			if (!empty($request))
+			if (!isset($data['request']) || !is_array($data['request']))
 			{
-				foreach ($request as $field)
-				{
-					$fieldName = $field->getAttribute('name');
+				$data['request'] = array();
+			}
 
-					if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
-					{
-						$removeArgs[$fieldName] = '';
-					}
+			foreach ($request as $field)
+			{
+				$fieldName = $field->getAttribute('name');
+
+				if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
+				{
+					$removeArgs[$fieldName] = '';
 				}
 			}
 

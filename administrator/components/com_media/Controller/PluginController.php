@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,13 +49,13 @@ class PluginController extends BaseController
 			// If plugin name was not found in parameters redirect back to control panel
 			if (!$pluginName || !$this->containsPlugin($plugins, $pluginName))
 			{
-				throw new \Exception('Plugin not found!.', 'error');
+				throw new \Exception('Plugin not found!');
 			}
 
 			// Check if the plugin is disabled, if so redirect to control panel
 			if (!PluginHelper::isEnabled('filesystem', $pluginName))
 			{
-				throw new \Exception('Plugin ' . $pluginName . ' is disabled.', 'error');
+				throw new \Exception('Plugin ' . $pluginName . ' is disabled.');
 			}
 
 			// Only import our required plugin, not entire group

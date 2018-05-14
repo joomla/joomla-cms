@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Log\Log;
@@ -52,7 +53,7 @@ abstract class Factory
 	public static $cache = null;
 
 	/**
-	 * Global configuraiton object
+	 * Global configuration object
 	 *
 	 * @var    \JConfig
 	 * @since  11.1
@@ -509,6 +510,7 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
 
@@ -715,7 +717,7 @@ abstract class Factory
 			'mediaversion' => $version->getMediaVersion(),
 		);
 
-		return Document::getInstance($type, $attributes);
+		return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 	}
 
 	/**

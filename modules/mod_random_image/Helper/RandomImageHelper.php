@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class RandomImageHelper
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
-		if ($width == '')
+		if ($width === '')
 		{
 			$width = 100;
 		}
@@ -57,7 +57,7 @@ class RandomImageHelper
 
 		$coeff = $size[0] / $size[1];
 
-		if ($height == '')
+		if ($height === '')
 		{
 			$height = (int) ($width / $coeff);
 		}

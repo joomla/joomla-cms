@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -14,6 +14,7 @@ JText::script('COM_MEDIA_ACTION_EDIT', true);
 JText::script('COM_MEDIA_ACTION_PREVIEW', true);
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER', true);
 JText::script('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS', true);
+JText::script('COM_MEDIA_CREATE_NEW_FOLDER_ERROR', true);
 JText::script('COM_MEDIA_DECREASE_GRID', true);
 JText::script('COM_MEDIA_DELETE_ERROR', true);
 JText::script('COM_MEDIA_DELETE_SUCCESS', true);
@@ -45,3 +46,4 @@ JText::script('COM_MEDIA_UPDLOAD_SUCCESS', true);
 JText::script('JCANCEL', true);
 JText::script('JAPPLY', true);
 JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
+JText::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);

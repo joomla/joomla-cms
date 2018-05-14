@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -289,7 +289,7 @@ abstract class HTMLHelper
 	{
 		if (!static::$serviceRegistry)
 		{
-			static::$serviceRegistry = new Registry;
+			static::$serviceRegistry = Factory::getContainer()->get(Registry::class);
 		}
 
 		return static::$serviceRegistry;
@@ -424,14 +424,22 @@ abstract class HTMLHelper
 			$browser   = $navigator->getBrowser();
 			$major     = $navigator->getMajor();
 			$minor     = $navigator->getMinor();
+			$minExt    = '';
+
+			if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
+			{
+				$minExt    = '.min';
+				$strip = preg_replace('#\.min$#', '', $strip);
+
+			}
 
 			// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 			// where major and minor are the browser version names
 			$potential = array(
-				$strip,
-				$strip . '_' . $browser,
-				$strip . '_' . $browser . '_' . $major,
-				$strip . '_' . $browser . '_' . $major . '_' . $minor,
+				$strip . $minExt,
+				$strip . '_' . $browser . $minExt,
+				$strip . '_' . $browser . '_' . $major . $minExt,
+				$strip . '_' . $browser . '_' . $major . '_' . $minor . $minExt,
 			);
 		}
 		else
@@ -699,14 +707,14 @@ abstract class HTMLHelper
 			$attribs                  = $argList[1] ?? array();
 			$options['relative']      = $argList[2] ?? false;
 			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectBrowser'] = $argList[4] ?? false;
 			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
 		{
 			$options['relative']      = $options['relative'] ?? false;
 			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
@@ -772,7 +780,7 @@ abstract class HTMLHelper
 			$options['framework']     = $argList[1] ?? false;
 			$options['relative']      = $argList[2] ?? false;
 			$options['pathOnly']      = $argList[3] ?? false;
-			$options['detectBrowser'] = $argList[4] ?? true;
+			$options['detectBrowser'] = $argList[4] ?? false;
 			$options['detectDebug']   = $argList[5] ?? true;
 		}
 		else
@@ -780,7 +788,7 @@ abstract class HTMLHelper
 			$options['framework']     = $options['framework'] ?? false;
 			$options['relative']      = $options['relative'] ?? false;
 			$options['pathOnly']      = $options['pathOnly'] ?? false;
-			$options['detectBrowser'] = $options['detectBrowser'] ?? true;
+			$options['detectBrowser'] = $options['detectBrowser'] ?? false;
 			$options['detectDebug']   = $options['detectDebug'] ?? true;
 		}
 
@@ -824,22 +832,22 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Loads the name and path of a custom element or webcomponent into the scriptOptions object
+	 * Loads the path of a custom element or webcomponent into the scriptOptions object
 	 *
-	 * @param   array  $component  The name and path of the web component.
-	 *                             Also passing a key = fullPolyfill and value= true we force the whole polyfill instead
-	 *                             of just the custom element. (Polyfills loaded as needed, no force load)
-	 * @param   array  $options    The relative, version, detect browser and detect debug options for the custom element
-	 *                             or web component. Files need to have a -es5(.min).js (or -es5(.min).html) for the non ES6
-	 *                             Browsers.
+	 * @param   string  $file     The path of the web component (expects the ES6 version). File need to have also an
+	 *                            -es5(.min).js version in the same folder for the non ES6 Browsers.
+	 * @param   array   $options  The extra options for the script
 	 *
 	 * @since   4.0.0
 	 *
+	 * @see     HTMLHelper::stylesheet()
+	 * @see     HTMLHelper::script()
+	 *
 	 * @return  void
 	 */
-	public static function webcomponent(array $component = [], array $options = [])
+	public static function webcomponent(string $file, array $options = [])
 	{
-		if (empty($component))
+		if (empty($file))
 		{
 			return;
 		}
@@ -847,52 +855,57 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		foreach ($component as $key => $value)
+		$version      = '';
+		$mediaVersion = Factory::getDocument()->getMediaVersion();
+
+		// Add the css if exists
+		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
+
+		$includes = static::includeRelativeFiles(
+			'js',
+			$file,
+			$options['relative'] ?? true,
+			$options['detectBrowser'] ?? false,
+			$options['detectDebug'] ?? false
+		);
+
+		if (count($includes) === 0)
 		{
-			if ($key === 'fullPolyfill' && $value === true)
-			{
-				Factory::getDocument()->addScriptOptions('webcomponents', ['fullPolyfill' => true]);
-				continue;
-			}
-			$version      = '';
-			$mediaVersion = Factory::getDocument()->getMediaVersion();
-
-			// Add the css if exists
-			self::_('stylesheet', str_replace('.js', '.css', $value), $options);
-
-			$includes = static::includeRelativeFiles(
-				'js',
-				$value,
-				$options['relative'] ?? true,
-				$options['detectBrowser'] ?? false,
-				$options['detectDebug'] ?? false
-			);
-
-			if (count($includes) === 0)
-			{
-				continue;
-			}
-
-			if (isset($options['version']))
-			{
-				if ($options['version'] === 'auto')
-				{
-					$version = '?' . $mediaVersion;
-				}
-				else
-				{
-					$version = '?' . $options['version'];
-				}
-			}
-
-			if (count($includes) === 1)
-			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$key => $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '')]);
-				continue;
-			}
-
-			Factory::getDocument()->addScriptOptions('webcomponents', [$key => $includes . ((strpos($includes, '?') === false) ? $version : '')]);
+			return;
 		}
+
+		if (isset($options['version']))
+		{
+			if ($options['version'] === 'auto')
+			{
+				$version = '?' . $mediaVersion;
+			}
+			else
+			{
+				$version = '?' . $options['version'];
+			}
+		}
+
+		if (count($includes) === 1)
+		{
+			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+
+			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+			{
+				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
+				return;
+			}
+
+			return;
+		}
+
+		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
+
+		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+		{
+			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
+		}
+
 	}
 
 	/**

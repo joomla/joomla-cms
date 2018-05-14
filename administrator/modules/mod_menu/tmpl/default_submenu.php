@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ elseif ($current->hasChildren())
 	{
 		$class = ' class="parent"';
 	}
-	elseif ($current->get('class') == 'scrollable-menu')
+	elseif ($current->get('class') === 'scrollable-menu')
 	{
 		$class = ' class="dropdown scrollable-menu"';
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  FileSystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 	 */
 	public function getDisplayName()
 	{
-		return $this->params->get('display_name');
+		return $this->params->get('display_name', 'Local');
 	}
 
 	/**

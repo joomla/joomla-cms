@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -10,9 +10,7 @@
 		var alt, tag, title = document.getElementById('title').value;
 
 		if (!window.parent.Joomla.getOptions('xtd-pagebreak')) {
-			// Something went wrong!
-			window.parent.jModalClose();
-			return false;
+			throw new Error('Joomla API is not properly initialised')
 		}
 
 		/** Get the pagebreak toc alias -- not inserting for now **/
@@ -25,7 +23,12 @@
 		tag = '<hr class="system-pagebreak" ' + title + ' ' + alt + '>';
 
 		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-		window.parent.jModalClose();
+
+		if (window.parent.Joomla.currentModal) {
+			// @TODO Remove jQuery, use Joomla-UI
+			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+		}
+
 		return false;
 	};
 })();

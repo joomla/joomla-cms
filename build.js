@@ -1,3 +1,14 @@
+/**
+ * Command line helper
+ *
+ * For maintainers, please run:
+ * node build.js --installer
+ * node build.js --update
+ * node build.js --compilejs
+ * node build.js --compilecss
+ * Before making any PRs or building any package!
+ *
+ */
 const Program = require('commander');
 const Chalk = require('chalk');
 
@@ -20,10 +31,11 @@ Program
 	.option('--compilecss, --compilecss path', 'Compiles all the scss files to css')
 	.option('--compilecejs, --compilecejs path', 'Compiles/traspiles all the custom elements files')
 	.option('--compilecescss, --compilecescss path', 'Compiles/traspiles all the custom elements files')
+	.option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compilecss and compilejs now).')
 	.option('--installer', 'Creates the language file for installer error page')
 	.on('--help', () => {
 		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
-		process.exit(1);
+		process.exit(0);
 	})
 	.parse(process.argv);
 
@@ -40,7 +52,7 @@ if (Program.update) {
 		.then(update.update(options))
 
 		// Exit with success
-		.then(() => process.exit(1))
+		.then(() => process.exit(0))
 
 		// Handle errors
 		.catch((err) => {
@@ -56,12 +68,20 @@ if (Program.installer) {
 
 // Convert scss to css
 if (Program['compilecss']) {
-	css.css(options, Program.args[0])
+	if (Program['watch']) {
+		css.watch(options, null, true);
+	} else {
+		css.css(options, Program.args[0])
+	}
 }
 
 // Compress/transpile the javascript files
 if (Program['compilejs']) {
-	Js.js(options, Program.args[0])
+	if (Program['watch']) {
+		Js.watch(options, null, false);
+	} else {
+		Js.js(options, Program.args[0])
+	}
 }
 
 // Compress/transpile the Custom Elements files

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\View\Users;
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JForm
 	 * @since  3.6.3
 	 */
-	 public $filterForm;
+	public $filterForm;
 
 	/**
 	 * An array with active filters.
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JObject
 	 * @since  3.6.3
 	 */
-	 protected $canDo;
+	protected $canDo;
 
 	/**
 	 * An instance of \JDatabaseDriver.
@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * The sidebar markup

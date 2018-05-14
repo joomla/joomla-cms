@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,6 +126,10 @@ class HtmlView extends AbstractView
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
+		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
+		{
+			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
+		}
 		elseif (is_dir($this->_basePath . '/View/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/View/' . $this->getName() . '/tmpl');
@@ -133,10 +137,6 @@ class HtmlView extends AbstractView
 		elseif (is_dir($this->_basePath . '/view/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
-		}
-		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
-		{
-			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
 		}
 		elseif (is_dir($this->_basePath . '/views/' . $this->getName() . '/tmpl'))
 		{
@@ -197,7 +197,7 @@ class HtmlView extends AbstractView
 	 * Escapes a value for output in a view script.
 	 *
 	 * If escaping mechanism is htmlspecialchars, use
-	 * {@link $_encoding} setting.
+	 * {@link $_charset} setting.
 	 *
 	 * @param   mixed  $var  The output to escape.
 	 *
@@ -207,7 +207,7 @@ class HtmlView extends AbstractView
 	 */
 	public function escape($var)
 	{
-		return htmlspecialchars($var, ENT_COMPAT, $this->_charset);
+		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 
 	/**

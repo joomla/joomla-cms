@@ -4,7 +4,7 @@
     "description": "Joomla CMS",
     "keywords": ["joomla", "cms"],
     "homepage": "https://github.com/joomla/joomla-cms",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "config": {
         "optimize-autoloader": true,
         "platform": {
@@ -72,6 +72,7 @@
         "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
+        "mso/idna-convert": "~1.1",
         "paragonie/sodium_compat": "~1.4",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
@@ -87,6 +88,8 @@
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
         "joomla-projects/joomla-browser": "~4.0@dev",
-        "joomla/test-system": "dev-master"
+        "joomla-projects/robo-joomla": "dev-develop",
+        "joomla/test-system": "dev-4.0-dev",
+        "joomla/test-unit": "dev-4.0-dev"
     }
 }

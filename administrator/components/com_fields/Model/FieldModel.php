@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -966,14 +968,28 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		// Setting the context for the category field
-		$cat = \JCategories::getInstance(str_replace('com_', '', $component));
-
-		if ($cat && $cat->get('root')->hasChildren())
+		try
 		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			// Setting the context for the category field
+			$componentObject = $this->bootComponent($component);
+
+			if (!$componentObject instanceof CategoriesServiceInterface)
+			{
+				throw new SectionNotFoundException;
+			}
+
+			$cat = $componentObject->getCategories();
+
+			if ($cat->get('root')->hasChildren())
+			{
+				$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			}
+			else
+			{
+				$form->removeField('assigned_cat_ids');
+			}
 		}
-		else
+		catch (SectionNotFoundException $e)
 		{
 			$form->removeField('assigned_cat_ids');
 		}

@@ -34,6 +34,7 @@ node_modules/
 # We are ignoring this as a temporary measure until Node 8 and npm5 become the LTS release
 # and we can require it.
 package-lock.json
+yarn.lock
 
 # Removed in Joomla 4 #
 administrator/templates/isis
@@ -141,6 +142,10 @@ Desktop.ini
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/mso/idna-convert/.gitattributes
+/libraries/vendor/mso/idna-convert/.gitignore
+/libraries/vendor/mso/idna-convert/composer.json
+/libraries/vendor/mso/idna-convert/README.md
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
@@ -158,6 +163,7 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/paragonie/sodium_compat/dist
 /libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/appveyor.yml
 /libraries/vendor/paragonie/sodium_compat/build-phar.sh
 /libraries/vendor/paragonie/sodium_compat/composer.json
 /libraries/vendor/paragonie/sodium_compat/composer.lock

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,11 +56,16 @@ class JoomlaStorage extends NativeStorage
 	 */
 	public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
 	{
-		// Disable transparent sid support
-		ini_set('session.use_trans_sid', '0');
+		// Disable transparent sid support and default use cookies
+		$options += [
+			'use_cookies'   => 1,
+			'use_trans_sid' => 0,
+		];
 
-		ini_set('session.use_cookies', 1);
-		session_cache_limiter('none');
+		if (!headers_sent())
+		{
+			session_cache_limiter('none');
+		}
 
 		$this->setOptions($options);
 		$this->setHandler($handler);
@@ -223,6 +228,11 @@ class JoomlaStorage extends NativeStorage
 	 */
 	protected function setCookieParams()
 	{
+		if (headers_sent())
+		{
+			return;
+		}
+
 		$cookie = session_get_cookie_params();
 
 		if ($this->forceSSL)

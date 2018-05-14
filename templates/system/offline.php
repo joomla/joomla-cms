@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php endif; ?>
-	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
@@ -71,8 +71,6 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<p id="submit-buton">
 			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
 		</p>
-		<input type="hidden" name="option" value="com_users" />
-		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>

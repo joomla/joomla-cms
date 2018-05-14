@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Featured;
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 
 /**
  * Frontpage View class
@@ -75,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	 * @var    \JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * The user object
@@ -195,7 +196,7 @@ class HtmlView extends BaseHtmlView
 		if ($order == 0 && $this->columns > 1)
 		{
 			// Call order down helper
-			$this->intro_items = \ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
+			$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.

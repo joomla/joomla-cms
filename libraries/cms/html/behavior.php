@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Pass the required options to the javascript
 		JFactory::getDocument()->addScriptOptions('js-image-caption', ['selector' => $selector]);
@@ -510,7 +510,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
@@ -631,7 +631,7 @@ abstract class JHtmlBehavior
 		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
 		JHtml::_('jquery.framework');
 		JHtml::_('behavior.polyfill', ['wgxpath']);
-		JHtml::_('script', 'system/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
+		JHtml::_('script', 'legacy/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
 		self::$loaded[__METHOD__] = true;
 	}
 

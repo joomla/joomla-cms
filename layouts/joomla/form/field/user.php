@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ if (!$readonly)
 	// @TODO remove jQuery dependency once modal moves to webcomponents
 	HTMLHelper::_('jquery.framework');
 
-	HTMLHelper::_('webcomponent', ['joomla-field-user' =>'system/webcomponents/joomla-field-user.min.js'], ['version' => 'auto', 'relative' => true]);}
+	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);}
 
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
 

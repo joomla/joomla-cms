@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class PlgButtonMenu extends CMSPlugin
 	 * @param   string  $name  The name of the button to add
 	 *
 	 * @since  3.7.0
-	 * @return array
+	 * @return CMSObject
 	 */
 	public function onDisplay($name)
 	{
@@ -57,12 +57,12 @@ class PlgButtonMenu extends CMSPlugin
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
-		$button->options = array(
+		$button->options = [
 			'height' => '300px',
 			'width'  => '800px',
 			'bodyHeight'  => '70',
 			'modalWidth'  => '80',
-		);
+		];
 
 		return $button;
 		}

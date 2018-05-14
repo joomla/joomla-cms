@@ -17,7 +17,7 @@
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,10 +63,8 @@ $readMeFiles = array(
 $directoryLoopExcludeDirectories = array(
 			'/.git',
 			'/libraries/vendor/',
-			'/libraries/phputf8/',
 			'/libraries/php-encryption/',
 			'/libraries/phpass/',
-			'/libraries/idna_convert/',
 			);
 
 $directoryLoopExcludeFiles = array(

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
@@ -501,7 +503,7 @@ final class InstallationApplication extends CMSApplication
 				'mediaversion' => md5($date->format('YmdHi')),
 			);
 
-			$document = Document::getInstance($type, $attributes);
+			$document = $this->getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 
 			// Register the instance to Factory.
 			Factory::$document = $document;
@@ -523,14 +525,19 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function render()
 	{
-		$file = $this->input->getCmd('tmpl', 'index');
+		$options = [];
 
-		$options = array(
-			'template' => 'template',
-			'file' => $file . '.php',
-			'directory' => JPATH_THEMES,
-			'params' => '{}',
-		);
+		if ($this->document instanceof HtmlDocument)
+		{
+			$file = $this->input->getCmd('tmpl', 'index');
+
+			$options = [
+				'template'  => 'template',
+				'file'      => $file . '.php',
+				'directory' => JPATH_THEMES,
+				'params'    => '{}',
+			];
+		}
 
 		// Parse the document.
 		$this->document->parse($options);

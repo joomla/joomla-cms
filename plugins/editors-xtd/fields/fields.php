@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class PlgButtonFields extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  JObject  The button options as JObject
+	 * @return  CMSObject  The button options as JObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -67,16 +67,15 @@ class PlgButtonFields extends CMSPlugin
 
 		$button          = new CMSObject;
 		$button->modal   = true;
-		$button->class   = 'btn';
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
 		$button->name    = 'puzzle';
-		$button->options = array(
+		$button->options = [
 			'height'     => '300px',
 			'width'      => '800px',
 			'bodyHeight' => '70',
 			'modalWidth' => '80',
-		);
+		];
 
 		return $button;
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -316,7 +317,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
+		}
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity($session->get('user'));
 		}
 	}
 
@@ -333,7 +340,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -342,7 +348,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
@@ -425,7 +430,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConfig()
 	{

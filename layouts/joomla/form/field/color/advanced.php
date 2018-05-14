@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,6 @@ extract($displayData);
  * @var   string   $pattern         Pattern (Reg Ex) of value of the form field.
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
- * @var   boolean  $required        Is this field required?
  * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellchec       Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
@@ -77,23 +76,5 @@ HTMLHelper::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('ver
 HTMLHelper::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'system/fields/color-field-adv-init.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<input
-	type="text"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $hint; ?>
-	<?php echo $class; ?>
-	<?php echo $position; ?>
-	<?php echo $control; ?>
-	<?php echo $colors; ?>
-	<?php echo $readonly; ?>
-	<?php echo $disabled; ?>
-	<?php echo $required; ?>
-	<?php echo $onchange; ?>
-	<?php echo $autocomplete; ?>
-	<?php echo $autofocus; ?>
-	<?php echo $format; ?>
-	<?php echo $keywords; ?>
-	<?php echo $direction; ?>
-	<?php echo $validate; ?>>
+<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>" <?php
+echo $hint . $class . $position . $control . $readonly . $disabled . $onchange . $autocomplete . $autofocus . $format . $keywords . $direction . $validate; ?>/>
