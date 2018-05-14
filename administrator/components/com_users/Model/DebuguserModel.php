@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Model;
@@ -20,7 +20,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
  *
  * @since  1.6
  */
-class DebugUser extends ListModel
+class DebuguserModel extends ListModel
 {
 	/**
 	 * Constructor.
