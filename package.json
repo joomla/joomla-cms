@@ -8,19 +8,21 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "build:js": "node build --compilejs",
-    "build:css": "node build --compilecss",
-    "watch:js": "node build --compilejs --watch",
-    "watch:css": "node build --compilecss --watch",
+    "build:js": "node build.js --compilejs",
+    "build:css": "node build.js --compilecss",
+    "watch:js": "node build.js --compilejs --watch",
+    "watch:css": "node build.js --compilecss --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
-    "update": "node build --update"
+    "install": "node build.js --update && node build.js --installer",
+    "postinstall": "node build.js --compilejs && node build.js --compilecss",
+    "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecss"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "1.1.0",
     "awesomplete": "1.1.2",
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\View\Registration;
@@ -74,8 +74,8 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->data   = $this->get('Data');
 		$this->form   = $this->get('Form');
+		$this->data   = $this->get('Data');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
 

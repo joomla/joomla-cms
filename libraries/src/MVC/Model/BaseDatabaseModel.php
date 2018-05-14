@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -311,12 +312,18 @@ abstract class BaseDatabaseModel extends CMSObject
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		if (!$factory)
+		if ($factory)
 		{
-			$factory = Factory::getApplication()->bootComponent($this->option)->createMVCFactory(Factory::getApplication());
+			$this->factory = $factory;
+			return;
 		}
 
-		$this->factory = $factory;
+		$component = Factory::getApplication()->bootComponent($this->option);
+
+		if ($component instanceof MVCFactoryServiceInterface)
+		{
+			$this->factory = $component->createMVCFactory(Factory::getApplication());
+		}
 	}
 
 	/**
@@ -657,7 +664,7 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @return  ComponentInterface  The service container
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function bootComponent($component): ComponentInterface
 	{

@@ -154,7 +154,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 */
 	public function hasToken($token, $forceExpire = true)
 	{
-		$result = $this->get('session.token') !== $token;
+		$result = $this->get('session.token') === $token;
 
 		if (!$result && $forceExpire)
 		{
