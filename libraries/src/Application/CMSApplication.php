@@ -81,7 +81,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0
 	 */
 	protected $name = null;

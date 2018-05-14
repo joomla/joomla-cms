@@ -10,22 +10,68 @@ namespace Joomla\CMS\Toolbar\Button;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders a modal window button
+ *
+ * @method self    url(string $value)
+ * @method self    iframeWidth(int $value)
+ * @method self    iframeHeight(int $value)
+ * @method self    bodyHeight(int $value)
+ * @method self    modalWidth(int $value)
+ * @method self    onclose(string $value)
+ * @method self    title(string $value)
+ * @method self    footer(string $value)
+ * @method self    selector(string $value)
+ * @method self    listCheck(bool $value)
+ * @method string  getUrl()
+ * @method int     getIframeWidth()
+ * @method int     getIframeHeight()
+ * @method int     getBodyHeight()
+ * @method int     getModalWidth()
+ * @method string  getOnclose()
+ * @method string  getTitle()
+ * @method string  getFooter()
+ * @method string  getSelector()
+ * @method bool    getListCheck()
  *
  * @since  3.0
  */
 class PopupButton extends ToolbarButton
 {
 	/**
-	 * Button type
+	 * Property layout.
 	 *
-	 * @var    string
+	 * @var  string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_name = 'Popup';
+	protected $layout = 'joomla.toolbar.popup';
+
+	/**
+	 * Prepare options for this button.
+	 *
+	 * @param   array  &$options  The options about this button.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareOptions(array &$options)
+	{
+		$options['icon'] = $options['icon'] ?? 'fa fa-square';
+
+		parent::prepareOptions($options);
+
+		$options['doTask'] = $this->_getCommand($this->getUrl());
+
+		$options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
+	}
 
 	/**
 	 * Fetch the HTML for the button
@@ -49,77 +95,79 @@ class PopupButton extends ToolbarButton
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
 		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
 	{
-		// If no $title is set, use the $text element
-		if ($title === '')
-		{
-			$title = $text;
-		}
+		$this->name($name)
+			->text(Text::_($text))
+			->task($this->_getCommand($url))
+			->url($url)
+			->iframeWidth($iframeWidth)
+			->iframeHeight($iframeHeight)
+			->bodyHeight($bodyHeight)
+			->modalWidth($modalWidth)
+			->onclose($onClose)
+			->title($title)
+			->footer($footer);
 
-		// Store all data to the options array for use with JLayout
-		$options = array();
-		$options['name']   = $name;
-		$options['text']   = \JText::_($text);
-		$options['title']  = \JText::_($title);
-		$options['class']  = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($url);
-		$options['id']     = $this->fetchId('Popup', $name);
-
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
-		// Instantiate a new JLayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.popup');
-
-		$html = array();
-		$html[] = $layout->render($options);
-
-		// Place modal div and scripts in a new div
-		$html[] = '<div class="btn-group" style="width: 0; margin: 0">';
-
-		// Build the options array for the modal
-		$params = array();
-		$params['title']      = $options['title'];
-		$params['url']        = $options['doTask'];
-		$params['height']     = $iframeHeight;
-		$params['width']      = $iframeWidth;
-		$params['bodyHeight'] = $bodyHeight;
-		$params['modalWidth'] = $modalWidth;
-
-		if (isset($footer))
-		{
-			$params['footer'] = $footer;
-		}
-
-		$html[] = \JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
-
-		// If an $onClose event is passed, add it to the modal JS object
-		if ($onClose !== '')
-		{
-			$html[] = '<script>'
-				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. '</script>';
-		}
-
-		$html[] = '</div>';
-
-		return implode("\n", $html);
+		return $this->renderButton($this->options);
 	}
 
 	/**
-	 * Get the button id
+	 * Render button HTML.
 	 *
-	 * @param   string  $type  Button type
-	 * @param   string  $name  Button name
+	 * @param   array  &$options  The button options.
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string  The button HTML.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fetchId($type, $name)
+	protected function renderButton(array &$options): string
 	{
-		return $this->_parent->getName() . '-popup-' . $name;
+		$html = [];
+
+		$html[] = parent::renderButton($options);
+
+		if ((string) $this->getUrl() !== '')
+		{
+			// Build the options array for the modal
+			$params = array();
+			$params['title']      = Text::_($options['title'] ?? $options['text']);
+			$params['url']        = $this->getUrl();
+			$params['height']     = $options['iframeHeight'] ?? 480;
+			$params['width']      = $options['iframeWidth'] ?? 640;
+			$params['bodyHeight'] = $options['bodyHeight'] ?? null;
+			$params['modalWidth'] = $options['modalWidth'] ?? null;
+
+			// Place modal div and scripts in a new div
+			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
+
+			$selector = $options['selector'];
+
+			$footer = $this->getFooter();
+
+			if ($footer !== null)
+			{
+				$params['footer'] = $footer;
+			}
+
+			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
+
+			$html[] = '</div>';
+		}
+
+		// If an $onClose event is passed, add it to the modal JS object
+		if ((string) $this->getOnclose() !== '')
+		{
+			Factory::getDocument()->addScriptDeclaration(
+				<<<JS
+window.addEventListener('DOMContentLoaded', function() {
+	jQuery('#{$options['selector']}').on('hide.bs.modal', function () {
+	    {$options['onclose']}
+	});
+});
+JS
+			);
+		}
+
+		return implode("\n", $html);
 	}
 
 	/**
@@ -135,9 +183,35 @@ class PopupButton extends ToolbarButton
 	{
 		if (strpos($url, 'http') !== 0)
 		{
-			$url = \JUri::base() . $url;
+			$url = Uri::base() . $url;
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Method to configure available option accessors.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function getAccessors(): array
+	{
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'url',
+				'iframeWidth',
+				'iframeHeight',
+				'bodyHeight',
+				'modalWidth',
+				'onclose',
+				'title',
+				'footer',
+				'selector',
+				'listCheck',
+			]
+		);
 	}
 }

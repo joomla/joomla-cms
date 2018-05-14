@@ -15,16 +15,26 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 /**
  * Renders a custom button
  *
+ * @method self html(string $value)
+ * @method string getHtml()
+ *
  * @since  3.0
  */
 class CustomButton extends ToolbarButton
 {
 	/**
-	 * Button type
+	 * Render button HTML.
 	 *
-	 * @var    string
+	 * @param   array  &$options  The button options.
+	 *
+	 * @return  string  The button HTML.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $_name = 'Custom';
+	protected function renderButton(array &$options): string
+	{
+		return (string) ($options['html'] ?? '');
+	}
 
 	/**
 	 * Fetch the HTML for the button
@@ -36,6 +46,8 @@ class CustomButton extends ToolbarButton
 	 * @return  string   HTML string for the button
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  5.0 Use render() instead.
 	 */
 	public function fetchButton($type = 'Custom', $html = '', $id = 'custom')
 	{
@@ -43,18 +55,19 @@ class CustomButton extends ToolbarButton
 	}
 
 	/**
-	 * Get the button CSS Id
+	 * Method to configure available option accessors.
 	 *
-	 * @param   string  $type  Not used.
-	 * @param   string  $html  Not used.
-	 * @param   string  $id    The id prefix for the button.
+	 * @return  array
 	 *
-	 * @return  string  Button CSS Id
-	 *
-	 * @since   3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function fetchId($type = 'Custom', $html = '', $id = 'custom')
+	protected static function getAccessors(): array
 	{
-		return $this->_parent->getName() . '-' . $id;
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'html',
+			]
+		);
 	}
 }
