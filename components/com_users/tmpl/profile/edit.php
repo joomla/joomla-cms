@@ -27,15 +27,14 @@ JFactory::getDocument()->addScriptDeclaration("
     {
         var selectedPane = 'com_users_twofactor_' + document.getElementById('jform_twofactor_method').value;
 
-        document.querySelector('#com_users_twofactor_forms_container>div').foreach(function(el) {
+        document.querySelector('#com_users_twofactor_forms_container>div').forEach(function(el) {
             if (el.id != selectedPane)
             {
                 document.getElementById(el.id).style.display = 'none';
+		continue;
             }
-            else
-            {
-                document.getElementById(el.id).style.display = 'block';
-            }
+
+	    document.getElementById(el.id).style.display = 'block';
         });
     }
 ")
