@@ -11,6 +11,10 @@ namespace Joomla\Component\Content\Administrator\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Category;
+use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die;
 
@@ -384,5 +388,94 @@ class ContentHelper extends \JHelperContent
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a form
+	 *
+	 * @param \Joomla\CMS\Categories\Form   $form  The form to change
+	 * @param array|object                  $data  The form data
+	 *
+	 * @return void
+	 */
+	public static function onPrepareForm(Form $form, $data)
+	{
+		if ($form->getName() != 'com_categories.categorycom_content')
+		{
+			return;
+		}
+
+		$db = Factory::getDbo();
+
+		$data = (array) $data;
+
+		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+		$query = $db->getQuery(true);
+
+		$query	->select($db->quoteName('title'))
+				->from($db->quoteName('#__workflows'))
+				->where($db->quoteName('default') . ' = 1')
+				->where($db->quoteName('published') . ' = 1');
+
+		$defaulttitle = $db->setQuery($query)->loadResult();
+
+		$option = Text::_('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW_NEW');
+
+		if (!empty($data['id']))
+		{
+			$category = new Category($db);
+
+			$categories = $category->getPath((int) $data['id']);
+
+			// Remove the current category, because we search vor inherit from parent
+			array_shift($categories);
+
+			$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $defaulttitle);
+
+			if (!empty($categories))
+			{
+				$categories = array_reverse($categories);
+
+				foreach ($categories as $cat)
+				{
+					$cat->params = new Registry($cat->params);
+
+					$workflow_id = $cat->params->get('workflow_id');
+
+					if ($workflow_id == 'inherit')
+					{
+						continue;
+					}
+					elseif ($workflow_id == 'use_default')
+					{
+						break;
+					}
+					elseif ((int) $workflow_id > 0)
+					{
+					$query	->clear('where')
+								->where($db->quoteName('id') . ' = ' . (int) $workflow_id)
+								->where($db->quoteName('published') . ' = 1');
+
+						$title = $db->setQuery($query)->loadResult();
+
+						if (!is_null($title))
+						{
+							$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $title);
+
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		$field = $form->getField('workflow_id', 'params');
+
+		$field->addOption($option, ['value' => 'inherit']);
+
+		$field->addOption(Text::sprintf('COM_CONTENT_WORKFLOW_DEFAULT_WORKFLOW', $defaulttitle), ['value' => 'use_default']);
+
+		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
 	}
 }

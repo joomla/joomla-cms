@@ -19,6 +19,7 @@ use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\Component;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
@@ -143,6 +144,34 @@ class ContentComponent extends Component implements
 	public function filterTransitions($transitions, $pk): array
 	{
 		return ContentHelper::filterTransitions($transitions, $pk);
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   \stdClass[]  $items    The category objects
+	 * @param   string       $section  The section
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function countItems(array $items, string $section)
+	{
+		return ContentHelper::countItems($items);
+	}
+
+	/**
+	 * Prepares the category form
+	 *
+	 * @param \Joomla\CMS\Categories\Form  $form
+	 * @param array|object                 $data
+	 *
+	 * @return void
+	 */
+	public function prepareForm(Form $form, $data)
+	{
+		ContentHelper::onPrepareForm($form, $data);
 	}
 
 	/**

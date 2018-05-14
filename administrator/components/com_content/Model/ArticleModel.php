@@ -21,6 +21,7 @@ use Joomla\Component\Workflow\Administrator\Table\StateTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Category;
 use Joomla\CMS\Workflow\Workflow;
 
 /**
@@ -1041,40 +1042,64 @@ class ArticleModel extends AdminModel
 	{
 		$db = $this->getDbo();
 
-		$category = Categories::getInstance('content')->get($catId);
+		// Search categories and parents (if requested) for a workflow
+		$category = new Category($db);
 
-		if (!empty($category->id) && !empty($category->params))
+		$categories = array_reverse($category->getPath($catId));
+
+		$workflow_id = 0;
+
+		foreach ($categories as $cat)
 		{
-			$catparams = new Registry($category->params);
+			$cat->params = new Registry($cat->params);
 
-			// Recheck if the workflow still exists
-			if ($catparams->get('workflow_id') > 0)
+			$workflow_id = $cat->params->get('workflow_id');
+
+			if ($workflow_id == 'inherit')
 			{
-				$query  = $db->getQuery(true);
+				$workflow_id = 0;
 
-				$query	->select(
-							$db->quoteName(
-								[
-									'w.id',
-									'ws.condition'
-								]
-							)
+				continue;
+			}
+			elseif ($workflow_id == 'use_default')
+			{
+				$workflow_id = 0;
+
+				break;
+			}
+			elseif ($workflow_id > 0)
+			{
+				break;
+			}
+		}
+
+		// Check if the workflow exists
+		if ($workflow_id > 0)
+		{
+			$query  = $db->getQuery(true);
+
+			$query	->select(
+						$db->quoteName(
+							[
+								'w.id',
+								'ws.condition'
+							]
 						)
-						->select($db->quoteName('ws.id', 'state_id'))
-						->from($db->quoteName('#__workflow_states', 'ws'))
-						->from($db->quoteName('#__workflows', 'w'))
-						->where($db->quoteName('ws.default') . ' = 1')
-						->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-						->where($db->quoteName('w.published') . ' = 1')
-						->where($db->quoteName('ws.published') . ' = 1')
-						->where($db->quoteName('w.id') . ' = ' . (int) $catparams->get('workflow_id'));
+					)
+					->select($db->quoteName('ws.id', 'state_id'))
+					->from($db->quoteName('#__workflow_states', 'ws'))
+					->from($db->quoteName('#__workflows', 'w'))
+					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+					->where($db->quoteName('ws.default') . ' = 1')
+					->where($db->quoteName('w.published') . ' = 1')
+					->where($db->quoteName('ws.published') . ' = 1')
+					->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
 
-				$workflow = $db->setQuery($query)->loadObject();
+			$workflow = $db->setQuery($query)->loadObject();
 
-				if (!empty($workflow->id))
-				{
-					return $workflow;
-				}
+			if (!empty($workflow->id))
+			{
+				return $workflow;
 			}
 		}
 

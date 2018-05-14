@@ -10,6 +10,8 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\Form;
+
 /**
  * Access to component specific categories.
  *
@@ -57,4 +59,14 @@ interface CategoriesServiceInterface
 	 * @throws  \Exception
 	 */
 	public function countTagItems(array $items, string $extension);
+
+	/**
+	 * Prepares the category form
+	 *
+	 * @param \Joomla\CMS\Categories\Form   $form  The form to change
+	 * @param array|object                  $data  The form data
+	 *
+	 * @return void
+	 */
+	public function prepareForm(Form $form, $data);
 }

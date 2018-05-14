@@ -6,7 +6,6 @@
 				name="workflow_id"
 				type="sql"
 				label="COM_CONTENT_WORKFLOWS"
-				default="1"
 				class="custom-select"
 				size="1"
 				sql_select="id, title"
@@ -15,10 +14,8 @@
 				sql_order="ordering"
 				key_field="id"
 				value_field="title"
-				required="1"
-			>
-				<option value="0">COM_CONTENT_DEFAULT_WORKFLOW</option>
- 			</field>
+				required="true"
+			/>
 		</fieldset>
 	</fields>
 
