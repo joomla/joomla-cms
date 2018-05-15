@@ -21,6 +21,5 @@
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["build/**/*.js"]}],
     // Allow strict mode (we are not dealing with modules)
     "strict": [0]
-  },
-  "eslintIgnore": ["*/client.es6.js"]
+  }
 }
