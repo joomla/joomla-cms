@@ -2121,6 +2121,8 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `#__workflows`
 --
