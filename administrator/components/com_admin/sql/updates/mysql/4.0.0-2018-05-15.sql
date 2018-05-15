@@ -111,6 +111,13 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (4, 0, 1, 4, 1, 'Archive', '', -1, 4);
 
 --
+-- Creating extension entry
+--
+
+INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`, `namespace`) VALUES
+(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, 'Joomla\\Component\\Workflow');
+
+--
 -- Creating Associations for existing content
 --
 INSERT INTO `#__workflow_associations` (`item_id`, `state_id`, `extension`)
