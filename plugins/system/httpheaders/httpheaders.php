@@ -36,24 +36,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * The list of the supported HTTP headers
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $supportedHttpHeaders = [
-		'Strict-Transport-Security',
-		'Content-Security-Policy',
-		'Content-Security-Policy-Report-Only',
-		'X-Frame-Options',
-		'X-XSS-Protection',
-		'X-Content-Type-Options',
-		'Referrer-Policy',
-		// Upcoming Header
-		'Expect-CT',
-	];
-
-	/**
 	 * Returns an array of events this subscriber will listen to.
 	 *
 	 * @return  array
@@ -80,7 +62,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$this->setDefaultHeader();
 
 		// Handle CSP Header configuration
-		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
+		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
 
 		if ($cspOptions)
 		{
@@ -88,7 +70,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Handle HSTS Header configuration
-		$hstsOptions = $this->params->get('hsts', 0);
+		$hstsOptions = (int) $this->params->get('hsts', 0);
 
 		if ($hstsOptions)
 		{
@@ -106,10 +88,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			if (in_array($httpHeader->key, $this->supportedHttpHeaders))
+			if (empty($httpHeader->key) || empty($httpHeader->value))
 			{
-				$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
+				continue;
 			}
+
+			$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
 		}
 	}
 
@@ -171,13 +155,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+			$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 		}
 
-		if (!empty($newCspValues))
+		if (empty($newCspValues))
 		{
-			$this->app->setHeader($csp, implode(';', $newCspValues));
+			return;
 		}
+
+		$this->app->setHeader($csp, implode(';', $newCspValues));
 	}
 
 	/**
@@ -198,11 +184,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$hstsOptions[] = 'includeSubDomains';
 		}
 
-		if ($this->params->get('hsts_subdomaihsts_preloadns', 0))
+		if ($this->params->get('hsts_preload', 0))
 		{
 			$hstsOptions[] = 'preload';
 		}
 
-		$this->app->setHeader('', implode('; ', $hstsOptions));
+		$this->app->setHeader('Strict-Transport-Security', implode('; ', $hstsOptions));
 	}
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<field
-		name="key"
+		name="directive"
 		type="text"
-		label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_KEY"
+		label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
 		class="span4"
 	/>
 	<field
