@@ -187,10 +187,9 @@ abstract class JHtmlFilter
 				// Build a node.
 				$html .= '<div class="control-group">';
 				$html .= '<div class="controls">';
-				$html .= '<label class="checkbox" for="tax-'
-					. $nk . '">';
+				$html .= '<label class="checkbox">';
 				$html .= '<input type="checkbox" class="selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . ' />';
+					. $bk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
