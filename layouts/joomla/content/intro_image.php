@@ -17,7 +17,7 @@ $caption = $images->image_intro_caption;
 ?>
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
-	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"<?php echo ($caption) ? ' role="group"' : ''; ?>>
+	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 		<?php if ($caption) : ?>
 			<figcaption class="caption"><?php echo htmlspecialchars($caption); ?></figcaption>
 		<?php endif; ?>
