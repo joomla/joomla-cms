@@ -141,7 +141,8 @@ class ContactModelContact extends JModelForm
 		}
 		
 		// Add contact id to contact form data, so fields plugin can work propertly
-		if(empty($data['catid'])) {
+		if (empty($data['catid']))
+		{
 			$data['catid'] = $this->getItem()->catid;
 		}
 
