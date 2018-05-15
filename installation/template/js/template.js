@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -182,7 +182,7 @@
 
 		Joomla.request({
 			method: "POST",
-			url : Joomla.baseUrl + '?task=installation.' + task,
+			url : Joomla.baseUrl + '?task=installation.' + task + '&format=json',
 			data: data,
 			perform: true,
 			onSuccess: function(response, xhr){

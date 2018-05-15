@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
  * Component helper class
@@ -257,6 +258,7 @@ class ComponentHelper
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
+
 				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
@@ -475,7 +477,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName())
+		if (!$reflect->getNamespaceName() || get_class($object) == Dispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

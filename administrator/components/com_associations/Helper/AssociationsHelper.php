@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Associations\Administrator\Helper;
@@ -139,7 +139,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @return  AssociationExtensionInterface|null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static function loadHelper($extensionName)
 	{
@@ -328,6 +328,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		\JHtml::_('bootstrap.popover');
+
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
 
@@ -501,7 +502,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowEdit'))
 		{
@@ -529,7 +530,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowAdd'))
 		{

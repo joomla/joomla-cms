@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeader
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Plugin class for HTTP Header
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 {
@@ -23,7 +23,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -31,7 +31,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -40,7 +40,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -54,7 +54,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setHttpHeaders()
 	{
@@ -102,7 +102,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setDefaultHeader()
 	{

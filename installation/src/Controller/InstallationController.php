@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -59,9 +60,9 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
-		if ($model->checkForm('setup') === false || $model->initialise() === false)
+		if ($model->checkForm('setup') === false || $model->validateDbConnection() === false)
 		{
-			$r->messages = 'Check your DB credentials, db type, db name or hostname';
+			$r->messages = Text::_('INSTL_DATABASE_VALIDATION_ERROR');
 			$r->view = 'setup';
 		}
 
