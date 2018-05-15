@@ -18,6 +18,6 @@
 		>
 		<option value="site">JSITE</option>
 		<option value="administrator">JADMINISTRATOR</option>
-		<option value="both">PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_CLIENT_BOTH</option>
+		<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
 	</field>
 </form>
