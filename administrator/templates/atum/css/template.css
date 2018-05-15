@@ -1037,7 +1037,8 @@ iframe {
       height: 14px; }
     .treeselect li li {
       padding-left: 40px; }
-  .treeselect > li::before, .treeselect > li::after {
+  .treeselect > li::before,
+  .treeselect > li::after {
     display: none; }
   .treeselect .icon- {
     display: none; }

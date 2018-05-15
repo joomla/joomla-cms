@@ -4,6 +4,7 @@
   background: $atum-template-color;
   background-image: url('../images/joomla-pattern.svg');
   background-size: 200px;
+
   .login-bg-grad {
     position: fixed;
     z-index: -1;
@@ -13,6 +14,7 @@
     rgba($atum-template-color-dark, .9) 30%, 
     rgba($atum-template-color-light, .2) 100%);;
   }
+
   .login-initial {
     display: none;
   }
@@ -25,7 +27,6 @@
     @include media-breakpoint-down(sm) {
       margin: 1rem 0;
     }
-
   }
 
   .login {
@@ -48,6 +49,7 @@
   .login-box-header {
     padding: 15px 0;
     background: $white;
+
     h2 {
       color: $atum-template-color-dark;
       font-weight: 400;
@@ -67,6 +69,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+
       span {
         font-size: .9rem;
         color: #c6d2de;
@@ -76,7 +79,7 @@
 
   h1 {
     text-align: center;
-	margin: 0;
+    margin: 0;
   }
 
   .btn {
@@ -85,7 +88,5 @@
       padding: 8px 10px;
       font-size: 14px;
     }
-
   }
-
 }

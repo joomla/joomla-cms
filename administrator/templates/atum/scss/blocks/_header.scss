@@ -23,7 +23,6 @@
     [class^="icon-"] {
       margin-right: 10px;
     }
-
   }
 
   .nav-link {
@@ -53,7 +52,6 @@
       font-size: 1.3rem;
       transition: all .2s ease-in-out;
     }
-
   }
 
   .dropdown-notifications {
@@ -90,7 +88,6 @@
         color: $atum-container-main-bg;
       }
     }
-
   }
 
   .dropdown-header {
@@ -111,7 +108,6 @@
     font-size: $h5-font-size;
     color: $atum-template-color-dark;
   }
-
 }
 
 @include media-breakpoint-down(md) {
@@ -124,9 +120,7 @@
     > div {
       flex-direction: column;
     }
-
   }
-
 }
 
 @include media-breakpoint-down(sm) {
@@ -136,7 +130,5 @@
     .header-items {
       flex-direction: column;
     }
-
   }
-
 }
