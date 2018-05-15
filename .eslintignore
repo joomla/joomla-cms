@@ -1,7 +1,8 @@
 # A list of files to ignore from linting
 *.js
-!*.es6.js
-!build/**/*.js
 
 # Ignore install from web for now
 media/plg_installer_webinstaller/js/client.es6.js
+
+!*.es6.js
+!build/**/*.js
