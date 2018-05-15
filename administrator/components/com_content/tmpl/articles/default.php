@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Button\ActionButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\CMS\Workflow\Workflow;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
