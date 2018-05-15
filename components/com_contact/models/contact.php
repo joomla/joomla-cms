@@ -139,8 +139,8 @@ class ContactModelContact extends JModelForm
 		{
 			$data['language'] = JFactory::getLanguage()->getTag();
 		}
-		
-		// Add contact id to contact form data, so fields plugin can work propertly
+
+		// Add contact id to contact form data, so fields plugin can work properly
 		if (empty($data['catid']))
 		{
 			$data['catid'] = $this->getItem()->catid;
