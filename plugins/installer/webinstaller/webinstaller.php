@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 * The application object.
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -41,7 +41,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -49,7 +49,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 * The URL to install from
 	 *
 	 * @var    string|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $installfrom = null;
 
@@ -57,7 +57,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 * Flag if the document is in a RTL direction
 	 *
 	 * @var    integer|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $rtl = null;
 
@@ -66,7 +66,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 *
 	 * @return  array  Returns an array with the tab information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onInstallerAddInstallationTab()
 	{

@@ -10,6 +10,30 @@ if (class_exists('ParagonIE_Sodium_Core_Util', false)) {
 abstract class ParagonIE_Sodium_Core_Util
 {
     /**
+     * @param int $integer
+     * @param int $size (16, 32, 64)
+     * @return int
+     */
+    public static function abs($integer, $size = 0)
+    {
+        /** @var int $realSize */
+        $realSize = (PHP_INT_SIZE << 3) - 1;
+        if ($size) {
+            --$size;
+        } else {
+            /** @var int $size */
+            $size = $realSize;
+        }
+
+        $negative = -(($integer >> $size) & 1);
+        return (int) (
+            ($integer ^ $negative)
+                +
+            (($negative >> $realSize) & 1)
+        );
+    }
+
+    /**
      * Convert a binary string into a hexadecimal string without cache-timing
      * leaks
      *
@@ -29,8 +53,11 @@ abstract class ParagonIE_Sodium_Core_Util
         $hex = '';
         $len = self::strlen($binaryString);
         for ($i = 0; $i < $len; ++$i) {
-            $chunk = unpack('C', self::substr($binaryString, $i, 2));
+            /** @var array<int, int> $chunk */
+            $chunk = unpack('C', $binaryString[$i]);
+            /** @var int $c */
             $c = $chunk[1] & 0xf;
+            /** @var int $b */
             $b = $chunk[1] >> 4;
             $hex .= pack(
                 'CC',
@@ -56,17 +83,18 @@ abstract class ParagonIE_Sodium_Core_Util
         $hex = '';
         $len = self::strlen($bin_string);
         for ($i = 0; $i < $len; ++$i) {
-            $chunk = unpack('C', self::substr($bin_string, $i, 2));
+            /** @var array<int, int> $chunk */
+            $chunk = unpack('C', $bin_string[$i]);
             /**
              * Lower 16 bits
              *
-             * @var int
+             * @var int $c
              */
             $c = $chunk[1] & 0xf;
 
             /**
              * Upper 16 bits
-             * @var int
+             * @var int $b
              */
             $b = $chunk[1] >> 4;
 
@@ -104,8 +132,9 @@ abstract class ParagonIE_Sodium_Core_Util
         if (self::strlen($chr) !== 1) {
             throw new SodiumException('chrToInt() expects a string that is exactly 1 character long');
         }
+        /** @var array<int, int> $chunk */
         $chunk = unpack('C', $chr);
-        return $chunk[1];
+        return (int) ($chunk[1]);
     }
 
     /**
@@ -242,6 +271,7 @@ abstract class ParagonIE_Sodium_Core_Util
             return hash_equals($left, $right);
         }
         $d = 0;
+        /** @var int $len */
         $len = self::strlen($left);
         if ($len !== self::strlen($right)) {
             return false;
@@ -275,10 +305,15 @@ abstract class ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 1 must be a string, ' . gettype($hexString) . ' given.');
         }
 
+        /** @var int $hex_pos */
         $hex_pos = 0;
+        /** @var string $bin */
         $bin = '';
+        /** @var int $c_acc */
         $c_acc = 0;
+        /** @var int $hex_len */
         $hex_len = self::strlen($hexString);
+        /** @var int $state */
         $state = 0;
         if (($hex_len & 1) !== 0) {
             if ($strictPadding) {
@@ -294,16 +329,22 @@ abstract class ParagonIE_Sodium_Core_Util
         $chunk = unpack('C*', $hexString);
         while ($hex_pos < $hex_len) {
             ++$hex_pos;
+            /** @var int $c */
             $c = $chunk[$hex_pos];
+            /** @var int $c_num */
             $c_num = $c ^ 48;
+            /** @var int $c_num0 */
             $c_num0 = ($c_num - 10) >> 8;
+            /** @var int $c_alpha */
             $c_alpha = ($c & ~32) - 55;
+            /** @var int $c_alpha0 */
             $c_alpha0 = (($c_alpha - 10) ^ ($c_alpha - 16)) >> 8;
             if (($c_num0 | $c_alpha0) === 0) {
                 throw new RangeException(
                     'hex2bin() only expects hexadecimal characters'
                 );
             }
+            /** @var int $c_val */
             $c_val = ($c_num0 & $c_num) | ($c_alpha & $c_alpha0);
             if ($state === 0) {
                 $c_acc = $c_val * 16;
@@ -325,12 +366,13 @@ abstract class ParagonIE_Sodium_Core_Util
      */
     public static function intArrayToString(array $ints)
     {
+        /** @var array<int, int> $args */
         $args = $ints;
         foreach ($args as $i => $v) {
-            $args[$i] = $v & 0xff;
+            $args[$i] = (int) ($v & 0xff);
         }
         array_unshift($args, str_repeat('C', count($ints)));
-        return call_user_func_array('pack', $args);
+        return (string) (call_user_func_array('pack', $args));
     }
 
     /**
@@ -433,6 +475,7 @@ abstract class ParagonIE_Sodium_Core_Util
             return (int) $unpacked[1];
         }
 
+        /** @var int $result */
         $result  = (self::chrToInt($string[0]) & 0xff);
         $result |= (self::chrToInt($string[1]) & 0xff) <<  8;
         $result |= (self::chrToInt($string[2]) & 0xff) << 16;
@@ -485,12 +528,16 @@ abstract class ParagonIE_Sodium_Core_Util
         }
 
         static $defaultSize = null;
+        /** @var int $defaultSize */
         if (!$defaultSize) {
+            /** @var int $defaultSize */
             $defaultSize = (PHP_INT_SIZE << 3) - 1;
         }
         if ($size < 1) {
+            /** @var int $size */
             $size = $defaultSize;
         }
+        /** @var int $size */
 
         $c = 0;
 
@@ -502,11 +549,13 @@ abstract class ParagonIE_Sodium_Core_Util
          *
          * @var int
          */
-        $mask = -(($b >> $size) & 1);
+        $mask = -(($b >> $defaultSize) & 1);
 
         /**
          * Ensure $b is a positive integer, without creating
          * a branching side-channel
+         *
+         * @var int $b
          */
         $b = ($b & ~$mask) | ($mask & -$b);
 
@@ -546,12 +595,15 @@ abstract class ParagonIE_Sodium_Core_Util
     public static function numericTo64BitInteger($num)
     {
         $high = 0;
+        /** @var int $low */
         $low = $num & 0xffffffff;
 
         if ((+(abs($num))) >= 1) {
             if ($num > 0) {
+                /** @var int $high */
                 $high = min((+(floor($num/4294967296))), 4294967295);
             } else {
+                /** @var int $high */
                 $high = ~~((+(ceil(($num - (+((~~($num)))))/4294967296))));
             }
         }
@@ -843,7 +895,7 @@ abstract class ParagonIE_Sodium_Core_Util
             throw new TypeError('Argument 2 must be a string');
         }
 
-        return $a ^ $b;
+        return (string) ($a ^ $b);
     }
 
     /**
@@ -862,6 +914,7 @@ abstract class ParagonIE_Sodium_Core_Util
                 &&
             (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING);
         }
+        /** @var bool $mbstring */
 
         return $mbstring;
     }

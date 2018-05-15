@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,14 +27,20 @@ JHtml::_('stylesheet', 'media/com_media/css/mediamanager.css');
  */
 $form = $this->form;
 
-$tmpl = JFactory::getApplication()->input->getCmd('tmpl', '');
+$tmpl = JFactory::getApplication()->input->getCmd('tmpl');
+
+// Load the toolbar when we are in an iframe
+if ($tmpl == 'component')
+{
+	echo JToolbar::getInstance('toolbar')->render();
+}
 
 // Populate the media config
 $config = [
 	'apiBaseUrl'              => JUri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => JSession::getFormToken(),
 	'uploadPath'              => $this->file->path,
-	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . $tmpl,
+	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => base64_encode(file_get_contents($this->file->localpath)),
