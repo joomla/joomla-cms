@@ -31,7 +31,7 @@ class StandardButton extends BasicButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.standard';
 
@@ -42,7 +42,7 @@ class StandardButton extends BasicButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -96,7 +96,7 @@ class StandardButton extends BasicButton
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function fetchButtonClass(string $name): string
 	{
@@ -159,7 +159,7 @@ class StandardButton extends BasicButton
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function getAccessors(): array
 	{

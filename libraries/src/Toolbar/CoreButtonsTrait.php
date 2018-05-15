@@ -34,7 +34,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  SeparatorButton
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function divider(string $text = ''): SeparatorButton
 	{
@@ -49,7 +49,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  PopupButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW'): PopupButton
 	{
@@ -70,7 +70,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  HelpButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function help($ref, $useComponent = false, $url = null, $component = null): HelpButton
 	{
@@ -89,7 +89,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  LinkButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function back(string $text = 'JTOOLBAR_BACK'): LinkButton
 	{
@@ -105,7 +105,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  LinkButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function link(string $text, string $url): LinkButton
 	{
@@ -121,7 +121,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  PopupButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function mediaManager(string $directory, string $text = 'JTOOLBAR_UPLOAD'): PopupButton
 	{
@@ -139,7 +139,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function makeDefault(string $task, string $text = 'JTOOLBAR_DEFAULT'): StandardButton
 	{
@@ -155,7 +155,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function assign(string $task, string $text = 'JTOOLBAR_ASSIGN'): StandardButton
 	{
@@ -171,7 +171,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addNew(string $task, string $text = 'JTOOLBAR_NEW'): StandardButton
 	{
@@ -187,7 +187,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function publish(string $task, string $text = 'JTOOLBAR_PUBLISH'): StandardButton
 	{
@@ -203,7 +203,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function unpublish(string $task, string $text = 'JTOOLBAR_UNPUBLISH'): StandardButton
 	{
@@ -219,7 +219,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function archive(string $task, string $text = 'JTOOLBAR_ARCHIVE'): StandardButton
 	{
@@ -235,7 +235,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function unarchive(string $task, string $text = 'JTOOLBAR_UNARCHIVE'): StandardButton
 	{
@@ -251,7 +251,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function edit(string $task, string $text = 'JTOOLBAR_EDIT'): StandardButton
 	{
@@ -267,7 +267,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function editHtml(string $task, string $text = 'JTOOLBAR_EDIT_HTML'): StandardButton
 	{
@@ -283,7 +283,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function editCss(string $task, string $text = 'JTOOLBAR_EDIT_CSS'): StandardButton
 	{
@@ -299,7 +299,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  ConfirmButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function delete(string $task, string $text = 'JTOOLBAR_DELETE'): ConfirmButton
 	{
@@ -315,7 +315,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function trash(string $task, string $text = 'JTOOLBAR_TRASH'): StandardButton
 	{
@@ -332,7 +332,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function apply(string $task, string $text = 'JTOOLBAR_APPLY'): StandardButton
 	{
@@ -349,7 +349,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function save(string $task, string $text = 'JTOOLBAR_SAVE'): StandardButton
 	{
@@ -366,7 +366,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function save2new(string $task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
 	{
@@ -384,7 +384,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function save2copy(string $task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
 	{
@@ -400,7 +400,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function checkin(string $task, string $text = 'JTOOLBAR_CHECKIN'): StandardButton
 	{
@@ -416,7 +416,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  StandardButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function cancel(string $task, string $text = 'JTOOLBAR_CLOSE'): StandardButton
 	{
@@ -433,7 +433,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  LinkButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function preferences(string $component, string $text = 'JToolbar_Options', string $path = ''): LinkButton
 	{
@@ -458,7 +458,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  CustomButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
 		string $text = 'JTOOLBAR_VERSIONS'): CustomButton
@@ -492,7 +492,7 @@ trait CoreButtonsTrait
 	 *
 	 * @return  CustomButton
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function customHtml(string $html, string $name = 'custom'): CustomButton
 	{

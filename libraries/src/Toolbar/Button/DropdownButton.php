@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method bool getToggleSplit()
  * @method bool getToggleButtonClass()
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DropdownButton extends AbstractGroupButton
 {
@@ -39,7 +39,7 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	protected function prepareOptions(array &$options)
@@ -91,7 +91,7 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  string  The button HTML.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -115,7 +115,7 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function getAccessors(): array
 	{
