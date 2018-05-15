@@ -185,4 +185,26 @@ class CategoriesHelper
 
 		return $catid;
 	}
+
+	/**
+	 * Return link to content type
+	 *
+	 * @param   string  $contentType
+	 * @param   int     $id
+	 *
+	 * @return  string
+	 *
+	 * @since version
+	 */
+	public static function getContentTypeLink($contentType, $id)
+	{
+		switch ($contentType)
+		{
+			case 'category':
+				return 'index.php?option=com_categories&task=category.edit&id=' . $id;
+				break;
+			default:
+				return '';
+		}
+	}
 }

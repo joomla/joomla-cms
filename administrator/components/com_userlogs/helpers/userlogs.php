@@ -147,7 +147,7 @@ class UserlogsHelper
 	 */
 	public static function getHumanReadableLogMessage($log)
 	{
-		$message = JText::_($log->message_language_key);
+		$message     = JText::_($log->message_language_key);
 		$messageData = json_decode($log->message, true);
 
 		// Special handling for translation extension name
@@ -156,9 +156,15 @@ class UserlogsHelper
 			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
 		}
 
+		// Translate content type title
+		if (isset($messageData['type']))
+		{
+			$messageData['type'] = JText::_($messageData['type']);
+		}
+
 		foreach ($messageData as $key => $value)
 		{
-			$message = str_replace('{'.$key.'}', $value, $message);
+			$message = str_replace('{' . $key . '}', $value, $message);
 		}
 
 		return $message;
