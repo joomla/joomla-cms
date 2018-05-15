@@ -153,7 +153,6 @@
 					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
 				/>
 			</fieldset>
-			</fieldset>
 		</fields>
 	</config>
 	<languages>
