@@ -20,7 +20,9 @@ if (!Joomla) {
 }
 
 // TODO - Update server layouts for 4.0 to remove global var use
+/* eslint-disable */
 var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
+/* eslint-enable */
 
 (function (window, document, Joomla, jQuery) {
   'use strict';
@@ -332,7 +334,7 @@ var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url
     }, {
       key: 'installfromwebexternal',
       value: function installfromwebexternal(redirectUrl) {
-        var redirectConfirm = confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
+        var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
 
         if (redirectConfirm === true) {
           document.getElementById('adminForm').setAttribute('action', redirectUrl);

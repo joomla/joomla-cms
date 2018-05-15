@@ -12,7 +12,9 @@ if (!Joomla) {
 }
 
 // TODO - Update server layouts for 4.0 to remove global var use
+/* eslint-disable */
 const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
+/* eslint-enable */
 
 ((window, document, Joomla, jQuery) => {
   'use strict';
@@ -307,7 +309,7 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
      * @todo Migrate this function's hardcoded English string to Joomla.JText
      */
     static installfromwebexternal(redirectUrl) {
-      const redirectConfirm = confirm(`You will be redirected to the following link to complete the registration/purchase - \n${redirectUrl}`);
+      const redirectConfirm = window.confirm(`You will be redirected to the following link to complete the registration/purchase - \n${redirectUrl}`);
 
       if (redirectConfirm === true) {
         document.getElementById('adminForm').setAttribute('action', redirectUrl);
