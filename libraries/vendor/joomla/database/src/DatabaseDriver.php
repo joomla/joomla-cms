@@ -1404,7 +1404,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 *
 	 * @param   string  $key  The name of a field on which to key the result array.
 	 *
-	 * @return  mixed   The return value or null if the query failed.
+	 * @return  array   An array of results.
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
