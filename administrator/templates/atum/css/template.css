@@ -640,6 +640,9 @@ iframe {
     .view-login .btn {
       padding: 8px 10px;
       font-size: 14px; } }
+  .view-login .form-control,
+  .view-login .custom-select {
+    max-width: none; }
 
 .modal .btn {
   margin-right: .5rem; }

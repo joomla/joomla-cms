@@ -89,4 +89,9 @@
       font-size: 14px;
     }
   }
+  
+  .form-control,
+  .custom-select {
+    max-width: none;
+  }
 }
