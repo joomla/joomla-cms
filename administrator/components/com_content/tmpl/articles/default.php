@@ -198,19 +198,19 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
 
-										$icon = 'publish';
+											$icon = 'publish';
 
-										switch ($item->state_condition) :
+											switch ($item->state_condition) :
 
-											case -2:
-												$icon = 'trash';
-												break;
+												case Workflow::TRASHED:
+													$icon = 'trash';
+													break;
 
-											case 0:
-												$icon = 'unpublish';
-												break;
+												case Workflow::UNPUBLISHED:
+													$icon = 'unpublish';
+													break;
 
-										endswitch;
+											endswitch;
 										?>
 										<?php if ($hasTransitions) : ?>
 											<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">

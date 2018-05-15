@@ -116,8 +116,22 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS state_condition')
-			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+		$query	->select(
+					$query->quoteName(
+					[
+						'ws.title',
+						'ws.condition',
+						'ws.workflow_id'
+					],
+					[
+						'state_title',
+						'state_condition',
+						'workflow_id'
+					]
+					)
+				)
+				->innerJoin($query->quoteName('#__workflow_states', 'ws'))
+				->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.state_id'));
 
 		// Join on voting table
 		if (\JPluginHelper::isEnabled('content', 'vote'))

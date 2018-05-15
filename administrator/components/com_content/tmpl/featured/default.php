@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_ACCESS')));
@@ -141,7 +142,7 @@ $js = "
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = \ContentHelper::filterTransitions($this->transitions, $item->state_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
@@ -212,8 +213,7 @@ $js = "
 												$attribs = [
 													'id'	=> 'transition-select_' . (int) $item->id,
 													'list.attr' => [
-														'class'		=> 'custom-select custom-select-sm',
-														'style'     => 'min-width: 50%;',
+														'class'		=> 'custom-select custom-select-sm  form-control form-control-sm',
 														'onchange'		=> "listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
 												];
 												echo JHTML::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
