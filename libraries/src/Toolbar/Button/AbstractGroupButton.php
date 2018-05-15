@@ -13,7 +13,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 /**
  * The AbstractGroupButton class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractGroupButton extends BasicButton
 {
@@ -22,7 +22,7 @@ abstract class AbstractGroupButton extends BasicButton
 	 *
 	 * @var  Toolbar
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $child;
 
@@ -33,7 +33,7 @@ abstract class AbstractGroupButton extends BasicButton
 	 *
 	 * @return  static
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function configure(callable $handler): self
 	{
@@ -49,7 +49,7 @@ abstract class AbstractGroupButton extends BasicButton
 	 *
 	 * @return  Toolbar  Return new child Toolbar instance.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getChildToolbar(): Toolbar
 	{

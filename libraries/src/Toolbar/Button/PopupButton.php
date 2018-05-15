@@ -49,7 +49,7 @@ class PopupButton extends ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.popup';
 
@@ -60,7 +60,7 @@ class PopupButton extends ToolbarButton
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -117,7 +117,7 @@ class PopupButton extends ToolbarButton
 	 *
 	 * @return  string  The button HTML.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -194,7 +194,7 @@ JS
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function getAccessors(): array
 	{
