@@ -36,7 +36,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
 	{
 		$normalisedType = ucfirst($type);
-		$buttonClass = $this->loadButtonClass($normalisedType);
+		$buttonClass    = $this->loadButtonClass($normalisedType);
 
 		if (!$buttonClass)
 		{
