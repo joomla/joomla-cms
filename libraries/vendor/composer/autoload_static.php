@@ -793,7 +793,6 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Joomla\\CMS\\Table\\Usergroup' => __DIR__ . '/../../..' . '/libraries/src/Table/Usergroup.php',
         'Joomla\\CMS\\Table\\ViewLevel' => __DIR__ . '/../../..' . '/libraries/src/Table/ViewLevel.php',
         'Joomla\\CMS\\Toolbar\\Button\\AbstractGroupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/AbstractGroupButton.php',
-        'Joomla\\CMS\\Toolbar\\Button\\ApplyButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ApplyButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\BasicButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/BasicButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\ConfirmButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ConfirmButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\CustomButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/CustomButton.php',
