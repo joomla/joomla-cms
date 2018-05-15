@@ -34,6 +34,22 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
+	/**
+	 * The list of the supported HTTP headers
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $supportedHttpHeaders = [
+		'Strict-Transport-Security',
+		'Content-Security-Policy',
+		'Content-Security-Policy-Report-Only',
+		'X-Frame-Options',
+		'X-XSS-Protection',
+		'X-Content-Type-Options',
+		'Referrer-Policy',
+		'Expect-CT',
+	];
 
 	/**
 	 * Returns an array of events this subscriber will listen to.
@@ -84,6 +100,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			// Handle the client settings for each header
 			if (!$this->app->isClient($httpHeader->client) && $httpHeader->client != 'both')
+			{
+				continue;
+			}
+
+			if (!in_array($httpHeader->key, $this->supportedHttpHeaders))
 			{
 				continue;
 			}
