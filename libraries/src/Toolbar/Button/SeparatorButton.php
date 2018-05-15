@@ -24,7 +24,7 @@ class SeparatorButton extends ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.separator';
 

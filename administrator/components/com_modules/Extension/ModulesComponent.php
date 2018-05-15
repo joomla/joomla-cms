@@ -18,7 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 /**
  * Component class for com_modules
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModulesComponent extends Component implements MVCFactoryServiceInterface
 {

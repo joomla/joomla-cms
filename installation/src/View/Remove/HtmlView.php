@@ -25,7 +25,7 @@ class HtmlView extends DefaultView
 	 * Is the Joomla Version a development version?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $development;
 
@@ -33,7 +33,7 @@ class HtmlView extends DefaultView
 	 * List of language choices to install
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $items;
 
@@ -41,7 +41,7 @@ class HtmlView extends DefaultView
 	 * Full list of recommended PHP Settings
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $phpsettings;
 
@@ -49,7 +49,7 @@ class HtmlView extends DefaultView
 	 * Array of PHP config options
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $phpoptions;
 
