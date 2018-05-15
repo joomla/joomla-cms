@@ -155,7 +155,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+			// We can only use this if this is a valid entry
+			if (isset($cspValue->directive) && isset($cspValue->value))
+			{
+				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+			}
 		}
 
 		if (empty($newCspValues))
