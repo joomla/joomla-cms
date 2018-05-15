@@ -3562,12 +3562,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-unit.git",
-                "reference": "229979d3bfb1ad352b309c3da6638d3fd5df0fa7"
+                "reference": "bd0f70d9ad26e9cd3abc49bb025dbf732e8259ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-unit/zipball/229979d3bfb1ad352b309c3da6638d3fd5df0fa7",
-                "reference": "229979d3bfb1ad352b309c3da6638d3fd5df0fa7",
+                "url": "https://api.github.com/repos/joomla/test-unit/zipball/bd0f70d9ad26e9cd3abc49bb025dbf732e8259ed",
+                "reference": "bd0f70d9ad26e9cd3abc49bb025dbf732e8259ed",
                 "shasum": ""
             },
             "require": {
@@ -3586,7 +3586,7 @@
                 "tests",
                 "unit-tests"
             ],
-            "time": "2018-04-02T16:39:34+00:00"
+            "time": "2018-05-15T10:32:39+00:00"
         },
         {
             "name": "league/container",
