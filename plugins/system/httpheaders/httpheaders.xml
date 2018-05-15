@@ -132,19 +132,19 @@
 				<field
 					name="contentsecuritypolicy_values"
 					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES"
 					formsource="plugins/system/httpheaders/subform/cspkeyvalue.xml"
 					multiple="true"
-					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES"
 					min="1"
 					showon="contentsecuritypolicy:1"
 				/>
 				<field
 					name="additional_httpheader"
 					type="subform"
-					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
-					multiple="true"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
 					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
+					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
+					multiple="true"
 				/>
 			</fieldset>
 		</fields>
