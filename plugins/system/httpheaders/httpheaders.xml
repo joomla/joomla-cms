@@ -63,13 +63,96 @@
 					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_UNSAFE_URL</option>
 				</field>
 				<field
-					name="additional_httpheaders"
+					name="hsts"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="hsts_maxage"
+					type="integer"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE_DESC"
+					default="31536000"
+					showon="hsts:1"
+				/>
+				<field
+					name="hsts_subdomains"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="hsts:1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="hsts_preload"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="hsts:1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="hsts_preload_note"
+					type="note"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
+					class="alert"
+					showon="hsts:1"
+				/>
+				<field
+					name="contentsecuritypolicy"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_report_only"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY"
+					description="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					showon="contentsecuritypolicy:1"
+					>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+				</field>
+				<field
+					name="contentsecuritypolicy_values"
 					type="subform"
+					formsource="plugins/system/httpheader/subform/cspkeyvalue.xml"
+					multiple="true"
+					label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES"
+					min="1"
+					showon="contentsecuritypolicy:1"
+				/>
+				<field
+					name="additional_httpheader"
+					type="subform"
+					formsource="plugins/system/httpheader/subform/keyvalue.xml"
+					multiple="true"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
 					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
-					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
-					multiple="true"
 				/>
+			</fieldset>
 			</fieldset>
 		</fields>
 	</config>

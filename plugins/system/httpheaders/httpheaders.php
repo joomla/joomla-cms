@@ -76,7 +76,24 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	public function setHttpHeaders()
 	{
+		// Set the default header when they are enabled
 		$this->setDefaultHeader();
+
+		// Handle CSP Header configuration
+		$cspOptions = $this->params->get('contentsecuritypolicy', 0);
+
+		if ($cspOptions)
+		{
+			$this->setCspHeader();
+		}
+
+		// Handle HSTS Header configuration
+		$hstsOptions = $this->params->get('hsts', 0);
+
+		if ($hstsOptions)
+		{
+			$this->setHstsHeader();
+		}
 
 		// Handle the additional httpheader
 		$httpHeaders = $this->params->get('additional_httpheaders', array());
@@ -130,5 +147,62 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
 		}
+	}
+
+	/**
+	 * Set the CSP header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setCspHeader()
+	{
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly  = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$newCspValues = array();
+
+		foreach ($cspValues as $cspValue)
+		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			{
+				continue;
+			}
+
+			$newCspValues[] = trim($cspValue->key) . ': ' . trim($cspValue->value);
+		}
+
+		if (!empty($newCspValues))
+		{
+			$this->app->setHeader($csp, implode(';', $newCspValues));
+		}
+	}
+
+	/**
+	 * Set the HSTS header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setHstsHeader()
+	{
+		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
+		$hstsOptions   = array();
+		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+
+		if ($this->params->get('hsts_subdomains', 0))
+		{
+			$hstsOptions[] = 'includeSubDomains';
+		}
+
+		if ($this->params->get('hsts_subdomaihsts_preloadns', 0))
+		{
+			$hstsOptions[] = 'preload';
+		}
+
+		$this->app->setHeader('', implode('; ', $hstsOptions));
 	}
 }

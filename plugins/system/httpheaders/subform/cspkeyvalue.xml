@@ -3,21 +3,24 @@
 	<field
 		name="key"
 		type="text"
-		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
+		label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_KEY"
+		class="span4"
 	/>
 	<field
 		name="value"
 		type="text"
-		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_VALUE"
+		label="PLG_SYSTEM_HTTPHEADERS_CONTENTSECURITYPOLICY_VALUES_VALUE"
+		class="span10"
 	/>
 	<field
 		name="client"
 		type="radio"
 		label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 		default="site"
+		class="span12"
 		>
 		<option value="site">JSITE</option>
 		<option value="administrator">JADMINISTRATOR</option>
-		<option value="both">PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_CLIENT_BOTH</option>
+		<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
 	</field>
 </form>
