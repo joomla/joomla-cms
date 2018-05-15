@@ -13,11 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Toolbar\ToolbarButton;
 
 /**
- * Renders a button separator
+ * Renders a basic button.
  *
- * @since  3.0
+ * @since  4.0.0
  */
-class SeparatorButton extends ToolbarButton
+class BasicButton extends ToolbarButton
 {
 	/**
 	 * Property layout.
@@ -26,18 +26,22 @@ class SeparatorButton extends ToolbarButton
 	 *
 	 * @since  4.0.0
 	 */
-	protected $layout = 'joomla.toolbar.separator';
+	protected $layout = 'joomla.toolbar.basic';
 
 	/**
-	 * Empty implementation (not required for separator)
+	 * Fetch the HTML for the button
+	 *
+	 * @param   string  $type  Unused string.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 *
 	 * @deprecated  5.0 Use render() instead.
+	 * @throws  \LogicException
 	 */
-	public function fetchButton()
+	public function fetchButton($type = 'Basic')
 	{
+		throw new \LogicException('This is a new button in 4.0, please use render() instead.');
 	}
 }

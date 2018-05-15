@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
+class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -516,6 +516,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Event\\AfterExtensionBootEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/AfterExtensionBootEvent.php',
         'Joomla\\CMS\\Event\\BeforeExecuteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/BeforeExecuteEvent.php',
         'Joomla\\CMS\\Event\\BeforeExtensionBootEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/BeforeExtensionBootEvent.php',
+        'Joomla\\CMS\\Event\\ErrorEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/ErrorEvent.php',
         'Joomla\\CMS\\Event\\GenericEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/GenericEvent.php',
         'Joomla\\CMS\\Event\\Table\\AbstractEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/AbstractEvent.php',
         'Joomla\\CMS\\Event\\Table\\AfterBindEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/AfterBindEvent.php',
@@ -853,9 +854,11 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Table\\User' => __DIR__ . '/../../..' . '/libraries/src/Table/User.php',
         'Joomla\\CMS\\Table\\Usergroup' => __DIR__ . '/../../..' . '/libraries/src/Table/Usergroup.php',
         'Joomla\\CMS\\Table\\ViewLevel' => __DIR__ . '/../../..' . '/libraries/src/Table/ViewLevel.php',
-        'Joomla\\CMS\\Toolbar\\Button\\ApplyButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ApplyButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\AbstractGroupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/AbstractGroupButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\BasicButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/BasicButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\ConfirmButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ConfirmButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\CustomButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/CustomButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\DropdownButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/DropdownButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\HelpButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/HelpButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\LinkButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/LinkButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\PopupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/PopupButton.php',
@@ -863,6 +866,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Toolbar\\Button\\SliderButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/SliderButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\StandardButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/StandardButton.php',
         'Joomla\\CMS\\Toolbar\\ContainerAwareToolbarFactory' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ContainerAwareToolbarFactory.php',
+        'Joomla\\CMS\\Toolbar\\CoreButtonsTrait' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/CoreButtonsTrait.php',
         'Joomla\\CMS\\Toolbar\\Toolbar' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Toolbar.php',
         'Joomla\\CMS\\Toolbar\\ToolbarButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarButton.php',
         'Joomla\\CMS\\Toolbar\\ToolbarFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarFactoryInterface.php',
@@ -947,8 +951,6 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Database\\Mysqli\\MysqliImporter' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliImporter.php',
         'Joomla\\Database\\Mysqli\\MysqliQuery' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliQuery.php',
         'Joomla\\Database\\Mysqli\\MysqliStatement' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliStatement.php',
-        'Joomla\\Database\\Oracle\\OracleDriver' => __DIR__ . '/..' . '/joomla/database/src/Oracle/OracleDriver.php',
-        'Joomla\\Database\\Oracle\\OracleQuery' => __DIR__ . '/..' . '/joomla/database/src/Oracle/OracleQuery.php',
         'Joomla\\Database\\ParameterType' => __DIR__ . '/..' . '/joomla/database/src/ParameterType.php',
         'Joomla\\Database\\Pdo\\PdoDriver' => __DIR__ . '/..' . '/joomla/database/src/Pdo/PdoDriver.php',
         'Joomla\\Database\\Pdo\\PdoQuery' => __DIR__ . '/..' . '/joomla/database/src/Pdo/PdoQuery.php',
@@ -957,11 +959,6 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Database\\Pgsql\\PgsqlExporter' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlExporter.php',
         'Joomla\\Database\\Pgsql\\PgsqlImporter' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlImporter.php',
         'Joomla\\Database\\Pgsql\\PgsqlQuery' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlQuery.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlDriver' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlDriver.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlExporter' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlExporter.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlImporter' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlImporter.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlQuery' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlQuery.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlStatement' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlStatement.php',
         'Joomla\\Database\\QueryInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryInterface.php',
         'Joomla\\Database\\QueryMonitorInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryMonitorInterface.php',
         'Joomla\\Database\\Query\\LimitableInterface' => __DIR__ . '/..' . '/joomla/database/src/Query/LimitableInterface.php',
@@ -1302,9 +1299,9 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$classMap;
 
         }, null, ClassLoader::class);
     }

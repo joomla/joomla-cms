@@ -12,6 +12,8 @@ namespace Joomla\Component\Content\Administrator\View\Article;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit an article.
@@ -119,72 +121,74 @@ class HtmlView extends BaseHtmlView
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
 
-		\JToolbarHelper::title(
+		$toolbar = Toolbar::getInstance();
+
+		ToolbarHelper::title(
 			\JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
 			'pencil-2 article-add'
 		);
 
+		$saveGroup = $toolbar->dropdownButton('save-group');
+
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			\JToolbarHelper::saveGroup(
-				[
-					['apply', 'article.apply'],
-					['save', 'article.save'],
-					['save2new', 'article.save2new']
-				],
-				'btn-success'
-			);
-
-			\JToolbarHelper::cancel('article.cancel');
+			$saveGroup->configure(
+					function (Toolbar $childBar)
+					{
+						$childBar->apply('article.apply');
+						$childBar->save('article.save');
+						$childBar->save2new('article.save2new');
+					}
+				);
 		}
 		else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			$toolbarButtons = [];
+			$saveGroup->configure(
+					function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+					{
+						// Can't save the record if it's checked out and editable
+						if (!$checkedOut && $itemEditable)
+						{
+							$childBar->apply('article.apply');
+							$childBar->save('article.save');
 
-			// Can't save the record if it's checked out and editable
-			if (!$checkedOut && $itemEditable)
-			{
-				$toolbarButtons[] = ['apply', 'article.apply'];
-				$toolbarButtons[] = ['save', 'article.save'];
+							// We can save this record, but check the create permission to see if we can return to make a new one.
+							if ($canDo->get('core.create'))
+							{
+								$childBar->save2new('article.save2new');
+							}
+						}
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'article.save2new'];
-				}
-			}
-
-			// If checked out, we can still save
-			if ($canDo->get('core.create'))
-			{
-				$toolbarButtons[] = ['save2copy', 'article.save2copy'];
-			}
-
-			\JToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+						// If checked out, we can still save
+						if ($canDo->get('core.create'))
+						{
+							$childBar->save2copy('article.save2copy');
+						}
+					}
+				);
 
 			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
-				\JToolbarHelper::versions('com_content.article', $this->item->id);
+				$toolbar->versions('com_content.article', $this->item->id);
 			}
 
 			if (!$isNew)
 			{
 				\JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = \ContentHelperPreview::url($this->item);
-				\JToolbarHelper::preview($url, \JText::_('JGLOBAL_PREVIEW'), 'eye', 80, 90);
+				$toolbar->preview($url, \JText::_('JGLOBAL_PREVIEW'))
+					->bodyHeight(80)
+					->modalWidth(90);
 			}
-
-			\JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
+		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
+
+		$toolbar->divider();
+		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}
 }

@@ -251,7 +251,7 @@ class ChecksModel extends BaseInstallationModel
 		}
 
 		// Get the form.
-		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
 
 		try
 		{
