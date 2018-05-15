@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,9 +150,9 @@ $clientId = $this->state->get('item.client_id', 0);
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 
-                <li><?php echo $this->form->getLabel('client_id'); ?>
+				<li><?php echo $this->form->getLabel('client_id'); ?>
 					<?php echo $this->form->getInput('client_id'); ?></li>
-            </ul>
+			</ul>
 
 	</fieldset>
 </div>

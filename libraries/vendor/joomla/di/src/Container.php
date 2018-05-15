@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -109,8 +109,8 @@ class Container
 	 * @param   string   $key     The class name to build.
 	 * @param   boolean  $shared  True to create a shared resource.
 	 *
-	 * @return  mixed  Instance of class specified by $key with all dependencies injected.
-	 *                 Returns an object if the class exists and false otherwise
+	 * @return  object|false  Instance of class specified by $key with all dependencies injected.
+	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 */
@@ -128,7 +128,7 @@ class Container
 		$constructor = $reflection->getConstructor();
 
 		// If there are no parameters, just return a new object.
-		if (is_null($constructor))
+		if ($constructor === null)
 		{
 			$callback = function () use ($key) {
 				return new $key;
@@ -152,7 +152,8 @@ class Container
 	 *
 	 * @param   string  $key  The class name to build.
 	 *
-	 * @return  object  Instance of class specified by $key with all dependencies injected.
+	 * @return  object|false  Instance of class specified by $key with all dependencies injected.
+	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 */
@@ -192,7 +193,7 @@ class Container
 		$key = $this->resolveAlias($key);
 		$raw = $this->getRaw($key);
 
-		if (is_null($raw))
+		if ($raw === null)
 		{
 			throw new \InvalidArgumentException(sprintf('The requested key %s does not exist to extend.', $key));
 		}
@@ -224,7 +225,7 @@ class Container
 			$dependencyVarName = $param->getName();
 
 			// If we have a dependency, that means it has been type-hinted.
-			if (!is_null($dependency))
+			if ($dependency !== null)
 			{
 				$dependencyClassName = $dependency->getName();
 
@@ -345,14 +346,14 @@ class Container
 		$key = $this->resolveAlias($key);
 		$raw = $this->getRaw($key);
 
-		if (is_null($raw))
+		if ($raw === null)
 		{
 			throw new \InvalidArgumentException(sprintf('Key %s has not been registered with the container.', $key));
 		}
 
 		if ($raw['shared'])
 		{
-			if (!isset($this->instances[$key]) || $forceNew)
+			if ($forceNew || !isset($this->instances[$key]))
 			{
 				$this->instances[$key] = $raw['callback']($this);
 			}
@@ -397,7 +398,7 @@ class Container
 
 		$aliasKey = $this->resolveAlias($key);
 
-		if ($aliasKey != $key && isset($this->dataStore[$aliasKey]))
+		if ($aliasKey !== $key && isset($this->dataStore[$aliasKey]))
 		{
 			return $this->dataStore[$aliasKey];
 		}

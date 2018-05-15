@@ -26,7 +26,6 @@ return array(
     'Joomla\\Event\\' => array($vendorDir . '/joomla/event/src'),
     'Joomla\\Data\\Tests\\' => array($vendorDir . '/joomla/data/Tests'),
     'Joomla\\Data\\' => array($vendorDir . '/joomla/data/src'),
-    'Joomla\\DI\\Tests\\' => array($vendorDir . '/joomla/di/Tests'),
     'Joomla\\DI\\' => array($vendorDir . '/joomla/di/src'),
     'Joomla\\Archive\\' => array($vendorDir . '/joomla/archive/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),

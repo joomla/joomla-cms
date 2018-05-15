@@ -106,6 +106,7 @@
 				label="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				description="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				client="administrator"
+				filter="uint"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

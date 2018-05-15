@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -121,7 +121,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $options;
 
 	/**
-	 * @var    mixed  The current SQL statement to execute.
+	 * @var    JDatabaseQuery|string  The current SQL statement to execute.
 	 * @since  11.1
 	 */
 	protected $sql;

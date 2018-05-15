@@ -3,7 +3,7 @@
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -137,10 +137,11 @@
 					name="filter_tag"
 					type="tag"
 					label="JTAG"
-				       	description="JTAG_FIELD_SELECT_DESC"
-					>
-					<option value="">JNONE</option>
-				</field>
+					description="JTAG_FIELD_SELECT_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="filteringspacer2"
