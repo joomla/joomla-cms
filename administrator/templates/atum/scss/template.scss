@@ -65,7 +65,6 @@
   position: relative;
   min-height: calc(100vh - #{$header-height});
   background-color: $atum-container-main-bg;
-
 }
 
 .list-view-main {
@@ -88,7 +87,6 @@
   .subhead + & {
     padding-top: 0;
   }
-
 }
 
 .row-selected {

@@ -6,7 +6,6 @@
   @include media-breakpoint-down(md) {
     padding-left: 0;
   }
-
 }
 
 .sidebar-wrapper {
@@ -19,17 +18,16 @@
   transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
+
     .main-nav {
       max-height: calc(100vh - 147px);
     }
-
   }
 
   .main-brand {
     padding: 15px;
     margin-top: auto;
   }
-
 }
 
 .menu-toggle-icon {
@@ -143,7 +141,6 @@
       z-index: 1080;
       opacity: 1;
     }
-
   }
 
   li li {
@@ -159,7 +156,6 @@
         background-color: $atum-template-color;
         box-shadow: inset 2px 0 2px rgba($black, .1);
       }
-
     }
 
     > span {
@@ -169,7 +165,6 @@
     &:last-of-type > a {
       border-bottom: 0;
     }
-
   }
 
   // Parent icons
@@ -185,9 +180,11 @@
 
   // 2nd level items
   .collapse-level-1 {
+
     &:not(.show) {
       display: block;
     }
+
     a::before {
       display: none;
     }
@@ -222,15 +219,12 @@
     > li > a {
       color: $white;
       text-indent: 15px;
-
     }
-
   }
 
   .closed & {
     overflow-x: hidden;
   }
-
 }
 
 
@@ -245,8 +239,7 @@
     width: 3px;
     content: "";
     background-color: $atum-sidebar-active;
- }
-
+  }
 }
 
 // Sidebar Closed
@@ -269,7 +262,6 @@
   .menu-toggle-icon::before {
     content: "\f054";
   }
-
 }
 
 // Edit view
