@@ -34,6 +34,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
+
 	/**
 	 * The list of the supported HTTP headers
 	 *
