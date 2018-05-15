@@ -41,14 +41,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @since  4.0.0
 	 */
 	protected $supportedHttpHeaders = [
-		'Strict-Transport-Security',
-		'Content-Security-Policy',
-		'Content-Security-Policy-Report-Only',
-		'X-Frame-Options',
-		'X-XSS-Protection',
-		'X-Content-Type-Options',
-		'Referrer-Policy',
-		'Expect-CT',
+		'strict-transport-security',
+		'content-security-policy',
+		'content-security-policy-report-only',
+		'x-frame-options',
+		'x-xss-protection',
+		'x-content-type-options',
+		'referrer-policy',
+		'expect-ct',
 	];
 
 	/**
@@ -104,12 +104,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			if (!in_array($httpHeader->key, $this->supportedHttpHeaders))
+			if (empty($httpHeader->key) || empty($httpHeader->value))
 			{
 				continue;
 			}
 
-			if (empty($httpHeader->key) || empty($httpHeader->value))
+			if (!in_array(strtolower($httpHeader->key), $this->supportedHttpHeaders))
 			{
 				continue;
 			}
