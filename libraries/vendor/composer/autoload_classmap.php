@@ -533,7 +533,6 @@ return array(
     'Joomla\\CMS\\Table\\Usergroup' => $baseDir . '/libraries/src/Table/Usergroup.php',
     'Joomla\\CMS\\Table\\ViewLevel' => $baseDir . '/libraries/src/Table/ViewLevel.php',
     'Joomla\\CMS\\Toolbar\\Button\\AbstractGroupButton' => $baseDir . '/libraries/src/Toolbar/Button/AbstractGroupButton.php',
-    'Joomla\\CMS\\Toolbar\\Button\\ApplyButton' => $baseDir . '/libraries/src/Toolbar/Button/ApplyButton.php',
     'Joomla\\CMS\\Toolbar\\Button\\BasicButton' => $baseDir . '/libraries/src/Toolbar/Button/BasicButton.php',
     'Joomla\\CMS\\Toolbar\\Button\\ConfirmButton' => $baseDir . '/libraries/src/Toolbar/Button/ConfirmButton.php',
     'Joomla\\CMS\\Toolbar\\Button\\CustomButton' => $baseDir . '/libraries/src/Toolbar/Button/CustomButton.php',
