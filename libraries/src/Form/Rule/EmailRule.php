@@ -76,7 +76,7 @@ class EmailRule extends FormRule
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
-				$this->message = \JText::_('JGLOBAL_EMAIL_INVALID');
+				$this->message = \JText::_('JLIB_DATABASE_ERROR_VALID_MAIL');
 
 				return false;
 			}
@@ -93,7 +93,7 @@ class EmailRule extends FormRule
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
-					$this->message = \JText::_('JGLOBAL_EMAIL_INVALID');
+					$this->message = \JText::_('JLIB_DATABASE_ERROR_VALID_MAIL');
 
 					return false;
 				}
@@ -195,7 +195,7 @@ class EmailRule extends FormRule
 
 			if ($duplicate)
 			{
-				$this->message = \JText::_('JGLOBAL_EMAIL_IN_USE');
+				$this->message = \JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE');
 
 				return false;
 			}
