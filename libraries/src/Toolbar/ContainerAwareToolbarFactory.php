@@ -68,10 +68,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			return $this->getContainer()->get($buttonClass);
 		}
 
-		/** @var ToolbarButton $button */
-		$button = new $buttonClass;
-
-		return $button->setParent($toolbar);
+		return (new $buttonClass)
+			->setParent($toolbar)
+			->name(ucfirst(strtolower($type)));
 	}
 
 	/**
