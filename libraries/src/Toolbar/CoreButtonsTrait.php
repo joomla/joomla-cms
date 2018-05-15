@@ -60,7 +60,7 @@ trait CoreButtonsTrait
 				$button = $this->linkButton('link', $text)
 							->url($url)
 							->attributes(['target'=>'_blank'])
-							->icon('icon-eye');;
+							->icon('icon-eye');
 				break;
 			case false:
 			default:
@@ -71,7 +71,7 @@ trait CoreButtonsTrait
 					->icon('icon-eye');
 			break;
 		}
-		
+
 		return $button;
 	}
 
