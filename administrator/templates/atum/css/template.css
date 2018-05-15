@@ -831,8 +831,6 @@ iframe {
       opacity: 1; }
     .main-nav li ul li {
       text-indent: 15px; }
-    .main-nav li ul:not(.show) {
-      display: block; }
   .main-nav .close {
     padding: 2px 10px;
     font-size: 1.7rem;
@@ -867,6 +865,8 @@ iframe {
     font-size: 20px;
     text-align: center;
     vertical-align: middle; }
+  .main-nav .collapse-level-1:not(.show) {
+    display: block; }
   .main-nav .collapse-level-1 a::before {
     display: none; }
   .main-nav .collapse-level-1 .menuitem-group,

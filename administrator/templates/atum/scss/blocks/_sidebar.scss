@@ -121,12 +121,7 @@
       li {
         text-indent: 15px;
       }
-
-      &:not(.show) {
-        display: block;
-      }
     }
-
   }
 
   .close {
@@ -190,6 +185,9 @@
 
   // 2nd level items
   .collapse-level-1 {
+    &:not(.show) {
+      display: block;
+    }
     a::before {
       display: none;
     }
