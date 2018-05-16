@@ -10,15 +10,16 @@
 
 	var sampledataAjax = function(type, steps, step) {
 		if (step > steps) {
-			$('.sampledata-' + type + ' .row-title').append('<span class="icon-publish"> </span>');
+			$('#sampledata-title-' + type).append('<span class="icon-publish"> </span>');
 			inProgress = false;
+            $('.sampledata-progress-' + type + ' .progress').addClass('d-none');
 			return;
 		}
 		var stepClass = 'sampledata-steps-' + type + '-' + step,
 			$stepLi = $('<li class="' + stepClass + '"><p class="loader-image text-center"><img src="' + window.modSampledataIconProgress + '" width="30" height="30" ></p></li>'),
 			$progress = $(".sampledata-progress-" + type + " progress");
 
-		$("div.sampledata-progress-" + type + " ul").append($stepLi);
+		$("li.sampledata-progress-" + type + " ul").append($stepLi);
 
 		var request = $.ajax({
 			url: window.modSampledataUrl,
