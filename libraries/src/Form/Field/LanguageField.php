@@ -53,6 +53,7 @@ class LanguageField extends \JFormFieldList
 
 		// Make sure the languages are sorted base on locale instead of random sorting
 		$languages = LanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true);
+
 		if (count($languages) > 1)
 		{
 			usort(

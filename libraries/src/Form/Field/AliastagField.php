@@ -39,25 +39,25 @@ class AliastagField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-			// Get list of tag type alias
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select('Distinct type_alias AS value, type_alias AS text')
-				->from('#__contentitem_tag_map');
-			$db->setQuery($query);
+		// Get list of tag type alias
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('Distinct type_alias AS value, type_alias AS text')
+			->from('#__contentitem_tag_map');
+		$db->setQuery($query);
 
-			$options = $db->loadObjectList();
+		$options = $db->loadObjectList();
 
-			$lang = Factory::getLanguage();
+		$lang = Factory::getLanguage();
 
-			foreach ($options as $i => $item)
-			{
-				$parts     = explode('.', $item->value);
-				$extension = $parts[0];
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
-				$options[$i]->text = \JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
-			}
+		foreach ($options as $i => $item)
+		{
+			$parts     = explode('.', $item->value);
+			$extension = $parts[0];
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension, \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+			$options[$i]->text = \JText::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
+		}
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
@@ -65,7 +65,7 @@ class AliastagField extends \JFormFieldList
 		// Sort by language value
 		usort(
 			$options,
-			function($a, $b)
+			function ($a, $b)
 			{
 				return $a->text > $b->text;
 			}

@@ -182,6 +182,7 @@ class FormHelper
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			$subPrefix = '';
+
 			if (strpos($name, '.'))
 			{
 				list($subPrefix, $name) = explode('.', $name);
