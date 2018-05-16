@@ -118,9 +118,16 @@ class ContenthistoryModelHistory extends JModelList
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
 		{
+			
 			if ($table->load($pk))
 			{
-				if ($this->canEdit($table) && $table->keep_forever !== "1")
+				if ($table->keep_forever === "1")
+				{
+					unset($pks[$i]);
+					continue;	
+				}
+
+				if ($this->canEdit($table))
 				{
 					if (!$table->delete($pk))
 					{
