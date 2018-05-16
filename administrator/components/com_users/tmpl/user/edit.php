@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -22,7 +24,7 @@ $settings  = array();
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
 
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
@@ -48,7 +50,7 @@ $settings  = array();
 
 			<?php
 			$this->ignore_fieldsets = array('user_details');
-			echo JLayoutHelper::render('joomla.edit.params', $this);
+			echo LayoutHelper::render('joomla.edit.params', $this);
 			?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
