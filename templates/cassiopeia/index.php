@@ -182,20 +182,22 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+
 	<footer class="grid-child container-footer footer">
 		<hr>
-		<p class="float-right">
-			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-			</a>
-		</p>
-		<jdoc:include type="modules" name="footer" style="none" />
-	</footer>
-	<?php endif; ?>
+		<?php if ($this->countModules('footer')) : ?>
+			<p class="float-right">
+				<a href="#top" id="back-top" class="back-top">
+					<span class="icon-arrow-up-4" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+				</a>
+			</p>
+			<jdoc:include type="modules" name="footer" style="none" />
 
-	<jdoc:include type="modules" name="debug" style="none" />
+		<?php endif; ?>
+		<joomla-debug></joomla-debug><jdoc:include type="modules" name="debug" style="none" />
+	</footer>
+
 
 </body>
 </html>

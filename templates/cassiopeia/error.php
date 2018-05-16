@@ -172,9 +172,8 @@ $scriptOptions = [
 			</a>
 		</p>
 		<?php echo $this->getBuffer('modules', 'footer', ['style' => 'none']); ?>
+		<joomla-debug></joomla-debug><?php echo $this->getBuffer('modules', 'debug', ['style' => 'none']); ?>
 	</footer>
-
-	<?php echo $this->getBuffer('modules', 'debug', ['style' => 'none']); ?>
 
 </body>
 </html>
