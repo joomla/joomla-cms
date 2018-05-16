@@ -26,7 +26,7 @@ if (JLanguageMultilang::isEnabled())
 }
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
 	<div class="row">
 		<div class="col-md-12">
 

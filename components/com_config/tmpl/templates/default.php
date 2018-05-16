@@ -13,11 +13,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
+$user = JFactory::getUser();
 
 HTMLHelper::_('script', 'com_config/templates-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate"  data-cancel-task="config.cancel.templates">
 
 	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">

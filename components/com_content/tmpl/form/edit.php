@@ -107,7 +107,7 @@ if (!$editoroptions)
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
-					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
+					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 						<?php echo $this->form->renderField('publish_up'); ?>
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
@@ -132,7 +132,7 @@ if (!$editoroptions)
 				<?php echo $this->form->renderField('language'); ?>
 			<?php endif; ?>
 
-			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
 					<?php echo $this->form->renderField('metadesc'); ?>
 					<?php echo $this->form->renderField('metakey'); ?>
