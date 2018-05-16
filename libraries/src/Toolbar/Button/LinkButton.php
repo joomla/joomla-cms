@@ -29,7 +29,7 @@ class LinkButton extends ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.link';
 
@@ -40,7 +40,7 @@ class LinkButton extends ToolbarButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -77,7 +77,7 @@ class LinkButton extends ToolbarButton
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static function getAccessors(): array
 	{

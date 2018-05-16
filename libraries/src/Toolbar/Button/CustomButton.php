@@ -29,7 +29,7 @@ class CustomButton extends ToolbarButton
 	 *
 	 * @return  string  The button HTML.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -59,7 +59,7 @@ class CustomButton extends ToolbarButton
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static function getAccessors(): array
 	{
