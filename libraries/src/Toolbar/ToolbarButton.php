@@ -28,7 +28,7 @@ use Joomla\Utilities\ArrayHelper;
  * @method array   getAttributes()
  * @method string  getOnclick()
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class ToolbarButton
 {
@@ -37,7 +37,7 @@ abstract class ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $name;
 
@@ -46,7 +46,7 @@ abstract class ToolbarButton
 	 *
 	 * @var    Toolbar
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $parent;
 
@@ -55,7 +55,7 @@ abstract class ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout;
 
@@ -64,17 +64,16 @@ abstract class ToolbarButton
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $options = [];
-
 
 	/**
 	 * Used to track an ids, to avoid duplication
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $idCounter = [];
 
@@ -85,7 +84,7 @@ abstract class ToolbarButton
 	 * @param   string  $text     The button text, will auto translate.
 	 * @param   array   $options  Button options.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @throws \InvalidArgumentException
 	 */
@@ -104,7 +103,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function prepareOptions(array &$options)
 	{
@@ -172,7 +171,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string  The button HTML.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function renderButton(array &$options): string
 	{
@@ -242,7 +241,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  Toolbar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getParent(): Toolbar
 	{
@@ -256,7 +255,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setParent(Toolbar $parent): self
 	{
@@ -270,7 +269,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getOptions(): array
 	{
@@ -284,7 +283,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setOptions(array $options): self
 	{
@@ -301,7 +300,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  mixed
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getOption(string $name, $default = null)
 	{
@@ -316,7 +315,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setOption(string $name, $value): self
 	{
@@ -330,7 +329,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getName(): string
 	{
@@ -344,7 +343,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function name(string $name): self
 	{
@@ -358,7 +357,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getLayout(): string
 	{
@@ -372,7 +371,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function layout(string $layout): self
 	{
@@ -388,7 +387,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function ensureUniqueId(string $id): string
 	{
@@ -416,7 +415,7 @@ abstract class ToolbarButton
 	 *
 	 * @throws \LogicException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __call(string $name, array $args)
 	{
@@ -468,7 +467,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  boolean|string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static function findOptionName(string $name)
 	{
@@ -493,7 +492,7 @@ abstract class ToolbarButton
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static function getAccessors(): array
 	{

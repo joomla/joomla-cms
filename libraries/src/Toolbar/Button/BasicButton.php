@@ -15,7 +15,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
 /**
  * Renders a basic button.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class BasicButton extends ToolbarButton
 {
@@ -24,7 +24,7 @@ class BasicButton extends ToolbarButton
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.toolbar.basic';
 
@@ -42,6 +42,6 @@ class BasicButton extends ToolbarButton
 	 */
 	public function fetchButton($type = 'Basic')
 	{
-		throw new \LogicException('This is a new button in 4.0, please use redner() instead.');
+		throw new \LogicException('This is a new button in 4.0, please use render() instead.');
 	}
 }
