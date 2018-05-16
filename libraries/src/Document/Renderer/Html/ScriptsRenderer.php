@@ -130,6 +130,11 @@ class ScriptsRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
+			if ($this->_doc->scriptNonce)
+			{
+				$buffer .= ' nonce="' . $this->_doc->scriptNonce . '"';
+			}
+
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
