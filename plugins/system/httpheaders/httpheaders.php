@@ -153,10 +153,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
 		}
-
-		// This is used later to generate a suggestion for the csp header
-		$nonce = base64_encode(bin2hex(random_bytes(64)));
-		$this->app->set('script_nonce', $nonce);
 	}
 
 	/**
@@ -168,6 +164,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setCspHeader()
 	{
+		// This is used later to generate a suggestion for the csp header
+		$nonce = base64_encode(bin2hex(random_bytes(64)));
+		$this->app->set('script_nonce', $nonce);
+
 		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
 		$cspReadOnly  = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
 		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
@@ -184,6 +184,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
+				if ($cspValue->directive === 'script-src')
+				{
+					'nonce-' . $nonce . ' ' . $cspValue->value;
+				}
+
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 			}
 		}
