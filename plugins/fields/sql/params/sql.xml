@@ -17,8 +17,9 @@
 				type="list"
 				label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
 				description="PLG_FIELDS_SQL_PARAMS_MULTIPLE_DESC"
+				filter="integer"
 				>
-				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option>COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
