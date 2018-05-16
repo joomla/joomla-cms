@@ -10,6 +10,9 @@ namespace Joomla\CMS\Exception;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractWebApplication;
+use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -136,16 +139,17 @@ class ExceptionHandler
 
 			if ($isCli)
 			{
-				echo $data;
+				/** @var CliApplication $app */
+				$app->out($data);
 			}
 			else
 			{
+				/** @var CMSApplication $app */
+
 				// Do not allow cache
 				$app->allowCache(false);
 
 				$app->setBody($data);
-
-				echo $app->toString();
 			}
 
 			// This return is needed to ensure the test suite does not trigger the non-Exception handling below
