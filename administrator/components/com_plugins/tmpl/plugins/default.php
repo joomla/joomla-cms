@@ -22,8 +22,8 @@ $saveOrder = $listOrder == 'ordering';
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'pluginList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component' . JSession::getFormToken() . '=1';
+	JHtml::_('draggablelist.draggable');
 }
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
@@ -68,7 +68,7 @@ if ($saveOrder)
 						</td>
 					</tr>
 				</tfoot>
-				<tbody>
+                <tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'ordering');
 					$canEdit    = $user->authorise('core.edit',       'com_plugins');

@@ -107,7 +107,7 @@ class ConfigController extends BaseController
 
 		// Access backend com_config
 		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\Application;
+		$saveClass = new \Joomla\Component\Config\Administrator\Controller\ApplicationController;
 
 		// Get a document object
 		$document = \JFactory::getDocument();

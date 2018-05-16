@@ -360,8 +360,8 @@ abstract class BaseDatabaseModel extends CMSObject
 		if ($query instanceof \JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
-			&& $query->union === null
-			&& $query->unionAll === null
+			&& $query->merge === null
+			&& $query->querySet === null
 			&& $query->having === null)
 		{
 			$query = clone $query;

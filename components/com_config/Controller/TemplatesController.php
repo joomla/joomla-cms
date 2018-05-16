@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Templates\Administrator\Controller\Style;
+use Joomla\Component\Templates\Administrator\Controller\StyleController;
 
 /**
  * Component Controller
@@ -68,6 +69,8 @@ class TemplatesController extends BaseController
 		if (!\JSession::checkToken())
 		{
 			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'));
+
+			return false;
 		}
 
 		// Check if the user is authorized to do this.
@@ -75,7 +78,7 @@ class TemplatesController extends BaseController
 		{
 			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'));
 
-			return;
+			return false;
 		}
 
 		// Set FTP credentials, if given.
@@ -87,7 +90,7 @@ class TemplatesController extends BaseController
 		\JLoader::register('TemplatesControllerStyle', JPATH_ADMINISTRATOR . '/components/com_templates/controllers/style.php');
 		\JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
 		\JLoader::register('TemplatesTableStyle', JPATH_ADMINISTRATOR . '/components/com_templates/tables/style.php');
-		$controllerClass = new Style;
+		$controllerClass = new StyleController;
 
 		// Get a document object
 		$document = \JFactory::getDocument();

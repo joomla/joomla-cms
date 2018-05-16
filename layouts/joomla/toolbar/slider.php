@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
 
-$id      = isset($displayData['id']) ? $displayData['id'] : '';
+$id      = $displayData['id'] ?? '';
 $doTask  = $displayData['doTask'];
 $class   = $displayData['class'];
 $text    = $displayData['text'];

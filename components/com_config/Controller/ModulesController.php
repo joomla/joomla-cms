@@ -101,9 +101,12 @@ class ModulesController extends BaseController
 
 		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
 
+		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());
-		$dispatcher      = new \ModulesDispatcher($app, $this->input);
+
+		/** @var \Joomla\CMS\Dispatcher\Dispatcher $dispatcher */
+		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
 		/** @var ModuleController $controllerClass */
 		$controllerClass = $dispatcher->getController('Module');

@@ -20,7 +20,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
  *
  * @since  1.6
  */
-class DebugUser extends ListModel
+class DebuguserModel extends ListModel
 {
 	/**
 	 * Constructor.
