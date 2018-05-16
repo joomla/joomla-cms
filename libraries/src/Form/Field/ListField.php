@@ -55,7 +55,10 @@ class ListField extends FormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1'
+			|| (string) $this->readonly == 'true'
+			|| (string) $this->disabled == '1'
+			|| (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
