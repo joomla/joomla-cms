@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Site\Model;
@@ -61,6 +61,7 @@ class FeaturedModel extends ListModel
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$item = &$items[$i];
+
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -105,6 +106,7 @@ class FeaturedModel extends ListModel
 
 		// Filter by state
 		$state = $this->getState('filter.published');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = ' . (int) $state);
@@ -155,20 +157,25 @@ class FeaturedModel extends ListModel
 		$this->setState('list.start', $limitstart);
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
 		$user = \JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{
 			// Limit to published for people who can't edit or edit.state.

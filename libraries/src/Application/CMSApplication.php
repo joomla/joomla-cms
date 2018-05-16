@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,8 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -81,7 +83,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0
 	 */
 	protected $name = null;
@@ -106,7 +108,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * The pathway object
 	 *
 	 * @var    Pathway
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pathway = null;
 
@@ -166,36 +168,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		parent::afterSessionStart($event);
 
 		$session = $event->getSession();
+		$time    = time();
 
 		// If tracking of optional session metadata is enabled, run the following operations (defaults to true for B/C since forever)
 		if ($this->get('session_metadata', true))
 		{
-			$db   = \JFactory::getDbo();
-			$time = time();
-
 			// Get the session handler from the configuration.
 			$handler = $this->get('session_handler', 'none');
-
-			// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
-			if ($handler !== 'database' && $time % 2)
-			{
-				// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
-				try
-				{
-					$db->setQuery(
-						$db->getQuery(true)
-							->delete($db->quoteName('#__session'))
-							->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
-					)->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					/*
-					 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-					 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-					 */
-				}
-			}
 
 			/*
 			 * Check for extra session metadata when:
@@ -207,6 +186,40 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				$this->checkSession();
 			}
+		}
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
+		if ($handler !== 'database' && $time % 5 === 0)
+		{
+			$this->registerEvent(
+				'onAfterResponse',
+				function () use ($session, $time)
+				{
+					// TODO: At some point we need to get away from having session data always in the db.
+					$db = \JFactory::getDbo();
+
+					$query = $db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (\JDatabaseExceptionExecuting $exception)
+					{
+						/*
+						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+						 */
+					}
+				}
+			);
 		}
 	}
 
@@ -336,50 +349,67 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		$this->createExtensionNamespaceMap();
+		try
+		{
+			$this->createExtensionNamespaceMap();
 
-		PluginHelper::importPlugin('system');
+			PluginHelper::importPlugin('system');
 
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent(
-			'onBeforeExecute',
-			AbstractEvent::create(
+			// Trigger the onBeforeExecute event.
+			$this->triggerEvent(
 				'onBeforeExecute',
 				[
 					'subject'    => $this,
 					'eventClass' => BeforeExecuteEvent::class,
 					'container'  => $this->getContainer()
 				]
-			)
-		);
+			);
 
-		// Mark beforeExecute in the profiler.
-		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+			// Mark beforeExecute in the profiler.
+			JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		// If we have an application document object, render it.
-		if ($this->document instanceof \JDocument)
-		{
-			// Render the application output.
-			$this->render();
+			// If we have an application document object, render it.
+			if ($this->document instanceof \JDocument)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+			{
+				$this->compress();
+
+				// Trigger the onAfterCompress event.
+				$this->triggerEvent('onAfterCompress');
+			}
+
+			// Send the application response.
+			$this->respond();
+
+			// Trigger the onAfterRespond event.
+			$this->triggerEvent('onAfterRespond');
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			/** @var ErrorEvent $event */
+			$event = AbstractEvent::create(
+				'onError',
+				[
+					'subject'     => $throwable,
+					'eventClass'  => ErrorEvent::class,
+					'application' => $this,
+				]
+			);
 
-			// Trigger the onAfterCompress event.
-			$this->triggerEvent('onAfterCompress');
+			// Trigger the onError event.
+			$this->triggerEvent('onError', $event);
+
+			ExceptionHandler::render($event->getError());
 		}
-
-		// Send the application response.
-		$this->respond();
-
-		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherInterface;
 /**
  * Trait for classes which can load extensions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait ExtensionManagerTrait
 {
@@ -37,7 +37,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function bootComponent($component): ComponentInterface
 	{
@@ -59,7 +59,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  ComponentInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
@@ -119,10 +119,17 @@ trait ExtensionManagerTrait
 			)
 		);
 
-		// Cache the extension
-		$this->extensions[$type][$extensionName] = $container->get($type);
+		$extension = $container->get($type);
 
-		return $this->extensions[$type][$extensionName];
+		if ($extension instanceof BootableExtensionInterface)
+		{
+			$extension->boot($container);
+		}
+
+		// Cache the extension
+		$this->extensions[$type][$extensionName] = $extension;
+
+		return $extension;
 	}
 
 	/**
@@ -130,7 +137,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @return  Container
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  ContainerNotFoundException May be thrown if the container has not been set.
 	 */
 	abstract protected function getContainer();
