@@ -131,8 +131,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
 		}
 
+		// This is used later to generate a suggestion for the csp header
 		$nonce = base64_encode(bin2hex(random_bytes(64)));
-		JFactory::getApplication()->set('script_nonce', $nonce);
-		//JFactory::getApplication()->setHeader('Content-Security-Policy', 'default-src \'none\'; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com/; script-src \'self\' \'nonce-' . $nonce . '\'; font-src \'self\' https://fonts.gstatic.com; img-src \'self\'; connect-src \'self\'; frame-src \'self\'', true);
+		$this->app->set('script_nonce', $nonce);
 	}
 }
