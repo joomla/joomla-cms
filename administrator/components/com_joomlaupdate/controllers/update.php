@@ -50,7 +50,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$message     = null;
 		$messageType = null;
 
-		// The validation was not successful for now just a warning for now.
+		// The validation was not successful for now just a warning.
+		// TODO: In Joomla 4 this will abort the installation
 		if ($result['check'] === false)
 		{
 			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
