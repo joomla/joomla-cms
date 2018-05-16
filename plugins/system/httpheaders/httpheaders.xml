@@ -63,6 +63,16 @@
 					<option value="unsafe-url">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_UNSAFE_URL</option>
 				</field>
 				<field
+					name="additional_httpheader"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
+					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
+					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
+					multiple="true"
+				/>
+			</fieldset>
+			<fieldset name="hsts">
+				<field
 					name="hsts"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
@@ -106,6 +116,8 @@
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
 				</field>
+			</fieldset>
+			<fieldset name="csp">
 				<field
 					name="contentsecuritypolicy"
 					type="radio"
@@ -137,14 +149,6 @@
 					multiple="true"
 					min="1"
 					showon="contentsecuritypolicy:1"
-				/>
-				<field
-					name="additional_httpheader"
-					type="subform"
-					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
-					description="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_DESC"
-					formsource="plugins/system/httpheaders/subform/customhttpheaders.xml"
-					multiple="true"
 				/>
 			</fieldset>
 		</fields>
