@@ -139,8 +139,7 @@ class ExceptionHandler
 
 			if ($isCli)
 			{
-				/** @var CliApplication $app */
-				$app->out($data);
+				echo $data;
 			}
 			else
 			{
