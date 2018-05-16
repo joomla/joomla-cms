@@ -53,7 +53,7 @@ spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Register the global exception handler.
-set_exception_handler(['JErrorPage', 'render']);
+\Symfony\Component\Debug\ExceptionHandler::register(false);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
