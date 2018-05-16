@@ -86,8 +86,8 @@ class PlgSystemUserLogs extends JPlugin
 	 */
 	protected function addLogsToDb($messages, $messageLanguageKey, $context)
 	{
-		$user       = JFactory::getUser();
-		$date       = JFactory::getDate();
+		$user = JFactory::getUser();
+		$date = JFactory::getDate();
 
 		if ($this->params->get('ip_logging', 0))
 		{
@@ -97,7 +97,6 @@ class PlgSystemUserLogs extends JPlugin
 		{
 			$ip = JText::_('PLG_SYSTEM_USERLOGS_DISABLED');
 		}
-
 
 		$loggedMessages = array();
 
@@ -183,7 +182,6 @@ class PlgSystemUserLogs extends JPlugin
 		}
 
 		$user = JFactory::getUser();
-
 
 		$id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
 
@@ -316,7 +314,7 @@ class PlgSystemUserLogs extends JPlugin
 				'action'      => $action,
 				'type'        => strtoupper($params->text_prefix . '_TYPE_' . $params->type_title),
 				'id'          => $pk,
-				'title'    => $items[$pk]->{$params->title_holder},
+				'title'       => $items[$pk]->{$params->title_holder},
 				'itemlink'    => $this->getContentTypeLink($option, $params->type_title, $pk),
 				'userid'      => $user->id,
 				'username'    => $user->username,
@@ -357,11 +355,11 @@ class PlgSystemUserLogs extends JPlugin
 
 		$message = array(
 			'action'         => 'install',
-			'id' => $eid,
+			'id'             => $eid,
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -396,11 +394,11 @@ class PlgSystemUserLogs extends JPlugin
 
 		$message = array(
 			'action'         => 'install',
-			'id' => $eid,
+			'id'             => $eid,
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -438,7 +436,7 @@ class PlgSystemUserLogs extends JPlugin
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -491,7 +489,7 @@ class PlgSystemUserLogs extends JPlugin
 			'extension_name' => $table->get($params->title_holder),
 			'userid'         => $user->id,
 			'username'       => $user->username,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -524,13 +522,13 @@ class PlgSystemUserLogs extends JPlugin
 		}
 
 		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_DELETED');
-		$user = JFactory::getUser();
+		$user               = JFactory::getUser();
 
 		$message = array(
-			'action'   => 'delete',
-			'title' => $table->get($params->title_holder),
-			'userid'   => $user->id,
-			'username' => $user->username,
+			'action'      => 'delete',
+			'title'       => $table->get($params->title_holder),
+			'userid'      => $user->id,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
@@ -565,22 +563,24 @@ class PlgSystemUserLogs extends JPlugin
 
 		if ($isnew)
 		{
-			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_ADDED';
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_ADDED';
 			$action             = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_ADDED_UPDATED';
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_UPDATED';
 			$action             = 'update';
 		}
 
 		$message = array(
-			'action'   => $action,
-			'id'       => $user['id'],
-			'name'     => $user['name'],
-			'userid'   => $jUser->id,
-			'username' => $jUser->username,
-
+			'action'      => $action,
+			'type'        => 'PLG_SYSTEM_USERLOGS_TYPE_USER',
+			'id'          => $user['id'],
+			'title'       => $user['name'],
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user['id'],
+			'userid'      => $jUser->id,
+			'username'    => $jUser->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $jUser->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -608,15 +608,17 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_DELETED';
+		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_DELETED';
 		$jUser              = JFactory::getUser();
 
 		$message = array(
-			'action'   => 'delete_user',
-			'id'       => $user['id'],
-			'name'     => $user['name'],
-			'userid'   => $jUser->id,
-			'username' => $jUser->username,
+			'action'      => 'delete',
+			'type'        => 'PLG_SYSTEM_USERLOGS_TYPE_USER',
+			'id'          => $user['id'],
+			'title'       => $user['name'],
+			'userid'      => $jUser->id,
+			'username'    => $jUser->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $jUser->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -646,23 +648,26 @@ class PlgSystemUserLogs extends JPlugin
 
 		if ($isNew)
 		{
-			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_ADDED';
-			$action             = 'add_user_group';
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_ADDED';
+			$action             = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_UPDATED';
-			$action             = 'update_user_group';
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_UPDATED';
+			$action             = 'update';
 		}
 
 		$user = JFactory::getUser();
 
 		$message = array(
-			'id'       => $table->id,
-			'name'     => $table->title,
-			'userid'   => $user->id,
-			'username' => $user->username,
-			'action'   => $action,
+			'action'      => $action,
+			'type'        => 'PLG_SYSTEM_USERLOGS_TYPE_USER_GROUP',
+			'id'          => $table->id,
+			'title'       => $table->title,
+			'itemlink'    => 'index.php?option=com_users&task=group.edit&id=' . $table->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -695,11 +700,12 @@ class PlgSystemUserLogs extends JPlugin
 		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_DELETED';
 
 		$message = array(
+			'action'   => 'delete',
 			'id'       => $group['id'],
 			'title'    => $group['title'],
 			'userid'   => $user->id,
 			'username' => $user->username,
-			'action'   => 'delete',
+			'accountlink'   => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -850,8 +856,8 @@ class PlgSystemUserLogs extends JPlugin
 			}
 		}
 
-
-		return '';
+		// Return default link to avoid having to implement getContentTypeLink in most of our components
+		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&id=' . $id;
 	}
 
 	/**

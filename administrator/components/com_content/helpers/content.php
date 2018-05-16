@@ -269,26 +269,4 @@ class ContentHelper extends JHelperContent
 
 		return $contexts;
 	}
-
-	/**
-	 * Return link to content type
-	 *
-	 * @param   string  $contentType
-	 * @param   int     $id
-	 *
-	 * @return string
-	 *
-	 * @since version
-	 */
-	public static function getContentTypeLink($contentType, $id)
-	{
-		switch ($contentType)
-		{
-			case 'article':
-				return 'index.php?option=com_content&task=article.edit&id=' . $id;
-				break;
-			default:
-				return '';
-		}
-	}
 }
