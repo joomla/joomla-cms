@@ -569,7 +569,7 @@ class PlgSystemUserLogs extends JPlugin
 			'id'             => $table->get($params->id_holder),
 			'title'          => $table->get($params->title_holder),
 			'extension_name' => $table->get($params->title_holder),
-			'itemlink'       => $this->getContentTypeLink($option, $params->type_title, $table->get($params->id_holder)),
+			'itemlink'       => $this->getContentTypeLink($option, $params->type_title, $table->get($params->id_holder), $params->id_holder),
 			'userid'         => $user->id,
 			'username'       => $user->username,
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
@@ -918,11 +918,12 @@ class PlgSystemUserLogs extends JPlugin
 	 * @param   string  $component
 	 * @param   string  $contentType
 	 * @param   int     $id
+	 * @param   string  $urlVar
 	 *
 	 * @return  string  Link to the content item
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getContentTypeLink($component, $contentType, $id)
+	private function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -941,8 +942,13 @@ class PlgSystemUserLogs extends JPlugin
 			}
 		}
 
+		if (empty($urlVar))
+		{
+			$urlVar = 'id';
+		}
+
 		// Return default link to avoid having to implement getContentTypeLink in most of our components
-		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&id=' . $id;
+		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&' . $urlVar . '=' . $id;
 	}
 
 	/**
