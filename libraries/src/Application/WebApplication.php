@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -633,9 +633,9 @@ class WebApplication extends BaseApplication
 	 *
 	 * @param   integer  $state  The HTTP 1.1 status code.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  3.8.0
+	 * @since   3.8.0
 	 */
 	protected function isRedirectState($state)
 	{
@@ -810,9 +810,9 @@ class WebApplication extends BaseApplication
 	 *
 	 * @param   string  $value  The given status as int or string
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since  3.8.0
+	 * @since   3.8.0
 	 */
 	protected function getHttpStatusValue($value)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -292,7 +292,7 @@ class ContentModelArticles extends JModelList
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -329,6 +329,11 @@ class ContentModelArticles extends JModelList
 			{
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
 			}
 			else
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -164,13 +164,13 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase
 		$cases[] = array(array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB'),
 			array('option' => 'com_content', 'view' => 'article', 'id' => '42', 'catid' => '22', 'lang' => 'en-GB', 'Itemid' => '49'));
 
-		// Check non-existing menu link with a key
+		// Check non-existing menu link
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42'),
-			array('option' => 'com_content', 'view' => 'categories', 'id' => '42'));
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '49'));
 
-		// Check non-existing menu link with a key and language
+		// Check indirect link to a single view behind a nested view with a key and language
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB'),
-			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB'));
+			array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'lang' => 'en-GB', 'Itemid' => '49'));
 
 		// Check if a query with existing Itemid that is not the current active menu-item is not touched
 		$cases[] = array(array('option' => 'com_content', 'view' => 'categories', 'id' => '42', 'Itemid' => '99'),

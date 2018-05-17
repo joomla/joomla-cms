@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -283,7 +283,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<h2>' . JText::_('PLG_DEBUG_TITLE') . '</h2>';
 
 		if (JDEBUG)
 		{

@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
@@ -10,7 +10,7 @@
 {
 	$(document).ready(function()
 	{
-		$('*[rel=tooltip]').tooltip()
+		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');

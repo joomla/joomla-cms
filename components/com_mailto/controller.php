@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,7 +110,7 @@ class MailtoController extends JControllerLegacy
 		$sender          = $this->input->post->getString('sender', '');
 		$from            = $this->input->post->getString('from', '');
 		$subject_default = JText::sprintf('COM_MAILTO_SENT_BY', $sender);
-		$subject         = $this->input->post->getString('subject', $subject_default);
+		$subject         = $this->input->post->getString('subject', '') !== '' ? $this->input->post->getString('subject') : $subject_default;
 
 		// Check for a valid to address
 		$error = false;

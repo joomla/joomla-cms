@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -276,7 +276,7 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */

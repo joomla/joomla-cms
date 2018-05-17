@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -200,7 +200,7 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_set($offset)
 	{
@@ -219,7 +219,7 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_cur($offset)
 	{
@@ -238,7 +238,7 @@ class BufferStreamHandler
 	 *
 	 * @param   integer  $offset  The offset in bytes
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	protected function seek_end($offset)
 	{

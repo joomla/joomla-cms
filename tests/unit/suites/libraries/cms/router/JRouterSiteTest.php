@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -692,8 +692,8 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'          => '?testvar=testvalue',
 				'mode'         => JROUTER_MODE_RAW,
 				'appConfig'    => array(),
-				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
-				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
+				'expParseVars' => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
+				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
@@ -1264,6 +1264,24 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'      => 'index.php?var1=value1',
 				'preset'   => array('option' => 'com_test'),
 				'expected' => 'index.php?var1=value1&option=com_test'
+			),
+			// Check if a URL with no Itemid and no option, but globally set Itemid is added the Itemid
+			array(
+				'url'      => 'index.php?var1=value1',
+				'preset'   => array('Itemid' => '42'),
+				'expected' => 'index.php?var1=value1&Itemid=42'
+			),
+			// Check if a URL without an Itemid, but with an option set and a global Itemid available, which fits the option of the menu item gets the Itemid appended
+			array(
+				'url'      => 'index.php?var1=value&option=com_test',
+				'preset'   => array('Itemid' => '42'),
+				'expected' => 'index.php?var1=value&option=com_test&Itemid=42'
+			),
+			// Check if a URL without an Itemid, but with an option set and a global Itemid available, which does not fit the option of the menu item gets returned identically
+			array(
+				'url'      => 'index.php?var1=value&option=com_test3',
+				'preset'   => array('Itemid' => '42'),
+				'expected' => 'index.php?var1=value&option=com_test3'
 			),
 		);
 	}

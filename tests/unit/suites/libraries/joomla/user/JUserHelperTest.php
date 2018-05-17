@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -323,6 +323,29 @@ class JUserHelperTest extends TestCaseDatabase
 			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$P$'),
 			0,
 			'Joomla currently hashes passwords using PHPass, verify the correct prefix is present'
+		);
+	}
+
+	/**
+	 * Testing hashPassword() for argon2i hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @requires  PHP 7.2
+	 */
+	public function testHashPasswordArgon2i()
+	{
+		if (!defined('PASSWORD_ARGON2I'))
+		{
+			$this->markTestSkipped('Argon2i algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2I), '$argon2i'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
 		);
 	}
 

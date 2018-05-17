@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,12 +76,12 @@ class Browser
 	 * @since  12.1
 	 */
 	protected $robots = array(
-		/* The most common ones. */
+		// The most common ones.
 		'Googlebot',
 		'msnbot',
 		'Slurp',
 		'Yahoo',
-		/* The rest alphabetically. */
+		// The rest alphabetically.
 		'Arachnoidea',
 		'ArchitextSpider',
 		'Ask Jeeves',
