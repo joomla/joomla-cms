@@ -47,8 +47,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<fieldset class="filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
@@ -80,8 +80,8 @@ JFactory::getDocument()->addScriptDeclaration("
 			<input type="hidden" name="limitstart" value="">
 			<input type="hidden" name="task" value="">
 		</fieldset>
-	<?php endif; ?>
-</form>
+	</form>
+<?php endif; ?>
 
 <?php if ($this->items == false || $n === 0) : ?>
 	<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
