@@ -179,6 +179,9 @@ class PlgEditorCodemirror extends JPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
+		// True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
+		static $autofocused;
+
 		$id = empty($id) ? $name : $id;
 
 		// Must pass the field id to the buttons in this editor.
@@ -198,7 +201,11 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Should we focus on the editor on load?
-		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
+		if (!$autofocused)
+		{
+			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
+			$autofocused = $options->autofocus;
+		}
 
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
