@@ -16,4 +16,31 @@ defined('_JEXEC') or die;
  */
 class PrivacyController extends JControllerLegacy
 {
+	/**
+	 * The default view.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $default_view = 'requests';
+
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
+
+		// Load the submenu.
+		PrivacyHelper::addSubmenu($this->input->get('view', $this->default_view));
+
+		return parent::display();
+	}
 }

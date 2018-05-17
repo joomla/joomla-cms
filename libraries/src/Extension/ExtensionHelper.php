@@ -139,6 +139,7 @@ class ExtensionHelper
 		array('plugin', 'recaptcha', 'captcha', 0),
 
 		// Core plugin extensions - content
+		array('plugin', 'confirmconsent', 'content', 0),
 		array('plugin', 'contact', 'content', 0),
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
