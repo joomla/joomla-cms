@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 
 			<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-				<?php $images  = json_decode($item->images); ?>
+				<?php $images = json_decode($item->images); ?>
 				<span class="tag-body">
 					<?php if (!empty($images->image_intro)) : ?>
 						<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
@@ -141,7 +141,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 <?php // Add pagination links ?>
 <?php if (!empty($this->items)) : ?>
-	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+	<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 				<p class="counter float-right pt-3 pr-2">
