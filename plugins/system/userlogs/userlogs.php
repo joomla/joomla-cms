@@ -170,24 +170,35 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$user        = JFactory::getUser();
+		$contentType = strtoupper($params->type_title);
+
 		if ($isNew)
 		{
-			$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_ADDED');
-			$action             = 'add';
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_ADDED');
+			$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_ADDED');
+
+			$action = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_UPDATED');
-			$action             = 'update';
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_UPDATED');
+			$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_UPDATED');
+
+			$action = 'update';
 		}
 
-		$user = JFactory::getUser();
+		// If the content type doesn't has it own language key, use default language key
+		if (!JFactory::getLanguage()->hasKey($messageLanguageKey))
+		{
+			$messageLanguageKey = $defaultLanguageKey;
+		}
 
 		$id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
 
 		$message = array(
 			'action'      => $action,
-			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $params->type_title),
+			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentType),
 			'id'          => $id,
 			'title'       => $article->get($params->title_holder),
 			'itemlink'    => $this->getContentTypeLink($option, $params->type_title, $id),
@@ -228,18 +239,27 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$user = JFactory::getUser();
+		$language    = JFactory::getLanguage();
+		$user        = JFactory::getUser();
+		$contentType = strtoupper($params->type_title);
 
-		$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_DELETED');
+		// If the content type has it own language key, use it, otherwise, use default language key
+		if ($language->hasKey(strtoupper($params->text_prefix . '_' . $contentType . '_DELETED')))
+		{
+			$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_DELETED');
+		}
+		else
+		{
+			$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_DELETED');
+		}
 
 		$id = empty($params->id_holder) ? 0 : $article->get($params->id_holder);
 
 		$message = array(
 			'action'      => 'delete',
-			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $params->type_title),
+			'type'        => strtoupper($params->text_prefix . '_TYPE_' . $contentType),
 			'id'          => $id,
 			'title'       => $article->get($params->title_holder),
-			'itemlink'    => $this->getContentTypeLink($option, $params->type_title, $id),
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
@@ -278,30 +298,42 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$user = JFactory::getUser();
+		$user        = JFactory::getUser();
+		$contentType = strtoupper($params->type_title);
 
 		switch ($value)
 		{
 			case 0:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_UNPUBLISHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_UNPUBLISHED');
+				$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_UNPUBLISHED');
 				$action             = 'unpublish';
 				break;
 			case 1:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_PUBLISHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_PUBLISHED');
+				$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_PUBLISHED');
 				$action             = 'publish';
 				break;
 			case 2:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_ARCHIVED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_ARCHIVED');
+				$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_ARCHIVED');
 				$action             = 'archive';
 				break;
 			case -2:
-				$messageLanguageKey = strtoupper($params->text_prefix . '_CONTENT_TRASHED');
+				$messageLanguageKey = strtoupper($params->text_prefix . '_' . $contentType . '_TRASHED');
+				$defaultLanguageKey = strtoupper($params->text_prefix . '_CONTENT_TRASHED');
 				$action             = 'trash';
 				break;
 			default:
 				$messageLanguageKey = '';
+				$defaultLanguageKey = '';
 				$action             = '';
 				break;
+		}
+
+		// If the content type doesn't has it own language key, use default language key
+		if (!JFactory::getLanguage()->hasKey($messageLanguageKey))
+		{
+			$messageLanguageKey = $defaultLanguageKey;
 		}
 
 		$items = UserlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
@@ -348,14 +380,26 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$user     = JFactory::getUser();
-		$manifest = $installer->get('manifest');
+		$language      = JFactory::getLanguage();
+		$user          = JFactory::getUser();
+		$manifest      = $installer->get('manifest');
+		$extensionType = $manifest->attributes()->type;
 
-		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_INSTALLED');
+		// If the extension type has it own language key, use it, otherwise, use default language key
+		if ($language->hasKey(strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_INSTALLED')))
+		{
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_INSTALLED');
+		}
+		else
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_EXTENSION_INSTALLED';
+		}
 
 		$message = array(
 			'action'         => 'install',
+			'type'           => strtoupper('PLG_SYSTEM_USERLOGS_TYPE_' . $extensionType),
 			'id'             => $eid,
+			'name'           => (string) $manifest->name,
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
@@ -387,14 +431,26 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$user     = JFactory::getUser();
-		$manifest = $installer->get('manifest');
+		$language      = JFactory::getLanguage();
+		$user          = JFactory::getUser();
+		$manifest      = $installer->get('manifest');
+		$extensionType = $manifest->attributes()->type;
 
-		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_UNINSTALLED');
+		// If the extension type has it own language key, use it, otherwise, use default language key
+		if ($language->hasKey(strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_UNINSTALLED')))
+		{
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_UNINSTALLED');
+		}
+		else
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_EXTENSION_UNINSTALLED';
+		}
 
 		$message = array(
 			'action'         => 'install',
+			'type'           => strtoupper('PLG_SYSTEM_USERLOGS_TYPE_' . $extensionType),
 			'id'             => $eid,
+			'name'           => (string) $manifest->name,
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
@@ -425,14 +481,26 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$user     = JFactory::getUser();
-		$manifest = $installer->get('manifest');
+		$language      = JFactory::getLanguage();
+		$user          = JFactory::getUser();
+		$manifest      = $installer->get('manifest');
+		$extensionType = $manifest->attributes()->type;
 
-		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $manifest->attributes()->type . '_UPDATED');
+		// If the extension type has it own language key, use it, otherwise, use default language key
+		if ($language->hasKey(strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_UPDATED')))
+		{
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_UPDATED');
+		}
+		else
+		{
+			$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_EXTENSION_UPDATED';
+		}
 
 		$message = array(
 			'action'         => 'update',
+			'type'           => strtoupper('PLG_SYSTEM_USERLOGS_TYPE_' . $extensionType),
 			'id'             => $eid,
+			'name'           => (string) $manifest->name,
 			'extension_name' => (string) $manifest->name,
 			'userid'         => $user->id,
 			'username'       => $user->username,
@@ -456,7 +524,9 @@ class PlgSystemUserLogs extends JPlugin
 	 */
 	public function onExtensionAfterSave($context, $table, $isNew)
 	{
-		if (!$this->checkLoggable($this->app->input->get('option')))
+		$option = $this->app->input->getCmd('option');
+
+		if (!$this->checkLoggable($option))
 		{
 			return;
 		}
@@ -469,24 +539,37 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$extensionType = $params->type_title;
+
 		if ($isNew)
 		{
-			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_ADDED');
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_ADDED');
+			$defaultLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_CONTENT_ADDED');
 			$action             = 'add';
 		}
 		else
 		{
-			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_UPDATED');
+
+			$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $extensionType . '_UPDATED');
+			$defaultLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_UPDATED';
 			$action             = 'update';
+		}
+
+		// If the extension type doesn't have it own language key, use default language key
+		if (!JFactory::getLanguage()->hasKey($messageLanguageKey))
+		{
+			$messageLanguageKey = $defaultLanguageKey;
 		}
 
 		$user = JFactory::getUser();
 
 		$message = array(
 			'action'         => $action,
+			'type'           => strtoupper('PLG_SYSTEM_USERLOGS_TYPE_' . $extensionType),
 			'id'             => $table->get($params->id_holder),
 			'title'          => $table->get($params->title_holder),
 			'extension_name' => $table->get($params->title_holder),
+			'itemlink'       => $this->getContentTypeLink($option, $params->type_title, $table->get($params->id_holder)),
 			'userid'         => $user->id,
 			'username'       => $user->username,
 			'accountlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
@@ -521,11 +604,12 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_' . $params->type_title . '_DELETED');
+		$messageLanguageKey = strtoupper('PLG_SYSTEM_USERLOGS_CONTENT_DELETED');
 		$user               = JFactory::getUser();
 
 		$message = array(
 			'action'      => 'delete',
+			'type'        => strtoupper('PLG_SYSTEM_USERLOGS_TYPE_' . $params->type_title),
 			'title'       => $table->get($params->title_holder),
 			'userid'      => $user->id,
 			'username'    => $user->username,
@@ -697,15 +781,16 @@ class PlgSystemUserLogs extends JPlugin
 
 		$user = JFactory::getUser();
 
-		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_USER_GROUP_DELETED';
+		$messageLanguageKey = 'PLG_SYSTEM_USERLOGS_CONTENT_DELETED';
 
 		$message = array(
-			'action'   => 'delete',
-			'id'       => $group['id'],
-			'title'    => $group['title'],
-			'userid'   => $user->id,
-			'username' => $user->username,
-			'accountlink'   => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'action'      => 'delete',
+			'type'        => 'PLG_SYSTEM_USERLOGS_TYPE_USER_GROUP',
+			'id'          => $group['id'],
+			'title'       => $group['title'],
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 
 		$this->addLogsToDb(array($message), $messageLanguageKey, $context);
@@ -799,13 +884,13 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
-		$layout = new JLayoutFile('plugins.system.userlogs.layouts.logstable', JPATH_ROOT);
+		$layout    = new JLayoutFile('plugins.system.userlogs.layouts.logstable', JPATH_ROOT);
 		$extension = UserlogsHelper::translateExtensionName(strtoupper(strtok($context, '.')));
 
 		foreach ($messages as $message)
 		{
 			$message->extension = $extension;
-			$message->message = UserlogsHelper::getHumanReadableLogMessage($message);
+			$message->message   = UserlogsHelper::getHumanReadableLogMessage($message);
 		}
 
 		$displayData = array(
@@ -813,7 +898,7 @@ class PlgSystemUserLogs extends JPlugin
 			'username' => $username,
 		);
 
-		$body = $layout->render($displayData);
+		$body   = $layout->render($displayData);
 		$mailer = JFactory::getMailer();
 		$mailer->addRecipient($recipients);
 		$mailer->setSubject(JText::_('PLG_SYSTEM_USERLOGS_EMAIL_SUBJECT'));
