@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,6 +69,7 @@ class ModulelayoutField extends FormField
 
 		// Get the style.
 		$template_style_id = '';
+
 		if ($this->form instanceof Form)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
@@ -179,6 +180,7 @@ class ModulelayoutField extends FormField
 					}
 				}
 			}
+
 			// Compute attributes for the grouped list
 			$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 			$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
