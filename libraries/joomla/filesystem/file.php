@@ -17,6 +17,42 @@ defined('JPATH_PLATFORM') or die;
 class JFile
 {
 	/**
+	 * File uploaded successfully.
+	 * @var int
+	 */
+	const UPLOAD_RESULT_SUCCESS = 1;
+
+	/**
+	 * File not uploaded for security reason.
+	 * @var int
+	 */
+	const UPLOAD_RESULT_SECURITY_ERROR = 0;
+
+	/**
+	 * Stream error.
+	 * @var int
+	 */
+	const UPLOAD_RESULT_STREAM_ERROR = -1;
+
+	/**
+	 * Failed to move file.
+	 * @var int
+	 */
+	const UPLOAD_RESULT_MOVE_ERROR = -2;
+
+	/**
+	 * Failed to change file permissions.
+	 * @var int
+	 */
+	const UPLOAD_RESULT_PERMISSION_ERROR = -3;
+
+	/**
+	 * Result of upload file.
+	 * @var int
+	 */
+	protected static $uploadResult = self::UPLOAD_RESULT_SUCCESS;
+
+	/**
 	 * Gets the extension of a file name
 	 *
 	 * @param   string  $file  The file name
@@ -520,6 +556,8 @@ class JFile
 	 */
 	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
 	{
+		self::$uploadResult = self::UPLOAD_RESULT_SUCCESS;
+
 		if (!$allow_unsafe)
 		{
 			$descriptor = array(
@@ -535,6 +573,7 @@ class JFile
 			if (!$isSafe)
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR03', $dest), JLog::WARNING, 'jerror');
+				self::$uploadResult = self::UPLOAD_RESULT_SECURITY_ERROR;
 
 				return false;
 			}
@@ -560,6 +599,7 @@ class JFile
 			if (!$stream->upload($src, $dest))
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()), JLog::WARNING, 'jerror');
+				self::$uploadResult = self::UPLOAD_RESULT_STREAM_ERROR;
 
 				return false;
 			}
@@ -588,6 +628,7 @@ class JFile
 				else
 				{
 					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), JLog::WARNING, 'jerror');
+					self::$uploadResult = self::UPLOAD_RESULT_MOVE_ERROR;
 				}
 			}
 			else
@@ -602,11 +643,13 @@ class JFile
 					else
 					{
 						JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), JLog::WARNING, 'jerror');
+						self::$uploadResult = self::UPLOAD_RESULT_PERMISSION_ERROR;
 					}
 				}
 				else
 				{
 					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), JLog::WARNING, 'jerror');
+					self::$uploadResult = self::UPLOAD_RESULT_MOVE_ERROR;
 				}
 			}
 
@@ -656,5 +699,15 @@ class JFile
 		{
 			return $file;
 		}
+	}
+
+	/**
+	 * Return result of last upload() method call.
+	 *
+	 * @return int
+	 */
+	public static function getUploadResult()
+	{
+		return self::$uploadResult;
 	}
 }
