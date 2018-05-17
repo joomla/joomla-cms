@@ -87,7 +87,7 @@ class MediaField extends FormField
 	/**
 	 * The previewWidth.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewWidth;
@@ -95,7 +95,7 @@ class MediaField extends FormField
 	/**
 	 * The previewHeight.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewHeight;

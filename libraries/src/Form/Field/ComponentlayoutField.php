@@ -68,6 +68,7 @@ class ComponentlayoutField extends FormField
 		$template = preg_replace('#\W#', '', $template);
 
 		$template_style_id = '';
+
 		if ($this->form instanceof Form)
 		{
 			$template_style_id = $this->form->getValue('template_style_id');
