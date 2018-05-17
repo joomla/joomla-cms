@@ -74,6 +74,14 @@ class HtmlDocument extends Document
 	public $_file = null;
 
 	/**
+	 * Script nonce (string if set, null otherwise)
+	 *
+	 * @var    string|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $scriptNonce = null;
+
+	/**
 	 * String holding parsed template
 	 *
 	 * @var    string
@@ -550,6 +558,11 @@ class HtmlDocument extends Document
 		if (empty($this->_template))
 		{
 			$this->parse($params);
+		}
+
+		if (array_key_exists('script_nonce', $params) && $params['script_nonce'] !== null)
+		{
+			$this->scriptNonce = $params['script_nonce'];
 		}
 
 		$data = $this->_renderTemplate();
