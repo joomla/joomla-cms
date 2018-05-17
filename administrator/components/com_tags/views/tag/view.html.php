@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class TagsViewTag extends JViewLegacy
 			{
 				JToolbarHelper::apply('tag.apply');
 				JToolbarHelper::save('tag.save');
-	
+
 				if ($canDo->get('core.create'))
 				{
 					JToolbarHelper::save2new('tag.save2new');

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -694,6 +694,14 @@ class FormController extends BaseController
 			return false;
 		}
 
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $data;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array($this->option . '.' . $this->context, $objData, $form)
+		);
+		$data = (array) $objData;
+
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 
@@ -873,7 +881,11 @@ class FormController extends BaseController
 
 		$recordId = $this->input->getInt($urlVar);
 
-		if (!$this->allowEdit($data, $key))
+		// Populate the row id from the session.
+		$data[$key] = $recordId;
+
+		// Check if it is allowed to edit or create the data
+		if (($recordId && !$this->allowEdit($data, $key)) || (!$recordId && !$this->allowAdd($data)))
 		{
 			$this->setRedirect(
 				\JRoute::_(
@@ -883,9 +895,6 @@ class FormController extends BaseController
 			);
 			$this->redirect();
 		}
-
-		// Populate the row id from the session.
-		$data[$key] = $recordId;
 
 		// The redirect url
 		$redirectUrl = \JRoute::_(

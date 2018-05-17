@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,7 +134,7 @@ abstract class Factory
 		{
 			if (!$id)
 			{
-				throw new \Exception('Application Instantiation Error', 500);
+				throw new \Exception('Failed to start application', 500);
 			}
 
 			self::$application = CMSApplication::getInstance($id);

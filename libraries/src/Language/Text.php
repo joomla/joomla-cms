@@ -1,20 +1,25 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Language
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Language;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
  *
  * @since  11.1
  */
-class JText
+class Text
 {
 	/**
 	 * JavaScript strings
@@ -28,9 +33,9 @@ class JText
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * `<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true)); ?>'));</script>`
+	 * `<script>alert(Joomla.JText._('<?php echo Text::_("JDEFAULT", array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing 'Default'
-	 * `<?php echo JText::_("JDEFAULT"); ?>` will generate a 'Default' string
+	 * `<?php echo Text::_("JDEFAULT"); ?>` will generate a 'Default' string
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
@@ -63,7 +68,7 @@ class JText
 			return $string;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		if ($script)
 		{
@@ -95,10 +100,10 @@ class JText
 			return false;
 		}
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$string_parts = explode(',', $string);
 
-		// Pass all parts through the JText translator
+		// Pass all parts through the Text translator
 		foreach ($string_parts as $i => $str)
 		{
 			$string_parts[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
@@ -140,8 +145,8 @@ class JText
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * `<?php echo JText::alt('JALL', 'language'); ?>` will generate a 'All' string in English but a "Toutes" string in French
-	 * `<?php echo JText::alt('JALL', 'module'); ?>` will generate a 'All' string in English but a "Tous" string in French
+	 * `<?php echo Text::alt('JALL', 'language'); ?>` will generate a 'All' string in English but a "Toutes" string in French
+	 * `<?php echo Text::alt('JALL', 'module'); ?>` will generate a 'All' string in English but a "Tous" string in French
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   string   $alt                   The alternate option for global string
@@ -155,7 +160,7 @@ class JText
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
-		if (JFactory::getLanguage()->hasKey($string . '_' . $alt))
+		if (Factory::getLanguage()->hasKey($string . '_' . $alt))
 		{
 			$string .= '_' . $alt;
 		}
@@ -164,7 +169,7 @@ class JText
 	}
 
 	/**
-	 * Like JText::sprintf but tries to pluralise the string.
+	 * Like Text::sprintf but tries to pluralise the string.
 	 *
 	 * Note that this method can take a mixed number of arguments as for the sprintf function.
 	 *
@@ -179,9 +184,9 @@ class JText
 	 * script is a boolean to indicate that the string will be push in the javascript language store.
 	 *
 	 * Examples:
-	 * `<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true)); ?>'));</script>`
+	 * `<script>alert(Joomla.JText._('<?php echo Text::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing '1 plugin successfully disabled'
-	 * `<?php echo JText::plural('COM_PLUGINS_N_ITEMS_UNPUBLISHED', 1); ?>` will generate a '1 plugin successfully disabled' string
+	 * `<?php echo Text::plural('COM_PLUGINS_N_ITEMS_UNPUBLISHED', 1); ?>` will generate a '1 plugin successfully disabled' string
 	 *
 	 * @param   string   $string  The format string.
 	 * @param   integer  $n       The number of items
@@ -192,7 +197,7 @@ class JText
 	 */
 	public static function plural($string, $n)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
 
@@ -276,7 +281,7 @@ class JText
 	 */
 	public static function sprintf($string)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
 
@@ -323,7 +328,7 @@ class JText
 	 */
 	public static function printf($string)
 	{
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 		$args = func_get_args();
 		$count = count($args);
 
@@ -350,7 +355,7 @@ class JText
 	/**
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
-	 * @param   string   $string                The JText key.
+	 * @param   string   $string                The Text key.
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
 	 *
@@ -362,14 +367,14 @@ class JText
 	{
 		if ($string === null)
 		{
-			JLog::add(
+			Log::add(
 				sprintf(
 					'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
 					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
 					__METHOD__,
 					__CLASS__
 				),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -395,13 +400,13 @@ class JText
 		if ($string !== null)
 		{
 			// Normalize the key and translate the string.
-			static::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
 			// Load core.js dependency
-			JHtml::_('behavior.core');
+			HTMLHelper::_('behavior.core');
 
 			// Update Joomla.JText script options
-			JFactory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
+			Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
 		}
 
 		return static::getScriptStrings();

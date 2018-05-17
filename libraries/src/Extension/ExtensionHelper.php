@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,6 +90,7 @@ class ExtensionHelper
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
 		array('module', 'mod_quickicon', '', 1),
+		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
 		array('module', 'mod_status', '', 1),
 		array('module', 'mod_submenu', '', 1),
@@ -199,6 +200,9 @@ class ExtensionHelper
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
 
+		// Core plugin extensions - sample data
+		array('plugin', 'blog', 'sampledata', 0),
+
 		// Core plugin extensions - search
 		array('plugin', 'categories', 'search', 0),
 		array('plugin', 'contacts', 'search', 0),
@@ -219,6 +223,7 @@ class ExtensionHelper
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
+		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
