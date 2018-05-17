@@ -19,7 +19,7 @@ class UserlogsHelper
 	/**
 	 * Method to extract data array of objects into CSV file
 	 *
-	 * @param   array $data The logs data to be exported
+	 * @param   array  $data  The logs data to be exported
 	 *
 	 * @return  void
 	 *
@@ -86,13 +86,13 @@ class UserlogsHelper
 	/**
 	 * Get parameters to be
 	 *
-	 * @param   string   $context  The context of the content
+	 * @param   string  $context  The context of the content
 	 *
-	 * @return  mixed  An object contain type parameters, or null if not found
+	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getLogMessageParams($context)
+	public static function getLogContentTypeParams($context)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -108,33 +108,65 @@ class UserlogsHelper
 	/**
 	 * Method to retrieve data by primary keys from a table
 	 *
-	 * @param   array   $pks          An array of primary key ids of the content that has changed state.
-	 * @param   string  $field        The field to get from the table
-	 * @param   string  $tableType    The type (name) of the JTable class to get an instance of.
-	 * @param   string  $tablePrefix  An optional prefix for the table class name.
+	 * @param   array   $pks      An array of primary key ids of the content that has changed state.
+	 * @param   string  $field    The field to get from the table
+	 * @param   string  $idField  The primary key of the table
+	 * @param   string  $table    The database table to get data from
 	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getDataByPks($pks, $field, $tableType, $tablePrefix = 'JTable')
+	public static function getDataByPks($pks, $field, $idField, $table)
 	{
-		$items = array();
-		$table = JTable::getInstance($tableType, $tablePrefix);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array($idField, $field)))
+			->from($db->quoteName($table))
+			->where($db->quoteName($idField) . ' IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
 
-		if ($table === false)
+		try
 		{
-			return $items;
+			return $db->loadObjectList($idField);
+		}
+		catch (RuntimeException $e)
+		{
+			return array();
+		}
+	}
+
+	/**
+	 * Get human readable log message for a User Action Log
+	 *
+	 * @param   stdClass  $log  A User Action log message record
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getHumanReadableLogMessage($log)
+	{
+		$message     = JText::_($log->message_language_key);
+		$messageData = json_decode($log->message, true);
+
+		// Special handling for translation extension name
+		if (isset($messageData['extension_name']))
+		{
+			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
 		}
 
-		foreach ($pks as $pk)
+		// Translate content type title
+		if (isset($messageData['type']))
 		{
-			if ($table->load($pk))
-			{
-				$items[] = $table->get($field);
-			}
+			$messageData['type'] = JText::_($messageData['type']);
 		}
 
-		return $items;
+		foreach ($messageData as $key => $value)
+		{
+			$message = str_replace('{' . $key . '}', $value, $message);
+		}
+
+		return $message;
 	}
 }

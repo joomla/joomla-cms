@@ -11,6 +11,7 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__user_logs](
 	[id] [int] IDENTITY(1,1) NOT NULL,
+	[message_language_key] [nvarchar](255) NOT NULL DEFAULT '',
 	[message] [nvarchar](max) NOT NULL DEFAULT '',
 	[log_date] [datetime] NOT NULL DEFAULT '1900-01-01 00:00:00',
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
@@ -87,41 +88,41 @@ CREATE TABLE [#__user_logs_tables_data](
 
 SET IDENTITY_INSERT [#__user_logs_tables_data]  ON;
 
-INSERT INTO [#__user_logs_tables_data] ([id], [type_title], [type_alias], [title_holder], [table_values])
-SELECT 1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
+INSERT INTO [#__user_logs_tables_data] ([id], [type_title], [type_alias], [id_holder], [title_holder], [table_name], [text_prefix])
+SELECT 1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
+SELECT 2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}'
+SELECT 3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}'
+SELECT 4, 'user_note', 'com_users.note', 'id', 'subject' ,'#__user_notes', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}'
+SELECT 5, 'media', 'com_media.file', '' , 'name' , '',  'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}'
+SELECT 6, 'category', 'com_categories.category', 'id' , 'title' , '#__categories', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
+SELECT 7, 'menu', 'com_menus.menu', 'id' ,'title' , '#__menu_types', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
+SELECT 8, 'menu_item', 'com_menus.item', 'id' , 'title' , '#__menu', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}'
+SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'id' ,'name' , '#__newsfeeds', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}'
+SELECT 10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}'
+SELECT 11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}'
+SELECT 12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'
+SELECT 13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'
+SELECT 14, 'component_config', 'com_config.component', 'extension_id' , 'name', '', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'
+SELECT 15, 'contact', 'com_contact.contact', 'id', 'name', '#__contact_details', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'
+SELECT 16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'
+SELECT 17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}';
+SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_SYSTEM_USERLOGS';
 
 SET IDENTITY_INSERT [#__user_logs_tables_data]  OFF;

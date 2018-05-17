@@ -14,6 +14,8 @@ $source = JPATH_ADMINISTRATOR . '/components/' . 'com_userlogs';
 
 $lang->load("com_userlogs", JPATH_ADMINISTRATOR, null, false, true)
 	|| $lang->load("com_userlogs", $source, null, false, true);
+
+$messages = $displayData['messages'];
 ?>
 <h1>
 	<?php echo JText::_('PLG_SYSTEM_USERLOGS_EMAIL_SUBJECT'); ?>
@@ -30,12 +32,19 @@ $lang->load("com_userlogs", JPATH_ADMINISTRATOR, null, false, true)
 		<th><?php echo JText::_('COM_USERLOGS_IP_ADDRESS'); ?></th>
 	</thead>
 	<tbody>
-		<tr>
-			<td><?php echo $displayData['message']; ?></td>
-			<td><?php echo $displayData['log_date']; ?></td>
-			<td><?php echo $displayData['extension']; ?></td>
-			<td><?php echo $displayData['username']; ?></td>
-			<td><?php echo $displayData['ip']; ?></td>
-		</tr>
+        <?php
+            foreach ($messages as $message)
+            {
+            ?>
+                <tr>
+                    <td><?php echo $message->message; ?></td>
+                    <td><?php echo $message->log_date; ?></td>
+                    <td><?php echo $message->extension; ?></td>
+                    <td><?php echo $displayData['username']; ?></td>
+                    <td><?php echo $message->ip_address; ?></td>
+                </tr>
+            <?php
+            }
+        ?>
 	</tbody>
 </table>
