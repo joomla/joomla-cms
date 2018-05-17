@@ -41,73 +41,76 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</fieldset>
 	<?php endif; ?>
 
-		<ul class="category row-striped">
+		<ul class="category list-group">
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="row system-unpublished cat-list-row<?php echo $i % 2; ?>">
+						<li class="list-group-item disabled">
 					<?php else : ?>
-						<li class="row cat-list-row<?php echo $i % 2; ?>" >
+						<li class="list-group-item">
 					<?php endif; ?>
 
-					<?php if ($this->params->get('show_image_heading')) : ?>
-						<?php $contact_width = 7; ?>
-						<div class="col-md-2">
-							<?php if ($this->items[$i]->image) : ?>
-								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
+					<div class="row cat-list-row<?php echo $i % 2; ?>">
+
+						<?php if ($this->params->get('show_image_heading')) : ?>
+							<?php $contact_width = 7; ?>
+							<div class="col-md-2">
+								<?php if ($this->items[$i]->image) : ?>
+									<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+										<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
+								<?php endif; ?>
+							</div>
+						<?php else : ?>
+							<?php $contact_width = 9; ?>
+						<?php endif; ?>
+
+						<div class="list-title col-md-<?php echo $contact_width; ?>">
+							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+								<?php echo $item->name; ?></a>
+							<?php if ($this->items[$i]->published == 0) : ?>
+								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+							<?php endif; ?>
+							<?php echo $item->event->afterDisplayTitle; ?>
+
+							<?php echo $item->event->beforeDisplayContent; ?>
+
+							<?php if ($this->params->get('show_position_headings')) : ?>
+								<?php echo $item->con_position; ?><br>
+							<?php endif; ?>
+							<?php if ($this->params->get('show_email_headings')) : ?>
+								<?php echo $item->email_to; ?><br>
+							<?php endif; ?>
+							<?php $location = array(); ?>
+							<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
+								<?php $location[] = $item->suburb; ?>
+							<?php endif; ?>
+							<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
+								<?php $location[] = $item->state; ?>
+							<?php endif; ?>
+							<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
+								<?php $location[] = $item->country; ?>
+							<?php endif; ?>
+							<?php echo implode($location, ', '); ?>
+						</div>
+
+						<div class="col-md-3">
+							<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
+								<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
+							<?php endif; ?>
+
+							<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
+								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br>
+							<?php endif; ?>
+
+							<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
+								<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 						</div>
-					<?php else : ?>
-						<?php $contact_width = 9; ?>
-					<?php endif; ?>
+						<?php echo $item->event->afterDisplayContent; ?>
 
-					<div class="list-title col-md-<?php echo $contact_width; ?>">
-						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-							<?php echo $item->name; ?></a>
-						<?php if ($this->items[$i]->published == 0) : ?>
-							<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-						<?php endif; ?>
-						<?php echo $item->event->afterDisplayTitle; ?>
-
-						<?php echo $item->event->beforeDisplayContent; ?>
-
-						<?php if ($this->params->get('show_position_headings')) : ?>
-								<?php echo $item->con_position; ?><br>
-						<?php endif; ?>
-						<?php if ($this->params->get('show_email_headings')) : ?>
-								<?php echo $item->email_to; ?><br>
-						<?php endif; ?>
-						<?php $location = array(); ?>
-						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
-							<?php $location[] = $item->suburb; ?>
-						<?php endif; ?>
-						<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
-							<?php $location[] = $item->state; ?>
-						<?php endif; ?>
-						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
-							<?php $location[] = $item->country; ?>
-						<?php endif; ?>
-						<?php echo implode($location, ', '); ?>
 					</div>
-
-					<div class="col-md-3">
-						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
-							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
-								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
-							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
-						<?php endif; ?>
-					</div>
-
-					<?php echo $item->event->afterDisplayContent; ?>
-				</li>
+					</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
