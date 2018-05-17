@@ -6,47 +6,69 @@
  * @since       3.2
  */
 
-(function($)
-{
-	$(document).ready(function()
-	{
-		$('*[rel=tooltip]').tooltip();
+jQuery(function($) {
+	"use strict";
 
-		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+	$(document)
+		.on('click', ".btn-group label:not(.active)", function() {
+			var $label = $(this);
+			var $input = $('#' + $label.attr('for'));
 
-		$(".btn-group label:not(.active)").click(function()
-		{
-			var label = $(this);
-			var input = $('#' + label.attr('for'));
-
-			if (!input.prop('checked')) {
-				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() == '') {
-					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
-				} else {
-					label.addClass('active btn-success');
-				}
-				input.prop('checked', true);
-				input.trigger('change');
+			if ($input.prop('checked')) {
+				return;
 			}
-		});
-		$(".btn-group input[checked=checked]").each(function()
-		{
-			if ($(this).val() == '') {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-			} else {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+
+			$label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+
+			var btnClass = 'primary';
+
+
+			if ($input.val() != '')
+			{
+				var reversed = $label.closest('.btn-group').hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
 			}
-		});
-		
-		$('#back-top').on('click', function(e) {
+
+			$label.addClass('active btn-' + btnClass);
+			$input.prop('checked', true).trigger('change');
+		})
+		.on('click', '#back-top', function (e) {
 			e.preventDefault();
 			$("html, body").animate({scrollTop: 0}, 1000);
+		})
+		.on('subform-row-add', initButtonGroup)
+		.on('subform-row-add', initTooltip);
+
+	initButtonGroup();
+	initTooltip();
+
+	// Called once on domready, again when a subform row is added
+	function initTooltip(event, container)
+	{
+		$(container || document).find('*[rel=tooltip]').tooltip();
+	}
+
+	// Called once on domready, again when a subform row is added
+	function initButtonGroup(event, container)
+	{
+		var $container = $(container || document);
+
+		// Turn radios into btn-group
+		$container.find('.radio.btn-group label').addClass('btn');
+
+		$container.find(".btn-group input:checked").each(function()
+		{
+			var $input  = $(this);
+			var $label = $('label[for=' + $input.attr('id') + ']');
+			var btnClass = 'primary';
+
+			if ($input.val() != '')
+			{
+				var reversed = $input.parent().hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
+			}
+
+			$label.addClass('active btn-' + btnClass);
 		});
-	})
-})(jQuery);
+	}
+});

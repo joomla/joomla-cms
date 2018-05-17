@@ -29,9 +29,16 @@ $modPath         = json_encode(JUri::root(true) . '/' . $modePath . $extJS);
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
 		;(function (cm, $) {
-			cm.keyMap.default["Ctrl-Q"] = toggleFullScreen;
-			cm.keyMap.default[$fsCombo] = toggleFullScreen;
-			cm.keyMap.default["Esc"] = closeFullScreen;
+			cm.commands.toggleFullScreen = function (cm) {
+				cm.setOption('fullScreen', !cm.getOption('fullScreen'));
+			};
+			cm.commands.closeFullScreen = function (cm) {
+				cm.getOption('fullScreen') && cm.setOption('fullScreen', false);
+			};
+
+			cm.keyMap.default['Ctrl-Q'] = 'toggleFullScreen';
+			cm.keyMap.default[$fsCombo] = 'toggleFullScreen';
+			cm.keyMap.default['Esc'] = 'closeFullScreen';
 			// For mode autoloading.
 			cm.modeURL = $modPath;
 			// Fire this function any time an editor is created.
@@ -51,35 +58,46 @@ JFactory::getDocument()->addScriptDeclaration(
 				}
 
 				// Handle gutter clicks (place or remove a marker).
-				editor.on("gutterClick", function (ed, n, gutter) {
-					if (gutter != "CodeMirror-markergutter") { return; }
+				editor.on('gutterClick', function (ed, n, gutter) {
+					if (gutter != 'CodeMirror-markergutter') { return; }
 					var info = ed.lineInfo(n),
-						hasMarker = !!info.gutterMarkers && !!info.gutterMarkers["CodeMirror-markergutter"];
-					ed.setGutterMarker(n, "CodeMirror-markergutter", hasMarker ? null : makeMarker());
+						hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
+					ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : makeMarker());
 				});
 
 				// jQuery's ready function.
 				$(function () {
 					// Some browsers do something weird with the fieldset which doesn't work well with CodeMirror. Fix it.
-					$(editor.getTextArea()).parent('fieldset').css('min-width', 0);
+					$(editor.getWrapperElement()).parent('fieldset').css('min-width', 0);
 					// Listen for Bootstrap's 'shown' event. If this editor was in a hidden element when created, it may need to be refreshed.
-					$(document.body).on("shown shown.bs.tab shown.bs.modal", function () { editor.refresh(); });
+					$(document.body).on('shown shown.bs.tab shown.bs.modal', function () { editor.refresh(); });
 				});
 			});
-			function toggleFullScreen(cm)
-			{
-				cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-			}
-			function closeFullScreen(cm)
-			{
-				cm.getOption("fullScreen") && cm.setOption("fullScreen", false);
-			}
+
 			function makeMarker()
 			{
-				var marker = document.createElement("div");
-				marker.className = "CodeMirror-markergutter-mark";
+				var marker = document.createElement('div');
+				marker.className = 'CodeMirror-markergutter-mark';
 				return marker;
 			}
+
+			// Initialize any CodeMirrors on page load and when a subform is added
+			$(function ($) {
+				initCodeMirror();
+				$('body').on('subform-row-add', initCodeMirror);
+			});
+
+			function initCodeMirror(event, container)
+			{
+				container = container || document;
+				$(container).find('textarea.codemirror-source').each(function () {
+					var input = $(this).removeClass('codemirror-source');
+					var id = input.prop('id');
+
+					Joomla.editors.instances[id] = cm.fromTextArea(this, input.data('options'));
+				});
+			}
+
 		}(CodeMirror, jQuery));
 JS
 );

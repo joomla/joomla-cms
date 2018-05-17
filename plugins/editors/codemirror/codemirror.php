@@ -179,6 +179,9 @@ class PlgEditorCodemirror extends JPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
+		// True if a CodeMirror already has autofocus. Prevent multiple autofocuses.
+		static $autofocused;
+
 		$id = empty($id) ? $name : $id;
 
 		// Must pass the field id to the buttons in this editor.
@@ -198,7 +201,11 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Should we focus on the editor on load?
-		$options->autofocus = (boolean) $this->params->get('autoFocus', true);
+		if (!$autofocused)
+		{
+			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
+			$autofocused = $options->autofocus;
+		}
 
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
@@ -268,8 +275,19 @@ class PlgEditorCodemirror extends JPlugin
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
 
-		// Vim Keybindings.
-		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
+		// KeyMap settings.
+		$options->keyMap = $this->params->get('keyMap', false);
+
+		// Support for older settings.
+		if ($options->keyMap === false)
+		{
+			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
+		}
+
+		if ($options->keyMap && $options->keyMap != 'default')
+		{
+			$this->loadKeyMap($options->keyMap);
+		}
 
 		$displayData = (object) array(
 				'options' => $options,
@@ -356,5 +374,19 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
+
+	/**
+	 * Loads a keyMap file
+	 *
+	 * @param   string  $keyMap  The name of a keyMap file to load.
+	 *
+	 * @return  void
+	 */
+	protected function loadKeyMap($keyMap)
+	{
+		$basePath = $this->params->get('basePath', 'media/editors/codemirror/');
+		$ext = JDEBUG ? '.js' : '.min.js';
+		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }
