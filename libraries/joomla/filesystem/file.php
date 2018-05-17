@@ -18,37 +18,43 @@ class JFile
 {
 	/**
 	 * File uploaded successfully.
-	 * @var int
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
 	 */
 	const UPLOAD_RESULT_SUCCESS = 1;
 
 	/**
 	 * File not uploaded for security reason.
-	 * @var int
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
 	 */
 	const UPLOAD_RESULT_SECURITY_ERROR = 0;
 
 	/**
 	 * Stream error.
-	 * @var int
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
 	 */
 	const UPLOAD_RESULT_STREAM_ERROR = -1;
 
 	/**
 	 * Failed to move file.
-	 * @var int
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
 	 */
 	const UPLOAD_RESULT_MOVE_ERROR = -2;
 
 	/**
 	 * Failed to change file permissions.
-	 * @var int
+	 * @var integer
+	 * @since __DEPLOY_VERSION__
 	 */
 	const UPLOAD_RESULT_PERMISSION_ERROR = -3;
 
 	/**
 	 * Result of upload file.
-	 * @var int|null
+	 * @var integer|null
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $uploadResult = null;
 
@@ -705,6 +711,8 @@ class JFile
 	 * Return result of last upload() method call.
 	 *
 	 * @return int
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getUploadResult()
 	{
