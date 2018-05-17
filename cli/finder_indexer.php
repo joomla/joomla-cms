@@ -112,7 +112,7 @@ class FinderCli extends JApplicationCli
 	 * Pause time in seconds.
 	 *
 	 * @var    integer|string
-	 * @since  3.3
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $pause = 0;
 
