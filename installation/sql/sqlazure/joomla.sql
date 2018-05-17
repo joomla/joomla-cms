@@ -3109,7 +3109,7 @@ SELECT 11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_SYSTEM_USERLOG
 UNION ALL
 SELECT 12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
-SELECT 13, 'plugin', 'com_plugins.plugin', 'id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'
+SELECT 13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'
 UNION ALL
 SELECT 14, 'component_config', 'com_config.component', 'extension_id' , 'name', '', 'PLG_SYSTEM_USERLOGS'
 UNION ALL

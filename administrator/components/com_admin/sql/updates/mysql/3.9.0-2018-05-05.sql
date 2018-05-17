@@ -75,7 +75,7 @@ INSERT INTO `#__user_logs_tables_data` (`id`, `type_title`, `type_alias`, `id_ho
 (10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_SYSTEM_USERLOGS'),
 (11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_SYSTEM_USERLOGS'),
 (12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_SYSTEM_USERLOGS'),
-(13, 'plugin', 'com_plugins.plugin', 'id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'),
+(13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'),
 (14, 'component_config', 'com_config.component', 'extension_id' , 'name', '', 'PLG_SYSTEM_USERLOGS'),
 (15, 'contact', 'com_contact.contact', 'id', 'name', '#__contact_details', 'PLG_SYSTEM_USERLOGS'),
 (16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_SYSTEM_USERLOGS'),
