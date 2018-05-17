@@ -7,14 +7,13 @@
 
   // Selectors used by this script
   var buttonDataSelector = 'data-submit-task';
-  var formId = 'templates-form';
 
   /**
    * Submit the task
    * @param task
+   * @param form
    */
-  var submitTask = function (task) {
-    var form = document.getElementById(formId);
+  var submitTask = function (task, form) {
     if (task == 'templates.cancel' || document.formvalidator.isValid(form)) {
       submitForm(task, form);
     }
@@ -29,7 +28,7 @@
       button.addEventListener('click', function (e) {
         e.preventDefault();
         var task = e.target.getAttribute(buttonDataSelector);
-        submitTask(task);
+        submitTask(task, e.target.form);
       });
     });
   };
