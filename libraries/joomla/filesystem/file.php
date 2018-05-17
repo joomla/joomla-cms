@@ -48,9 +48,9 @@ class JFile
 
 	/**
 	 * Result of upload file.
-	 * @var int
+	 * @var int|null
 	 */
-	protected static $uploadResult = self::UPLOAD_RESULT_SUCCESS;
+	protected static $uploadResult = null;
 
 	/**
 	 * Gets the extension of a file name
