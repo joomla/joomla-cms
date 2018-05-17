@@ -1360,7 +1360,8 @@ class ComponentAdapter extends InstallerAdapter
 				/** @var  \JTableMenu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
-				$temporaryTable->rebuild($data['parent_id']);
+				$temporaryTable->load($parentId);
+				$temporaryTable->rebuild($parentId, $temporaryTable->lft, $temporaryTable->level, $temporaryTable->path);
 
 				// Retry creating the menu item
 				$table->setLocation($parentId, 'last-child');
