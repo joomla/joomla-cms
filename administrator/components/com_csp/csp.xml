@@ -47,7 +47,6 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>csp.php</filename>
-			<filename>config.xml</filename>
 			<filename>dispatcher.php</filename>
 			<folder>Controller</folder>
 			<folder>Helper</folder>

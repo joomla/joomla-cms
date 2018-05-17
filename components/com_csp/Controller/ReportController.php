@@ -48,6 +48,7 @@ class ReportController extends BaseController
 			$report->directive = $data['effective-directive'];
 		}
 
+		// Empty report
 		if (empty($report->blocked_uri) && empty($report->directive))
 		{
 			$this->app->close();
