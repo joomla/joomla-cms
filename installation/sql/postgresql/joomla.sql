@@ -1977,6 +1977,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
+  "access" bigint DEFAULT 1 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
