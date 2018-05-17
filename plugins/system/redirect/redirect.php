@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,12 +122,24 @@ class PlgSystemRedirect extends JPlugin
 		// These are the original URLs
 		$orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 		$orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+
+		// The above doesn't work for sub directories, so do this
+		$orgurlRootRel         = str_replace(JUri::root(), '', $orgurl);
+
+		// For when users have added / to the url
+		$orgurlRootRelSlash    = str_replace(JUri::root(), '/', $orgurl);
 		$orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
 		$orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
 
 		// These are the URLs we save and use
 		$url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
 		$urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+
+		// The above doesn't work for sub directories, so do this
+		$urlRootRel         = str_replace(JUri::root(), '', $url);
+
+		// For when users have added / to the url
+		$urlRootRelSlash    = str_replace(JUri::root(), '/', $url);
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
@@ -157,7 +169,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
@@ -183,6 +195,10 @@ class PlgSystemRedirect extends JPlugin
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRel)
 				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRootRel)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRootRelSlash)
+				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlWithoutQuery)
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRelWithoutQuery)
@@ -190,6 +206,10 @@ class PlgSystemRedirect extends JPlugin
 				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurl)
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRel)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRootRel)
+				. ' OR '
+				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRootRelSlash)
 				. ' OR '
 				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlWithoutQuery)
 				. ' OR '
@@ -214,10 +234,14 @@ class PlgSystemRedirect extends JPlugin
 			array(
 				$url,
 				$urlRel,
+				$urlRootRel,
+				$urlRootRelSlash,
 				$urlWithoutQuery,
 				$urlRelWithoutQuery,
 				$orgurl,
 				$orgurlRel,
+				$orgurlRootRel,
+				$orgurlRootRelSlash,
 				$orgurlWithoutQuery,
 				$orgurlRelWithoutQuery,
 			)
@@ -255,7 +279,11 @@ class PlgSystemRedirect extends JPlugin
 					$redirect->new_url .= '?' . $urlQuery;
 				}
 
-				$destination = JUri::isInternal($redirect->new_url) ? JRoute::_($redirect->new_url) : $redirect->new_url;
+				$dest = JUri::isInternal($redirect->new_url) || strpos($redirect->new_url, 'http') === false ?
+					JRoute::_($redirect->new_url) : $redirect->new_url;
+
+				// In case the url contains double // lets remove it
+				$destination = str_replace(JUri::root() . '/', JUri::root(), $dest);
 
 				$app->redirect($destination, (int) $redirect->header);
 			}
@@ -269,6 +297,11 @@ class PlgSystemRedirect extends JPlugin
 
 			if ((bool) $params->get('collect_urls', true))
 			{
+				if (!$params->get('includeUrl', 1))
+				{
+					$url = $urlRel;
+				}
+
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,
@@ -303,6 +336,14 @@ class PlgSystemRedirect extends JPlugin
 			}
 		}
 
-		JErrorPage::render($error);
+		// Proxy to the previous exception handler if available, otherwise just render the error page
+		if (self::$previousExceptionHandler)
+		{
+			call_user_func_array(self::$previousExceptionHandler, array($error));
+		}
+		else
+		{
+			JErrorPage::render($error);
+		}
 	}
 }

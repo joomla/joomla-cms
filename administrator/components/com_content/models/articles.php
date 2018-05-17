@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -235,6 +235,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
@@ -266,31 +267,38 @@ class ContentModelArticles extends JModelList
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
+		// Filter by categories and by level
+		$categoryId = $this->getState('filter.category_id', array());
+		$level = $this->getState('filter.level');
 
-		// Filter by a single or group of categories.
-		$baselevel  = 1;
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
+		if (!is_array($categoryId))
 		{
-			$categoryTable = JTable::getInstance('Category', 'JTable');
-			$categoryTable->load($categoryId);
-			$rgt       = $categoryTable->rgt;
-			$lft       = $categoryTable->lft;
-			$baselevel = (int) $categoryTable->level;
-			$query->where('c.lft >= ' . (int) $lft)
-				->where('c.rgt <= ' . (int) $rgt);
+			$categoryId = $categoryId ? array($categoryId) : array();
 		}
-		elseif (is_array($categoryId))
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			$categoryTable = JTable::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
-			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
+			$query->where('c.level <= ' . (int) $level);
 		}
 
 		// Filter by author
@@ -349,6 +357,7 @@ class ContentModelArticles extends JModelList
 		{
 			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

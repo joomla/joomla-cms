@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php // Use of Google Font ?>
 	<?php if ($params->get('googleFont')) : ?>
-		<link href="//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
 		<style>
 			h1, h2, h3, h4, h5, h6, .site-title {
 				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
@@ -102,7 +102,8 @@ else
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ($params->get('fluidContainer') ? ' fluid' : '');
+	. ($params->get('fluidContainer') ? ' fluid' : '')
+	. ($this->direction === 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
 	<div class="body">
@@ -144,10 +145,11 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<?php if (JModuleHelper::getModule('search')) : ?>
+								<?php if (JModuleHelper::getModule('mod_search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-									<?php echo $this->getBuffer('module', 'search'); ?>
+									<?php $module = JModuleHelper::getModule('mod_search'); ?>
+									<?php echo JModuleHelper::renderModule($module); ?>
 								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><span class="icon-home" aria-hidden="true"></span> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>

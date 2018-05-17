@@ -4,7 +4,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
@@ -342,7 +342,7 @@
 
 			<field
 				name="width"
-				type="text"
+				type="number"
 				label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC"
 				class="input-mini validate-numeric"
@@ -350,7 +350,7 @@
 
 			<field
 				name="height"
-				type="text"
+				type="number"
 				label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC"
 				class="input-mini validate-numeric"

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -940,9 +940,10 @@ class User extends \JObject
 		$this->_params    = new Registry;
 
 		// Load the user if it exists
-		if (!empty($this->id))
+		if (!empty($this->id) && $this->load($this->id))
 		{
-			$this->load($this->id);
+			// Push user into cached instances.
+			self::$instances[$this->id] = $this;
 		}
 		else
 		{

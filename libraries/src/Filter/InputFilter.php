@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,7 +156,7 @@ class InputFilter extends BaseInputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
@@ -177,7 +177,7 @@ class InputFilter extends BaseInputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
@@ -199,7 +199,7 @@ class InputFilter extends BaseInputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
@@ -357,7 +357,7 @@ class InputFilter extends BaseInputFilter
 				{
 					$result = array();
 
-					// Itterate through the array
+					// Iterate through the array
 					foreach ($source as $eachString)
 					{
 						preg_match($pattern, (string) $eachString, $matches);
@@ -429,6 +429,7 @@ class InputFilter extends BaseInputFilter
 							$source[$key] = $this->_remove($this->_decode($value));
 						}
 					}
+
 					$result = $source;
 				}
 				else

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -211,6 +211,7 @@ class Categories
 	 */
 	protected function _load($id)
 	{
+		/** @var JDatabaseDriver */
 		$db   = Factory::getDbo();
 		$app  = Factory::getApplication();
 		$user = Factory::getUser();
@@ -219,13 +220,13 @@ class Categories
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+				c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+				c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+				c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
+			);
 
-		// Right join with c for category
-		$query->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-			c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version');
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -233,8 +234,8 @@ class Categories
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $c_id . ' END as slug';
+
 		$query->select($case_when)
-			->from('#__categories as c')
 			->where('(c.extension=' . $db->quote($extension) . ' OR c.extension=' . $db->quote('system') . ')');
 
 		if ($this->_options['access'])
@@ -253,51 +254,59 @@ class Categories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->where('s.id=' . (int) $id);
+			$query->from($db->quoteName('#__categories', 's'))
+				->where('s.id = ' . (int) $id);
 
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(Factory::getLanguage()->getTag())
-					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
+					. ' ON (s.lft < c.lft AND c.lft < s.rgt AND c.language IN ('
+					. $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . '))'
+					. ' OR (c.lft <= s.lft AND s.rgt <= c.rgt)'
+				);
 			}
 			else
 			{
-				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+				$query->innerJoin(
+					$db->quoteName('#__categories', 'c')
+					. ' ON (s.lft <= c.lft AND c.lft < s.rgt)'
+					. ' OR (c.lft < s.lft AND s.rgt < c.rgt)'
+				);
 			}
 		}
 		else
 		{
+			$query->from($db->quoteName('#__categories', 'c'));
+
 			if ($app->isClient('site') && Multilanguage::isEnabled())
 			{
-				$query->where('c.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where('c.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)
 		{
-			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(i.' . $db->quoteName($this->_key) . ')')
+				->from($db->quoteName($this->_table, 'i'))
+				->where('i.' . $db->quoteName($this->_field) . ' = c.id');
 
 			if ($this->_options['published'] == 1)
 			{
-				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
+				$subQuery->where('i.' . $this->_statefield . ' = 1');
 			}
 
 			if ($this->_options['currentlang'] !== 0)
 			{
-				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+				$subQuery->where('(i.language = ' . $db->quote('*')
+					. ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')'
+				);
 			}
 
-			$query->join('LEFT', $queryjoin);
-			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
-
-			// Group by
-			$query->group(
-				'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
-			);
+			$query->select('(' . $subQuery . ') AS numitems');
 		}
 
 		// Get the results
