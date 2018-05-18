@@ -30,6 +30,13 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
+		$params = $this->app->getParams();
+
+		if (!$params->get('enable_reporter'))
+		{
+			$this->app->close();
+		}
+
 		$data   = $this->input->json->get('csp-report', array(), 'Array');
 		$report = new \stdClass;
 
