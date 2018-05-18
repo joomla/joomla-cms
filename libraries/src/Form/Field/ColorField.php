@@ -267,6 +267,7 @@ class ColorField extends FormField
 		if (!$this->split)
 		{
 			$count = count($colors);
+
 			if ($count % 5 == 0)
 			{
 				$split = 5;

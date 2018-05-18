@@ -8,6 +8,8 @@ Joomla = window.Joomla || {};
 (function() {
 	'use strict';
 
+	var installPackageButtonId = 'installbutton_package';
+
 	document.addEventListener('DOMContentLoaded', function() {
 
 		Joomla.submitbuttonpackage = function() {
@@ -102,6 +104,10 @@ Joomla = window.Joomla || {};
 			loading.style.marginTop = '-10px';
 		}
 
+		document.getElementById(installPackageButtonId).addEventListener('click', function(event) {
+      event.preventDefault();
+      Joomla.submitbuttonpackage();
+    })
 	});
 
 }());
