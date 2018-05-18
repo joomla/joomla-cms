@@ -45,11 +45,11 @@ $usersConfig = JComponentHelper::getParams('com_users');
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
-					<div class="control-group">
-						<div class="control-label">
+					<div class="form-group row">
+						<div class="col-md">
 							<?php echo $field->label; ?>
 						</div>
-						<div class="controls">
+						<div class="col-md">
 							<?php echo $field->input; ?>
 						</div>
 					</div>
@@ -57,31 +57,31 @@ $usersConfig = JComponentHelper::getParams('com_users');
 			<?php endforeach; ?>
 
 			<?php if ($this->tfa) : ?>
-				<div class="control-group">
-					<div class="control-label">
+				<div class="form-group row">
+					<div class="col-md">
 						<?php echo $this->form->getField('secretkey')->label; ?>
 					</div>
-					<div class="controls">
+					<div class="col-md">
 						<?php echo $this->form->getField('secretkey')->input; ?>
 					</div>
 				</div>
 			<?php endif; ?>
 
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-				<div  class="control-group">
-					<div class="control-label">
-						<label for="remember">
-							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
-						</label>
-					</div>
-					<div class="controls">
-						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
+				<div class="form-group row">
+					<div class="col">
+						<div class="form-check">
+							<label for="remember" class="form-check-label">
+								<input id="remember" type="checkbox" name="remember" class="form-check-input" value="yes">
+								<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+							</label>
+						</div>
 					</div>
 				</div>
 			<?php endif; ?>
 
-			<div class="control-group">
-				<div class="controls">
+			<div class="form-group row">
+				<div class="col">
 					<button type="submit" class="btn btn-primary">
 						<?php echo JText::_('JLOGIN'); ?>
 					</button>
@@ -95,18 +95,16 @@ $usersConfig = JComponentHelper::getParams('com_users');
 		</fieldset>
 	</form>
 </div>
-<div>
-	<div class="list-group">
-		<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?>
+<div class="list-group mb-3 mt-3">
+	<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
+		<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?>
+	</a>
+	<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+		<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?>
+	</a>
+	<?php if ($usersConfig->get('allowUserRegistration')) : ?>
+		<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
+			<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?>
 		</a>
-		<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?>
-		</a>
-		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-			<a class="list-group-item" href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?>
-			</a>
-		<?php endif; ?>
-	</div>
+	<?php endif; ?>
 </div>
