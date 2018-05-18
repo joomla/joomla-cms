@@ -216,11 +216,11 @@ class MenuitemField extends \JFormFieldGroupedList
 				}
 
 				$groups[$menuTitle][] = \JHtml::_('select.option',
-								$link->value, $levelPrefix . $link->text . $lang,
-								'value',
-								'text',
-								in_array($link->type, $this->disable)
-							);
+					$link->value, $levelPrefix . $link->text . $lang,
+					'value',
+					'text',
+					in_array($link->type, $this->disable)
+				);
 			}
 		}
 		// Build groups for all menu types.
@@ -248,11 +248,11 @@ class MenuitemField extends \JFormFieldGroupedList
 					}
 
 					$groups[$menu->title][] = \JHtml::_('select.option',
-										$link->value, $levelPrefix . $link->text . $lang,
-										'value',
-										'text',
-										in_array($link->type, $this->disable)
-									);
+						$link->value, $levelPrefix . $link->text . $lang,
+						'value',
+						'text',
+						in_array($link->type, $this->disable)
+					);
 				}
 			}
 		}

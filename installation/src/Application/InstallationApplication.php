@@ -15,6 +15,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
@@ -232,20 +233,27 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function execute()
 	{
-		// Perform application routines.
-		$this->doExecute();
-
-		// If we have an application document object, render it.
-		if ($this->document instanceof Document)
+		try
 		{
-			// Render the application output.
-			$this->render();
+			// Perform application routines.
+			$this->doExecute();
+
+			// If we have an application document object, render it.
+			if ($this->document instanceof Document)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+			{
+				$this->compress();
+			}
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			ExceptionHandler::render($throwable);
 		}
 
 		// Send the application response.

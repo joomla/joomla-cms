@@ -71,6 +71,16 @@ class Database implements ServiceProviderInterface
 					}
 				}
 
+				/*
+				 * Joomla! 4.0 removes support for the `ext/pgsql` PHP extension.  To help with the migration, we will migrate the configuration
+				 * to the PDO PostgreSQL driver regardless of if the environment supports it.  Instead of getting a "driver not found" type of
+				 * error, this will instead force the API to report that the driver is not supported.
+				 */
+				if (strtolower($dbtype) === 'postgresql')
+				{
+					$dbtype = 'pgsql';
+				}
+
 				$options = [
 					'driver'   => $dbtype,
 					'host'     => $conf->get('host'),

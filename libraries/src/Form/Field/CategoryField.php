@@ -54,6 +54,7 @@ class CategoryField extends \JFormFieldList
 		{
 			// Filter over published state or not depending upon if it is present.
 			$filters = array();
+
 			if ($published)
 			{
 				$filters['filter.published'] = explode(',', $published);

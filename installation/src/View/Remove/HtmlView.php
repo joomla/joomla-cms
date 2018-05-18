@@ -22,6 +22,38 @@ use Joomla\CMS\Version;
 class HtmlView extends DefaultView
 {
 	/**
+	 * Is the Joomla Version a development version?
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $development;
+
+	/**
+	 * List of language choices to install
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $items;
+
+	/**
+	 * Full list of recommended PHP Settings
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $phpsettings;
+
+	/**
+	 * Array of PHP config options
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $phpoptions;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
