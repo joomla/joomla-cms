@@ -53,7 +53,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 		</div>
 	</div>
 	<div class="form-actions">
-		<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
+		<button class="btn btn-primary" type="button" id="installbutton_package">
 			<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
 		</button>
 	</div>
