@@ -454,16 +454,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
+		$html[] = '<div class="dbg-header' . $status . '" data-debug-toggle="dbg_container_' . $item . '"><a href="#"><h3>' . $title . '</h3></a></div>';
 
-		$class = 'dbg-header' . $status;
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
 		$html[] = '</div>';
 
@@ -485,17 +478,8 @@ class PlgSystemDebug extends CMSPlugin
 		$title = Text::_('PLG_DEBUG_' . strtoupper($name));
 
 		$html = array();
-
-		$js = "Joomla.toggleContainer('dbg_container_" . $name . "');";
-
-		$class = 'dbg-header';
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_' . $name . '"><a href="#"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $name . '">';
 		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
@@ -553,14 +537,10 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "Joomla.toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<a href="#"><h3>' . $sKey . '</h3></a>';
+					$html[] = '</div>';
+					$html[] = '<div class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
 					$id++;
 
 					// Recurse...

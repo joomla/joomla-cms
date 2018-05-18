@@ -34,8 +34,11 @@
 
 		document.getElementById('toolbar-compare').addEventListener('click', function() {
 			var windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'],
-			    ids = document.querySelectorAll('input[id*="cb"]:checked');
-			if (ids.length == 2) {
+				ids = document.querySelectorAll('input[id*="cb"]:checked');
+			if (ids.length == 0) {
+				alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+			}
+			else if (ids.length == 2) {
 				// Add version item ids to URL
 				var url = document.getElementById('toolbar-compare').getAttribute('data-url') + '&id1=' + ids[0].value + '&id2=' + ids[1].value;
 				if (window.parent && url) {
@@ -43,7 +46,7 @@
 					return false;
 				}
 			} else {
-				alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+				alert(Joomla.JText._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
 			}
 		});
 	});
