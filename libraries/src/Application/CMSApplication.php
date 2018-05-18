@@ -477,7 +477,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			if ($redirect)
 			{
 				// Redirect to the profile edit page
-				$this->enqueueMessage(\JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
 				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
@@ -549,7 +549,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			else
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
 			static::$instances[$name]->loadIdentity(\JFactory::getUser());
@@ -938,17 +938,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 					switch ($authorisation->status)
 					{
 						case Authentication::STATUS_EXPIRED:
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_EXPIRED'), 'error');
+							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
 
 							return false;
 
 						case Authentication::STATUS_DENIED:
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_DENIED'), 'error');
+							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
 
 							return false;
 
 						default:
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+							\JFactory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
 
 							return false;
 					}
