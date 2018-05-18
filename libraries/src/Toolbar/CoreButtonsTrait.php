@@ -54,22 +54,17 @@ trait CoreButtonsTrait
 	 */
 	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false)
 	{
-		switch ($newWindow)
-		{
-			case true:
-				$button = $this->linkButton('link', $text)
-							->url($url)
-							->attributes(['target'=>'_blank'])
-							->icon('icon-eye');
-				break;
-			case false:
-			default:
-				$button = $this->popupButton('preview', $text)
+		$button = $this->popupButton('preview', $text)
 					->url($url)
 					->iframeWidth(640)
 					->iframeHeight(480)
 					->icon('icon-eye');
-			break;
+
+		if ($newWindow === true) {
+			$button = $this->linkButton('link', $text)
+				->url($url)
+				->attributes(['target' => '_blank'])
+				->icon('icon-eye');
 		}
 
 		return $button;
