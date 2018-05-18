@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_modules
+ * @subpackage  com_associations
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,12 +14,12 @@ use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
-use Joomla\Component\Modules\Administrator\Extension\ModulesComponent;
+use Joomla\Component\Associations\Administrator\Extension\AssociationsComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The module service provider.
+ * The associations service provider.
  *
  * @since  4.0.0
  */
@@ -36,14 +36,14 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Modules'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Modules'));
+		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Associations'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Associations'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new ModulesComponent;
+				$component = new AssociationsComponent;
 
 				$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
