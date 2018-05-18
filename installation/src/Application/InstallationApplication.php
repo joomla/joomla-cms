@@ -250,14 +250,14 @@ final class InstallationApplication extends CMSApplication
 			{
 				$this->compress();
 			}
-
-			// Send the application response.
-			$this->respond();
 		}
 		catch (\Throwable $throwable)
 		{
 			ExceptionHandler::render($throwable);
 		}
+
+		// Send the application response.
+		$this->respond();
 	}
 
 	/**
