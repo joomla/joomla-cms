@@ -54,7 +54,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				<fieldset>
 					<?php // If the fieldset has a label set, display it as the legend. ?>
 					<?php if (isset($fieldset->label)) : ?>
-						<legend>
+						<legend class="mb-3">
 							<?php echo JText::_($fieldset->label); ?>
 						</legend>
 					<?php endif; ?>
@@ -69,8 +69,8 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 						<?php if ($field->hidden) : ?>
 							<?php echo $field->input; ?>
 						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
+							<div class="form-group row">
+								<div class="col-md-5">
 									<?php echo $field->label; ?>
 									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
 										<span class="optional">
@@ -78,7 +78,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 										</span>
 									<?php endif; ?>
 								</div>
-								<div class="controls">
+								<div class="col-md-7">
 									<?php echo $field->input; ?>
 								</div>
 							</div>
@@ -90,9 +90,9 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 		<?php if (count($this->twofactormethods) > 1) : ?>
 			<fieldset>
-				<legend><?php echo JText::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
+				<legend class="mb-3"><?php echo JText::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 
-				<div class="control-group">
+				<div class="control-group mb-3">
 					<div class="control-label">
 						<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
 							   title="<?php echo '<strong>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_PROFILE_TWOFACTOR_DESC'); ?>">
@@ -114,7 +114,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			</fieldset>
 
 			<fieldset>
-				<legend>
+				<legend class="mb-3">
 					<?php echo JText::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
 				<joomla-alert type="info"><?php echo JText::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
@@ -131,7 +131,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 			</fieldset>
 		<?php endif; ?>
 
-		<div class="control-group">
+		<div class="control-group mb-3">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate">
 					<span>
