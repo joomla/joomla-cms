@@ -46,10 +46,10 @@ $usersConfig = JComponentHelper::getParams('com_users');
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
 					<div class="form-group row">
-						<div class="col-md-3">
+						<div class="col-md">
 							<?php echo $field->label; ?>
 						</div>
-						<div class="col-md-9">
+						<div class="col-md">
 							<?php echo $field->input; ?>
 						</div>
 					</div>
@@ -58,10 +58,10 @@ $usersConfig = JComponentHelper::getParams('com_users');
 
 			<?php if ($this->tfa) : ?>
 				<div class="form-group row">
-					<div class="col-md-3">
+					<div class="col-md">
 						<?php echo $this->form->getField('secretkey')->label; ?>
 					</div>
-					<div class="col-md-9">
+					<div class="col-md">
 						<?php echo $this->form->getField('secretkey')->input; ?>
 					</div>
 				</div>
