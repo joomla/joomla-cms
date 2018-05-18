@@ -9,9 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
+
+HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'version' => 'auto']);
 
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
@@ -28,19 +32,19 @@ if (JLanguageMultilang::isEnabled())
 
 			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('modules.apply')">
+					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
 						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('modules.save')">
+					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
 						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('modules.cancel')">
+					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
 						<span class="fa fa-times" aria-hidden="true"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>

@@ -12,6 +12,8 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('script', 'plg_system_stats/stats.js', ['relative' => true, 'version' => 'auto']);
+
 extract($displayData);
 
 /**
@@ -43,9 +45,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $statsData       Statistics that will be sent to the stats server
  */
-
-HTMLHelper::_('jquery.framework');
 ?>
-<a href="#" onclick="jQuery(this).next().toggle(200); return false;"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
-<?php
-echo $field->render('stats', compact('statsData'));
+<a href="#" id="js-pstats-data-details-toggler"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+<?php echo $field->render('stats', compact('statsData'));
