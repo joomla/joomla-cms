@@ -17,13 +17,13 @@ JHtml::_('behavior.formvalidator');
 
 	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">
-			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.apply')">
+			<button type="button" class="btn btn-primary" data-submit-task="config.apply">
 				<span class="fa fa-check" aria-hidden="true"></span>
 				<?php echo JText::_('JSAVE') ?>
 			</button>
 		</div>
 		<div class="btn-group">
-			<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('config.cancel')">
+			<button type="button" class="btn btn-danger" data-submit-task="config.cancel">
 				<span class="fa fa-times" aria-hidden="true"></span>
 				<?php echo JText::_('JCANCEL') ?>
 			</button>

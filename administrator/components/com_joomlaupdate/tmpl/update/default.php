@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Include jQuery.
 JHtml::_('jquery.framework');
 
@@ -21,17 +24,16 @@ $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize'
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
-JFactory::getDocument()->addScriptDeclaration(
-	"
-	var joomlaupdate_password = '$password';
-	var joomlaupdate_totalsize = '$filesize';
-	var joomlaupdate_ajax_url = '$ajaxUrl';
-	var joomlaupdate_return_url = '$returnUrl';
+HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['relative' => true, 'version' => 'auto']);
 
-	jQuery(document).ready(function(){
-		window.pingExtract();
-		});
-	"
+Factory::getDocument()->addScriptOptions(
+	'joomlaupdate',
+	[
+		'password' => $password,
+		'totalsize' => $filesize,
+		'ajax_url' => $ajaxUrl,
+		'return_url' => $returnUrl,
+	]
 );
 ?>
 
