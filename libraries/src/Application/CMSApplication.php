@@ -14,6 +14,8 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -347,50 +349,67 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		$this->createExtensionNamespaceMap();
+		try
+		{
+			$this->createExtensionNamespaceMap();
 
-		PluginHelper::importPlugin('system');
+			PluginHelper::importPlugin('system');
 
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent(
-			'onBeforeExecute',
-			AbstractEvent::create(
+			// Trigger the onBeforeExecute event.
+			$this->triggerEvent(
 				'onBeforeExecute',
 				[
 					'subject'    => $this,
 					'eventClass' => BeforeExecuteEvent::class,
 					'container'  => $this->getContainer()
 				]
-			)
-		);
+			);
 
-		// Mark beforeExecute in the profiler.
-		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+			// Mark beforeExecute in the profiler.
+			JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		// If we have an application document object, render it.
-		if ($this->document instanceof \JDocument)
-		{
-			// Render the application output.
-			$this->render();
+			// If we have an application document object, render it.
+			if ($this->document instanceof \JDocument)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+			{
+				$this->compress();
+
+				// Trigger the onAfterCompress event.
+				$this->triggerEvent('onAfterCompress');
+			}
+
+			// Send the application response.
+			$this->respond();
+
+			// Trigger the onAfterRespond event.
+			$this->triggerEvent('onAfterRespond');
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			/** @var ErrorEvent $event */
+			$event = AbstractEvent::create(
+				'onError',
+				[
+					'subject'     => $throwable,
+					'eventClass'  => ErrorEvent::class,
+					'application' => $this,
+				]
+			);
 
-			// Trigger the onAfterCompress event.
-			$this->triggerEvent('onAfterCompress');
+			// Trigger the onError event.
+			$this->triggerEvent('onError', $event);
+
+			ExceptionHandler::render($event->getError());
 		}
-
-		// Send the application response.
-		$this->respond();
-
-		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
 	}
 
 	/**
@@ -1074,9 +1093,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template'] = $this->get('theme');
-		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']   = $this->get('themeParams');
+		$this->docOptions['template']     = $this->get('theme');
+		$this->docOptions['file']         = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']       = $this->get('themeParams');
+		$this->docOptions['script_nonce'] = $this->get('script_nonce');
 
 		if ($this->get('themes.base'))
 		{
