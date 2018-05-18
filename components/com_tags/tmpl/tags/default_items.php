@@ -116,9 +116,9 @@ $n         = count($this->items);
 				</span>
 			<?php endif; ?>
 
-			<?php if ($this->params->get('all_tags_show_tag_description', 1) || $this->params->get('all_tags_show_tag_hits')) : ?>
+			<?php if ($this->params->get('all_tags_show_tag_description') || $this->params->get('all_tags_show_tag_hits')) : ?>
 				<div class="caption">
-					<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
+					<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
 						<span class="tag-body">
 							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 						</span>
