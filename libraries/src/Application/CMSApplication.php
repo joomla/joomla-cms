@@ -355,14 +355,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			PluginHelper::importPlugin('system');
 
-			// Trigger the onBeforeExecute event.
-			$this->triggerEvent(
+			// Trigger the onBeforeExecute event
+			$this->getDispatcher()->dispatch(
 				'onBeforeExecute',
-				[
-					'subject'    => $this,
-					'eventClass' => BeforeExecuteEvent::class,
-					'container'  => $this->getContainer()
-				]
+				new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
 			);
 
 			// Mark beforeExecute in the profiler.
