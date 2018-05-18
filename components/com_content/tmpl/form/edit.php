@@ -9,10 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
+
+HTMLHelper::_('script', 'com_content/form-edit.js', ['relative' => true, 'version' => 'auto']);
+
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 
@@ -141,11 +146,11 @@ if (!$editoroptions)
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 		<div class="mb-2">
-			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
+			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="fa fa-check" aria-hidden="true"></span>
 				<?php echo JText::_('JSAVE'); ?>
 			</button>
-			<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('article.cancel')">
+			<button type="button" class="btn btn-secondary" data-submit-task="article.cancel">
 				<span class="fa fa-times-cancel" aria-hidden="true"></span>
 				<?php echo JText::_('JCANCEL'); ?>
 			</button>
