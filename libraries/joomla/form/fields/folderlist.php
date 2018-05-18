@@ -186,19 +186,110 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	protected function getBaseDir($basedir = '')
 	{
+		if (empty($basedir))
+		{
+			return '';
+		}
+
 		// Basedir is any of the JPATH constants, resolve it
 		if (strpos($basedir, 'JPATH_') == 0 && defined($basedir))
 		{
 			return constant($basedir);
 		}
 
-		// Basedir is one of the folders configured in com_media
-		if (in_array($basedir, array('file_path', 'image_path')))
+		if (strpos($basedir, ':') > 0)
 		{
-			return JComponentHelper::getParams('com_media')->get($basedir);
+			$parts = explode(':', $basedir);
+			$type = array_shift($parts);
+			$fn = array($this, 'getBaseDir' . ucfirst($type));
+
+			if (is_callable($fn))
+			{
+				return call_user_func_array($fn, $parts);
+			}
 		}
 
 		return '';
+	}
+
+	/**
+	 * Get a basedir from the value of a component param
+	 *
+	 * @param   string  $component  The name of a component
+	 * @param   string  $param      A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirComponent($component, $param)
+	{
+		return JComponentHelper::getParams($component)->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a library param
+	 *
+	 * @param   string  $library  The name of a library
+	 * @param   string  $param    A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirLibrary($library, $param)
+	{
+		return JLibraryHelper::getParams($library)->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a module param
+	 *
+	 * @param   string  $moduleType   The module type
+	 * @param   string  $moduleTitle  The module title
+	 * @param   string  $param        A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirModule($moduleType, $moduleTitle, $param)
+	{
+		$module = JModuleHelper::getModule($moduleType, $moduleTitle);
+
+		if (empty($module))
+		{
+			return '';
+		}
+
+		$params = new JRegistry($module->params);
+
+		return $params->get($param);
+	}
+
+	/**
+	 * Get a basedir from the value of a plugin param
+	 *
+	 * @param   string  $pluginType  The type of the plugin
+	 * @param   string  $pluginName  The name of the plugin
+	 * @param   string  $param       A param key to look up
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getBaseDirPlugin($pluginType, $pluginName, $param)
+	{
+		$plugin = JPluginHelper::getPlugin($pluginType, $pluginName);
+
+		if (empty($plugin))
+		{
+			return '';
+		}
+
+		$params = new JRegistry($plugin->params);
+
+		return $params->get($param);
 	}
 
 	/**
