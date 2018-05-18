@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "1.1.0",
-    "joomla-javascript-tests": "joomla/test-javascript#master"
+    "joomla-javascript-tests": "joomla/test-javascript#4.0-dev"
   },
   "license": "GPL-2.0+"
 }
