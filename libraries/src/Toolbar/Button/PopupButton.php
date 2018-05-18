@@ -93,7 +93,7 @@ class PopupButton extends ToolbarButton
 	 * @since   3.0
 	 */
 	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
-	                            $iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
+		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null)
 	{
 		$this->name($name)
 			->text(Text::_($text))
