@@ -85,7 +85,8 @@ var JFormValidator = function() {
 
 		if (!mesgCont) {
 			var elMsg = document.createElement('span');
-			elMsg.classList.add('form-control-feedback');
+            elMsg.classList.add('form-control-feedback');
+            elMsg.classList.add('text-danger');
 			if (empty && empty === 'checkbox') {
 				elMsg.innerHTML = message ? message : Joomla.JText._('JLIB_FORM_FIELD_REQUIRED_CHECK');
 			} else if (empty && empty === 'value') {
