@@ -86,6 +86,7 @@ class HtmlView extends BaseHtmlView
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->filterForm    = $this->get('FilterForm');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -107,12 +108,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_csp');
-		$user  = \JFactory::getUser();
-
-		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(\JText::_('COM_CSP_REPORTS'), 'generic');
 
@@ -150,7 +146,9 @@ class HtmlView extends BaseHtmlView
 	{
 		return array(
 			'a.state'        => \JText::_('JSTATUS'),
-			'a.document_uri' => \JText::_('JGLOBAL_TITLE'),
+			'a.blocked_uri'  => \JText::_('COM_CSP_HEADING_BLOCKED_URI'),
+			'a.document_uri' => \JText::_('COM_CSP_HEADING_DOCUMENT_URI'),
+			'a.directive'    => \JText::_('COM_CSP_HEADING_DIRECTIVE'),
 			'a.id'           => \JText::_('JGRID_HEADING_ID')
 		);
 	}

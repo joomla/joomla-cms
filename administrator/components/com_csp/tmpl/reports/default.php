@@ -25,7 +25,7 @@ $saveOrder = $listOrder == 'a.id';
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-//				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
@@ -73,7 +73,7 @@ $saveOrder = $listOrder == 'a.id';
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'csp.', $canChange, 'cb'); ?>
+											<?php echo JHtml::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 										</div>
 									</td>
 									<td class="small d-none d-md-table-cell">

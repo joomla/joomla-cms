@@ -61,10 +61,6 @@ class ReportsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'asc')
 	{
-		// Load the parameters.
-		$params = ComponentHelper::getParams('com_csp');
-		$this->setState('params', $params);
-
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
@@ -132,33 +128,16 @@ class ReportsModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$query->where('(a.document_uri LIKE ' . $search . ' OR a.blocked_uri LIKE ' . $search . ' OR a.directive LIKE ' . $search . ')');
 			}
 		}
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.id');
-		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
 		$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 
 		return $query;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A Table object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	public function getTable($type = 'Csp', $prefix = 'Administrator', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
 	}
 }

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Search master display controller.
+ * Csp display controller.
  *
  * @since  __DEPLOY_VERSION__
  */
