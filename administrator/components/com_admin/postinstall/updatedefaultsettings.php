@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.8.8
  */
 function admin_postinstall_updatedefaultsettings_condition()
 {
