@@ -161,7 +161,8 @@ class Toolbar
 	 * @param   ToolbarButton  $button  The button instance.
 	 * @param   array          $args    The more arguments.
 	 *
-	 * @return  ToolbarButton  Return button instance to help chaining configure.
+	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
+	 *                                 returns true
 	 *
 	 * @since   1.5
 	 */
@@ -190,7 +191,7 @@ class Toolbar
 			'deprecated'
 		);
 
-		return $button;
+		return true;
 	}
 
 	/**
@@ -239,7 +240,8 @@ class Toolbar
 	 * @param   ToolbarButton  $button  The button instance.
 	 * @param   array          $args    The more arguments.
 	 *
-	 * @return  ToolbarButton  Return button instance to help chaining configure.
+	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
+	 *                                 returns true
 	 *
 	 * @since   1.5
 	 */
@@ -268,7 +270,7 @@ class Toolbar
 			'deprecated'
 		);
 
-		return $button;
+		return true;
 	}
 
 	/**

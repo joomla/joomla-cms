@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -19,19 +21,7 @@ JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_thre
 $app = JFactory::getApplication();
 $input = $app->input;
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
-		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
-				jQuery("#jform_label").val(jQuery("#jform_title").val());
-			}
-
-			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		});
-	});
-');
-
+HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

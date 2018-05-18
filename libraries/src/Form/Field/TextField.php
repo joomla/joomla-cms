@@ -298,8 +298,10 @@ class TextField extends FormField
 		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
-		/* Get the field options for the datalist.
-			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		/*
+		 * Get the field options for the datalist.
+		 * Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0.
+		 */
 		$options  = (array) $this->getSuggestions();
 
 		$extraData = array(
