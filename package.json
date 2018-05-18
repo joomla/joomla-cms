@@ -21,6 +21,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "1.1.0",
+    "aes-js": "^3.1.1",
     "awesomplete": "1.1.2",
     "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
@@ -128,6 +129,14 @@
       }
     },
     "vendors": {
+      "aes-js": {
+        "name": "aes-js",
+        "js": {
+          "index.js": "js/index.js"
+        },
+        "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
       "awesomplete": {
         "name": "awesomplete",
         "js": {
