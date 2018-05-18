@@ -169,4 +169,45 @@ class UserlogsHelper
 
 		return $message;
 	}
+
+	/**
+	 * Get link to an item of given content type
+	 *
+	 * @param   string  $component
+	 * @param   string  $contentType
+	 * @param   int     $id
+	 * @param   string  $urlVar
+	 *
+	 * @return  string  Link to the content item
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	{
+		jimport('joomla.filesystem.path');
+
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName  = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
+
+			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			{
+				return $cName::getContentTypeLink($contentType, $id);
+			}
+		}
+
+		if (empty($urlVar))
+		{
+			$urlVar = 'id';
+		}
+
+		// Return default link to avoid having to implement getContentTypeLink in most of our components
+		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&' . $urlVar . '=' . $id;
+	}
 }
