@@ -9,11 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$lang = JFactory::getLanguage();
-$source = JPATH_ADMINISTRATOR . '/components/' . 'com_userlogs';
-
-$lang->load("com_userlogs", JPATH_ADMINISTRATOR, null, false, true)
-	|| $lang->load("com_userlogs", $source, null, false, true);
+JFactory::getLanguage()->load("com_userlogs", JPATH_ADMINISTRATOR, null, false, true);
 
 $messages = $displayData['messages'];
 ?>

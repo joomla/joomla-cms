@@ -45,7 +45,7 @@ class PlgActionlogsJoomla extends JPlugin
 	protected $db;
 
 	/**
-	 * Language plugin language file automatically so that it can be used inside component
+	 * Load plugin language file automatically so that it can be used inside component
 	 *
 	 * @var    bool
 	 * @since  __DEPLOY_VERSION__

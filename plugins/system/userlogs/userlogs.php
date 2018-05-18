@@ -33,10 +33,10 @@ class PlgSystemUserLogs extends JPlugin
 	protected $db;
 
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * Load plugin language file automatically so that it can be used inside component
 	 *
 	 * @var    boolean
-	 * @since  3.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 

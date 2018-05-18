@@ -32,10 +32,10 @@ class UserlogsModelUserlog extends JModelLegacy
 	 */
 	public function addLogsToDb($messages, $messageLanguageKey, $context)
 	{
-		$user = JFactory::getUser();
-		$db = $this->getDbo();
-		$date = JFactory::getDate();
-		$params = ComponentHelper::getComponent('com_userlogs')->params;
+		$user   = JFactory::getUser();
+		$db     = $this->getDbo();
+		$date   = JFactory::getDate();
+		$params = ComponentHelper::getComponent('com_userlogs')->getParams();
 
 		if ($params->get('ip_logging', 0))
 		{
