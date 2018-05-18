@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 /**
  * Csp Controller
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class ReportController extends BaseController
 {
@@ -67,7 +67,6 @@ class ReportController extends BaseController
 		$table = new Csp(\JFactory::getDbo());
 
 		$table->bind($report);
-
 		$table->store();
 
 		$this->app->close();

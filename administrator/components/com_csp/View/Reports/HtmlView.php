@@ -12,7 +12,6 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
@@ -34,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
@@ -42,7 +41,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var    \JObject
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $state;
@@ -64,17 +63,9 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Array used for displaying the levels filter
-	 *
-	 * @return  \stdClass[]
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $f_levels;
-
-	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed   A string if successful, otherwise an Error object.
 	 *
