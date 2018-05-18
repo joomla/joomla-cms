@@ -178,7 +178,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 * Method to resolve the optional base directory as one of several configuration-dependent values
 	 * The base dir can be any of the defined 'JPATH_' constants or one of the directories configured by com_media
 	 *
-	 * @param   string  $basedir  The name of one of the 'JPATH_' constants, 'file_path', 'image_path', or empty
+	 * @param   string  $basedir  The name of one of the 'JPATH_' constants, a string specifying some parameter value, or empty
 	 *
 	 * @return  string
 	 *
