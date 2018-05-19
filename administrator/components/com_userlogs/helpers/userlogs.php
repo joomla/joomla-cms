@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filesystem\Path;
+
 /**
  * Userlogs component helper.
  *
@@ -27,8 +30,9 @@ class UserlogsHelper
 	 */
 	public static function dataToCsv($data)
 	{
-		$date     = JFactory::getDate();
-		$filename = "logs_" . $date;
+		$date         = JFactory::getDate();
+		$filename     = "logs_" . $date;
+		$csvDelimiter = ComponentHelper::getComponent('com_userlogs')->getParams()->get('csv_delimiter', ',');
 
 		$app = JFactory::getApplication();
 		$app->setHeader('Content-Type', 'application/csv', true)
@@ -42,17 +46,19 @@ class UserlogsHelper
 		$fp = fopen('php://temp', 'r+');
 		ob_end_clean();
 
-		fputcsv($fp, $headers);
+		fputcsv($fp, $headers, $csvDelimiter);
 
-		foreach ($data as $log)
+		foreach ($data as $row)
 		{
-			$log               = (array) $log;
-			$log['ip_address'] = JText::_($log['ip_address']);
-			$log['extension']  = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
+			$log               = array();
+			$log['id']         = $row->id;
+			$log['message']    = strip_tags(self::getHumanReadableLogMessage($row));
+			$log['date']       = $row->log_date;
+			$log['extension']  = self::translateExtensionName(strtoupper(strtok($row->extension, '.')));
+			$log['name']       = $row->name;
+			$log['ip_address'] = JText::_($row->ip_address);
 
-			$app->triggerEvent('onLogMessagePrepare', array(&$log['message'], $log['extension']));
-
-			fputcsv($fp, $log, ',');
+			fputcsv($fp, $log, $csvDelimiter);
 		}
 
 		rewind($fp);
@@ -168,5 +174,44 @@ class UserlogsHelper
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Get link to an item of given content type
+	 *
+	 * @param   string  $component
+	 * @param   string  $contentType
+	 * @param   int     $id
+	 * @param   string  $urlVar
+	 *
+	 * @return  string  Link to the content item
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	{
+		// Try to find the component helper.
+		$eName = str_replace('com_', '', $component);
+		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+
+		if (file_exists($file))
+		{
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName  = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
+
+			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			{
+				return $cName::getContentTypeLink($contentType, $id);
+			}
+		}
+
+		if (empty($urlVar))
+		{
+			$urlVar = 'id';
+		}
+
+		// Return default link to avoid having to implement getContentTypeLink in most of our components
+		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&' . $urlVar . '=' . $id;
 	}
 }
