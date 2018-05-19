@@ -48,6 +48,7 @@ div#system-debug {
 }
 
 #system-debug div.dbg-container {
+	display: none;
 	padding: 10px;
 }
 
