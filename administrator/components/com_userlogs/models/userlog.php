@@ -90,8 +90,8 @@ class UserlogsModelUserlog extends JModelLegacy
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.email, a.params')
-			->from($db->quoteName('#__users', 'a'))
+		$query->select($db->quoteName(array('email', 'params')))
+			->from($db->quoteName('#__users'))
 			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":"1"%'));
 
 		$db->setQuery($query);
