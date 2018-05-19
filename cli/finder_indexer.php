@@ -14,11 +14,11 @@
  * Called with no arguments: php finder_indexer.php
  *                           Performs an incremental update of the index.
  *
- * Called with --purge:      php finder_indexer.php --purge
+ * Called with --purge       php finder_indexer.php --purge
  *                           Purges and rebuilds the index (search filters are preserved).
  *
  * Called with --pause           `php finder_indexer.php --pause`
- *          or --pause=x:        or `php finder_indexer.php --pause=x` where x = seconds.
+ *          or --pause=x         or `php finder_indexer.php --pause=x` where x = seconds.
  *          or --pause=division  or `php finder_indexer.php --pause=division` The default divisor is 5.
  *                               If another divisor is required, it can be set with --divisor=y, where
  *                               y is the integer divisor
