@@ -189,12 +189,12 @@ class CategoriesViewCategories extends JViewLegacy
 			JToolbarHelper::addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own') || count($this->items))
 		{
 			JToolbarHelper::editList('category.edit');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || count($this->items))
 		{
 			JToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
@@ -234,7 +234,7 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif ($canDo->get('core.edit.state') || count($this->items))
 		{
 			JToolbarHelper::trash('categories.trash');
 		}

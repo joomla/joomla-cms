@@ -157,12 +157,12 @@ class ContentViewArticles extends JViewLegacy
 			JToolbarHelper::addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit') || $canDo->get('core.edit.own'))
+		if ($canDo->get('core.edit') || $canDo->get('core.edit.own') || count($this->items))
 		{
 			JToolbarHelper::editList('article.edit');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || count($this->items))
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
@@ -190,7 +190,7 @@ class ContentViewArticles extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif ($canDo->get('core.edit.state') || count($this->items))
 		{
 			JToolbarHelper::trash('articles.trash');
 		}
