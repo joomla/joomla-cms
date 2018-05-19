@@ -126,17 +126,19 @@ class PlgFieldsRepeatable extends FieldsPlugin
 		foreach ($fields as $field)
 		{
 			// Find the field of this type repeatable
-			if ($field->type === $this->_name)
+			if ($field->type !== $this->_name)
 			{
-				// Determine the value if it is available from the data
-				$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
-
-				// Setting the value for the field and the item
-				$value = json_encode($value);
-
-				// Setting the value for the field and the item
-				$model->setFieldValue($field->id, $item->get('id'), $value);
+				continue;
 			}
+
+			// Determine the value if it is available from the data
+			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+
+			// Setting the value for the field and the item
+			$value = json_encode($value);
+
+			// Setting the value for the field and the item
+			$model->setFieldValue($field->id, $item->get('id'), $value);
 		}
 
 		return true;
