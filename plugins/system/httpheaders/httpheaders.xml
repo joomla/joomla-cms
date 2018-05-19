@@ -51,6 +51,7 @@
 					type="list"
 					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
 					default="no-referrer-when-downgrade"
+					validate="options"
 					>
 					<option value="disabled">JDISABLED</option>
 					<option value="no-referrer">PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY_NO_REFERRER</option>
