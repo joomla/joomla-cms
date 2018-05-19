@@ -98,10 +98,20 @@ class CategoriesModelCategories extends JModelList
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.search', 'filter_search', '', 'string'));
 		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.parent', $this->getUserStateFromRequest($this->context . '.filter.parent', 'filter_parent'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'string'));
+
+		// Clearing the form wouldn't correctly restore the
+		// Category List until Clear had been pressed twice
+		// so this extra section was added to help fix that:
+		$filters = $app->input->get('filter', array(), 'array');
+		if (!empty($filters) && !isset($filters['parent']))
+		{
+			$this->setState('filter.parent', array());
+		}
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -137,6 +147,12 @@ class CategoriesModelCategories extends JModelList
 		$id .= ':' . $this->getState('filter.level');
 		$id .= ':' . $this->getState('filter.tag');
 
+		$parent = $this->getState('filter.parent');
+		if (!empty($parent))
+		{
+			$id .= ':' . implode('', $parent);
+		}
+
 		return parent::getStoreId($id);
 	}
 
@@ -154,6 +170,50 @@ class CategoriesModelCategories extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 
+		$extension = $this->getState('filter.extension');
+		$root = $user->get('isRoot');
+		$componentManageRights = $user->authorise('core.manage', $extension);
+		//$componentCreateRights = $user->authorise('core.create', $extension);
+
+		if ($componentManageRights)// && $componentCreateRights)
+		{
+			// Get only the categories the user has access to using the Assets Table:
+			$assetsQuery = $db->getQuery(true);
+			$groups = $user->getAuthorisedGroups();
+
+			$assetsQuery->select("REPLACE(name, '$extension.category.', '') as catid ");
+			$assetsQuery->from('#__assets');
+
+			$or = array();
+			foreach($groups as $group)
+			{
+				$or[] = '(name LIKE \''.$extension.'.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
+			}
+			$assetsQuery->where('(' . implode(' OR ', $or) .  ')');
+			$db->setQuery($assetsQuery);
+			$catids = $db->loadColumn();
+
+			if ($parent = $this->getState('filter.parent'))
+			{
+				$catids = (array) $parent;
+			}
+
+			if (!empty($catids))
+			{
+				// We have a User Group that's been
+				// assigned to one or more categories directly
+				// so we want to pull in these and any children:
+				$childCategoriesQuery = $db->getQuery(true);
+				$childCategoriesQuery->select('c.id');
+				$childCategoriesQuery->from('#__categories as c');
+				$childCategoriesQuery->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt)');
+				$childCategoriesQuery->where('s.id IN (' . implode(',', $catids) . ')');
+				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension).')');
+				$childCategoriesQuery->group('c.id');
+				$childCategoriesQuery->order('c.lft');
+			}
+		}
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -165,6 +225,11 @@ class CategoriesModelCategories extends JModelList
 			)
 		);
 		$query->from('#__categories AS a');
+
+		if (!empty($catids))
+		{
+			$query->where('a.id IN (' . $childCategoriesQuery . ')');
+		}
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')

@@ -22,6 +22,18 @@
 		</field>
 
 		<field
+			name="parent"
+			type="categoryedit"
+			label="COM_CATEGORIES_FIELD_PARENT_LABEL"
+			description="COM_CATEGORIES_FIELD_PARENT_DESC"
+			multiple="true"
+			class="multipleCategories"
+			extension="com_content"
+			onchange="this.form.submit();"
+			published="0,1,2"
+		/>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
