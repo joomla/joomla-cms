@@ -40,6 +40,13 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			return $fieldNode;
 		}
 
+		$readonly = false;
+
+		if (!FieldsHelper::canEditFieldValue($field))
+		{
+			$readonly = true;
+		}
+
 		$fieldNode->setAttribute('type', 'subform');
 		$fieldNode->setAttribute('multiple', 'true');
 		$fieldNode->setAttribute('layout', 'joomla.form.field.subform.repeatable-table');
@@ -57,6 +64,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			$child = $fields->addChild('field');
 			$child->addAttribute('name', $formField->fieldname);
 			$child->addAttribute('type', $formField->fieldtype);
+			$child->addAttribute('readonly', $readonly);
 		}
 
 		$fieldNode->setAttribute('formsource', $fieldsXml->asXML());
