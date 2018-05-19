@@ -72,6 +72,9 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	{
 		$installfrom = $this->getInstallFrom();
 
+		// Push language strings to the JavaScript store
+		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
+
 		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
 		HTMLHelper::_('bootstrap.framework');
 		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);

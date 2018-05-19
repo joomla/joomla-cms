@@ -295,14 +295,13 @@ if (!Joomla) {
        * @param {string} name
        * @returns {boolean}
        * @todo Migrate this function's alert to a CE dialog
-       * @todo Migrate this function's hardcoded English string to Joomla.JText
        */
 
     }, {
       key: 'installfromweb',
       value: function installfromweb(installUrl, name) {
         if (!installUrl) {
-          alert("This extension cannot be installed via the web. Please visit the developer's website to purchase/download.");
+          alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
           return false;
         }
