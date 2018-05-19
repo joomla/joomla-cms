@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filesystem\Path;
 
 /**
@@ -29,8 +30,9 @@ class UserlogsHelper
 	 */
 	public static function dataToCsv($data)
 	{
-		$date     = JFactory::getDate();
-		$filename = "logs_" . $date;
+		$date         = JFactory::getDate();
+		$filename     = "logs_" . $date;
+		$csvDelimiter = ComponentHelper::getComponent('com_userlogs')->getParams()->get('csv_delimiter', ',');
 
 		$app = JFactory::getApplication();
 		$app->setHeader('Content-Type', 'application/csv', true)
@@ -44,17 +46,19 @@ class UserlogsHelper
 		$fp = fopen('php://temp', 'r+');
 		ob_end_clean();
 
-		fputcsv($fp, $headers);
+		fputcsv($fp, $headers, $csvDelimiter);
 
-		foreach ($data as $log)
+		foreach ($data as $row)
 		{
-			$log               = (array) $log;
-			$log['ip_address'] = JText::_($log['ip_address']);
-			$log['extension']  = self::translateExtensionName(strtoupper(strtok($log['extension'], '.')));
+			$log               = array();
+			$log['id']         = $row->id;
+			$log['message']    = strip_tags(self::getHumanReadableLogMessage($row));
+			$log['date']       = $row->log_date;
+			$log['extension']  = self::translateExtensionName(strtoupper(strtok($row->extension, '.')));
+			$log['name']       = $row->name;
+			$log['ip_address'] = JText::_($row->ip_address);
 
-			$app->triggerEvent('onLogMessagePrepare', array(&$log['message'], $log['extension']));
-
-			fputcsv($fp, $log, ',');
+			fputcsv($fp, $log, $csvDelimiter);
 		}
 
 		rewind($fp);

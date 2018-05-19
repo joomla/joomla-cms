@@ -13,6 +13,16 @@
 			<option value="0">JNO</option>
 		</field>
 		<field
+				name="csv_delimiter"
+				type="list"
+				label="COM_USERLOGS_CSV_DELIMITER"
+				description="COM_USERLOGS_CSV_DELIMITER_DESC"
+				default=","
+		>
+			<option value=",">COM_USERLOGS_COMMA</option>
+			<option value=";">COM_USERLOGS_SEMICOLON</option>
+		</field>
+		<field
 				name="loggable_extensions"
 				type="logtype"
 				label="COM_USERLOGS_LOG_EXTENSIONS"
