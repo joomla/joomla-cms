@@ -11,11 +11,6 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
-// TODO - Update server layouts for 4.0 to remove global var use
-/* eslint-disable */
-const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
-/* eslint-enable */
-
 ((window, document, Joomla, jQuery) => {
   'use strict';
 
@@ -157,6 +152,17 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
 
           self.clickforlinks();
           WebInstaller.clicker();
+
+          if (webInstallerOptions.view !== 'extension') {
+            [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+              element.addEventListener('click', (event) => {
+                event.preventDefault();
+                self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+              });
+
+              element.setAttribute('href', '#');
+            });
+          }
 
           if (webInstallerOptions.list && document.querySelector('.list-view')) {
             document.querySelector('.list-view').click();
