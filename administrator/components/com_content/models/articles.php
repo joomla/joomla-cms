@@ -219,7 +219,7 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			$assogroup .= ', v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -270,6 +270,47 @@ class ContentModelArticles extends JModelList
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
+
+		if (empty($categoryId))
+		{
+			// Get only the categories the user has access to using the Assets Table:
+			$assetsQuery = $db->getQuery(true);
+			$extension = 'com_content';
+			$groups = $user->getAuthorisedGroups();
+
+			$assetsQuery->select("REPLACE(name, '$extension.category.', '') as catid ");
+			$assetsQuery->from('#__assets');
+
+			$or = array();
+			foreach($groups as $group)
+			{
+				$or[] = '(name LIKE \''.$extension.'.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
+			}
+
+			$assetsQuery->where('(' . implode(' OR ', $or) .  ')');
+			$db->setQuery($assetsQuery);
+			$catids = $db->loadColumn();
+
+			if (!empty($catids))
+			{
+				// We have a User Group that's been
+				// assigned to one or more categories directly
+				// so we want to pull in these and any children:
+				$childCategoriesQuery = $db->getQuery(true);
+				$childCategoriesQuery->select('c.id');
+				$childCategoriesQuery->from('#__categories as c');
+				$childCategoriesQuery->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt)');
+				$childCategoriesQuery->where('s.id IN (' . implode(',', $catids) . ')');
+				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension).')');
+				$childCategoriesQuery->group('c.id');
+				$childCategoriesQuery->order('c.lft');
+			}
+
+			if (!empty($catids))
+			{
+				$query->where('a.catid IN (' . $childCategoriesQuery . ')');
+			}
+		}
 
 		if (!is_array($categoryId))
 		{

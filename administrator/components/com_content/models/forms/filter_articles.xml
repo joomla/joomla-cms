@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="filter">
+	<fields name="filter" addfieldpath="/administrator/components/com_categories/models/fields">
 		<field
 			name="search"
 			type="text"
@@ -21,7 +21,7 @@
 
 		<field
 			name="category_id"
-			type="category"
+			type="categoryedit"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			multiple="true"
