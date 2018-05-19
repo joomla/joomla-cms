@@ -4,111 +4,30 @@
  * @since      3.5.0
  */
 
-Joomla = window.Joomla || {};
+(function (document) {
+  'use strict';
 
-(function(Joomla, document) {
-	'use strict';
+  // Selectors used by this script
+  var statsDataTogglerId = 'js-pstats-data-details-toggler';
+  var statsDataDetailsId = 'js-pstats-data-details';
+  var resetId = 'js-pstats-reset-uid';
+  var uniqueIdFieldId = 'jform_params_unique_id';
 
-	var data = {
-		'option' : 'com_ajax',
-		'group'  : 'system',
-		'plugin' : 'renderStatsMessage',
-		'format' : 'raw'
-	};
+  document.addEventListener('DOMContentLoaded', function () {
+    // Toggle stats details
+    document.getElementById(statsDataTogglerId).addEventListener('click', function (event) {
+      event.preventDefault();
+      var element = document.getElementById(statsDataDetailsId);
+      if (element) {
+        element.classList.toggle('d-none');
+      }
+    });
 
-	Joomla.initStatsEvents = function() {
-		var messageContainer = document.getElementById('system-message-container');
-		var joomlaAlert      = messageContainer.querySelector('.js-pstats-alert');
-		var detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
-		var details = messageContainer.querySelector('.js-pstats-btn-details');
-		var always  = messageContainer.querySelector('.js-pstats-btn-allow-always');
-		var once    = messageContainer.querySelector('.js-pstats-btn-allow-once');
-		var never   = messageContainer.querySelector('.js-pstats-btn-allow-never');
-
-		// Show details about the information being sent
-		document.addEventListener('click', function(event) {
-			if (event.target.classList.contains('js-pstats-btn-details')) {
-				event.preventDefault();
-				detailsContainer.classList.toggle('d-none');
-			}
-		});
-
-		// Always allow
-		document.addEventListener('click', function(event) {
-			if (event.target.classList.contains('js-pstats-btn-allow-always')) {
-				event.preventDefault();
-
-				// Remove message
-				joomlaAlert.close();
-
-				// Set data
-				data.plugin = 'sendAlways';
-
-				Joomla.getJson(data);
-			}
-		});
-
-		// Allow once
-		document.addEventListener('click', function(event) {
-			if (event.target.classList.contains('js-pstats-btn-allow-once')) {
-				event.preventDefault();
-
-				// Remove message
-				joomlaAlert.close();
-
-				// Set data
-				data.plugin = 'sendOnce';
-
-				Joomla.getJson(data);
-			}
-		});
-
-		// Never allow
-		document.addEventListener('click', function(event) {
-			if (event.target.classList.contains('js-pstats-btn-allow-never')) {
-				event.preventDefault();
-
-				// Remove message
-				joomlaAlert.close();
-
-				// Set data
-				data.plugin = 'sendNever';
-
-				Joomla.getJson(data);
-			}
-		});
-	}
-
-	Joomla.getJson = function(data) {
-		var messageContainer = document.getElementById('system-message-container');
-		Joomla.request({
-			url: 'index.php?option=' + data.option + '&group=' + data.group + '&plugin=' + data.plugin +  '&format=' + data.format,
-			method: 'GET',
-			perform: true,
-			headers: {'Content-Type': 'application/json'},
-			onSuccess: function(response, xhr) {
-				try {
-					response = JSON.parse(response);
-				} catch(e) {
-					throw new Error(e);
-				}
-
-				if (response && response.html) {
-					messageContainer.innerHTML = response.html;
-					messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
-
-					Joomla.initStatsEvents();
-				}
-			},
-			onError: function(xhr) {
-				Joomla.renderMessages({error: [xhr.response]});
-			}
-		});
-	}
-
-	document.addEventListener('DOMContentLoaded', function() {
-		data.plugin = 'sendStats';
-		Joomla.getJson(data);
-	});
-
-})(Joomla, document);
+    // Reset the unique id
+    document.getElementById(resetId).addEventListener('click', function (event) {
+      event.preventDefault();
+      document.getElementById(uniqueIdFieldId).value = '';
+      Joomla.submitbutton('plugin.apply');
+    });
+  });
+})(document, Joomla);

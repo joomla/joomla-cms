@@ -218,7 +218,7 @@ class RulesField extends FormField
 
 			$this->parentAssetId = (int) $db->loadResult();
 		}
-		
+
 		// Get the rules for just this asset (non-recursive).
 		$this->assetRules = Access::getAssetRules($assetId, false, false);
 
@@ -241,14 +241,14 @@ class RulesField extends FormField
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'groups'  		=>	$this->groups,
-			'section'		=>	$this->section,
-			'actions'		=>	$this->actions,
-			'assetId'		=>	$this->assetId,
-			'newItem'		=>	$this->newItem,
-			'assetRules'		=>	$this->assetRules,
-			'isGlobalConfig'	=>	$this->isGlobalConfig,
-			'parentAssetId'		=> 	$this->parentAssetId,
+			'groups'  		=> $this->groups,
+			'section'		=> $this->section,
+			'actions'		=> $this->actions,
+			'assetId'		=> $this->assetId,
+			'newItem'		=> $this->newItem,
+			'assetRules'		=> $this->assetRules,
+			'isGlobalConfig'	=> $this->isGlobalConfig,
+			'parentAssetId'		=> $this->parentAssetId,
 		);
 
 		return array_merge($data, $extraData);
