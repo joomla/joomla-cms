@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filesystem\Path;
 
 /**
@@ -20,53 +19,35 @@ use Joomla\CMS\Filesystem\Path;
 class UserlogsHelper
 {
 	/**
-	 * Method to extract data array of objects into CSV file
+	 * Method to convert logs objects array to associative array use for CSV export
 	 *
-	 * @param   array  $data  The logs data to be exported
+	 * @param   array  $data  The logs data objects to be exported
 	 *
-	 * @return  void
+	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function dataToCsv($data)
+	public static function getCsvData($data)
 	{
-		$date         = JFactory::getDate();
-		$filename     = "logs_" . $date;
-		$csvDelimiter = ComponentHelper::getComponent('com_userlogs')->getParams()->get('csv_delimiter', ',');
+		$rows = array();
 
-		$app = JFactory::getApplication();
-		$app->setHeader('Content-Type', 'application/csv', true)
-			->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
-			->setHeader('Cache-Control', 'must-revalidate', true);
+		// Header row
+		$rows[] = array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
 
-		$app->sendHeaders();
-
-		$headers = array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
-
-		$fp = fopen('php://temp', 'r+');
-		ob_end_clean();
-
-		fputcsv($fp, $headers, $csvDelimiter);
-
-		foreach ($data as $row)
+		foreach ($data as $log)
 		{
-			$log               = array();
-			$log['id']         = $row->id;
-			$log['message']    = strip_tags(self::getHumanReadableLogMessage($row));
-			$log['date']       = $row->log_date;
-			$log['extension']  = self::translateExtensionName(strtoupper(strtok($row->extension, '.')));
-			$log['name']       = $row->name;
-			$log['ip_address'] = JText::_($row->ip_address);
+			$row               = array();
+			$row['id']         = $log->id;
+			$row['message']    = strip_tags(self::getHumanReadableLogMessage($log));
+			$row['date']       = $log->log_date;
+			$row['extension']  = self::translateExtensionName(strtoupper(strtok($log->extension, '.')));
+			$row['name']       = $log->name;
+			$row['ip_address'] = JText::_($log->ip_address);
 
-			fputcsv($fp, $log, $csvDelimiter);
+			$rows[] = $row;
 		}
 
-		rewind($fp);
-		$content = stream_get_contents($fp);
-		echo $content;
-		fclose($fp);
-
-		$app->close();
+		return $rows;
 	}
 
 	/**

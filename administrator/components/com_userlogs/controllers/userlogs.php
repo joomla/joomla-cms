@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 JLoader::register('UserlogsHelper', JPATH_COMPONENT . '/helpers/userlogs.php');
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -72,8 +73,26 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 
 		if (count($data))
 		{
-			// Export data to CSV file
-			UserlogsHelper::dataToCsv($data);
+			$rows = UserlogsHelper::getCsvData($data);
+			$filename     = "logs_" . JFactory::getDate();
+			$csvDelimiter = ComponentHelper::getComponent('com_userlogs')->getParams()->get('csv_delimiter', ',');
+
+			$app = JFactory::getApplication();
+			$app->setHeader('Content-Type', 'application/csv', true)
+				->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
+				->setHeader('Cache-Control', 'must-revalidate', true)
+				->sendHeaders();
+
+			$output = fopen("php://output", "w");
+
+			foreach ($rows as $row)
+			{
+				fputcsv($output, $row, $csvDelimiter);
+			}
+
+			fclose($output);
+
+			$app->close();
 		}
 		else
 		{
