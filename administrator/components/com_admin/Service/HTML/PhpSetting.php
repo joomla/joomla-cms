@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Admin\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Utility class working with phpsetting
  *
  * @since  1.6
  */
-abstract class JHtmlPhpSetting
+class PhpSetting
 {
 	/**
 	 * Method to generate a boolean message for a value
@@ -23,9 +28,9 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @return  string html code
 	 */
-	public static function boolean($val)
+	public function boolean($val)
 	{
-		return JText::_($val ? 'JON' : 'JOFF');
+		return Text::_($val ? 'JON' : 'JOFF');
 	}
 
 	/**
@@ -35,9 +40,9 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @return  string html code
 	 */
-	public static function set($val)
+	public function set($val)
 	{
-		return JText::_($val ? 'JYES' : 'JNO');
+		return Text::_($val ? 'JYES' : 'JNO');
 	}
 
 	/**
@@ -47,9 +52,9 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @return  string html code
 	 */
-	public static function string($val)
+	public function string($val)
 	{
-		return !empty($val) ? $val : JText::_('JNONE');
+		return !empty($val) ? $val : Text::_('JNONE');
 	}
 
 	/**
@@ -61,13 +66,13 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @deprecated  4.0  Use intval() or casting instead.
 	 */
-	public static function integer($val)
+	public function integer($val)
 	{
 		try
 		{
-			JLog::add(sprintf('%s() is deprecated. Use intval() or casting instead.', __METHOD__), JLog::WARNING, 'deprecated');
+			Log::add(sprintf('%s() is deprecated. Use intval() or casting instead.', __METHOD__), Log::WARNING, 'deprecated');
 		}
-		catch (RuntimeException $exception)
+		catch (\RuntimeException $exception)
 		{
 			// Informational log only
 		}
