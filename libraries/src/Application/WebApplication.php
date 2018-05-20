@@ -32,7 +32,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware,ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
 
 	/**
 	 * The application document object.
