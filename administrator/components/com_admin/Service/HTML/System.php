@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Admin\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Utility class working with system
  *
  * @since  1.6
  */
-abstract class JHtmlSystem
+class System
 {
 	/**
 	 * Method to generate a string message for a value
@@ -23,8 +27,8 @@ abstract class JHtmlSystem
 	 *
 	 * @return  string html code
 	 */
-	public static function server($val)
+	public function server($val)
 	{
-		return !empty($val) ? $val : JText::_('COM_ADMIN_NA');
+		return !empty($val) ? $val : Text::_('COM_ADMIN_NA');
 	}
 }
