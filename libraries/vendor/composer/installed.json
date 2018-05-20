@@ -396,17 +396,17 @@
     },
     {
         "name": "joomla/filter",
-        "version": "1.3.3",
-        "version_normalized": "1.3.3.0",
+        "version": "1.3.4",
+        "version_normalized": "1.3.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/filter.git",
-            "reference": "1ee770b83790c02d0fbcef77ad0647153e1faf74"
+            "reference": "6ec4c6020f7ef12c57a015410bdd11031620d952"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/1ee770b83790c02d0fbcef77ad0647153e1faf74",
-            "reference": "1ee770b83790c02d0fbcef77ad0647153e1faf74",
+            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/6ec4c6020f7ef12c57a015410bdd11031620d952",
+            "reference": "6ec4c6020f7ef12c57a015410bdd11031620d952",
             "shasum": ""
         },
         "require": {
@@ -414,14 +414,14 @@
             "php": "^5.3.10|~7.0"
         },
         "require-dev": {
+            "joomla/coding-standards": "~2.0@alpha",
             "joomla/language": "~1.3",
-            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
-            "squizlabs/php_codesniffer": "1.*"
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
         "suggest": {
             "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
         },
-        "time": "2017-07-04T15:07:30+00:00",
+        "time": "2018-05-20T15:17:26+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -436,7 +436,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPL-2.0+"
+            "GPL-2.0-or-later"
         ],
         "description": "Joomla Filter Package",
         "homepage": "https://github.com/joomla-framework/filter",
