@@ -282,26 +282,24 @@ class ContentModelArticles extends JModelList
 			$assetsQuery->from('#__assets');
 
 			$or = array();
-			foreach($groups as $group)
+			foreach ($groups as $group)
 			{
-				$or[] = '(name LIKE \''.$extension.'.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
+				$or[] = '(name LIKE \'' . $extension . '.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
 			}
 
-			$assetsQuery->where('(' . implode(' OR ', $or) .  ')');
+			$assetsQuery->where('(' . implode(' OR ', $or) . ')');
 			$db->setQuery($assetsQuery);
 			$catids = $db->loadColumn();
 
 			if (!empty($catids))
 			{
-				// We have a User Group that's been
-				// assigned to one or more categories directly
-				// so we want to pull in these and any children:
+				// We have a User Group assigned to one or more categories so we want to pull in these and any children:
 				$childCategoriesQuery = $db->getQuery(true);
 				$childCategoriesQuery->select('c.id');
 				$childCategoriesQuery->from('#__categories as c');
 				$childCategoriesQuery->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt)');
 				$childCategoriesQuery->where('s.id IN (' . implode(',', $catids) . ')');
-				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension).')');
+				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension) . ')');
 				$childCategoriesQuery->group('c.id');
 				$childCategoriesQuery->order('c.lft');
 			}

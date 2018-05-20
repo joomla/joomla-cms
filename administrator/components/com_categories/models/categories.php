@@ -104,9 +104,7 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.tag', $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '', 'string'));
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'string'));
 
-		// Clearing the form wouldn't correctly restore the
-		// Category List until Clear had been pressed twice
-		// so this extra section was added to help fix that:
+		// Clearing the form wouldn't correctly restore the Category List until Clear had been pressed twice so this was added to help fix that:
 		$filters = $app->input->get('filter', array(), 'array');
 		if (!empty($filters) && !isset($filters['parent']))
 		{
@@ -173,9 +171,8 @@ class CategoriesModelCategories extends JModelList
 		$extension = $this->getState('filter.extension');
 		$root = $user->get('isRoot');
 		$componentManageRights = $user->authorise('core.manage', $extension);
-		//$componentCreateRights = $user->authorise('core.create', $extension);
 
-		if ($componentManageRights)// && $componentCreateRights)
+		if ($componentManageRights)
 		{
 			// Get only the categories the user has access to using the Assets Table:
 			$assetsQuery = $db->getQuery(true);
@@ -185,11 +182,11 @@ class CategoriesModelCategories extends JModelList
 			$assetsQuery->from('#__assets');
 
 			$or = array();
-			foreach($groups as $group)
+			foreach ($groups as $group)
 			{
-				$or[] = '(name LIKE \''.$extension.'.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
+				$or[] = '(name LIKE \'' . $extension . '.category.%\' and rules LIKE \'%"' . (int) $group . '":1%\')';
 			}
-			$assetsQuery->where('(' . implode(' OR ', $or) .  ')');
+			$assetsQuery->where('(' . implode(' OR ', $or) . ')');
 			$db->setQuery($assetsQuery);
 			$catids = $db->loadColumn();
 
@@ -200,15 +197,13 @@ class CategoriesModelCategories extends JModelList
 
 			if (!empty($catids))
 			{
-				// We have a User Group that's been
-				// assigned to one or more categories directly
-				// so we want to pull in these and any children:
+				// We have a User Group assigned to one or more categories so we want to pull in these and any children:
 				$childCategoriesQuery = $db->getQuery(true);
 				$childCategoriesQuery->select('c.id');
 				$childCategoriesQuery->from('#__categories as c');
 				$childCategoriesQuery->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt)');
 				$childCategoriesQuery->where('s.id IN (' . implode(',', $catids) . ')');
-				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension).')');
+				$childCategoriesQuery->where('(c.extension = ' . $db->quote($extension) . ')');
 				$childCategoriesQuery->group('c.id');
 				$childCategoriesQuery->order('c.lft');
 			}
