@@ -2,7 +2,7 @@
 -- Table structure for table `#__csp`
 --
 
-CREATE TABLE IF NOT EXISTS `#_csp` (
+CREATE TABLE IF NOT EXISTS `#__csp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `document_uri` varchar(500) NOT NULL DEFAULT '',
   `blocked_uri` varchar(500) NOT NULL DEFAULT '',
