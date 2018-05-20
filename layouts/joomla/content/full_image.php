@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 $params  = $displayData->params;
 $images  = json_decode($displayData->images);
-$caption = $images->image_fulltext_caption;
+$caption = !empty($images->image_fulltext_caption) ? $images->image_fulltext_caption : '';
 ?>
 <?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
