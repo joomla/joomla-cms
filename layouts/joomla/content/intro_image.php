@@ -17,7 +17,7 @@ $images  = json_decode($displayData->images);
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
-		<?php if ($images->image_intro_caption != '') : ?>
+		<?php if ($images->image_intro_caption !== '') : ?>
 			<figcaption class="caption"><?php echo htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
 		<?php endif; ?>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
