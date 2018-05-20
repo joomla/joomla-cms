@@ -63,6 +63,7 @@ class ExtensionHelper
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
+		array('component', 'com_userslogs', '', 1),
 		array('component', 'com_wrapper', '', 0),
 
 		// Core file extensions
@@ -128,6 +129,9 @@ class ExtensionHelper
 
 		// Core package extensions
 		array('package', 'pkg_en-GB', '', 0),
+
+		// Core plugin extensions - actionlogs
+		array('plugin', 'joomla', 'actionlogs', 0),
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
