@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $this->escape($item->log_date); ?>
 							</td>
 							<td>
-								<?php echo JUser::getInstance($item->user_id)->name; ?>
+								<?php echo $item->name; ?>
 							</td>
 							<?php if ($this->ip) : ?>
 								<td>

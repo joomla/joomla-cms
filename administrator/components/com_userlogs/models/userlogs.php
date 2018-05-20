@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Methods supporting a list of article records.
  *
@@ -76,8 +74,9 @@ class UserlogsModelUserlogs extends JModelList
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-				->select('a.*')
-				->from($db->quoteName('#__user_logs', 'a'));
+			->select('a.*, u.name')
+			->from('#__user_logs AS a')
+			->innerJoin('#__users AS u ON a.user_id = u.id');
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
