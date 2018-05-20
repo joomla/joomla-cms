@@ -45,8 +45,8 @@ $n         = count($this->items);
 
 ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
+	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<fieldset class="filters d-flex justify-content-between mb-3">
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="input-group">
@@ -78,45 +78,47 @@ $n         = count($this->items);
 			<input type="hidden" name="limitstart" value="">
 			<input type="hidden" name="task" value="">
 		</fieldset>
-	<?php endif; ?>
+	</form>
+<?php endif; ?>
 
-	<?php if ($this->items == false || $n === 0) : ?>
-		<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
-	<?php else : ?>
-		<?php foreach ($this->items as $i => $item) : ?>
+<?php if ($this->items == false || $n === 0) : ?>
+	<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
+<?php else : ?>
+	<?php foreach ($this->items as $i => $item) : ?>
 
-			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-				<ul class="category list-group">
+		<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
+			<ul class="category list-group">
+		<?php endif; ?>
+
+		<li class="list-group-item list-group-item-action">
+			<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
+				<h3 class="mb-0">
+					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
+						<?php echo $this->escape($item->title); ?>
+					</a>
+				</h3>
 			<?php endif; ?>
 
-			<li class="list-group-item list-group-item-action">
-				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<h3 class="mb-0">
-						<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
-							<?php echo $this->escape($item->title); ?>
-						</a>
-					</h3>
-				<?php endif; ?>
+			<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
+				<?php $images = json_decode($item->images); ?>
+				<span class="tag-body">
+					<?php if (!empty($images->image_intro)) : ?>
+						<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
+						<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+							<img
+								<?php if ($images->image_intro_caption) : ?>
+									<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+								<?php endif; ?>
+								src="<?php echo $images->image_intro; ?>"
+								alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+						</div>
+					<?php endif; ?>
+				</span>
+			<?php endif; ?>
 
-				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-					<?php $images  = json_decode($item->images); ?>
-					<span class="tag-body">
-						<?php if (!empty($images->image_intro)) : ?>
-							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
-								<img
-									<?php if ($images->image_intro_caption) : ?>
-										<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
-									<?php endif; ?>
-									src="<?php echo $images->image_intro; ?>"
-									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
-							</div>
-						<?php endif; ?>
-					</span>
-				<?php endif; ?>
-
+			<?php if ($this->params->get('all_tags_show_tag_description') || $this->params->get('all_tags_show_tag_hits')) : ?>
 				<div class="caption">
-					<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
+					<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
 						<span class="tag-body">
 							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 						</span>
@@ -127,26 +129,26 @@ $n         = count($this->items);
 						</span>
 					<?php endif; ?>
 				</div>
-			</li>
-
-			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
-				</ul>
 			<?php endif; ?>
+		</li>
 
-		<?php endforeach; ?>
-	<?php endif; ?>
-
-	<?php // Add pagination links ?>
-	<?php if (!empty($this->items)) : ?>
-		<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
-			<div class="w-100">
-				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter float-right pt-3 pr-2">
-						<?php echo $this->pagination->getPagesCounter(); ?>
-					</p>
-				<?php endif; ?>
-				<?php echo $this->pagination->getPagesLinks(); ?>
-			</div>
+		<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
+			</ul>
 		<?php endif; ?>
+
+	<?php endforeach; ?>
+<?php endif; ?>
+
+<?php // Add pagination links ?>
+<?php if (!empty($this->items)) : ?>
+	<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
+		<div class="w-100">
+			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+				<p class="counter float-right pt-3 pr-2">
+					<?php echo $this->pagination->getPagesCounter(); ?>
+				</p>
+			<?php endif; ?>
+			<?php echo $this->pagination->getPagesLinks(); ?>
+		</div>
 	<?php endif; ?>
-</form>
+<?php endif; ?>
