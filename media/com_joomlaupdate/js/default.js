@@ -165,11 +165,11 @@ Joomla = window.Joomla || {};
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning
-                html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING') + '</span>';
+                html = '<span class="badge badge-secondary">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING') + '</span>';
                 break;
             default:
                 // An error occured -> show unknown error note
-                html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
+                html = '<span class="badge badge-secondary">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
         }
         // Insert the generated html
         extensionData.$element.html(html);
