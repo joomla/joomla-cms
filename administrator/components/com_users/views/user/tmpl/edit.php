@@ -66,7 +66,8 @@ $fieldsets = $this->form->getFieldsets();
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php echo $this->loadTemplate('session'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->grouplist) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>

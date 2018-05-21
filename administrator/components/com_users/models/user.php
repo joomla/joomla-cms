@@ -1332,6 +1332,24 @@ class UsersModelUser extends JModelAdmin
 	}
 
 	/**
+	 * Destroys all the sessions associated with a given user.
+	 *
+	 * @param   int  $userId  The user's identifier
+	 *
+	 * @return  bool True on success, false on failure.
+	 */
+	public function destroyUsersSessions($userId)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__session')
+			->where($db->quoteName('userid') . ' = ' . (int) $userId);
+		$db->setQuery($query);
+
+		return (bool) $db->execute();
+	}
+
+	/**
 	 * Checks if the supplied string is a valid one time emergency password
 	 * (OTEP) for this user. If it is it will be automatically removed from the
 	 * user's list of OTEPs.

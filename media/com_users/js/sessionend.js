@@ -1,0 +1,6 @@
+/**
+ * @package         Joomla.JavaScript
+ * @copyright       Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ */
+jQuery(document).ready(function(r){r("#end_session").click(function(){r.ajax({method:"POST",url:endsession_url,data:{user_id:user_id},dataType:"json"}).fail(function(r,e,o){var a={};if("parsererror"==e){for(var s=r.responseText.trim(),_=[],t=s.length-1;t>=0;t--)_.unshift(["&#",s[t].charCodeAt(),";"].join(""));s=_.join(""),a.error=[Joomla.JText._("COM_CONFIG_SENDMAIL_JS_ERROR_PARSE").replace("%s",s)]}else"nocontent"==e?a.error=[Joomla.JText._("COM_CONFIG_SENDMAIL_JS_ERROR_NO_CONTENT")]:"timeout"==e?a.error=[Joomla.JText._("COM_CONFIG_SENDMAIL_JS_ERROR_TIMEOUT")]:"abort"==e?a.error=[Joomla.JText._("COM_CONFIG_SENDMAIL_JS_ERROR_CONNECTION_ABORT")]:a.error=[Joomla.JText._("COM_CONFIG_SENDMAIL_JS_ERROR_OTHER").replace("%s",r.status)];Joomla.renderMessages(a)}).done(function(r){var e={};r.data&&(r.data.hasOwnProperty("success")?e.success=[r.data.success]:r.data.hasOwnProperty("error")&&(e.error=[r.data.error])),Joomla.renderMessages(e)}),window.scrollTo(0,0)})});
