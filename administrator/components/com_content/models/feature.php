@@ -25,7 +25,7 @@ class ContentModelFeature extends ContentModelArticle
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function canEditState($record)
 	{
