@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
@@ -128,8 +129,11 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Perform application routines.
 		$this->doExecute();

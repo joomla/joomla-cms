@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Admin\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
 
 /**
  * Utility class working with directory
  *
  * @since  1.6
  */
-abstract class JHtmlDirectory
+class Directory
 {
 	/**
 	 * Method to generate a (un)writable message for directory
@@ -23,14 +27,14 @@ abstract class JHtmlDirectory
 	 *
 	 * @return  string	html code
 	 */
-	public static function writable($writable)
+	public function writable($writable)
 	{
 		if ($writable)
 		{
-			return '<span class="badge badge-success">' . JText::_('COM_ADMIN_WRITABLE') . '</span>';
+			return '<span class="badge badge-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
 
-		return '<span class="badge badge-danger">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
+		return '<span class="badge badge-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
 	}
 
 	/**
@@ -42,7 +46,7 @@ abstract class JHtmlDirectory
 	 *
 	 * @return  string	html code
 	 */
-	public static function message($dir, $message, $visible = true)
+	public function message($dir, $message, $visible = true)
 	{
 		$output = $visible ? $dir : '';
 
@@ -51,6 +55,6 @@ abstract class JHtmlDirectory
 			return $output;
 		}
 
-		return $output . ' <strong>' . JText::_($message) . '</strong>';
+		return $output . ' <strong>' . Text::_($message) . '</strong>';
 	}
 }

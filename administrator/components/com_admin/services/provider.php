@@ -13,13 +13,14 @@ use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
-use Joomla\Component\Modules\Administrator\Extension\ModulesComponent;
+use Joomla\Component\Admin\Administrator\Extension\AdminComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The module service provider.
+ * The admin service provider.
  *
  * @since  4.0.0
  */
@@ -36,16 +37,17 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Modules'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Modules'));
+		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Admin'));
+		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Admin'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new ModulesComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new AdminComponent($container->get(DispatcherFactoryInterface::class));
 
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component->setRegistry($container->get(Registry::class));
 
 				return $component;
 			}
