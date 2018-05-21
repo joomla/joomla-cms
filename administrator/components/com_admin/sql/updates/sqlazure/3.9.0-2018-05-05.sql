@@ -2,8 +2,8 @@ SET IDENTITY_INSERT #__extensions  ON;
 
 INSERT INTO [#__extensions] ([extension_id], [package_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state]) VALUES
 (36, 0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
-(483, 0, 'plg_system_userlogs', 'plugin', 'userlogs', 'system', 0, 0, 1, 0, '', '{"logDeletePeriod":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
-(484, 0, 'plg_actionlogs_joomla', 'plugin', 'joomla', 'actionlogs', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0);
+(483, 0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 0, 1, 0, '', '{"logDeletePeriod":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
+(484, 0, 'plg_actionlog_joomla', 'plugin', 'joomla', 'actionlog', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
