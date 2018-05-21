@@ -89,7 +89,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 72, 73, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
-(57, 1, 107, 108, 1, 'com_userlogs', 'com_userlogs', '{"core.admin":{"7":1}}');
+(57, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}');
 
 SELECT setval('#__assets_id_seq', 57, false);
 
@@ -536,7 +536,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (35, 0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(36, 0, 'com_userlogs', 'component', 'com_userlogs', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(36, 0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (102, 0, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (104, 0, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1387,7 +1387,7 @@ INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link
 (21, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 1, 1, 1, 32, 0, '1970-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 37, 38, 0, '*', 1),
 (22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations', 'component', 1, 1, 1, 34, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 39, 40, 0, '*', 1),
 (23, 'main', 'com_privacy', 'Privacy', '', 'Privacy', 'index.php?option=com_privacy', 'component', 1, 1, 1, 35, 0, '1970-01-01 00:00:00', 0, 0, 'class:privacy', 0, '', 41, 42, 0, '*', 1),
-(24, 'main', 'com_userlogs', 'User Logs', '', 'User Logs', 'index.php?option=com_userlogs', 'component', 1, 1, 1, 36, 0, '1970-01-01 00:00:00', 0, 0, 'class:privacy', 0, '', 43, 44, 0, '*', 1),								    
+(24, 'main', 'com_actionlogs', 'Action Logs', '', 'Action Logs', 'index.php?option=com_actionlogs', 'component', 1, 1, 1, 36, 0, '1970-01-01 00:00:00', 0, 0, 'class:privacy', 0, '', 43, 44, 0, '*', 1),
 (101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 45, 46, 1, '*', 0);
 
 SELECT setval('#__menu_id_seq', 102, false);
@@ -2096,9 +2096,9 @@ COMMENT ON COLUMN "#__user_usergroup_map"."user_id" IS 'Foreign Key to #__users.
 COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__usergroups.id';
 
 --
--- Table: #__user_logs
+-- Table: #__action_logs
 --
-CREATE TABLE "#__user_logs" (
+CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
   `message_language_key` varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
@@ -2109,18 +2109,18 @@ CREATE TABLE "#__user_logs" (
   PRIMARY KEY ("id")
 );
 
--- Table: #__user_logs_extensions
+-- Table: #__action_logs_extensions
 --
-CREATE TABLE "#__user_logs_extensions" (
+CREATE TABLE "#__action_logs_extensions" (
   "id" serial NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY ("id")
 );
 
 --
--- Dumping data for table '#__user_logs_extensions'
+-- Dumping data for table '#__action_logs_extensions'
 --
-INSERT INTO "#__user_logs_extensions" ("id", "extension") VALUES
+INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (1, 'com_banners'),
 (2, 'com_cache'),
 (3, 'com_categories'),
@@ -2139,13 +2139,13 @@ INSERT INTO "#__user_logs_extensions" ("id", "extension") VALUES
 (16, 'com_templates'),
 (17, 'com_users');
 
-SELECT setval('#__user_logs_extensions_id_seq', 19, false);
+SELECT setval('#__action_logs_extensions_id_seq', 19, false);
 -- --------------------------------------------------------
 
 --
--- Table: #__user_logs_tables_data
+-- Table: #__action_logs_tables_data
 --
-CREATE TABLE "#__user_logs_tables_data" (
+CREATE TABLE "#__action_logs_tables_data" (
   "id" serial NOT NULL,
   "type_title" varchar(255) NOT NULL DEFAULT '',
   "type_alias" varchar(255) NOT NULL DEFAULT '',
@@ -2157,30 +2157,30 @@ CREATE TABLE "#__user_logs_tables_data" (
 );
 
 --
--- Dumping data for table #__user_logs_tables_data
+-- Dumping data for table #__action_logs_tables_data
 --
-INSERT INTO "#__user_logs_tables_data" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
-(1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_SYSTEM_USERLOGS'),
-(2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_SYSTEM_USERLOGS'),
-(3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_SYSTEM_USERLOGS'),
-(4, 'user_note', 'com_users.note', 'id', 'subject' ,'#__user_notes', 'PLG_SYSTEM_USERLOGS'),
-(5, 'media', 'com_media.file', '' , 'name' , '',  'PLG_SYSTEM_USERLOGS'),
-(6, 'category', 'com_categories.category', 'id' , 'title' , '#__categories', 'PLG_SYSTEM_USERLOGS'),
-(7, 'menu', 'com_menus.menu', 'id' ,'title' , '#__menu_types', 'PLG_SYSTEM_USERLOGS'),
-(8, 'menu_item', 'com_menus.item', 'id' , 'title' , '#__menu', 'PLG_SYSTEM_USERLOGS'),
-(9, 'newsfeed', 'com_newsfeeds.newsfeed', 'id' ,'name' , '#__newsfeeds', 'PLG_SYSTEM_USERLOGS'),
-(10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_SYSTEM_USERLOGS'),
-(11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_SYSTEM_USERLOGS'),
-(12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_SYSTEM_USERLOGS'),
-(13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_SYSTEM_USERLOGS'),
-(14, 'component_config', 'com_config.component', 'extension_id' , 'name', '', 'PLG_SYSTEM_USERLOGS'),
-(15, 'contact', 'com_contact.contact', 'id', 'name', '#__contact_details', 'PLG_SYSTEM_USERLOGS'),
-(16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_SYSTEM_USERLOGS'),
-(17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_SYSTEM_USERLOGS'),
-(18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_SYSTEM_USERLOGS');
+INSERT INTO "#__action_logs_tables_data" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
+(1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
+(2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
+(3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_ACTIONLOG_JOOMLA'),
+(4, 'user_note', 'com_users.note', 'id', 'subject' ,'#__user_notes', 'PLG_ACTIONLOG_JOOMLA'),
+(5, 'media', 'com_media.file', '' , 'name' , '',  'PLG_ACTIONLOG_JOOMLA'),
+(6, 'category', 'com_categories.category', 'id' , 'title' , '#__categories', 'PLG_ACTIONLOG_JOOMLA'),
+(7, 'menu', 'com_menus.menu', 'id' ,'title' , '#__menu_types', 'PLG_ACTIONLOG_JOOMLA'),
+(8, 'menu_item', 'com_menus.item', 'id' , 'title' , '#__menu', 'PLG_ACTIONLOG_JOOMLA'),
+(9, 'newsfeed', 'com_newsfeeds.newsfeed', 'id' ,'name' , '#__newsfeeds', 'PLG_ACTIONLOG_JOOMLA'),
+(10, 'link', 'com_redirect.link', 'id', 'old_url' , '__redirect_links', 'PLG_ACTIONLOG_JOOMLA'),
+(11, 'tag', 'com_tags.tag', 'id', 'title' , '#__tags', 'PLG_ACTIONLOG_JOOMLA'),
+(12, 'style', 'com_templates.style', 'id' , 'title' , '#__template_styles', 'PLG_ACTIONLOG_JOOMLA'),
+(13, 'plugin', 'com_plugins.plugin', 'extension_id' , 'name' , '#__extensions', 'PLG_ACTIONLOG_JOOMLA'),
+(14, 'component_config', 'com_config.component', 'extension_id' , 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
+(15, 'contact', 'com_contact.contact', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA'),
+(16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_ACTIONLOG_JOOMLA'),
+(17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
+(18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__user_logs_tables_data_id_seq', 19, false);
+SELECT setval('#__action_logs_tables_data_id_seq', 19, false);
 
 --
 -- Table structure for table `#__viewlevels`
