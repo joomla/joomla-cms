@@ -5,7 +5,6 @@
 		name="key"
 		type="list"
 		label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
-		default="no-referrer-when-downgrade"
 		validate="options"
 		>
 		<option value="strict-transport-security">Strict-Transport-Security</option>
