@@ -1,5 +1,4 @@
 ((customElements, Joomla) => {
-
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -7,7 +6,7 @@
   Joomla.selectedFile = {};
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
-    Joomla.selectedFile = e.detail
+    Joomla.selectedFile = e.detail;
   });
 
   Joomla.doIt = (resp, editor, fieldClass) => {
@@ -17,13 +16,13 @@
           const server = Joomla.getOptions('system.paths').rootFull;
 
           Joomla.selectedFile.url = resp.data[0].url.split(server)[1];
-          if (resp.data[0]['thumb_path']) {
+          if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           } else {
             Joomla.selectedFile.thumb = false
           }
         } else {
-          if (resp.data[0]['thumb_path'])
+          if (resp.data[0].thumb_path)
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
         }
       } else {

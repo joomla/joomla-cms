@@ -12,7 +12,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function (customElements, Joomla) {
-
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -30,13 +29,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           var server = Joomla.getOptions('system.paths').rootFull;
 
           Joomla.selectedFile.url = resp.data[0].url.split(server)[1];
-          if (resp.data[0]['thumb_path']) {
+          if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           } else {
             Joomla.selectedFile.thumb = false;
           }
         } else {
-          if (resp.data[0]['thumb_path']) Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+          if (resp.data[0].thumb_path) Joomla.selectedFile.thumb = resp.data[0].thumb_path;
         }
       } else {
         Joomla.selectedFile.url = false;
