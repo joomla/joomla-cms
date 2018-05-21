@@ -75,7 +75,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 				this.modalBody.appendChild(iframe);
 
-				window.jQuery(this.modal).modal('show');
+				this.modal.open();
 
 				var iframeEl = this.modalBody.querySelector('iframe');
 
@@ -98,7 +98,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 		}, {
 			key: 'modalClose',
 			value: function modalClose() {
-				window.jQuery(this.modal).modal('hide');
+				Joomla.Modal.getCurrent().close();
 				this.modalBody.innerHTML = '';
 			}
 

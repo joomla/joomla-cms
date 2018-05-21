@@ -161,7 +161,7 @@
 			const input = this.querySelector(this.input);
 			Joomla.getImage(Joomla.selectedFile, input, this);
 
-			Joomla.Modal.current.close();
+			Joomla.Modal.getCurrent().close();
 		}
 
 		setValue(value) {

@@ -1,5 +1,4 @@
-// @todo remove jQuery, currently is used only to open/close the modal
-;((customElements, Joomla, jQuery) => {
+;((customElements, Joomla) => {
 
 	if (!Joomla) {
 		throw new Error('Joomla API is not properly initiated');
@@ -143,9 +142,9 @@
 		show() {
 			const self = this;
 
-			jQuery(this.querySelector('[role="dialog"]')).modal('show');
+			this.querySelector('[role="dialog"]').open();
 
-			jQuery(this.querySelector(this.buttonSaveSelected)).on('click', (e) => {
+			this.querySelector(this.buttonSaveSelected).addEventListener('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
 
@@ -162,12 +161,11 @@
 			const input = this.querySelector(this.input);
 			Joomla.getImage(Joomla.selectedFile, input, this);
 
-			jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+			Joomla.Modal.getCurrent().close();
 		}
 
 		setValue(value) {
-			const input = jQuery(this.querySelector(this.input));
-			input.val(value).trigger('change');
+			this.querySelector(this.input).value = value;
 			this.updatePreview();
 		}
 
@@ -210,4 +208,4 @@
 
 	customElements.define('joomla-field-media', JoomlaFieldMedia);
 
-})(customElements, Joomla, jQuery);
+})(customElements, Joomla);

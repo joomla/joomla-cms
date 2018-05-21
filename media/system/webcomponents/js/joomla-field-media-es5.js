@@ -11,8 +11,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// @todo remove jQuery, currently is used only to open/close the modal
-;(function (customElements, Joomla, jQuery) {
+;(function (customElements, Joomla) {
 
 	if (!Joomla) {
 		throw new Error('Joomla API is not properly initiated');
@@ -136,9 +135,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 				var self = this;
 
-				jQuery(this.querySelector('[role="dialog"]')).modal('show');
+				this.querySelector('[role="dialog"]').open();
 
-				jQuery(this.querySelector(this.buttonSaveSelected)).on('click', function (e) {
+				this.querySelector(this.buttonSaveSelected).addEventListener('click', function (e) {
 					e.preventDefault();
 					e.stopPropagation();
 
@@ -156,13 +155,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 				var input = this.querySelector(this.input);
 				Joomla.getImage(Joomla.selectedFile, input, this);
 
-				jQuery(this.querySelector('[role="dialog"]')).modal('hide');
+				Joomla.Modal.getCurrent().close();
 			}
 		}, {
 			key: 'setValue',
 			value: function setValue(value) {
-				var input = jQuery(this.querySelector(this.input));
-				input.val(value).trigger('change');
+				this.querySelector(this.input).value = value;
 				this.updatePreview();
 			}
 		}, {
@@ -331,6 +329,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 	}(HTMLElement);
 
 	customElements.define('joomla-field-media', JoomlaFieldMedia);
-})(customElements, Joomla, jQuery);
+})(customElements, Joomla);
 
 },{}]},{},[1]);

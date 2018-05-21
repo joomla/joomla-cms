@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 		<button class="sr-only"
 			id="exportBtn"
 			type="button"
-			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.current.close()', 700);">
+			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">
 		</button>
 	</form>
 </div>
