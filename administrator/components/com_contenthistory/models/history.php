@@ -104,7 +104,7 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Method to delete one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -243,7 +243,7 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Method to toggle on and off the keep forever value for one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
