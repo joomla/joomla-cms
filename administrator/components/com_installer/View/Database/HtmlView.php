@@ -10,8 +10,12 @@ namespace Joomla\Component\Installer\Administrator\View\Database;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
@@ -22,11 +26,54 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
 	/**
+	 * List of change sets
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $changeSet = array();
+
+	/**
+	 * The number of errors found
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $errorCount = 0;
+
+	/**
+	 * List pagination.
+	 *
+	 * @var Pagination
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pagination;
+
+	/**
+	 * The filter form
+	 *
+	 * @var    Form
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * A list of form filters
+	 *
+	 * @var    array
+	 * @since  1.0
+	 */
+	public $activeFilters = array();
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   1.6
 	 */
@@ -36,40 +83,27 @@ class HtmlView extends InstallerViewDefault
 		$app = Factory::getApplication();
 
 		// Get data from the model.
-		$this->changeSet     = $this->get('Items');
-		$this->errors        = $this->changeSet->check();
-		$this->results       = $this->changeSet->getStatus();
-		$this->schemaVersion = $this->get('SchemaVersion');
-		$this->updateVersion = $this->get('UpdateVersion');
-		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = $this->schemaVersion ?: \JText::_('JNONE');
-		$this->updateVersion = $this->updateVersion ?: \JText::_('JNONE');
-		$this->pagination    = $this->get('Pagination');
-		$this->errorCount    = count($this->errors);
-
-		if ($this->schemaVersion != $this->changeSet->getSchema())
-		{
-			$this->errorCount++;
-		}
-
-		if (!$this->filterParams)
-		{
-			$this->errorCount++;
-		}
-
-		if (version_compare($this->updateVersion, \JVERSION) != 0)
-		{
-			$this->errorCount++;
-		}
+		/** @var DatabaseModel $model */
+		$model = $this->getModel();
+		$this->changeSet      = $model->getItems();
+		$this->errorCount     = $model->getErrorCount();
+		$this->pagination     = $model->getPagination();
+		$this->filterForm     = $model->getFilterForm();
+		$this->activeFilters  = $model->getActiveFilters();
 
 		if ($this->errorCount === 0)
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'info');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'), 'info');
 		}
 		else
 		{
-			$app->enqueueMessage(\JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
+			// Database Core Errors
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
+
+		// Include the component HTML helpers.
+		echo JPATH_COMPONENT . '/helpers/html';
+		//HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		parent::display($tpl);
 	}
@@ -86,7 +120,9 @@ class HtmlView extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
+		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
+
+		ToolbarHelper::custom('database.findproblems', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_PROBLEMS', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');
