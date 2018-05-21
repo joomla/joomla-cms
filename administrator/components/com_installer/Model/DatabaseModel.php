@@ -34,6 +34,7 @@ class DatabaseModel extends InstallerModel
 	 * Set the model context
 	 *
 	 * @var    string
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_context = 'com_installer.discover';
@@ -50,7 +51,7 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Total of errors
 	 *
-	 * @var  int
+	 * @var  integer
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -145,7 +146,7 @@ class DatabaseModel extends InstallerModel
 					if (!$this->getDefaultTextFilters())
 					{
 						$errorCount++;
-						$problemsMessage .= "<li>" . Text::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR') . "</li>";
+						$problemsMessage .= '<li>' . Text::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR') . '</li>';
 					}
 				}
 
@@ -173,7 +174,7 @@ class DatabaseModel extends InstallerModel
 
 				if ($result->version_id != $schema)
 				{
-					$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema) . "</li>";
+					$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema) . '</li>';
 					$errorCount++;
 				}
 
@@ -254,6 +255,9 @@ class DatabaseModel extends InstallerModel
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+
+		// Prepare the utf8mb4 conversion check table
+		$this->prepareUtf8mb4StatusTable();
 
 		parent::populateState($ordering, $direction);
 	}
@@ -516,7 +520,7 @@ class DatabaseModel extends InstallerModel
 
 		if (version_compare($extensionVersion, $updateVersion) != 0)
 		{
-			return "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . "</li>";
+			return '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . '</li>';
 		}
 
 		return null;
@@ -534,8 +538,8 @@ class DatabaseModel extends InstallerModel
 	public function getOtherInformationMessage($status)
 	{
 		$problemsMessage = "";
-		$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok'])) . "</li>";
-		$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped'])) . "</li>";
+		$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok'])) . '</li>';
+		$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped'])) . '</li>';
 
 		return $problemsMessage;
 	}
@@ -560,7 +564,7 @@ class DatabaseModel extends InstallerModel
 			$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
 			$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
 			$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
-			$errorMessage .= "<li>" . Text::sprintf($key, $file, $msg0, $msg1, $msg2) . "</li>";
+			$errorMessage .= '<li>' . Text::sprintf($key, $file, $msg0, $msg1, $msg2) . '</li>';
 		}
 
 		return $errorMessage;
@@ -571,7 +575,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @param   integer  $extensionId  id of the extension
 	 *
-	 * @return   mixed  string update version if success, false if fail.
+	 * @return  mixed  string update version if success, false if fail.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -667,7 +671,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	private function prepareUtf8mb4StatusTable()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		if (!$db instanceof UTF8MB4SupportInterface)
 		{
