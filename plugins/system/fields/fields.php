@@ -3,13 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Multilanguage;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
@@ -18,7 +22,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
  *
  * @since  3.7
  */
-class PlgSystemFields extends JPlugin
+class PlgSystemFields extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -80,13 +84,19 @@ class PlgSystemFields extends JPlugin
 		$fieldsData = !empty($data['com_fields']) ? $data['com_fields'] : array();
 
 		// Loading the model
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		// Loop over the fields
 		foreach ($fields as $field)
 		{
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
+
+			// JSON encode value for complex fields
+			if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric'))))
+			{
+				$value = json_encode($value);
+			}
 
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
@@ -116,9 +126,9 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser($userData['id']);
+		$user = Factory::getUser($userData['id']);
 
-		$task = JFactory::getApplication()->input->getCmd('task');
+		$task = Factory::getApplication()->input->getCmd('task');
 
 		// Skip fields save when we activate a user, because we will lose the saved data
 		if (in_array($task, array('activate', 'block', 'unblock')))
@@ -153,7 +163,7 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
 
 		return true;
@@ -188,7 +198,7 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		$context = $form->getName();
 
@@ -202,6 +212,7 @@ class PlgSystemFields extends JPlugin
 			{
 				$data['catid'] = $data['id'];
 			}
+
 			if (is_object($data) && isset($data->id))
 			{
 				$data->catid = $data->id;
@@ -215,7 +226,7 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');
@@ -315,12 +326,41 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
 		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
 		}
 
 		$fields = FieldsHelper::getFields($context, $item, true);
+
+		if ($fields)
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			{
+				$lang = $app->getLanguage()->getTag();
+
+				foreach ($fields as $key => $field)
+				{
+					if ($field->language == '*' || $field->language == $lang)
+					{
+						continue;
+					}
+
+					unset($fields[$key]);
+				}
+			}
+		}
 
 		if ($fields)
 		{
@@ -372,7 +412,18 @@ class PlgSystemFields extends JPlugin
 			return;
 		}
 
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item, true);
+		$context = $parts[0] . '.' . $parts[1];
+
+		// Convert tags
+		if ($context == 'com_tags.tag' && !empty($item->type_alias))
+		{
+			// Set the context
+			$context = $item->type_alias;
+
+			$item = $this->prepareTagItem($item);
+		}
+
+		$fields = FieldsHelper::getFields($context, $item, true);
 
 		// Adding the fields to the object
 		$item->jcfields = array();
@@ -442,5 +493,29 @@ class PlgSystemFields extends JPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Prepares a tag item to be ready for com_fields.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	private function prepareTagItem($item)
+	{
+		// Map core fields
+		$item->id       = $item->content_item_id;
+		$item->language = $item->core_language;
+
+		// Also handle the catid
+		if (!empty($item->core_catid))
+		{
+			$item->catid = $item->core_catid;
+		}
+
+		return $item;
 	}
 }

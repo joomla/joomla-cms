@@ -1,36 +1,44 @@
 <template>
-    <div class="media-container row" :style="{minHeight: fullHeight}">
-        <div class="media-sidebar col-md-2 hidden-sm-down">
-            <media-tree :root="'/'"></media-tree>
+    <div class="media-container row">
+        <div class="media-sidebar col-md-2 d-none d-md-block">
+            <media-disk v-for="(disk, index) in disks" :key="index" :disk="disk"></media-disk>
         </div>
         <div class="col-md-10">
             <div class="media-main">
                 <media-toolbar></media-toolbar>
                 <media-browser></media-browser>
-                <media-infobar></media-infobar>
             </div>
         </div>
         <media-upload></media-upload>
         <media-create-folder-modal></media-create-folder-modal>
+        <media-preview-modal></media-preview-modal>
+        <media-rename-modal></media-rename-modal>
     </div>
 </template>
 
 <script>
     import * as types from "./../store/mutation-types";
-    
+    import Api from "./../app/Api";
+
     export default {
         name: 'media-app',
         data() {
             return {
                 // The full height of the app in px
-                fullHeight: '',
+                fullHeight: ''
             };
+        },
+        computed: {
+            disks() {
+                return this.$store.state.disks;
+            },
         },
         methods: {
             /* Set the full height on the app container */
             setFullHeight() {
                 this.fullHeight = window.innerHeight - this.$el.getBoundingClientRect().top + 'px';
             },
+
         },
         created() {
             // Listen to the toolbar events

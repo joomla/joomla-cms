@@ -3,10 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Menus\Administrator\Field;
+namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
@@ -63,7 +63,7 @@ class MenuField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -86,7 +86,7 @@ class MenuField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -101,6 +101,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -160,7 +161,7 @@ class MenuField extends FormField
 
 		// Add the modal field script to the document head.
 		\JHtml::_('jquery.framework');
-		\JHtml::_('script', 'system/modal-fields.js', array('version' => 'auto', 'relative' => true));
+		\JHtml::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -178,7 +179,8 @@ class MenuField extends FormField
 				function jSelectMenu_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -217,13 +219,13 @@ class MenuField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 
 		// Placeholder if option is present or not
 		if (empty($title))
- 		{
+		{
 			if ($this->element->option && (string) $this->element->option['value'] == '')
 			{
 				$title_holder = \JText::_($this->element->option, true);
@@ -242,12 +244,12 @@ class MenuField extends FormField
 		{
 			$html .= '<span class="input-group">';
 		}
-		
+
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select menu item button

@@ -3,12 +3,13 @@
 	<name>com_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2007</creationDate>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_CATEGORIES_XML_DESCRIPTION</description>
+	<namespace>Joomla\Component\Categories</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>categories.xml</filename>

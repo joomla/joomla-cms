@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -27,7 +27,6 @@
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			description="JFIELD_TITLE_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
@@ -76,14 +75,11 @@
 
 		<field
 			name="modified"
-			type="calendar"
+			type="text"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
-			translateformat="true"
-			showtime="true"
-			size="22"
 			class="readonly"
+			filter="unset"
 			readonly="true"
-			filter="user_utc"
 		/>
 
 		<field

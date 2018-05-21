@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 				<div class="well">
 					<?php echo $this->form->renderField('map_count'); ?>
 				</div>
-				<button class="btn btn-secondary" type="button" onclick="jQuery('.filter-node').each(function(){ this.click(); });">
+				<button class="btn btn-secondary filter-toggle-all" type="button">
 					<span class="fa fa-square" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 				<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
@@ -43,8 +43,10 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-block card-light">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="card card-light">
+				<div class="card-body">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 	</div>

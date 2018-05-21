@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class Factory
 		$type = strtolower(preg_replace('/[^A-Z0-9_]/i', '', $type));
 
 		$localNamespace = __NAMESPACE__ . '\\Format';
-		$namespace      = isset($options['format_namespace']) ? $options['format_namespace'] : $localNamespace;
+		$namespace      = $options['format_namespace'] ?? $localNamespace;
 		$class          = $namespace . '\\' . ucfirst($type);
 
 		if (!class_exists($class))

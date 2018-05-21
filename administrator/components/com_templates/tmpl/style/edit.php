@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ $user = JFactory::getUser();
 					<?php echo JText::_($this->item->template); ?>
 				</h3>
 				<div class="info-labels">
-					<span class="badge badge-default hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+					<span class="badge badge-secondary hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
@@ -58,16 +58,18 @@ $user = JFactory::getUser();
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php
-					// Set main fields.
-					$this->fields = array(
-						'home',
-						'client_id',
-						'template'
-					);
-					?>
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<?php
+						// Set main fields.
+						$this->fields = array(
+							'home',
+							'client_id',
+							'template'
+						);
+						?>
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>

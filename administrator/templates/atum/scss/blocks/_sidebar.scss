@@ -20,6 +20,7 @@
   background-color: $atum-template-color;
   box-shadow: 0 3px 10px rgba(0,0,0,.5);
   transition: all .3s ease;
+
   .sidebar-brand {
     position: absolute;
     top: 0;
@@ -101,6 +102,7 @@
   > li {
     background-color: $atum-template-color;
     border-bottom: 1px solid rgba(0,0,0,.15);
+
     &:first-of-type {
       border-top: 1px solid rgba(0,0,0,.15);
     }
@@ -110,6 +112,7 @@
   li {
     max-height: 40px;
     line-height: 40px;
+
     a {
       position: relative;
       display: block;
@@ -135,8 +138,9 @@
 
     }
 
-    a:not([href]):not([tabindex]) {
-      color: $white;
+    &.menuitem-group a:hover {
+      cursor: text;
+      background: none;
     }
 
     ul {
@@ -151,6 +155,7 @@
       opacity: 0;
       transition: left .2s ease, opacity .2s ease;
       transition-delay: 0;
+
       ul {
         display: none;
         opacity: 1;
@@ -169,6 +174,7 @@
     color: rgba(255, 255, 255, .8);
     text-indent: 0;
     text-shadow: none;
+
     &:hover {
       background-color: transparent;
     }
@@ -176,15 +182,11 @@
 
   .open {
 
-    > a {
-
-      + ul {
-        left: 50px;
-        z-index: 1;
-        opacity: 1;
-        transition-delay: .2s;
-      }
-
+    > a + ul {
+      left: 50px;
+      z-index: 1;
+      opacity: 1;
+      transition-delay: .2s;
     }
 
   }
@@ -208,18 +210,8 @@
       color: rgba($white, .4);
     }
 
-    &:first-of-type {
-      margin: 6px 0 0;
-      color: rgba($white, .7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    &:last-of-type {
-      > a {
-        border-bottom: 0;
-      }
-
+    &:last-of-type > a {
+      border-bottom: 0;
     }
 
   }
@@ -240,8 +232,18 @@
     a::before {
       display: none;
     }
+
+    .menuitem-group,
+    > li:first-of-type {
+      margin: 6px 0 0;
+      color: rgba($white, .7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     li {
       position: relative;
+
       &:hover ul {
         display: block !important;
       }
@@ -263,10 +265,6 @@
       color: $white;
       text-indent: 15px;
 
-    }
-
-    li:first-of-type {
-      display: none;
     }
 
   }
@@ -295,16 +293,18 @@
 // Child open
 .child-open {
   overflow: visible;
+
   &::after {
     width: 200px;
-    // opacity: 1;
   }
+
   > li {
     &.parent > .collapse-arrow::after {
       visibility: hidden;
       opacity: 0;
       transition-delay: 0s;
     }
+
     &.open > a::before {
       position: absolute;
       top: 1px;
@@ -315,10 +315,9 @@
       background-color: $atum-sidebar-active;
     }
   }
-  .open {
-    > ul {
-      display: block;
-    }
+
+  .open > ul {
+    display: block;
   }
 
 }
@@ -333,6 +332,7 @@
   .child-open::after {
     display: none;
   }
+
   .sidebar-wrapper {
     width: 50px;
     overflow: hidden;

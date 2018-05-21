@@ -3,20 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Module\Menu\Administrator\Helper\MenuHelper;
+use Joomla\CMS\Menu\Node;
+use Joomla\CMS\Menu\Tree;
+use Joomla\CMS\Menu\MenuHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-
 /**
  * Tree based class to render the admin menu
  *
@@ -25,293 +29,51 @@ use Joomla\Utilities\ArrayHelper;
 class CssMenu
 {
 	/**
-	 * CSS string to add to document head
+	 * The Menu tree object
 	 *
-	 * @var  string
+	 * @var   Tree
+	 *
+	 * @since   3.8.0
 	 */
-	protected $_css = null;
+	protected $tree;
 
 	/**
-	 * Root node
+	 * The module options
 	 *
-	 * @var  object
+	 * @var   Registry
+	 *
+	 * @since   3.8.0
 	 */
-	protected $_root = null;
+	protected $params;
 
 	/**
-	 * Current working node
+	 * The menu bar state
 	 *
-	 * @var  object
+	 * @var   bool
+	 *
+	 * @since   3.8.0
 	 */
-	protected $_current = null;
+	protected $enabled;
 
 	/**
-	 * Counter
+	 * Get the current menu tree
 	 *
-	 * @var  int
+	 * @return  Tree
+	 *
+	 * @since   3.8.0
 	 */
-	protected static $counter = 0;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct()
+	public function getTree()
 	{
-		$this->_root    = new MenuNode('ROOT');
-		$this->_current = &$this->_root;
+		if (!$this->tree)
+		{
+			$this->tree = new Tree;
+		}
+
+		return $this->tree;
 	}
 
 	/**
-	 * Method to add a child
-	 *
-	 * @param   MenuNode  $node        The node to process
-	 * @param   boolean   $setCurrent  True to set as current working node
-	 *
-	 * @return  void
-	 */
-	public function addChild(MenuNode $node, $setCurrent = false)
-	{
-		$this->_current->addChild($node);
-
-		if ($setCurrent)
-		{
-			$this->_current = &$node;
-		}
-	}
-
-	/**
-	 * Method to get the parent
-	 *
-	 * @return  void
-	 */
-	public function getParent()
-	{
-		$this->_current = &$this->_current->getParent();
-	}
-
-	/**
-	 * Method to get the parent
-	 *
-	 * @param   bool  $clear  Whether to clear the existing menu items or just reset the pointer to root element
-	 *
-	 * @return  void
-	 */
-	public function reset($clear = false)
-	{
-		if ($clear)
-		{
-			$this->_root = new MenuNode('ROOT');
-		}
-
-		$this->_current = &$this->_root;
-	}
-
-	/**
-	 * Method to add a separator node
-	 *
-	 * @param   string  $title  The separator label text. A dash "-" can be used to use a horizontal bar instead of text label.
-	 *
-	 * @return  void
-	 */
-	public function addSeparator($title = null)
-	{
-		if ($title == '-' || $title == '')
-		{
-			$title = null;
-		}
-
-		$this->addChild(new MenuNode($title, null, 'separator', false));
-	}
-
-	/**
-	 * Method to render the menu
-	 *
-	 * @param   string  $id     The id of the menu to be rendered
-	 * @param   string  $class  The class of the menu to be rendered
-	 *
-	 * @return  void
-	 */
-	public function renderMenu($id = '', $class = '')
-	{
-		$depth = 1;
-
-		// Recurse through children if they exist
-		while ($this->_current->hasChildren())
-		{
-		echo "<div class='main-nav-container' role=\"navigation\" aria-label=\"Main menu\">";
-		echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix' role=\"menubar\">";
-
-			foreach ($this->_current->getChildren() as $child)
-			{
-				$this->_current = &$child;
-				$this->renderLevel($depth++);
-			}
-
-			echo "</ul></div>\n";
-		}
-
-		if ($this->_css)
-		{
-			// Add style to document head
-			Factory::getDocument()->addStyleDeclaration($this->_css);
-		}
-	}
-
-	/**
-	 * Method to render a given level of a menu
-	 *
-	 * @param   integer  $depth  The level of the menu to be rendered
-	 *
-	 * @return  void
-	 */
-	public function renderLevel($depth)
-	{
-		// Build the CSS class suffix
-		$class = '';
-
-		if ($this->_current->hasChildren())
-		{
-			$class = ' class="parent"';
-		}
-
-		// Create unique identifier
-		self::$counter++;
-		$unique = self::$counter;
-
-		// Print the item
-		$ariaPopup = $this->_current->hasChildren() ? 'aria-haspopup="true"' : '';
-		echo '<li' . $class . ' role="menuitem" ' . $ariaPopup . '>';
-
-		// Print a link if it exists
-		$linkClass = array();
-		$dataToggle = '';
-
-		if ($this->_current->hasChildren())
-		{
-			$linkClass[] = 'collapse-arrow';
-			$dataToggle = '';
-
-			// If the menu item has children, override the href
-			$this->_current->link = '#collapse' . $unique;
-		}
-		else
-		{
-			$linkClass[] = 'no-dropdown';
-		}
-
-		$iconClass = $this->getIconClass($this->_current->class);
-
-		if ($this->_current->active === true)
-		{
-			$linkClass[] = 'active';
-		}
-
-		// Implode out $linkClass for rendering
-		$linkClass = ' class="' . implode(' ', $linkClass) . '"';
-
-		// Convert blank href to collapse trigger
-		if ($this->_current->link === '#')
-		{
-			$this->_current->link = '#collapse' . $unique;
-		}
-
-		if ($this->_current->link != null && $this->_current->target != null)
-		{
-			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">" . $iconClass
-				. '<span class="sidebar-item-title">' . $this->_current->title . "</span></a>";
-		}
-		elseif ($this->_current->link != null && $this->_current->target == null)
-		{
-			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\">" . $iconClass
-				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
-		}
-		elseif ($this->_current->title != null && $this->_current->class != 'separator')
-		{
-			echo "<a" . $linkClass . $dataToggle . ">" . $iconClass
-				. '<span class="sidebar-item-title" >' . $this->_current->title . "</span></a>";
-		}
-		else
-		{
-			echo '<span>' . $this->_current->title . '</span>';
-		}
-
-		// Recurse through children if they exist
-		// @TODO - A better solution needed to add 2nd level title ($this->_current->title) & 'close'
-		while ($this->_current->hasChildren())
-		{
-			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
-		   <li>' . $this->_current->title . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
-
-			foreach ($this->_current->getChildren() as $child)
-			{
-				$this->_current = &$child;
-				$this->renderLevel($depth++);
-			}
-
-			echo "</ul>\n";
-		}
-
-		echo "</li>\n";
-	}
-
-	/**
-	 * Method to get the CSS class name for an icon identifier or create one if
-	 * a custom image path is passed as the identifier
-	 *
-	 * @param   string  $identifier  Icon identification string
-	 *
-	 * @return  string	CSS class name
-	 *
-	 * @since   1.5
-	 */
-	public function getIconClass($identifier)
-	{
-		static $classes;
-
-		// Initialise the known classes array if it does not exist
-		if (!is_array($classes))
-		{
-			$classes = array();
-		}
-
-		$html = '';
-
-		/*
-		 * If we don't already know about the class... build it and mark it
-		 * known so we don't have to build it again
-		 */
-		if (!isset($classes[$identifier]))
-		{
-			if (substr($identifier, 0, 6) == 'class:')
-			{
-				// We were passed a class name
-				$class = substr($identifier, 6);
-				$html  = '<span class="fa fa-' . $class . '"></span>';
-			}
-			else
-			{
-				if ($identifier == null)
-				{
-					return null;
-				}
-
-				// Build the CSS class for the icon
-				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
-				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
-				$html  = '<span class="fa fa-' . $class . '"></span>';
-			}
-
-			if ($class == 'disabled')
-			{
-				return null;
-			}
-		}
-
-		return $html;
-	}
-
-	/**
-	 * Populate the menu items in the menu object for disabled state
+	 * Populate the menu items in the menu tree object
 	 *
 	 * @param   Registry  $params   Menu configuration parameters
 	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
@@ -322,173 +84,385 @@ class CssMenu
 	 */
 	public function load($params, $enabled)
 	{
-		$menutype = $params->get('menutype', '*');
+		$this->tree    = $this->getTree();
+		$this->params  = $params;
+		$this->enabled = $enabled;
+		$menutype      = $this->params->get('menutype', '*');
 
-		$this->reset(true);
-
-		if ($menutype == '*')
+		if ($menutype === '*')
 		{
-			require __DIR__ . '/../preset/' . ($enabled ? 'enabled.php' : 'disabled.php');
+			$name   = $this->params->get('preset', 'joomla');
+			$levels = MenuHelper::loadPreset($name);
 		}
 		else
 		{
-			$items = MenuHelper::getMenuItems($menutype);
-			$types = ArrayHelper::getColumn($items, 'type');
-			$app   = Factory::getApplication();
-			$me    = Factory::getUser();
+			$items = MenusHelper::getMenuItems($menutype, true);
 
-			$authMenus   = $me->authorise('core.manage', 'com_menus');
-			$authModules = $me->authorise('core.manage', 'com_modules');
-
-			if ($enabled && $params->get('check') && ($authMenus || $authModules))
+			if ($this->enabled && $this->params->get('check'))
 			{
-				$elements = ArrayHelper::getColumn($items, 'element');
-
-				$rMenu      = $authMenus && !in_array('com_menus', $elements);
-				$rModule    = $authModules && !in_array('com_modules', $elements);
-				$rContainer = !in_array('container', $types);
-
-				if ($rMenu || $rModule || $rContainer)
+				if ($this->check($items, $this->params))
 				{
-					$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
+					$this->params->set('recovery', true);
 
-					if ($recovery)
-					{
-						$params->set('recovery', true);
+					// In recovery mode, load the preset inside a special root node.
+					$this->tree->addChild(new Node\Heading('MOD_MENU_RECOVERY_MENU_ROOT'), true);
 
-						// In recovery mode, load the preset inside a special root node.
-						$this->addChild(new MenuNode(\JText::_('MOD_MENU_RECOVERY_MENU_ROOT'), '#'), true);
+					$levels = MenuHelper::loadPreset('joomla');
+					$levels = $this->preprocess($levels);
 
-						require __DIR__ . '/preset/enabled.php';
+					$this->populateTree($levels);
 
-						$this->addSeparator();
+					$this->tree->addChild(new Node\Separator);
 
-						$uri = clone Uri::getInstance();
-						$uri->setVar('recover_menu', 0);
+					// Add link to exit recovery mode
+					$uri = clone Uri::getInstance();
+					$uri->setVar('recover_menu', 0);
 
-						$this->addChild(new MenuNode(\JText::_('MOD_MENU_RECOVERY_EXIT'), $uri->toString()));
+					$this->tree->addChild(new Node\Url('MOD_MENU_RECOVERY_EXIT', $uri->toString()));
 
-						$this->getParent();
-					}
-					else
-					{
-						$missing = array();
-
-						if ($rMenu)
-						{
-							$missing[] = \JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
-						}
-
-						if ($rModule)
-						{
-							$missing[] = \JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
-						}
-
-						if ($rContainer)
-						{
-							$missing[] = \JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
-						}
-
-						$uri = clone Uri::getInstance();
-						$uri->setVar('recover_menu', 1);
-
-						$table = Table::getInstance('MenuType');
-						$table->load(array('menutype' => $menutype));
-						$mType = $table->get('title', $menutype);
-
-						$msg = \JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $mType, implode(', ', $missing), $uri);
-
-						$app->enqueueMessage($msg, 'warning');
-					}
+					$this->tree->getParent();
 				}
 			}
 
-			// Create levels
-			$items = MenuHelper::parseItems($items);
+			$levels = MenuHelper::createLevels($items);
+		}
 
-			// Menu items for dynamic db driven setup to load here
-			$this->loadItems($items, $enabled);
+		$levels = $this->preprocess($levels);
+
+		$this->populateTree($levels);
+	}
+
+	/**
+	 * Method to render a given level of a menu using provided layout file
+	 *
+	 * @param   string  $layoutFile  The layout file to be used to render
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public function renderSubmenu($layoutFile)
+	{
+		if (is_file($layoutFile))
+		{
+			$children = $this->tree->getCurrent()->getChildren();
+
+			foreach ($children as $child)
+			{
+				$this->tree->setCurrent($child);
+
+				// This sets the scope to this object for the layout file and also isolates other `include`s
+				require $layoutFile;
+			}
 		}
 	}
 
 	/**
-	 * Load the menu items from an array
+	 * Check the flat list of menu items for important links
 	 *
-	 * @param   array  $items    Menu items loaded from database
-	 * @param   bool   $enabled  Whether the menu should be enabled or disabled
+	 * @param   array     $items   The menu items array
+	 * @param   Registry  $params  Module options
 	 *
-	 * @return  void
+	 * @return  bool  Whether to show recovery menu
 	 *
-	 * @since   3.7.0
+	 * @since   3.8.0
 	 */
-	protected function loadItems($items, $enabled = true)
+	protected function check($items, Registry $params)
 	{
-		foreach ($items as $item)
+		$me          = Factory::getUser();
+		$authMenus   = $me->authorise('core.manage', 'com_menus');
+		$authModules = $me->authorise('core.manage', 'com_modules');
+
+		if (!$authMenus && !$authModules)
 		{
-			if ($item->type == 'separator')
-			{
-				$this->addSeparator($item->text);
-			}
-			elseif ($item->type == 'heading' && !count($item->submenu))
-			{
-				// Exclude if it is a heading type menu item, and has no children.
-			}
-			elseif ($item->type == 'container')
-			{
-				$exclude    = (array) $item->params->get('hideitems') ?: array();
-				$components = MenuHelper::getComponents(true, false, $exclude);
+			return false;
+		}
 
-				// Exclude if it is a container type menu item, and has no children.
-				if (count($item->submenu) || count($components))
+		$app        = Factory::getApplication();
+		$types      = ArrayHelper::getColumn($items, 'type');
+		$elements   = ArrayHelper::getColumn($items, 'element');
+		$rMenu      = $authMenus && !in_array('com_menus', $elements);
+		$rModule    = $authModules && !in_array('com_modules', $elements);
+		$rContainer = !in_array('container', $types);
+
+		if ($rMenu || $rModule || $rContainer)
+		{
+			$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
+
+			if ($recovery)
+			{
+				return true;
+			}
+
+			$missing = array();
+
+			if ($rMenu)
+			{
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+			}
+
+			if ($rModule)
+			{
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+			}
+
+			if ($rContainer)
+			{
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+			}
+
+			$uri = clone Uri::getInstance();
+			$uri->setVar('recover_menu', 1);
+
+			$table    = Table::getInstance('MenuType');
+			$menutype = $params->get('menutype');
+
+			$table->load(array('menutype' => $menutype));
+
+			$menutype = $table->get('title', $menutype);
+			$message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
+
+			$app->enqueueMessage($message, 'warning');
+		}
+
+		return false;
+	}
+
+	/**
+	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
+	 *
+	 * @param   \stdClass[]  $items  The levelled array of menu item objects
+	 *
+	 * @return  array
+	 *
+	 * @since   3.8.0
+	 */
+	protected function preprocess($items)
+	{
+		$result     = array();
+		$user       = Factory::getUser();
+		$language   = Factory::getLanguage();
+
+		$noSeparator = true;
+
+		// Call preprocess for the menu items on plugins.
+		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
+
+		foreach ($items as $i => &$item)
+		{
+			// Exclude item with menu item option set to exclude from menu modules
+			if ($item->params->get('menu_show', 1) == 0)
+			{
+				continue;
+			}
+
+			$item->scope = $item->scope ?? 'default';
+			$item->icon  = $item->icon ?? '';
+
+			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
+			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			{
+				continue;
+			}
+
+			if (substr($item->link, 0, 8) === 'special:')
+			{
+				$special = substr($item->link, 8);
+
+				if ($special === 'language-forum')
 				{
-					$this->addChild(new MenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:'), true);
-
-					if ($enabled)
-					{
-						// Load explicitly assigned child items first.
-						$this->loadItems($item->submenu);
-
-						// Add a separator between dynamic menu items and components menu items
-						if (count($item->submenu) && count($components))
-						{
-							$this->addSeparator($item->text);
-						}
-
-						// Adding component submenu the old way, this assumes 2-level menu only
-						foreach ($components as $component)
-						{
-							if (empty($component->submenu))
-							{
-								$this->addChild(new MenuNode($component->text, $component->link, $component->img));
-							}
-							else
-							{
-								$this->addChild(new MenuNode($component->text, $component->link, $component->img), true);
-
-								foreach ($component->submenu as $sub)
-								{
-									$this->addChild(new MenuNode($sub->text, $sub->link, $sub->img));
-								}
-
-								$this->getParent();
-							}
-						}
-					}
-
-					$this->getParent();
+					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+				}
+				elseif ($special === 'custom-forum')
+				{
+					$item->link = $this->params->get('forum_url');
 				}
 			}
-			elseif (!$enabled)
+
+			// Exclude item if is not enabled
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
 			{
-				$this->addChild(new MenuNode($item->text, $item->link, 'disabled'));
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope === 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
+			{
+				continue;
+			}
+
+			// Exclude item if the component is not authorised
+			$assetName = $item->element;
+
+			if ($item->element === 'com_categories')
+			{
+				parse_str($item->link, $query);
+				$assetName = $query['extension'] ?? 'com_content';
+			}
+			elseif ($item->element === 'com_fields')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+
+			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
+			{
+				continue;
+			}
+
+			// Exclude if link is invalid
+			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			{
+				continue;
+			}
+
+			// Process any children if exists
+			$item->submenu = $this->preprocess($item->submenu);
+
+			// Populate automatic children for container items
+			if ($item->type === 'container')
+			{
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = MenusHelper::getMenuItems('main', false, $exclude);
+
+				$item->components = MenuHelper::createLevels($components);
+				$item->components = $this->preprocess($item->components);
+				$item->components = ArrayHelper::sortObjects($item->components, 'text', 1, false, true);
+			}
+
+			// Exclude if there are no child items under heading or container
+			if (in_array($item->type, array('heading', 'container')) && empty($item->submenu) && empty($item->components))
+			{
+				continue;
+			}
+
+			// Remove repeated and edge positioned separators, It is important to put this check at the end of any logical filtering.
+			if ($item->type === 'separator')
+			{
+				if ($noSeparator)
+				{
+					continue;
+				}
+
+				$noSeparator = true;
 			}
 			else
 			{
-				$target = $item->browserNav ? '_blank' : null;
+				$noSeparator = false;
+			}
 
-				$this->addChild(new MenuNode($item->text, $item->link, $item->parent_id == 1 ? null : 'class:', false, $target), true);
-				$this->loadItems($item->submenu);
-				$this->getParent();
+			// Ok we passed everything, load language at last only
+			if ($item->element)
+			{
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+			}
+
+			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
+			}
+
+			$item->text = Text::_($item->title);
+
+			$result[$i] = $item;
+		}
+
+		// If last one was a separator remove it too.
+		if ($noSeparator && isset($i))
+		{
+			unset($result[$i]);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Load the menu items from a hierarchical list of items into the menu tree
+	 *
+	 * @param   \stdClass[]  $levels  Menu items as a hierarchical list format
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	protected function populateTree($levels)
+	{
+		foreach ($levels as $item)
+		{
+			$class = $this->enabled ? $item->class : 'disabled';
+
+			if ($item->type === 'separator')
+			{
+				$this->tree->addChild(new Node\Separator($item->title));
+			}
+			elseif ($item->type === 'heading')
+			{
+				// We already excluded heading type menu item with no children.
+				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
+
+				if ($this->enabled)
+				{
+					$this->populateTree($item->submenu);
+					$this->tree->getParent();
+				}
+			}
+			elseif ($item->type === 'url')
+			{
+				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
+				$this->tree->addChild($cNode, $this->enabled);
+
+				if ($this->enabled)
+				{
+					$this->populateTree($item->submenu);
+					$this->tree->getParent();
+				}
+			}
+			elseif ($item->type === 'component')
+			{
+				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
+				$this->tree->addChild($cNode, $this->enabled);
+
+				if ($this->enabled)
+				{
+					$this->populateTree($item->submenu);
+					$this->tree->getParent();
+				}
+			}
+			elseif ($item->type === 'container')
+			{
+				// We already excluded container type menu item with no children.
+				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);
+
+				if ($this->enabled)
+				{
+					$this->populateTree($item->submenu);
+
+					// Add a separator between dynamic menu items and components menu items
+					if (count($item->submenu) && count($item->components))
+					{
+						$this->tree->addChild(new Node\Separator);
+					}
+
+					$this->populateTree($item->components);
+
+					$this->tree->getParent();
+				}
 			}
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,7 +173,7 @@ class FinderIndexerQuery
 	public function __construct($options)
 	{
 		// Get the input string.
-		$this->input = isset($options['input']) ? $options['input'] : null;
+		$this->input = $options['input'] ?? null;
 
 		// Get the empty query setting.
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
@@ -787,7 +787,7 @@ class FinderIndexerQuery
 			if (preg_match('#' . $pattern . '\s*:\s*' . $suffix . '#mi', $input, $matches))
 			{
 				// Get the value given to the modifier.
-				$value = isset($matches[3]) ? $matches[3] : $matches[1];
+				$value = $matches[3] ?? $matches[1];
 
 				// Now we have to handle the filter string.
 				switch ($modifier)
@@ -846,7 +846,7 @@ class FinderIndexerQuery
 						}
 
 						break;
-						}
+					}
 				}
 
 				// Clean up the input string again.

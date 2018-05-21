@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Field;
@@ -96,7 +96,7 @@ class ContentmapField extends \JFormFieldGroupedList
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '**') == 'Language')
+					if (trim($name, '**') === 'Language')
 					{
 						$text = FinderHelperLanguage::branchLanguageTitle($branch->text);
 					}

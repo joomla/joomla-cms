@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->rows)) : ?>
-				<div class="alert alert-warning alert-no-items">
-					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-				</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table table-striped">
 					<thead>
@@ -38,7 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th style="width:15%" class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:15%" class="hidden-xs-down">
+							<th style="width:15%" class="d-none d-sm-table-cell">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th class="nowrap text-center">
@@ -50,16 +48,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th style="width:5%" class="nowrap text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="hidden-sm-down text-center">
+							<th style="width:10%" class="d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:5%" class="nowrap hidden-sm-down text-center">
+							<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -99,23 +97,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 							</td>
 							<td class="text-center">
+                            <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 							<?php // Display a Note if language pack version is not equal to Joomla version ?>
-							<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
+							<?php if (substr($row->version, 0, 3) != $minorVersion || substr($row->version, 0, 5) != $currentShortVersion) : ?>
 								<span class="badge badge-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
 							<?php else : ?>
 								<span class="badge badge-success"><?php echo $row->version; ?></span>
 							<?php endif; ?>
 							</td>
-							<td class="hidden-sm-down text-center">
+							<td class="d-none d-md-table-cell text-center">
 								<?php echo $this->escape($row->creationDate); ?>
 							</td>
-							<td class="hidden-sm-down text-center">
+							<td class="d-none d-md-table-cell text-center">
 								<?php echo $this->escape($row->author); ?>
 							</td>
-							<td class="hidden-sm-down text-center">
+							<td class="d-none d-md-table-cell text-center">
 								<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 							</td>
-							<td class="hidden-sm-down text-center">
+							<td class="d-none d-md-table-cell text-center">
 								<?php echo $this->escape($row->extension_id); ?>
 							</td>
 						</tr>

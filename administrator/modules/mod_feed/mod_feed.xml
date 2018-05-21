@@ -3,15 +3,16 @@
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FEED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Feed</namespace>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
-		<filename>helper.php</filename>
+		<folder>Helper</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -50,8 +51,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -61,13 +62,13 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
 				/>
@@ -79,8 +80,8 @@
 					class="switcher"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 			</fieldset>
@@ -110,7 +111,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
  					default="900"
 				/>

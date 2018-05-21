@@ -3,10 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 $options = array(
 	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
@@ -15,6 +17,10 @@ $options = array(
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
 $menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
+if ($clientId == 1) :
+	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['relative' => true, 'version' => 'auto']);
+endif;
+
 ?>
 <div class="container">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Field;
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Component\Menus\Administrator\Model\Menutypes;
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
@@ -74,7 +74,7 @@ class MenutypeField extends \JFormFieldList
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = new Menutypes(array('ignore_request' => true));
+				$model = new MenutypesModel(array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();
@@ -84,20 +84,10 @@ class MenutypeField extends \JFormFieldList
 				break;
 		}
 
-		// Include jQuery
-		\JHtml::_('jquery.framework');
-
-		// Add the script to the document head.
-		Factory::getDocument()->addScriptDeclaration('
-			function jSelectPosition_' . $this->id . '(name) {
-				document.getElementById("' . $this->id . '").value = name;
-			}
-		');
-
 		$link = \JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
+		$html[] = '<span class="input-group-append"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
 			. \JText::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. \JText::_('JSELECT') . '</a></span></span>';
 		$html[] = \JHtml::_(

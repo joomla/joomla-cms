@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ abstract class ContactHelperAssociation extends CategoryHelperAssociation
 	public static function getAssociations($id = 0, $view = null)
 	{
 		$jinput = JFactory::getApplication()->input;
-		$view   = $view === null ? $jinput->get('view') : $view;
+		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
 		if ($view === 'contact')

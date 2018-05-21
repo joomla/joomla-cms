@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <ul class="category-module">
@@ -58,18 +61,18 @@ defined('_JEXEC') or die;
 							<p class="mod-articles-category-readmore">
 								<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 									<?php if ($item->params->get('access-view') == false) : ?>
-										<?php echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
+										<?php echo Text::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
 									<?php elseif ($readmore = $item->alternative_readmore) : ?>
 										<?php echo $readmore; ?>
-										<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+										<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-												<?php echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+												<?php echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
 											<?php endif; ?>
 									<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
-										<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
+										<?php echo Text::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 									<?php else : ?>
-										<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
-										<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+										<?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
+										<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 									<?php endif; ?>
 								</a>
 							</p>
@@ -122,15 +125,15 @@ defined('_JEXEC') or die;
 					<p class="mod-articles-category-readmore">
 						<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 							<?php if ($item->params->get('access-view') == false) : ?>
-								<?php echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
+								<?php echo Text::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE'); ?>
 							<?php elseif ($readmore = $item->alternative_readmore) : ?>
 								<?php echo $readmore; ?>
-								<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+								<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 							<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
-								<?php echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
+								<?php echo Text::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>
 							<?php else : ?>
-								<?php echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
-								<?php echo JHtml::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+								<?php echo Text::_('MOD_ARTICLES_CATEGORY_READ_MORE'); ?>
+								<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 							<?php endif; ?>
 						</a>
 					</p>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</label>
 									</td>
 									<td>
-										<span class="badge badge-default"><?php echo $count; ?></span>
+										<span class="badge badge-secondary"><?php echo $count; ?></span>
 									</td>
 								</tr>
 								<?php $i++; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $input = JFactory::getApplication()->input;
 			</div>
 			<div class="col-md-6">
 				<div class="card card-outline-secondary mb-2">
-					<div class="card-block">
+					<div class="card-body">
 						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 							<div class="form-group">
 								<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME'); ?></label>
@@ -50,13 +50,13 @@ $input = JFactory::getApplication()->input;
 					</div>
 				</div>
 				<div class="card card-outline-secondary mb-2">
-					<div class="card-block">
+					<div class="card-body">
 						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<input type="hidden" class="address" name="address">
 							<div class="input-group">
 								<input type="file" name="files" class="form-control" required>
 								<?php echo JHtml::_('form.token'); ?>
-								<span class="input-group-btn">
+								<span class="input-group-append">
 									<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 								</span>
 							</div>
@@ -68,7 +68,7 @@ $input = JFactory::getApplication()->input;
 				</div>
 				<?php if ($this->type != 'home') : ?>
 				<div class="card card-outline-secondary mb-2">
-					<div class="card-block">
+					<div class="card-body">
 						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $input = JFactory::getApplication()->input;
 			</div>
 			<div class="col-md-6">
 				<div class="card card-outline-secondary mb-2">
-					<div class="card-block">
+					<div class="card-body">
 						<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 							<div class="form-group">
 								<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>

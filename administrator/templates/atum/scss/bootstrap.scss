@@ -1,16 +1,11 @@
 // Variables
+@import "../../../../media/vendor/bootstrap/scss/functions";
 @import "variables";
-
-// Core variables and mixins
+@import "../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/custom";
-
-// Reset and dependencies
-@import "../../../../media/vendor/bootstrap/scss/normalize";
+@import "../../../../media/vendor/bootstrap/scss/root";
 @import "../../../../media/vendor/bootstrap/scss/print";
-
-// Core CSS
 @import "../../../../media/vendor/bootstrap/scss/reboot";
 @import "../../../../media/vendor/bootstrap/scss/type";
 @import "../../../../media/vendor/bootstrap/scss/images";
@@ -19,8 +14,6 @@
 @import "../../../../media/vendor/bootstrap/scss/tables";
 @import "../../../../media/vendor/bootstrap/scss/forms";
 @import "../../../../media/vendor/bootstrap/scss/buttons";
-
-// Components
 @import "../../../../media/vendor/bootstrap/scss/transitions";
 @import "../../../../media/vendor/bootstrap/scss/dropdown";
 @import "../../../../media/vendor/bootstrap/scss/button-group";
@@ -32,17 +25,14 @@
 @import "../../../../media/vendor/bootstrap/scss/breadcrumb";
 @import "../../../../media/vendor/bootstrap/scss/pagination";
 @import "../../../../media/vendor/bootstrap/scss/badge";
+@import "../../../../media/vendor/bootstrap/scss/jumbotron";
 @import "../../../../media/vendor/bootstrap/scss/alert";
 @import "../../../../media/vendor/bootstrap/scss/progress";
 @import "../../../../media/vendor/bootstrap/scss/media";
 @import "../../../../media/vendor/bootstrap/scss/list-group";
-@import "../../../../media/vendor/bootstrap/scss/responsive-embed";
 @import "../../../../media/vendor/bootstrap/scss/close";
-
-// Components w/ JavaScript
 @import "../../../../media/vendor/bootstrap/scss/modal";
 @import "../../../../media/vendor/bootstrap/scss/tooltip";
 @import "../../../../media/vendor/bootstrap/scss/popover";
-
-// Utility classes
+@import "../../../../media/vendor/bootstrap/scss/carousel";
 @import "../../../../media/vendor/bootstrap/scss/utilities";

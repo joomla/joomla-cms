@@ -3,12 +3,13 @@
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
 	<creationDate>Nov 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Quickicon</namespace>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>
 		<folder>tmpl</folder>
@@ -56,7 +57,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 
 					default="900"

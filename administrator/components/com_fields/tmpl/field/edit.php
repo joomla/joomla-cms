@@ -3,10 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -19,19 +21,7 @@ JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_thre
 $app = JFactory::getApplication();
 $input = $app->input;
 
-JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function() {
-		jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		jQuery("#jform_title").change(function(data, handler) {
-			if(jQuery("#jform_title").data("dp-old-value") == jQuery("#jform_label").val()) {
-				jQuery("#jform_label").val(jQuery("#jform_title").val());
-			}
-
-			jQuery("#jform_title").data("dp-old-value", jQuery("#jform_title").val());
-		});
-	});
-');
-
+HTMLHelper::_('script', 'com_fields/admin-field-edit.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -57,23 +47,25 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		</div>
 		<div class="col-md-3">
-			<div class="card card-block card-light">
-				<?php $this->set('fields',
-						array(
+			<div class="card card-light">
+				<div class="card-body">
+					<?php $this->set('fields',
 							array(
-								'published',
-								'state',
-								'enabled',
-							),
-							'group_id',
-							'assigned_cat_ids',
-							'access',
-							'language',
-							'note',
-						)
-				); ?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-				<?php $this->set('fields', null); ?>
+								array(
+									'published',
+									'state',
+									'enabled',
+								),
+								'group_id',
+								'assigned_cat_ids',
+								'access',
+								'language',
+								'note',
+							)
+					); ?>
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<?php $this->set('fields', null); ?>
+				</div>
 			</div>
 		</div>
 	</div>

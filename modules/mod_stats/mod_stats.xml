@@ -3,12 +3,13 @@
 	<name>mod_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_STATS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Stats</namespace>
 	<files>
 		<filename module="mod_stats">mod_stats.php</filename>
 		<folder>tmpl</folder>
@@ -29,8 +30,8 @@
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -40,8 +41,8 @@
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -51,13 +52,13 @@
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="increase"
-					type="text"
+					type="number"
 					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
 					default="0"
 				/>
@@ -88,7 +89,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

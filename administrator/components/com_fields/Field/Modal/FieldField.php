@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Fields\Administrator\Field\Modal;
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
 /**
  * Fields Modal Field
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FieldField extends FormField
 {
@@ -27,7 +27,7 @@ class FieldField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getInput ()
 	{
@@ -114,7 +114,7 @@ class FieldField extends FormField
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $e->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 		}
 

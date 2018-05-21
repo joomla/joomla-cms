@@ -1,122 +1,89 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
 
 Joomla.MediaManager = Joomla.MediaManager || {};
-
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
-(function() {
-	"use strict";
 
-	var initRotate = function(imageSrc) {
-		// Amend the layout
-		var tabContent = document.getElementById('myTabContent'),
-			pluginControls = document.getElementById('attrib-Rotate');
+(function () {
+  'use strict';
 
-		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
-		pluginControls.classList.add('col-md-3', 'p-4');
+  // Update image
 
-		// Clear previous cropper
-		if (Joomla.cropper) Joomla.cropper = {};
+  var rotate = function rotate(angle) {
+    // The image element
+    var image = document.getElementById('image-source');
 
-		// Initiate the cropper
-		Joomla.cropperRotate = new Cropper(imageSrc, {
-			restore: true,
-			responsive:true,
-			dragMode: false,
-			autoCrop: false,
-			autoCropArea: 1,
-			guides: false,
-			center: false,
-			highlight: false,
-			cropBoxMovable: false,
-			scalable: false,
-			zoomable:false,
-			rotatable: true,
-			cropBoxResizable: false,
-			toggleDragModeOnDblclick: false,
-			minContainerWidth: imageSrc.offsetWidth,
-			minContainerHeight: imageSrc.offsetHeight,
-		});
-	};
+    // The canvas where we will resize the image
+    var canvas = document.createElement('canvas');
 
-	// Update image
-	var updateRotateImage = function(data) {
+    // Pseudo rectangle calculation
+    if (angle >= 0 && angle < 45 || angle >= 135 && angle < 225 || angle >= 315 && angle <= 360) {
+      canvas.width = image.width;
+      canvas.height = image.height;
+    } else {
+      // swap
+      canvas.width = image.height;
+      canvas.height = image.width;
+    }
+    var ctx = canvas.getContext('2d');
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.drawImage(image, -image.width / 2, -image.height / 2);
 
-		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+    // The format
+    var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
 
-		Joomla.MediaManager.Edit.current.contents = Joomla.cropperRotate.getCroppedCanvas(data).toDataURL("image/" + format, 1.0);
+    // The quality
+    var quality = document.getElementById('jform_rotate_quality').value;
 
-		// Notify the app that a change has been made
-		window.dispatchEvent(new Event('mediaManager.history.point'));
+    // Creating the data from the canvas
+    Joomla.MediaManager.Edit.current.contents = canvas.toDataURL('image/' + format, quality);
 
-		// Make sure that the plugin didn't remove the preview
-		document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
-	};
+    // Updating the preview element
+    var preview = document.getElementById('image-preview');
+    preview.width = canvas.width;
+    preview.height = canvas.height;
+    preview.src = Joomla.MediaManager.Edit.current.contents;
 
-	// Register the Events
-	Joomla.MediaManager.Edit.rotate = {
-		Activate: function(mediaData) {
+    // Update the height input box
+    document.getElementById('jform_rotate_a').value = angle;
 
-			// Create the images for edit and preview
-			var baseContainer = document.getElementById('media-manager-edit-container'),
-			    previewH3 = document.createElement('h3'),
-			    editContainer = document.createElement('div'),
-			    previewContainer = document.createElement('div'),
-			    imageSrc = document.createElement('img'),
-			    imagePreview = document.createElement('img');
+    // Notify the app that a change has been made
+    window.dispatchEvent(new Event('mediaManager.history.point'));
+  };
 
-			imageSrc.src = mediaData.contents;
-			imagePreview.src = mediaData.contents;
-			imagePreview.id = 'image-preview';
-			imageSrc.style.maxWidth = '100%';
-			imagePreview.style.maxWidth = '100%';
-			editContainer.style.display = 'none';
+  var initRotate = function initRotate() {
+    var funct = function funct() {
+      // The number input listener
+      document.getElementById('jform_rotate_a').addEventListener('input', function (event) {
+        rotate(parseInt(event.target.value, 10));
+      });
 
-			editContainer.appendChild(imageSrc);
-			baseContainer.appendChild(editContainer);
+      // The 90 degree rotate buttons listeners
+      var elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
+      elements.forEach(function (element) {
+        element.addEventListener('click', function (event) {
+          rotate(parseInt(event.target.querySelector('input').value, 10));
+        });
+      });
+    };
+    setTimeout(funct, 1000);
+  };
 
-			previewContainer.appendChild(imagePreview);
-			baseContainer.appendChild(previewContainer);
-
-			// Initialize
-			initRotate(imageSrc);
-
-			var funct = function() {
-				imageSrc = document.getElementById('media-manager-edit-container').querySelector('img');
-
-				// Set the values for the range fields
-				var rotate = document.getElementById('jform_rotate');
-
-				rotate.min = -360;
-				rotate.max = 360;
-				rotate.value = 0;
-
-				rotate.addEventListener('change', function(event) {
-					var label = document.getElementById('jform_rotate-lbl');
-					var txt = label.innerText.replace(/:.*/, '');
-					label.innerHTML = txt + ' : ' + event.target.value + ' degs';
-
-					Joomla.cropperRotate.rotate(parseInt(event.target.value));
-
-					updateRotateImage({rotate: parseInt(event.target.value)});
-
-					// Reset the slider
-					event.target.value = 0;
-				});
-			};
-
-			setTimeout(funct, 1000);
-		},
-		Deactivate: function() {
-			if (!Joomla.cropperRotate) {
-				return;
-			}
-			// Destroy the instance
-			Joomla.cropperRotate.destroy();
-		}
-	};
-
+  // Register the Events
+  Joomla.MediaManager.Edit.rotate = {
+    Activate: function Activate(mediaData) {
+      // Initialize
+      initRotate(mediaData);
+    },
+    Deactivate: function Deactivate() {}
+  };
 })();

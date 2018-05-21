@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ abstract class JHtmlFilter
 		$filter = null;
 
 		// Get the configuration options.
-		$filterId    = array_key_exists('filter_id', $options) ? $options['filter_id'] : null;
+		$filterId    = $options['filter_id'] ?? null;
 		$activeNodes = array_key_exists('selected_nodes', $options) ? $options['selected_nodes'] : array();
 		$classSuffix = array_key_exists('class_suffix', $options) ? $options['class_suffix'] : '';
 
@@ -116,7 +116,7 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
 			}
@@ -148,9 +148,10 @@ abstract class JHtmlFilter
 
 			// Translate node titles if possible.
 			$lang = JFactory::getLanguage();
+
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') == 'Language')
+				if (trim($nv->parent_title, '**') === 'Language')
 				{
 					$title = FinderHelperLanguage::branchLanguageTitle($nv->title);
 				}
@@ -159,6 +160,7 @@ abstract class JHtmlFilter
 					$key = FinderHelperLanguage::branchPlural($nv->title);
 					$title = $lang->hasKey($key) ? JText::_($key) : $nv->title;
 				}
+
 				$nodes[$nk]->title = $title;
 			}
 
@@ -184,14 +186,16 @@ abstract class JHtmlFilter
 
 				// Build a node.
 				$html .= '<div class="form-check">';
-				$html .= '<label class="form-check-label" tax-' . $bk . '>';
+				$html .= '<label class="form-check-label" for="tax-' . $bk . '">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
 					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
+
 			$html .= JHtml::_('bootstrap.endSlide');
 		}
+
 		$html .= JHtml::_('bootstrap.endAccordion');
 
 		return $html;
@@ -298,7 +302,7 @@ abstract class JHtmlFilter
 			foreach ($branches as $bk => $bv)
 			{
 				// If the multi-lang plugin is enabled then drop the language branch.
-				if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+				if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
 				{
 					continue;
 				}
@@ -336,9 +340,10 @@ abstract class JHtmlFilter
 
 				// Translate branch nodes if possible.
 				$language = JFactory::getLanguage();
+
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') == 'Language')
+					if (trim($node->parent_title, '**') === 'Language')
 					{
 						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
 					}
@@ -347,6 +352,7 @@ abstract class JHtmlFilter
 						$key = FinderHelperLanguage::branchPlural($node->title);
 						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
 					}
+
 					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
@@ -357,6 +363,7 @@ abstract class JHtmlFilter
 			// Store the data in cache.
 			$cache->store($branches, $cacheId);
 		}
+
 		$html = '';
 
 		// Add the dates if enabled.
@@ -371,10 +378,11 @@ abstract class JHtmlFilter
 		foreach ($branches as $bk => $bv)
 		{
 			// If the multi-lang plugin is enabled then drop the language branch.
-			if ($bv->title == 'Language' && JLanguageMultilang::isEnabled())
+			if ($bv->title === 'Language' && JLanguageMultilang::isEnabled())
 			{
 				continue;
 			}
+
 			$active = null;
 
 			// Check if the branch is in the filter.
@@ -391,7 +399,7 @@ abstract class JHtmlFilter
 			// Build a node.
 			$html .= '<div class="control-group">';
 			$html .= '<div class="control-label">';
-			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '">';
+			$html .= '<label for="tax-' . JFilterOutput::stringURLSafe($bv->title) . '">';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</div>';
@@ -399,7 +407,7 @@ abstract class JHtmlFilter
 			$html .= JHtml::_(
 				'select.genericlist',
 				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
-				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
+				'tax-' . JFilterOutput::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';
 			$html .= '</div>';

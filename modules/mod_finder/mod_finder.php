@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
@@ -26,14 +29,14 @@ JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 // Check for OpenSearch
 if ($params->get('opensearch', 1))
 {
-/*
-This code intentionally commented
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . Factory::getApplication()->get('sitename'));
+	/*
+	This code intentionally commented
+	$ostitle = $params->get('opensearch_title', Text::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . Factory::getApplication()->get('sitename'));
 	Factory::getDocument()->addHeadLink(
-		JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
+		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_finder&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 	);
-*/
+	*/
 }
 
 // Get the route.

@@ -1,20 +1,21 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
  * Dispatcher class for com_config
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ConfigDispatcher extends Dispatcher
 {
@@ -23,7 +24,26 @@ class ConfigDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Config';
+
+	/**
+	 * Method to check component access permission
+	 *
+	 * @since   4.0.0
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception|Notallowed
+	 */
+	protected function checkAccess()
+	{
+		parent::checkAccess();
+
+		if (!$this->app->getIdentity()->authorise('core.admin'))
+		{
+			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+	}
 }

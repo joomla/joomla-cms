@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ abstract class JHtmlBanner
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $options;

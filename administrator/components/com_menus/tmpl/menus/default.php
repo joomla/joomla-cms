@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,9 +42,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="menuList">
 						<thead>
@@ -57,21 +55,21 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-publish" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-unpublish" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-trash" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th style="width:10%" class="nowrap text-center">
 									<span class="icon-cube" aria-hidden="true"></span>
-									<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+									<span class="d-none d-md-inline"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell text-center">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -111,28 +109,28 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>">
 											<?php echo $item->count_published; ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
 											<?php echo $item->count_unpublished; ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-default'; ?>">
+										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
 											<?php echo $item->count_trashed; ?></span>
 									<?php endif; ?>
 								</td>
@@ -145,18 +143,20 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											</a>
 											<div class="dropdown-menu dropdown-menu-right">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-													<?php if ($canEdit) : ?>
+													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 														<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 															<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 													<?php else : ?>
-														<span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                        <a href="#" class="disabled" disabled="disabled">
+                                                            <span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+                                                        </a>
 													<?php endif; ?>
 												<?php endforeach; ?>
 											</div>
 										 </div>
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-											<?php if ($canEdit) : ?>
+											<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 												<?php echo JHtml::_(
 														'bootstrap.renderModal',
@@ -213,7 +213,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="hidden-sm-down text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>

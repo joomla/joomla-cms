@@ -3,7 +3,7 @@
 	<name>plg_search_tags</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="search_limit"
-					type="text"
+					type="number"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					default="50"
 					size="5"
@@ -34,8 +34,8 @@
 					label="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_LABEL"
 					default="0"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 		</fields>

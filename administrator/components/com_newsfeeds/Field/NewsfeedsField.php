@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Field;
@@ -56,7 +56,7 @@ class NewsfeedsField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $db->getMessage());
+			\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Merge any additional options in the XML definition.

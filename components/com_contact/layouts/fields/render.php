@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 // Check if we have all the data
-if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
+if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
 {
 	return;
 }
@@ -35,7 +35,7 @@ $parts     = explode('.', $context);
 $component = $parts[0];
 $fields    = null;
 
-if (key_exists('fields', $displayData))
+if (array_key_exists('fields', $displayData))
 {
 	$fields = $displayData['fields'];
 }

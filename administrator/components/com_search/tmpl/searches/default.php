@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-warning alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
@@ -57,7 +55,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
 					<td class="text-center btns">
-						<a class="badge <?php echo $item->returns > 0 ? ' badge-success' : ' badge-default'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+						<a class="badge <?php echo $item->returns > 0 ? ' badge-success' : ' badge-secondary'; ?>" target="_blank" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?><span class="icon-out-2" aria-hidden="true"><span class="sr-only"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span></span></a>
 					</td>
 					<?php else : ?>

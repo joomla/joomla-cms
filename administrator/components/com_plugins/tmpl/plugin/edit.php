@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,16 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 $this->fieldsets = $this->form->getFieldsets('params');
+
+$input = JFactory::getApplication()->input;
+
+// In case of modal
+$isModal  = $input->get('layout') === 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div>
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
@@ -41,10 +48,10 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							?>
 						</h3>
 						<div class="info-labels mb-1">
-							<span class="badge badge-default">
+							<span class="badge badge-secondary">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /
-							<span class="badge badge-default">
+							<span class="badge badge-secondary">
 								<?php echo $this->form->getValue('element'); ?>
 							</span>
 						</div>
@@ -82,7 +89,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
+					<joomla-alert type="danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></joomla-alert>
 				<?php endif; ?>
 
 				<?php
@@ -92,31 +99,33 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				?>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-					<div class="form-vertical form-no-margin">
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('ordering'); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+						<div class="form-vertical form-no-margin">
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('ordering'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('ordering'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('ordering'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('folder'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('folder'); ?>
+								</div>
 							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('folder'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('folder'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('element'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('element'); ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('element'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('element'); ?>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -143,3 +152,4 @@ $this->fieldsets = $this->form->getFieldsets('params');
 	<input type="hidden" name="task" value="">
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+

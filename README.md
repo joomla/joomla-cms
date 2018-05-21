@@ -3,19 +3,15 @@ Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cm
 
 Build Status
 ---------------------
-Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)
-
-Drone -CI: [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)
-
-AppVeyor: [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)
-
-Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
+| Travis-CI  | Drone-CI | AppVeyor | Jenkins |
+| ------------- | ------------- | ------------- | ------------- |
+| [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](http://213.160.72.75/api/badges/joomla/joomla-cms/status.svg)](http://213.160.72.75/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/bpcxulw6nnxlv8kb/branch/staging?svg=true)](https://ci.appveyor.com/project/joomla/joomla-cms)  | [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)  |
 
 What is this?
 ---------------------
 * This is a Joomla! 4.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 4.0 [version history](https://docs.joomla.org/Joomla_4.0_version_history).
+* Joomla! 4.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/4.0-dev).
 
 What is Joomla?
@@ -71,7 +67,7 @@ Where can you get support and help?
 * Find the [information you need](https://docs.joomla.org/Special:MyLanguage/Start_here);
 * Find [help and other users](https://www.joomla.org/about-joomla/create-and-share.html);
 * Post questions at [our forums](https://forum.joomla.org);
-* [Joomla Resources Directory](https://resources.joomla.org/) (JRD).
+* [Joomla Resources Directory](https://resources.joomla.org) (JRD).
 
 Do you already have a Joomla! site that isn't built with Joomla! 4.x?
 ---------------------
@@ -83,15 +79,15 @@ Do you already have a Joomla! site that isn't built with Joomla! 4.x?
 
 Do you want to improve Joomla?
 --------------------
-* Where to [request a feature](https://issues.joomla.org/)?
-* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org/)?
-* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
+* Where to [request a feature](https://issues.joomla.org)?
+* How do you [report a bug](https://docs.joomla.org/Special:MyLanguage/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org)?
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org).
 * Documentation for [Developers](https://docs.joomla.org/Special:MyLanguage/Portal:Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Special:MyLanguage/Web_designers).
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
 * [Special Thanks](https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

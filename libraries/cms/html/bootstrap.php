@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,9 +156,8 @@ abstract class JHtmlBootstrap
 		// Load the needed scripts
 		JHtml::_('behavior.core');
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'vendor/tether/tether.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
-		JHtml::_('script', 'vendor/bootstrap/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
-		JHtml::_('script', 'system/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		JHtml::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -228,7 +227,7 @@ abstract class JHtmlBootstrap
 	 *                      template     string           Base HTML to use when creating the popover.
 	 *                      title        string|function  default title value if `title` tag isn't present
 	 *                      trigger      string           how popover is triggered - hover | focus | manual
-	 *                      constraints  array            An array of constraints - passed through to Tether.
+	 *                      constraints  array            An array of constraints - passed through to Popper.
 	 *                      offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
@@ -257,7 +256,7 @@ abstract class JHtmlBootstrap
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
 
 		$opt     = (object) array_filter((array) $opt);
@@ -312,12 +311,12 @@ abstract class JHtmlBootstrap
 	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                              content into the dom.
 	 *                                placement    string|function  how to position the popover - top | bottom | left | right
-	 *                                selector     string           If a selector is provided, popover objects will be 
+	 *                                selector     string           If a selector is provided, popover objects will be
 	 *                                                              delegated to the specified targets.
 	 *                                template     string           Base HTML to use when creating the popover.
 	 *                                title        string|function  default title value if `title` tag isn't present
 	 *                                trigger      string           how popover is triggered - hover | focus | manual
-	 *                                constraints  array            An array of constraints - passed through to Tether.
+	 *                                constraints  array            An array of constraints - passed through to Popper.
 	 *                                offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
@@ -446,7 +445,7 @@ abstract class JHtmlBootstrap
 			. $text
 			. '</a>'
 			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-block">';
+			. '<div class="card-body">';
 
 		return $html;
 	}

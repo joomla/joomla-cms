@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Associations\Administrator\Field;
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -60,7 +61,7 @@ class ItemlanguageField extends \JFormFieldList
 		$canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
 		// Gets existing languages.
-		$existingLanguages = AssociationsHelper::getContentLanguages();
+		$existingLanguages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		$options = array();
 

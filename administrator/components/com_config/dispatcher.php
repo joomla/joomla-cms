@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JLoader::discover('ConfigHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helper');
 /**
  * Dispatcher class for com_config
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ConfigDispatcher extends Dispatcher
 {
@@ -26,7 +26,7 @@ class ConfigDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Config';
 }

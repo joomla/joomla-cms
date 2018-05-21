@@ -57,8 +57,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,12 +29,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!defined('IS_WIN'))
 {
-	define('IS_WIN', ($os === 'WIN') ? true : false);
+	define('IS_WIN', $os === 'WIN');
 }
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (IS_WIN === false) ? true : false);
+	define('IS_UNIX', IS_WIN === false);
 }
 
 // Import the library loader if necessary.
@@ -57,12 +57,6 @@ if (!interface_exists('JsonSerializable'))
 {
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/vendor/joomla/compat/src/JsonSerializable.php');
 }
-
-// Register classes that don't follow one file per class naming conventions.
-JLoader::register('JAuthenticationResponse',  JPATH_PLATFORM . '/joomla/user/response.php');
-JLoader::register('JAuthentication',  JPATH_PLATFORM . '/joomla/user/authentication.php');
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the PasswordHash lib
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');

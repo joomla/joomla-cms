@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -178,7 +178,7 @@
 		if (!self.params.time24) {
 			if (/pm/i.test(ampm.value) && hours < 12) {
 				hours = parseInt(hours) + 12;
-			} else if (/am/i.test(ampm.value) && hours === 12) {
+			} else if (/am/i.test(ampm.value) && hours == 12) {
 				hours = 0;
 			}
 		}
@@ -251,7 +251,6 @@
 
 	/** Method to close/hide the calendar */
 	JoomlaCalendar.prototype.close = function () {
-		document.activeElement.blur();
 		this.hide();
 	};
 
@@ -582,7 +581,7 @@
 		var cell = null,
 			row  = null,
 			cal  = this,
-			hh   = function (text, cs, navtype, node, styles, classes, dataAttr) {
+			hh   = function (text, cs, navtype, node, styles, classes, attributes) {
 				node = node ? node : "td";
 				styles = styles ? styles : {};
 				cell = createElement(node, row);
@@ -594,8 +593,8 @@
 				for (var key in styles) {
 					cell.style[key] = styles[key];
 				}
-				for (var key in dataAttr) {
-					cell.setAttribute(key, dataAttr[key]);
+				for (var key in attributes) {
+					cell.setAttribute(key, attributes[key]);
 				}
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
 					cell.className += " nav";
@@ -748,7 +747,7 @@
 				if (t12) {
 					var selAttr = true,
 						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian');
-					pm = (altDate.getHours() > 12);
+					pm = (altDate.getHours() >= 12);
 
 					var part = createElement("select", cell);
 					part.className = "time-ampm";
@@ -784,7 +783,7 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"data-action": "clear"});
+		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
 		if (!this.inputField.hasAttribute('required')) {
 			var savea = row.querySelector('[data-action="clear"]');
@@ -804,7 +803,7 @@
 		}
 
 		if (this.params.showsTodayBtn) {
-			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"data-action": "today"});
+			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});
 
 			var todaya = this.wrapper.querySelector('[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -816,7 +815,7 @@
 			});
 		}
 
-		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"data-action": "exit"});
+		this._nav_exit = hh(JoomlaCalLocale.exit, '', 999, 'button', '', 'js-btn btn btn-exit', {"type": "button", "data-action": "exit"});
 		var exita = this.wrapper.querySelector('[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			e.preventDefault();
@@ -963,7 +962,14 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			hoursEl.value = hrs;
+			if (!this.params.time24) 
+			{ 
+				hoursEl.value = (hrs == "00") ? "12" : hrs; 
+			} 
+			else 
+			{ 
+				hoursEl.value = hrs; 
+			}
 
 			/* remove the selected class  for the minutes*/
 			this.resetSelected(minsEl);
@@ -1007,7 +1013,7 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (typeof calObj.dateClicked === 'undefined') {
+					if (typeof calObj.params.dateClicked === 'undefined') {
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
 
 						if (calObj.params.dateType !== 'gregorian') {

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,21 @@ JHtml::_('formbehavior.chosen', '.chzn-custom-value');
 <p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 <div class="container">
 	<div class="row">
-		<div class="form-group col-md-6">
+		<?php if ($clientId != 1) : ?>
+            <div class="form-group col-md-6">
+                <div class="controls">
+					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
+                </div>
+            </div>
+		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
+            <div class="form-group col-md-6">
+                <div class="controls">
+					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+                </div>
+            </div>
+		<?php endif; ?>
+
+        <div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>

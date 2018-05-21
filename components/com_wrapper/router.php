@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\Router\RouterBase;
 
 /**
  * Routing class from com_wrapper
  *
  * @since  3.3
  */
-class WrapperRouter extends JComponentRouterBase
+class WrapperRouter extends RouterBase
 {
 	/**
 	 * Build the route for the com_wrapper component

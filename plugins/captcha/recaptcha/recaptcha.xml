@@ -6,23 +6,15 @@
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="recaptcha">recaptcha.php</filename>
-		<filename>recaptchalib.php</filename>
 	</files>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="message"
-					type="note"
-					label="PLG_RECAPTCHA_VERSION_1_WARNING_LABEL"
-					showon="version:1.0"
-				/>
-
 				<field
 					name="version"
 					type="list"
@@ -30,7 +22,6 @@
 					default="2.0"
 					size="1"
 					>
-					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 				</field>
 
@@ -55,26 +46,10 @@
 				/>
 
 				<field
-					name="theme"
-					type="list"
-					label="PLG_RECAPTCHA_THEME_LABEL"
-					default="clean"
-					required="false"
-					showon="version:1.0"
-					filter=""
-					>
-					<option value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
-					<option value="white">PLG_RECAPTCHA_THEME_WHITE</option>
-					<option value="blackglass">PLG_RECAPTCHA_THEME_BLACKGLASS</option>
-					<option value="red">PLG_RECAPTCHA_THEME_RED</option>
-				</field>
-
-				<field
 					name="theme2"
 					type="list"
 					label="PLG_RECAPTCHA_THEME_LABEL"
 					default="light"
-					required="false"
 					showon="version:2.0"
 					filter=""
 					>
@@ -87,7 +62,6 @@
 					type="list"
 					label="PLG_RECAPTCHA_SIZE_LABEL"
 					default="normal"
-					required="false"
 					showon="version:2.0"
 					filter=""
 					>

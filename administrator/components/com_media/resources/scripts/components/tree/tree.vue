@@ -1,6 +1,6 @@
 <template>
     <ul class="media-tree">
-        <media-tree-item v-for="item in directories" :item="item"></media-tree-item>
+        <media-tree-item v-for="item in directories" :key="item.path" :item="item"></media-tree-item>
     </ul>
 </template>
 

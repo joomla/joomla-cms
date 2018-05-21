@@ -19,42 +19,48 @@ class RuntimeStorage implements StorageInterface
 	/**
 	 * Flag if the session is active
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $active = false;
 
 	/**
 	 * Internal flag identifying whether the session has been closed
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $closed = false;
 
 	/**
 	 * Internal data store
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private $data = array();
+	private $data = [];
 
 	/**
 	 * Session ID
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $id = '';
 
 	/**
 	 * Session Name
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $name = 'MockSession';
 
 	/**
 	 * Internal flag identifying whether the session has been started
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $started = false;
 
@@ -63,7 +69,7 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  array
 	 */
-	public function all()
+	public function all(): array
 	{
 		return $this->data;
 	}
@@ -72,6 +78,8 @@ class RuntimeStorage implements StorageInterface
 	 * Clears all variables from the session store
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function clear()
 	{
@@ -84,6 +92,7 @@ class RuntimeStorage implements StorageInterface
 	 * @return  void
 	 *
 	 * @see     session_write_close()
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function close()
 	{
@@ -92,11 +101,26 @@ class RuntimeStorage implements StorageInterface
 	}
 
 	/**
+	 * Perform session data garbage collection
+	 *
+	 * @return  integer|boolean  Number of deleted sessions on success or boolean false on failure or if the function is unsupported
+	 *
+	 * @see     session_gc()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
+		return 0;
+	}
+
+	/**
 	 * Generates a session ID
 	 *
 	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	private function generateId()
+	private function generateId(): string
 	{
 		return hash('sha256', uniqid(mt_rand()));
 	}
@@ -108,8 +132,10 @@ class RuntimeStorage implements StorageInterface
 	 * @param   mixed   $default  Default value of a variable if not set
 	 *
 	 * @return  mixed  Value of a variable
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function get($name, $default)
+	public function get(string $name, $default)
 	{
 		if (!$this->isStarted())
 		{
@@ -128,8 +154,10 @@ class RuntimeStorage implements StorageInterface
 	 * Get the session ID
 	 *
 	 * @return  string  The session ID
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getId()
+	public function getId(): string
 	{
 		return $this->id;
 	}
@@ -138,8 +166,10 @@ class RuntimeStorage implements StorageInterface
 	 * Get the session name
 	 *
 	 * @return  string  The session name
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -149,9 +179,11 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @param   string  $name  Name of variable
 	 *
-	 * @return  boolean  True if the variable exists
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function has($name)
+	public function has(string $name): bool
 	{
 		if (!$this->isStarted())
 		{
@@ -165,8 +197,10 @@ class RuntimeStorage implements StorageInterface
 	 * Check if the session is active
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isActive()
+	public function isActive(): bool
 	{
 		return $this->active = $this->started;
 	}
@@ -175,8 +209,10 @@ class RuntimeStorage implements StorageInterface
 	 * Check if the session is started
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isStarted()
+	public function isStarted(): bool
 	{
 		return $this->started;
 	}
@@ -187,15 +223,17 @@ class RuntimeStorage implements StorageInterface
 	 * @param   string  $name  Name of variable
 	 *
 	 * @return  mixed  The value from session or NULL if not set
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function remove($name)
+	public function remove(string $name)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = isset($this->data[$name]) ? $this->data[$name] : null;
+		$old = $this->data[$name] ?? null;
 
 		unset($this->data[$name]);
 
@@ -213,9 +251,15 @@ class RuntimeStorage implements StorageInterface
 	 * @return  boolean  True on success
 	 *
 	 * @see     session_regenerate_id()
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function regenerate($destroy = false)
+	public function regenerate(bool $destroy = false): bool
 	{
+		if (!$this->isActive())
+		{
+			return false;
+		}
+
 		if ($destroy)
 		{
 			$this->id = $this->generateId();
@@ -231,15 +275,17 @@ class RuntimeStorage implements StorageInterface
 	 * @param   mixed   $value  Value of a variable.
 	 *
 	 * @return  mixed  Old value of a variable.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function set($name, $value = null)
+	public function set(string $name, $value = null)
 	{
 		if (!$this->isStarted())
 		{
 			$this->start();
 		}
 
-		$old = isset($this->data[$name]) ? $this->data[$name] : null;
+		$old = $this->data[$name] ?? null;
 
 		$this->data[$name] = $value;
 
@@ -253,9 +299,10 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  $this
 	 *
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
-	public function setId($id)
+	public function setId(string $id)
 	{
 		if ($this->isActive())
 		{
@@ -274,9 +321,10 @@ class RuntimeStorage implements StorageInterface
 	 *
 	 * @return  $this
 	 *
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \LogicException
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
 		if ($this->isActive())
 		{
@@ -292,6 +340,8 @@ class RuntimeStorage implements StorageInterface
 	 * Start a session
 	 *
 	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function start()
 	{

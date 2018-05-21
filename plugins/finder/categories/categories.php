@@ -3,13 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
+use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Component\ComponentHelper;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
@@ -233,7 +236,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
@@ -244,13 +247,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) === false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
 
 		// Check if the extension that owns the category is also enabled.
-		if (JComponentHelper::isEnabled($item->extension) === false)
+		if (ComponentHelper::isEnabled($item->extension) === false)
 		{
 			return;
 		}
@@ -354,10 +357,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
 			->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level')

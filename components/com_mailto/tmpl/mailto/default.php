@@ -3,30 +3,23 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 
+Text::script('COM_MAILTO_EMAIL_ERR_NOINFO', true);
+
+HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['relative' => true, 'version' => 'auto']);
+
 $data = $this->get('data');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(pressbutton)
-	{
-		var form = document.getElementById('mailtoForm');
-
-		// do field validation
-		if (form.mailto.value == '' || form.from.value == '')
-		{
-			alert('" . JText::_('COM_MAILTO_EMAIL_ERR_NOINFO', true) . "');
-			return false;
-		}
-		form.submit();
-	}
-");
 ?>
 
 <div id="mailto-window" class="p-2">
@@ -34,14 +27,18 @@ JFactory::getDocument()->addScriptDeclaration("
 		<?php echo JText::_('COM_MAILTO_EMAIL_TO_A_FRIEND'); ?>
 	</h2>
 	<div class="mailto-close">
-		<a href="javascript: void window.close()" title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>">
-		 <span><?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?> </span></a>
+		<a title="<?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>" href="#" class="close-mailto">
+		 <span>
+             <?php echo JText::_('COM_MAILTO_CLOSE_WINDOW'); ?>
+         </span></a>
 	</div>
 
 	<form action="<?php echo JUri::base() ?>index.php" id="mailtoForm" method="post">
 		<div class="control-group">
 			<div class="control-label">
-				<label for="mailto_field"><?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?></label>
+				<label for="mailto_field">
+                    <?php echo JText::_('COM_MAILTO_EMAIL_TO'); ?>
+                </label>
 			</div>
 			<div class="controls">
 				<input type="text" id="mailto_field" name="mailto" class="form-control" value="<?php echo $this->escape($data->mailto); ?>">
@@ -49,7 +46,9 @@ JFactory::getDocument()->addScriptDeclaration("
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<label for="sender_field"><?php echo JText::_('COM_MAILTO_SENDER'); ?></label>
+				<label for="sender_field">
+                    <?php echo JText::_('COM_MAILTO_SENDER'); ?>
+                </label>
 			</div>
 			<div class="controls">
 				<input type="text" id="sender_field" name="sender" class="form-control" value="<?php echo $this->escape($data->sender); ?>">
@@ -57,7 +56,9 @@ JFactory::getDocument()->addScriptDeclaration("
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<label for="from_field"><?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?></label>
+				<label for="from_field">
+                    <?php echo JText::_('COM_MAILTO_YOUR_EMAIL'); ?>
+                </label>
 			</div>
 			<div class="controls">
 				<input type="text" id="from_field" name="from" class="form-control" value="<?php echo $this->escape($data->from); ?>">
@@ -65,17 +66,19 @@ JFactory::getDocument()->addScriptDeclaration("
 		</div>
 		<div class="control-group">
 				<div class="control-label">
-			<label for="subject_field"><?php echo JText::_('COM_MAILTO_SUBJECT'); ?></label>
+			<label for="subject_field">
+                <?php echo JText::_('COM_MAILTO_SUBJECT'); ?>
+            </label>
 			</div>
 			<div class="controls">
 				<input type="text" id="subject_field" name="subject" class="form-control" value="<?php echo $this->escape($data->subject); ?>">
 			</div>
 		</div>
 		<div class="control-group">
-			<button class="btn btn-secondary" onclick="window.close();return false;">
+			<button type="button" class="btn btn-secondary close-mailto">
 				<?php echo JText::_('COM_MAILTO_CANCEL'); ?>
 			</button>
-			<button class="btn btn-success" onclick="return Joomla.submitbutton('send');">
+			<button type="submit" class="btn btn-success">
 				<?php echo JText::_('COM_MAILTO_SEND'); ?>
 			</button>
 		</div>

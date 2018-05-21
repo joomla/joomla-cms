@@ -3,12 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Application\ApplicationHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\CMS\Application\ApplicationHelper;
  *
  * @since  1.6
  */
-class PlgSystemLogout extends JPlugin
+class PlgSystemLogout extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -58,9 +61,6 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Destroy the cookie.
 			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
-
-			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
 		}
 	}
 
@@ -91,33 +91,5 @@ class PlgSystemLogout extends JPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to handle an error condition.
-	 *
-	 * @param   Exception  &$error  The Exception object to be handled.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function handleError(&$error)
-	{
-		// Get the application object.
-		$app = JFactory::getApplication();
-
-		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 && $app->isClient('site'))
-		{
-			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php');
-		}
-		else
-		{
-			// Render the custom error page.
-			JError::customErrorPage($error);
-		}
 	}
 }

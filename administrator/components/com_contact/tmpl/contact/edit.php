@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,8 +64,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="card card-block card-light">
-					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-light">
+					<div class="card-body">
+						<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					</div>
 				</div>
 			</div>
 		</div>

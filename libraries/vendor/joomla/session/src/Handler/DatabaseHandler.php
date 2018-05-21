@@ -9,6 +9,7 @@
 namespace Joomla\Session\Handler;
 
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Session\HandlerInterface;
 
 /**
@@ -67,7 +68,8 @@ class DatabaseHandler implements HandlerInterface
 		{
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('time') . ' < ' . $this->db->quote((int) $this->gcLifetime));
+				->where($this->db->quoteName('time') . ' < ?')
+				->bind(1, $this->gcLifetime, ParameterType::INTEGER);
 
 			// Remove expired sessions from the database.
 			$this->db->setQuery($query)->execute();
@@ -202,7 +204,7 @@ class DatabaseHandler implements HandlerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function isSupported()
+	public static function isSupported(): bool
 	{
 		return interface_exists(DatabaseInterface::class);
 	}
@@ -241,7 +243,8 @@ class DatabaseHandler implements HandlerInterface
 			$query = $this->db->getQuery(true)
 				->select($this->db->quoteName('data'))
 				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session_id));
+				->where($this->db->quoteName('session_id') . ' = ?')
+				->bind(1, $session_id);
 
 			$this->db->setQuery($query);
 
@@ -271,24 +274,33 @@ class DatabaseHandler implements HandlerInterface
 			$query = $this->db->getQuery(true)
 				->select($this->db->quoteName('session_id'))
 				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session_id));
+				->where($this->db->quoteName('session_id') . ' = ?')
+				->bind(1, $session_id);
 
 			$idExists = $this->db->setQuery($query)->loadResult();
 
 			$query = $this->db->getQuery(true);
 
+			$time = time();
+
 			if ($idExists)
 			{
 				$query->update($this->db->quoteName('#__session'))
-					->set($this->db->quoteName('data') . ' = ' . $this->db->quote($session_data))
-					->set($this->db->quoteName('time') . ' = ' . $this->db->quote((int) time()))
-					->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session_id));
+					->set($this->db->quoteName('data') . ' = ?')
+					->set($this->db->quoteName('time') . ' = ?')
+					->where($this->db->quoteName('session_id') . ' = ?')
+					->bind(1, $session_data)
+					->bind(2, $time, ParameterType::INTEGER)
+					->bind(3, $session_id);
 			}
 			else
 			{
 				$query->insert($this->db->quoteName('#__session'))
 					->columns(array($this->db->quoteName('data'), $this->db->quoteName('time'), $this->db->quoteName('session_id')))
-					->values(implode(', ', array($this->db->quote($session_data), (int) time(), $this->db->quote($session_id))));
+					->values('?, ?, ?')
+					->bind(1, $session_data)
+					->bind(2, $time, ParameterType::INTEGER)
+					->bind(3, $session_id);
 			}
 
 			// Try to insert the session data in the database table.

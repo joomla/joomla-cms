@@ -77,7 +77,7 @@
 
 		<field
 			name="id"
-			type="text"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
 			default="0"

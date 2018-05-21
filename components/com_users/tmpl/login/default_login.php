@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidator');
 $usersConfig = JComponentHelper::getParams('com_users');
 
 ?>
-<div class="login<?php echo $this->pageclass_sfx; ?>">
+<div class="login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -40,7 +40,7 @@ $usersConfig = JComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&view=login'); ?>" method="post" class="form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
@@ -68,10 +68,16 @@ $usersConfig = JComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
-			<div  class="control-group">
-				<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
-				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"></div>
-			</div>
+				<div  class="control-group">
+					<div class="control-label">
+						<label for="remember">
+							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
+						</label>
+					</div>
+					<div class="controls">
+						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
+					</div>
+				</div>
 			<?php endif; ?>
 
 			<div class="control-group">
@@ -82,6 +88,7 @@ $usersConfig = JComponentHelper::getParams('com_users');
 				</div>
 			</div>
 
+			<input type="hidden" name="task" value="user.login" />
 			<?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem'))); ?>
 			<input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
 			<?php echo JHtml::_('form.token'); ?>

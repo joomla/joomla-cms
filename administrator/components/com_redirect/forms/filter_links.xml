@@ -10,7 +10,7 @@
 		/>
 		<field
 			name="state"
-			type="status"
+			type="redirect_status"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>

@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
 
@@ -24,19 +27,19 @@ extract($displayData);
 
 $classes = array_filter((array) $classes);
 
-$id = $for . '-lbl';
+$id    = $for . '-lbl';
 $title = '';
 
 if (!empty($description))
 {
 	if ($text && $text !== $description)
 	{
-		JHtml::_('bootstrap.popover');
+		HTMLHelper::_('bootstrap.popover');
 		$classes[] = 'hasPopover';
 		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
 			. ' data-content="'. htmlspecialchars($description) . '"';
 
-		if (!$position && JFactory::getLanguage()->isRtl())
+		if (!$position && Factory::getLanguage()->isRtl())
 		{
 			$position = ' data-placement="left" ';
 		}
@@ -44,7 +47,7 @@ if (!empty($description))
 	else
 	{
 		$classes[] = 'hasTooltip';
-		$title     = ' title="' . JHtml::_('tooltipText', trim($text, ':'), $description, 0) . '"';
+		$title     = ' title="' . HTMLHelper::_('tooltipText', trim($text, ':'), $description, 0) . '"';
 	}
 }
 
@@ -57,7 +60,3 @@ if ($required)
 <label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?><?php echo $position; ?>>
 	<?php echo $text; ?><?php if ($required) : ?><span class="star">&#160;*</span><?php endif; ?>
 </label>
-<?php if (!empty($description)): ?>
-
-<div class="alert alert-info "><?php echo $description; ?></div>
-<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Banners\Administrator\Helper;
@@ -85,7 +85,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -146,7 +146,7 @@ class BannersHelper extends ContentHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				\JError::raiseWarning(500, $db->getMessage());
+				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -180,7 +180,7 @@ class BannersHelper extends ContentHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		array_unshift($options, \JHtml::_('select.option', '0', \JText::_('COM_BANNERS_NO_CLIENT')));

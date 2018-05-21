@@ -3,53 +3,60 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Routing class of com_content
  *
  * @since  3.3
  */
-class ContentRouter extends \JComponentRouterView
+class ContentRouter extends RouterView
 {
 	protected $noIDs = false;
 
 	/**
 	 * Content Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
 	 */
 	public function __construct($app = null, $menu = null)
 	{
 		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
-		$categories = new \JComponentRouterViewconfiguration('categories');
+		$categories = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
-		$category = new \JComponentRouterViewconfiguration('category');
+		$category = new RouterViewConfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
 		$this->registerView($category);
-		$article = new \JComponentRouterViewconfiguration('article');
+		$article = new RouterViewConfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
 		$this->registerView($article);
-		$this->registerView(new \JComponentRouterViewconfiguration('archive'));
-		$this->registerView(new \JComponentRouterViewconfiguration('featured'));
-		$form = new \JComponentRouterViewconfiguration('form');
+		$this->registerView(new RouterViewConfiguration('archive'));
+		$this->registerView(new RouterViewConfiguration('featured'));
+		$form = new RouterViewConfiguration('form');
 		$form->setKey('a_id');
 		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
-		$this->attachRule(new \JComponentRouterRulesMenu($this));
-		$this->attachRule(new \JComponentRouterRulesStandard($this));
-		$this->attachRule(new \JComponentRouterRulesNomenu($this));
+		$this->attachRule(new MenuRules($this));
+		$this->attachRule(new StandardRules($this));
+		$this->attachRule(new NomenuRules($this));
 	}
 
 	/**
@@ -129,7 +136,7 @@ class ContentRouter extends \JComponentRouterView
 	}
 
 	/**
-	 * Method to get the segment(s) for an form
+	 * Method to get the segment(s) for a form
 	 *
 	 * @param   string  $id     ID of the article form to retrieve the segments for
 	 * @param   array   $query  The request that is built right now
@@ -155,22 +162,25 @@ class ContentRouter extends \JComponentRouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = \JCategories::getInstance($this->getName())->get($query['id']);
+			$category = \JCategories::getInstance($this->getName(), array('access' => false))->get($query['id']);
 
-			foreach ($category->getChildren() as $child)
+			if ($category)
 			{
-				if ($this->noIDs)
+				foreach ($category->getChildren() as $child)
 				{
-					if ($child->alias == $segment)
+					if ($this->noIDs)
 					{
-						return $child->id;
+						if ($child->alias == $segment)
+						{
+							return $child->id;
+						}
 					}
-				}
-				else
-				{
-					if ($child->id == (int) $segment)
+					else
 					{
-						return $child->id;
+						if ($child->id == (int) $segment)
+						{
+							return $child->id;
+						}
 					}
 				}
 			}

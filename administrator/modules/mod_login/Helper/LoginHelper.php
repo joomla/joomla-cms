@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Login\Administrator\Helper;
@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Helper for mod_login
@@ -54,9 +56,9 @@ abstract class LoginHelper
 			}
 		}
 
-		array_unshift($languages, \JHtml::_('select.option', '', \JText::_('JDEFAULTLANGUAGE')));
+		array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
-		return \JHtml::_('select.genericlist', $languages, 'lang', ' class="custom-select"', 'value', 'text', null);
+		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="custom-select" tabindex="4"', 'value', 'text', null);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,9 @@ $comUserParams = JComponentHelper::getParams('com_users');
 					<div class="controls">
 						<div class="input-group">
 							<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-								<span class="input-group-addon"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								<span class="input-group-prepend">
+									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								</span>
 							<?php endif; ?>
 							<?php echo $this->form->getInput('subject'); ?>
 						</div>
@@ -39,7 +41,11 @@ $comUserParams = JComponentHelper::getParams('com_users');
 					<div class="controls">
 						<?php echo $this->form->getInput('message'); ?>
 						<?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
-							<div class="mt-1 card card-block"><?php echo $comUserParams->get('mailBodySuffix'); ?></div>
+							<div class="mt-1 card">
+								<div class="card-body">
+									<?php echo $comUserParams->get('mailBodySuffix'); ?>
+								</div>
+							</div>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -48,26 +54,28 @@ $comUserParams = JComponentHelper::getParams('com_users');
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-block card-light">
-				<div class="control-group">
-					<?php echo $this->form->getInput('recurse'); ?>
-					<?php echo $this->form->getLabel('recurse'); ?>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getInput('mode'); ?>
-					<?php echo $this->form->getLabel('mode'); ?>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getInput('disabled'); ?>
-					<?php echo $this->form->getLabel('disabled'); ?>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getInput('bcc'); ?>
-					<?php echo $this->form->getLabel('bcc'); ?>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('group'); ?>
-					<?php echo $this->form->getInput('group'); ?>
+			<div class="card card-light">
+				<div class="card-body">
+					<div class="control-group">
+						<?php echo $this->form->getInput('recurse'); ?>
+						<?php echo $this->form->getLabel('recurse'); ?>
+					</div>
+					<div class="control-group">
+						<?php echo $this->form->getInput('mode'); ?>
+						<?php echo $this->form->getLabel('mode'); ?>
+					</div>
+					<div class="control-group">
+						<?php echo $this->form->getInput('disabled'); ?>
+						<?php echo $this->form->getLabel('disabled'); ?>
+					</div>
+					<div class="control-group">
+						<?php echo $this->form->getInput('bcc'); ?>
+						<?php echo $this->form->getLabel('bcc'); ?>
+					</div>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('group'); ?>
+						<?php echo $this->form->getInput('group'); ?>
+					</div>
 				</div>
 			</div>
 		</div>

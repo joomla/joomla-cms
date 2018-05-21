@@ -47,10 +47,18 @@
 			id="client_id"
 			default="0"
 			class="switcher switcher-primary"
-			required="true"
 			>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
+		</field>
+		<field
+			name="preset"
+			type="menuPreset"
+			label="COM_MENUS_FIELD_PRESET_LABEL"
+			description="COM_MENUS_FIELD_PRESET_DESC"
+			showon="client_id:1"
+		>
+			<option value="">JNONE</option>
 		</field>
 		<field
 			name="rules"

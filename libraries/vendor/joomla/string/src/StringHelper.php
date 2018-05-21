@@ -9,28 +9,7 @@
 namespace Joomla\String;
 
 // PHP mbstring and iconv local configuration
-if (version_compare(PHP_VERSION, '5.6', '>='))
-{
-	@ini_set('default_charset', 'UTF-8');
-}
-else
-{
-	// Check if mbstring extension is loaded and attempt to load it if not present except for windows
-	if (extension_loaded('mbstring'))
-	{
-		@ini_set('mbstring.internal_encoding', 'UTF-8');
-		@ini_set('mbstring.http_input', 'UTF-8');
-		@ini_set('mbstring.http_output', 'UTF-8');
-	}
-
-	// Same for iconv
-	if (function_exists('iconv'))
-	{
-		iconv_set_encoding('internal_encoding', 'UTF-8');
-		iconv_set_encoding('input_encoding', 'UTF-8');
-		iconv_set_encoding('output_encoding', 'UTF-8');
-	}
-}
+@ini_set('default_charset', 'UTF-8');
 
 /**
  * String handling class for UTF-8 data wrapping the phputf8 library. All functions assume the validity of UTF-8 strings.
@@ -334,17 +313,17 @@ abstract class StringHelper
 	 *
 	 * Convert a string to an array.
 	 *
-	 * @param   string   $str        UTF-8 encoded string to process
-	 * @param   integer  $split_len  Number to characters to split string by
+	 * @param   string   $str       UTF-8 encoded string to process
+	 * @param   integer  $splitLen  Number to characters to split string by
 	 *
 	 * @return  array
 	 *
 	 * @link    https://secure.php.net/str_split
 	 * @since   1.3.0
 	 */
-	public static function str_split($str, $split_len = 1)
+	public static function str_split($str, $splitLen = 1)
 	{
-		return utf8_str_split($str, $split_len);
+		return utf8_str_split($str, $splitLen);
 	}
 
 	/**
@@ -718,9 +697,9 @@ abstract class StringHelper
 	/**
 	 * Transcode a string.
 	 *
-	 * @param   string  $source         The string to transcode.
-	 * @param   string  $from_encoding  The source encoding.
-	 * @param   string  $to_encoding    The target encoding.
+	 * @param   string  $source        The string to transcode.
+	 * @param   string  $fromEncoding  The source encoding.
+	 * @param   string  $toEncoding    The target encoding.
 	 *
 	 * @return  mixed  The transcoded string, or null if the source was not a string.
 	 *
@@ -728,18 +707,18 @@ abstract class StringHelper
 	 *
 	 * @since   1.3.0
 	 */
-	public static function transcode($source, $from_encoding, $to_encoding)
+	public static function transcode($source, $fromEncoding, $toEncoding)
 	{
 		if (is_string($source))
 		{
 			switch (ICONV_IMPL)
 			{
 				case 'glibc':
-					return @iconv($from_encoding, $to_encoding . '//TRANSLIT,IGNORE', $source);
+					return @iconv($fromEncoding, $toEncoding . '//TRANSLIT,IGNORE', $source);
 
 				case 'libiconv':
 				default:
-					return iconv($from_encoding, $to_encoding . '//IGNORE//TRANSLIT', $source);
+					return iconv($fromEncoding, $toEncoding . '//IGNORE//TRANSLIT', $source);
 			}
 		}
 

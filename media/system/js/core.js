@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,11 +48,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Generic submit form
 	 *
-	 * @param {String} task      The string to translate
-	 * @param {node}   form      The form element
-	 * @param {bool}   validate  The form element
+	 * @param  {String}  task      The given task
+	 * @param  {node}    form      The form element
+	 * @param  {bool}    validate  The form element
 	 *
-	 * @returns {null}
+	 * @returns  {void}
 	 */
 	Joomla.submitform = function(task, form, validate) {
 
@@ -89,9 +89,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Default function. Can be overriden by the component to add custom logic
 	 *
-	 * @param {bool}  task  The given task
+	 * @param  {bool}  task  The given task
 	 *
-	 * @returns {null}
+	 * @returns {void}
 	 */
 	Joomla.submitbutton = function( task ) {
 		var form = document.querySelectorAll( 'form.form-validate' );
@@ -178,8 +178,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Get script(s) options
 	 *
-	 * @param {String}  key  Name in Storage
-	 * @param {mixed}   def  Default value if nothing found
+	 * @param  {String}  key  Name in Storage
+	 * @param  {mixed}   def  Default value if nothing found
 	 *
 	 * @return {mixed}
 	 *
@@ -197,7 +197,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Load new options from given options object or from Element
 	 *
-	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 * @param  {Object|undefined}  options  The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
 	 *
 	 * @since 3.7.0
 	 */
@@ -205,30 +205,45 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		// Load form the script container
 		if (!options) {
 			var elements = document.querySelectorAll('.joomla-script-options.new'),
-			    str, element, option;
+			    str, element, option, counter = 0;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
 				element = elements[i];
 				str     = element.text || element.textContent;
 				option  = JSON.parse(str);
 
-				option ? Joomla.loadOptions(option) : null;
+				if (option) {
+					Joomla.loadOptions(option);
+					counter++;
+				}
 
 				element.className = element.className.replace(' new', ' loaded');
 			}
 
-			return;
+			if (counter) {
+				return;
+			}
 		}
 
 		// Initial loading
 		if (!Joomla.optionsStorage) {
-			Joomla.optionsStorage = options;
+			Joomla.optionsStorage = options || {};
 		}
 		// Merge with existing
-		else {
+		else if ( options ) {
 			for (var p in options) {
 				if (options.hasOwnProperty(p)) {
-					Joomla.optionsStorage[p] = options[p];
+					/**
+					 * If both existing and new options are objects, merge them with Joomla.extend().  But test for new
+					 * option being null, as null is an object, but we want to allow clearing of options with ...
+					 *
+					 * Joomla.loadOptions({'joomla.jtext': null});
+					 */
+					if (options[p] !== null && typeof Joomla.optionsStorage[p] === 'object' && typeof options[p] === 'object') {
+						Joomla.optionsStorage[p] = Joomla.extend(Joomla.optionsStorage[p], options[p]);
+					} else {
+						Joomla.optionsStorage[p] = options[p];
+					}
 				}
 			}
 		}
@@ -262,11 +277,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * Verifies if the string is in a valid email format
 	 *
-	 * @param {string}  text  The text for validation
+	 * @param  {string}  text  The text for validation
 	 *
-	 * @return boolean
+	 * @return {boolean}
 	 *
-	 * @deprecated  4.0 Use formvalidator
+	 * @deprecated  4.0 No replacement. Use formvalidator
 	 */
 	Joomla.isEmail = function( text ) {
 		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
@@ -352,7 +367,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					alertClass = 'info';
 				}
 
-				messagesBox.setAttribute('level', alertClass);
+				messagesBox.setAttribute('type', alertClass);
 				messagesBox.setAttribute('dismiss', 'true');
 
 				if (timeout && parseInt(timeout) > 0) {
@@ -451,9 +466,9 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   {object}  xhr          XHR object.
-	 * @param   {string}  textStatus   Type of error that occurred.
-	 * @param   {string}  error        Textual portion of the HTTP status.
+	 * @param   {object}  xhr         XHR object.
+	 * @param   {string}  textStatus  Type of error that occurred.
+	 * @param   {string}  error       Textual portion of the HTTP status.
 	 *
 	 * @return  {object}  JavaScript object containing the system error message.
 	 *
@@ -513,10 +528,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * administrator/components/com_languages/helpers/html/languages.php
 	 * libraries/joomla/html/html/grid.php
 	 *
-	 * @param {boolean}  isitchecked  Flag for checked
-	 * @param {node}     form         The form
+	 * @param  {boolean}  isitchecked  Flag for checked
+	 * @param  {node}     form         The form
 	 *
-	 * @return {void}
+	 * @return  {void}
 	 */
 	Joomla.isChecked = function( isitchecked, form ) {
 		if ( typeof form  === 'undefined' ) {
@@ -573,7 +588,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param srcListName
 	 * @return
 	 *
-	 * @TODO deprecate it in 3.x and remove it in 4.0
+	 * @deprecated  4.0 No replacement
 	 */
 	window.getSelectedValue = function ( frmName, srcListName ) {
 		var srcList = document[ frmName ][ srcListName ],
@@ -593,9 +608,21 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param task
 	 * @return
 	 *
-	 * @TODO deprecate it in 3.x and rename it Joomla.listItemTask in 4.0
+	 * @deprecated 4.0  Use Joomla.listItemTask() instead
 	 */
 	window.listItemTask = function ( id, task ) {
+		return Joomla.listItemTask( id, task );
+	};
+
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param  {string}  id    The id
+	 * @param  {string}  task  The task
+	 *
+	 * @return {boolean}
+	 */
+	Joomla.listItemTask = function ( id, task ) {
 		var f = document.adminForm,
 		    i = 0, cbx,
 		    cb = f[ id ];
@@ -618,12 +645,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 		return false;
 	};
+
 	/**
 	 * Default function. Usually would be overriden by the component
 	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
-	 *
-	 * @TODO remove it in 4.0
+	 * @deprecated 4.0  Use Joomla.submitbutton() instead.
 	 */
 	window.submitbutton = function ( pressbutton ) {
 		Joomla.submitbutton( pressbutton );
@@ -632,9 +658,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Submit the admin form
 	 *
-	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
-	 *
-	 * @TODO remove it in 4.0
+	 * @deprecated 4.0  Use Joomla.submitform() instead.
 	 */
 	window.submitform = function ( pressbutton ) {
 		Joomla.submitform(pressbutton);
@@ -645,7 +669,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * USED IN: libraries/joomla/html/html/grid.php
 	 * There's a better way to do this now, can we try to kill it?
 	 *
-	 * @TODO remove it in 4.0
+	 * @deprecated 4.0  No replacement
 	 */
 	window.saveorder = function ( n, task ) {
 		window.checkAll_button( n, task );
@@ -660,7 +684,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *
 	 * @return  void
 	 *
-	 * @TODO deprecate it in 3.x and rename it Joomla.checkAll_button (or remove it) in 4.0
+	 * @deprecated 4.0  No replacement
 	 */
 	window.checkAll_button = function ( n, task ) {
 		task = task ? task : 'saveorder';
@@ -687,10 +711,10 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @param   {string}  task           The task to do [load, show, hide] (defaults to show).
-	 * @param   {object}  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
+	 * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer (defaults to body).
 	 *
-	 * @return  object  The HTML loading layer element.
+	 * @return  {HTMLElement}  The HTML loading layer element.
 	 *
 	 * @since  3.6.0
 	 */
@@ -700,10 +724,11 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		parentElement = parentElement || document.body;
 
 		// Create the loading layer (hidden by default).
-		if (task == 'load')
+		if (task === 'load')
 		{
-			// Gets the site base path from the body element (defaults to empty - no subfolder)
-			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+			// Gets the site base path
+			var systemPaths = Joomla.getOptions('system.paths') || {},
+			    basePath    = systemPaths.root || '';
 
 			var loadingDiv = document.createElement('div');
 
@@ -755,6 +780,13 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @return Object
 	 */
 	Joomla.extend = function (destination, source) {
+		/**
+		 * Technically null is an object, but trying to treat the destination as one in this context will error out.
+		 * So emulate jQuery.extend(), and treat a destination null as an empty object.
+		 */
+		if (destination === null) {
+			destination = {};
+		}
 		for (var p in source) {
 			if (source.hasOwnProperty(p)) {
 				destination[p] = source[p];
@@ -803,25 +835,31 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			perform: true
 		}, options);
 
-		// Use POST for send the data
-		options.method = options.data ? 'POST' : options.method;
-
 		// Set up XMLHttpRequest instance
 		try{
 			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+
 			xhr.open(options.method, options.url, true);
 
 			// Set the headers
 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			if (options.method !== 'GET') {
+				var token = Joomla.getOptions('csrf.token', '');
+
+				if (token) {
+					xhr.setRequestHeader('X-CSRF-Token', token);
+				}
+
+				if (!options.headers || !options.headers['Content-Type']) {
+					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				}
 			}
 
 			// Custom headers
 			if (options.headers){
-				for (var p in options.headers){
+				for (var p in options.headers) {
 					if (options.headers.hasOwnProperty(p)) {
 						xhr.setRequestHeader(p, options.headers[p]);
 					}
@@ -863,7 +901,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Check if HTML5 localStorage enabled on the browser
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.localStorageEnabled = function() {
 		var test = 'joomla-cms';
@@ -879,15 +917,83 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	/**
 	 * Loads any needed polyfill for web components and async load any web components
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
+	 *
+	 * @since   4.0.0
 	 */
 	Joomla.WebComponents = function() {
-		var wc, polyfills = [];
+		var wc = Joomla.getOptions('webcomponents');
 
-		/* Get the web components */
-		if (Joomla.getOptions && typeof Joomla.getOptions === "function") {
-			wc = Joomla.getOptions('webcomponents', {});
+		// Return early
+		if (!wc || !wc.length) {
+			return;
 		}
+
+		var polyfillsLoaded = false;
+		var whenLoadedFns = [];
+		var allowUpgrades = false;
+		var flushFn;
+
+		var fireEvent = function() {
+			window.WebComponents.ready = true;
+			document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
+			loadWC();
+		};
+
+		var batchCustomElements = function() {
+			if (window.customElements && customElements.polyfillWrapFlushCallback) {
+				customElements.polyfillWrapFlushCallback(function (flushCallback) {
+					flushFn = flushCallback;
+					if (allowUpgrades) {
+						flushFn();
+					}
+				});
+			}
+		};
+
+		var asyncReady = function() {
+			batchCustomElements();
+			ready();
+		};
+
+		var ready = function() {
+			// bootstrap <template> elements before custom elements
+			if (window.HTMLTemplateElement && HTMLTemplateElement.bootstrap) {
+				HTMLTemplateElement.bootstrap(window.document);
+			}
+			polyfillsLoaded = true;
+			runWhenLoadedFns().then(fireEvent);
+		};
+
+		var runWhenLoadedFns = function() {
+			allowUpgrades = false;
+			var done = function() {
+				allowUpgrades = true;
+				whenLoadedFns.length = 0;
+				flushFn && flushFn();
+			};
+			return Promise.all(whenLoadedFns.map(function(fn) {
+				return fn instanceof Function ? fn() : fn;
+			})).then(function() {
+				done();
+			}).catch(function(err) {
+				console.error(err);
+			});
+		}
+
+		window.WebComponents = window.WebComponents || {
+			ready: false,
+			_batchCustomElements: batchCustomElements,
+			waitFor: function(waitFn) {
+				if (!waitFn) {
+					return;
+				}
+				whenLoadedFns.push(waitFn);
+				if (polyfillsLoaded) {
+					runWhenLoadedFns();
+				}
+			}
+		};
 
 		/* Check if ES6 then apply the shim */
 		var checkES6 = function () {
@@ -900,88 +1006,87 @@ Joomla.editors.instances = Joomla.editors.instances || {
 			}
 		};
 
-		/* Check if we need the full polyfill set */
-		var checkWC = function (wc) {
-			if (wc.hasOwnProperty('fullPolyfill') && wc['fullPolyfill'] === true) {
-				return true;
-			}
-			return false;
-		};
-
 		/* Load web components async */
-		var loadWC = function (wc) {
-			var el, p, es5;
-			for (p in wc) {
-				if (wc.hasOwnProperty(p) && p !== 'fullPolyfill') {
-					if (wc[p].match(/\.js/g)) {
-						el = document.createElement('script');
+		var loadWC = function () {
+			if (wc && wc.length) {
+				wc.forEach(function(component) {
+					if (component.match(/\.js/g)) {
+						var el = document.createElement('script');
 						if (!checkES6()) {
+							var es5;
 							// Browser is not ES6!
-							if (wc[p].match(/\.min\.js/g)) {
-								es5 = wc[p].replace(/\.min\.js/g, '-es5.min.js')
-							} else if (wc[p].match(/\.js/g)) {
-								es5 = wc[p].replace(/\.js/g, '-es5.js')
+							if (component.match(/\.min\.js/g)) {
+								es5 = component.replace(/\.min\.js/g, '-es5.min.js')
+							} else if (component.match(/\.js/g)) {
+								es5 = component.replace(/\.js/g, '-es5.js')
 							}
 							el.src = es5;
 						} else {
-							el.src = wc[p];
+							el.src = component;
 						}
-					} else if (wc[p].match(/\.html/)) {
-						el = document.createElement('link');
-						if (checkES6()) {
-							// Browser is not ES6!
-							if (wc[p].match(/\.min\.html/)) {
-								el.setAttribute('href', wc[p].replace(/\.min\.html/, '-es5.min.html'));
-							} else {
-								el.setAttribute('href', wc[p].replace(/\.html/, '-es5.html'));
-							}
-						} else {
-							el.src = wc[p];
-						}
-
-						el.setAttribute('rel', 'import');
 					}
 					if (el) {
 						document.head.appendChild(el);
 					}
-				}
+				});
 			}
 		};
 
-		if (checkWC(wc)) {
-			if (!('import' in document.createElement('link'))) {
-				polyfills.push('hi');
+		// Get the core.js src attribute
+		var name = "core.min.js";
+		var script = document.querySelector('script[src*="' + name + '"]');
+
+		if (!script) {
+			name = "core.js";
+			script = document.querySelector('script[src*="' + name + '"]')
+		}
+
+		if (!script) {
+			throw new Error('core(.min).js is not registered correctly!')
+		}
+
+		// Feature detect which polyfill needs to be imported.
+		var polyfills = [];
+		if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
+			(window.ShadyDOM && window.ShadyDOM.force)) {
+			polyfills.push('sd');
+		}
+		if (!window.customElements || window.customElements.forcePolyfill) {
+			polyfills.push('ce');
+		}
+
+		var needsTemplate = (function() {
+			// no real <template> because no `content` property (IE and older browsers)
+			var t = document.createElement('template');
+			if (!('content' in t)) {
+				return true;
 			}
-			if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) || (window.ShadyDOM && window.ShadyDOM.force)) {
-				polyfills.push('sd');
+			// broken doc fragment (older Edge)
+			if (!(t.content.cloneNode() instanceof DocumentFragment)) {
+				return true;
 			}
-			if (!window.customElements || window.customElements.forcePolyfill) {
-				polyfills.push('ce');
-			}
-			if (!('content' in document.createElement('template')) || !window.Promise || !Array.from || !(document.createDocumentFragment().cloneNode() instanceof DocumentFragment)) {
-				polyfills = ['lite'];
-			}
-		} else {
-			if (!window.customElements || window.customElements.forcePolyfill) {
-				polyfills.push('ce');
-			}
+			// broken <template> cloning (Edge up to at least version 17)
+			var t2 = document.createElement('template');
+			t2.content.appendChild(document.createElement('div'));
+			t.content.appendChild(t2);
+			var clone = t.cloneNode(true);
+			return (clone.content.childNodes.length === 0 ||
+				clone.content.firstChild.content.childNodes.length === 0);
+		})();
+
+		// NOTE: any browser that does not have template or ES6 features
+		// must load the full suite of polyfills.
+		if (!window.Promise || !Array.from || !window.URL || !window.Symbol || needsTemplate) {
+			polyfills = ['sd-ce-pf'];
 		}
 
 		if (polyfills.length) {
-			var name = "core.min.js", script = document.querySelector('script[src*="' + name + '"]')
-			if (!script) {
-				name = "core.js";
-				script = document.querySelector('script[src*="' + name + '"]')
-			}
+			var newScript = document.createElement('script');
+			// Load it from the right place.
+			var replacement = 'media/vendor/webcomponentsjs/js/webcomponents-' + polyfills.join('-') + '.min.js';
 
-			if (!script) {
-				throw new Error('core(.min).js is not registered correctly!')
-			}
-
-			var newScript = document.createElement('script'),
-			    replacement = 'media/system/js/polyfills/webcomponents/webcomponents-' + polyfills.join('-') + '.min.js',
-			    mediaVersion = script.src.match(/\?.*/)[0],
-			    base = Joomla.getOptions('system.paths');
+			var mediaVersion = script.src.match(/\?.*/)[0];
+			var base = Joomla.getOptions('system.paths');
 
 			if (!base) {
 				throw new Error('core(.min).js is not registered correctly!')
@@ -989,30 +1094,32 @@ Joomla.editors.instances = Joomla.editors.instances || {
 
 			newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion : '');
 
-			if (document.readyState === 'loading' && ('import' in document.createElement('link'))) {
+			// if readyState is 'loading', this script is synchronous
+			if (document.readyState === 'loading') {
+				// make sure custom elements are batched whenever parser gets to the injected script
+				newScript.setAttribute('onload', 'window.WebComponents._batchCustomElements()');
 				document.write(newScript.outerHTML);
+				document.addEventListener('DOMContentLoaded', ready);
 			} else {
-				document.head.insertAdjacentElement('beforeend', newScript);
+				newScript.addEventListener('load', function () {
+					asyncReady();
+				});
+				newScript.addEventListener('error', function () {
+					throw new Error('Could not load polyfill bundle' + url);
+				});
+				document.head.appendChild(newScript);
 			}
-
-			document.addEventListener('WebComponentsReady', function () {
-				loadWC(wc);
-			});
 		} else {
-			var fire = function () {
-				requestAnimationFrame(function () {
-					document.dispatchEvent(new CustomEvent('WebComponentsReady', { bubbles: true }));
-					loadWC(wc);
-				});
-			};
-
-			if (document.readyState !== 'loading') {
-				fire();
+			polyfillsLoaded = true;
+			if (document.readyState === 'complete') {
+				fireEvent()
 			} else {
-				document.addEventListener('readystatechange', function wait() {
-					fire();
-					document.removeEventListener('readystatechange', wait);
-				});
+				// this script may come between DCL and load, so listen for both, and cancel load listener if DCL fires
+				window.addEventListener('load', ready);
+				window.addEventListener('DOMContentLoaded', function() {
+					window.removeEventListener('load', ready);
+					ready();
+				})
 			}
 		}
 	};
@@ -1021,7 +1128,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 /**
  * Joomla! Custom events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 (function( window, Joomla ) {
 	"use strict";
@@ -1055,7 +1162,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * 	or:
 	 * 	Joomla.Event.dispatch('joomla:updated', {for: 'bar', foo2: 'bar2'}); // Will dispatch event to Window
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.dispatch = function(element, name, params) {
 		if (typeof element === 'string') {
@@ -1065,11 +1172,22 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		}
 		params = params || {};
 
-		var event = new CustomEvent(name, {
-			detail:     params,
-			bubbles:    true,
-			cancelable: true
-		});
+		var event;
+
+		if (window.CustomEvent && typeof(window.CustomEvent) === 'function') {
+			event = new CustomEvent(name, {
+				detail:     params,
+				bubbles:    true,
+				cancelable: true
+			});
+		}
+		// IE trap
+		else {
+			event = document.createEvent('Event');
+			event.initEvent(name, true, true);
+			event.detail = params;
+		}
+
 		element.dispatchEvent(event);
 	};
 
@@ -1080,7 +1198,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 * @param {String}       name      The event name
 	 * @param {Function}     callback  The event callback
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	Joomla.Event.listenOnce = function (element, name, callback) {
 		var onceCallback = function(event){
@@ -1098,4 +1216,3 @@ Joomla.editors.instances = Joomla.editors.instances || {
 document.addEventListener('DOMContentLoaded', function() {
 	Joomla.WebComponents();
 });
-

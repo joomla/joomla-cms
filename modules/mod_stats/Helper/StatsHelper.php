@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ namespace Joomla\Module\Stats\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -44,33 +46,33 @@ class StatsHelper
 		if ($serverinfo)
 		{
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_OS');
+			$rows[$i]->title = Text::_('MOD_STATS_OS');
 			$rows[$i]->data  = substr(php_uname(), 0, 7);
 			$i++;
 
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_PHP');
+			$rows[$i]->title = Text::_('MOD_STATS_PHP');
 			$rows[$i]->data  = phpversion();
 			$i++;
 
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_($db->name);
+			$rows[$i]->title = Text::_($db->name);
 			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_TIME');
-			$rows[$i]->data  = \JHtml::_('date', 'now', 'H:i');
+			$rows[$i]->title = Text::_('MOD_STATS_TIME');
+			$rows[$i]->data  = HTMLHelper::_('date', 'now', 'H:i');
 			$i++;
 
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data  = $app->get('caching') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
+			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
+			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 
 			$rows[$i] = new \stdClass;
-			$rows[$i]->title = \JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data  = $app->get('gzip') ? \JText::_('JENABLED') : \JText::_('JDISABLED');
+			$rows[$i]->title = Text::_('MOD_STATS_GZIP');
+			$rows[$i]->data  = $app->get('gzip') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 		}
 
@@ -107,7 +109,7 @@ class StatsHelper
 			if ($users)
 			{
 				$rows[$i] = new \stdClass;
-				$rows[$i]->title = \JText::_('MOD_STATS_USERS');
+				$rows[$i]->title = Text::_('MOD_STATS_USERS');
 				$rows[$i]->data  = $users;
 				$i++;
 			}
@@ -115,7 +117,7 @@ class StatsHelper
 			if ($items)
 			{
 				$rows[$i] = new \stdClass;
-				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES');
+				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->data  = $items;
 				$i++;
 			}
@@ -141,7 +143,7 @@ class StatsHelper
 			if ($hits)
 			{
 				$rows[$i] = new \stdClass;
-				$rows[$i]->title = \JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
+				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data  = $hits + $increase;
 				$i++;
 			}
@@ -161,7 +163,7 @@ class StatsHelper
 				{
 					$rows[$i]        = new \stdClass;
 					$rows[$i]->title = $row['title'];
-					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
+					$rows[$i]->icon  = $row['icon'] ?? 'info';
 					$rows[$i]->data  = $row['data'];
 					$i++;
 				}
