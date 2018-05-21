@@ -86,6 +86,7 @@ class ExtensionHelper
 		array('module', 'mod_custom', '', 1),
 		array('module', 'mod_feed', '', 1),
 		array('module', 'mod_latest', '', 1),
+		array('module', 'mod_latestactions', '', 1),
 		array('module', 'mod_logged', '', 1),
 		array('module', 'mod_login', '', 1),
 		array('module', 'mod_menu', '', 1),
