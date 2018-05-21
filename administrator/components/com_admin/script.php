@@ -218,12 +218,12 @@ class JoomlaInstallerScript
 					return false;
 				}
 
-				// Do a check for com_userlogs menu item existence
+				// Do a check for com_actionlogs menu item existence
 				$query = $db->getQuery(true)
 					->select('id')
 					->from($db->quoteName('#__menu'))
 					->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
-					->where($db->quoteName('title') . ' = ' . $db->quote('com_userlogs'))
+					->where($db->quoteName('title') . ' = ' . $db->quote('com_actionlogs'))
 					->where($db->quoteName('client_id') . ' = 1')
 					->where($db->quoteName('component_id') . ' = 36');
 
@@ -235,17 +235,17 @@ class JoomlaInstallerScript
 				}
 
 				/*
-				 * Add a menu item for com_userlogs, we need to do that here because with a plain sql statement we
+				 * Add a menu item for com_actionlogs, we need to do that here because with a plain sql statement we
 				 * damage the nested set structure for the menu table
 				 */
 				$newMenuItem = JTable::getInstance('Menu');
 
 				$data              = array();
 				$data['menutype']  = 'main';
-				$data['title']     = 'com_userlogs';
-				$data['alias']     = 'User Logs';
-				$data['path']      = 'User Logs';
-				$data['link']      = 'index.php?option=com_userlogs';
+				$data['title']     = 'com_actionlogs';
+				$data['alias']     = 'Action Logs';
+				$data['path']      = 'Action Logs';
+				$data['link']      = 'index.php?option=com_actionlogs';
 				$data['type']      = 'component';
 				$data['published'] = 1;
 				$data['parent_id'] = 1;
