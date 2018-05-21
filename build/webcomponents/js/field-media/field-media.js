@@ -11,7 +11,6 @@
   });
 
   Joomla.doIt = function (resp, editor, fieldClass) {
-    "use strict";
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {

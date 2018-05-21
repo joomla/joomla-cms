@@ -20,8 +20,6 @@
     get buttonSelectClass() { return this.getAttribute('button-select'); }
     set buttonSelectClass(value) { this.setAttribute('button-select', value); }
 
-    // attributeChangedCallback(attr, oldValue, newValue) {}
-
     connectedCallback() {
       // Set up elements
       this.modal = this.querySelector(this.modalClass);
