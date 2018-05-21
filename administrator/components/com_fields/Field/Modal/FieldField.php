@@ -80,7 +80,7 @@ class FieldField extends FormField
 				htmlspecialchars(\JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		document.getElementById(id + "_clear").classList.add("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
-			$script[] = '			document.getElementById("#"+id + "_edit").classList.add("hidden");';
+			$script[] = '			document.getElementById(id + "_edit").classList.add("hidden");';
 			$script[] = '		}';
 			$script[] = '		return false;';
 			$script[] = '	}';
