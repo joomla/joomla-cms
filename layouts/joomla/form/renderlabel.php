@@ -32,22 +32,38 @@ $title = '';
 
 if (!empty($description))
 {
-	if ($text && $text !== $description)
+	if (!$position && Factory::getLanguage()->isRtl())
 	{
-		HTMLHelper::_('bootstrap.popover');
-		$classes[] = 'hasPopover';
-		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
-			. ' data-content="'. htmlspecialchars($description) . '"';
-
-		if (!$position && Factory::getLanguage()->isRtl())
-		{
-			$position = ' data-placement="left" ';
-		}
+		$position = 'left';
+	}
+	elseif ($position === 'top')
+	{
+		$position = 'up';
 	}
 	else
 	{
-		$classes[] = 'hasTooltip';
-		$title     = ' title="' . HTMLHelper::_('tooltipText', trim($text, ':'), $description, 0) . '"';
+		$position = 'up';
+	}
+
+	if ($text && $text !== $description)
+	{
+		$title = ' data-balloon="'
+			. HTMLHelper::_(
+					'uitips.tipText',
+					'',
+					htmlspecialchars($text . $description),
+					false,
+					true
+			) . '"'
+			. ' data-balloon-pos="' . $position . '"'
+			. ' data-balloon-length="medium"';
+	}
+	else
+	{
+		$title = ' data-balloon="'
+			. HTMLHelper::_('uitips.tipText', '', htmlspecialchars($text), false, true) . '"'
+			. ' data-balloon-pos="' . $position . '"'
+			. ' data-balloon-length="medium"';
 	}
 }
 
@@ -55,8 +71,7 @@ if ($required)
 {
 	$classes[] = 'required';
 }
-
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?><?php echo $position; ?>>
+<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) echo ' class="' . implode(' ', $classes) . '"'; ?><?php echo $title; ?>>
 	<?php echo $text; ?><?php if ($required) : ?><span class="star">&#160;*</span><?php endif; ?>
 </label>

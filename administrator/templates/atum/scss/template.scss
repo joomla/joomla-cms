@@ -15,6 +15,13 @@
 // Alert
 @import "../../../../media/system/scss/jalert";
 
+// Balloon tooltips
+@import "../../../../node_modules/balloon-css/src/balloon";
+
+[data-balloon-length] {
+  word-break: break-word;
+}
+
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
