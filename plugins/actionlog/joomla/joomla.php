@@ -151,8 +151,8 @@ class PlgActionlogJoomla extends JPlugin
 	 * This method adds a record to #__action_logs contains (message, date, context, user)
 	 * Method is called right after the content is deleted
 	 *
-	 * @param   string   $context  The context of the content passed to the plugin
-	 * @param   object   $article  A JTableContent object
+	 * @param   string  $context  The context of the content passed to the plugin
+	 * @param   object  $article  A JTableContent object
 	 *
 	 * @return  void
 	 *
@@ -743,9 +743,9 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * This method adds a record to #__action_logs contains (message_language_key, message, date, context, user)
 	 *
-	 * @param   array    $messages            The contents of the messages to be logged
-	 * @param   string   $messageLanguageKey  The language key of the message
-	 * @param   string   $context             The context of the content passed to the plugin
+	 * @param   array   $messages            The contents of the messages to be logged
+	 * @param   string  $messageLanguageKey  The language key of the message
+	 * @param   string  $context             The context of the content passed to the plugin
 	 *
 	 * @return  void
 	 *
@@ -763,7 +763,7 @@ class PlgActionlogJoomla extends JPlugin
 	/**
 	 * Function to check if a component is loggable or not
 	 *
-	 * @param   string   $extension  The extension that triggered the event
+	 * @param   string  $extension  The extension that triggered the event
 	 *
 	 * @return  boolean
 	 *
