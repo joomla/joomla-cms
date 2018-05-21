@@ -925,7 +925,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 		var wc = Joomla.getOptions('webcomponents');
 
 		// Return early
-		if (!wc.length) {
+		if (!wc || !wc.length) {
 			return;
 		}
 
