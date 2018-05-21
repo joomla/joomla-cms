@@ -11,8 +11,11 @@ namespace Joomla\Component\Installer\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -27,12 +30,20 @@ use Joomla\Registry\Registry;
  */
 class DatabaseModel extends InstallerModel
 {
+	/**
+	 * Set the model context
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $_context = 'com_installer.discover';
 
 	/**
 	 * ChangeSet of all extensions
 	 *
 	 * @var  array
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $changeSetList = null;
 
@@ -40,6 +51,8 @@ class DatabaseModel extends InstallerModel
 	 * Total of errors
 	 *
 	 * @var  int
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $errorCount = 0;
 
@@ -49,7 +62,7 @@ class DatabaseModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\ListModel
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
@@ -74,19 +87,23 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Method to return the total number of errors in all the extensions, saved in cache.
 	 *
-	 * @return  int
+	 * @return  integer
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getErrorCount()
 	{
-		return \JFactory::getSession()->get('errorCount');
+		return Factory::getApplication()->getSession()->get('errorCount');
 	}
 
 	/**
 	 * Method to populate the schema cache.
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -99,7 +116,7 @@ class DatabaseModel extends InstallerModel
 		}
 
 		// Restore it from Session
-		$changeSetList = \JFactory::getSession()->get('changeSetList');
+		$changeSetList = Factory::getApplication()->getSession()->get('changeSetList');
 		$changeSetList = json_decode($changeSetList, true);
 		$this->changeSetList = $changeSetList;
 
@@ -128,7 +145,7 @@ class DatabaseModel extends InstallerModel
 					if (!$this->getDefaultTextFilters())
 					{
 						$errorCount++;
-						$problemsMessage .= "<li>" . \JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR') . "</li>";
+						$problemsMessage .= "<li>" . Text::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR') . "</li>";
 					}
 				}
 
@@ -156,7 +173,7 @@ class DatabaseModel extends InstallerModel
 
 				if ($result->version_id != $schema)
 				{
-					$problemsMessage .= "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name ,$schema) . "</li>";
+					$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema) . "</li>";
 					$errorCount++;
 				}
 
@@ -205,18 +222,18 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
 
-			return false;
+			return;
 		}
 
 		// Ready
-		$changeSetList = json_encode($changeSetList);
+		$changeSetList       = json_encode($changeSetList);
 		$this->changeSetList = json_decode($changeSetList, true);
 
 		// Save it for the next time
-		\JFactory::getSession()->set('errorCount', $this->errorCount);
-		\JFactory::getSession()->set('changeSetList', $changeSetList);
+		Factory::getApplication()->getSession()->set('errorCount', $this->errorCount);
+		Factory::getApplication()->getSession()->set('changeSetList', $changeSetList);
 	}
 
 	/**
@@ -247,10 +264,14 @@ class DatabaseModel extends InstallerModel
 	 * @param   array  $elementArray  list of the selected extensions to fix
 	 *
 	 * @return  void|bool
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fix($elementArray = null)
 	{
-		$changeSetList = json_decode(\JFactory::getSession()->get('changeSetList'), true);
+		$changeSetList = json_decode(Factory::getApplication()->getSession()->get('changeSetList'), true);
 
 		$db = $this->getDbo();
 
@@ -287,6 +308,10 @@ class DatabaseModel extends InstallerModel
 	 * Gets the changeset array.
 	 *
 	 * @return  array  Array with the information of the versions problems, errors and the extensions itself
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -371,6 +396,8 @@ class DatabaseModel extends InstallerModel
 	 * @param   array  $results  extensions returned from parent::getItems().
 	 *
 	 * @return  array  the changeSetList of the merged items
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function mergeSchemaCache($results)
 	{
@@ -398,6 +425,8 @@ class DatabaseModel extends InstallerModel
 	 * @return  mixed  the return value from the query, or null if the query fails.
 	 *
 	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSchemaVersion($extensionId = 700)
 	{
@@ -418,7 +447,11 @@ class DatabaseModel extends InstallerModel
 	 * @param   \Joomla\CMS\Schema\ChangeSet  $changeSet    Schema change set.
 	 * @param   integer                       $extensionId  id of the extensions.
 	 *
-	 * @return   mixed  string schema version if success, false if fail.
+	 * @return  mixed  string schema version if success, false if fail.
+	 *
+	 * @throws  \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fixSchemaVersion($changeSet, $extensionId = 700)
 	{
@@ -464,6 +497,8 @@ class DatabaseModel extends InstallerModel
 	 * @param   object  $extension  data from #__extensions of a single extension.
 	 *
 	 * @return  mixed  string message with the errors with the update version or null if none
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function compareUpdateVersion($extension)
 	{
@@ -481,7 +516,7 @@ class DatabaseModel extends InstallerModel
 
 		if (version_compare($extensionVersion, $updateVersion) != 0)
 		{
-			return "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . "</li>";
+			return "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . "</li>";
 		}
 
 		return null;
@@ -493,12 +528,14 @@ class DatabaseModel extends InstallerModel
 	 * @param   array  $status  status of of the update files
 	 *
 	 * @return  string  string message with the errors with the update version or null if none
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getOtherInformationMessage($status)
 	{
 		$problemsMessage = "";
-		$problemsMessage .= "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok'])) . "</li>";
-		$problemsMessage .= "<li>" . \JText::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped'])) . "</li>";
+		$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok'])) . "</li>";
+		$problemsMessage .= "<li>" . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped'])) . "</li>";
 
 		return $problemsMessage;
 	}
@@ -509,6 +546,8 @@ class DatabaseModel extends InstallerModel
 	 * @param   array  $errors  data from #__extensions of a single extension.
 	 *
 	 * @return  mixed  string   message with the errors in the database or null if none
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getErrorsMessage($errors)
 	{
@@ -521,7 +560,7 @@ class DatabaseModel extends InstallerModel
 			$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
 			$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
 			$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
-			$errorMessage .= "<li>" . \JText::sprintf($key, $file, $msg0, $msg1, $msg2) . "</li>";
+			$errorMessage .= "<li>" . Text::sprintf($key, $file, $msg0, $msg1, $msg2) . "</li>";
 		}
 
 		return $errorMessage;
@@ -533,10 +572,12 @@ class DatabaseModel extends InstallerModel
 	 * @param   integer  $extensionId  id of the extension
 	 *
 	 * @return   mixed  string update version if success, false if fail.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fixUpdateVersion($extensionId)
 	{
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 		$table->load($extensionId);
 		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
@@ -573,10 +614,12 @@ class DatabaseModel extends InstallerModel
 	 * Check if com_config parameters are blank.
 	 *
 	 * @return  string  default text filters (if any).
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDefaultTextFilters()
 	{
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 		$table->load($table->find(array('name' => 'com_config')));
 
 		return $table->params;
@@ -587,10 +630,12 @@ class DatabaseModel extends InstallerModel
 	 * Check if com_config parameters are blank. If so, populate with com_content text filters.
 	 *
 	 * @return  mixed  boolean true if params are updated, null otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fixDefaultTextFilters()
 	{
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 		$table->load($table->find(array('name' => 'com_config')));
 
 		// Check for empty $config and non-empty content filters.

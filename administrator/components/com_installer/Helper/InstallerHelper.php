@@ -172,7 +172,7 @@ class InstallerHelper
 	 * @param   int     $client_id  client_id of an extension
 	 * @param   string  $folder     folder of an extension
 	 *
-	 * @return  array  An array of \JHtmlOption elements.
+	 * @return  \SimpleXMLElement
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
