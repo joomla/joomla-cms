@@ -10,11 +10,11 @@
     Joomla.selectedFile = e.detail
   });
 
-  Joomla.doIt = function (resp, editor, fieldClass) {
+  Joomla.doIt = (resp, editor, fieldClass) => {
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {
-          var server  = Joomla.getOptions('system.paths').rootFull;
+          const server = Joomla.getOptions('system.paths').rootFull;
 
           Joomla.selectedFile.url = resp.data[0].url.split(server)[1];
           if (resp.data[0]['thumb_path']) {
