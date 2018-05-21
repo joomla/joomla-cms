@@ -1329,56 +1329,31 @@ iframe {
   max-width: none; }
 
 .nav.nav-tabs {
+  align-items: stretch;
+  justify-content: space-around;
+  flex-wrap: unset;
   padding: 0;
-  margin: 0;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-bottom: 0;
-  border-radius: none none 0 0;
-  box-shadow: 0 1px #fff inset, 0 2px 3px -3px rgba(0, 0, 0, 0.15), 0 -4px 0 rgba(0, 0, 0, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.25); }
+  margin: 0 0 1rem;
+  text-align: center;
+  background-color: #3073BB; }
+  @media (max-width: 767.98px) {
+    .nav.nav-tabs {
+      flex-direction: column; } }
   .nav.nav-tabs .nav-item {
     margin-bottom: 0;
-    margin-left: 0; }
-    .nav.nav-tabs .nav-item:first-of-type .nav-link.active {
-      border-radius: none 0 0;
-      box-shadow: -1px 0 1px -1px rgba(0, 0, 0, 0.06), inset -2px 0 1px -1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0, 0, 0, 0.02); }
-    .nav.nav-tabs .nav-item:last-of-type .nav-link {
-      box-shadow: -1px 0 0 rgba(0, 0, 0, 0.05), 1px 0 0 rgba(0, 0, 0, 0.05); }
-      .nav.nav-tabs .nav-item:last-of-type .nav-link.active {
-        box-shadow: inset 2px 0 1px -1px rgba(0, 0, 0, 0.08), inset -2px 0 1px -1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0, 0, 0, 0.02); }
+    margin-left: 0;
+    width: 100%; }
   .nav.nav-tabs .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: #2b5c91;
-    border: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    box-shadow: -1px 0 0 rgba(0, 0, 0, 0.05); }
-    .nav.nav-tabs .nav-link.active {
-      background-color: rgba(0, 0, 0, 0.03);
-      background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05) 100%);
-      border-right: 0;
-      border-left: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      box-shadow: inset 2px 0 1px -1px rgba(0, 0, 0, 0.08), inset -2px 0 1px -1px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(0, 0, 0, 0.02); }
-      .nav.nav-tabs .nav-link.active::after {
-        position: absolute;
-        right: 0;
-        bottom: -1px;
-        left: 0;
-        height: 5px;
-        content: "";
-        background-color: #3073bb;
-        opacity: .8; }
+    height: 100%;
+    color: #fff;
+    box-shadow: -1px 0 0 rgba(0, 0, 0, 0.1); }
 
 .nav-tabs + .tab-content {
-  padding: 15px;
-  background: #fefefe;
-  border: 1px solid;
-  border-color: #ccc;
-  border-radius: 0 0 none none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); }
+  padding: 0;
+  background: transparent;
+  border: 0; }
 
 .pagination {
   margin: 1rem; }
