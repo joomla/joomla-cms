@@ -361,11 +361,11 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
-	 * @param   string  $selector  The ID selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
+	 * @param   string  $selector  The ID selector for the accordion.
+	 * @param   array   $params    An array of options for the accordion.
+	 *                             Options for the accordion can be:
 	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
 	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
 	 *                             - toggle  boolean   Toggles the collapsible element on invocation
@@ -378,7 +378,7 @@ abstract class JHtmlBootstrap
 	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user
 	 *                                                   (will wait for css transitions to complete).
 	 *
-	 * @return  string  HTML for the accordian
+	 * @return  string  HTML for the accordion
 	 *
 	 * @since   3.0
 	 */

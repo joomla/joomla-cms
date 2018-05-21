@@ -10,7 +10,14 @@
 
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/variables";
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "bootstrap";
+
+// Balloon tooltips
+@import "../../../node_modules/balloon-css/src/balloon";
+
+[data-balloon-length] {
+  word-break: break-word;
+}
 
 // FontAwesome
 @import "../../../media/vendor/font-awesome/scss/font-awesome";

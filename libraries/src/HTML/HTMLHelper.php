@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -1004,79 +1005,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Creates a tooltip with an image as button
-	 *
-	 * @param   string  $tooltip  The tip string.
-	 * @param   mixed   $title    The title of the tooltip or an associative array with keys contained in
-	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
-	 * @param   string  $image    The image for the tip, if no text is provided.
-	 * @param   string  $text     The text for the tip.
-	 * @param   string  $href     A URL that will be used to create the link.
-	 * @param   string  $alt      The alt attribute for img tag.
-	 * @param   string  $class    CSS class for the tool tip.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTooltip')
-	{
-		if (is_array($title))
-		{
-			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
-			{
-				if (isset($title[$param]))
-				{
-					$$param = $title[$param];
-				}
-			}
-
-			if (isset($title['title']))
-			{
-				$title = $title['title'];
-			}
-			else
-			{
-				$title = '';
-			}
-		}
-
-		if (!$text)
-		{
-			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-			$text = static::image($image, $alt, null, true);
-		}
-
-		if ($href)
-		{
-			$tip = '<a href="' . $href . '">' . $text . '</a>';
-		}
-		else
-		{
-			$tip = $text;
-		}
-
-		if ($class === 'hasTip')
-		{
-			// Still using MooTools tooltips!
-			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
-
-			if ($title)
-			{
-				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-				$tooltip = $title . '::' . $tooltip;
-			}
-		}
-		else
-		{
-			$tooltip = self::tooltipText($title, $tooltip, 0);
-		}
-
-		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
-	}
-
-	/**
-	 * Converts a double colon separated string or 2 separate strings to a string ready for bootstrap tooltips
+	 * Helper for bootstrap tooltips
 	 *
 	 * @param   string   $title      The title of the tooltip (or combined '::' separated string).
 	 * @param   string   $content    The content to tooltip.
@@ -1086,6 +1015,8 @@ abstract class HTMLHelper
 	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
+	 *
+	 * @deprecated 5.0
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = true, $escape = true)
 	{
@@ -1095,17 +1026,11 @@ abstract class HTMLHelper
 		// Don't process empty strings
 		if ($content !== '' || $title !== '')
 		{
-			// Split title into title and content if the title contains '::' (old Mootools format).
-			if ($content === '' && !(strpos($title, '::') === false))
-			{
-				list($title, $content) = explode('::', $title, 2);
-			}
-
 			// Pass texts through JText if required.
 			if ($translate)
 			{
-				$title = \JText::_($title);
-				$content = \JText::_($content);
+				$title = Text::_($title);
+				$content = Text::_($content);
 			}
 
 			// Use only the content if no title is given.
