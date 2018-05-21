@@ -25,11 +25,11 @@ abstract class ModLatestActionsHelper
 	 */
 	public static function getList(&$params)
 	{
-		JLoader::register('UserlogsModelUserlogs', JPATH_ADMINISTRATOR . '/components/com_userlogs/models/userlogs.php');
-		JLoader::register('UserlogsHelper', JPATH_ADMINISTRATOR . '/components/com_userlogs/helpers/userlogs.php');
+		JLoader::register('ActionlogsModelActionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlogs.php');
+		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
-		/* @var UserlogsModelUserlogs $model */
-		$model = JModelLegacy::getInstance('Userlogs', 'UserlogsModel', array('ignore_request' => true));
+		/* @var ActionlogsModelActionlogs $model */
+		$model = JModelLegacy::getInstance('Actionlogs', 'ActionlogsModel', array('ignore_request' => true));
 
 		// Set the Start and Limit
 		$model->setState('list.start', 0);
@@ -41,7 +41,7 @@ abstract class ModLatestActionsHelper
 
 		foreach ($rows as $row)
 		{
-			$row->message = UserlogsHelper::getHumanReadableLogMessage($row);
+			$row->message = ActionlogsHelper::getHumanReadableLogMessage($row);
 		}
 
 		return $rows;
