@@ -25,7 +25,6 @@
           if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           }
-
         }
       } else {
         Joomla.selectedFile.url = false;
@@ -66,10 +65,10 @@
         url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
         method: 'GET',
         perform: true,
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         onSuccess: (response) => {
           const resp = JSON.parse(response);
-          resolve(Joomla.doIt(resp, editor, fieldClass))
+          resolve(Joomla.doIt(resp, editor, fieldClass));
         },
         onError: () => {
           reject();
@@ -204,6 +203,5 @@
       }
     }
   }
-
   customElements.define('joomla-field-media', JoomlaFieldMedia);
 })(customElements, Joomla);

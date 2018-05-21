@@ -1,6 +1,5 @@
 ((customElements) => {
   class JoomlaFieldUser extends HTMLElement {
-
     static get observedAttributes() {
       return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
     }
@@ -19,8 +18,6 @@
     set inputNameClass(value) { this.setAttribute('input-name', value); }
     get buttonSelectClass() { return this.getAttribute('button-select'); }
     set buttonSelectClass(value) { this.setAttribute('button-select', value); }
-
-    // attributeChangedCallback(attr, oldValue, newValue) {}
 
     connectedCallback() {
       // Set up elements

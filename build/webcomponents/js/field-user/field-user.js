@@ -1,6 +1,5 @@
 ((customElements) => {
   class JoomlaFieldUser extends HTMLElement {
-
     static get observedAttributes() {
       return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
     }
