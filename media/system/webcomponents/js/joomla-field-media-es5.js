@@ -35,15 +35,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             Joomla.selectedFile.thumb = false;
           }
         } else {
-          if (resp.data[0].thumb_path) Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+          if (resp.data[0].thumb_path) {
+            Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+          }
         }
       } else {
         Joomla.selectedFile.url = false;
       }
 
       var isElement = function isElement(o) {
-        return (typeof HTMLElement === 'undefined' ? 'undefined' : _typeof(HTMLElement)) === "object" ? o instanceof HTMLElement : //DOM2
-        o && (typeof o === 'undefined' ? 'undefined' : _typeof(o)) === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName === "string";
+        return (typeof HTMLElement === 'undefined' ? 'undefined' : _typeof(HTMLElement)) === 'object' ? o instanceof HTMLElement : //DOM2
+        o && (typeof o === 'undefined' ? 'undefined' : _typeof(o)) === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string';
       };
 
       if (Joomla.selectedFile.url) {

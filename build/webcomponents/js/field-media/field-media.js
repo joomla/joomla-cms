@@ -19,20 +19,22 @@
           if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           } else {
-            Joomla.selectedFile.thumb = false
+            Joomla.selectedFile.thumb = false;
           }
         } else {
-          if (resp.data[0].thumb_path)
+          if (resp.data[0].thumb_path) {
             Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+          }
+
         }
       } else {
-        Joomla.selectedFile.url = false
+        Joomla.selectedFile.url = false;
       }
 
       const isElement = (o) => {
         return (
-          typeof HTMLElement === "object" ? o instanceof HTMLElement : //DOM2
-            o && typeof o === "object" && o !== null && o.nodeType === 1 && typeof o.nodeName==="string"
+          typeof HTMLElement === 'object' ? o instanceof HTMLElement : //DOM2
+            o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName=== 'string'
         );
       };
 
