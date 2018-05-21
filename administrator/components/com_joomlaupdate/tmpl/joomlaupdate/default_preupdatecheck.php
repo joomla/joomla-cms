@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 						<?php echo $option->label; ?>
 					</td>
 					<td>
-							<span class="badge badge-<?php echo $option->state ? 'success' : 'important'; ?>">
+							<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice) : ?>
 									<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
