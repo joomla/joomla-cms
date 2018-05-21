@@ -600,8 +600,8 @@ legend {
   .tbody-icon span {
     color: #ccc;
     border: 2px solid #ccc; }
-  .tbody-icon span[class^="icon-"]:not(.icon-checkedout),
-  .tbody-icon span[class*=" icon-"]:not(.icon-checkedout) {
+  .tbody-icon [class^="icon-"]:not(.icon-checkedout),
+  .tbody-icon [class*=" icon-"]:not(.icon-checkedout) {
     width: 26px;
     height: 26px;
     font-size: 1rem;

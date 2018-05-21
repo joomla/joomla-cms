@@ -31,8 +31,8 @@
     border: 2px solid #ccc;
   }
 
-  span[class^="icon-"]:not(.icon-checkedout),
-  span[class*=" icon-"]:not(.icon-checkedout) {
+  [class^="icon-"]:not(.icon-checkedout),
+  [class*=" icon-"]:not(.icon-checkedout) {
     width: 26px;
     height: 26px;
     font-size: 1rem;
