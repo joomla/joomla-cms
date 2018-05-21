@@ -31,6 +31,18 @@ class Component implements ComponentInterface
 	private $dispatcherFactory;
 
 	/**
+	 * Component constructor.
+	 *
+	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct(DispatcherFactoryInterface $dispatcherFactory)
+	{
+		$this->dispatcherFactory = $dispatcherFactory;
+	}
+
+	/**
 	 * Returns the dispatcher for the given application.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
@@ -41,25 +53,6 @@ class Component implements ComponentInterface
 	 */
 	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
-		if ($this->dispatcherFactory === null)
-		{
-			return null;
-		}
-
 		return $this->dispatcherFactory->createDispatcher($application);
-	}
-
-	/**
-	 * Sets the dispatcher factory.
-	 *
-	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
-	{
-		$this->dispatcherFactory = $dispatcherFactory;
 	}
 }
