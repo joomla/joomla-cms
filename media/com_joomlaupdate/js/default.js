@@ -161,7 +161,7 @@ Joomla = window.Joomla || {};
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 // No compatible version found -> display error label
-                html = '<span class="badge badge-important">' + Joomla.JText._('JNO') + '</span>';
+                html = '<span class="badge badge-danger">' + Joomla.JText._('JNO') + '</span>';
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning
