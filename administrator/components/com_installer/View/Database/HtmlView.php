@@ -101,10 +101,6 @@ class HtmlView extends InstallerViewDefault
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
-		// Include the component HTML helpers.
-		echo JPATH_COMPONENT . '/helpers/html';
-		//HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		parent::display($tpl);
 	}
 
