@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Field;
@@ -83,17 +83,6 @@ class MenutypeField extends \JFormFieldList
 				$value = \JText::_(ArrayHelper::getValue($rlu, \MenusHelper::getLinkKey($link)));
 				break;
 		}
-
-		// Include jQuery
-		\JHtml::_('jquery.framework');
-
-		// Add the script to the document head.
-		Factory::getDocument()->addScriptDeclaration('
-			function jSelectPosition_' . $this->id . '(name) {
-				document.getElementById("' . $this->id . '").value = name;
-			}
-		'
-		);
 
 		$link = \JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id

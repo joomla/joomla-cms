@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
@@ -64,11 +64,11 @@ class DisplayController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JController	 This object to support chaining.
+	 * @return  BaseController	 This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		$view   = $this->input->get('view', 'users');
 		$layout = $this->input->get('layout', 'default');
@@ -113,6 +113,6 @@ class DisplayController extends BaseController
 			return false;
 		}
 
-		return parent::display();
+		return parent::display($cachable, $urlparams);
 	}
 }
