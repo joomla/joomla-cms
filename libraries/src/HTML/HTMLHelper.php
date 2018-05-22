@@ -10,16 +10,15 @@ namespace Joomla\CMS\HTML;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Utilities\ArrayHelper;
-
-\JLoader::import('joomla.environment.browser');
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Utility class for all HTML drawing classes
@@ -158,7 +157,7 @@ abstract class HTMLHelper
 
 		if (!class_exists($className))
 		{
-			$path = \JPath::find(static::$includePaths, strtolower($file) . '.php');
+			$path = Path::find(static::$includePaths, strtolower($file) . '.php');
 
 			if (!$path)
 			{
@@ -964,12 +963,12 @@ abstract class HTMLHelper
 		// If no format is given use the default locale based format.
 		if (!$format)
 		{
-			$format = \JText::_('DATE_FORMAT_LC1');
+			$format = Text::_('DATE_FORMAT_LC1');
 		}
 		// $format is an existing language key
 		elseif (Factory::getLanguage()->hasKey($format))
 		{
-			$format = \JText::_($format);
+			$format = Text::_($format);
 		}
 
 		if ($gregorian)
@@ -1057,7 +1056,7 @@ abstract class HTMLHelper
 	 *
 	 * @param   string   $title      The title of the tooltip (or combined '::' separated string).
 	 * @param   string   $content    The content to tooltip.
-	 * @param   boolean  $translate  If true will pass texts through JText.
+	 * @param   boolean  $translate  If true will pass texts through Text.
 	 * @param   boolean  $escape     If true will pass texts through htmlspecialchars.
 	 *
 	 * @return  string  The tooltip string
@@ -1078,11 +1077,11 @@ abstract class HTMLHelper
 				list($title, $content) = explode('::', $title, 2);
 			}
 
-			// Pass texts through JText if required.
+			// Pass texts through Text if required.
 			if ($translate)
 			{
-				$title = \JText::_($title);
-				$content = \JText::_($content);
+				$title = Text::_($title);
+				$content = Text::_($content);
 			}
 
 			// Use only the content if no title is given.
@@ -1255,7 +1254,7 @@ abstract class HTMLHelper
 		{
 			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{
-				array_unshift(static::$includePaths, \JPath::clean($dir));
+				array_unshift(static::$includePaths, Path::clean($dir));
 			}
 		}
 
@@ -1388,12 +1387,12 @@ abstract class HTMLHelper
 	/**
 	 * Method that takes two paths and checks if the files exist with different order
 	 *
-	 * @param  $first   string   the path of the minified file
-	 * @param  $second  string   the path of the non minified file
+	 * @param   string  $first   the path of the minified file
+	 * @param   string  $second  the path of the non minified file
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static function checkFileOrder($first, $second)
 	{
