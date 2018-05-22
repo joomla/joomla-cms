@@ -32,6 +32,7 @@
 				label="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_LABEL"
 				description="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_DESC"
 				class="btn-group"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>
