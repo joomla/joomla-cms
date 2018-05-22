@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -219,7 +219,7 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Executes all the Selenium System Tests in a suite on your machine
 	 *
-	 * @param   array $opts   Array of configuration options:
+	 * @param   array  $opts  Array of configuration options:
 	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
 	 *                        - 'env': set a specific environment to get configuration from
 	 *
@@ -231,24 +231,7 @@ class RoboFile extends \Robo\Tasks
 	{
 		$this->say("Running tests");
 
-		$this->createTestingSite($opts['use-htaccess']);
-
-		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
-
-		sleep(3);
-
-		// Make sure to run the build command to generate AcceptanceTester
-		if ($this->isWindows())
-		{
-			$this->_exec('php ' . $this->getWindowsPath($this->vendorPath . 'bin/codecept') . ' build');
-			$pathToCodeception = $this->getWindowsPath($this->vendorPath . 'bin/codecept');
-		}
-		else
-		{
-			$this->_exec('php ' . $this->vendorPath . 'bin/codecept build');
-
-			$pathToCodeception = $this->vendorPath . 'bin/codecept';
-		}
+		$pathToCodeception = $this->prepareRun($opts);
 
 		$suites = [
 			'acceptance/install/',
@@ -271,12 +254,73 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Install only Joomla
+	 *
+	 * @param   array  $opts  Additional options
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function runInstall($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	{
+		$this->say("Running Installation");
+
+		$pathToCodeception = $this->prepareRun($opts);
+
+		$this->taskCodecept($pathToCodeception)
+			->arg('--fail-fast')
+			->arg('--steps')
+			->arg('--debug')
+			->env($opts['env'])
+			->arg($this->testsPath . 'acceptance/install/')
+			->run()
+			->stopOnFail();
+	}
+
+	/**
+	 * Prepare the installation
+	 *
+	 * @param   array  $opts  Optional Options
+	 *
+	 * @return  string  Path to codeception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function prepareRun($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	{
+		$this->createTestingSite($opts['use-htaccess']);
+
+		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
+
+		// Wait until the server started
+		sleep(3);
+
+		// Make sure to run the build command to generate AcceptanceTester
+		if ($this->isWindows())
+		{
+			$this->_exec('php ' . $this->getWindowsPath($this->vendorPath . 'bin/codecept') . ' build');
+			$pathToCodeception = $this->getWindowsPath($this->vendorPath . 'bin/codecept');
+		}
+		else
+		{
+			$this->_exec('php ' . $this->vendorPath . 'bin/codecept build');
+
+			$pathToCodeception = $this->vendorPath . 'bin/codecept';
+		}
+
+		return $pathToCodeception;
+	}
+
+	/**
 	 * Executes a specific Selenium System Tests in your machine
 	 *
 	 * @param   string  $pathToTestFile  Optional name of the test to be run
 	 * @param   string  $suite           Optional name of the suite containing the tests, Acceptance by default.
 	 *
 	 * @since   3.7.3
+	 *
+	 * @throws  Exception  if test not found
 	 *
 	 * @return  void
 	 */

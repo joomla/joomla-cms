@@ -70,6 +70,31 @@ class SqliteQuery extends PdoQuery
 
 				break;
 
+			case 'querySet':
+				$query = $this->querySet;
+
+				if ($query->order || $query->limit || $query->offset)
+				{
+					// If ORDER BY or LIMIT statement exist then parentheses is required for the first query
+					$query = PHP_EOL . "SELECT * FROM ($query)";
+				}
+
+				if ($this->merge)
+				{
+					// Special case for merge
+					foreach ($this->merge as $element)
+					{
+						$query .= (string) $element;
+					}
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
+				return $query;
+
 			case 'update':
 				if ($this->join)
 				{
@@ -210,5 +235,25 @@ class SqliteQuery extends PdoQuery
 		$this->validateRowNumber($orderBy, $orderColumnAlias);
 
 		return $this;
+	}
+
+	/**
+	 * Add a query to UNION with the current query.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo', true)
+	 *
+	 * @param   DatabaseQuery|string  $query     The DatabaseQuery object or string to union.
+	 * @param   boolean               $distinct  True to only return distinct rows from the union.
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.0
+	 */
+	public function union($query, $distinct = true)
+	{
+		// Set up the name with parentheses, the DISTINCT flag is redundant
+		return $this->merge($distinct ? 'UNION SELECT * FROM ()' : 'UNION ALL SELECT * FROM ()', $query);
 	}
 }

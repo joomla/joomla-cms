@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ extract($displayData);
 
 $versionFields = array('php_version', 'db_version', 'cms_version');
 ?>
-<table class="table mb-1 js-pstats-data-details d-none">
+<table class="table table-striped mb-1 d-none" id="js-pstats-data-details">
 	<?php foreach ($statsData as $key => $value) : ?>
 	<tr>
 		<td><b><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></b></td>

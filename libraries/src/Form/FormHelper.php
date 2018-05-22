@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,6 +182,7 @@ class FormHelper
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			$subPrefix = '';
+
 			if (strpos($name, '.'))
 			{
 				list($subPrefix, $name) = explode('.', $name);
@@ -230,6 +231,7 @@ class FormHelper
 					$paths[] = $path;
 				}
 			}
+
 			// Break off the end of the complex type.
 			$type = substr($type, $pos + 1);
 		}
@@ -422,6 +424,7 @@ class FormHelper
 		foreach ($new as $prefix)
 		{
 			$prefix = trim($prefix);
+
 			if (in_array($prefix, $prefixes))
 			{
 				continue;

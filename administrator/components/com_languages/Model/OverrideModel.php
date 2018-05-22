@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Languages\Administrator\Model;
@@ -48,7 +48,7 @@ class OverrideModel extends AdminModel
 
 		if (!$langName)
 		{
-			// If a language only exists in frontend, it's meta data cannot be
+			// If a language only exists in frontend, its metadata cannot be
 			// loaded in backend at the moment, so fall back to the language tag.
 			$langName = $language;
 		}

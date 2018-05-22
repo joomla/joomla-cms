@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+\Joomla\CMS\HTML\HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -46,12 +48,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</tr>
 					</tfoot>
 					<tbody>
-						<?php
-						$i = 0;
-						foreach ($this->data as $folder => $item) : ?>
+						<?php $i = 0; ?>
+						<?php foreach ($this->data as $folder => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td>
-									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" onclick="Joomla.isChecked(this.checked);">
+									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" class="cache-entry">
 								</td>
 								<td>
 									<label for="cb<?php echo $i; ?>">

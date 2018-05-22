@@ -8,19 +8,21 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "build:js": "node build --compilejs",
-    "build:css": "node build --compilecss",
-    "watch:js": "node build --compilejs --watch",
-    "watch:css": "node build --compilecss --watch",
+    "build:js": "node build.js --compilejs",
+    "build:css": "node build.js --compilecss",
+    "watch:js": "node build.js --compilejs --watch",
+    "watch:css": "node build.js --compilecss --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
-    "update": "node build --update"
+    "install": "node build.js --update && node build.js --installer",
+    "postinstall": "node build.js --compilejs && node build.js --compilecss",
+    "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecss"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
-    "@webcomponents/webcomponentsjs": "1.1.0",
+    "@webcomponents/webcomponentsjs": "2.0.0",
     "awesomplete": "1.1.2",
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
@@ -345,18 +347,11 @@
       "@webcomponents/webcomponentsjs": {
         "name": "webcomponentsjs",
         "js": {
-          "webcomponents-hi.js": "js/webcomponents-hi.js",
-          "webcomponents-hi.js.map": "js/webcomponents-hi.js.map",
-          "webcomponents-hi-ce.js": "js/webcomponents-hi-ce.js",
-          "webcomponents-hi-ce.js.map": "js/webcomponents-hi-ce.js.map",
-          "webcomponents-hi-sd.js": "js/webcomponents-hi-sd.js",
-          "webcomponents-hi-sd.js.map": "js/webcomponents-hi-sd.js.map",
-          "webcomponents-hi-sd-ce.js": "js/webcomponents-hi-sd-ce.js",
-          "webcomponents-hi-sd-ce.js.map": "js/webcomponents-hi-sd-ce.js.map",
-          "webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map",
-          "webcomponents-lite.js": "js/webcomponents-lite.js",
-          "webcomponents-lite.js.map": "js/webcomponents-lite.js.map"
+          "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
+          "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
+          "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
+          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js",
+          "webcomponents-bundle.js": "js/webcomponents-bundle.js"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"

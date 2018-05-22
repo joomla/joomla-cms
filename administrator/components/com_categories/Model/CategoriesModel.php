@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -369,30 +371,19 @@ class CategoriesModel extends ListModel
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension, 2);
-		$component = $parts[0];
-		$section = null;
+		$parts     = explode('.', $extension, 2);
+		$section   = '';
 
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
 
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if (file_exists($file))
+		if ($component instanceof CategoriesServiceInterface)
 		{
-			$prefix = ucfirst($eName);
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
-			{
-				$cName::countItems($items, $section);
-			}
+			$component->countItems($items, $section);
 		}
 	}
 }

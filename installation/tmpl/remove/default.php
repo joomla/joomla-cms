@@ -2,13 +2,13 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/* @var InstallationViewRemoveHtml $this */
+/* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 

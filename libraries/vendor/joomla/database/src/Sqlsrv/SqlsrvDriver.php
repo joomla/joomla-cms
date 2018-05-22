@@ -58,7 +58,7 @@ class SqlsrvDriver extends DatabaseDriver
 	 * @var    string
 	 * @since  1.0
 	 */
-	protected static $dbMinimum = '10.50.1600.1';
+	protected static $dbMinimum = '11.0.2100.60';
 
 	/**
 	 * Test to see if the SQLSRV connector is available.
@@ -222,6 +222,9 @@ class SqlsrvDriver extends DatabaseDriver
 	public function escape($text, $extra = false)
 	{
 		$result = str_replace("'", "''", $text);
+
+		// SQL Server does not accept NULL byte in query string
+		$result = str_replace("\0", "' + CHAR(0) + N'", $result);
 
 		// Fix for SQL Sever escape sequence, see https://support.microsoft.com/en-us/kb/164291
 		$result = str_replace(
