@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 /**
  * Defines the trait for a MVC factory factory service class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait MVCFactoryServiceTrait
 {
@@ -33,7 +33,7 @@ trait MVCFactoryServiceTrait
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
 	{
@@ -47,7 +47,7 @@ trait MVCFactoryServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setMvcFactoryFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
@@ -59,7 +59,7 @@ trait MVCFactoryServiceTrait
 	 *
 	 * @return  MVCFactoryFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
 	 */
 	public function getMVCFactoryFactory()

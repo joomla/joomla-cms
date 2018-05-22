@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\User\User;
@@ -128,8 +129,11 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Perform application routines.
 		$this->doExecute();
@@ -340,7 +344,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -349,7 +352,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
@@ -432,7 +434,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Registry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConfig()
 	{

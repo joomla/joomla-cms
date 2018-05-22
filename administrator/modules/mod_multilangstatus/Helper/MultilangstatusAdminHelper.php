@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 /**
  * Helper class for the multilangstatus module
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MultilangstatusAdminHelper
 {
@@ -26,7 +26,7 @@ class MultilangstatusAdminHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function isEnabled()
 	{
@@ -57,7 +57,7 @@ class MultilangstatusAdminHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getState()
 	{
@@ -87,7 +87,7 @@ class MultilangstatusAdminHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function publish()
 	{

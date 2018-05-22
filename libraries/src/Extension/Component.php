@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
 /**
  * Access to component specific services.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Component implements ComponentInterface
 {
@@ -26,7 +26,7 @@ class Component implements ComponentInterface
 	 *
 	 * @var DispatcherFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $dispatcherFactory;
 
@@ -37,7 +37,7 @@ class Component implements ComponentInterface
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface
 	{
@@ -56,7 +56,7 @@ class Component implements ComponentInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
 	{

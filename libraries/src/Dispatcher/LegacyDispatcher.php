@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,14 +12,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
-use Joomla\Input\Input;
 
 /**
  * Base class for a legacy Joomla Dispatcher
  *
  * Executes the single entry file of a legacy component.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LegacyDispatcher implements DispatcherInterface
 {
@@ -27,7 +26,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 * The application instance
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $app;
 
@@ -36,7 +35,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 *
 	 * @param   CMSApplication  $app  The application instance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(CMSApplication $app)
 	{
@@ -48,7 +47,7 @@ class LegacyDispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{

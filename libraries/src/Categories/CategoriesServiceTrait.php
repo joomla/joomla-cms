@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Trait for component categories service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait CategoriesServiceTrait
 {
@@ -22,7 +22,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @var  Categories[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categories;
 
@@ -36,7 +36,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @see Categories::setOptions()
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
@@ -61,7 +61,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setCategories(array $categories)
 	{
@@ -76,7 +76,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countItems(array $items, string $section)
@@ -136,7 +136,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function countTagItems(array $items, string $extension)
 	{
@@ -212,7 +212,7 @@ trait CategoriesServiceTrait
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
