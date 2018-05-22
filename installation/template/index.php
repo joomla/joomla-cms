@@ -20,7 +20,7 @@ JHtml::_('behavior.core');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-JHtml::_('webcomponent', 'system/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+JHtml::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => JRoute::_('index.php')]);

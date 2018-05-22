@@ -7,26 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Admin\Administrator\Dispatcher;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+defined('_JEXEC') or die;
 
 /**
  * Dispatcher class for com_admin
  *
  * @since  4.0.0
  */
-class AdminDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Admin';
-
 	/**
 	 * com_admin does not require check permission, so we override checkAccess method and have it empty
 	 *
@@ -34,6 +25,5 @@ class AdminDispatcher extends Dispatcher
 	 */
 	protected function checkAccess()
 	{
-
 	}
 }

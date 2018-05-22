@@ -11,11 +11,6 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
-// TODO - Update server layouts for 4.0 to remove global var use
-/* eslint-disable */
-const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
-/* eslint-enable */
-
 ((window, document, Joomla, jQuery) => {
   'use strict';
 
@@ -158,6 +153,17 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
           self.clickforlinks();
           WebInstaller.clicker();
 
+          if (webInstallerOptions.view !== 'extension') {
+            [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+              element.addEventListener('click', (event) => {
+                event.preventDefault();
+                self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+              });
+
+              element.setAttribute('href', '#');
+            });
+          }
+
           if (webInstallerOptions.list && document.querySelector('.list-view')) {
             document.querySelector('.list-view').click();
           }
@@ -270,11 +276,10 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
      * @param {string} name
      * @returns {boolean}
      * @todo Migrate this function's alert to a CE dialog
-     * @todo Migrate this function's hardcoded English string to Joomla.JText
      */
     static installfromweb(installUrl, name) {
       if (!installUrl) {
-        alert("This extension cannot be installed via the web. Please visit the developer's website to purchase/download.");
+        alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
         return false;
       }
