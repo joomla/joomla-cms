@@ -67,6 +67,7 @@
 					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
 					class="btn-group"
 					default="JComponentHelper::filterText"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>
