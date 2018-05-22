@@ -29,14 +29,14 @@ var fullscreen = (function () {
       }
     };
   };
-  var $_9rucaubkjdud7aar = { get: get };
+  var $_butth4bkje5o2tm7 = { get: get };
 
   var DOMUtils = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
 
   var fireFullscreenStateChanged = function (editor, state) {
     editor.fire('FullscreenStateChanged', { state: state });
   };
-  var $_axyq6lbojdud7aaw = { fireFullscreenStateChanged: fireFullscreenStateChanged };
+  var $_47bkulboje5o2tmj = { fireFullscreenStateChanged: fireFullscreenStateChanged };
 
   var DOM = DOMUtils.DOM;
   var getWindowSize = function () {
@@ -103,7 +103,7 @@ var fullscreen = (function () {
       editor.on('remove', removeResize);
       resize();
       fullscreenState.set(newFullScreenInfo);
-      $_axyq6lbojdud7aaw.fireFullscreenStateChanged(editor, true);
+      $_47bkulboje5o2tmj.fireFullscreenStateChanged(editor, true);
     } else {
       iframeStyle.width = fullscreenInfo.iframeWidth;
       iframeStyle.height = fullscreenInfo.iframeHeight;
@@ -120,17 +120,17 @@ var fullscreen = (function () {
       DOM.unbind(window, 'resize', fullscreenInfo.resizeHandler);
       editor.off('remove', fullscreenInfo.removeHandler);
       fullscreenState.set(null);
-      $_axyq6lbojdud7aaw.fireFullscreenStateChanged(editor, false);
+      $_47bkulboje5o2tmj.fireFullscreenStateChanged(editor, false);
     }
   };
-  var $_dn6p1sbmjdud7aat = { toggleFullscreen: toggleFullscreen };
+  var $_8dwed6bmje5o2tmg = { toggleFullscreen: toggleFullscreen };
 
   var register = function (editor, fullscreenState) {
     editor.addCommand('mceFullScreen', function () {
-      $_dn6p1sbmjdud7aat.toggleFullscreen(editor, fullscreenState);
+      $_8dwed6bmje5o2tmg.toggleFullscreen(editor, fullscreenState);
     });
   };
-  var $_37bputbljdud7aas = { register: register };
+  var $_3uftm6blje5o2tmf = { register: register };
 
   var postRender = function (editor) {
     return function (e) {
@@ -156,17 +156,17 @@ var fullscreen = (function () {
       onPostRender: postRender(editor)
     });
   };
-  var $_c9x7gdbpjdud7aax = { register: register$1 };
+  var $_d13yb8bpje5o2tmk = { register: register$1 };
 
   PluginManager.add('fullscreen', function (editor) {
     var fullscreenState = Cell(null);
     if (editor.settings.inline) {
-      return $_9rucaubkjdud7aar.get(fullscreenState);
+      return $_butth4bkje5o2tm7.get(fullscreenState);
     }
-    $_37bputbljdud7aas.register(editor, fullscreenState);
-    $_c9x7gdbpjdud7aax.register(editor);
+    $_3uftm6blje5o2tmf.register(editor, fullscreenState);
+    $_d13yb8bpje5o2tmk.register(editor);
     editor.addShortcut('Ctrl+Shift+F', '', 'mceFullScreen');
-    return $_9rucaubkjdud7aar.get(fullscreenState);
+    return $_butth4bkje5o2tm7.get(fullscreenState);
   });
   function Plugin () {
   }
