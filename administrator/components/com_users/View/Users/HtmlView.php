@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
 		$this->db            = \JFactory::getDbo();
 
 		UsersHelper::addSubmenu('users');
-//var_dump($this->items);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
