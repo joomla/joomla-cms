@@ -25,14 +25,14 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 * @param   array    $messages            The contents of the messages to be logged
 	 * @param   string   $messageLanguageKey  The language key of the message
 	 * @param   string   $context             The context of the content passed to the plugin
-	 *
+	 * @param   int      $userId              ID of user perform the action, usually ID of current logged in user
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addLogsToDb($messages, $messageLanguageKey, $context)
+	public function addLogsToDb($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user   = JFactory::getUser();
+		$user   = JFactory::getUser($userId);
 		$db     = $this->getDbo();
 		$date   = JFactory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
