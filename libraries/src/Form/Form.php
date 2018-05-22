@@ -1313,7 +1313,7 @@ class Form
 
 			// Filter safe HTML.
 			case 'SAFEHTML':
-				$return = FilterInput::getInstance(null, null, 1, 1)->clean($value, 'html');
+				$return = InputFilter::getInstance(null, null, 1, 1)->clean($value, 'html');
 				break;
 
 			// Convert a date to UTC based on the server timezone offset.
@@ -1419,7 +1419,7 @@ class Form
 				}
 
 				// This cleans some of the more dangerous characters but leaves special characters that are valid.
-				$value = FilterInput::getInstance()->clean($value, 'html');
+				$value = InputFilter::getInstance()->clean($value, 'html');
 				$value = trim($value);
 
 				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
@@ -1566,7 +1566,7 @@ class Form
 				}
 
 				// Check for empty value and return empty string if no value is required,
-				// otherwise filter using FilterInput. All HTML code is filtered by default.
+				// otherwise filter using InputFilter. All HTML code is filtered by default.
 				else
 				{
 					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
@@ -1577,7 +1577,7 @@ class Form
 					}
 					else
 					{
-						$return = FilterInput::getInstance()->clean($value, $filter);
+						$return = InputFilter::getInstance()->clean($value, $filter);
 					}
 				}
 				break;

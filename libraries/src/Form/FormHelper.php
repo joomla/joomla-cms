@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-use Joomla\Filesystem\Path;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Form's helper class.
