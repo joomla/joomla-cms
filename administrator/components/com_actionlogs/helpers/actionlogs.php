@@ -143,15 +143,9 @@ class ActionlogsHelper
 			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
 		}
 
-		// Translate content type title
-		if (isset($messageData['type']))
-		{
-			$messageData['type'] = JText::_($messageData['type']);
-		}
-
 		foreach ($messageData as $key => $value)
 		{
-			$message = str_replace('{' . $key . '}', $value, $message);
+			$message = str_replace('{' . $key . '}', JText::_($value), $message);
 		}
 
 		return $message;
