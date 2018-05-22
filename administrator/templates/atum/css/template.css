@@ -882,12 +882,14 @@ iframe {
     text-transform: uppercase;
     letter-spacing: 1px; }
   .main-nav .collapse-level-1 li {
-    position: relative; }
+    position: relative;
+    overflow: visible; }
     .main-nav .collapse-level-1 li:hover ul {
       display: block !important; }
   .main-nav .collapse-level-2 {
     position: absolute;
     top: 0;
+    bottom: auto;
     left: 100% !important;
     height: auto;
     padding: 2px 0;

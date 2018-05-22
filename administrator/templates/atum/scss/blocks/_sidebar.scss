@@ -199,6 +199,7 @@
 
     li {
       position: relative;
+      overflow:visible;
 
       &:hover ul {
         display: block !important;
@@ -210,6 +211,7 @@
   .collapse-level-2 {
     position: absolute;
     top: 0;
+    bottom:auto;
     left: 100% !important;
     height: auto;
     padding: 2px 0;
