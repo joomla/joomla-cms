@@ -761,7 +761,7 @@ class PlgActionlogJoomla extends JPlugin
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_IN';
 
 		$message = array(
-			'action'      => 'delete',
+			'action'      => 'login',
 			'id'          => $loggedInUser->id,
 			'username'    => $loggedInUser->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedInUser->id,
@@ -794,7 +794,7 @@ class PlgActionlogJoomla extends JPlugin
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
-			'action'      => 'delete',
+			'action'      => 'logout',
 			'id'          => $loggedOutUser->id,
 			'username'    => $loggedOutUser->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedOutUser->id,
