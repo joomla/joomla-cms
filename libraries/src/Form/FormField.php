@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Abstract Form Field class for the Joomla Platform.
@@ -28,6 +29,14 @@ abstract class FormField
 	 * @since  11.1
 	 */
 	protected $description;
+
+	/**
+	 * A variable text for the description element to be used in a sprintf.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $var_description;
 
 	/**
 	 * The hint text for the form field used to display hint inside the field.
@@ -142,6 +151,14 @@ abstract class FormField
 	 * @since  11.1
 	 */
 	protected $label;
+
+	/**
+	 * A variable text for the label element to be used in a sprintf.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $var_label;
 
 	/**
 	 * The multiple state for the form field.  If true then multiple values are allowed for the
@@ -391,6 +408,8 @@ abstract class FormField
 		switch ($name)
 		{
 			case 'description':
+			case 'var_description':
+			case 'var_label':
 			case 'hint':
 			case 'formControl':
 			case 'hidden':
@@ -462,6 +481,8 @@ abstract class FormField
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
+			case 'var_description':
+			case 'var_label':
 			case 'hint':
 			case 'value':
 			case 'labelclass':
@@ -595,7 +616,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'var_label', 'var_description');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -986,11 +1007,35 @@ abstract class FormField
 	{
 		// Label preprocess
 		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? \JText::_($label) : $label;
+
+		// Do we have a text variable to use when displaying the label?
+		$var_label = !empty($this->var_label) ? $this->var_label : null;
+
+		if ($var_label != null)
+		{
+			$var_label = Text::_($var_label);
+			$label     = $this->translateLabel ? Text::sprintf($label, $var_label) : $label;
+		}
+		else
+		{
+			$label = $this->translateLabel ? Text::_($label) : $label;
+		}
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
-		$description = !empty($description) && $this->translateDescription ? \JText::_($description) : $description;
+
+		// Do we have a text variable to use when displaying the description?
+		$var_description = !empty($this->var_description) ? $this->var_description : null;
+
+		if ($var_description != null)
+		{
+			$var_description = Text::_($var_description);
+			$description     = !empty($description) && $this->translateDescription ? Text::sprintf($description, $var_description) : $description;
+		}
+		else
+		{
+			$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
+		}
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
@@ -1003,7 +1048,7 @@ abstract class FormField
 			'field'          => $this,
 			'group'          => $this->group,
 			'hidden'         => $this->hidden,
-			'hint'           => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
+			'hint'           => $this->translateHint ? Text::alt($this->hint, $alt) : $this->hint,
 			'id'             => $this->id,
 			'label'          => $label,
 			'labelclass'     => $this->labelclass,
