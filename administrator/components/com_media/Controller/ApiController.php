@@ -281,11 +281,11 @@ class ApiController extends BaseController
 
 			if ($move)
 			{
-				$destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->move($adapter, $path, $destinationPath, false);
 			}
 			else
 			{
-				$destinationPath = $this->getModel()->copy($adapter, $path, $destinationPath, true);
+				$destinationPath = $this->getModel()->copy($adapter, $path, $destinationPath, false);
 			}
 
 			$path = $destinationPath;
