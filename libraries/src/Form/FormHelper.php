@@ -14,8 +14,6 @@ use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 use Joomla\Filesystem\Path;
 
-\JLoader::import('joomla.filesystem.path');
-
 /**
  * Form's helper class.
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.

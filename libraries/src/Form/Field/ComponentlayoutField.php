@@ -14,12 +14,10 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
-use Joomla\Filesystem\Path;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\Filesystem\Folder;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Form Field to display a list of the layouts for a component view from
