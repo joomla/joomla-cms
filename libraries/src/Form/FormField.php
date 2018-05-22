@@ -36,7 +36,7 @@ abstract class FormField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $var_description;
+	protected $varDescription;
 
 	/**
 	 * The hint text for the form field used to display hint inside the field.
@@ -158,7 +158,7 @@ abstract class FormField
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $var_label;
+	protected $varLabel;
 
 	/**
 	 * The multiple state for the form field.  If true then multiple values are allowed for the
@@ -408,8 +408,8 @@ abstract class FormField
 		switch ($name)
 		{
 			case 'description':
-			case 'var_description':
-			case 'var_label':
+			case 'varDescription':
+			case 'varLabel':
 			case 'hint':
 			case 'formControl':
 			case 'hidden':
@@ -481,8 +481,8 @@ abstract class FormField
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
-			case 'var_description':
-			case 'var_label':
+			case 'varDescription':
+			case 'varLabel':
 			case 'hint':
 			case 'value':
 			case 'labelclass':
@@ -616,7 +616,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'var_label', 'var_description');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'varLabel', 'varDescription');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1009,12 +1009,12 @@ abstract class FormField
 		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 
 		// Do we have a text variable to use when displaying the label?
-		$var_label = !empty($this->var_label) ? $this->var_label : null;
+		$varLabel = !empty($this->varLabel) ? $this->varLabel : null;
 
-		if ($var_label != null)
+		if ($varLabel != null)
 		{
-			$var_label = Text::_($var_label);
-			$label     = $this->translateLabel ? Text::sprintf($label, $var_label) : $label;
+			$varLabel  = Text::_($varLabel);
+			$label     = $this->translateLabel ? Text::sprintf($label, $varLabel) : $label;
 		}
 		else
 		{
@@ -1025,12 +1025,12 @@ abstract class FormField
 		$description = !empty($this->description) ? $this->description : null;
 
 		// Do we have a text variable to use when displaying the description?
-		$var_description = !empty($this->var_description) ? $this->var_description : null;
+		$varDescription = !empty($this->varDescription) ? $this->varDescription : null;
 
-		if ($var_description != null)
+		if ($varDescription != null)
 		{
-			$var_description = Text::_($var_description);
-			$description     = !empty($description) && $this->translateDescription ? Text::sprintf($description, $var_description) : $description;
+			$varDescription  = Text::_($varDescription);
+			$description     = !empty($description) && $this->translateDescription ? Text::sprintf($description, $varDescription) : $description;
 		}
 		else
 		{
