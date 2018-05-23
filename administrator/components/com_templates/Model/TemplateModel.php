@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
@@ -146,6 +151,174 @@ class TemplateModel extends FormModel
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to get the core file of override file
+	 *
+	 * @param   string   $file  Override file
+	 * @param   integer  $client Client Id
+	 *
+	 * @return  string  $corefile The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCoreFile($file, $client_id)
+	{
+		$app           = Factory::getApplication();
+		$filePath      = Path::clean($file);
+		$explodeArray  = explode(DIRECTORY_SEPARATOR, $filePath);
+
+		// Only allow html/ folder
+		if($explodeArray['1'] !== 'html')
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ONLY_HTML_FOLDER_ALLOWED'), 'error');
+
+			return false;
+		}
+
+		$fileName = basename($filePath);
+		$type     = $explodeArray['2'];
+		$client   = ApplicationHelper::getClientInfo($client_id);
+
+		$componentPath = Path::clean($client->path . '/components/');
+		$modulePath    = Path::clean($client->path . '/modules/');
+		$layoutPath    = Path::clean(JPATH_ROOT . '/layouts/');
+
+		// For modules
+		if (stristr($type, 'mod_') !== false)
+		{
+			$folder   = $explodeArray['2'];
+			$htmlPath = Path::clean($modulePath . $folder . '/tmpl/');
+			$fileName = $this->getSafeName($fileName);
+			$coreFile = $this->findPath($htmlPath, $fileName);
+
+			return $coreFile;
+		}
+		elseif (stristr($type, 'com_') !== false)
+		{
+			// For components
+			$folder    = $explodeArray['2'];
+			$subFolder = $explodeArray['3'];
+			$fileName  = $this->getSafeName($fileName);
+
+			// The old scheme, if a view has a tmpl folder
+			$oldHtmlPath = Path::clean($componentPath . $folder . '/views/' . $subFolder . '/tmpl/');
+
+			if(!$coreFile = Path::find($oldHtmlPath, $fileName))
+			{
+				// The new scheme, the views are directly in the component/tmpl folder
+				$newHtmlPath = Path::clean($componentPath . $folder . '/tmpl/' . $subFolder . '/');
+				$coreFile    = $this->findPath($newHtmlPath, $fileName);
+
+				return $coreFile;
+			}
+
+			return $coreFile;
+		}
+		elseif (stristr($type, 'layouts') !== false)
+		{
+			// For Jlayouts
+			$subtype = $explodeArray['3'];
+
+			if(stristr($subtype, 'com_'))
+			{
+				$folder    = $explodeArray['3'];
+		 		$subFolder = array_slice($explodeArray, 4, -1);
+				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
+				$htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
+				$fileName  = $this->getSafeName($fileName);
+				$coreFile  = $this->findPath($htmlPath, $fileName);
+
+				return $coreFile;
+			}
+			elseif (stristr($subtype, 'joomla') || stristr($subtype, 'libraries') || stristr($subtype, 'plugins'))
+			{
+				$subFolder = array_slice($explodeArray, 3, -1);
+				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
+				$htmlPath  = Path::clean($layoutPath . $subFolder);
+				$fileName  = $this->getSafeName($fileName);
+				$coreFile  = $this->findPath($htmlPath, $fileName);
+
+				return $coreFile;
+			}
+		}
+
+		$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'error');
+
+		return false;
+	}
+
+	/**
+	 * Creates a safe file name for the given name.
+	 *
+	 * @param   string  $name  The filename
+	 *
+	 * @return  string $fileName  The filtered name without Date
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getSafeName($name)
+	{
+		if (preg_match('/[0-9]/', $name))
+		{
+			// Get the extension
+			$extension = File::getExt($name);
+
+			// Remove ( Date ) from file
+			$explodeArray = explode('-', $name);
+			$size         = count($explodeArray);
+			$date         = $explodeArray[$size-2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size-1]);
+
+			if($this->validateDate($date))
+			{
+				$nameWithoutExtension = implode('-', array_slice($explodeArray, 0, -2));
+
+				//Filtered name
+				$name = $nameWithoutExtension . '.' . $extension;
+			}
+		}
+
+		return $name;
+	}
+
+	/**
+	 * Validate Date in file name.
+	 *
+	 * @param  string $date Date to validate.
+	 *
+	 * @return boolean Return true if date is valid and false if not.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	 private function validateDate($date)
+	 {
+		 $format = 'Ymd-His';
+		 $valid  = Date::createFromFormat($format, $date);
+
+		 return $valid && $valid->format($format) == $date;
+	 }
+
+	/**
+	 * Find file in given folde
+	 *
+	 * @param  string  $path An path or array of path to search.
+	 * @param  string  $file The file name to look for.
+	 *
+	 * @return mixed  $path The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function findPath($paths, $file)
+	{
+		$app = Factory::getApplication();
+
+		if(!$path = Path::find($paths, $file))
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'error');
+		}
+
+		return $path;
 	}
 
 	/**
