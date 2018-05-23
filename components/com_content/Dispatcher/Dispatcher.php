@@ -11,9 +11,6 @@ namespace Joomla\Component\Content\Site\Dispatcher;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\Registry;
-use Joomla\Component\Content\Site\Service\Icon;
-
 /**
  * Dispatcher class for com_content
  *
@@ -56,19 +53,5 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 		\JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 		parent::dispatch();
-	}
-
-	/**
-	 * Subclasses can register here HTML services.
-	 *
-	 * @param   Registry  $registry  The registry
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function loadHTMLServices(Registry $registry)
-	{
-		$registry->register('icon', new Icon($this->getApplication()));
 	}
 }

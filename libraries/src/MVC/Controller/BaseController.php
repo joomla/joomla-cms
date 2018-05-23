@@ -11,8 +11,6 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
-use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -26,10 +24,8 @@ use Joomla\CMS\MVC\View\AbstractView;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface, HTMLRegistryAwareInterface
+class BaseController implements ControllerInterface
 {
-	use HTMLRegistryAwareTrait;
-
 	/**
 	 * The base path of the controller
 	 *
@@ -598,18 +594,8 @@ class BaseController implements ControllerInterface, HTMLRegistryAwareInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		// Set the own paths
 		$config['paths'] = $this->paths['view'];
-
-		// The view
-		$view = $this->factory->createView($name, $prefix, $type, $config);
-
-		if ($view instanceof HTMLRegistryAwareInterface)
-		{
-			$view->setRegistry($this->registry);
-		}
-
-		return $view;
+		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
 	/**

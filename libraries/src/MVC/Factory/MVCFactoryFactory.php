@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
+use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 
 /**
  * Factory to create MVC factories.
@@ -22,6 +24,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareInterface
 {
 	use FormFactoryAwareTrait;
+	use HTMLRegistryAwareTrait;
 
 	/**
 	 * The namespace.
@@ -65,6 +68,14 @@ class MVCFactoryFactory implements MVCFactoryFactoryInterface, FormFactoryAwareI
 		try
 		{
 			$factory->setFormFactory($this->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+
+		try
+		{
+			$factory->setRegistry($this->getRegistry());
 		}
 		catch (\UnexpectedValueException $e)
 		{

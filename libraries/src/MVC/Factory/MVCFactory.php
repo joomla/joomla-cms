@@ -14,6 +14,8 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\HTML\HTMLRegistryAwareInterface;
+use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Input\Input;
 
 /**
@@ -24,6 +26,7 @@ use Joomla\Input\Input;
 class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 {
 	use FormFactoryAwareTrait;
+	use HTMLRegistryAwareTrait;
 
 	/**
 	 * The namespace to create the objects from.
@@ -85,6 +88,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		$controller = new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
 		$this->setFormFactoryOnObject($controller);
+		$this->setHTMLRegistryOnObject($controller);
 
 		return $controller;
 	}
@@ -116,6 +120,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		$model = new $className($config, $this);
 		$this->setFormFactoryOnObject($model);
+		$this->setHTMLRegistryOnObject($model);
 
 		return $model;
 	}
@@ -149,6 +154,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 
 		$view = new $className($config);
 		$this->setFormFactoryOnObject($view);
+		$this->setHTMLRegistryOnObject($view);
 
 		return $view;
 	}
@@ -237,6 +243,31 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		try
 		{
 			$object->setFormFactory($this->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
+	}
+
+	/**
+	 * Sets the internal form HTML registry on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setHTMLRegistryOnObject($object)
+	{
+		if (!$object instanceof HTMLRegistryAwareInterface)
+		{
+			return;
+		}
+
+		try
+		{
+			$object->setRegistry($this->getRegistry());
 		}
 		catch (\UnexpectedValueException $e)
 		{
