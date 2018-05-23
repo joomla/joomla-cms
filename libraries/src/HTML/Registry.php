@@ -72,7 +72,13 @@ final class Registry
 	 */
 	public function _(string $key, ...$methodArgs)
 	{
-		list($service, $function) = explode('.', $key);
+		$parts = explode('.', $key);
+
+		// Last element is the function
+		$function = array_pop($parts);
+
+		// The rest is the service
+		$service = implode('.', $parts);
 
 		if (!$this->hasService($service))
 		{
