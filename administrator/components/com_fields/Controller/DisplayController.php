@@ -18,15 +18,6 @@ defined('_JEXEC') or die;
 class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 {
 	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 *
-	 * @since   3.7.0
-	 */
-	protected $default_view = 'fields';
-
-	/**
 	 * Typical view method for MVC based architecture
 	 *
 	 * This function is provide as a default implementation, in most cases

@@ -22,14 +22,6 @@ use Joomla\CMS\Helper\ContentHelper;
 class DisplayController extends BaseController
 {
 	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $default_view = 'users';
-
-	/**
 	 * Checks whether a user can see this view.
 	 *
 	 * @param   string  $view  The view name.

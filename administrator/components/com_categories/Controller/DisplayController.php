@@ -22,14 +22,6 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 class DisplayController extends BaseController
 {
 	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $default_view = 'categories';
-
-	/**
 	 * The extension for which the categories apply.
 	 *
 	 * @var    string
