@@ -25,7 +25,7 @@ use Joomla\Input\Input;
  *
  * @since  4.0.0
  */
-abstract class ComponentDispatcher extends Dispatcher
+class ComponentDispatcher extends Dispatcher
 {
 	/**
 	 * The URL option for the component.
