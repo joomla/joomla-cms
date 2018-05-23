@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Form\FormHelper;
 
@@ -65,7 +66,7 @@ class DatabaseconnectionField extends \JFormFieldList
 			{
 				if (in_array($support, $available))
 				{
-					$options[$support] = \JText::_(ucfirst($support));
+					$options[$support] = Text::_(ucfirst($support));
 				}
 			}
 		}
@@ -73,7 +74,7 @@ class DatabaseconnectionField extends \JFormFieldList
 		{
 			foreach ($available as $support)
 			{
-				$options[$support] = \JText::_(ucfirst($support));
+				$options[$support] = Text::_(ucfirst($support));
 			}
 		}
 
@@ -81,7 +82,7 @@ class DatabaseconnectionField extends \JFormFieldList
 		// a database that is not available on the server.
 		if (empty($options))
 		{
-			$options[''] = \JText::_('JNONE');
+			$options[''] = Text::_('JNONE');
 		}
 
 		return $options;

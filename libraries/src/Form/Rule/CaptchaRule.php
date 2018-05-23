@@ -14,6 +14,7 @@ use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Form Rule class for the Joomla Framework.
@@ -39,7 +40,7 @@ class CaptchaRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$plugin = $app->get('captcha');
 
 		if ($app->isClient('site'))
