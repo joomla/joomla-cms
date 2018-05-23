@@ -341,53 +341,56 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::addNew('item.add');
 		}
-
-		$protected = $this->state->get('filter.menutype') == 'main';
-
-		if ($canDo->get('core.edit.state') && !$protected)
+		
+		if (!empty($this->items))
 		{
-			ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			$protected = $this->state->get('filter.menutype') == 'main';
+
+			if ($canDo->get('core.edit.state') && !$protected)
+			{
+				ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
+				ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			}
+
+			if (\JFactory::getUser()->authorise('core.admin') && !$protected)
+			{
+				ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
+			{
+				ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
+			}
+
+			if (\JFactory::getUser()->authorise('core.admin'))
+			{
+				ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+			}
+
+			// Add a batch button
+			if (!$protected && $user->authorise('core.create', 'com_menus')
+				&& $user->authorise('core.edit', 'com_menus')
+				&& $user->authorise('core.edit.state', 'com_menus'))
+			{
+				$title = \JText::_('JTOOLBAR_BATCH');
+
+				// Instantiate a new \JLayoutFile instance and render the batch button
+				$layout = new FileLayout('joomla.toolbar.batch');
+
+				$dhtml = $layout->render(array('title' => $title));
+				$bar->appendButton('Custom', $dhtml, 'batch');
+			}
+
+			if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			}
+			elseif (!$protected && $canDo->get('core.edit.state'))
+			{
+				ToolbarHelper::trash('items.trash');
+			}
 		}
-
-		if (\JFactory::getUser()->authorise('core.admin') && !$protected)
-		{
-			ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
-
-		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
-		{
-			ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-		}
-
-		if (\JFactory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
-		}
-
-		// Add a batch button
-		if (!$protected && $user->authorise('core.create', 'com_menus')
-			&& $user->authorise('core.edit', 'com_menus')
-			&& $user->authorise('core.edit.state', 'com_menus'))
-		{
-			$title = \JText::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
-		}
-
-		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif (!$protected && $canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('items.trash');
-		}
-
+		
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			ToolbarHelper::divider();
