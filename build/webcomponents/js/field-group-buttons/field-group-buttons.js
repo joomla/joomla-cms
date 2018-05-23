@@ -9,7 +9,6 @@
       // Do some binding
       this.initCheckboxes = this.initCheckboxes.bind(this);
       this.initRadios = this.initRadios.bind(this);
-      this.onClickCheckboxes = this.onClickCheckboxes.bind(this);
       this.onClickRadio = this.onClickRadio.bind(this);
     }
 
@@ -30,18 +29,16 @@
     }
 
     disconnectedCallback() {
+      // remove events
       if (this.buttons.length) {
-        // remove events
         this.buttons.forEach((button) => {
           button.removeEventListener('click', this.onClickCheckboxes);
         });
-      } else {
-        // Radios
-        if (this.radios.length) {
-          this.radios.forEach((radio) => {
-            radio.removeEventListener('click', this.onClickRadio);
-          });
-        }
+      }
+      if (this.radios.length) {
+        this.radios.forEach((radio) => {
+          radio.removeEventListener('click', this.onClickRadio);
+        });
       }
     }
 
