@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
-use Joomla\Filesystem\Path;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * The Field to load the form inside current form
