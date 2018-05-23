@@ -188,13 +188,6 @@ class ChecksModel extends BaseInstallationModel
 		$setting->recommended = true;
 		$settings[] = $setting;
 
-		// Check for magic quotes runtimes.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
 		// Check for output buffering.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_OUTPUT_BUFFERING');
