@@ -37,14 +37,7 @@ class Module implements ServiceProviderInterface
 			ModuleInterface::class,
 			function (Container $container)
 			{
-				$module = new \Joomla\CMS\Extension\Module;
-
-				if ($container->has(DispatcherFactoryInterface::class))
-				{
-					$module->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
-				}
-
-				return $module;
+				return new \Joomla\CMS\Extension\Module($container->get(DispatcherFactoryInterface::class));
 			}
 		);
 	}
