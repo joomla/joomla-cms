@@ -30,7 +30,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -96,7 +96,7 @@ trait ExtensionManagerTrait
 		// Path to to look for services
 		$path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
 
-		return $this->loadExtension('plugin', $plugin . ':' . $type, $path);
+		return $this->loadExtension(PluginInterface::class, $plugin . ':' . $type, $path);
 	}
 
 	/**
@@ -160,7 +160,7 @@ trait ExtensionManagerTrait
 				case ModuleInterface::class:
 					$container->set($type, new LegacyModule);
 					break;
-				case 'plugin':
+				case PluginInterface::class:
 					list($pluginName, $pluginType) = explode(':', $extensionName);
 					$container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
 			}

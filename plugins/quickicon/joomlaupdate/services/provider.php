@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\PluginInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Quickicon\Joomlaupdate\Plugin\Joomlaupdate;
+use Joomla\Plugin\Quickicon\Joomlaupdate\Extension\Joomlaupdate;
 
 return new class implements ServiceProviderInterface
 {
@@ -27,10 +28,19 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		// @Todo This needs to be changed to a proper factory
-		$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
+		$container->set(
+			PluginInterface::class,
+			function (Container $container)
+			{
+				// @Todo This needs to be changed to a proper factory
+				$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
 
-		$dispatcher = $container->get(DispatcherInterface::class);
-		$container->set('plugin', new Joomlaupdate($dispatcher, \Joomla\CMS\Factory::getDocument(), (array)$plugin));
+				return new Joomlaupdate(
+					$container->get(DispatcherInterface::class),
+					\Joomla\CMS\Factory::getDocument(),
+					(array)$plugin
+				);
+			}
+		);
 	}
 };
