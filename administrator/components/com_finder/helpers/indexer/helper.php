@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -141,7 +142,37 @@ class FinderIndexerHelper
 	 */
 	public static function stem($token, $lang)
 	{
-		$language = FinderIndexerLanguage::getInstance($lang);
+		static $multilingual;
+		static $defaultStemmer;
+
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('stemmer_default', '') == '')
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance('*');
+			}
+			elseif ($config->get('stemmer_default', '') == '-1')
+			{
+				$lconfig = ComponentHelper::getParams('com_languages');
+				$defaultStemmer = FinderIndexerLanguage::getInstance($lconfig->get('site'));
+			}
+			else
+			{
+				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('stemmer_default'));
+			}
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultStemmer;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
 
 		return $language->stem($token);
 	}
