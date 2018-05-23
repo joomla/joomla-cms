@@ -71,7 +71,19 @@
 					if ($self.data('url')) {
 						var modalBody = $self.find('.modal-body');
 						modalBody.find('iframe').remove();
-						modalBody.prepend($self.data('iframe'));
+
+						if ($self.data('iframe').indexOf("document.getElementById") > 0){
+							var iframeTextArr = $self.data('iframe').split('+');
+							var idFieldArr = iframeTextArr[1].split('"');
+							var data_iframe = iframeTextArr[0] +
+									document.getElementById(idFieldArr[1]).value +
+									iframeTextArr[2];
+							modalBody.prepend(data_iframe);
+						}
+						else
+						{
+							modalBody.prepend($self.data('iframe'));
+						}
 					}
 				}).on('shown.bs.modal', function() {
 					var modalHeight = $('div.modal:visible').outerHeight(true),

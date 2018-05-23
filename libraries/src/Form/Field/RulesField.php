@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,9 +37,9 @@ class RulesField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected $layout = 'joomla.form.field.rules.tabs';
+	protected $layout = 'joomla.form.field.rules';
 
 	/**
 	 * The section.
@@ -218,7 +218,7 @@ class RulesField extends FormField
 
 			$this->parentAssetId = (int) $db->loadResult();
 		}
-		
+
 		// Get the rules for just this asset (non-recursive).
 		$this->assetRules = Access::getAssetRules($assetId, false, false);
 
@@ -234,21 +234,21 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'groups'  		=>	$this->groups,
-			'section'		=>	$this->section,
-			'actions'		=>	$this->actions,
-			'assetId'		=>	$this->assetId,
-			'newItem'		=>	$this->newItem,
-			'assetRules'		=>	$this->assetRules,
-			'isGlobalConfig'	=>	$this->isGlobalConfig,
-			'parentAssetId'		=> 	$this->parentAssetId,
+			'groups'  		=> $this->groups,
+			'section'		=> $this->section,
+			'actions'		=> $this->actions,
+			'assetId'		=> $this->assetId,
+			'newItem'		=> $this->newItem,
+			'assetRules'		=> $this->assetRules,
+			'isGlobalConfig'	=> $this->isGlobalConfig,
+			'parentAssetId'		=> $this->parentAssetId,
 		);
 
 		return array_merge($data, $extraData);

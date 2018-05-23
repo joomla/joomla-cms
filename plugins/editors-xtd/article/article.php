@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class PlgButtonArticle extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  JObject  The button options as JObject
+	 * @return  CMSObject  The button options as JObject
 	 *
 	 * @since   1.5
 	 */
@@ -61,18 +61,18 @@ class PlgButtonArticle extends CMSPlugin
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
 			. Session::getFormToken() . '=1&amp;editor=' . $name;
 
-		$button = new CMSObject;
-		$button->modal = true;
-		$button->class = 'btn btn-secondary';
-		$button->link = $link;
-		$button->text = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
-		$button->name = 'file-add';
-		$button->options = array(
+		$button           = new CMSObject;
+		$button->modal    = true;
+		$button->link     = $link;
+		$button->text     = Text::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->name     = 'file-add';
+		$button->realName = 'PlgButtonArticle';
+		$button->options  = [
 			'height'     => '300px',
 			'width'      => '800px',
 			'bodyHeight' => '70',
 			'modalWidth' => '80',
-		);
+		];
 
 		return $button;
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,6 +130,10 @@ class HtmlView extends AbstractView implements HTMLRegistryAwareInterface
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
+		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
+		{
+			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
+		}
 		elseif (is_dir($this->_basePath . '/View/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/View/' . $this->getName() . '/tmpl');
@@ -137,10 +141,6 @@ class HtmlView extends AbstractView implements HTMLRegistryAwareInterface
 		elseif (is_dir($this->_basePath . '/view/' . $this->getName() . '/tmpl'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
-		}
-		elseif (is_dir($this->_basePath . '/tmpl/' . $this->getName()))
-		{
-			$this->_setPath('template', $this->_basePath . '/tmpl/' . $this->getName());
 		}
 		elseif (is_dir($this->_basePath . '/views/' . $this->getName() . '/tmpl'))
 		{

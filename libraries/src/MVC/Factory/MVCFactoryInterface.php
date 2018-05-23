@@ -2,13 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\MVC\Factory;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects.
@@ -17,6 +20,22 @@ defined('JPATH_PLATFORM') or die;
  */
 interface MVCFactoryInterface
 {
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the view.
+	 * @param   string                   $prefix  Optional view prefix.
+	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   4.0.0
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null);
+
 	/**
 	 * Method to load and return a model object.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Archive;
@@ -147,16 +147,16 @@ class HtmlView extends BaseHtmlView
 
 		// Month Field
 		$months = array(
-			'' => \JText::_('COM_CONTENT_MONTH'),
-			'01' => \JText::_('JANUARY_SHORT'),
-			'02' => \JText::_('FEBRUARY_SHORT'),
-			'03' => \JText::_('MARCH_SHORT'),
-			'04' => \JText::_('APRIL_SHORT'),
-			'05' => \JText::_('MAY_SHORT'),
-			'06' => \JText::_('JUNE_SHORT'),
-			'07' => \JText::_('JULY_SHORT'),
-			'08' => \JText::_('AUGUST_SHORT'),
-			'09' => \JText::_('SEPTEMBER_SHORT'),
+			''   => \JText::_('COM_CONTENT_MONTH'),
+			'1'  => \JText::_('JANUARY_SHORT'),
+			'2'  => \JText::_('FEBRUARY_SHORT'),
+			'3'  => \JText::_('MARCH_SHORT'),
+			'4'  => \JText::_('APRIL_SHORT'),
+			'5'  => \JText::_('MAY_SHORT'),
+			'6'  => \JText::_('JUNE_SHORT'),
+			'7'  => \JText::_('JULY_SHORT'),
+			'8'  => \JText::_('AUGUST_SHORT'),
+			'9'  => \JText::_('SEPTEMBER_SHORT'),
 			'10' => \JText::_('OCTOBER_SHORT'),
 			'11' => \JText::_('NOVEMBER_SHORT'),
 			'12' => \JText::_('DECEMBER_SHORT')
@@ -166,7 +166,7 @@ class HtmlView extends BaseHtmlView
 			$months,
 			'month',
 			array(
-				'list.attr' => 'size="1" class="custom-select"',
+				'list.attr' => 'class="form-control"',
 				'list.select' => $state->get('filter.month'),
 				'option.key' => null
 			)
@@ -186,7 +186,7 @@ class HtmlView extends BaseHtmlView
 			'select.genericlist',
 			$years,
 			'year',
-			array('list.attr' => 'size="1" class="custom-select"', 'list.select' => $state->get('filter.year'))
+			array('list.attr' => 'class="form-control"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
 

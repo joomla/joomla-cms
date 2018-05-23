@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Cache\Administrator\Model;
@@ -57,7 +57,6 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
-				'cliend_id',
 			);
 		}
 
@@ -81,11 +80,6 @@ class CacheModel extends ListModel
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		// Special case for client id.
-		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
-		$this->setState('client_id', $clientId);
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -105,7 +99,6 @@ class CacheModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':' . $this->getState('client_id');
 		$id	.= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);
@@ -181,20 +174,15 @@ class CacheModel extends ListModel
 	 *
 	 * @return \JCacheController
 	 */
-	public function getCache($clientId = null)
+	public function getCache()
 	{
 		$conf = \JFactory::getConfig();
-
-		if (is_null($clientId))
-		{
-			$clientId = $this->getState('client_id');
-		}
 
 		$options = array(
 			'defaultgroup' => '',
 			'storage'      => $conf->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => (int) $clientId === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
 		);
 
 		return \JCache::getInstance('', $options);

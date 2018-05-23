@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Utilities\ArrayHelper;
 
@@ -68,7 +69,7 @@ class ArchiveModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$secondary = \ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate);
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -98,7 +99,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Filter on month, year
 		// First, get the date field
-		$queryDate = \ContentHelperQuery::getQueryDate($articleOrderDate);
+		$queryDate = QueryHelper::getQueryDate($articleOrderDate);
 
 		if ($month = $this->getState('filter.month'))
 		{
@@ -196,6 +197,7 @@ class ArchiveModel extends ArticlesModel
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 

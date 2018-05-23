@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class PlgButtonImage extends CMSPlugin
 	 * @param   string   $asset   The name of the asset being edited.
 	 * @param   integer  $author  The id of the author owning the asset being edited.
 	 *
-	 * @return  JObject  The button options as JObject or false if not allowed
+	 * @return  CMSObject|false
 	 *
 	 * @since   1.5
 	 */
@@ -66,11 +66,10 @@ class PlgButtonImage extends CMSPlugin
 
 			$button = new CMSObject;
 			$button->modal   = true;
-			$button->class   = 'btn btn-secondary';
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
-			$button->options = array(
+			$button->options = [
 				'height'     => '400px',
 				'width'      => '800px',
 				'bodyHeight' => '70',
@@ -78,7 +77,7 @@ class PlgButtonImage extends CMSPlugin
 				'tinyPath'   => $link,
 				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
 				'confirmText' => 'insert image' // Needs to be translated
-			);
+			];
 
 			return $button;
 		}
