@@ -39,7 +39,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo $this->getRegistry()->_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo $this->getRegistry()->_('content.icon.print_screen', $this->item, $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -68,7 +68,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo $this->getRegistry()->_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo $this->getRegistry()->_('content.icon.print_screen', $this->item, $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

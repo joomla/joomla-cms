@@ -123,9 +123,9 @@ abstract class HTMLHelper
 	 * @throws      \InvalidArgumentException
 	 * @deprecated  6.0 Use the HTML Registry instead
 	 */
-	final public static function _(string $key, ...$methodArgs)
+	final public static function _(string $serviceKey, ...$methodArgs)
 	{
-		list($key, $prefix, $file, $func) = static::extract($key);
+		list($key, $prefix, $file, $func) = static::extract($serviceKey);
 
 		if (array_key_exists($key, static::$registry))
 		{
@@ -134,24 +134,12 @@ abstract class HTMLHelper
 			return static::call($function, $methodArgs);
 		}
 
-		/*
-		 * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
-		 * the service comes from a class other than this one, and a service has been registered for the file.
-		 */
-		if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
+		$registry = self::getServiceRegistry();
+
+		if ($registry->hasService($file) || $registry->hasService($prefix . '.' . $file))
 		{
-			$service = static::getServiceRegistry()->getService($file);
-
-			$toCall = array($service, $func);
-
-			if (!is_callable($toCall))
-			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
-			}
-
-			static::register($key, $toCall);
-
-			return static::call($toCall, $methodArgs);
+			array_unshift($methodArgs, $serviceKey);
+			return call_user_func_array([$registry, '_'], $methodArgs);
 		}
 
 		$className = $prefix . ucfirst($file);

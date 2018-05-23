@@ -150,7 +150,7 @@ if ($saveOrder)
 								<td class="text-center">
 									<div class="btn-group">
 										<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+										<?php echo JHtml::_('content.administrator.featured', $item->featured, $i, $canChange); ?>
 									</div>
 								</td>
 								<td class="has-context">

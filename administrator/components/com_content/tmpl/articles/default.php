@@ -199,7 +199,7 @@ $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 								<?php if ($assoc) : ?>
 								<td class="d-none d-md-table-cell text-center">
 									<?php if ($item->association) : ?>
-										<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
+										<?php echo JHtml::_('content.administrator.association', $item->id); ?>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>

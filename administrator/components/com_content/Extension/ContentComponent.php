@@ -58,7 +58,7 @@ class ContentComponent extends Component implements
 		$this->getRegistry()->register('contenticon', new Icon($container->get(SiteApplication::class)));
 
 		// The layout joomla.content.icons does need a general icon service
-		$this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
+		$this->getHTMLRegistry()->register('icon', $this->getHTMLRegistry()->getService('content.icon'));
 	}
 
 	/**
