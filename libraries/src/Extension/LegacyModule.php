@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Dispatcher\LegacyModuleDispatcher;
 use Joomla\CMS\Dispatcher\ModuleDispatcherInterface;
 
 /**
@@ -25,12 +26,12 @@ class LegacyModule implements ModuleInterface
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  ModuleDispatcherInterface|null
+	 * @return  ModuleDispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): ModuleDispatcherInterface
 	{
-		return null;
+		return new LegacyModuleDispatcher($application);
 	}
 }

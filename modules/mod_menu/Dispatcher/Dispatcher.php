@@ -12,9 +12,7 @@ namespace Joomla\Module\Menu\Site\Dispatcher;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcher;
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Site\Helper\MenuHelper;
-use Joomla\Registry\Registry;
 
 /**
  * Dispatcher class for mod_menu
@@ -47,8 +45,8 @@ class Dispatcher extends ModuleDispatcher
 		$data['base']       = MenuHelper::getBase($data['params']);
 		$data['active']     = MenuHelper::getActive($data['params']);
 		$data['default']    = MenuHelper::getDefault();
-		$data['active_id']  = $data['active'] ->id;
-		$data['default_id'] = $data['default'] ->id;
+		$data['active_id']  = $data['active']->id;
+		$data['default_id'] = $data['default']->id;
 		$data['path']       = $data['base']->tree;
 		$data['showAll']    = $data['params']->get('showAllChildren');
 		$data['class_sfx']  = htmlspecialchars($data['params']->get('class_sfx'), ENT_COMPAT, 'UTF-8');

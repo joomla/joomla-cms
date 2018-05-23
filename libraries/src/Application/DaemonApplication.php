@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
@@ -112,7 +113,6 @@ abstract class DaemonApplication extends CliApplication
 	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
-		// @codeCoverageIgnoreStart
 		if (!defined('SIGHUP'))
 		{
 			\JLog::add('The PCNTL extension for PHP is not available.', \JLog::ERROR);
@@ -125,7 +125,6 @@ abstract class DaemonApplication extends CliApplication
 			\JLog::add('The POSIX extension for PHP is not available.', \JLog::ERROR);
 			throw new \RuntimeException('The POSIX extension for PHP is not available.');
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.
 		parent::__construct($input, $config, null, null, $dispatcher);
@@ -364,8 +363,11 @@ abstract class DaemonApplication extends CliApplication
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Enable basic garbage collection.
 		gc_enable();
@@ -407,7 +409,6 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function restart()
@@ -421,7 +422,6 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	public function stop()
@@ -668,7 +668,6 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @codeCoverageIgnore
 	 * @since   11.1
 	 */
 	protected function gc()
@@ -849,7 +848,6 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  integer  The child process exit code.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     pcntl_wexitstatus()
 	 * @since   11.3
 	 */
@@ -866,7 +864,6 @@ abstract class DaemonApplication extends CliApplication
 	 *                   failure, a -1 will be returned in the parent's context, no child process
 	 *                   will be created, and a PHP error is raised.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     pcntl_fork()
 	 * @since   11.3
 	 */
@@ -886,7 +883,6 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     pcntl_signal()
 	 * @since   11.3
 	 */
@@ -905,7 +901,6 @@ abstract class DaemonApplication extends CliApplication
 	 * @return  integer  The process ID of the child which exited, -1 on error or zero if WNOHANG
 	 *                   was provided as an option (on wait3-available systems) and no child was available.
 	 *
-	 * @codeCoverageIgnore
 	 * @see     pcntl_wait()
 	 * @since   11.3
 	 */

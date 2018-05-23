@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Extension\ModuleInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -33,17 +34,10 @@ class Module implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set(
-			'module',
+			ModuleInterface::class,
 			function (Container $container)
 			{
-				$module = new \Joomla\CMS\Extension\Module;
-
-				if ($container->has(DispatcherFactoryInterface::class))
-				{
-					$module->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
-				}
-
-				return $module;
+				return new \Joomla\CMS\Extension\Module($container->get(DispatcherFactoryInterface::class));
 			}
 		);
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -437,14 +437,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$name = $this->context;
 		}
 
-		$model = parent::getModel($name, $prefix, $config);
-
-		if ($model instanceof FormFactoryAwareInterface)
-		{
-			$model->setFormFactory($this->formFactory);
-		}
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

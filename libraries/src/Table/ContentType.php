@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,7 +148,7 @@ class ContentType extends Table
 				if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface'))
 				{
 					// This isn't an instance of TableInterface. Abort.
-					throw new \RuntimeException('Class must be an instance of TableInterface');
+					throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
 				}
 
 				$result = $class::getInstance($tableInfo->special->type, $tableInfo->special->prefix);

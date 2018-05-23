@@ -3,16 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -24,7 +21,7 @@ $this->hiddenFieldsets  = array('basic-limited');
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
 // Create shortcut to parameters.
-$params = clone($this->state->get('params'));
+$params = clone $this->state->get('params');
 $params->merge(new Registry($this->item->attribs));
 
 $app = JFactory::getApplication();

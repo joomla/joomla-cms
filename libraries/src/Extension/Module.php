@@ -31,35 +31,28 @@ class Module implements ModuleInterface
 	private $dispatcherFactory;
 
 	/**
+	 * Module constructor.
+	 *
+	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DispatcherFactoryInterface $dispatcherFactory)
+	{
+		$this->dispatcherFactory = $dispatcherFactory;
+	}
+
+	/**
 	 * Returns the dispatcher for the given application, null if none exists.
 	 *
 	 * @param   CMSApplicationInterface  $application  The application
 	 *
-	 * @return  ModuleDispatcherInterface|null
+	 * @return  ModuleDispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application)
+	public function getDispatcher(CMSApplicationInterface $application): ModuleDispatcherInterface
 	{
-		if ($this->dispatcherFactory === null)
-		{
-			return null;
-		}
-
 		return $this->dispatcherFactory->createDispatcher($application);
-	}
-
-	/**
-	 * Sets the dispatcher factory.
-	 *
-	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setDispatcherFactory(DispatcherFactoryInterface $dispatcherFactory)
-	{
-		$this->dispatcherFactory = $dispatcherFactory;
 	}
 }

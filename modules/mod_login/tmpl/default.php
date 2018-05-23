@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
+<form action="<?php echo Route::_('index.php?option=com_users&task=user.login', true); ?>" method="post" id="login-form">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
@@ -37,9 +37,9 @@ Text::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-					<span class="input-group-addon">
-						<span class="icon-user hasTooltip" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+					<span class="input-group-append">
 						<label for="modlgn-username" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						<span class="input-group-text icon-user hasTooltip" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -52,9 +52,9 @@ Text::script('JHIDE');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-					<span class="input-group-addon">
-						<span class="fa fa-eye" aria-hidden="true"></span>
+					<span class="input-group-append">
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						<span class="input-group-text icon-eye" aria-hidden="true"></span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -67,13 +67,13 @@ Text::script('JHIDE');
 			<div class="form-group">
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-group">
-						<span class="input-group-addon">
-							<span class="icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+						<span class="input-group-prepend">
+							<span class="input-group-text icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
 							<label for="modlgn-secretkey" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-addon hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-help"></span>
+						<span class="input-group-append hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="input-group-text icon-help"></span>
 						</span>
 					</div>
 				<?php else : ?>
@@ -119,8 +119,6 @@ Text::script('JHIDE');
 					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 			</ul>
-		<input type="hidden" name="option" value="com_users">
-		<input type="hidden" name="task" value="user.login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

@@ -35,6 +35,9 @@
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component1/controller.json.php</exclude-pattern>
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
 
+	<!-- exclude file because of the use of unsupported class definition -->
+	<exclude-pattern type="relative">*/services/provider.php</exclude-pattern>
+
 	<!-- Exclude the RoboFile.php -->
 	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
 

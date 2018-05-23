@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,13 +85,25 @@ class Feed implements \ArrayAccess, \Countable
 		// Validate that any authors that are set are instances of JFeedPerson or null.
 		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
-			throw new \InvalidArgumentException('Feed "author" must be of type FeedPerson. ' . gettype($value) . 'given.');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		// Disallow setting categories or contributors directly.
-		if (($name == 'categories') || ($name == 'contributors'))
+		if (in_array($name, array('categories', 'contributors')))
 		{
-			throw new \InvalidArgumentException('Cannot directly set Feed property "' . $name . '".');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'Cannot directly set %1$s property "%2$s".',
+					get_class($this),
+					$name
+				)
+			);
 		}
 
 		$this->properties[$name] = $value;
@@ -231,7 +243,13 @@ class Feed implements \ArrayAccess, \Countable
 	{
 		if (!($value instanceof FeedEntry))
 		{
-			throw new \InvalidArgumentException('Cannot set value of type "' . gettype($value) . '".');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
+					get_class($this),
+					gettype($value) === 'object' ? get_class($value) : gettype($value)
+				)
+			);
 		}
 
 		$this->entries[$offset] = $value;
