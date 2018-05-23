@@ -11,6 +11,8 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -57,9 +59,9 @@ class GroupedlistField extends FormField
 					$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 
 					// Create a new option object based on the <option /> element.
-					$tmp = \JHtml::_(
+					$tmp = HTMLHelper::_(
 						'select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
-						\JText::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
+						Text::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
 						$disabled
 					);
 
@@ -78,7 +80,7 @@ class GroupedlistField extends FormField
 					// Get the group label.
 					if ($groupLabel = (string) $element['label'])
 					{
-						$label = \JText::_($groupLabel);
+						$label = Text::_($groupLabel);
 					}
 
 					// Initialize the group if necessary.
@@ -100,9 +102,9 @@ class GroupedlistField extends FormField
 						$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 
 						// Create a new option object based on the <option /> element.
-						$tmp = \JHtml::_(
-							'select.option', ($option['value']) ? (string) $option['value'] : \JText::_(trim((string) $option)),
-							\JText::_(trim((string) $option)), 'value', 'text', $disabled
+						$tmp = HTMLHelper::_(
+							'select.option', ($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
+							Text::_(trim((string) $option)), 'value', 'text', $disabled
 						);
 
 						// Set some option attributes.
@@ -167,7 +169,7 @@ class GroupedlistField extends FormField
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ($this->readonly)
 		{
-			$html[] = \JHtml::_(
+			$html[] = HTMLHelper::_(
 				'select.groupedlist', $groups, null,
 				array(
 					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
@@ -197,7 +199,7 @@ class GroupedlistField extends FormField
 		// Create a regular list.
 		else
 		{
-			$html[] = \JHtml::_(
+			$html[] = HTMLHelper::_(
 				'select.groupedlist', $groups, $this->name,
 				array(
 					'list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false,
