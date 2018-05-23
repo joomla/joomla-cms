@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Filesystem\Path;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
