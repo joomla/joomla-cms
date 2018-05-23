@@ -156,8 +156,8 @@ class TemplateModel extends FormModel
 	/**
 	 * Method to get the core file of override file
 	 *
-	 * @param   string   $file  Override file
-	 * @param   integer  $client Client Id
+	 * @param   string   $file      Override file
+	 * @param   integer  $client_id Client Id
 	 *
 	 * @return  string  $corefile The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
@@ -170,7 +170,7 @@ class TemplateModel extends FormModel
 		$explodeArray  = explode(DIRECTORY_SEPARATOR, $filePath);
 
 		// Only allow html/ folder
-		if($explodeArray['1'] !== 'html')
+		if ($explodeArray['1'] !== 'html')
 		{
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ONLY_HTML_FOLDER_ALLOWED'), 'error');
 
@@ -205,7 +205,7 @@ class TemplateModel extends FormModel
 			// The old scheme, if a view has a tmpl folder
 			$oldHtmlPath = Path::clean($componentPath . $folder . '/views/' . $subFolder . '/tmpl/');
 
-			if(!$coreFile = Path::find($oldHtmlPath, $fileName))
+			if (!$coreFile = Path::find($oldHtmlPath, $fileName))
 			{
 				// The new scheme, the views are directly in the component/tmpl folder
 				$newHtmlPath = Path::clean($componentPath . $folder . '/tmpl/' . $subFolder . '/');
@@ -221,7 +221,7 @@ class TemplateModel extends FormModel
 			// For Jlayouts
 			$subtype = $explodeArray['3'];
 
-			if(stristr($subtype, 'com_'))
+			if (stristr($subtype, 'com_'))
 			{
 				$folder    = $explodeArray['3'];
 		 		$subFolder = array_slice($explodeArray, 4, -1);
@@ -270,11 +270,11 @@ class TemplateModel extends FormModel
 			$size         = count($explodeArray);
 			$date         = $explodeArray[$size-2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size-1]);
 
-			if($this->validateDate($date))
+			if ($this->validateDate($date))
 			{
 				$nameWithoutExtension = implode('-', array_slice($explodeArray, 0, -2));
 
-				//Filtered name
+				// Filtered name
 				$name = $nameWithoutExtension . '.' . $extension;
 			}
 		}
@@ -300,10 +300,10 @@ class TemplateModel extends FormModel
 	 }
 
 	/**
-	 * Find file in given folde
+	 * Find file in given folder.
 	 *
-	 * @param  string  $path An path or array of path to search.
-	 * @param  string  $file The file name to look for.
+	 * @param  string  $paths An path or array of path to search.
+	 * @param  string  $file  The file name to look for.
 	 *
 	 * @return mixed  $path The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
@@ -313,7 +313,7 @@ class TemplateModel extends FormModel
 	{
 		$app = Factory::getApplication();
 
-		if(!$path = Path::find($paths, $file))
+		if (!$path = Path::find($paths, $file))
 		{
 			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'error');
 		}
