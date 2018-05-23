@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$currentLink = $active->link;
 
-			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
+			// If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
 			if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id))
 			{
 				// $item->params are the newsfeed params, $temp are the menu item params
@@ -168,6 +168,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
+
 		if (empty($this->rssDoc))
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');

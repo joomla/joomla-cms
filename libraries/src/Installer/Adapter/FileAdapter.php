@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -349,7 +349,7 @@ class FileAdapter extends InstallerAdapter
 
 			$this->setManifest($xml);
 
-			// If there is an manifest class file, let's load it
+			// If there is a manifest class file, let's load it
 			$this->scriptElement = $this->getManifest()->scriptfile;
 			$manifestScript = (string) $this->getManifest()->scriptfile;
 
@@ -448,7 +448,7 @@ class FileAdapter extends InstallerAdapter
 				{
 					$files = \JFolder::files($folder);
 
-					if (!count($files))
+					if ($files !== false && !count($files))
 					{
 						\JFolder::delete($folder);
 					}
@@ -514,6 +514,7 @@ class FileAdapter extends InstallerAdapter
 
 			return false;
 		}
+
 		$id = $db->loadResult();
 
 		if (empty($id))

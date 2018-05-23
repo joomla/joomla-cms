@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,30 @@ jQuery(document).ready(function ($){
 			$('#jform_parent_id').trigger('liszt:updated');
 		});
 	});
+
+	// Menu type Login Form specific
+	$('#item-form').on('submit', function() {
+		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
+			// Login
+			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_login_redirect_url').val('');
+
+			}
+
+			// Logout
+			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_menuitem_id').val('');
+			}
+			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
+				$('#jform_params_logout_redirect_url').val('');
+			}
+		}
+	});
 });
+
 Joomla.submitbutton = function(task, type){
 	if (task == 'item.setType' || task == 'item.setMenuType')
 	{
@@ -91,13 +114,33 @@ $isModal  = $input->get('layout') == 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
+$lang     = JFactory::getLanguage()->getTag();
+
+// Load mod_menu.ini file when client is administrator
+if ($clientId === 1)
+{
+	JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<?php // Add the translation of the menu item title when client is administrator ?>
+	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
+		<div class="form-inline form-inline-header">
+			<div class="control-group">
+				<div class="control-label">
+					<label><?php echo JText::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+				</div>
+				<div class="controls">
+					<input class="input-xlarge" value="<?php echo JText::_($this->item->title); ?>" readonly="readonly" type="text">
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
 
+	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
@@ -111,11 +154,17 @@ $clientId = $this->state->get('item.client_id', 0);
 					echo $this->form->renderFieldset('aliasoptions');
 				}
 
+				if ($this->item->type == 'separator')
+				{
+					echo $this->form->renderField('text_separator', 'params');
+				}
+
 				echo $this->form->renderFieldset('request');
 
 				if ($this->item->type == 'url')
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
+					$this->form->setFieldAttribute('link', 'required', 'true');
 				}
 
 				echo $this->form->renderField('link');

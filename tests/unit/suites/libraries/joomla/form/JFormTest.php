@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -575,7 +575,7 @@ class JFormTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->findField('title', 'bogus'),
 			$this->isFalse(),
-			'Line:' . __LINE__ . ' An field in a group that does not exist should return false.'
+			'Line:' . __LINE__ . ' A field in a group that does not exist should return false.'
 		);
 
 		// Test various find combinations.

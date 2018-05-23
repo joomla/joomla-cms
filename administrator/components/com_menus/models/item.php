@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,40 +27,40 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $typeAlias = 'com_menus.item';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var      string
-	 * @since    3.4.4
+	 * @var    string
+	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen key for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen base URL for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
-	 * @since   1.6
+	 * @var    boolean  True to use local lookup for the help screen.
+	 * @since  1.6
 	 */
 	protected $helpLocal = false;
 
@@ -68,14 +68,14 @@ class MenusModelItem extends JModelAdmin
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var   string
 	 */
 	protected $batch_copymove = 'menu_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
@@ -297,6 +297,7 @@ class MenusModelItem extends JModelAdmin
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -689,9 +690,8 @@ class MenusModelItem extends JModelAdmin
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
-
 			// Check if we are changing away from the actual link type.
-			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id')) 
+			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
 				$table->link = $link;
 			}
@@ -865,7 +865,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  array|bool  An array of all view levels (id, title).
+	 * @return  array|boolean  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -1492,7 +1492,8 @@ class MenusModelItem extends JModelAdmin
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{

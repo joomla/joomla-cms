@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Associations component helper.
@@ -112,7 +113,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -131,7 +132,7 @@ class AssociationsHelper extends JHelperContent
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -178,7 +179,7 @@ class AssociationsHelper extends JHelperContent
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = self::getContentLanguages();
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -285,6 +286,7 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		JHtml::_('bootstrap.popover');
+
 		return JLayoutHelper::render('joomla.content.associations', $items);
 	}
 
@@ -442,18 +444,7 @@ class AssociationsHelper extends JHelperContent
 	 */
 	public static function getContentLanguages()
 	{
-		$db = JFactory::getDbo();
-
-		// Get all content languages.
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('sef', 'lang_code', 'image', 'title', 'published')))
-			->from($db->quoteName('#__languages'))
-			->where($db->quoteName('published') . ' != -2')
-			->order($db->quoteName('ordering') . ' ASC');
-
-		$db->setQuery($query);
-
-		return $db->loadObjectList('lang_code');
+		return LanguageHelper::getContentLanguages(array(0, 1));
 	}
 
 	/**
@@ -463,7 +454,7 @@ class AssociationsHelper extends JHelperContent
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.7.0
 	 */
@@ -475,7 +466,7 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowEdit'))
 		{
@@ -503,7 +494,7 @@ class AssociationsHelper extends JHelperContent
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowAdd'))
 		{
@@ -643,7 +634,7 @@ class AssociationsHelper extends JHelperContent
 	/**
 	 * Gets the language filter system plugin extension id.
 	 *
-	 * @return  int  The language filter system plugin extension id.
+	 * @return  integer  The language filter system plugin extension id.
 	 *
 	 * @since   3.7.2
 	 */

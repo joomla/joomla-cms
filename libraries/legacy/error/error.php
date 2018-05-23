@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -777,7 +777,7 @@ abstract class JError
 	{
 		JLog::add('JError::handleCallback() is deprecated.', JLog::WARNING, 'deprecated');
 
-		return call_user_func($options, $error);
+		return call_user_func_array($options, array(&$error));
 	}
 
 	/**

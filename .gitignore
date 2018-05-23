@@ -150,6 +150,8 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-php55/README.md
 /libraries/vendor/symfony/polyfill-php56/composer.json
 /libraries/vendor/symfony/polyfill-php56/README.md
+/libraries/vendor/symfony/polyfill-php73/composer.json
+/libraries/vendor/symfony/polyfill-php73/README.md
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
 /libraries/vendor/symfony/polyfill-util/TestListener.php

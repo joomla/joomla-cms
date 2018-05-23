@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class NewsfeedsRouterRulesLegacy implements JComponentRouterRulesInterface
 			unset($query['view']);
 		}
 
-		// Are we dealing with an newsfeed that is attached to a menu item?
+		// Are we dealing with a newsfeed that is attached to a menu item?
 		if (isset($query['view'], $query['id']) && $mView == $query['view'] && $mId == (int) $query['id'])
 		{
 			unset($query['view'], $query['catid'], $query['id']);

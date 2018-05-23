@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 /**
  * Group Model
@@ -72,6 +74,11 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
 	{
+		if (strpos(JPATH_COMPONENT, 'com_fields') === false)
+		{
+			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
+		}
+
 		return JTable::getInstance($name, $prefix, $options);
 	}
 
@@ -314,6 +321,11 @@ class FieldsModelGroup extends JModelAdmin
 			if (empty($item->id))
 			{
 				$item->context = $this->getState('filter.context');
+			}
+
+			if (property_exists($item, 'params'))
+			{
+				$item->params = new Registry($item->params);
 			}
 
 			// Convert the created and modified dates to local user time for display in the form.

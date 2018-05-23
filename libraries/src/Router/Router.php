@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
 /**
  * Class to create and parse routes
@@ -234,7 +235,7 @@ class Router
 		if (strlen($uri->getPath()) > 0 && array_key_exists('option', $vars)
 			&& ComponentHelper::getParams($vars['option'])->get('sef_advanced', 0))
 		{
-			throw new \Exception('URL invalid', 404);
+			throw new RouteNotFoundException('URL invalid');
 		}
 
 		return array_merge($this->getVars(), $vars);

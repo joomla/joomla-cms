@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,9 +34,18 @@ class JSessionStorageRedis extends JSessionStorage
 		$config = JFactory::getConfig();
 
 		$this->_server = array(
-			'host' => $config->get('session_redis_server_host', 'localhost'),
-			'port' => $config->get('session_redis_server_port', 6379),
+			'host'    => $config->get('session_redis_server_host', 'localhost'),
+			'port'    => $config->get('session_redis_server_port', 6379),
+			'persist' => $config->get('session_redis_persist', true),
+			'auth'    => $config->get('session_redis_server_auth', null),
+			'db'      => (int) $config->get('session_redis_server_db', 0),
 		);
+
+		// If you are trying to connect to a socket file, ignore the supplied port
+		if ($this->_server['host'][0] === '/')
+		{
+			$this->_server['port'] = 0;
+		}
 
 		parent::__construct($options);
 	}
@@ -50,10 +59,32 @@ class JSessionStorageRedis extends JSessionStorage
 	 */
 	public function register()
 	{
-		if (!empty($this->_server) && isset($this->_server['host']) && isset($this->_server['port']))
+		if (!empty($this->_server) && isset($this->_server['host'], $this->_server['port']))
 		{
-			ini_set('session.save_path', "{$this->_server['host']}:{$this->_server['port']}");
-			ini_set('session.save_handler', 'redis');
+			if (!headers_sent())
+			{
+				if ($this->_server['port'] === 0)
+				{
+					$path = 'unix://' . $this->_server['host'];
+				}
+				else
+				{
+					$path = 'tcp://' . $this->_server['host'] . ":" . $this->_server['port'];
+				}
+
+				$persist = isset($this->_server['persist']) ? $this->_server['persist'] : false;
+				$db      = isset($this->_server['db']) ? $this->_server['db'] : 0;
+
+				$path .= '?persistent=' . (int) $persist . '&database=' . $db;
+
+				if (!empty($this->_server['auth']))
+				{
+					$path .= '&auth=' . $this->_server['auth'];
+				}
+
+				ini_set('session.save_path', $path);
+				ini_set('session.save_handler', 'redis');
+			}
 
 			// This is required if the configuration.php gzip is turned on
 			ini_set('zlib.output_compression', 'Off');

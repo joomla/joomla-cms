@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,7 +143,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 */
 	public function regenerate($destroy = false, $lifetime = null)
 	{
-		if (null !== $lifetime)
+		if (!headers_sent() && null !== $lifetime)
 		{
 			ini_set('session.cookie_lifetime', $lifetime);
 		}
