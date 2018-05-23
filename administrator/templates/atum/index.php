@@ -36,9 +36,8 @@ HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
@@ -70,6 +69,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 			<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 		</div>
 	</noscript>
+
 
 	<?php // Header ?>
 	<header id="header" class="header">
@@ -144,3 +144,4 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 </body>
 </html>
+

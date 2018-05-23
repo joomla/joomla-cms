@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 extract($displayData, null);
 
 /**
@@ -43,7 +45,6 @@ extract($displayData, null);
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
-$dataToggle  = $isBtnGroup ? ' data-toggle="buttons"' : '';
 $classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 
@@ -67,19 +68,18 @@ if (!empty($autofocus))
 	$attribs[] = 'autofocus';
 }
 
-if (!empty($dataToggle))
-{
-	$attribs[] = $dataToggle;
-}
-
 if ($readonly || $disabled)
 {
 	$attribs[] = 'style="pointer-events: none"';
 }
 
+HTMLHelper::_('webcomponent',
+	'system/webcomponents/joomla-field-group-buttons.min.js',
+	['relative' => true, 'version' => 'auto']
+);
 ?>
 <fieldset id="<?php echo $id; ?>" >
-	<div <?php echo implode(' ', $attribs); ?>>
+	<<?php echo $isBtnGroup ? 'joomla-field-group-buttons' : 'div'; ?> <?php echo implode(' ', $attribs); ?>>
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
 			$disabled    = !empty($option->disable) ? 'disabled' : '';
@@ -121,5 +121,5 @@ if ($readonly || $disabled)
 				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>
-	</div>
+	</<?php echo $isBtnGroup ? 'joomla-field-group-buttons' : 'div'; ?>>
 </fieldset>
