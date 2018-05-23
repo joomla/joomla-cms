@@ -13,7 +13,7 @@ use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
-use Joomla\CMS\HTML\Registry;
+use Joomla\CMS\HTML\HTMLRegistry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Admin\Administrator\Extension\AdminComponent;
 use Joomla\DI\Container;
@@ -47,7 +47,7 @@ return new class implements ServiceProviderInterface
 				$component = new AdminComponent($container->get(DispatcherFactoryInterface::class));
 
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setRegistry($container->get(Registry::class));
+				$component->setHTMLRegistry($container->get(HTMLRegistry::class));
 
 				return $component;
 			}

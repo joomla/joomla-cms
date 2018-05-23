@@ -15,7 +15,7 @@ use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
-use Joomla\CMS\HTML\Registry;
+use Joomla\CMS\HTML\HTMLRegistry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
@@ -53,7 +53,7 @@ return new class implements ServiceProviderInterface
 			{
 				$component = new ContentComponent($container->get(DispatcherFactoryInterface::class));
 
-				$component->setRegistry($container->get(Registry::class));
+				$component->setHTMLRegistry($container->get(HTMLRegistry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setCategories($container->get(Categories::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
