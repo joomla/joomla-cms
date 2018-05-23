@@ -11,6 +11,7 @@ namespace Joomla\CMS\Plugin;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -226,7 +227,7 @@ abstract class PluginHelper
 
 		$plugin = Factory::getApplication()->bootPlugin($plugin->name, $plugin->type);
 
-		if ($dispatcher)
+		if ($dispatcher && $plugin instanceof DispatcherAwareInterface)
 		{
 			$plugin->setDispatcher($dispatcher);
 		}

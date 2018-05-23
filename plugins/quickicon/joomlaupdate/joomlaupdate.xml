@@ -10,7 +10,7 @@
 	<version>3.0.0</version>
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<files>
-		<folder>Plugin</folder>
+		<folder>Extension</folder>
 		<folder>services</folder>
 	</files>
 	<languages>

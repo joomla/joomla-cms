@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory as JFactory;
 use Joomla\Event\AbstractEvent;
+use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Priority;
@@ -25,7 +26,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class CMSPlugin implements PluginInterface
+abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 {
 	use DispatcherAwareTrait;
 
