@@ -66,7 +66,7 @@ class PlgEditorCodemirror extends JPlugin
 		JLayoutHelper::render('editors.codemirror.init', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		$font = $this->params->get('fontFamily', 0);
+		$font = $this->params->get('fontFamily', '0');
 		$fontInfo = $this->getFontInfo($font);
 
 		if (isset($fontInfo))
@@ -214,7 +214,7 @@ class PlgEditorCodemirror extends JPlugin
 		$options->styleActiveLine = (boolean) $this->params->get('activeLine', true);
 
 		// Add styling to the active line.
-		if ($this->params->get('selectionMatches', false))
+		if ($this->params->get('selectionMatches', 0))
 		{
 			$options->highlightSelectionMatches = array(
 					'showToken' => true,
@@ -257,20 +257,20 @@ class PlgEditorCodemirror extends JPlugin
 		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
+			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', 1);
 
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
-			$options->matchTags = (boolean) $this->params->get('matchTags', true);
+			$options->matchTags = (boolean) $this->params->get('matchTags', 1);
 		}
 
 		// Special options for non-tagged modes.
 		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
-			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', 1);
 
 			// Highlight the matching bracket.
-			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', true);
+			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', 1);
 		}
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');

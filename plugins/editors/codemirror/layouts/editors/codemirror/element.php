@@ -10,15 +10,15 @@
 // No direct access
 defined('_JEXEC') or die;
 
-$options = $displayData->options;
-$params  = $displayData->params;
-$name    = $displayData->name;
-$id      = $displayData->id;
-$cols    = $displayData->cols;
-$rows    = $displayData->rows;
-$content = $displayData->content;
-$buttons = $displayData->buttons;
-$modifier = $params->get('fullScreenMod', '') !== '' ? implode($params->get('fullScreenMod', ''), ' + ') . ' + ' : '';
+$options  = $displayData->options;
+$params   = $displayData->params;
+$name     = $displayData->name;
+$id       = $displayData->id;
+$cols     = $displayData->cols;
+$rows     = $displayData->rows;
+$content  = $displayData->content;
+$buttons  = $displayData->buttons;
+$modifier = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
 
 ?>
 
