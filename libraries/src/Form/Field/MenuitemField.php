@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -215,7 +216,7 @@ class MenuitemField extends \JFormFieldGroupedList
 					$lang = '';
 				}
 
-				$groups[$menuTitle][] = \JHtml::_('select.option',
+				$groups[$menuTitle][] = HTMLHelper::_('select.option',
 					$link->value, $levelPrefix . $link->text . $lang,
 					'value',
 					'text',
@@ -247,7 +248,7 @@ class MenuitemField extends \JFormFieldGroupedList
 						$lang = '';
 					}
 
-					$groups[$menu->title][] = \JHtml::_('select.option',
+					$groups[$menu->title][] = HTMLHelper::_('select.option',
 						$link->value, $levelPrefix . $link->text . $lang,
 						'value',
 						'text',
