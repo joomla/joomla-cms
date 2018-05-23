@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -102,7 +103,7 @@ class ContenttypeField extends \JFormFieldList
 
 			if ($lang->hasKey($option->string))
 			{
-				$option->text = \JText::_($option->string);
+				$option->text = Text::_($option->string);
 			}
 		}
 

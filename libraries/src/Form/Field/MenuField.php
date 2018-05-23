@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -96,7 +97,7 @@ class MenuField extends \JFormFieldGroupedList
 		{
 			$opts[] = (object) array(
 				'value'     => 'main',
-				'text'      => \JText::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
+				'text'      => Text::_('COM_MENUS_MENU_TYPE_PROTECTED_MAIN_LABEL'),
 				'client_id' => 1,
 			);
 		}
@@ -113,7 +114,7 @@ class MenuField extends \JFormFieldGroupedList
 			foreach ($options as $option)
 			{
 				// If client id is not specified we group the items.
-				$label = ($option->client_id == 1 ? \JText::_('JADMINISTRATOR') : \JText::_('JSITE'));
+				$label = ($option->client_id == 1 ? Text::_('JADMINISTRATOR') : Text::_('JSITE'));
 
 				$groups[$label][] = $option;
 			}

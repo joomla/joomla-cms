@@ -14,9 +14,12 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -72,7 +75,7 @@ class ListField extends FormField
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
-			$html[] = \JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 
 			// E.g. form field type tag sends $this->value as array
 			if ($this->multiple && is_array($this->value))
@@ -95,7 +98,7 @@ class ListField extends FormField
 		else
 		// Create a regular list.
 		{
-			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
 		return implode($html);
@@ -137,7 +140,7 @@ class ListField extends FormField
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !\JPluginHelper::isEnabled('content', 'vote'))
+				if (in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
@@ -158,7 +161,7 @@ class ListField extends FormField
 
 			$tmp = array(
 					'value'    => $value,
-					'text'     => \JText::alt($text, $fieldname),
+					'text'     => Text::alt($text, $fieldname),
 					'disable'  => $disabled,
 					'class'    => (string) $option['class'],
 					'selected' => ($checked || $selected),
@@ -177,7 +180,7 @@ class ListField extends FormField
 		{
 			$tmp        = new \stdClass;
 			$tmp->value = '';
-			$tmp->text  = \JText::_('JGLOBAL_USE_GLOBAL');
+			$tmp->text  = Text::_('JGLOBAL_USE_GLOBAL');
 			$component  = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
@@ -217,7 +220,7 @@ class ListField extends FormField
 					}
 				}
 
-				$tmp->text = \JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+				$tmp->text = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
 
 			array_unshift($options, $tmp);
