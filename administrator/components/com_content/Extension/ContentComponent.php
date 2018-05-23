@@ -54,11 +54,11 @@ class ContentComponent extends Component implements
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('contentadministrator', new AdministratorService);
-		$this->getRegistry()->register('contenticon', new Icon($container->get(SiteApplication::class)));
+		$this->getHTMLRegistry()->register('contentadministrator', new AdministratorService);
+		$this->getHTMLRegistry()->register('contenticon', new Icon($container->get(SiteApplication::class)));
 
 		// The layout joomla.content.icons does need a general icon service
-		$this->getRegistry()->register('icon', $this->getRegistry()->getService('contenticon'));
+		$this->getHTMLRegistry()->register('icon', $this->getHTMLRegistry()->getService('contenticon'));
 	}
 
 	/**

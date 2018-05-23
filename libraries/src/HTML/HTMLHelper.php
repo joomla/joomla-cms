@@ -61,7 +61,7 @@ abstract class HTMLHelper
 	/**
 	 * The service registry for custom and overridden JHtml helpers
 	 *
-	 * @var    Registry
+	 * @var    HTMLRegistry
 	 * @since  4.0.0
 	 */
 	protected static $serviceRegistry;
@@ -281,15 +281,15 @@ abstract class HTMLHelper
 	/**
 	 * Retrieves the service registry.
 	 *
-	 * @return  Registry
+	 * @return  HTMLRegistry
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getServiceRegistry(): Registry
+	public static function getServiceRegistry(): HTMLRegistry
 	{
 		if (!static::$serviceRegistry)
 		{
-			static::$serviceRegistry = Factory::getContainer()->get(Registry::class);
+			static::$serviceRegistry = Factory::getContainer()->get(HTMLRegistry::class);
 		}
 
 		return static::$serviceRegistry;

@@ -20,24 +20,24 @@ trait HTMLRegistryAwareTrait
 	/**
 	 * The registry
 	 *
-	 * @var    Registry
+	 * @var    HTMLRegistry
 	 * @since  4.0.0
 	 */
-	private $registry;
+	private $htmlRegistry;
 
 	/**
 	 * Get the registry.
 	 *
-	 * @return  Registry
+	 * @return  HTMLRegistry
 	 *
 	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the registry has not been set.
 	 */
-	public function getRegistry()
+	public function getHTMLRegistry()
 	{
-		if ($this->registry)
+		if ($this->htmlRegistry)
 		{
-			return $this->registry;
+			return $this->htmlRegistry;
 		}
 
 		throw new \UnexpectedValueException('HTML registry not set in ' . __CLASS__);
@@ -46,14 +46,14 @@ trait HTMLRegistryAwareTrait
 	/**
 	 * Set the registry to use.
 	 *
-	 * @param   Registry  $registry  The registry
+	 * @param   HTMLRegistry  $htmlRegistry  The registry
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function setRegistry(Registry $registry = null)
+	public function setHTMLRegistry(HTMLRegistry $htmlRegistry = null)
 	{
-		$this->registry = $registry;
+		$this->htmlRegistry = $htmlRegistry;
 	}
 }
