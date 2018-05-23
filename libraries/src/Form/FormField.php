@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * Abstract Form Field class for the Joomla Platform.
@@ -29,14 +30,6 @@ abstract class FormField
 	 * @since  11.1
 	 */
 	protected $description;
-
-	/**
-	 * A variable text for the description element to be used in a sprintf.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $varDescription;
 
 	/**
 	 * The hint text for the form field used to display hint inside the field.
@@ -151,14 +144,6 @@ abstract class FormField
 	 * @since  11.1
 	 */
 	protected $label;
-
-	/**
-	 * A variable text for the label element to be used in a sprintf.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $varLabel;
 
 	/**
 	 * The multiple state for the form field.  If true then multiple values are allowed for the
@@ -408,8 +393,6 @@ abstract class FormField
 		switch ($name)
 		{
 			case 'description':
-			case 'varDescription':
-			case 'varLabel':
 			case 'hint':
 			case 'formControl':
 			case 'hidden':
@@ -481,8 +464,6 @@ abstract class FormField
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
-			case 'varDescription':
-			case 'varLabel':
 			case 'hint':
 			case 'value':
 			case 'labelclass':
@@ -556,7 +537,7 @@ abstract class FormField
 			default:
 				if (property_exists(__CLASS__, $name))
 				{
-					\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+					Log::add("Cannot access protected / private property $name of " . __CLASS__);
 				}
 				else
 				{
@@ -616,7 +597,7 @@ abstract class FormField
 		$attributes = array(
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'varLabel', 'varDescription');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -757,7 +738,7 @@ abstract class FormField
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$title = $this->translateLabel ? \JText::_($title) : $title;
+		$title = $this->translateLabel ? Text::_($title) : $title;
 
 		return $title;
 	}
@@ -928,7 +909,7 @@ abstract class FormField
 	 */
 	public function getControlGroup()
 	{
-		\JLog::add('FormField->getControlGroup() is deprecated use FormField->renderField().', \JLog::WARNING, 'deprecated');
+		Log::add('FormField->getControlGroup() is deprecated use FormField->renderField().', Log::WARNING, 'deprecated');
 
 		return $this->renderField();
 	}
@@ -1007,35 +988,11 @@ abstract class FormField
 	{
 		// Label preprocess
 		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-
-		// Do we have a text variable to use when displaying the label?
-		$varLabel = !empty($this->varLabel) ? $this->varLabel : null;
-
-		if ($varLabel != null)
-		{
-			$varLabel  = Text::_($varLabel);
-			$label     = $this->translateLabel ? Text::sprintf($label, $varLabel) : $label;
-		}
-		else
-		{
-			$label = $this->translateLabel ? Text::_($label) : $label;
-		}
+		$label = $this->translateLabel ? Text::_($label) : $label;
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
-
-		// Do we have a text variable to use when displaying the description?
-		$varDescription = !empty($this->varDescription) ? $this->varDescription : null;
-
-		if ($varDescription != null)
-		{
-			$varDescription  = Text::_($varDescription);
-			$description     = !empty($description) && $this->translateDescription ? Text::sprintf($description, $varDescription) : $description;
-		}
-		else
-		{
-			$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
-		}
+		$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
