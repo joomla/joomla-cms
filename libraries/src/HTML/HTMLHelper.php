@@ -112,7 +112,7 @@ abstract class HTMLHelper
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param   string  $key         The name of helper method to load, (prefix).(class).function
+	 * @param   string  $serviceKey  The name of helper method to load, (prefix).(class).function
 	 *                               prefix and class are optional and can be used to load custom
 	 *                               html helpers.
 	 * @param   array   $methodArgs  The arguments to pass forward to the method being called

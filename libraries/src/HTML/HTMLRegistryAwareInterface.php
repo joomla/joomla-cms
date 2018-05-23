@@ -20,7 +20,7 @@ interface HTMLRegistryAwareInterface
 	/**
 	 * Set the form factory to use.
 	 *
-	 * @param   Registry $registry  The registry
+	 * @param   Registry  $registry  The registry
 	 *
 	 * @return  void
 	 *
