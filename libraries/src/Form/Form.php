@@ -17,11 +17,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Log\Log;
-use Joomla\Filesystem\Path;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\String\PunycodeHelper;
-
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Form Class for the Joomla Platform.
@@ -1873,7 +1871,7 @@ class Form
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value    The optional value to use as the default for the field.
 	 *
-	 * @return  FormField|boolean  The JFormField object for the field or boolean false on error.
+	 * @return  FormField|boolean  The FormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
