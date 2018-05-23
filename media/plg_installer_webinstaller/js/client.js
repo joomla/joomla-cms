@@ -1,313 +1,394 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!Joomla) {
-	throw new Error('Joomla API is not properly initialised');
+if (!window.jQuery) {
+  throw new Error('WebInstaller plugin requires jQuery');
 }
 
-// For compatibility with the layouts coming from the remote server, continue exposing some of the old global vars
-var apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
+if (!Joomla) {
+  throw new Error('Joomla API is not properly initialised');
+}
 
 (function (window, document, Joomla, jQuery) {
-	Joomla.apps = {
-		view: "dashboard",
-		id: 0,
-		ordering: "",
-		cssfiles: [],
-		jsfiles: [],
-		list: 0,
-		loaded: 0,
-		options: Joomla.getOptions('plg_installer_webinstaller', {}),
-	};
+  'use strict';
 
-	Joomla.loadweb = function (url) {
-		if (!url) {
-			return false;
-		}
+  var webInstallerOptions = {
+    view: 'dashboard',
+    id: 0,
+    ordering: '',
+    list: 0,
+    options: Joomla.getOptions('plg_installer_webinstaller', {})
+  };
 
-		var pattern1 = new RegExp(Joomla.apps.options.base_url);
-		var pattern2 = new RegExp("^index\.php");
+  var instance = void 0;
 
-		if (!(pattern1.test(url) || pattern2.test(url))) {
-			window.open(url, "_blank");
+  var WebInstaller = function () {
+    function WebInstaller() {
+      _classCallCheck(this, WebInstaller);
+    }
 
-			return false;
-		}
+    _createClass(WebInstaller, [{
+      key: 'initialise',
+      value: function initialise() {
+        webInstallerOptions.loaded = 1;
 
-		url += '&product=' + Joomla.apps.options.product + '&release=' + Joomla.apps.options.release + '&dev_level=' + Joomla.apps.options.dev_level + '&list=' + (Joomla.apps.list ? 'list' : 'grid') + '&lang=' + Joomla.apps.options.language;
+        if (document.getElementById('myTabContent')) {
+          var webTab = document.getElementById('web');
+          var cancelButton = document.getElementById('uploadform-web-cancel');
 
-		if (Joomla.apps.ordering !== "" && document.querySelector('#com-apps-ordering').value) {
-			Joomla.apps.ordering = document.querySelector('#com-apps-ordering').value;
-			url += '&ordering=' + Joomla.apps.ordering;
-		}
+          cancelButton.addEventListener('click', function () {
+            document.getElementById('uploadform-web').classList.add('hidden');
 
-		//jQuery('html, body').animate({ scrollTop: 0 }, 0);
-		if (document.querySelector('#myTabContent')) {
-			var element = document.querySelector('#appsloading');
-			element.style.position = "absolute";
-			element.style.left = "0";
-			element.style.top = "0";
-			element.style.width = "100%";
-			element.style.height = "100%";
+            // jQuery('#jed-container').slideDown(300);
+            if (webInstallerOptions.list && document.querySelector('.list-view')) {
+              document.querySelector('.list-view').click();
+            }
+          });
 
-			document.querySelector('#web').style.position = 'relative';
-			document.querySelector('#web').appendChild(element);
+          webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading" class="ifw-loading-container"></div>');
+          webTab.style.position = 'absolute';
 
-			jQuery('#appsloading').trigger("ajaxStart");
-		}
+          jQuery('#appsloading').on('ajaxStart', function () {
+            document.body.classList.add('ifw-busy');
+            document.getElementById('appsloading').classList.remove('hidden');
+          }).on('ajaxStop', function () {
+            document.getElementById('appsloading').classList.add('hidden');
+            document.body.classList.remove('ifw-busy');
+          });
+        }
 
-		// @todo convert to vanilla, (why JSONP?)
-		jQuery.ajax({
-			url: url,
-			dataType: 'jsonp',
-			cache: true,
-			jsonpCallback: "jedapps_jsonpcallback",
-			timeout: 20000,
-			success: function (response) {
-				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').classList.add('hidden');
-				}
+        this.loadweb(webInstallerOptions.options.base_url + 'index.php?format=json&option=com_apps&view=dashboard');
 
-				document.querySelector('#jed-container').innerHTML = response.data.html;
+        this.clickforlinks();
+      }
+    }, {
+      key: 'loadweb',
+      value: function loadweb(url) {
+        if (!url) {
+          return false;
+        }
 
-				document.querySelector('#com-apps-searchbox').addEventListener('keypress', function (event) {
-					if (event.which == 13) {
-						Joomla.apps.initiateSearch();
-					}
-				});
+        var self = this;
+        var pattern1 = new RegExp(webInstallerOptions.options.base_url);
+        var pattern2 = new RegExp('^index.php');
 
-				document.querySelector('#search-reset').addEventListener('click', function (event) {
-					document.querySelector('#com-apps-searchbox').value = '';
-					Joomla.apps.initiateSearch();
-				});
+        if (!(pattern1.test(url) || pattern2.test(url))) {
+          window.open(url, '_blank');
 
-				if (document.querySelector('#com-apps-ordering')) {
-					document.querySelector('#com-apps-ordering').addEventListener('change', function (event) {
-						Joomla.apps.ordering = jQuery(this).prop("selectedIndex");
-						Joomla.installfromwebajaxsubmit();
-					});
-				}
+          return false;
+        }
 
-				if (Joomla.apps.options.installfrom_url !== '') {
-					Joomla.installfromweb(Joomla.apps.options.installfrom_url);
-				}
-			},
-			fail: function () {
-				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').classList.add('hidden');
-					document.querySelector('#web-loader-error').classList.remove('hidden');
-				}
-			},
-			complete: function () {
-				if (document.querySelector('#joomlaapsinstallatinput')) {
-					document.querySelector('#joomlaapsinstallatinput').value = Joomla.apps.options.installat_url;
-				}
+        var requestUrl = url + '&product=' + webInstallerOptions.options.product + '&release=' + webInstallerOptions.options.release + '&dev_level=' + webInstallerOptions.options.dev_level + '&list=' + (webInstallerOptions.list ? 'list' : 'grid') + '&lang=' + webInstallerOptions.options.language;
 
-				Joomla.apps.clickforlinks();
-				Joomla.apps.clicker();
+        if (webInstallerOptions.ordering !== '' && document.getElementById('com-apps-ordering').value) {
+          webInstallerOptions.ordering = document.getElementById('com-apps-ordering').value;
+          requestUrl += '&ordering=' + webInstallerOptions.ordering;
+        }
 
-				if (Joomla.apps.list && document.querySelector(".list-view")) {
-					document.querySelector(".list-view").click();
-				}
+        // jQuery('html, body').animate({ scrollTop: 0 }, 0);
+        if (document.getElementById('myTabContent')) {
+          var element = document.getElementById('appsloading');
+          element.style.position = 'absolute';
+          element.style.left = '0';
+          element.style.top = '0';
+          element.style.width = '100%';
+          element.style.height = '100%';
 
-				if (document.querySelector('#myTabContent')) {
-					jQuery('#appsloading').trigger("ajaxStop");
-				}
-			},
-			error: function (request, status, error) {
-				if (request.responseText && document.querySelector('#web-loader-error')) {
-					document.querySelector('#web-loader-error').innerHTML = request.responseText;
-				}
+          var web = document.getElementById('web');
+          web.style.position = 'relative';
+          web.appendChild(element);
 
-				if (document.querySelector('#web-loader')) {
-					document.querySelector('#web-loader').classList.add('hidden');
-					document.querySelector('#web-loader-error').classList.remove('hidden');
-				}
-			}
-		});
-		return true;
-	};
+          jQuery('#appsloading').trigger('ajaxStart');
+        }
 
-	Joomla.webpaginate = function (url, target) {
-		document.querySelector('#web-paginate-loader').classList.remove('hidden');
+        // @todo convert to vanilla, (why JSONP?)
+        jQuery.ajax({
+          url: requestUrl,
+          dataType: 'jsonp',
+          cache: true,
+          jsonpCallback: 'jedapps_jsonpcallback',
+          timeout: 20000,
+          success: function success(response) {
+            if (document.getElementById('web-loader')) {
+              document.getElementById('web-loader').classList.add('hidden');
+            }
 
-		jQuery.get(url, function (response) {
-			document.querySelector('#web-paginate-loader').classList.add('hidden');
-			document.querySelector('#' + target).innerHTML = response.data.html;
-		}, 'jsonp').fail(function () {
-			document.querySelector('#web-paginate-loader').classList.add('hidden');
-		});
-	};
+            var jedContainer = document.getElementById('jed-container');
+            jedContainer.innerHTML = response.data.html;
 
-	Joomla.installfromwebexternal = function (redirect_url) {
-		// @todo trnslatable string from PHP
-		var redirect_confirm = confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirect_url);
+            document.getElementById('com-apps-searchbox').addEventListener('keypress', function (event) {
+              if (event.which === 13) {
+                self.initiateSearch();
+              }
+            });
 
-		if (true == redirect_confirm) {
-			document.querySelector('#adminForm').setAttribute('action', redirect_url);
-			document.querySelector("input[name=task]").setAttribute("disabled", true);
-			document.querySelector("input[name=install_directory]").setAttribute("disabled", true);
-			document.querySelector("input[name=install_url]").setAttribute("disabled", true);
-			document.querySelector("input[name=installtype]").setAttribute("disabled", true);
-			document.querySelector("input[name=filter_search]").setAttribute("disabled", true);
+            document.getElementById('search-reset').addEventListener('click', function () {
+              var searchBox = document.getElementById('com-apps-searchbox');
+              searchBox.value = '';
+              self.initiateSearch();
+            });
 
-			return true;
-		}
+            var orderingSelect = document.getElementById('com-apps-ordering');
 
-		return false;
-	};
+            if (orderingSelect) {
+              orderingSelect.addEventListener('change', function () {
+                var index = orderingSelect.selectedIndex;
+                webInstallerOptions.ordering = orderingSelect.options[index].value;
+                self.installfromwebajaxsubmit();
+              });
+            }
 
-	Joomla.installfromweb = function (install_url, name) {
-		if (!install_url) {
-			// @todo trnslatable string from PHP
-			alert("This extension cannot be installed via the web. Please visit the developer's website to purchase/download.");
+            if (webInstallerOptions.options.installfrom_url !== '') {
+              WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+            }
+          },
+          fail: function fail() {
+            if (document.getElementById('web-loader')) {
+              document.getElementById('web-loader').classList.add('hidden');
+              document.getElementById('web-loader-error').classList.remove('hidden');
+            }
+          },
+          complete: function complete() {
+            var installAtField = document.getElementById('joomlaapsinstallatinput');
 
-			return false;
-		}
+            if (installAtField) {
+              installAtField.value = webInstallerOptions.options.installat_url;
+            }
 
-		document.querySelector('#install_url').value = install_url;
-		document.querySelector('#uploadform-web-url').innerHTML = install_url;
+            self.clickforlinks();
+            WebInstaller.clicker();
 
-		if (name) {
-			document.querySelector('#uploadform-web-name').innerHTML = name;
-			document.querySelector('#uploadform-web-name-label').classList.remove('hidden');
-		} else {
-			document.querySelector('#uploadform-web-name-label').classList.add('hidden');
-		}
+            if (webInstallerOptions.view !== 'extension') {
+              [].slice.call(document.querySelectorAll('div.load-extension')).forEach(function (element) {
+                element.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+                });
 
-		// jQuery('#jed-container').slideUp(300);
-		document.querySelector('#uploadform-web').classList.remove('hidden');
+                element.setAttribute('href', '#');
+              });
+            }
 
-		return true;
-	};
+            if (webInstallerOptions.list && document.querySelector('.list-view')) {
+              document.querySelector('.list-view').click();
+            }
 
-	Joomla.installfromwebcancel = function () {
-		document.querySelector('#uploadform-web').classList.add('hidden');
+            if (document.getElementById('myTabContent')) {
+              jQuery('#appsloading').trigger('ajaxStop');
+            }
+          },
+          error: function error(request) {
+            var errorContainer = document.getElementById('web-loader-error');
+            var loaderContainer = document.getElementById('web-loader');
 
-		// jQuery('#jed-container').slideDown(300);
-		if (Joomla.apps.list && document.querySelector(".list-view")) {
-			document.querySelector(".list-view").click();
-		}
-	};
+            if (request.responseText && errorContainer) {
+              errorContainer.innerHTML = request.responseText;
+            }
 
-	Joomla.installfromwebajaxsubmit = function () {
-		var tail = '&view=' + Joomla.apps.view;
+            if (loaderContainer) {
+              loaderContainer.classList.add('hidden');
+              errorContainer.classList.remove('hidden');
+            }
+          }
+        });
 
-		if (Joomla.apps.id) {
-			tail += '&id=' + Joomla.apps.id;
-		}
+        return true;
+      }
+    }, {
+      key: 'clickforlinks',
+      value: function clickforlinks() {
+        var self = this;
 
-		if (document.querySelector('#com-apps-searchbox').value) {
-			var value = encodeURI(document.querySelector('#com-apps-searchbox').value.toLowerCase().replace(/ +/g, '_').replace(/[^a-z0-9-_]/g, '').trim());
-			tail += '&filter_search=' + value;
-		}
+        [].slice.call(document.querySelectorAll('a.transcode')).forEach(function (element) {
+          var ajaxurl = element.getAttribute('href');
 
-		var ordering = Joomla.apps.ordering;
+          element.addEventListener('click', function (event) {
+            var pattern1 = new RegExp(webInstallerOptions.options.base_url);
+            var pattern2 = new RegExp('^index.php');
 
-		if (ordering !== "" && document.querySelector('#com-apps-ordering').value) {
-			ordering = document.querySelector('#com-apps-ordering').value;
-		}
+            if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
+              webInstallerOptions.view = ajaxurl.replace(/^.+[&?]view=(\w+).*$/, '$1');
 
-		if (ordering) {
-			tail += '&ordering=' + ordering;
-		}
+              if (webInstallerOptions.view === 'dashboard') {
+                webInstallerOptions.id = 0;
+              } else if (webInstallerOptions.view === 'category') {
+                webInstallerOptions.id = ajaxurl.replace(/^.+[&?]id=(\d+).*$/, '$1');
+              }
 
-		Joomla.loadweb(Joomla.apps.options.base_url + 'index.php?format=json&option=com_apps' + tail);
-	};
+              event.preventDefault();
+              self.loadweb(webInstallerOptions.options.base_url + ajaxurl);
+            } else {
+              event.preventDefault();
+              self.loadweb(ajaxurl);
+            }
+          });
 
-	Joomla.apps.clickforlinks = function () {
-		[].slice.call(document.querySelectorAll('a.transcode')).forEach(element => {
-			var ajaxurl = element.getAttribute('href');
+          element.setAttribute('href', '#');
+        });
+      }
+    }, {
+      key: 'initiateSearch',
+      value: function initiateSearch() {
+        webInstallerOptions.view = 'dashboard';
+        this.installfromwebajaxsubmit();
+      }
+    }, {
+      key: 'installfromwebajaxsubmit',
+      value: function installfromwebajaxsubmit() {
+        var tail = '&view=' + webInstallerOptions.view;
 
-			element.addEventListener('click', function (event) {
-				var pattern1 = new RegExp(Joomla.apps.options.base_url);
-				var pattern2 = new RegExp("^index\.php");
+        if (webInstallerOptions.id) {
+          tail += '&id=' + webInstallerOptions.id;
+        }
 
-				if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
-					Joomla.apps.view = ajaxurl.replace(/^.+[&\?]view=(\w+).*$/, '$1');
+        if (document.getElementById('com-apps-searchbox').value) {
+          var value = encodeURI(document.getElementById('com-apps-searchbox').value.toLowerCase().replace(/ +/g, '_').replace(/[^a-z0-9-_]/g, '').trim());
+          tail += '&filter_search=' + value;
+        }
 
-					if (Joomla.apps.view == 'dashboard') {
-						Joomla.apps.id = 0;
-					} else if (Joomla.apps.view == 'category') {
-						Joomla.apps.id = ajaxurl.replace(/^.+[&\?]id=(\d+).*$/, '$1');
-					}
+        if (webInstallerOptions.ordering !== '' && document.getElementById('com-apps-ordering').value) {
+          webInstallerOptions.ordering = document.getElementById('com-apps-ordering').value;
+        }
 
-					event.preventDefault();
-					Joomla.loadweb(Joomla.apps.options.base_url + ajaxurl);
-				} else {
-					event.preventDefault();
-					Joomla.loadweb(ajaxurl);
-				}
-			});
+        if (webInstallerOptions.ordering) {
+          tail += '&ordering=' + webInstallerOptions.ordering;
+        }
 
-			element.setAttribute('href', '#');
-		});
-	};
+        this.loadweb(webInstallerOptions.options.base_url + 'index.php?format=json&option=com_apps' + tail);
+      }
+    }], [{
+      key: 'clicker',
+      value: function clicker() {
+        if (document.querySelector('.grid-view')) {
+          document.querySelector('.grid-view').addEventListener('click', function () {
+            webInstallerOptions.list = 0;
+            document.querySelector('.list-container').classList.add('hidden');
+            document.querySelector('.grid-container').classList.remove('hidden');
+            document.getElementById('btn-list-view').classList.remove('active');
+            document.getElementById('btn-grid-view').classList.remove('active');
+          });
+        }
 
-	Joomla.apps.initialize = function () {
-		Joomla.apps.loaded = 1;
+        if (document.querySelector('.list-view')) {
+          document.querySelector('.list-view').addEventListener('click', function () {
+            webInstallerOptions.list = 1;
+            document.querySelector('.grid-container').classList.add('hidden');
+            document.querySelector('.list-container').classList.remove('hidden');
+            document.getElementById('btn-grid-view').classList.remove('active');
+            document.getElementById('btn-list-view').classList.add('active');
+          });
+        }
+      }
 
-		if (document.querySelector('#myTabContent')) {
-			var webTab = document.querySelector('#web');
+      /**
+       * @param {string} installUrl
+       * @param {string} name
+       * @returns {boolean}
+       * @todo Migrate this function's alert to a CE dialog
+       */
 
-			webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading" class="ifw-loading-container"></div>');
-			webTab.style.position = 'absolute';
+    }, {
+      key: 'installfromweb',
+      value: function installfromweb(installUrl, name) {
+        if (!installUrl) {
+          alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
-			jQuery('#appsloading').on('ajaxStart', function () {
-				document.querySelector('body').classList.add('ifw-busy');
-				this.classList.remove('hidden');
-			}).on('ajaxStop', function () {
-				this.classList.add('hidden');
-				document.querySelector('body').classList.remove('ifw-busy');
-			});
-		}
+          return false;
+        }
 
-		Joomla.loadweb(Joomla.apps.options.base_url + 'index.php?format=json&option=com_apps&view=dashboard');
+        var installUrlField = document.getElementById('install_url');
+        var uploadUrlContainer = document.getElementById('uploadform-web-url');
 
-		Joomla.apps.clickforlinks();
-	};
+        installUrlField.value = installUrl;
+        uploadUrlContainer.innerHTML = installUrl;
 
-	Joomla.apps.initiateSearch = function () {
-		Joomla.apps.view = 'dashboard';
-		Joomla.installfromwebajaxsubmit();
-	};
+        if (name) {
+          var nameElement = document.getElementById('uploadform-web-name');
+          nameElement.innerHTML = name;
+          document.getElementById('uploadform-web-name-label').classList.remove('hidden');
+        } else {
+          document.getElementById('uploadform-web-name-label').classList.add('hidden');
+        }
 
-	Joomla.apps.clicker = function () {
-		if (document.querySelector(".grid-view")) {
-			document.querySelector(".grid-view").addEventListener("click", function () {
-				Joomla.apps.list = 0;
-				document.querySelector(".list-container").classList.add("hidden");
-				document.querySelector(".grid-container").classList.remove("hidden");
-				document.querySelector("#btn-list-view").classList.remove("active");
-				document.querySelector("#btn-grid-view").classList.remove("active");
-			});
-		}
+        // jQuery('#jed-container').slideUp(300);
+        document.getElementById('uploadform-web').classList.remove('hidden');
 
-		if (document.querySelector(".list-view")) {
-			document.querySelector(".list-view").addEventListener("click", function () {
-				Joomla.apps.list = 1;
-				document.querySelector(".grid-container").classList.add("hidden");
-				document.querySelector(".list-container").classList.remove("hidden");
-				document.querySelector("#btn-grid-view").classList.remove("active");
-				document.querySelector("#btn-list-view").classList.add("active");
-			});
-		}
-	};
+        return true;
+      }
 
-	Joomla.submitbutton5 = function (pressbutton) {
-		var form = document.getElementById('adminForm');
+      /**
+       * Onclick handler for the button#appssubmitbutton element
+       *
+       * @param {string} redirectUrl
+       * @returns {boolean}
+       * @todo Convert from inline onclick registration, requires coordinated PR to IFW repo
+       * @todo Migrate this function's confirm to a CE dialog
+       * @todo Migrate this function's hardcoded English string to Joomla.JText
+       */
 
-		// do field validation
-		if (form.install_url.value !== "" && form.install_url.value !== "http://") {
-			Joomla.submitbutton4();
-		} else if (form.install_url.value === "") {
-			alert(Joomla.apps.options.btntxt);
-		} else {
-			document.querySelector('#appsloading').classList.remove('hidden');
-			form.installtype.value = 'web';
-			form.submit();
-		}
-	};
-})(window, document, Joomla, jQuery);
+    }, {
+      key: 'installfromwebexternal',
+      value: function installfromwebexternal(redirectUrl) {
+        var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
+
+        if (redirectConfirm === true) {
+          document.getElementById('adminForm').setAttribute('action', redirectUrl);
+          document.querySelector('input[name=task]').setAttribute('disabled', true);
+          document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
+          document.querySelector('input[name=install_url]').setAttribute('disabled', true);
+          document.querySelector('input[name=installtype]').setAttribute('disabled', true);
+          document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
+
+          return true;
+        }
+
+        return false;
+      }
+    }]);
+
+    return WebInstaller;
+  }();
+
+  jQuery(function ($) {
+    var link = $('#myTabTabs').find('a[href="#web"]');
+
+    if (webInstallerOptions.options.installfromon) {
+      link.click();
+    }
+
+    if (link.hasClass('active')) {
+      if (!instance) {
+        instance = new WebInstaller();
+        instance.initialise();
+      }
+    }
+
+    link.closest('li').click(function () {
+      if (!instance) {
+        instance = new WebInstaller();
+        instance.initialise();
+      }
+    });
+
+    if (webInstallerOptions.options.installfrom_url !== '') {
+      link.closest('li').click();
+    }
+
+    link.on('shown.bs.tab', function () {
+      if (!instance) {
+        instance = new WebInstaller();
+        instance.initialise();
+      }
+    });
+  });
+})(window, document, Joomla, window.jQuery);

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.Webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 		<div class="card-body">
 			<div class="card-text">
 				<input type="button" class="btn btn-primary" value="<?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $this->getInstallFrom() != '' ? 4 : 5; ?>()" />
-				<input type="button" class="btn btn-secondary" value="<?php echo Text::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
+				<input type="button" class="btn btn-secondary" id="uploadform-web-cancel" value="<?php echo Text::_('JCANCEL'); ?>" />
 			</div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,22 +22,6 @@ $input = JFactory::getApplication()->input;
 $isModal  = $input->get('layout') === 'modal' ? true : false;
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-
-// Joomla4Upgrade TODO: Make work with J4 Modals
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task) {
-		if (task === 'plugin.cancel' || document.formvalidator.isValid(document.getElementById('style-form'))) {
-			Joomla.submitform(task, document.getElementById('style-form'));
-		}
-
-		if (task !== 'plugin.apply') {
-			if (self !== top) {
-				window.top.setTimeout('window.parent.location = window.top.location.href', 1000);
-				window.parent.jQuery('#plugin" . $this->item->extension_id . "Modal').modal('hide');
-			}
-		}
-	};
-");
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

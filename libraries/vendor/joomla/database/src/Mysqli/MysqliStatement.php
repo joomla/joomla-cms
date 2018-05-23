@@ -233,14 +233,21 @@ class MysqliStatement implements StatementInterface
 		{
 			if ($parameters !== null)
 			{
-				if (!$this->bindValues($params))
+				if (!$this->bindValues($parameters))
 				{
 					throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
 				}
 			}
 			else
 			{
-				if (!call_user_func_array([$this->statement, 'bind_param'], [$this->types] + $this->bindedValues))
+				$params = [$this->types];
+
+				foreach ($this->bindedValues as &$value)
+				{
+					$params[] =& $value;
+				}
+
+				if (!call_user_func_array([$this->statement, 'bind_param'], $params))
 				{
 					throw new PrepareStatementFailureException($this->statement->error, $this->statement->errno);
 				}

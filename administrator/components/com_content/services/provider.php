@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,6 @@ use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
-use Joomla\Component\Content\Administrator\Service\Provider\Component;
 use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -27,7 +26,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The content service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 return new class implements ServiceProviderInterface
 {
@@ -38,7 +37,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -52,9 +51,8 @@ return new class implements ServiceProviderInterface
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new ContentComponent;
+				$component = new ContentComponent($container->get(DispatcherFactoryInterface::class));
 
-				$component->setDispatcherFactory($container->get(DispatcherFactoryInterface::class));
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setCategories($container->get(Categories::class));
