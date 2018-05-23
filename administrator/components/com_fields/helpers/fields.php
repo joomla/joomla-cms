@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class FieldsHelper
 	 *
 	 * @param   string    $context           The context of the content passed to the helper
 	 * @param   stdClass  $item              item
-	 * @param   boolean   $prepareValue      prepareValue
+	 * @param   int|bool  $prepareValue      (if int is display event): 1 - AfterTitle, 2 - BeforeDisplay, 3 - AfterDisplay, 0 - OFF
 	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return  array
@@ -190,7 +190,8 @@ class FieldsHelper
 
 				$field->rawvalue = $field->value;
 
-				if ($prepareValue)
+				// If boolean prepare, if int, it is the event type: 1 - After Title, 2 - Before Display, 3 - After Display, 0 - Do not prepare
+				if ($prepareValue && (is_bool($prepareValue) || $prepareValue === (int) $field->params->get('display', '2')))
 				{
 					JPluginHelper::importPlugin('fields');
 
@@ -204,7 +205,7 @@ class FieldsHelper
 
 					if (is_array($value))
 					{
-						$value = implode($value, ' ');
+						$value = implode(' ', $value);
 					}
 
 					// Event allow plugins to modfify the output of the prepared field
@@ -296,6 +297,11 @@ class FieldsHelper
 		$section   = $parts[1];
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
+
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$assignedCatids = is_array($assignedCatids)
+			? (int) reset($assignedCatids)
+			: (int) $assignedCatids;
 
 		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
@@ -540,6 +546,52 @@ class FieldsHelper
 	}
 
 	/**
+	 * Return a boolean based on field (and field group) display / show_on settings
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.7
+	 */
+	public static function displayFieldOnForm($field)
+	{
+		$app = JFactory::getApplication();
+
+		// Detect if the field should be shown at all
+		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
+		{
+			return false;
+		}
+		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		{
+			return false;
+		}
+
+		if (!self::canEditFieldValue($field))
+		{
+			$fieldDisplayReadOnly = $field->params->get('display_readonly', '2');
+
+			if ($fieldDisplayReadOnly == '2')
+			{
+				// Inherit from field group display read-only setting
+				$groupModel = JModelLegacy::getInstance('Group', 'FieldsModel', array('ignore_request' => true));
+				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
+				$fieldDisplayReadOnly = $groupDisplayReadOnly;
+			}
+
+			if ($fieldDisplayReadOnly == '0')
+			{
+				// Do not display field on form when field is read-only
+				return false;
+			}
+		}
+
+		// Display field on form
+		return true;
+	}
+
+	/**
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   stdClass[]  &$items  The field category objects
@@ -619,7 +671,7 @@ class FieldsHelper
 	/**
 	 * Gets the fields system plugin extension id.
 	 *
-	 * @return  int  The fields system plugin extension id.
+	 * @return  integer  The fields system plugin extension id.
 	 *
 	 * @since   3.7.0
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,7 +173,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * @param   string  $file       File path
 	 * @param   string  $component  Component option as in URL
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -260,7 +260,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */
@@ -375,7 +375,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array|bool
+	 * @return  array|boolean
 	 *
 	 * @since   3.7.0
 	 */

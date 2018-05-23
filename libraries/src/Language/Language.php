@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -255,7 +255,8 @@ class Language
 
 		if (class_exists($class))
 		{
-			/* Class exists. Try to find
+			/**
+			 * Class exists. Try to find
 			 * -a transliterate method,
 			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
@@ -897,13 +898,10 @@ class Language
 			$strings = $this->parse($filename);
 		}
 
-		if ($strings)
+		if (is_array($strings) && count($strings))
 		{
-			if (is_array($strings) && count($strings))
-			{
-				$this->strings = array_replace($this->strings, $strings, $this->override);
-				$result = true;
-			}
+			$this->strings = array_replace($this->strings, $strings, $this->override);
+			$result = true;
 		}
 
 		// Record the result of loading the extension's file.
@@ -938,7 +936,12 @@ class Language
 			ini_set('track_errors', true);
 		}
 
-		if (!function_exists('parse_ini_file'))
+		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
+		// issue it is solving
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
 			$contents = file_get_contents($filename);
 			$contents = str_replace('_QQ_', '"\""', $contents);

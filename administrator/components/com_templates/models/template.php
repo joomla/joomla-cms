@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -442,6 +442,7 @@ class TemplatesModelTemplate extends JModelForm
 			catch (Exception $e)
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+
 				return;
 			}
 
@@ -886,6 +887,7 @@ class TemplatesModelTemplate extends JModelForm
 
 				return false;
 			}
+
 			// Check if the format is allowed and will be showed in the backend
 			$check = $this->checkFormat($type);
 
@@ -1424,14 +1426,14 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
- 	* Check if the extension is allowed and will be shown in the template manager
- 	*
-	* @param   string  $ext  The extension to check if it is allowed
- 	*
- 	* @return  boolean  true if the extension is allowed false otherwise
- 	*
- 	* @since   3.6.0
-	*/
+	 * Check if the extension is allowed and will be shown in the template manager
+	 *
+	 * @param   string  $ext  The extension to check if it is allowed
+	 *
+	 * @return  boolean  true if the extension is allowed false otherwise
+	 *
+	 * @since   3.6.0
+	 */
 	protected function checkFormat($ext)
 	{
 		if (!isset($this->allowedFormats))

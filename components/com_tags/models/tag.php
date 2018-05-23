@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,13 +110,9 @@ class TagsModelTag extends JModelList
 						break;
 				}
 			}
+		}
 
-			return $items;
-		}
-		else
-		{
-			return false;
-		}
+		return $items;
 	}
 
 	/**
@@ -262,15 +258,15 @@ class TagsModelTag extends JModelList
 		{
 			$this->item = false;
 
-			if (empty($id))
+			if (empty($pk))
 			{
-				$id = $this->getState('tag.id');
+				$pk = $this->getState('tag.id');
 			}
 
 			// Get a level row instance.
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
-			$idsArray = explode(',', $id);
+			$idsArray = explode(',', $pk);
 
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)

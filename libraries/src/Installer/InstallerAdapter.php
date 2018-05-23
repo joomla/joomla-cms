@@ -2,19 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
+
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.base.adapterinstance');
 
@@ -186,6 +186,9 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function checkExistingExtension()
 	{
+		// Extension type is stored as lowercase on the #__extensions table field type
+		$this->type = strtolower($this->type);
+
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
@@ -956,7 +959,7 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function setupScriptfile()
 	{
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)

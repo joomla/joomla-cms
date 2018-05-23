@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,32 +56,33 @@ class UsersHelper
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
+		}
 
-			if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
-			{
-				JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELDS'),
-					'index.php?option=com_fields&context=com_users.user',
-					$vName == 'fields.fields'
-				);
-				JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELD_GROUPS'),
-					'index.php?option=com_fields&view=groups&context=com_users.user',
-					$vName == 'fields.groups'
-				);
-			}
-
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+		{
 			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTES'),
-				'index.php?option=com_users&view=notes',
-				$vName == 'notes'
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_users.user',
+				$vName == 'fields.fields'
 			);
 			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories'
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_users.user',
+				$vName == 'fields.groups'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTES'),
+			'index.php?option=com_users&view=notes',
+			$vName == 'notes'
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_users',
+			$vName == 'categories'
+		);
 	}
 
 	/**

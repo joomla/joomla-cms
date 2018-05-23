@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,8 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
-			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>
-			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'id', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link);?>
+			<label for="select_contact"><?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
+			<?php echo JHtml::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link); ?>
 		</form>
 	<?php endif; ?>
 
@@ -70,12 +70,13 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="thumbnail pull-right">
-			<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('align' => 'middle')); ?>
+			<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('style' => 'vertical-align: middle;')); ?>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 		<dl class="contact-position dl-horizontal">
+		<dt><?php echo JText::_('COM_CONTACT_POSITION'); ?>:</dt>
 			<dd>
 				<?php echo $this->contact->con_position; ?>
 			</dd>

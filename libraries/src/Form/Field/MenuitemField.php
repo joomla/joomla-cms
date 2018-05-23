@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class MenuitemField extends \JFormFieldGroupedList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -100,7 +100,7 @@ class MenuitemField extends \JFormFieldGroupedList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -235,7 +235,7 @@ class MenuitemField extends \JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
-					$levelPrefix = str_repeat('- ', $link->level - 1);
+					$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
 					// Displays language code if not set to All
 					if ($link->language !== '*')

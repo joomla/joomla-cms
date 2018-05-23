@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  */
@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
  * Checks if hathor is the default backend template or currently used as default style.
  * If yes we want to show a message and action button.
  *
- * @return  bool
+ * @return  boolean
  *
  * @since   3.7
  */
@@ -39,14 +39,14 @@ function hathormessage_postinstall_condition()
 	}
 
 	// Get the current user admin style
-	$adminstyle = $user->getParam('admin_style', '');
+	$adminstyle = $user->getParam('admin_style');
 
-	if ($adminstyle != '')
+	if ($adminstyle)
 	{
 		$query = $db->getQuery(true)
 			->select('template')
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('id') . ' = ' . $adminstyle[0])
+			->where($db->quoteName('id') . ' = ' . (int) $adminstyle)
 			->where($db->quoteName('client_id') . ' = 1');
 
 		// Get the template name associated to the admin style
@@ -84,15 +84,15 @@ function hathormessage_postinstall_action()
 
 	$isisStyleId   = $db->setQuery($query)->loadColumn();
 	$isisStyleName = $db->setQuery($query)->loadColumn(1);
-	$adminstyle    = $user->getParam('admin_style', '');
+	$adminstyle    = $user->getParam('admin_style');
 
 	// The user uses the system setting so no need to change that.
-	if ($adminstyle != '')
+	if ($adminstyle)
 	{
 		$query = $db->getQuery(true)
 			->select('template')
 			->from($db->quoteName('#__template_styles'))
-			->where($db->quoteName('id') . ' = ' . $adminstyle[0])
+			->where($db->quoteName('id') . ' = ' . (int) $adminstyle)
 			->where($db->quoteName('client_id') . ' = 1');
 
 		$template = $db->setQuery($query)->loadResult();

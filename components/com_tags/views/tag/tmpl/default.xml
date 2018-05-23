@@ -56,6 +56,7 @@
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -67,6 +68,7 @@
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -78,6 +80,7 @@
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -144,6 +147,7 @@
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -155,6 +159,7 @@
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -162,7 +167,7 @@
 
 			<field
 				name="tag_list_item_maximum_characters"
-				type="text"
+				type="number"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 				filter="integer"
@@ -176,6 +181,7 @@
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				default=""
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -190,6 +196,7 @@
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -201,6 +208,7 @@
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -213,6 +221,7 @@
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -255,6 +264,7 @@
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

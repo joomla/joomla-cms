@@ -2,7 +2,7 @@
 <form>
 	<field
 		name="id"
-		type="text"
+		type="number"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
@@ -12,7 +12,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		description="COM_TAGS_FIELD_HITS_DESC"
 		class="readonly"

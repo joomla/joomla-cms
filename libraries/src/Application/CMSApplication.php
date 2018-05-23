@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
 
 /**
@@ -135,24 +136,6 @@ class CMSApplication extends WebApplication
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart()
-	{
-		$session = \JFactory::getSession();
-
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -165,63 +148,8 @@ class CMSApplication extends WebApplication
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$query->clear();
-
-			$time = $session->isNew() ? time() : $session->get('session.timer.start');
-
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('time'),
-				$db->quoteName('userid'),
-				$db->quoteName('username'),
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				$db->quote((int) $time),
-				(int) $user->id,
-				$db->quote($user->username),
-			);
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
-
-			// If the insert failed, exit the application.
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
-			}
-		}
+		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
+		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
 	}
 
 	/**
@@ -515,6 +443,15 @@ class CMSApplication extends WebApplication
 		{
 			$name = $this->getName();
 		}
+		else
+		{
+			// Name should not be used
+			$this->getLogger()->warning(
+				'Name attribute is deprecated, in the future fetch the pathway '
+				. 'through the respective application.',
+				array('category' => 'deprecated')
+			);
+		}
 
 		try
 		{
@@ -807,29 +744,16 @@ class CMSApplication extends WebApplication
 
 		$session->initialise($this->input, $this->dispatcher);
 
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = \JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler === 'database' && $session->isNew()))
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler !== 'database' && (time() % 2 || $session->isNew())) || ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}

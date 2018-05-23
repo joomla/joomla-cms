@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,8 +27,9 @@ $params = array('params' => json_encode($param));
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<form action="index.php" method="post" name="adminForm" class="form-inline">
+<form action="index.php" method="post" name="adminForm" class="form-inline" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
+	<input type="hidden" name="task" value="">
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,8 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.combobox');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '#jform_position', null, array('disable_search_threshold' => 0 ));
+JHtml::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_CATEGORY')));
+JHtml::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_TAG')));
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
@@ -172,7 +174,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h3>
+						<h2>
 							<?php
 							if ($this->item->xml)
 							{
@@ -183,7 +185,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 								echo JText::_('COM_MODULES_ERR_XML');
 							}
 							?>
-						</h3>
+						</h2>
 						<div class="info-labels">
 							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,10 +112,10 @@ class UsersModelNotes extends JModelList
 			$query->where('(a.state IN (0, 1))');
 		}
 
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
+		// Filter by a single category.
+		$categoryId = (int) $this->getState('filter.category_id');
 
-		if ($categoryId && is_scalar($categoryId))
+		if ($categoryId)
 		{
 			$query->where('a.catid = ' . $categoryId);
 		}

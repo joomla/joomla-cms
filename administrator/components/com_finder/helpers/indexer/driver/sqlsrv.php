@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -527,74 +527,5 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		return true;
-	}
-
-	/**
-	 * Method to add a set of tokens to the database.
-	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
-	 *
-	 * @return  integer  The number of tokens inserted into the database.
-	 *
-	 * @since   3.1
-	 * @throws  Exception on database error.
-	 */
-	protected function addTokensToDb($tokens, $context = '')
-	{
-		// Get the database object.
-		$db = $this->db;
-
-		$query = clone $this->addTokensToDbQueryTemplate;
-
-		// Force tokens to an array.
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Set some variables to count the iterations
-		$totalTokens = count($tokens);
-		$remaining   = $totalTokens;
-		$iterations  = 0;
-		$loop        = true;
-
-		do
-		{
-			// Shift the token off the array
-			$token = array_shift($tokens);
-
-			$query->values(
-				$db->quote($token->term) . ', '
-				. $db->quote($token->stem) . ', '
-				. (int) $token->common . ', '
-				. (int) $token->phrase . ', '
-				. (float) $token->weight . ', '
-				. (int) $context . ', '
-				. $db->quote($token->language)
-			);
-			++$values;
-			++$iterations;
-			--$remaining;
-
-			// Run the query if we've reached 1000 iterations or there are no tokens remaining
-			if ($iterations === 1000 || $remaining === 0)
-			{
-				$db->setQuery($query);
-				$db->execute();
-
-				// Reset the query
-				$query = clone $this->addTokensToDbQueryTemplate;
-			}
-
-			// If there's nothing remaining, we're done looping
-			if ($remaining === 0)
-			{
-				$loop = false;
-			}
-		}
-		while ($loop === true);
-
-		return $values;
 	}
 }
