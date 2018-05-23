@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Help\Help;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -55,7 +57,7 @@ class HelpsiteField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		\JHtml::_('script', 'legacy/helpsite.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'legacy/helpsite.js', array('version' => 'auto', 'relative' => true));
 
 		$showDefault = (string) $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
@@ -67,7 +69,7 @@ class HelpsiteField extends \JFormFieldList
 						rel="' . $this->id . '"
 						showDefault="' . $showDefault . '"
 					>
-					<span>' . \JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
+					<span>' . Text::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
 					</button>';
 
 		return $html . $button;
