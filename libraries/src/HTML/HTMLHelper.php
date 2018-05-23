@@ -121,7 +121,7 @@ abstract class HTMLHelper
 	 *
 	 * @since       1.5
 	 * @throws      \InvalidArgumentException
-	 * @deprecated  6.0 Use the HTML Registry instead
+	 * @deprecated  5.0 Use the HTML Registry instead
 	 */
 	final public static function _(string $serviceKey, ...$methodArgs)
 	{
