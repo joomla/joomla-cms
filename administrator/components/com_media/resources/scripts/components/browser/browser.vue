@@ -73,7 +73,7 @@
                 }
             },
             isModal() {
-		        return Joomla.getOptions('com_media', {}).isModal;
+                return Joomla.getOptions('com_media', {}).isModal;
             }
         },
         methods: {
