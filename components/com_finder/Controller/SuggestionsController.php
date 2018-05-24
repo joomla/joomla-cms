@@ -57,7 +57,7 @@ class SuggestionsController extends BaseController
 		if ($params->get('show_autosuggest', 1))
 		{
 			// Get the suggestions.
-			$model = $this->getModel('Suggestions', 'FinderModel');
+			$model = $this->getModel('Suggestions');
 			$return = $model->getItems();
 		}
 
