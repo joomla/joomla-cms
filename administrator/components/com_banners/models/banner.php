@@ -373,7 +373,7 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to stick records.
 	 *
-	 * @param   array    &$pks   The ids of the items to publish.
+	 * @param   array    $pks    The ids of the items to publish.
 	 * @param   integer  $value  The value of the published state
 	 *
 	 * @return  boolean  True on success.

@@ -26,6 +26,7 @@
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JENABLED</option>
@@ -37,6 +38,7 @@
 					label="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_LABEL"
 					description="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_DESC"
 					default="1"
+					filter="integer"
 					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
