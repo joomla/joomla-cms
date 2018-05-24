@@ -10,10 +10,16 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Form Class for the Joomla Platform.
@@ -152,9 +158,9 @@ class Form
 				// Handle a Registry.
 				$data = $data->toArray();
 			}
-			elseif ($data instanceof \JObject)
+			elseif ($data instanceof CMSObject)
 			{
-				// Handle a JObject.
+				// Handle a CMSObject.
 				$data = $data->getProperties();
 			}
 			else
@@ -253,7 +259,7 @@ class Form
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value  The optional value to use as the default for the field.
 	 *
-	 * @return  \JFormField|boolean  The JFormField object for the field or boolean false on error.
+	 * @return  FormField|boolean  The FormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -626,7 +632,7 @@ class Form
 	 */
 	public function getControlGroup($name, $group = null, $default = null)
 	{
-		\JLog::add('Form->getControlGroup() is deprecated use Form->renderField().', \JLog::WARNING, 'deprecated');
+		Log::add('Form->getControlGroup() is deprecated use Form->renderField().', Log::WARNING, 'deprecated');
 
 		return $this->renderField($name, $group, $default);
 	}
@@ -643,7 +649,7 @@ class Form
 	 */
 	public function getControlGroups($name)
 	{
-		\JLog::add('Form->getControlGroups() is deprecated use Form->renderFieldset().', \JLog::WARNING, 'deprecated');
+		Log::add('Form->getControlGroups() is deprecated use Form->renderFieldset().', Log::WARNING, 'deprecated');
 
 		return $this->renderFieldset($name);
 	}
@@ -843,7 +849,7 @@ class Form
 		if (!is_file($file))
 		{
 			// Not an absolute path so let's attempt to find one using JPath.
-			$file = \JPath::find(self::addFormPath(), strtolower($file) . '.xml');
+			$file = Path::find(self::addFormPath(), strtolower($file) . '.xml');
 
 			// If unable to find the file return false.
 			if (!$file)
@@ -1305,7 +1311,7 @@ class Form
 
 			// Filter safe HTML.
 			case 'SAFEHTML':
-				$return = \JFilterInput::getInstance(null, null, 1, 1)->clean($value, 'html');
+				$return = InputFilter::getInstance(null, null, 1, 1)->clean($value, 'html');
 				break;
 
 			// Convert a date to UTC based on the server timezone offset.
@@ -1319,7 +1325,7 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$format   = ($showTime) ? Text::_('DATE_FORMAT_FILTER_DATETIME') : Text::_('DATE_FORMAT_FILTER_DATE');
 						$date     = date_parse_from_format($format, $value);
 						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
@@ -1330,17 +1336,17 @@ class Form
 					}
 
 					// Get the server timezone setting.
-					$offset = \JFactory::getConfig()->get('offset');
+					$offset = Factory::getConfig()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
 					try
 					{
-						$return = \JFactory::getDate($value, $offset)->toSql();
+						$return = Factory::getDate($value, $offset)->toSql();
 					}
 					catch (\Exception $e)
 					{
-						\JFactory::getApplication()->enqueueMessage(
-							\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])),
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_((string) $element['label'])),
 							'warning'
 						);
 
@@ -1364,7 +1370,7 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$format   = ($showTime) ? Text::_('DATE_FORMAT_FILTER_DATETIME') : Text::_('DATE_FORMAT_FILTER_DATE');
 						$date     = date_parse_from_format($format, $value);
 						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
@@ -1375,17 +1381,17 @@ class Form
 					}
 
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = \JFactory::getUser()->getTimezone();
+					$offset = Factory::getUser()->getTimezone();
 
 					// Return a MySQL formatted datetime string in UTC.
 					try
 					{
-						$return = \JFactory::getDate($value, $offset)->toSql();
+						$return = Factory::getDate($value, $offset)->toSql();
 					}
 					catch (\Exception $e)
 					{
-						\JFactory::getApplication()->enqueueMessage(
-							\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', \JText::_((string) $element['label'])),
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_((string) $element['label'])),
 							'warning'
 						);
 
@@ -1411,7 +1417,7 @@ class Form
 				}
 
 				// This cleans some of the more dangerous characters but leaves special characters that are valid.
-				$value = \JFilterInput::getInstance()->clean($value, 'html');
+				$value = InputFilter::getInstance()->clean($value, 'html');
 				$value = trim($value);
 
 				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
@@ -1430,7 +1436,7 @@ class Form
 					// If it looks like an internal link, then add the root.
 					if (substr($value, 0, 9) == 'index.php')
 					{
-						$value = \JUri::root() . $value;
+						$value = Uri::root() . $value;
 					}
 
 					// Otherwise we treat it as an external link.
@@ -1444,7 +1450,7 @@ class Form
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
 				elseif (!$protocol && $element['relative'])
 				{
-					$host = \JUri::getInstance('SERVER')->gethost();
+					$host = Uri::getInstance('SERVER')->gethost();
 
 					// If it starts with the host string, just prepend the protocol.
 					if (substr($value, 0) == $host)
@@ -1455,11 +1461,11 @@ class Form
 					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
 					elseif (substr($value, 0, 1) != '/')
 					{
-						$value = \JUri::root(true) . '/' . $value;
+						$value = Uri::root(true) . '/' . $value;
 					}
 				}
 
-				$value = \JStringPunycode::urlToPunycode($value);
+				$value = PunycodeHelper::urlToPunycode($value);
 				$return = $value;
 				break;
 
@@ -1558,7 +1564,7 @@ class Form
 				}
 
 				// Check for empty value and return empty string if no value is required,
-				// otherwise filter using JFilterInput. All HTML code is filtered by default.
+				// otherwise filter using InputFilter. All HTML code is filtered by default.
 				else
 				{
 					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
@@ -1569,7 +1575,7 @@ class Form
 					}
 					else
 					{
-						$return = \JFilterInput::getInstance()->clean($value, $filter);
+						$return = InputFilter::getInstance()->clean($value, $filter);
 					}
 				}
 				break;
@@ -1865,7 +1871,7 @@ class Form
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value    The optional value to use as the default for the field.
 	 *
-	 * @return  \JFormField|boolean  The JFormField object for the field or boolean false on error.
+	 * @return  FormField|boolean  The FormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1901,17 +1907,17 @@ class Form
 
 			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
 			{
-				$lang = \JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 
 				if ($lang->hasKey($default))
 				{
 					$debug = $lang->setDebug(false);
-					$default = \JText::_($default);
+					$default = Text::_($default);
 					$lang->setDebug($debug);
 				}
 				else
 				{
-					$default = \JText::_($default);
+					$default = Text::_($default);
 				}
 			}
 
@@ -2073,14 +2079,14 @@ class Form
 			{
 				if ($element['label'])
 				{
-					$message = \JText::_($element['label']);
+					$message = Text::_($element['label']);
 				}
 				else
 				{
-					$message = \JText::_($element['name']);
+					$message = Text::_($element['name']);
 				}
 
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 
 				return new \RuntimeException($message);
 			}
@@ -2116,14 +2122,14 @@ class Form
 
 			if ($message)
 			{
-				$message = \JText::_($element['message']);
+				$message = Text::_($element['message']);
 
 				return new \UnexpectedValueException($message);
 			}
 			else
 			{
-				$message = \JText::_($element['label']);
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				$message = Text::_($element['label']);
+				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
 
 				return new \UnexpectedValueException($message);
 			}
@@ -2209,7 +2215,7 @@ class Form
 			}
 
 			// Instantiate the form.
-			$forms[$name] = \JFactory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
+			$forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
 			if (substr($data, 0, 1) == '<')

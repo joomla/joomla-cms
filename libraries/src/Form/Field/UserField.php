@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 
 /**
@@ -112,7 +113,7 @@ class UserField extends FormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = \JText::_('JLIB_FORM_SELECT_USER');
+		$name = Text::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{

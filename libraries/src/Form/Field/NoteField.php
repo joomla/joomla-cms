@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -57,8 +58,8 @@ class NoteField extends FormField
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
 
-		$html[] = !empty($title) ? '<' . $heading . '>' . \JText::_($title) . '</' . $heading . '>' : '';
-		$html[] = !empty($description) ? \JText::_($description) : '';
+		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
+		$html[] = !empty($description) ? Text::_($description) : '';
 
 		return '</div><div ' . $class . '>' . implode('', $html);
 	}
