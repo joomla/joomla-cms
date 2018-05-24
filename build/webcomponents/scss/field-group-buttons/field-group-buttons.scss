@@ -19,7 +19,6 @@ joomla-field-group-buttons {
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    outline: 1px;
 
     &:hover {
       z-index: 2;
@@ -177,7 +176,6 @@ joomla-field-group-buttons {
         background-color: #dc3545;
         border-color: #dc3545;
         box-shadow: 0 0 0 3px rgba(220, 53, 69, .5);
-
       }
 
       &:focus,

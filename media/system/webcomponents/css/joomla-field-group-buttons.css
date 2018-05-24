@@ -20,8 +20,7 @@ joomla-field-group-buttons {
             user-select: none;
     border: 1px solid transparent;
     border-radius: .25rem;
-    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    outline: 1px; }
+    transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
     joomla-field-group-buttons > .btn:hover {
       z-index: 2;
       text-decoration: none; }
