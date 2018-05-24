@@ -199,10 +199,10 @@ joomla-field-group-buttons {
     }
   }
 
-  > .btn input[type="radio"],
-  > .btn input[type="checkbox"],
-  > .btn-group > .btn input[type="radio"],
-  > .btn-group > .btn input[type="checkbox"] {
+  > .btn [type="radio"],
+  > .btn [type="checkbox"],
+  > .btn-group > .btn [type="radio"],
+  > .btn-group > .btn [type="checkbox"] {
     position: absolute;
     clip: rect(0, 0, 0, 0);
     pointer-events: none;
