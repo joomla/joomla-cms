@@ -46,7 +46,7 @@ $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 $isBtnGroup  = strpos(trim($class), 'btn-group') !== false;
 $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
 $classToggle = $isBtnGroup ? ' btn-group-toggle' : '';
-$btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
+$btnClass    = $isBtnGroup ? 'btn btn-secondary' : 'form-check';
 
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
@@ -91,11 +91,11 @@ HTMLHelper::_('webcomponent',
 				// Set the button classes for the yes/no group
 				if ($option->value === "0")
 				{
-					$optionClass = 'btn btn-outline-danger';
+					$optionClass = 'btn btn-danger';
 				}
 				else
 				{
-					$optionClass = 'btn btn-outline-success';
+					$optionClass = 'btn btn-success';
 				}
 			}
 			else
