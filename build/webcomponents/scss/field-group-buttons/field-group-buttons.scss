@@ -186,8 +186,8 @@ joomla-field-group-buttons {
   .btn-group + .btn,
   .btn-group + .btn-group {
     margin-left: -1px;
-    border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {

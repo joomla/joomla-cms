@@ -103,8 +103,8 @@ joomla-field-group-buttons {
   joomla-field-group-buttons .btn-group + .btn,
   joomla-field-group-buttons .btn-group + .btn-group {
     margin-left: -1px;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0; }
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
   joomla-field-group-buttons > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
     border-radius: 0; }
   joomla-field-group-buttons > .btn:first-child {
