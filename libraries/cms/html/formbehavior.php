@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ abstract class JHtmlFormbehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
-		JHtml::_('stylesheet', 'legacy/chosen.css', false, true);
+		JHtml::_('stylesheet', 'legacy/chosen.min.css', ['version' => 'auto', 'relative' => true]);
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));

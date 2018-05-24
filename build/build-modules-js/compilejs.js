@@ -38,7 +38,7 @@ uglifyJs = (options, path) => {
 		Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
 			(files) => {
 				files.forEach((file) => {
-					if (file.match(/.js/)) {
+					if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
 						// Write the file
 						fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, "utf8")).code, {encoding: "utf8"});
 					}

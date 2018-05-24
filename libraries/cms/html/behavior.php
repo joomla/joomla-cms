@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,32 +73,6 @@ abstract class JHtmlBehavior
 		);
 
 		static::$loaded[__METHOD__] = true;
-	}
-
-	/**
-	 * Add unobtrusive JavaScript support for image captions.
-	 *
-	 * @param   string  $selector  The selector for which a caption behaviour is to be applied.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function caption($selector = 'img.caption')
-	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__][$selector]))
-		{
-			return;
-		}
-
-		JHtml::_('script', 'legacy/caption.min.js', array('version' => 'auto', 'relative' => true));
-
-		// Pass the required options to the javascript
-		JFactory::getDocument()->addScriptOptions('js-image-caption', ['selector' => $selector]);
-
-		// Set static array
-		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**

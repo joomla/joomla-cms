@@ -3,28 +3,28 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Event\SubscriberInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Plugin class for redirect handling.
  *
  * @since  1.6
  */
-class PlgSystemRedirect extends CMSPlugin
+class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -35,68 +35,44 @@ class PlgSystemRedirect extends CMSPlugin
 	protected $autoloadLanguage = false;
 
 	/**
-	 * The global exception handler registered before the plugin was instantiated
+	 * Database object.
 	 *
-	 * @var    callable
-	 * @since  3.6
+	 * @var    DatabaseInterface
+	 * @since  __DEPLOY_VERSION__
 	 */
-	private static $previousExceptionHandler;
+	protected $db;
 
 	/**
-	 * Constructor.
+	 * Returns an array of events this subscriber will listen to.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @return  array
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config)
+	public static function getSubscribedEvents(): array
 	{
-		parent::__construct($subject, $config);
-
-		// Register the previously defined exception handler so we can forward errors to it
-		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
-	}
-
-	/**
-	 * Method to handle an uncaught exception.
-	 *
-	 * @param   Throwable  $exception  The Throwable object to be handled.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 * @throws  InvalidArgumentException
-	 */
-	public static function handleException(Throwable $exception)
-	{
-		self::doErrorHandling($exception);
+		return [
+			'onError' => 'handleError',
+		];
 	}
 
 	/**
 	 * Internal processor for all error handlers
 	 *
-	 * @param   Throwable  $error  The Throwable object to be handled.
+	 * @param   ErrorEvent  $event  The event object
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private static function doErrorHandling(Throwable $error)
+	public function handleError(ErrorEvent $event)
 	{
-		$app = JFactory::getApplication();
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		$app = $event->getApplication();
 
-		if ($app->isClient('administrator') || ((int) $error->getCode() !== 404))
+		if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404))
 		{
-			// Proxy to the previous exception handler if available, otherwise just render the error page
-			if (self::$previousExceptionHandler)
-			{
-				call_user_func_array(self::$previousExceptionHandler, array($error));
-			}
-			else
-			{
-				ExceptionHandler::render($error);
-			}
+			return;
 		}
 
 		$uri = Uri::getInstance();
@@ -125,11 +101,7 @@ class PlgSystemRedirect extends CMSPlugin
 		$urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
 		$urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
 
-		$plugin = PluginHelper::getPlugin('system', 'redirect');
-
-		$params = new Registry($plugin->params);
-
-		$excludes = (array) $params->get('exclude_urls');
+		$excludes = (array) $this->params->get('exclude_urls');
 
 		$skipUrl = false;
 
@@ -162,54 +134,54 @@ class PlgSystemRedirect extends CMSPlugin
 		// Why is this (still) here?
 		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
 		{
-			ExceptionHandler::render($error);
+			return;
 		}
 
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		$query->select('*')
-			->from($db->quoteName('#__redirect_links'))
+			->from($this->db->quoteName('#__redirect_links'))
 			->where(
 				'('
-				. $db->quoteName('old_url') . ' = ' . $db->quote($url)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($url)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRel)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRel)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRootRel)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRel)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRootRelSlash)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRelSlash)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($urlWithoutQuery)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlWithoutQuery)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($urlRelWithoutQuery)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRelWithoutQuery)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurl)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurl)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRel)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRel)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRootRel)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRel)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRootRelSlash)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRelSlash)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlWithoutQuery)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlWithoutQuery)
 				. ' OR '
-				. $db->quoteName('old_url') . ' = ' . $db->quote($orgurlRelWithoutQuery)
+				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRelWithoutQuery)
 				. ')'
 			);
 
-		$db->setQuery($query);
+		$this->db->setQuery($query);
 
 		$redirect = null;
 
 		try
 		{
-			$redirects = $db->loadAssocList();
+			$redirects = $this->db->loadAssocList();
 		}
 		catch (Exception $e)
 		{
-			ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+			$event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+
+			return;
 		}
 
 		$possibleMatches = array_unique(
@@ -270,14 +242,14 @@ class PlgSystemRedirect extends CMSPlugin
 				$app->redirect($destination, (int) $redirect->header);
 			}
 
-			ExceptionHandler::render(new RuntimeException($error->getMessage(), $redirect->header, $error));
+			$event->setError(new RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
+
+			return;
 		}
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			$params = new Registry(PluginHelper::getPlugin('system', 'redirect')->params);
-
-			if ((bool) $params->get('collect_urls', true))
+			if ((bool) $this->params->get('collect_urls', true))
 			{
 				$data = (object) array(
 					'id' => 0,
@@ -290,11 +262,13 @@ class PlgSystemRedirect extends CMSPlugin
 
 				try
 				{
-					$db->insertObject('#__redirect_links', $data, 'id');
+					$this->db->insertObject('#__redirect_links', $data, 'id');
 				}
 				catch (Exception $e)
 				{
-					ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+					$event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+
+					return;
 				}
 			}
 		}
@@ -305,14 +279,14 @@ class PlgSystemRedirect extends CMSPlugin
 
 			try
 			{
-				$db->updateObject('#__redirect_links', $redirect, 'id');
+				$this->db->updateObject('#__redirect_links', $redirect, 'id');
 			}
 			catch (Exception $e)
 			{
-				ExceptionHandler::render(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+				$event->setError(new Exception(Text::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+
+				return;
 			}
 		}
-
-		ExceptionHandler::render($error);
 	}
 }

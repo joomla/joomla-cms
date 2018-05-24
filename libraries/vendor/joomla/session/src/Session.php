@@ -154,7 +154,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	 */
 	public function hasToken($token, $forceExpire = true)
 	{
-		$result = $this->get('session.token') !== $token;
+		$result = $this->get('session.token') === $token;
 
 		if (!$result && $forceExpire)
 		{
@@ -469,22 +469,19 @@ class Session implements SessionInterface, DispatcherAwareInterface
 
 		if ($this->dispatcher)
 		{
-			if (method_exists($this->dispatcher, 'getListeners'))
+			if (!empty($this->dispatcher->getListeners('onAfterSessionStart')))
 			{
-				if (!empty($this->dispatcher->getListeners('onAfterSessionStart')))
-				{
-					@trigger_error(
-						sprintf(
-							'The `onAfterSessionStart` event is deprecated and will be removed in 3.0, use the %s::START event instead.',
-							SessionEvents::class
-						),
-						E_USER_DEPRECATED
-					);
-				}
-			}
+				@trigger_error(
+					sprintf(
+						'The `onAfterSessionStart` event is deprecated and will be removed in 3.0, use the %s::START event instead.',
+						SessionEvents::class
+					),
+					E_USER_DEPRECATED
+				);
 
-			// Dispatch deprecated event
-			$this->dispatcher->dispatch('onAfterSessionStart', new SessionEvent('onAfterSessionStart', $this));
+				// Dispatch deprecated event
+				$this->dispatcher->dispatch('onAfterSessionStart', new SessionEvent('onAfterSessionStart', $this));
+			}
 
 			// Dispatch new event
 			$this->dispatcher->dispatch(SessionEvents::START, new SessionEvent(SessionEvents::START, $this));
@@ -564,22 +561,19 @@ class Session implements SessionInterface, DispatcherAwareInterface
 
 		if ($this->dispatcher)
 		{
-			if (method_exists($this->dispatcher, 'getListeners'))
+			if (!empty($this->dispatcher->getListeners('onAfterSessionRestart')))
 			{
-				if (!empty($this->dispatcher->getListeners('onAfterSessionRestart')))
-				{
-					@trigger_error(
-						sprintf(
-							'The `onAfterSessionRestart` event is deprecated and will be removed in 3.0, use the %s::RESTART event instead.',
-							SessionEvents::class
-						),
-						E_USER_DEPRECATED
-					);
-				}
-			}
+				@trigger_error(
+					sprintf(
+						'The `onAfterSessionRestart` event is deprecated and will be removed in 3.0, use the %s::RESTART event instead.',
+						SessionEvents::class
+					),
+					E_USER_DEPRECATED
+				);
 
-			// Dispatch deprecated event
-			$this->dispatcher->dispatch('onAfterSessionRestart', new SessionEvent('onAfterSessionRestart', $this));
+				// Dispatch deprecated event
+				$this->dispatcher->dispatch('onAfterSessionRestart', new SessionEvent('onAfterSessionRestart', $this));
+			}
 
 			// Dispatch new event
 			$this->dispatcher->dispatch(SessionEvents::RESTART, new SessionEvent(SessionEvents::RESTART, $this));
