@@ -111,13 +111,13 @@ class PlgSystemDebug extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
+		if ($this->params->get('log-deprecated', 0))
 		{
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
+		if ($this->params->get('log-everything', 0))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -331,7 +331,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('language_files_loaded');
 			}
 
-			if ($this->params->get('language_strings'))
+			if ($this->params->get('language_strings', 1))
 			{
 				$html[] = $this->display('untranslated_strings');
 			}
@@ -404,7 +404,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = (array) $this->params->get('filter_groups', array());
 
 		if (!empty($filterGroups))
 		{
@@ -772,7 +772,7 @@ class PlgSystemDebug extends JPlugin
 						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
-				if ($this->params->get('log-executed-sql', '0'))
+				if ($this->params->get('log-executed-sql', 0))
 				{
 					$this->writeToFile();
 				}
@@ -1621,7 +1621,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayUntranslatedStrings()
 	{
-		$stripFirst = $this->params->get('strip-first');
+		$stripFirst = $this->params->get('strip-first', 1);
 		$stripPref  = $this->params->get('strip-prefix');
 		$stripSuff  = $this->params->get('strip-suffix');
 
