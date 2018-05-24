@@ -44,8 +44,7 @@ class HtmlView extends InstallerViewDefault
 	/**
 	 * List pagination.
 	 *
-	 * @var Pagination
-	 *
+	 * @var    Pagination
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
@@ -62,7 +61,7 @@ class HtmlView extends InstallerViewDefault
 	 * A list of form filters
 	 *
 	 * @var    array
-	 * @since  1.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $activeFilters = array();
 
@@ -85,11 +84,11 @@ class HtmlView extends InstallerViewDefault
 		// Get data from the model.
 		/** @var DatabaseModel $model */
 		$model = $this->getModel();
-		$this->changeSet      = $model->getItems();
-		$this->errorCount     = $model->getErrorCount();
-		$this->pagination     = $model->getPagination();
-		$this->filterForm     = $model->getFilterForm();
-		$this->activeFilters  = $model->getActiveFilters();
+		$this->changeSet     = $model->getItems();
+		$this->errorCount    = $model->getErrorCount();
+		$this->pagination    = $model->getPagination();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		if ($this->errorCount === 0)
 		{
@@ -117,7 +116,6 @@ class HtmlView extends InstallerViewDefault
 		 * Set toolbar items for the page.
 		 */
 		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
-
 		ToolbarHelper::custom('database.findproblems', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_PROBLEMS', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();

@@ -9,6 +9,7 @@
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
@@ -29,7 +30,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 		<div class="col-md-10">
 			<div id="j-main-container" class="j-main-container">
 				<div class="control-group">
-					<?php echo \JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -105,7 +106,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<label class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
 											data-content="<?php echo $item['errorsMessage']; ?>"
 											data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
-												<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
+											<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 										</label>
 									</td>
 									<td>

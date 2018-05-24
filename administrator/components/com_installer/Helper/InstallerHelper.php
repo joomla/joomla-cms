@@ -169,7 +169,7 @@ class InstallerHelper
 	 *
 	 * @param   string  $element    element of an extension
 	 * @param   string  $type       type of an extension
-	 * @param   int     $client_id  client_id of an extension
+	 * @param   integer $client_id  client_id of an extension
 	 * @param   string  $folder     folder of an extension
 	 *
 	 * @return  \SimpleXMLElement
