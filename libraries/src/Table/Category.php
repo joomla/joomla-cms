@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,6 +168,11 @@ class Category extends Nested
 			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		if (empty($this->modified_time))
+		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+		}
+
 		return true;
 	}
 
@@ -221,12 +226,11 @@ class Category extends Nested
 		$date = \JFactory::getDate();
 		$user = \JFactory::getUser();
 
-		$this->modified_time = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing category
 			$this->modified_user_id = $user->get('id');
+			$this->modified_time    = $date->toSql();
 		}
 		else
 		{

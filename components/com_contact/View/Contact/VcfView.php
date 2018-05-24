@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Site\View\Contact;
@@ -53,13 +53,14 @@ class VcfView extends AbstractView
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 
-		if (count($namearray) > 1 )
+		if (count($namearray) > 1)
 		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
 			$name_and_midname = trim($namearray[1]);
 
 			$firstname = '';
+
 			if (!empty($name_and_midname))
 			{
 				$namearray = explode(' ', $name_and_midname);

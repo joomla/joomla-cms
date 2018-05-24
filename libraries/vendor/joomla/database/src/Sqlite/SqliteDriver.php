@@ -8,8 +8,6 @@
 
 namespace Joomla\Database\Sqlite;
 
-use Joomla\Database\DatabaseEvents;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Database\Pdo\PdoDriver;
 
 /**
@@ -98,21 +96,6 @@ class SqliteDriver extends PdoDriver
 				return $rownum;
 			}
 		);
-	}
-
-	/**
-	 * Disconnects the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disconnect()
-	{
-		$this->freeResult();
-		$this->connection = null;
-
-		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_DISCONNECT, $this));
 	}
 
 	/**

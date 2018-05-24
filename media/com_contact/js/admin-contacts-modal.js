@@ -1,60 +1,62 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(function() {
-	"use strict";
-	/**
-	 * Javascript to insert the link
-	 * View element calls jSelectContact when a contact is clicked
-	 * jSelectContact creates the link tag, sends it to the editor,
-	 * and closes the select frame.
-	 */
+(function () {
+  'use strict';
 
-	window.jSelectContact = function(id, title, catid, object, link, lang)
-	{
-		var hreflang = '', tag, editor;
+  /**
+    * Javascript to insert the link
+    * View element calls jSelectContact when a contact is clicked
+    * jSelectContact creates the link tag, sends it to the editor,
+    * and closes the select frame.
+    */
 
-		if (!Joomla.getOptions('xtd-contacts')) {
-			// Something went wrong!
-			window.parent.jModalClose();
-			return false;
-		}
+  window.jSelectContact = function (id, title, catid, object, link, lang) {
+    var hreflang = '';
 
-		editor = Joomla.getOptions('xtd-contacts').editor;
+    if (!Joomla.getOptions('xtd-contacts')) {
+      // Something went wrong!
+      window.parent.jModalClose();
+      return false;
+    }
 
-		if (lang !== '') {
-			hreflang = ' hreflang = "' + lang + '"';
-		}
+    var _Joomla$getOptions = Joomla.getOptions('xtd-contacts'),
+        editor = _Joomla$getOptions.editor;
 
-		tag = '<a' + hreflang + ' href="' + link + '">' + title + '</a>';
+    if (lang !== '') {
+      hreflang = 'hreflang = "' + lang + '"';
+    }
 
-		window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
+    var tag = '<a ' + hreflang + '  href="' + link + '">' + title + '</a>';
+    window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
+    window.parent.jModalClose();
+    return true;
+  };
 
-		if (window.parent.Joomla.currentModal) {
-			// @TODO Remove jQuery, use Joomla-UI
-			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
-		}
-	};
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get the elements
+    var elements = document.querySelectorAll('.select-link');
 
-	document.addEventListener('DOMContentLoaded', function(){
-		// Get the elements
-		var elements = document.querySelectorAll('.select-link');
+    for (var i = 0, l = elements.length; l > i; i += 1) {
+      // Listen for click event
+      elements[i].addEventListener('click', function (event) {
+        event.preventDefault();
+        var functionName = event.target.getAttribute('data-function');
 
-		for(var i = 0, l = elements.length; l>i; i++) {
-			// Listen for click event
-			elements[i].addEventListener('click', function (event) {
-				event.preventDefault();
-				var functionName = event.target.getAttribute('data-function');
-
-				if (functionName === 'jSelectContact') {
-					// Used in xtd_contacts
-					window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
-				} else {
-					// Used in com_menus
-					window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
-				}
-			})
-		}
-	});
+        if (functionName === 'jSelectContact') {
+          // Used in xtd_contacts
+          window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+        } else {
+          // Used in com_menus
+          window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+        }
+      });
+    }
+  });
 })();

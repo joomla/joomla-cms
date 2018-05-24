@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,8 +64,12 @@ HTMLHelper::_('webcomponent',
 );
 
 // Set the type of switcher
-$type = str_replace('switcher switcher-', '', trim($class));
-$type = $type === 'switcher' ? '' : 'type="' . $type . '"';
+$type = '';
+
+if ($pos = strpos($class, 'switcher-'))
+{
+	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
+}
 
 // Add the attributes of the fieldset in an array
 $attribs = [

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -260,6 +260,12 @@ class Content extends Table
 			$this->publish_down = $temp;
 		}
 
+		// Set modified to null date if not set
+		if (!$this->modified)
+		{
+			$this->modified = $this->_db->getNullDate();
+		}
+
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
@@ -285,6 +291,7 @@ class Content extends Table
 					$clean_keys[] = trim($key);
 				}
 			}
+
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $clean_keys);
 		}
@@ -330,12 +337,11 @@ class Content extends Table
 		$date = \JFactory::getDate();
 		$user = \JFactory::getUser();
 
-		$this->modified = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_by = $user->get('id');
+			$this->modified    = $date->toSql();
 		}
 		else
 		{
