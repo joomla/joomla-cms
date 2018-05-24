@@ -89,6 +89,16 @@ class PlgSystemHighlight extends CMSPlugin
 		return true;
 	}
 
+	/**
+	 * Method to catch the onFinderResult event.
+	 *
+	 * @param   FinderIndexerResult  $item   The search result
+	 * @param   array                $query  The search query of this result
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
 	public function onFinderResult($item, $query)
 	{
 		static $params;
