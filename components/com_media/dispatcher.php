@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Dispatcher\Dispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Dispatcher class for com_media
@@ -20,25 +23,17 @@ use Joomla\CMS\MVC\Controller\BaseController;
 class MediaDispatcher extends Dispatcher
 {
 	/**
-	 * The extension namespace
+	 * Constructor for Dispatcher
 	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Media';
-
-	/**
-	 * Constructor
-	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication              $app                The application instance
+	 * @param   Input                       $input              The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(\Joomla\CMS\Application\CMSApplication $app, \JInput $input = null)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		parent::__construct($app, $input);
+		parent::__construct($app, $input, $mvcFactoryFactory);
 
 		// As default the view is set to featured, so we need to initialize it
 		$this->input->set('view', 'media');
