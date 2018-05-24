@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Finder\Administrator\Table;
@@ -106,6 +106,11 @@ class FilterTable extends Table
 			$params->set('d1', $d2);
 			$params->set('d2', $d1);
 			$this->params = (string) $params;
+		}
+
+		if (empty($this->modified))
+		{
+			$this->modified = $nullDate;
 		}
 
 		return true;
@@ -220,12 +225,11 @@ class FilterTable extends Table
 		$date = \JFactory::getDate()->toSql();
 		$userId = \JFactory::getUser()->id;
 
-		$this->modified = $date;
-
 		if ($this->filter_id)
 		{
 			// Existing item
 			$this->modified_by = $userId;
+			$this->modified    = $date;
 		}
 		else
 		{

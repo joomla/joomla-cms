@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Admin\Administrator\Model;
@@ -622,9 +622,10 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 		else
 		{
-			$this->addDirectory('cache', JPATH_SITE . '/cache', 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->addDirectory('administrator/cache', JPATH_CACHE, 'COM_ADMIN_CACHE_DIRECTORY');
 		}
+
+		$this->addDirectory('media/cache', JPATH_ROOT . '/media/cache', 'COM_ADMIN_MEDIA_CACHE_DIRECTORY');
 
 		if ($public)
 		{
