@@ -28,8 +28,9 @@ class PrivacyModelConsent extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'a.id',
-				'au.username'
+				'id', 'a.id',
+				'created', 'a.created',
+				'username', 'u.username',
 			);
 		}
 
@@ -54,8 +55,8 @@ class PrivacyModelConsent extends JModelList
 		$query->from($db->quoteName('#__privacy_consent', 'a'));
 
 		// Join over the users for the username.
-		$query->select($db->quoteName('ua.username', 'username'));
-		$query->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ua.id = a.user_id');
+		$query->select($db->quoteName('u.username', 'username'));
+		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.user_id');
 
 		// Filter by search in email
 		$search = $this->getState('filter.search');
@@ -69,7 +70,7 @@ class PrivacyModelConsent extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . $db->quoteName('b.username') . ' LIKE ' . $search . ')');
+				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
 			}
 		}
 

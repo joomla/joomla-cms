@@ -38,11 +38,11 @@ $now       = JFactory::getDate();
 				<?php echo JText::_('COM_PRIVACY_MSG_CONSENT_NO_CONSENT'); ?>
 			</div>
 		<?php else : ?>
-			<table class="table table-striped" id="requestList">
+			<table class="table table-striped" id="consentList">
 				<thead>
 					<tr>
                         <th width="10%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'b.username', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
                         </th>
 						<th width="10%" class="nowrap">
                             <?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_SUBJECT'); ?>
