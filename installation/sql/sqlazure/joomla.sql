@@ -876,6 +876,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (480, 0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (481, 0, 'plg_fields_repeatable', 'plugin', 'repeatable', 'fields', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (482, 0, 'plg_content_confirmconsent', 'plugin', 'confirmconsent', 'content', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
+(485, 0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
@@ -2374,6 +2375,25 @@ CREATE NONCLUSTERED INDEX "idx_checkout" ON "#__privacy_requests" (
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX "idx_user_id" ON "#__privacy_requests" (
+  "user_id" ASC)
+WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+--
+-- Table structure for table `#__privacy_consent`
+--
+
+CREATE TABLE "#__privacy_consent" (
+  "id" int IDENTITY(1,1) NOT NULL,
+  "user_id" bigint NOT NULL DEFAULT 0,
+  "created" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
+  "subject" nvarchar(255) NOT NULL DEFAULT '',
+  "body" nvarchar(max) NOT NULL,
+CONSTRAINT "PK_#__privacy_consent_id" PRIMARY KEY CLUSTERED(
+  "id" ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON
+) ON [PRIMARY]) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX "idx_user_id" ON "#__privacy_consent" (
   "user_id" ASC)
 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 

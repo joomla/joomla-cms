@@ -1678,7 +1678,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_consent` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `subject` varchar(25) NOT NULL DEFAULT '',
+  `subject` varchar(255) NOT NULL DEFAULT '',
   `body` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
