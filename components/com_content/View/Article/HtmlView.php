@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -110,7 +111,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// TODO: Change based on shownoauth
-		$item->readmore_link = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+		$item->readmore_link = \JRoute::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
@@ -294,7 +295,7 @@ class HtmlView extends BaseHtmlView
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 
