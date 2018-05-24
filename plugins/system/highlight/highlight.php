@@ -88,4 +88,22 @@ class PlgSystemHighlight extends CMSPlugin
 
 		return true;
 	}
+
+	public function onFinderResult($item, $query)
+	{
+		static $params;
+
+		if (is_null($params))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+		}
+
+		// Get the route with highlighting information.
+		if (!empty($query->highlight)
+			&& empty($item->mime)
+			&& $params->get('highlight_terms', 1))
+		{
+			$item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
+		}
+	}
 }
