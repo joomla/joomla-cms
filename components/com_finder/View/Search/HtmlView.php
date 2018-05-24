@@ -116,7 +116,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app    = Factory::getApplication();
+		$app = Factory::getApplication();
 		$this->params = $app->getParams();
 
 		// Get view data.
