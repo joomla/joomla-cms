@@ -341,7 +341,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::addNew('item.add');
 		}
-		
+
 		if (!empty($this->items))
 		{
 			$protected = $this->state->get('filter.menutype') == 'main';
@@ -390,7 +390,7 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::trash('items.trash');
 			}
 		}
-		
+
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			ToolbarHelper::divider();
