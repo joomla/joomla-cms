@@ -31,6 +31,7 @@
     "font-awesome": "4.7.0",
     "joomla-ui-custom-elements": "0.0.22",
     "jquery": "3.3.1",
+    "jquery-migrate": "1.4.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
     "tinymce": "4.7.7"
@@ -241,6 +242,17 @@
           "jquery-migrate"
         ],
         "dependencies": [],
+        "licenseFilename": "LICENSE.txt"
+      },
+      "jquery-migrate": {
+        "name": "jquery-migrate",
+        "js": {
+          "dist/jquery-migrate.js": "js/jquery-migrate.js",
+          "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
+        },
+        "dependencies": [
+          "jquery"
+        ],
         "licenseFilename": "LICENSE.txt"
       },
       "joomla-ui-custom-elements": {
