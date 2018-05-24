@@ -46,22 +46,44 @@ if (!empty($this->query->highlight)
 {
 	$route .= '&highlight=' . base64_encode(json_encode($this->query->highlight));
 }
-
 ?>
-<li>
+<dt class="result-title">
+	<?php echo $this->pagination->limitstart + $this->result->counter . '. '; ?>
 	<h4 class="result-title <?php echo $mime; ?>">
-		<a href="<?php echo JRoute::_($route); ?>">
+		<?php if ($this->result->route) : ?>
+			<a href="<?php echo JRoute::_($this->result->route); ?>">
+				<?php echo $this->result->title; ?>
+			</a>
+		<?php else : ?>
 			<?php echo $this->result->title; ?>
-		</a>
+		<?php endif; ?>
 	</h4>
-	<?php if ($show_description && $description !== '') : ?>
+</dt>
+<?php
+$type = $this->result->getTaxonomy('Type');
+$type = array_shift($type);
+?>
+<dd class="result-type">
+	<span class="small">
+		(<?php echo $type->title; ?>)
+	</span>
+</dd>
+<?php if ($this->result->category) : ?>
+	<dd class="result-category">
+		<span class="small">
+			(<?php echo $this->result->category; ?>)
+		</span>
+	</dd>
+<?php endif; ?>
+<?php if ($show_description && $description !== '') : ?>
+	<dd class="result-text">
 		<p class="result-text">
 			<?php echo $description; ?>
 		</p>
-	<?php endif; ?>
-	<?php if ($this->params->get('show_url', 1)) : ?>
-		<div class="small result-url">
-			<?php echo $this->baseUrl, JRoute::_($this->result->route); ?>
-		</div>
-	<?php endif; ?>
-</li>
+	</dd>
+<?php endif; ?>
+<?php if ($this->result->created && $this->params->get('show_date', 1)) : ?>
+	<dd class="result-created">
+		<?php echo JText::sprintf('JGLOBAL_CREATED_DATE_ON', \JHtml::_('date', $this->result->created, \JText::_('DATE_FORMAT_LC3'))); ?>
+	</dd>
+<?php endif; ?>
