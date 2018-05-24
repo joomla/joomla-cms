@@ -91,7 +91,7 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  $items  The banner category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -145,7 +145,7 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items     The content objects
+	 * @param   stdClass[]  $items      The content objects
 	 * @param   string      $extension  The name of the active view.
 	 *
 	 * @return  stdClass[]
