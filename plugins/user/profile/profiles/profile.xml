@@ -121,6 +121,7 @@
 				label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 				description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 				default="0"
+				filter="integer"
 				>
 				<option value="1">PLG_USER_PROFILE_OPTION_AGREE</option>
 				<option value="0">JNO</option>

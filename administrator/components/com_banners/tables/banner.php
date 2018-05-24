@@ -22,7 +22,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */

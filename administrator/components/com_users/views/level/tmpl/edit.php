@@ -40,7 +40,7 @@ JFactory::getDocument()->addScriptDeclaration("
 
 	<fieldset>
 		<legend><?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?></legend>
-		<?php echo JHtml::_('access.usergroups', 'jform[rules]', $this->item->rules); ?>
+		<?php echo JHtml::_('access.usergroups', 'jform[rules]', $this->item->rules, true); ?>
 	</fieldset>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

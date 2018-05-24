@@ -23,11 +23,11 @@
 			<fieldset name="basic">
 				<field
 					name="options"
-					type="subform" 
+					type="subform"
 					label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_LABEL"
 					description="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_DESC"
 					layout="joomla.form.field.subform.repeatable-table"
-					icon="list" 
+					icon="list"
 					multiple="true"
 					>
 					<form hidden="true" name="list_templates_modal" repeat="true">
@@ -37,7 +37,7 @@
 							label="PLG_FIELDS_CHECKBOXES_PARAMS_OPTIONS_NAME_LABEL"
 							size="30"
 						/>
-	
+
 						<field
 							name="value"
 							type="text"
