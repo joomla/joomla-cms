@@ -156,8 +156,8 @@ class TemplateModel extends FormModel
 	/**
 	 * Method to get the core file of override file
 	 *
-	 * @param   string   $file      Override file
-	 * @param   integer  $client_id Client Id
+	 * @param   string   $file       Override file
+	 * @param   integer  $client_id  Client Id
 	 *
 	 * @return  string  $corefile The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
@@ -224,7 +224,7 @@ class TemplateModel extends FormModel
 			if (stristr($subtype, 'com_'))
 			{
 				$folder    = $explodeArray['3'];
-		 		$subFolder = array_slice($explodeArray, 4, -1);
+				$subFolder = array_slice($explodeArray, 4, -1);
 				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
 				$htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
 				$fileName  = $this->getSafeName($fileName);
@@ -267,8 +267,8 @@ class TemplateModel extends FormModel
 
 			// Remove ( Date ) from file
 			$explodeArray = explode('-', $name);
-			$size         = count($explodeArray);
-			$date         = $explodeArray[$size-2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size-1]);
+			$size = count($explodeArray);
+			$date = $explodeArray[$size - 2] . '-' . str_replace('.' . $extension, '', $explodeArray[$size - 1]);
 
 			if ($this->validateDate($date))
 			{
@@ -285,25 +285,25 @@ class TemplateModel extends FormModel
 	/**
 	 * Validate Date in file name.
 	 *
-	 * @param  string $date Date to validate.
+	 * @param   string  $date  Date to validate.
 	 *
 	 * @return boolean Return true if date is valid and false if not.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	 private function validateDate($date)
-	 {
-		 $format = 'Ymd-His';
-		 $valid  = Date::createFromFormat($format, $date);
+	private function validateDate($date)
+	{
+		$format = 'Ymd-His';
+		$valid  = Date::createFromFormat($format, $date);
 
-		 return $valid && $valid->format($format) == $date;
-	 }
+		return $valid && $valid->format($format) == $date;
+	}
 
 	/**
 	 * Find file in given folder.
 	 *
-	 * @param  string  $paths An path or array of path to search.
-	 * @param  string  $file  The file name to look for.
+	 * @param   string  $paths  An path or array of path to search.
+	 * @param   string  $file   The file name to look for.
 	 *
 	 * @return mixed  $path The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
