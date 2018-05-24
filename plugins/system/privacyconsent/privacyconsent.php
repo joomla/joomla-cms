@@ -78,72 +78,31 @@ class PlgSystemPrivacyconsent extends JPlugin
 			return false;
 		}
 
-		// Check we are manipulating a valid form - we do not display this in the admin users form or profile view.
-		$name 	= $form->getName();
-		$layout = $this->app->input->get('layout', 'default', 'string');
-		$view	= $this->app->input->get('view', 'default', 'string');
+		// Check we are manipulating a valid form - we only display this on user registration form and user profile form.
+		$name = $form->getName();
 
-		// Check for the correct form.
-		if (!in_array($name, array('com_admin.profile', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, array('com_users.profile', 'com_users.registration')))
 		{
 			return true;
 		}
 
-		// Check for the correct layout and view.
-		if ($layout != 'edit' && $view != 'registration')
-		{
-			return true;
-		}
-
-		// Add the registration fields to the form.
-		JForm::addFormPath(__DIR__ . '/privacyconsent');
-		$form->loadFile('privacyconsent');
-
-		$fields = array(
-			'privacy',
-		);
-
+		// We only display this if user has not consented before
 		if (is_object($data))
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			if ($userId > 0)
+			if ($userId > 0 && $this->isUserConsented($userId))
 			{
-				// Load the profile data from the database.
-				$db = JFactory::getDbo();
-
-				$query = $db->getQuery(true)
-					->select($db->quoteName('profile_value'))
-					->from($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-					->where($db->quoteName('profile_key') . ' = ' . $db->quote('consent'))
-					->where($db->quoteName('profile_value') . ' = ' . $db->quote('1'));
-				$db->setQuery($query);
-
-				try
-				{
-					$results = $db->loadRowList();
-				}
-
-				catch (RuntimeException $e)
-				{
-					$this->_subject->setError($e->getMessage());
-
-					return false;
-				}
-
-				if (!empty($results[0]))
-				{
-					$form->removeField('privacy', 'privacyconsent');
-					$form->removeGroup('privacyconsent');
-
-					return true;
-				}
+				return true;
 			}
 		}
 
-		$privacyarticle	= $this->params->get('privacy_article');
-		$privacynote	= $this->params->get('privacy_note');
+		// Add the privacy policy fields to the form.
+		JForm::addFormPath(__DIR__ . '/privacyconsent');
+		$form->loadFile('privacyconsent');
+
+		$privacyarticle = $this->params->get('privacy_article');
+		$privacynote    = $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
 		$form->setFieldAttribute('privacy', 'article', $privacyarticle, 'privacyconsent');
@@ -164,15 +123,27 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
 	{
-		// Check that the privacy is checked if required ie only in registration from frontend.
-		$form   = $this->app->input->post->get('jform', array(), 'array');
-
+		// // Only check for front-end user creation/update profile
 		if ($this->app->isClient('administrator'))
 		{
 			return true;
 		}
 
-		if (isset($form['privacyconsent']['privacy']) && (!$form['privacyconsent']['privacy']))
+		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
+
+		// User already consented before, no need to check it further
+		if ($userId > 0 && $this->isUserConsented($userId))
+		{
+			return true;
+		}
+
+		// Check that the privacy is checked if required ie only in registration from frontend.
+		$option = $this->app->input->getCmd('option');
+		$task   = $this->app->input->get->getCmd('task');
+		$form   = $this->app->input->post->get('jform', array(), 'array');
+
+		if ($option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
+			&& empty($form['privacyconsent']['privacy']))
 		{
 			throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
 		}
@@ -181,7 +152,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	}
 
 	/**
-	 * Saves user privacy confirmation and note
+	 * Saves user privacy confirmation
 	 *
 	 * @param   array    $data    entered user data
 	 * @param   boolean  $isNew   true if this is a new user
@@ -194,19 +165,30 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-		$option	= $this->app->input->getCmd('option');
-
-		// Only create an entry on front-end user creation/update and admin profile
-		if ($this->app->isClient('administrator') && $option != 'com_admin')
+		// Only create an entry on front-end user creation/update profile
+		if ($this->app->isClient('administrator'))
 		{
-			return;
+			return true;
 		}
 
-		$form = $this->app->input->post->get('jform', array(), 'array');
-		
-		if (isset($form['privacyconsent']['privacy']) && ($form['privacyconsent']['privacy']))
-		{	
-			// Get the user's ID
+		// Get the user's ID
+		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+		// If user already consented before, no need to check it further
+		if ($userId > 0 && $this->isUserConsented($userId))
+		{
+			return true;
+		}
+
+		$option = $this->app->input->getCmd('option');
+		$task   = $this->app->input->get->getCmd('task');
+		$form   = $this->app->input->post->get('jform', array(), 'array');
+
+		if ($option == 'com_users'
+			&&in_array($task, array('registration.register', 'profile.save'))
+			&& !empty($form['privacyconsent']['privacy']))
+		{
+
 			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 			// Get the user's IP address
@@ -217,33 +199,15 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			// Create the user note
 			$userNote = (object) array(
-				'user_id'         => $userId,
-				'catid'           => 0,
-				'subject'         => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
-				'body'            => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
-				'state'           => 1,
-				'created_time'    => Factory::getDate()->toSql(),
+				'user_id' => $userId,
+				'subject' => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
+				'body'    => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
+				'created' => Factory::getDate()->toSql(),
 			);
 
 			try
 			{
-				$this->db->insertObject('#__user_notes', $userNote);
-			}
-			catch (Exception $e)
-			{
-				// Do nothing if the save fails
-			}
-
-			// Create the consent confirmation
-			$confirm = (object) array(
-				'user_id'       => $userId,
-				'profile_key'   => 'consent',
-				'profile_value' => 1
-			);
-
-			try
-			{
-				$this->db->insertObject('#__user_profiles', $confirm);
+				$this->db->insertObject('#__privacy_consent', $userNote);
 			}
 			catch (Exception $e)
 			{
@@ -278,27 +242,11 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 		if ($userId)
 		{
-			// Remove any user notes
+			// Remove user's consent
 			try
 			{
 				$query = $this->db->getQuery(true)
-					->delete($this->db->quoteName('#__user_notes'))
-					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
-				$this->db->setQuery($query);
-				$this->db->execute();
-			}
-			catch (Exception $e)
-			{
-				$this->_subject->setError($e->getMessage());
-
-				return false;
-			}
-
-			// Remove any user profile fields
-			try
-			{
-				$query = $this->db->getQuery(true)
-					->delete($this->db->quoteName('#__user_profiles'))
+					->delete($this->db->quoteName('#__privacy_consent'))
 					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
 				$this->db->setQuery($query);
 				$this->db->execute();
@@ -315,7 +263,12 @@ class PlgSystemPrivacyconsent extends JPlugin
 	}
 
 	/**
+	 * If logged in users haven't agreed to privacy consent, redirect them to profile edit page, ask them to agree to
+	 * privacy consent before allowing access to any other pages
 	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAfterRoute()
 	{
@@ -327,69 +280,31 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 		$userId = Factory::getUser()->id;
 
+		// Check to see whether user already consented, if not, redirect to user profile page
 		if ($userId > 0)
 		{
-			$consented = false;
+			// If user consented before, no need to check it further
+			if ($this->isUserConsented($userId))
+			{
+				return;
+			}
 
 			$option = $this->app->input->getCmd('option');
-			$task   = $this->app->input->get('task', 'default', 'string');
-			$view = $this->app->input->getString('view', '');
+			$task   = $this->app->input->get('task');
+			$view   = $this->app->input->getString('view', '');
 			$layout = $this->app->input->getString('layout', '');
 
-			// Check for consented is true
-			if ($consented == false)
+			// If user is already on edit profile screen or press update button, do nothing to avoid infinite redirect
+			if ($task == 'profile.save' || ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
-				// Avoid infinite loop
-				if ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
-				{
-					return;
-				}
-
-				// Redirect to com_users profile edit
-				$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
-				$link = 'index.php?option=com_users&view=profile&layout=edit';
-				$this->app->redirect(\JRoute::_($link, false));
+				return;
 			}
+
+			// Redirect to com_users profile edit
+			$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
+			$link = 'index.php?option=com_users&view=profile&layout=edit';
+			$this->app->redirect(\JRoute::_($link, false));
 		}
-	}
-
-	/**
-	 * Check if a user has already consented when they login.
-	 * If not will load the edit profile
-	 *
-	 * @param   array  $options  Array holding options
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onUserAfterLogin($options)
-	{
-		// Run this in frontend only
-		if ($this->app->isClient('administrator'))
-		{
-			return;
-		}
-
-		$userId = Factory::getUser()->id;
-
-		$query = $this->db->getQuery(true)
-			->select('1')
-			->from($this->db->quoteName('#__user_profiles'))
-			->where($this->db->quoteName('user_id') . ' = ' . (int) $userId)
-			->where($this->db->quoteName('profile_key') . ' = ' . $this->db->quote('consent'));
-		$this->db->setQuery($query);
-
-		$consent = $this->db->loadObjectList();
-
-		if (count($consent) != 0)
-		{
-			return;
-		}
-
-		// If the count of $consent is 0 then redirect to com_users profile edit
-		$this->app->enqueueMessage($this->getRedirectMessage(), 'notice');
-		$this->app->redirect(\JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
 	}
 
 	/**
@@ -409,5 +324,25 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		return $messageOnRedirect;
+	}
+
+	/**
+	 * Method to check if the given user has consented yet
+	 *
+	 * @param   int  $userId  ID of uer to check
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function isUserConsented($userId)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select('COUNT(*)')
+			->from('#__privacy_consent')
+			->where('user_id = ' . (int) $userId);
+		$this->db->setQuery($query);
+
+		return (int) $this->db->loadResult() > 0 ? true: false;
 	}
 }
