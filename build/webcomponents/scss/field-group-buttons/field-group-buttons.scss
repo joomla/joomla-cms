@@ -6,6 +6,7 @@ joomla-field-group-buttons {
   > .btn {
     display: inline-block;
     flex: 0 1 auto;
+    min-width: 80px;
     padding: .5rem .75rem;
     margin-bottom: 0;
     font-size: 1rem;
@@ -24,9 +25,8 @@ joomla-field-group-buttons {
       text-decoration: none;
     }
 
-    &:focus,
-    &:active,
-    &.active {
+    &:focus
+    &.focus {
       z-index: 2;
       box-shadow: 0 0 0 3px rgba(0, 123, 255, .25);
     }
@@ -35,15 +35,29 @@ joomla-field-group-buttons {
       opacity: .65;
     }
 
+    &.btn-primary,
+    &.btn-success,
+    &.btn-info,
+    &.btn-warning,
+    &.btn-danger {
+      color: inherit;
+      background-color: #e6e6e6;
+    }
+
+
     &.btn-primary {
-      color: #fff;
-      background-color: #007bff;
-      border-color: #007bff;
 
       &:hover {
         color: #fff;
         background-color: #0069d9;
         border-color: #0062cc;
+      }
+
+      &:active,
+      &.active {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
       }
 
       &:focus,
@@ -59,14 +73,18 @@ joomla-field-group-buttons {
     }
 
     &.btn-success {
-      color: #fff;
-      background-color: #28a745;
-      border-color: #28a745;
 
       &:hover {
         color: #fff;
         background-color: #218838;
         border-color: #1e7e34;
+      }
+
+      &:active,
+      &.active {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
       }
 
       &:focus,
@@ -82,14 +100,18 @@ joomla-field-group-buttons {
     }
 
     &.btn-info {
-      color: #fff;
-      background-color: #17a2b8;
-      border-color: #17a2b8;
 
       &:hover {
         color: #fff;
         background-color: #138496;
         border-color: #117a8b;
+      }
+
+      &:active,
+      &.active {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
       }
 
       &:focus,
@@ -105,14 +127,18 @@ joomla-field-group-buttons {
     }
 
     &.btn-warning {
-      color: #111;
-      background-color: #ffc107;
-      border-color: #ffc107;
 
       &:hover {
         color: #111;
         background-color: #e0a800;
         border-color: #d39e00;
+      }
+
+      &:active,
+      &.active {
+        color: #111;
+        background-color: #ffc107;
+        border-color: #ffc107;
       }
 
       &:focus,
@@ -128,14 +154,18 @@ joomla-field-group-buttons {
     }
 
     &.btn-danger {
-      color: #fff;
-      background-color: #dc3545;
-      border-color: #dc3545;
 
       &:hover {
         color: #fff;
         background-color: #c82333;
         border-color: #bd2130;
+      }
+
+      &:active,
+      &.active {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
       }
 
       &:focus,
@@ -156,6 +186,8 @@ joomla-field-group-buttons {
   .btn-group + .btn,
   .btn-group + .btn-group {
     margin-left: -1px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
 
   > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
