@@ -11,11 +11,14 @@
 .sidebar-wrapper {
   display: flex;
   flex-direction: column;
-  position: relative;
   width: $sidebar-width;
   background-color: $atum-template-color-dark;
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
+  position:sticky;
+  top:0;
+  max-height:100vh;
+  z-index:1041;
 
   @include media-breakpoint-down(md) {
 
@@ -27,6 +30,26 @@
   .main-brand {
     padding: 15px;
     margin-top: auto;
+  }
+  .main-nav-container{
+	max-height:calc(100vh - 60px);
+	overflow-y:auto;
+	overflow-x: hidden;
+	
+	&::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background:$atum-template-color-dark;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: #fff;
+      box-shadow: inset 0 0 2px rgba(0,0,0,.3);
+      border-radius:2px;
+    }
   }
 }
 
