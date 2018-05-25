@@ -167,13 +167,6 @@ class ChecksModel extends BaseInstallationModel
 	{
 		$settings = array();
 
-		// Check for safe mode.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_SAFE_MODE');
-		$setting->state = (bool) ini_get('safe_mode');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
 		// Check for display errors.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
