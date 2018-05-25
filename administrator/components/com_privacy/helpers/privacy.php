@@ -34,6 +34,12 @@ class PrivacyHelper extends JHelperContent
 		);
 
 		JHtmlSidebar::addEntry(
+			JText::_('COM_PRIVACY_SUBMENU_CAPABILITIES'),
+			'index.php?option=com_privacy&view=capabilities',
+			$vName === 'capabilities'
+		);
+
+		JHtmlSidebar::addEntry(
 			JText::_('COM_PRIVACY_SUBMENU_CONSENT'),
 			'index.php?option=com_privacy&view=consent',
 			$vName === 'consent'
