@@ -26,6 +26,24 @@ class PlgCaptchaRecaptcha extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			)
+		);
+	}
+
+	/**
 	 * Initialise the captcha
 	 *
 	 * @param   string  $id  The id of the field.

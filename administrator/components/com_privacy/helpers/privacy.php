@@ -32,5 +32,11 @@ class PrivacyHelper extends JHelperContent
 			'index.php?option=com_privacy',
 			$vName === 'requests'
 		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_PRIVACY_SUBMENU_CAPABILITIES'),
+			'index.php?option=com_privacy&view=capabilities',
+			$vName === 'capabilities'
+		);
 	}
 }
