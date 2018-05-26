@@ -396,17 +396,17 @@
     },
     {
         "name": "joomla/filter",
-        "version": "1.3.4",
-        "version_normalized": "1.3.4.0",
+        "version": "1.3.5",
+        "version_normalized": "1.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/filter.git",
-            "reference": "6ec4c6020f7ef12c57a015410bdd11031620d952"
+            "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/6ec4c6020f7ef12c57a015410bdd11031620d952",
-            "reference": "6ec4c6020f7ef12c57a015410bdd11031620d952",
+            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/ee1d870b5c188056745e1dd3cece21522e2158b8",
+            "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8",
             "shasum": ""
         },
         "require": {
@@ -421,7 +421,7 @@
         "suggest": {
             "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
         },
-        "time": "2018-05-20T15:17:26+00:00",
+        "time": "2018-05-26T15:48:53+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
