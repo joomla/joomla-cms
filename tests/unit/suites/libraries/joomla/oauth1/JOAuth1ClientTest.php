@@ -95,7 +95,7 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options = new Registry;
 		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
-		$this->input = new JInput(array('oauth_verifier' => 'verifier', 'oauth_token' => 'token'));
+		$this->input = new JInput(array());
 		$this->application = $this->getMockWeb();
 
 		$this->options->set('consumer_key', $key);
