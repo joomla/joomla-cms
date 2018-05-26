@@ -192,11 +192,14 @@ class JOAuth1ClientTest extends TestCase
 			{
 				TestReflection::setValue($this->object, 'version', $version);
 				$data = array('oauth_verifier' => 'verifier', 'oauth_token' => 'token');
+				$this->input->set('oauth_verifier', 'verifier');
+				$this->input->set('oauth_token', 'token');
 			}
 			else
 			{
 				TestReflection::setValue($this->object, 'version', $version);
 				$data = array('oauth_token' => 'token');
+				$this->input->set('oauth_token', 'token');
 			}
 			TestReflection::setValue($input, 'data', $data);
 
