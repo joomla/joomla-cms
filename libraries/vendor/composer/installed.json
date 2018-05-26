@@ -502,17 +502,17 @@
     },
     {
         "name": "joomla/input",
-        "version": "1.2.2",
-        "version_normalized": "1.2.2.0",
+        "version": "1.2.3",
+        "version_normalized": "1.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/input.git",
-            "reference": "1f9b4f57919a0b7c3f5bed28b83468663ddd2fb0"
+            "reference": "ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/input/zipball/1f9b4f57919a0b7c3f5bed28b83468663ddd2fb0",
-            "reference": "1f9b4f57919a0b7c3f5bed28b83468663ddd2fb0",
+            "url": "https://api.github.com/repos/joomla-framework/input/zipball/ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8",
+            "reference": "ff97c08aa5fa0f48ccc3e7444827f7f9a6b904c8",
             "shasum": ""
         },
         "require": {
@@ -524,7 +524,7 @@
             "joomla/test": "~1.0",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2018-05-18T19:30:16+00:00",
+        "time": "2018-05-26T17:08:08+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
