@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,7 +71,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	/**
 	 * Magic function to clone the registry object.
 	 *
-	 * @return  Registry
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
@@ -158,7 +158,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$nodes = explode($this->separator, $path);
 
 		// Initialize the current node to be the registry root.
-		$node = $this->data;
+		$node  = $this->data;
 		$found = false;
 
 		// Traverse the registry to find the correct node for the result.
@@ -166,7 +166,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		{
 			if (is_array($node) && isset($node[$n]))
 			{
-				$node = $node[$n];
+				$node  = $node[$n];
 				$found = true;
 				continue;
 			}
@@ -176,7 +176,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 				return false;
 			}
 
-			$node = $node->$n;
+			$node  = $node->$n;
 			$found = true;
 		}
 
@@ -210,7 +210,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$nodes = explode($this->separator, trim($path));
 
 		// Initialize the current node to be the registry root.
-		$node = $this->data;
+		$node  = $this->data;
 		$found = false;
 
 		// Traverse the registry to find the correct node for the result.
@@ -218,7 +218,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		{
 			if (is_array($node) && isset($node[$n]))
 			{
-				$node = $node[$n];
+				$node  = $node[$n];
 				$found = true;
 
 				continue;
@@ -229,7 +229,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 				return $default;
 			}
 
-			$node = $node->$n;
+			$node  = $node->$n;
 			$found = true;
 		}
 
@@ -378,7 +378,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	{
 		$data = $this->get($path);
 
-		if (is_null($data))
+		if (null === $data)
 		{
 			return null;
 		}
@@ -440,7 +440,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	public function offsetUnset($offset)
 	{
-		$this->set($offset, null);
+		$this->remove($offset);
 	}
 
 	/**
@@ -461,7 +461,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			$separator = $this->separator;
 		}
 
-		/**
+		/*
 		 * Explode the registry path into an array and remove empty
 		 * nodes that occur as a result of a double separator. ex: joomla..test
 		 * Finally, re-key the array so they are sequential.
@@ -481,7 +481,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		{
 			if (is_object($node))
 			{
-				if (!isset($node->{$nodes[$i]}) && ($i != $n))
+				if (!isset($node->{$nodes[$i]}) && ($i !== $n))
 				{
 					$node->{$nodes[$i]} = new \stdClass;
 				}
@@ -494,7 +494,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 
 			if (is_array($node))
 			{
-				if (!isset($node[$nodes[$i]]) && ($i != $n))
+				if (($i !== $n) && !isset($node[$nodes[$i]]))
 				{
 					$node[$nodes[$i]] = new \stdClass;
 				}
@@ -537,7 +537,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	{
 		$result = null;
 
-		/**
+		/*
 		 * Explode the registry path into an array and remove empty
 		 * nodes that occur as a result of a double dot. ex: joomla..test
 		 * Finally, re-key the array so they are sequential.
@@ -555,7 +555,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			{
 				if (is_object($node))
 				{
-					if (!isset($node->{$nodes[$i]}) && ($i != $n))
+					if (!isset($node->{$nodes[$i]}) && ($i !== $n))
 					{
 						$node->{$nodes[$i]} = new \stdClass;
 					}
@@ -565,7 +565,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 				}
 				elseif (is_array($node))
 				{
-					if (!isset($node[$nodes[$i]]) && ($i != $n))
+					if (($i !== $n) && !isset($node[$nodes[$i]]))
 					{
 						$node[$nodes[$i]] = new \stdClass;
 					}
@@ -576,13 +576,101 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			}
 
 			if (!is_array($node))
-			// Convert the node to array to make append possible
+				// Convert the node to array to make append possible
 			{
 				$node = get_object_vars($node);
 			}
 
-			array_push($node, $value);
+			$node[] = $value;
 			$result = $value;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Delete a registry value
+	 *
+	 * @param   string  $path  Registry Path (e.g. joomla.content.showauthor)
+	 *
+	 * @return  mixed  The value of the removed node or null if not set
+	 *
+	 * @since   1.6.0
+	 */
+	public function remove($path)
+	{
+		// Cheap optimisation to direct remove the node if there is no separator
+		if (!strpos($path, $this->separator))
+		{
+			$result = (isset($this->data->$path) && $this->data->$path !== null && $this->data->$path !== '') ? $this->data->$path : null;
+
+			unset($this->data->$path);
+
+			return $result;
+		}
+
+		/*
+		 * Explode the registry path into an array and remove empty
+		 * nodes that occur as a result of a double separator. ex: joomla..test
+		 * Finally, re-key the array so they are sequential.
+		 */
+		$nodes = array_values(array_filter(explode($this->separator, $path), 'strlen'));
+
+		if (!$nodes)
+		{
+			return null;
+		}
+
+		// Initialize the current node to be the registry root.
+		$node   = $this->data;
+		$parent = null;
+
+		// Traverse the registry to find the correct node for the result.
+		for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
+		{
+			if (is_object($node))
+			{
+				if (!isset($node->{$nodes[$i]}) && ($i !== $n))
+				{
+					continue;
+				}
+
+				$parent = &$node;
+				$node   = $node->{$nodes[$i]};
+
+				continue;
+			}
+
+			if (is_array($node))
+			{
+				if (($i !== $n) && !isset($node[$nodes[$i]]))
+				{
+					continue;
+				}
+
+				$parent = &$node;
+				$node   = $node[$nodes[$i]];
+
+				continue;
+			}
+		}
+
+		// Get the old value if exists so we can return it
+		switch (true)
+		{
+			case (is_object($node)):
+				$result = isset($node->{$nodes[$i]}) ? $node->{$nodes[$i]} : null;
+				unset($parent->{$nodes[$i]});
+				break;
+
+			case (is_array($node)):
+				$result = isset($node[$nodes[$i]]) ? $node[$nodes[$i]] : null;
+				unset($parent[$nodes[$i]]);
+				break;
+
+			default:
+				$result = null;
+				break;
 		}
 
 		return $result;
@@ -645,9 +733,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		$this->initialized = true;
 
 		// Ensure the input data is an array.
-		$data = is_object($data)
-			? get_object_vars($data)
-			: (array) $data;
+		$data = is_object($data) ? get_object_vars($data) : (array) $data;
 
 		foreach ($data as $k => $v)
 		{
@@ -733,7 +819,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @param   string        $separator  The key separator.
 	 * @param   array|object  $data       Data source of this scope.
-	 * @param   array         &$array     The result array, it is pass by reference.
+	 * @param   array         $array      The result array, it is passed by reference.
 	 * @param   string        $prefix     Last level key prefix.
 	 *
 	 * @return  void

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;
 
 /**
@@ -73,7 +74,7 @@ class UserField extends FormField
 		$return = parent::setup($element, $value, $group);
 
 		// If user can't access com_users the field should be readonly.
-		if ($return)
+		if ($return && !$this->readonly)
 		{
 			$this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
 		}
@@ -112,7 +113,7 @@ class UserField extends FormField
 		$data = parent::getLayoutData();
 
 		// Initialize value
-		$name = \JText::_('JLIB_FORM_SELECT_USER');
+		$name = Text::_('JLIB_FORM_SELECT_USER');
 
 		if (is_numeric($this->value))
 		{

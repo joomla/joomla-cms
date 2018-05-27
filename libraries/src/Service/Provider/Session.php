@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,16 +12,17 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
-use JFactory;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
-use Joomla\Session\Storage\RuntimeStorage;
-use Joomla\CMS\Session\Validator\AddressValidator;
-use Joomla\CMS\Session\Validator\ForwardedValidator;
+use Joomla\Database\DatabaseDriver;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
-use Memcache;
+use Joomla\Session\SessionEvents;
+use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Session\Validator\AddressValidator;
+use Joomla\Session\Validator\ForwardedValidator;
 use Memcached;
 use Redis;
 use RuntimeException;
@@ -51,8 +52,8 @@ class Session implements ServiceProviderInterface
 				'Joomla\Session\SessionInterface',
 				function (Container $container)
 				{
-					$config = JFactory::getConfig();
-					$app    = JFactory::getApplication();
+					$config = $container->get('config');
+					$app    = Factory::getApplication();
 
 					// Generate a session name.
 					$name = ApplicationHelper::getHash($config->get('session_name', get_class($app)));
@@ -81,16 +82,6 @@ class Session implements ServiceProviderInterface
 
 					switch ($handlerType)
 					{
-						case 'apc':
-							if (!Handler\ApcHandler::isSupported())
-							{
-								throw new RuntimeException('APC is not supported on this system.');
-							}
-
-							$handler = new Handler\ApcHandler;
-
-							break;
-
 						case 'apcu':
 							if (!Handler\ApcuHandler::isSupported())
 							{
@@ -102,15 +93,16 @@ class Session implements ServiceProviderInterface
 							break;
 
 						case 'database':
-							$handler = new Handler\DatabaseHandler(JFactory::getDbo());
+							$handler = new Handler\DatabaseHandler($container->get(DatabaseDriver::class));
 
 							break;
 
 						case 'filesystem':
 						case 'none':
-							$path = $config->get('session_filesystem_path', '');
+							// Try to use a custom configured path, fall back to the path in the PHP runtime configuration
+							$path = $config->get('session_filesystem_path', ini_get('session.save_path'));
 
-							// If no path is given, fall back to the system's temporary directory
+							// If we still have no path, as a last resort fall back to the system's temporary directory
 							if (empty($path))
 							{
 								$path = sys_get_temp_dir();
@@ -132,29 +124,10 @@ class Session implements ServiceProviderInterface
 							$memcached = new Memcached($config->get('session_memcached_server_id', 'joomla_cms'));
 							$memcached->addServer($host, $port);
 
-							$handler = new Handler\MemcachedHandler($memcached, array('ttl' => $lifetime));
+							$handler = new Handler\MemcachedHandler($memcached, ['ttl' => $lifetime]);
 
 							ini_set('session.save_path', "$host:$port");
 							ini_set('session.save_handler', 'memcached');
-
-							break;
-
-						case 'memcache':
-							if (!Handler\MemcacheHandler::isSupported())
-							{
-								throw new RuntimeException('Memcache is not supported on this system.');
-							}
-
-							$host = $config->get('session_memcache_server_host', 'localhost');
-							$port = $config->get('session_memcache_server_port', 11211);
-
-							$memcache = new Memcache($config->get('session_memcache_server_id', 'joomla_cms'));
-							$memcache->addserver($host, $port);
-
-							$handler = new Handler\MemcacheHandler($memcache, array('ttl' => $lifetime));
-
-							ini_set('session.save_path', "$host:$port");
-							ini_set('session.save_handler', 'memcache');
 
 							break;
 
@@ -165,12 +138,39 @@ class Session implements ServiceProviderInterface
 							}
 
 							$redis = new Redis;
-							$redis->connect(
-								$config->get('session_redis_server_host', '127.0.0.1'),
-								$config->get('session_redis_server_port', 6379)
-							);
+							$host = $config->get('session_redis_server_host', '127.0.0.1');
 
-							$handler = new Handler\RedisHandler($redis, array('ttl' => $lifetime));
+							// Use default port if connecting over a socket whatever the config value
+							$port = $host[0] === '/' ? $config->get('session_redis_server_port', 6379) : 6379;
+
+							if ($config->get('session_redis_persist', true))
+							{
+								$redis->pconnect(
+									$host,
+									$port
+								);
+							}
+							else
+							{
+								$redis->connect(
+									$host,
+									$port
+								);
+							}
+
+							if (!empty($config->get('session_redis_server_auth', '')))
+							{
+								$redis->auth($config->get('session_redis_server_auth', null));
+							}
+
+							$db = (int) $config->get('session_redis_server_db', 0);
+
+							if ($db !== 0)
+							{
+								$redis->select($db);
+							}
+
+							$handler = new Handler\RedisHandler($redis, ['ttl' => $lifetime]);
 
 							break;
 
@@ -181,16 +181,6 @@ class Session implements ServiceProviderInterface
 							}
 
 							$handler = new Handler\WincacheHandler;
-
-							break;
-
-						case 'xcache':
-							if (!Handler\XCacheHandler::isSupported())
-							{
-								throw new RuntimeException('XCache is not supported on this system.');
-							}
-
-							$handler = new Handler\XCacheHandler;
 
 							break;
 
@@ -213,7 +203,7 @@ class Session implements ServiceProviderInterface
 
 					if (method_exists($app, 'afterSessionStart'))
 					{
-						$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
+						$dispatcher->addListener(SessionEvents::START, array($app, 'afterSessionStart'));
 					}
 
 					$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);

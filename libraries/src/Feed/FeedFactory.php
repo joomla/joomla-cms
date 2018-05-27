@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,18 +48,25 @@ class FeedFactory
 			// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 
 			// Adding a valid user agent string, otherwise some feed-servers returning an error
-			$options 	= new Registry;
+			$options = new Registry;
 			$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
-			$feed = HttpFactory::getHttp($options)->get($uri);
+			try
+			{
+				$response = HttpFactory::getHttp($options)->get($uri);
+			}
+			catch (\RuntimeException $e)
+			{
+				throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
+			}
 
-			if ($feed->code != 200)
+			if ($response->code != 200)
 			{
 				throw new \RuntimeException('Unable to open the feed.');
 			}
 
 			// Set the value to the XMLReader parser
-			if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+			if (!$reader->xml($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 			{
 				throw new \RuntimeException('Unable to parse the feed.');
 			}

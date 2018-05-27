@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
@@ -112,11 +112,14 @@ class NewsfeedsHelper extends ContentHelper
 		$db = \JFactory::getDbo();
 		$parts     = explode('.', $extension);
 		$section   = null;
+
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
 		}
+
 		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+
 		if ($section === 'category')
 		{
 			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
@@ -164,5 +167,5 @@ class NewsfeedsHelper extends ContentHelper
 		}
 
 		return $items;
-	}	
+	}
 }

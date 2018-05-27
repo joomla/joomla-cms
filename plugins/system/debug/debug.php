@@ -3,16 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Log\LogEntry;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Database\Event\ConnectionEvent;
 
 JLoader::register('DebugMonitor', __DIR__ . '/debugmonitor.php');
 
@@ -107,7 +113,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $queryMonitor;
 
@@ -126,25 +132,25 @@ class PlgSystemDebug extends CMSPlugin
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->params->get('log-everything'))
 		{
-			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
+			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
 		}
 
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->app)
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = Factory::getApplication();
 		}
 
 		// Get the db if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!$this->db)
 		{
-			$this->db = JFactory::getDbo();
+			$this->db = Factory::getDbo();
 		}
 
 		$this->debugLang = $this->app->get('debug_lang');
@@ -158,7 +164,7 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if (JDEBUG || $this->debugLang)
 		{
-			JFactory::getConfig()->set('gzip', 0);
+			Factory::getConfig()->set('gzip', 0);
 			ob_start();
 			ob_implicit_flush(false);
 		}
@@ -171,7 +177,7 @@ class PlgSystemDebug extends CMSPlugin
 
 			foreach ($this->params->get('log_priorities', array()) as $p)
 			{
-				$const = 'JLog::' . strtoupper($p);
+				$const = 'Log::' . strtoupper($p);
 
 				if (!defined($const))
 				{
@@ -185,20 +191,20 @@ class PlgSystemDebug extends CMSPlugin
 			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
 			$mode       = $this->params->get('log_category_mode', 0);
 
-			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
 
 		// Log deprecated class aliases
 		foreach (JLoader::getDeprecatedAliases() as $deprecation)
 		{
-			JLog::add(
+			Log::add(
 				sprintf(
 					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
 					$deprecation['old'],
 					$deprecation['new'],
 					$deprecation['version']
 				),
-				JLog::WARNING,
+				Log::WARNING,
 				'deprecated'
 			);
 		}
@@ -222,8 +228,8 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
-			JHtml::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Disable asset media version if needed.
@@ -235,7 +241,7 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging is enabled for SQL query popovers.
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+			HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
 		}
 	}
 
@@ -261,7 +267,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Only render for HTML output.
-		if (JFactory::getDocument()->getType() !== 'html')
+		if (Factory::getDocument()->getType() !== 'html')
 		{
 			return;
 		}
@@ -276,7 +282,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		// No debug for Safari and Chrome redirection.
 		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false)
+			&& strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false)
 		{
 			echo $contents;
 
@@ -290,15 +296,10 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<div id="system-debug" class="system-debug profiler full-width">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<h1>' . Text::_('PLG_DEBUG_TITLE') . '</h1>';
 
 		if (JDEBUG)
 		{
-			if (JError::getErrors())
-			{
-				$html[] = $this->display('errors');
-			}
-
 			if ($this->params->get('session', 1))
 			{
 				$html[] = $this->display('session');
@@ -329,7 +330,7 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			if ($this->params->get('language_errorfiles', 1))
 			{
-				$languageErrors = JFactory::getLanguage()->getErrorFiles();
+				$languageErrors = Factory::getLanguage()->getErrorFiles();
 				$html[]         = $this->display('language_files_in_error', $languageErrors);
 			}
 
@@ -408,7 +409,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!empty($filterGroups))
 		{
-			$userGroups = JFactory::getUser()->get('groups');
+			$userGroups = Factory::getUser()->get('groups');
 
 			if (!array_intersect($filterGroups, $userGroups))
 			{
@@ -435,7 +436,7 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function display($item, array $errors = array())
 	{
-		$title = JText::_('PLG_DEBUG_' . strtoupper($item));
+		$title = Text::_('PLG_DEBUG_' . strtoupper($item));
 
 		$status = '';
 
@@ -453,16 +454,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$js = "Joomla.toggleContainer('dbg_container_" . $item . "');";
+		$html[] = '<div class="dbg-header' . $status . '" data-debug-toggle="dbg_container_' . $item . '"><a href="#"><h3>' . $title . '</h3></a></div>';
 
-		$class = 'dbg-header' . $status;
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
 		$html[] = '</div>';
 
@@ -481,20 +475,11 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function displayCallback($name, $callable)
 	{
-		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
+		$title = Text::_('PLG_DEBUG_' . strtoupper($name));
 
 		$html = array();
-
-		$js = "toggleContainer('dbg_container_" . $name . "');";
-
-		$class = 'dbg-header';
-
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
-
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_' . $name . '"><a href="#"><h3>' . $title . '</h3></a></div>';
+		$html[] = '<div class="dbg-container" id="dbg_container_' . $name . '">';
 		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
@@ -526,7 +511,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!is_array($session))
 		{
-			$html[] = $key . '<pre>' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
+			$html[] = '<pre>' . $key . ': ' . $this->prettyPrintJSON($session) . '</pre>' . PHP_EOL;
 		}
 		else
 		{
@@ -552,71 +537,23 @@ class PlgSystemDebug extends CMSPlugin
 
 				if (!$display)
 				{
-					$js = "toggleContainer('dbg_container_session" . $id . '_' . $sKey . "');";
-
-					$html[] = '<div class="dbg-header" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $sKey . '</h3></a></div>';
-
-					// @todo set with js.. ?
-					$style = ' style="display: none;"';
-
-					$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<div class="dbg-header" data-debug-toggle="dbg_container_session' . $id . '_' . $sKey . '">';
+					$html[] = '<a href="#"><h3>' . $sKey . '</h3></a>';
+					$html[] = '</div>';
+					$html[] = '<div class="dbg-container" id="dbg_container_session' . $id . '_' . $sKey . '">';
 					$id++;
 
 					// Recurse...
-					$this->displaySession($sKey, $entries, $id);
+					$html[] = $this->displaySession($sKey, $entries, $id);
 
 					$html[] = '</div>';
 
 					continue;
 				}
 
-				if (is_array($entries))
-				{
-					$entries = implode($entries);
-				}
-
-				if (is_string($entries))
-				{
-					$html[] = $sKey . '<pre>' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
-				}
+				$html[] = '<pre>' . $sKey . ': ' . $this->prettyPrintJSON($entries) . '</pre>' . PHP_EOL;
 			}
 		}
-
-		return implode('', $html);
-	}
-
-	/**
-	 * Display errors.
-	 *
-	 * @return  string
-	 *
-	 * @since   2.5
-	 */
-	protected function displayErrors()
-	{
-		$html = array();
-
-		$html[] = '<ol>';
-
-		while ($error = JError::getError(true))
-		{
-			$col = (E_WARNING == $error->get('level')) ? 'red' : 'orange';
-
-			$html[] = '<li>';
-			$html[] = '<b style="color: ' . $col . '">' . $error->getMessage() . '</b><br>';
-
-			$info = $error->get('info');
-
-			if ($info)
-			{
-				$html[] = '<pre>' . print_r($info, true) . '</pre><br>';
-			}
-
-			$html[] = $this->renderBacktrace($error);
-			$html[] = '</li>';
-		}
-
-		$html[] = '</ol>';
 
 		return implode('', $html);
 	}
@@ -643,10 +580,10 @@ class PlgSystemDebug extends CMSPlugin
 			$totalTime += $mark->time;
 			$totalMem  += (float) $mark->memory;
 			$htmlMark  = sprintf(
-				JText::_('PLG_DEBUG_TIME')
+				Text::_('PLG_DEBUG_TIME')
 				. ': <span class="badge badge-secondary label-time">%.2f&nbsp;ms</span> / <span class="badge badge-secondary">%.2f&nbsp;ms</span>'
 				. ' '
-				. JText::_('PLG_DEBUG_MEMORY')
+				. Text::_('PLG_DEBUG_MEMORY')
 				. ': <span class="badge badge-secondary badge-memory">%0.3f MB</span> / <span class="badge badge-secondary">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
@@ -720,9 +657,9 @@ class PlgSystemDebug extends CMSPlugin
 			$htmlMarks[] = '<div>' . str_replace('badge-time', $labelClass, str_replace('badge-memory', $labelClassMem, $mark->html)) . '</div>';
 		}
 
-		$html[] = '<h4>' . JText::_('PLG_DEBUG_TIME') . '</h4>';
+		$html[] = '<h4>' . Text::_('PLG_DEBUG_TIME') . '</h4>';
 		$html[] = $this->renderBars($bars, 'profile');
-		$html[] = '<h4>' . JText::_('PLG_DEBUG_MEMORY') . '</h4>';
+		$html[] = '<h4>' . Text::_('PLG_DEBUG_MEMORY') . '</h4>';
 		$html[] = $this->renderBars($barsMem, 'profile');
 
 		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
@@ -768,7 +705,7 @@ class PlgSystemDebug extends CMSPlugin
 					$labelClass = 'badge-warning';
 				}
 
-				$html[] = '<br><div>' . JText::sprintf(
+				$html[] = '<br><div>' . Text::sprintf(
 						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
@@ -794,11 +731,11 @@ class PlgSystemDebug extends CMSPlugin
 	{
 		$bytes = memory_get_usage();
 
-		return '<span class="badge badge-secondary">' . JHtml::_('number.bytes', $bytes) . '</span>'
+		return '<span class="badge badge-secondary">' . HTMLHelper::_('number.bytes', $bytes) . '</span>'
 			. ' (<span class="badge badge-secondary">'
-			. number_format($bytes, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))
+			. number_format($bytes, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR'))
 			. ' '
-			. JText::_('PLG_DEBUG_BYTES')
+			. Text::_('PLG_DEBUG_BYTES')
 			. '</span>)';
 	}
 
@@ -887,7 +824,7 @@ class PlgSystemDebug extends CMSPlugin
 				}
 				else
 				{
-					$explain = JText::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query));
+					$explain = Text::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query));
 				}
 
 				// Run a SHOW PROFILE query.
@@ -1043,7 +980,7 @@ class PlgSystemDebug extends CMSPlugin
 				// Timing
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
 				$htmlTiming = '<div style="margin: 0 0 5px;"><span class="dbg-query-time">';
-				$htmlTiming .= JText::sprintf(
+				$htmlTiming .= Text::sprintf(
 					'PLG_DEBUG_QUERY_TIME',
 					sprintf(
 						'<span class="badge %s">%.2f&nbsp;ms</span>',
@@ -1054,7 +991,7 @@ class PlgSystemDebug extends CMSPlugin
 
 				if ($timing[$id]['1'])
 				{
-					$htmlTiming .= ' ' . JText::sprintf(
+					$htmlTiming .= ' ' . Text::sprintf(
 							'PLG_DEBUG_QUERY_AFTER_LAST',
 							sprintf('<span class="badge badge-secondary">%.2f&nbsp;ms</span>', $timing[$id]['1'])
 						);
@@ -1082,7 +1019,7 @@ class PlgSystemDebug extends CMSPlugin
 					}
 
 					$htmlTiming .= ' ' . '<span class="dbg-query-memory">'
-						. JText::sprintf(
+						. Text::sprintf(
 							'PLG_DEBUG_MEMORY_USED_FOR_QUERY',
 							sprintf('<span class="badge ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
 							sprintf('<span class="badge badge-secondary">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576)
@@ -1113,7 +1050,7 @@ class PlgSystemDebug extends CMSPlugin
 
 						$htmlResultsReturned = '<span class="badge ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
 						$htmlTiming         .= ' <span class="dbg-query-rowsnumber">'
-							. JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+							. Text::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
 					}
 				}
 
@@ -1123,38 +1060,38 @@ class PlgSystemDebug extends CMSPlugin
 				$htmlBar = $this->renderBars($bars, 'query', $id);
 
 				// Profile query.
-				$title = JText::_('PLG_DEBUG_PROFILE');
+				$title = Text::_('PLG_DEBUG_PROFILE');
 
 				if (!$info[$id]->profile)
 				{
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = $info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE');
+				$htmlProfile = $info[$id]->profile ?: Text::_('PLG_DEBUG_NO_PROFILE');
 
-				$htmlAccordions = JHtml::_(
+				$htmlAccordions = HTMLHelper::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
 						'active' => $info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '',
 					)
 				);
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
+				$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, Text::_('PLG_DEBUG_EXPLAIN'), 'dbg_query_explain_' . $id)
 					. $info[$id]->explain
-					. JHtml::_('bootstrap.endSlide');
+					. HTMLHelper::_('bootstrap.endSlide');
 
-				$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, $title, 'dbg_query_profile_' . $id)
+				$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, $title, 'dbg_query_profile_' . $id)
 					. $htmlProfile
-					. JHtml::_('bootstrap.endSlide');
+					. HTMLHelper::_('bootstrap.endSlide');
 
 				// Call stack and back trace.
 				if (isset($callStacks[$id]))
 				{
-					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
+					$htmlAccordions .= HTMLHelper::_('bootstrap.addSlide', 'dbg_query_' . $id, Text::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
 						. $this->renderCallStack($callStacks[$id])
-						. JHtml::_('bootstrap.endSlide');
+						. HTMLHelper::_('bootstrap.endSlide');
 				}
 
-				$htmlAccordions .= JHtml::_('bootstrap.endAccordion');
+				$htmlAccordions .= HTMLHelper::_('bootstrap.endAccordion');
 
 				$did = md5($query);
 
@@ -1170,8 +1107,8 @@ class PlgSystemDebug extends CMSPlugin
 						}
 					}
 
-					$htmlQuery = '<div class="alert alert-danger">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</div>'
-						. '<pre class="alert hasTooltip" title="' . JHtml::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+					$htmlQuery = '<joomla-alert type="danger">' . Text::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode('&nbsp; ', $dups) . '</joomla-alert>'
+						. '<pre class="alert hasTooltip" title="' . HTMLHelper::_('tooltipText', 'PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
 				}
 				else
 				{
@@ -1217,13 +1154,13 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html = array();
 
-		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
+		$html[] = '<h4>' . Text::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
 			. sprintf(' <span class="badge ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime) . '</h4><br>';
 
 		if ($total_duplicates)
 		{
-			$html[] = '<div class="alert alert-danger">'
-				. '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
+			$html[] = '<joomla-alert type="danger">'
+				. '<h4>' . Text::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 
 			foreach ($duplicates as $dups)
 			{
@@ -1234,10 +1171,10 @@ class PlgSystemDebug extends CMSPlugin
 					$links[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
-				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
+				$html[] = '<div>' . Text::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
 			}
 
-			$html[] = '</div>';
+			$html[] = '</joomla-alert>';
 		}
 
 		$html[] = '<ol><li>' . implode('<hr></li><li>', $list) . '<hr></li></ol>';
@@ -1252,11 +1189,11 @@ class PlgSystemDebug extends CMSPlugin
 		$totalOtherQueryTypes  = count($otherQueryTypeTicker);
 		$totalQueryTypes       = $totalSelectQueryTypes + $totalOtherQueryTypes;
 
-		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_TYPES_LOGGED', $totalQueryTypes) . '</h4>';
+		$html[] = '<h4>' . Text::sprintf('PLG_DEBUG_QUERY_TYPES_LOGGED', $totalQueryTypes) . '</h4>';
 
 		if ($totalSelectQueryTypes)
 		{
-			$html[] = '<h5>' . JText::_('PLG_DEBUG_SELECT_QUERIES') . '</h5>';
+			$html[] = '<h5>' . Text::_('PLG_DEBUG_SELECT_QUERIES') . '</h5>';
 
 			arsort($selectQueryTypeTicker);
 
@@ -1265,7 +1202,7 @@ class PlgSystemDebug extends CMSPlugin
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. Text::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
 					. '</pre>';
 			}
 
@@ -1274,7 +1211,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($totalOtherQueryTypes)
 		{
-			$html[] = '<h5>' . JText::_('PLG_DEBUG_OTHER_QUERIES') . '</h5>';
+			$html[] = '<h5>' . Text::_('PLG_DEBUG_OTHER_QUERIES') . '</h5>';
 
 			arsort($otherQueryTypeTicker);
 
@@ -1283,7 +1220,7 @@ class PlgSystemDebug extends CMSPlugin
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. Text::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
 					. '</pre>';
 			}
 
@@ -1315,7 +1252,7 @@ class PlgSystemDebug extends CMSPlugin
 				$html[] = '<div class="dbg-bar-spacer" style="width:' . $bar->pre . '%;"></div>';
 			}
 
-			$barClass = trim('bar dbg-bar progress-bar ' . (isset($bar->class) ? $bar->class : ''));
+			$barClass = trim('bar dbg-bar progress-bar ' . ($bar->class ?? ''));
 
 			if ($id !== null && $i == $id)
 			{
@@ -1327,7 +1264,7 @@ class PlgSystemDebug extends CMSPlugin
 			if (isset($bar->tip) && $bar->tip)
 			{
 				$barClass .= ' hasTooltip';
-				$tip      = JHtml::_('tooltipText', $bar->tip, '', 0);
+				$tip      = HTMLHelper::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1421,8 +1358,8 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						// Displays query parts which don't use a key with warning:
 						$html[]      = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
-							. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
-							. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
+							. HTMLHelper::_('tooltipText', 'PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+							. Text::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -1441,8 +1378,8 @@ class PlgSystemDebug extends CMSPlugin
 					$htmlTdWithWarnings = str_replace(
 						'Using&nbsp;filesort',
 						'<span class="dbg-warning hasTooltip" title="'
-						. JHtml::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
-						. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
+						. HTMLHelper::_('tooltipText', 'PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+						. Text::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 						$htmlTd
 					);
 
@@ -1463,6 +1400,7 @@ class PlgSystemDebug extends CMSPlugin
 
 			$html[] = '</tr>';
 		}
+
 		$html[] = '</tbody>';
 		$html[] = '</table>';
 
@@ -1476,7 +1414,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDisconnect(ConnectionEvent $event)
 	{
@@ -1557,11 +1495,11 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function displayLanguageFilesInError()
 	{
-		$errorfiles = JFactory::getLanguage()->getErrorFiles();
+		$errorfiles = Factory::getLanguage()->getErrorFiles();
 
 		if (!count($errorfiles))
 		{
-			return '<p>' . JText::_('JNONE') . '</p>';
+			return '<p>' . Text::_('JNONE') . '</p>';
 		}
 
 		$html = array();
@@ -1591,15 +1529,15 @@ class PlgSystemDebug extends CMSPlugin
 
 		$html[] = '<ul>';
 
-		foreach (JFactory::getLanguage()->getPaths() as /* $extension => */ $files)
+		foreach (Factory::getLanguage()->getPaths() as /* $extension => */ $files)
 		{
 			foreach ($files as $file => $status)
 			{
 				$html[] = '<li>';
 
 				$html[] = $status
-					? JText::_('PLG_DEBUG_LANG_LOADED')
-					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
+					? Text::_('PLG_DEBUG_LANG_LOADED')
+					: Text::_('PLG_DEBUG_LANG_NOT_LOADED');
 
 				$html[] = ' : ';
 				$html[] = $this->formatLink($file);
@@ -1625,11 +1563,11 @@ class PlgSystemDebug extends CMSPlugin
 		$stripPref  = $this->params->get('strip-prefix');
 		$stripSuff  = $this->params->get('strip-suffix');
 
-		$orphans = JFactory::getLanguage()->getOrphans();
+		$orphans = Factory::getLanguage()->getOrphans();
 
 		if (!count($orphans))
 		{
-			return '<p>' . JText::_('JNONE') . '</p>';
+			return '<p>' . Text::_('JNONE') . '</p>';
 		}
 
 		ksort($orphans, SORT_STRING);
@@ -1696,7 +1634,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		foreach ($guesses as $file => $keys)
 		{
-			$html[] = "\n\n# " . ($file ? $this->formatLink($file) : JText::_('PLG_DEBUG_UNKNOWN_FILE')) . "\n\n";
+			$html[] = "\n\n# " . ($file ? $this->formatLink($file) : Text::_('PLG_DEBUG_UNKNOWN_FILE')) . "\n\n";
 			$html[] = implode("\n", $keys);
 		}
 
@@ -1743,8 +1681,6 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Render the backtrace.
 	 *
-	 * Stolen from JError to prevent it's removal.
-	 *
 	 * @param   Exception  $error  The Exception object to be rendered.
 	 *
 	 * @return  string     Rendered backtrace.
@@ -1753,7 +1689,7 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function renderBacktrace($error)
 	{
-		return JLayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
+		return LayoutHelper::render('joomla.error.backtrace', array('backtrace' => $error->getTrace()));
 	}
 
 	/**
@@ -1770,7 +1706,7 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function formatLink($file, $line = '')
 	{
-		return JHtml::_('debug.xdebuglink', $file, $line);
+		return HTMLHelper::_('debug.xdebuglink', $file, $line);
 	}
 
 	/**
@@ -1783,7 +1719,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @since   3.1
 	 */
-	public function logger(JLogEntry $entry)
+	public function logger(LogEntry $entry)
 	{
 		$this->logEntries[] = $entry;
 	}
@@ -1798,14 +1734,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected function displayLogs()
 	{
 		$priorities = array(
-			JLog::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
-			JLog::ALERT     => '<span class="badge badge-important">ALERT</span>',
-			JLog::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
-			JLog::ERROR     => '<span class="badge badge-important">ERROR</span>',
-			JLog::WARNING   => '<span class="badge badge-warning">WARNING</span>',
-			JLog::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
-			JLog::INFO      => '<span class="badge badge-info">INFO</span>',
-			JLog::DEBUG     => '<span class="badge">DEBUG</span>',
+			Log::EMERGENCY => '<span class="badge badge-important">EMERGENCY</span>',
+			Log::ALERT     => '<span class="badge badge-important">ALERT</span>',
+			Log::CRITICAL  => '<span class="badge badge-important">CRITICAL</span>',
+			Log::ERROR     => '<span class="badge badge-important">ERROR</span>',
+			Log::WARNING   => '<span class="badge badge-warning">WARNING</span>',
+			Log::NOTICE    => '<span class="badge badge-info">NOTICE</span>',
+			Log::INFO      => '<span class="badge badge-info">INFO</span>',
+			Log::DEBUG     => '<span class="badge">DEBUG</span>',
 		);
 
 		$out = '';
@@ -1846,15 +1782,15 @@ class PlgSystemDebug extends CMSPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br>';
+		$out .= '<h4>' . Text::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br>';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
-			<div class="alert alert-warning">
-				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
-				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
-			</div>
+			<joomla-alert type="warning">
+				<h4>' . Text::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
+				<div>' . Text::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
+			</joomla-alert>
 			<br>';
 		}
 
@@ -1887,11 +1823,11 @@ class PlgSystemDebug extends CMSPlugin
 
 			if ($entry->callStack)
 			{
-				$out .= JHtml::_('bootstrap.startAccordion', 'dbg_logs_' . $count, array('active' => ''));
-				$out .= JHtml::_('bootstrap.addSlide', 'dbg_logs_' . $count, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $count);
+				$out .= HTMLHelper::_('bootstrap.startAccordion', 'dbg_logs_' . $count, array('active' => ''));
+				$out .= HTMLHelper::_('bootstrap.addSlide', 'dbg_logs_' . $count, Text::_('PLG_DEBUG_CALL_STACK'), 'dbg_logs_backtrace_' . $count);
 				$out .= $this->renderCallStack($entry->callStack);
-				$out .= JHtml::_('bootstrap.endSlide');
-				$out .= JHtml::_('bootstrap.endAccordion');
+				$out .= HTMLHelper::_('bootstrap.endSlide');
+				$out .= HTMLHelper::_('bootstrap.endAccordion');
 			}
 
 			$out .= '<hr></li>';
@@ -1923,8 +1859,8 @@ class PlgSystemDebug extends CMSPlugin
 			$htmlCallStack .= '<thead>';
 			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
-			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
-			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
+			$htmlCallStack .= '<th>' . Text::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
+			$htmlCallStack .= '<th>' . Text::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
 			$htmlCallStack .= '</tr>';
 			$htmlCallStack .= '</thead>';
 			$htmlCallStack .= '<tbody>';
@@ -1934,7 +1870,7 @@ class PlgSystemDebug extends CMSPlugin
 			foreach ($callStack as $call)
 			{
 				// Dont' back trace log classes.
-				if (isset($call['class']) && strpos($call['class'], 'JLog') !== false)
+				if (isset($call['class']) && strpos($call['class'], 'Log') !== false)
 				{
 					$count--;
 					continue;
@@ -1972,7 +1908,7 @@ class PlgSystemDebug extends CMSPlugin
 				// If entry doesn't have line and number the next is a call_user_func.
 				if (!isset($call['file']) && !isset($call['line']))
 				{
-					$htmlCallStack .= JText::_('PLG_DEBUG_CALL_STACK_SAME_FILE');
+					$htmlCallStack .= Text::_('PLG_DEBUG_CALL_STACK_SAME_FILE');
 				}
 				// If entry has file and line print it.
 				else
@@ -1993,7 +1929,7 @@ class PlgSystemDebug extends CMSPlugin
 			if (!$this->linkFormat)
 			{
 				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank" rel="noopener noreferrer">';
-				$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
+				$htmlCallStack .= Text::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 			}
 		}
 
@@ -2030,7 +1966,7 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	protected function writeToFile()
 	{
-		$app     = JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$domain  = $app->isClient('site') ? 'site' : 'admin';
 		$input   = $app->input;
 		$logPath = $app->get('log_path', JPATH_ADMINISTRATOR . '/logs');

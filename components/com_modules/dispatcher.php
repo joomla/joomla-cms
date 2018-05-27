@@ -1,20 +1,21 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Dispatcher class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModulesDispatcher extends Dispatcher
 {
@@ -23,14 +24,14 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Modules';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -45,7 +46,7 @@ class ModulesDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -69,15 +70,16 @@ class ModulesDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  \Joomla\CMS\Controller\Controller
+	 * @return  \Joomla\CMS\MVC\Controller\BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
-		if ($this->input->get('task') === 'module.orderPosition')
+		if ($this->input->get('task') === 'orderPosition')
 		{
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+			$client = 'Administrator';
 		}
 
 		return parent::getController($name, $client, $config);

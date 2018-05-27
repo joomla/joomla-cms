@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Menu\Administrator\Menu;
@@ -11,16 +11,16 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 defined('_JEXEC') or die;
 
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
 use Joomla\CMS\Menu\MenuHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use JText;
-
 /**
  * Tree based class to render the admin menu
  *
@@ -42,7 +42,7 @@ class CssMenu
 	 *
 	 * @var   Registry
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $params;
 
@@ -51,7 +51,7 @@ class CssMenu
 	 *
 	 * @var   bool
 	 *
-	 * @since   _DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	protected $enabled;
 
@@ -89,7 +89,7 @@ class CssMenu
 		$this->enabled = $enabled;
 		$menutype      = $this->params->get('menutype', '*');
 
-		if ($menutype == '*')
+		if ($menutype === '*')
 		{
 			$name   = $this->params->get('preset', 'joomla');
 			$levels = MenuHelper::loadPreset($name);
@@ -198,17 +198,17 @@ class CssMenu
 
 			if ($rMenu)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
 			}
 
 			if ($rModule)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MODULE_MANAGER');
 			}
 
 			if ($rContainer)
 			{
-				$missing[] = JText::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
+				$missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_COMPONENTS_CONTAINER');
 			}
 
 			$uri = clone Uri::getInstance();
@@ -220,7 +220,7 @@ class CssMenu
 			$table->load(array('menutype' => $menutype));
 
 			$menutype = $table->get('title', $menutype);
-			$message  = JText::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
+			$message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
 			$app->enqueueMessage($message, 'warning');
 		}
@@ -241,10 +241,13 @@ class CssMenu
 	{
 		$result     = array();
 		$user       = Factory::getUser();
-		$authLevels = $user->getAuthorisedViewLevels();
 		$language   = Factory::getLanguage();
 
 		$noSeparator = true;
+
+		// Call preprocess for the menu items on plugins.
+		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
 
 		foreach ($items as $i => &$item)
 		{
@@ -254,28 +257,76 @@ class CssMenu
 				continue;
 			}
 
-			$item->scope = isset($item->scope) ? $item->scope : 'default';
+			$item->scope = $item->scope ?? 'default';
+			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope == 'help' && !$this->params->get('showhelp')) || ($item->scope == 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			{
+				continue;
+			}
+
+			if (substr($item->link, 0, 8) === 'special:')
+			{
+				$special = substr($item->link, 8);
+
+				if ($special === 'language-forum')
+				{
+					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+				}
+				elseif ($special === 'custom-forum')
+				{
+					$item->link = $this->params->get('forum_url');
+				}
+			}
+
+			// Exclude item if is not enabled
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				continue;
+			}
+
+			// Exclude Mass Mail if disabled in global configuration
+			if ($item->scope === 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
 
 			// Exclude item if the component is not authorised
-			if ($item->element && !$user->authorise(($item->scope == 'edit') ? 'core.create' : 'core.manage', $item->element))
+			$assetName = $item->element;
+
+			if ($item->element === 'com_categories')
 			{
-				continue;
+				parse_str($item->link, $query);
+				$assetName = $query['extension'] ?? 'com_content';
+			}
+			elseif ($item->element === 'com_fields')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$createFields = null;
+
+				if (isset($query['context']))
+				{
+					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+				}
+
+				if (!$createFields)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
 
-			// Exclude if menu item set access level is not met
-			if ($item->access && !in_array($item->access, $authLevels))
+			if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName))
 			{
 				continue;
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) == '')
+			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				continue;
 			}
@@ -284,7 +335,7 @@ class CssMenu
 			$item->submenu = $this->preprocess($item->submenu);
 
 			// Populate automatic children for container items
-			if ($item->type == 'container')
+			if ($item->type === 'container')
 			{
 				$exclude    = (array) $item->params->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
@@ -301,7 +352,7 @@ class CssMenu
 			}
 
 			// Remove repeated and edge positioned separators, It is important to put this check at the end of any logical filtering.
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				if ($noSeparator)
 				{
@@ -322,7 +373,12 @@ class CssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			$item->text = JText::_($item->title);
+			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
+			{
+				$item->title = '';
+			}
+
+			$item->text = Text::_($item->title);
 
 			$result[$i] = $item;
 		}
@@ -351,14 +407,14 @@ class CssMenu
 		{
 			$class = $this->enabled ? $item->class : 'disabled';
 
-			if ($item->type == 'separator')
+			if ($item->type === 'separator')
 			{
 				$this->tree->addChild(new Node\Separator($item->title));
 			}
-			elseif ($item->type == 'heading')
+			elseif ($item->type === 'heading')
 			{
 				// We already excluded heading type menu item with no children.
-				$this->tree->addChild(new Node\Heading($item->title, $class), $this->enabled);
+				$this->tree->addChild(new Node\Heading($item->title, $class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{
@@ -366,9 +422,9 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'url')
+			elseif ($item->type === 'url')
 			{
-				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Url($item->title, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -377,9 +433,9 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'component')
+			elseif ($item->type === 'component')
 			{
-				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class);
+				$cNode = new Node\Component($item->title, $item->element, $item->link, $item->browserNav, $class, null, $item->icon);
 				$this->tree->addChild($cNode, $this->enabled);
 
 				if ($this->enabled)
@@ -388,10 +444,10 @@ class CssMenu
 					$this->tree->getParent();
 				}
 			}
-			elseif ($item->type == 'container')
+			elseif ($item->type === 'container')
 			{
 				// We already excluded container type menu item with no children.
-				$this->tree->addChild(new Node\Container($item->title, $item->class), $this->enabled);
+				$this->tree->addChild(new Node\Container($item->title, $item->class, null, $item->icon), $this->enabled);
 
 				if ($this->enabled)
 				{

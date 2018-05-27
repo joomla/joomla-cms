@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -313,15 +313,25 @@ class FinderIndexerHelper
 	public static function isCommon($token, $lang)
 	{
 		static $data;
+		static $default;
+
+		$langCode = $lang;
+
+		// If language requested is wildcard, use the default language.
+		if ($lang == '*')
+		{
+			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
+			$langCode = $default;
+		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$lang]))
+		if (!isset($data[$langCode]))
 		{
-			$data[$lang] = self::getCommonWords($lang);
+			$data[$langCode] = self::getCommonWords($langCode);
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$lang], true);
+		return in_array($token, $data[$langCode], true);
 	}
 
 	/**
@@ -433,7 +443,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  &$item  The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  &$item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -453,14 +463,15 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string    $text    The content to process.
-	 * @param   Registry  $params  The parameters object. [optional]
+	 * @param   string               $text    The content to process.
+	 * @param   Registry             $params  The parameters object. [optional]
+	 * @param   FinderIndexerResult  $item    The item which get prepared. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null)
+	public static function prepareContent($text, $params = null, FinderIndexerResult $item = null)
 	{
 		static $loaded;
 
@@ -481,6 +492,17 @@ class FinderIndexerHelper
 		// Create a mock content object.
 		$content = JTable::getInstance('Content');
 		$content->text = $text;
+
+		if ($item)
+		{
+			$content->bind((array) $item);
+			$content->bind($item->getElements());
+		}
+
+		if ($item && !empty($item->context))
+		{
+			$content->context = $item->context;
+		}
 
 		// Fire the onContentPrepare event.
 		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));

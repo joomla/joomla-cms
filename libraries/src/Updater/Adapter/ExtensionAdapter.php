@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,13 +125,15 @@ class ExtensionAdapter extends UpdateAdapter
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
-				$patchMinimumSupported = Version::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
-				$patchMaximumSupported = Version::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
+				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level)
+					|| Version::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
+				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level)
+					|| Version::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
 
 				if ($product == $this->currentUpdate->targetplatform['NAME']
 					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $patchMinimumSupported)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $patchMaximumSupported))
+					&& $patchMinimumSupported
+					&& $patchMaximumSupported)
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
@@ -380,7 +382,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{

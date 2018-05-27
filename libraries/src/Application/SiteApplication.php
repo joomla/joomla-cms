@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -537,12 +537,12 @@ final class SiteApplication extends CMSApplication
 		{
 			$this->enqueueMessage(\JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
-			// Try to find data for 'aurora' template
+			// Try to find data for 'cassiopeia' template
 			$original_tmpl = $template->template;
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template === 'aurora')
+				if ($tmpl->template === 'cassiopeia')
 				{
 					$template = $tmpl;
 					break;

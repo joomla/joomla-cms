@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface for a document renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface RendererInterface
 {
@@ -26,7 +26,7 @@ interface RendererInterface
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render($name, $params = null, $content = null);
 }

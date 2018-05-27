@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		// Get the signatures of the item.
 		$curSig = static::getSignature($item);
-		$oldSig = isset($link->md5sum) ? $link->md5sum : null;
+		$oldSig = $link->md5sum ?? null;
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;
@@ -117,24 +117,24 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->quote($item->url) . ', '
-				. $db->quote($item->route) . ', '
-				. $db->quote($item->title) . ', '
-				. $db->quote($item->description) . ', '
-				. $query->currentTimestamp() . ', '
-				. '1, '
-				. (int) $item->state . ', '
-				. (int) $item->access . ', '
-				. $db->quote($item->language) . ', '
-				. (int) $item->type_id . ', '
-				. $db->quote(serialize($item)) . ', '
-				. $db->quote($item->publish_start_date) . ', '
-				. $db->quote($item->publish_end_date) . ', '
-				. $db->quote($item->start_date) . ', '
-				. $db->quote($item->end_date) . ', '
-				. (double) ($item->list_price ?: 0) . ', '
-				. (double) ($item->sale_price ?: 0)
-			);
+					$db->quote($item->url) . ', '
+					. $db->quote($item->route) . ', '
+					. $db->quote($item->title) . ', '
+					. $db->quote($item->description) . ', '
+					. $query->currentTimestamp() . ', '
+					. '1, '
+					. (int) $item->state . ', '
+					. (int) $item->access . ', '
+					. $db->quote($item->language) . ', '
+					. (int) $item->type_id . ', '
+					. $db->quote(serialize($item)) . ', '
+					. $db->quote($item->publish_start_date) . ', '
+					. $db->quote($item->publish_end_date) . ', '
+					. $db->quote($item->start_date) . ', '
+					. $db->quote($item->end_date) . ', '
+					. (double) ($item->list_price ?: 0) . ', '
+					. (double) ($item->sale_price ?: 0)
+				);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -320,7 +320,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-		/* Emulation of IGNORE INTO behaviour */
+
+		// Emulation of IGNORE INTO behaviour
 		$db->setQuery(
 			' SELECT ta.term' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
@@ -451,7 +452,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		return $linkId;
 	}
 
-
 	/**
 	 * Method to optimize the index. We use this method to remove unused terms
 	 * and any other optimizations that might be necessary.
@@ -513,6 +513,4 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		return true;
 	}
-
-
 }

@@ -3,12 +3,13 @@
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.1.0</version>
 	<description>MOD_TAGS_POPULAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\TagsPopular</namespace>
 	<files>
 		<filename module="mod_tags_popular">mod_tags_popular.php</filename>
 		<folder>tmpl</folder>
@@ -22,6 +23,14 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field 
+					name="parentTag"
+					type="tag"
+					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
+					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
+					multiple="true"
+				/>
+
 				<field
 					name="maximum"
 					type="integer"
@@ -96,7 +105,7 @@
 			>
 				<field
 					name="minsize"
-					type="text"
+					type="number"
 					label="MOD_TAGS_POPULAR_FIELD_MINSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MINSIZE_DESC"
 					default="1"
@@ -105,7 +114,7 @@
 
 				<field
 					name="maxsize"
-					type="text"
+					type="number"
 					label="MOD_TAGS_POPULAR_FIELD_MAXSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MAXSIZE_DESC"
 					default="2"
@@ -139,7 +148,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

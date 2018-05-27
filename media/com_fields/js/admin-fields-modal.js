@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,10 @@ Joomla = window.Joomla || {};
 			window.parent.jInsertEditorText("{field " + id + "}", editor);
 		}
 
-		window.parent.jModalClose();
+		if (window.parent.Joomla.currentModal) {
+			// @TODO Remove jQuery, use Joomla-UI
+			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+		}
 	};
 
 	Joomla.fieldgroupIns = function(id, editor) {
@@ -25,6 +28,9 @@ Joomla = window.Joomla || {};
 			window.parent.jInsertEditorText("{fieldgroup " + id + "}", editor);
 		}
 
-		window.parent.jModalClose();
+		if (window.parent.Joomla.currentModal) {
+			// @TODO Remove jQuery, use Joomla-UI
+			parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+		}
 	};
 })(Joomla);

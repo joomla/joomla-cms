@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Psr\Link\EvolvableLinkProviderInterface;
 /**
  * Joomla! Preload Manager Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface PreloadManagerInterface
 {
@@ -24,9 +24,9 @@ interface PreloadManagerInterface
 	 *
 	 * @return  EvolvableLinkProviderInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getLinkProvider();
+	public function getLinkProvider(): EvolvableLinkProviderInterface;
 
 	/**
 	 * Set the link provider
@@ -35,7 +35,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setLinkProvider(EvolvableLinkProviderInterface $linkProvider);
 
@@ -47,9 +47,9 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function preload($uri, array $attributes = []);
+	public function preload(string $uri, array $attributes = []);
 
 	/**
 	 * Resolves a resource origin as early as possible.
@@ -59,9 +59,9 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function dnsPrefetch($uri, array $attributes = []);
+	public function dnsPrefetch(string $uri, array $attributes = []);
 
 	/**
 	 * Initiates a early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
@@ -71,9 +71,9 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function preconnect($uri, array $attributes = []);
+	public function preconnect(string $uri, array $attributes = []);
 
 	/**
 	 * Indicates to the client that it should prefetch this resource.
@@ -83,9 +83,9 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function prefetch($uri, array $attributes = []);
+	public function prefetch(string $uri, array $attributes = []);
 
 	/**
 	 * Indicates to the client that it should prerender this resource.
@@ -95,7 +95,7 @@ interface PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function prerender($uri, array $attributes = []);
+	public function prerender(string $uri, array $attributes = []);
 }

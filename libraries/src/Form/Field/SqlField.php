@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,15 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 FormHelper::loadFieldClass('list');
 
 /**
- * Supports an custom SQL select list
+ * Supports a custom SQL select list
  *
  * @since  11.1
  */
@@ -65,7 +69,7 @@ class SQLField extends \JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -88,7 +92,7 @@ class SQLField extends \JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -191,7 +195,7 @@ class SQLField extends \JFormFieldList
 	 * @param   string  $filters     The columns to filter.
 	 * @param   array   $defaults    The defaults value to set if condition is empty.
 	 *
-	 * @return  \JDatabaseQuery  The query object.
+	 * @return  DatabaseQuery  The query object.
 	 *
 	 * @since   3.5
 	 */
@@ -287,17 +291,17 @@ class SQLField extends \JFormFieldList
 			{
 				$items = $db->loadObjectlist();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 		}
 
 		// Add header.
 		if (!empty($header))
 		{
-			$header_title = \JText::_($header);
-			$options[] = \JHtml::_('select.option', '', $header_title);
+			$header_title = Text::_($header);
+			$options[] = HTMLHelper::_('select.option', '', $header_title);
 		}
 
 		// Build the field options.
@@ -307,11 +311,11 @@ class SQLField extends \JFormFieldList
 			{
 				if ($this->translate == true)
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, \JText::_($item->$value));
+					$options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
 				}
 				else
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, $item->$value);
+					$options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
 				}
 			}
 		}

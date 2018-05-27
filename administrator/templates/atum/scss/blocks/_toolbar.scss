@@ -33,6 +33,10 @@
 
   }
 
+  > *:first-child {
+    margin: 0;
+  }
+
   .btn-group-sm > .btn,
   .btn-sm {
     padding: 0 .8rem;
@@ -43,9 +47,7 @@
     padding: 0 10px;
     font-size: .875rem;
     line-height: $atum-toolbar-line-height;
-    color: $body-color;
-    background-color: $white-offset;
-    border-color: $atum-border-color;
+
     box-shadow: 0 1px 2px rgba(0,0,0,.05);
 
     [class^="icon-"],
@@ -71,99 +73,57 @@
 
   }
 
-  .btn-primary,
-  .btn-outline-primary {
+  @each $color, $value in $theme-colors {
+    .btn-outline-#{$color} {
+      color: $body-color;
+      background-color: $white-offset;
+      border-color: $atum-border-color;
 
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("primary");
+      [class^="icon-"],
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
+        color: theme-color($color);
+      }
     }
 
-  }
+    .btn-#{$color}:not(.dropdown-toggle-split) {
+      color: $white-offset;
+      background-color: theme-color($color);
+      border-color: rgba(0,0,0,.2);
 
-  .btn-success,
-  .btn-outline-success {
+      [class^="icon-"],
+      [class*=" icon-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
+        width: 16px;
+        margin-right: 0;
+        margin-left: 0;
+        color: $white-offset;
+        background-color: transparent;
+        border-right: 0 none;
+        border-left: 0 none;
+      }
 
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("success");
+      &:hover {
+        background-color: darken(theme-color($color), 10%);
+      }
+
     }
 
-  }
+    .btn-#{$color}.dropdown-toggle-split {
+      background: darken(theme-color($color), 12%);
+      border-color: darken(theme-color($color), 12%);
 
-  .btn-info,
-  .btn-outline-info {
+      &::after {
+        color: $white-offset;
+      }
 
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("info");
     }
-
   }
 
-  .btn-danger,
-  .btn-outline-danger {
-
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("danger");
-    }
-
-  }
-
-  .btn-warning,
-  .btn-outline-warning {
-
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      color: theme-color("warning");
-    }
-
-  }
-
-  .btn-success:not(.dropdown-toggle) {
+  .button-new, .button-apply, .button-wide {
     width: 140px;
-    color: $white-offset;
-    background-color: theme-color("success");
-    border-color: rgba(0,0,0,.2);
-
-    [class^="icon-"],
-    [class*=" icon-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      width: 16px;
-      margin-right: 0;
-      margin-left: 0;
-      color: $white-offset;
-      background-color: transparent;
-      border-right: 0 none;
-      border-left: 0 none;
-    }
-
-    &:hover {
-      background-color: darken(theme-color("success"), 10%);
-    }
-
-  }
-
-  .btn-success.dropdown-toggle {
-    background: darken(theme-color("success"), 12%);
-    border-color: darken(theme-color("success"), 12%);
-
-    &::after {
-      color: $white-offset;
-    }
-
   }
 
   > *:first-child:not(.float-sm-right) {

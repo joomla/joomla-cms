@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <ul class="list-group list-group-flush">
@@ -16,7 +19,7 @@ defined('_JEXEC') or die;
 			<li class="d-flex justify-content-start list-group-item <?php echo $item->state == 1 ? 'published' : 'unpublished'; ?>">
 				<div class="fg-1">
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<strong class="row-title break-word mr-2" title="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 						<?php if ($item->link) : ?>
@@ -26,23 +29,21 @@ defined('_JEXEC') or die;
 							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 						<?php endif; ?>
 					</strong>
-					<small class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'MOD_LATEST_CREATED_BY'); ?>">
+					<small class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LATEST_CREATED_BY'); ?>">
 						<?php echo $item->author_name; ?>
 					</small>
 				</div>
 				<span class="badge badge-secondary badge-pill">
 					<span class="small">
 						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
+						<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC5')); ?>
 					</span>
 				</span>
 			</li>
 		<?php endforeach; ?>
 	<?php else : ?>
 		<li class="d-flex justify-content-start list-group-item">
-			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></div>
-			</div>
+			<joomla-alert type="warning"><?php echo Text::_('MOD_LATEST_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		</li>
 	<?php endif; ?>
 </ul>

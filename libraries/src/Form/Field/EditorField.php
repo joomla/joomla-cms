@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ class EditorField extends \JFormFieldTextarea
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -134,7 +134,7 @@ class EditorField extends \JFormFieldTextarea
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -321,6 +321,13 @@ class EditorField extends \JFormFieldTextarea
 	 */
 	public function save()
 	{
-		return $this->getEditor()->save($this->id);
+		$editor = $this->getEditor();
+
+		if (!method_exists($editor, 'save'))
+		{
+			return '';
+		}
+
+		return $editor->save($this->id);
 	}
 }

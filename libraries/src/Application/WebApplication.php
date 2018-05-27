@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,10 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -29,7 +31,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
+	use DispatcherAwareTrait, EventAware, IdentityAware;
 
 	/**
 	 * The application document object.
@@ -81,9 +83,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 
 		parent::__construct($input, $config, $client, $response);
 
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
-
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
 		$this->set('execution.timestamp', time());
@@ -101,8 +100,9 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
-	 * @throws  \RuntimeException
+	 * @since       11.3
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
 	public static function getInstance($name = null)
 	{
@@ -129,8 +129,11 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Perform application routines.
 		$this->doExecute();
@@ -256,7 +259,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = ($document === null) ? \JFactory::getDocument() : $document;
+		$this->document = $document ?? \JFactory::getDocument();
 
 		return $this;
 	}
@@ -276,7 +279,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = ($language === null) ? \JFactory::getLanguage() : $language;
+		$this->language = $language ?? \JFactory::getLanguage();
 
 		return $this;
 	}
@@ -318,7 +321,13 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
+			$session->set('user', new User);
+		}
+
+		// Ensure the identity is loaded
+		if (!$this->getIdentity())
+		{
+			$this->loadIdentity($session->get('user'));
 		}
 	}
 
@@ -335,7 +344,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	protected function loadSystemUris($requestUri = null)
 	{
 		// Set the request URI.
-		// @codeCoverageIgnoreStart
 		if (!empty($requestUri))
 		{
 			$this->set('uri.request', $requestUri);
@@ -344,7 +352,6 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		{
 			$this->set('uri.request', $this->detectRequestUri());
 		}
-		// @codeCoverageIgnoreEnd
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
@@ -420,5 +427,17 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 			$this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0.0
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 }

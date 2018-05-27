@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,12 +158,12 @@ if (!empty($this->items))
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
 						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
-							<?php if ($this->params->get('flags', 1)) : ?>
+							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -252,7 +252,7 @@ if (!empty($this->items))
 			<?php if ($isEditable) : ?>
 				<td headers="categorylist_header_edit" class="list-edit">
 					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo JHtml::_('icon.edit', $article, $params); ?>
+						<?php echo JHtml::_('contenticon.edit', $article, $params); ?>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>
@@ -264,7 +264,7 @@ if (!empty($this->items))
 
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
-	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+	<?php echo JHtml::_('contenticon.create', $this->category, $this->category->params); ?>
 <?php endif; ?>
 
 <?php // Add pagination links ?>

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			window.parent.Joomla.editors.instances[editor].replaceSelection("{loadmodule " + type + "," + name + "}");
-			window.parent.jModalClose();
+
+			if (window.parent.Joomla.currentModal) {
+				// @TODO Remove jQuery, use Joomla-UI
+				parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+			}
 		});
 	}
 
@@ -31,7 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
 				editor = event.target.getAttribute('data-editor');
 
 			window.parent.Joomla.editors.instances[editor].replaceSelection("{loadposition " + position + "}");
-			window.parent.jModalClose();
+
+			if (window.parent.Joomla.currentModal) {
+				// @TODO Remove jQuery, use Joomla-UI
+				parent.window.jQuery(window.parent.Joomla.currentModal).modal('hide');
+			}
 		});
 	}
 });

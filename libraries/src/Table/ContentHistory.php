@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,8 +108,8 @@ class ContentHistory extends Table
 		if (isset($typeTable->content_history_options) && is_object(json_decode($typeTable->content_history_options)))
 		{
 			$options = json_decode($typeTable->content_history_options);
-			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
-			$this->convertToInt = isset($options->convertToInt) ? $options->convertToInt : $this->convertToInt;
+			$this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
+			$this->convertToInt = $options->convertToInt ?? $this->convertToInt;
 		}
 
 		foreach ($this->ignoreChanges as $remove)

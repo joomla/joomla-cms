@@ -1,136 +1,105 @@
 /**
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
 
 Joomla.MediaManager = Joomla.MediaManager || {};
-
 Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
-(function() {
-	"use strict";
 
-	var initResize = function(imageSrc) {
-		// Amend the layout
-		var tabContent = document.getElementById('myTabContent'),
-			pluginControls = document.getElementById('attrib-Resize');
+(function () {
+  'use strict';
 
-		tabContent.classList.add('row', 'ml-0', 'mr-0', 'p-0');
-		pluginControls.classList.add('col-md-3', 'p-4');
+  // Update image
 
-		// Clear previous cropper
-		if (Joomla.cropper) Joomla.cropper = {};
+  var resize = function resize(width, height) {
+    // The image element
+    var image = document.getElementById('image-source');
 
-		// Initiate the cropper
-		Joomla.cropperResize = new Cropper(imageSrc, {
-			restore: true,
-			responsive:true,
-			dragMode: false,
-			autoCrop: false,
-			autoCropArea: 1,
-			guides: false,
-			center: false,
-			highlight: false,
-			cropBoxMovable: false,
-			scalable: false,
-			zoomable:false,
-			cropBoxResizable: false,
-			toggleDragModeOnDblclick: false,
-			minContainerWidth: imageSrc.offsetWidth,
-			minContainerHeight: imageSrc.offsetHeight,
-		});
-	};
+    // The canvas where we will resize the image
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 
-	// Update image
-	var updateResizeImage = function(data) {
+    // The format
+    var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
 
-		var format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : 'jpg';
+    // The quality
+    var quality = document.getElementById('jform_resize_quality').value;
 
-		Joomla.MediaManager.Edit.current.contents = Joomla.cropperResize.getCroppedCanvas(data).toDataURL("image/" + format, 1.0);
+    // Creating the data from the canvas
+    Joomla.MediaManager.Edit.current.contents = canvas.toDataURL('image/' + format, quality);
 
-		// Notify the app that a change has been made
-		window.dispatchEvent(new Event('mediaManager.history.point'));
+    // Updating the preview element
+    var preview = document.getElementById('image-preview');
+    preview.width = width;
+    preview.height = height;
+    preview.src = Joomla.MediaManager.Edit.current.contents;
 
-		// Make sure that the plugin didn't remove the preview
-		document.getElementById('image-preview').src = Joomla.MediaManager.Edit.current.contents;
-	};
+    // Update the width input box
+    document.getElementById('jform_resize_width').value = parseInt(width, 10);
 
-	// Register the Events
-	Joomla.MediaManager.Edit.resize = {
-		Activate: function(mediaData) {
+    // Update the height input box
+    document.getElementById('jform_resize_height').value = parseInt(height, 10);
 
-			// Create the images for edit and preview
-			var baseContainer = document.getElementById('media-manager-edit-container'),
-			    previewH3 = document.createElement('h3'),
-			    editContainer = document.createElement('div'),
-			    previewContainer = document.createElement('div'),
-			    imageSrc = document.createElement('img'),
-			    imagePreview = document.createElement('img');
+    // Notify the app that a change has been made
+    window.dispatchEvent(new Event('mediaManager.history.point'));
+  };
 
-			imageSrc.src = mediaData.contents;
-			imagePreview.src = mediaData.contents;
-			imagePreview.id = 'image-preview';
-			imageSrc.style.maxWidth = '100%';
-			imagePreview.style.maxWidth = '100%';
-			editContainer.style.display = 'none';
+  var initResize = function initResize() {
+    var funct = function funct() {
+      var image = document.getElementById('image-source');
 
-			editContainer.appendChild(imageSrc);
-			baseContainer.appendChild(editContainer);
+      var resizeWidthInputBox = document.getElementById('jform_resize_width');
+      var resizeHeightInputBox = document.getElementById('jform_resize_height');
 
-			previewContainer.appendChild(imagePreview);
-			baseContainer.appendChild(previewContainer);
+      // Update the input boxes
+      resizeWidthInputBox.value = image.width;
+      resizeHeightInputBox.value = image.height;
 
-			// Initialize
-			initResize(imageSrc);
+      // The listeners
+      resizeWidthInputBox.addEventListener('change', function (event) {
+        resize(parseInt(event.target.value, 10), parseInt(event.target.value, 10) / (image.width / image.height));
+      });
+      resizeHeightInputBox.addEventListener('change', function (event) {
+        resize(parseInt(event.target.value, 10) * (image.width / image.height), parseInt(event.target.value, 10));
+      });
 
-			var funct = function() {
-				imageSrc = document.getElementById('media-manager-edit-container').querySelector('img');
+      // Set the values for the range fields
+      var resizeWidth = document.getElementById('jform_resize_w');
+      var resizeHeight = document.getElementById('jform_resize_h');
 
-				// Set the values for the range fields
-				var resizeWidth = document.getElementById('jform_resize_w'),
-				    resizeHeight = document.getElementById('jform_resize_h');
+      resizeWidth.min = 0;
+      resizeWidth.max = image.width;
+      resizeWidth.value = image.width;
 
+      resizeHeight.min = 0;
+      resizeHeight.max = image.height;
+      resizeHeight.value = image.height;
 
-				resizeWidth.min = 0;
-				resizeWidth.max = imageSrc.width;
-				resizeWidth.value = imageSrc.width;
+      // The listeners
+      resizeWidth.addEventListener('input', function (event) {
+        resize(parseInt(event.target.value, 10), parseInt(event.target.value, 10) / (image.width / image.height));
+      });
+      resizeHeight.addEventListener('input', function (event) {
+        resize(parseInt(event.target.value, 10) * (image.width / image.height), parseInt(event.target.value, 10));
+      });
+    };
+    setTimeout(funct, 1000);
+  };
 
-				resizeHeight.min = 0;
-				resizeHeight.max = imageSrc.height;
-				resizeHeight.value = imageSrc.height;
-
-				Joomla.cropperResize.aspectRatio = parseInt(resizeWidth.value) / parseInt(resizeHeight.value);
-
-				resizeWidth.addEventListener('change', function(event) {
-					var label = document.getElementById('jform_resize_w-lbl');
-					var txt = label.innerText.replace(/:.*/, '');
-					label.innerHTML = txt + ' : ' + event.target.value + ' px';
-
-					Joomla.cropperResize.crop({ width: parseInt(document.getElementById('jform_resize_w').value), height: parseInt(document.getElementById('jform_resize_w').value)/ Joomla.cropperResize.aspectRatio });
-
-					updateResizeImage({ width: parseInt(document.getElementById('jform_resize_w').value), height: parseInt(document.getElementById('jform_resize_h').value)/ Joomla.cropperResize.aspectRatio })
-				});
-
-				resizeHeight.addEventListener('change', function(event) {
-					var label = document.getElementById('jform_resize_h-lbl');
-					var txt = label.innerText.replace(/:.*/, '');
-					label.innerHTML = txt + ' : ' + event.target.value + ' px';
-
-					Joomla.cropperResize.crop({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) });
-
-					updateResizeImage({ width: parseInt(document.getElementById('jform_resize_h').value) * Joomla.cropperResize.aspectRatio, height: parseInt(document.getElementById('jform_resize_h').value) })
-				});
-			};
-
-			setTimeout(funct, 1000);
-		},
-		Deactivate: function() {
-			if (!Joomla.cropperResize) {
-				return;
-			}
-			// Destroy the instance
-			Joomla.cropperResize.destroy();
-		}
-	};
-
+  // Register the Events
+  Joomla.MediaManager.Edit.resize = {
+    Activate: function Activate(mediaData) {
+      // Initialize
+      initResize(mediaData);
+    },
+    Deactivate: function Deactivate() {}
+  };
 })();

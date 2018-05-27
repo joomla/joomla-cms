@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Module\Logged\Administrator\Helper;
@@ -11,6 +11,9 @@ namespace Joomla\Module\Logged\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * Helper for mod_logged
@@ -54,8 +57,8 @@ abstract class LoggedHelper
 
 			if ($user->authorise('core.manage', 'com_users'))
 			{
-				$results[$k]->editLink   = \JRoute::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
-				$results[$k]->logoutLink = \JRoute::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . \JSession::getFormToken() . '=1');
+				$results[$k]->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
+				$results[$k]->logoutLink = Route::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . Session::getFormToken() . '=1');
 			}
 
 			if ($params->get('name', 1) == 0)
@@ -76,6 +79,6 @@ abstract class LoggedHelper
 	 */
 	public static function getTitle($params)
 	{
-		return \JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
+		return Text::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
 	}
 }

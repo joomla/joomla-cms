@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,9 +63,6 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
 	JLog::addLogger(array('logger' => 'messagequeue'), JLog::ALL, array('jerror'));
 }
-
-// Register JArrayHelper due to JRegistry moved to composer's vendor folder
-JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
 // Register the Crypto lib
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');

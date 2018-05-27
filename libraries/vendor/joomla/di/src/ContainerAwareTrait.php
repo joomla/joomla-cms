@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,14 +33,14 @@ trait ContainerAwareTrait
 	 * @since   1.2
 	 * @throws  ContainerNotFoundException May be thrown if the container has not been set.
 	 */
-	public function getContainer()
+	protected function getContainer()
 	{
 		if ($this->container)
 		{
 			return $this->container;
 		}
 
-		throw new ContainerNotFoundException('Container not set in ' . __CLASS__);
+		throw new ContainerNotFoundException('Container not set in ' . get_class($this));
 	}
 
 	/**

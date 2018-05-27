@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class HttpFactory
 		foreach ($availableAdapters as $adapter)
 		{
 			/** @var $class TransportInterface */
-			$class = 'Joomla\\Http\\Transport\\' . ucfirst($adapter);
+			$class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter);
 
 			if (class_exists($class))
 			{

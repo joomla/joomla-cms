@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 /**
  * JDocument styles renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StylesRenderer extends DocumentRenderer
 {
@@ -29,7 +29,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
@@ -140,7 +140,14 @@ class StylesRenderer extends DocumentRenderer
 
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
+			$nonce = '';
+
+			if ($this->_doc->scriptNonce)
+			{
+				$nonce = ' nonce="' . $this->_doc->scriptNonce . '"';
+			}
+
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 
 			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);

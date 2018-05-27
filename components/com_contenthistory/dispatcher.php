@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
  * Dispatcher class for com_contenthistory
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContenthistoryDispatcher extends Dispatcher
 {
@@ -25,14 +25,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace = 'Joomla\\Component\\Contenthistory';
 
 	/**
 	 * Load the language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -46,7 +46,7 @@ class ContenthistoryDispatcher extends Dispatcher
 	/**
 	 * Method to check component access permission
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -65,14 +65,14 @@ class ContenthistoryDispatcher extends Dispatcher
 	 * @param   string  $client  Optional client (like Administrator, Site etc.)
 	 * @param   array   $config  Optional controller config
 	 *
-	 * @return  Controller
+	 * @return  BaseController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getController($name, $client = null, $config = array())
+	public function getController(string $name, string $client = '', array $config = array()): BaseController
 	{
 		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-		
+
 		return parent::getController($name, $client, $config);
 	}
 }

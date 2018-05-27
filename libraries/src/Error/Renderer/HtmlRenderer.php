@@ -2,13 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error\Renderer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
 
 /**
  * HTML error page renderer
@@ -29,15 +32,15 @@ class HtmlRenderer extends AbstractRenderer
 	/**
 	 * Render the error page for the given object
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	protected function doRender($error)
+	public function render(\Throwable $error): string
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get the current template from the application
 		$template = $app->getTemplate();

@@ -2,11 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error;
+
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
 
 /**
  * Interface defining the rendering engine for the error handling layer
@@ -16,23 +20,22 @@ namespace Joomla\CMS\Error;
 interface RendererInterface
 {
 	/**
-	 * Retrieve the JDocument instance attached to this renderer
+	 * Retrieve the Document instance attached to this renderer
 	 *
-	 * @return  \JDocument
+	 * @return  Document
 	 *
 	 * @since   4.0
 	 */
-	public function getDocument();
+	public function getDocument(): Document;
 
 	/**
 	 * Render the error page for the given object
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
-	 * @throws  \InvalidArgumentException if a non-Throwable object was provided
 	 */
-	public function render($error);
+	public function render(\Throwable $error): string;
 }

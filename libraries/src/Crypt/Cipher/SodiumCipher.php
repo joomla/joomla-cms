@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,6 +114,18 @@ class SodiumCipher implements CipherInterface
 		$pair = Compat::crypto_box_keypair();
 
 		return new Key('sodium', Compat::crypto_box_secretkey($pair), Compat::crypto_box_publickey($pair));
+	}
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isSupported(): bool
+	{
+		return class_exists(Compat::class);
 	}
 
 	/**

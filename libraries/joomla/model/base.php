@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ abstract class JModelBase implements JModel
 	public function __construct(Registry $state = null)
 	{
 		// Setup the model.
-		$this->state = isset($state) ? $state : $this->loadState();
+		$this->state = $state ?? $this->loadState();
 	}
 
 	/**

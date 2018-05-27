@@ -6,7 +6,7 @@
 				name="filter"
 				type="list"
 				label="PLG_FIELDS_TEXT_PARAMS_FILTER_LABEL"
-				class="btn-group"
+				class="list"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -21,7 +21,7 @@
 
 			<field
 				name="maxlength"
-				type="text"
+				type="number"
 				label="PLG_FIELDS_TEXT_PARAMS_MAXLENGTH_LABEL"
 				filter="integer"
 			/>

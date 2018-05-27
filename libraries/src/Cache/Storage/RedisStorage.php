@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,31 +79,28 @@ class RedisStorage extends CacheStorage
 			'db'   => (int) $app->get('redis_server_db', null),
 		);
 
+		// If you are trying to connect to a socket file, ignore the supplied port
+		if ($server['host'][0] === '/')
+		{
+			$server['port'] = 0;
+		}
+
 		static::$_redis = new \Redis;
 
-		if ($this->_persistent)
+		try
 		{
-			try
+			if ($this->_persistent)
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($connection == false)
@@ -113,7 +110,17 @@ class RedisStorage extends CacheStorage
 			throw new \JCacheExceptionConnecting('Redis connection failed', 500);
 		}
 
-		if ($auth == false)
+		try
+		{
+			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
+		}
+		catch (\RedisException $e)
+		{
+			$auth = false;
+			Log::add($e->getMessage(), Log::DEBUG);
+		}
+
+		if ($auth === false)
 		{
 			static::$_redis = null;
 
@@ -160,7 +167,8 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		return static::$_redis->exists($this->_getCacheId($id, $group));
+		// Redis exists returns integer values lets convert that to boolean see: https://redis.io/commands/exists
+		return (bool) static::$_redis->exists($this->_getCacheId($id, $group));
 	}
 
 	/**

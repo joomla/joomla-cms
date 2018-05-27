@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Tags\Site\Helper;
@@ -148,7 +148,7 @@ class TagsHelperRoute extends RouteHelper
 	{
 		$app      = \JFactory::getApplication();
 		$menus    = $app->getMenu('site');
-		$language = isset($needles['language']) ? $needles['language'] : '*';
+		$language = $needles['language'] ?? '*';
 
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)

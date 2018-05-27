@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,9 @@ $comUserParams = JComponentHelper::getParams('com_users');
 					<div class="controls">
 						<div class="input-group">
 							<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-								<span class="input-group-addon"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								<span class="input-group-prepend">
+									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+								</span>
 							<?php endif; ?>
 							<?php echo $this->form->getInput('subject'); ?>
 						</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_users_latest
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,12 @@ namespace Joomla\Module\UsersLatest\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Helper for mod_users_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_users_latest
- *
- * @since       1.6
+ * @since  1.6
  */
 class UsersLatestHelper
 {
@@ -64,7 +62,7 @@ class UsersLatestHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}

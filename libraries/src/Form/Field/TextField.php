@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Form\Field;
@@ -10,7 +10,11 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -57,7 +61,7 @@ class TextField extends FormField
 	 * Input addon before
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $addonBefore;
 
@@ -65,7 +69,7 @@ class TextField extends FormField
 	 * Input addon after
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $addonAfter;
 
@@ -80,7 +84,7 @@ class TextField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -104,7 +108,7 @@ class TextField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -170,7 +174,7 @@ class TextField extends FormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? \JText::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+				$defaultInputmode = in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
@@ -204,13 +208,13 @@ class TextField extends FormField
 	{
 		if ($this->element['useglobal'])
 		{
-			$component = \JFactory::getApplication()->input->getCmd('option');
+			$component = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
-				$uri       = new \JUri($link);
+				$uri       = new Uri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
@@ -220,11 +224,11 @@ class TextField extends FormField
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = \JFactory::getConfig()->get($this->fieldname);
+				$value = Factory::getConfig()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && \JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
@@ -233,7 +237,7 @@ class TextField extends FormField
 			{
 				$value = (string) $value;
 
-				$this->hint = \JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+				$this->hint = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
 			}
 		}
 
@@ -260,9 +264,9 @@ class TextField extends FormField
 			}
 
 			// Create a new option object based on the <option /> element.
-			$options[] = \JHtml::_(
+			$options[] = HTMLHelper::_(
 				'select.option', (string) $option['value'],
-				\JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+				Text::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
 			);
 		}
 
@@ -298,8 +302,10 @@ class TextField extends FormField
 		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
-		/* Get the field options for the datalist.
-			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		/*
+		 * Get the field options for the datalist.
+		 * Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0.
+		 */
 		$options  = (array) $this->getSuggestions();
 
 		$extraData = array(

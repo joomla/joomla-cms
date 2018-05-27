@@ -2,18 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error\Renderer;
+
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
 
 /**
  * Cli error renderer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CliRenderer extends AbstractRenderer
 {
@@ -21,20 +23,20 @@ class CliRenderer extends AbstractRenderer
 	 * The format (type)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'cli';
 
 	/**
 	 * Render the error for the given object.
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	protected function doRender($error)
+	public function render(\Throwable $error): string
 	{
 		$buffer = PHP_EOL . 'Error occurred: ' . $error->getMessage() . PHP_EOL . $this->getTrace($error);
 
@@ -49,13 +51,13 @@ class CliRenderer extends AbstractRenderer
 	/**
 	 * Returns a trace for the given error.
 	 *
-	 * @param   \Throwable|\Exception  $error  The error
+	 * @param   \Throwable  $error  The error
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	private function getTrace($error)
+	private function getTrace(\Throwable $error): string
 	{
 		// Include the stack trace only if in debug mode
 		if (!JDEBUG)

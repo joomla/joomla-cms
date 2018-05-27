@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Field\Modal;
@@ -71,7 +71,8 @@ class NewsfeedField extends FormField
 				function jSelectNewsfeed_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Newsfeed', '" . $this->id . "', id, title, '', object);
 				}
-				");
+				"
+				);
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -125,7 +126,7 @@ class NewsfeedField extends FormField
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
-			$html .= '<span class="input-group-btn">';
+			$html .= '<span class="input-group-append">';
 		}
 
 		// Select newsfeed button

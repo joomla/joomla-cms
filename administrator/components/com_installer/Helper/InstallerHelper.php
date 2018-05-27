@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Installer\Administrator\Helper;
@@ -52,7 +52,7 @@ class InstallerHelper
 			$vName == 'database'
 		);
 		\JHtmlSidebar::addEntry(
-		\JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
+			\JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 			'index.php?option=com_installer&view=warnings',
 			$vName == 'warnings'
 		);

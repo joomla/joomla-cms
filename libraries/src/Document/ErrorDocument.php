@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class ErrorDocument extends Document
 	/**
 	 * Error Object
 	 *
-	 * @var    \Exception|\Throwable
+	 * @var    \Throwable
 	 * @since  11.1
 	 */
 	public $error;
@@ -64,7 +64,7 @@ class ErrorDocument extends Document
 	/**
 	 * Error Object
 	 *
-	 * @var    \Exception|\Throwable
+	 * @var    \Throwable
 	 * @since  11.1
 	 */
 	protected $_error;
@@ -90,7 +90,7 @@ class ErrorDocument extends Document
 	/**
 	 * Set error object
 	 *
-	 * @param   \Exception|\Throwable  $error  Error object to set
+	 * @param   \Throwable  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -98,9 +98,7 @@ class ErrorDocument extends Document
 	 */
 	public function setError($error)
 	{
-		$expectedClass = PHP_MAJOR_VERSION >= 7 ? '\\Throwable' : '\\Exception';
-
-		if ($error instanceof $expectedClass)
+		if ($error instanceof \Throwable)
 		{
 			$this->_error = & $error;
 
@@ -148,7 +146,7 @@ class ErrorDocument extends Document
 		$file = 'error.php';
 
 		// Check template
-		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
+		$directory = $params['directory'] ?? 'templates';
 		$template = isset($params['template']) ? \JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
 		if (!file_exists($directory . '/' . $template . '/' . $file))
@@ -159,7 +157,7 @@ class ErrorDocument extends Document
 		// Set variables
 		$this->baseurl = Uri::base(true);
 		$this->template = $template;
-		$this->debug = isset($params['debug']) ? $params['debug'] : false;
+		$this->debug = $params['debug'] ?? false;
 		$this->error = $this->_error;
 
 		// Load the language file for the template if able

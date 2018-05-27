@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Crypt Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,10 +45,10 @@ class Crypt
 	public function __construct(CipherInterface $cipher = null, Key $key = null)
 	{
 		// Set the encryption cipher.
-		$this->cipher = isset($cipher) ? $cipher : new Crypto;
+		$this->cipher = $cipher ?: new Crypto;
 
 		// Set the encryption key[/pair)].
-		$this->key = isset($key) ? $key : $this->generateKey();
+		$this->key = $key ?: $this->generateKey();
 	}
 
 	/**
@@ -120,7 +120,6 @@ class Crypt
 	 */
 	public static function genRandomBytes($length = 16)
 	{
-		// This method is backported by the paragonie/random_compat library and native in PHP 7
 		return random_bytes($length);
 	}
 }

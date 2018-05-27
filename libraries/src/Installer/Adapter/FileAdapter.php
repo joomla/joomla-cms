@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,10 +148,10 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
-	protected function finaliseUninstall()
+	protected function finaliseUninstall(): bool
 	{
 		\JFile::delete(JPATH_MANIFESTS . '/files/' . $this->extension->element . '.xml');
 
@@ -237,7 +237,7 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function removeExtensionFiles()
@@ -326,7 +326,7 @@ class FileAdapter extends InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setupUninstall()
 	{
@@ -467,6 +467,7 @@ class FileAdapter extends InstallerAdapter
 			// Install failed, rollback changes - error logged by the installer
 			return false;
 		}
+
 		$id = $db->loadResult();
 
 		if (empty($id))

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,9 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<div class="alert alert-info alert-no-items">
-							<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
-						</div>
+						<joomla-alert type="info"><?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?></joomla-alert>
 					<?php else : ?>
 						<table class="table table-striped">
 							<thead>
@@ -50,7 +48,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
 								<th class="nowrap center">
@@ -59,13 +57,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th class="nowrap center">
 									<?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th class="nowrap hidden-sm-down">
+								<th class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th style="width:40%" class="nowrap hidden-sm-down">
+								<th style="width:40%" class="nowrap d-none d-md-table-cell">
 									<?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>
@@ -99,13 +97,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<td class="center">
 										<?php echo $item->type_translated; ?>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php if ($item->changelogurl != null):?>
 										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?></button>
 
@@ -128,13 +126,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 										<?php endif; ?>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php echo $item->folder_translated; ?>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php echo $item->install_type; ?>
 									</td>
-									<td class="hidden-sm-down">
+									<td class="d-none d-md-table-cell">
 										<span class="break-word">
 										<?php echo $item->detailsurl; ?>
 											<?php if (isset($item->infourl)) : ?>

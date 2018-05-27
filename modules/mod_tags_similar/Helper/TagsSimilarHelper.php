@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
@@ -20,9 +21,7 @@ use Joomla\CMS\Helper\TagsHelper;
 /**
  * Helper for mod_tags_similar
  *
- * @package     Joomla.Site
- * @subpackage  mod_tags_similar
- * @since       3.1
+ * @since  3.1
  */
 abstract class TagsSimilarHelper
 {
@@ -31,19 +30,19 @@ abstract class TagsSimilarHelper
 	 *
 	 * @param   Registry  &$params  Module parameters
 	 *
-	 * @return  mixed  Results array / null
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
-		$app        = Factory::getApplication();
-		$option     = $app->input->get('option');
-		$view       = $app->input->get('view');
+		$app    = Factory::getApplication();
+		$option = $app->input->get('option');
+		$view   = $app->input->get('view');
 
 		// For now assume com_tags and com_users do not have tags.
 		// This module does not apply to list views in general at this point.
 		if ($option === 'com_tags' || $view === 'category' || $option === 'com_users')
 		{
-			return;
+			return array();
 		}
 
 		$db         = Factory::getDbo();
@@ -62,7 +61,7 @@ abstract class TagsSimilarHelper
 
 		if (!$tagsToMatch || $tagsToMatch === null)
 		{
-			return;
+			return array();
 		}
 
 		$tagCount = substr_count($tagsToMatch, ',') + 1;
@@ -153,7 +152,7 @@ abstract class TagsSimilarHelper
 		catch (\RuntimeException $e)
 		{
 			$results = [];
-			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 		}
 
 		foreach ($results as $result)

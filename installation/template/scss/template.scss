@@ -1,0 +1,284 @@
+// Variables
+@import "../../../administrator/templates/atum/scss/variables";
+$fa-font-path: "../../../media/vendor/font-awesome/fonts";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
+
+// FontAwesome
+@import "../../../media/vendor/font-awesome/scss/font-awesome";
+
+// Switcher
+// @import "../../../administrator/templates/atum/scss/blocks/switcher";
+
+body {
+  background-color: #1c3d5c;
+  background-image: linear-gradient(90deg, #1c3d5c 0%, #2a5c8b 100%);
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+.j-install {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.j-header {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+}
+
+.j-container {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.j-footer {
+  padding: 10px 20px;
+  margin-top: auto;
+  font-size: .8rem;
+  color: #fff;
+  text-align: right;
+  background-color: #0b3257;
+}
+
+.j-header-logo {
+  width: 100%;
+  max-width: 240px;
+  margin: 20px;
+}
+
+.j-header-help {
+  margin: 20px 20px 20px auto;
+  a {
+    padding: 1rem;
+    font-size: 2rem;
+    color: #fff;
+  }
+}
+
+.j-install-step {
+  display: none;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 2px rgba(52, 58, 67, .1), 0 2px 5px rgba(52, 58, 67, .08), 0 5px 15px rgba(52, 58, 67, .08);
+  &.active {
+    display: block;
+  }
+  select {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  .btn-block {
+    margin-top: 40px;
+  }
+}
+
+.j-install-step-header {
+  position: relative;
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  line-height: 2.4rem;
+  color: #fff;
+  background-color: #0b3257;
+  &::after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    content: "";
+    background-color: #006898;
+    background-image: linear-gradient(to right, #59afff 0, #59daff 100%);
+  }
+  span {
+    position: relative;
+    top: 5px;
+    margin-right: 5px;
+    font-size: 2rem;
+  }
+}
+
+.j-install-step-form {
+  padding: 30px 30px 10px;
+  .btn-block + .btn-block {
+    margin-top: .5rem;
+  }
+}
+
+
+.languageForm {
+  padding: 0 0 30px;
+  .custom-select {
+    width: 100%;
+  }
+}
+
+.system-message .alert {
+  margin: 25px 50px;
+}
+
+.alert {
+  position: relative;
+  display: flex;
+  margin: 0 0 20px;
+  background: #fafafa;
+  border: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0,0,0,.05);
+  p {
+    margin-bottom: 0;
+  }
+}
+.alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  margin-bottom: 0;
+  font-size: 3rem;
+  opacity: .6;
+  .fa {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.alert-text {
+  padding: 10px 20px;
+}
+
+.lang-select {
+  top: 0;
+  right: 0;
+  width: auto;
+  .custom-select {
+    height: 30px;
+    padding: .3rem 1.75rem .3rem .75rem;
+    line-height: 1;
+  }
+}
+
+.hidden {
+  display: none;
+}
+[hidden="hidden"] {
+  display: none;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #75b544;
+  border-color: #75b544;
+}
+
+
+// Form
+
+.form-control {
+  background-color: $white-offset;
+
+  &.input-full {
+    max-width: 100%;
+  }
+
+}
+
+.control-group {
+  margin-bottom: 18px;
+
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+
+  .control-label {
+    float: left;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
+  }
+}
+
+.form-no-margin {
+
+  .control-group {
+
+    .controls {
+      margin-left: 0;
+    }
+
+    .control-label {
+      float: none;
+    }
+
+  }
+
+}
+
+.spacer hr {
+  width: 380px;
+}
+
+.card .custom-select {
+  width: 100%;
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+legend {
+  margin-bottom: 1.1rem;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+
+}
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+// Validation
+.invalid {
+  color: $switcher-color-danger;
+  border-color: $switcher-color-danger;
+}
+.valid {
+  border-color: $switcher-color-success;
+}
+
+// Possibly temporary until Bootstrap support it themselves
+.custom-select[multiple] {
+  height: auto;
+  background: none;
+}
+
+// Validation
+.invalid {
+  color: $switcher-color-danger;
+  border-color: $switcher-color-danger;
+}
+
+.valid {
+  border-color: $switcher-color-success;
+}
+
+// Block display for the validation message
+.form-control-feedback {
+  display: block;
+}

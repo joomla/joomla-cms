@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Site
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 class MenuHelper
 {
@@ -129,11 +128,11 @@ class MenuHelper
 
 					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
-						$item->flink = \JRoute::_($item->flink, true, $item->params->get('secure'));
+						$item->flink = Route::_($item->flink, true, $item->params->get('secure'));
 					}
 					else
 					{
-						$item->flink = \JRoute::_($item->flink);
+						$item->flink = Route::_($item->flink);
 					}
 
 					// We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding

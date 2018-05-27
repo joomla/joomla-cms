@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -75,8 +77,8 @@ $attributes = array(
 	!empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
 );
 
-$addonBeforeHtml = '<span class="input-group-addon">' . $addonBefore . '</span>';
-$addonAfterHtml  = '<span class="input-group-addon">' . $addonAfter . '</span>';
+$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
+$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
 ?>
 
 <?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>

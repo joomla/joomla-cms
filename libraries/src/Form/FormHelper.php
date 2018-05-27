@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Form's helper class.
@@ -181,8 +180,16 @@ class FormHelper
 			$name = Normalise::toSpaceSeparated($type);
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
+			$subPrefix = '';
+
+			if (strpos($name, '.'))
+			{
+				list($subPrefix, $name) = explode('.', $name);
+				$subPrefix = ucfirst($subPrefix) . '\\';
+			}
+
 			// Compile the classname
-			$class = rtrim($prefix, '\\') . '\\' . ucfirst($name) . ucfirst($entity);
+			$class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
 			// Check if the class exists
 			if (class_exists($class))
@@ -223,6 +230,7 @@ class FormHelper
 					$paths[] = $path;
 				}
 			}
+
 			// Break off the end of the complex type.
 			$type = substr($type, $pos + 1);
 		}
@@ -232,7 +240,7 @@ class FormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = \JPath::find($path, $type);
+			$file = Path::find($path, $type);
 
 			if (!$file)
 			{
@@ -415,6 +423,7 @@ class FormHelper
 		foreach ($new as $prefix)
 		{
 			$prefix = trim($prefix);
+
 			if (in_array($prefix, $prefixes))
 			{
 				continue;
@@ -449,7 +458,20 @@ class FormHelper
 
 		if ($group)
 		{
-			$formPath .= $formPath ? '[' . $group . ']' : $group;
+			$groups = explode('.', $group);
+
+			// An empty formControl leads to invalid shown property
+			// Use the 1st part of the group instead to avoid.
+			if (empty($formPath) && isset($groups[0]))
+			{
+				$formPath = $groups[0];
+				array_shift($groups);
+			}
+
+			foreach ($groups as $group)
+			{
+				$formPath .= '[' . $group . ']';
+			}
 		}
 
 		$showOnData  = array();

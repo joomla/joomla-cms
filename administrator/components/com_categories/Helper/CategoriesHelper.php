@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Categories\Administrator\Helper;
@@ -11,7 +11,7 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\Category;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 
 defined('_JEXEC') or die;
 
@@ -137,7 +137,7 @@ class CategoriesHelper
 	 */
 	public static function validateCategoryId($catid, $extension)
 	{
-		$categoryTable = Table::getInstance('Category', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
+		$categoryTable = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
 
 		$data = array();
 		$data['id'] = $catid;
@@ -160,7 +160,7 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new Category(array('ignore_request' => true));
+		$categoryModel = new CategoryModel(array('ignore_request' => true));
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory as JFactory;
 use Joomla\Event\AbstractEvent;
-use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Event\SubscriberManagerInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -197,8 +197,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 		// Plugins which are SubscriberInterface implementations are handled without legacy layer support
 		if ($this instanceof SubscriberInterface)
 		{
-			// The addSubscriber method isn't part of the DispatcherInterface, emulate it if need be
-			if ($this->getDispatcher() instanceof Dispatcher)
+			// To avoid a hard dependency to dispatchers implementing the SubscriberManagerInterface, emulate its effect if the dispatcher doesn't
+			if ($this->getDispatcher() instanceof SubscriberManagerInterface)
 			{
 				$this->getDispatcher()->addSubscriber($this);
 			}
@@ -208,7 +208,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 				{
 					if (is_array($params))
 					{
-						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], isset($params[1]) ? $params[1] : Priority::NORMAL);
+						$this->getDispatcher()->addListener($eventName, [$this, $params[0]], $params[1] ?? Priority::NORMAL);
 					}
 					else
 					{
@@ -282,7 +282,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	protected final function registerLegacyListener($methodName)
+	final protected function registerLegacyListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener(
 			$methodName,
@@ -323,7 +323,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface
 	 *
 	 * @since   4.0
 	 */
-	final protected function registerListener($methodName)
+	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
 	}

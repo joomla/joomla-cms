@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,8 @@ namespace Joomla\CMS\Pathway;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 
 /**
@@ -23,15 +24,15 @@ class SitePathway extends Pathway
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  $options  The class options.
+	 * @param   SiteApplication  $app  Application Object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct($options = array())
+	public function __construct(SiteApplication $app = null)
 	{
 		$this->pathway = array();
 
-		$app  = CMSApplication::getInstance('site');
+		$app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
 		$menu = $app->getMenu();
 		$lang = \JFactory::getLanguage();
 

@@ -1,348 +1,226 @@
 (function () {
+var autosave = (function () {
+  'use strict';
 
-var defs = {}; // id -> {dependencies, definition, instance (possibly undefined)}
-
-// Used when there is no 'main' module.
-// The name is probably (hopefully) unique so minification removes for releases.
-var register_3795 = function (id) {
-  var module = dem(id);
-  var fragments = id.split('.');
-  var target = Function('return this;')();
-  for (var i = 0; i < fragments.length - 1; ++i) {
-    if (target[fragments[i]] === undefined)
-      target[fragments[i]] = {};
-    target = target[fragments[i]];
-  }
-  target[fragments[fragments.length - 1]] = module;
-};
-
-var instantiate = function (id) {
-  var actual = defs[id];
-  var dependencies = actual.deps;
-  var definition = actual.defn;
-  var len = dependencies.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances[i] = dem(dependencies[i]);
-  var defResult = definition.apply(null, instances);
-  if (defResult === undefined)
-     throw 'module [' + id + '] returned undefined';
-  actual.instance = defResult;
-};
-
-var def = function (id, dependencies, definition) {
-  if (typeof id !== 'string')
-    throw 'module id must be a string';
-  else if (dependencies === undefined)
-    throw 'no dependencies for ' + id;
-  else if (definition === undefined)
-    throw 'no definition function for ' + id;
-  defs[id] = {
-    deps: dependencies,
-    defn: definition,
-    instance: undefined
-  };
-};
-
-var dem = function (id) {
-  var actual = defs[id];
-  if (actual === undefined)
-    throw 'module [' + id + '] was undefined';
-  else if (actual.instance === undefined)
-    instantiate(id);
-  return actual.instance;
-};
-
-var req = function (ids, callback) {
-  var len = ids.length;
-  var instances = new Array(len);
-  for (var i = 0; i < len; ++i)
-    instances.push(dem(ids[i]));
-  callback.apply(null, callback);
-};
-
-var ephox = {};
-
-ephox.bolt = {
-  module: {
-    api: {
-      define: def,
-      require: req,
-      demand: dem
-    }
-  }
-};
-
-var define = def;
-var require = req;
-var demand = dem;
-// this helps with minificiation when using a lot of global references
-var defineGlobal = function (id, ref) {
-  define(id, [], function () { return ref; });
-};
-/*jsc
-["tinymce.plugins.autosave.Plugin","tinymce.core.EditorManager","tinymce.core.PluginManager","tinymce.core.util.LocalStorage","tinymce.core.util.Tools","global!window","global!tinymce.util.Tools.resolve"]
-jsc*/
-defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.EditorManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.EditorManager');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.PluginManager',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.PluginManager');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.LocalStorage',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.LocalStorage');
-  }
-);
-
-/**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.util.Tools',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.util.Tools');
-  }
-);
-
-defineGlobal("global!window", window);
-/**
- * Plugin.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-/**
- * This class contains all core logic for the autosave plugin.
- *
- * @class tinymce.autosave.Plugin
- * @private
- */
-define(
-  'tinymce.plugins.autosave.Plugin',
-  [
-    'tinymce.core.EditorManager',
-    'tinymce.core.PluginManager',
-    'tinymce.core.util.LocalStorage',
-    'tinymce.core.util.Tools',
-    'global!window'
-  ],
-  function (EditorManager, PluginManager, LocalStorage, Tools, window) {
-    EditorManager._beforeUnloadHandler = function () {
-      var msg;
-
-      Tools.each(EditorManager.editors, function (editor) {
-        // Store a draft for each editor instance
-        if (editor.plugins.autosave) {
-          editor.plugins.autosave.storeDraft();
-        }
-
-        // Setup a return message if the editor is dirty
-        if (!msg && editor.isDirty() && editor.getParam("autosave_ask_before_unload", true)) {
-          msg = editor.translate("You have unsaved changes are you sure you want to navigate away?");
-        }
-      });
-
-      return msg;
+  var Cell = function (initial) {
+    var value = initial;
+    var get = function () {
+      return value;
     };
+    var set = function (v) {
+      value = v;
+    };
+    var clone = function () {
+      return Cell(get());
+    };
+    return {
+      get: get,
+      set: set,
+      clone: clone
+    };
+  };
 
-    PluginManager.add('autosave', function (editor) {
-      var settings = editor.settings, prefix, started;
+  var PluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
-      prefix = settings.autosave_prefix || 'tinymce-autosave-{path}{query}-{id}-';
-      prefix = prefix.replace(/\{path\}/g, document.location.pathname);
-      prefix = prefix.replace(/\{query\}/g, document.location.search);
-      prefix = prefix.replace(/\{id\}/g, editor.id);
+  var LocalStorage = tinymce.util.Tools.resolve('tinymce.util.LocalStorage');
 
-      function parseTime(time, defaultTime) {
-        var multipels = {
-          s: 1000,
-          m: 60000
-        };
+  var Tools = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-        time = /^(\d+)([ms]?)$/.exec('' + (time || defaultTime));
+  var fireRestoreDraft = function (editor) {
+    return editor.fire('RestoreDraft');
+  };
+  var fireStoreDraft = function (editor) {
+    return editor.fire('StoreDraft');
+  };
+  var fireRemoveDraft = function (editor) {
+    return editor.fire('RemoveDraft');
+  };
+  var $_afh07d8kjdud79x7 = {
+    fireRestoreDraft: fireRestoreDraft,
+    fireStoreDraft: fireStoreDraft,
+    fireRemoveDraft: fireRemoveDraft
+  };
 
-        return (time[2] ? multipels[time[2]] : 1) * parseInt(time, 10);
-      }
+  var parse = function (time, defaultTime) {
+    var multiples = {
+      s: 1000,
+      m: 60000
+    };
+    time = /^(\d+)([ms]?)$/.exec('' + (time || defaultTime));
+    return (time[2] ? multiples[time[2]] : 1) * parseInt(time, 10);
+  };
+  var $_d0nlmr8mjdud79xa = { parse: parse };
 
-      function hasDraft() {
-        var time = parseInt(LocalStorage.getItem(prefix + "time"), 10) || 0;
+  var shouldAskBeforeUnload = function (editor) {
+    return editor.getParam('autosave_ask_before_unload', true);
+  };
+  var getAutoSavePrefix = function (editor) {
+    var prefix = editor.getParam('autosave_prefix', 'tinymce-autosave-{path}{query}{hash}-{id}-');
+    prefix = prefix.replace(/\{path\}/g, document.location.pathname);
+    prefix = prefix.replace(/\{query\}/g, document.location.search);
+    prefix = prefix.replace(/\{hash\}/g, document.location.hash);
+    prefix = prefix.replace(/\{id\}/g, editor.id);
+    return prefix;
+  };
+  var shouldRestoreWhenEmpty = function (editor) {
+    return editor.getParam('autosave_restore_when_empty', false);
+  };
+  var getAutoSaveInterval = function (editor) {
+    return $_d0nlmr8mjdud79xa.parse(editor.settings.autosave_interval, '30s');
+  };
+  var getAutoSaveRetention = function (editor) {
+    return $_d0nlmr8mjdud79xa.parse(editor.settings.autosave_retention, '20m');
+  };
+  var $_caxccm8ljdud79x8 = {
+    shouldAskBeforeUnload: shouldAskBeforeUnload,
+    getAutoSavePrefix: getAutoSavePrefix,
+    shouldRestoreWhenEmpty: shouldRestoreWhenEmpty,
+    getAutoSaveInterval: getAutoSaveInterval,
+    getAutoSaveRetention: getAutoSaveRetention
+  };
 
-        if (new Date().getTime() - time > settings.autosave_retention) {
-          removeDraft(false);
-          return false;
+  var isEmpty = function (editor, html) {
+    var forcedRootBlockName = editor.settings.forced_root_block;
+    html = Tools.trim(typeof html === 'undefined' ? editor.getBody().innerHTML : html);
+    return html === '' || new RegExp('^<' + forcedRootBlockName + '[^>]*>((\xA0|&nbsp;|[ \t]|<br[^>]*>)+?|)</' + forcedRootBlockName + '>|<br>$', 'i').test(html);
+  };
+  var hasDraft = function (editor) {
+    var time = parseInt(LocalStorage.getItem($_caxccm8ljdud79x8.getAutoSavePrefix(editor) + 'time'), 10) || 0;
+    if (new Date().getTime() - time > $_caxccm8ljdud79x8.getAutoSaveRetention(editor)) {
+      removeDraft(editor, false);
+      return false;
+    }
+    return true;
+  };
+  var removeDraft = function (editor, fire) {
+    var prefix = $_caxccm8ljdud79x8.getAutoSavePrefix(editor);
+    LocalStorage.removeItem(prefix + 'draft');
+    LocalStorage.removeItem(prefix + 'time');
+    if (fire !== false) {
+      $_afh07d8kjdud79x7.fireRemoveDraft(editor);
+    }
+  };
+  var storeDraft = function (editor) {
+    var prefix = $_caxccm8ljdud79x8.getAutoSavePrefix(editor);
+    if (!isEmpty(editor) && editor.isDirty()) {
+      LocalStorage.setItem(prefix + 'draft', editor.getContent({
+        format: 'raw',
+        no_events: true
+      }));
+      LocalStorage.setItem(prefix + 'time', new Date().getTime().toString());
+      $_afh07d8kjdud79x7.fireStoreDraft(editor);
+    }
+  };
+  var restoreDraft = function (editor) {
+    var prefix = $_caxccm8ljdud79x8.getAutoSavePrefix(editor);
+    if (hasDraft(editor)) {
+      editor.setContent(LocalStorage.getItem(prefix + 'draft'), { format: 'raw' });
+      $_afh07d8kjdud79x7.fireRestoreDraft(editor);
+    }
+  };
+  var startStoreDraft = function (editor, started) {
+    var interval = $_caxccm8ljdud79x8.getAutoSaveInterval(editor);
+    if (!started.get()) {
+      setInterval(function () {
+        if (!editor.removed) {
+          storeDraft(editor);
         }
-
-        return true;
-      }
-
-      function removeDraft(fire) {
-        LocalStorage.removeItem(prefix + "draft");
-        LocalStorage.removeItem(prefix + "time");
-
-        if (fire !== false) {
-          editor.fire('RemoveDraft');
-        }
-      }
-
-      function storeDraft() {
-        if (!isEmpty() && editor.isDirty()) {
-          LocalStorage.setItem(prefix + "draft", editor.getContent({ format: 'raw', no_events: true }));
-          LocalStorage.setItem(prefix + "time", new Date().getTime());
-          editor.fire('StoreDraft');
-        }
-      }
-
-      function restoreDraft() {
-        if (hasDraft()) {
-          editor.setContent(LocalStorage.getItem(prefix + "draft"), { format: 'raw' });
-          editor.fire('RestoreDraft');
-        }
-      }
-
-      function startStoreDraft() {
-        if (!started) {
-          setInterval(function () {
-            if (!editor.removed) {
-              storeDraft();
-            }
-          }, settings.autosave_interval);
-
-          started = true;
-        }
-      }
-
-      settings.autosave_interval = parseTime(settings.autosave_interval, '30s');
-      settings.autosave_retention = parseTime(settings.autosave_retention, '20m');
-
-      function postRender() {
-        var self = this;
-
-        self.disabled(!hasDraft());
-
-        editor.on('StoreDraft RestoreDraft RemoveDraft', function () {
-          self.disabled(!hasDraft());
-        });
-
-        startStoreDraft();
-      }
-
-      function restoreLastDraft() {
-        editor.undoManager.beforeChange();
-        restoreDraft();
-        removeDraft();
-        editor.undoManager.add();
-      }
-
-      editor.addButton('restoredraft', {
-        title: 'Restore last draft',
-        onclick: restoreLastDraft,
-        onPostRender: postRender
-      });
-
-      editor.addMenuItem('restoredraft', {
-        text: 'Restore last draft',
-        onclick: restoreLastDraft,
-        onPostRender: postRender,
-        context: 'file'
-      });
-
-      function isEmpty(html) {
-        var forcedRootBlockName = editor.settings.forced_root_block;
-
-        html = Tools.trim(typeof html == "undefined" ? editor.getBody().innerHTML : html);
-
-        return html === '' || new RegExp(
-          '^<' + forcedRootBlockName + '[^>]*>((\u00a0|&nbsp;|[ \t]|<br[^>]*>)+?|)<\/' + forcedRootBlockName + '>|<br>$', 'i'
-        ).test(html);
-      }
-
-      if (editor.settings.autosave_restore_when_empty !== false) {
-        editor.on('init', function () {
-          if (hasDraft() && isEmpty()) {
-            restoreDraft();
-          }
-        });
-
-        editor.on('saveContent', function () {
-          removeDraft();
-        });
-      }
-
-      window.onbeforeunload = EditorManager._beforeUnloadHandler;
-
-      this.hasDraft = hasDraft;
-      this.storeDraft = storeDraft;
-      this.restoreDraft = restoreDraft;
-      this.removeDraft = removeDraft;
-      this.isEmpty = isEmpty;
+      }, interval);
+      started.set(true);
+    }
+  };
+  var restoreLastDraft = function (editor) {
+    editor.undoManager.transact(function () {
+      restoreDraft(editor);
+      removeDraft(editor);
     });
+    editor.focus();
+  };
+  var $_bav8s38hjdud79x4 = {
+    isEmpty: isEmpty,
+    hasDraft: hasDraft,
+    removeDraft: removeDraft,
+    storeDraft: storeDraft,
+    restoreDraft: restoreDraft,
+    startStoreDraft: startStoreDraft,
+    restoreLastDraft: restoreLastDraft
+  };
 
-    return function () { };
+  var curry = function (f, editor) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      return f.apply(null, [editor].concat(args));
+    };
+  };
+  var get = function (editor) {
+    return {
+      hasDraft: curry($_bav8s38hjdud79x4.hasDraft, editor),
+      storeDraft: curry($_bav8s38hjdud79x4.storeDraft, editor),
+      restoreDraft: curry($_bav8s38hjdud79x4.restoreDraft, editor),
+      removeDraft: curry($_bav8s38hjdud79x4.removeDraft, editor),
+      isEmpty: curry($_bav8s38hjdud79x4.isEmpty, editor)
+    };
+  };
+  var $_57ymkf8gjdud79x3 = { get: get };
+
+  var EditorManager = tinymce.util.Tools.resolve('tinymce.EditorManager');
+
+  EditorManager._beforeUnloadHandler = function () {
+    var msg;
+    Tools.each(EditorManager.get(), function (editor) {
+      if (editor.plugins.autosave) {
+        editor.plugins.autosave.storeDraft();
+      }
+      if (!msg && editor.isDirty() && $_caxccm8ljdud79x8.shouldAskBeforeUnload(editor)) {
+        msg = editor.translate('You have unsaved changes are you sure you want to navigate away?');
+      }
+    });
+    return msg;
+  };
+  var setup = function (editor) {
+    window.onbeforeunload = EditorManager._beforeUnloadHandler;
+  };
+  var $_7bo6qu8njdud79xb = { setup: setup };
+
+  var postRender = function (editor, started) {
+    return function (e) {
+      var ctrl = e.control;
+      ctrl.disabled(!$_bav8s38hjdud79x4.hasDraft(editor));
+      editor.on('StoreDraft RestoreDraft RemoveDraft', function () {
+        ctrl.disabled(!$_bav8s38hjdud79x4.hasDraft(editor));
+      });
+      $_bav8s38hjdud79x4.startStoreDraft(editor, started);
+    };
+  };
+  var register = function (editor, started) {
+    editor.addButton('restoredraft', {
+      title: 'Restore last draft',
+      onclick: function () {
+        $_bav8s38hjdud79x4.restoreLastDraft(editor);
+      },
+      onPostRender: postRender(editor, started)
+    });
+    editor.addMenuItem('restoredraft', {
+      text: 'Restore last draft',
+      onclick: function () {
+        $_bav8s38hjdud79x4.restoreLastDraft(editor);
+      },
+      onPostRender: postRender(editor, started),
+      context: 'file'
+    });
+  };
+  var $_9zny808pjdud79xd = { register: register };
+
+  PluginManager.add('autosave', function (editor) {
+    var started = Cell(false);
+    $_7bo6qu8njdud79xb.setup(editor);
+    $_9zny808pjdud79xd.register(editor, started);
+    return $_57ymkf8gjdud79x3.get(editor);
+  });
+  function Plugin () {
   }
-);
-dem('tinymce.plugins.autosave.Plugin')();
+
+  return Plugin;
+
+}());
 })();

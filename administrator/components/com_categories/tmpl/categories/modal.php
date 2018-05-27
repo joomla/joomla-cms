@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/he
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
+JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');
@@ -35,9 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-warning alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-			</div>
+			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped" id="categoryList">
 				<thead>
@@ -48,13 +47,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:10%" class="nowrap hidden-sm-down">
+						<th style="width:10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:15%" class="nowrap hidden-sm-down">
+						<th style="width:15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:1%" class="nowrap hidden-sm-down">
+						<th style="width:1%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -107,13 +106,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $this->escape($item->title); ?>
 								</a>
 							</td>
-							<td class="small hidden-sm-down">
+							<td class="small d-none d-md-table-cell">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<td class="small hidden-sm-down">
+							<td class="small d-none d-md-table-cell">
 								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
-							<td class="hidden-sm-down">
+							<td class="d-none d-md-table-cell">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>

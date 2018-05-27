@@ -3,7 +3,7 @@
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field 
 			name="id" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly" 
 			size="10" 
@@ -85,7 +85,6 @@
 		<field
 			name="buttonspacer"
 			type="spacer" 
-			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 		/>
 
 		<field 
@@ -207,7 +206,7 @@
 
 		<field 
 			name="hits" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_HITS"
 			class="readonly" 
 			size="6"
@@ -364,7 +363,7 @@
 
 			<field
 				name="show_associations"
-				type="list"
+				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
 				>
@@ -536,8 +535,8 @@
 				default=""
 				useglobal="true"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field
@@ -547,8 +546,8 @@
 				default=""
 				useglobal="true"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field

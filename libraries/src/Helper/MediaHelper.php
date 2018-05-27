@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class MediaHelper
 	 *
 	 * @since   3.7.2
 	 */
-	private function getMimeType($file, $isImage = false)
+	public static function getMimeType($file, $isImage = false)
 	{
 		// If we can't detect anything mime is false
 		$mime = false;
@@ -73,7 +73,7 @@ class MediaHelper
 			elseif ($isImage && function_exists('getimagesize'))
 			{
 				$imagesize = getimagesize($file);
-				$mime      = isset($imagesize['mime']) ? $imagesize['mime'] : false;
+				$mime      = $imagesize['mime'] ?? false;
 			}
 			elseif (function_exists('mime_content_type'))
 			{
@@ -97,7 +97,7 @@ class MediaHelper
 		// If we can't detect the mime try it again
 		if ($mime === 'application/octet-stream' && $isImage === true)
 		{
-			$mime = $this->getMimeType($file, false);
+			$mime = static::getMimeType($file, false);
 		}
 
 		// We have a mime here
@@ -120,8 +120,14 @@ class MediaHelper
 
 		if ($params->get('check_mime', 1))
 		{
+			$allowedMime = $params->get(
+				'upload_mime',
+				'image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,' .
+					'application/pdf,application/powerpoint,text/plain,application/x-zip'
+			);
+
 			// Get the mime type configuration
-			$allowedMime = array_map('trim', explode(',', $params->get('upload_mime')));
+			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
 			// Mime should be available and in the whitelist
 			return !empty($mime) && in_array($mime, $allowedMime);
@@ -155,7 +161,7 @@ class MediaHelper
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
+		if ($file['name'] !== \JFile::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
@@ -189,8 +195,14 @@ class MediaHelper
 			return false;
 		}
 
-		$filetype  = array_pop($filetypes);
-		$allowable = array_map('trim', explode(',', $params->get('upload_extensions')));
+		$filetype = array_pop($filetypes);
+
+		$allowable = $params->get(
+			'upload_extensions',
+			'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,BMP,' .
+				'CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,TXT,XCF,XLS'
+		);
+		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
@@ -219,7 +231,7 @@ class MediaHelper
 				if (!empty($file['tmp_name']))
 				{
 					// Get the mime type this is an image file
-					$mime = $this->getMimeType($file['tmp_name'], true);
+					$mime = static::getMimeType($file['tmp_name'], true);
 
 					// Did we get anything useful?
 					if ($mime != false)
@@ -252,7 +264,7 @@ class MediaHelper
 			elseif (!in_array($filetype, $ignored))
 			{
 				// Get the mime type this is not an image file
-				$mime = $this->getMimeType($file['tmp_name'], false);
+				$mime = static::getMimeType($file['tmp_name'], false);
 
 				// Did we get anything useful?
 				if ($mime != false)

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -7,6 +7,8 @@ Joomla = window.Joomla || {};
 
 (function() {
 	'use strict';
+
+	var installPackageButtonId = 'installbutton_package';
 
 	document.addEventListener('DOMContentLoaded', function() {
 
@@ -83,13 +85,7 @@ Joomla = window.Joomla || {};
 				form.submit();
 			}
 		};
-
-		Joomla.submitbuttonInstallWebInstaller = function() {
-			document.getElementById('adminForm').install_url.value = 'https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
-
-			Joomla.submitbutton4();
-		};
-		
+	
 		Joomla.displayLoader = function() {
 			var loading = document.getElementById('loading');
 			if (loading) {
@@ -108,6 +104,10 @@ Joomla = window.Joomla || {};
 			loading.style.marginTop = '-10px';
 		}
 
+		document.getElementById(installPackageButtonId).addEventListener('click', function(event) {
+      event.preventDefault();
+      Joomla.submitbuttonpackage();
+    })
 	});
 
 }());

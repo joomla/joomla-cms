@@ -3,25 +3,34 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/** @var JoomlaupdateViewDefault $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 
 JHtml::_('jquery.framework');
 JHtml::_('behavior.core');
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
-
 JHtml::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
+JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+JText::script('JYES');
+JText::script('JNO');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+
+$latestJoomlaVersion = $this->updateInfo['latest'];
 ?>
 
-<div id="joomlaupdate-wrapper">
-
+<div id="joomlaupdate-wrapper" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
-		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
+		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'pre-update-check', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_PRE_UPDATE_CHECK')); ?>
+			<?php echo $this->loadTemplate('preupdatecheck'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 	<?php endif; ?>
 
@@ -32,8 +41,11 @@ JHtml::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto',
 			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
-			<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest']) : ?>
-				<?php // If we have no download URL we can't reinstall or update ?>
+			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
+				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				|| !$this->getModel()->isDatabaseTypeSupported()
+				|| !$this->getModel()->isPhpVersionSupported()) : ?>
+				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
 				<?php // If we have no update we can reinstall the core ?>

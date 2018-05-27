@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Psr\Link\EvolvableLinkProviderInterface;
 /**
  * Joomla! Preload Manager
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PreloadManager implements PreloadManagerInterface
 {
@@ -25,7 +25,7 @@ class PreloadManager implements PreloadManagerInterface
 	 * The link provider
 	 *
 	 * @var    EvolvableLinkProviderInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $linkProvider;
 
@@ -34,7 +34,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @param   EvolvableLinkProviderInterface  $linkProvider  The link provider
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(EvolvableLinkProviderInterface $linkProvider = null)
 	{
@@ -46,9 +46,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  EvolvableLinkProviderInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getLinkProvider()
+	public function getLinkProvider(): EvolvableLinkProviderInterface
 	{
 		return $this->linkProvider;
 	}
@@ -60,7 +60,7 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setLinkProvider(EvolvableLinkProviderInterface $linkProvider)
 	{
@@ -77,9 +77,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function preload($uri, array $attributes = [])
+	public function preload(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'preload', $attributes);
 	}
@@ -92,9 +92,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function dnsPrefetch($uri, array $attributes = [])
+	public function dnsPrefetch(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'dns-prefetch', $attributes);
 	}
@@ -107,9 +107,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function preconnect($uri, array $attributes = [])
+	public function preconnect(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'preconnect', $attributes);
 	}
@@ -122,9 +122,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function prefetch($uri, array $attributes = [])
+	public function prefetch(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'prefetch', $attributes);
 	}
@@ -137,9 +137,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function prerender($uri, array $attributes = [])
+	public function prerender(string $uri, array $attributes = [])
 	{
 		$this->link($uri, 'prerender', $attributes);
 	}
@@ -153,9 +153,9 @@ class PreloadManager implements PreloadManagerInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	private function link($uri, $rel, array $attributes = [])
+	private function link(string $uri, string $rel, array $attributes = [])
 	{
 		$link = new Link($rel, $uri);
 

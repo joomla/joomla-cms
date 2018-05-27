@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class CallbackController extends CacheController
 			{
 				echo Cache::getWorkarounds(
 					$data['output'],
-					array('mergehead' => isset($woptions['mergehead']) ? $woptions['mergehead'] : 0)
+					array('mergehead' => $woptions['mergehead'] ?? 0)
 				);
 			}
 			else
@@ -113,9 +113,9 @@ class CallbackController extends CacheController
 			$coptions['modulemode'] = 0;
 		}
 
-		$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
-		$coptions['nohead']    = isset($woptions['nohead'])    ? $woptions['nohead'] : 1;
-		$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
+		$coptions['nopathway'] = $woptions['nopathway'] ?? 1;
+		$coptions['nohead']    = $woptions['nohead'] ?? 1;
+		$coptions['nomodules'] = $woptions['nomodules'] ?? 1;
 
 		ob_start();
 		ob_implicit_flush(false);

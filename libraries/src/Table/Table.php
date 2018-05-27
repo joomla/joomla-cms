@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 * The UCM type alias. Used for tags, content versioning etc. Leave blank to effectively disable these features.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $typeAlias = null;
 
@@ -259,7 +259,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  Table|boolean   A Table object if found or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the MvcFactory instead
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
@@ -299,7 +300,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 		}
 
 		// If a database object was passed in the configuration array use it, otherwise get the global one from \JFactory.
-		$db = isset($config['dbo']) ? $config['dbo'] : \JFactory::getDbo();
+		$db = $config['dbo'] ?? \JFactory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
 		if (\JFactory::getContainer()->exists($tableClass))
@@ -318,7 +319,8 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 	 *
 	 * @return  array  An array of filesystem paths to find Table classes in.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Should not be used anymore as tables are loaded through the MvcFactory
 	 */
 	public static function addIncludePath($path = null)
 	{
@@ -778,6 +780,7 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			{
 				throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
+
 			// Add the search tuple to the query.
 			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
 		}
@@ -1453,16 +1456,23 @@ abstract class Table extends \JObject implements \JTableInterface, DispatcherAwa
 			return false;
 		}
 
-		$db = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(userid)')
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $against);
-		$db->setQuery($query);
-		$checkedOut = (boolean) $db->loadResult();
+		// This last check can only be relied on if tracking session metadata
+		if (\JFactory::getConfig()->get('session_metadata', true))
+		{
+			$db = \JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('COUNT(userid)')
+				->from($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = ' . (int) $against);
+			$db->setQuery($query);
+			$checkedOut = (boolean) $db->loadResult();
 
-		// If a session exists for the user then it is checked out.
-		return $checkedOut;
+			// If a session exists for the user then it is checked out.
+			return $checkedOut;
+		}
+
+		// Assume if we got here that there is a value in the checked out column but it doesn't match the given user
+		return true;
 	}
 
 	/**

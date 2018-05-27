@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Administrator\Helper;
@@ -203,7 +203,13 @@ class ContactHelper extends ContentHelper
 			$section = 'mail';
 		}
 
-		if ($section != 'mail' && $section != 'contact')
+		if (\JFactory::getApplication()->isClient('site') && $section == 'category')
+		{
+			// The contact form needs to be the mail section
+			$section = 'contact';
+		}
+
+		if ($section !== 'mail' && $section !== 'contact')
 		{
 			// We don't know other sections
 			return null;

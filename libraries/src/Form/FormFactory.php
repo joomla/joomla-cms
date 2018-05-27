@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Default factory for creating Form objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FormFactory implements FormFactoryInterface
 {
@@ -23,11 +23,11 @@ class FormFactory implements FormFactoryInterface
 	 * @param   string  $name     The name of the form.
 	 * @param   array   $options  An array of form options.
 	 *
-	 * @return  Form  Form instance.
+	 * @return  Form
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public static function createForm($name, $options = array())
+	public function createForm(string $name, array $options = array()): Form
 	{
 		return new Form($name, $options);
 	}

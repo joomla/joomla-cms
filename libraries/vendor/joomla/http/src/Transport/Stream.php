@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Http Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,9 @@ class Stream extends AbstractTransport
 		// Follow redirects.
 		$options['follow_location'] = (int) $this->getOption('follow_location', 1);
 
+		// Configure protocol version, use transport's default if not set otherwise.
+		$options['follow_location'] = $this->getOption('protocolVersion', '1.0');
+
 		// Add the proxy configuration if enabled
 		if ($this->getOption('proxy.enabled', false))
 		{
@@ -148,9 +151,10 @@ class Stream extends AbstractTransport
 		$streamOptions = [
 			'http' => $options,
 			'ssl'  => [
-				'verify_peer'  => true,
-				'verify_depth' => 5,
-			]
+				'verify_peer'      => true,
+				'verify_depth'     => 5,
+				'verify_peer_name' => true,
+			],
 		];
 
 		// The cacert may be a file or path
@@ -169,7 +173,7 @@ class Stream extends AbstractTransport
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$track_errors = ini_get('track_errors');
+		$trackErrors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		// Open the stream for reading.
@@ -185,13 +189,13 @@ class Stream extends AbstractTransport
 			}
 
 			// Restore error tracking to give control to the exception handler
-			ini_set('track_errors', $track_errors);
+			ini_set('track_errors', $trackErrors);
 
 			throw new \RuntimeException($php_errormsg);
 		}
 
 		// Restore error tracking to what it was before.
-		ini_set('track_errors', $track_errors);
+		ini_set('track_errors', $trackErrors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);

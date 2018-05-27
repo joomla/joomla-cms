@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ class Pagination
 	public function setAdditionalUrlParam($key, $value)
 	{
 		// Get the old value to return and set the new one for the URL parameter.
-		$result = isset($this->additionalUrlParams[$key]) ? $this->additionalUrlParams[$key] : null;
+		$result = $this->additionalUrlParams[$key] ?? null;
 
 		// If the passed parameter value is null unset the parameter, otherwise set it to the given value.
 		if ($value === null)
@@ -218,9 +218,7 @@ class Pagination
 	 */
 	public function getAdditionalUrlParam($key)
 	{
-		$result = isset($this->additionalUrlParams[$key]) ? $this->additionalUrlParams[$key] : null;
-
-		return $result;
+		return $this->additionalUrlParams[$key] ?? null;
 	}
 
 	/**
@@ -454,7 +452,7 @@ class Pagination
 	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
 	{
 		// Allow to receive a null layout
-		$layoutId = $layoutId === null ? 'joomla.pagination.links' : $layoutId;
+		$layoutId = $layoutId ?? 'joomla.pagination.links';
 
 		$list = array(
 			'prefix'       => $this->prefix,
@@ -584,7 +582,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="custom-select" onchange="Joomla.submitform();"',
+				'class="form-control" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
@@ -596,7 +594,7 @@ class Pagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="custom-select" size="1" onchange="this.form.submit()"',
+				'class="form-control" onchange="this.form.submit()"',
 				'value',
 				'text',
 				$selected

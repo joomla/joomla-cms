@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Class JNamespaceMap
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class JNamespacePsr4Map
 {
@@ -19,26 +19,16 @@ class JNamespacePsr4Map
 	 * Path to the autoloader
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected $file = '';
-
-	/**
-	 * Constructor. For PHP 5.5 compatibility we must set the file property like this
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$this->file = JPATH_LIBRARIES . '/autoload_psr4.php';
-	}
+	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function exists()
 	{
@@ -55,7 +45,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function ensureMapFileExists()
 	{
@@ -72,7 +62,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function create()
 	{
@@ -106,7 +96,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function load()
 	{
@@ -140,7 +130,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function writeNamespaceFile($elements)
 	{
@@ -171,7 +161,7 @@ class JNamespacePsr4Map
 	 *
 	 * @return  mixed|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getNamespacedExtensions()
 	{
@@ -181,7 +171,7 @@ class JNamespacePsr4Map
 
 		$query->select($db->quoteName(array('extension_id', 'element', 'namespace')))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ""');
+			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ' . $db->quote(""));
 
 		$db->setQuery($query);
 

@@ -3,91 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Event\Event;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Plain Textarea Editor Plugin
  *
  * @since  1.5
  */
-class PlgEditorNone extends JPlugin
+class PlgEditorNone extends CMSPlugin
 {
-	/**
-	 * Method to handle the onInitEditor event.
-	 *  - Initialises the Editor
-	 *
-	 * @return  void
-	 *
-	 * @since 1.5
-	 */
-	public function onInit()
-	{
-		JHtml::_('script', 'editors/none/none.min.js', array('version' => 'auto', 'relative' => true));
-	}
-
-	/**
-	 * Copy editor content to form field.
-	 *
-	 * Not applicable in this editor.
-	 *
-	 * @param   string  $editor  the editor id
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSave($editor)
-	{
-	}
-
-	/**
-	 * Get the editor content.
-	 *
-	 * @param   string  $id  The id of the editor field.
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onGetContent($id)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].getValue();';
-	}
-
-	/**
-	 * Set the editor content.
-	 *
-	 * @param   string  $id    The id of the editor field.
-	 * @param   string  $html  The content to set.
-	 *
-	 * @return  string
-	 *
-	 * @deprecated 4.0 Use directly the returned code
-	 */
-	public function onSetContent($id, $html)
-	{
-		return 'Joomla.editors.instances[' . json_encode($id) . '].setValue(' . json_encode($html) . ');';
-	}
-
-	/**
-	 * Inserts html code into the editor
-	 *
-	 * @param   string  $id  The id of the editor field
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 4.0
-	 */
-	public function onGetInsertMethod($id)
-	{
-	}
-
 	/**
 	 * Display the editor area.
 	 *
@@ -126,13 +59,13 @@ class PlgEditorNone extends JPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		$editor = '<div class="js-editor-none">'
+		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
+
+		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
 			. '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
-			. $this->_displayButtons($id, $buttons, $asset, $author)
-			. '</div>';
-
-		return $editor;
+			. '</joomla-editor-none>'
+			. $this->_displayButtons($id, $buttons, $asset, $author);
 	}
 
 	/**
@@ -162,7 +95,7 @@ class PlgEditorNone extends JPlugin
 			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
 			$buttons       = $buttonsResult['result'];
 
-			return JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			return LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 	}
 }

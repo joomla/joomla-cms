@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,16 +16,14 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Router\Route;
 
 \JLoader::register('\MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Helper for mod_languages
  *
- * @package     Joomla.Site
- * @subpackage  mod_languages
- *
- * @since       1.6.0
+ * @since  1.6
  */
 abstract class LanguagesHelper
 {
@@ -122,16 +120,16 @@ abstract class LanguagesHelper
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
-						$language->link = \JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
-						$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 					}
-					elseif ($active && $active->language == '*')
+					elseif ($active && $active->language === '*')
 					{
-						$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
+						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
 					}
 					else
 					{
@@ -142,13 +140,13 @@ abstract class LanguagesHelper
 						else
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
-							$language->link = \JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+							$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 						}
 					}
 				}
 				else
 				{
-					$language->link = \JRoute::_('&Itemid=' . $homes['*']->id);
+					$language->link = Route::_('&Itemid=' . $homes['*']->id);
 				}
 			}
 		}

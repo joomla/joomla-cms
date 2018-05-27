@@ -3,10 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Fields\FieldsServiceInterface;
 
 JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
 
@@ -41,26 +44,18 @@ class FieldsHelper
 			return null;
 		}
 
-		$component = $parts[0];
-		$eName = str_replace('com_', '', $component);
+		$newSection = '';
 
-		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if (file_exists($path))
+		if ($component instanceof FieldsServiceInterface)
 		{
-			$cName = ucfirst($eName) . 'Helper';
+			$newSection = $component->validateSection($parts[1], $item);
+		}
 
-			JLoader::register($cName, $path);
-
-			if (class_exists($cName) && is_callable(array($cName, 'validateSection')))
-			{
-				$section = call_user_func_array(array($cName, 'validateSection'), array($parts[1], $item));
-
-				if ($section)
-				{
-					$parts[1] = $section;
-				}
-			}
+		if ($newSection)
+		{
+			$parts[1] = $newSection;
 		}
 
 		return $parts;
@@ -91,7 +86,7 @@ class FieldsHelper
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
-			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\Fields(array('ignore_request' => true));
+			self::$fieldsCache = new \Joomla\Component\Fields\Administrator\Model\FieldsModel(array('ignore_request' => true));
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -101,10 +96,12 @@ class FieldsHelper
 		{
 			$item = (object) $item;
 		}
-		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language !='*')
+
+		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
 		{
 			self::$fieldsCache->setState('filter.language', array('*', $item->language));
 		}
+
 		self::$fieldsCache->setState('filter.context', $context);
 
 		/*
@@ -113,7 +110,7 @@ class FieldsHelper
 		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
-			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
+			$assignedCatIds = $item->catid ?? $item->fieldscatid;
 
 			if (!is_array($assignedCatIds))
 			{
@@ -137,11 +134,11 @@ class FieldsHelper
 		{
 			if (self::$fieldCache === null)
 			{
-				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+				self::$fieldCache = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 			}
 
 			$fieldIds = array_map(
-				function($f)
+				function ($f)
 				{
 					return $f->id;
 				},
@@ -160,15 +157,15 @@ class FieldsHelper
 				 */
 				$field = clone $original;
 
-				if ($valuesToOverride && key_exists($field->name, $valuesToOverride))
+				if ($valuesToOverride && array_key_exists($field->name, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->name];
 				}
-				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				elseif ($valuesToOverride && array_key_exists($field->id, $valuesToOverride))
 				{
 					$field->value = $valuesToOverride[$field->id];
 				}
-				elseif (key_exists($field->id, $fieldValues))
+				elseif (array_key_exists($field->id, $fieldValues))
 				{
 					$field->value = $fieldValues[$field->id];
 				}
@@ -195,7 +192,7 @@ class FieldsHelper
 
 					if (is_array($value))
 					{
-						$value = implode($value, ' ');
+						$value = implode(' ', $value);
 					}
 
 					/*
@@ -289,7 +286,12 @@ class FieldsHelper
 		$component = $parts[0];
 		$section   = $parts[1];
 
-		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : $form->getValue('catid'));
+		$assignedCatids = $data->catid ?? $data->fieldscatid ?? $form->getValue('catid');
+
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$assignedCatids = is_array($assignedCatids)
+			? (int) reset($assignedCatids)
+			: (int) $assignedCatids;
 
 		if (!$assignedCatids && $formField = $form->getField('catid'))
 		{
@@ -304,6 +306,7 @@ class FieldsHelper
 			{
 				$assignedCatids = $firstChoice->getAttribute('value');
 			}
+
 			$data->fieldscatid = $assignedCatids;
 		}
 
@@ -332,7 +335,8 @@ class FieldsHelper
 				Joomla.loadingLayer('load');
 				var formControl = '#" . $form->getFormControl() . "_catid';
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});");
+			});"
+			);
 		}
 
 		// Getting the fields
@@ -381,7 +385,7 @@ class FieldsHelper
 			$fieldsPerGroup[$field->group_id][] = $field;
 		}
 
-		$model = new Joomla\Component\Fields\Administrator\Model\Groups(array('ignore_request' => true));
+		$model = new Joomla\Component\Fields\Administrator\Model\GroupsModel(array('ignore_request' => true));
 		$model->setState('filter.context', $context);
 
 		/**
@@ -470,7 +474,7 @@ class FieldsHelper
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
-		$model = new \Joomla\Component\Fields\Administrator\Model\Field(array('ignore_request' => true));
+		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 
 		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'modules'
 			&& JFactory::getApplication()->isClient('site'))
@@ -596,9 +600,9 @@ class FieldsHelper
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('c.title'))
-				->from($db->quoteName('#__fields_categories', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-				->where('field_id = ' . $fieldId);
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
@@ -616,10 +620,10 @@ class FieldsHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('extension_id'))
-		->from($db->quoteName('#__extensions'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-		->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('fields'));
 		$db->setQuery($query);
 
 		try
@@ -723,5 +727,18 @@ class FieldsHelper
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Clears the internal cache for the custom fields.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.0
+	 */
+	public static function clearFieldsCache()
+	{
+		self::$fieldCache  = null;
+		self::$fieldsCache = null;
 	}
 }

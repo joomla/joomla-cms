@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,15 +16,15 @@ use BadMethodCallException;
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
  *
  * @see    Joomla\CMS\Event\AbstractEvent
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AbstractImmutableEvent extends AbstractEvent
 {
 	/**
-	 * A flag to see if the constructor has been
-	 * already called.
+	 * A flag to see if the constructor has been already called.
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  4.0.0
 	 */
 	private $constructed = false;
 
@@ -34,11 +34,10 @@ class AbstractImmutableEvent extends AbstractEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
+	 * @since   4.0.0
 	 * @throws  BadMethodCallException
-	 *
-	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct(string $name, array $arguments = [])
 	{
 		if ($this->constructed)
 		{
@@ -60,7 +59,7 @@ class AbstractImmutableEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  BadMethodCallException
 	 */
 	public function offsetSet($name, $value)
@@ -81,9 +80,8 @@ class AbstractImmutableEvent extends AbstractEvent
 	 *
 	 * @return  void
 	 *
+	 * @since   4.0.0
 	 * @throws  BadMethodCallException
-	 *
-	 * @since   __DEPLOY_VERSION__
 	 */
 	public function offsetUnset($name)
 	{

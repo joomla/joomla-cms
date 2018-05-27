@@ -3,12 +3,13 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\ArticlesNews</namespace>
 	<files>
 		<filename module="mod_articles_news">mod_articles_news.php</filename>
 		<folder>tmpl</folder>
@@ -18,7 +19,7 @@
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
 		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH"/>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -28,11 +29,20 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
+					class="multipleCategories"
 					default=""
 					size="10"
-					>
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
+				/>
+
+				<field
+					name="tag"
+					type="tag"
+					label="JTAG"
+					description="JTAG_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="image"
@@ -41,8 +51,8 @@
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -52,8 +62,8 @@
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -100,8 +110,8 @@
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -128,7 +138,7 @@
 
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					default="5"
 				/>
@@ -195,7 +205,7 @@
 
 				<field
 					name="cache_time"
-					type="text"
+					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 				/>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\DI\ContainerAwareTrait;
 /**
  * Default factory for creating toolbar objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, ContainerAwareInterface
 {
@@ -33,9 +33,10 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 * @since   3.8.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function createButton(Toolbar $toolbar, $type)
+	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
 	{
-		$buttonClass = $this->loadButtonClass($type);
+		$normalisedType = ucfirst($type);
+		$buttonClass    = $this->loadButtonClass($normalisedType);
 
 		if (!$buttonClass)
 		{
@@ -68,7 +69,10 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 			return $this->getContainer()->get($buttonClass);
 		}
 
-		return new $buttonClass($toolbar);
+		/** @var ToolbarButton $button */
+		$button = new $buttonClass($normalisedType);
+
+		return $button->setParent($toolbar);
 	}
 
 	/**
@@ -78,9 +82,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 *
 	 * @return  Toolbar
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function createToolbar($name = 'toolbar')
+	public function createToolbar(string $name = 'toolbar'): Toolbar
 	{
 		return new Toolbar($name, $this);
 	}
@@ -88,18 +92,18 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	/**
 	 * Load the button class including the deprecated ones.
 	 *
-	 * @param   string  $type  Button Type
+	 * @param   string  $type  Button Type (normalized)
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	private function loadButtonClass($type)
+	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
-			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
+			'Joomla\\CMS\\Toolbar\\Button\\' . $type . 'Button',
 			// @deprecated 5.0
-			'JToolbarButton' . ucfirst($type),
+			'JToolbarButton' . $type,
 		];
 
 		foreach ($buttonClasses as $buttonClass)

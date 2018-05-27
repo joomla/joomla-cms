@@ -3,18 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 ?>
 
 <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
 	<?php if ($params->get('showHere', 1)) : ?>
 		<li class="float-left">
-			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
+			<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 		</li>
 	<?php else : ?>
 		<li class="float-left">

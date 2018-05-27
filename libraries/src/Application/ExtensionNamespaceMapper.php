@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use JLoader;
 /**
  * Trait for application classes which ensures the namespace mapper exists and includes it.
  *
- * @since  4.0
+ * @since  4.0.0
  */
 trait ExtensionNamespaceMapper
 {
@@ -24,7 +24,7 @@ trait ExtensionNamespaceMapper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createExtensionNamespaceMap()
 	{

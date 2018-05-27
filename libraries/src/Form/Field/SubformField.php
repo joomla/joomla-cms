@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Filesystem\Path;
 
@@ -72,7 +72,7 @@ class SubformField extends FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -97,7 +97,7 @@ class SubformField extends FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -235,9 +235,9 @@ class SubformField extends FormField
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$formname    = 'subform.' . str_replace(array('[', ']'), array('.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = \JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+			$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
 			// Prepare the forms for exiting values
 			if ($this->multiple)
@@ -247,7 +247,7 @@ class SubformField extends FormField
 				for ($i = 0; $i < $c; $i++)
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = \JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
+					$itemform    = Form::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
 
 					if (!empty($value[$i]))
 					{

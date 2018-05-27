@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -530,7 +530,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	abstract protected function finaliseInstall();
@@ -540,10 +540,10 @@ abstract class InstallerAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
-	abstract protected function finaliseUninstall();
+	abstract protected function finaliseUninstall(): bool;
 
 	/**
 	 * Checks if the adapter supports discover_install
@@ -943,7 +943,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	abstract protected function removeExtensionFiles();
@@ -998,7 +998,7 @@ abstract class InstallerAdapter
 	 */
 	protected function setupScriptfile()
 	{
-		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
+		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
@@ -1025,7 +1025,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	abstract protected function setupUninstall();
 
@@ -1134,7 +1134,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function uninstall($id)
 	{

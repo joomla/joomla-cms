@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,9 +35,7 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-					</div>
+					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table table-striped" id="associationsList">
 					<thead>
@@ -65,11 +63,11 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								</th>
 							<?php endif; ?>
 							<?php if (!empty($this->typeFields['access'])) : ?>
-								<th style="width:5%" class="nowrap hidden-sm-down">
+								<th style="width:5%" class="nowrap d-none d-md-table-cell">
 									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); $colSpan++; ?>
 								</th>
 							<?php endif; ?>
-							<th style="width:1%" class="nowrap hidden-sm-down text-center">
+							<th style="width:1%" class="nowrap d-none d-md-table-cell text-center">
 								<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -134,11 +132,11 @@ JHtml::_('script', 'com_associations/admin-associations-default.min.js', false, 
 								</td>
 							<?php endif; ?>
 							<?php if (!empty($this->typeFields['access'])) : ?>
-								<td class="small hidden-sm-down">
+								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
 							<?php endif; ?>
-							<td class="hidden-sm-down text-center">
+							<td class="d-none d-md-table-cell text-center">
 								<?php echo $item->id; ?>
 							</td>
 						</tr>

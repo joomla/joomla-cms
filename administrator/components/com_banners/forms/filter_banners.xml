@@ -82,8 +82,8 @@
 			<option value="impmade DESC">COM_BANNERS_HEADING_IMPRESSIONS_DESC</option>
 			<option value="clicks ASC">COM_BANNERS_HEADING_CLICKS_ASC</option>
 			<option value="clicks DESC">COM_BANNERS_HEADING_CLICKS_DESC</option>
-			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

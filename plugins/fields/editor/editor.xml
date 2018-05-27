@@ -3,7 +3,7 @@
 	<name>plg_fields_editor</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,8 +28,8 @@
 					class="switcher"
 					default="0"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -60,7 +60,7 @@
 					name="filter"
 					type="list"
 					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
-					class="btn-group"
+					class="list"
 					default="JComponentHelper::filterText"
 					>
 					<option value="0">JNO</option>

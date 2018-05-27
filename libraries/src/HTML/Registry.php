@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Service registry for JHtml services
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class Registry
 {
@@ -23,7 +23,7 @@ final class Registry
 	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $coreServiceMap = [
 		'access'          => \JHtmlAccess::class,
@@ -63,7 +63,7 @@ final class Registry
 	 * Array holding the registered services
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $serviceMap = [];
 
@@ -74,9 +74,9 @@ final class Registry
 	 *
 	 * @return  string|object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getService($key)
+	public function getService(string $key)
 	{
 		if (!$this->hasService($key))
 		{
@@ -93,9 +93,9 @@ final class Registry
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function hasService($key)
+	public function hasService(string $key): bool
 	{
 		return isset($this->serviceMap[$key]);
 	}
@@ -109,9 +109,9 @@ final class Registry
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function register($key, $handler, $replace = false)
+	public function register(string $key, $handler, bool $replace = false)
 	{
 		// If the key exists already and we aren't instructed to replace existing services, bail early
 		if (isset($this->serviceMap[$key]) && !$replace)

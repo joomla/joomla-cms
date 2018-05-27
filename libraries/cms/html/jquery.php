@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,13 +56,13 @@ abstract class JHtmlJquery
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'system/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'vendor/jquery/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			JHtml::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;

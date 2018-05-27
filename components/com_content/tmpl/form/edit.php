@@ -3,16 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
+
+HTMLHelper::_('script', 'com_content/form-edit.js', ['relative' => true, 'version' => 'auto']);
+
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 
@@ -26,19 +31,8 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
-		{
-			" . $this->form->getField('articletext')->save() . "
-			Joomla.submitform(task);
-		}
-	}
-");
 ?>
-<div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
+<div class="edit item-page">
 	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -113,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
-					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
+					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 						<?php echo $this->form->renderField('publish_up'); ?>
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
@@ -130,11 +124,15 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+			<?php if (\JLanguageMultilang::isEnabled()) : ?>
+				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+					<?php echo $this->form->renderField('language'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php else: ?>
 				<?php echo $this->form->renderField('language'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php endif; ?>
 
-			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
 					<?php echo $this->form->renderField('metadesc'); ?>
 					<?php echo $this->form->renderField('metakey'); ?>
@@ -147,21 +145,17 @@ JFactory::getDocument()->addScriptDeclaration("
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
-		<div class="btn-toolbar">
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
-				</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
-				</button>
-			</div>
+		<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="article.save">
+				<span class="fa fa-check" aria-hidden="true"></span>
+				<?php echo JText::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-secondary" data-submit-task="article.cancel">
+				<span class="fa fa-times-cancel" aria-hidden="true"></span>
+				<?php echo JText::_('JCANCEL'); ?>
+			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
-			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
-			</div>
 			<?php endif; ?>
 		</div>
 	</form>

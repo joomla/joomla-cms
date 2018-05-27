@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,5 +122,26 @@ class CryptoCipher implements CipherInterface
 		$private = 'unused';
 
 		return new Key('crypto', $private, $public);
+	}
+
+	/**
+	 * Check if the cipher is supported in this environment.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isSupported(): bool
+	{
+		try
+		{
+			\Crypto::runtimeTest();
+
+			return true;
+		}
+		catch (\CryptoTestFailedException $e)
+		{
+			return false;
+		}
 	}
 }

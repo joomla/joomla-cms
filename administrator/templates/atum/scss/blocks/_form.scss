@@ -62,15 +62,11 @@
 }
 
 .custom-select {
-  min-width: 240px;
+  max-width: 240px;
 }
 
 .spacer hr {
   width: 380px;
-}
-
-.card .custom-select {
-  width: 100%;
 }
 
 td .form-control {
@@ -114,8 +110,6 @@ legend {
   display: block;
 }
 
-// Possibly temporary until Bootstrap support it themselves
-.custom-select[multiple] {
-  height: auto;
-  background: none;
+[aria-grabbed="true"] {
+  box-shadow: 0 0 2px 1px theme-color("primary");
 }

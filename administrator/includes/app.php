@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,10 @@ require_once JPATH_BASE . '/includes/framework.php';
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
 // Instantiate the application.
-$app = JFactory::getApplication('administrator');
+$app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\CMS\Application\AdministratorApplication::class);
+
+// Set the application as global app
+\Joomla\CMS\Factory::$application = $app;
 
 // Execute the application.
 $app->execute();

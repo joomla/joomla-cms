@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ abstract class JLoader
 	 * The root folders where extensions can be found.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $extensionRootFolders = array();
 
@@ -305,9 +305,9 @@ abstract class JLoader
 	public static function register($class, $path, $force = true)
 	{
 		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
+		if (array_key_exists(strtolower($class), self::$classAliases))
 		{
-			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
+			self::register(self::stripFirstBackslash(self::$classAliases[strtolower($class)]), $path, $force);
 		}
 
 		// Sanitize class name.
@@ -385,19 +385,22 @@ abstract class JLoader
 	 */
 	public static function registerAlias($alias, $original, $version = false)
 	{
-		if (!isset(self::$classAliases[$alias]))
+		// PHP is case insensitive so support all kind of alias combination
+		$lowercasedAlias = strtolower($alias);
+
+		if (!isset(self::$classAliases[$lowercasedAlias]))
 		{
-			self::$classAliases[$alias] = $original;
+			self::$classAliases[$lowercasedAlias] = $original;
 
 			$original = self::stripFirstBackslash($original);
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
-				self::$classAliasesInverse[$original] = array($alias);
+				self::$classAliasesInverse[$original] = array($lowercasedAlias);
 			}
 			else
 			{
-				self::$classAliasesInverse[$original][] = $alias;
+				self::$classAliasesInverse[$original][] = $lowercasedAlias;
 			}
 
 			// If given a version, log this alias as deprecated
@@ -443,6 +446,9 @@ abstract class JLoader
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
+		// Trim leading and trailing backslashes from namespace, allowing "\Parent\Child", "Parent\Child\" and "\Parent\Child\" to be treated the same way.
+		$namespace = trim($namespace, '\\');
+
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
 		if ($reset || !isset(self::$namespaces[$type][$namespace]))
 		{
@@ -473,7 +479,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function registerExtensionRootFolder($key, $path)
 	{
@@ -533,7 +539,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function loadByExtension($class)
 	{
@@ -568,7 +574,7 @@ abstract class JLoader
 		}
 
 		// Check if it is an extension class
-		if (!key_exists($key, self::$extensionRootFolders))
+		if (!array_key_exists($key, self::$extensionRootFolders))
 		{
 			return false;
 		}
@@ -651,14 +657,14 @@ abstract class JLoader
 		// Loop through registered namespaces until we find a match.
 		foreach (self::$namespaces['psr4'] as $ns => $paths)
 		{
-			$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
-
-			if (strpos($class, $ns) === 0)
+			if (strpos($class, "{$ns}\\") === 0)
 			{
+				$nsPath = trim(str_replace('\\', DIRECTORY_SEPARATOR, $ns), DIRECTORY_SEPARATOR);
+
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = $path . DIRECTORY_SEPARATOR . str_replace($nsPath, '', $classPath);
+					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -752,7 +758,7 @@ abstract class JLoader
 	 */
 	public static function loadByAlias($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		$class = strtolower(self::stripFirstBackslash($class));
 
 		if (isset(self::$classAliases[$class]))
 		{
@@ -885,7 +891,7 @@ abstract class JLoader
 	 */
 	private static function loadAliasFor($class)
 	{
-		if (!key_exists($class, self::$classAliasesInverse))
+		if (!array_key_exists($class, self::$classAliasesInverse))
 		{
 			return;
 		}
@@ -919,7 +925,7 @@ abstract class JLoader
 	 *
 	 * @return  string  The space separated string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private static function fromCamelCase($input, $grouped = false)
 	{

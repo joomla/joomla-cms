@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
@@ -48,7 +49,7 @@ abstract class InstallerHelper
 		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
 		PluginHelper::importPlugin('installer');
-		\JFactory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
@@ -80,7 +81,7 @@ abstract class InstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = \JFactory::getConfig()->get('tmp_path');
+		$tmpPath = Factory::getApplication()->getCfg('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)

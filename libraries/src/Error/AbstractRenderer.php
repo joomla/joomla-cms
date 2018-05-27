@@ -2,11 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error;
+
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Base class for error page renderers
@@ -16,9 +22,9 @@ namespace Joomla\CMS\Error;
 abstract class AbstractRenderer implements RendererInterface
 {
 	/**
-	 * The JDocument instance
+	 * The Document instance
 	 *
-	 * @var    \JDocument
+	 * @var    Document
 	 * @since  4.0
 	 */
 	protected $document;
@@ -32,24 +38,13 @@ abstract class AbstractRenderer implements RendererInterface
 	protected $type;
 
 	/**
-	 * Render the error page for the given object
+	 * Retrieve the Document instance attached to this renderer
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
-	 *
-	 * @return  string
+	 * @return  Document
 	 *
 	 * @since   4.0
 	 */
-	abstract protected function doRender($error);
-
-	/**
-	 * Retrieve the JDocument instance attached to this renderer
-	 *
-	 * @return  \JDocument
-	 *
-	 * @since   4.0
-	 */
-	public function getDocument()
+	public function getDocument(): Document
 	{
 		// Load the document if not already
 		if (!$this->document)
@@ -70,15 +65,15 @@ abstract class AbstractRenderer implements RendererInterface
 	 * @since   4.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getRenderer($type)
+	public static function getRenderer(string $type)
 	{
 		// Build the class name
 		$class = __NAMESPACE__ . '\\Renderer\\' . ucfirst(strtolower($type)) . 'Renderer';
 
 		// First check if an object may exist in the container and prefer that over everything else
-		if (\JFactory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
-			return \JFactory::getContainer()->get($class);
+			return Factory::getContainer()->get($class);
 		}
 
 		// Next check if a local class exists and use that
@@ -92,54 +87,29 @@ abstract class AbstractRenderer implements RendererInterface
 	}
 
 	/**
-	 * Create the JDocument object for this renderer
+	 * Create the Document object for this renderer
 	 *
-	 * @return  \JDocument
+	 * @return  Document
 	 *
 	 * @since   4.0
 	 */
-	protected function loadDocument()
+	protected function loadDocument(): Document
 	{
-		$attributes = array(
+		$attributes = [
 			'charset'   => 'utf-8',
 			'lineend'   => 'unix',
 			'tab'       => "\t",
 			'language'  => 'en-GB',
 			'direction' => 'ltr',
-		);
+		];
 
-		// If there is a JLanguage instance in JFactory then let's pull the language and direction from its metadata
-		if (\JFactory::$language)
+		// If there is a Language instance in Factory then let's pull the language and direction from its metadata
+		if (Factory::$language)
 		{
-			$attributes['language']  = \JFactory::getLanguage()->getTag();
-			$attributes['direction'] = \JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
+			$attributes['language']  = Factory::getLanguage()->getTag();
+			$attributes['direction'] = Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr';
 		}
 
-		return \JDocument::getInstance($this->type, $attributes);
-	}
-
-	/**
-	 * Render the error page for the given object
-	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0
-	 * @throws  \InvalidArgumentException if a non-Throwable object was provided
-	 */
-	public function render($error)
-	{
-		// If this isn't a Throwable then bail out
-		if (!($error instanceof \Throwable) && !($error instanceof \Exception))
-		{
-			$expectedType = PHP_VERSION_ID >= 70000 ? 'a Throwable' : 'an Exception';
-
-			throw new \InvalidArgumentException(
-				sprintf('The error renderer requires %1$s object, a %2$s object was given instead.', $expectedType, get_class($error))
-			);
-		}
-
-		return $this->doRender($error);
+		return Factory::getContainer()->get(FactoryInterface::class)->createDocument($this->type, $attributes);
 	}
 }

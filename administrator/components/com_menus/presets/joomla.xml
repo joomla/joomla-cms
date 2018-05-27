@@ -72,18 +72,6 @@
 			type="separator"
 		/>
 		<menuitem
-			title="MOD_MENU_COM_USERS_NOTES"
-			type="component"
-			element="com_users"
-			link="index.php?option=com_users&amp;view=notes">
-		</menuitem>
-		<menuitem
-			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
-			type="component"
-			element="com_categories"
-			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
-		</menuitem>
-		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -99,10 +87,26 @@
 			type="separator"
 		/>
 		<menuitem
+			title="MOD_MENU_COM_USERS_NOTES"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=notes">
+		</menuitem>
+		<menuitem
+			title="MOD_MENU_COM_USERS_NOTE_CATEGORIES"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
+		</menuitem>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_MASS_MAIL_USERS"
 			type="component"
 			element="com_users"
 			link="index.php?option=com_users&amp;view=mail"
+			scope="massmail"
 		/>
 	</menuitem>
 	<menuitem
@@ -142,15 +146,19 @@
 			type="separator"
 			title="JSITE"
 			hidden="false"
-			sql_select="title, menutype"
-			sql_from="#__menu_types"
-			sql_where="client_id = 0"
-			sql_order="title ASC">
+			sql_select="a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:mod_languages/', l.image, '.gif') END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
+			sql_from="#__menu_types AS a"
+			sql_where="a.client_id = 0"
+			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
+			sql_group="a.id, a.title, a.menutype, m.language, l.image"
+			sql_order="a.title ASC">
 			<menuitem
-				title="{sql:title}"
+				title="{sql:title} "
 				type="component"
 				element="com_menus"
-				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}">
+				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
+				icon="{sql:icon}"
+				class="class:menu">
 				<menuitem
 					title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 					type="component"
@@ -188,12 +196,12 @@
 		type="component"
 		element="com_media"
 		link="index.php?option=com_media"
-		class="class:file-image-o"
+		class="class:image"
 	/>
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
 		type="heading"
-		class="class:file-text-o"
+		class="class:file-text"
 		>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
@@ -208,6 +216,16 @@
 			link="index.php?option=com_categories&amp;extension=com_content">
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -218,12 +236,6 @@
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
-		/>
-		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
 		/>
 	</menuitem>
 	<menuitem
@@ -358,6 +370,9 @@
 			scope="help"
 		/>
 		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
@@ -367,8 +382,15 @@
 		<menuitem
 			type="url"
 			target="_blank"
+			title="MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM"
+			link="special:custom-forum"
+			scope="help"
+		/>
+		<menuitem
+			type="url"
+			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM"
-			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
+			link="special:language-forum"
 			scope="help"
 		/>
 		<menuitem
@@ -377,6 +399,9 @@
 			title="MOD_MENU_HELP_DOCUMENTATION"
 			link="https://docs.joomla.org"
 			scope="help"
+		/>
+		<menuitem
+			type="separator"
 		/>
 		<menuitem
 			type="url"

@@ -91,8 +91,11 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
      */
     public static function add(array $a, array $b)
     {
+        /** @var int $x1 */
         $x1 = $a[1] + $b[1];
+        /** @var int $c */
         $c = $x1 >> 32; // Carry if ($a + $b) > 0xffffffff
+        /** @var int $x0 */
         $x0 = $a[0] + $b[0] + $c;
         return array(
             $x0 & 0xffffffff,
@@ -153,6 +156,8 @@ class ParagonIE_Sodium_Core_SipHash extends ParagonIE_Sodium_Core_Util
      * @param string $in
      * @param string $key
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function sipHash24($in, $key)
     {
