@@ -24,6 +24,18 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $now       = JFactory::getDate();
 
+$js = <<< JS
+window.listItemTask = function(id, task) {
+	if (task === 'request.export') {
+	    document.getElementById('task-format').value = 'xml';
+	}
+
+	Joomla.listItemTask(id, task);
+};
+JS;
+
+$this->document->addScriptDeclaration($js);
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
@@ -48,6 +60,9 @@ $now       = JFactory::getDate();
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
+							<?php echo JText::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
+						</th>
+						<th width="5%" class="nowrap center">
 							<?php echo JText::_('JSTATUS'); ?>
 						</th>
 						<th class="nowrap">
@@ -69,7 +84,7 @@ $now       = JFactory::getDate();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="7">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -82,6 +97,11 @@ $now       = JFactory::getDate();
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+							</td>
+							<td class="center">
+								<?php if ($item->request_type === 'export') : ?>
+									<?php echo JHtml::_('jgrid.action', $i, 'request.export', '', '', 'COM_PRIVACY_ACTION_EXPORT_DATA', '', true, 'download'); ?>
+								<?php endif; ?>
 							</td>
 							<td class="center">
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
@@ -115,6 +135,7 @@ $now       = JFactory::getDate();
 			</table>
 		<?php endif; ?>
 
+		<input type="hidden" name="format" value="html" id="task-format" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
