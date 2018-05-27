@@ -178,7 +178,7 @@
 		 */
 		setFolder: function (folder, asset, author)
 		{
-            folder = folder.replace(/%2F/gi, "/");
+                        folder = folder.replace(/%2F/gi, "/");
 			for (var i = 0, l = this.folderlist.length; i < l; i++)
 			{
 				if (folder == this.folderlist.options[i].value)
