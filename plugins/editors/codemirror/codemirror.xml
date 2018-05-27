@@ -66,7 +66,7 @@
 
 				<field
 					name="lineWrapping"
-					type="hidden"
+					type="radio"
 					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
 					description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
 					class="btn-group btn-group-yesno"
