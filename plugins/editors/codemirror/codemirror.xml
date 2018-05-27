@@ -310,7 +310,7 @@
 					editor="codemirror"
 					filter="unset"
 					buttons="false"
-				>
+					>
 					<default>
 <![CDATA[
 <script type="text/javascript">
