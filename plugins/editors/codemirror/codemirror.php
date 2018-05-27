@@ -207,8 +207,7 @@ class PlgEditorCodemirror extends JPlugin
 			$autofocused = $options->autofocus;
 		}
 
-		// Until there's a fix for the overflow problem, always wrap lines.
-		$options->lineWrapping = true;
+		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 
 		// Add styling to the active line.
 		$options->styleActiveLine = (boolean) $this->params->get('activeLine', 1);
