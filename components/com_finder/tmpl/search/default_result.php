@@ -84,6 +84,6 @@ $type = array_shift($type);
 <?php endif; ?>
 <?php if ($this->result->created && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-created">
-		<?php echo JText::sprintf('JGLOBAL_CREATED_DATE_ON', \JHtml::_('date', $this->result->created, \JText::_('DATE_FORMAT_LC3'))); ?>
+		<?php echo \JText::sprintf('JGLOBAL_CREATED_DATE_ON', \JHtml::_('date', $this->result->created, \JText::_('DATE_FORMAT_LC3'))); ?>
 	</dd>
 <?php endif; ?>
