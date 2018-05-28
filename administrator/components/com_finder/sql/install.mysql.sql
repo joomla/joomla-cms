@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `map_count` int(10) unsigned NOT NULL DEFAULT 0,
-  `data` text NOT NULL DEFAULT '',
-  `params` mediumtext NOT NULL DEFAULT '',
+  `data` text,
+  `params` mediumtext,
   PRIMARY KEY (`filter_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `list_price` double unsigned NOT NULL DEFAULT 0,
   `sale_price` double unsigned NOT NULL DEFAULT 0,
   `type_id` int(11) NOT NULL DEFAULT 0,
-  `object` mediumblob NOT NULL DEFAULT '',
+  `object` mediumblob,
   PRIMARY KEY (`link_id`),
   KEY `idx_type` (`type_id`),
   KEY `idx_title` (`title`(100)),
