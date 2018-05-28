@@ -19,6 +19,8 @@ class PrivacyModelExport extends JModelLegacy
 	/**
 	 * Create the export document for an information request.
 	 *
+	 * @param   integer  $id  The request ID to process
+	 *
 	 * @return  PrivacyExportDomain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
 	 *
 	 * @since   __DEPLOY_VERSION__

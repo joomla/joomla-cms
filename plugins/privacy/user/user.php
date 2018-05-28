@@ -35,7 +35,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * - #__user_notes
 	 * - #__user_profiles
 	 *
-	 * @param   PrivacyTableRequest $request  The request record being processed
+	 * @param   PrivacyTableRequest  $request  The request record being processed
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
