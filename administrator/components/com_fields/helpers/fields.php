@@ -107,9 +107,16 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
-		if (JLanguageMultilang::isEnabled() && isset($item->language) && $item->language != '*')
+		if (JLanguageMultilang::isEnabled())
 		{
-			self::$fieldsCache->setState('filter.language', array('*', $item->language));
+			if (!isset($item->language))
+			{
+				self::$fieldsCache->setState('filter.language', array('*', JFactory::getLanguage()->getTag()));
+			}
+			elseif ($item->language !== '*')
+			{
+				self::$fieldsCache->setState('filter.language', array('*', $item->language));
+			}
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
