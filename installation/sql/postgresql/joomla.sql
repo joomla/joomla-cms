@@ -773,8 +773,8 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "map_count" integer DEFAULT 0 NOT NULL,
-  "data" text DEFAULT '' NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "data" text,
+  "params" text,
   PRIMARY KEY ("filter_id")
 );
 
@@ -801,7 +801,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "list_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "sale_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "type_id" bigint DEFAULT 0 NOT NULL,
-  "object" bytea DEFAULT '' NOT NULL,
+  "object" bytea,
   PRIMARY KEY ("link_id")
 );
 CREATE INDEX "#__finder_links_idx_type" on "#__finder_links" ("type_id");

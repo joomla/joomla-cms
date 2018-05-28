@@ -4,9 +4,6 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "title" SET DEFAULT '';
 ALTER TABLE "#__finder_filters" ALTER COLUMN "alias" SET DEFAULT '';
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by" SET DEFAULT 0;
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
-ALTER TABLE "#__finder_filters" ALTER COLUMN "data" SET DEFAULT '';
-ALTER TABLE "#__finder_filters" ALTER COLUMN "params" SET DEFAULT '';
-ALTER TABLE "#__finder_filters" ALTER COLUMN "params" SET NOT NULL;
 -- finder_links table
 ALTER TABLE "#__finder_links" ALTER COLUMN "url" SET DEFAULT '';
 ALTER TABLE "#__finder_links" ALTER COLUMN "route" SET DEFAULT '';
@@ -15,7 +12,6 @@ ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE CHAR(7);
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_links" ALTER COLUMN "type_id" SET DEFAULT 0;
-ALTER TABLE "#__finder_links" ALTER COLUMN "object" SET DEFAULT '';
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 -- finder_links_termsx tables
 ALTER TABLE "#__finder_links_terms0" ALTER COLUMN "weight" SET DEFAULT 0;

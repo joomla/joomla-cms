@@ -4,8 +4,6 @@ ALTER TABLE `#__finder_filters` MODIFY `title` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_filters` MODIFY `alias` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_filters` MODIFY `created_by_alias` varchar(255) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_filters` MODIFY `data` text NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_filters` MODIFY `params` mediumtext NOT NULL DEFAULT '';
 -- finder_links table
 ALTER TABLE `#__finder_links` MODIFY `url` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` MODIFY `route` varchar(255) NOT NULL DEFAULT '';
@@ -14,7 +12,6 @@ ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_links` MODIFY `language` char(7) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` MODIFY `type_id` int(11) NOT NULL DEFAULT 0;
-ALTER TABLE `#__finder_links` MODIFY `object` mediumblob NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` ADD INDEX `idx_language` (`language`);
 -- finder_links_termsx tables
 ALTER TABLE `#__finder_links_terms0` MODIFY `weight` float unsigned NOT NULL DEFAULT 0;
