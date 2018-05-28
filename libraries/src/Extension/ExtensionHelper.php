@@ -176,6 +176,7 @@ class ExtensionHelper
 		array('plugin', 'list', 'fields', 0),
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
+		array('plugin', 'repeatable', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
 		array('plugin', 'textarea', 'fields', 0),
@@ -223,6 +224,7 @@ class ExtensionHelper
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
+		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 

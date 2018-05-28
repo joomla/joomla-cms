@@ -25,6 +25,7 @@ class TagsControllerTags extends JControllerLegacy
 	{
 		// Required objects
 		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		// Receive request data
 		$filters = array(
@@ -35,7 +36,15 @@ class TagsControllerTags extends JControllerLegacy
 			'parent_id' => $app->input->get('parent_id', 0, 'int'),
 		);
 
-		if ($results = JHelperTags::searchTags($filters))
+		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))
+		{
+			// Filter on published for those who do not have edit or edit.state rights.
+			$filters['published'] = 1;
+		}
+
+		$results = JHelperTags::searchTags($filters);
+
+		if ($results)
 		{
 			// Output a JSON object
 			echo json_encode($results);

@@ -133,7 +133,8 @@ class PlgAuthenticationCookie extends JPlugin
 		if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 		{
 			/*
-			 * This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
+			 * This is a real attack!
+			 * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
 			 * Delete all tokens for this user!
 			 */
 			$query = $this->db->getQuery(true)
@@ -294,8 +295,8 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 
 		// Get the parameter values
-		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length   = $this->params->get('key_length', '16');
+		$lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+		$length   = $this->params->get('key_length', 16);
 
 		// Generate new cookie
 		$token       = JUserHelper::genRandomPassword($length);
@@ -334,9 +335,9 @@ class PlgAuthenticationCookie extends JPlugin
 				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
-		$hashed_token = JUserHelper::hashPassword($token);
+		$hashedToken = JUserHelper::hashPassword($token);
 
-		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
+		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashedToken));
 
 		try
 		{

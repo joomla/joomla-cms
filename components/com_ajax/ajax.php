@@ -46,14 +46,11 @@ if (!$format)
  */
 elseif ($input->get('module'))
 {
-	$module       = $input->get('module');
-	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+	$module   = $input->get('module');
+	$table    = JTable::getInstance('extension');
+	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
-	/*
-	 * As JModuleHelper::isEnabled always returns true, we check
-	 * for an id other than 0 to see if it is published.
-	 */
-	if ($moduleObject->id != 0)
+	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 

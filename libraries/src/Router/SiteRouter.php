@@ -182,8 +182,8 @@ class SiteRouter extends Router
 			}
 		}
 
-		// Add basepath to the uri
-		$uri->setPath(\JUri::base(true) . '/' . $route);
+		// Add frontend basepath to the uri
+		$uri->setPath(\JUri::root(true) . '/' . $route);
 
 		return $uri;
 	}
@@ -299,8 +299,8 @@ class SiteRouter extends Router
 			// If user not allowed to see default menu item then avoid notices
 			if (is_object($item))
 			{
-				// Set the information in the request
-				$vars = $item->query;
+				// Set query variables of default menu item into the request, but keep existing request variables
+				$vars = array_merge($vars, $item->query);
 
 				// Get the itemid
 				$vars['Itemid'] = $item->id;
@@ -708,18 +708,23 @@ class SiteRouter extends Router
 
 		if ($itemid === null)
 		{
-			if (!$uri->getVar('option'))
+			if ($option = $uri->getVar('option'))
 			{
-				$option = $this->getVar('option');
+				$item = $this->menu->getItem($this->getVar('Itemid'));
 
-				if ($option)
+				if ($item !== null && $item->component === $option)
+				{
+					$uri->setVar('Itemid', $item->id);
+				}
+			}
+			else
+			{
+				if ($option = $this->getVar('option'))
 				{
 					$uri->setVar('option', $option);
 				}
 
-				$itemid = $this->getVar('Itemid');
-
-				if ($itemid)
+				if ($itemid = $this->getVar('Itemid'))
 				{
 					$uri->setVar('Itemid', $itemid);
 				}

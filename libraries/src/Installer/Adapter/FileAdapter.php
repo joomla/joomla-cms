@@ -448,7 +448,7 @@ class FileAdapter extends InstallerAdapter
 				{
 					$files = \JFolder::files($folder);
 
-					if (!count($files))
+					if ($files !== false && !count($files))
 					{
 						\JFolder::delete($folder);
 					}

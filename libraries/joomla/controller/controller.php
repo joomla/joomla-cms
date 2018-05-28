@@ -7,14 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Application\AbstractApplication;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Application\AbstractApplication;
 
 /**
  * Joomla Platform Controller Interface
  *
- * @since  12.1
+ * @since       12.1
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JController extends Serializable
 {

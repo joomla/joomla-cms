@@ -169,8 +169,8 @@ class JFormFieldCalendar extends JFormField
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
+			$this->minyear      = strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
@@ -283,6 +283,10 @@ class JFormFieldCalendar extends JFormField
 		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
 		{
 			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
+		{
+			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
 		}
 		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
 		{

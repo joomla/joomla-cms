@@ -116,7 +116,7 @@ else
 				<?php endif; ?>
 				</div>
 				<jdoc:include type="message" />
-				<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" id="form-login">
+				<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 						<input name="username" id="username" type="text" title="<?php echo JText::_('JGLOBAL_USERNAME'); ?>" />
@@ -131,6 +131,8 @@ else
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo JText::_('JLOGIN'); ?>" />
 
+						<input type="hidden" name="option" value="com_users" />
+						<input type="hidden" name="task" value="user.login" />
 						<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
 						<?php echo JHtml::_('form.token'); ?>
 					</fieldset>

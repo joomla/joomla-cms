@@ -27,6 +27,7 @@
 					label="PLG_TWOFACTORAUTH_TOTP_SECTION_LABEL"
 					description="PLG_TWOFACTORAUTH_TOTP_SECTION_DESC"
 					default="3"
+					filter="integer"
 					class="btn-group"
 					>
 					<option value="1">PLG_TWOFACTORAUTH_TOTP_SECTION_SITE</option>

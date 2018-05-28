@@ -76,7 +76,7 @@ class CacheViewCache extends JViewLegacy
 		}
 
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		JToolbarHelper::custom('deleteAll', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
+		JToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
 		JToolbarHelper::divider();
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))

@@ -113,6 +113,14 @@ class UsersControllerProfile extends UsersController
 			return false;
 		}
 
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
+
 		// Validate the posted data.
 		$data = $model->validate($form, $requestData);
 
