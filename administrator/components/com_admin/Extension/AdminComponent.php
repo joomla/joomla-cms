@@ -43,8 +43,8 @@ class AdminComponent extends MVCComponent implements BootableExtensionInterface
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('system', new System);
-		$this->getRegistry()->register('phpsetting', new PhpSetting);
-		$this->getRegistry()->register('directory', new Directory);
+		$this->getHTMLRegistry()->register('system', new System);
+		$this->getHTMLRegistry()->register('phpsetting', new PhpSetting);
+		$this->getHTMLRegistry()->register('directory', new Directory);
 	}
 }

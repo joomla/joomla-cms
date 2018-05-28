@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  4.0.0
  */
-final class Registry
+final class HTMLRegistry
 {
 	/**
 	 * Mapping array of the core CMS JHtml helpers
