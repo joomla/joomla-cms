@@ -12,10 +12,8 @@ namespace Joomla\Component\Admin\Administrator\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Extension\BootableExtensionInterface;
-use Joomla\CMS\Extension\Component;
+use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Admin\Administrator\Service\HTML\Directory;
 use Joomla\Component\Admin\Administrator\Service\HTML\PhpSetting;
 use Joomla\Component\Admin\Administrator\Service\HTML\System;
@@ -26,9 +24,8 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class AdminComponent extends Component implements BootableExtensionInterface, MVCFactoryServiceInterface
+class AdminComponent extends MVCComponent implements BootableExtensionInterface
 {
-	use MVCFactoryServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**
