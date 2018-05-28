@@ -212,7 +212,7 @@ class PlgEditorCodemirror extends JPlugin
 		// Add styling to the active line.
 		$options->styleActiveLine = (boolean) $this->params->get('activeLine', 1);
 
-		// Add styling to the active line.
+		// Do we highlight selection matches?
 		if ($this->params->get('selectionMatches', 0))
 		{
 			$options->highlightSelectionMatches = array(
