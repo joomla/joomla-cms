@@ -107,7 +107,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
 		// Clear the data from the session.
-		$app->setUserState('com_config.config.global.data', null);
+		$this->app->setUserState('com_config.config.global.data', null);
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])
