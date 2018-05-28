@@ -10,9 +10,14 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Manage Controller
@@ -45,12 +50,14 @@ class ManageController extends BaseController
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.6
 	 */
 	public function publish()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -59,7 +66,7 @@ class ManageController extends BaseController
 
 		if (empty($ids))
 		{
-			$this->setMessage(\JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
+			$this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -82,11 +89,11 @@ class ManageController extends BaseController
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
 
-				$this->setMessage(\JText::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, count($ids)));
 			}
 		}
 
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -94,12 +101,14 @@ class ManageController extends BaseController
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function remove()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');
@@ -107,7 +116,7 @@ class ManageController extends BaseController
 		$eid = $this->input->get('cid', array(), 'array');
 		$eid = ArrayHelper::toInteger($eid, array());
 		$model->remove($eid);
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 
 	/**
@@ -122,7 +131,7 @@ class ManageController extends BaseController
 	public function refresh()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
 		$model = $this->getModel('manage');
@@ -130,6 +139,30 @@ class ManageController extends BaseController
 		$uid = $this->input->get('cid', array(), 'array');
 		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
-		$this->setRedirect(\JRoute::_('index.php?option=com_installer&view=manage', false));
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+	}
+
+	/**
+	 * Load the changelog for a given extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function loadChangelog()
+	{
+		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		$model = $this->getModel('manage');
+
+		$eid = $this->input->get('eid', 0, 'int');
+
+		if (!$eid)
+		{
+			return;
+		}
+
+		$output = $model->loadChangelog($eid);
+
+		echo (new JsonResponse($output));
 	}
 }
