@@ -45,17 +45,17 @@
     },
     {
         "name": "joomla/application",
-        "version": "1.9.0",
-        "version_normalized": "1.9.0.0",
+        "version": "1.9.1",
+        "version_normalized": "1.9.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/application.git",
-            "reference": "f32371fc988356bbf052396dcfd782effdd74b6d"
+            "reference": "a0360e578933e20e98da5c8e17cda72e2b5e2024"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/application/zipball/f32371fc988356bbf052396dcfd782effdd74b6d",
-            "reference": "f32371fc988356bbf052396dcfd782effdd74b6d",
+            "url": "https://api.github.com/repos/joomla-framework/application/zipball/a0360e578933e20e98da5c8e17cda72e2b5e2024",
+            "reference": "a0360e578933e20e98da5c8e17cda72e2b5e2024",
             "shasum": ""
         },
         "require": {
@@ -76,7 +76,7 @@
             "joomla/session": "To use AbstractWebApplication with session support, install joomla/session",
             "joomla/uri": "To use AbstractWebApplication, install joomla/uri"
         },
-        "time": "2018-05-20T15:35:58+00:00",
+        "time": "2018-05-28T15:32:35+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
