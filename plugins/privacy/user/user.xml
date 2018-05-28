@@ -10,7 +10,7 @@
 	<version>3.9.0</version>
 	<description>PLG_PRIVACY_USER_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="joomla">joomla.php</filename>
+		<filename plugin="user">user.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_privacy_user.ini</language>
