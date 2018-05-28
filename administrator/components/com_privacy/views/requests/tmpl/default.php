@@ -24,18 +24,6 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $now       = JFactory::getDate();
 
-$js = <<< JS
-window.listItemTask = function(id, task) {
-	if (task === 'request.export') {
-	    document.getElementById('task-format').value = 'xml';
-	}
-
-	Joomla.listItemTask(id, task);
-};
-JS;
-
-$this->document->addScriptDeclaration($js);
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
@@ -100,7 +88,7 @@ $this->document->addScriptDeclaration($js);
 							</td>
 							<td class="center">
 								<?php if ($item->request_type === 'export') : ?>
-									<?php echo JHtml::_('jgrid.action', $i, 'request.export', '', '', 'COM_PRIVACY_ACTION_EXPORT_DATA', '', true, 'download'); ?>
+									<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span></a>
 								<?php endif; ?>
 							</td>
 							<td class="center">
@@ -135,7 +123,6 @@ $this->document->addScriptDeclaration($js);
 			</table>
 		<?php endif; ?>
 
-		<input type="hidden" name="format" value="html" id="task-format" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>

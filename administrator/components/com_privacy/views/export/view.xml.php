@@ -42,6 +42,12 @@ class PrivacyViewExport extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
+		$requestId = $model->getState($model->getName() . '.request_id');
+
+		// This document should always be downloaded
+		$this->document->setDownload(true);
+		$this->document->setName('export-request-' . $requestId);
+
 		$export = new SimpleXMLElement("<data-export />");
 
 		foreach ($exportData as $domain)

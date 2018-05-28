@@ -27,32 +27,6 @@ class PrivacyControllerRequest extends JControllerLegacy
 	{
 		$this->input->set('view', 'export');
 
-		/** @var \Joomla\CMS\Document\XmlDocument $document */
-		$document = \JFactory::getDocument();
-		$viewType = $document->getType();
-		$viewName = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default', 'string');
-		/** @var PrivacyViewExport $view */
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
-
-		$view->document = $document;
-
-		$cid = $this->input->post->get('cid', array(), 'array');
-
-		$requestId = (int) (count($cid) ? $cid[0] : 0);
-
-		// This document should always be downloaded
-		$document->setDownload(true);
-		$document->setName('export-request-' . $requestId);
-
-		/** @var PrivacyModelExport $model */
-		$model = $this->getModel('Export', 'PrivacyModel');
-		$model->setState($model->getName() . '.request_id', $requestId);
-
-		$view->setModel($model, true);
-
-		$view->display();
-
-		return $this;
+		return $this->display();
 	}
 }

@@ -93,6 +93,9 @@ class PrivacyModelExport extends JModelLegacy
 	 */
 	protected function populateState()
 	{
+		// Get the pk of the record from the request.
+		$this->setState($this->getName() . '.request_id', JFactory::getApplication()->input->getUint('id'));
+
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_privacy'));
 	}
