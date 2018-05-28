@@ -41,15 +41,15 @@ $now       = JFactory::getDate();
 			<table class="table table-striped" id="consentList">
 				<thead>
 					<tr>
-                        <th width="10%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
-                        </th>
 						<th width="10%" class="nowrap">
-                            <?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_SUBJECT'); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
-                        <th class="nowrap">
-	                        <?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_BODY'); ?>
-                        </th>
+						<th width="10%" class="nowrap">
+							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_SUBJECT'); ?>
+						</th>
+						<th class="nowrap">
+							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_BODY'); ?>
+						</th>
 						<th width="15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENT_CREATED', 'a.created', $listDirn, $listOrder); ?>
 						</th>
@@ -72,9 +72,11 @@ $now       = JFactory::getDate();
 								<?php echo $item->username; ?>
 							</td>
 							<td>
-                                <?php echo $item->subject; ?>
+								<?php echo $item->subject; ?>
 							</td>
-                            <td><?php echo $item->body; ?></td>
+							<td>
+								<?php echo $item->body; ?>
+							</td>
 							<td class="break-word">
 								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC6')); ?>">
 									<?php echo JHtml::_('date.relative', new JDate($item->created), null, $now); ?>
