@@ -35,7 +35,7 @@ $now       = JFactory::getDate();
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('COM_PRIVACY_MSG_CONSENT_NO_CONSENTS'); ?>
+				<?php echo JText::_('COM_PRIVACY_MSG_CONSENTS_NO_CONSENTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="consentList">
