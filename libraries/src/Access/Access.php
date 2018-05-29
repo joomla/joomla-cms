@@ -136,6 +136,15 @@ class Access
 	 *
 	 * @since   11.3
 	 */
+
+	/**
+	 * Array of cached asset ids.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $filter = array();
+
 	public static function clearStatics()
 	{
 		self::$viewLevels                      = array();
@@ -652,40 +661,43 @@ class Access
 			$recursive = false;
 		}
 
-		// Get the database connection object.
-		$db = \JFactory::getDbo();
-
-		// Build the database query to get the rules for the asset.
-		$query = $db->getQuery(true)
-			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
-			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
-			->from($db->qn('#__assets', 'a'));
-
-		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
-		$extensionString = '';
-
-		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
+		if (!isset(static::$filter[$assetKey]))
 		{
-			$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
+			// Get the database connection object.
+			$db = \JFactory::getDbo();
+
+			// Build the database query to get the rules for the asset.
+			$query = $db->getQuery(true)
+				->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
+				->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
+				->from($db->qn('#__assets', 'a'));
+
+			// If the asset identifier is numeric assume it is a primary key, else lookup by name.
+			$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
+			$extensionString = '';
+
+			if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
+			{
+				$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
+			}
+
+			$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
+
+			$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
+
+			// If we want the rules cascading up to the global asset node we need a self-join.
+			if ($recursive)
+			{
+				$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
+					->order($db->qn('b.lft'));
+			}
+
+			// Execute the query and load the rules from the result.
+			static::$filter[$assetKey] = $db->setQuery($query)->loadObjectList();
 		}
-
-		$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
-
-		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
-
-		// If we want the rules cascading up to the global asset node we need a self-join.
-		if ($recursive)
-		{
-			$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order($db->qn('b.lft'));
-		}
-
-		// Execute the query and load the rules from the result.
-		$result = $db->setQuery($query)->loadObjectList();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if (empty($result))
+		if (empty(static::$filter[$assetKey]))
 		{
 			$assets = new Asset($db);
 
@@ -694,12 +706,12 @@ class Access
 				->from($db->qn('#__assets'))
 				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
 
-			$result = $db->setQuery($query)->loadObjectList();
+			static::$filter[$assetKey] = $db->setQuery($query)->loadObjectList();
 		}
 
 		$collected = array();
 
-		foreach ($result as $asset)
+		foreach (static::$filter[$assetKey] as $asset)
 		{
 			$collected[] = $asset->rules;
 		}
