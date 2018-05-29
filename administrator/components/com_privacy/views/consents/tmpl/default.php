@@ -22,7 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $now       = JFactory::getDate();
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=consent'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -35,7 +35,7 @@ $now       = JFactory::getDate();
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('COM_PRIVACY_MSG_CONSENT_NO_CONSENT'); ?>
+				<?php echo JText::_('COM_PRIVACY_MSG_CONSENT_NO_CONSENTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="consentList">
@@ -45,13 +45,13 @@ $now       = JFactory::getDate();
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
-							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_SUBJECT'); ?>
+							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENTS_SUBJECT'); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENT_BODY'); ?>
+							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENTS_BODY'); ?>
 						</th>
 						<th width="15%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENT_CREATED', 'a.created', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_CREATED', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>

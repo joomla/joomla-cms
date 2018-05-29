@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Consent view class
+ * Consents view class
  *
  * @since  __DEPLOY_VERSION__
  */
-class PrivacyViewConsent extends JViewLegacy
+class PrivacyViewConsents extends JViewLegacy
 {
 	/**
 	 * The active search tools filters
@@ -108,7 +108,7 @@ class PrivacyViewConsent extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENT'), 'dashboard');
+		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'dashboard');
 
 		JToolbarHelper::preferences('com_privacy');
 	}

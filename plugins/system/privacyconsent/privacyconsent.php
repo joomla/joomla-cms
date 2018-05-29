@@ -207,7 +207,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			try
 			{
-				$this->db->insertObject('#__privacy_consent', $userNote);
+				$this->db->insertObject('#__privacy_consents', $userNote);
 			}
 			catch (Exception $e)
 			{
@@ -246,7 +246,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			try
 			{
 				$query = $this->db->getQuery(true)
-					->delete($this->db->quoteName('#__privacy_consent'))
+					->delete($this->db->quoteName('#__privacy_consents'))
 					->where($this->db->quoteName('user_id') . ' = ' . (int) $userId);
 				$this->db->setQuery($query);
 				$this->db->execute();
@@ -339,7 +339,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	{
 		$query = $this->db->getQuery(true);
 		$query->select('COUNT(*)')
-			->from('#__privacy_consent')
+			->from('#__privacy_consents')
 			->where('user_id = ' . (int) $userId);
 		$this->db->setQuery($query);
 

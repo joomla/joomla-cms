@@ -1656,10 +1656,10 @@ CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out"
 CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
 
 --
--- Table structure for table `#__privacy_consent`
+-- Table structure for table `#__privacy_consents`
 --
 
-CREATE TABLE "#__privacy_consent" (
+CREATE TABLE "#__privacy_consents" (
   "id" serial NOT NULL,
   "user_id" bigint DEFAULT 0 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -1667,7 +1667,7 @@ CREATE TABLE "#__privacy_consent" (
   "body" text NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__privacy_consent_idx_user_id" ON "#__privacy_consent" ("user_id");
+CREATE INDEX "#__privacy_consents_idx_user_id" ON "#__privacy_consents" ("user_id");
 
 --
 -- Table structure for table `#__redirect_links`

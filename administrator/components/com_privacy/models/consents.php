@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Consent management model class.
+ * Consents management model class.
  *
  * @since  __DEPLOY_VERSION__
  */
-class PrivacyModelConsent extends JModelList
+class PrivacyModelConsents extends JModelList
 {
 	/**
 	 * Constructor.
@@ -52,7 +52,7 @@ class PrivacyModelConsent extends JModelList
 
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__privacy_consent', 'a'));
+		$query->from($db->quoteName('#__privacy_consents', 'a'));
 
 		// Join over the users for the username.
 		$query->select($db->quoteName('u.username', 'username'));
