@@ -172,7 +172,7 @@ class TemplateModel extends FormModel
 		// Only allow html/ folder
 		if ($explodeArray['1'] !== 'html')
 		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ONLY_HTML_FOLDER_ALLOWED'), 'error');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ONLY_HTML_FOLDER_ALLOWED'), 'notice');
 
 			return false;
 		}
@@ -244,7 +244,7 @@ class TemplateModel extends FormModel
 			}
 		}
 
-		$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'error');
+		$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'warning');
 
 		return false;
 	}
@@ -315,7 +315,7 @@ class TemplateModel extends FormModel
 
 		if (!$path = Path::find($paths, $file))
 		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'error');
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'warning');
 		}
 
 		return $path;
@@ -630,6 +630,12 @@ class TemplateModel extends FormModel
 				$item->extension_id = $this->getState('extension.id');
 				$item->filename = $fileName;
 				$item->source = file_get_contents($filePath);
+
+				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
+				{
+					$item->coreFile = $coreFile;
+					$item->core = file_get_contents($coreFile);
+				}
 			}
 			else
 			{

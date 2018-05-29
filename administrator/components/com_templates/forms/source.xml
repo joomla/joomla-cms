@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="extension_id"
-			type="hidden" 
+			type="hidden"
 		/>
 
 		<field
@@ -21,7 +21,21 @@
 			rows="20"
 			cols="80"
 			syntax="php"
-			filter="raw" 
+			filter="raw"
+		/>
+
+		<field
+			name="core"
+			type="editor"
+			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
+			editor="codemirror|none"
+			buttons="no"
+			height="500px"
+			rows="20"
+			cols="80"
+			syntax="php"
+			filter="raw"
+		        readonly="true"
 		/>
 	</fieldset>
 </form>

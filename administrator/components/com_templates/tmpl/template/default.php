@@ -49,22 +49,6 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
-	<div class="col-md-12">
-		<?php if($this->type == 'file') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
-		<?php endif; ?>
-		<?php if($this->type == 'image') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
-		<?php endif; ?>
-		<?php if($this->type == 'font') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
-		<?php endif; ?>
-	</div>
-</div>
-<div class="row">
 	<div id="treeholder" class="col-md-3 tree-holder">
 		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
@@ -83,6 +67,8 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<div class="editor-border">
 					<?php echo $this->form->getInput('source'); ?>
@@ -92,6 +78,12 @@ if ($this->type == 'font')
 				<?php echo $this->form->getInput('extension_id'); ?>
 				<?php echo $this->form->getInput('filename'); ?>
 			</form>
+			<div class="editor-border">
+				<?php if (!empty($this->source->coreFile)) : ?>
+					<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_CORE_FILENAME', $this->source->coreFile); ?></p>
+					<?php echo $this->form->getInput('core'); ?>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
@@ -113,6 +105,8 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
@@ -128,6 +122,8 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 			<div class="font-preview">
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
