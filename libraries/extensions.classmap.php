@@ -10,7 +10,16 @@
 defined('_JEXEC') or die;
 
 // Class map of the core extensions
-JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin', '4.0');
-JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '4.0');
 
-JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
+// com_fields
+JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin', '5.0');
+JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '5.0');
+
+// com_tags
+JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '5.0');
+
+// com_content
+JLoader::registerAlias('ContentHelper',    '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper', '5.0');
+
+// com_banners
+JLoader::registerAlias('BannersHelper',    '\\Joomla\\Component\\Banners\\Administrator\\Helper\\BannersHelper', '5.0');

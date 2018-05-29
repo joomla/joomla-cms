@@ -18,13 +18,13 @@ defined('JPATH_PLATFORM') or die;
 trait CategoriesServiceTrait
 {
 	/**
-	 * An array of categories.
+	 * The categories factory
 	 *
-	 * @var  Categories[]
+	 * @var  CategoriesFactoryInterface
 	 *
 	 * @since  4.0.0
 	 */
-	private $categories;
+	private $categoriesFactory;
 
 	/**
 	 * Returns the category service.
@@ -41,31 +41,24 @@ trait CategoriesServiceTrait
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
 	{
-		if (!array_key_exists($section, $this->categories))
-		{
-			throw new SectionNotFoundException;
-		}
+		$category = $this->categoriesFactory->createCategory($section);
+		$category->setOptions($options);
 
-		$categories = clone $this->categories[$section];
-		$categories->setOptions($options);
-
-		return $categories;
+		return $category;
 	}
 
 	/**
-	 * An array of categories where the key is the name of the section.
-	 * If the component has no sections then the array must have at least
-	 * an empty key.
+	 * Sets the internal categories factory.
 	 *
-	 * @param   array  $categories  The categories
+	 * @param   CategoriesFactoryInterface  $categoriesFactory  The categories factory
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setCategories(array $categories)
+	public function setCategoriesFactory(CategoriesFactoryInterface $categoriesFactory)
 	{
-		$this->categories = $categories;
+		$this->categoriesFactory = $categoriesFactory;
 	}
 
 	/**
@@ -141,7 +134,7 @@ trait CategoriesServiceTrait
 	public function countTagItems(array $items, string $extension)
 	{
 		$parts     = explode('.', $extension);
-		$section   = null;
+		$section   = '';
 
 		if (count($parts) > 1)
 		{
@@ -156,7 +149,7 @@ trait CategoriesServiceTrait
 
 		$db    = \JFactory::getDbo();
 		$join  = $db->qn($sectionTable) . ' AS c ON ct.content_item_id=c.id';
-		$state = 'state';
+		$state = $this->getStateColumnForSection($section);
 
 		if ($section === 'category')
 		{
@@ -217,5 +210,19 @@ trait CategoriesServiceTrait
 	protected function getTableNameForSection(string $section = null)
 	{
 		return null;
+	}
+
+	/**
+	 * Returns the state column for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getStateColumnForSection(string $section = null)
+	{
+		return 'state';
 	}
 }

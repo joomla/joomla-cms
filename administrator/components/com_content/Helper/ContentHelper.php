@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Content\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class ContentHelper extends JHelperContent
+class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 {
 	/**
 	 * Configure the Linkbar.
