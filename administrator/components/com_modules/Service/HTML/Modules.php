@@ -7,17 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Modules\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
- * JHtml module helper class.
+ * HTMLHelper module helper class.
  *
  * @since  1.6
  */
-abstract class JHtmlModules
+class Modules
 {
 	/**
 	 * Builds an array of template options
@@ -27,14 +33,14 @@ abstract class JHtmlModules
 	 *
 	 * @return  array
 	 */
-	public static function templates($clientId = 0, $state = '')
+	public function templates($clientId = 0, $state = '')
 	{
 		$options   = array();
 		$templates = ModulesHelper::getTemplates($clientId, $state);
 
 		foreach ($templates as $template)
 		{
-			$options[] = JHtml::_('select.option', $template->element, $template->name);
+			$options[] = HTMLHelper::_('select.option', $template->element, $template->name);
 		}
 
 		return $options;
@@ -45,11 +51,11 @@ abstract class JHtmlModules
 	 *
 	 * @return  array
 	 */
-	public static function types()
+	public function types()
 	{
 		$options = array();
-		$options[] = JHtml::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
-		$options[] = JHtml::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
+		$options[] = HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
+		$options[] = HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
 
 		return $options;
 	}
@@ -59,11 +65,11 @@ abstract class JHtmlModules
 	 *
 	 * @return  array
 	 */
-	public static function templateStates()
+	public function templateStates()
 	{
 		$options = array();
-		$options[] = JHtml::_('select.option', '1', 'JENABLED');
-		$options[] = JHtml::_('select.option', '0', 'JDISABLED');
+		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
 		return $options;
 	}
@@ -78,10 +84,10 @@ abstract class JHtmlModules
 	 *
 	 * @return  string        The Html code
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     HTMLHelperJGrid::state
 	 * @since   1.7.1
 	 */
-	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
+	public function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
 			1  => array(
@@ -122,7 +128,7 @@ abstract class JHtmlModules
 			),
 		);
 
-		return JHtml::_('jgrid.state', $states, $value, $i, 'modules.', $enabled, true, $checkbox);
+		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'modules.', $enabled, true, $checkbox);
 	}
 
 	/**
@@ -136,9 +142,9 @@ abstract class JHtmlModules
 	 *
 	 * @since   2.5
 	 */
-	public static function positions($clientId, $state = 1, $selectedPosition = '')
+	public function positions($clientId, $state = 1, $selectedPosition = '')
 	{
-		JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+		\JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
 
 		$templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
 		$templateGroups = array();
@@ -176,7 +182,7 @@ abstract class JHtmlModules
 		}
 
 		// Add custom position to options
-		$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 
 		$editPositions = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
@@ -190,15 +196,15 @@ abstract class JHtmlModules
 	 *
 	 * @return  void
 	 */
-	public static function batchOptions()
+	public function batchOptions()
 	{
 		// Create the copy/move options.
 		$options = array(
-			JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
-			JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
+			HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
+			HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 		);
 
-		echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
+		echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
 	}
 
 	/**
@@ -210,9 +216,9 @@ abstract class JHtmlModules
 	 *
 	 * @since   2.5
 	 */
-	public static function positionList($clientId = 0)
+	public function positionList($clientId = 0)
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(position) as value')
 			->select('position as text')
@@ -227,9 +233,9 @@ abstract class JHtmlModules
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pop the first item off the array if it's blank
