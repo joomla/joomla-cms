@@ -97,7 +97,7 @@ class UsersModel extends ListModel
 
 		$this->setState('filter.excluded', $excluded);
 
-		$access = json_decode(base64_decode($app->input->get('access', '', 'BASE64')));
+		$access = $app->input->post->get('access');
 		$this->setState('filter.access', $access);
 
 		// Load the parameters.

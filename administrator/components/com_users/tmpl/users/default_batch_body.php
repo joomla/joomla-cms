@@ -28,26 +28,28 @@ $resetOptions = array(
 ?>
 
 <div class="container">
-	<div class="row">
-		<div class="form-group col-md-6">
-			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-				<?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
-			</label>
-			<div id="batch-choose-action" class="combo controls">
-				<select class="custom-select" name="batch[group_id]" id="batch-group-id">
-					<option value=""><?php echo Text::_('JSELECT'); ?></option>
-					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
-				</select>
+	<form>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+					<?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
+				</label>
+				<div id="batch-choose-action" class="combo controls">
+					<select class="custom-select" name="batch[group_id]" id="batch-group-id">
+						<option value=""><?php echo Text::_('JSELECT'); ?></option>
+						<?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
+					</select>
+				</div>
+			</div>
+			<div class="form-group col-md-6">
+				<?php echo HTMLHelper::_('batch.access'); ?>
 			</div>
 		</div>
-		<div class="form-group col-md-6">
-			<?php echo HTMLHelper::_('batch.access'); ?>
+		<div class="row">
+			<div class="form-group col-md-12">
+				<label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
+				<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="form-group col-md-12">
-			<label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-			<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
-		</div>
-	</div>
+	</form>
 </div>
