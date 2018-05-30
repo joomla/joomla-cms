@@ -662,8 +662,8 @@ class Access
 		}
 
 		// Get the database connection object.
-		$db = \JFactory::getDbo();
-		$db->getQuery(true);
+		$db    = \JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if (!isset(static::$filter[$assetKey]))
 		{			
