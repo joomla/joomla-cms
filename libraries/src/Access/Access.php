@@ -661,11 +661,11 @@ class Access
 			$recursive = false;
 		}
 
-		if (!isset(static::$filter[$assetKey]))
-		{
-			// Get the database connection object.
-			$db = \JFactory::getDbo();
+		// Get the database connection object.
+		$db = \JFactory::getDbo();
 
+		if (!isset(static::$filter[$assetKey]))
+		{			
 			// Build the database query to get the rules for the asset.
 			$query = $db->getQuery(true)
 				->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
