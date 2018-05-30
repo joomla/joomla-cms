@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
-
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
