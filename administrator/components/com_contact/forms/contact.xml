@@ -5,11 +5,10 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 
@@ -872,12 +871,10 @@
 
 	<field
 		name="hits"
-		type="number"
+		type="text"
 		label="JGLOBAL_HITS"
 		class="readonly"
-		size="6"
 		readonly="true"
-		filter="unset"
 	/>
 
 	<field
