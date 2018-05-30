@@ -130,14 +130,6 @@ class Access
 	protected static $rootAssetId = null;
 
 	/**
-	 * Method for clearing static caches.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-
-	/**
 	 * Array of cached asset ids.
 	 *
 	 * @var    array
