@@ -2001,6 +2001,14 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.html.php',
 			'/libraries/fof/view.json.php',
 			'/libraries/fof/view.php',
+
+			/**
+			 * Missed from earlier versions
+			 */
+			'/administrator/components/com_media/views/medialist/tmpl/details_doc.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_folder.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_img.php',
+			'/administrator/components/com_media/views/medialist/tmpl/details_video.php' 
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
