@@ -1960,7 +1960,7 @@ class JoomlaInstallerScript
 			// Joomla 3.8.4
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			// Missed in Joomla 3.7.0
-			'/administrator/components/com_media/views/medialist/tmpl/details_doc.php'
+			'/administrator/components/com_media/views/medialist/tmpl/details_doc.php',
 			'/administrator/components/com_media/views/medialist/tmpl/details_folder.php',
 			'/administrator/components/com_media/views/medialist/tmpl/details_img.php',
 			'/administrator/components/com_media/views/medialist/tmpl/details_video.php',
