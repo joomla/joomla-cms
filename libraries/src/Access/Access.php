@@ -675,7 +675,7 @@ class Access
 		if (!isset(static::$filter[$assetKey]))
 		{			
 			// Build the database query to get the rules for the asset.
-			$query = $db->getQuery(true)
+			$query->clear()
 				->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
 				->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
 				->from($db->qn('#__assets', 'a'));
