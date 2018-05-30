@@ -145,6 +145,13 @@ class Access
 	 */
 	protected static $filter = array();
 
+	/**
+	 * Method for clearing static caches.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
 	public static function clearStatics()
 	{
 		self::$viewLevels                      = array();
