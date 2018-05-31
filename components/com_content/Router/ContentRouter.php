@@ -11,7 +11,8 @@ namespace Joomla\Component\Content\Site\Router;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
@@ -19,7 +20,6 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\Component\Content\Site\Service\Category;
 use Joomla\Database\DatabaseInterface;
 
 /**
@@ -34,7 +34,7 @@ class ContentRouter extends RouterView
 	/**
 	 * The category
 	 *
-	 * @var Category
+	 * @var Categories
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -52,12 +52,12 @@ class ContentRouter extends RouterView
 	/**
 	 * Content Component router constructor
 	 *
-	 * @param   CMSApplication     $app       The application object
+	 * @param   SiteApplication    $app       The application object
 	 * @param   AbstractMenu       $menu      The menu object to work with
-	 * @param   Category           $category  The category object
+	 * @param   Categories         $category  The category object
 	 * @param   DatabaseInterface  $db        The database object
 	 */
-	public function __construct(CMSApplication $app, AbstractMenu $menu, Category $category, DatabaseInterface $db)
+	public function __construct(SiteApplication $app, AbstractMenu $menu, Categories $category, DatabaseInterface $db)
 	{
 		$this->category = $category;
 		$this->db       = $db;
