@@ -43,7 +43,9 @@ class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 	 */
 	public function dispatch()
 	{
-		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal' && !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
+		if ($this->input->get('view') === 'modules'
+			&& $this->input->get('layout') === 'modal'
+			&& !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
 			throw new NotAllowed;
 		}
