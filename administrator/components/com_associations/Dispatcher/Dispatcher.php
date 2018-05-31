@@ -21,7 +21,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
  *
  * @since  4.0.0
  */
-class AssociationsDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission
