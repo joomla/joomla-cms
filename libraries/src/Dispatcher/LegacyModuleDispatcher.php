@@ -47,7 +47,7 @@ class LegacyModuleDispatcher implements ModuleDispatcherInterface
 	 */
 	public function __construct(CMSApplication $app)
 	{
-		$this->app   = $app;
+		$this->app = $app;
 	}
 
 	/**
