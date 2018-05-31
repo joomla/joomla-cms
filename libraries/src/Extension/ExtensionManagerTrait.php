@@ -68,7 +68,7 @@ trait ExtensionManagerTrait
 		// Path to to look for services
 		$path = JPATH_SITE . '/modules/mod_' . $module;
 
-		if ($applicationName == 'administrator')
+		if ($applicationName === 'administrator')
 		{
 			$path = JPATH_ADMINISTRATOR . '/modules/mod_' . $module;
 		}
