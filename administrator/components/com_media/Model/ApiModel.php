@@ -63,7 +63,7 @@ class ApiModel extends BaseDatabaseModel
 
 			// Fire the event to get the results
 			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
-			$event = new MediaProviderEvent('onSetupProviders', $eventParameters);
+			$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
 			PluginHelper::importPlugin('filesystem');
 			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 		}

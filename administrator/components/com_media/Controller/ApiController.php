@@ -46,7 +46,7 @@ class ApiController extends BaseController
 	{
 		$method = $this->input->getMethod();
 
-		$this->task = $task;
+		$this->task   = $task;
 		$this->method = $method;
 
 		try
@@ -133,12 +133,12 @@ class ApiController extends BaseController
 	public function getFiles()
 	{
 		// Grab options
-		$options = array();
-		$options['url'] = $this->input->getBool('url', false);
-		$options['temp'] = $this->input->getBool('temp', false);
-		$options['search'] = $this->input->getString('search', '');
+		$options              = array();
+		$options['url']       = $this->input->getBool('url', false);
+		$options['temp']      = $this->input->getBool('temp', false);
+		$options['search']    = $this->input->getString('search', '');
 		$options['recursive'] = $this->input->getBool('recursive', true);
-		$options['content'] = $this->input->getBool('content', false);
+		$options['content']   = $this->input->getBool('content', false);
 
 		return $this->getModel()->getFiles($this->getAdapter(), $this->getPath(), $options);
 	}
@@ -402,5 +402,4 @@ class ApiController extends BaseController
 
 		return $parts[1];
 	}
-
 }

@@ -47,7 +47,6 @@ class HtmlView extends BaseHtmlView
 		// The requested file
 		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
-		// At the moment we only support local files to edit
 		if (empty($this->file->content))
 		{
 			// @todo error handling controller redirect files
