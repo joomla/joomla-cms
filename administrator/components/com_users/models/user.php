@@ -120,6 +120,15 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
+		$userId = $form->getValue('id');
+
+		// Passwords by default is required. When we edit a user, password no need be required
+		if ((int) $userId != 0)
+		{
+			$form->setFieldAttribute('password', 'required', '');
+			$form->setFieldAttribute('password2', 'required', '');
+		}
+
 		// If the user needs to change their password, mark the password fields as required
 		if (JFactory::getUser()->requireReset)
 		{
@@ -132,8 +141,6 @@ class UsersModelUser extends JModelAdmin
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
-
-		$userId = $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) JFactory::getUser()->id)
