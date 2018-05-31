@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -44,7 +45,7 @@ class ModuletagField extends \JFormFieldList
 		// Create one new option object for each tag
 		foreach ($tags as $tag)
 		{
-			$tmp = \JHtml::_('select.option', $tag, $tag);
+			$tmp = HTMLHelper::_('select.option', $tag, $tag);
 			$options[] = $tmp;
 		}
 

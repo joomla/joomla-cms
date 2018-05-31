@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -57,6 +58,6 @@ class AccesslevelField extends \JFormFieldList
 		// Get the field options.
 		$options = $this->getOptions();
 
-		return \JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
+		return HTMLHelper::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
 	}
 }

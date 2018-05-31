@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Associations\Administrator\Dispatcher;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
@@ -18,17 +20,8 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
  *
  * @since  4.0.0
  */
-class AssociationsDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Associations';
-
 	/**
 	 * Method to check component access permission
 	 *
@@ -36,7 +29,7 @@ class AssociationsDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception|Notallowed
+	 * @throws  \Exception|Notallowed
 	 */
 	protected function checkAccess()
 	{
@@ -51,12 +44,15 @@ class AssociationsDispatcher extends Dispatcher
 
 			if (!AssociationsHelper::hasSupport($extensionName))
 			{
-				throw new Exception(JText::sprintf('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED', JText::_($extensionName)), 404);
+				throw new \Exception(
+					Text::sprintf('COM_ASSOCIATIONS_COMPONENT_NOT_SUPPORTED', $this->app->getLanguage()->_($extensionName)),
+					404
+				);
 			}
 
-			if (!JFactory::getUser()->authorise('core.manage', $extensionName))
+			if (!$this->app->getIdentity()->authorise('core.manage', $extensionName))
 			{
-				throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+				throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 			}
 		}
 	}

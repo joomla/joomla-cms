@@ -14,6 +14,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Form Rule class for the Joomla Platform
@@ -54,7 +55,7 @@ class CalendarRule extends FormRule
 
 		try
 		{
-			return \JFactory::getDate($value) instanceof Date;
+			return Factory::getDate($value) instanceof Date;
 		}
 		catch (\Exception $e)
 		{

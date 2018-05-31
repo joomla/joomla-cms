@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 ?>
 
 <div class="clearfix">
-	<div class="float-left mr-1">
+	<div class="float-left mr-1 text-center">
 		<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 		<?php echo JHtml::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 	</div>
