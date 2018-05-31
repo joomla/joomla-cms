@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Category;
@@ -186,12 +186,21 @@ class HtmlView extends CategoryView
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu)
+		if ($menu
+			&& $menu->component == 'com_content'
+			&& isset($menu->query['view'], $menu->query['id'])
+			&& $menu->query['view'] == 'category'
+			&& $menu->query['id'] == $this->category->id)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
 		}
-
-		$title = $this->params->get('page_title', '');
+		else
+		{
+			$this->params->def('page_heading', $this->category->title);
+			$title = $this->category->title;
+			$this->params->set('page_title', $title);
+		}
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
 /**
@@ -147,7 +148,7 @@ class Router
 		// Otherwise we have an invalid URL
 		if (strlen($uri->getPath()) > 0)
 		{
-			throw new RouteNotFoundException('URL invalid');
+			throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
 		}
 
 		if ($setVars)

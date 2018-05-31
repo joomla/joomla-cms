@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Associations\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationExtensionInterface;
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -96,7 +98,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @return  \Joomla\CMS\Table\Table|null
 	 *
-	 * @since  3.7.00
+	 * @since  3.7.0
 	 */
 	public static function getItem($extensionName, $typeName, $itemId)
 	{
@@ -128,6 +130,43 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		return in_array($extensionName, self::$supportedExtensionsList);
+	}
+
+	/**
+	 * Loads the helper for the given class.
+	 *
+	 * @param   string  $extensionName  The extension name with com_
+	 *
+	 * @return  AssociationExtensionInterface|null
+	 *
+	 * @since  4.0.0
+	 */
+	private static function loadHelper($extensionName)
+	{
+		$component = Factory::getApplication()->bootComponent($extensionName);
+
+		if ($component instanceof AssociationServiceInterface)
+		{
+			return $component->getAssociationsExtension();
+		}
+
+		// Check if associations helper exists
+		if (!file_exists(JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php'))
+		{
+			return null;
+		}
+
+		require_once JPATH_ADMINISTRATOR . '/components/' . $extensionName . '/helpers/associations.php';
+
+		$componentAssociationsHelperClassName = self::getExtensionHelperClassName($extensionName);
+
+		if (!class_exists($componentAssociationsHelperClassName, false))
+		{
+			return null;
+		}
+
+		// Create an instance of the helper class
+		return new $componentAssociationsHelperClassName;
 	}
 
 	/**
@@ -289,6 +328,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		\JHtml::_('bootstrap.popover');
+
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
 
@@ -342,8 +382,7 @@ class AssociationsHelper extends ContentHelper
 		$result->def('associationssupport', false);
 		$result->def('helper', null);
 
-		// Get the associations class
-		$helper = Factory::getApplication()->bootComponent($extensionName)->getAssociationsExtension();
+		$helper = self::loadHelper($extensionName);
 
 		if (!$helper)
 		{
@@ -463,7 +502,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowEdit'))
 		{
@@ -491,7 +530,7 @@ class AssociationsHelper extends ContentHelper
 		}
 
 		// Get the extension specific helper method
-		$helper= self::getExtensionHelper($extensionName);
+		$helper = self::getExtensionHelper($extensionName);
 
 		if (method_exists($helper, 'allowAdd'))
 		{
