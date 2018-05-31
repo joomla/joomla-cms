@@ -11,7 +11,7 @@
         <div class="media-browser-item-info">
             {{ item.name }}
         </div>
-        <a href="#" class="media-browser-select" 
+        <a href="#" class="media-browser-select"
           @click.stop="toggleSelect()"
           :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')">
         </a>
@@ -55,7 +55,8 @@
             },
             /* Opening confirm delete modal */
             openConfirmDeleteModal(){
-                this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL, this.item);
+	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+	            this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
             },
            /* Rename an item */
            openRenameModal() {

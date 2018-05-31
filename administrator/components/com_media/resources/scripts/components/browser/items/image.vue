@@ -85,7 +85,8 @@
             },
             /* Opening confirm delete modal */
             openConfirmDeleteModal(){
-                this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL, this.item);
+	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+                this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
             },
             /* Rename an item */
             openRenameModal() {
