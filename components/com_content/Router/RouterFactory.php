@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Site\Router;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -68,6 +69,11 @@ class RouterFactory implements RouterFactoryInterface
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{
+		if (!$application instanceof SiteApplication)
+		{
+			throw new \RuntimeException('No router available for this application.');
+		}
+
 		return new ContentRouter($application, $menu, $this->category, $this->db);
 	}
 }
