@@ -343,6 +343,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->where('user_id = ' . (int) $userId);
 		$this->db->setQuery($query);
 
-		return (int) $this->db->loadResult() > 0 ? true: false;
+		return (int) $this->db->loadResult() > 0;
 	}
 }
