@@ -67,7 +67,7 @@ class PrivacyViewExport extends JViewLegacy
 
 				foreach ($item->getFields() as $field)
 				{
-					$xmlItem->addChild($field->name, $field->value);
+					$xmlItem->{$field->name} = $field->value;
 				}
 			}
 		}
