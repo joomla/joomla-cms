@@ -209,6 +209,7 @@
 			label="JGLOBAL_HITS"
 			class="readonly" 
 			readonly="true" 
+			filter="unset" 
 		/>
 
 		<field
