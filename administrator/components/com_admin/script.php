@@ -217,6 +217,54 @@ class JoomlaInstallerScript
 
 					return false;
 				}
+
+				// Do a check for com_actionlogs menu item existence
+				$query = $db->getQuery(true)
+					->select('id')
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('menutype') . ' = ' . $db->quote('main'))
+					->where($db->quoteName('title') . ' = ' . $db->quote('com_actionlogs'))
+					->where($db->quoteName('client_id') . ' = 1')
+					->where($db->quoteName('component_id') . ' = 36');
+
+				$result = $db->setQuery($query)->loadResult();
+
+				if (!empty($result))
+				{
+					return true;
+				}
+
+				/*
+				 * Add a menu item for com_actionlogs, we need to do that here because with a plain sql statement we
+				 * damage the nested set structure for the menu table
+				 */
+				$newMenuItem = JTable::getInstance('Menu');
+
+				$data              = array();
+				$data['menutype']  = 'main';
+				$data['title']     = 'com_actionlogs';
+				$data['alias']     = 'Action Logs';
+				$data['path']      = 'Action Logs';
+				$data['link']      = 'index.php?option=com_actionlogs';
+				$data['type']      = 'component';
+				$data['published'] = 1;
+				$data['parent_id'] = 1;
+
+				// We have used a SQL Statement to add the extension so using 35 is safe (fingers crossed)
+				$data['component_id'] = 36;
+				$data['img']          = 'class:userlogs';
+				$data['language']     = '*';
+				$data['client_id']    = 1;
+
+				$newMenuItem->setLocation($data['parent_id'], 'last-child');
+
+				if (!$newMenuItem->save($data))
+				{
+					// Install failed, roll back changes
+					$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $newMenuItem->getError()));
+
+					return false;
+				}
 			}
 		}
 
