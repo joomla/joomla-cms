@@ -14,6 +14,7 @@ import CreateFolderModal from "./components/modals/create-folder-modal.vue";
 import PreviewModal from "./components/modals/preview-modal.vue";
 import RenameModal from "./components/modals/rename-modal.vue";
 import ShareModal from "./components/modals/share-modal.vue";
+import ConfirmDeleteModal from "./components/modals/confirm-delete-modal.vue";
 import Infobar from "./components/infobar/infobar.vue";
 import Upload from "./components/upload/upload.vue";
 import Translate from "./plugins/translate";
@@ -36,6 +37,7 @@ Vue.component('media-create-folder-modal', CreateFolderModal);
 Vue.component('media-preview-modal', PreviewModal);
 Vue.component('media-rename-modal', RenameModal);
 Vue.component('media-share-modal', ShareModal);
+Vue.component('media-confirm-delete-modal', ConfirmDeleteModal);
 Vue.component('media-infobar', Infobar);
 Vue.component('media-upload', Upload);
 

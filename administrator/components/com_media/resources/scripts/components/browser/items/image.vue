@@ -45,7 +45,7 @@
                 </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
-                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                 </a>
             </div>
         </div>
@@ -83,9 +83,9 @@
             download() {
                 this.$store.dispatch('download', this.item);
             },
-            /* Delete an item */
-            deleteItem() {
-                this.$store.dispatch('deleteItem', this.item);
+            /* Opening confirm delete modal */
+            openConfirmDeleteModal(){
+                this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL, this.item);
             },
             /* Rename an item */
             openRenameModal() {

@@ -396,4 +396,20 @@ export default {
     [types.SET_SEARCH_QUERY]: (state, query) => {
         state.search = query;
     },
+
+    /**
+     * Show the confirm modal
+     * @param state
+     */
+    [types.SHOW_CONFIRM_DELETE_MODAL]: (state) => {
+        state.showConfirmDeleteModal = true;
+    },
+
+    /**
+     * Hide the confirm modal
+     * @param state
+     */
+    [types.HIDE_CONFIRM_DELETE_MODAL]: (state) => {
+        state.showConfirmDeleteModal = false;
+    },
 }
