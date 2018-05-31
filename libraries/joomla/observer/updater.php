@@ -66,26 +66,18 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	{
 		$class = get_class($observer);
 
-		// Also register the alias
+		// Also register the alias if exists
 		foreach (JLoader::getDeprecatedAliases() as $alias)
 		{
 			$realClass  = trim($alias['new'], '\\');
-			$aliasClass = trim($alias['old'], '\\');
 
 			// Check if we have an alias for the observer class
 			if ($realClass === $class)
 			{
-				// Add an alias to known aliases
-				$this->aliases[$aliasClass] = $class;
-			}
-			// Check if the observer class is an alias
-			elseif ($aliasClass === $class)
-			{
-				// Add an alias to known aliases
-				$this->aliases[$aliasClass] = $class;
+				$aliasClass = trim($alias['old'], '\\');
 
-				// Set the real class
-				$class = $realClass;
+				// Add an alias to known aliases
+				$this->aliases[$aliasClass] = $class;
 			}
 		}
 
