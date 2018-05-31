@@ -22,7 +22,6 @@ use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
@@ -218,16 +217,16 @@ class LegacyComponent implements
 	}
 
 	/**
-	* Returns the router.
-	*
-	* @param   CMSApplication  $application  The application object
-	* @param   AbstractMenu    $menu         The menu object to work with
-	*
-	* @return  RouterInterface
-	*
-	* @since  __DEPLOY_VERSION__
-	*/
-	public function createRouter(CMSApplication $application, AbstractMenu $menu): RouterInterface
+	 * Returns the router.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application object
+	 * @param   AbstractMenu             $menu         The menu object to work with
+	 *
+	 * @return  RouterInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{
 		$compname = ucfirst($this->component);
 		$class = $compname . 'Router';
