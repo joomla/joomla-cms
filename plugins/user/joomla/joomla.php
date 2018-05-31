@@ -35,7 +35,7 @@ class PlgUserJoomla extends JPlugin
 	protected $db;
 
 	/**
-	 * Set as required the passwords fields when mail to user is set to No
+	 * Passwords by default is required. When mail to user is set to Yes, password no need be required
 	 *
 	 * @param   JForm  $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
@@ -51,11 +51,11 @@ class PlgUserJoomla extends JPlugin
 
 		if ($name === 'com_users.user')
 		{
-			// Passwords fields are required when mail to user is set to No
-			if (is_object($data) && $data->id === 0 && !$this->params->get('mail_to_user', 1))
+			// Passwords by default is required. When mail to user is set to Yes, password no need be required
+			if (is_object($data) && $data->id === 0 && $this->params->get('mail_to_user', 1))
 			{
-				$form->setFieldAttribute('password', 'required', 'true');
-				$form->setFieldAttribute('password2', 'required', 'true');
+				$form->setFieldAttribute('password', 'required', '');
+				$form->setFieldAttribute('password2', 'required', '');
 			}
 		}
 
