@@ -14,6 +14,3 @@ JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Adminis
 JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '4.0');
 
 JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
-
-JLoader::registerAlias('TemplatesHelper',  '\\Joomla\\Component\\Templates\\Administrator\\Helper\\TemplatesHelper', '5.0');
-JLoader::registerAlias('TemplateHelper',   '\\Joomla\\Component\\Templates\\Administrator\\Helper\\TemplateHelper', '5.0');
