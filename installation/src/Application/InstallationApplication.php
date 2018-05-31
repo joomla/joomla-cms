@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
@@ -101,6 +102,11 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function debugLanguage()
 	{
+		if ($this->getDocument()->getType() != 'html')
+		{
+			return '';
+		}
+
 		$lang   = Factory::getLanguage();
 		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
@@ -232,20 +238,27 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function execute()
 	{
-		// Perform application routines.
-		$this->doExecute();
-
-		// If we have an application document object, render it.
-		if ($this->document instanceof Document)
+		try
 		{
-			// Render the application output.
-			$this->render();
+			// Perform application routines.
+			$this->doExecute();
+
+			// If we have an application document object, render it.
+			if ($this->document instanceof Document)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+			{
+				$this->compress();
+			}
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			ExceptionHandler::render($throwable);
 		}
 
 		// Send the application response.

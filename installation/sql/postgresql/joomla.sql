@@ -1441,7 +1441,7 @@ CREATE TABLE IF NOT EXISTS "#__modules" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "content" text DEFAULT '' NOT NULL,
+  "content" text,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" varchar(50) DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
@@ -2000,9 +2000,7 @@ CREATE TABLE IF NOT EXISTS "#__user_keys" (
   "time" varchar(200) NOT NULL,
   "uastring" varchar(255) NOT NULL,
   PRIMARY KEY ("id"),
-	CONSTRAINT "#__user_keys_series" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_2" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_3" UNIQUE ("series")
+	CONSTRAINT "#__user_keys_series" UNIQUE ("series")
 );
 CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 ?>
 
 <div class="clearfix">
-	<div class="float-left mr-1">
+	<div class="float-left mr-1 text-center">
 		<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 		<?php echo JHtml::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 	</div>

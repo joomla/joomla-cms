@@ -3,15 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
+
+HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'version' => 'auto']);
 
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
@@ -20,37 +24,27 @@ if (JLanguageMultilang::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
-		{
-			Joomla.submitform(task, document.getElementById('modules-form'));
-		}
-	}
-");
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
 	<div class="row">
 		<div class="col-md-12">
 
 			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('modules.apply')">
+					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
 						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-secondary" onclick="Joomla.submitbutton('modules.save')">
+					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
 						<span class="fa fa-check" aria-hidden="true"></span>
 						<?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('modules.cancel')">
+					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
 						<span class="fa fa-times" aria-hidden="true"></span>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>

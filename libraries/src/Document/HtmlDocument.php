@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,14 @@ class HtmlDocument extends Document
 	 * @since  11.1
 	 */
 	public $_file = null;
+
+	/**
+	 * Script nonce (string if set, null otherwise)
+	 *
+	 * @var    string|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $scriptNonce = null;
 
 	/**
 	 * String holding parsed template
@@ -552,6 +560,11 @@ class HtmlDocument extends Document
 			$this->parse($params);
 		}
 
+		if (array_key_exists('script_nonce', $params) && $params['script_nonce'] !== null)
+		{
+			$this->scriptNonce = $params['script_nonce'];
+		}
+
 		$data = $this->_renderTemplate();
 		parent::render();
 
@@ -753,6 +766,7 @@ class HtmlDocument extends Document
 					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
 			}
+
 			// Reverse the last array so the jdocs are in forward order.
 			$template_tags_last = array_reverse($template_tags_last);
 

@@ -1,6 +1,7 @@
 const glob = require('glob');
 const fs = require('fs');
 const babel = require('babel-core');
+const os = require('os');
 
 const pattern = './**/*.es6.js';
 const options = {
@@ -23,7 +24,7 @@ OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
   babel.transformFile(filePath, babelOptions, (error, result) => {
     if (error) process.exit(1);
     const fileName = filePath.slice(0, -7);
-    fs.writeFile(`${fileName}.js`, result.code, (fsError) => {
+    fs.writeFile(`${fileName}.js`, result.code + os.EOL, (fsError) => {
       if (fsError) process.exit(1);
     });
   });
