@@ -27,6 +27,7 @@
 			autocomplete="off"
 			class="validate-password"
 			filter="raw"
+			required="true"
 			validate="password"
 			size="30"
 		/>
@@ -41,6 +42,7 @@
 			filter="raw"
 			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
 			size="30"
+			required="true"
 			validate="equals"
 			field="password"
 		/>
