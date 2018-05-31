@@ -17,9 +17,3 @@ JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Adminis
 
 // Component com_tags
 JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '5.0');
-
-// Component com_content
-JLoader::registerAlias('ContentHelper',    '\\Joomla\\Component\\Content\\Administrator\\Helper\\ContentHelper', '5.0');
-
-// Component com_banners
-JLoader::registerAlias('BannersHelper',    '\\Joomla\\Component\\Banners\\Administrator\\Helper\\BannersHelper', '5.0');
