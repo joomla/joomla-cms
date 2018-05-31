@@ -1,33 +1,27 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_modules
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Modules\Site\Dispatcher;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
- * Dispatcher class for com_content
+ * Dispatcher class for com_modules
  *
  * @since  4.0.0
  */
-class ModulesDispatcher extends ComponentDispatcher
+class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Modules';
-
 	/**
 	 * Load the language
 	 *
@@ -50,14 +44,11 @@ class ModulesDispatcher extends ComponentDispatcher
 	 */
 	public function dispatch()
 	{
-		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal')
+		if ($this->input->get('view') === 'modules'
+			&& $this->input->get('layout') === 'modal'
+			&& !$this->app->getIdentity()->authorise('core.create', 'com_modules'))
 		{
-			if (!$this->app->getIdentity()->authorise('core.create', 'com_modules'))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
-
-				return;
-			}
+			throw new NotAllowed;
 		}
 
 		parent::dispatch();

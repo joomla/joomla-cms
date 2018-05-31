@@ -1,28 +1,28 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_modules
+ * @subpackage  com_templates
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Modules\Administrator\Extension;
+namespace Joomla\Component\Templates\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\Component\Modules\Administrator\Service\HTML\Modules;
+use Joomla\Component\Templates\Administrator\Service\HTML\Templates;
 use Psr\Container\ContainerInterface;
 
 /**
- * Component class for com_modules
+ * Component class for com_templates
  *
  * @since  4.0.0
  */
-class ModulesComponent extends MVCComponent implements BootableExtensionInterface
+class TemplatesComponent extends MVCComponent implements BootableExtensionInterface
 {
 	use HTMLRegistryAwareTrait;
 
@@ -41,6 +41,6 @@ class ModulesComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('modules', new Modules);
+		$this->getRegistry()->register('templates', new Templates);
 	}
 }
