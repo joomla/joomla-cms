@@ -53,6 +53,9 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
+		// Log the export
+		$this->logExport($table);
+
 		JPluginHelper::importPlugin('privacy');
 
 		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyExportRequest', array($table));
@@ -98,5 +101,34 @@ class PrivacyModelExport extends JModelLegacy
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+	}
+
+	/**
+	 * Log the data export to the action log system.
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function logExport(PrivacyTableRequest $request)
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'      => 'export',
+			'id'          => $request->id,
+			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
 	}
 }

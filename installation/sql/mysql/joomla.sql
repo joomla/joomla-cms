@@ -2160,7 +2160,8 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (14, 'com_redirect'),
 (15, 'com_tags'),
 (16, 'com_templates'),
-(17, 'com_users');
+(17, 'com_users'),
+(18, 'com_privacy');
 
 --
 -- Table structure for table `#__action_logs_tables_data`
@@ -2195,7 +2196,8 @@ INSERT INTO `#__action_logs_tables_data` (`id`, `type_title`, `type_alias`, `id_
 (15, 'contact', 'com_contact.contact', 'id', 'name', '#__contact_details', 'PLG_ACTIONLOG_JOOMLA'),
 (16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_ACTIONLOG_JOOMLA'),
 (17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
-(18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA');
+(18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
+(19, 'privacy_request', 'com_privacy.request', 'id', 'email', '#__privacy_requests', 'PLG_ACTIONLOG_JOOMLA');
 
 --
 -- Table structure for table `#__utf8_conversion`
