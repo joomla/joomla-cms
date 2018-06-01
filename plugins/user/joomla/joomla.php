@@ -51,8 +51,11 @@ class PlgUserJoomla extends JPlugin
 
 		if ($name === 'com_users.user')
 		{
+			// In case there is a validation error $data is no stdClass but just an empty array
+			$data = (object) $data;
+
 			// Passwords fields are required when mail to user is set to No
-			if (is_object($data) && $data->id === 0 && !$this->params->get('mail_to_user', 1))
+			if ($data->id === 0 && !$this->params->get('mail_to_user', 1))
 			{
 				$form->setFieldAttribute('password', 'required', 'true');
 				$form->setFieldAttribute('password2', 'required', 'true');
