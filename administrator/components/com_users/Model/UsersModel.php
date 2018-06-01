@@ -50,7 +50,7 @@ class UsersModel extends ListModel
 				'range',
 				'lastvisitrange',
 				'state',
-                'access', 'a.access', 'access_level',
+				'access', 'a.access', 'access_level',
 			);
 		}
 
@@ -97,7 +97,7 @@ class UsersModel extends ListModel
 
 		$this->setState('filter.excluded', $excluded);
 
-		$access = $app->input->post->get('access');
+		$access = $app->input->getInt('access');
 		$this->setState('filter.access', $access);
 
 		// Load the parameters.
