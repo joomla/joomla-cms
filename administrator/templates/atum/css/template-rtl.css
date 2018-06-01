@@ -299,6 +299,22 @@ small,
 .small {
   font-size: 0.8rem; }
 
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none; }
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: auto 2px #3399FF; }
+
+a:-moz-focusring,
+button:-moz-focusring,
+input:-moz-focusring,
+textarea:-moz-focusring {
+  color: inherit;
+  outline: auto 2px #3399FF; }
+
 .j-main-container .alert {
   margin: 10px; }
 

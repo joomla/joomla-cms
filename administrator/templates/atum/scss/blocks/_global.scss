@@ -28,3 +28,24 @@ small,
 .small {
   font-size: $font-size-sm;
 }
+
+// focus-visible polyfil rule
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+// Default focus highlighting 
+a,
+button,
+input,
+textarea {
+
+  &:focus {
+    outline: auto 2px $focus-highlight-color;
+  }
+
+  &:-moz-focusring {
+    color: inherit;
+    outline: auto 2px $focus-highlight-color;
+  }
+}
