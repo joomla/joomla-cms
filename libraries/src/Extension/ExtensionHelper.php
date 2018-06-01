@@ -58,7 +58,6 @@ class ExtensionHelper
 		array('component', 'com_plugins', '', 1),
 		array('component', 'com_postinstall', '', 1),
 		array('component', 'com_redirect', '', 1),
-		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
@@ -112,7 +111,6 @@ class ExtensionHelper
 		array('module', 'mod_menu', '', 0),
 		array('module', 'mod_random_image', '', 0),
 		array('module', 'mod_related_items', '', 0),
-		array('module', 'mod_search', '', 0),
 		array('module', 'mod_stats', '', 0),
 		array('module', 'mod_syndicate', '', 0),
 		array('module', 'mod_tags_popular', '', 0),
@@ -212,13 +210,6 @@ class ExtensionHelper
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
-
-		// Core plugin extensions - search
-		array('plugin', 'categories', 'search', 0),
-		array('plugin', 'contacts', 'search', 0),
-		array('plugin', 'content', 'search', 0),
-		array('plugin', 'newsfeeds', 'search', 0),
-		array('plugin', 'tags', 'search', 0),
 
 		// Core plugin extensions - system
 		array('plugin', 'cache', 'system', 0),
