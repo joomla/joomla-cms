@@ -1,35 +1,11 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400");
-#flying-focus {
-  position: absolute;
-  margin: 0;
-  background: transparent;
-  transition-property: left, top, width, height;
-  transition-timing-function: cubic-bezier(0, 1, 0, 1);
-  visibility: hidden;
-  pointer-events: none;
-  box-shadow: 0 0 2px 3px #78aeda, 0 0 2px #78aeda inset;
-  border-radius: 2px; }
-  #flying-focus.flying-focus_visible {
-    visibility: visible;
-    z-index: 9999; }
-  @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    #flying-focus {
-      box-shadow: none;
-      outline: 5px auto -webkit-focus-ring-color;
-      outline-offset: -3px; } }
-
-.flying-focus_target {
-  outline: none !important; }
-  .flying-focus_target::-moz-focus-inner {
-    border: 0 !important; }
-
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400");
 :root {
   --blue: #006898;
   --indigo: #6610f2;
@@ -8784,6 +8760,22 @@ small,
 
 dd {
   margin-bottom: 0; }
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none; }
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+  outline: auto 2px #3399FF; }
+
+a:-moz-focusring,
+button:-moz-focusring,
+input:-moz-focusring,
+textarea:-moz-focusring {
+  color: inherit;
+  outline: auto 2px #3399FF; }
 
 .j-main-container .alert {
   margin: 10px; }
