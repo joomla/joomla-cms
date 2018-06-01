@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
+
 /**
  * Export view class
  *
@@ -48,34 +50,6 @@ class PrivacyViewExport extends JViewLegacy
 		$this->document->setDownload(true);
 		$this->document->setName('export-request-' . $requestId);
 
-		$export = new SimpleXMLElement("<data-export />");
-
-		foreach ($exportData as $domain)
-		{
-			$xmlDomain = $export->addChild('domain');
-			$xmlDomain->addAttribute('name', $domain->name);
-			$xmlDomain->addAttribute('description', $domain->description);
-
-			foreach ($domain->getItems() as $item)
-			{
-				$xmlItem = $xmlDomain->addChild('item');
-
-				if ($item->id)
-				{
-					$xmlItem->addAttribute('id', $item->id);
-				}
-
-				foreach ($item->getFields() as $field)
-				{
-					$xmlItem->{$field->name} = $field->value;
-				}
-			}
-		}
-
-		$dom = new DOMDocument;
-		$dom->loadXML($export->asXML());
-		$dom->formatOutput = true;
-
-		echo $dom->saveXML();
+		echo PrivacyHelper::renderDataAsXml($exportData);
 	}
 }
