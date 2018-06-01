@@ -91,6 +91,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$this->setRedirect($url, $message, $messageType);
 	}
+
 	/**
 	 * Start the installation of the new Joomla! version
 	 *
