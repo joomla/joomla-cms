@@ -27,7 +27,9 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		return array(
 			array("'%_abc123", false, '\\\'%_abc123'),
-			array("'%_abc123", true, '\\\'\\%\_abc123')
+			array("'%_abc123", true, '\\\'\\%\_abc123'),
+			array(3, false, 3),
+			array(3.14, false, '3.14'),
 		);
 	}
 
@@ -129,6 +131,39 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 			$this->equalTo($expected),
 			'The string was not escaped properly'
 		);
+	}
+
+	/**
+	 * Tests the escape method 2.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testEscapeNonLocaleAware()
+	{
+		$origin = setLocale(LC_NUMERIC, 0);
+
+		// Test with decimal_point equals to comma
+		setLocale(LC_NUMERIC, 'pl_PL');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Test with C locale
+		setLocale(LC_NUMERIC, 'C');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Revert to origin locale
+		setLocale(LC_NUMERIC, $origin);
 	}
 
 	/**
