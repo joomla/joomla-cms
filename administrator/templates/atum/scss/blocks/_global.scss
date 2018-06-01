@@ -40,12 +40,8 @@ button,
 input,
 textarea {
 
-  &:focus {
-    outline: auto 2px $focus-highlight-color;
-  }
-
+  &:focus,
   &:-moz-focusring {
-    color: inherit;
     outline: auto 2px $focus-highlight-color;
   }
 }
