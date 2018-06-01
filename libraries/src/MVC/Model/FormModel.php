@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  * @see    \JFormRule
  * @since  1.6
  */
-abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface
+abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareInterface, FormModelInterface
 {
 	use FormFactoryAwareTrait;
 
@@ -180,18 +180,6 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 		return true;
 	}
-
-	/**
-	 * Abstract method for getting the form from the model.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
-	 *
-	 * @since   1.6
-	 */
-	abstract public function getForm($data = array(), $loadData = true);
 
 	/**
 	 * Method to get a form object.

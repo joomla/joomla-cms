@@ -28,7 +28,7 @@ class PreviewModel extends ItemModel
 	 *
 	 * @since   3.2
 	 */
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		/** @var \Joomla\CMS\Table\ContentHistory $table */
 		$table = $this->getTable('ContentHistory');

@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
 
@@ -51,12 +52,12 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = [])
+	public function createModel($name, $prefix = '', array $config = []): ModelInterface
 	{
 		// Clean the model name
 		$modelName   = preg_replace('/[^A-Z0-9_]/i', '', $name);

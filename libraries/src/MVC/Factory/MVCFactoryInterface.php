@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Factory;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\Input\Input;
 
 /**
@@ -43,12 +44,12 @@ interface MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = []);
+	public function createModel($name, $prefix = '', array $config = []): ModelInterface;
 
 	/**
 	 * Method to load and return a view object.
