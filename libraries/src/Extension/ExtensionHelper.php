@@ -228,6 +228,7 @@ class ExtensionHelper
 		array('plugin', 'log', 'system', 0),
 		array('plugin', 'logout', 'system', 0),
 		array('plugin', 'p3p', 'system', 0),
+		array('plugin', 'privacy', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
