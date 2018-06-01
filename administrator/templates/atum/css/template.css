@@ -309,7 +309,7 @@ input:focus,
 input:-moz-focusring,
 textarea:focus,
 textarea:-moz-focusring {
-  outline: auto 2px #39F; }
+  outline: auto 2px #39f; }
 
 .j-main-container .alert {
   margin: 10px; }
