@@ -44,7 +44,7 @@ class PluginController extends BaseController
 		{
 			// Load plugin names
 			$pluginName = $this->input->getString('plugin', null);
-			$plugins = PluginHelper::getPlugin('filesystem');
+			$plugins    = PluginHelper::getPlugin('filesystem');
 
 			// If plugin name was not found in parameters redirect back to control panel
 			if (!$pluginName || !$this->containsPlugin($plugins, $pluginName))
@@ -63,28 +63,29 @@ class PluginController extends BaseController
 
 			// Event parameters
 			$eventParameters = ['context' => $pluginName, 'input' => $this->input];
-			$event = new OAuthCallbackEvent('onFileSystemOAuthCallback', $eventParameters);
+			$event           = new OAuthCallbackEvent('onFileSystemOAuthCallback', $eventParameters);
 
 			// Get results from event
-			$eventResults = (array) Factory::getApplication()->triggerEvent('onFileSystemOAuthCallback', $event);
+			$eventResults = (array) $this->app->triggerEvent('onFileSystemOAuthCallback', $event);
 
 			// If event was not triggered in the selected Plugin, raise a warning and fallback to Control Panel
 			if (!$eventResults)
 			{
-				throw new \Exception('Plugin ' . $pluginName . ' should have implemented '
-					. 'onFileSystemOAuthCallback method');
+				throw new \Exception(
+					'Plugin ' . $pluginName . ' should have implemented onFileSystemOAuthCallback method'
+				);
 			}
 
-			$action = $eventResults['action'] ?? null;
+			$action  = $eventResults['action'] ?? null;
 			$message = null;
 
 			// If there are any messages display them
 			if (isset($eventResults['message']))
 			{
-				$message = $eventResults['message'];
+				$message     = $eventResults['message'];
 				$messageType = ($eventResults['message_type'] ?? '');
 
-				Factory::getApplication()->enqueueMessage($message, $messageType);
+				$this->app->enqueueMessage($message, $messageType);
 			}
 
 			/**
@@ -128,7 +129,7 @@ class PluginController extends BaseController
 		catch (\Exception $e)
 		{
 			// Display any error
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 			$this->setRedirect(\JRoute::_('index.php', false));
 		}
 
