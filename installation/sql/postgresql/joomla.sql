@@ -667,6 +667,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (482, 0, 'plg_content_confirmconsent', 'plugin', 'confirmconsent', 'content', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (483, 0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 1, 1, 0, '', '{"logDeletePeriod":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (484, 0, 'plg_actionlog_joomla', 'plugin', 'joomla', 'actionlog', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(485, 0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (487, 0, 'plg_privacy_user', 'plugin', 'user', 'privacy', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1662,6 +1663,20 @@ CREATE TABLE "#__privacy_requests" (
 );
 CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
 CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+
+--
+-- Table structure for table `#__privacy_consents`
+--
+
+CREATE TABLE "#__privacy_consents" (
+  "id" serial NOT NULL,
+  "user_id" bigint DEFAULT 0 NOT NULL,
+  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "subjext" varchar(255) DEFAULT '' NOT NULL,
+  "body" text NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__privacy_consents_idx_user_id" ON "#__privacy_consents" ("user_id");
 
 --
 -- Table structure for table `#__redirect_links`
