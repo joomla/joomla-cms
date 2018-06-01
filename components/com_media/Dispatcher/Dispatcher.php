@@ -7,38 +7,35 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Media\Site\Dispatcher;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Dispatcher class for com_media
  *
  * @since  4.0.0
  */
-class MediaDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
 	/**
-	 * The extension namespace
+	 * Constructor for Dispatcher
 	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Media';
-
-	/**
-	 * Constructor
-	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplication              $app                The application instance
+	 * @param   Input                       $input              The input instance
+	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(\Joomla\CMS\Application\CMSApplication $app, \JInput $input = null)
+	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		parent::__construct($app, $input);
+		parent::__construct($app, $input, $mvcFactoryFactory);
 
 		// As default the view is set to featured, so we need to initialize it
 		$this->input->set('view', 'media');
@@ -80,7 +77,7 @@ class MediaDispatcher extends Dispatcher
 			&& count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
 			&& !($user->id == $author && $user->authorise('core.edit.own', $asset))))
 		{
-			throw new \Joomla\CMS\Access\Exception\Notallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 

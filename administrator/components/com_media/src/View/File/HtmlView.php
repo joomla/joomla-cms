@@ -47,11 +47,10 @@ class HtmlView extends BaseHtmlView
 		// The requested file
 		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
-		// At the moment we only support local files to edit
-		if (empty($this->file->localpath))
+		if (empty($this->file->content))
 		{
 			// @todo error handling controller redirect files
-			throw new \Exception('Image file is not locally');
+			throw new \Exception('No content available!');
 		}
 
 		$this->addToolbar();
