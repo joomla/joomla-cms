@@ -12,7 +12,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Event\Dispatcher;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -358,6 +361,44 @@ class PluginModel extends AdminModel
 	public function getHelp()
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+	}
+
+	/**
+	 * Get the events a plugin is subscribed to.
+	 *
+	 * Note that this implementation only supports plugins which implement `Joomla\Event\SubscriberInterface`.
+	 *
+	 * @param   string  $type  The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $name  The plugin name.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getPluginEvents(string $type, string $name): array
+	{
+		/*
+		 * Make a fake object emulating the properties normally available from `PluginHelper::getPlugin()` as the plugin helper does not
+		 * load data for disabled plugins.
+		 */
+		$fakePlugin = (object) [
+			'type' => $type,
+			'name' => $name,
+		];
+
+		// Ensure the plugin file has been loaded
+		require_once PluginHelper::getPluginClassPath($fakePlugin);
+
+		$pluginClass = PluginHelper::getPluginClassName($fakePlugin);
+
+		// If the SubscriberInterface is not implemented, just return an empty array
+		if (!in_array(SubscriberInterface::class, class_implements($pluginClass)))
+		{
+			return [];
+		}
+
+		// We have a compatible plugin, fetch the event list
+		return array_keys($pluginClass::getSubscribedEvents());
 	}
 
 	/**

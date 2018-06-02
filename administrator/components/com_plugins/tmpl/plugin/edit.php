@@ -141,6 +141,24 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
+		<?php if (!empty($this->events)) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'events', JText::_('COM_PLUGINS_ADDITIONAL_INFORMATION')); ?>
+			<div>
+				<h3><?php echo JText::_('COM_PLUGINS_SUBSCRIBED_EVENTS'); ?></h3>
+				<joomla-alert type="info">
+					<p>
+						<?php echo JText::sprintf('COM_PLUGINS_SUBSCRIBED_EVENTS_DESC', '<a href="https://docs.joomla.org/Special:MyLanguage/Plugin/Events" class="alert-link">' . JText::_('COM_PLUGINS_JOOMLA_DOCUMENTATION') . '</a>'); ?>
+					</p>
+				</joomla-alert>
+				<ul>
+					<?php foreach ($this->events as $eventName) : ?>
+						<li><?php echo $eventName; ?></li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
+
 		<?php
 		$this->fieldsets = array();
 		$this->ignore_fieldsets = array('basic', 'description');

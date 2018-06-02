@@ -21,6 +21,14 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * The events the item is subscribed to
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $events;
+
+	/**
 	 * The item object for the newsfeed
 	 *
 	 * @var    \JObject
@@ -50,9 +58,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->state = $this->get('State');
-		$this->item  = $this->get('Item');
-		$this->form  = $this->get('Form');
+		$this->state  = $this->get('State');
+		$this->item   = $this->get('Item');
+		$this->form   = $this->get('Form');
+		$this->events = $this->getModel()->getPluginEvents($this->item->folder, $this->item->element);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
