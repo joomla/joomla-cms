@@ -108,8 +108,22 @@ class PrivacyViewRequest extends JViewLegacy
 					break;
 
 				case '1':
+					$return = '&return=' . base64_encode('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id);
+
 					$bar->appendButton('Standard', 'apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete', false);
 					$bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+
+					JToolbarHelper::link(
+						JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
+						'COM_PRIVACY_ACTION_EXPORT_DATA',
+						'download'
+					);
+
+					JToolbarHelper::link(
+						JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
+						'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
+						'mail'
+					);
 
 					break;
 
