@@ -46,7 +46,7 @@ trait DatabaseAwareTrait
 	/**
 	 * Set the database driver.
 	 *
-	 * @param   DatabaseInterface $_db The database driver.
+	 * @param   DatabaseInterface  $db  The database driver.
 	 *
 	 * @return  void
 	 *
