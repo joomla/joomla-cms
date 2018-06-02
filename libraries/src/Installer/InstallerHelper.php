@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,30 @@ use Joomla\CMS\Version;
  */
 abstract class InstallerHelper
 {
+	/**
+	 * Hash not validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */	
+	const HASH_NOT_VALIDATED = 0;
+
+	/**
+	 * Hash validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_VALIDATED     = 1;
+
+	/**
+	 * Hash not provided identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_NOT_PROVIDED  = 2;
+
 	/**
 	 * Downloads a package
 	 *
@@ -132,7 +156,7 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive;
+			$archive = new Archive(array('tmp_path' => \JFactory::getConfig()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -332,5 +356,47 @@ abstract class InstallerHelper
 		$db = \JFactory::getDbo();
 
 		return $db->splitSql($query);
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string     $packagefile           Location of the package to be installed
+	 * @param   Installer  $updateServerManifest  Update Server manifest
+	 *
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isChecksumValid($packagefile, $updateServerManifest)
+	{
+		$hashes     = array("sha256", "sha384", "sha512");
+		$hashOnFile = false;
+
+		$update = new \JUpdate;
+		$update->loadFromXml($updateServerManifest);
+
+		foreach ($hashes as $hash)
+		{
+			if ($update->get($hash, false))
+			{
+				$hash_package = hash_file($hash, $packagefile);
+				$hash_remote  = $update->$hash->_data;
+
+				$hashOnFile   = true;
+
+				if ($hash_package !== $hash_remote)
+				{
+					return self::HASH_NOT_VALIDATED;
+				}
+			}
+		}
+
+		if ($hashOnFile)
+		{
+			return self::HASH_VALIDATED;
+		}
+
+		return self::HASH_NOT_PROVIDED;
 	}
 }

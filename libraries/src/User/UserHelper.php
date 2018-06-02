@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,23 +43,22 @@ abstract class UserHelper
 		// Add the user to the group if necessary.
 		if (!in_array($groupId, $user->groups))
 		{
-			// Get the title of the group.
+			// Check whether the group exists.
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
 				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
-			$title = $db->loadResult();
 
 			// If the group does not exist, return an exception.
-			if (!$title)
+			if ($db->loadResult() === null)
 			{
 				throw new \RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$title] = $groupId;
+			$user->groups[$groupId] = $groupId;
 
 			// Store the user object.
 			$user->save();
@@ -301,18 +300,20 @@ abstract class UserHelper
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string  $password  The plaintext password to encrypt.
+	 * @param   string   $password   The plaintext password to encrypt.
+	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
+	 * @param   array    $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   3.2.1
 	 */
-	public static function hashPassword($password)
+	public static function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
 	{
 		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 		\JCrypt::hasStrongPasswordSupport();
 
-		return password_hash($password, PASSWORD_BCRYPT);
+		return password_hash($password, $algorithm, $options);
 	}
 
 	/**
@@ -330,6 +331,8 @@ abstract class UserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
+		$passwordAlgorithm = PASSWORD_BCRYPT;
+
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -347,6 +350,8 @@ abstract class UserHelper
 			$match = password_verify($password, $hash);
 
 			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
+
+			$passwordAlgorithm = PASSWORD_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
@@ -387,7 +392,7 @@ abstract class UserHelper
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new User($user_id);
-			$user->password = static::hashPassword($password);
+			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
 
@@ -605,7 +610,7 @@ abstract class UserHelper
 				}
 				break;
 
-			case 'aprmd5': /* 64 characters that are valid for APRMD5 passwords. */
+			case 'aprmd5': // 64 characters that are valid for APRMD5 passwords.
 				$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 				if ($seed)
@@ -684,7 +689,7 @@ abstract class UserHelper
 	 */
 	protected static function _toAPRMD5($value, $count)
 	{
-		/* 64 characters that are valid for APRMD5 passwords. */
+		// 64 characters that are valid for APRMD5 passwords.
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 		$aprmd5 = '';
@@ -767,8 +772,8 @@ abstract class UserHelper
 
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->delete('#__user_keys')
-		->where($db->quoteName('time') . ' < ' . $db->quote($now));
+			->delete('#__user_keys')
+			->where($db->quoteName('time') . ' < ' . $db->quote($now));
 
 		return $db->setQuery($query)->execute();
 	}

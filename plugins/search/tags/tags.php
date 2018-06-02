@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -161,7 +161,7 @@ class PlgSearchTags extends JPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items', 0))
 		{
 			return $rows;
 		}

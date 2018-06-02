@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,14 +31,14 @@ class ContentViewFeatured extends JViewLegacy
 	protected $link_items = array();
 
 	protected $columns = 1;
-	
+
 	/**
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * Execute and display a template script.

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class PlgSearchContent extends JPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = JFactory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
@@ -90,6 +90,8 @@ class PlgSearchContent extends JPlugin
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
+
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
@@ -146,6 +148,8 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
 
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
 					if ($phrase === 'all')
 					{
 						// Join over Fields.
@@ -183,6 +187,7 @@ class PlgSearchContent extends JPlugin
 					{
 						$cfwhere[] = 'LOWER(cfv.value) LIKE LOWER(' . $word . ')';
 					}
+
 					$wheres[] = implode(' OR ', $wheres2);
 				}
 
@@ -273,6 +278,12 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
@@ -305,6 +316,7 @@ class PlgSearchContent extends JPlugin
 				$list = array();
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
+
 			$limit -= count($list);
 
 			if (isset($list))
@@ -339,6 +351,12 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id . ' END as catslug';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
 
 			$query->select(
 				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
@@ -429,6 +447,7 @@ class PlgSearchContent extends JPlugin
 				$results = array_merge($results, (array) $new_row);
 			}
 		}
+
 		return $results;
 	}
 

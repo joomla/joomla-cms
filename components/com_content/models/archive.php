@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -194,7 +194,7 @@ class ContentModelArchive extends ContentModelArticles
 	 * Gets the archived articles years
 	 *
 	 * @return   array
-	 * 
+	 *
 	 * @since    3.6.0
 	 */
 	public function getYears()
@@ -213,6 +213,7 @@ class ContentModelArchive extends ContentModelArticles
 			->order('1 ASC');
 
 		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 }

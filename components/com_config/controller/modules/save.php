@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,13 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerModulesSave extends JControllerBase
 {
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -117,6 +117,7 @@ class ConfigControllerModulesSave extends JControllerBase
 				{
 					$redirect = JUri::base();
 				}
+
 				$this->app->redirect($redirect);
 				break;
 		}

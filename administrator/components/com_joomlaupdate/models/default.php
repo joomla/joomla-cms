@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'installed' => JVERSION,
 			'latest'    => null,
 			'object'    => null,
-			'hasUpdate' => false
+			'hasUpdate' => false,
+			'url'       => null
 		);
 
 		// Fetch the update information from the database.
@@ -270,9 +271,10 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = JFactory::getConfig();
-		$tempdir = $config->get('tmp_path');
-		$target  = $tempdir . '/' . $basename;
+		$config   = JFactory::getConfig();
+		$tempdir  = $config->get('tmp_path');
+		$target   = $tempdir . '/' . $basename;
+		$response = array();
 
 		// Do we have a cached file?
 		$exists = JFile::exists($target);
@@ -289,7 +291,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$mirror++;
 			}
 
-			return $download;
+			$response['basename'] = $download;
 		}
 		else
 		{
@@ -307,12 +309,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 					$mirror++;
 				}
 
-				return $download;
+				$response['basename'] = $download;
 			}
 
 			// Yes, it's there, skip downloading.
-			return $basename;
+			$response['basename'] = $basename;
 		}
+
+		$response['check'] = JInstallerHelper::isChecksumValid($target, $updateInfo['url']);
+		return $response;
 	}
 
 	/**
@@ -362,7 +367,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		{
 			return false;
 		}
-
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{

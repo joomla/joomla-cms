@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -118,7 +118,6 @@ class PlgContentFields extends JPlugin
 			$id      = (int) $explode[0];
 			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
-
 
 			if ($match[1] == 'field' && $id)
 			{

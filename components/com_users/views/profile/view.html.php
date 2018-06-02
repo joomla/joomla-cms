@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,9 +84,6 @@ class UsersViewProfile extends JViewLegacy
 
 			return false;
 		}
-
-		$this->data->tags = new JHelperTags;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
 
 		JPluginHelper::importPlugin('content');
 		$this->data->text = '';

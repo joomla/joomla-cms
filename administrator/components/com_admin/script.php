@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -755,6 +755,17 @@ class JoomlaInstallerScript
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
 			// Joomla! 3.1
+			'/libraries/cms/feed/entry.php',
+			'/libraries/cms/feed/factory.php',
+			'/libraries/cms/feed/feed.php',
+			'/libraries/cms/feed/link.php',
+			'/libraries/cms/feed/parser.php',
+			'/libraries/cms/feed/parser/atom.php',
+			'/libraries/cms/feed/parser/namespace.php',
+			'/libraries/cms/feed/parser/rss.php',
+			'/libraries/cms/feed/parser/rss/itunes.php',
+			'/libraries/cms/feed/parser/rss/media.php',
+			'/libraries/cms/feed/person.php',
 			'/libraries/joomla/application/router.php',
 			'/libraries/joomla/form/rules/boolean.php',
 			'/libraries/joomla/form/rules/color.php',
@@ -1946,6 +1957,8 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view/legacy.php',
 			'/libraries/legacy/web/client.php',
 			'/libraries/legacy/web/web.php',
+			// Joomla 3.8.4
+			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1980,6 +1993,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/image/filters',
 			'/libraries/joomla/log/loggers',
 			// Joomla! 3.1
+			'/libraries/cms/feed/parser/rss',
+			'/libraries/cms/feed/parser',
+			'/libraries/cms/feed',
 			'/libraries/joomla/form/rules',
 			'/libraries/joomla/html/language/en-GB',
 			'/libraries/joomla/html/language',
