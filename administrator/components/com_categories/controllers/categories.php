@@ -37,7 +37,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return  bool  False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 *
 	 * @since   1.6
 	 */
@@ -68,7 +68,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return      void
+	 * @return      boolean  True on success
 	 *
 	 * @since       1.6
 	 * @see         JControllerAdmin::saveorder()

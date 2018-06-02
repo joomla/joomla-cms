@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Filesystem\Streams;
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.support.stringcontroller');
+use Joomla\CMS\Filesystem\Support\Stringcontroller;
 
 /**
  * String Stream Wrapper
@@ -19,7 +20,7 @@ jimport('joomla.filesystem.support.stringcontroller');
  *
  * @since  11.1
  */
-class JStreamString
+class StreamString
 {
 	/**
 	 * The current string
@@ -101,7 +102,7 @@ class JStreamString
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
 	{
-		$this->currentString = &JStringController::getRef(str_replace('string://', '', $path));
+		$this->currentString = &StringController::getRef(str_replace('string://', '', $path));
 
 		if ($this->currentString)
 		{
@@ -144,7 +145,7 @@ class JStreamString
 	public function url_stat($path, $flags = 0)
 	{
 		$now = time();
-		$string = &JStringController::getRef(str_replace('string://', '', $path));
+		$string = &StringController::getRef(str_replace('string://', '', $path));
 		$stat = array(
 			'dev' => 0,
 			'ino' => 0,
@@ -289,4 +290,4 @@ class JStreamString
 	}
 }
 
-stream_wrapper_register('string', 'JStreamString') or die('JStreamString Wrapper Registration Failed');
+stream_wrapper_register('string', '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString') or die('StreamString Wrapper Registration Failed');

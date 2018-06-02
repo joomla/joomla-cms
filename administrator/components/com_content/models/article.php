@@ -970,7 +970,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Delete #__content_frontpage items if the deleted articles was featured
 	 *
-	 * @param   object  &$pks  The primary key related to the contents that was deleted.
+	 * @param   object  $pks  The primary key related to the contents that was deleted.
 	 *
 	 * @return  boolean
 	 *

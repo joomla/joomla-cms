@@ -1,20 +1,29 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  FileSystem
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Filesystem;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Language\Text;
 
 /**
  * A Folder handling class
  *
  * @since  11.1
  */
-abstract class JFolder
+abstract class Folder
 {
 	/**
 	 * Copy a folder.
@@ -28,14 +37,14 @@ abstract class JFolder
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		$FTPOptions = JClientHelper::getCredentials('ftp');
-		$pathObject = new JFilesystemWrapperPath;
+		$FTPOptions = ClientHelper::getCredentials('ftp');
+		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
@@ -49,29 +58,29 @@ abstract class JFolder
 
 		if (!self::exists($src))
 		{
-			throw new RuntimeException('Source folder not found', -1);
+			throw new \RuntimeException('Source folder not found', -1);
 		}
 
 		if (self::exists($dest) && !$force)
 		{
-			throw new RuntimeException('Destination folder already exists', -1);
+			throw new \RuntimeException('Destination folder already exists', -1);
 		}
 
 		// Make sure the destination exists
 		if (!self::create($dest))
 		{
-			throw new RuntimeException('Cannot create destination folder', -1);
+			throw new \RuntimeException('Cannot create destination folder', -1);
 		}
 
 		// If we're using ftp and don't have streams enabled
 		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			if (!($dh = @opendir($src)))
 			{
-				throw new RuntimeException('Cannot open source folder', -1);
+				throw new \RuntimeException('Cannot open source folder', -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -99,7 +108,7 @@ abstract class JFolder
 
 						if (!$ftp->store($sfid, $dfid))
 						{
-							throw new RuntimeException('Copy file failed', -1);
+							throw new \RuntimeException('Copy file failed', -1);
 						}
 						break;
 				}
@@ -109,7 +118,7 @@ abstract class JFolder
 		{
 			if (!($dh = @opendir($src)))
 			{
-				throw new RuntimeException('Cannot open source folder', -1);
+				throw new \RuntimeException('Cannot open source folder', -1);
 			}
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
@@ -134,18 +143,18 @@ abstract class JFolder
 					case 'file':
 						if ($use_streams)
 						{
-							$stream = JFactory::getStream();
+							$stream = Factory::getStream();
 
 							if (!$stream->copy($sfid, $dfid))
 							{
-								throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
+								throw new \RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
 							}
 						}
 						else
 						{
 							if (!@copy($sfid, $dfid))
 							{
-								throw new RuntimeException('Copy file failed', -1);
+								throw new \RuntimeException('Copy file failed', -1);
 							}
 						}
 						break;
@@ -168,11 +177,11 @@ abstract class JFolder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$FTPOptions = ClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
-		$pathObject = new JFilesystemWrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Check if parent dir exists
@@ -185,7 +194,7 @@ abstract class JFolder
 
 			if (($nested > 20) || ($parent == $path))
 			{
-				JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
+				Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), Log::WARNING, 'jerror');
 				$nested--;
 
 				return false;
@@ -214,7 +223,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
 			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
@@ -247,7 +256,7 @@ abstract class JFolder
 				{
 					$test = $pathObject->clean($test);
 
-					if (strpos($path, $test) === 0)
+					if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0)
 					{
 						$inBaseDir = true;
 						break;
@@ -257,7 +266,7 @@ abstract class JFolder
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
+					Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -270,8 +279,8 @@ abstract class JFolder
 			if (!$ret = @mkdir($path, $mode))
 			{
 				@umask($origmask);
-				JLog::add(
-					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path, JLog::WARNING, 'jerror'
+				Log::add(
+					__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . 'Path: ' . $path, Log::WARNING, 'jerror'
 				);
 
 				return false;
@@ -296,18 +305,18 @@ abstract class JFolder
 	public static function delete($path)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
-		$pathObject = new JFilesystemWrapperPath;
+		$pathObject = new PathWrapper;
 
 		// Sanity check
 		if (!$path)
 		{
 			// Bad programmer! Bad Bad programmer!
-			JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+			Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
 
 			return false;
 		}
 
-		$FTPOptions = JClientHelper::getCredentials('ftp');
+		$FTPOptions = ClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
 		$path = $pathObject->clean($path);
@@ -315,7 +324,7 @@ abstract class JFolder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -325,7 +334,7 @@ abstract class JFolder
 
 		if (!empty($files))
 		{
-			$file = new JFilesystemWrapperFile;
+			$file = new FileWrapper;
 
 			if ($file->delete($files) !== true)
 			{
@@ -342,7 +351,7 @@ abstract class JFolder
 			if (is_link($folder))
 			{
 				// Don't descend into linked directories, just delete the link.
-				$file = new JFilesystemWrapperFile;
+				$file = new FileWrapper;
 
 				if ($file->delete($folder) !== true)
 				{
@@ -360,7 +369,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		// In case of restricted permissions we zap it one way or the other
@@ -379,7 +388,7 @@ abstract class JFolder
 		}
 		else
 		{
-			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 			$ret = false;
 		}
 
@@ -400,8 +409,8 @@ abstract class JFolder
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		$FTPOptions = JClientHelper::getCredentials('ftp');
-		$pathObject = new JFilesystemWrapperPath;
+		$FTPOptions = ClientHelper::getCredentials('ftp');
+		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
@@ -411,21 +420,21 @@ abstract class JFolder
 
 		if (!self::exists($src))
 		{
-			return JText::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER');
+			return Text::_('JLIB_FILESYSTEM_ERROR_FIND_SOURCE_FOLDER');
 		}
 
 		if (self::exists($dest))
 		{
-			return JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS');
+			return Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS');
 		}
 
 		if ($use_streams)
 		{
-			$stream = JFactory::getStream();
+			$stream = Factory::getStream();
 
 			if (!$stream->move($src, $dest))
 			{
-				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
+				return Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
 			}
 
 			$ret = true;
@@ -435,7 +444,7 @@ abstract class JFolder
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -444,7 +453,7 @@ abstract class JFolder
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
 				{
-					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
+					return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -453,7 +462,7 @@ abstract class JFolder
 			{
 				if (!@rename($src, $dest))
 				{
-					return JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
+					return Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE');
 				}
 
 				$ret = true;
@@ -474,7 +483,7 @@ abstract class JFolder
 	 */
 	public static function exists($path)
 	{
-		$pathObject = new JFilesystemWrapperPath;
+		$pathObject = new PathWrapper;
 
 		return is_dir($pathObject->clean($path));
 	}
@@ -498,13 +507,13 @@ abstract class JFolder
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new JFilesystemWrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FILES', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -553,13 +562,13 @@ abstract class JFolder
 		$excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new JFilesystemWrapperPath;
+		$pathObject = new PathWrapper;
 		$path = $pathObject->clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path), JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -682,7 +691,7 @@ abstract class JFolder
 		if ($level < $maxLevel)
 		{
 			$folders    = self::folders($path, $filter);
-			$pathObject = new JFilesystemWrapperPath;
+			$pathObject = new PathWrapper;
 
 			// First path, index foldernames
 			foreach ($folders as $name)

@@ -32,9 +32,9 @@ $user = JFactory::getUser();
 		<?php if ($user->authorise('core.manage', 'com_postinstall') && $this->postinstall_message_count) : ?>
 			<div class="row-fluid">
 				<div class="alert alert-info">
-					<h4>
+					<h3>
 						<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-					</h4>
+					</h3>
 					<p>
 						<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
 					</p>

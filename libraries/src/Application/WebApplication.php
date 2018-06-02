@@ -585,7 +585,7 @@ class WebApplication extends BaseApplication
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='" . str_replace("'", '&apos;', $url) . "';</script>\n";
+			echo "<script>document.location.href=" . json_encode(str_replace("'", '&apos;', $url)) . ";</script>\n";
 		}
 		else
 		{
@@ -594,7 +594,7 @@ class WebApplication extends BaseApplication
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . str_replace("'", '&apos;', $url) . '\';</script>';
+				$html .= '<script>document.location.href=' . json_encode(str_replace("'", '&apos;', $url)) . ';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -633,9 +633,9 @@ class WebApplication extends BaseApplication
 	 *
 	 * @param   integer  $state  The HTTP 1.1 status code.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  3.8.0
+	 * @since   3.8.0
 	 */
 	protected function isRedirectState($state)
 	{
@@ -810,9 +810,9 @@ class WebApplication extends BaseApplication
 	 *
 	 * @param   string  $value  The given status as int or string
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since  3.8.0
+	 * @since   3.8.0
 	 */
 	protected function getHttpStatusValue($value)
 	{

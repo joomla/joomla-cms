@@ -25,6 +25,7 @@
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					multiple="true"
+					filter="int_array"
 					size="10"
 				/>
 
@@ -35,6 +36,7 @@
 					description="PLG_DEBUG_FIELD_SESSION_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -47,6 +49,7 @@
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -59,6 +62,7 @@
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -71,6 +75,7 @@
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -83,6 +88,7 @@
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -95,6 +101,7 @@
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -125,7 +132,6 @@
 					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
 					size="60"
-					default=""
 				/>
 
 				<field
@@ -134,6 +140,7 @@
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 					default="0"
+					filter="integer"
 					class="btn-group btn-group-yesno btn-group-reversed"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
@@ -147,6 +154,7 @@
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -165,6 +173,7 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -177,6 +186,7 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -189,6 +199,7 @@
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -201,6 +212,7 @@
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -236,6 +248,7 @@
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -248,6 +261,7 @@
 					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -260,6 +274,7 @@
 					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
