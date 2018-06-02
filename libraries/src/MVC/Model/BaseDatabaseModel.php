@@ -26,15 +26,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface
 {
-	/**
-	 * Database Connector
-	 *
-	 * @var    DatabaseDriver
-	 * @since  3.0
-	 */
-	protected $_db;
+	use DatabaseAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -78,15 +72,7 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		// Set the model dbo
-		if (array_key_exists('dbo', $config))
-		{
-			$this->_db = $config['dbo'];
-		}
-		else
-		{
-			$this->_db = \JFactory::getDbo();
-		}
+		$this->setDb(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
 		if (array_key_exists('table_path', $config))
@@ -126,9 +112,9 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDbo()->setQuery($query, $limitstart, $limit);
+		$this->getDb()->setQuery($query, $limitstart, $limit);
 
-		return $this->getDbo()->loadObjectList();
+		return $this->getDb()->loadObjectList();
 	}
 
 	/**
@@ -153,9 +139,9 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			$this->getDbo()->setQuery($query);
+			$this->getDb()->setQuery($query);
 
-			return (int) $this->getDbo()->loadResult();
+			return (int) $this->getDb()->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
@@ -167,10 +153,10 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 			$query->clear('limit')->clear('offset');
 		}
 
-		$this->getDbo()->setQuery($query);
-		$this->getDbo()->execute();
+		$this->getDb()->setQuery($query);
+		$this->getDb()->execute();
 
-		return (int) $this->getDbo()->getNumRows();
+		return (int) $this->getDb()->getNumRows();
 	}
 
 	/**
@@ -190,7 +176,7 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDbo();
+			$config['dbo'] = $this->getDb();
 		}
 
 		return $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -201,11 +187,12 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 	 *
 	 * @return  DatabaseDriver
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  5.0 Use getDb() instead
 	 */
 	public function getDbo()
 	{
-		return $this->_db;
+		return $this->getDb();
 	}
 
 	/**
@@ -319,11 +306,12 @@ abstract class BaseDatabaseModel extends StateModel implements DatabaseModelInte
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  5.0 Use setDb() instead
 	 */
 	public function setDbo($db)
 	{
-		$this->_db = $db;
+		$this->setDb($db);
 	}
 
 	/**

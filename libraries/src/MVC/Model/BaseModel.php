@@ -20,17 +20,10 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class StateModel extends CMSObject implements ModelInterface, StateModelInterface
+abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
+	use StateBehaviorTrait;
 	use LeagcyModelLoaderTrait;
-
-	/**
-	 * Indicates if the internal state has been set
-	 *
-	 * @var    boolean
-	 * @since  3.0
-	 */
-	protected $__state_set = null;
 
 	/**
 	 * The model (base) name
@@ -39,14 +32,6 @@ abstract class StateModel extends CMSObject implements ModelInterface, StateMode
 	 * @since  3.0
 	 */
 	protected $name;
-
-	/**
-	 * A state object
-	 *
-	 * @var    \JObject
-	 * @since  3.0
-	 */
-	protected $state;
 
 	/**
 	 * The factory.
@@ -84,10 +69,6 @@ abstract class StateModel extends CMSObject implements ModelInterface, StateMode
 		if (array_key_exists('state', $config))
 		{
 			$this->state = $config['state'];
-		}
-		else
-		{
-			$this->state = new \JObject;
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
@@ -136,61 +117,6 @@ abstract class StateModel extends CMSObject implements ModelInterface, StateMode
 		}
 
 		return $this->name;
-	}
-
-	/**
-	 * Method to get model state variables
-	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
-	 *
-	 * @return  mixed  The property where specified, the state object where omitted
-	 *
-	 * @since   3.0
-	 */
-	public function getState($property = null, $default = null)
-	{
-		if (!$this->__state_set)
-		{
-			// Protected method to auto-populate the model state.
-			$this->populateState();
-
-			// Set the model state set flag to true.
-			$this->__state_set = true;
-		}
-
-		return $property === null ? $this->state : $this->state->get($property, $default);
-	}
-
-	/**
-	 * Method to set model state variables
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set or null.
-	 *
-	 * @return  mixed  The previous value of the property or null if not set.
-	 *
-	 * @since   3.0
-	 */
-	public function setState($property, $value = null)
-	{
-		return $this->state->set($property, $value);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 * @since   3.0
-	 */
-	protected function populateState()
-	{
 	}
 
 	/**

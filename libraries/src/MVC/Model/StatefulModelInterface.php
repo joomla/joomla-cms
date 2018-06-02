@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface StateModelInterface
+interface StatefulModelInterface
 {
 	/**
 	 * Method to get model state variables.
