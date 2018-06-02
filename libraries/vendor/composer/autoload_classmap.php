@@ -281,6 +281,7 @@ return array(
     'Joomla\\CMS\\Extension\\ExtensionManagerInterface' => $baseDir . '/libraries/src/Extension/ExtensionManagerInterface.php',
     'Joomla\\CMS\\Extension\\ExtensionManagerTrait' => $baseDir . '/libraries/src/Extension/ExtensionManagerTrait.php',
     'Joomla\\CMS\\Extension\\LegacyComponent' => $baseDir . '/libraries/src/Extension/LegacyComponent.php',
+    'Joomla\\CMS\\Extension\\MVCComponent' => $baseDir . '/libraries/src/Extension/MVCComponent.php',
     'Joomla\\CMS\\Extension\\Service\\Provider\\DispatcherFactory' => $baseDir . '/libraries/src/Extension/Service/Provider/DispatcherFactory.php',
     'Joomla\\CMS\\Extension\\Service\\Provider\\MVCFactoryFactory' => $baseDir . '/libraries/src/Extension/Service/Provider/MVCFactoryFactory.php',
     'Joomla\\CMS\\Factory' => $baseDir . '/libraries/src/Factory.php',

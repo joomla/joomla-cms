@@ -552,6 +552,7 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Joomla\\CMS\\Extension\\ExtensionManagerInterface' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerInterface.php',
         'Joomla\\CMS\\Extension\\ExtensionManagerTrait' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerTrait.php',
         'Joomla\\CMS\\Extension\\LegacyComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/LegacyComponent.php',
+        'Joomla\\CMS\\Extension\\MVCComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/MVCComponent.php',
         'Joomla\\CMS\\Extension\\Service\\Provider\\DispatcherFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/DispatcherFactory.php',
         'Joomla\\CMS\\Extension\\Service\\Provider\\MVCFactoryFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/MVCFactoryFactory.php',
         'Joomla\\CMS\\Factory' => __DIR__ . '/../../..' . '/libraries/src/Factory.php',

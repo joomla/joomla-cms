@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -206,11 +207,11 @@ class CalendarField extends FormField
 
 			if ($showTime && $showTime != 'false')
 			{
-				$this->format = \JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
 			}
 			else
 			{
-				$this->format = \JText::_('DATE_FORMAT_CALENDAR_DATE');
+				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
 			}
 		}
 
