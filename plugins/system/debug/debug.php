@@ -122,9 +122,9 @@ class PlgSystemDebug extends CMSPlugin
 
 	/**
 	 * @var DebugBar
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
-	private $debugBar = null;
+	private $debugBar;
 
 	/**
 	 * The query monitor.
@@ -364,7 +364,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function setupLogging()
 	{
@@ -1651,7 +1651,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function collectLogs()
 	{

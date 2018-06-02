@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 /**
  * QueryDataCollector
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 class QueryCollector extends AbstractDataCollector
 {
@@ -26,7 +26,7 @@ class QueryCollector extends AbstractDataCollector
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $queryMonitor;
 
@@ -36,7 +36,7 @@ class QueryCollector extends AbstractDataCollector
 	 * @param   Registry      $params        Parameters.
 	 * @param   DebugMonitor  $queryMonitor  Query monitor.
 	 *
-	 * @since 4.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct(Registry $params, DebugMonitor $queryMonitor)
 	{
@@ -49,7 +49,7 @@ class QueryCollector extends AbstractDataCollector
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array Collected data
 	 */
@@ -64,7 +64,7 @@ class QueryCollector extends AbstractDataCollector
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return string
 	 */
@@ -77,7 +77,7 @@ class QueryCollector extends AbstractDataCollector
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array
 	 */
@@ -102,7 +102,7 @@ class QueryCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getData()
 	{
@@ -114,7 +114,7 @@ class QueryCollector extends AbstractDataCollector
 	 *
 	 * @return int
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getCount()
 	{

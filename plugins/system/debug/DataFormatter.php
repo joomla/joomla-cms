@@ -14,7 +14,7 @@ use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 /**
  * DataFormatter
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 class DataFormatter extends DebugBarDataFormatter
 {
@@ -25,7 +25,7 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function formatPath($path)
 	{

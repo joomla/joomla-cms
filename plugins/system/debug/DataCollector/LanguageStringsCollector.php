@@ -14,7 +14,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 /**
  * LanguageStringsDataCollector
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 class LanguageStringsCollector extends AbstractDataCollector
 {
@@ -23,7 +23,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array Collected data
 	 */
@@ -38,7 +38,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return string
 	 */
@@ -51,7 +51,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array
 	 */
@@ -76,7 +76,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @return array
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getData()
 	{
@@ -172,7 +172,7 @@ class LanguageStringsCollector extends AbstractDataCollector
 	 *
 	 * @return int
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function getCount()
 	{

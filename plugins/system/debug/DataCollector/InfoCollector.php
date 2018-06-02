@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 /**
  * InfoDataCollector
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 class InfoCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -30,7 +30,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * @param   Registry  $params     Parameters
 	 * @param   string    $requestId  Request ID
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(Registry $params, $requestId)
 	{
@@ -42,7 +42,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array Collected data
 	 */
@@ -58,7 +58,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 * @return string
 	 */
 	public function getName()
@@ -70,7 +70,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
 	public function getWidgets()
@@ -92,7 +92,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *  - css: an array of filenames
 	 *  - js: an array of filenames
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
 	public function getAssets()

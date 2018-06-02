@@ -17,19 +17,19 @@ use Joomla\Registry\Registry;
 /**
  * AbstractDataCollector
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 abstract class AbstractDataCollector extends DataCollector implements Renderable
 {
 	/**
 	 * @var Registry
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $params;
 
 	/**
 	 * @var DataFormatter
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	private static $defaultDataFormatter;
 
@@ -38,7 +38,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 *
 	 * @param   Registry  $params  Parameters.
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct(Registry $params)
 	{
@@ -48,7 +48,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Get a data formatter.
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
 	public function getDataFormatter()
@@ -64,7 +64,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Returns the default data formater
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 * @return DataFormatterInterface
 	 */
 	public static function getDefaultDataFormatter()

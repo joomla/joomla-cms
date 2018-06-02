@@ -15,7 +15,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 /**
  * LanguageFilesDataCollector
  *
- * @since  version
+ * @since  __DEPLOY_VERSION__
  */
 class LanguageFilesCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -24,7 +24,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array Collected data
 	 */
@@ -48,7 +48,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return string
 	 */
@@ -61,7 +61,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return array
 	 */
@@ -84,7 +84,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	 *  - css: an array of filenames
 	 *  - js: an array of filenames
 	 *
-	 * @since  version
+	 * @since  __DEPLOY_VERSION__
 	 * @return array
 	 */
 	public function getAssets()
