@@ -172,8 +172,6 @@ class PrivacyModelExport extends JModelLegacy
 		{
 			$app = JFactory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
-
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => JUri::root(),
