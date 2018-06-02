@@ -57,7 +57,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = []): ModelInterface
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the model name
 		$modelName   = preg_replace('/[^A-Z0-9_]/i', '', $name);

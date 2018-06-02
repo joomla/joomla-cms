@@ -49,7 +49,7 @@ interface MVCFactoryInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = []): ModelInterface;
+	public function createModel($name, $prefix = '', array $config = []);
 
 	/**
 	 * Method to load and return a view object.

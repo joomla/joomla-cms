@@ -102,7 +102,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = []): ModelInterface
+	public function createModel($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
