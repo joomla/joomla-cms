@@ -22,29 +22,36 @@ HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-toolbar-button.min.js
  * @var  string  $btnClass
  * @var  string  $tagName
  * @var  string  $htmlAttributes
+ * @var  string  $task             The task which should be executed
+ * @var  bool    $listCheck        Boolean, whether selection from a list is needed
+ * @var  string  $form             CSS selector for a target form
+ * @var  bool    $formValidation   Whether the form need to be validated before run the task
+ * @var  string  $message          Confirmation message before run the task
+ *
  */
 extract($displayData, EXTR_OVERWRITE);
 
 $tagName  = $tagName ?? 'button';
 
-$task     = '';
-$id       = !empty($displayData['id'])       ? ' id="' . $displayData['id'] . '"' : '';
-$list     = !empty($displayData['list'])     ? ' list-selection' : '';
-$form     = !empty($displayData['form'])     ? ' form="' . $this->escape($displayData['form']) . '"' : '';
-$validate = !empty($displayData['validate']) ? ' form-validation' : '';
-$msg      = !empty($displayData['msg'])      ? ' confirm-message="' . $this->escape($displayData['msg']) . '"' : '';
+$taskAttr = '';
+$idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
+$listAttr = !empty($listCheck)      ? ' list-selection' : '';
+$formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
+$validate = !empty($formValidation) ? ' form-validation' : '';
+$msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
 
-if (!empty($displayData['task']))
+if (!empty($task))
 {
-	$task = ' task="' . $displayData['task'] . '"';
+	$taskAttr = ' task="' . $task . '"';
 }
-elseif (!empty($displayData['doTask']))
+elseif (!empty($onclick))
 {
-	$task = ' execute="' . $displayData['doTask'] . '"';
+	$htmlAttributes .= ' onclick="' . $onclick . '"';
 }
+
 ?>
 
-<joomla-toolbar-button <?php echo $id.$task.$list.$form.$validate.$msg; ?>>
+<joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
 <?php if (!empty($group)) : ?>
 <a href="#" class="dropdown-item">
 	<span class="<?php echo trim($class ?? ''); ?>"></span>
