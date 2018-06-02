@@ -104,7 +104,8 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$query = $this->db->getQuery(true)
 			->select('*')
 			->from($this->db->quoteName('#__user_profiles'))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id));
+			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id))
+			->order($this->db->quoteName('ordering') . ' ASC');
 
 		$items = $this->db->setQuery($query)->loadAssocList();
 
