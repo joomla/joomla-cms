@@ -26,5 +26,5 @@ interface DatabaseModelInterface
 	 *
 	 * @since   3.0
 	 */
-	public function getDbo();
+	public function getDb();
 }
