@@ -627,6 +627,8 @@ class MenusModelItem extends JModelAdmin
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
 
+		$data = (object) $data;
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
