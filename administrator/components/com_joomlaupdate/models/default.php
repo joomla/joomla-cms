@@ -326,7 +326,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @param   string   $packagefile   Location of the package to be installed
 	 * @param   JUpdate  $updateObject  The Update Object
 	 *
-	 * @return  boolean    False in case the validation did not work; true in any other case.
+	 * @return  boolean  False in case the validation did not work; true in any other case.
 	 * 
 	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
 	 *          does not depend on an up-to-date InstallerHelper at the update time

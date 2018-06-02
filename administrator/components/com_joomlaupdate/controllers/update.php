@@ -59,7 +59,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 			try
 			{
-				JLog::add(JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG'), JLog::INFO, 'Update');
+				JLog::add($message, JLog::INFO, 'Update');
 			}
 			catch (RuntimeException $exception)
 			{
