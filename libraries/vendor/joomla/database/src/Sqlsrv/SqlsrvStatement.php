@@ -379,7 +379,7 @@ class SqlsrvStatement implements StatementInterface
 
 		$options = [];
 
-		// sqlsrv_num_rows requires a static or keyset cursor.
+		// SQLSRV Function sqlsrv_num_rows requires a static or keyset cursor.
 		if (strncmp(strtoupper(ltrim($this->query)), 'SELECT', strlen('SELECT')) === 0)
 		{
 			$options = ['Scrollable' => SQLSRV_CURSOR_KEYSET];
