@@ -24,6 +24,8 @@ class PreviewModel extends ItemModel
 	/**
 	 * Method to get a version history row.
 	 *
+	 * @param   integer  $pk  The id of the item
+	 *
 	 * @return  \stdClass|boolean    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
