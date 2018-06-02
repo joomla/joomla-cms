@@ -52,7 +52,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setDb(DatabaseInterface $db)
+	public function setDb(DatabaseInterface $db = null)
 	{
 		$this->_db = $db;
 	}
