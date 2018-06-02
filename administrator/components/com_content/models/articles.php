@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -188,7 +188,7 @@ class ContentModelArticles extends JModelList
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -235,6 +235,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
@@ -267,12 +268,13 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by categories and by level
-		$categoryId = $this->getState('filter.category_id');
+		$categoryId = $this->getState('filter.category_id', array());
 		$level = $this->getState('filter.level');
 
-		$categoryId = $categoryId && !is_array($categoryId)
-			? array($categoryId)
-			: $categoryId;
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
 
 		// Case: Using both categories filter and by level filter
 		if (count($categoryId))
@@ -290,7 +292,7 @@ class ContentModelArticles extends JModelList
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
 
-			$query->where(implode(' OR ', $subCatItemsWhere));
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
@@ -328,10 +330,15 @@ class ContentModelArticles extends JModelList
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -355,6 +362,7 @@ class ContentModelArticles extends JModelList
 		{
 			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -361,7 +361,7 @@ class InstallerModelUpdate extends JModelList
 			$this->preparePreUpdate($update, $instance);
 
 			// Install sets state and enqueues messages
-			$res = $this->install($update);
+			$res = $this->install($update, $instance->detailsurl);
 
 			if ($res)
 			{
@@ -388,13 +388,14 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   JUpdate  $update  An update definition
+	 * @param   JUpdate  $update     An update definition
+	 * @param   string   $updateurl  Update Server manifest
 	 *
 	 * @return  boolean   Result of install
 	 *
 	 * @since   1.6
 	 */
-	private function install($update)
+	private function install($update, $updateurl)
 	{
 		$app = JFactory::getApplication();
 
@@ -405,7 +406,8 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url = $update->downloadurl->_data;
+		$url     = $update->downloadurl->_data;
+		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -413,7 +415,21 @@ class InstallerModelUpdate extends JModelList
 			$url .= $extra_query;
 		}
 
-		$p_file = JInstallerHelper::downloadPackage($url);
+		$mirror = 0;
+
+		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		{
+			$name = $sources[$mirror];
+			$url  = $name->url;
+
+			if ($extra_query)
+			{
+				$url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+				$url .= $extra_query;
+			}
+
+			$mirror++;
+		}
 
 		// Was the package downloaded?
 		if (!$p_file)
@@ -432,6 +448,22 @@ class InstallerModelUpdate extends JModelList
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
 		$update->set('type', $package['type']);
+
+		// Check the package
+		$check = JInstallerHelper::isChecksumValid($package['packagefile'], (string) $updateurl);
+
+		switch ($check)
+		{
+			case 0:
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+				break;
+			case 1:
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+				break;
+			case 2:
+				$app->enqueueMessage(\JText::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+				break;
+		}
 
 		// Install the package
 		if (!$installer->update($package['dir']))

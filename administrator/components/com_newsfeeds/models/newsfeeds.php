@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -263,6 +264,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		{
 			ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;

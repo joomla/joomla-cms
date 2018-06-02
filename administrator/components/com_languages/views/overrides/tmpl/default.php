@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,10 @@ $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
-$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
+$oppositeClient   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$oppositeFileName = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
-$opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
+$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
@@ -101,9 +101,9 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 						</td>
 						<td class="hidden-phone">
 							<?php echo $client; ?><?php
-							if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))
+							if (isset($oppositeStrings[$key]) && $oppositeStrings[$key] === $text)
 							{
-								echo '/' . $opposite_client;
+								echo '/' . $oppositeClient;
 							}
 							?>
 						</td>

@@ -263,10 +263,10 @@ stepExtract = function(data)
 			jQuery('#progress-bar').removeClass('bar-success');
 		}
 
-		jQuery('#extpercent').text(stat_percent.toFixed(1));
+		jQuery('#extpercent').text(stat_percent.toFixed(1) + '%');
 		jQuery('#extbytesin').text(stat_inbytes);
 		jQuery('#extbytesout').text(stat_outbytes);
-		jQuery('#extfiles').text(data.lastfile);
+		jQuery('#extfiles').text(data.files);
 
 		// Do AJAX post
 		post = {

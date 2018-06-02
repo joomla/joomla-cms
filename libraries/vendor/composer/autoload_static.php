@@ -22,17 +22,19 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         '05d739a990f75f0c44ebe1f032b33148' => __DIR__ . '/..' . '/joomla/string/src/phputf8/ucwords.php',
         '4292e2fa66516089e6006723267587b4' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/ascii.php',
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e40631d46120a9c38ea139981f8dab26' => __DIR__ . '/..' . '/ircmaxell/password-compat/lib/password.php',
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Component\\Yaml\\' => 23,
@@ -58,7 +60,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
-            'Joomla\\DI\\Tests\\' => 16,
             'Joomla\\DI\\' => 10,
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
@@ -69,6 +70,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Polyfill\\Util\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
+        ),
+        'Symfony\\Polyfill\\Php73\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
         'Symfony\\Polyfill\\Php56\\' => 
         array (
@@ -145,10 +150,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
-        ),
-        'Joomla\\DI\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/di/Tests',
         ),
         'Joomla\\DI\\' => 
         array (
@@ -252,6 +253,13 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\Files' => __DIR__ . '/..' . '/joomla/input/src/Files.php',
         'Joomla\\Input\\Input' => __DIR__ . '/..' . '/joomla/input/src/Input.php',
         'Joomla\\Input\\Json' => __DIR__ . '/..' . '/joomla/input/src/Json.php',
+        'Joomla\\Input\\Tests\\CliTest' => __DIR__ . '/..' . '/joomla/input/Tests/CliTest.php',
+        'Joomla\\Input\\Tests\\CookieTest' => __DIR__ . '/..' . '/joomla/input/Tests/CookieTest.php',
+        'Joomla\\Input\\Tests\\FilesTest' => __DIR__ . '/..' . '/joomla/input/Tests/FilesTest.php',
+        'Joomla\\Input\\Tests\\FilterInputMock' => __DIR__ . '/..' . '/joomla/input/Tests/Stubs/FilterInputMock.php',
+        'Joomla\\Input\\Tests\\InputMocker' => __DIR__ . '/..' . '/joomla/input/Tests/InputMocker.php',
+        'Joomla\\Input\\Tests\\InputTest' => __DIR__ . '/..' . '/joomla/input/Tests/InputTest.php',
+        'Joomla\\Input\\Tests\\JsonTest' => __DIR__ . '/..' . '/joomla/input/Tests/JsonTest.php',
         'Joomla\\Ldap\\LdapClient' => __DIR__ . '/..' . '/joomla/ldap/src/LdapClient.php',
         'Joomla\\Registry\\AbstractRegistryFormat' => __DIR__ . '/..' . '/joomla/registry/src/AbstractRegistryFormat.php',
         'Joomla\\Registry\\Factory' => __DIR__ . '/..' . '/joomla/registry/src/Factory.php',
@@ -271,6 +279,14 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
         'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
         'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
+        'Joomla\\Session\\Tests\\Handler\\ApcuHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/ApcuHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\DatabaseHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/DatabaseHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\FilesystemHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/FilesystemHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\MemcachedHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/MemcachedHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\NativeStorageTest' => __DIR__ . '/..' . '/joomla/session/tests/Storage/NativeStorageTest.php',
+        'Joomla\\Session\\Tests\\Handler\\RedisHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/RedisHandlerTest.php',
+        'Joomla\\Session\\Tests\\Handler\\WincacheHandlerTest' => __DIR__ . '/..' . '/joomla/session/tests/Handler/WincacheHandlerTest.php',
+        'Joomla\\Session\\Tests\\SessionTest' => __DIR__ . '/..' . '/joomla/session/tests/SessionTest.php',
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
         'Joomla\\String\\String' => __DIR__ . '/..' . '/joomla/string/src/String.php',

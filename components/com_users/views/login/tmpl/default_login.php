@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidator');
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">
 					<div class="control-label">
-						<label>
+						<label for="remember">
 							<?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
