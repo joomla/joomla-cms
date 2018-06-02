@@ -55,6 +55,13 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
+		if ($table->status != 1)
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+
+			return false;
+		}
+
 		// Log the export
 		$this->logExport($table);
 
@@ -113,6 +120,13 @@ class PrivacyModelExport extends JModelLegacy
 		if ($table->request_type !== 'export')
 		{
 			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+
+			return false;
+		}
+
+		if ($table->status != 1)
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
 			return false;
 		}
