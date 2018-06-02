@@ -99,7 +99,7 @@ class PrivacyViewRequest extends JViewLegacy
 
 			$bar = JToolbar::getInstance('toolbar');
 
-			// Add transition buttons based on item status
+			// Add transition and action buttons based on item status
 			switch ($this->item->status)
 			{
 				case '0':
@@ -113,17 +113,20 @@ class PrivacyViewRequest extends JViewLegacy
 					$bar->appendButton('Standard', 'apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete', false);
 					$bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
 
-					JToolbarHelper::link(
-						JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
-						'COM_PRIVACY_ACTION_EXPORT_DATA',
-						'download'
-					);
+					if ($this->item->request_type === 'export')
+					{
+						JToolbarHelper::link(
+							JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
+							'COM_PRIVACY_ACTION_EXPORT_DATA',
+							'download'
+						);
 
-					JToolbarHelper::link(
-						JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
-						'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
-						'mail'
-					);
+						JToolbarHelper::link(
+							JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
+							'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
+							'mail'
+						);
+					}
 
 					break;
 
