@@ -29,7 +29,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * The model (base) name
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $name;
 
@@ -37,7 +37,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $factory;
 
@@ -47,7 +47,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -99,7 +99,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
 	public function getName()

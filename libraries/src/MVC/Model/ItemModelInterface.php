@@ -24,6 +24,7 @@ interface ItemModelInterface
 	 *
 	 * @return  object
 	 *
+	 * @since __DEPLOY_VERSION__
 	 * @throws \Exception
 	 */
 	public function getItem($pk = null);

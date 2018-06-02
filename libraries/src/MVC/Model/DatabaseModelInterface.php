@@ -24,7 +24,7 @@ interface DatabaseModelInterface
 	 *
 	 * @return  DatabaseInterface
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getDb();
 }
