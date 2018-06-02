@@ -129,7 +129,7 @@ class UsersModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . $this->getState('filter.range');
-		$id .= ':' . serialize($this->getState('filter.access'));
+		$id .= ':' . $this->getState('filter.access');
 
 		return parent::getStoreId($id);
 	}
@@ -301,8 +301,8 @@ class UsersModel extends ListModel
 		}
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select($db->quoteName('ag.title') . ' AS access_level')
+			->leftJoin('#__viewlevels AS ag ON ag.id = a.access');
 
 		// Filter the items over the group id if set.
 		$groupId = $this->getState('filter.group_id');
