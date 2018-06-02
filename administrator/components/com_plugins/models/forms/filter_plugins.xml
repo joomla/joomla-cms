@@ -28,6 +28,14 @@
 		</field>
 
 		<field
+			name="element"
+			type="pluginelement"
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
