@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -207,7 +207,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @param   array  $options  The update options, see findUpdate() in children classes
 	 *
-	 * @return  bool|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
+	 * @return  boolean|\JHttpResponse  False if we can't connect to the site, JHttpResponse otherwise
 	 *
 	 * @throws  \Exception
 	 */

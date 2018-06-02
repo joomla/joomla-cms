@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,15 +86,7 @@ class UsersModelUser extends JModelAdmin
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new JHelperTags;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
@@ -128,9 +120,9 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
+		// Passwords fields are required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -280,7 +280,7 @@ class InstallationModelDatabase extends JModelBase
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				$options->db_select
@@ -350,7 +350,7 @@ class InstallationModelDatabase extends JModelBase
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass,
+					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))

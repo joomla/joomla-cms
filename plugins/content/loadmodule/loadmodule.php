@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,9 @@ class PlgContentLoadmodule extends JPlugin
 		// Expression to search for(modules)
 		$regexmod = '/{loadmodule\s(.*?)}/i';
 		$stylemod = $this->params->def('style', 'none');
+
+		// Expression to search for(id)
+		$regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
 		// Find all instances of plugin and put in $matches for loadposition
 		// $matches[0] is full pattern match, $matches[1] is the position
@@ -115,6 +118,23 @@ class PlgContentLoadmodule extends JPlugin
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
 				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
 				$stylemod = $this->params->def('style', 'none');
+			}
+		}
+
+		// Find all instances of plugin and put in $matchesmodid for loadmoduleid
+		preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+
+		// If no matches, skip this
+		if ($matchesmodid)
+		{
+			foreach ($matchesmodid as $match)
+			{
+				$id     = trim($match[1]);
+				$output = $this->_loadid($id);
+
+				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$style = $this->params->def('style', 'none');
 			}
 		}
 	}
@@ -186,5 +206,33 @@ class PlgContentLoadmodule extends JPlugin
 		self::$mods[$module] = ob_get_clean();
 
 		return self::$mods[$module];
+	}
+
+	/**
+	 * Loads and renders the module
+	 *
+	 * @param   string  $id  The id of the module
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function _loadid($id)
+	{
+		self::$modules[$id] = '';
+		$document = JFactory::getDocument();
+		$renderer = $document->loadRenderer('module');
+		$modules  = JModuleHelper::getModuleById($id);
+		$params   = array('style' => 'none');
+		ob_start();
+
+		if ($modules->id > 0)
+		{
+			echo $renderer->render($modules, $params);
+		}
+
+		self::$modules[$id] = ob_get_clean();
+
+		return self::$modules[$id];
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function __construct($config = array())
 	{
@@ -53,13 +53,13 @@ class LanguagesModelOverrides extends JModelList
 		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in order to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Delete the override.ini file if empty.
-		if (file_exists($filename) && empty($strings))
+		if (file_exists($fileName) && $strings === array())
 		{
-			JFile::delete($filename);
+			JFile::delete($fileName);
 		}
 
 		// Filter the loaded strings according to the search box.
@@ -112,9 +112,9 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Method to get the total number of overrides.
 	 *
-	 * @return  int	The total number of overrides.
+	 * @return  integer  The total number of overrides.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getTotal()
 	{
@@ -190,7 +190,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @return  array  Sorted associative array of languages.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function getLanguages()
 	{
@@ -230,9 +230,9 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   array  $cids  Array of keys to delete.
 	 *
-	 * @return  integer Number of successfully deleted overrides, boolean false if an error occurred.
+	 * @return  integer  Number of successfully deleted overrides, boolean false if an error occurred.
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete($cids)
 	{
@@ -245,14 +245,13 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		jimport('joomla.filesystem.file');
-		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$filterclient = JFactory::getApplication()->getUserState('com_languages.overrides.filter.client');
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted
 		foreach ($cids as $key)
@@ -264,7 +263,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Write override.ini file with the strings.
-		if (JLanguageHelper::saveToIniFile($filename, $strings) === false)
+		if (JLanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}
@@ -277,7 +276,7 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Removes all of the cached strings from the table.
 	 *
-	 * @return  boolean result of operation
+	 * @return  boolean  result of operation
 	 *
 	 * @since   3.4.2
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,29 +75,16 @@ class LanguagesHelper
 	/**
 	 * Method for parsing ini files.
 	 *
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
+	 * @deprecated   __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
 	 */
-	public static function parseFile($filename)
+	public static function parseFile($fileName)
 	{
-		if (!is_file($filename))
-		{
-			return array();
-		}
-
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings  = @parse_ini_string($contents);
-
-		if ($strings === false)
-		{
-			return array();
-		}
-
-		return $strings;
+		return JLanguageHelper::parseIniFile($fileName);
 	}
 
 	/**

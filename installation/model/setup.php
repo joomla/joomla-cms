@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,6 +46,19 @@ class InstallationModelSetup extends JModelBase
 		if (!isset($options['language']) || empty($options['language']))
 		{
 			$options['language'] = JFactory::getLanguage()->getTag();
+		}
+
+		// Store passwords as a separate key that is not used in the forms
+		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		{
+			if (isset($options[$passwordField]))
+			{
+				$plainTextKey = $passwordField . '_plain';
+
+				$options[$plainTextKey] = $options[$passwordField];
+
+				unset($options[$passwordField]);
+			}
 		}
 
 		// Get the session
@@ -374,7 +387,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 

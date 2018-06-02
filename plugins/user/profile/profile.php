@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * @param   string  $value  URL to use
 	 *
-	 * @return mixed|string
+	 * @return  mixed|string
 	 */
 	public static function url($value)
 	{
@@ -200,7 +200,7 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * @param   boolean  $value  input value
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function tos($value)
 	{
@@ -224,15 +224,8 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(JForm $form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
@@ -243,7 +236,7 @@ class PlgUserProfile extends JPlugin
 
 		// Add the registration fields to the form.
 		JForm::addFormPath(__DIR__ . '/profiles');
-		$form->loadFile('profile', false);
+		$form->loadFile('profile');
 
 		$fields = array(
 			'address1',
@@ -279,11 +272,11 @@ class PlgUserProfile extends JPlugin
 			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
 		}
 
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = $this->params->get('register-require_tos', 0);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = $this->params->get('register-require_tos', 0);
 
 		// We need to be in the registration form and field needs to be enabled
-		if ($name !== 'com_users.registration' || !$tosenabled)
+		if ($name !== 'com_users.registration' || !$tosEnabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -291,7 +284,7 @@ class PlgUserProfile extends JPlugin
 		else
 		{
 			// Push the TOS article ID into the TOS field.
-			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
+			$form->setFieldAttribute('tos', 'article', $tosArticle, 'profile');
 		}
 
 		foreach ($fields as $field)
@@ -299,8 +292,13 @@ class PlgUserProfile extends JPlugin
 			// Case using the users manager in admin
 			if ($name === 'com_users.user')
 			{
+				// Toggle whether the field is required.
+				if ($this->params->get('profile-require_' . $field, 1) > 0)
+				{
+					$form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
+				}
 				// Remove the field if it is disabled in registration and profile
-				if ($this->params->get('register-require_' . $field, 1) == 0
+				elseif ($this->params->get('register-require_' . $field, 1) == 0
 					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
@@ -352,10 +350,10 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return    boolean
+	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws    InvalidArgumentException on invalid date.
+	 * @throws  InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -383,11 +381,11 @@ class PlgUserProfile extends JPlugin
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}
@@ -403,7 +401,7 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return bool
+	 * @return  boolean
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
