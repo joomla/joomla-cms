@@ -7,20 +7,9 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.0.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>COM_CSP_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Csp</namespace>
-
-	<install> <!-- Runs on install -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-		</sql>
-	</install>
-	<uninstall> <!-- Runs on uninstall -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
-		</sql>
-	</uninstall>
 
 	<files folder="site">
 		<filename>dispatcher.php</filename>
@@ -33,15 +22,8 @@
 	<administration>
 		<menu img="class:csp">com_csp</menu>
 		<submenu>
-			<!--
-				Note that all & must be escaped to &amp; for the file to be valid
-				XML and be parsed by the installer
-			-->
-			<menu
-				link="option=com_csp"
-				view="reports"
-				>
-				com_csp_reports
+			<menu link="option=com_csp" view="reports">
+				COM_CSP_REPORTS
 			</menu>
 		</submenu>
 		<files folder="admin">
