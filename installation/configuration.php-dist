@@ -61,7 +61,6 @@ class JConfig
 	public $live_site = '';                   // Optional, full URL to Joomla install.
 	public $force_ssl = 0;                    // Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
-	public $log_path = 'C:\\htdocs\\cms4\\administrator/logs';
 	/* Locale Settings */
 	public $offset = 'UTC';
 
