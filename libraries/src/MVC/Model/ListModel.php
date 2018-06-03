@@ -10,8 +10,13 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormBehaviorTrait;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Pagination\Pagination;
 
 /**
  * Model class for handling lists of items.
@@ -20,6 +25,9 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ListModel extends BaseDatabaseModel implements ListModelInterface
 {
+	use FormBehaviorTrait;
+	use FormFactoryAwareTrait;
+
 	/**
 	 * Internal memory based cache array of data.
 	 *
@@ -231,7 +239,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
 
 		// Create the pagination object and add the object to the internal cache.
-		$this->cache[$store] = new \JPagination($this->getTotal(), $this->getStart(), $limit);
+		$this->cache[$store] = new Pagination($this->getTotal(), $this->getStart(), $limit);
 
 		return $this->cache[$store];
 	}
@@ -335,7 +343,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  Form
 	 *
 	 * @since   3.2
 	 */
@@ -364,73 +372,6 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	}
 
 	/**
-	 * Method to get a form object.
-	 *
-	 * @param   string          $name     The name of the form.
-	 * @param   string          $source   The form source. Can be XML string if file flag is set to false.
-	 * @param   array           $options  Optional array of options for the form creation.
-	 * @param   boolean         $clear    Optional argument to force load a new form.
-	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
-	 *
-	 * @return  \JForm|boolean  \JForm object on success, False on error.
-	 *
-	 * @see     \JForm
-	 * @since   3.2
-	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
-	{
-		// Handle the optional arguments.
-		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
-
-		// Create a signature hash.
-		$hash = md5($source . serialize($options));
-
-		// Check if we can use a previously loaded form.
-		if (!$clear && isset($this->_forms[$hash]))
-		{
-			return $this->_forms[$hash];
-		}
-
-		// Get the form.
-		\JForm::addFormPath(JPATH_COMPONENT . '/forms');
-		\JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
-		\JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-
-		try
-		{
-			$form = \JForm::getInstance($name, $source, $options, false, $xpath);
-
-			if (isset($options['load_data']) && $options['load_data'])
-			{
-				// Get the data for the form.
-				$data = $this->loadFormData();
-			}
-			else
-			{
-				$data = array();
-			}
-
-			// Allow for additional modification of the form, and events to be triggered.
-			// We pass the data because plugins may require it.
-			$this->preprocessForm($form, $data);
-
-			// Load the data into the form after the plugins have operated.
-			$form->bind($data);
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		// Store the form for later.
-		$this->_forms[$hash] = $form;
-
-		return $form;
-	}
-
-	/**
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return	mixed	The data for the form.
@@ -440,7 +381,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState($this->context, new \stdClass);
+		$data = Factory::getApplication()->getUserState($this->context, new \stdClass);
 
 		// Pre-fill the list options
 		if (!property_exists($data, 'list'))
@@ -477,8 +418,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context)
 		{
-			$app         = \JFactory::getApplication();
-			$inputFilter = \JFilterInput::getInstance();
+			$app         = Factory::getApplication();
+			$inputFilter = InputFilter::getInstance();
 
 			// Receive & set filters
 			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
@@ -646,27 +587,6 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	}
 
 	/**
-	 * Method to allow derived classes to preprocess the form.
-	 *
-	 * @param   \JForm  $form   A \JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @throws  \Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
-	{
-		// Import the appropriate plugin group.
-		\JPluginHelper::importPlugin($group);
-
-		// Trigger the form preparation event.
-		\JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
-	}
-
-	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
 	 * This is the same as the method in \JApplication except that this also can optionally
@@ -684,7 +604,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{
-		$app       = \JFactory::getApplication();
+		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$old_state = $app->getUserState($key);
 		$cur_state = $old_state ?? $default;
