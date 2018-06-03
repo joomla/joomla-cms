@@ -36,6 +36,7 @@ class FinderIndexerLanguagezh_CN extends FinderIndexerLanguage
 		{
 			$charMatches = array();
 			$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+
 			// Split apart any groups of Chinese characters.
 			for ($j = 0; $j < $charCount; $j++)
 			{
