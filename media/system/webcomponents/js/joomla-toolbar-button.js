@@ -3,16 +3,15 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-;((customElements) => {
+((customElements) => {
   'use strict';
 
   class JoomlaToolbarButton extends HTMLElement {
 
     // Attribute getters
-    get task()           {return this.getAttribute('task');}
-    get execute()        {return this.getAttribute('execute');}
-    get listSelection()  {return this.hasAttribute('list-selection');}
-    get form()           {return this.getAttribute('form');}
+    get task() {return this.getAttribute('task');}
+    get listSelection() {return this.hasAttribute('list-selection');}
+    get form() {return this.getAttribute('form');}
     get formValidation() {return this.hasAttribute('form-validation');}
     get confirmMessage() {return this.getAttribute('confirm-message');}
 
@@ -29,7 +28,7 @@
         this.setDisabled(true);
       }
 
-      this.addEventListener('click', e => this.executeTask());
+      this.addEventListener('click', e => this.executeTask(e));
     }
 
     connectedCallback() {
@@ -45,7 +44,7 @@
         // Watch on list selection
         this.formElement.boxchecked.addEventListener('change', (event) => {
           // Check whether we have selected something
-          this.setDisabled(event.target.value == 0);
+          this.setDisabled(!event.target.value);
         });
       }
     }
@@ -74,12 +73,11 @@
 
       if (this.task) {
         Joomla.submitbutton(this.task, this.form, this.formValidation);
-      } else if (this.execute) {
-        const method = new Function(this.execute);
-        method.call(this);
       } else {
-        throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
+        throw new Error('"task" attribute must be preset to perform an action.');
       }
+
+      return true;
     }
 
   }

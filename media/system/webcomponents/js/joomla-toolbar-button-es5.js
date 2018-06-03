@@ -14,7 +14,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-;(function (customElements) {
+(function (customElements) {
   'use strict';
 
   var JoomlaToolbarButton = function (_HTMLElement) {
@@ -27,11 +27,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       // Attribute getters
       get: function get() {
         return this.getAttribute('task');
-      }
-    }, {
-      key: 'execute',
-      get: function get() {
-        return this.getAttribute('execute');
       }
     }, {
       key: 'listSelection',
@@ -71,7 +66,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       }
 
       _this.addEventListener('click', function (e) {
-        return _this.executeTask();
+        return _this.executeTask(e);
       });
       return _this;
     }
@@ -93,7 +88,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           // Watch on list selection
           this.formElement.boxchecked.addEventListener('change', function (event) {
             // Check whether we have selected something
-            _this2.setDisabled(event.target.value == 0);
+            _this2.setDisabled(!event.target.value);
           });
         }
       }
@@ -124,12 +119,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         if (this.task) {
           Joomla.submitbutton(this.task, this.form, this.formValidation);
-        } else if (this.execute) {
-          var method = new Function(this.execute);
-          method.call(this);
         } else {
-          throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
+          throw new Error('"task" attribute must be preset to perform an action.');
         }
+
+        return true;
       }
     }]);
 
