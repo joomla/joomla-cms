@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
 /**
@@ -34,6 +35,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * - #__users (excluding the password, otpKey, and otep columns)
 	 * - #__user_notes
 	 * - #__user_profiles
+	 * - User custom fields
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
 	 *
@@ -56,6 +58,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$domains[] = $this->createUserDomain($user);
 		$domains[] = $this->createNotesDomain($user);
 		$domains[] = $this->createProfileDomain($user);
+		$domains[] = $this->createUserCustomFieldsDomain($user);
 
 		return $domains;
 	}
@@ -157,5 +160,38 @@ class PlgPrivacyUser extends PrivacyPlugin
 		}
 
 		return $this->createItemFromArray($data, $user->id);
+	}
+
+	/**
+	 * Create the domain for the user custom fields
+	 *
+	 * @param   JTableUser  $user  The JTableUser object to process
+	 *
+	 * @return  PrivacyExportDomain
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function createUserCustomFieldsDomain(JTableUser $user)
+	{
+		$domain = $this->createDomain('user custom fields', 'Joomla! user custom fields data');
+
+		// Get item's fields, also preparing their value property for manual display
+		$fields = FieldsHelper::getFields('com_users.user', $user);
+
+		foreach ($fields as $field)
+		{
+			$fieldValue = is_array($field->value) ? implode(', ', $field->value): $field->value;
+
+			$data = array(
+				'user_id'     => $user->id,
+				'field_name'  => $field->name,
+				'field_title' => $field->title,
+				'field_value' => $fieldValue,
+			);
+
+			$domain->addItem($this->createItemFromArray($data));
+		}
+
+		return $domain;
 	}
 }
