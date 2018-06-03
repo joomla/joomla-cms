@@ -194,13 +194,10 @@ if (!Joomla) {
               }
 
               if (installExtensionFromExternalButton) {
-                /**
-                 * @todo Migrate this handler's confirm to a CE dialog
-                 * @todo Migrate this handler's hardcoded English string to Joomla.JText
-                 */
+                // @todo Migrate this handler's confirm to a CE dialog
                 installExtensionFromExternalButton.addEventListener('click', function () {
                   var redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
-                  var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
+                  var redirectConfirm = window.confirm(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
 
                   if (redirectConfirm !== true) {
                     return;
