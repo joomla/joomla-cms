@@ -43,8 +43,8 @@ class FinderIndexerLanguagefr_FR extends FinderIndexerLanguage
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function stem($word)
+	public function stem($token)
 	{
-		return $this->stemmer->stem($word);
+		return $this->stemmer->stem($token);
 	}
 }
