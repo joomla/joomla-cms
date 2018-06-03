@@ -13,10 +13,8 @@ use Joomla\String\StringHelper;
 
 /**
  * Language support class for the Finder indexer package.
- * Language teams should extend this class to support language
- * specific stemming and tokenisation
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguage
 {
@@ -24,7 +22,7 @@ class FinderIndexerLanguage
 	 * Language support instances container.
 	 *
 	 * @var    FinderIndexerLanguage[]
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $instances = array();
 
@@ -35,7 +33,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  FinderIndexerLanguage  A FinderIndexerLanguage instance.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstance($language)
 	{
@@ -52,7 +50,7 @@ class FinderIndexerLanguage
 		}
 
 		$class = 'FinderIndexerLanguage' . str_replace('-', '_', $language);
-		$path = JPATH_ROOT . '/language/' . $language . '/' . $language . '.finder.php';
+		$path = __DIR__ . '/language/' . $language . '.php';
 
 		if (is_file($path))
 		{
@@ -78,7 +76,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  array  An array of term strings.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function tokenise($input)
 	{
@@ -121,7 +119,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{

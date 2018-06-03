@@ -1,0 +1,17 @@
+# Managed by Composer
+/vendor/
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Composer PHAR
+/composer.phar
+
+/.settings/
+/.buildpath
+/.project
+/composer.lock

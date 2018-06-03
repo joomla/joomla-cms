@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         colors="true"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         verbose="true"
+         bootstrap="vendor/autoload.php">
+
+    <testsuites>
+        <testsuite name="functional">
+            <directory>test</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>src</directory>
+        </whitelist>
+    </filter>
+</phpunit>
