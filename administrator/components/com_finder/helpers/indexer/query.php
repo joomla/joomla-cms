@@ -918,7 +918,7 @@ class FinderIndexerQuery
 						 * found for the complete phrase and not just portions
 						 * of it.
 						 */
-						for ($i = 0, $c = count($parts); $i < $c; $i += 1)
+						for ($i = 0, $c = count($parts); $i < $c; $i++)
 						{
 							array_shift($chunk);
 							$chunk[] = array_shift($parts);
