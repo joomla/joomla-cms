@@ -15,127 +15,128 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  */
 
 ;(function (customElements) {
-    "use strict";
+  'use strict';
 
-    var JoomlaToolbarButton = function (_HTMLElement) {
-        _inherits(JoomlaToolbarButton, _HTMLElement);
+  var JoomlaToolbarButton = function (_HTMLElement) {
+    _inherits(JoomlaToolbarButton, _HTMLElement);
 
-        _createClass(JoomlaToolbarButton, [{
-            key: 'task',
+    _createClass(JoomlaToolbarButton, [{
+      key: 'task',
 
 
-            // Attribute getters
-            get: function get() {
-                return this.getAttribute('task');
-            }
-        }, {
-            key: 'execute',
-            get: function get() {
-                return this.getAttribute('execute');
-            }
-        }, {
-            key: 'listSelection',
-            get: function get() {
-                return this.hasAttribute('list-selection');
-            }
-        }, {
-            key: 'form',
-            get: function get() {
-                return this.getAttribute('form');
-            }
-        }, {
-            key: 'formValidation',
-            get: function get() {
-                return this.hasAttribute('form-validation');
-            }
-        }, {
-            key: 'confirmMessage',
-            get: function get() {
-                return this.getAttribute('confirm-message');
-            }
-        }]);
+      // Attribute getters
+      get: function get() {
+        return this.getAttribute('task');
+      }
+    }, {
+      key: 'execute',
+      get: function get() {
+        return this.getAttribute('execute');
+      }
+    }, {
+      key: 'listSelection',
+      get: function get() {
+        return this.hasAttribute('list-selection');
+      }
+    }, {
+      key: 'form',
+      get: function get() {
+        return this.getAttribute('form');
+      }
+    }, {
+      key: 'formValidation',
+      get: function get() {
+        return this.hasAttribute('form-validation');
+      }
+    }, {
+      key: 'confirmMessage',
+      get: function get() {
+        return this.getAttribute('confirm-message');
+      }
+    }]);
 
-        function JoomlaToolbarButton() {
-            _classCallCheck(this, JoomlaToolbarButton);
+    function JoomlaToolbarButton() {
+      _classCallCheck(this, JoomlaToolbarButton);
 
-            // We need a button to support button behavior, because we cannot currently extend HTMLButtonElement
-            var _this = _possibleConstructorReturn(this, (JoomlaToolbarButton.__proto__ || Object.getPrototypeOf(JoomlaToolbarButton)).call(this));
+      // We need a button to support button behavior,
+      // because we cannot currently extend HTMLButtonElement
+      var _this = _possibleConstructorReturn(this, (JoomlaToolbarButton.__proto__ || Object.getPrototypeOf(JoomlaToolbarButton)).call(this));
 
-            _this.buttonElement = _this.querySelector('button');
-            _this.disabled = false;
+      _this.buttonElement = _this.querySelector('button');
+      _this.disabled = false;
 
-            // If list selection are required, set button to disabled by default
-            if (_this.listSelection) {
-                _this.setDisabled(true);
-            }
+      // If list selection are required, set button to disabled by default
+      if (_this.listSelection) {
+        _this.setDisabled(true);
+      }
 
-            _this.addEventListener('click', function (e) {
-                return _this.executeTask();
-            });
-            return _this;
+      _this.addEventListener('click', function (e) {
+        return _this.executeTask();
+      });
+      return _this;
+    }
+
+    _createClass(JoomlaToolbarButton, [{
+      key: 'connectedCallback',
+      value: function connectedCallback() {
+        var _this2 = this;
+
+        // Check whether we have a form
+        var formSelector = this.form || '#adminForm';
+        this.formElement = document.querySelector(formSelector);
+
+        if (this.listSelection) {
+          if (!this.formElement) {
+            throw new Error('The form "' + formSelector + '" is required to perform the task, but the form not found on the page.');
+          }
+
+          // Watch on list selection
+          this.formElement.boxchecked.addEventListener('change', function (event) {
+            // Check whether we have selected something
+            _this2.setDisabled(event.target.value == 0);
+          });
+        }
+      }
+    }, {
+      key: 'setDisabled',
+      value: function setDisabled(disabled) {
+        // Make sure we have a boolean value
+        this.disabled = !!disabled;
+
+        if (this.buttonElement) {
+          if (this.disabled) {
+            this.buttonElement.setAttribute('disabled', true);
+          } else {
+            this.buttonElement.removeAttribute('disabled');
+          }
+        }
+      }
+    }, {
+      key: 'executeTask',
+      value: function executeTask() {
+        if (this.disabled) {
+          return false;
         }
 
-        _createClass(JoomlaToolbarButton, [{
-            key: 'connectedCallback',
-            value: function connectedCallback() {
-                var _this2 = this;
+        if (this.confirmMessage && !confirm(this.confirmMessage)) {
+          return false;
+        }
 
-                // Check whether we have a form
-                var formSelector = this.form || '#adminForm';
-                this.formElement = document.querySelector(formSelector);
+        if (this.task) {
+          Joomla.submitbutton(this.task, this.form, this.formValidation);
+        } else if (this.execute) {
+          var method = new Function(this.execute);
+          method.call(this);
+        } else {
+          throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
+        }
+      }
+    }]);
 
-                if (this.listSelection) {
-                    if (!this.formElement) {
-                        throw new Error('The form "' + formSelector + '" is required to perform the task, but the form not found on the page.');
-                    }
+    return JoomlaToolbarButton;
+  }(HTMLElement);
 
-                    // Watch on list selection
-                    this.formElement.boxchecked.addEventListener('change', function (event) {
-                        // Check whether we have selected something
-                        _this2.setDisabled(event.target.value == 0);
-                    });
-                }
-            }
-        }, {
-            key: 'setDisabled',
-            value: function setDisabled(disabled) {
-                // Make sure we have a boolean value
-                this.disabled = !!disabled;
-
-                if (this.buttonElement) {
-                    if (this.disabled) {
-                        this.buttonElement.setAttribute('disabled', true);
-                    } else {
-                        this.buttonElement.removeAttribute('disabled');
-                    }
-                }
-            }
-        }, {
-            key: 'executeTask',
-            value: function executeTask() {
-                if (this.disabled) {
-                    return;
-                }
-
-                if (this.confirmMessage && !confirm(this.confirmMessage)) {
-                    return;
-                }
-
-                if (this.task) {
-                    Joomla.submitbutton(this.task, this.form, this.formValidation);
-                } else if (this.execute) {
-                    var method = new Function(this.execute);
-                    method.call({});
-                } else {
-                    throw new Error('Either "task" or "execute" attribute must be preset to perform an action.');
-                }
-            }
-        }]);
-
-        return JoomlaToolbarButton;
-    }(HTMLElement);
-
-    customElements.define('joomla-toolbar-button', JoomlaToolbarButton);
+  customElements.define('joomla-toolbar-button', JoomlaToolbarButton);
 })(customElements);
 
 },{}]},{},[1]);
