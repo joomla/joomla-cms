@@ -51,11 +51,11 @@ class PlgContentContact extends JPlugin
 			return true;
 		}
 
-                // Return if an alias is used
-                if ($this->params->get('link_to_alias') == 0 & $row->created_by_alias != '')
-                {
-                        return true;
-                }
+		// Return if an alias is used
+		if ($this->params->get('link_to_alias') == 0 & $row->created_by_alias != '')
+		{
+			return true;
+		}
 
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
@@ -68,16 +68,16 @@ class PlgContentContact extends JPlugin
 		$row->webpage = $contact->webpage;
 		$row->email = $contact->email_to;
 
-		if ($row->contactid && $this->params->get('url') == 0)
+		if ($row->contactid && $this->params->get('url') == 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = JRoute::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
-		else if ($row->webpage && $this->params->get('url') == 1)
+		elseif ($row->webpage && $this->params->get('url') == 'webpage')
 		{
 			$row->contact_link = $row->webpage;
 		}
-		else if ($row->email && $this->params->get('url') == 2)
+		elseif ($row->email && $this->params->get('url') == 'email')
 		{
 			$row->contact_link = 'mailto:' . $row->email;
 		}

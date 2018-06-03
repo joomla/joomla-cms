@@ -26,9 +26,9 @@
 					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
 					default="0"
 					>
-					<option value="0">PLG_CONTENT_CONTACT_PARAM_URL_0</option>
-					<option value="1">PLG_CONTENT_CONTACT_PARAM_URL_1</option>
-					<option value="2">PLG_CONTENT_CONTACT_PARAM_URL_2</option>
+					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
+					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
+					<option value="email">PLG_CONTENT_CONTACT_PARAM_URL_EMAIL</option>
 				</field>
 
 				<field
