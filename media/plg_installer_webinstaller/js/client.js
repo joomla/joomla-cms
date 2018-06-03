@@ -185,10 +185,35 @@ if (!Joomla) {
 
             if (webInstallerOptions.view === 'extension') {
               var installExtensionButton = document.getElementById('install-extension');
+              var installExtensionFromExternalButton = document.getElementById('install-extension-from-external');
 
               if (installExtensionButton) {
                 installExtensionButton.addEventListener('click', function () {
                   self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+                });
+              }
+
+              if (installExtensionFromExternalButton) {
+                /**
+                 * @todo Migrate this handler's confirm to a CE dialog
+                 * @todo Migrate this handler's hardcoded English string to Joomla.JText
+                 */
+                installExtensionFromExternalButton.addEventListener('click', function () {
+                  var redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
+                  var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
+
+                  if (redirectConfirm !== true) {
+                    return;
+                  }
+
+                  document.getElementById('adminForm').setAttribute('action', redirectUrl);
+                  document.querySelector('input[name=task]').setAttribute('disabled', true);
+                  document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
+                  document.querySelector('input[name=install_url]').setAttribute('disabled', true);
+                  document.querySelector('input[name=installtype]').setAttribute('disabled', true);
+                  document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
+
+                  document.getElementById('adminForm').submit();
                 });
               }
             }
@@ -320,17 +345,6 @@ if (!Joomla) {
 
         return true;
       }
-
-      /**
-       * Onclick handler for the button#appssubmitbutton element
-       *
-       * @param {string} redirectUrl
-       * @returns {boolean}
-       * @todo Convert from inline onclick registration, requires coordinated PR to IFW repo
-       * @todo Migrate this function's confirm to a CE dialog
-       * @todo Migrate this function's hardcoded English string to Joomla.JText
-       */
-
     }], [{
       key: 'clicker',
       value: function clicker() {
@@ -353,24 +367,6 @@ if (!Joomla) {
             document.getElementById('btn-list-view').classList.add('active');
           });
         }
-      }
-    }, {
-      key: 'installfromwebexternal',
-      value: function installfromwebexternal(redirectUrl) {
-        var redirectConfirm = window.confirm('You will be redirected to the following link to complete the registration/purchase - \n' + redirectUrl);
-
-        if (redirectConfirm === true) {
-          document.getElementById('adminForm').setAttribute('action', redirectUrl);
-          document.querySelector('input[name=task]').setAttribute('disabled', true);
-          document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
-          document.querySelector('input[name=install_url]').setAttribute('disabled', true);
-          document.querySelector('input[name=installtype]').setAttribute('disabled', true);
-          document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
-
-          return true;
-        }
-
-        return false;
       }
     }]);
 
