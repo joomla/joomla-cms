@@ -7,13 +7,12 @@
   'use strict';
 
   class JoomlaToolbarButton extends HTMLElement {
-
     // Attribute getters
-    get task() {return this.getAttribute('task');}
-    get listSelection() {return this.hasAttribute('list-selection');}
-    get form() {return this.getAttribute('form');}
-    get formValidation() {return this.hasAttribute('form-validation');}
-    get confirmMessage() {return this.getAttribute('confirm-message');}
+    get task() { return this.getAttribute('task'); }
+    get listSelection() { return this.hasAttribute('list-selection'); }
+    get form() { return this.getAttribute('form'); }
+    get formValidation() { return this.hasAttribute('form-validation'); }
+    get confirmMessage() { return this.getAttribute('confirm-message'); }
 
     constructor() {
       super();
@@ -21,7 +20,7 @@
       // We need a button to support button behavior,
       // because we cannot currently extend HTMLButtonElement
       this.buttonElement = this.querySelector('button');
-      this.disabled      = false;
+      this.disabled = false;
 
       // If list selection are required, set button to disabled by default
       if (this.listSelection) {
@@ -79,9 +78,7 @@
 
       return true;
     }
-
   }
 
   customElements.define('joomla-toolbar-button', JoomlaToolbarButton);
-
 })(customElements);

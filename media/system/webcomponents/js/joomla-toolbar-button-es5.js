@@ -23,7 +23,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     _createClass(JoomlaToolbarButton, [{
       key: 'task',
 
-
       // Attribute getters
       get: function get() {
         return this.getAttribute('task');
