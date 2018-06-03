@@ -132,6 +132,10 @@ if (!Joomla) {
               }
             });
 
+            document.getElementById('search-extensions').addEventListener('click', function () {
+              self.initiateSearch();
+            });
+
             document.getElementById('search-reset').addEventListener('click', function () {
               var searchBox = document.getElementById('com-apps-searchbox');
               searchBox.value = '';

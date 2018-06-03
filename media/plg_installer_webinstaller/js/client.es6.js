@@ -117,6 +117,10 @@ if (!Joomla) {
             }
           });
 
+          document.getElementById('search-extensions').addEventListener('click', () => {
+            self.initiateSearch();
+          });
+
           document.getElementById('search-reset').addEventListener('click', () => {
             const searchBox = document.getElementById('com-apps-searchbox');
             searchBox.value = '';
