@@ -75,11 +75,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 						<tbody>
 							<?php foreach ($this->changeSet as $i => $item) : ?>
 								<?php $extension = $item['extension']; ?>
-								<?php $manifest = json_decode($extension['manifest_cache']); ?>
+								<?php $manifest = json_decode($extension->manifest_cache); ?>
 
-								<tr class="row<?php echo $i % 2; ?>">
+								<tr>
 									<td>
-										<?php echo HTMLHelper::_('grid.id', $i, $extension['element']); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
 									</td>
 									<td>
 									<label for="cb<?php echo $i; ?>">
@@ -92,34 +92,34 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 												),
 											0
 										); ?>">
-											<?php echo $extension['name'];?>
+											<?php echo $extension->name;?>
 										</span>
 									</label>
 									</td>
 									<td class="center">
-										<?php echo $extension['client_translated'];?>
+										<?php echo $extension->client_translated;?>
 									</td>
 									<td class="center">
-										<?php echo $extension['type_translated']; ?>
+										<?php echo $extension->type_translated; ?>
 									</td>
 									<td>
 										<label class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
-											data-content="<?php echo $item['errorsMessage']; ?>"
+											data-content="<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>"
 											data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
 											<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 										</label>
 									</td>
 									<td>
-										<?php echo $extension['version_id']; ?>
+										<?php echo $extension->version_id; ?>
 									</td>
 									<td>
-										<?php echo $extension['version']; ?>
+										<?php echo $extension->version; ?>
 									</td>
 									<td class="hidden-sm-down">
-										<?php echo $extension['folder_translated']; ?>
+										<?php echo $extension->folder_translated; ?>
 									</td>
 									<td>
-										<?php echo $extension['extension_id']; ?>
+										<?php echo $extension->extension_id; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

@@ -78,13 +78,21 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Set variables
+		// Get the application
 		$app = Factory::getApplication();
 
 		// Get data from the model.
 		/** @var DatabaseModel $model */
 		$model = $this->getModel();
-		$this->changeSet     = $model->getItems();
+		try
+		{
+			$this->changeSet = $model->getItems();
+		}
+		catch (\Exception $exception)
+		{
+			$app->enqueueMessage($exception->getMessage(), 'error');
+		}
+
 		$this->errorCount    = $model->getErrorCount();
 		$this->pagination    = $model->getPagination();
 		$this->filterForm    = $model->getFilterForm();
@@ -116,7 +124,6 @@ class HtmlView extends InstallerViewDefault
 		 * Set toolbar items for the page.
 		 */
 		ToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', true);
-		ToolbarHelper::custom('database.findproblems', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_PROBLEMS', false);
 		ToolbarHelper::divider();
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');

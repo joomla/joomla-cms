@@ -46,7 +46,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $changeSetList = null;
+	private $changeSetList = array();
 
 	/**
 	 * Total of errors
@@ -55,7 +55,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $errorCount = 0;
+	private $errorCount = 0;
 
 	/**
 	 * Constructor.
@@ -96,7 +96,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function getErrorCount()
 	{
-		return Factory::getApplication()->getSession()->get('errorCount');
+		return $this->errorCount;
 	}
 
 	/**
@@ -116,125 +116,89 @@ class DatabaseModel extends InstallerModel
 			return;
 		}
 
-		// Restore it from Session
-		$changeSetList = Factory::getApplication()->getSession()->get('changeSetList');
-		$changeSetList = json_decode($changeSetList, true);
-		$this->changeSetList = $changeSetList;
+		// With the parent::save it can get the limit and we need to make sure it gets all extensions
+		$results = $this->_getList($this->getListQuery());
 
-		if ($this->changeSetList)
+		foreach ($results as $result)
 		{
-			return;
-		}
+			$errorMessages = array();
+			$errorCount     = 0;
 
-		// Ok, let's generate it
-		$changeSetList = array();
-
-		try
-		{
-			// With the parent::save it can get the limit and
-			// we need to make sure it gets all extensions
-			$results = $this->_getList($this->getListQuery());
-
-			foreach ($results as $result)
+			if (strcmp($result->element, 'joomla') == 0)
 			{
-				$errorCount = 0;
-				$problemsMessage = "<ul>";
+				$result->element = 'com_admin';
 
-				if (strcmp($result->element, 'joomla') == 0)
+				if (!$this->getDefaultTextFilters())
 				{
-					$result->element = 'com_admin';
-					if (!$this->getDefaultTextFilters())
-					{
-						$errorCount++;
-						$problemsMessage .= '<li>' . Text::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR') . '</li>';
-					}
-				}
-
-				$db  = $this->getDbo();
-				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
-
-				// If the extension doesn't follow the standard location for the
-				// update sql files we don't support it
-				if (!file_exists($folderTmp))
-				{
-					$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
-
-					$folderTmp = (string) $installationXML->update->schemas->schemapath[0];
-
-					$a = explode("/", $folderTmp);
-					array_pop($a);
-					$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . "/" . implode("/", $a);
-				}
-
-				$changeset = new ChangeSet($db, $folderTmp);
-
-				// If the version in the #__schemas is different
-				// than the update files, add to problems message
-				$schema = $changeset->getSchema();
-
-				if ($result->version_id != $schema)
-				{
-					$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema) . '</li>';
+					$errorMessages[] = Text::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR');
 					$errorCount++;
 				}
-
-				// If the version in the manifest_cache is different than the
-				// version in the installation xml, add to problems message
-				$compareUpdateMessage = $this->compareUpdateVersion($result);
-
-				if ($compareUpdateMessage)
-				{
-					$problemsMessage .= $compareUpdateMessage;
-					$errorCount++;
-				}
-
-				// If there are errors in the database, add to the problems message
-				$errors = $changeset->check();
-
-				$errorsMessage = $this->getErrorsMessage($errors);
-
-				if ($errorsMessage)
-				{
-					$problemsMessage .= $errorsMessage;
-					$errorCount++;
-				}
-
-				if ($errorCount)
-				{
-					$problemsMessage .= "<hr>";
-				}
-
-				// Number of database tables Checked and Skipped
-				$problemsMessage .= $this->getOtherInformationMessage($changeset->getStatus());
-
-				$this->errorCount += $errorCount;
-
-				$problemsMessage .= "</ul>";
-
-				$changeSetList[$result->element] = array(
-					'folderTmp'      => $folderTmp,
-					'errorsMessage'  => $problemsMessage,
-					'errorsCount'    => $errorCount,
-					'results'        => $changeset->getStatus(),
-					'schema'         => $schema,
-					'extension'      => $result
-				);
 			}
+
+			$db        = $this->getDbo();
+			$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
+
+			// If the extension doesn't follow the standard location for the
+			// update sql files we don't support it
+			if (!file_exists($folderTmp))
+			{
+				$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
+				$folderTmp       = (string) $installationXML->update->schemas->schemapath[0];
+
+				$a = explode("/", $folderTmp);
+				array_pop($a);
+				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . "/" . implode("/", $a);
+			}
+
+			$changeSet = new ChangeSet($db, $folderTmp);
+
+			// If the version in the #__schemas is different
+			// than the update files, add to problems message
+			$schema = $changeSet->getSchema();
+
+			if ($result->version_id != $schema)
+			{
+				$errorMessages[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema);
+				$errorCount++;
+			}
+
+			// If the version in the manifest_cache is different than the
+			// version in the installation xml, add to problems message
+			$compareUpdateMessage = $this->compareUpdateVersion($result);
+
+			if ($compareUpdateMessage)
+			{
+				$errorMessages[] = $compareUpdateMessage;
+				$errorCount++;
+			}
+
+			// If there are errors in the database, add to the problems message
+			$errors = $changeSet->check();
+
+			$errorsMessage = $this->getErrorsMessage($errors);
+
+			if ($errorsMessage)
+			{
+				$errorMessages = array_merge($errorMessages, $errorsMessage);
+				$errorCount++;
+			}
+
+			// Number of database tables Checked and Skipped
+			$errorMessages = array_merge($errorMessages, $this->getOtherInformationMessage($changeSet->getStatus()));
+
+			// Set the total number of errors
+			$this->errorCount    += $errorCount;
+
+			// Collect the extension details
+			$this->changeSetList[$result->extension_id] = array(
+				'folderTmp'      => $folderTmp,
+				'errorsMessage'  => $errorMessages,
+				'errorsCount'    => $errorCount,
+				'results'        => $changeSet->getStatus(),
+				'schema'         => $schema,
+				'extension'      => $result
+			);
 		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
-
-			return;
-		}
-
-		// Ready
-		$changeSetList       = json_encode($changeSetList);
-		$this->changeSetList = json_decode($changeSetList, true);
-
-		// Save it for the next time
-		Factory::getApplication()->getSession()->set('errorCount', $this->errorCount);
-		Factory::getApplication()->getSession()->set('changeSetList', $changeSetList);
 	}
 
 	/**
@@ -265,7 +229,7 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Fixes database problems.
 	 *
-	 * @param   array  $elementArray  list of the selected extensions to fix
+	 * @param   array $cids list of the selected extensions to fix
 	 *
 	 * @return  void|bool
 	 *
@@ -273,20 +237,26 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fix($elementArray = null)
+	public function fix($cids = array())
 	{
-		$changeSetList = json_decode(Factory::getApplication()->getSession()->get('changeSetList'), true);
-
 		$db = $this->getDbo();
 
-		foreach ($elementArray as $i => $element)
+		// Instantiate the state
+		$this->__state_set = true;
+
+		foreach ($cids as $i => $cid)
 		{
-			$changeSet = $changeSetList[$element];
+			$this->setState('filter.extension_id', $cid);
+
+			// Load the database issues
+			$this->fetchSchemaCache();
+
+			$changeSet = $this->changeSetList[$cid];
 			$changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);
 			$changeSet['changeset']->fix();
 
-			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']['extension_id']);
-			$this->fixUpdateVersion($changeSet['extension']['extension_id']);
+			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
+			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
 			if ($i === "com_admin")
 			{
@@ -364,9 +334,10 @@ class DatabaseModel extends InstallerModel
 				) . ')'
 			);
 
-		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
-		$folder   = $this->getState('filter.folder');
+		$type        = $this->getState('filter.type');
+		$clientId    = $this->getState('filter.client_id');
+		$extensionId = $this->getState('filter.extension_id');
+		$folder      = $this->getState('filter.folder');
 
 		if ($type)
 		{
@@ -376,6 +347,11 @@ class DatabaseModel extends InstallerModel
 		if ($clientId != '')
 		{
 			$query->where('e.client_id = ' . (int) $clientId);
+		}
+
+		if ($extensionId != '')
+		{
+			$query->where('e.extension_id = ' . (int) $extensionId);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
@@ -406,15 +382,13 @@ class DatabaseModel extends InstallerModel
 	protected function mergeSchemaCache($results)
 	{
 		$changeSetList = $this->changeSetList;
-		$finalResults = array();
+		$finalResults  = array();
 
 		foreach ($results as $result)
 		{
-			$element = $result->element == 'joomla' ? 'com_admin' : $result->element;
-
-			if (array_key_exists($element, $changeSetList) && $changeSetList[$element])
+			if (array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id])
 			{
-				$finalResults[] = $changeSetList[$element];
+				$finalResults[] = $changeSetList[$result->extension_id];
 			}
 		}
 
@@ -432,17 +406,16 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getSchemaVersion($extensionId = 700)
+	public function getSchemaVersion($extensionId)
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('version_id')
+			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__schemas'))
-			->where('extension_id = ' . $db->quote($extensionId));
+			->where($db->quoteName('extension_id') . ' = ' . (int) $extensionId);
 		$db->setQuery($query);
-		$result = $db->loadResult();
 
-		return $result;
+		return $db->loadResult();
 	}
 
 	/**
@@ -457,7 +430,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fixSchemaVersion($changeSet, $extensionId = 700)
+	public function fixSchemaVersion($changeSet, $extensionId)
 	{
 		// Get correct schema version -- last file in array.
 		$schema = $changeSet->getSchema();
@@ -520,7 +493,7 @@ class DatabaseModel extends InstallerModel
 
 		if (version_compare($extensionVersion, $updateVersion) != 0)
 		{
-			return '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion) . '</li>';
+			return Text::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $updateVersion, $extension->name, $extensionVersion);
 		}
 
 		return null;
@@ -531,15 +504,15 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @param   array  $status  status of of the update files
 	 *
-	 * @return  string  string message with the errors with the update version or null if none
+	 * @return  array  Messages with the errors with the update version
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOtherInformationMessage($status)
+	private function getOtherInformationMessage($status)
 	{
-		$problemsMessage = "";
-		$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok'])) . '</li>';
-		$problemsMessage .= '<li>' . Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped'])) . '</li>';
+		$problemsMessage = array();
+		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
+		$problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
 
 		return $problemsMessage;
 	}
@@ -549,13 +522,14 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @param   array  $errors  data from #__extensions of a single extension.
 	 *
-	 * @return  mixed  string   message with the errors in the database or null if none
+	 * @return  array  List of messages with the errors in the database
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getErrorsMessage($errors)
+	private function getErrorsMessage($errors)
 	{
-		$errorMessage = "";
+		$errorMessages = array();
+
 		foreach ($errors as $line => $error)
 		{
 			$key     = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
@@ -564,10 +538,10 @@ class DatabaseModel extends InstallerModel
 			$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
 			$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
 			$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
-			$errorMessage .= '<li>' . Text::sprintf($key, $file, $msg0, $msg1, $msg2) . '</li>';
+			$errorMessages[] = Text::sprintf($key, $file, $msg0, $msg1, $msg2);
 		}
 
-		return $errorMessage;
+		return $errorMessages;
 	}
 
 	/**
@@ -586,24 +560,24 @@ class DatabaseModel extends InstallerModel
 		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
 
-		if ($extensionId == 700)
+		if ($table->get('type') === 'file' && $table->get('element') === 'joomla')
 		{
 			$extensionVersion = new Version;
 			$extensionVersion = $extensionVersion->getShortVersion();
 		}
 		else
 		{
-			$installationXML = InstallerHelper::getInstallationXML($table->element, $table->type);
+			$installationXML  = InstallerHelper::getInstallationXML($table->get('element'), $table->get('type'));
 			$extensionVersion = (string) $installationXML->version;
 		}
 
-		if ($updateVersion == $extensionVersion)
+		if ($updateVersion === $extensionVersion)
 		{
 			return $updateVersion;
 		}
 
 		$cache->set('version', $extensionVersion);
-		$table->manifest_cache = $cache->toString();
+		$table->set('manifest_cache', $cache->toString());
 
 		if ($table->store())
 		{

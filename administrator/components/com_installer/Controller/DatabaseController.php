@@ -10,7 +10,6 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -64,23 +63,6 @@ class DatabaseController extends BaseController
 			// Refresh versionable assets cache
 			$this->app->flushAssets();
 		}
-
-		$this->findProblems();
-	}
-
-	/**
-	 * Clear the changeSetList in the session
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function findProblems()
-	{
-		$session = Factory::getApplication()->getSession();
-		$session->set('changeSetList');
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
 	}
