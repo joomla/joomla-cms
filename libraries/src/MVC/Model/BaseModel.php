@@ -10,9 +10,6 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -34,23 +31,14 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	protected $name;
 
 	/**
-	 * The factory.
-	 *
-	 * @var    MVCFactoryInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $factory;
-
-	/**
 	 * Constructor
 	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array  $config  An array of configuration options (name, state, ignore_request).
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array())
 	{
 		// Set the view name
 		if (empty($this->name))
@@ -75,19 +63,6 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		if (!empty($config['ignore_request']))
 		{
 			$this->__state_set = true;
-		}
-
-		if ($factory)
-		{
-			$this->factory = $factory;
-			return;
-		}
-
-		$component = Factory::getApplication()->bootComponent($this->option);
-
-		if ($component instanceof MVCFactoryServiceInterface)
-		{
-			$this->factory = $component->createMVCFactory(Factory::getApplication());
 		}
 	}
 
@@ -117,17 +92,5 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		}
 
 		return $this->name;
-	}
-
-	/**
-	 * Returns the internal MVC factory.
-	 *
-	 * @return  MVCFactoryInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getMVCFactory(): MVCFactoryInterface
-	{
-		return $this->factory;
 	}
 }

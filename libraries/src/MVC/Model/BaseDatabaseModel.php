@@ -14,7 +14,9 @@ use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
@@ -29,6 +31,7 @@ use Joomla\Utilities\ArrayHelper;
 abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface
 {
 	use DatabaseAwareTrait;
+	use MVCFactoryAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -57,7 +60,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config);
 
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option))
@@ -95,6 +98,19 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		elseif (empty($this->event_clean_cache))
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
+		}
+
+		if ($factory)
+		{
+			$this->setMVCFactory($factory);
+			return;
+		}
+
+		$component = Factory::getApplication()->bootComponent($this->option);
+
+		if ($component instanceof MVCFactoryServiceInterface)
+		{
+			$this->setMVCFactory($component->createMVCFactory(Factory::getApplication()));
 		}
 	}
 
@@ -169,7 +185,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 * @return  Table|boolean  Table object or boolean false if failed
 	 *
 	 * @since   3.0
-	 * @see     \JTable::getInstance()
+	 * @see     MVCFactoryInterface::createTable()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
