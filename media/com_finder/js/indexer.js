@@ -155,8 +155,7 @@ Joomla = window.Joomla || {};
 				}
 				if (message === msg) {
 					removeElement('progress');
-					// TO-DO: Remove jQuery reference
-					window.parent.jQuery('#modal-archive', parent.document).modal('hide');
+					Joomla.Modal.getCurrent().close();
 				}
 			}
 		};
