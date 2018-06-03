@@ -202,6 +202,17 @@
 		>
 
 		<field
+			name="tuplecount"
+			type="integer"
+			label="COM_FINDER_CONFIG_TUPLECOUNT_LABEL"
+			default="1"
+			validate="options"
+			first="1"
+			last="10"
+			step="1"
+		/>
+
+		<field
 			name="batch_size"
 			type="list"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"

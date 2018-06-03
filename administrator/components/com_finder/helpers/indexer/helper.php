@@ -72,13 +72,19 @@ class FinderIndexerHelper
 	 */
 	public static function tokenize($input, $lang, $phrase = false)
 	{
-		static $cache;
+		static $cache, $tuplecount;
 		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
 
 		// Check if the string has been tokenized already.
 		if ($store && isset($cache[$store]))
 		{
 			return $cache[$store];
+		}
+
+		if (!$tuplecount)
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$tuplecount = $params->get('tuplecount', 1);
 		}
 
 		$tokens = array();
@@ -168,33 +174,28 @@ class FinderIndexerHelper
 				$tokens[] = new FinderIndexerToken($terms[$i], $lang);
 			}
 
-			// Create two and three word phrase tokens from the individual words.
-			for ($i = 0, $n = count($tokens); $i < $n; $i++)
+			// Create multi-word phrases tokens from the individual words.
+			if ($tuplecount > 1)
 			{
-				// Setup the phrase positions.
-				$i2 = $i + 1;
-				$i3 = $i + 2;
-
-				// Create the two word phrase.
-				if ($i2 < $n && isset($tokens[$i2]))
+				for ($i = 0, $n = count($tokens); $i < $n; $i++)
 				{
-					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
-					$token->derived = true;
+					$temp = array($tokens[$i]->term);
 
-					// Add the token to the stack.
-					$tokens[] = $token;
-				}
+					// Create tokens for 2 to $tuplecount length phrases
+					for ($j = 1; $j < $tuplecount; $j++)
+					{
+						if ($i + $j >= $n || !isset($tokens[$i + $j]))
+						{
+							break;
+						}
 
-				// Create the three word phrase.
-				if ($i3 < $n && isset($tokens[$i3]))
-				{
-					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
-					$token->derived = true;
+						$temp[] = $tokens[$i + $j]->term;
+						$token = new FinderIndexerToken($temp, $lang, $lang === 'zh' ? '' : ' ');
+						$token->derived = true;
 
-					// Add the token to the stack.
-					$tokens[] = $token;
+						// Add the token to the stack.
+						$tokens[] = $token;
+					}
 				}
 			}
 		}

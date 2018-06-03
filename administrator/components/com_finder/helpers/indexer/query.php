@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -731,11 +732,12 @@ class FinderIndexerQuery
 	protected function processString($input, $lang, $mode)
 	{
 		// Clean up the input string.
-		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
-		$input = StringHelper::strtolower($input);
-		$input = preg_replace('#\s+#mi', ' ', $input);
-		$input = trim($input);
-		$debug = JFactory::getConfig()->get('debug_lang');
+		$input	= html_entity_decode($input, ENT_QUOTES, 'UTF-8');
+		$input	= StringHelper::strtolower($input);
+		$input	= preg_replace('#\s+#mi', ' ', $input);
+		$input	= trim($input);
+		$debug	= JFactory::getConfig()->get('debug_lang');
+		$params	= ComponentHelper::getParams('com_finder');
 
 		/*
 		 * First, we need to handle string based modifiers. String based
@@ -893,51 +895,33 @@ class FinderIndexerQuery
 
 					// Get the number of words in the phrase.
 					$parts = explode(' ', $match);
+					$tuplecount = $params->get('tuplecount', 1);
 
 					// Check if the phrase is longer than three words.
-					if (count($parts) > 3)
+					if (count($parts) > $tuplecount && $tuplecount > 1)
 					{
+						$chunk = array_slice($parts, 0, $tuplecount);
+						$parts = array_slice($parts, $tuplecount);
+
+						// If the chunk is not empty, add it as a phrase.
+						if (count($chunk))
+						{
+							$phrases[] = implode(' ', $chunk);
+							$terms[] = implode(' ', $chunk);
+						}
+
 						/*
-						 * If the phrase is longer than three words, we need to
+						 * If the phrase is longer than $tuplecount words, we need to
 						 * break it down into smaller chunks of phrases that
-						 * are less than or equal to three words. We overlap
+						 * are less than or equal to $tuplecount words. We overlap
 						 * the chunks so that we can ensure that a match is
 						 * found for the complete phrase and not just portions
 						 * of it.
 						 */
-						for ($i = 0, $c = count($parts); $i < $c; $i += 2)
+						for ($i = 0, $c = count($parts); $i < $c; $i += 1)
 						{
-							// Set up the chunk.
-							$chunk = array();
-
-							// The chunk has to be assembled based on how many
-							// pieces are available to use.
-							switch ($c - $i)
-							{
-								/*
-								 * If only one word is left, we can break from
-								 * the switch and loop because the last word
-								 * was already used at the end of the last
-								 * chunk.
-								 */
-								case 1:
-									break 2;
-
-								// If there words are left, we use them both as
-								// the last chunk of the phrase and we're done.
-								case 2:
-									$chunk[] = $parts[$i];
-									$chunk[] = $parts[$i + 1];
-									break;
-
-								// If there are three or more words left, we
-								// build a three word chunk and continue on.
-								default:
-									$chunk[] = $parts[$i];
-									$chunk[] = $parts[$i + 1];
-									$chunk[] = $parts[$i + 2];
-									break;
-							}
+							array_shift($chunk);
+							$chunk[] = array_shift($parts);
 
 							// If the chunk is not empty, add it as a phrase.
 							if (count($chunk))
@@ -949,7 +933,7 @@ class FinderIndexerQuery
 					}
 					else
 					{
-						// The phrase is <= 3 words so we can use it as is.
+						// The phrase is <= $tuplecount words so we can use it as is.
 						$phrases[] = $match;
 						$terms[] = $match;
 					}
