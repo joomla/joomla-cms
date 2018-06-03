@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormBehaviorTrait;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
