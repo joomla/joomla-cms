@@ -174,7 +174,7 @@ class FinderIndexerHelper
 				$tokens[] = new FinderIndexerToken($terms[$i], $lang);
 			}
 
-			// Create multi-word phrases tokens from the individual words.
+			// Create multi-word phrase tokens from the individual words.
 			if ($tuplecount > 1)
 			{
 				for ($i = 0, $n = count($tokens); $i < $n; $i++)
