@@ -153,7 +153,7 @@ if (!Joomla) {
             }
 
             if (webInstallerOptions.options.installfrom_url !== '') {
-              WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+              self.installfromweb(webInstallerOptions.options.installfrom_url);
             }
           },
           fail: function fail() {
@@ -176,11 +176,21 @@ if (!Joomla) {
               [].slice.call(document.querySelectorAll('div.load-extension')).forEach(function (element) {
                 element.addEventListener('click', function (event) {
                   event.preventDefault();
-                  self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+                  self.processLinkClick(element.getAttribute('data-url'));
                 });
 
                 element.setAttribute('href', '#');
               });
+            }
+
+            if (webInstallerOptions.view === 'extension') {
+              var installExtensionButton = document.getElementById('install-extension');
+
+              if (installExtensionButton) {
+                installExtensionButton.addEventListener('click', function () {
+                  self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+                });
+              }
             }
 
             if (webInstallerOptions.list && document.querySelector('.list-view')) {
@@ -217,24 +227,8 @@ if (!Joomla) {
           var ajaxurl = element.getAttribute('href');
 
           element.addEventListener('click', function (event) {
-            var pattern1 = new RegExp(webInstallerOptions.options.base_url);
-            var pattern2 = new RegExp('^index.php');
-
-            if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
-              webInstallerOptions.view = ajaxurl.replace(/^.+[&?]view=(\w+).*$/, '$1');
-
-              if (webInstallerOptions.view === 'dashboard') {
-                webInstallerOptions.id = 0;
-              } else if (webInstallerOptions.view === 'category') {
-                webInstallerOptions.id = ajaxurl.replace(/^.+[&?]id=(\d+).*$/, '$1');
-              }
-
-              event.preventDefault();
-              self.loadweb(webInstallerOptions.options.base_url + ajaxurl);
-            } else {
-              event.preventDefault();
-              self.loadweb(ajaxurl);
-            }
+            event.preventDefault();
+            self.processLinkClick(ajaxurl);
           });
 
           element.setAttribute('href', '#');
@@ -270,29 +264,29 @@ if (!Joomla) {
 
         this.loadweb(webInstallerOptions.options.base_url + 'index.php?format=json&option=com_apps' + tail);
       }
-    }], [{
-      key: 'clicker',
-      value: function clicker() {
-        if (document.querySelector('.grid-view')) {
-          document.querySelector('.grid-view').addEventListener('click', function () {
-            webInstallerOptions.list = 0;
-            document.querySelector('.list-container').classList.add('hidden');
-            document.querySelector('.grid-container').classList.remove('hidden');
-            document.getElementById('btn-list-view').classList.remove('active');
-            document.getElementById('btn-grid-view').classList.remove('active');
-          });
-        }
+    }, {
+      key: 'processLinkClick',
+      value: function processLinkClick(url) {
+        var pattern1 = new RegExp(webInstallerOptions.options.base_url);
+        var pattern2 = new RegExp('^index.php');
 
-        if (document.querySelector('.list-view')) {
-          document.querySelector('.list-view').addEventListener('click', function () {
-            webInstallerOptions.list = 1;
-            document.querySelector('.grid-container').classList.add('hidden');
-            document.querySelector('.list-container').classList.remove('hidden');
-            document.getElementById('btn-grid-view').classList.remove('active');
-            document.getElementById('btn-list-view').classList.add('active');
-          });
+        if (pattern1.test(url) || pattern2.test(url)) {
+          webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
+
+          if (webInstallerOptions.view === 'dashboard') {
+            webInstallerOptions.id = 0;
+          } else if (webInstallerOptions.view === 'category') {
+            webInstallerOptions.id = url.replace(/^.+[&?]id=(\d+).*$/, '$1');
+          }
+
+          this.loadweb(webInstallerOptions.options.base_url + url);
+        } else {
+          this.loadweb(url);
         }
       }
+    }, {
+      key: 'installfromweb',
+
 
       /**
        * @param {string} installUrl
@@ -300,9 +294,6 @@ if (!Joomla) {
        * @returns {boolean}
        * @todo Migrate this function's alert to a CE dialog
        */
-
-    }, {
-      key: 'installfromweb',
       value: function installfromweb(installUrl, name) {
         if (!installUrl) {
           alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
@@ -340,6 +331,29 @@ if (!Joomla) {
        * @todo Migrate this function's hardcoded English string to Joomla.JText
        */
 
+    }], [{
+      key: 'clicker',
+      value: function clicker() {
+        if (document.querySelector('.grid-view')) {
+          document.querySelector('.grid-view').addEventListener('click', function () {
+            webInstallerOptions.list = 0;
+            document.querySelector('.list-container').classList.add('hidden');
+            document.querySelector('.grid-container').classList.remove('hidden');
+            document.getElementById('btn-list-view').classList.remove('active');
+            document.getElementById('btn-grid-view').classList.remove('active');
+          });
+        }
+
+        if (document.querySelector('.list-view')) {
+          document.querySelector('.list-view').addEventListener('click', function () {
+            webInstallerOptions.list = 1;
+            document.querySelector('.grid-container').classList.add('hidden');
+            document.querySelector('.list-container').classList.remove('hidden');
+            document.getElementById('btn-grid-view').classList.remove('active');
+            document.getElementById('btn-list-view').classList.add('active');
+          });
+        }
+      }
     }, {
       key: 'installfromwebexternal',
       value: function installfromwebexternal(redirectUrl) {

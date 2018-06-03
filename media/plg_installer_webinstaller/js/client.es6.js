@@ -138,7 +138,7 @@ if (!Joomla) {
           }
 
           if (webInstallerOptions.options.installfrom_url !== '') {
-            WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+            self.installfromweb(webInstallerOptions.options.installfrom_url);
           }
         },
         fail() {
@@ -161,11 +161,21 @@ if (!Joomla) {
             [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
               element.addEventListener('click', (event) => {
                 event.preventDefault();
-                self.loadweb(webInstallerOptions.options.base_url + element.getAttribute('data-url'));
+                self.processLinkClick(element.getAttribute('data-url'));
               });
 
               element.setAttribute('href', '#');
             });
+          }
+
+          if (webInstallerOptions.view === 'extension') {
+            const installExtensionButton = document.getElementById('install-extension');
+
+            if (installExtensionButton) {
+              installExtensionButton.addEventListener('click', () => {
+                self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+              });
+            }
           }
 
           if (webInstallerOptions.list && document.querySelector('.list-view')) {
@@ -201,24 +211,8 @@ if (!Joomla) {
         const ajaxurl = element.getAttribute('href');
 
         element.addEventListener('click', (event) => {
-          const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-          const pattern2 = new RegExp('^index.php');
-
-          if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
-            webInstallerOptions.view = ajaxurl.replace(/^.+[&?]view=(\w+).*$/, '$1');
-
-            if (webInstallerOptions.view === 'dashboard') {
-              webInstallerOptions.id = 0;
-            } else if (webInstallerOptions.view === 'category') {
-              webInstallerOptions.id = ajaxurl.replace(/^.+[&?]id=(\d+).*$/, '$1');
-            }
-
-            event.preventDefault();
-            self.loadweb(webInstallerOptions.options.base_url + ajaxurl);
-          } else {
-            event.preventDefault();
-            self.loadweb(ajaxurl);
-          }
+          event.preventDefault();
+          self.processLinkClick(ajaxurl);
         });
 
         element.setAttribute('href', '#');
@@ -253,6 +247,25 @@ if (!Joomla) {
       this.loadweb(`${webInstallerOptions.options.base_url}index.php?format=json&option=com_apps${tail}`);
     }
 
+    processLinkClick(url) {
+      const pattern1 = new RegExp(webInstallerOptions.options.base_url);
+      const pattern2 = new RegExp('^index.php');
+
+      if (pattern1.test(url) || pattern2.test(url)) {
+        webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
+
+        if (webInstallerOptions.view === 'dashboard') {
+          webInstallerOptions.id = 0;
+        } else if (webInstallerOptions.view === 'category') {
+          webInstallerOptions.id = url.replace(/^.+[&?]id=(\d+).*$/, '$1');
+        }
+
+        this.loadweb(webInstallerOptions.options.base_url + url);
+      } else {
+        this.loadweb(url);
+      }
+    }
+
     static clicker() {
       if (document.querySelector('.grid-view')) {
         document.querySelector('.grid-view').addEventListener('click', () => {
@@ -281,7 +294,7 @@ if (!Joomla) {
      * @returns {boolean}
      * @todo Migrate this function's alert to a CE dialog
      */
-    static installfromweb(installUrl, name) {
+    installfromweb(installUrl, name) {
       if (!installUrl) {
         alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
