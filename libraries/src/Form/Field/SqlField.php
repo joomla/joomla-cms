@@ -12,6 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 FormHelper::loadFieldClass('list');
 
@@ -191,7 +195,7 @@ class SQLField extends \JFormFieldList
 	 * @param   string  $filters     The columns to filter.
 	 * @param   array   $defaults    The defaults value to set if condition is empty.
 	 *
-	 * @return  \JDatabaseQuery  The query object.
+	 * @return  DatabaseQuery  The query object.
 	 *
 	 * @since   3.5
 	 */
@@ -287,17 +291,17 @@ class SQLField extends \JFormFieldList
 			{
 				$items = $db->loadObjectlist();
 			}
-			catch (\JDatabaseExceptionExecuting $e)
+			catch (ExecutionFailureException $e)
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 		}
 
 		// Add header.
 		if (!empty($header))
 		{
-			$header_title = \JText::_($header);
-			$options[] = \JHtml::_('select.option', '', $header_title);
+			$header_title = Text::_($header);
+			$options[] = HTMLHelper::_('select.option', '', $header_title);
 		}
 
 		// Build the field options.
@@ -307,11 +311,11 @@ class SQLField extends \JFormFieldList
 			{
 				if ($this->translate == true)
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, \JText::_($item->$value));
+					$options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
 				}
 				else
 				{
-					$options[] = \JHtml::_('select.option', $item->$key, $item->$value);
+					$options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
 				}
 			}
 		}

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -87,7 +88,7 @@ class MediaField extends FormField
 	/**
 	 * The previewWidth.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewWidth;
@@ -95,7 +96,7 @@ class MediaField extends FormField
 	/**
 	 * The previewHeight.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewHeight;
@@ -238,7 +239,7 @@ class MediaField extends FormField
 
 		if ($asset === '')
 		{
-			$asset = \JFactory::getApplication()->input->get('option');
+			$asset = Factory::getApplication()->input->get('option');
 		}
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
