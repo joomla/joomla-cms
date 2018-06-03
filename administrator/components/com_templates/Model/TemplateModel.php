@@ -172,8 +172,6 @@ class TemplateModel extends FormModel
 		// Only allow html/ folder
 		if ($explodeArray['1'] !== 'html')
 		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_ONLY_HTML_FOLDER_ALLOWED'), 'notice');
-
 			return false;
 		}
 
