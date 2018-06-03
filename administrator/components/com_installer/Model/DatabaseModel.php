@@ -229,7 +229,7 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Fixes database problems.
 	 *
-	 * @param   array $cids list of the selected extensions to fix
+	 * @param   array  $cids  List of the selected extensions to fix
 	 *
 	 * @return  void|bool
 	 *
