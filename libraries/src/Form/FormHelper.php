@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
-
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * Form's helper class.
@@ -182,6 +181,7 @@ class FormHelper
 			$name = str_ireplace(' ', '\\', ucwords($name));
 
 			$subPrefix = '';
+
 			if (strpos($name, '.'))
 			{
 				list($subPrefix, $name) = explode('.', $name);
@@ -240,7 +240,7 @@ class FormHelper
 
 		foreach ($paths as $path)
 		{
-			$file = \JPath::find($path, $type);
+			$file = Path::find($path, $type);
 
 			if (!$file)
 			{

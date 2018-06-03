@@ -30,8 +30,8 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 
 // Render the modal
 echo HTMLHelper::_('bootstrap.renderModal',
-	'modal_'. $selector,
-	array(
+	'modal_' . $selector,
+	[
 		'url'         => $displayData['doTask'],
 		'title'       => $text,
 		'height'      => '100%',
@@ -41,11 +41,11 @@ echo HTMLHelper::_('bootstrap.renderModal',
 		'closeButton' => true,
 		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
 						. ' onclick="window.parent.jQuery(\'#modal_downloadModal\').modal(\'hide\');">'
-						. Text::_("COM_BANNERS_CANCEL") . '</a>'
+						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
-						. Text::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
-	)
+						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
+	]
 );
 ?>
 <button<?php echo $id; ?> onclick="jQuery('#modal_<?php echo $selector; ?>').modal('show')" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">

@@ -57,7 +57,7 @@ class LanguagesModel extends BaseInstallationModel
 	protected $langlist;
 
 	/**
-	 * @var    Admin Id, author of all generated content.
+	 * @var    integer  Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
 	protected $adminId;
@@ -86,7 +86,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Generate a list of language choices to install in the Joomla CMS.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -520,7 +520,7 @@ class LanguagesModel extends BaseInstallationModel
 		}
 
 		// Get the form.
-		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
 		Form::addFieldPath(JPATH_COMPONENT . '/model/fields');
 		Form::addRulePath(JPATH_COMPONENT . '/model/rules');
 

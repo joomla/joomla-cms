@@ -42,15 +42,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * @since  4.0.0
 	 */
 	protected $supportedHttpHeaders = [
-		'Strict-Transport-Security',
-		'Content-Security-Policy',
-		'Content-Security-Policy-Report-Only',
-		'X-Frame-Options',
-		'X-XSS-Protection',
-		'X-Content-Type-Options',
-		'Referrer-Policy',
-		// Upcoming Header
-		'Expect-CT',
+		'strict-transport-security',
+		'content-security-policy',
+		'content-security-policy-report-only',
+		'x-frame-options',
+		'x-xss-protection',
+		'x-content-type-options',
+		'referrer-policy',
+		'expect-ct',
 	];
 
 	/**
@@ -76,7 +75,24 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	public function setHttpHeaders()
 	{
+		// Set the default header when they are enabled
 		$this->setDefaultHeader();
+
+		// Handle CSP Header configuration
+		$cspOptions = (int) $this->params->get('contentsecuritypolicy', 0);
+
+		if ($cspOptions)
+		{
+			$this->setCspHeader();
+		}
+
+		// Handle HSTS Header configuration
+		$hstsOptions = (int) $this->params->get('hsts', 0);
+
+		if ($hstsOptions)
+		{
+			$this->setHstsHeader();
+		}
 
 		// Handle the additional httpheader
 		$httpHeaders = $this->params->get('additional_httpheaders', array());
@@ -89,10 +105,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			if (in_array($httpHeader->key, $this->supportedHttpHeaders))
+			if (empty($httpHeader->key) || empty($httpHeader->value))
 			{
-				$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
+				continue;
 			}
+
+			if (!in_array(strtolower($httpHeader->key), $this->supportedHttpHeaders))
+			{
+				continue;
+			}
+
+			$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
 		}
 	}
 
@@ -130,5 +153,77 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
 		}
+	}
+
+	/**
+	 * Set the CSP header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setCspHeader()
+	{
+		// This is used later to generate a suggestion for the csp header
+		$nonce = base64_encode(bin2hex(random_bytes(64)));
+		$this->app->set('script_nonce', $nonce);
+
+		$cspValues    = $this->params->get('contentsecuritypolicy_values', array());
+		$cspReadOnly  = (int) $this->params->get('contentsecuritypolicy_report_only', 0);
+		$csp          = $cspReadOnly === 0 ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only';
+		$newCspValues = array();
+
+		foreach ($cspValues as $cspValue)
+		{
+			// Handle the client settings foreach header
+			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			{
+				continue;
+			}
+
+			// We can only use this if this is a valid entry
+			if (isset($cspValue->directive) && isset($cspValue->value))
+			{
+				if ($cspValue->directive === 'script-src')
+				{
+					'nonce-' . $nonce . ' ' . $cspValue->value;
+				}
+
+				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+			}
+		}
+
+		if (empty($newCspValues))
+		{
+			return;
+		}
+
+		$this->app->setHeader($csp, implode(';', $newCspValues));
+	}
+
+	/**
+	 * Set the HSTS header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setHstsHeader()
+	{
+		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
+		$hstsOptions   = array();
+		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+
+		if ($this->params->get('hsts_subdomains', 0))
+		{
+			$hstsOptions[] = 'includeSubDomains';
+		}
+
+		if ($this->params->get('hsts_preload', 0))
+		{
+			$hstsOptions[] = 'preload';
+		}
+
+		$this->app->setHeader('Strict-Transport-Security', implode('; ', $hstsOptions));
 	}
 }

@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-JHtml::_('behavior.caption');
-
 $app = JFactory::getApplication();
 
 $this->category->text = $this->category->description;

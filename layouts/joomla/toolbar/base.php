@@ -9,5 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+/**
+ * @var  string  $action
+ * @var  array   $options
+ */
+extract($displayData, EXTR_OVERWRITE);
 ?>
-<?php echo $displayData['action']; ?>
+
+<?php echo $action; ?>
