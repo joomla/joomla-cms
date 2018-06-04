@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Modules component helper.
  *
- * @since  1.6
+ * @since       1.6
+ *
+ * @deprecated  5.0  Use \Joomla\Component\Modules\Administrator\Helper\ModulesHelper instead
  */
 abstract class ModulesHelper extends \Joomla\Component\Modules\Administrator\Helper\ModulesHelper
 {

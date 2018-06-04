@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -39,6 +40,6 @@ class ContentlanguageField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		return array_merge(parent::getOptions(), \JHtml::_('contentlanguage.existing'));
+		return array_merge(parent::getOptions(), HTMLHelper::_('contentlanguage.existing'));
 	}
 }

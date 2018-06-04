@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Create some shortcuts.
@@ -156,7 +158,7 @@ if (!empty($this->items))
 						<?php echo $this->escape($article->title); ?>
 					</a>
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
-						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
@@ -178,7 +180,7 @@ if (!empty($this->items))
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
-						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php $associations = AssociationHelper::displayAssociations($article->id); ?>
 						<?php foreach ($associations as $association) : ?>
 							<?php if ($this->params->get('flags', 1)) : ?>
 								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>

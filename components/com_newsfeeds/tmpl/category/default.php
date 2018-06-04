@@ -10,9 +10,6 @@
 defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-JHtml::_('behavior.caption');
-
-
 $pageClass = $this->params->get('pageclass_sfx');
 
 ?>

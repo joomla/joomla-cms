@@ -2,3 +2,4 @@
 *.js
 !*.es6.js
 !build/**/*.js
+*.vue
