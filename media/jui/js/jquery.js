@@ -9293,7 +9293,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 			// Convert response if prev dataType is non-auto and differs from current
 			} else if ( prev !== "*" && prev !== current ) {
 
-				// Mitigate possible XSS vulnerability (gh-2432), CMS Issue 19464
+				// ADDED by Joomla: Mitigate possible XSS vulnerability (gh-2432), CMS Issue 19464
 				if (s.crossDomain && current === "script") {
 					continue;
 				}
