@@ -189,7 +189,7 @@ class TemplateModel extends FormModel
 			$folder   = $explodeArray['2'];
 			$htmlPath = Path::clean($modulePath . $folder . '/tmpl/');
 			$fileName = $this->getSafeName($fileName);
-			$coreFile = $this->findPath($htmlPath, $fileName);
+			$coreFile = Path::find($htmlPath, $fileName);
 
 			return $coreFile;
 		}
@@ -207,7 +207,7 @@ class TemplateModel extends FormModel
 			{
 				// The new scheme, the views are directly in the component/tmpl folder
 				$newHtmlPath = Path::clean($componentPath . $folder . '/tmpl/' . $subFolder . '/');
-				$coreFile    = $this->findPath($newHtmlPath, $fileName);
+				$coreFile    = Path::find($newHtmlPath, $fileName);
 
 				return $coreFile;
 			}
@@ -226,7 +226,7 @@ class TemplateModel extends FormModel
 				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
 				$htmlPath  = Path::clean($componentPath . $folder . '/layouts/' . $subFolder);
 				$fileName  = $this->getSafeName($fileName);
-				$coreFile  = $this->findPath($htmlPath, $fileName);
+				$coreFile  = Path::find($htmlPath, $fileName);
 
 				return $coreFile;
 			}
@@ -236,13 +236,11 @@ class TemplateModel extends FormModel
 				$subFolder = implode(DIRECTORY_SEPARATOR, $subFolder);
 				$htmlPath  = Path::clean($layoutPath . $subFolder);
 				$fileName  = $this->getSafeName($fileName);
-				$coreFile  = $this->findPath($htmlPath, $fileName);
+				$coreFile  = Path::find($htmlPath, $fileName);
 
 				return $coreFile;
 			}
 		}
-
-		$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'warning');
 
 		return false;
 	}
@@ -295,28 +293,6 @@ class TemplateModel extends FormModel
 		$valid  = Date::createFromFormat($format, $date);
 
 		return $valid && $valid->format($format) == $date;
-	}
-
-	/**
-	 * Find file in given folder.
-	 *
-	 * @param   string  $paths  An path or array of path to search.
-	 * @param   string  $file   The file name to look for.
-	 *
-	 * @return mixed  $path The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function findPath($paths, $file)
-	{
-		$app = Factory::getApplication();
-
-		if (!$path = Path::find($paths, $file))
-		{
-			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_CORE_FILE_NOT_FOUND'), 'warning');
-		}
-
-		return $path;
 	}
 
 	/**
