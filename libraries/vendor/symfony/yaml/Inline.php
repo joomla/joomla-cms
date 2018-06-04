@@ -233,6 +233,9 @@ class Inline
 
             if (null !== $delimiters) {
                 $tmp = ltrim(substr($scalar, $i), ' ');
+                if ('' === $tmp) {
+                    throw new ParseException(sprintf('Unexpected end of line, expected one of "%s".', implode($delimiters)));
+                }
                 if (!in_array($tmp[0], $delimiters)) {
                     throw new ParseException(sprintf('Unexpected characters (%s).', substr($scalar, $i)));
                 }
@@ -375,6 +378,7 @@ class Inline
         $output = array();
         $len = strlen($mapping);
         ++$i;
+        $allowOverwrite = false;
 
         // {foo: bar, bar:foo, ...}
         while ($i < $len) {
@@ -394,6 +398,10 @@ class Inline
             // key
             $key = self::parseScalar($mapping, array(':', ' '), array('"', "'"), $i, false);
 
+            if ('<<' === $key) {
+                $allowOverwrite = true;
+            }
+
             // value
             $done = false;
 
@@ -405,7 +413,12 @@ class Inline
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
-                        if (!isset($output[$key])) {
+                        // But overwriting is allowed when a merge node is used in current block.
+                        if ('<<' === $key) {
+                            foreach ($value as $parsedValue) {
+                                $output += $parsedValue;
+                            }
+                        } elseif ($allowOverwrite || !isset($output[$key])) {
                             $output[$key] = $value;
                         }
                         $done = true;
@@ -416,7 +429,10 @@ class Inline
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
-                        if (!isset($output[$key])) {
+                        // But overwriting is allowed when a merge node is used in current block.
+                        if ('<<' === $key) {
+                            $output += $value;
+                        } elseif ($allowOverwrite || !isset($output[$key])) {
                             $output[$key] = $value;
                         }
                         $done = true;
@@ -429,7 +445,10 @@ class Inline
                         // Spec: Keys MUST be unique; first one wins.
                         // Parser cannot abort this mapping earlier, since lines
                         // are processed sequentially.
-                        if (!isset($output[$key])) {
+                        // But overwriting is allowed when a merge node is used in current block.
+                        if ('<<' === $key) {
+                            $output += $value;
+                        } elseif ($allowOverwrite || !isset($output[$key])) {
                             $output[$key] = $value;
                         }
                         $done = true;
