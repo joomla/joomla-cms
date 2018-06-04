@@ -26,5 +26,5 @@ interface DatabaseModelInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDb();
+	public function getDbo();
 }

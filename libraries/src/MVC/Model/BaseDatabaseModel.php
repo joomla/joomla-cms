@@ -75,7 +75,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDb(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		$this->setDbo(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
 		if (array_key_exists('table_path', $config))
@@ -128,9 +128,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDb()->setQuery($query, $limitstart, $limit);
+		$this->getDbo()->setQuery($query, $limitstart, $limit);
 
-		return $this->getDb()->loadObjectList();
+		return $this->getDbo()->loadObjectList();
 	}
 
 	/**
@@ -155,9 +155,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			$this->getDb()->setQuery($query);
+			$this->getDbo()->setQuery($query);
 
-			return (int) $this->getDb()->loadResult();
+			return (int) $this->getDbo()->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
@@ -169,10 +169,10 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query->clear('limit')->clear('offset');
 		}
 
-		$this->getDb()->setQuery($query);
-		$this->getDb()->execute();
+		$this->getDbo()->setQuery($query);
+		$this->getDbo()->execute();
 
-		return (int) $this->getDb()->getNumRows();
+		return (int) $this->getDbo()->getNumRows();
 	}
 
 	/**
@@ -192,23 +192,10 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDb();
+			$config['dbo'] = $this->getDbo();
 		}
 
 		return $this->getMVCFactory()->createTable($name, $prefix, $config);
-	}
-
-	/**
-	 * Method to get the database driver object
-	 *
-	 * @return  DatabaseDriver
-	 *
-	 * @since       3.0
-	 * @deprecated  5.0 Use getDb() instead
-	 */
-	public function getDbo()
-	{
-		return $this->getDb();
 	}
 
 	/**
@@ -313,21 +300,6 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		return false;
-	}
-
-	/**
-	 * Method to set the database driver object
-	 *
-	 * @param   DatabaseDriver  $db  A DatabaseDriver based object
-	 *
-	 * @return  void
-	 *
-	 * @since       3.0
-	 * @deprecated  5.0 Use setDb() instead
-	 */
-	public function setDbo($db)
-	{
-		$this->setDb($db);
 	}
 
 	/**

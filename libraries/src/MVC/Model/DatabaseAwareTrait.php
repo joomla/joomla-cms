@@ -33,7 +33,7 @@ trait DatabaseAwareTrait
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \UnexpectedValueException
 	 */
-	public function getDb()
+	public function getDbo()
 	{
 		if ($this->_db)
 		{
@@ -52,7 +52,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setDb(DatabaseInterface $db = null)
+	public function setDbo(DatabaseInterface $db = null)
 	{
 		$this->_db = $db;
 	}
