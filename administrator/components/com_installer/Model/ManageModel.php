@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
@@ -397,21 +398,29 @@ class ManageModel extends InstallerModel
 		// Get the changelog URL
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('changelogurl'))
+			->select(
+				$db->quoteName(
+					array(
+						'element',
+						'type',
+						'changelogurl'
+					)
+				)
+			)
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
-		$changelogUrl = $db->loadResult();
+		$extension = $db->loadObject();
 
-		if (!$changelogUrl)
+		if (!$extension->changelogurl)
 		{
 			return '';
 		}
 
 		// Get the changelog details
 		$http = HttpFactory::getHttp([], array('curl', 'stream'));
-		$result = $http->get($changelogUrl);
+		$result = $http->get($extension->changelogurl);
 
 		if ($result->code !== 200)
 		{
@@ -420,15 +429,40 @@ class ManageModel extends InstallerModel
 
 		$xml = new \SimpleXMLElement($result->body);
 
-		?>
-		<pre><?php
-		echo __FILE__ . '::' . __LINE__ . ':: ';
-		echo 'xml: ';
-		echo '<div style="font-size: 1.5em;">';
-		print_r($xml);
-		echo '</div>';
-		?></pre><?php
+		// Check if there is a changelog section
+		if (!$xml->changelog)
+		{
+			return '';
+		}
 
+		// Get the changelog
+		$changelog = $xml->changelog;
 
+		// Validate the extension
+		if ((string) $changelog->element !== $extension->element && (string) $changelog->type !== $extension->type)
+		{
+			return '';
+		}
+
+		// Read all the entries
+		$entries = array(
+			'security' => array(),
+			'fix' => array(),
+			'addition' => array(),
+			'change' => array(),
+			'removed' => array(),
+			'language' => array(),
+			'note' => array()
+		);
+
+		foreach ((array) $changelog->entries as $changeType => $item)
+		{
+			$entries[(string) $changeType] = array_values((array) $item->item);
+		}
+
+		$layout = new FileLayout('joomla.installer.changelog');
+		$output = $layout->render($entries);
+
+		return $output;
 	}
 }

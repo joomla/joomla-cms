@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
@@ -105,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if ($item->changelogurl != null):?>
-										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?></button>
+										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?></button>
 
 										<?php
 										echo \JHtml::_(
