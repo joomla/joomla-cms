@@ -56,15 +56,15 @@ class FieldField extends FormField
 
 		if ($allowEdit)
 		{
-			$script[] = '		jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		document.getElementById("' . $this->id . '_edit").classList.remove("hidden");';
 		}
 
 		if ($allowClear)
 		{
-			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
+			$script[] = '		document.getElementById("' . $this->id . '_clear").classList.remove("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalCategory-' . $this->id . '").modal("hide");';
+		$script[] = '		Joomla.Modal.getCurrent().close()';
 		$script[] = '	}';
 
 		// Clear button script
@@ -78,9 +78,9 @@ class FieldField extends FormField
 			$script[] = '		document.getElementById(id + "_id").value = "";';
 			$script[] = '		document.getElementById(id + "_name").value = "' .
 				htmlspecialchars(\JText::_('COM_FIELDS_SELECT_A_FIELD', true), ENT_COMPAT, 'UTF-8') . '";';
-			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
+			$script[] = '		document.getElementById(id + "_clear").classList.add("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
-			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
+			$script[] = '			document.getElementById(id + "_edit").classList.add("hidden");';
 			$script[] = '		}';
 			$script[] = '		return false;';
 			$script[] = '	}';

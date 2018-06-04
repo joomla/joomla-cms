@@ -7,27 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Config\Site\Dispatcher;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Dispatcher\Dispatcher;
 
 /**
  * Dispatcher class for com_config
  *
  * @since  4.0.0
  */
-class ConfigDispatcher extends Dispatcher
+class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace = 'Joomla\\Component\\Config';
-
 	/**
 	 * Method to check component access permission
 	 *

@@ -13,7 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -63,7 +65,7 @@ class ApiModel extends BaseDatabaseModel
 
 			// Fire the event to get the results
 			$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $this->providerManager];
-			$event = new MediaProviderEvent('onSetupProviders', $eventParameters);
+			$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
 			PluginHelper::importPlugin('filesystem');
 			Factory::getApplication()->triggerEvent('onSetupProviders', $event);
 		}
@@ -226,7 +228,18 @@ class ApiModel extends BaseDatabaseModel
 			throw new FileExistsException;
 		}
 
-		return $this->getAdapter($adapter)->createFolder($name, $path);
+		$object = $this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			0,
+			function ($object)
+			{
+				$object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
+			}
+		);
+
+		return $object->name;
 	}
 
 	/**
@@ -268,7 +281,18 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		return $this->getAdapter($adapter)->createFile($name, $path, $data);
+		$object = $this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			$data,
+			function ($object)
+			{
+				$object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
+			}
+		);
+
+		return $object->name;
 	}
 
 	/**
@@ -294,7 +318,16 @@ class ApiModel extends BaseDatabaseModel
 			throw new InvalidPathException;
 		}
 
-		$this->getAdapter($adapter)->updateFile($name, $path, $data);
+		$this->triggerEvent(
+			$adapter,
+			$name,
+			$path,
+			$data,
+			function ($object)
+			{
+				$this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
+			}
+		);
 	}
 
 	/**
@@ -460,5 +493,53 @@ class ApiModel extends BaseDatabaseModel
 
 		// Check if the extension exists in the allowed extensions
 		return in_array($extension, $this->allowedExtensions);
+	}
+
+	/**
+	 * Triggers the onContentBeforeSave and onContentAfterSave event when calling the
+	 * given callable.
+	 *
+	 * If the onContentBeforeSave contains false, the operation will be aborted and an exception thrown.
+	 *
+	 * The object will be returned which got sent as part of the event.
+	 *
+	 * @param   string    $adapter   The adapter
+	 * @param   string    $name      The name
+	 * @param   string    $path      The path
+	 * @param   binary    $data      The binary data
+	 * @param   callable  $callback  The callback
+	 *
+	 * @return  CMSObject
+	 *
+	 * @throws  \Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function triggerEvent(string $adapter, string $name, string $path, $data, callable $callback)
+	{
+		$app = Factory::getApplication();
+
+		$object            = new CMSObject;
+		$object->adapter   = $adapter;
+		$object->name      = $name;
+		$object->path      = $path;
+		$object->data      = $data;
+		$object->extension = strtolower(File::getExt($name));
+		$object->type      = $object->extension ? 'file' : 'dir';
+
+		// Also include the filesystem plugins, perhaps they support batch processing too
+		PluginHelper::importPlugin('media-action');
+
+		$result = $app->triggerEvent('onContentBeforeSave', array('com_media.' . $object->type, $object, true));
+
+		if (in_array(false, $result, true))
+		{
+			throw new \Exception($object->getError());
+		}
+
+		$callback($object);
+
+		$app->triggerEvent('onContentAfterSave', array('com_media.' . $object->type, $object, true));
+
+		return $object;
 	}
 }

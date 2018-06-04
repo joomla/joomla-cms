@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 ?>
 
 <div class="clearfix">
