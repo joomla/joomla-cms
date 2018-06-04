@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,28 +13,45 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-extract($displayData);
+/**
+ * @var  string  $id
+ * @var  string  $itemId
+ * @var  string  $typeId
+ * @var  string  $typeAlias
+ * @var  string  $title
+ */
+extract($displayData, EXTR_OVERWRITE);
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
-		'url'    => "index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id="
-			. (int) $displayData['itemId']. "&amp;type_id=" . $displayData['typeId'] . "&amp;type_alias=" . $displayData['typeAlias']
-			. "&amp;" . Session::getFormToken() . "=1",
-		'title'  => $displayData['title'],
+		'url'    => 'index.php?' . http_build_query(
+			[
+				'option' => 'com_contenthistory',
+				'view' => 'history',
+				'layout' => 'modal',
+				'tmpl' => 'component',
+				'item_id' => (int) $itemId,
+				'type_id' => $typeId,
+				'type_alias' => $typeAlias,
+				Session::getFormToken() => 1
+			]
+		),
+		'title'  => $title,
 		'height' => '100%',
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+		'footer' => '<a role="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	)
 );
-
-$id = isset($displayData['id']) ? $displayData['id'] : '';
-
 ?>
-<button<?php echo $id; ?> onclick="jQuery('#versionsModal').modal('show')" class="btn btn-sm btn-outline-primary" data-toggle="modal" title="<?php echo $displayData['title']; ?>">
-	<span class="fa fa-code-fork" aria-hidden="true"></span><?php echo $displayData['title']; ?>
+<button<?php echo $id ?? ''; ?>
+	onclick="document.getElementById('versionsModal').open()"
+	class="btn btn-sm btn-outline-primary"
+	data-toggle="modal"
+	title="<?php echo $title; ?>">
+	<span class="fa fa-code-fork" aria-hidden="true"></span><?php echo $title; ?>
 </button>

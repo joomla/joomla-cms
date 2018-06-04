@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
+<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php?option=com_users&task=user.login', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="mod-login__pretext pretext">
@@ -119,8 +119,6 @@ Text::script('JHIDE');
 					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 			</ul>
-		<input type="hidden" name="option" value="com_users">
-		<input type="hidden" name="task" value="user.login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>

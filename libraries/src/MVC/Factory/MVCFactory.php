@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,7 +67,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
@@ -225,7 +225,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setFormFactoryOnObject($object)
 	{

@@ -3,19 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
-
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-$clientId       = $this->item->client_id;
-$state          = 1;
+$clientId         = $this->item->client_id;
+$state            = 1;
 $selectedPosition = $this->item->position;
-$positions = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
+$positions        = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');

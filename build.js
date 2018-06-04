@@ -1,3 +1,14 @@
+/**
+ * Command line helper
+ *
+ * For maintainers, please run:
+ * node build.js --installer
+ * node build.js --update
+ * node build.js --compilejs
+ * node build.js --compilecss
+ * Before making any PRs or building any package!
+ *
+ */
 const Program = require('commander');
 const Chalk = require('chalk');
 
@@ -24,7 +35,7 @@ Program
 	.option('--installer', 'Creates the language file for installer error page')
 	.on('--help', () => {
 		console.log(Chalk.cyan('\n  Version %s\n'), options.version);
-		process.exit(1);
+		process.exit(0);
 	})
 	.parse(process.argv);
 
@@ -41,7 +52,7 @@ if (Program.update) {
 		.then(update.update(options))
 
 		// Exit with success
-		.then(() => process.exit(1))
+		.then(() => process.exit(0))
 
 		// Handle errors
 		.catch((err) => {

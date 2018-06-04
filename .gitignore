@@ -163,6 +163,7 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/paragonie/sodium_compat/dist
 /libraries/vendor/paragonie/sodium_compat/.gitignore
+/libraries/vendor/paragonie/sodium_compat/appveyor.yml
 /libraries/vendor/paragonie/sodium_compat/build-phar.sh
 /libraries/vendor/paragonie/sodium_compat/composer.json
 /libraries/vendor/paragonie/sodium_compat/composer.lock
@@ -247,3 +248,7 @@ composer.phar
 
 # Build related
 RoboFile.ini
+
+# Media Manager
+/media/com_media/js/mediamanager.min.js.map
+/media/com_media/css/mediamanager.min.css.map
