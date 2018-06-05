@@ -53,7 +53,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 				  aria-labelledby="<?php echo Text::_('JGRID_HEADING_ID') . ': ' . $user->id; ?>">
 				<span class="small">
 					<span class="icon-calendar" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LAST_ACTIVITY'); ?></span>
+					<span class="sr-only"><?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?></span>
 					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
 				</span>
 			</span>
