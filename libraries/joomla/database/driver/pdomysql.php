@@ -394,19 +394,21 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		return $this->getOption(PDO::ATTR_SERVER_VERSION);
 	}
 
+
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriverPdomysql  Returns this object to support chaining.
 	 *
 	 * @since   3.4
 	 * @throws  RuntimeException
 	 */
-	public function lockTable($table)
+	public function lockTable($tableNames)
 	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
+		$sql = 'LOCK TABLES ' . implode(' WRITE, ', $this->quoteName((array) $tableNames)) . ' WRITE';
+		$this->setQuery($sql)->execute();
 
 		return $this;
 	}
