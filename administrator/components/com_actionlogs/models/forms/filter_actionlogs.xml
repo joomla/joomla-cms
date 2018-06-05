@@ -61,11 +61,11 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
-			default="25"
 			label="COM_ACTIONLOGS_LIST_LIMIT"
 			description="COM_ACTIONLOGS_LIST_LIMIT_DESC"
+			class="input-mini"
 			onchange="this.form.submit();"
+			default="25"
 		/>
 	</fields>
 </form>
