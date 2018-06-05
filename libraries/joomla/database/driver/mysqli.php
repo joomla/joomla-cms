@@ -519,18 +519,19 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
 	 *
 	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
-	public function lockTable($table)
+	public function lockTable($tableNames)
 	{
-		$this->setQuery('LOCK TABLES ' . $this->quoteName($table) . ' WRITE')->execute();
+		$sql = 'LOCK TABLES ' . implode(' WRITE, ', $this->quoteName((array) $tableNames)) . ' WRITE';
+		$this->setQuery($sql)->execute();
 
 		return $this;
 	}

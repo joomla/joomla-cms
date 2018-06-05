@@ -460,18 +460,20 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriverOracle  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function lockTable($table)
+	public function lockTable($tableNames)
 	{
-		$this->setQuery('LOCK TABLE ' . $this->quoteName($table) . ' IN EXCLUSIVE MODE')->execute();
+		$this->transactionStart();
+		$sql = 'LOCK TABLE ' . implode(', ', $this->quoteName((array) $tableNames)) . ' IN EXCLUSIVE MODE';
+		$this->setQuery($sql)->execute();
 
 		return $this;
 	}

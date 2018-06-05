@@ -1021,16 +1021,16 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to lock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriverSqlsrv  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function lockTable($tableName)
+	public function lockTable($tableNames)
 	{
 		return $this;
 	}

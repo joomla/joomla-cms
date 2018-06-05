@@ -379,16 +379,16 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $table  The name of the table to unlock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriverSqlite  Returns this object to support chaining.
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function lockTable($table)
+	public function lockTable($tableNames)
 	{
 		return $this;
 	}

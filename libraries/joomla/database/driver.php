@@ -1823,16 +1823,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
-	 * Locks a table in the database.
+	 * Locks one or more tables in the database.
 	 *
-	 * @param   string  $tableName  The name of the table to unlock.
+	 * @param   array|string  $tableNames  The table name or names to lock.
 	 *
 	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	abstract public function lockTable($tableName);
+	abstract public function lockTable($tableNames);
 
 	/**
 	 * Quotes and optionally escapes a string to database requirements for use in database queries.
