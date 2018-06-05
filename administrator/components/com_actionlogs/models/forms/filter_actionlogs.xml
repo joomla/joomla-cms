@@ -43,8 +43,8 @@
 			default="a.id DESC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.message ASC">COM_ACTIONLOGS_MESSAGE_ASC</option>
-			<option value="a.message DESC">COM_ACTIONLOGS_MESSAGE_DESC</option>
+			<option value="a.message ASC">COM_ACTIONLOGS_ACTION_ASC</option>
+			<option value="a.message DESC">COM_ACTIONLOGS_ACTION_DESC</option>
 			<option value="a.extension ASC">COM_ACTIONLOGS_EXTENSION_ASC</option>
 			<option value="a.extension DESC">COM_ACTIONLOGS_EXTENSION_DESC</option>
 			<option value="a.log_date ASC">JDATE_ASC</option>
