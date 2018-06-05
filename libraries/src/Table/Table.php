@@ -406,15 +406,10 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	{
 		// For simple cases, parent to the asset root.
 		/** @var  \JTableAsset  $assets */
-		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+		$assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->_db));
 		$rootId = $assets->getRootId();
 
-		if (!empty($rootId))
-		{
-			return $rootId;
-		}
-
-		return 1;
+		return $rootId ?: 1;
 	}
 
 	/**
@@ -789,9 +784,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$currentAssetId = $this->asset_id;
 		}
 
-		// The asset id field is managed privately by this class.
 		if ($this->_trackAssets)
 		{
+			// The asset id field is managed privately by this class.
 			unset($this->asset_id);
 		}
 
@@ -808,6 +803,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
 		{
+			/** @var  \JTableAsset  $asset */
+			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->_db));
+
 			if ($this->_locked)
 			{
 				$this->_unlock();
@@ -820,61 +818,42 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
-			/** @var  \JTableAsset  $asset */
-			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 			$asset->loadByName($name);
+
+			// Specify how a new or moved node asset is inserted into the tree.
+			if (empty($asset->id) || $asset->parent_id != $parentId)
+			{
+				$asset->setLocation($parentId, 'last-child');
+			}
+
+			// Prepare the asset to be stored.
+			$asset->parent_id = $parentId;
+			$asset->name      = $name;
+			$asset->title     = $title;
+
+			if ($this->_rules instanceof \JAccessRules)
+			{
+				$asset->rules = (string) $this->_rules;
+			}
+
+			if (!$asset->check() || !$asset->store($updateNulls))
+			{
+				$this->setError($asset->getError());
+
+				return false;
+			}
 
 			// Re-inject the asset id.
 			$this->asset_id = $asset->id;
 
-			// Check for an error.
-			$error = $asset->getError();
-
-			if ($error)
+			// Create an asset_id or heal one that is corrupted.
+			if ($currentAssetId != $this->asset_id)
 			{
-				$this->setError($error);
-
-				return false;
-			}
-			else
-			{
-				// Specify how a new or moved node asset is inserted into the tree.
-				if (empty($this->asset_id) || $asset->parent_id != $parentId)
-				{
-					$asset->setLocation($parentId, 'last-child');
-				}
-
-				// Prepare the asset to be stored.
-				$asset->parent_id = $parentId;
-				$asset->name      = $name;
-				$asset->title     = $title;
-
-				if ($this->_rules instanceof \JAccessRules)
-				{
-					$asset->rules = (string) $this->_rules;
-				}
-
-				if (!$asset->check() || !$asset->store($updateNulls))
-				{
-					$this->setError($asset->getError());
-
-					return false;
-				}
-				else
-				{
-					// Create an asset_id or heal one that is corrupted.
-					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
-					{
-						// Update the asset_id field in this table.
-						$this->asset_id = (int) $asset->id;
-
-						$query = $this->_db->getQuery(true)
-							->update($this->_db->quoteName($this->_tbl))
-							->set('asset_id = ' . (int) $this->asset_id);
-						$this->appendPrimaryKeys($query);
-						$this->_db->setQuery($query)->execute();
-					}
-				}
+				$query = $this->_db->getQuery(true)
+					->update($this->_db->quoteName($this->_tbl))
+					->set('asset_id = ' . (int) $this->asset_id);
+				$this->appendPrimaryKeys($query);
+				$this->_db->setQuery($query)->execute();
 			}
 		}
 
