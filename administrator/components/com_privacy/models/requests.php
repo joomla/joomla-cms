@@ -34,6 +34,7 @@ class PrivacyModelRequests extends JModelList
 				'request_type', 'a.request_type',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
+				'status', 'a.status',
 			);
 		}
 
