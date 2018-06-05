@@ -5,6 +5,11 @@
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
+  input {
+    padding: .375rem .75rem;
+    color: #495057;
+    border: 1px solid #ced4da;
+  }
 }
 
 .media-toolbar-icon {
@@ -35,6 +40,12 @@
       cursor: default;
     }
   }
+}
+
+.media-view-search-input {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .media-loader {

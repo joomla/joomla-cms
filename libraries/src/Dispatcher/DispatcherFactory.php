@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 /**
  * Namesapce based implementation of the DispatcherFactoryInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DispatcherFactory implements DispatcherFactoryInterface
 {
@@ -26,7 +26,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @var  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $namespace;
 
@@ -35,7 +35,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @var  MVCFactoryFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $mvcFactoryFactory;
 
@@ -45,7 +45,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 * @param   string                      $namespace          The namespace
 	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
@@ -61,7 +61,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
@@ -73,6 +73,11 @@ class DispatcherFactory implements DispatcherFactoryInterface
 		}
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
+
+		if (!class_exists($className))
+		{
+			$className = '\\Joomla\\CMS\\Dispatcher\\Dispatcher';
+		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
 	}

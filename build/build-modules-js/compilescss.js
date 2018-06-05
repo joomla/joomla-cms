@@ -85,7 +85,7 @@ compileFiles = (options, path) => {
 		Recurs(folder, ['*.min.css', '*.map', '*.js', '*.scss', '*.svg', '*.png', '*.swf']).then(
 			(files) => {
 				files.forEach((file) => {
-						if (file.match(/.css/)) {
+						if (file.match(/.css/) && !file.toLowerCase().match(/license/)) {
 							// Write the file
 							fs.writeFileSync(file.replace('.css', '.min.css'), UglyCss.processFiles([file], {expandVars: false }), {encoding: "utf8"});
 						}
