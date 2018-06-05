@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ namespace Joomla\CMS\Toolbar;
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Table\Table;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\Cms\Table\Table;
 
 /**
  * Utility class for the button bar.
@@ -475,7 +475,7 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Apply', 'apply', $alt, $task, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false);
 	}
 
 	/**
@@ -655,10 +655,6 @@ abstract class ToolbarHelper
 	 */
 	public static function saveGroup($buttons = array(), $class = 'btn-success')
 	{
-		// Options array for JLayout
-		$options          = array();
-		$options['class'] = $class;
-
 		$validOptions = array(
 			'apply'     => 'JTOOLBAR_APPLY',
 			'save'      => 'JTOOLBAR_SAVE',
@@ -668,31 +664,26 @@ abstract class ToolbarHelper
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		$layout = new FileLayout('joomla.toolbar.group.groupopen');
-		$bar->appendButton('Custom', $layout->render($options));
-		$firstItem = false;
+		$saveGroup = $bar->dropdownButton('save-group');
 
-		foreach ($buttons as $button)
-		{
-			if (!array_key_exists($button[0], $validOptions))
+		$saveGroup->configure(
+			function (Toolbar $childBar) use ($buttons, $validOptions)
 			{
-				continue;
+				foreach ($buttons as $button)
+				{
+					if (!array_key_exists($button[0], $validOptions))
+					{
+						continue;
+					}
+
+					$options['group'] = true;
+					$altText = $button[2] ?? $validOptions[$button[0]];
+
+					$childBar->{$button[0]}($button[1])
+						->text($altText);
+				}
 			}
-
-			$options['group'] = true;
-			$altText = $button[2] ?? $validOptions[$button[0]];
-			call_user_func_array('JToolbarHelper::' . $button[0], array($button[1], $altText, $firstItem));
-
-			if (!$firstItem)
-			{
-				$layout = new FileLayout('joomla.toolbar.group.groupmid');
-				$bar->appendButton('Custom', $layout->render($options));
-				$firstItem = true;
-			}
-		}
-
-		$layout = new FileLayout('joomla.toolbar.group.groupclose');
-		$bar->appendButton('Custom', $layout->render());
+		);
 	}
 
 	/**

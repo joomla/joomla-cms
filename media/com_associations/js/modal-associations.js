@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,8 @@ Joomla = window.Joomla || {};
 					target.src = target.getAttribute('data-editurl') +
 						'&task=' + target.getAttribute('data-item') + '.edit' + '&id=' + id;
 				}
-				jQuery('#associationSelect' + itemId + 'Modal').modal('hide');
+
+				Joomla.Modal.getCurrent().close();
 			}
 		}
 	});

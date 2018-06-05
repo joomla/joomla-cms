@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
+class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -335,6 +335,8 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Application\\WebApplication' => __DIR__ . '/../../..' . '/libraries/src/Application/WebApplication.php',
         'Joomla\\CMS\\Association\\AssociationExtensionHelper' => __DIR__ . '/../../..' . '/libraries/src/Association/AssociationExtensionHelper.php',
         'Joomla\\CMS\\Association\\AssociationExtensionInterface' => __DIR__ . '/../../..' . '/libraries/src/Association/AssociationExtensionInterface.php',
+        'Joomla\\CMS\\Association\\AssociationServiceInterface' => __DIR__ . '/../../..' . '/libraries/src/Association/AssociationServiceInterface.php',
+        'Joomla\\CMS\\Association\\AssociationServiceTrait' => __DIR__ . '/../../..' . '/libraries/src/Association/AssociationServiceTrait.php',
         'Joomla\\CMS\\Authentication\\Authentication' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Authentication.php',
         'Joomla\\CMS\\Authentication\\AuthenticationResponse' => __DIR__ . '/../../..' . '/libraries/src/Authentication/AuthenticationResponse.php',
         'Joomla\\CMS\\Authentication\\Password\\Argon2iHandler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/Argon2iHandler.php',
@@ -368,7 +370,10 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Captcha\\Captcha' => __DIR__ . '/../../..' . '/libraries/src/Captcha/Captcha.php',
         'Joomla\\CMS\\Captcha\\Google\\HttpBridgePostRequestMethod' => __DIR__ . '/../../..' . '/libraries/src/Captcha/Google/HttpBridgePostRequestMethod.php',
         'Joomla\\CMS\\Categories\\Categories' => __DIR__ . '/../../..' . '/libraries/src/Categories/Categories.php',
+        'Joomla\\CMS\\Categories\\CategoriesServiceInterface' => __DIR__ . '/../../..' . '/libraries/src/Categories/CategoriesServiceInterface.php',
+        'Joomla\\CMS\\Categories\\CategoriesServiceTrait' => __DIR__ . '/../../..' . '/libraries/src/Categories/CategoriesServiceTrait.php',
         'Joomla\\CMS\\Categories\\CategoryNode' => __DIR__ . '/../../..' . '/libraries/src/Categories/CategoryNode.php',
+        'Joomla\\CMS\\Categories\\SectionNotFoundException' => __DIR__ . '/../../..' . '/libraries/src/Categories/SectionNotFoundException.php',
         'Joomla\\CMS\\Client\\ClientHelper' => __DIR__ . '/../../..' . '/libraries/src/Client/ClientHelper.php',
         'Joomla\\CMS\\Client\\ClientWrapper' => __DIR__ . '/../../..' . '/libraries/src/Client/ClientWrapper.php',
         'Joomla\\CMS\\Client\\FtpClient' => __DIR__ . '/../../..' . '/libraries/src/Client/FtpClient.php',
@@ -450,6 +455,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Event\\AfterExtensionBootEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/AfterExtensionBootEvent.php',
         'Joomla\\CMS\\Event\\BeforeExecuteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/BeforeExecuteEvent.php',
         'Joomla\\CMS\\Event\\BeforeExtensionBootEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/BeforeExtensionBootEvent.php',
+        'Joomla\\CMS\\Event\\ErrorEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/ErrorEvent.php',
         'Joomla\\CMS\\Event\\GenericEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/GenericEvent.php',
         'Joomla\\CMS\\Event\\Table\\AbstractEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/AbstractEvent.php',
         'Joomla\\CMS\\Event\\Table\\AfterBindEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/AfterBindEvent.php',
@@ -478,13 +484,16 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Event\\Table\\ObjectCreateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/ObjectCreateEvent.php',
         'Joomla\\CMS\\Event\\Table\\SetNewTagsEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Table/SetNewTagsEvent.php',
         'Joomla\\CMS\\Exception\\ExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Exception/ExceptionHandler.php',
+        'Joomla\\CMS\\Extension\\BootableExtensionInterface' => __DIR__ . '/../../..' . '/libraries/src/Extension/BootableExtensionInterface.php',
         'Joomla\\CMS\\Extension\\Component' => __DIR__ . '/../../..' . '/libraries/src/Extension/Component.php',
         'Joomla\\CMS\\Extension\\ComponentInterface' => __DIR__ . '/../../..' . '/libraries/src/Extension/ComponentInterface.php',
         'Joomla\\CMS\\Extension\\ExtensionHelper' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionHelper.php',
         'Joomla\\CMS\\Extension\\ExtensionManagerInterface' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerInterface.php',
         'Joomla\\CMS\\Extension\\ExtensionManagerTrait' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerTrait.php',
         'Joomla\\CMS\\Extension\\LegacyComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/LegacyComponent.php',
-        'Joomla\\CMS\\Extension\\Service\\Provider\\Component' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/Component.php',
+        'Joomla\\CMS\\Extension\\MVCComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/MVCComponent.php',
+        'Joomla\\CMS\\Extension\\Service\\Provider\\DispatcherFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/DispatcherFactory.php',
+        'Joomla\\CMS\\Extension\\Service\\Provider\\MVCFactoryFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/MVCFactoryFactory.php',
         'Joomla\\CMS\\Factory' => __DIR__ . '/../../..' . '/libraries/src/Factory.php',
         'Joomla\\CMS\\Feed\\Feed' => __DIR__ . '/../../..' . '/libraries/src/Feed/Feed.php',
         'Joomla\\CMS\\Feed\\FeedEntry' => __DIR__ . '/../../..' . '/libraries/src/Feed/FeedEntry.php',
@@ -497,6 +506,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Feed\\Parser\\RssParser' => __DIR__ . '/../../..' . '/libraries/src/Feed/Parser/RssParser.php',
         'Joomla\\CMS\\Feed\\Parser\\Rss\\ItunesRssParser' => __DIR__ . '/../../..' . '/libraries/src/Feed/Parser/Rss/ItunesRssParser.php',
         'Joomla\\CMS\\Feed\\Parser\\Rss\\MediaRssParser' => __DIR__ . '/../../..' . '/libraries/src/Feed/Parser/Rss/MediaRssParser.php',
+        'Joomla\\CMS\\Fields\\FieldsServiceInterface' => __DIR__ . '/../../..' . '/libraries/src/Fields/FieldsServiceInterface.php',
         'Joomla\\CMS\\Filesystem\\File' => __DIR__ . '/../../..' . '/libraries/src/Filesystem/File.php',
         'Joomla\\CMS\\Filesystem\\FilesystemHelper' => __DIR__ . '/../../..' . '/libraries/src/Filesystem/FilesystemHelper.php',
         'Joomla\\CMS\\Filesystem\\Folder' => __DIR__ . '/../../..' . '/libraries/src/Filesystem/Folder.php',
@@ -608,6 +618,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Form\\Rule\\UrlRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/UrlRule.php',
         'Joomla\\CMS\\Form\\Rule\\UsernameRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/UsernameRule.php',
         'Joomla\\CMS\\HTML\\HTMLHelper' => __DIR__ . '/../../..' . '/libraries/src/HTML/HTMLHelper.php',
+        'Joomla\\CMS\\HTML\\HTMLRegistryAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/HTML/HTMLRegistryAwareTrait.php',
         'Joomla\\CMS\\HTML\\Registry' => __DIR__ . '/../../..' . '/libraries/src/HTML/Registry.php',
         'Joomla\\CMS\\Help\\Help' => __DIR__ . '/../../..' . '/libraries/src/Help/Help.php',
         'Joomla\\CMS\\Helper\\AuthenticationHelper' => __DIR__ . '/../../..' . '/libraries/src/Helper/AuthenticationHelper.php',
@@ -695,6 +706,8 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\MVC\\Factory\\MVCFactoryFactory' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryFactory.php',
         'Joomla\\CMS\\MVC\\Factory\\MVCFactoryFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryFactoryInterface.php',
         'Joomla\\CMS\\MVC\\Factory\\MVCFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryInterface.php',
+        'Joomla\\CMS\\MVC\\Factory\\MVCFactoryServiceInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryServiceInterface.php',
+        'Joomla\\CMS\\MVC\\Factory\\MVCFactoryServiceTrait' => __DIR__ . '/../../..' . '/libraries/src/MVC/Factory/MVCFactoryServiceTrait.php',
         'Joomla\\CMS\\MVC\\Model\\AdminModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/AdminModel.php',
         'Joomla\\CMS\\MVC\\Model\\BaseDatabaseModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/BaseDatabaseModel.php',
         'Joomla\\CMS\\MVC\\Model\\FormModel' => __DIR__ . '/../../..' . '/libraries/src/MVC/Model/FormModel.php',
@@ -781,9 +794,11 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Table\\User' => __DIR__ . '/../../..' . '/libraries/src/Table/User.php',
         'Joomla\\CMS\\Table\\Usergroup' => __DIR__ . '/../../..' . '/libraries/src/Table/Usergroup.php',
         'Joomla\\CMS\\Table\\ViewLevel' => __DIR__ . '/../../..' . '/libraries/src/Table/ViewLevel.php',
-        'Joomla\\CMS\\Toolbar\\Button\\ApplyButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ApplyButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\AbstractGroupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/AbstractGroupButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\BasicButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/BasicButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\ConfirmButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/ConfirmButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\CustomButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/CustomButton.php',
+        'Joomla\\CMS\\Toolbar\\Button\\DropdownButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/DropdownButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\HelpButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/HelpButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\LinkButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/LinkButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\PopupButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/PopupButton.php',
@@ -791,6 +806,7 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\CMS\\Toolbar\\Button\\SliderButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/SliderButton.php',
         'Joomla\\CMS\\Toolbar\\Button\\StandardButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Button/StandardButton.php',
         'Joomla\\CMS\\Toolbar\\ContainerAwareToolbarFactory' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ContainerAwareToolbarFactory.php',
+        'Joomla\\CMS\\Toolbar\\CoreButtonsTrait' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/CoreButtonsTrait.php',
         'Joomla\\CMS\\Toolbar\\Toolbar' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/Toolbar.php',
         'Joomla\\CMS\\Toolbar\\ToolbarButton' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarButton.php',
         'Joomla\\CMS\\Toolbar\\ToolbarFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Toolbar/ToolbarFactoryInterface.php',
@@ -875,8 +891,6 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Database\\Mysqli\\MysqliImporter' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliImporter.php',
         'Joomla\\Database\\Mysqli\\MysqliQuery' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliQuery.php',
         'Joomla\\Database\\Mysqli\\MysqliStatement' => __DIR__ . '/..' . '/joomla/database/src/Mysqli/MysqliStatement.php',
-        'Joomla\\Database\\Oracle\\OracleDriver' => __DIR__ . '/..' . '/joomla/database/src/Oracle/OracleDriver.php',
-        'Joomla\\Database\\Oracle\\OracleQuery' => __DIR__ . '/..' . '/joomla/database/src/Oracle/OracleQuery.php',
         'Joomla\\Database\\ParameterType' => __DIR__ . '/..' . '/joomla/database/src/ParameterType.php',
         'Joomla\\Database\\Pdo\\PdoDriver' => __DIR__ . '/..' . '/joomla/database/src/Pdo/PdoDriver.php',
         'Joomla\\Database\\Pdo\\PdoQuery' => __DIR__ . '/..' . '/joomla/database/src/Pdo/PdoQuery.php',
@@ -885,11 +899,6 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Joomla\\Database\\Pgsql\\PgsqlExporter' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlExporter.php',
         'Joomla\\Database\\Pgsql\\PgsqlImporter' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlImporter.php',
         'Joomla\\Database\\Pgsql\\PgsqlQuery' => __DIR__ . '/..' . '/joomla/database/src/Pgsql/PgsqlQuery.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlDriver' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlDriver.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlExporter' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlExporter.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlImporter' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlImporter.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlQuery' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlQuery.php',
-        'Joomla\\Database\\Postgresql\\PostgresqlStatement' => __DIR__ . '/..' . '/joomla/database/src/Postgresql/PostgresqlStatement.php',
         'Joomla\\Database\\QueryInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryInterface.php',
         'Joomla\\Database\\QueryMonitorInterface' => __DIR__ . '/..' . '/joomla/database/src/QueryMonitorInterface.php',
         'Joomla\\Database\\Query\\LimitableInterface' => __DIR__ . '/..' . '/joomla/database/src/Query/LimitableInterface.php',
@@ -1034,8 +1043,6 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
         'Psr\\Log\\LoggerInterface' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerInterface.php',
         'Psr\\Log\\LoggerTrait' => __DIR__ . '/..' . '/psr/log/Psr/Log/LoggerTrait.php',
         'Psr\\Log\\NullLogger' => __DIR__ . '/..' . '/psr/log/Psr/Log/NullLogger.php',
-        'Psr\\Log\\Test\\DummyTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
-        'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'ReCaptcha\\ReCaptcha' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/ReCaptcha.php',
         'ReCaptcha\\RequestMethod' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod.php',
         'ReCaptcha\\RequestMethod\\Curl' => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha/RequestMethod/Curl.php',
@@ -1192,9 +1199,9 @@ class ComposerStaticInitce5be4e722e5d8902a529db788fbe52f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitce5be4e722e5d8902a529db788fbe52f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1::$classMap;
 
         }, null, ClassLoader::class);
     }

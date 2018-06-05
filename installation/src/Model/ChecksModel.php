@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,13 +167,6 @@ class ChecksModel extends BaseInstallationModel
 	{
 		$settings = array();
 
-		// Check for safe mode.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_SAFE_MODE');
-		$setting->state = (bool) ini_get('safe_mode');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
 		// Check for display errors.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
@@ -186,13 +179,6 @@ class ChecksModel extends BaseInstallationModel
 		$setting->label = \JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
-		$settings[] = $setting;
-
-		// Check for magic quotes runtimes.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for output buffering.
@@ -251,7 +237,7 @@ class ChecksModel extends BaseInstallationModel
 		}
 
 		// Get the form.
-		Form::addFormPath(JPATH_COMPONENT . '/model/forms');
+		Form::addFormPath(JPATH_COMPONENT . '/forms');
 
 		try
 		{

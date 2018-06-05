@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -55,11 +55,11 @@ $scriptOptions = [
 	<meta name="theme-color" content="#1c3d5c">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 
-	<link href="<?php echo 'templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
+	<link href="<?php echo 'administrator/templates/' . $this->template . '/favicon.ico'; ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
 	<link href="<?php echo Uri::root(); ?>media/vendor/joomla-custom-elements/css/joomla-alert.min.css" rel="stylesheet">
-	<link href="<?php echo 'templates/' . $this->template . '/css/bootstrap.min.css'; ?>" rel="stylesheet">
-	<link href="<?php echo 'templates/' . $this->template . '/css/font-awesome.min.css'; ?>" rel="stylesheet">
-	<link href="<?php echo 'templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo 'administrator/templates/' . $this->template . '/css/bootstrap.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo 'administrator/templates/' . $this->template . '/css/font-awesome.min.css'; ?>" rel="stylesheet">
+	<link href="<?php echo 'administrator/templates/' . $this->template . '/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css'; ?>" rel="stylesheet">
 
 	<?php $userCss = 'administrator/templates/' . $this->template . '/css/user.css'; ?>
 	<?php if (is_file(JPATH_ROOT . $userCss)) : ?>

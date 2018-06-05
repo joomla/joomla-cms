@@ -1241,7 +1241,7 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
-  `content` text NOT NULL DEFAULT '',
+  `content` text NULL,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `position` varchar(50) NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
@@ -1790,8 +1790,6 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `uastring` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `series` (`series`),
-  UNIQUE KEY `series_2` (`series`),
-  UNIQUE KEY `series_3` (`series`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
