@@ -442,17 +442,6 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__core_log_searches`
---
-
-CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL DEFAULT '',
-  `hits` int(10) unsigned NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__extensions`
 --
 
