@@ -59,6 +59,12 @@ class Json extends AbstractRegistryFormat
 	{
 		$data = trim($data);
 
+		// Because developers are clearly not validating their data before pushing it into a Registry, we'll do it for them
+		if (empty($data))
+		{
+			return new \stdClass;
+		}
+
 		if ($data !== '' && $data[0] !== '{')
 		{
 			return AbstractRegistryFormat::getInstance('Ini')->stringToObject($data, $options);

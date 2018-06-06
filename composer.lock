@@ -587,16 +587,16 @@
         },
         {
             "name": "joomla/registry",
-            "version": "1.6.1",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/registry.git",
-                "reference": "9b7fe128204301bebdae9bd8f02868e8e2e36f74"
+                "reference": "182eed3a56b2b7e14cef11fdbc63c253ddcfd924"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/9b7fe128204301bebdae9bd8f02868e8e2e36f74",
-                "reference": "9b7fe128204301bebdae9bd8f02868e8e2e36f74",
+                "url": "https://api.github.com/repos/joomla-framework/registry/zipball/182eed3a56b2b7e14cef11fdbc63c253ddcfd924",
+                "reference": "182eed3a56b2b7e14cef11fdbc63c253ddcfd924",
                 "shasum": ""
             },
             "require": {
@@ -636,7 +636,7 @@
                 "joomla",
                 "registry"
             ],
-            "time": "2018-05-26T16:34:53+00:00"
+            "time": "2018-06-06T16:48:30+00:00"
         },
         {
             "name": "joomla/session",
