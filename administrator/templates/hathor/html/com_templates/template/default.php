@@ -147,7 +147,7 @@ if ($this->type == 'font')
 						<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
 						<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
 						<?php echo JHtml::_('form.token'); ?>
-						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+						<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
 					</form>
 				</div>

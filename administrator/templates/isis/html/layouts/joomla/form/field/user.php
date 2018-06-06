@@ -109,14 +109,21 @@ if (!$readonly)
 	<div class="input-append">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly />
 		<?php if (!$readonly) : ?>
-			<a class="btn btn-primary button-select" title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"><span class="icon-user"></span></a>
+			<button
+				type="button"
+				class="btn btn-primary button-select"
+				title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"
+				aria-label="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"
+				>
+				<span class="icon-user" aria-hidden="true"></span>
+			</button>
 			<?php echo JHtml::_(
 				'bootstrap.renderModal',
 				'userModal_' . $id,
 				array(
 					'title'       => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer'      => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>',
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>',
 				)
 			); ?>
 		<?php endif; ?>

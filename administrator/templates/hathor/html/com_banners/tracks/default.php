@@ -129,9 +129,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
 				'width'       => '100%',
 				'height'      => '300px',
-				'footer'      => '<a class="btn" data-dismiss="modal" type="button"'
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_('COM_BANNERS_CANCEL') . '</a>'
+						. JText::_('COM_BANNERS_CANCEL') . '</button>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
 						. JText::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',

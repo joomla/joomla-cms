@@ -23,12 +23,14 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 
 <div class="btn-group multilanguage">
-	<a data-toggle="modal"
-		href="#multiLangModal"
+	<button
+		type="button"
+		data-toggle="modal"
+		data-target="#multiLangModal"
 		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
-		role="button">
+		>
 		<span class="icon-comment" aria-hidden="true"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
-	</a>
+	</button>
 	<span class="btn-group separator"></span>
 </div>
 
@@ -42,7 +44,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		'width'       => '800px',
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<a class="btn" data-dismiss="modal" type="button" aria-hidden="true">'
-				. JText::_('JTOOLBAR_CLOSE') . '</a>',
+		'footer'      => '<button type="button" class="btn" data-dismiss="modal">'
+				. JText::_('JTOOLBAR_CLOSE') . '</button>',
 	)
 );

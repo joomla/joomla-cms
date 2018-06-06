@@ -61,20 +61,21 @@ class JFormFieldModalAssociation extends JFormField
 		$urlSelect = $linkAssociations . '&amp;' . JSession::getFormToken() . '=1';
 
 		// Select custom association button
-		$html[] = '<a'
+		$html[] = '<button'
+			. ' type="button"'
 			. ' id="select-change"'
 			. ' class="btn' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . JText::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . JText::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
-			. ' role="button"'
-			. ' href="#associationSelect' . $this->id . 'Modal">'
+			. ' data-target="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span>'
 			. '<span id="select-change-text"></span>'
-			. '</a>';
+			. '</button>';
 
 		// Clear association button
 		$html[] = '<button'
+			. ' type="button"'
 			. ' class="btn' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
 			. ' id="remove-assoc">'
@@ -95,8 +96,8 @@ class JFormFieldModalAssociation extends JFormField
 				'width'       => '800px',
 				'bodyHeight'  => '70',
 				'modalWidth'  => '80',
-				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
 

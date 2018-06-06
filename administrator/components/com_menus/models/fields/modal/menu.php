@@ -242,55 +242,55 @@ class JFormFieldModal_Menu extends JFormField
 		// Select menu item button
 		if ($this->allowSelect)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalSelect' . $modalId . '"'
+				. ' data-target="#ModalSelect' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_MENUS_CHANGE_MENUITEM') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// New menu item button
 		if ($this->allowNew)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalNew' . $modalId . '"'
+				. ' data-target="#ModalNew' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_MENUS_NEW_MENUITEM') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . JText::_('JACTION_CREATE')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Edit menu item button
 		if ($this->allowEdit)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalEdit' . $modalId . '"'
+				. ' data-target="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_MENUS_EDIT_MENUITEM') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Clear menu item button
 		if ($this->allowClear)
 		{
-			$html .= '<a'
+			$html .= '<button'
+				. ' type="button"'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . JText::_('JCLEAR')
-				. '</a>';
+				. '</button>';
 		}
 
 		$html .= '</span>';
@@ -308,7 +308,7 @@ class JFormFieldModal_Menu extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -329,15 +329,15 @@ class JFormFieldModal_Menu extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. JText::_('JAPPLY') . '</button>',
 				)
 			);
 		}
@@ -358,15 +358,15 @@ class JFormFieldModal_Menu extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
+							. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+							. '<button type="button" class="btn btn-primary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'save\', \'item-form\'); return false;">'
-							. JText::_('JSAVE') . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_('JSAVE') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. JText::_('JAPPLY') . '</a>',
+							. JText::_('JAPPLY') . '</button>',
 				)
 			);
 		}
