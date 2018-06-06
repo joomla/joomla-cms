@@ -16,13 +16,12 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @param string $nonce
      * @param string $key
      * @return string
-     * @throws SodiumException
-     * @throws TypeError
+     * @throws Exception
      */
     public static function stream($len = 64, $nonce = '', $key = '')
     {
         if (self::strlen($nonce) !== 24) {
-            throw new SodiumException('Nonce must be 24 bytes long');
+            throw new Exception('Nonce must be 24 bytes long');
         }
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_Ctx(
@@ -44,13 +43,12 @@ class ParagonIE_Sodium_Core_XChaCha20 extends ParagonIE_Sodium_Core_HChaCha20
      * @param string $key
      * @param string $ic
      * @return string
-     * @throws SodiumException
-     * @throws TypeError
+     * @throws Exception
      */
     public static function streamXorIc($message, $nonce = '', $key = '', $ic = '')
     {
         if (self::strlen($nonce) !== 24) {
-            throw new SodiumException('Nonce must be 24 bytes long');
+            throw new Exception('Nonce must be 24 bytes long');
         }
         return self::encryptBytes(
             new ParagonIE_Sodium_Core_ChaCha20_Ctx(

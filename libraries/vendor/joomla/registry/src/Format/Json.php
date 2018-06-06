@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,17 +29,17 @@ class Json extends AbstractRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		$bitMask = isset($options['bitmask']) ? $options['bitmask'] : 0;
+		$bitmask = isset($options['bitmask']) ? $options['bitmask'] : 0;
 
 		// The depth parameter is only present as of PHP 5.5
 		if (version_compare(PHP_VERSION, '5.5', '>='))
 		{
 			$depth = isset($options['depth']) ? $options['depth'] : 512;
 
-			return json_encode($object, $bitMask, $depth);
+			return json_encode($object, $bitmask, $depth);
 		}
 
-		return json_encode($object, $bitMask);
+		return json_encode($object, $bitmask);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Json extends AbstractRegistryFormat
 	{
 		$data = trim($data);
 
-		if ($data !== '' && $data[0] !== '{')
+		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
 		{
 			return AbstractRegistryFormat::getInstance('Ini')->stringToObject($data, $options);
 		}
@@ -67,11 +67,11 @@ class Json extends AbstractRegistryFormat
 		$decoded = json_decode($data);
 
 		// Check for an error decoding the data
-		if ($decoded === null && json_last_error() !== JSON_ERROR_NONE)
+		if ($decoded === null)
 		{
 			throw new \RuntimeException(sprintf('Error decoding JSON data: %s', json_last_error_msg()));
 		}
 
-		return (object) $decoded;
+		return $decoded;
 	}
 }

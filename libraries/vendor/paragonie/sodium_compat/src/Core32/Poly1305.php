@@ -17,8 +17,6 @@ abstract class ParagonIE_Sodium_Core32_Poly1305 extends ParagonIE_Sodium_Core32_
      * @param string $m
      * @param string $key
      * @return string
-     * @throws SodiumException
-     * @throws TypeError
      */
     public static function onetimeauth($m, $key)
     {
@@ -42,8 +40,6 @@ abstract class ParagonIE_Sodium_Core32_Poly1305 extends ParagonIE_Sodium_Core32_
      * @param string $m
      * @param string $key
      * @return bool
-     * @throws SodiumException
-     * @throws TypeError
      */
     public static function onetimeauth_verify($mac, $m, $key)
     {
