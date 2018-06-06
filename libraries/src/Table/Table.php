@@ -803,9 +803,6 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
 		{
-			/** @var  \JTableAsset  $asset */
-			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->_db));
-
 			if ($this->_locked)
 			{
 				$this->_unlock();
@@ -818,6 +815,8 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 			$name     = $this->_getAssetName();
 			$title    = $this->_getAssetTitle();
 
+			/** @var  \JTableAsset  $asset */
+			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->_db));
 			$asset->loadByName($name);
 
 			// Specify how a new or moved node asset is inserted into the tree.
