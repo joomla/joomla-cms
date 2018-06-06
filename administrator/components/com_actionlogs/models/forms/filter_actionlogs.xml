@@ -8,15 +8,6 @@
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="dateRange"
-			type="logsdaterange"
-			label="COM_ACTIONLOGS_OPTION_FILTER_DATE"
-			description="COM_ACTIONLOGS_OPTION_FILTER_DATE"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_ACTIONLOGS_OPTION_FILTER_DATE</option>
-		</field>
-		<field
 			name="extension"
 			type="extension"
 			label="COM_ACTIONLOGS_EXTENSION"
@@ -24,6 +15,15 @@
 			onchange="this.form.submit()"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_EXTENSION</option>
+		</field>
+		<field
+			name="dateRange"
+			type="logsdaterange"
+			label="COM_ACTIONLOGS_OPTION_FILTER_DATE"
+			description="COM_ACTIONLOGS_OPTION_FILTER_DATE"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_ACTIONLOGS_OPTION_FILTER_DATE</option>
 		</field>
 		<field
 			name="user"
@@ -43,8 +43,8 @@
 			default="a.id DESC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.message ASC">COM_ACTIONLOGS_MESSAGE_ASC</option>
-			<option value="a.message DESC">COM_ACTIONLOGS_MESSAGE_DESC</option>
+			<option value="a.message ASC">COM_ACTIONLOGS_ACTION_ASC</option>
+			<option value="a.message DESC">COM_ACTIONLOGS_ACTION_DESC</option>
 			<option value="a.extension ASC">COM_ACTIONLOGS_EXTENSION_ASC</option>
 			<option value="a.extension DESC">COM_ACTIONLOGS_EXTENSION_DESC</option>
 			<option value="a.log_date ASC">JDATE_ASC</option>
@@ -61,11 +61,11 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
-			default="25"
 			label="COM_ACTIONLOGS_LIST_LIMIT"
 			description="COM_ACTIONLOGS_LIST_LIMIT_DESC"
+			class="input-mini"
 			onchange="this.form.submit();"
+			default="25"
 		/>
 	</fields>
 </form>

@@ -54,7 +54,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							onclick="Joomla.checkAll(this)" />
 					</th>
 					<th>
-						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_MESSAGE', 'a.message', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>

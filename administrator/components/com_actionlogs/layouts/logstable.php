@@ -21,7 +21,7 @@ $messages = $displayData['messages'];
 </h2>
 <table>
 	<thead>
-		<th><?php echo JText::_('COM_ACTIONLOGS_MESSAGE'); ?></th>
+		<th><?php echo JText::_('COM_ACTIONLOGS_ACTION'); ?></th>
 		<th><?php echo JText::_('COM_ACTIONLOGS_DATE'); ?></th>
 		<th><?php echo JText::_('COM_ACTIONLOGS_EXTENSION'); ?></th>
 		<th><?php echo JText::_('COM_ACTIONLOGS_NAME'); ?></th>
