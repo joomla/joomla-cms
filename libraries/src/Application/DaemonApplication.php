@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
+use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
@@ -362,8 +363,11 @@ abstract class DaemonApplication extends CliApplication
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Enable basic garbage collection.
 		gc_enable();

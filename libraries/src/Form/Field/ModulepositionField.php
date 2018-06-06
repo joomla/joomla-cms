@@ -14,6 +14,8 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('text');
 
@@ -138,7 +140,7 @@ class ModulepositionField extends \JFormFieldText
 	protected function getInput()
 	{
 		// Load the modal behavior script.
-		\JHtml::_('behavior.modal', 'a.modal');
+		HTMLHelper::_('behavior.modal', 'a.modal');
 
 		// Build the script.
 		$script = array();
@@ -158,9 +160,9 @@ class ModulepositionField extends \JFormFieldText
 		// The current user display field.
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
-			. '<a class="btn modal" title="' . \JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
+			. '<a class="btn modal" title="' . Text::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link
 			. '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. \JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
+			. Text::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);

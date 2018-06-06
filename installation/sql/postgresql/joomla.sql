@@ -466,6 +466,24 @@ CREATE TABLE IF NOT EXISTS "#__core_log_searches" (
 );
 
 --
+-- Table structure for table `#__csp`
+--
+
+CREATE TABLE IF NOT EXISTS "#__csp" (
+  "id" int(11) NOT NULL AUTO_INCREMENT,
+  "document_uri" varchar(500) NOT NULL DEFAULT '',
+  "blocked_uri" varchar(500) NOT NULL DEFAULT '',
+  "directive" varchar(500) NOT NULL DEFAULT '',
+  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified"  timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "published" smallint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+
+-- --------------------------------------------------------
+
+
+--
 -- Table structure for table `#__extensions`
 --
 
@@ -528,6 +546,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
+(35, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Component\\Csp'),
 (102, 0, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, ''),
@@ -1441,7 +1460,7 @@ CREATE TABLE IF NOT EXISTS "#__modules" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "content" text DEFAULT '' NOT NULL,
+  "content" text,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" varchar(50) DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,

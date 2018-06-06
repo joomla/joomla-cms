@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Templates component helper.
  *
- * @since  1.6
+ * @since       1.6
+ *
+ * @deprecated  5.0 Use \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper instead
  */
 class TemplatesHelper extends \Joomla\Component\Templates\Administrator\Helper\TemplatesHelper
 {
-
 }
