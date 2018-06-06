@@ -65,6 +65,13 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       // The number input listener
       document.getElementById('jform_rotate_a').addEventListener('input', function (event) {
         rotate(parseInt(event.target.value, 10));
+
+        // Deselect all buttons
+        var elements = [].slice.call(document.querySelectorAll('#jform_rotate_distinct label'));
+        elements.forEach(function (element) {
+          element.classList.remove('active');
+          element.classList.remove('focus');
+        });
       });
 
       // The 90 degree rotate buttons listeners

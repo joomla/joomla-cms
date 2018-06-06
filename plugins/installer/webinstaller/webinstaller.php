@@ -27,6 +27,12 @@ use Joomla\CMS\Version;
  */
 class PlgInstallerWebinstaller extends CMSPlugin
 {
+	/**
+	 * The URL for the remote server.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
 	const REMOTE_URL = 'https://appscdn.joomla.org/webapps/';
 
 	/**
@@ -74,6 +80,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		// Push language strings to the JavaScript store
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
+		Text::script('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL');
 
 		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
 		HTMLHelper::_('bootstrap.framework');

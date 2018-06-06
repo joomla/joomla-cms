@@ -43,7 +43,7 @@ $config = [
 	'editViewUrl'             => JUri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
-	'contents'                => base64_encode(file_get_contents($this->file->localpath)),
+	'contents'                => $this->file->content,
 ];
 
 JFactory::getDocument()->addScriptOptions('com_media', $config);
