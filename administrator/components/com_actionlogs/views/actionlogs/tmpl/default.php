@@ -45,9 +45,6 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php else : ?>
 			<table class="table table-striped table-hover" id="logsList">
 				<thead>
-					<th width="2%">
-						<?php echo JHtml::_('searchtools.sort', '', 'a.id', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-					</th>
 					<th width="1%">
 						<input type="checkbox" name="checkall-toggle" value=""
 							title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
@@ -76,7 +73,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="7">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -84,11 +81,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td>
-								<span class="sortable-handler inactive tip-top hasTooltip">
-									<i class="icon-menu"></i>
-								</span>
-							</td>
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>

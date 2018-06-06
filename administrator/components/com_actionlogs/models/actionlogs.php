@@ -128,8 +128,19 @@ class ActionlogsModelActionlogs extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(a.message LIKE ' . $search . ')');
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'item_id:') === 0)
+			{
+				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
+			}
 		}
 
 		return $query;
