@@ -7,7 +7,7 @@
 		>
 
 		<field
-			name="enabled"
+			name="logging_enabled"
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			class="switcher"

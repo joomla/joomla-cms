@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS "#__finder_links_termsc";
 DROP TABLE IF EXISTS "#__finder_links_termsd";
 DROP TABLE IF EXISTS "#__finder_links_termse";
 DROP TABLE IF EXISTS "#__finder_links_termsf";
+DROP TABLE IF EXISTS "#__finder_logging";
 DROP TABLE IF EXISTS "#__finder_taxonomy";
 DROP TABLE IF EXISTS "#__finder_taxonomy_map";
 DROP TABLE IF EXISTS "#__finder_terms";
