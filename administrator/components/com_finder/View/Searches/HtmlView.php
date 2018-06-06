@@ -144,14 +144,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCHES');
-
-
-
-
-
-
-		//ToolbarHelper::title(\JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
-
-
 	}
 }

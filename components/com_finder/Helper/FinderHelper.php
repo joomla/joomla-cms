@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Site\Helper;
@@ -23,7 +23,8 @@ class FinderHelper
 	/**
 	 * Method to log searches to the database
 	 *
-	 * @param   string  $searchquery  The search query
+	 * @param   string   $searchquery  The search query
+	 * @param   integer  $resultCount  The number of results for this search
 	 *
 	 * @return  void
 	 *
