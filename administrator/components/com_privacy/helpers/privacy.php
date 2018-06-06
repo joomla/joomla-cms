@@ -45,4 +45,46 @@ class PrivacyHelper extends JHelperContent
 			$vName === 'consents'
 		);
 	}
+
+	/**
+	 * Render the data request as a XML document.
+	 *
+	 * @param   PrivacyExportDomain[]  $exportData  The data to be exported.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function renderDataAsXml(array $exportData)
+	{
+		$export = new SimpleXMLElement("<data-export />");
+
+		foreach ($exportData as $domain)
+		{
+			$xmlDomain = $export->addChild('domain');
+			$xmlDomain->addAttribute('name', $domain->name);
+			$xmlDomain->addAttribute('description', $domain->description);
+
+			foreach ($domain->getItems() as $item)
+			{
+				$xmlItem = $xmlDomain->addChild('item');
+
+				if ($item->id)
+				{
+					$xmlItem->addAttribute('id', $item->id);
+				}
+
+				foreach ($item->getFields() as $field)
+				{
+					$xmlItem->{$field->name} = $field->value;
+				}
+			}
+		}
+
+		$dom = new DOMDocument;
+		$dom->loadXML($export->asXML());
+		$dom->formatOutput = true;
+
+		return $dom->saveXML();
+	}
 }

@@ -44,8 +44,8 @@ $now       = JFactory::getDate();
 			<table class="table table-striped" id="requestList">
 				<thead>
 					<tr>
-						<th width="1%" class="center">
-							<?php echo JHtml::_('grid.checkall'); ?>
+						<th width="5%" class="nowrap center">
+							<?php echo JText::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
 							<?php echo JText::_('JSTATUS'); ?>
@@ -81,7 +81,12 @@ $now       = JFactory::getDate();
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<div class="btn-group">
+									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span></a>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span></a>
+									<?php endif; ?>
+								</div>
 							</td>
 							<td class="center">
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>

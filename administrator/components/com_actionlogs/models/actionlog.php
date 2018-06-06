@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
 /**
  * Methods supporting a list of article records.
  *
