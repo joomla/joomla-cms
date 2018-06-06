@@ -66,7 +66,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      * @return void
-     * @psalm-suppress MixedArrayOffset
      */
     public function offsetSet($offset, $value)
     {
@@ -85,7 +84,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return bool
-     * @psalm-suppress MixedArrayOffset
      */
     public function offsetExists($offset)
     {
@@ -97,7 +95,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return void
-     * @psalm-suppress MixedArrayOffset
      */
     public function offsetUnset($offset)
     {
@@ -109,7 +106,6 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      *
      * @param mixed $offset
      * @return mixed|null
-     * @psalm-suppress MixedArrayOffset
      */
     public function offsetGet($offset)
     {

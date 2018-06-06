@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Image Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,8 +13,7 @@ use Joomla\Image\ImageFilter;
 /**
  * Image Filter class to emboss an image.
  *
- * @since       1.0
- * @deprecated  The joomla/image package is deprecated
+ * @since  1.0
  */
 class Emboss extends ImageFilter
 {

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework LDAP Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,8 +11,7 @@ namespace Joomla\Ldap;
 /**
  * LDAP client class
  *
- * @since       1.0
- * @deprecated  The joomla/ldap package is deprecated
+ * @since  1.0
  */
 class LdapClient
 {
@@ -387,11 +386,11 @@ class LdapClient
 			$dn = $this->base_dn;
 		}
 
-		foreach ($filters as $searchFilter)
+		foreach ($filters as $search_filter)
 		{
-			$searchResult = ldap_search($this->resource, $dn, $searchFilter, $attributes);
+			$search_result = ldap_search($this->resource, $dn, $search_filter, $attributes);
 
-			if ($searchResult && ($count = ldap_count_entries($this->resource, $searchResult)) > 0)
+			if ($search_result && ($count = ldap_count_entries($this->resource, $search_result)) > 0)
 			{
 				for ($i = 0; $i < $count; $i++)
 				{
@@ -399,7 +398,7 @@ class LdapClient
 
 					if (!$i)
 					{
-						$firstentry = ldap_first_entry($this->resource, $searchResult);
+						$firstentry = ldap_first_entry($this->resource, $search_result);
 					}
 					else
 					{
@@ -407,10 +406,10 @@ class LdapClient
 					}
 
 					// Load user-specified attributes
-					$attributeResult = ldap_get_attributes($this->resource, $firstentry);
+					$result_array = ldap_get_attributes($this->resource, $firstentry);
 
 					// LDAP returns an array of arrays, fit this into attributes result array
-					foreach ($attributeResult as $ki => $ai)
+					foreach ($result_array as $ki => $ai)
 					{
 						if (is_array($ai))
 						{
@@ -720,7 +719,7 @@ class LdapClient
 	 * @author  Jay Burrell, Systems & Networks, Mississippi State University
 	 * @since   1.0
 	 */
-	public static function ldapNetAddr($networkaddress)
+	public static function LdapNetAddr($networkaddress)
 	{
 		$addr = "";
 		$addrtype = (int) substr($networkaddress, 0, 1);

@@ -89,7 +89,6 @@ Desktop.ini
 /libraries/vendor/joomla/*/composer.json
 /libraries/vendor/joomla/*/phpunit.xml.dist
 /libraries/vendor/joomla/*/README.md
-/libraries/vendor/joomla/*/ruleset.xml
 /libraries/vendor/joomla/session/Joomla/Session/.github
 /libraries/vendor/joomla/session/Joomla/Session/_Tests
 /libraries/vendor/joomla/session/Joomla/Session/build
@@ -122,11 +121,8 @@ Desktop.ini
 /libraries/vendor/paragonie/random_compat/psalm.xml
 /libraries/vendor/paragonie/random_compat/tests
 /libraries/vendor/paragonie/sodium_compat/.gitignore
-/libraries/vendor/paragonie/sodium_compat/appveyor.yml
-/libraries/vendor/paragonie/sodium_compat/build-phar.sh
 /libraries/vendor/paragonie/sodium_compat/composer.json
 /libraries/vendor/paragonie/sodium_compat/composer.lock
-/libraries/vendor/paragonie/sodium_compat/dist
 /libraries/vendor/paragonie/sodium_compat/phpunit.xml.dist
 /libraries/vendor/paragonie/sodium_compat/README.md
 /libraries/vendor/paragonie/sodium_compat/src/Core/Curve25519/README.md
@@ -146,15 +142,10 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/UPGRADING.md
 /libraries/vendor/phpmailer/phpmailer/extras/README.md
 /libraries/vendor/phpmailer/phpmailer/get_oauth_token.php
-/libraries/vendor/psr/container/.gitignore
-/libraries/vendor/psr/container/composer.json
-/libraries/vendor/psr/container/README.md
 /libraries/vendor/psr/log/Psr/Log/Test
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
-/libraries/vendor/symfony/polyfill-ctype/composer.json
-/libraries/vendor/symfony/polyfill-ctype/README.md
 /libraries/vendor/symfony/polyfill-php55/composer.json
 /libraries/vendor/symfony/polyfill-php55/README.md
 /libraries/vendor/symfony/polyfill-php56/composer.json
@@ -163,9 +154,7 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-php73/README.md
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
-/libraries/vendor/symfony/polyfill-util/LegacyTestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListener.php
-/libraries/vendor/symfony/polyfill-util/TestListenerTrait.php
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md

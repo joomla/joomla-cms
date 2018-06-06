@@ -420,29 +420,16 @@ class WebClient
 		}
 		elseif (stripos($userAgent, 'Opera') !== false || stripos($userAgent, 'Presto') !== false)
 		{
-			$version = false;
+			$result  = explode('/', stristr($userAgent, 'Opera'));
+			$version = explode(' ', $result[1]);
 
-			if (preg_match('/Opera[\/| ]?([0-9.]+)/u', $userAgent, $match))
-			{
-				$version = floatval($match[1]);
-			}
-
-			if (preg_match('/Version\/([0-9.]+)/u', $userAgent, $match))
-			{
-				if (floatval($match[1]) >= 10)
-				{
-					$version = floatval($match[1]);
-				}
-			}
-
-			if ($version !== false && $version >= 15)
+			if ($version[0] >= 15)
 			{
 				$this->engine = self::BLINK;
 			}
-			else
-			{
-				$this->engine = self::PRESTO;
-			}
+
+			// Sometimes Opera browsers don't say Presto.
+			$this->engine = self::PRESTO;
 		}
 		elseif (stripos($userAgent, 'KHTML') !== false)
 		{

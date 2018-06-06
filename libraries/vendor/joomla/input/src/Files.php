@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,7 +34,7 @@ class Files extends Input
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($source = null, array $options = array())
+	public function __construct(array $source = null, array $options = array())
 	{
 		if (isset($options['filter']))
 		{
