@@ -115,20 +115,18 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.instance = window.CodeMirror.fromTextArea(element, this.options);
   }
 
-  rafAsync() {
-    return new Promise(resolve => {
-      requestAnimationFrame(resolve);
-    });
+  static rafAsync() {
+    return new Promise(resolve => requestAnimationFrame(resolve));
   }
 
   async checkElement(string1, string2) {
     if (string2) {
       while (typeof window[string1][string2] !== 'function') {
-        await this.rafAsync();
+        this.rafAsync();
       }
     } else {
       while (typeof window[string1] !== 'function') {
-        await this.rafAsync();
+        this.rafAsync();
       }
     }
 
@@ -144,7 +142,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.instance.setOption('fullScreen', false);
   }
 
-  makeMarker() {
+  static makeMarker() {
     const marker = document.createElement('div');
     marker.className = 'CodeMirror-markergutter-mark';
     return marker;
