@@ -79,6 +79,22 @@
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
 					<option value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
 					<option value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
+					<option value="created_by">MOD_LATEST_NEWS_VALUE_CREATED_BY</option>
+				</field>
+
+				<field
+					name="author"
+					type="sql"
+					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
+					description="MOD_LATEST_NEWS_FIELD_AUTHOR_DESC"
+					multiple="true"
+					size="5"
+					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
+					key_field="id"
+					value_field="name"
+					showon="user_id:created_by"
+					>
+					<option value="0">JOPTION_SELECT_AUTHORS</option>
 				</field>
 			</fieldset>
 
