@@ -7,11 +7,13 @@
 	background: #08c;
 	color: #fff;
 }
+
 .selected:hover,
 .selected:focus {
 	background: #08c !important;
 	color: #fff;
 }
+
 #deleteFolder {
 	margin: 0;
 }
@@ -28,4 +30,23 @@
 
 .treeselect a {
 	display: block;
+}
+
+.diffview {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	display: inline;
+	padding: 4px;
+	border-radius: .2em;
+}
+
+.diff-pane {
+	height: 350px;
+	border: 0.5px solid grey;
+	overflow: auto;
+	padding: 10px;
+}
+
+#core-pane .CodeMirror-code {
+	background-color: #F0F0EE;
 }
