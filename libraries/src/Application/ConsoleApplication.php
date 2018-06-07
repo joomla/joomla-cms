@@ -284,7 +284,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Gets a configuration
 	 *
-	 * @param   $key  string  The configuration to be gotten
+	 * @param   string  $key The configuration to be gotten
 	 *
 	 * @return mixed
 	 *
