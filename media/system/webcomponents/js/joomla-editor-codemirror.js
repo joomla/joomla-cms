@@ -115,18 +115,18 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.instance = window.CodeMirror.fromTextArea(element, this.options);
   }
 
-  static rafAsync() {
+  rafAsync() {
     return new Promise(resolve => requestAnimationFrame(resolve));
   }
 
   async checkElement(string1, string2) {
     if (string2) {
       while (typeof window[string1][string2] !== 'function') {
-        this.rafAsync();
+        await this.rafAsync();
       }
     } else {
       while (typeof window[string1] !== 'function') {
-        this.rafAsync();
+        await this.rafAsync();
       }
     }
 

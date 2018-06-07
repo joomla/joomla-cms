@@ -133,6 +133,13 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
       this.instance = window.CodeMirror.fromTextArea(element, this.options);
     }
   }, {
+    key: 'rafAsync',
+    value: function rafAsync() {
+      return new Promise(function (resolve) {
+        return requestAnimationFrame(resolve);
+      });
+    }
+  }, {
     key: 'checkElement',
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(string1, string2) {
@@ -140,19 +147,45 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (string2) {
-                  while (typeof window[string1][string2] !== 'function') {
-                    this.rafAsync();
-                  }
-                } else {
-                  while (typeof window[string1] !== 'function') {
-                    this.rafAsync();
-                  }
+                if (!string2) {
+                  _context.next = 8;
+                  break;
                 }
 
+              case 1:
+                if (!(typeof window[string1][string2] !== 'function')) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 4;
+                return this.rafAsync();
+
+              case 4:
+                _context.next = 1;
+                break;
+
+              case 6:
+                _context.next = 13;
+                break;
+
+              case 8:
+                if (!(typeof window[string1] !== 'function')) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _context.next = 11;
+                return this.rafAsync();
+
+              case 11:
+                _context.next = 8;
+                break;
+
+              case 13:
                 return _context.abrupt('return', true);
 
-              case 2:
+              case 14:
               case 'end':
                 return _context.stop();
             }
@@ -186,13 +219,6 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
       this.setAttribute('options', value);
     }
   }], [{
-    key: 'rafAsync',
-    value: function rafAsync() {
-      return new Promise(function (resolve) {
-        return requestAnimationFrame(resolve);
-      });
-    }
-  }, {
     key: 'makeMarker',
     value: function makeMarker() {
       var marker = document.createElement('div');
