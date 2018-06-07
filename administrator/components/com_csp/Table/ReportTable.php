@@ -8,9 +8,9 @@
  */
 namespace Joomla\Component\Csp\Administrator\Table;
 
-use Joomla\CMS\Table\Csp;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Table\Csp;
 
 /**
  * Report table
