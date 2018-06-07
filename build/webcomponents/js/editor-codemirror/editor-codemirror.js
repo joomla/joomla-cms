@@ -1,5 +1,27 @@
-
 customElements.define('joomla-editor-codemirror', class extends HTMLElement {
+	constructor() {
+		super();
+
+		this.instance = '';
+		this.cm = '';
+		this.host = window.location.origin;
+		this.element = this.querySelector('textarea');
+		this.refresh = this.refresh.bind(this);
+		this.toggleFullScreen = this.toggleFullScreen.bind(this);
+		this.closeFullScreen = this.closeFullScreen.bind(this);
+
+		// Append the editor script
+		if (!document.head.querySelector('#cm-editor')) {
+			const cmPath = this.getAttribute('editor');
+			const script1 = document.createElement('script');
+
+			script1.src = `${this.host}/${cmPath}`;
+			script1.id = 'cm-editor';
+			script1.setAttribute('async', false);
+			document.head.insertBefore(script1, this.file);
+		}
+	}
+
 	static get observedAttributes() {
 		return ['options'];
 	}
@@ -18,31 +40,8 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 		}
 	}
 
-	constructor() {
-		super();
-
-		this.instance = '';
-		this.cm = '';
-		this.file = document.currentScript;
-		this.element = this.querySelector('textarea');
-		this.host = window.location.origin;
-
-		// Append the editor script
-		if (!document.head.querySelector('#cm-editor')) {
-			const cmPath = this.getAttribute('editor');
-			const script1 = document.createElement('script');
-
-			script1.src = `${this.host}/${cmPath}`;
-			script1.id = 'cm-editor';
-			script1.setAttribute('async', false);
-			document.head.insertBefore(script1, this.file);
-		}
-
-		this.toggleFullScreen = this.toggleFullScreen.bind(this);
-		this.closeFullScreen = this.closeFullScreen.bind(this);
-	}
-
 	connectedCallback() {
+		const that = this;
 		const buttons = [].slice.call(this.querySelectorAll('.editor-xtd-buttons .xtd-button'));
 		this.checkElement('CodeMirror')
 			.then(() => {
@@ -59,24 +58,28 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
 				this.checkElement('CodeMirror', 'findModeByName')
 					.then(() => {
-						window.CodeMirror.keyMap.default["Ctrl-Q"] = this.toggleFullScreen;
-						window.CodeMirror.keyMap.default[this.getAttribute('fs-combo')] = this.toggleFullScreen;
-						window.CodeMirror.keyMap.default["Esc"] = this.closeFullScreen;
-
 						// For mode autoloading.
 						window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
 						// Fire this function any time an editor is created.
 						window.CodeMirror.defineInitHook((editor) => {
 							// Try to set up the mode
-							const mode = window.CodeMirror.findModeByName(editor.options.mode || '');
+							const mode = window.CodeMirror.findModeByName(that.options.mode || '');
 
 							if (mode) {
 								window.CodeMirror.autoLoadMode(editor, mode.mode);
 								editor.setOption('mode', mode.mime);
 							} else {
-								window.CodeMirror.autoLoadMode(editor, editor.options.mode);
+								window.CodeMirror.autoLoadMode(editor, that.options.mode);
 							}
+
+							const map = {
+								"Ctrl-Q": that.toggleFullScreen,
+								[that.getAttribute('fs-combo')]: that.toggleFullScreen,
+								'Esc': that.closeFullScreen,
+							};
+
+							editor.addKeyMap(map);
 
 							// Handle gutter clicks (place or remove a marker).
 							editor.on("gutterClick", function (ed, n, gutter) {

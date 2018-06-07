@@ -5,6 +5,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -13,6 +15,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 	_inherits(_class, _HTMLElement);
+
+	function _class() {
+		_classCallCheck(this, _class);
+
+		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
+
+		_this.instance = '';
+		_this.cm = '';
+		_this.host = window.location.origin;
+		_this.element = _this.querySelector('textarea');
+		_this.refresh = _this.refresh.bind(_this);
+		_this.toggleFullScreen = _this.toggleFullScreen.bind(_this);
+		_this.closeFullScreen = _this.closeFullScreen.bind(_this);
+
+		// Append the editor script
+		if (!document.head.querySelector('#cm-editor')) {
+			var cmPath = _this.getAttribute('editor');
+			var script1 = document.createElement('script');
+
+			script1.src = _this.host + '/' + cmPath;
+			script1.id = 'cm-editor';
+			script1.setAttribute('async', false);
+			document.head.insertBefore(script1, _this.file);
+		}
+		return _this;
+	}
 
 	_createClass(_class, [{
 		key: 'attributeChangedCallback',
@@ -27,52 +55,11 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 			}
 		}
 	}, {
-		key: 'options',
-		get: function get() {
-			return JSON.parse(this.getAttribute('options'));
-		},
-		set: function set(value) {
-			this.setAttribute('options', value);
-		}
-	}], [{
-		key: 'observedAttributes',
-		get: function get() {
-			return ['options'];
-		}
-	}]);
-
-	function _class() {
-		_classCallCheck(this, _class);
-
-		var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this));
-
-		_this.instance = '';
-		_this.cm = '';
-		_this.file = document.currentScript;
-		_this.element = _this.querySelector('textarea');
-		_this.host = window.location.origin;
-
-		// Append the editor script
-		if (!document.head.querySelector('#cm-editor')) {
-			var cmPath = _this.getAttribute('editor');
-			var script1 = document.createElement('script');
-
-			script1.src = _this.host + '/' + cmPath;
-			script1.id = 'cm-editor';
-			script1.setAttribute('async', false);
-			document.head.insertBefore(script1, _this.file);
-		}
-
-		_this.toggleFullScreen = _this.toggleFullScreen.bind(_this);
-		_this.closeFullScreen = _this.closeFullScreen.bind(_this);
-		return _this;
-	}
-
-	_createClass(_class, [{
 		key: 'connectedCallback',
 		value: function connectedCallback() {
 			var _this2 = this;
 
+			var that = this;
 			var buttons = [].slice.call(this.querySelectorAll('.editor-xtd-buttons .xtd-button'));
 			this.checkElement('CodeMirror').then(function () {
 				// Append the addons script
@@ -87,24 +74,28 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 				}
 
 				_this2.checkElement('CodeMirror', 'findModeByName').then(function () {
-					window.CodeMirror.keyMap.default["Ctrl-Q"] = _this2.toggleFullScreen;
-					window.CodeMirror.keyMap.default[_this2.getAttribute('fs-combo')] = _this2.toggleFullScreen;
-					window.CodeMirror.keyMap.default["Esc"] = _this2.closeFullScreen;
-
 					// For mode autoloading.
 					window.CodeMirror.modeURL = _this2.getAttribute('mod-path');
 
 					// Fire this function any time an editor is created.
 					window.CodeMirror.defineInitHook(function (editor) {
+						var _map;
+
 						// Try to set up the mode
-						var mode = window.CodeMirror.findModeByName(editor.options.mode || '');
+						var mode = window.CodeMirror.findModeByName(that.options.mode || '');
 
 						if (mode) {
 							window.CodeMirror.autoLoadMode(editor, mode.mode);
 							editor.setOption('mode', mode.mime);
 						} else {
-							window.CodeMirror.autoLoadMode(editor, editor.options.mode);
+							window.CodeMirror.autoLoadMode(editor, that.options.mode);
 						}
+
+						var map = (_map = {
+							"Ctrl-Q": that.toggleFullScreen
+						}, _defineProperty(_map, that.getAttribute('fs-combo'), that.toggleFullScreen), _defineProperty(_map, 'Esc', that.closeFullScreen), _map);
+
+						editor.addKeyMap(map);
 
 						// Handle gutter clicks (place or remove a marker).
 						editor.on("gutterClick", function (ed, n, gutter) {
@@ -223,6 +214,19 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 			var marker = document.createElement("div");
 			marker.className = "CodeMirror-markergutter-mark";
 			return marker;
+		}
+	}, {
+		key: 'options',
+		get: function get() {
+			return JSON.parse(this.getAttribute('options'));
+		},
+		set: function set(value) {
+			this.setAttribute('options', value);
+		}
+	}], [{
+		key: 'observedAttributes',
+		get: function get() {
+			return ['options'];
 		}
 	}]);
 
