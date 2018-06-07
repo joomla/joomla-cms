@@ -129,9 +129,9 @@ class MenuRules implements RulesInterface
 
 					foreach ($ids as $id => $segment)
 					{
-						if (isset($this->lookup[$language][$viewLayout][(int) $id]))
+						if (isset($this->lookup[$language][$viewLayout][$id]))
 						{
-							$query['Itemid'] = $this->lookup[$language][$viewLayout][(int) $id];
+							$query['Itemid'] = $this->lookup[$language][$viewLayout][$id];
 
 							return;
 						}
@@ -149,9 +149,9 @@ class MenuRules implements RulesInterface
 
 					foreach ($ids as $id => $segment)
 					{
-						if (isset($this->lookup[$language][$view][(int) $id]))
+						if (isset($this->lookup[$language][$view][$id]))
 						{
-							$query['Itemid'] = $this->lookup[$language][$view][(int) $id];
+							$query['Itemid'] = $this->lookup[$language][$view][$id];
 
 							return;
 						}
