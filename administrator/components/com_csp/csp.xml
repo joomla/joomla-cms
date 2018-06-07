@@ -21,11 +21,6 @@
 	</files>
 	<administration>
 		<menu img="class:csp">com_csp</menu>
-		<submenu>
-			<menu link="option=com_csp" view="reports">
-				COM_CSP_REPORTS
-			</menu>
-		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>csp.php</filename>
