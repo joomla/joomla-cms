@@ -52,13 +52,10 @@ class PlgUserJoomla extends JPlugin
 		if ($name === 'com_users.user')
 		{
 			// In case there is a validation error (like duplicated user), $data is not a stdClass but just an empty array
-			// TODO: Check inside the FormModel line 230, for put the right associated data for the form
-			$input = JFactory::getApplication()->input;
-			$jformData = $input->get('jform', array(), 'array');
-
-			if ($jformData && !$data)
+			// TODO: Check inside the FormModel, for put the right associated data for the form
+			if (!$data)
 			{
-				$data = $jformData;
+				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
 			}
 
 			if (is_array($data))
