@@ -128,7 +128,7 @@ class JFormFieldModal_Category extends JFormField
 		// Select category button.
 		if ($allowSelect)
 		{
-			$html .= '<a'
+			$html .= '<button'
 				. ' type="button"'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
@@ -136,7 +136,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' data-target="#ModalSelect' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . JText::_('JSELECT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// New category button.
@@ -164,7 +164,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' data-target="#ModalEdit' . $modalId . '"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . JText::_('JACTION_EDIT')
-				. '</a>';
+				. '</button>';
 		}
 
 		// Clear category button.
