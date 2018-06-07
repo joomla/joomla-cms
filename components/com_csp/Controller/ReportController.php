@@ -9,6 +9,7 @@
 
 namespace Joomla\Component\Csp\Site\Controller;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Table\Csp;
 
@@ -61,7 +62,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$now = \JFactory::getDate()->toSql();
+		$now = Factory::getDate()->toSql();
 
 		$report->created  = $now;
 		$report->modified = $now;
@@ -71,7 +72,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$table = new Csp(\JFactory::getDbo());
+		$table = new Csp(Factory::getDbo());
 
 		$table->bind($report);
 		$table->store();
@@ -90,7 +91,7 @@ class ReportController extends BaseController
 	 */
 	private function isEntryExisting($report)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true);
 
