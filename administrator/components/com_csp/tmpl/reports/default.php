@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_banners
+ * @subpackage  com_csp
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -23,10 +23,7 @@ $saveOrder = $listOrder == 'a.id';
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
-				<?php
-				// Search tools bar
-				echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
-				?>
+				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
@@ -64,9 +61,8 @@ $saveOrder = $listOrder == 'a.id';
 							</tr>
 						</tfoot>
 						<tbody>
-							<?php foreach ($this->items as $i => $item) :
-								$canChange  = $user->authorise('core.edit.state', 'com_csp');
-								?>
+							<?php foreach ($this->items as $i => $item) : ?>
+								<?php $canChange  = $user->authorise('core.edit.state', 'com_csp'); ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
 										<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -96,7 +92,6 @@ $saveOrder = $listOrder == 'a.id';
 						</tbody>
 					</table>
 				<?php endif; ?>
-
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo JHtml::_('form.token'); ?>

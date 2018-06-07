@@ -20,7 +20,9 @@ use Joomla\CMS\MVC\Controller\BaseController;
 class DisplayController extends BaseController
 {
 	/**
-	 * @var     string  The default view.
+	 * The default view.
+	 *
+	 * @var     string
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'reports';
