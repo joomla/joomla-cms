@@ -40,7 +40,7 @@ extract($displayData);
 			data-dismiss="modal"
 			aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>"
 			>
-			<span aria-hidden="true">×</span>
+			<span aria-hidden="true">&times;</span>
 		</button>
 	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>

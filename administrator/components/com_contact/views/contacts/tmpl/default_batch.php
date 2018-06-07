@@ -14,7 +14,7 @@ $published = $this->state->get('filter.published');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
-			<span aria-hidden="true">&#215;</span>
+			<span aria-hidden="true">&times;</span>
 		</button>
 		<h3><?php echo JText::_('COM_CONTACT_BATCH_OPTIONS'); ?></h3>
 	</div>

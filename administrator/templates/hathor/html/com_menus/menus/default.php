@@ -163,7 +163,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										'width'  => '800px',
 										'footer' => '<button type="button" class="btn" data-dismiss="modal">'
 											. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-											. '<button class="btn btn-success" data-dismiss="modal" onclick="jQuery(\'#module'
+											. '<button type="button" class="btn btn-success" data-dismiss="modal" onclick="jQuery(\'#module'
 											. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 											. JText::_('JSAVE') . '</button>',
 									)

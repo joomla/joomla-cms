@@ -112,8 +112,8 @@ if (!$readonly)
 			<button
 				type="button"
 				class="btn btn-primary button-select"
-				title="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"
-				aria-label="<?php echo JText::_('JLIB_FORM_CHANGE_USER') ?>"
+				title="<?php echo JText::_('JLIB_FORM_CHANGE_USER'); ?>"
+				aria-label="<?php echo JText::_('JLIB_FORM_CHANGE_USER'); ?>"
 				>
 				<span class="icon-user" aria-hidden="true"></span>
 			</button>
