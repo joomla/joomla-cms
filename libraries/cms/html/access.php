@@ -231,7 +231,7 @@ abstract class JHtmlAccess
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id AS value, a.title AS text')
+				->select('a.id AS ' . $db->quoteName('value') . ', a.title AS ' . $db->quoteName('text'))
 				->from($db->quoteName('#__viewlevels') . ' AS a')
 				->group('a.id, a.title, a.ordering')
 				->order('a.ordering ASC');

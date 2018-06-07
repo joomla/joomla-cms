@@ -112,10 +112,10 @@ abstract class ModulesHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT(position)')
+			->select('DISTINCT(' . $db->quoteName('position') . ')')
 			->from('#__modules')
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
-			->order('position');
+			->order($db->quoteName('position'));
 
 		$db->setQuery($query);
 
@@ -166,7 +166,7 @@ abstract class ModulesHelper
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, ' . $db->quoteName('name') . ', enabled')
 			->from('#__extensions')
 			->where('client_id = ' . (int) $clientId)
 			->where('type = ' . $db->quote('template'));
@@ -199,7 +199,7 @@ abstract class ModulesHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('element AS value, name AS text')
+			->select('element AS ' . $db->quoteName('value') . ', name AS ' . $db->quoteName('text'))
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
 			->where('type = ' . $db->quote('module'))

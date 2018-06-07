@@ -96,7 +96,7 @@ class Multilanguage
 			// Check for Home pages languages.
 			$db = \JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('language')
+				->select($db->quoteName('language'))
 				->select('id')
 				->from($db->quoteName('#__menu'))
 				->where('home = 1')

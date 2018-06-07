@@ -262,9 +262,9 @@ class ModulesControllerModule extends JControllerForm
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('position, ordering, title')
+			->select($db->quoteName('position') . ', ordering, title')
 			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->where('client_id = ' . (int) $clientId . ' AND ' . $db->quoteName('position') . ' = ' . $db->q($position))
 			->order('ordering');
 
 		$db->setQuery($query);

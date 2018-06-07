@@ -60,7 +60,7 @@ class NewsfeedsHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
+			$query->select('published AS state, count(*) AS ' . $db->qn('count'))
 				->from($db->qn('#__newsfeeds'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
@@ -129,7 +129,7 @@ class NewsfeedsHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
+			$query->select('published AS state, count(*) AS ' . $db->qn('count'))
 				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))

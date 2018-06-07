@@ -41,7 +41,7 @@ class UsersModelLevel extends JModelAdmin
 
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select('DISTINCT access');
+				->select('DISTINCT ' .$db->quoteName('access'));
 
 			// Get all the tables and the prefix
 			$tables = $db->getTableList();

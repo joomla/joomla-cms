@@ -48,7 +48,7 @@ class UsersControllerUser extends UsersController
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
 					->where('client_id = 0')
 					->where('id =' . $data['return']);
@@ -172,7 +172,7 @@ class UsersControllerUser extends UsersController
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
 					->where('client_id = 0')
 					->where('id =' . $return);
@@ -243,7 +243,7 @@ class UsersControllerUser extends UsersController
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
 					->where('client_id = 0')
 					->where('id =' . $itemid);

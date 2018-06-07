@@ -67,7 +67,7 @@ class ContenttypeField extends \JFormFieldList
 		$lang = Factory::getLanguage();
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
+			->select('a.type_id AS ' . $db->qn('value') . ', a.type_title AS ' . $db->qn('text') . ', a.type_alias AS alias')
 			->from('#__content_types AS a')
 
 			->order('a.type_title ASC');

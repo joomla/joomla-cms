@@ -412,7 +412,7 @@ class Nested extends Table
 		{
 			// Get the last root node as the reference node.
 			$query->clear()
-				->select($this->_tbl_key . ', parent_id, level, lft, rgt')
+				->select($this->_tbl_key . ', parent_id, ' . $db->qn('level') . ', lft, rgt')
 				->from($this->_tbl)
 				->where('parent_id = 0')
 				->order('lft DESC');
@@ -757,7 +757,7 @@ class Nested extends Table
 				{
 					// Get the last root node as the reference node.
 					$query = $this->_db->getQuery(true)
-						->select($this->_tbl_key . ', parent_id, level, lft, rgt')
+						->select($this->_tbl_key . ', parent_id, ' . $db->qn('level') . ', lft, rgt')
 						->from($this->_tbl)
 						->where('parent_id = 0')
 						->order('lft DESC');
@@ -1605,9 +1605,9 @@ class Nested extends Table
 
 		// Get the node data.
 		$query = $this->_db->getQuery(true)
-			->select($this->_tbl_key . ', parent_id, level, lft, rgt')
+			->select($this->_tbl_key . ', parent_id, ' . $this->_db->qn('level') . ', lft, rgt')
 			->from($this->_tbl)
-			->where($k . ' = ' . (int) $id);
+			->where($this->_db->qn($k) . ' = ' . (int) $id);
 
 		$row = $this->_db->setQuery($query, 0, 1)->loadObject();
 

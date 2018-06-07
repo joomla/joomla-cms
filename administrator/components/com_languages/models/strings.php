@@ -45,7 +45,7 @@ class LanguagesModelStrings extends JModelLegacy
 		// Create the insert query.
 		$query = $this->_db->getQuery(true)
 			->insert($this->_db->quoteName('#__overrider'))
-			->columns('constant, string, file');
+			->columns('constant, ' . $db->quoteName('string') . ', ' . $db->quoteName('file'));
 
 		// Initialize some variables.
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
@@ -130,7 +130,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 			// Create the search query.
 			$query = $this->_db->getQuery(true)
-				->select('constant, string, file')
+				->select('constant, ' . quoteName('string') . ', ' . quoteName('file'))
 				->from($this->_db->quoteName('#__overrider'));
 
 			if ($input->get('searchtype') == 'constant')
@@ -139,7 +139,7 @@ class LanguagesModelStrings extends JModelLegacy
 			}
 			else
 			{
-				$query->where('string LIKE ' . $searchstring);
+				$query->where($db->quoteName('string') . ' LIKE ' . $searchstring);
 			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results.

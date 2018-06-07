@@ -44,12 +44,12 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);
-		$levelQuery->select('title AS branch_title, 1 as level')
+		$levelQuery->select('title AS branch_title, 1 as ' . $db->quoteName('level'))
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' = 1');
 		$levelQuery2 = $db->getQuery(true);
-		$levelQuery2->select('b.title AS branch_title, 2 as level')
+		$levelQuery2->select('b.title AS branch_title, 2 as ' . $db->quoteName('level'))
 			->select($db->quoteName('a.id'))
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
 			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->qn('a.parent_id') . ' = ' . $db->qn('b.id'))

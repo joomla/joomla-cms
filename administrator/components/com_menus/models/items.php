@@ -311,7 +311,7 @@ class MenusModelItems extends JModelList
 		}
 
 		// Join over the extensions
-		$query->select('e.name AS name')
+		$query->select('e.name AS ' . $db->quoteName('name'))
 			->join('LEFT', '#__extensions AS e ON e.extension_id = a.component_id');
 
 		// Exclude the root category.

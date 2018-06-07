@@ -1799,7 +1799,7 @@ abstract class FOFUtilsInstallscript
 					->where('client_id = 1')
 					->where('type = ' . $db->quote('component'))
 					->where('parent_id in (' . $ids . ')')
-					->where('level = 2')
+					->where($db->quoteName('level') . ' = 2')
 					->where('home = 0');
 
 				$db->setQuery($query);

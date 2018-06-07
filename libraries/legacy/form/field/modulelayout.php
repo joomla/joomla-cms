@@ -82,7 +82,7 @@ class JFormFieldModulelayout extends JFormField
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('element, name')
+			$query->select('element, ' . $db->qn('name'))
 				->from('#__extensions as e')
 				->where('e.client_id = ' . (int) $clientId)
 				->where('e.type = ' . $db->quote('template'))

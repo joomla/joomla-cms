@@ -145,7 +145,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('s.id, s.title, e.name as name, s.template')
+		$query->select('s.id, s.title, e.name as ' . $db->quoteName('name') . ', s.template')
 			->from('#__template_styles as s')
 			->where('s.client_id = ' . (int) $client->id)
 			->order('template')

@@ -80,7 +80,7 @@ class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 
 		$db		= FOFPlatform::getInstance()->getDbo();
 		$query	= $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
+			->select('DISTINCT a.id AS ' . $db->quoteName('value') . ', a.path, a.title AS ' . $db->quoteName('text') . ', a.level, a.published, a.lft')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

@@ -227,7 +227,7 @@ abstract class JHtmlUsers
 			$db = JFactory::getDbo();
 			$lang = JFactory::getLanguage();
 			$query = $db->getQuery(true)
-				->select('name')
+				->select($db->quoteName('name'))
 				->from('#__extensions')
 				->where('element = ' . $db->quote($value))
 				->where('folder = ' . $db->quote('editors'));

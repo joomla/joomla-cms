@@ -66,7 +66,7 @@ abstract class JHtmlUser
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.name AS text')
+			->select('a.id AS ' . $db->qn('value') . ', a.name AS ' . $db->qn('text'))
 			->from('#__users AS a')
 			->where('a.block = 0')
 			->order('a.name');

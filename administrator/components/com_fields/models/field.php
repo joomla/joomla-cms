@@ -192,7 +192,7 @@ class FieldsModelField extends JModelAdmin
 
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where('value NOT IN (' . implode(',', $names) . ')');
+					->where($db->qn('value') . ' NOT IN (' . implode(',', $names) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}

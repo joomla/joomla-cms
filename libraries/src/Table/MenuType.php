@@ -119,7 +119,7 @@ class MenuType extends Table
 			$query->clear()
 				->select('id')
 				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
+				->where($db->qn('module') . '=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
 				->where('checked_out !=' . (int) $userId)
 				->where('checked_out !=0');
@@ -149,7 +149,7 @@ class MenuType extends Table
 				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
 				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
 			);
-			$query->where('module=' . $this->_db->quote('mod_menu'))
+			$query->where($db->qn('module') . '=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -187,7 +187,7 @@ class MenuType extends Table
 				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
+				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND '. $db->qn('language') .'=' . $this->_db->quote('*') . ')');
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
@@ -201,7 +201,7 @@ class MenuType extends Table
 			$query->clear()
 				->select('id')
 				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
+				->where($db->qn('module') . '=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
 				->where('checked_out !=' . (int) $userId)
 				->where('checked_out !=0');
@@ -224,7 +224,7 @@ class MenuType extends Table
 			// Update the module items
 			$query->clear()
 				->delete('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
+				->where($db->qn('module') . '=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);
 			$this->_db->execute();

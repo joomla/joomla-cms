@@ -58,7 +58,7 @@ class AuthorField extends \JFormFieldList
 
 			// Construct the query
 			$query = $db->getQuery(true)
-				->select('u.id AS value, u.name AS text')
+				->select('u.id AS ' . $db->qn('value') . ', u.name AS ' . $db->qn('text'))
 				->from('#__users AS u')
 				->join('INNER', '#__content AS c ON c.created_by = u.id')
 				->group('u.id, u.name')

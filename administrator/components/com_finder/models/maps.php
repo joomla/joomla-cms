@@ -159,7 +159,7 @@ class FinderModelMaps extends JModelList
 		// Select all fields from the table.
 		$query = $db->getQuery(true)
 			->select('a.id, a.parent_id, a.title, a.state, a.access, a.ordering')
-			->select('CASE WHEN a.parent_id = 1 THEN 1 ELSE 2 END AS level')
+			->select('CASE WHEN a.parent_id = 1 THEN 1 ELSE 2 END AS ' . $db->quoteName('level'))
 			->select('p.title AS parent_title')
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
 			->leftJoin($db->quoteName('#__finder_taxonomy', 'p') . ' ON p.id = a.parent_id')

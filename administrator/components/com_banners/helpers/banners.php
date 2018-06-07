@@ -163,7 +163,7 @@ class BannersHelper extends JHelperContent
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id AS value, name AS text')
+			->select('id AS ' . $db->qn('value') . ', ' . $db->qn('name') . ' AS ' . $db->qn('text'))
 			->from('#__banner_clients AS a')
 			->where('a.state = 1')
 			->order('a.name');
@@ -205,7 +205,7 @@ class BannersHelper extends JHelperContent
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
+			$query->select('state, count(*) AS ' . $db->qn('count'))
 				->from($db->qn('#__banners'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');

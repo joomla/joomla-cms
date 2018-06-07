@@ -415,7 +415,7 @@ class BannersModelTracks extends JModelList
 		{
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select('name')
+				->select($db->quoteName('name'))
 				->from($db->quoteName('#__banner_clients'))
 				->where($db->quoteName('id') . '=' . $db->quote($clientId));
 			$db->setQuery($query);

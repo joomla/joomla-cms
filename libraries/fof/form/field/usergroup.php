@@ -83,7 +83,7 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 		$db = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text');
+		$query->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text'));
 		$query->from('#__usergroups AS a');
 		$query->group('a.id, a.title');
 		$query->order('a.id ASC');
@@ -125,7 +125,7 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 		$db = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text');
+		$query->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text'));
 		$query->from('#__usergroups AS a');
 		$query->group('a.id, a.title');
 		$query->order('a.id ASC');

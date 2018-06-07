@@ -83,7 +83,7 @@ class FOFFormFieldAccesslevel extends JFormFieldAccessLevel implements FOFFormFi
 		$db    = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text');
+		$query->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text'));
 		$query->from('#__viewlevels AS a');
 		$query->group('a.id, a.title, a.ordering');
 		$query->order('a.ordering ASC');
@@ -127,7 +127,7 @@ class FOFFormFieldAccesslevel extends JFormFieldAccessLevel implements FOFFormFi
 		$db    = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text');
+		$query->select('a.id AS ' . $db->qn('value') . ', a.title AS ' . $db->qn('text'));
 		$query->from('#__viewlevels AS a');
 		$query->group('a.id, a.title, a.ordering');
 		$query->order('a.ordering ASC');
