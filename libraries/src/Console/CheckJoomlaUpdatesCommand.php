@@ -76,6 +76,8 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	{
 		$app = Factory::getApplication();
 		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
+		$updatemodel->purge();
+		$updatemodel->refreshUpdates(true);
 		return $updatemodel->getUpdateInformation();
 	}
 
