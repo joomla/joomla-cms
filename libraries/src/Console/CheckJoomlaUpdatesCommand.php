@@ -43,7 +43,9 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 
 		if (!$data['hasUpdate'])
 		{
-			if ((!isset($data['object']->downloadurl->_data) && $data['installed'] < $data['latest'] && $model->isPhpVersionSupported() && $model->isDatabaseTypeSupported()))
+			if ((!isset($data['object']->downloadurl->_data)
+				&& $data['installed'] < $data['latest'] && $model->isPhpVersionSupported()
+				&& $model->isDatabaseTypeSupported()))
 			{
 				$symfonyStyle->success('We cannot find an update URL ');
 			}
