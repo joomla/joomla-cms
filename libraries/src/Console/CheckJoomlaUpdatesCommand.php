@@ -25,7 +25,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 * Stores the Update Information
 	 */
 	private $updateInfo;
-	
+
 	/**
 	 * Execute the command.
 	 *
@@ -37,11 +37,20 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	{
 		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 
-		$data = $this->getUpdateInfo();
+		$model = $this->getUpdateInfo();
+		$data  = $model->getUpdateInformation();
 		$symfonyStyle->title('Joomla! Updates');
+
 		if (!$data['hasUpdate'])
 		{
-			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
+			if ((!isset($data['object']->downloadurl->_data) && $data['installed'] < $data['latest'] && $model->isPhpVersionSupported() && $model->isDatabaseTypeSupported()))
+			{
+				$symfonyStyle->success('We cannot find an update URL ');
+			}
+			else
+			{
+				$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
+			}
 		}
 		else
 		{
@@ -78,7 +87,8 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
 		$updatemodel->purge();
 		$updatemodel->refreshUpdates(true);
-		return $updatemodel->getUpdateInformation();
+
+		return $updatemodel;
 	}
 
 	/**
