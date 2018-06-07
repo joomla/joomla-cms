@@ -56,9 +56,14 @@ class PlgUserJoomla extends JPlugin
 			$input = JFactory::getApplication()->input;
 			$jformData = $input->get('jform', array(), 'array');
 
-			if (is_array($data) && $jformData)
+			if ($jformData && !$data)
 			{
-				$data = (object) $jformData;
+				$data = $jformData;
+			}
+
+			if (is_array($data))
+			{
+				$data = (object) $data;
 			}
 
 			// Passwords fields are required when mail to user is set to No
