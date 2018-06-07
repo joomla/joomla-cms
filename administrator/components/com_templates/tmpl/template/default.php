@@ -9,8 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\FileLayout;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+JText::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
+JText::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
+JText::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF');
+JText::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
+
+JHtml::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
@@ -49,6 +59,30 @@ if ($this->type == 'font')
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row">
+	<div class="col-md-6" id="conditional-section">
+		<?php if ($this->type == 'file') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
+		<?php endif; ?>
+		<?php if ($this->type == 'image') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
+		<?php endif; ?>
+		<?php if ($this->type == 'font') : ?>
+			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
+		<?php endif; ?>
+	</div>
+	<?php if ($this->type == 'file' && !empty($this->source->coreFile)) : ?>
+		<div class="col-md-6 text-right">
+			<?php $layout_core_button = new FileLayout('diffview.core', JPATH_COMPONENT_ADMINISTRATOR . '/layouts'); ?>
+			<?php echo $layout_core_button->render(array()); ?>
+			<?php $layout_diff_button = new FileLayout('diffview.diff', JPATH_COMPONENT_ADMINISTRATOR . '/layouts'); ?>
+			<?php echo $layout_diff_button->render(array()); ?>
+		</div>
+	<?php endif; ?>
+</div>
+<div class="row">
 	<div id="treeholder" class="col-md-3 tree-holder">
 		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
@@ -67,21 +101,36 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'file') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-				<div class="editor-border">
-					<?php echo $this->form->getInput('source'); ?>
+			<div class="row">
+				<div class="col-md-12" id="override-pane">
+					<p class="lead"><?php echo JText::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></p>
+					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+						<div class="editor-border">
+							<?php echo $this->form->getInput('source'); ?>
+						</div>
+						<input type="hidden" name="task" value="" />
+						<?php echo JHtml::_('form.token'); ?>
+						<?php echo $this->form->getInput('extension_id'); ?>
+						<?php echo $this->form->getInput('filename'); ?>
+					</form>
 				</div>
-				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
-				<?php echo $this->form->getInput('extension_id'); ?>
-				<?php echo $this->form->getInput('filename'); ?>
-			</form>
-			<div class="editor-border">
 				<?php if (!empty($this->source->coreFile)) : ?>
-					<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_CORE_FILENAME', $this->source->coreFile); ?></p>
-					<?php echo $this->form->getInput('core'); ?>
+					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
+					<?php $overrideFileContent = file_get_contents(JPATH_SITE . '/templates/' . $this->template->element . $this->source->filename); ?>
+					<div style="display:none" class="col-md-6" id="core-pane">
+						<p class="lead"><?php echo JText::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></p>
+						<div class="editor-border">
+							<?php echo $this->form->getInput('core'); ?>
+						</div>
+					</div>
+					<div class="col-md-12" style="display:none" id="diff-main">
+						<p class="lead"><?php echo JText::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></p>
+						<div class="diff-pane">
+							<div class="diffview" style="display:none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div class="diffview" style="display:none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
+							<div id="diff"></div>
+						</div>
+					</div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
@@ -105,8 +154,6 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
@@ -122,8 +169,6 @@ if ($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
-			<p class="lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
-			<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 			<div class="font-preview">
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
