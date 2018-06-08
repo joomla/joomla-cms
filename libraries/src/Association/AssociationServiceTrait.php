@@ -10,6 +10,8 @@ namespace Joomla\CMS\Association;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\CategoriesServiceInterface;
+
 /**
  * Trait to implement AssociationServiceInterface
  *
@@ -50,5 +52,17 @@ trait AssociationServiceTrait
 	public function setAssociationExtension(AssociationExtensionInterface $associationExtension)
 	{
 		$this->associationExtension = $associationExtension;
+	}
+
+	/**
+	 * Are categories associations supported.
+	 *
+	 * @return  boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function hasAssociationsCategorySupport()
+	{
+		return $this instanceof CategoriesServiceInterface;
 	}
 }
