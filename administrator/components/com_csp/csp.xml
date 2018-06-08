@@ -10,7 +10,6 @@
 	<version>__DEPLOY_VERSION__</version>
 	<description>COM_CSP_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Csp</namespace>
-
 	<files folder="site">
 		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>

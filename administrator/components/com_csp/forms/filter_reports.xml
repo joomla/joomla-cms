@@ -29,8 +29,6 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>
 			<option value="a.published DESC">JSTATUS_DESC</option>
-			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.document_uri ASC">COM_CSP_HEADING_DOCUMENT_URI_ASC</option>
 			<option value="a.document_uri DESC">COM_CSP_HEADING_DOCUMENT_URI_DESC</option>
 			<option value="a.blocked_uri ASC">COM_CSP_HEADING_BLOCKED_URI_ASC</option>
