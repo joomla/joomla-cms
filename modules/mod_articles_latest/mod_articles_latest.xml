@@ -84,18 +84,12 @@
 
 				<field
 					name="author"
-					type="sql"
+					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_AUTHOR_DESC"
 					multiple="true"
-					size="5"
-					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
-					key_field="id"
-					value_field="name"
 					showon="user_id:created_by"
-					>
-					<option value="0">JNONE</option>
-				</field>
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">
