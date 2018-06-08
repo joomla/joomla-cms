@@ -10,7 +10,10 @@ namespace Joomla\Component\Csp\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
 
 /**
  * Csp display controller.
@@ -26,4 +29,33 @@ class DisplayController extends BaseController
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'reports';
+
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   mixed    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 *
+	 * @return  static	 This object to support chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function display($cachable = false, $urlparams = false)
+	{
+		// Show messages about the plugin when it is disabled
+		if (!PluginHelper::isEnabled('system', 'httpheaders'))
+		{
+			$httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
+			$link = HTMLHelper::_(
+				'link',
+				'#plugin' . $httpHeadersId . 'Modal',
+				\JText::_('COM_CSP_SYSTEM_PLUGIN'),
+				'class="alert-link" data-toggle="modal" id="title-' . $httpHeadersId . '"'
+			);
+
+			$this->app->enqueueMessage(\JText::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
+		}
+
+		parent::display();
+	}
 }

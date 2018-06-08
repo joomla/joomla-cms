@@ -12,8 +12,10 @@ namespace Joomla\Component\Csp\Administrator\View\Reports;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
 
 /**
  * Reports view class for the Csp package.
@@ -63,6 +65,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * The id of the httpheaders plugin in mysql
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $httpHeadersId = 0;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -83,6 +93,11 @@ class HtmlView extends BaseHtmlView
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+		}
+
+		if (!(PluginHelper::isEnabled('system', 'httpheaders')))
+		{
+			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
 		}
 
 		$this->addToolbar();

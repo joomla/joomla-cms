@@ -24,6 +24,31 @@ $saveOrder = $listOrder == 'a.id';
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+				<?php if ($this->httpHeadersId) : ?>
+					<?php $link = JRoute::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->httpHeadersId . '&tmpl=component&layout=modal'); ?>
+					<?php echo JHtml::_(
+						'bootstrap.renderModal',
+						'plugin' . $this->httpHeadersId . 'Modal',
+						array(
+							'url'         => $link,
+							'title'       => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+							'height'      => '400px',
+							'width'       => '800px',
+							'bodyHeight'  => '70',
+							'modalWidth'  => '80',
+							'closeButton' => false,
+							'backdrop'    => 'static',
+							'keyboard'    => false,
+							'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+								. ' onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+								. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+								. JText::_("JSAVE") . '</button>'
+								. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
+								. JText::_("JAPPLY") . '</button>'
+						)
+					); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
