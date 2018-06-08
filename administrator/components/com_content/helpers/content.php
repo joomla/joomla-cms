@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * Content component helper.
  *
  * @since       1.6
+ *
  * @deprecated  5.0 Use \Joomla\Component\Content\Administrator\Helper\ContentHelper instead
  */
 class ContentHelper extends \Joomla\Component\Content\Administrator\Helper\ContentHelper
