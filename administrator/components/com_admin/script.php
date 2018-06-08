@@ -3974,7 +3974,7 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 4.0
 		$newComponents = array(
-			'com_csp'
+			'com_csp',
 		);
 
 		foreach ($newComponents as $component)

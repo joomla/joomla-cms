@@ -39,7 +39,7 @@ $saveOrder = $listOrder == 'a.id';
 							'closeButton' => false,
 							'backdrop'    => 'static',
 							'keyboard'    => false,
-							'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+							'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 								. ' onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 								. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 								. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'

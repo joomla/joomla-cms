@@ -10,7 +10,7 @@ namespace Joomla\Component\Csp\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Reporter component helper.
@@ -22,13 +22,13 @@ class ReporterHelper
 	/**
 	 * Gets the httpheaders system plugin extension id.
 	 *
-	 * @return  int  The httpheaders system plugin extension id.
+	 * @return  integer  The httpheaders system plugin extension id.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getHttpHeadersPluginId()
 	{
-		$db    = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -42,7 +42,7 @@ class ReporterHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;
