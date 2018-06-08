@@ -20,7 +20,7 @@ use Joomla\CMS\Categories\Categories;
 class Category extends Categories
 {
 	/**
-	 * Class constructor
+	 * Constructor
 	 *
 	 * @param   array  $options  Array of options
 	 *
