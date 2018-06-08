@@ -94,7 +94,7 @@
 					value_field="name"
 					showon="user_id:created_by"
 					>
-					<option value="0">JOPTION_SELECT_AUTHORS</option>
+					<option value="0">JNONE</option>
 				</field>
 			</fieldset>
 
