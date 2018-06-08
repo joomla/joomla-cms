@@ -31,7 +31,7 @@ $saveOrder = $listOrder == 'a.id';
 						'plugin' . $this->httpHeadersId . 'Modal',
 						array(
 							'url'         => $link,
-							'title'       => JText::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
+							'title'       => JText::_('COM_CSP_EDIT_PLUGIN_SETTINGS'),
 							'height'      => '400px',
 							'width'       => '800px',
 							'bodyHeight'  => '70',
