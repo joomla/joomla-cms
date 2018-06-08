@@ -10,16 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
-use Joomla\CMS\Categories\CategoriesFactoryInterface;
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\CategoriesFactory;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
+use Joomla\Component\Content\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -41,9 +41,9 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		$container->set(Categories::class, ['' => new Category]);
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
-		$container->registerServiceProvider(new CategoriesFactory(['' => ['table' => '#__content', 'extension' => 'com_content']]));
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Content'));
 
@@ -55,7 +55,7 @@ return new class implements ServiceProviderInterface
 
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setCategoriesFactory($container->get(CategoriesFactoryInterface::class));
+				$component->setCategories($container->get(Categories::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 
 				return $component;

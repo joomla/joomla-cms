@@ -18,13 +18,13 @@ defined('JPATH_PLATFORM') or die;
 trait CategoriesServiceTrait
 {
 	/**
-	 * The categories factory
+	 * An array of categories.
 	 *
-	 * @var  CategoriesFactoryInterface
+	 * @var  Categories[]
 	 *
 	 * @since  4.0.0
 	 */
-	private $categoriesFactory;
+	private $categories;
 
 	/**
 	 * Returns the category service.
@@ -41,24 +41,31 @@ trait CategoriesServiceTrait
 	 */
 	public function getCategories(array $options = [], $section = ''): Categories
 	{
-		$category = $this->categoriesFactory->createCategory($section);
-		$category->setOptions($options);
+		if (!array_key_exists($section, $this->categories))
+		{
+			throw new SectionNotFoundException;
+		}
 
-		return $category;
+		$categories = clone $this->categories[$section];
+		$categories->setOptions($options);
+
+		return $categories;
 	}
 
 	/**
-	 * Sets the internal categories factory.
+	 * An array of categories where the key is the name of the section.
+	 * If the component has no sections then the array must have at least
+	 * an empty key.
 	 *
-	 * @param   CategoriesFactoryInterface  $categoriesFactory  The categories factory
+	 * @param   array  $categories  The categories
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setCategoriesFactory(CategoriesFactoryInterface $categoriesFactory)
+	public function setCategories(array $categories)
 	{
-		$this->categoriesFactory = $categoriesFactory;
+		$this->categories = $categories;
 	}
 
 	/**
