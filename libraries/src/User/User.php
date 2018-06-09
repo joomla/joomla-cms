@@ -942,15 +942,33 @@ class User extends \JObject
 		$this->userHelper = new UserWrapper;
 		$this->_params    = new Registry;
 
-		// Load the user if it exists
-		if (!empty($this->id) && $this->load($this->id))
+		// Check if user instance exists, and do not reload user record from DB
+		if (isset(self::$instances[$this->id]))
+		{
+			// Duplicate user instance
+			foreach(self::$instances[$this->id] as $k => $v)
+			{
+				if (is_object($v))
+				{
+					$this->$k = clone($v);
+				}
+				else
+				{
+					$this->$k = $v;
+				}
+			}
+		}
+
+		// User instance does not exist, continue to load the user if it exists
+		elseif (!empty($this->id) && $this->load($this->id))
 		{
 			// Push user into cached instances.
 			self::$instances[$this->id] = $this;
 		}
+
+		// Empty user ID or loading of user failed, initialise a guest user object
 		else
 		{
-			// Initialise
 			$this->id = 0;
 			$this->sendEmail = 0;
 			$this->aid = 0;
