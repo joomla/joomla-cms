@@ -47,55 +47,6 @@
 		/>
 
 		<field
-			name="memcache_persist"
-			type="radio"
-			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
-			class="switcher"
-			default="1"
-			showon="cache_handler:memcache"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="memcache_compress"
-			type="radio"
-			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
-			class="switcher"
-			default="0"
-			showon="cache_handler:memcache"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="memcache_server_host"
-			type="text"
-			label="COM_CONFIG_FIELD_MEMCACHE_HOST_LABEL"
-			default="localhost"
-			showon="cache_handler:memcache"
-			filter="string"
-			size="25"
-		/>
-
-		<field
-			name="memcache_server_port"
-			type="number"
-			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
-			showon="cache_handler:memcache"
-			min="1"
-			max="65535"
-			default="11211"
-			filter="integer"
-			validate="number"
-			size="5"
-		/>
-
-		<field
 			name="memcached_persist"
 			type="radio"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
@@ -235,11 +186,6 @@
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
 		</field>
 
-	</fieldset>
-
-	<fieldset
-		name="memcache"
-		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">
 	</fieldset>
 
 	<fieldset
