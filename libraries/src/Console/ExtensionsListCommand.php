@@ -98,7 +98,9 @@ class ExtensionsListCommand extends AbstractCommand
 
 		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
-		$help = "The <info>%command.name%</info> List all currently installed extensions \nUsage: <info>php %command.full_name%</info> --type=<extensiontype>";
+		$help = "The <info>%command.name%</info> List all currently installed extensions
+				\nUsage: <info>php %command.full_name%</info> --type=<extensiontype>";
+
 		$this->setHelp($help);
 	}
 
