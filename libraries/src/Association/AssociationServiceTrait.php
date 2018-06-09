@@ -10,8 +10,6 @@ namespace Joomla\CMS\Association;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-
 /**
  * Trait to implement AssociationServiceInterface
  *
