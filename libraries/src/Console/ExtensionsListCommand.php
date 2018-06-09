@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\AbstractCommand;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Joomla\CMS\Factory;
 
@@ -25,6 +26,34 @@ class ExtensionsListCommand extends AbstractCommand
 	 * Stores the installed Extensions
 	 */
 	private $extensions;
+
+	/**
+	 * Stores the Input Object
+	 * @var
+	 * @since 4.0
+	 */
+	private $cliInput;
+
+	/**
+	 * SymfonyStyle Object
+	 * @var
+	 * @since 4.0
+	 */
+	private $ioStyle;
+
+	/**
+	 * Configures the IO
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
+	private function configureIO()
+	{
+		$this->cliInput = $this->getApplication()->getConsoleInput();
+		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+	}
+
 	/**
 	 * Execute the command.
 	 *
@@ -34,11 +63,24 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	public function execute(): int
 	{
-		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->configureIO();
 		$extensions = $this->getExtensions();
+		$type = $this->cliInput->getOption('type');
+		if ($type)
+		{
+			$extensions = $this->filterExtensionsBasedOn($type);
+		}
 
-		$symfonyStyle->title('Installed Extensions.');
-		$symfonyStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+		if (empty($extensions))
+		{
+			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
+			return 0;
+		}
+
+		$extensions = $this->getExtensionsNameAndId($extensions);
+
+		$this->ioStyle->title('Installed Extensions.');
+		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 		return 0;
 	}
 
@@ -53,13 +95,11 @@ class ExtensionsListCommand extends AbstractCommand
 	{
 		$this->setName('extension:list');
 		$this->setDescription('List installed Extensions');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> List all currently installed extensions
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
+
+		$help = "The <info>%command.name%</info> List all currently installed extensions \n <info>php %command.full_name%</info>";
+		$this->setHelp($help);
 	}
 
 	/**
@@ -114,7 +154,7 @@ EOF
 			->from('#__extensions');
 		$db->setQuery($query);
 		$extensions = $db->loadAssocList('extension_id');
-		return $this->getExtensionsNameAndId($extensions);
+		return $extensions;
 	}
 
 	/**
@@ -141,5 +181,28 @@ EOF
 			];
 		}
 		return $extInfo;
+	}
+
+	/**
+	 * Filters the extension type
+	 *
+	 * @param   string  $type  Extension type
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	private function filterExtensionsBasedOn($type)
+	{
+		$extensions = [];
+		foreach ($this->extensions as $key => $extension)
+		{
+			if ($extension['type'] == $type)
+			{
+				$extensions[] = $extension;
+			}
+		}
+
+		return $extensions;
 	}
 }
