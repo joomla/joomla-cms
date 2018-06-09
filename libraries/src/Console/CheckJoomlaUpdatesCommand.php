@@ -43,20 +43,17 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 
 		if (!$data['hasUpdate'])
 		{
-			if ((!isset($data['object']->downloadurl->_data)
-				&& $data['installed'] < $data['latest'] && $model->isPhpVersionSupported()
-				&& $model->isDatabaseTypeSupported()))
-			{
-				$symfonyStyle->success('We cannot find an update URL ');
-			}
-			else
-			{
-				$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
-			}
+			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
+			return 0;
 		}
 		else
 		{
 			$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
+		}
+
+		if (!isset($data['object']->downloadurl->_data))
+		{
+			$symfonyStyle->warning('We cannot find an update URL ');
 		}
 		return 0;
 	}
