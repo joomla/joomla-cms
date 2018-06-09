@@ -10,6 +10,8 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Table\Table;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -104,8 +106,8 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$id = (int) $extension_id;
 		$result = true;
 
-		$installer = \JInstaller::getInstance();
-		$row       = \JTable::getInstance('extension');
+		$installer = Installer::getInstance();
+		$row       = Table::getInstance('extension');
 		if (!$row->load($id))
 		{
 			$this->ioStyle->error("Extension with ID of $extension_id not found.");
