@@ -7,11 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Menus\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Menus HTML helper class.
@@ -20,7 +26,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  * @subpackage  com_menus
  * @since       1.7
  */
-abstract class MenusHtmlMenus
+class Menus
 {
 	/**
 	 * Generate the markup to display the item associations
@@ -31,9 +37,9 @@ abstract class MenusHtmlMenus
 	 *
 	 * @since   3.0
 	 *
-	 * @throws Exception If there is an error on the query
+	 * @throws \Exception If there is an error on the query
 	 */
-	public static function association($itemid)
+	public function association($itemid)
 	{
 		// Defaults
 		$html = '';
@@ -42,7 +48,7 @@ abstract class MenusHtmlMenus
 		if ($associations = MenusHelper::getAssociations($itemid))
 		{
 			// Get the associated menu items
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('m.id, m.title')
 				->select('l.sef as lang_sef, l.lang_code')
@@ -60,9 +66,9 @@ abstract class MenusHtmlMenus
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (runtimeException $e)
+			catch (\RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new \Exception($e->getMessage(), 500);
 			}
 
 			// Construct html
@@ -71,8 +77,8 @@ abstract class MenusHtmlMenus
 				foreach ($items as &$item)
 				{
 					$text    = strtoupper($item->lang_sef);
-					$url     = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . JText::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
+					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
 					$classes = 'hasPopover badge badge-secondary';
 
 					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
@@ -81,9 +87,9 @@ abstract class MenusHtmlMenus
 				}
 			}
 
-			JHtml::_('bootstrap.popover');
+			HTMLHelper::_('bootstrap.popover');
 
-			$html = JLayoutHelper::render('joomla.content.associations', $items);
+			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
@@ -225,7 +231,7 @@ abstract class MenusHtmlMenus
 			),
 		);
 
-		return JHtml::_('jgrid.state', $states, $value, $i, 'items.', $enabled, true, $checkbox);
+		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'items.', $enabled, true, $checkbox);
 	}
 
 	/**
@@ -245,13 +251,13 @@ abstract class MenusHtmlMenus
 		{
 			$registry->loadString($params);
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			// Invalid JSON
 		}
 
 		$show_menu = $registry->get('menu_show');
 
-		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
+		return ($show_menu === 0) ? '<span class="badge badge-secondary">' . Text::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }

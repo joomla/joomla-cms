@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Menus\Administrator\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
@@ -16,7 +18,7 @@ use Joomla\CMS\Association\AssociationExtensionHelper;
  *
  * @since  3.7.0
  */
-class MenusAssociationsHelper extends AssociationExtensionHelper
+class AssociationsHelper extends AssociationExtensionHelper
 {
 	/**
 	 * The extension name
