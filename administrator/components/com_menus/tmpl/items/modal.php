@@ -98,7 +98,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
+							<?php echo JHtml::_('menus.state', $item->published, $i, 0); ?>
 						</td>
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
