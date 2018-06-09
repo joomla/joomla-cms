@@ -223,6 +223,12 @@ class User extends \JObject
 	protected static $instances = array();
 
 	/**
+	 * @var    array  JTable user records
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $records = array();
+
+	/**
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer      $identifier  The primary key of the user to load (optional).
@@ -879,8 +885,22 @@ class User extends \JObject
 		// Create the user table object
 		$table = $this->getTable();
 
-		// Load the UserModel object based on the user id or throw a warning.
-		if (!$table->load($id))
+		// Check for already loaded JTable record for given record id
+		if (!empty(self::$records[$this->id]))
+		{
+			$table = self::$records[$this->id];
+			$loaded = true;
+		}
+
+		// Load JTable record for given record id
+		else
+		{
+			$loaded = $table->load($id);
+			self::$records[$this->id] = $table;
+		}
+
+		// Throw a warning on loading error
+		if (!$loaded)
 		{
 			// Reset to guest user
 			$this->guest = 1;
