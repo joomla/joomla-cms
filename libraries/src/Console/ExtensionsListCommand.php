@@ -38,7 +38,7 @@ class ExtensionsListCommand extends AbstractCommand
 		$extensions = $this->getExtensions();
 
 		$symfonyStyle->title('Installed Extensions.');
-		$symfonyStyle->table(['Name', 'Extension ID', 'Type', 'Active'], $extensions);
+		$symfonyStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 		return 0;
 	}
 
@@ -131,9 +131,11 @@ EOF
 		$extInfo = [];
 		foreach ($extensions as $key => $extension)
 		{
+			$manifest = json_decode($extension['manifest_cache']);
 			$extInfo[] = [
 				$extension['name'],
 				$extension['extension_id'],
+				$manifest->version,
 				$extension['type'],
 				$extension['enabled'] == 1 ? 'Yes' : 'No',
 			];
