@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $app = JFactory::getApplication();
 
 if ($app->isClient('site'))
 {
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
