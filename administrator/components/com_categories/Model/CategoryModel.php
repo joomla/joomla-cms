@@ -1284,6 +1284,7 @@ class CategoryModel extends AdminModel
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
+
 			return $assoc;
 		}
 
@@ -1292,6 +1293,7 @@ class CategoryModel extends AdminModel
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
 		{
 			$assoc = true;
+
 			return $assoc;
 		}
 

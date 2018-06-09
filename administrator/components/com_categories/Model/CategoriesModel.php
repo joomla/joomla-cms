@@ -327,6 +327,7 @@ class CategoriesModel extends ListModel
 		if (!$assoc || !$component || !$cname)
 		{
 			$assoc = false;
+
 			return $assoc;
 		}
 
@@ -335,6 +336,7 @@ class CategoriesModel extends ListModel
 		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
 		{
 			$assoc = true;
+
 			return $assoc;
 		}
 
