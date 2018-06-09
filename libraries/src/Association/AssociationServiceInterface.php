@@ -25,13 +25,4 @@ interface AssociationServiceInterface
 	 * @since  4.0.0
 	 */
 	public function getAssociationsExtension(): AssociationExtensionInterface;
-
-	/**
-	 * Are categories associations supported.
-	 *
-	 * @return  boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function hasAssociationsCategorySupport();
 }

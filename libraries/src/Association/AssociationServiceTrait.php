@@ -53,16 +53,4 @@ trait AssociationServiceTrait
 	{
 		$this->associationExtension = $associationExtension;
 	}
-
-	/**
-	 * Are categories associations supported.
-	 *
-	 * @return  boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function hasAssociationsCategorySupport()
-	{
-		return $this instanceof CategoriesServiceInterface;
-	}
 }
