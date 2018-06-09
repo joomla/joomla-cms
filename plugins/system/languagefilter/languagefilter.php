@@ -791,7 +791,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			if ($component instanceof AssociationServiceInterface)
 			{
-				$associations = $component->getAssociationsExtension()->getAssociationsForItem();
+				$cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
 			}
 			else
 			{
