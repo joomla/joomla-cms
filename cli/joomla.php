@@ -9,6 +9,11 @@
 // We are a valid entry point.
 const _JEXEC = 1;
 
+/**
+ * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
+ */
+define('JOOMLA_MINIMUM_PHP', '7.0');
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
