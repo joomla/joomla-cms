@@ -1287,11 +1287,11 @@ class CategoryModel extends AdminModel
 			return $assoc;
 		}
 
-		$component = Factory::getApplication()->bootComponent($component);
+		$componentObject = $this->bootComponent($component);
 
-		if ($component instanceof AssociationServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
 		{
-			$assoc = $component->hasAssociationsCategorySupport();
+			$assoc = true;
 			return $assoc;
 		}
 
