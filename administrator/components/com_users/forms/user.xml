@@ -139,6 +139,13 @@
 			readonly="true"
 		/>
 
+		<field
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			size="1"
+		/>
+
 	</fieldset>
 	<field name="groups" type="hidden" />
 	<field name="twofactor" type="hidden" />
