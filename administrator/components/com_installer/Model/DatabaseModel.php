@@ -102,18 +102,26 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Method to populate the schema cache.
 	 *
+	 * @param   integer  $cid  The extension ID to get the schema for
+	 *
 	 * @return  void
 	 *
 	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function fetchSchemaCache()
+	private function fetchSchemaCache($cid = 0)
 	{
 		// We already have it
-		if ($this->changeSetList)
+		if (array_key_exists($cid, $this->changeSetList))
 		{
 			return;
+		}
+
+		// Add the ID to the state so it can be used for filtering
+		if ($cid)
+		{
+			$this->setState('filter.extension_id', $cid);
 		}
 
 		// With the parent::save it can get the limit and we need to make sure it gets all extensions
@@ -124,7 +132,7 @@ class DatabaseModel extends InstallerModel
 			$errorMessages = array();
 			$errorCount     = 0;
 
-			if (strcmp($result->element, 'joomla') == 0)
+			if (strcmp($result->element, 'joomla') === 0)
 			{
 				$result->element = 'com_admin';
 
@@ -156,7 +164,7 @@ class DatabaseModel extends InstallerModel
 			// than the update files, add to problems message
 			$schema = $changeSet->getSchema();
 
-			if ($result->version_id != $schema)
+			if ($result->version_id !== $schema)
 			{
 				$errorMessages[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema);
 				$errorCount++;
@@ -241,15 +249,10 @@ class DatabaseModel extends InstallerModel
 	{
 		$db = $this->getDbo();
 
-		// Instantiate the state
-		$this->__state_set = true;
-
 		foreach ($cids as $i => $cid)
 		{
-			$this->setState('filter.extension_id', $cid);
-
 			// Load the database issues
-			$this->fetchSchemaCache();
+			$this->fetchSchemaCache($cid);
 
 			$changeSet = $this->changeSetList[$cid];
 			$changeSet['changeset'] = new ChangeSet($db, $changeSet['folderTmp']);

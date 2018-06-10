@@ -84,6 +84,7 @@ class HtmlView extends InstallerViewDefault
 		// Get data from the model.
 		/** @var DatabaseModel $model */
 		$model = $this->getModel();
+
 		try
 		{
 			$this->changeSet = $model->getItems();
