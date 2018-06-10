@@ -12,6 +12,10 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -110,12 +114,12 @@ class ChromestyleField extends \JFormFieldGroupedList
 
 				if (isset($clientName))
 				{
-					$client = \JApplicationHelper::getClientInfo($clientName, true);
+					$client = ApplicationHelper::getClientInfo($clientName, true);
 					$clientId = $client->id;
 				}
 			}
 
-			if (!isset($clientId) && $this->form instanceof \JForm)
+			if (!isset($clientId) && $this->form instanceof Form)
 			{
 				$clientId = $this->form->getValue('client_id');
 			}
@@ -140,8 +144,8 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$groups = array();
 
 		// Add Module Style Field
-		$tmp = '---' . \JText::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
-		$groups[$tmp][] = \JHtml::_('select.option', '0', \JText::_('JLIB_FORM_VALUE_INHERITED'));
+		$tmp = '---' . Text::_('JLIB_FORM_VALUE_FROM_TEMPLATE') . '---';
+		$groups[$tmp][] = HTMLHelper::_('select.option', '0', Text::_('JLIB_FORM_VALUE_INHERITED'));
 
 		$templateStyles = $this->getTemplateModuleStyles();
 
@@ -153,7 +157,7 @@ class ChromestyleField extends \JFormFieldGroupedList
 
 			foreach ($styles as $style)
 			{
-				$tmp = \JHtml::_('select.option', $template . '-' . $style, $style);
+				$tmp = HTMLHelper::_('select.option', $template . '-' . $style, $style);
 				$groups[$template][] = $tmp;
 			}
 		}

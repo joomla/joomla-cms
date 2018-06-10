@@ -1441,7 +1441,7 @@ CREATE TABLE IF NOT EXISTS "#__modules" (
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(100) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "content" text DEFAULT '' NOT NULL,
+  "content" text,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" varchar(50) DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,

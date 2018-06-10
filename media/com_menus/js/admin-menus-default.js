@@ -11,10 +11,9 @@
 			var items = Joomla.getOptions('menus-default').items;
 
 			items.forEach(function(item) {
-				console.log(item)
 				window['jSelectPosition_' + item] = function (name) {
 					document.getElementById(item).value = name;
-					jQuery(".modal").modal("hide");
+					Joomla.Modal.getCurrent().close();
 				}
 			})
 		}
