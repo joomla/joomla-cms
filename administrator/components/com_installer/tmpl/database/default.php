@@ -82,19 +82,19 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
 										</td>
 										<td>
-										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasPopover" title="<?php echo HTMLHelper::_('tooltipText',
-												Text::_('JGLOBAL_DESCRIPTION'),
-												Text::_($manifest->description) ?
-													Text::_($manifest->description) :
-													Text::_(
-														'COM_INSTALLER_MSG_UPDATE_NODESC'
-													),
-												0
-											); ?>">
-												<?php echo $extension->name; ?>
-											</span>
-										</label>
+											<label for="cb<?php echo $i; ?>">
+												<span class="editlinktip hasPopover" title="<?php echo HTMLHelper::_('tooltipText',
+													Text::_('JGLOBAL_DESCRIPTION'),
+													Text::_($manifest->description) ?
+														Text::_($manifest->description) :
+														Text::_(
+															'COM_INSTALLER_MSG_UPDATE_NODESC'
+														),
+													0
+												); ?>">
+													<?php echo $extension->name; ?>
+												</span>
+											</label>
 										</td>
 										<td class="center">
 											<?php echo $extension->client_translated; ?>
