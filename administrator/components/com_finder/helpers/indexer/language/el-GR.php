@@ -43,9 +43,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 */
 	public function stem($token)
 	{
-		// Number of rules examined. Used for debugging and testing purposes.
-		$numberOfRulesExamined = 0;
-
 		/**
 		 * Case conversion map. 1 for changed case in that position, 2 for final sigma.
 		 *
@@ -156,12 +153,11 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Stop-word removal
-		$numberOfRulesExamined++;
 		$stop_words = '/^(ΕΚΟ|ΑΒΑ|ΑΓΑ|ΑΓΗ|ΑΓΩ|ΑΔΗ|ΑΔΩ|ΑΕ|ΑΕΙ|ΑΘΩ|ΑΙ|ΑΙΚ|ΑΚΗ|ΑΚΟΜΑ|ΑΚΟΜΗ|ΑΚΡΙΒΩΣ|ΑΛΑ|ΑΛΗΘΕΙΑ|ΑΛΗΘΙΝΑ|ΑΛΛΑΧΟΥ|ΑΛΛΙΩΣ|ΑΛΛΙΩΤΙΚΑ|ΑΛΛΟΙΩΣ|ΑΛΛΟΙΩΤΙΚΑ|ΑΛΛΟΤΕ|ΑΛΤ|ΑΛΩ|ΑΜΑ|ΑΜΕ|ΑΜΕΣΑ|ΑΜΕΣΩΣ|ΑΜΩ|ΑΝ|ΑΝΑ|ΑΝΑΜΕΣΑ|ΑΝΑΜΕΤΑΞΥ|ΑΝΕΥ|ΑΝΤΙ|ΑΝΤΙΠΕΡΑ|ΑΝΤΙΣ|ΑΝΩ|ΑΝΩΤΕΡΩ|ΑΞΑΦΝΑ|ΑΠ|ΑΠΕΝΑΝΤΙ|ΑΠΟ|ΑΠΟΨΕ|ΑΠΩ|ΑΡΑ|ΑΡΑΓΕ|ΑΡΕ|ΑΡΚ|ΑΡΚΕΤΑ|ΑΡΛ|ΑΡΜ|ΑΡΤ|ΑΡΥ|ΑΡΩ|ΑΣ|ΑΣΑ|ΑΣΟ|ΑΤΑ|ΑΤΕ|ΑΤΗ|ΑΤΙ|ΑΤΜ|ΑΤΟ|ΑΥΡΙΟ|ΑΦΗ|ΑΦΟΤΟΥ|ΑΦΟΥ|ΑΧ|ΑΧΕ|ΑΧΟ|ΑΨΑ|ΑΨΕ|ΑΨΗ|ΑΨΥ|ΑΩΕ|ΑΩΟ|ΒΑΝ|ΒΑΤ|ΒΑΧ|ΒΕΑ|ΒΕΒΑΙΟΤΑΤΑ|ΒΗΞ|ΒΙΑ|ΒΙΕ|ΒΙΗ|ΒΙΟ|ΒΟΗ|ΒΟΩ|ΒΡΕ|ΓΑ|ΓΑΒ|ΓΑΡ|ΓΕΝ|ΓΕΣ||ΓΗ|ΓΗΝ|ΓΙ|ΓΙΑ|ΓΙΕ|ΓΙΝ|ΓΙΟ|ΓΚΙ|ΓΙΑΤΙ|ΓΚΥ|ΓΟΗ|ΓΟΟ|ΓΡΗΓΟΡΑ|ΓΡΙ|ΓΡΥ|ΓΥΗ|ΓΥΡΩ|ΔΑ|ΔΕ|ΔΕΗ|ΔΕΙ|ΔΕΝ|ΔΕΣ|ΔΗ|ΔΗΘΕΝ|ΔΗΛΑΔΗ|ΔΗΩ|ΔΙ|ΔΙΑ|ΔΙΑΡΚΩΣ|ΔΙΟΛΟΥ|ΔΙΣ|ΔΙΧΩΣ|ΔΟΛ|ΔΟΝ|ΔΡΑ|ΔΡΥ|ΔΡΧ|ΔΥΕ|ΔΥΟ|ΔΩ|ΕΑΜ|ΕΑΝ|ΕΑΡ|ΕΘΗ|ΕΙ|ΕΙΔΕΜΗ|ΕΙΘΕ|ΕΙΜΑΙ|ΕΙΜΑΣΤΕ|ΕΙΝΑΙ|ΕΙΣ|ΕΙΣΑΙ|ΕΙΣΑΣΤΕ|ΕΙΣΤΕ|ΕΙΤΕ|ΕΙΧΑ|ΕΙΧΑΜΕ|ΕΙΧΑΝ|ΕΙΧΑΤΕ|ΕΙΧΕ|ΕΙΧΕΣ|ΕΚ|ΕΚΕΙ|ΕΛΑ|ΕΛΙ|ΕΜΠ|ΕΝ|ΕΝΤΕΛΩΣ|ΕΝΤΟΣ|ΕΝΤΩΜΕΤΑΞΥ|ΕΝΩ|ΕΞ|ΕΞΑΦΝΑ|ΕΞΙ|ΕΞΙΣΟΥ|ΕΞΩ|ΕΟΚ|ΕΠΑΝΩ|ΕΠΕΙΔΗ|ΕΠΕΙΤΑ|ΕΠΗ|ΕΠΙ|ΕΠΙΣΗΣ|ΕΠΟΜΕΝΩΣ|ΕΡΑ|ΕΣ|ΕΣΑΣ|ΕΣΕ|ΕΣΕΙΣ|ΕΣΕΝΑ|ΕΣΗ|ΕΣΤΩ|ΕΣΥ|ΕΣΩ|ΕΤΙ|ΕΤΣΙ|ΕΥ|ΕΥΑ|ΕΥΓΕ|ΕΥΘΥΣ|ΕΥΤΥΧΩΣ|ΕΦΕ|ΕΦΕΞΗΣ|ΕΦΤ|ΕΧΕ|ΕΧΕΙ|ΕΧΕΙΣ|ΕΧΕΤΕ|ΕΧΘΕΣ|ΕΧΟΜΕ|ΕΧΟΥΜΕ|ΕΧΟΥΝ|ΕΧΤΕΣ|ΕΧΩ|ΕΩΣ|ΖΕΑ|ΖΕΗ|ΖΕΙ|ΖΕΝ|ΖΗΝ|ΖΩ|Η|ΗΔΗ|ΗΔΥ|ΗΘΗ|ΗΛΟ|ΗΜΙ|ΗΠΑ|ΗΣΑΣΤΕ|ΗΣΟΥΝ|ΗΤΑ|ΗΤΑΝ|ΗΤΑΝΕ|ΗΤΟΙ|ΗΤΤΟΝ|ΗΩ|ΘΑ|ΘΥΕ|ΘΩΡ|Ι|ΙΑ|ΙΒΟ|ΙΔΗ|ΙΔΙΩΣ|ΙΕ|ΙΙ|ΙΙΙ|ΙΚΑ|ΙΛΟ|ΙΜΑ|ΙΝΑ|ΙΝΩ|ΙΞΕ|ΙΞΟ|ΙΟ|ΙΟΙ|ΙΣΑ|ΙΣΑΜΕ|ΙΣΕ|ΙΣΗ|ΙΣΙΑ|ΙΣΟ|ΙΣΩΣ|ΙΩΒ|ΙΩΝ|ΙΩΣ|ΙΑΝ|ΚΑΘ|ΚΑΘΕ|ΚΑΘΕΤΙ|ΚΑΘΟΛΟΥ|ΚΑΘΩΣ|ΚΑΙ|ΚΑΝ|ΚΑΠΟΤΕ|ΚΑΠΟΥ|ΚΑΠΩΣ|ΚΑΤ|ΚΑΤΑ|ΚΑΤΙ|ΚΑΤΙΤΙ|ΚΑΤΟΠΙΝ|ΚΑΤΩ|ΚΑΩ|ΚΒΟ|ΚΕΑ|ΚΕΙ|ΚΕΝ|ΚΙ|ΚΙΜ|ΚΙΟΛΑΣ|ΚΙΤ|ΚΙΧ|ΚΚΕ|ΚΛΙΣΕ|ΚΛΠ|ΚΟΚ|ΚΟΝΤΑ|ΚΟΧ|ΚΤΛ|ΚΥΡ|ΚΥΡΙΩΣ|ΚΩ|ΚΩΝ|ΛΑ|ΛΕΑ|ΛΕΝ|ΛΕΟ|ΛΙΑ|ΛΙΓΑΚΙ|ΛΙΓΟΥΛΑΚΙ|ΛΙΓΟ|ΛΙΓΩΤΕΡΟ|ΛΙΟ|ΛΙΡ|ΛΟΓΩ|ΛΟΙΠΑ|ΛΟΙΠΟΝ|ΛΟΣ|ΛΣ|ΛΥΩ|ΜΑ|ΜΑΖΙ|ΜΑΚΑΡΙ|ΜΑΛΙΣΤΑ|ΜΑΛΛΟΝ|ΜΑΝ|ΜΑΞ|ΜΑΣ|ΜΑΤ|ΜΕ|ΜΕΘΑΥΡΙΟ|ΜΕΙ|ΜΕΙΟΝ|ΜΕΛ|ΜΕΛΕΙ|ΜΕΛΛΕΤΑΙ|ΜΕΜΙΑΣ|ΜΕΝ|ΜΕΣ|ΜΕΣΑ|ΜΕΤ|ΜΕΤΑ|ΜΕΤΑΞΥ|ΜΕΧΡΙ|ΜΗ|ΜΗΔΕ|ΜΗΝ|ΜΗΠΩΣ|ΜΗΤΕ|ΜΙ|ΜΙΞ|ΜΙΣ|ΜΜΕ|ΜΝΑ|ΜΟΒ|ΜΟΛΙΣ|ΜΟΛΟΝΟΤΙ|ΜΟΝΑΧΑ|ΜΟΝΟΜΙΑΣ|ΜΙΑ|ΜΟΥ|ΜΠΑ|ΜΠΟΡΕΙ|ΜΠΟΡΟΥΝ|ΜΠΡΑΒΟ|ΜΠΡΟΣ|ΜΠΩ|ΜΥ|ΜΥΑ|ΜΥΝ|ΝΑ|ΝΑΕ|ΝΑΙ|ΝΑΟ|ΝΔ|ΝΕΐ|ΝΕΑ|ΝΕΕ|ΝΕΟ|ΝΙ|ΝΙΑ|ΝΙΚ|ΝΙΛ|ΝΙΝ|ΝΙΟ|ΝΤΑ|ΝΤΕ|ΝΤΙ|ΝΤΟ|ΝΥΝ|ΝΩΕ|ΝΩΡΙΣ|ΞΑΝΑ|ΞΑΦΝΙΚΑ|ΞΕΩ|ΞΙ|Ο|ΟΑ|ΟΑΠ|ΟΔΟ|ΟΕ|ΟΖΟ|ΟΗΕ|ΟΙ|ΟΙΑ|ΟΙΗ|ΟΚΑ|ΟΛΟΓΥΡΑ|ΟΛΟΝΕΝ|ΟΛΟΤΕΛΑ|ΟΛΩΣΔΙΟΛΟΥ|ΟΜΩΣ|ΟΝ|ΟΝΕ|ΟΝΟ|ΟΠΑ|ΟΠΕ|ΟΠΗ|ΟΠΟ|ΟΠΟΙΑΔΗΠΟΤΕ|ΟΠΟΙΑΝΔΗΠΟΤΕ|ΟΠΟΙΑΣΔΗΠΟΤΕ|ΟΠΟΙΔΗΠΟΤΕ|ΟΠΟΙΕΣΔΗΠΟΤΕ|ΟΠΟΙΟΔΗΠΟΤΕ|ΟΠΟΙΟΝΔΗΠΟΤΕ|ΟΠΟΙΟΣΔΗΠΟΤΕ|ΟΠΟΙΟΥΔΗΠΟΤΕ|ΟΠΟΙΟΥΣΔΗΠΟΤΕ|ΟΠΟΙΩΝΔΗΠΟΤΕ|ΟΠΟΤΕΔΗΠΟΤΕ|ΟΠΟΥ|ΟΠΟΥΔΗΠΟΤΕ|ΟΠΩΣ|ΟΡΑ|ΟΡΕ|ΟΡΗ|ΟΡΟ|ΟΡΦ|ΟΡΩ|ΟΣΑ|ΟΣΑΔΗΠΟΤΕ|ΟΣΕ|ΟΣΕΣΔΗΠΟΤΕ|ΟΣΗΔΗΠΟΤΕ|ΟΣΗΝΔΗΠΟΤΕ|ΟΣΗΣΔΗΠΟΤΕ|ΟΣΟΔΗΠΟΤΕ|ΟΣΟΙΔΗΠΟΤΕ|ΟΣΟΝΔΗΠΟΤΕ|ΟΣΟΣΔΗΠΟΤΕ|ΟΣΟΥΔΗΠΟΤΕ|ΟΣΟΥΣΔΗΠΟΤΕ|ΟΣΩΝΔΗΠΟΤΕ|ΟΤΑΝ|ΟΤΕ|ΟΤΙ|ΟΤΙΔΗΠΟΤΕ|ΟΥ|ΟΥΔΕ|ΟΥΚ|ΟΥΣ|ΟΥΤΕ|ΟΥΦ|ΟΧΙ|ΟΨΑ|ΟΨΕ|ΟΨΗ|ΟΨΙ|ΟΨΟ|ΠΑ|ΠΑΛΙ|ΠΑΝ|ΠΑΝΤΟΤΕ|ΠΑΝΤΟΥ|ΠΑΝΤΩΣ|ΠΑΠ|ΠΑΡ|ΠΑΡΑ|ΠΕΙ|ΠΕΡ|ΠΕΡΑ|ΠΕΡΙ|ΠΕΡΙΠΟΥ|ΠΕΡΣΙ|ΠΕΡΥΣΙ|ΠΕΣ|ΠΙ|ΠΙΑ|ΠΙΘΑΝΟΝ|ΠΙΚ|ΠΙΟ|ΠΙΣΩ|ΠΙΤ|ΠΙΩ|ΠΛΑΙ|ΠΛΕΟΝ|ΠΛΗΝ|ΠΛΩ|ΠΜ|ΠΟΑ|ΠΟΕ|ΠΟΛ|ΠΟΛΥ|ΠΟΠ|ΠΟΤΕ|ΠΟΥ|ΠΟΥΘΕ|ΠΟΥΘΕΝΑ|ΠΡΕΠΕΙ|ΠΡΙ|ΠΡΙΝ|ΠΡΟ|ΠΡΟΚΕΙΜΕΝΟΥ|ΠΡΟΚΕΙΤΑΙ|ΠΡΟΠΕΡΣΙ|ΠΡΟΣ|ΠΡΟΤΟΥ|ΠΡΟΧΘΕΣ|ΠΡΟΧΤΕΣ|ΠΡΩΤΥΤΕΡΑ|ΠΥΑ|ΠΥΞ|ΠΥΟ|ΠΥΡ|ΠΧ|ΠΩ|ΠΩΛ|ΠΩΣ|ΡΑ|ΡΑΙ|ΡΑΠ|ΡΑΣ|ΡΕ|ΡΕΑ|ΡΕΕ|ΡΕΙ|ΡΗΣ|ΡΘΩ|ΡΙΟ|ΡΟ|ΡΟΐ|ΡΟΕ|ΡΟΖ|ΡΟΗ|ΡΟΘ|ΡΟΙ|ΡΟΚ|ΡΟΛ|ΡΟΝ|ΡΟΣ|ΡΟΥ|ΣΑΙ|ΣΑΝ|ΣΑΟ|ΣΑΣ|ΣΕ|ΣΕΙΣ|ΣΕΚ|ΣΕΞ|ΣΕΡ|ΣΕΤ|ΣΕΦ|ΣΗΜΕΡΑ|ΣΙ|ΣΙΑ|ΣΙΓΑ|ΣΙΚ|ΣΙΧ|ΣΚΙ|ΣΟΙ|ΣΟΚ|ΣΟΛ|ΣΟΝ|ΣΟΣ|ΣΟΥ|ΣΡΙ|ΣΤΑ|ΣΤΗ|ΣΤΗΝ|ΣΤΗΣ|ΣΤΙΣ|ΣΤΟ|ΣΤΟΝ|ΣΤΟΥ|ΣΤΟΥΣ|ΣΤΩΝ|ΣΥ|ΣΥΓΧΡΟΝΩΣ|ΣΥΝ|ΣΥΝΑΜΑ|ΣΥΝΕΠΩΣ|ΣΥΝΗΘΩΣ|ΣΧΕΔΟΝ|ΣΩΣΤΑ|ΤΑ|ΤΑΔΕ|ΤΑΚ|ΤΑΝ|ΤΑΟ|ΤΑΥ|ΤΑΧΑ|ΤΑΧΑΤΕ|ΤΕ|ΤΕΙ|ΤΕΛ|ΤΕΛΙΚΑ|ΤΕΛΙΚΩΣ|ΤΕΣ|ΤΕΤ|ΤΖΟ|ΤΗ|ΤΗΛ|ΤΗΝ|ΤΗΣ|ΤΙ|ΤΙΚ|ΤΙΜ|ΤΙΠΟΤΑ|ΤΙΠΟΤΕ|ΤΙΣ|ΤΝΤ|ΤΟ|ΤΟΙ|ΤΟΚ|ΤΟΜ|ΤΟΝ|ΤΟΠ|ΤΟΣ|ΤΟΣ?Ν|ΤΟΣΑ|ΤΟΣΕΣ|ΤΟΣΗ|ΤΟΣΗΝ|ΤΟΣΗΣ|ΤΟΣΟ|ΤΟΣΟΙ|ΤΟΣΟΝ|ΤΟΣΟΣ|ΤΟΣΟΥ|ΤΟΣΟΥΣ|ΤΟΤΕ|ΤΟΥ|ΤΟΥΛΑΧΙΣΤΟ|ΤΟΥΛΑΧΙΣΤΟΝ|ΤΟΥΣ|ΤΣ|ΤΣΑ|ΤΣΕ|ΤΥΧΟΝ|ΤΩ|ΤΩΝ|ΤΩΡΑ|ΥΑΣ|ΥΒΑ|ΥΒΟ|ΥΙΕ|ΥΙΟ|ΥΛΑ|ΥΛΗ|ΥΝΙ|ΥΠ|ΥΠΕΡ|ΥΠΟ|ΥΠΟΨΗ|ΥΠΟΨΙΝ|ΥΣΤΕΡΑ|ΥΦΗ|ΥΨΗ|ΦΑ|ΦΑΐ|ΦΑΕ|ΦΑΝ|ΦΑΞ|ΦΑΣ|ΦΑΩ|ΦΕΖ|ΦΕΙ|ΦΕΤΟΣ|ΦΕΥ|ΦΙ|ΦΙΛ|ΦΙΣ|ΦΟΞ|ΦΠΑ|ΦΡΙ|ΧΑ|ΧΑΗ|ΧΑΛ|ΧΑΝ|ΧΑΦ|ΧΕ|ΧΕΙ|ΧΘΕΣ|ΧΙ|ΧΙΑ|ΧΙΛ|ΧΙΟ|ΧΛΜ|ΧΜ|ΧΟΗ|ΧΟΛ|ΧΡΩ|ΧΤΕΣ|ΧΩΡΙΣ|ΧΩΡΙΣΤΑ|ΨΕΣ|ΨΗΛΑ|ΨΙ|ΨΙΤ|Ω|ΩΑ|ΩΑΣ|ΩΔΕ|ΩΕΣ|ΩΘΩ|ΩΜΑ|ΩΜΕ|ΩΝ|ΩΟ|ΩΟΝ|ΩΟΥ|ΩΣ|ΩΣΑΝ|ΩΣΗ|ΩΣΟΤΟΥ|ΩΣΠΟΥ|ΩΣΤΕ|ΩΣΤΟΣΟ|ΩΤΑ|ΩΧ|ΩΩΝ)$/';
 
 		if (preg_match($stop_words, $token))
 		{
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// step1list is used in Step 1. 41 stems
@@ -216,7 +212,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		$test1 = true;
 
 		// Step S1. 14 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΖΑ|ΙΖΕΣ|ΙΖΕ|ΙΖΑΜΕ|ΙΖΑΤΕ|ΙΖΑΝ|ΙΖΑΝΕ|ΙΖΩ|ΙΖΕΙΣ|ΙΖΕΙ|ΙΖΟΥΜΕ|ΙΖΕΤΕ|ΙΖΟΥΝ|ΙΖΟΥΝΕ)$/';
 		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΠΑ|ΞΑΝΑΠΑ|ΠΑ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ)$/';
 		$exceptS2 = '/^(ΜΑΡΚ|ΚΟΡΝ|ΑΜΠΑΡ|ΑΡΡ|ΒΑΘΥΡΙ|ΒΑΡΚ|Β|ΒΟΛΒΟΡ|ΓΚΡ|ΓΛΥΚΟΡ|ΓΛΥΚΥΡ|ΙΜΠ|Λ|ΛΟΥ|ΜΑΡ|Μ|ΠΡ|ΜΠΡ|ΠΟΛΥΡ|Π|Ρ|ΠΙΠΕΡΟΡ)$/';
@@ -237,11 +232,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'IΖ';
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S2. 7 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΩΘΗΚΑ|ΩΘΗΚΕΣ|ΩΘΗΚΕ|ΩΘΗΚΑΜΕ|ΩΘΗΚΑΤΕ|ΩΘΗΚΑΝ|ΩΘΗΚΑΝΕ)$/';
 		$exceptS1 = '/^(ΑΛ|ΒΙ|ΕΝ|ΥΨ|ΛΙ|ΖΩ|Σ|Χ)$/';
 
@@ -256,11 +250,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'ΩΝ';
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S3. 7 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΣΑ|ΙΣΕΣ|ΙΣΕ|ΙΣΑΜΕ|ΙΣΑΤΕ|ΙΣΑΝ|ΙΣΑΝΕ)$/';
 		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΑΘΡΟ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
 		$exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
@@ -283,12 +276,11 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 
 		// Step S4. 7 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΣΩ|ΙΣΕΙΣ|ΙΣΕΙ|ΙΣΟΥΜΕ|ΙΣΕΤΕ|ΙΣΟΥΝ|ΙΣΟΥΝΕ)$/';
 		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
 
@@ -303,11 +295,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S5. 11 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΣΤΟΣ|ΙΣΤΟΥ|ΙΣΤΟ|ΙΣΤΕ|ΙΣΤΟΙ|ΙΣΤΩΝ|ΙΣΤΟΥΣ|ΙΣΤΗ|ΙΣΤΗΣ|ΙΣΤΑ|ΙΣΤΕΣ)$/';
 		$exceptS1 = '/^(Μ|Π|ΑΠ|ΑΡ|ΗΔ|ΚΤ|ΣΚ|ΣΧ|ΥΨ|ΦΑ|ΧΡ|ΧΤ|ΑΚΤ|ΑΟΡ|ΑΣΧ|ΑΤΑ|ΑΧΝ|ΑΧΤ|ΓΕΜ|ΓΥΡ|ΕΜΠ|ΕΥΠ|ΕΧΘ|ΗΦΑ|ΉΦΑ|ΚΑΘ|ΚΑΚ|ΚΥΛ|ΛΥΓ|ΜΑΚ|ΜΕΓ|ΤΑΧ|ΦΙΛ|ΧΩΡ)$/';
 		$exceptS2 = '/^(ΔΑΝΕ|ΣΥΝΑΘΡΟ|ΚΛΕ|ΣΕ|ΕΣΩΚΛΕ|ΑΣΕ|ΠΛΕ)$/';
@@ -328,11 +319,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S6. 6 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΣΜΟ|ΙΣΜΟΙ|ΙΣΜΟΣ|ΙΣΜΟΥ|ΙΣΜΟΥΣ|ΙΣΜΩΝ)$/';
 		$exceptS1 = '/^(ΑΓΝΩΣΤΙΚ|ΑΤΟΜΙΚ|ΓΝΩΣΤΙΚ|ΕΘΝΙΚ|ΕΚΛΕΚΤΙΚ|ΣΚΕΠΤΙΚ|ΤΟΠΙΚ)$/';
 		$exceptS2 = '/^(ΣΕ|ΜΕΤΑΣΕ|ΜΙΚΡΟΣΕ|ΕΓΚΛΕ|ΑΠΟΚΛΕ)$/';
@@ -365,11 +355,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = str_replace('ΙΝ', "", $token);
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S7. 4 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΑΡΑΚΙ|ΑΡΑΚΙΑ|ΟΥΔΑΚΙ|ΟΥΔΑΚΙΑ)$/';
 		$exceptS1 = '/^(Σ|Χ)$/';
 
@@ -384,12 +373,11 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "AΡΑΚ";
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 
 		// Step S8. 8 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΑΚΙ|ΑΚΙΑ|ΙΤΣΑ|ΙΤΣΑΣ|ΙΤΣΕΣ|ΙΤΣΩΝ|ΑΡΑΚΙ|ΑΡΑΚΙΑ)$/';
 		$exceptS1 = '/^(ΑΝΘΡ|ΒΑΜΒ|ΒΡ|ΚΑΙΜ|ΚΟΝ|ΚΟΡ|ΛΑΒΡ|ΛΟΥΛ|ΜΕΡ|ΜΟΥΣΤ|ΝΑΓΚΑΣ|ΠΛ|Ρ|ΡΥ|Σ|ΣΚ|ΣΟΚ|ΣΠΑΝ|ΤΖ|ΦΑΡΜ|Χ|ΚΑΠΑΚ|ΑΛΙΣΦ|ΑΜΒΡ|ΑΝΘΡ|Κ|ΦΥΛ|ΚΑΤΡΑΠ|ΚΛΙΜ|ΜΑΛ|ΣΛΟΒ|Φ|ΣΦ|ΤΣΕΧΟΣΛΟΒ)$/';
 		$exceptS2 = '/^(Β|ΒΑΛ|ΓΙΑΝ|ΓΛ|Ζ|ΗΓΟΥΜΕΝ|ΚΑΡΔ|ΚΟΝ|ΜΑΚΡΥΝ|ΝΥΦ|ΠΑΤΕΡ|Π|ΣΚ|ΤΟΣ|ΤΡΙΠΟΛ)$/';
@@ -416,11 +404,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΤΣ";
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S9. 3 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΔΙΟ|ΙΔΙΑ|ΙΔΙΩΝ)$/';
 		$exceptS1 = '/^(ΑΙΦΝ|ΙΡ|ΟΛΟ|ΨΑΛ)$/';
 		$exceptS2 = '/(Ε|ΠΑΙΧΝ)$/';
@@ -441,11 +428,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΔ";
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step S10. 4 stems
-		$numberOfRulesExamined++;
 		$re       = '/^(.+?)(ΙΣΚΟΣ|ΙΣΚΟΥ|ΙΣΚΟ|ΙΣΚΕ)$/';
 		$exceptS1 = '/^(Δ|ΙΒ|ΜΗΝ|Ρ|ΦΡΑΓΚ|ΛΥΚ|ΟΒΕΛ)$/';
 
@@ -460,11 +446,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΣΚ";
 			}
 
-			return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+			return $this->returnStem($token, $w_CASE);
 		}
 
 		// Step 1
-		$numberOfRulesExamined++;
 		$re = '/(.*)(ΦΑΓΙΑ|ΦΑΓΙΟΥ|ΦΑΓΙΩΝ|ΣΚΑΓΙΑ|ΣΚΑΓΙΟΥ|ΣΚΑΓΙΩΝ|ΟΛΟΓΙΟΥ|ΟΛΟΓΙΑ|ΟΛΟΓΙΩΝ|ΣΟΓΙΟΥ|ΣΟΓΙΑ|ΣΟΓΙΩΝ|ΤΑΤΟΓΙΑ|ΤΑΤΟΓΙΟΥ|ΤΑΤΟΓΙΩΝ|ΚΡΕΑΣ|ΚΡΕΑΤΟΣ|ΚΡΕΑΤΑ|ΚΡΕΑΤΩΝ|ΠΕΡΑΣ|ΠΕΡΑΤΟΣ|ΠΕΡΑΤΗ|ΠΕΡΑΤΑ|ΠΕΡΑΤΩΝ|ΤΕΡΑΣ|ΤΕΡΑΤΟΣ|ΤΕΡΑΤΑ|ΤΕΡΑΤΩΝ|ΦΩΣ|ΦΩΤΟΣ|ΦΩΤΑ|ΦΩΤΩΝ|ΚΑΘΕΣΤΩΣ|ΚΑΘΕΣΤΩΤΟΣ|ΚΑΘΕΣΤΩΤΑ|ΚΑΘΕΣΤΩΤΩΝ|ΓΕΓΟΝΟΣ|ΓΕΓΟΝΟΤΟΣ|ΓΕΓΟΝΟΤΑ|ΓΕΓΟΝΟΤΩΝ)$/';
 
 		if (preg_match($re, $token, $match))
@@ -476,7 +461,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 2a. 2 stems
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΑΔΕΣ|ΑΔΩΝ)$/';
 
 		if (preg_match($re, $token, $match))
@@ -492,7 +476,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 2b. 2 stems
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΕΔΕΣ|ΕΔΩΝ)$/';
 
 		if (preg_match($re, $token))
@@ -509,7 +492,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 2c
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΥΔΕΣ|ΟΥΔΩΝ)$/';
 
 		if (preg_match($re, $token))
@@ -527,7 +509,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 2d
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΕΩΣ|ΕΩΝ)$/';
 
 		if (preg_match($re, $token))
@@ -546,7 +527,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 3
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΙΑ|ΙΟΥ|ΙΩΝ)$/';
 
 		if (preg_match($re, $token, $fp))
@@ -563,7 +543,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 4
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΙΚΑ|ΙΚΟ|ΙΚΟΥ|ΙΚΩΝ)$/';
 
 		if (preg_match($re, $token))
@@ -582,7 +561,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5a
-		$numberOfRulesExamined++;
 		$re  = '/^(.+?)(ΑΜΕ)$/';
 		$re2 = '/^(.+?)(ΑΓΑΜΕ|ΗΣΑΜΕ|ΟΥΣΑΜΕ|ΗΚΑΜΕ|ΗΘΗΚΑΜΕ)$/';
 
@@ -600,8 +578,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$test1 = false;
 		}
 
-		$numberOfRulesExamined++;
-
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
@@ -617,7 +593,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5b
-		$numberOfRulesExamined++;
 		$re2 = '/^(.+?)(ΑΝΕ)$/';
 		$re3 = '/^(.+?)(ΑΓΑΝΕ|ΗΣΑΝΕ|ΟΥΣΑΝΕ|ΙΟΝΤΑΝΕ|ΙΟΤΑΝΕ|ΙΟΥΝΤΑΝΕ|ΟΝΤΑΝΕ|ΟΤΑΝΕ|ΟΥΝΤΑΝΕ|ΗΚΑΝΕ|ΗΘΗΚΑΝΕ)$/';
 
@@ -634,8 +609,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΑΓΑΝ";
 			}
 		}
-
-		$numberOfRulesExamined++;
 
 		if (preg_match($re2, $token))
 		{
@@ -654,7 +627,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5c
-		$numberOfRulesExamined++;
 		$re3 = '/^(.+?)(ΕΤΕ)$/';
 		$re4 = '/^(.+?)(ΗΣΕΤΕ)$/';
 
@@ -665,8 +637,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$token = $stem;
 			$test1 = false;
 		}
-
-		$numberOfRulesExamined++;
 
 		if (preg_match($re3, $token))
 		{
@@ -685,7 +655,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5d
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΝΤΑΣ|ΩΝΤΑΣ)$/';
 
 		if (preg_match($re, $token))
@@ -709,7 +678,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5e
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΜΑΣΤΕ|ΙΟΜΑΣΤΕ)$/';
 
 		if (preg_match($re, $token))
@@ -727,7 +695,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5f
-		$numberOfRulesExamined++;
 		$re  = '/^(.+?)(ΕΣΤΕ)$/';
 		$re2 = '/^(.+?)(ΙΕΣΤΕ)$/';
 
@@ -745,8 +712,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-		$numberOfRulesExamined++;
-
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
@@ -762,7 +727,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5g
-		$numberOfRulesExamined++;
 		$re  = '/^(.+?)(ΗΚΑ|ΗΚΕΣ|ΗΚΕ)$/';
 		$re2 = '/^(.+?)(ΗΘΗΚΑ|ΗΘΗΚΕΣ|ΗΘΗΚΕ)$/';
 
@@ -773,8 +737,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$token = $stem;
 			$test1 = false;
 		}
-
-		$numberOfRulesExamined++;
 
 		if (preg_match($re, $token))
 		{
@@ -793,7 +755,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 
 		// Step 5h
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΥΣΑ|ΟΥΣΕΣ|ΟΥΣΕ)$/';
 
 		if (preg_match($re, $token))
@@ -813,7 +774,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		//Step 5i
 		$re = '/^(.+?)(ΑΓΑ|ΑΓΕΣ|ΑΓΕ)$/';
-		$numberOfRulesExamined++;
 
 		if (preg_match($re, $token))
 		{
@@ -835,7 +795,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 
 		// Step 5j
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΗΣΕ|ΗΣΟΥ|ΗΣΑ)$/';
 
 		if (preg_match($re, $token))
@@ -853,7 +812,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 5k
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΗΣΤΕ)$/';
 
 		if (preg_match($re, $token))
@@ -871,7 +829,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		//Step 5l
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΥΝΕ|ΗΣΟΥΝΕ|ΗΘΟΥΝΕ)$/';
 
 		if (preg_match($re, $token))
@@ -889,7 +846,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		//Step 5l
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΟΥΜΕ|ΗΣΟΥΜΕ|ΗΘΟΥΜΕ)$/';
 
 		if (preg_match($re, $token))
@@ -907,7 +863,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 6
-		$numberOfRulesExamined++;
 		$re  = '/^(.+?)(ΜΑΤΑ|ΜΑΤΩΝ|ΜΑΤΟΣ)$/';
 		$re2 = '/^(.+?)(Α|ΑΓΑΤΕ|ΑΓΑΝ|ΑΕΙ|ΑΜΑΙ|ΑΝ|ΑΣ|ΑΣΑΙ|ΑΤΑΙ|ΑΩ|Ε|ΕΙ|ΕΙΣ|ΕΙΤΕ|ΕΣΑΙ|ΕΣ|ΕΤΑΙ|Ι|ΙΕΜΑΙ|ΙΕΜΑΣΤΕ|ΙΕΤΑΙ|ΙΕΣΑΙ|ΙΕΣΑΣΤΕ|ΙΟΜΑΣΤΑΝ|ΙΟΜΟΥΝ|ΙΟΜΟΥΝΑ|ΙΟΝΤΑΝ|ΙΟΝΤΟΥΣΑΝ|ΙΟΣΑΣΤΑΝ|ΙΟΣΑΣΤΕ|ΙΟΣΟΥΝ|ΙΟΣΟΥΝΑ|ΙΟΤΑΝ|ΙΟΥΜΑ|ΙΟΥΜΑΣΤΕ|ΙΟΥΝΤΑΙ|ΙΟΥΝΤΑΝ|Η|ΗΔΕΣ|ΗΔΩΝ|ΗΘΕΙ|ΗΘΕΙΣ|ΗΘΕΙΤΕ|ΗΘΗΚΑΤΕ|ΗΘΗΚΑΝ|ΗΘΟΥΝ|ΗΘΩ|ΗΚΑΤΕ|ΗΚΑΝ|ΗΣ|ΗΣΑΝ|ΗΣΑΤΕ|ΗΣΕΙ|ΗΣΕΣ|ΗΣΟΥΝ|ΗΣΩ|Ο|ΟΙ|ΟΜΑΙ|ΟΜΑΣΤΑΝ|ΟΜΟΥΝ|ΟΜΟΥΝΑ|ΟΝΤΑΙ|ΟΝΤΑΝ|ΟΝΤΟΥΣΑΝ|ΟΣ|ΟΣΑΣΤΑΝ|ΟΣΑΣΤΕ|ΟΣΟΥΝ|ΟΣΟΥΝΑ|ΟΤΑΝ|ΟΥ|ΟΥΜΑΙ|ΟΥΜΑΣΤΕ|ΟΥΝ|ΟΥΝΤΑΙ|ΟΥΝΤΑΝ|ΟΥΣ|ΟΥΣΑΝ|ΟΥΣΑΤΕ|Υ|ΥΣ|Ω|ΩΝ)$/';
 
@@ -917,8 +872,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$token = $stem . "ΜΑ";
 		}
 
-		$numberOfRulesExamined++;
-
 		if (preg_match($re2, $token) && $test1)
 		{
 			preg_match($re2, $token, $match);
@@ -927,7 +880,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		}
 
 		// Step 7 (ΠΑΡΑΘΕΤΙΚΑ)
-		$numberOfRulesExamined++;
 		$re = '/^(.+?)(ΕΣΤΕΡ|ΕΣΤΑΤ|ΟΤΕΡ|ΟΤΑΤ|ΥΤΕΡ|ΥΤΑΤ|ΩΤΕΡ|ΩΤΑΤ)$/';
 
 		if (preg_match($re, $token))
@@ -937,10 +889,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$token = $stem;
 		}
 
-		return $this->returnStem($token, $w_CASE, $numberOfRulesExamined);
+		return $this->returnStem($token, $w_CASE);
 	}
 
-	protected function returnStem($w, $w_CASE, $numberOfRulesExamined)
+	protected function returnStem($w, $w_CASE)
 	{
 		// Convert case back to initial by reading $w_CASE
 		$unacceptedLetters = array(
@@ -1040,10 +992,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-		$returnResults    = array();
-		$returnResults[0] = $w;
-		$returnResults[1] = $numberOfRulesExamined;
-
-		return $returnResults;
+		return $w;
 	}
 }
