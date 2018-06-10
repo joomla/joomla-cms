@@ -41,7 +41,8 @@ foreach ($displayData as $changeType => $items)
 			break;
 	}
 
-	$output .= '<div class="' . $class . '">' . Text::_('COM_INSTALLER_CHANGELOG_' . $changeType) . '</div>';
+	$output .= '<div class="pull-left">';
+	$output .= '<div class="badge ' . $class . '">' . Text::_('COM_INSTALLER_CHANGELOG_' . $changeType) . '</div>';
 	$output .= '<ul>';
 
 	foreach ($items as $item)
@@ -50,6 +51,8 @@ foreach ($displayData as $changeType => $items)
 	}
 
 	$output .= '</ul>';
+	$output .= '</div>';
+	$output .= '<div class="clearfix"></div>';
 }
 
 echo $output;
