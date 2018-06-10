@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
+use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -70,7 +72,7 @@ class EmailRule extends FormRule
 		if (!$multiple)
 		{
 			// Handle idn email addresses by converting to punycode.
-			$value = \JStringPunycode::emailToPunycode($value);
+			$value = PunycodeHelper::emailToPunycode($value);
 
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
@@ -85,7 +87,7 @@ class EmailRule extends FormRule
 			foreach ($values as $value)
 			{
 				// Handle idn email addresses by converting to punycode.
-				$value = \JStringPunycode::emailToPunycode($value);
+				$value = PunycodeHelper::emailToPunycode($value);
 
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
@@ -101,7 +103,7 @@ class EmailRule extends FormRule
 		if ($unique && !$multiple)
 		{
 			// Get the database object and a new query object.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

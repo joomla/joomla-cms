@@ -10,7 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Filesystem\Path;
 
 /**
  * The Field to load the form inside current form
@@ -112,7 +114,7 @@ class SubformField extends FormField
 				// Add root path if we have a path to XML file
 				if (strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
 				{
-					$this->formsource = \JPath::clean(JPATH_ROOT . '/' . $this->formsource);
+					$this->formsource = Path::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
 
 				break;
@@ -235,7 +237,7 @@ class SubformField extends FormField
 			// Prepare the form template
 			$formname    = 'subform.' . str_replace(array('[', ']'), array('.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = \JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
+			$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
 			// Prepare the forms for exiting values
 			if ($this->multiple)
@@ -245,7 +247,7 @@ class SubformField extends FormField
 				for ($i = 0; $i < $c; $i++)
 				{
 					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = \JForm::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
+					$itemform    = Form::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
 
 					if (!empty($value[$i]))
 					{

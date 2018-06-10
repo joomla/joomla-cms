@@ -17,11 +17,9 @@ use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceInterface;
 use Joomla\CMS\Categories\CategoriesServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
-use Joomla\CMS\Extension\Component;
+use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
@@ -31,10 +29,9 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class ContentComponent extends Component implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+class ContentComponent extends MVCComponent implements
+	BootableExtensionInterface, CategoriesServiceInterface, FieldsServiceInterface, AssociationServiceInterface
 {
-	use MVCFactoryServiceTrait;
 	use CategoriesServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;

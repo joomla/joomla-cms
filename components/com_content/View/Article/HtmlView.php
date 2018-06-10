@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -227,7 +228,7 @@ class HtmlView extends BaseHtmlView
 
 		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
-			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
+			$item->associations = AssociationHelper::displayAssociations($item->id);
 		}
 
 		// Process the content plugins.

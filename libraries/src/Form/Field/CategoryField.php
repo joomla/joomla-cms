@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -68,11 +70,11 @@ class CategoryField extends \JFormFieldList
 
 			if ($filters === array())
 			{
-				$options = \JHtml::_('category.options', $extension);
+				$options = HTMLHelper::_('category.options', $extension);
 			}
 			else
 			{
-				$options = \JHtml::_('category.options', $extension, $filters);
+				$options = HTMLHelper::_('category.options', $extension, $filters);
 			}
 
 			// Verify permissions.  If the action attribute is set, then we scan the options.
@@ -97,12 +99,12 @@ class CategoryField extends \JFormFieldList
 
 			if (isset($this->element['show_root']))
 			{
-				array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
+				array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
 			}
 		}
 		else
 		{
-			Log::add(\JText::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), Log::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_FORM_ERROR_FIELDS_CATEGORY_ERROR_EXTENSION_EMPTY'), Log::WARNING, 'jerror');
 		}
 
 		// Merge any additional options in the XML definition.
