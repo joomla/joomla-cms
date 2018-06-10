@@ -4,10 +4,12 @@
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-/*
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ *
+ * The Greek stemmer was adapted for Joomla! 4 by Nicholas K. Dionysopoulos <nicholas@akeebabackup.com>. This is
+ * derivative work, based on the Greek stemmer for Drupal, see https://www.drupal.org/project/greekstemmer The following
+ * copyright notices are included in the original source.
+ *
  * Copyright (c) 2009 Vassilis Spiliopoulos (http://www.psychfamily.gr),
  * Pantelis Nasikas under GNU General Public License Version 3
  * Updated for Drupal 6, 7 and Drupal 8 by
@@ -19,10 +21,7 @@
  * Georgios firstly developed the stemmer's javascript implementation for his
  * master thesis at Royal Institute of Technology [KTH], Stockholm Sweden
  * http://www.dsv.su.se/~hercules/papers/Ntais_greek_stemmer_thesis_final.pdf
- *
- * !!!!!The encoding of this file is iso-8859-7 instead of UTF-8 on purpose!!!!!!!
  */
-
 defined('_JEXEC') or die;
 
 /**
