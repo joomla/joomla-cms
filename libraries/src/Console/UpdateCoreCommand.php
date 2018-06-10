@@ -11,6 +11,8 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -64,15 +66,18 @@ class UpdateCoreCommand extends AbstractCommand
 		$this->configureIO();
 
 		$action = $this->cliInput->getArgument('action');
+
 		if ($action == 'update')
 		{
 			if ($this->updateJoomlaCore())
 			{
 				$this->ioStyle->success('Joomla Core Updated Successfuly.');
+				return 0;
 			}
 			else
 			{
 				$this->ioStyle->note('No Joomla update is available');
+				return 0;
 			}
 		}
 		else
@@ -101,6 +106,7 @@ class UpdateCoreCommand extends AbstractCommand
 		);
 
 		$help = "The <info>%command.name%</info> Updates the Joomla Core \n <info>php %command.full_name%</info>";
+
 		$this->setHelp($help);
 	}
 
@@ -128,7 +134,7 @@ class UpdateCoreCommand extends AbstractCommand
 			$tmp_path    = $app->get('tmp_path');
 			$packagefile = $tmp_path . '/' . $packagefile;
 			$package     = InstallerHelper::unpack($packagefile, true);
-			\JFolder::copy($package['extractdir'], JPATH_BASE, '', true);
+			Folder::copy($package['extractdir'], JPATH_BASE, '', true);
 
 			$result = $updatemodel->finaliseUpgrade();
 
@@ -137,7 +143,7 @@ class UpdateCoreCommand extends AbstractCommand
 				// Remove the xml
 				if (file_exists(JPATH_BASE . '/joomla.xml'))
 				{
-					\JFile::delete(JPATH_BASE . '/joomla.xml');
+					File::delete(JPATH_BASE . '/joomla.xml');
 				}
 
 				InstallerHelper::cleanupInstall($packagefile, $package['extractdir']);
