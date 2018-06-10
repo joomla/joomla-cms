@@ -80,7 +80,7 @@ class ConfigController extends BaseController
 		// Set FTP credentials, if given.
 		\JClientHelper::setCredentialsFromRequest('ftp');
 
-		$model = new \Joomla\Component\Config\Site\Model\ConfigModel;
+		$model = $this->getModel();
 
 		$form  = $model->getForm();
 		$data  = $this->app->input->post->get('jform', array(), 'array');
@@ -106,11 +106,10 @@ class ConfigController extends BaseController
 		$data = $return;
 
 		// Access backend com_config
-		\JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
-		$saveClass = new \Joomla\Component\Config\Administrator\Controller\ApplicationController;
+		$saveClass = $this->factory->createController('Application', 'Administrator');
 
 		// Get a document object
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set backend required params
 		$document->setType('json');
