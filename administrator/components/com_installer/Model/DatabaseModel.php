@@ -312,28 +312,32 @@ class DatabaseModel extends InstallerModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
-				$db->quoteName('e.client_id') . ', ' .
-				$db->quoteName('e.element') . ', ' .
-				$db->quoteName('e.extension_id') . ', ' .
-				$db->quoteName('e.folder') . ', ' .
-				$db->quoteName('e.manifest_cache') . ', ' .
-				$db->quoteName('e.name') . ', ' .
-				$db->quoteName('e.type') . ', ' .
-				$db->quoteName('s.version_id')
+				$db->quoteName(
+					array(
+						'extensions.client_id',
+						'extensions.element',
+						'extensions.extension_id',
+						'extensions.folder',
+						'extensions.manifest_cache',
+						'extensions.name',
+						'extensions.type',
+						'schemas.version_id'
+					)
+				)
 			)
 			->from(
 				$db->quoteName(
 					'#__schemas',
-					's'
+					'schemas'
 				)
 			)->join(
 				'INNER',
 				$db->quoteName(
-					'#__extensions', 'e'
+					'#__extensions', 'extensions'
 				) . ' ON (' . $db->quoteName(
-					's.extension_id'
+					'schemas.extension_id'
 				) . ' = ' . $db->quoteName(
-					'e.extension_id'
+					'extensions.extension_id'
 				) . ')'
 			);
 
@@ -344,22 +348,22 @@ class DatabaseModel extends InstallerModel
 
 		if ($type)
 		{
-			$query->where('e.type = ' . $this->_db->quote($type));
+			$query->where($db->quoteName('extensions.type') . ' = ' . $db->quote($type));
 		}
 
 		if ($clientId != '')
 		{
-			$query->where('e.client_id = ' . (int) $clientId);
+			$query->where($db->quoteName('extensions.client_id') . ' = ' . (int) $clientId);
 		}
 
 		if ($extensionId != '')
 		{
-			$query->where('e.extension_id = ' . (int) $extensionId);
+			$query->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $extensionId);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('e.folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+			$query->where($db->quoteName('extensions.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
 		}
 
 		// Process search filter (update site id).
@@ -367,7 +371,7 @@ class DatabaseModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where('s.update_site_id = ' . (int) substr($search, 3));
+			$query->where($db->quoteName('schemas.update_site_id') . ' = ' . (int) substr($search, 3));
 		}
 
 		return $query;
