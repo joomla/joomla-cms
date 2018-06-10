@@ -23,7 +23,7 @@ if ($tagId = $params->get('tag_id', ''))
 <ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
-	$class = 'mod-menu__item nav-item';
+	$class = 'nav-item';
 
 	if ($item->id == $default_id)
 	{
@@ -86,7 +86,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="mod-menu__list list-unstyled small">';
+		echo '<ul class="list-unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)
