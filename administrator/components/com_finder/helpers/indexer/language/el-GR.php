@@ -255,7 +255,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		// Step S3. 7 stems
 		$re       = '/^(.+?)(ΙΣΑ|ΙΣΕΣ|ΙΣΕ|ΙΣΑΜΕ|ΙΣΑΤΕ|ΙΣΑΝ|ΙΣΑΝΕ)$/';
 		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΑΘΡΟ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
-		$exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
+		// $exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
 
 		if ($token == "ΙΣΑ")
 		{
@@ -331,7 +331,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
-			$suffix = $match[2];
 			$token  = $stem;
 
 			if (preg_match($exceptS1, $token))
@@ -364,7 +363,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
-			$suffix = $match[2];
 			$token  = $stem;
 
 			if (preg_match($exceptS1, $token))
@@ -385,7 +383,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
-			$suffix = $match[2];
 			$token  = $stem;
 
 			if (preg_match($exceptS1, $token))
@@ -414,7 +411,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
-			$suffix = $match[2];
 			$token  = $stem;
 
 			if (preg_match($exceptS1, $token))
@@ -437,7 +433,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
-			$suffix = $match[2];
 			$token  = $stem;
 
 			if (preg_match($exceptS1, $token))
