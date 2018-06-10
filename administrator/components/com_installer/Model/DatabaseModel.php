@@ -345,6 +345,7 @@ class DatabaseModel extends InstallerModel
 		$clientId    = $this->getState('filter.client_id');
 		$extensionId = $this->getState('filter.extension_id');
 		$folder      = $this->getState('filter.folder');
+		$status      = $this->getState('filter.status');
 
 		if ($type)
 		{
@@ -364,6 +365,23 @@ class DatabaseModel extends InstallerModel
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
 			$query->where($db->quoteName('extensions.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+		}
+
+		if ($status !== '')
+		{
+			if ($status === '2')
+			{
+				$query->where('protected = 1');
+			}
+			elseif ($status === '3')
+			{
+				$query->where('protected = 0');
+			}
+			else
+			{
+				$query->where('protected = 0')
+					->where('enabled = ' . (int) $status);
+			}
 		}
 
 		// Process search filter (update site id).
