@@ -41,14 +41,14 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function stem($word)
+	public function stem($token)
 	{
-		$w                     = $word;
+		$w = $token;
 
 		// Number of rules examined. Used for debugging and testing purposes.
 		$numberOfRulesExamined = 0;
 
-		$w_CASE           = array(strlen($w));//1 for changed case in that position, 2 especially for Ï‚
+		$w_CASE = array(mb_strlen($w, 'UTF-8'));//1 for changed case in that position, 2 especially for Ï‚
 
 		//first we must find all letters that are not in Upper case and store their position
 		$unacceptedLetters = array(
@@ -124,7 +124,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		for ($k = 0; $k <= 32; $k = $k + 1)
 		{
-			for ($i = 0; $i <= strlen($w) - 1; $i++)
+			for ($i = 0; $i <= mb_strlen($w, 'UTF-8') - 1; $i++)
 			{
 				if ($w[$i] == $unacceptedLetters[$k])
 				{
@@ -209,7 +209,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem . $step1list[$suffix];
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = $w . 'I';
@@ -319,7 +318,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem;
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = str_replace('ΙΚ', "", $w);
@@ -349,7 +347,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem;
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = $w . "AΡΑΚ";
@@ -370,7 +367,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem;
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = $w . "ΑΚ";
@@ -397,7 +393,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem;
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = $w . "ΙΔ";
@@ -420,7 +415,6 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$stem   = $match[1];
 			$suffix = $match[2];
 			$w      = $stem;
-			$test1  = false;
 			if (preg_match($exceptS1, $w))
 			{
 				$w = $w . "ΙΣΚ";
@@ -954,7 +948,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			"Ω",
 			"Ι",
 		);
-		for ($i = 0; $i <= strlen($w) - 1; $i++)
+		for ($i = 0; $i <= mb_strlen($w, 'UTF-8') - 1; $i++)
 		{
 			if (@$w_CASE[$i] == 1)
 			{
