@@ -15,7 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.tooltip');
+HTMLHelper::_('bootstrap.popover');
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirection = $this->escape($this->state->get('list.direction'));
@@ -50,11 +50,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::_('COM_INSTALLER_HEADING_ERRORS'); ?>
 									</th>
 									<th class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
-										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>">
+										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 										<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 									</th>
 									<th class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
-										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>">
+										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 										<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 									</th>
 									<th class="nowrap">
@@ -83,7 +83,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										</td>
 										<td>
 										<label for="cb<?php echo $i; ?>">
-											<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText',
+											<span class="editlinktip hasPopover" title="<?php echo HTMLHelper::_('tooltipText',
 												Text::_('JGLOBAL_DESCRIPTION'),
 												Text::_($manifest->description) ?
 													Text::_($manifest->description) :
@@ -103,11 +103,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo $extension->type_translated; ?>
 										</td>
 										<td>
-											<label class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover" title=""
+											<span class="badge badge-<?php echo count($item['results']['error']) > 0 ? 'danger' : ($item['errorsCount'] > 0 ? 'warning' : 'success' ); ?> hasPopover"
 												data-content="<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>"
 												data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
 												<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
-											</label>
+											</span>
 										</td>
 										<td>
 											<?php echo $extension->version_id; ?>
