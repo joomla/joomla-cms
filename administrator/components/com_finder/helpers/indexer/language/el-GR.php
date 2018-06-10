@@ -35,7 +35,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	/**
 	 * Method to stem a token.
 	 *
-	 * @param   string $token The token to stem.
+	 * @param   string  $token  The token to stem.
 	 *
 	 * @return  string  The stemmed token.
 	 *
@@ -44,11 +44,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	public function stem($word)
 	{
 		$w                     = $word;
-		$numberOfRulesExamined = 0; //this is the number of rules examined. for deubugging and testing purposes
 
-		// it is better to convert the input into iso-8859-7 in case it is in utf-8
-		// this way we dont have any problems with length counting etc
-		$encoding_changed = false;
+		// Number of rules examined. Used for debugging and testing purposes.
+		$numberOfRulesExamined = 0;
+
 		$w_CASE           = array(strlen($w));//1 for changed case in that position, 2 especially for Ï‚
 
 		//first we must find all letters that are not in Upper case and store their position
@@ -148,7 +147,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		if (preg_match($stop_words, $w))
 		{
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 		// step1list is used in Step 1. 41 stems
@@ -220,7 +219,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . 'IΖ';
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 		//Step S2. 7 stems
@@ -238,7 +237,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . 'ΩΝ';
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 		//Step S3. 7 stems
@@ -264,7 +263,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . 'Ι';
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 
@@ -284,7 +283,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . 'Ι';
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 		//Step S5. 11 stems
 		$numberOfRulesExamined++;
@@ -306,7 +305,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . 'Ι';
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 		//Step S6. 6 stems
 		$numberOfRulesExamined++;
@@ -338,7 +337,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = str_replace('ΙΝ', "", $w);
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 		//Step S7. 4 stems
@@ -356,7 +355,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . "AΡΑΚ";
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 
@@ -385,7 +384,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . "ΙΤΣ";
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 		//Step S9. 3 stems
@@ -408,7 +407,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . "ΙΔ";
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 
@@ -427,7 +426,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$w = $w . "ΙΣΚ";
 			}
 
-			return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+			return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 		}
 
 
@@ -879,10 +878,10 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$w    = $stem;
 		}
 
-		return $this->returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined);
+		return $this->returnStem($w, $w_CASE, $numberOfRulesExamined);
 	}
 
-	protected function returnStem($w, $w_CASE, $encoding_changed, $numberOfRulesExamined)
+	protected function returnStem($w, $w_CASE, $numberOfRulesExamined)
 	{
 		//convert case back to initial by reading $w_CASE
 		$unacceptedLetters = array(
