@@ -178,14 +178,7 @@ class InstallerHelper
 	 */
 	public static function getInstallationXML($element, $type, $client_id = 1, $folder = null)
 	{
-		if ($client_id)
-		{
-			$path = JPATH_ADMINISTRATOR;
-		}
-		else
-		{
-			$path = JPATH_ROOT;
-		}
+		$path = $client_id ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 
 		switch ($type)
 		{
