@@ -117,6 +117,8 @@ class JFormFieldPlugins extends JFormFieldList
 
 		if (!empty($folder))
 		{
+			$useAccess = (int) $this->element['useaccess'];
+
 			// Get list of plugins
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -125,6 +127,12 @@ class JFormFieldPlugins extends JFormFieldList
 				->where('folder = ' . $db->quote($folder))
 				->where('enabled = 1')
 				->order('ordering, name');
+
+			if ($useAccess)
+			{
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$query->where('access IN (' . $groups . ')');
+			}
 
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = JFactory::getLanguage();
