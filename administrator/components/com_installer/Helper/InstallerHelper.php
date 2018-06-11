@@ -8,11 +8,11 @@
  */
 namespace Joomla\Component\Installer\Administrator\Helper;
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-defined('_JEXEC') or die;
 
 /**
  * Installer helper.

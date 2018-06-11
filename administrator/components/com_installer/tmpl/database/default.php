@@ -49,13 +49,17 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 									<th class="nowrap">
 										<?php echo Text::_('COM_INSTALLER_HEADING_ERRORS'); ?>
 									</th>
-									<th class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
-										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
-										<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
+									<th>
+										<span class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
+										    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
+											<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
+										</span>
 									</th>
-									<th class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
-										data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
-										<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
+									<th>
+										<span class="nowrap hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
+										    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
+											<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
+										</span>
 									</th>
 									<th class="nowrap">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
@@ -83,15 +87,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										</td>
 										<td>
 											<label for="cb<?php echo $i; ?>">
-												<span class="editlinktip hasPopover" title="<?php echo HTMLHelper::_('tooltipText',
-													Text::_('JGLOBAL_DESCRIPTION'),
-													Text::_($manifest->description) ?
+												<span class="hasPopover" data-original-title="<?php echo Text::_('JGLOBAL_DESCRIPTION'); ?>"
+													data-content="<?php
+													echo Text::_($manifest->description) ?
 														Text::_($manifest->description) :
-														Text::_(
-															'COM_INSTALLER_MSG_UPDATE_NODESC'
-														),
-													0
-												); ?>">
+														Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
 													<?php echo $extension->name; ?>
 												</span>
 											</label>

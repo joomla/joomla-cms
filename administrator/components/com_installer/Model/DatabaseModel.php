@@ -345,7 +345,7 @@ class DatabaseModel extends InstallerModel
 		$clientId    = $this->getState('filter.client_id');
 		$extensionId = $this->getState('filter.extension_id');
 		$folder      = $this->getState('filter.folder');
-		$status      = $this->getState('filter.status');
+		$status      = $this->getState('filter.status', '');
 
 		if ($type)
 		{
