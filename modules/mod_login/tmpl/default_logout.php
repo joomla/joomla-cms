@@ -15,9 +15,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 ?>
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form" class="form-vertical">
+<form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
 <?php if ($params->get('greeting')) : ?>
-	<div class="login-greeting">
+	<div class="mod-login-logout__login-greeting login-greeting">
 	<?php if ($params->get('name') == 0) : ?>
 		<?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name'), ENT_COMPAT, 'UTF-8')); ?>
 	<?php else : ?>
@@ -26,14 +26,14 @@ HTMLHelper::_('behavior.keepalive');
 	</div>
 <?php endif; ?>
 <?php if ($params->get('profilelink')) : ?>
-	<ul class="unstyled">
+	<ul class="mod-login-logout__options unstyled">
 		<li>
 			<a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
 			<?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>
 		</li>
 	</ul>
 <?php endif; ?>
-	<div class="logout-button">
+	<div class="mod-login-logout__button logout-button">
 		<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGOUT'); ?>">
 		<input type="hidden" name="option" value="com_users">
 		<input type="hidden" name="task" value="user.logout">

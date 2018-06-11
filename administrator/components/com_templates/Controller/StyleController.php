@@ -49,7 +49,7 @@ class StyleController extends FormController
 		if ($document->getType() === 'json')
 		{
 			$app   = \JFactory::getApplication();
-			$model = $this->getModel();
+			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
 			$checkin = property_exists($table, 'checked_out');
@@ -73,7 +73,7 @@ class StyleController extends FormController
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/models/forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.

@@ -475,7 +475,7 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Apply', 'apply', $alt, $task, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false);
 	}
 
 	/**

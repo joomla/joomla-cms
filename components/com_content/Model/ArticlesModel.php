@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -695,7 +696,7 @@ class ArticlesModel extends ListModel
 
 			if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 			{
-				$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
+				$item->associations = AssociationHelper::displayAssociations($item->id);
 			}
 		}
 
