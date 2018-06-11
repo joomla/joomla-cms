@@ -41,7 +41,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFile(string $path = '/');
+	public function getFile(string $path = '/'): \stdClass;
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
@@ -66,7 +66,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFiles(string $path = '/');
+	public function getFiles(string $path = '/'): array;
 
 	/**
 	 * Returns a resource for the given path.
@@ -94,7 +94,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFolder(string $name, string $path);
+	public function createFolder(string $name, string $path): string;
 
 	/**
 	 * Creates a file with the given name in the given path with the data.
@@ -111,7 +111,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFile(string $name, string $path, $data);
+	public function createFile(string $name, string $path, $data): string;
 
 	/**
 	 * Updates the file with the given name in the given path with the data.
@@ -154,7 +154,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function move(string $sourcePath, string $destinationPath, bool $force = false);
+	public function move(string $sourcePath, string $destinationPath, bool $force = false): string;
 
 	/**
 	 * Copies a file or folder from source to destination.
@@ -171,7 +171,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function copy(string $sourcePath, string $destinationPath, bool $force = false);
+	public function copy(string $sourcePath, string $destinationPath, bool $force = false): string;
 
 	/**
 	 * Returns a public url for the given path. This function can be used by the cloud
@@ -180,12 +180,12 @@ interface AdapterInterface
 	 *
 	 * @param   string  $path  The path to file
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
-	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
+	 * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
-	public function getUrl(string $path);
+	public function getUrl(string $path): string;
 
 	/**
 	 * Returns the name of the adapter.
@@ -195,7 +195,7 @@ interface AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getAdapterName();
+	public function getAdapterName(): string;
 
 	/**
 	 * Search for a pattern in a given path
@@ -204,11 +204,11 @@ interface AdapterInterface
 	 * @param   string  $needle     The path to file
 	 * @param   bool    $recursive  Do a recursive search
 	 *
-	 * @return \stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   4.0.0
 	 */
-	public function search(string $path, string $needle, bool $recursive = false);
+	public function search(string $path, string $needle, bool $recursive = false): array;
 
 	/**
 	 * Returns a temporary url for the given path.
@@ -216,10 +216,10 @@ interface AdapterInterface
 	 *
 	 * @param   string  $path  The path to file
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
-	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
+	 * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
-	public function getTemporaryUrl(string $path);
+	public function getTemporaryUrl(string $path): string;
 }
