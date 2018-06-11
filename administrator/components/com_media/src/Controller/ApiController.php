@@ -21,8 +21,6 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 
-\JLoader::import('joomla.filesystem.file');
-
 /**
  * Api Media Controller
  *
