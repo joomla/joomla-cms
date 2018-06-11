@@ -98,7 +98,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * First step to enter the sampledata. Content.
+	 * First step to enable the Language filter plugin.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -113,7 +113,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 
-		if (count($languages) < 2 )
+		if (count($languages) < 2)
 		{
 			$response            = array();
 			$response['success'] = false;
@@ -227,7 +227,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Fourth step to create Menus and allcategories menu items
+	 * Fourth step to create Menus and list all categories menu items
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -334,8 +334,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		return $response;
 	}
 
-		/**
-	 * Sixth step to add categories, articles and blob menu items
+	/**
+	 * Sixth step to add categories, articles and blog menu items
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -422,7 +422,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 
 	/**
-	 * Seventh step to disable the mainmenu module which home page is set to All languages.
+	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
@@ -712,7 +712,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Add AllCategories Menu Item for new router.
+	 * Add List All Categories Menu Item for new router.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
