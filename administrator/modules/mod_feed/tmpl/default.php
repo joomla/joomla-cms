@@ -83,8 +83,8 @@ else
 			if (!$feed->offsetExists($i)) :
 				break;
 			endif;
-			$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
-			$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
+			$uri   = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+			$uri  = !$uri ? $params->get('rsslink') : $uri;
 			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
 				<li>

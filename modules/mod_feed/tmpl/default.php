@@ -90,8 +90,8 @@ else
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
-				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-				$uri   = strpos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
+				$uri   = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+				$uri   = !$uri ? $params->get('rsslink') : $uri;
 				$text  = !empty($feed[$i]->content) || $feed[$i]->content !== null ? trim($feed[$i]->content) : trim($feed[$i]->description);
 				$title = trim($feed[$i]->title);
 			?>
