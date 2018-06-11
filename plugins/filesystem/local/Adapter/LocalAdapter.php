@@ -142,11 +142,11 @@ class LocalAdapter implements AdapterInterface
 		// Check if the path points to a file
 		if (is_file($basePath))
 		{
-			return array($this->getPathInformation($basePath));
+			return [$this->getPathInformation($basePath)];
 		}
 
 		// The data to return
-		$data = array();
+		$data = [];
 
 		// Read the folders
 		foreach (Folder::folders($basePath) as $folder)
@@ -806,7 +806,7 @@ class LocalAdapter implements AdapterInterface
 			throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 500);
 		}
 
-		$can = $helper->canUpload(array('name' => $name, 'size' => strlen($mediaContent), 'tmp_name' => $tmpFile), 'com_media');
+		$can = $helper->canUpload(['name' => $name, 'size' => strlen($mediaContent), 'tmp_name' => $tmpFile], 'com_media');
 
 		File::delete($tmpFile);
 
