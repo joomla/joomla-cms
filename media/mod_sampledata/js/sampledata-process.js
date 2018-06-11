@@ -52,6 +52,11 @@ Joomla = window.Joomla || {};
 					// Display all messages that we got
 					for (var i = 0, l = response.data.length; i < l; i++) {
 						value   = response.data[i];
+
+						if (value === null) {
+							continue;
+						}
+
 						success = value.success;
 						progressClass = success ? 'bg-success' : 'bg-danger';
 
