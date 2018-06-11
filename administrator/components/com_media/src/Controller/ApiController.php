@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
@@ -52,7 +53,7 @@ class ApiController extends BaseController
 			// Check token for requests which do modify files (all except get requests)
 			if ($method !== 'GET' && !Session::checkToken('json'))
 			{
-				throw new \InvalidArgumentException(\JText::_('JINVALID_TOKEN'), 403);
+				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN'), 403);
 			}
 
 			$doTask = strtolower($method) . ucfirst($task);
@@ -62,7 +63,7 @@ class ApiController extends BaseController
 
 			if (!in_array($this->doTask, $this->taskMap))
 			{
-				throw new \Exception(\JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 405);
 			}
 
 			$data = $this->$doTask();
@@ -346,7 +347,7 @@ class ApiController extends BaseController
 	{
 		if (!Factory::getUser()->authorise('core.create', 'com_media'))
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
 		}
 
 		$params = ComponentHelper::getParams('com_media');
@@ -359,7 +360,7 @@ class ApiController extends BaseController
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
 			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
 		{
-			throw new \Exception(\JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}
 	}
 
