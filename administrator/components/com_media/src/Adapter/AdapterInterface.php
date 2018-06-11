@@ -41,7 +41,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFile($path = '/');
+	public function getFile(string $path = '/');
 
 	/**
 	 * Returns the folders and files for the given path. The returned objects
@@ -66,7 +66,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/');
+	public function getFiles(string $path = '/');
 
 	/**
 	 * Returns a resource for the given path.
@@ -78,7 +78,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getResource($path);
+	public function getResource(string $path);
 
 	/**
 	 * Creates a folder with the given name in the given path.
@@ -94,7 +94,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFolder($name, $path);
+	public function createFolder(string $name, string $path);
 
 	/**
 	 * Creates a file with the given name in the given path with the data.
@@ -111,7 +111,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFile($name, $path, $data);
+	public function createFile(string $name, string $path, $data);
 
 	/**
 	 * Updates the file with the given name in the given path with the data.
@@ -125,7 +125,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function updateFile($name, $path, $data);
+	public function updateFile(string $name, string $path, $data);
 
 	/**
 	 * Deletes the folder or file of the given path.
@@ -137,7 +137,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function delete($path);
+	public function delete(string $path);
 
 	/**
 	 * Moves a file or folder from source to destination.
@@ -154,7 +154,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function move($sourcePath, $destinationPath, $force = false);
+	public function move(string $sourcePath, string $destinationPath, bool $force = false);
 
 	/**
 	 * Copies a file or folder from source to destination.
@@ -171,7 +171,7 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function copy($sourcePath, $destinationPath, $force = false);
+	public function copy(string $sourcePath, string $destinationPath, bool $force = false);
 
 	/**
 	 * Returns a public url for the given path. This function can be used by the cloud
@@ -185,13 +185,13 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
-	public function getUrl($path);
+	public function getUrl(string $path);
 
 	/**
 	 * Returns the name of the adapter.
 	 * It will be shown in the Media Manager
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
@@ -208,7 +208,7 @@ interface AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function search($path, $needle, $recursive);
+	public function search(string $path, string $needle, bool $recursive = false);
 
 	/**
 	 * Returns a temporary url for the given path.
@@ -221,5 +221,5 @@ interface AdapterInterface
 	 * @since   4.0.0
 	 * @throws \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
 	 */
-	public function getTemporaryUrl($path);
+	public function getTemporaryUrl(string $path);
 }

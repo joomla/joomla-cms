@@ -11,6 +11,7 @@ namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
@@ -57,7 +58,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($rootPath, $filePath)
+	public function __construct(string $rootPath, string $filePath)
 	{
 		if (!file_exists($rootPath))
 		{
@@ -91,7 +92,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFile($path = '/')
+	public function getFile(string $path = '/')
 	{
 		// Get the local path
 		$basePath = $this->getLocalPath($path);
@@ -128,7 +129,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getFiles($path = '/')
+	public function getFiles(string $path = '/')
 	{
 		// Get the local path
 		$basePath = $this->getLocalPath($path);
@@ -174,7 +175,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function getResource($path)
+	public function getResource(string $path)
 	{
 		return fopen($this->rootPath . '/' . $path, 'r');
 	}
@@ -193,7 +194,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFolder($name, $path)
+	public function createFolder(string $name, string $path)
 	{
 		$name = $this->getSafeName($name);
 
@@ -219,7 +220,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createFile($name, $path, $data)
+	public function createFile(string $name, string $path, $data)
 	{
 		$name = $this->getSafeName($name);
 
@@ -244,7 +245,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function updateFile($name, $path, $data)
+	public function updateFile(string $name, string $path, $data)
 	{
 		$localPath = $this->getLocalPath($path . '/' . $name);
 
@@ -269,7 +270,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function delete($path)
+	public function delete(string $path)
 	{
 		$localPath = $this->getLocalPath($path);
 
@@ -319,7 +320,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getPathInformation($path)
+	private function getPathInformation(string $path): \stdClass
 	{
 		// Prepare the path
 		$path = Path::clean($path, '/');
@@ -366,11 +367,11 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $date  The date to create a JDate from
 	 *
-	 * @return  Date[]
+	 * @return  Date
 	 *
 	 * @since   4.0.0
 	 */
-	private function getDate($date = null)
+	private function getDate($date = null): Date
 	{
 		$dateObj = Factory::getDate($date);
 
@@ -406,10 +407,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since 4.0.0
-	 * @throws \Exception
+	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
-	public function copy($sourcePath, $destinationPath, $force = false)
+	public function copy(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		// Get absolute paths from relative paths
 		$sourcePath      = Path::clean($this->getLocalPath($sourcePath), '/');
@@ -455,10 +456,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function copyFile($sourcePath, $destinationPath, $force = false)
+	private function copyFile(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		if (is_dir($destinationPath))
 		{
@@ -486,10 +487,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function copyFolder($sourcePath, $destinationPath, $force = false)
+	private function copyFolder(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		if (file_exists($destinationPath) && !$force)
 		{
@@ -519,10 +520,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  string
 	 *
-	 * @since 4.0.0
-	 * @throws \Exception
+	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
-	public function move($sourcePath, $destinationPath, $force = false)
+	public function move(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		// Get absolute paths from relative paths
 		$sourcePath      = Path::clean($this->getLocalPath($sourcePath), '/');
@@ -566,10 +567,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function moveFile($sourcePath, $destinationPath, $force = false)
+	private function moveFile(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		if (is_dir($destinationPath))
 		{
@@ -597,10 +598,10 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @return  void
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function moveFolder($sourcePath, $destinationPath, $force = false)
+	private function moveFolder(string $sourcePath, string $destinationPath, bool $force = false)
 	{
 		if (file_exists($destinationPath) && !$force)
 		{
@@ -641,11 +642,11 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  Path of the file relative to adapter
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 */
-	public function getUrl($path)
+	public function getUrl(string $path)
 	{
 		return Uri::root() . $this->getEncodedPath($this->filePath . $path);
 	}
@@ -653,7 +654,7 @@ class LocalAdapter implements AdapterInterface
 	/**
 	 * Returns the name of this adapter.
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
@@ -669,11 +670,11 @@ class LocalAdapter implements AdapterInterface
 	 * @param   string  $needle     The path to file
 	 * @param   bool    $recursive  Do a recursive search
 	 *
-	 * @return \stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since   4.0.0
 	 */
-	public function search($path, $needle, $recursive)
+	public function search(string $path, string $needle, bool $recursive = false)
 	{
 		$pattern = Path::clean($this->getLocalPath($path) . '/*' . $needle . '*');
 
@@ -706,7 +707,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function rglob($pattern, $flags = 0)
+	private function rglob(string $pattern, int $flags = 0)
 	{
 		$files = glob($pattern, $flags);
 		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
@@ -723,12 +724,12 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  The path to file
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
-	 * @throws FileNotFoundException
+	 * @throws  FileNotFoundException
 	 */
-	public function getTemporaryUrl($path)
+	public function getTemporaryUrl(string $path)
 	{
 		return $this->getUrl($path);
 	}
@@ -738,12 +739,12 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $path  The Path to be encoded
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   4.0.0
-	 * @throws FileNotFoundException
+	 * @throws  FileNotFoundException
 	 */
-	private function getEncodedPath($path)
+	private function getEncodedPath(string $path)
 	{
 		return str_replace(" ", "%20", $path);
 	}
@@ -758,7 +759,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function getSafeName($name)
+	private function getSafeName(string $name)
 	{
 		// Make the filename safe
 		$name = File::makeSafe($name);
@@ -791,7 +792,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function checkContent($localPath, $mediaContent)
+	private function checkContent(string $localPath, string $mediaContent)
 	{
 		$name = $this->getFileName($localPath);
 
@@ -826,7 +827,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	private function getFileName($path)
+	private function getFileName(string $path)
 	{
 		$path = Path::clean($path);
 
@@ -849,7 +850,7 @@ class LocalAdapter implements AdapterInterface
 	 * @since   4.0.0
 	 * @throws  InvalidPathException
 	 */
-	private function getLocalPath($path)
+	private function getLocalPath(string $path)
 	{
 		try
 		{
