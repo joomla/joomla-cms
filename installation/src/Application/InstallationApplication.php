@@ -102,6 +102,11 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function debugLanguage()
 	{
+		if ($this->getDocument()->getType() != 'html')
+		{
+			return '';
+		}
+
 		$lang   = Factory::getLanguage();
 		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 

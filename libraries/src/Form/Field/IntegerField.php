@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -67,7 +68,7 @@ class IntegerField extends \JFormFieldList
 			// Build the options array backwards.
 			for ($i = $first; $i >= $last; $i += $step)
 			{
-				$options[] = \JHtml::_('select.option', $i);
+				$options[] = HTMLHelper::_('select.option', $i);
 			}
 		}
 		else
@@ -75,7 +76,7 @@ class IntegerField extends \JFormFieldList
 			// Build the options array.
 			for ($i = $first; $i <= $last; $i += $step)
 			{
-				$options[] = \JHtml::_('select.option', $i);
+				$options[] = HTMLHelper::_('select.option', $i);
 			}
 		}
 

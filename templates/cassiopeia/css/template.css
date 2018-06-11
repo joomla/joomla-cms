@@ -1,35 +1,11 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400");
-#flying-focus {
-  position: absolute;
-  margin: 0;
-  background: transparent;
-  transition-property: left, top, width, height;
-  transition-timing-function: cubic-bezier(0, 1, 0, 1);
-  visibility: hidden;
-  pointer-events: none;
-  box-shadow: 0 0 2px 3px #78aeda, 0 0 2px #78aeda inset;
-  border-radius: 2px; }
-  #flying-focus.flying-focus_visible {
-    visibility: visible;
-    z-index: 9999; }
-  @media screen and (-webkit-min-device-pixel-ratio: 0) {
-    #flying-focus {
-      box-shadow: none;
-      outline: 5px auto -webkit-focus-ring-color;
-      outline-offset: -3px; } }
-
-.flying-focus_target {
-  outline: none !important; }
-  .flying-focus_target::-moz-focus-inner {
-    border: 0 !important; }
-
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400");
 :root {
   --blue: #006898;
   --indigo: #6610f2;
@@ -83,7 +59,7 @@ html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: transparent; }
 
 @-ms-viewport {
   width: device-width; }
@@ -9742,7 +9718,7 @@ joomla-alert {
     box-shadow: -1px 0 0 rgba(0, 0, 0, 0.05); }
     .nav.nav-tabs .nav-link.active {
       background-color: rgba(0, 0, 0, 0.03);
-      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05) 100%);
+      background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05) 100%);
       border-right: 0;
       border-left: 0;
       border-top-left-radius: 0;

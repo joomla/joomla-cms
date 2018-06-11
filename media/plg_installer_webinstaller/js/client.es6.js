@@ -11,11 +11,6 @@ if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
 
-// TODO - Update server layouts for 4.0 to remove global var use
-/* eslint-disable */
-const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_url;
-/* eslint-enable */
-
 ((window, document, Joomla, jQuery) => {
   'use strict';
 
@@ -122,6 +117,10 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
             }
           });
 
+          document.getElementById('search-extensions').addEventListener('click', () => {
+            self.initiateSearch();
+          });
+
           document.getElementById('search-reset').addEventListener('click', () => {
             const searchBox = document.getElementById('com-apps-searchbox');
             searchBox.value = '';
@@ -139,7 +138,7 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
           }
 
           if (webInstallerOptions.options.installfrom_url !== '') {
-            WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
+            self.installfromweb(webInstallerOptions.options.installfrom_url);
           }
         },
         fail() {
@@ -157,6 +156,49 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
 
           self.clickforlinks();
           WebInstaller.clicker();
+
+          if (webInstallerOptions.view !== 'extension') {
+            [].slice.call(document.querySelectorAll('div.load-extension')).forEach((element) => {
+              element.addEventListener('click', (event) => {
+                event.preventDefault();
+                self.processLinkClick(element.getAttribute('data-url'));
+              });
+
+              element.setAttribute('href', '#');
+            });
+          }
+
+          if (webInstallerOptions.view === 'extension') {
+            const installExtensionButton = document.getElementById('install-extension');
+            const installExtensionFromExternalButton = document.getElementById('install-extension-from-external');
+
+            if (installExtensionButton) {
+              installExtensionButton.addEventListener('click', () => {
+                self.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+              });
+            }
+
+            if (installExtensionFromExternalButton) {
+              // @todo Migrate this handler's confirm to a CE dialog
+              installExtensionFromExternalButton.addEventListener('click', () => {
+                const redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
+                const redirectConfirm = window.confirm(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
+
+                if (redirectConfirm !== true) {
+                  return;
+                }
+
+                document.getElementById('adminForm').setAttribute('action', redirectUrl);
+                document.querySelector('input[name=task]').setAttribute('disabled', true);
+                document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
+                document.querySelector('input[name=install_url]').setAttribute('disabled', true);
+                document.querySelector('input[name=installtype]').setAttribute('disabled', true);
+                document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
+
+                document.getElementById('adminForm').submit();
+              });
+            }
+          }
 
           if (webInstallerOptions.list && document.querySelector('.list-view')) {
             document.querySelector('.list-view').click();
@@ -191,24 +233,8 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
         const ajaxurl = element.getAttribute('href');
 
         element.addEventListener('click', (event) => {
-          const pattern1 = new RegExp(webInstallerOptions.options.base_url);
-          const pattern2 = new RegExp('^index.php');
-
-          if (pattern1.test(ajaxurl) || pattern2.test(ajaxurl)) {
-            webInstallerOptions.view = ajaxurl.replace(/^.+[&?]view=(\w+).*$/, '$1');
-
-            if (webInstallerOptions.view === 'dashboard') {
-              webInstallerOptions.id = 0;
-            } else if (webInstallerOptions.view === 'category') {
-              webInstallerOptions.id = ajaxurl.replace(/^.+[&?]id=(\d+).*$/, '$1');
-            }
-
-            event.preventDefault();
-            self.loadweb(webInstallerOptions.options.base_url + ajaxurl);
-          } else {
-            event.preventDefault();
-            self.loadweb(ajaxurl);
-          }
+          event.preventDefault();
+          self.processLinkClick(ajaxurl);
         });
 
         element.setAttribute('href', '#');
@@ -243,6 +269,25 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
       this.loadweb(`${webInstallerOptions.options.base_url}index.php?format=json&option=com_apps${tail}`);
     }
 
+    processLinkClick(url) {
+      const pattern1 = new RegExp(webInstallerOptions.options.base_url);
+      const pattern2 = new RegExp('^index.php');
+
+      if (pattern1.test(url) || pattern2.test(url)) {
+        webInstallerOptions.view = url.replace(/^.+[&?]view=(\w+).*$/, '$1');
+
+        if (webInstallerOptions.view === 'dashboard') {
+          webInstallerOptions.id = 0;
+        } else if (webInstallerOptions.view === 'category') {
+          webInstallerOptions.id = url.replace(/^.+[&?]id=(\d+).*$/, '$1');
+        }
+
+        this.loadweb(webInstallerOptions.options.base_url + url);
+      } else {
+        this.loadweb(url);
+      }
+    }
+
     static clicker() {
       if (document.querySelector('.grid-view')) {
         document.querySelector('.grid-view').addEventListener('click', () => {
@@ -270,11 +315,10 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
      * @param {string} name
      * @returns {boolean}
      * @todo Migrate this function's alert to a CE dialog
-     * @todo Migrate this function's hardcoded English string to Joomla.JText
      */
-    static installfromweb(installUrl, name) {
+    installfromweb(installUrl, name) {
       if (!installUrl) {
-        alert("This extension cannot be installed via the web. Please visit the developer's website to purchase/download.");
+        alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
 
         return false;
       }
@@ -297,32 +341,6 @@ const apps_base_url = Joomla.getOptions('plg_installer_webinstaller', {}).base_u
       document.getElementById('uploadform-web').classList.remove('hidden');
 
       return true;
-    }
-
-    /**
-     * Onclick handler for the button#appssubmitbutton element
-     *
-     * @param {string} redirectUrl
-     * @returns {boolean}
-     * @todo Convert from inline onclick registration, requires coordinated PR to IFW repo
-     * @todo Migrate this function's confirm to a CE dialog
-     * @todo Migrate this function's hardcoded English string to Joomla.JText
-     */
-    static installfromwebexternal(redirectUrl) {
-      const redirectConfirm = window.confirm(`You will be redirected to the following link to complete the registration/purchase - \n${redirectUrl}`);
-
-      if (redirectConfirm === true) {
-        document.getElementById('adminForm').setAttribute('action', redirectUrl);
-        document.querySelector('input[name=task]').setAttribute('disabled', true);
-        document.querySelector('input[name=install_directory]').setAttribute('disabled', true);
-        document.querySelector('input[name=install_url]').setAttribute('disabled', true);
-        document.querySelector('input[name=installtype]').setAttribute('disabled', true);
-        document.querySelector('input[name=filter_search]').setAttribute('disabled', true);
-
-        return true;
-      }
-
-      return false;
     }
   }
 
