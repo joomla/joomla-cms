@@ -58,7 +58,7 @@ else
 		$iUrl   = isset($feed->image) ? $feed->image : null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))
@@ -91,7 +91,7 @@ else
 		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 5)); $i < $max; $i++) { ?>
 			<?php
 				$uri   = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-				$uri   = !$uri ? $params->get('rsslink') : $uri;
+				$uri   = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
 				$text  = !empty($feed[$i]->content) || $feed[$i]->content !== null ? trim($feed[$i]->content) : trim($feed[$i]->description);
 				$title = trim($feed[$i]->title);
 			?>

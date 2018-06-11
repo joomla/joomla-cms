@@ -92,7 +92,7 @@ defined('_JEXEC') or die;
 						<?php break; ?>
 					<?php endif; ?>
 					<?php $uri   = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim($this->rssDoc[$i]->uri) : trim($this->rssDoc[$i]->guid); ?>
-					<?php $uri   = !$uri ? $this->item->link : $uri; ?>
+					<?php $uri   = !$uri || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
 					<?php $text  = !empty($this->rssDoc[$i]->content) || $this->rssDoc[$i]->content !== null ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description); ?>
 					<?php $title = trim($this->rssDoc[$i]->title); ?>
 					<li>

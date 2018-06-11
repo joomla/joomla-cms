@@ -84,17 +84,17 @@ else
 				break;
 			endif;
 			$uri   = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-			$uri  = !$uri ? $params->get('rsslink') : $uri;
-			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
+			$uri  = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
+			$text = !empty($feed[$i]->content) || !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">
-						<?php  echo $feed[$i]->title; ?></a></h5>
+						<?php echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
-					<?php  endif; ?>
+						<h5 class="feed-link"><?php echo $feed[$i]->title; ?></h5>
+					<?php endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">
