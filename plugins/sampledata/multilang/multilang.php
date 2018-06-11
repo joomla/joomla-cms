@@ -24,7 +24,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Sampledata - Multilang Plugin
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class PlgSampledataMultilang extends CMSPlugin
 {
@@ -77,7 +77,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $adminId;
-	
+
 	/**
 	 * Get an overview of the proposed sampledata.
 	 *
@@ -112,7 +112,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
-		
+
 		if (count($languages) < 2 )
 		{
 			$response            = array();
@@ -126,7 +126,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-		
+
 			$lang = Factory::getLanguage()->getTag();
 			$lang->load('plg_system_languagefilter', JPATH_ADMINISTRATOR);
 			$message = $lang->_('PLG_SYSTEM_LANGUAGEFILTER');
@@ -140,7 +140,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP1_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 	/**
@@ -165,7 +165,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		if (!$this->addModuleLanguageSwitcher())
 		{
 			$response            = array();
@@ -179,12 +179,12 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP2_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 	/**
@@ -209,7 +209,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		if (!$this->publishContentLanguages())
 		{
 			$response            = array();
@@ -218,12 +218,12 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP3_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 	/**
@@ -248,9 +248,9 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
-		
+
 		foreach ($siteLanguages as $siteLang)
 		{
 			if (!$this->addMenuGroup($siteLang))
@@ -270,10 +270,10 @@ class PlgSampledataMultilang extends CMSPlugin
 
 				return $response;
 			}
-			
+
 			$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
 		}
-		
+
 		if (!$this->addAssociations($groupedAssociations))
 		{
 			$response            = array();
@@ -282,12 +282,12 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP4_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 	/**
@@ -312,7 +312,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
 
 		foreach ($siteLanguages as $siteLang)
@@ -326,12 +326,12 @@ class PlgSampledataMultilang extends CMSPlugin
 				return $response;
 			}
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP5_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 		/**
@@ -356,7 +356,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		if (!ComponentHelper::isEnabled('com_categories'))
 		{
 			$response            = array();
@@ -365,7 +365,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
 
 		foreach ($siteLanguages as $siteLang)
@@ -378,7 +378,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 				return $response;
 			}
-			
+
 			$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
 			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id))
@@ -389,9 +389,9 @@ class PlgSampledataMultilang extends CMSPlugin
 
 				return $response;
 			}
-			
+
 			$groupedAssociations['com_content.item'][$siteLang->language] = $tableArticle->id;
-			
+
 			if (!$tableMenuItem = $this->addBlogMenuItem($siteLang, $tableCategory->id))
 			{
 				$response            = array();
@@ -400,10 +400,10 @@ class PlgSampledataMultilang extends CMSPlugin
 
 				return $response;
 			}
-			
+
 			$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
 		}
-		
+
 		if (!$this->addAssociations($groupedAssociations))
 		{
 			$response            = array();
@@ -412,12 +412,12 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP6_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 
@@ -443,7 +443,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		if (!$this->disableModuleMainMenu())
 		{
 			$response            = array();
@@ -452,12 +452,12 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			return $response;
 		}
-		
+
 		$response          = new stdClass;
 		$response->success = true;
 		$response->message = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP7_SUCCESS');
 
-		return $response;	
+		return $response;
 	}
 
 	/**
@@ -525,8 +525,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Disable Default Main Menu Module.
 	 *
@@ -562,7 +562,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		return true;
 	}
-	
+
 		/**
 	 * Enable the Language Switcher Module.
 	 *
@@ -724,7 +724,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-		
+
 		// Add Menu Item.
 		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
 
@@ -806,7 +806,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-		
+
 		// Add Menu Item.
 		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
 
@@ -1208,7 +1208,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		return $data;
 	}
-	
+
 		/**
 	 * Get installed languages data.
 	 *
