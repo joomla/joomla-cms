@@ -358,12 +358,13 @@ class Text
 	 * @param   string   $string                The Text key.
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+	 * @param   boolean  $loadDependentJsLibs   Load dependent JS libraries
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
+	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true, $loadDependentJsLibs = true)
 	{
 		if ($string === null)
 		{
@@ -403,7 +404,10 @@ class Text
 			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
 			// Load core.js dependency
-			HTMLHelper::_('behavior.core');
+			if ($loadDependentJsLibs)
+			{
+				HTMLHelper::_('behavior.core');
+			}
 
 			// Update Joomla.JText script options
 			Factory::getDocument()->addScriptOptions('joomla.jtext', static::$strings, false);
