@@ -311,23 +311,4 @@ class EditorField extends \JFormFieldTextarea
 
 		return $this->editor;
 	}
-
-	/**
-	 * Method to get the JEditor output for an onSave event.
-	 *
-	 * @return  string  The JEditor object output.
-	 *
-	 * @since   1.6
-	 */
-	public function save()
-	{
-		$editor = $this->getEditor();
-
-		if (!method_exists($editor, 'save'))
-		{
-			return '';
-		}
-
-		return $editor->save($this->id);
-	}
 }
