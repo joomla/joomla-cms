@@ -480,7 +480,8 @@ class FormController extends BaseController
 
 		if ($return)
 		{
-			$append .= '&return=' . $return;
+			// Beacause of J3.x bug in Joomla\Uri\AbstractUri::buildQuery the return value has to be encoded twice
+			$append .= '&return=' . urlencode(urlencode($return));
 		}
 
 		return $append;

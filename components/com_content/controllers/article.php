@@ -263,7 +263,7 @@ class ContentControllerArticle extends JControllerForm
 	 * @param   integer  $recordId  The primary key id for the item.
 	 * @param   string   $urlVar    The name of the URL variable for the id.
 	 *
-	 * @return  string	The arguments to append to the redirect URL.
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
 	 * @since   1.6
 	 */
@@ -296,7 +296,6 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		$itemId = $this->input->getInt('Itemid');
-		$return = $this->getReturnPage();
 		$catId  = $this->input->getInt('catid');
 
 		if ($itemId)
@@ -309,9 +308,12 @@ class ContentControllerArticle extends JControllerForm
 			$append .= '&catid=' . $catId;
 		}
 
+		$return = $this->getReturnPage();
+
 		if ($return)
 		{
-			$append .= '&return=' . base64_encode($return);
+			// Beacause of J3.x bug in Joomla\Uri\AbstractUri::buildQuery the return value has to be encoded twice
+			$append .= '&return=' . urlencode(urlencode(base64_encode($return)));
 		}
 
 		return $append;
@@ -334,10 +336,8 @@ class ContentControllerArticle extends JControllerForm
 		{
 			return JUri::base();
 		}
-		else
-		{
-			return base64_decode($return);
-		}
+
+		return base64_decode($return);
 	}
 
 	/**

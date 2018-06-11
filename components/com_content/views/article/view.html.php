@@ -150,7 +150,11 @@ class ContentViewArticle extends JViewLegacy
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(JUri::getInstance());
-				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
+
+				// Beacause of J3.x bug in Joomla\Uri\AbstractUri::buildQuery the return value has to be encoded later
+				$login_url_with_return = JRoute::_('index.php?option=com_users&view=login&return=return', false);
+				$login_url_with_return = str_replace('return=return', 'return=' . urlencode($return), $login_url_with_return);
+
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}

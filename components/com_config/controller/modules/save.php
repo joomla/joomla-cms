@@ -50,14 +50,8 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Get sumitted module id
 		$moduleId = '&id=' . $this->input->get('id');
 
-		// Get returnUri
-		$returnUri = $this->input->post->get('return', null, 'base64');
-		$redirect = '';
-
-		if (!empty($returnUri))
-		{
-			$redirect = '&return=' . $returnUri;
-		}
+		$return   = $this->input->post->get('return', null, 'base64');
+		$redirect = $return ? '&return=return' : '';
 
 		// Access backend com_modules to be done
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
@@ -72,22 +66,25 @@ class ConfigControllerModulesSave extends JControllerBase
 		$document->setType('json');
 
 		// Execute backend controller
-		$return = $controllerClass->save();
+		$result = $controllerClass->save();
 
 		// Reset params back after requesting from service
 		$document->setType('html');
 
 		// Check the return value.
-		if ($return === false)
+		if ($result === false)
 		{
 			// Save the data in the session.
 			$data = $this->input->post->get('jform', array(), 'array');
 
 			$this->app->setUserState('com_config.modules.global.data', $data);
 
+			$redirect = 'index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect;
+			$redirect = str_replace('return=return', 'return=' . urlencode($return), JRoute::_($redirect, false));
+
 			// Save failed, go back to the screen and display a notice.
 			$this->app->enqueueMessage(JText::_('JERROR_SAVE_FAILED'));
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect, false));
+			$this->app->redirect($redirect);
 		}
 
 		// Redirect back to com_config display
@@ -97,15 +94,17 @@ class ConfigControllerModulesSave extends JControllerBase
 		switch ($this->options[3])
 		{
 			case 'apply':
-				$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect, false));
+				$redirect = 'index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect;
+				$redirect = str_replace('return=return', 'return=' . urlencode($return), JRoute::_($redirect, false));
+
+				$this->app->redirect($redirect);
 				break;
 
 			case 'save':
 			default:
-
-				if (!empty($returnUri))
+				if ($return)
 				{
-					$redirect = base64_decode(urldecode($returnUri));
+					$redirect = base64_decode($return);
 
 					// Don't redirect to an external URL.
 					if (!JUri::isInternal($redirect))

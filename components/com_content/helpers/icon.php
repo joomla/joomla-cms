@@ -30,9 +30,7 @@ abstract class JHtmlIcon
 	 */
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
-		$uri = JUri::getInstance();
-
-		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
+		$url = 'index.php?option=com_content&task=article.add&a_id=0&catid=' . $category->id . '&return=return';
 
 		$text = JLayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => $legacy));
 
@@ -46,7 +44,11 @@ abstract class JHtmlIcon
 			$attribs['class'] = 'btn btn-primary';
 		}
 
-		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$return = base64_encode(JUri::getInstance());
+
+		$url = str_replace('return=return', 'return=' . urlencode($return), JRoute::_($url));
+
+		$button = JHtml::_('link',  $url, $text, $attribs);
 
 		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
@@ -102,9 +104,6 @@ abstract class JHtmlIcon
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
-		$user = JFactory::getUser();
-		$uri  = JUri::getInstance();
-
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))
 		{
@@ -121,7 +120,7 @@ abstract class JHtmlIcon
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
 			&& $article->checked_out > 0
-			&& $article->checked_out != $user->get('id'))
+			&& $article->checked_out != JFactory::getUser()->get('id'))
 		{
 			$checkoutUser = JFactory::getUser($article->checked_out);
 			$date         = JHtml::_('date', $article->checked_out_time);
@@ -130,26 +129,13 @@ abstract class JHtmlIcon
 
 			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$output = JHtml::_('link', '#', $text, $attribs);
-
-			return $output;
-		}
-
-		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
-		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
-
-		if ($article->state == 0)
-		{
-			$overlib = JText::_('JUNPUBLISHED');
-		}
-		else
-		{
-			$overlib = JText::_('JPUBLISHED');
+			return JHtml::_('link', '#', $text, $attribs);
 		}
 
 		$date   = JHtml::_('date', $article->created);
 		$author = $article->created_by_alias ?: $article->author;
 
+		$overlib  = JText::_($article->state == 0 ? 'JUNPUBLISHED' : 'JPUBLISHED');
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
@@ -157,10 +143,15 @@ abstract class JHtmlIcon
 
 		$text = JLayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'overlib' => $overlib, 'legacy' => $legacy));
 
-		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
-		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$attribs['title'] = JText::_('JGLOBAL_EDIT_TITLE');
 
-		return $output;
+		$return = base64_encode(JUri::getInstance());
+
+		$url = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)
+			. '&task=article.edit&a_id=' . $article->id . '&return=return';
+		$url = str_replace('return=return', 'return=' . urlencode($return), JRoute::_($url));
+
+		return JHtml::_('link', $url, $text, $attribs);
 	}
 
 	/**
