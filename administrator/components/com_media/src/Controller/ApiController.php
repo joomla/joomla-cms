@@ -297,14 +297,14 @@ class ApiController extends BaseController
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param   mixed   $data          The data to send
-	 * @param   number  $responseCode  The response code
+	 * @param   mixed    $data          The data to send
+	 * @param   integer  $responseCode  The response code
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	private function sendResponse($data = null, $responseCode = 200)
+	private function sendResponse($data = null, int $responseCode = 200)
 	{
 		// Set the correct content type
 		$this->app->setHeader('Content-Type', 'application/json');
