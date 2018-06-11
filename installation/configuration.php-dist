@@ -68,8 +68,6 @@ class JConfig
 	public $lifetime = '15';                  // Session time
 	public $session_handler = 'database';
 	public $shared_session = '0';
-	public $session_memcache_server_host = 'localhost';
-	public $session_memcache_server_port = '11211';
 	public $session_memcached_server_host = 'localhost';
 	public $session_memcached_server_port = '11211';
 	public $session_redis_server_host = 'localhost';
@@ -98,10 +96,6 @@ class JConfig
 	public $cachetime = '15';
 	public $cache_handler = 'file';
 	public $cache_platformprefix = '0';
-	public $memcache_persist = '1';
-	public $memcache_compress = '0';
-	public $memcache_server_host = 'localhost';
-	public $memcache_server_port = '11211';
 	public $memcached_persist = '1';
 	public $memcached_compress = '0';
 	public $memcached_server_host = 'localhost';
