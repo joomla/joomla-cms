@@ -115,6 +115,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.instance = window.CodeMirror.fromTextArea(element, this.options);
   }
 
+  /* eslint-disable */
   rafAsync() {
     return new Promise(resolve => requestAnimationFrame(resolve));
   }
@@ -133,6 +134,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     return true;
   }
 
+  /* eslint-enable */
   toggleFullScreen() {
     this.instance.setOption('fullScreen', !this.instance.getOption('fullScreen'));
   }

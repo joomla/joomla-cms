@@ -132,6 +132,9 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
     value: function refresh(element) {
       this.instance = window.CodeMirror.fromTextArea(element, this.options);
     }
+
+    /* eslint-disable */
+
   }, {
     key: 'rafAsync',
     value: function rafAsync() {
@@ -199,6 +202,9 @@ customElements.define('joomla-editor-codemirror', function (_HTMLElement) {
 
       return checkElement;
     }()
+
+    /* eslint-enable */
+
   }, {
     key: 'toggleFullScreen',
     value: function toggleFullScreen() {
