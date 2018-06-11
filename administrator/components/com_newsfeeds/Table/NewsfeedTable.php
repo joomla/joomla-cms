@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Newsfeeds\Administrator\Table;
@@ -121,6 +121,11 @@ class NewsfeedTable extends Table
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
+		if (empty($this->modified))
+		{
+			$this->modified = $this->getDbo()->getNullDate();
+		}
+
 		return true;
 	}
 
@@ -138,12 +143,11 @@ class NewsfeedTable extends Table
 		$date = \JFactory::getDate();
 		$user = \JFactory::getUser();
 
-		$this->modified = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_by = $user->get('id');
+			$this->modified    = $date->toSql();
 		}
 		else
 		{

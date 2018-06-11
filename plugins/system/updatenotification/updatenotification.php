@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(array('com_plugins'));
 		}
 		catch (Exception $exc)
 		{
@@ -201,11 +201,13 @@ class PlgSystemUpdatenotification extends CMSPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/*
+		 * Load the appropriate language. We try to load English (UK), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
+		 * solution!
+		 */
 		$jLanguage = Factory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
@@ -391,36 +393,31 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	/**
 	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
 	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
+	 * @param   array  $clearGroups  The cache groups to clean
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups)
 	{
 		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			try
 			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
+				$options = [
+					'defaultgroup' => $group,
+					'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+				];
 
-					$cache = Cache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
+				$cache = Cache::getInstance('callback', $options);
+				$cache->clean();
+			}
+			catch (Exception $e)
+			{
+				// Ignore it
 			}
 		}
 	}

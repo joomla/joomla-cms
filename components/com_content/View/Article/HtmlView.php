@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Content\Site\View\Article;
@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -75,6 +76,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		if ($this->getLayout() == 'pagebreak')
+		{
+			return parent::display($tpl);
+		}
+
 		$app        = \JFactory::getApplication();
 		$user       = \JFactory::getUser();
 
@@ -176,7 +182,8 @@ class HtmlView extends BaseHtmlView
 			return;
 		}
 
-		/* Check for no 'access-view' and empty fulltext,
+		/**
+		 * Check for no 'access-view' and empty fulltext,
 		 * - Redirect guest users to login
 		 * - Deny access to logged users with 403 code
 		 * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
@@ -194,12 +201,15 @@ class HtmlView extends BaseHtmlView
 			{
 				$app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->setHeader('status', 403, true);
+
 				return;
 			}
 		}
 
-		// NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
-		// responsibility of the layout to check 'access-view' and only use "introtext" for guests
+		/**
+		 * NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
+		 * responsibility of the layout to check 'access-view' and only use "introtext" for guests
+		 */
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
@@ -218,11 +228,10 @@ class HtmlView extends BaseHtmlView
 
 		if (\JLanguageAssociations::isEnabled() && $item->params->get('show_associations'))
 		{
-			$item->associations = \ContentHelperAssociation::displayAssociations($item->id);
+			$item->associations = AssociationHelper::displayAssociations($item->id);
 		}
 
 		// Process the content plugins.
-
 		PluginHelper::importPlugin('content');
 		\JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset));
 
@@ -256,8 +265,10 @@ class HtmlView extends BaseHtmlView
 		$pathway = $app->getPathway();
 		$title   = null;
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
+		/**
+		 * Because the application sets a default page title,
+		 * we need to get it from the menu item itself
+		 */
 		$menu = $menus->getActive();
 
 		if ($menu)

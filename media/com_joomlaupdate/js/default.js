@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ Joomla = window.Joomla || {};
      */
     PreUpdateChecker.run = function () {
         // Get version of the available joomla update
-        PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
+        PreUpdateChecker.joomlaTargetVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-target-version');
 
         // Grab all extensions based on the selector set in the config object
         var $extensions = $(PreUpdateChecker.config.selector);

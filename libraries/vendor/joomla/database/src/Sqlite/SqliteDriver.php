@@ -8,8 +8,6 @@
 
 namespace Joomla\Database\Sqlite;
 
-use Joomla\Database\DatabaseEvents;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Database\Pdo\PdoDriver;
 
 /**
@@ -101,21 +99,6 @@ class SqliteDriver extends PdoDriver
 	}
 
 	/**
-	 * Disconnects the database.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function disconnect()
-	{
-		$this->freeResult();
-		$this->connection = null;
-
-		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_DISCONNECT, $this));
-	}
-
-	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $tableName  The name of the database table to drop.
@@ -149,9 +132,15 @@ class SqliteDriver extends PdoDriver
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
 		}
 
 		return \SQLite3::escapeString($text);

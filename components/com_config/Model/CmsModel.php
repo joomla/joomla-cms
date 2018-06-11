@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -208,20 +208,20 @@ abstract class CmsModel extends BaseDatabaseModel
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string  $group  The cache group
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null)
 	{
 		$conf = \JFactory::getConfig();
 
-		$options = array(
+		$options = [
 			'defaultgroup' => $group ?: ($this->option ?? \JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+		];
 
 		$cache = \JCache::getInstance('callback', $options);
 		$cache->clean();

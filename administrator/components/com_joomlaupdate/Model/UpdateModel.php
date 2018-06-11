@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
@@ -1056,24 +1056,6 @@ ENDDATA;
 		$option->notice = null;
 		$options[]      = $option;
 
-		// Only check if required PHP version is less than 7.
-		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
-		{
-			// Check for magic quotes gpc.
-			$option         = new \stdClass;
-			$option->label  = \JText::_('INSTL_MAGIC_QUOTES_GPC');
-			$option->state  = (ini_get('magic_quotes_gpc') == false);
-			$option->notice = null;
-			$options[]      = $option;
-
-			// Check for register globals.
-			$option         = new \stdClass;
-			$option->label  = \JText::_('INSTL_REGISTER_GLOBALS');
-			$option->state  = (ini_get('register_globals') == false);
-			$option->notice = null;
-			$options[]      = $option;
-		}
-
 		// Check for zlib support.
 		$option         = new \stdClass;
 		$option->label  = \JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
@@ -1158,24 +1140,6 @@ ENDDATA;
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
-
-		// Only check if required PHP version is less than 7.
-		if (version_compare($this->getTargetMinimumPHPVersion(), '7', '<'))
-		{
-			// Check for magic quotes runtimes.
-			$setting = new \stdClass;
-			$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-			$setting->state = (bool) ini_get('magic_quotes_runtime');
-			$setting->recommended = false;
-			$settings[] = $setting;
-
-			// Check for safe mode.
-			$setting = new \stdClass;
-			$setting->label = \JText::_('INSTL_SAFE_MODE');
-			$setting->state = (bool) ini_get('safe_mode');
-			$setting->recommended = false;
-			$settings[] = $setting;
-		}
 
 		// Check for output buffering.
 		$setting = new \stdClass;

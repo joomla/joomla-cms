@@ -8,30 +8,30 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "scripts": {
-    "build:js": "node build --compilejs",
-    "build:css": "node build --compilecss",
-    "watch:js": "node build --compilejs --watch",
-    "watch:css": "node build --compilecss --watch",
+    "build:js": "node build.js --compilejs",
+    "build:css": "node build.js --compilecss",
+    "watch:js": "node build.js --compilejs --watch",
+    "watch:css": "node build.js --compilecss --watch",
     "lint:js": "node ./node_modules/eslint/bin/eslint.js . || exit 0",
     "test": "node node_modules/karma/bin/karma start karma.conf.js --single-run",
-    "update": "node build --update"
+    "install": "node build.js --update && node build.js --installer",
+    "postinstall": "node build.js --compilejs && node build.js --compilecss",
+    "update": "node build.js --update && node build.js --installer && node build.js --compilejs && node build.js --compilecss"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
-    "@webcomponents/webcomponentsjs": "1.1.0",
+    "@webcomponents/webcomponentsjs": "2.0.0",
     "awesomplete": "1.1.2",
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.1.1",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
     "diff": "3.4.0",
     "dragula": "3.7.2",
-    "flying-focus-a11y": "1.5.5",
+    "focus-visible": "^4.1.4",
     "font-awesome": "4.7.0",
     "joomla-ui-custom-elements": "0.0.22",
     "jquery": "3.3.1",
     "jquery-migrate": "1.4.1",
-    "jquery-sortable": "0.9.13",
-    "jquery-ui-dist": "1.12.1",
     "mediaelement": "4.2.8",
     "punycode": "1.4.1",
     "tinymce": "4.7.7"
@@ -86,6 +86,8 @@
       "field-module-order",
       "field-permissions",
       "field-simple-color",
+      "field-send-test-mail",
+      "editor-codemirror",
       "hidden-mail",
       "editor-none"
     ],
@@ -106,6 +108,10 @@
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       },
+      "editor-codemirror": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
       "editor-none": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
@@ -115,7 +121,6 @@
         "js": "media/system/webcomponents/js"
       },
       "field-hidden-mail": {
-
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
       }
@@ -200,16 +205,15 @@
         "dependencies": [],
         "licenseFilename": "license"
       },
-      "flying-focus-a11y": {
-        "name": "flying-focus-a11y",
+      "focus-visible": {
+        "name": "focus-visible",
         "js": {
-          "src/js/flying-focus.js": "js/flying-focus.js"
-        },
-        "filesExtra": {
-          "src/scss": "scss"
+          "dist/focus-visible.js": "js/focus-visible.js",
+          "dist/focus-visible.min.js": "js/focus-visible.min.js",
+          "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
         },
         "dependencies": [],
-        "licenseFilename": "MIT-LICENSE.txt"
+        "licenseFilename": "LICENSE.md"
       },
       "font-awesome": {
         "name": "font-awesome",
@@ -334,18 +338,10 @@
       "@webcomponents/webcomponentsjs": {
         "name": "webcomponentsjs",
         "js": {
-          "webcomponents-hi.js": "js/webcomponents-hi.js",
-          "webcomponents-hi.js.map": "js/webcomponents-hi.js.map",
-          "webcomponents-hi-ce.js": "js/webcomponents-hi-ce.js",
-          "webcomponents-hi-ce.js.map": "js/webcomponents-hi-ce.js.map",
-          "webcomponents-hi-sd.js": "js/webcomponents-hi-sd.js",
-          "webcomponents-hi-sd.js.map": "js/webcomponents-hi-sd.js.map",
-          "webcomponents-hi-sd-ce.js": "js/webcomponents-hi-sd-ce.js",
-          "webcomponents-hi-sd-ce.js.map": "js/webcomponents-hi-sd-ce.js.map",
-          "webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "webcomponents-sd-ce.js.map": "js/webcomponents-sd-ce.js.map",
-          "webcomponents-lite.js": "js/webcomponents-lite.js",
-          "webcomponents-lite.js.map": "js/webcomponents-lite.js.map"
+          "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
+          "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
+          "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
+          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"

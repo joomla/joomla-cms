@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
-		<?php echo $language->title_native; ?></option>
+		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
 	<?php endforeach; ?>
 	</select>
 	</form>
@@ -43,7 +43,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 					<?php if ($language->image) : ?>
 						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
-					<?php echo $language->title_native; ?>
+					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
@@ -55,7 +55,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 					<?php if ($language->image) : ?>
 						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
-					<?php echo $language->title_native; ?>
+					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
 				</li>
 			<?php endif; ?>
