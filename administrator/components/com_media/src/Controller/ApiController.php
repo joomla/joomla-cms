@@ -132,7 +132,7 @@ class ApiController extends BaseController
 	public function getFiles()
 	{
 		// Grab options
-		$options              = array();
+		$options              = [];
 		$options['url']       = $this->input->getBool('url', false);
 		$options['temp']      = $this->input->getBool('temp', false);
 		$options['search']    = $this->input->getString('search', '');
@@ -330,7 +330,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   4.0.0
 	 */
-	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
+	public function getModel($name = 'Api', $prefix = 'Administrator', $config = [])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

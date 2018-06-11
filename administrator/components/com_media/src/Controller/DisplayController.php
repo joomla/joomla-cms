@@ -41,7 +41,7 @@ class DisplayController extends BaseController
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function getView($name = '', $type = '', $prefix = '', $config = array())
+	public function getView($name = '', $type = '', $prefix = '', $config = [])
 	{
 		// Force to load the admin view
 		return parent::getView($name, $type, 'Administrator', $config);
@@ -58,7 +58,7 @@ class DisplayController extends BaseController
 	 *
 	 * @since   3.0
 	 */
-	public function getModel($name = '', $prefix = '', $config = array())
+	public function getModel($name = '', $prefix = '', $config = [])
 	{
 		// Force to load the admin model
 		return parent::getModel($name, 'Administrator', $config);
