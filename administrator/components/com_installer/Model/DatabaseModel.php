@@ -371,7 +371,7 @@ class DatabaseModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where($db->quoteName('schemas.update_site_id') . ' = ' . (int) substr($search, 3));
+			$query->where($db->quoteName('schemas.extension_id') . ' = ' . (int) substr($search, 3));
 		}
 
 		return $query;
