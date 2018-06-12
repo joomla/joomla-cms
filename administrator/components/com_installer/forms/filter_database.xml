@@ -10,14 +10,6 @@
 		/>
 
 		<field
-			name="status"
-			type="extensionstatus"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-
-		<field
 			name="client_id"
 			type="location"
 			onchange="this.form.submit();"
