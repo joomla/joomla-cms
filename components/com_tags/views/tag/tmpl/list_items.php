@@ -80,7 +80,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($this->items[$i]->core_state == 0) : ?>
+					<?php if ($item->core_state == 0) : ?>
 						<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
 						<tr class="cat-list-row<?php echo $i % 2; ?>">
