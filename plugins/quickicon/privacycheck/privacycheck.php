@@ -61,7 +61,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_privacy&view=requests&' . $token,
-				'image' => 'asterisk',
+				'image' => 'users',
 				'icon'  => 'header/icon-48-user.png',
 				'text'  => JText::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
