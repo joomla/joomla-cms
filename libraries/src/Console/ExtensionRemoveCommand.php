@@ -60,7 +60,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 		$response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-		if ($response == 'yes')
+		if ($response === 'yes')
 		{
 			if ($extension->type && $extension->type != 'language')
 			{
@@ -68,18 +68,18 @@ class ExtensionRemoveCommand extends AbstractCommand
 				$result    = $installer->uninstall($extension->type, $extension_id);
 				if ($result)
 				{
-					$this->ioStyle->success('Extension Removed!');
+					$this->ioStyle->success('Extension removed!');
 				}
 			}
 		}
-		elseif ($response == 'no')
+		elseif ($response === 'no')
 		{
-			$this->ioStyle->note('Extension Not Removed.');
+			$this->ioStyle->note('Extension not removed.');
 			return 0;
 		}
 		else
 		{
-			$this->ioStyle->warning('Invalid Response');
+			$this->ioStyle->warning('Invalid response');
 			return 2;
 		}
 		return 0;

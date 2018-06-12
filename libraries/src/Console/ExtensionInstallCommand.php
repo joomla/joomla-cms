@@ -65,15 +65,16 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		$from = $this->cliInput->getArgument('from');
 
-		if (!in_array($from, ['path', 'url']))
-		{
-			$this->ioStyle->error('You can either specify a path or url.');
-			return 2;
-		}
+//		if (!in_array($from, ['path', 'url']))
+//		{
+//			$this->ioStyle->error('You can either specify a path or url.');
+//			return 2;
+//		}
 
-		if ($from == 'path')
+		if ($from === 'path')
 		{
 			$result = $this->processPathInstallation($this->cliInput->getOption('path'));
+
 			if (!$result)
 			{
 				$this->ioStyle->error('Unable to install extension');
@@ -83,7 +84,7 @@ class ExtensionInstallCommand extends AbstractCommand
 				$this->ioStyle->success('Extension installed successfully.');
 			}
 		}
-		elseif ($from == 'url')
+		elseif ($from === 'url')
 		{
 			$result = $this->processUrlInstallation($this->cliInput->getOption('url'));
 
@@ -98,7 +99,7 @@ class ExtensionInstallCommand extends AbstractCommand
 		}
 		else
 		{
-			$this->ioStyle->error('Invalid Argument for command.');
+			$this->ioStyle->error('Invalid argument supplied for command.');
 		}
 
 		return 0;

@@ -156,6 +156,7 @@ class ExtensionsListCommand extends AbstractCommand
 			->from('#__extensions');
 		$db->setQuery($query);
 		$extensions = $db->loadAssocList('extension_id');
+
 		return $extensions;
 	}
 
@@ -182,6 +183,7 @@ class ExtensionsListCommand extends AbstractCommand
 				$extension['enabled'] == 1 ? 'Yes' : 'No',
 			];
 		}
+
 		return $extInfo;
 	}
 
@@ -197,6 +199,7 @@ class ExtensionsListCommand extends AbstractCommand
 	private function filterExtensionsBasedOn($type)
 	{
 		$extensions = [];
+
 		foreach ($this->extensions as $key => $extension)
 		{
 			if ($extension['type'] == $type)
