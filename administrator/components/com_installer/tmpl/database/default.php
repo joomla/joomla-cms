@@ -37,37 +37,37 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th style="width:1%" class="nowrap text-center">
+										<th class="nowrap" style="width:1%">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
 										</th>
 										<th class="nowrap">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap">
+										<th class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap">
+										<th class="text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap">
+										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<?php echo Text::_('COM_INSTALLER_HEADING_ERRORS'); ?>
 										</th>
-										<th class="nowrap">
+										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
-										<th class="nowrap">
+										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
-										<th class="nowrap">
+										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap">
+										<th class="nowrap d-none d-md-table-cell text-center" style="width: 1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
@@ -96,29 +96,29 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 													</span>
 												</label>
 											</td>
-											<td class="center">
+											<td class="text-center">
 												<?php echo $extension->client_translated; ?>
 											</td>
-											<td class="center">
+											<td class="text-center">
 												<?php echo $extension->type_translated; ?>
 											</td>
-											<td>
+											<td class="d-none d-md-table-cell text-center">
 												<span class="badge badge-<?php echo count($item['results']['error']) ? 'danger' : ($item['errorsCount'] ? 'warning' : 'success'); ?> hasPopover"
 													data-content="<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>"
 													data-original-title="<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>">
 													<?php echo Text::plural('COM_INSTALLER_MSG_DATABASE_ERRORS', $item['errorsCount']); ?>
 												</span>
 											</td>
-											<td>
+											<td class="d-none d-md-table-cell text-center">
 												<?php echo $extension->version_id; ?>
 											</td>
-											<td>
+											<td class="d-none d-md-table-cell text-center">
 												<?php echo $extension->version; ?>
 											</td>
-											<td class="hidden-sm-down">
+											<td class="d-none d-md-table-cell text-center">
 												<?php echo $extension->folder_translated; ?>
 											</td>
-											<td>
+											<td class="d-none d-md-table-cell text-center">
 												<?php echo $extension->extension_id; ?>
 											</td>
 										</tr>
