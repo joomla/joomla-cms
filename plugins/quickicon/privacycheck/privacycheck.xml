@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.7" type="plugin" group="quickicon" method="upgrade">
+<extension version="3.9" type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_privacycheck</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2018</creationDate>
