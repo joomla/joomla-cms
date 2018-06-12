@@ -169,4 +169,38 @@ class PrivacyModelRequests extends JModelList
 		// List state information.
 		parent::populateState($ordering, $direction);
 	}
+
+	/**
+	 * Method to return older privacy requests.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getOlder()
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$items = array();
+		$query = $db->getQuery(true);
+		$query->select('COUNT(*)');
+		$query->from($db->quoteName('#__privacy_requests'));
+		$query->where($db->quoteName('status') . ' = 1 ');
+		$query->where('DATE_SUB( NOW(), INTERVAL 14 DAY) > ' . $db->quoteName('requested_at'));
+		$db->setQuery($query);
+		
+		$count = $db->loadRow();
+
+		if (!$count['0'] > 0)
+		{
+			return array();
+		}
+
+		for ($i=0; $i < $count['0'] ; $i++) 
+		{ 
+			$items[] = $count['0'];
+		}
+
+		return $items;
+	}
 }
