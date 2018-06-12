@@ -196,7 +196,7 @@ class PrivacyModelRequests extends JModelList
 			return array();
 		}
 
-		for ($i=0; $i < $count['0'] ; $i++) 
+		for ($i=0; $i < $count['0']; $i++) 
 		{ 
 			$items[] = $count['0'];
 		}
