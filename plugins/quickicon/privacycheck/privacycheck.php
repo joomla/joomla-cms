@@ -10,45 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
- * Plugin to check the PHP version and display a warning about its support status
+ * Plugin to check privacy requests older than 14 days
  *
  * @since  3.9.0
  */
 class PlgQuickiconPrivacyCheck extends JPlugin
 {
-	/**
-	 * Constant representing the active PHP version being fully supported
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	const PHP_SUPPORTED = 0;
-
-	/**
-	 * Constant representing the active PHP version receiving security support only
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	const PHP_SECURITY_ONLY = 1;
-
-	/**
-	 * Constant representing the active PHP version being unsupported
-	 *
-	 * @var    integer
-	 * @since  3.7.0
-	 */
-	const PHP_UNSUPPORTED = 2;
-
-	/**
-	 * Application object.
-	 *
-	 * @var    JApplicationCms
-	 * @since  3.7.0
-	 */
-	protected $app;
-	protected $db;
-
 	/**
 	 * Load plugin language files automatically
 	 *
@@ -58,7 +25,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Check the PHP version after the admin component has been dispatched.
+	 * Check privacy requests older than 14 days.
 	 *
 	 * @param   string  $context  The calling context
 	 *
