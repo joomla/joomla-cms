@@ -85,18 +85,18 @@ else
 			endif;
 			$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
 			$uri  = !$uri || stripos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
-			$text = !empty($feed[$i]->content) || !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
+			$text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">
-						<?php echo $feed[$i]->title; ?></a></h5>
+						<?php echo trim($feed[$i]->title); ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php echo $feed[$i]->title; ?></h5>
+						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
 					<?php endif; ?>
 
-					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
+					<?php if ($params->get('rssitemdesc') && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
