@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
+HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate"  data-cancel-task="config.cancel.component">
