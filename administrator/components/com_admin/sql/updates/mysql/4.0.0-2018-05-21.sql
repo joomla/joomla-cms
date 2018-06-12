@@ -7,7 +7,6 @@ ALTER TABLE `#__finder_filters` MODIFY `created_by_alias` varchar(255) NOT NULL 
 -- finder_links table
 ALTER TABLE `#__finder_links` MODIFY `url` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` MODIFY `route` varchar(255) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_links` MODIFY `description` text NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_links` MODIFY `language` char(7) NOT NULL DEFAULT '';
