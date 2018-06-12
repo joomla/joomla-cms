@@ -43,4 +43,32 @@ class PrivacyController extends JControllerLegacy
 
 		return parent::display();
 	}
+
+	/**
+	 * Fetch and report privacy requests in JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function ajax()
+	{
+		$app = JFactory::getApplication();
+
+		if (!JSession::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo JText::_('JINVALID_TOKEN');
+			$app->close();
+		}
+
+		/** @var PrivacyModelRequests $model */
+		$model    = $this->getModel('requests');	
+		$requests = $model->getOlder();
+
+		echo json_encode($requests);
+
+		$app->close();
+	}	
 }
