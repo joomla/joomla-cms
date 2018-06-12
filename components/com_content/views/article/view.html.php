@@ -150,7 +150,7 @@ class ContentViewArticle extends JViewLegacy
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(JUri::getInstance());
-				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = JRoute::_('index.php?option=com_users&view=login&return=' . $return);
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
