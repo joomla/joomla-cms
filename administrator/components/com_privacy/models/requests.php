@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Requests management model class.
  *
@@ -179,6 +181,11 @@ class PrivacyModelRequests extends JModelList
 	 */
 	public function getOlder()
 	{
+
+		// Load the parameters.
+		$params = ComponentHelper::getComponent('com_privacy')->getParams();
+		$notify = (int) $params->get('notify', 14);
+
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$items = array();
@@ -186,7 +193,7 @@ class PrivacyModelRequests extends JModelList
 		$query->select('COUNT(*)');
 		$query->from($db->quoteName('#__privacy_requests'));
 		$query->where($db->quoteName('status') . ' = 1 ');
-		$query->where('DATE_SUB( NOW(), INTERVAL 14 DAY) > ' . $db->quoteName('requested_at'));
+		$query->where('DATE_SUB(NOW(), INTERVAL ' . $notify . ' DAY) > ' . $db->quoteName('requested_at'));
 		$db->setQuery($query);
 		
 		$count = $db->loadRow();
