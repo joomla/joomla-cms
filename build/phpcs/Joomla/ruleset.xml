@@ -157,6 +157,13 @@
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 	</rule>
 
