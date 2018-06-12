@@ -11,7 +11,7 @@ Joomla = window.Joomla || {};
 	Joomla.setMenuType = function(type, tmpl) {
 		if (tmpl != '') {
 			window.parent.Joomla.submitbutton('item.setType', type);
-			window.parent.jQuery('#menuTypeModal').modal('hide');
+			window.parent.Joomla.Modal.getCurrent().close();
 		}
 		else {
 			window.location = 'index.php?option=com_menus&view=item&task=item.setType&layout=edit&type=' + type;

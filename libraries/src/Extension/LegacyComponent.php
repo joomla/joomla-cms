@@ -134,7 +134,7 @@ class LegacyComponent implements ComponentInterface, MVCFactoryServiceInterface,
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countTagItems')))
+		if (!$helper || !is_callable(array($helper, 'countItems')))
 		{
 			return;
 		}

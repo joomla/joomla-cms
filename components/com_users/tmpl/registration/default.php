@@ -57,7 +57,7 @@ JHtml::_('behavior.formvalidator');
 				<button type="submit" class="btn btn-primary validate">
                     <?php echo JText::_('JREGISTER'); ?>
                 </button>
-				<a class="btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
+				<a class="btn btn-danger" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>">
                     <?php echo JText::_('JCANCEL'); ?>
                 </a>
 				<input type="hidden" name="option" value="com_users">

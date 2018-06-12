@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-image" @dblclick="openPreview()">
+    <div class="media-browser-image" @dblclick="openPreview()" @mouseleave="showActions = false">
         <div class="media-browser-item-preview">
             <div class="file-background">
                 <div class="file-icon">
@@ -36,9 +36,13 @@
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
+                <a href="#" class="action-url"
+                  :aria-label="translate('COM_MEDIA_ACTION_SHARE')">
+                    <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
+                </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
-                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                 </a>
             </div>
         </div>
@@ -66,18 +70,20 @@
 	        download() {
 		        this.$store.dispatch('download', this.item);
 	        },
-            /* Delete an item */
-            deleteItem() {
-                this.$store.dispatch('deleteItem', this.item);
+            /* Opening confirm delete modal */
+            openConfirmDeleteModal(){
+	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+	            this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
             },
             /* Rename an item */
             openRenameModal() {
                 this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
                 this.$store.commit(types.SHOW_RENAME_MODAL);
             },
-            /* Toggle the item selection */
-            toggleSelect() {
-                this.$store.dispatch('toggleBrowserItemSelect', this.item);
+            /* Open modal for share url */
+            openShareUrlModal() {
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+                this.$store.commit(types.SHOW_SHARE_MODAL);
             },
         }
     }
