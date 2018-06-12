@@ -358,13 +358,12 @@ class Text
 	 * @param   string   $string                The Text key.
 	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
 	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
-	 * @param   boolean  $loadDependentJsLibs   Load dependent JS libraries
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true, $loadDependentJsLibs = true)
+	public static function script($string = null, $jsSafe = false, $interpretBackSlashes = true)
 	{
 		if ($string === null)
 		{
@@ -403,9 +402,13 @@ class Text
 			// Normalize the key and translate the string.
 			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
-			// Load core.js dependency
-			if ($loadDependentJsLibs)
+			// Load needed JS libs
+			static $dependentJsLoaded = null;
+
+			if ($dependentJsLoaded === null)
 			{
+				// Important !! Set static variable before making any calls to HTMLHelper methods
+				$dependentJsLoaded = true;
 				HTMLHelper::_('behavior.core');
 			}
 

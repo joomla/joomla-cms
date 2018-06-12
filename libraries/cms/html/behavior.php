@@ -60,11 +60,11 @@ abstract class JHtmlBehavior
 		}
 
 		// Add core.js language strings
-		JText::script('ERROR', false, true, false);
-		JText::script('INFO', false, true, false);
-		JText::script('NOTICE', false, true, false);
-		JText::script('MESSAGE', false, true, false);
-		JText::script('WARNING', false, true, false);
+		JText::script('ERROR');
+		JText::script('INFO');
+		JText::script('NOTICE');
+		JText::script('MESSAGE');
+		JText::script('WARNING');
 
 		JHtml::_('form.csrf');
 		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
