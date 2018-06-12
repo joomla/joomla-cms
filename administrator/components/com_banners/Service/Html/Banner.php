@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Banners\Administrator\Service\Html;
+
 defined('JPATH_BASE') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Banner HTML class.
  *
  * @since  2.5
  */
-abstract class JHtmlBanner
+class Banner
 {
 	/**
 	 * Display a batch widget for the client selector.
@@ -23,21 +29,21 @@ abstract class JHtmlBanner
 	 *
 	 * @since   2.5
 	 */
-	public static function clients()
+	public function clients()
 	{
 		// Create the batch selector to change the client on a selection list.
 		return implode(
 			"\n",
 			array(
 				'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="'
-					. JHtml::_('tooltipText', 'COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC')
+					. HTMLHelper::_('tooltipText', 'COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC')
 					. '">',
-				JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
+				Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
 				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',
-				'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
-				'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
-				JHtml::_('select.options', static::clientlist(), 'value', 'text'),
+				'<option value="">' . Text::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
+				'<option value="0">' . Text::_('COM_BANNERS_NO_CLIENT') . '</option>',
+				HTMLHelper::_('select.options', static::clientlist(), 'value', 'text'),
 				'</select>'
 			)
 		);
@@ -50,9 +56,9 @@ abstract class JHtmlBanner
 	 *
 	 * @since   1.6
 	 */
-	public static function clientlist()
+	public function clientlist()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
@@ -65,9 +71,9 @@ abstract class JHtmlBanner
 		{
 			$options = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $options;
@@ -83,10 +89,10 @@ abstract class JHtmlBanner
 	 *
 	 * @return  string   The Html code
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     HTMLHelperJGrid::state
 	 * @since   2.5.5
 	 */
-	public static function pinned($value, $i, $enabled = true, $checkbox = 'cb')
+	public function pinned($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
 			1 => array(
@@ -109,6 +115,6 @@ abstract class JHtmlBanner
 			),
 		);
 
-		return JHtml::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
+		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
 	}
 }
