@@ -182,9 +182,5 @@ if (!function_exists('finalizeRestore'))
 		{
 			opcache_reset();
 		}
-		elseif (function_exists('apc_clear_cache'))
-		{
-			@apc_clear_cache();
-		}
 	}
 }
