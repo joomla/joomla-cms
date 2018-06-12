@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 <?php if ($list) : ?>
 	<ul>
@@ -21,8 +20,7 @@ defined('_JEXEC') or die;
 					echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
 				endif; ?>
 			<?php else : ?>
-				<?php $item->route = new JHelperRoute; ?>
-				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+				<a href="<?php echo JRoute::_($item->link); ?>">
 					<?php if (!empty($item->core_title)) :
 						echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
 					endif; ?>
