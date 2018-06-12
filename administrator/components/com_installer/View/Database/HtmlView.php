@@ -99,14 +99,11 @@ class HtmlView extends InstallerViewDefault
 		$this->filterForm    = $model->getFilterForm();
 		$this->activeFilters = $model->getActiveFilters();
 
-		if ($this->errorCount === 0)
+		if ($this->changeSet)
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'), 'info');
-		}
-		else
-		{
-			// Database Core Errors
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
+			($this->errorCount === 0)
+			? $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'), 'info')
+			: $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);
