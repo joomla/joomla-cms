@@ -13,23 +13,8 @@ ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE CHAR(7);
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_links" ALTER COLUMN "type_id" SET DEFAULT 0;
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
--- finder_links_termsx tables
-ALTER TABLE "#__finder_links_terms0" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms1" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms2" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms3" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms4" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms5" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms6" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms7" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms8" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_terms9" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termsa" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termsb" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termsc" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termsd" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termse" ALTER COLUMN "weight" SET DEFAULT 0;
-ALTER TABLE "#__finder_links_termsf" ALTER COLUMN "weight" SET DEFAULT 0;
+-- finder_links_terms tables
+ALTER TABLE "#__finder_links_terms" ALTER COLUMN "weight" SET DEFAULT 0;
 -- finder_taxonomy table
 ALTER TABLE "#__finder_taxonomy" ALTER COLUMN "title" SET DEFAULT '';
 -- finder_terms table
