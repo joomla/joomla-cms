@@ -40,7 +40,7 @@ echo HTMLHelper::_('bootstrap.renderModal',
 		'bodyHeight'  => 60,
 		'closeButton' => true,
 		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="window.parent.jQuery(\'#modal_downloadModal\').modal(\'hide\');">'
+						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
 						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
@@ -48,7 +48,7 @@ echo HTMLHelper::_('bootstrap.renderModal',
 	]
 );
 ?>
-<button<?php echo $id; ?> onclick="jQuery('#modal_<?php echo $selector; ?>').modal('show')" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
+<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal" title="<?php echo $text; ?>">
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </button>

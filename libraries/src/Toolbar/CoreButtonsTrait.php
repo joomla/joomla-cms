@@ -44,20 +44,33 @@ trait CoreButtonsTrait
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
-	 * @param   string  $url   The name of the popup file (excluding the file extension)
-	 * @param   string  $text  The text of button.
+	 * @param   string  $url        The name of the popup file (excluding the file extension)
+	 * @param   string  $text       The text of button.
+	 * @param   bool    $newWindow  Whether to option the preview in _blank or just a modal
 	 *
-	 * @return  PopupButton
+	 * @return  PopupButton|LinkButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW'): PopupButton
+	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false)
 	{
-		return $this->popupButton('preview', $text)
-			->url($url)
-			->iframeWidth(640)
-			->iframeHeight(480)
-			->icon('icon-eye');
+		if ($newWindow === true)
+		{
+			$button = $this->linkButton('link', $text)
+				->url($url)
+				->attributes(['target' => '_blank'])
+				->icon('icon-eye');
+		}
+		else
+		{
+			$button = $this->popupButton('preview', $text)
+				->url($url)
+				->iframeWidth(640)
+				->iframeHeight(480)
+				->icon('icon-eye');
+		}
+
+		return $button;
 	}
 
 	/**
