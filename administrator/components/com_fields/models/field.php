@@ -328,7 +328,7 @@ class FieldsModelField extends JModelAdmin
 				$result->context = JFactory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 				$registry->loadString($result->fieldparams);
