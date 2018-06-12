@@ -728,7 +728,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Add Menu Item.
 		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
 
-		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORIES');
 		$alias = 'allcategories_' . $itemLanguage->language;
