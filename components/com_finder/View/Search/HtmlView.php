@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
 		$state = $this->get('State');
 		$query = $this->get('Query');
 		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderQuery') : null;
-		$results = $this->get('Results');
+		$results = $this->get('Items');
 		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderResults') : null;
 		$total = $this->get('Total');
 		\JDEBUG ? \JProfiler::getInstance('Application')->mark('afterFinderTotal') : null;
