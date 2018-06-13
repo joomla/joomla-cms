@@ -142,7 +142,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					$catid = $item->catid;
 					$db->setQuery("SELECT cat.parent_id FROM #__categories cat WHERE cat.id='$catid'");
 					$parent_catid = $db->loadResult();
-					$db->setQuery("SELECT cat.title FROM #__categories cat WHERE cat.id='$parent_category_id'");
+					$db->setQuery("SELECT cat.title FROM #__categories cat WHERE cat.id='$parent_catid'");
 					$parent_cattitle = $db->loadResult();
 
 					?>
@@ -208,27 +208,26 @@ $assoc = JLanguageAssociations::isEnabled();
 									   title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
 										<?php endif ?>
 
-										<?php echo ' ' . $parent_cattitle; ?>
-
+										<?php echo '' . $parent_cattitle . ''; ?>
 
 										<?php if ($canEdit || $canEditOwn) : ?>
 									</a>
 
-									<?php echo ' » '; ?>
+								<?php echo ' » '; ?>
 
-									<?php endif ?>
-									<?php endif ?>
+								<?php endif; ?>
+								<?php endif; ?>
 
 									<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip"
 									   href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content'); ?>"
 									   title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
-									<?php endif ?>
+									<?php endif; ?>
 
 										<?php echo $this->escape($item->category_title); ?>
 									<?php if ($canEdit || $canEditOwn) : ?>
 									</a>
-									<?php endif ?>
+									<?php endif; ?>
 								</div>
 							</div>
 						</td>
