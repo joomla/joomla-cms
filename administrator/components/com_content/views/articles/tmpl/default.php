@@ -137,6 +137,14 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+
+					$db = JFactory::getDbo();
+					$catid = $item->catid;
+					$db->setQuery("SELECT cat.parent_id FROM #__categories cat WHERE cat.id='$catid'");
+					$parent_catid = $db->loadResult();
+					$db->setQuery("SELECT cat.title FROM #__categories cat WHERE cat.id='$parent_category_id'");
+					$parent_cattitle = $db->loadResult();
+
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="order nowrap center hidden-phone">
@@ -190,7 +198,36 @@ $assoc = JLanguageAssociations::isEnabled();
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 								<div class="small">
-									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+									<?php echo JText::_('JCATEGORY') . ':' ?>
+
+									<?php if ($canEdit || $canEditOwn) : ?>
+
+									<a class="hasTooltip"
+									   href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $parent_catid . '&extension=com_content'); ?>"
+									   title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
+										<?php endif ?>
+
+										<?php if ($parent_cattitle != 'ROOT') :
+											echo '' . $parent_cattitle . '';
+										endif; ?>
+
+										<?php if ($canEdit || $canEditOwn) : ?>
+									</a>
+
+								<?php echo ' » '; ?>
+
+								<?php endif ?>
+
+									<?php if ($canEdit || $canEditOwn) : ?>
+									<a class="hasTooltip"
+									   href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content'); ?>"
+									   title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
+									<?php endif ?>
+
+										<?php echo $this->escape($item->category_title); ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
+									</a>
+									<?php endif ?>
 								</div>
 							</div>
 						</td>
