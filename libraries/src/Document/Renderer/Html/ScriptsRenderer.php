@@ -64,12 +64,13 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$currentScript    = '';
 			$currentEs6Script = '';
+			$srcVersioned = '';
 
 			// Check if script uses media version.
 			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
 				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
 			{
-				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
+				$srcVersioned .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
 
 			$currentScript .= $tab;
@@ -123,22 +124,14 @@ class ScriptsRenderer extends DocumentRenderer
 			$currentScript .= '></script>';
 
 			// Check if ES6 version is available
-			if ($attribs['options'] && $attribs['options']['relative'])
+			if (
+				isset($attribs['options'])
+				&& $attribs['options']['relative']
+				&& is_file(JPATH_ROOT . str_replace('.min.js', '.es6.min.js', $src))
+			)
 			{
-				$cleanSrc = '';
-
-				if (isset($attribs['options']) && isset($attribs['options']['version'])
-					&& ($attribs['options']['version'] === 'auto' || $attribs['options']['version'] === 'true'))
-				{
-					preg_match('/(.+)\?/', str_replace('.min.js', '.es6.min.js', $src), $matches);
-					$cleanSrc = (count($matches) === 2) ? $matches[1] : str_replace('.min.js', '.es6.min.js', $src);
-				}
-
-				if (is_file(JPATH_ROOT . $cleanSrc))
-				{
-					$currentEs6Script = str_replace(['<script', '.min.js'], ['<script type="module"', '.es6.min.js'], $currentScript) . $lnEnd;
-					$currentEs6Script .= str_replace('<script', '<script nomodule', $currentScript) . $lnEnd;
-				}
+				$currentEs6Script = str_replace(['<script', '.min.js'], ['<script type="module"', '.es6.min.js'], $currentScript) . $lnEnd;
+				$currentEs6Script .= str_replace('<script', '<script nomodule', $currentScript) . $lnEnd;
 			}
 
 			$buffer .= !empty($currentEs6Script) ? $currentEs6Script : $currentScript . $lnEnd;
