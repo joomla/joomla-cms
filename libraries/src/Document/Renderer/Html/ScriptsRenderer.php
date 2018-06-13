@@ -64,6 +64,7 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$currentScript    = '';
 			$currentEs6Script = '';
+
 			// Check if script uses media version.
 			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
 				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
@@ -125,7 +126,10 @@ class ScriptsRenderer extends DocumentRenderer
 			if ($attribs['options'] && $attribs['options']['relative'])
 			{
 				$cleanSrc = '';
-				if ($attribs['options']['version']) {
+
+				if (isset($attribs['options']) && isset($attribs['options']['version'])
+					&& ($attribs['options']['version'] === 'auto' || $attribs['options']['version'] === 'true'))
+				{
 					preg_match('/(.+)\?/', str_replace('.min.js', '.es6.min.js', $src), $matches);
 					$cleanSrc = (count($matches) === 2) ? $matches[1] : str_replace('.min.js', '.es6.min.js', $src);
 				}
