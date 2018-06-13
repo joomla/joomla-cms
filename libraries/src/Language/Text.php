@@ -403,9 +403,9 @@ class Text
 			static::$strings[strtoupper($string)] = Factory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
 
 			// Load needed JS libs
-			static $dependentJsLoaded = null;
+			static $dependentJsLoaded = false;
 
-			if ($dependentJsLoaded === null)
+			if ($dependentJsLoaded === false)
 			{
 				// Important !! Set static variable before making any calls to HTMLHelper methods
 				$dependentJsLoaded = true;
