@@ -86,7 +86,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="list-unstyled small">';
+		echo '<ul class="mod-menu__sub list-unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)
