@@ -63,7 +63,7 @@ class DatabaseModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\MVC\Model\ListModel
+	 * @see     ListModel
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
@@ -239,7 +239,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @param   array  $cids  List of the selected extensions to fix
 	 *
-	 * @return  void|bool
+	 * @return  void|boolean
 	 *
 	 * @throws  \Exception
 	 *
@@ -428,8 +428,8 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Fix schema version if wrong.
 	 *
-	 * @param   \Joomla\CMS\Schema\ChangeSet  $changeSet    Schema change set.
-	 * @param   integer                       $extensionId  id of the extensions.
+	 * @param   ChangeSet  $changeSet    Schema change set.
+	 * @param   integer    $extensionId  ID of the extensions.
 	 *
 	 * @return  mixed  string schema version if success, false if fail.
 	 *
@@ -452,15 +452,14 @@ class DatabaseModel extends InstallerModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote($extensionId));
-		$db->setQuery($query);
-		$db->execute();
+			->where($db->quoteName('extension_id') . ' = ' . (int) $extensionId);
+		$db->setQuery($query)->execute();
 
 		// Add new row.
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
-			->values($extensionId . ', ' . $db->quote($schema));
+			->values((int) $extensionId . ', ' . $db->quote($schema));
 		$db->setQuery($query);
 
 		try
@@ -488,7 +487,7 @@ class DatabaseModel extends InstallerModel
 	{
 		$updateVersion = json_decode($extension->manifest_cache)->version;
 
-		if ($extension->element == 'com_admin')
+		if ($extension->element === 'com_admin')
 		{
 			$extensionVersion = JVERSION;
 		}
