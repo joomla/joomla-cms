@@ -221,6 +221,7 @@ class SearchModel extends ListModel
 				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
 			}
 		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{

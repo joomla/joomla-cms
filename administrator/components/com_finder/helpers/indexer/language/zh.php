@@ -16,8 +16,24 @@ use Joomla\String\StringHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class FinderIndexerLanguagezh_CN extends FinderIndexerLanguage
+class FinderIndexerLanguagezh extends FinderIndexerLanguage
 {
+	/**
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language = 'zh';
+
+	/**
+	 * Spacer between terms
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $spacer = '';
+
 	/**
 	 * Method to tokenise a text string.
 	 *

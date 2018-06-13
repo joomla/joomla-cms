@@ -10,16 +10,24 @@
 defined('_JEXEC') or die;
 
 /**
- * English language support class for the Finder indexer package.
+ * Portuguese language support class for the Finder indexer package.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FinderIndexerLanguageen_GB extends FinderIndexerLanguage
+class FinderIndexerLanguagept extends FinderIndexerLanguage
 {
 	/**
-	 * The english stemmer object.
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language = 'pt';
+
+	/**
+	 * The portuguese stemmer object.
 	 *
-	 * @var    \Wamania\Snowball\English
+	 * @var    \Wamania\Snowball\Portuguese
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stemmer = null;
@@ -31,7 +39,7 @@ class FinderIndexerLanguageen_GB extends FinderIndexerLanguage
 	 */
 	public function __construct()
 	{
-		$this->stemmer = new \Wamania\Snowball\English;
+		$this->stemmer = new \Wamania\Snowball\Portuguese;
 	}
 
 	/**

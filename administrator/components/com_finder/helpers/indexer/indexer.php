@@ -465,6 +465,11 @@ abstract class FinderIndexer
 		// Tokenize the input.
 		$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
+		if (count($tokens) == 0)
+		{
+			return $count;
+		}
+
 		// Add the tokens to the database.
 		$count += $this->addTokensToDb($tokens, $context);
 

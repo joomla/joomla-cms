@@ -67,6 +67,7 @@ class FinderIndexerHelper
 		$language = FinderIndexerLanguage::getInstance($lang);
 		$tokens = array();
 		$terms = $language->tokenise($input);
+		$terms = array_filter($terms);
 
 		/*
 		 * If we have to handle the input as a phrase, that means we don't
@@ -76,14 +77,14 @@ class FinderIndexerHelper
 		if ($phrase === true && count($terms) > 1)
 		{
 			// Create tokens from the phrase.
-			$tokens[] = new FinderIndexerToken($terms, $lang);
+			$tokens[] = new FinderIndexerToken($terms, $language->language, $language->spacer);
 		}
 		else
 		{
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$tokens[] = new FinderIndexerToken($terms[$i], $lang);
+				$tokens[] = new FinderIndexerToken($terms[$i], $language->language);
 			}
 
 			// Create two and three word phrase tokens from the individual words.
@@ -97,7 +98,7 @@ class FinderIndexerHelper
 				if ($i2 < $n && isset($tokens[$i2]))
 				{
 					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $language->language, $language->spacer);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -108,7 +109,7 @@ class FinderIndexerHelper
 				if ($i3 < $n && isset($tokens[$i3]))
 				{
 					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $language->language, $language->spacer);
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -119,13 +120,13 @@ class FinderIndexerHelper
 
 		if ($store)
 		{
-			$cache[$store] = count($tokens) > 1 ? $tokens : array_shift($tokens);
+			$cache[$store] = $tokens;
 
 			return $cache[$store];
 		}
 		else
 		{
-			return count($tokens) > 1 ? $tokens : array_shift($tokens);
+			return $tokens;
 		}
 	}
 
@@ -272,6 +273,37 @@ class FinderIndexerHelper
 		}
 
 		return $lang;
+	}
+
+	/**
+	 * Method to parse a language/locale key and return a simple language string.
+	 *
+	 * @param   string  $lang  The language/locale key. For example: en-GB
+	 *
+	 * @return  string  The simple language string. For example: en
+	 *
+	 * @since   2.5
+	 */
+	public static function getPrimaryLanguage($lang)
+	{
+		static $data;
+
+		// Only parse the identifier if necessary.
+		if (!isset($data[$lang]))
+		{
+			if (is_callable(array('Locale', 'getPrimaryLanguage')))
+			{
+				// Get the language key using the Locale package.
+				$data[$lang] = Locale::getPrimaryLanguage($lang);
+			}
+			else
+			{
+				// Get the language key using string position.
+				$data[$lang] = StringHelper::substr($lang, 0, StringHelper::strpos($lang, '-'));
+			}
+		}
+
+		return $data[$lang];
 	}
 
 	/**

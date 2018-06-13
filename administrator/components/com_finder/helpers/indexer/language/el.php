@@ -18,8 +18,16 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
+class FinderIndexerLanguageel extends FinderIndexerLanguage
 {
+	/**
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language = 'el';
+
 	/**
 	 * Method to tokenise a text string. It takes into account the odd punctuation commonly used in Greek text, mapping
 	 * it to ASCII punctuation.
@@ -87,6 +95,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		// Vowels
 		$v = '(Α|Ε|Η|Ι|Ο|Υ|Ω)';
+
 		// Vowels without Y
 		$v2 = '(Α|Ε|Η|Ι|Ο|Ω)';
 
@@ -253,7 +262,9 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		$re       = '/^(.+?)(ΑΚΙ|ΑΚΙΑ|ΙΤΣΑ|ΙΤΣΑΣ|ΙΤΣΕΣ|ΙΤΣΩΝ|ΑΡΑΚΙ|ΑΡΑΚΙΑ)$/';
 		$exceptS1 = '/^(ΑΝΘΡ|ΒΑΜΒ|ΒΡ|ΚΑΙΜ|ΚΟΝ|ΚΟΡ|ΛΑΒΡ|ΛΟΥΛ|ΜΕΡ|ΜΟΥΣΤ|ΝΑΓΚΑΣ|ΠΛ|Ρ|ΡΥ|Σ|ΣΚ|ΣΟΚ|ΣΠΑΝ|ΤΖ|ΦΑΡΜ|Χ|ΚΑΠΑΚ|ΑΛΙΣΦ|ΑΜΒΡ|ΑΝΘΡ|Κ|ΦΥΛ|ΚΑΤΡΑΠ|ΚΛΙΜ|ΜΑΛ|ΣΛΟΒ|Φ|ΣΦ|ΤΣΕΧΟΣΛΟΒ)$/';
 		$exceptS2 = '/^(Β|ΒΑΛ|ΓΙΑΝ|ΓΛ|Ζ|ΗΓΟΥΜΕΝ|ΚΑΡΔ|ΚΟΝ|ΜΑΚΡΥΝ|ΝΥΦ|ΠΑΤΕΡ|Π|ΣΚ|ΤΟΣ|ΤΡΙΠΟΛ)$/';
-		$exceptS3 = '/(ΚΟΡ)$/';// for words like ΠΛΟΥΣΙΟΚΟΡΙΤΣΑ, ΠΑΛΙΟΚΟΡΙΤΣΑ etc
+
+		// for words like ΠΛΟΥΣΙΟΚΟΡΙΤΣΑ, ΠΑΛΙΟΚΟΡΙΤΣΑ etc
+		$exceptS3 = '/(ΚΟΡ)$/';
 
 		if (preg_match($re, $token, $match))
 		{
@@ -339,6 +350,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		$step1list["ΚΡΕΑΤΩΝ"]  = "ΚΡΕ";
 		$step1list["ΠΕΡΑΣ"]    = "ΠΕΡ";
 		$step1list["ΠΕΡΑΤΟΣ"]  = "ΠΕΡ";
+
 		// Added by Spyros. Also at $re in step1
 		$step1list["ΠΕΡΑΤΗ"]     = "ΠΕΡ";
 		$step1list["ΠΕΡΑΤΑ"]     = "ΠΕΡ";
@@ -663,7 +675,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-		//Step 5i
+		// Step 5i
 		$re = '/^(.+?)(ΑΓΑ|ΑΓΕΣ|ΑΓΕ)$/';
 
 		if (preg_match($re, $token))
@@ -716,7 +728,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-		//Step 5l
+		// Step 5l
 		$re = '/^(.+?)(ΟΥΝΕ|ΗΣΟΥΝΕ|ΗΘΟΥΝΕ)$/';
 
 		if (preg_match($re, $token))
@@ -732,7 +744,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-		//Step 5m
+		// Step 5m
 		$re = '/^(.+?)(ΟΥΜΕ|ΗΣΟΥΜΕ|ΗΘΟΥΜΕ)$/';
 
 		if (preg_match($re, $token))
@@ -779,8 +791,8 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 * Converts the token to uppercase, suppressing accents and diaeresis. The array $w_CASE contains a special map of
 	 * the uppercase rule used to convert each character at each position.
 	 *
-	 * @param   string  $token
-	 * @param   array   $w_CASE
+	 * @param   string  $token    Token to process
+	 * @param   array   &$w_CASE  Map of uppercase rules
 	 *
 	 * @return  string
 	 *
@@ -870,8 +882,8 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 * diaeresis and handle the special case of final sigma (different lowercase glyph than the regular sigma, only
 	 * used at the end of words).
 	 *
-	 * @param   string  $token
-	 * @param   array   $w_CASE
+	 * @param   string  $token    Token to process
+	 * @param   array   &$w_CASE  Map of lowercase rules
 	 *
 	 * @return  string
 	 *

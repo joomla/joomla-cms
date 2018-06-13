@@ -27,6 +27,22 @@ class FinderIndexerLanguage
 	protected $instances = array();
 
 	/**
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language;
+
+	/**
+	 * Spacer to use between terms
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $spacer = ' ';
+
+	/**
 	 * Method to get a language support object.
 	 *
 	 * @param   string  $language  The language of the support object.
@@ -49,8 +65,9 @@ class FinderIndexerLanguage
 			return $instances[$language];
 		}
 
-		$class = 'FinderIndexerLanguage' . str_replace('-', '_', $language);
-		$path = __DIR__ . '/language/' . $language . '.php';
+		$locale = FinderIndexerHelper::getPrimaryLanguage($language);
+		$class = 'FinderIndexerLanguage' . $locale;
+		$path = __DIR__ . '/language/' . $locale . '.php';
 
 		if (is_file($path))
 		{
@@ -64,6 +81,7 @@ class FinderIndexerLanguage
 		else
 		{
 			$instances[$language] = new FinderIndexerLanguage;
+			$instances[$language]->language = $locale;
 		}
 
 		return $instances[$language];

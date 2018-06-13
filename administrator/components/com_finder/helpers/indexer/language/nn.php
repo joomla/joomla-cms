@@ -10,16 +10,24 @@
 defined('_JEXEC') or die;
 
 /**
- * Russian language support class for the Finder indexer package.
+ * Norwegian language support class for the Finder indexer package.
  *
  * @since  __DEPLOY_VERSION__
  */
-class FinderIndexerLanguageru_RU extends FinderIndexerLanguage
+class FinderIndexerLanguagenn extends FinderIndexerLanguage
 {
 	/**
-	 * The russian stemmer object.
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language = 'nn';
+
+	/**
+	 * The norwegian stemmer object.
 	 *
-	 * @var    \Wamania\Snowball\Russian
+	 * @var    \Wamania\Snowball\Norwegian
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $stemmer = null;
@@ -31,7 +39,7 @@ class FinderIndexerLanguageru_RU extends FinderIndexerLanguage
 	 */
 	public function __construct()
 	{
-		$this->stemmer = new \Wamania\Snowball\Russian;
+		$this->stemmer = new \Wamania\Snowball\Norwegian;
 	}
 
 	/**
