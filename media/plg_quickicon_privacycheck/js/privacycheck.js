@@ -4,6 +4,11 @@
  */
 
 jQuery(document).ready(function() {
+	var variables  = Joomla.getOptions('js-privacy-check'),
+	    plg_quickicon_privacycheck_ajax_url = variables.plg_quickicon_privacycheck_ajax_url,
+	    plg_quickicon_privacycheck_url = variables.plg_quickicon_privacycheck_url,
+	    plg_quickicon_privacycheck_text = variables.plg_quickicon_privacycheck_text;
+
 	var ajax_structure = {
 		success: function(data, textStatus, jqXHR) {
 			var link = jQuery('#plg_quickicon_privacycheck').find('span.j-links-link');
