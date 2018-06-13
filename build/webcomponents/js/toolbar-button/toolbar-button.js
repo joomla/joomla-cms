@@ -66,6 +66,7 @@
         return false;
       }
 
+      // eslint-disable-next-line no-restricted-globals
       if (this.confirmMessage && !confirm(this.confirmMessage)) {
         return false;
       }
