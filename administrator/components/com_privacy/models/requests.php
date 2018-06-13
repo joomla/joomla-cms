@@ -185,15 +185,17 @@ class PrivacyModelRequests extends JModelList
 		// Load the parameters.
 		$params = ComponentHelper::getComponent('com_privacy')->getParams();
 		$notify = (int) $params->get('notify', 14);
+		$items  = array();
+		$now    = JFactory::getDate()->toSql();
+		$period = '-' . $notify;
 
 		// Create a new query object.
 		$db    = $this->getDbo();
-		$items = array();
 		$query = $db->getQuery(true);
 		$query->select('COUNT(*)');
 		$query->from($db->quoteName('#__privacy_requests'));
 		$query->where($db->quoteName('status') . ' = 1 ');
-		$query->where('DATE_SUB(NOW(), INTERVAL ' . $notify . ' DAY) > ' . $db->quoteName('requested_at'));
+		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
 		$db->setQuery($query);
 		
 		$count = $db->loadRow();
