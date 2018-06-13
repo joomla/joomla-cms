@@ -11,8 +11,6 @@
  * https://github.com/magaras/greek_stemmer/blob/master/mod_stemmer.php
  */
 
-use Joomla\String\StringHelper;
-
 defined('_JEXEC') or die;
 
 /**
@@ -22,45 +20,6 @@ defined('_JEXEC') or die;
  */
 class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 {
-	static $caseConvert = array(
-		"α" => 'Α',
-		"β" => 'Β',
-		"γ" => 'Γ',
-		"δ" => 'Δ',
-		"ε" => 'Ε',
-		"ζ" => 'Ζ',
-		"η" => 'Η',
-		"θ" => 'Θ',
-		"ι" => 'Ι',
-		"κ" => 'Κ',
-		"λ" => 'Λ',
-		"μ" => 'Μ',
-		"ν" => 'Ν',
-		"ξ" => 'Ξ',
-		"ο" => 'Ο',
-		"π" => 'Π',
-		"ρ" => 'Ρ',
-		"σ" => 'Σ',
-		"τ" => 'Τ',
-		"υ" => 'Υ',
-		"φ" => 'Φ',
-		"χ" => 'Χ',
-		"ψ" => 'Ψ',
-		"ω" => 'Ω',
-		"ά" => 'Α',
-		"έ" => 'Ε',
-		"ή" => 'Η',
-		"ί" => 'Ι',
-		"ό" => 'Ο',
-		"ύ" => 'Υ',
-		"ώ" => 'Ω',
-		"ς" => 'Σ',
-		"ϊ" => 'Ι',
-		"ϋ" => 'Ι',
-		"ΐ" => 'Ι',
-		"ΰ" => 'Υ',
-	);
-
 	/**
 	 * Method to tokenise a text string. It takes into account the odd punctuation commonly used in Greek text, mapping
 	 * it to ASCII punctuation.
@@ -126,6 +85,237 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			return $this->toLowerCase($token, $w_CASE);
 		}
 
+		// Vowels
+		$v = '(Α|Ε|Η|Ι|Ο|Υ|Ω)';
+		// Vowels without Y
+		$v2 = '(Α|Ε|Η|Ι|Ο|Ω)';
+
+		$test1 = true;
+
+		// Step S1. 14 stems
+		$re       = '/^(.+?)(ΙΖΑ|ΙΖΕΣ|ΙΖΕ|ΙΖΑΜΕ|ΙΖΑΤΕ|ΙΖΑΝ|ΙΖΑΝΕ|ΙΖΩ|ΙΖΕΙΣ|ΙΖΕΙ|ΙΖΟΥΜΕ|ΙΖΕΤΕ|ΙΖΟΥΝ|ΙΖΟΥΝΕ)$/';
+		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΠΑ|ΞΑΝΑΠΑ|ΠΑ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ)$/';
+		$exceptS2 = '/^(ΜΑΡΚ|ΚΟΡΝ|ΑΜΠΑΡ|ΑΡΡ|ΒΑΘΥΡΙ|ΒΑΡΚ|Β|ΒΟΛΒΟΡ|ΓΚΡ|ΓΛΥΚΟΡ|ΓΛΥΚΥΡ|ΙΜΠ|Λ|ΛΟΥ|ΜΑΡ|Μ|ΠΡ|ΜΠΡ|ΠΟΛΥΡ|Π|Ρ|ΠΙΠΕΡΟΡ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . 'I';
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . 'IΖ';
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S2. 7 stems
+		$re       = '/^(.+?)(ΩΘΗΚΑ|ΩΘΗΚΕΣ|ΩΘΗΚΕ|ΩΘΗΚΑΜΕ|ΩΘΗΚΑΤΕ|ΩΘΗΚΑΝ|ΩΘΗΚΑΝΕ)$/';
+		$exceptS1 = '/^(ΑΛ|ΒΙ|ΕΝ|ΥΨ|ΛΙ|ΖΩ|Σ|Χ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . 'ΩΝ';
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S3. 7 stems
+		$re       = '/^(.+?)(ΙΣΑ|ΙΣΕΣ|ΙΣΕ|ΙΣΑΜΕ|ΙΣΑΤΕ|ΙΣΑΝ|ΙΣΑΝΕ)$/';
+		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΑΘΡΟ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
+		$exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
+
+		if ($token == "ΙΣΑ")
+		{
+			$token = "ΙΣ";
+
+			return $token;
+		}
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . 'Ι';
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . 'ΙΣ';
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+
+		// Step S4. 7 stems
+		$re       = '/^(.+?)(ΙΣΩ|ΙΣΕΙΣ|ΙΣΕΙ|ΙΣΟΥΜΕ|ΙΣΕΤΕ|ΙΣΟΥΝ|ΙΣΟΥΝΕ)$/';
+		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . 'Ι';
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S5. 11 stems
+		$re       = '/^(.+?)(ΙΣΤΟΣ|ΙΣΤΟΥ|ΙΣΤΟ|ΙΣΤΕ|ΙΣΤΟΙ|ΙΣΤΩΝ|ΙΣΤΟΥΣ|ΙΣΤΗ|ΙΣΤΗΣ|ΙΣΤΑ|ΙΣΤΕΣ)$/';
+		$exceptS1 = '/^(Μ|Π|ΑΠ|ΑΡ|ΗΔ|ΚΤ|ΣΚ|ΣΧ|ΥΨ|ΦΑ|ΧΡ|ΧΤ|ΑΚΤ|ΑΟΡ|ΑΣΧ|ΑΤΑ|ΑΧΝ|ΑΧΤ|ΓΕΜ|ΓΥΡ|ΕΜΠ|ΕΥΠ|ΕΧΘ|ΗΦΑ|ΚΑΘ|ΚΑΚ|ΚΥΛ|ΛΥΓ|ΜΑΚ|ΜΕΓ|ΤΑΧ|ΦΙΛ|ΧΩΡ)$/';
+		$exceptS2 = '/^(ΔΑΝΕ|ΣΥΝΑΘΡΟ|ΚΛΕ|ΣΕ|ΕΣΩΚΛΕ|ΑΣΕ|ΠΛΕ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . 'ΙΣΤ';
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . 'Ι';
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S6. 6 stems
+		$re       = '/^(.+?)(ΙΣΜΟ|ΙΣΜΟΙ|ΙΣΜΟΣ|ΙΣΜΟΥ|ΙΣΜΟΥΣ|ΙΣΜΩΝ)$/';
+		$exceptS1 = '/^(ΑΓΝΩΣΤΙΚ|ΑΤΟΜΙΚ|ΓΝΩΣΤΙΚ|ΕΘΝΙΚ|ΕΚΛΕΚΤΙΚ|ΣΚΕΠΤΙΚ|ΤΟΠΙΚ)$/';
+		$exceptS2 = '/^(ΣΕ|ΜΕΤΑΣΕ|ΜΙΚΡΟΣΕ|ΕΓΚΛΕ|ΑΠΟΚΛΕ)$/';
+		$exceptS3 = '/^(ΔΑΝΕ|ΑΝΤΙΔΑΝΕ)$/';
+		$exceptS4 = '/^(ΑΛΕΞΑΝΔΡΙΝ|ΒΥΖΑΝΤΙΝ|ΘΕΑΤΡΙΝ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = str_replace('ΙΚ', "", $token);
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . "ΙΣΜ";
+			}
+
+			if (preg_match($exceptS3, $token))
+			{
+				$token = $token . "Ι";
+			}
+
+			if (preg_match($exceptS4, $token))
+			{
+				$token = str_replace('ΙΝ', "", $token);
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S7. 4 stems
+		$re       = '/^(.+?)(ΑΡΑΚΙ|ΑΡΑΚΙΑ|ΟΥΔΑΚΙ|ΟΥΔΑΚΙΑ)$/';
+		$exceptS1 = '/^(Σ|Χ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . "AΡΑΚ";
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+
+		// Step S8. 8 stems
+		$re       = '/^(.+?)(ΑΚΙ|ΑΚΙΑ|ΙΤΣΑ|ΙΤΣΑΣ|ΙΤΣΕΣ|ΙΤΣΩΝ|ΑΡΑΚΙ|ΑΡΑΚΙΑ)$/';
+		$exceptS1 = '/^(ΑΝΘΡ|ΒΑΜΒ|ΒΡ|ΚΑΙΜ|ΚΟΝ|ΚΟΡ|ΛΑΒΡ|ΛΟΥΛ|ΜΕΡ|ΜΟΥΣΤ|ΝΑΓΚΑΣ|ΠΛ|Ρ|ΡΥ|Σ|ΣΚ|ΣΟΚ|ΣΠΑΝ|ΤΖ|ΦΑΡΜ|Χ|ΚΑΠΑΚ|ΑΛΙΣΦ|ΑΜΒΡ|ΑΝΘΡ|Κ|ΦΥΛ|ΚΑΤΡΑΠ|ΚΛΙΜ|ΜΑΛ|ΣΛΟΒ|Φ|ΣΦ|ΤΣΕΧΟΣΛΟΒ)$/';
+		$exceptS2 = '/^(Β|ΒΑΛ|ΓΙΑΝ|ΓΛ|Ζ|ΗΓΟΥΜΕΝ|ΚΑΡΔ|ΚΟΝ|ΜΑΚΡΥΝ|ΝΥΦ|ΠΑΤΕΡ|Π|ΣΚ|ΤΟΣ|ΤΡΙΠΟΛ)$/';
+		$exceptS3 = '/(ΚΟΡ)$/';// for words like ΠΛΟΥΣΙΟΚΟΡΙΤΣΑ, ΠΑΛΙΟΚΟΡΙΤΣΑ etc
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . "ΑΚ";
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . "ΙΤΣ";
+			}
+
+			if (preg_match($exceptS3, $token))
+			{
+				$token = $token . "ΙΤΣ";
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S9. 3 stems
+		$re       = '/^(.+?)(ΙΔΙΟ|ΙΔΙΑ|ΙΔΙΩΝ)$/';
+		$exceptS1 = '/^(ΑΙΦΝ|ΙΡ|ΟΛΟ|ΨΑΛ)$/';
+		$exceptS2 = '/(Ε|ΠΑΙΧΝ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . "ΙΔ";
+			}
+
+			if (preg_match($exceptS2, $token))
+			{
+				$token = $token . "ΙΔ";
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step S10. 4 stems
+		$re       = '/^(.+?)(ΙΣΚΟΣ|ΙΣΚΟΥ|ΙΣΚΟ|ΙΣΚΕ)$/';
+		$exceptS1 = '/^(Δ|ΙΒ|ΜΗΝ|Ρ|ΦΡΑΓΚ|ΛΥΚ|ΟΒΕΛ)$/';
+
+		if (preg_match($re, $token, $match))
+		{
+			$token = $match[1];
+
+			if (preg_match($exceptS1, $token))
+			{
+				$token = $token . "ΙΣΚ";
+			}
+
+			return $this->toLowerCase($token, $w_CASE);
+		}
+
+		// Step 1
 		// step1list is used in Step 1. 41 stems
 		$step1list             = Array();
 		$step1list["ΦΑΓΙΑ"]    = "ΦΑ";
@@ -170,254 +360,13 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		$step1list["ΓΕΓΟΝΟΤΑ"]   = "ΓΕΓΟΝ";
 		$step1list["ΓΕΓΟΝΟΤΩΝ"]  = "ΓΕΓΟΝ";
 
-		// Vowels
-		$v = '(Α|Ε|Η|Ι|Ο|Υ|Ω)';
-		// Vowels without Y
-		$v2 = '(Α|Ε|Η|Ι|Ο|Ω)';
-
-		$test1 = true;
-
-		// Step S1. 14 stems
-		$re       = '/^(.+?)(ΙΖΑ|ΙΖΕΣ|ΙΖΕ|ΙΖΑΜΕ|ΙΖΑΤΕ|ΙΖΑΝ|ΙΖΑΝΕ|ΙΖΩ|ΙΖΕΙΣ|ΙΖΕΙ|ΙΖΟΥΜΕ|ΙΖΕΤΕ|ΙΖΟΥΝ|ΙΖΟΥΝΕ)$/';
-		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΠΑ|ΞΑΝΑΠΑ|ΠΑ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ)$/';
-		$exceptS2 = '/^(ΜΑΡΚ|ΚΟΡΝ|ΑΜΠΑΡ|ΑΡΡ|ΒΑΘΥΡΙ|ΒΑΡΚ|Β|ΒΟΛΒΟΡ|ΓΚΡ|ΓΛΥΚΟΡ|ΓΛΥΚΥΡ|ΙΜΠ|Λ|ΛΟΥ|ΜΑΡ|Μ|ΠΡ|ΜΠΡ|ΠΟΛΥΡ|Π|Ρ|ΠΙΠΕΡΟΡ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem   = $match[1];
-			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . 'I';
-			}
-
-			if (preg_match($exceptS2, $token))
-			{
-				$token = $token . 'IΖ';
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S2. 7 stems
-		$re       = '/^(.+?)(ΩΘΗΚΑ|ΩΘΗΚΕΣ|ΩΘΗΚΕ|ΩΘΗΚΑΜΕ|ΩΘΗΚΑΤΕ|ΩΘΗΚΑΝ|ΩΘΗΚΑΝΕ)$/';
-		$exceptS1 = '/^(ΑΛ|ΒΙ|ΕΝ|ΥΨ|ΛΙ|ΖΩ|Σ|Χ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem   = $match[1];
-			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . 'ΩΝ';
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S3. 7 stems
-		$re       = '/^(.+?)(ΙΣΑ|ΙΣΕΣ|ΙΣΕ|ΙΣΑΜΕ|ΙΣΑΤΕ|ΙΣΑΝ|ΙΣΑΝΕ)$/';
-		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΑΘΡΟ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
-		// $exceptS2 = '/^(ΑΝ|ΑΦ|ΓΕ|ΓΙΓΑΝΤΟΑΦ|ΓΚΕ|ΔΗΜΟΚΡΑΤ|ΚΟΜ|ΓΚ|Μ|Π|ΠΟΥΚΑΜ|ΟΛΟ|ΛΑΡ)$/';
-
-		if ($token == "ΙΣΑ")
-		{
-			$token = "ΙΣ";
-
-			return $token;
-		}
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem   = $match[1];
-			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . 'Ι';
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-
-		// Step S4. 7 stems
-		$re       = '/^(.+?)(ΙΣΩ|ΙΣΕΙΣ|ΙΣΕΙ|ΙΣΟΥΜΕ|ΙΣΕΤΕ|ΙΣΟΥΝ|ΙΣΟΥΝΕ)$/';
-		$exceptS1 = '/^(ΑΝΑΜΠΑ|ΕΜΠΑ|ΕΣΕ|ΕΣΩΚΛΕ|ΕΠΑ|ΞΑΝΑΠΑ|ΕΠΕ|ΠΕΡΙΠΑ|ΑΘΡΟ|ΣΥΝΑΘΡΟ|ΔΑΝΕ|ΚΛΕ|ΧΑΡΤΟΠΑ|ΕΞΑΡΧΑ|ΜΕΤΕΠΕ|ΑΠΟΚΛΕ|ΑΠΕΚΛΕ|ΕΚΛΕ|ΠΕ|ΠΕΡΙΠΑ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem   = $match[1];
-			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . 'Ι';
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S5. 11 stems
-		$re       = '/^(.+?)(ΙΣΤΟΣ|ΙΣΤΟΥ|ΙΣΤΟ|ΙΣΤΕ|ΙΣΤΟΙ|ΙΣΤΩΝ|ΙΣΤΟΥΣ|ΙΣΤΗ|ΙΣΤΗΣ|ΙΣΤΑ|ΙΣΤΕΣ)$/';
-		$exceptS1 = '/^(Μ|Π|ΑΠ|ΑΡ|ΗΔ|ΚΤ|ΣΚ|ΣΧ|ΥΨ|ΦΑ|ΧΡ|ΧΤ|ΑΚΤ|ΑΟΡ|ΑΣΧ|ΑΤΑ|ΑΧΝ|ΑΧΤ|ΓΕΜ|ΓΥΡ|ΕΜΠ|ΕΥΠ|ΕΧΘ|ΗΦΑ|ΉΦΑ|ΚΑΘ|ΚΑΚ|ΚΥΛ|ΛΥΓ|ΜΑΚ|ΜΕΓ|ΤΑΧ|ΦΙΛ|ΧΩΡ)$/';
-		$exceptS2 = '/^(ΔΑΝΕ|ΣΥΝΑΘΡΟ|ΚΛΕ|ΣΕ|ΕΣΩΚΛΕ|ΑΣΕ|ΠΛΕ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem   = $match[1];
-			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . 'ΙΣΤ';
-			}
-
-			if (preg_match($exceptS2, $token))
-			{
-				$token = $token . 'Ι';
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S6. 6 stems
-		$re       = '/^(.+?)(ΙΣΜΟ|ΙΣΜΟΙ|ΙΣΜΟΣ|ΙΣΜΟΥ|ΙΣΜΟΥΣ|ΙΣΜΩΝ)$/';
-		$exceptS1 = '/^(ΑΓΝΩΣΤΙΚ|ΑΤΟΜΙΚ|ΓΝΩΣΤΙΚ|ΕΘΝΙΚ|ΕΚΛΕΚΤΙΚ|ΣΚΕΠΤΙΚ|ΤΟΠΙΚ)$/';
-		$exceptS2 = '/^(ΣΕ|ΜΕΤΑΣΕ|ΜΙΚΡΟΣΕ|ΕΓΚΛΕ|ΑΠΟΚΛΕ)$/';
-		$exceptS3 = '/^(ΔΑΝΕ|ΑΝΤΙΔΑΝΕ)$/';
-		$exceptS4 = '/^(ΑΛΕΞΑΝΔΡΙΝ|ΒΥΖΑΝΤΙΝ|ΘΕΑΤΡΙΝ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem  = $match[1];
-			$token = $stem;
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = str_replace('ΙΚ', "", $token);
-			}
-
-			if (preg_match($exceptS2, $token))
-			{
-				$token = $token . "ΙΣΜ";
-			}
-
-			if (preg_match($exceptS3, $token))
-			{
-				$token = $token . "Ι";
-			}
-
-			if (preg_match($exceptS4, $token))
-			{
-				$token = str_replace('ΙΝ', "", $token);
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S7. 4 stems
-		$re       = '/^(.+?)(ΑΡΑΚΙ|ΑΡΑΚΙΑ|ΟΥΔΑΚΙ|ΟΥΔΑΚΙΑ)$/';
-		$exceptS1 = '/^(Σ|Χ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem  = $match[1];
-			$token = $stem;
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . "AΡΑΚ";
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-
-		// Step S8. 8 stems
-		$re       = '/^(.+?)(ΑΚΙ|ΑΚΙΑ|ΙΤΣΑ|ΙΤΣΑΣ|ΙΤΣΕΣ|ΙΤΣΩΝ|ΑΡΑΚΙ|ΑΡΑΚΙΑ)$/';
-		$exceptS1 = '/^(ΑΝΘΡ|ΒΑΜΒ|ΒΡ|ΚΑΙΜ|ΚΟΝ|ΚΟΡ|ΛΑΒΡ|ΛΟΥΛ|ΜΕΡ|ΜΟΥΣΤ|ΝΑΓΚΑΣ|ΠΛ|Ρ|ΡΥ|Σ|ΣΚ|ΣΟΚ|ΣΠΑΝ|ΤΖ|ΦΑΡΜ|Χ|ΚΑΠΑΚ|ΑΛΙΣΦ|ΑΜΒΡ|ΑΝΘΡ|Κ|ΦΥΛ|ΚΑΤΡΑΠ|ΚΛΙΜ|ΜΑΛ|ΣΛΟΒ|Φ|ΣΦ|ΤΣΕΧΟΣΛΟΒ)$/';
-		$exceptS2 = '/^(Β|ΒΑΛ|ΓΙΑΝ|ΓΛ|Ζ|ΗΓΟΥΜΕΝ|ΚΑΡΔ|ΚΟΝ|ΜΑΚΡΥΝ|ΝΥΦ|ΠΑΤΕΡ|Π|ΣΚ|ΤΟΣ|ΤΡΙΠΟΛ)$/';
-		$exceptS3 = '/(ΚΟΡ)$/';// for words like ΠΛΟΥΣΙΟΚΟΡΙΤΣΑ, ΠΑΛΙΟΚΟΡΙΤΣΑ etc
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem  = $match[1];
-			$token = $stem;
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . "ΑΚ";
-			}
-
-			if (preg_match($exceptS2, $token))
-			{
-				$token = $token . "ΙΤΣ";
-			}
-
-			if (preg_match($exceptS3, $token))
-			{
-				$token = $token . "ΙΤΣ";
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S9. 3 stems
-		$re       = '/^(.+?)(ΙΔΙΟ|ΙΔΙΑ|ΙΔΙΩΝ)$/';
-		$exceptS1 = '/^(ΑΙΦΝ|ΙΡ|ΟΛΟ|ΨΑΛ)$/';
-		$exceptS2 = '/(Ε|ΠΑΙΧΝ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem  = $match[1];
-			$token = $stem;
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . "ΙΔ";
-			}
-
-			if (preg_match($exceptS2, $token))
-			{
-				$token = $token . "ΙΔ";
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step S10. 4 stems
-		$re       = '/^(.+?)(ΙΣΚΟΣ|ΙΣΚΟΥ|ΙΣΚΟ|ΙΣΚΕ)$/';
-		$exceptS1 = '/^(Δ|ΙΒ|ΜΗΝ|Ρ|ΦΡΑΓΚ|ΛΥΚ|ΟΒΕΛ)$/';
-
-		if (preg_match($re, $token, $match))
-		{
-			$stem  = $match[1];
-			$token = $stem;
-
-			if (preg_match($exceptS1, $token))
-			{
-				$token = $token . "ΙΣΚ";
-			}
-
-			return $this->toLowerCase($token, $w_CASE);
-		}
-
-		// Step 1
 		$re = '/(.*)(ΦΑΓΙΑ|ΦΑΓΙΟΥ|ΦΑΓΙΩΝ|ΣΚΑΓΙΑ|ΣΚΑΓΙΟΥ|ΣΚΑΓΙΩΝ|ΟΛΟΓΙΟΥ|ΟΛΟΓΙΑ|ΟΛΟΓΙΩΝ|ΣΟΓΙΟΥ|ΣΟΓΙΑ|ΣΟΓΙΩΝ|ΤΑΤΟΓΙΑ|ΤΑΤΟΓΙΟΥ|ΤΑΤΟΓΙΩΝ|ΚΡΕΑΣ|ΚΡΕΑΤΟΣ|ΚΡΕΑΤΑ|ΚΡΕΑΤΩΝ|ΠΕΡΑΣ|ΠΕΡΑΤΟΣ|ΠΕΡΑΤΗ|ΠΕΡΑΤΑ|ΠΕΡΑΤΩΝ|ΤΕΡΑΣ|ΤΕΡΑΤΟΣ|ΤΕΡΑΤΑ|ΤΕΡΑΤΩΝ|ΦΩΣ|ΦΩΤΟΣ|ΦΩΤΑ|ΦΩΤΩΝ|ΚΑΘΕΣΤΩΣ|ΚΑΘΕΣΤΩΤΟΣ|ΚΑΘΕΣΤΩΤΑ|ΚΑΘΕΣΤΩΤΩΝ|ΓΕΓΟΝΟΣ|ΓΕΓΟΝΟΤΟΣ|ΓΕΓΟΝΟΤΑ|ΓΕΓΟΝΟΤΩΝ)$/';
 
 		if (preg_match($re, $token, $match))
 		{
 			$stem   = $match[1];
 			$suffix = $match[2];
-			$token  = $stem . $step1list[$suffix];
+			$token  = $stem . (array_key_exists($suffix, $step1list) ? $step1list[$suffix] : '');
 			$test1  = false;
 		}
 
@@ -426,8 +375,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		if (preg_match($re, $token, $match))
 		{
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$re    = '/(ΟΚ|ΜΑΜ|ΜΑΝ|ΜΠΑΜΠ|ΠΑΤΕΡ|ΓΙΑΓΙ|ΝΤΑΝΤ|ΚΥΡ|ΘΕΙ|ΠΕΘΕΡ)$/';
 
 			if (!preg_match($re, $token))
@@ -442,8 +390,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$exept2 = '/(ΟΠ|ΙΠ|ΕΜΠ|ΥΠ|ΓΗΠ|ΔΑΠ|ΚΡΑΣΠ|ΜΙΛ)$/';
 
 			if (preg_match($exept2, $token))
@@ -458,8 +405,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 
 			$exept3 = '/(ΑΡΚ|ΚΑΛΙΑΚ|ΠΕΤΑΛ|ΛΙΧ|ΠΛΕΞ|ΣΚ|Σ|ΦΛ|ΦΡ|ΒΕΛ|ΛΟΥΛ|ΧΝ|ΣΠ|ΤΡΑΓ|ΦΕ)$/';
 
@@ -475,8 +421,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$test1  = false;
 			$exept4 = '/^(Θ|Δ|ΕΛ|ΓΑΛ|Ν|Π|ΙΔ|ΠΑΡ)$/';
 
@@ -509,8 +454,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$test1  = false;
 			$re     = '/' . $v . '$/';
 			$exept5 = '/^(ΑΛ|ΑΔ|ΕΝΔ|ΑΜΑΝ|ΑΜΜΟΧΑΛ|ΗΘ|ΑΝΗΘ|ΑΝΤΙΔ|ΦΥΣ|ΒΡΩΜ|ΓΕΡ|ΕΞΩΔ|ΚΑΛΠ|ΚΑΛΛΙΝ|ΚΑΤΑΔ|ΜΟΥΛ|ΜΠΑΝ|ΜΠΑΓΙΑΤ|ΜΠΟΛ|ΜΠΟΣ|ΝΙΤ|ΞΙΚ|ΣΥΝΟΜΗΛ|ΠΕΤΣ|ΠΙΤΣ|ΠΙΚΑΝΤ|ΠΛΙΑΤΣ|ΠΟΣΤΕΛΝ|ΠΡΩΤΟΔ|ΣΕΡΤ|ΣΥΝΑΔ|ΤΣΑΜ|ΥΠΟΔ|ΦΙΛΟΝ|ΦΥΛΟΔ|ΧΑΣ)$/';
@@ -534,16 +478,14 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re2, $token))
 		{
 			preg_match($re2, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$test1 = false;
 		}
 
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$test1  = false;
 			$exept6 = '/^(ΑΝΑΠ|ΑΠΟΘ|ΑΠΟΚ|ΑΠΟΣΤ|ΒΟΥΒ|ΞΕΘ|ΟΥΛ|ΠΕΘ|ΠΙΚΡ|ΠΟΤ|ΣΙΧ|Χ)$/';
 
@@ -560,8 +502,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re3, $token))
 		{
 			preg_match($re3, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$test1 = false;
 			$re3   = '/^(ΤΡ|ΤΣ)$/';
 
@@ -574,8 +515,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re2, $token))
 		{
 			preg_match($re2, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$test1  = false;
 			$re2    = '/' . $v2 . '$/';
 			$exept7 = '/^(ΒΕΤΕΡ|ΒΟΥΛΚ|ΒΡΑΧΜ|Γ|ΔΡΑΔΟΥΜ|Θ|ΚΑΛΠΟΥΖ|ΚΑΣΤΕΛ|ΚΟΡΜΟΡ|ΛΑΟΠΛ|ΜΩΑΜΕΘ|Μ|ΜΟΥΣΟΥΛΜ|Ν|ΟΥΛ|Π|ΠΕΛΕΚ|ΠΛ|ΠΟΛΙΣ|ΠΟΡΤΟΛ|ΣΑΡΑΚΑΤΣ|ΣΟΥΛΤ|ΤΣΑΡΛΑΤ|ΟΡΦ|ΤΣΙΓΓ|ΤΣΟΠ|ΦΩΤΟΣΤΕΦ|Χ|ΨΥΧΟΠΛ|ΑΓ|ΟΡΦ|ΓΑΛ|ΓΕΡ|ΔΕΚ|ΔΙΠΛ|ΑΜΕΡΙΚΑΝ|ΟΥΡ|ΠΙΘ|ΠΟΥΡΙΤ|Σ|ΖΩΝΤ|ΙΚ|ΚΑΣΤ|ΚΟΠ|ΛΙΧ|ΛΟΥΘΗΡ|ΜΑΙΝΤ|ΜΕΛ|ΣΙΓ|ΣΠ|ΣΤΕΓ|ΤΡΑΓ|ΤΣΑΓ|Φ|ΕΡ|ΑΔΑΠ|ΑΘΙΓΓ|ΑΜΗΧ|ΑΝΙΚ|ΑΝΟΡΓ|ΑΠΗΓ|ΑΠΙΘ|ΑΤΣΙΓΓ|ΒΑΣ|ΒΑΣΚ|ΒΑΘΥΓΑΛ|ΒΙΟΜΗΧ|ΒΡΑΧΥΚ|ΔΙΑΤ|ΔΙΑΦ|ΕΝΟΡΓ|ΘΥΣ|ΚΑΠΝΟΒΙΟΜΗΧ|ΚΑΤΑΓΑΛ|ΚΛΙΒ|ΚΟΙΛΑΡΦ|ΛΙΒ|ΜΕΓΛΟΒΙΟΜΗΧ|ΜΙΚΡΟΒΙΟΜΗΧ|ΝΤΑΒ|ΞΗΡΟΚΛΙΒ|ΟΛΙΓΟΔΑΜ|ΟΛΟΓΑΛ|ΠΕΝΤΑΡΦ|ΠΕΡΗΦ|ΠΕΡΙΤΡ|ΠΛΑΤ|ΠΟΛΥΔΑΠ|ΠΟΛΥΜΗΧ|ΣΤΕΦ|ΤΑΒ|ΤΕΤ|ΥΠΕΡΗΦ|ΥΠΟΚΟΠ|ΧΑΜΗΛΟΔΑΠ|ΨΗΛΟΤΑΒ)$/';
@@ -594,16 +534,14 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re4, $token))
 		{
 			preg_match($re4, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$test1 = false;
 		}
 
 		if (preg_match($re3, $token))
 		{
 			preg_match($re3, $token, $match);
-			$stem   = $match[1];
-			$token  = $stem;
+			$token  = $match[1];
 			$test1  = false;
 			$re3    = '/' . $v2 . '$/';
 			$exept8 = '/(ΟΔ|ΑΙΡ|ΦΟΡ|ΤΑΘ|ΔΙΑΘ|ΣΧ|ΕΝΔ|ΕΥΡ|ΤΙΘ|ΥΠΕΡΘ|ΡΑΘ|ΕΝΘ|ΡΟΘ|ΣΘ|ΠΥΡ|ΑΙΝ|ΣΥΝΔ|ΣΥΝ|ΣΥΝΘ|ΧΩΡ|ΠΟΝ|ΒΡ|ΚΑΘ|ΕΥΘ|ΕΚΘ|ΝΕΤ|ΡΟΝ|ΑΡΚ|ΒΑΡ|ΒΟΛ|ΩΦΕΛ)$/';
@@ -621,8 +559,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept10 = '/^(ΑΡΧ)$/';
 			$exept11 = '/(ΚΡΕ)$/';
@@ -644,8 +581,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept11 = '/^(ΟΝ)$/';
 
@@ -662,8 +598,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re2, $token))
 		{
 			preg_match($re2, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$test1 = false;
 			$re2   = '/^(Π|ΑΠ|ΣΥΜΠ|ΑΣΥΜΠ|ΑΚΑΤΑΠ|ΑΜΕΤΑΜΦ)$/';
 
@@ -676,8 +611,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept12 = '/^(ΑΛ|ΑΡ|ΕΚΤΕΛ|Ζ|Μ|Ξ|ΠΑΡΑΚΑΛ|ΑΡ|ΠΡΟ|ΝΙΣ)$/';
 
@@ -694,16 +628,14 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re2, $token))
 		{
 			preg_match($re2, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 			$test1 = false;
 		}
 
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept13 = '/(ΣΚΩΛ|ΣΚΟΥΛ|ΝΑΡΘ|ΣΦ|ΟΘ|ΠΙΘ)$/';
 			$exept14 = '/^(ΔΙΑΘ|Θ|ΠΑΡΑΚΑΤΑΘ|ΠΡΟΣΘ|ΣΥΝΘ|)$/';
@@ -714,15 +646,13 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			}
 		}
 
-
 		// Step 5h
 		$re = '/^(.+?)(ΟΥΣΑ|ΟΥΣΕΣ|ΟΥΣΕ)$/';
 
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept15 = '/^(ΦΑΡΜΑΚ|ΧΑΔ|ΑΓΚ|ΑΝΑΡΡ|ΒΡΟΜ|ΕΚΛΙΠ|ΛΑΜΠΙΔ|ΛΕΧ|Μ|ΠΑΤ|Ρ|Λ|ΜΕΔ|ΜΕΣΑΖ|ΥΠΟΤΕΙΝ|ΑΜ|ΑΙΘ|ΑΝΗΚ|ΔΕΣΠΟΖ|ΕΝΔΙΑΦΕΡ|ΔΕ|ΔΕΥΤΕΡΕΥ|ΚΑΘΑΡΕΥ|ΠΛΕ|ΤΣΑ)$/';
 			$exept16 = '/(ΠΟΔΑΡ|ΒΛΕΠ|ΠΑΝΤΑΧ|ΦΡΥΔ|ΜΑΝΤΙΛ|ΜΑΛΛ|ΚΥΜΑΤ|ΛΑΧ|ΛΗΓ|ΦΑΓ|ΟΜ|ΠΡΩΤ)$/';
@@ -739,8 +669,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept17 = '/^(ΨΟΦ|ΝΑΥΛΟΧ)$/';
 			$exept20 = '/(ΚΟΛΛ)$/';
@@ -761,8 +690,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept21 = '/^(Ν|ΧΕΡΣΟΝ|ΔΩΔΕΚΑΝ|ΕΡΗΜΟΝ|ΜΕΓΑΛΟΝ|ΕΠΤΑΝ)$/';
 
@@ -778,8 +706,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept22 = '/^(ΑΣΒ|ΣΒ|ΑΧΡ|ΧΡ|ΑΠΛ|ΑΕΙΜΝ|ΔΥΣΧΡ|ΕΥΧΡ|ΚΟΙΝΟΧΡ|ΠΑΛΙΜΨ)$/';
 
@@ -795,8 +722,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept23 = '/^(Ν|Ρ|ΣΠΙ|ΣΤΡΑΒΟΜΟΥΤΣ|ΚΑΚΟΜΟΥΤΣ|ΕΞΩΝ)$/';
 
@@ -812,8 +738,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem    = $match[1];
-			$token   = $stem;
+			$token   = $match[1];
 			$test1   = false;
 			$exept24 = '/^(ΠΑΡΑΣΟΥΣ|Φ|Χ|ΩΡΙΟΠΛ|ΑΖ|ΑΛΛΟΣΟΥΣ|ΑΣΟΥΣ)$/';
 
@@ -829,15 +754,13 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 
 		if (preg_match($re, $token, $match))
 		{
-			$stem  = $match[1];
-			$token = $stem . "ΜΑ";
+			$token = $match[1] . "ΜΑ";
 		}
 
 		if (preg_match($re2, $token) && $test1)
 		{
 			preg_match($re2, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 		}
 
 		// Step 7 (ΠΑΡΑΘΕΤΙΚΑ)
@@ -846,8 +769,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 		if (preg_match($re, $token))
 		{
 			preg_match($re, $token, $match);
-			$stem  = $match[1];
-			$token = $stem;
+			$token = $match[1];
 		}
 
 		return $this->toLowerCase($token, $w_CASE);
@@ -861,11 +783,50 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 * @param   array   $w_CASE
 	 *
 	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function toUpperCase($token, &$w_CASE)
 	{
 		$w_CASE      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
-		$caseConvert = self::$caseConvert;
+		$caseConvert = array(
+			"α" => 'Α',
+			"β" => 'Β',
+			"γ" => 'Γ',
+			"δ" => 'Δ',
+			"ε" => 'Ε',
+			"ζ" => 'Ζ',
+			"η" => 'Η',
+			"θ" => 'Θ',
+			"ι" => 'Ι',
+			"κ" => 'Κ',
+			"λ" => 'Λ',
+			"μ" => 'Μ',
+			"ν" => 'Ν',
+			"ξ" => 'Ξ',
+			"ο" => 'Ο',
+			"π" => 'Π',
+			"ρ" => 'Ρ',
+			"σ" => 'Σ',
+			"τ" => 'Τ',
+			"υ" => 'Υ',
+			"φ" => 'Φ',
+			"χ" => 'Χ',
+			"ψ" => 'Ψ',
+			"ω" => 'Ω',
+			"ά" => 'Α',
+			"έ" => 'Ε',
+			"ή" => 'Η',
+			"ί" => 'Ι',
+			"ό" => 'Ο',
+			"ύ" => 'Υ',
+			"ώ" => 'Ω',
+			"ς" => 'Σ',
+			"ϊ" => 'Ι',
+			"ϋ" => 'Ι',
+			"ΐ" => 'Ι',
+			"ΰ" => 'Υ',
+		);
 		$newToken    = '';
 
 		for ($i = 0; $i < mb_strlen($token); $i++)
@@ -913,6 +874,8 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 * @param   array   $w_CASE
 	 *
 	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function toLowerCase($token, $w_CASE)
 	{
