@@ -22,6 +22,9 @@
  * master thesis at Royal Institute of Technology [KTH], Stockholm Sweden
  * http://www.dsv.su.se/~hercules/papers/Ntais_greek_stemmer_thesis_final.pdf
  */
+
+use Joomla\String\StringHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -31,6 +34,45 @@ defined('_JEXEC') or die;
  */
 class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 {
+	static $caseConvert = array(
+		"α" => 'Α',
+		"β" => 'Β',
+		"γ" => 'Γ',
+		"δ" => 'Δ',
+		"ε" => 'Ε',
+		"ζ" => 'Ζ',
+		"η" => 'Η',
+		"θ" => 'Θ',
+		"ι" => 'Ι',
+		"κ" => 'Κ',
+		"λ" => 'Λ',
+		"μ" => 'Μ',
+		"ν" => 'Ν',
+		"ξ" => 'Ξ',
+		"ο" => 'Ο',
+		"π" => 'Π',
+		"ρ" => 'Ρ',
+		"σ" => 'Σ',
+		"τ" => 'Τ',
+		"υ" => 'Υ',
+		"φ" => 'Φ',
+		"χ" => 'Χ',
+		"ψ" => 'Ψ',
+		"ω" => 'Ω',
+		"ά" => 'Α',
+		"έ" => 'Ε',
+		"ή" => 'Η',
+		"ί" => 'Ι',
+		"ό" => 'Ο',
+		"ύ" => 'Υ',
+		"ώ" => 'Ω',
+		"ς" => 'Σ',
+		"ϊ" => 'Ι',
+		"ϋ" => 'Ι',
+		"ΐ" => 'Ι',
+		"ΰ" => 'Υ',
+	);
+
 	/**
 	 * Method to stem a token.
 	 *
@@ -42,121 +84,14 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	 */
 	public function stem($token)
 	{
-		/**
-		 * Case conversion map. 1 for changed case in that position, 2 for final sigma.
-		 *
-		 * We need to go through this manual case conversion because both final sigma (ς) and lowercase sigma (σ) get
-		 * converted to uppercase sigma (Σ) making the inverse conversion impossible if you just lower/uppercase each
-		 * letter position. Furthermore, the PHP functions for converting string case work on the entire word, not
-		 * individual characters. This means that CamelCased Greek, such as ΜικτόΒάρος or κάτιΝέο would be converted
-		 * to the wrong case if we were to use strtolower().
-		 */
-		$w_CASE = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
-
-		// First we must find all letters that are not in Upper case and store their position
-		$lowerCaseLetters = array(
-			"α",
-			"β",
-			"γ",
-			"δ",
-			"ε",
-			"ζ",
-			"η",
-			"θ",
-			"ι",
-			"κ",
-			"λ",
-			"μ",
-			"ν",
-			"ξ",
-			"ο",
-			"π",
-			"ρ",
-			"σ",
-			"τ",
-			"υ",
-			"φ",
-			"χ",
-			"ψ",
-			"ω",
-			"ά",
-			"έ",
-			"ή",
-			"ί",
-			"ό",
-			"ύ",
-			"ς",
-			"ώ",
-			"ϊ",
-			// Double accented letters (διαλυτικά and τόνος), added by Nicholas
-			"ΐ",
-			"ΰ",
-		);
-		$upperCaseLetters = array(
-			"Α",
-			"Β",
-			"Γ",
-			"Δ",
-			"Ε",
-			"Ζ",
-			"Η",
-			"Θ",
-			"Ι",
-			"Κ",
-			"Λ",
-			"Μ",
-			"Ν",
-			"Ξ",
-			"Ο",
-			"Π",
-			"Ρ",
-			"Σ",
-			"Τ",
-			"Υ",
-			"Φ",
-			"Χ",
-			"Ψ",
-			"Ω",
-			"Α",
-			"Ε",
-			"Η",
-			"Ι",
-			"Ο",
-			"Υ",
-			"Σ",
-			"Ω",
-			"Ι",
-			// Double accented letters (διαλυτικά and τόνος), added by Nicholas
-			"Ι",
-			"Υ",
-		);
-
-		for ($k = 0; $k <= 32; $k = $k + 1)
-		{
-			for ($i = 0; $i <= mb_strlen($token, 'UTF-8') - 1; $i++)
-			{
-				if ($token[$i] == "ς")
-				{
-					$token[$i]  = "Σ";
-					$w_CASE[$i] = 2;
-
-					continue;
-				}
-
-				if ($token[$i] == $lowerCaseLetters[$k])
-				{
-					$token[$i]  = $upperCaseLetters[$k];
-					$w_CASE[$i] = "1";
-				}
-			}
-		}
+		$token = $this->toUpperCase($token, $w_CASE);
 
 		// Stop-word removal
 		$stop_words = '/^(ΕΚΟ|ΑΒΑ|ΑΓΑ|ΑΓΗ|ΑΓΩ|ΑΔΗ|ΑΔΩ|ΑΕ|ΑΕΙ|ΑΘΩ|ΑΙ|ΑΙΚ|ΑΚΗ|ΑΚΟΜΑ|ΑΚΟΜΗ|ΑΚΡΙΒΩΣ|ΑΛΑ|ΑΛΗΘΕΙΑ|ΑΛΗΘΙΝΑ|ΑΛΛΑΧΟΥ|ΑΛΛΙΩΣ|ΑΛΛΙΩΤΙΚΑ|ΑΛΛΟΙΩΣ|ΑΛΛΟΙΩΤΙΚΑ|ΑΛΛΟΤΕ|ΑΛΤ|ΑΛΩ|ΑΜΑ|ΑΜΕ|ΑΜΕΣΑ|ΑΜΕΣΩΣ|ΑΜΩ|ΑΝ|ΑΝΑ|ΑΝΑΜΕΣΑ|ΑΝΑΜΕΤΑΞΥ|ΑΝΕΥ|ΑΝΤΙ|ΑΝΤΙΠΕΡΑ|ΑΝΤΙΣ|ΑΝΩ|ΑΝΩΤΕΡΩ|ΑΞΑΦΝΑ|ΑΠ|ΑΠΕΝΑΝΤΙ|ΑΠΟ|ΑΠΟΨΕ|ΑΠΩ|ΑΡΑ|ΑΡΑΓΕ|ΑΡΕ|ΑΡΚ|ΑΡΚΕΤΑ|ΑΡΛ|ΑΡΜ|ΑΡΤ|ΑΡΥ|ΑΡΩ|ΑΣ|ΑΣΑ|ΑΣΟ|ΑΤΑ|ΑΤΕ|ΑΤΗ|ΑΤΙ|ΑΤΜ|ΑΤΟ|ΑΥΡΙΟ|ΑΦΗ|ΑΦΟΤΟΥ|ΑΦΟΥ|ΑΧ|ΑΧΕ|ΑΧΟ|ΑΨΑ|ΑΨΕ|ΑΨΗ|ΑΨΥ|ΑΩΕ|ΑΩΟ|ΒΑΝ|ΒΑΤ|ΒΑΧ|ΒΕΑ|ΒΕΒΑΙΟΤΑΤΑ|ΒΗΞ|ΒΙΑ|ΒΙΕ|ΒΙΗ|ΒΙΟ|ΒΟΗ|ΒΟΩ|ΒΡΕ|ΓΑ|ΓΑΒ|ΓΑΡ|ΓΕΝ|ΓΕΣ||ΓΗ|ΓΗΝ|ΓΙ|ΓΙΑ|ΓΙΕ|ΓΙΝ|ΓΙΟ|ΓΚΙ|ΓΙΑΤΙ|ΓΚΥ|ΓΟΗ|ΓΟΟ|ΓΡΗΓΟΡΑ|ΓΡΙ|ΓΡΥ|ΓΥΗ|ΓΥΡΩ|ΔΑ|ΔΕ|ΔΕΗ|ΔΕΙ|ΔΕΝ|ΔΕΣ|ΔΗ|ΔΗΘΕΝ|ΔΗΛΑΔΗ|ΔΗΩ|ΔΙ|ΔΙΑ|ΔΙΑΡΚΩΣ|ΔΙΟΛΟΥ|ΔΙΣ|ΔΙΧΩΣ|ΔΟΛ|ΔΟΝ|ΔΡΑ|ΔΡΥ|ΔΡΧ|ΔΥΕ|ΔΥΟ|ΔΩ|ΕΑΜ|ΕΑΝ|ΕΑΡ|ΕΘΗ|ΕΙ|ΕΙΔΕΜΗ|ΕΙΘΕ|ΕΙΜΑΙ|ΕΙΜΑΣΤΕ|ΕΙΝΑΙ|ΕΙΣ|ΕΙΣΑΙ|ΕΙΣΑΣΤΕ|ΕΙΣΤΕ|ΕΙΤΕ|ΕΙΧΑ|ΕΙΧΑΜΕ|ΕΙΧΑΝ|ΕΙΧΑΤΕ|ΕΙΧΕ|ΕΙΧΕΣ|ΕΚ|ΕΚΕΙ|ΕΛΑ|ΕΛΙ|ΕΜΠ|ΕΝ|ΕΝΤΕΛΩΣ|ΕΝΤΟΣ|ΕΝΤΩΜΕΤΑΞΥ|ΕΝΩ|ΕΞ|ΕΞΑΦΝΑ|ΕΞΙ|ΕΞΙΣΟΥ|ΕΞΩ|ΕΟΚ|ΕΠΑΝΩ|ΕΠΕΙΔΗ|ΕΠΕΙΤΑ|ΕΠΗ|ΕΠΙ|ΕΠΙΣΗΣ|ΕΠΟΜΕΝΩΣ|ΕΡΑ|ΕΣ|ΕΣΑΣ|ΕΣΕ|ΕΣΕΙΣ|ΕΣΕΝΑ|ΕΣΗ|ΕΣΤΩ|ΕΣΥ|ΕΣΩ|ΕΤΙ|ΕΤΣΙ|ΕΥ|ΕΥΑ|ΕΥΓΕ|ΕΥΘΥΣ|ΕΥΤΥΧΩΣ|ΕΦΕ|ΕΦΕΞΗΣ|ΕΦΤ|ΕΧΕ|ΕΧΕΙ|ΕΧΕΙΣ|ΕΧΕΤΕ|ΕΧΘΕΣ|ΕΧΟΜΕ|ΕΧΟΥΜΕ|ΕΧΟΥΝ|ΕΧΤΕΣ|ΕΧΩ|ΕΩΣ|ΖΕΑ|ΖΕΗ|ΖΕΙ|ΖΕΝ|ΖΗΝ|ΖΩ|Η|ΗΔΗ|ΗΔΥ|ΗΘΗ|ΗΛΟ|ΗΜΙ|ΗΠΑ|ΗΣΑΣΤΕ|ΗΣΟΥΝ|ΗΤΑ|ΗΤΑΝ|ΗΤΑΝΕ|ΗΤΟΙ|ΗΤΤΟΝ|ΗΩ|ΘΑ|ΘΥΕ|ΘΩΡ|Ι|ΙΑ|ΙΒΟ|ΙΔΗ|ΙΔΙΩΣ|ΙΕ|ΙΙ|ΙΙΙ|ΙΚΑ|ΙΛΟ|ΙΜΑ|ΙΝΑ|ΙΝΩ|ΙΞΕ|ΙΞΟ|ΙΟ|ΙΟΙ|ΙΣΑ|ΙΣΑΜΕ|ΙΣΕ|ΙΣΗ|ΙΣΙΑ|ΙΣΟ|ΙΣΩΣ|ΙΩΒ|ΙΩΝ|ΙΩΣ|ΙΑΝ|ΚΑΘ|ΚΑΘΕ|ΚΑΘΕΤΙ|ΚΑΘΟΛΟΥ|ΚΑΘΩΣ|ΚΑΙ|ΚΑΝ|ΚΑΠΟΤΕ|ΚΑΠΟΥ|ΚΑΠΩΣ|ΚΑΤ|ΚΑΤΑ|ΚΑΤΙ|ΚΑΤΙΤΙ|ΚΑΤΟΠΙΝ|ΚΑΤΩ|ΚΑΩ|ΚΒΟ|ΚΕΑ|ΚΕΙ|ΚΕΝ|ΚΙ|ΚΙΜ|ΚΙΟΛΑΣ|ΚΙΤ|ΚΙΧ|ΚΚΕ|ΚΛΙΣΕ|ΚΛΠ|ΚΟΚ|ΚΟΝΤΑ|ΚΟΧ|ΚΤΛ|ΚΥΡ|ΚΥΡΙΩΣ|ΚΩ|ΚΩΝ|ΛΑ|ΛΕΑ|ΛΕΝ|ΛΕΟ|ΛΙΑ|ΛΙΓΑΚΙ|ΛΙΓΟΥΛΑΚΙ|ΛΙΓΟ|ΛΙΓΩΤΕΡΟ|ΛΙΟ|ΛΙΡ|ΛΟΓΩ|ΛΟΙΠΑ|ΛΟΙΠΟΝ|ΛΟΣ|ΛΣ|ΛΥΩ|ΜΑ|ΜΑΖΙ|ΜΑΚΑΡΙ|ΜΑΛΙΣΤΑ|ΜΑΛΛΟΝ|ΜΑΝ|ΜΑΞ|ΜΑΣ|ΜΑΤ|ΜΕ|ΜΕΘΑΥΡΙΟ|ΜΕΙ|ΜΕΙΟΝ|ΜΕΛ|ΜΕΛΕΙ|ΜΕΛΛΕΤΑΙ|ΜΕΜΙΑΣ|ΜΕΝ|ΜΕΣ|ΜΕΣΑ|ΜΕΤ|ΜΕΤΑ|ΜΕΤΑΞΥ|ΜΕΧΡΙ|ΜΗ|ΜΗΔΕ|ΜΗΝ|ΜΗΠΩΣ|ΜΗΤΕ|ΜΙ|ΜΙΞ|ΜΙΣ|ΜΜΕ|ΜΝΑ|ΜΟΒ|ΜΟΛΙΣ|ΜΟΛΟΝΟΤΙ|ΜΟΝΑΧΑ|ΜΟΝΟΜΙΑΣ|ΜΙΑ|ΜΟΥ|ΜΠΑ|ΜΠΟΡΕΙ|ΜΠΟΡΟΥΝ|ΜΠΡΑΒΟ|ΜΠΡΟΣ|ΜΠΩ|ΜΥ|ΜΥΑ|ΜΥΝ|ΝΑ|ΝΑΕ|ΝΑΙ|ΝΑΟ|ΝΔ|ΝΕΐ|ΝΕΑ|ΝΕΕ|ΝΕΟ|ΝΙ|ΝΙΑ|ΝΙΚ|ΝΙΛ|ΝΙΝ|ΝΙΟ|ΝΤΑ|ΝΤΕ|ΝΤΙ|ΝΤΟ|ΝΥΝ|ΝΩΕ|ΝΩΡΙΣ|ΞΑΝΑ|ΞΑΦΝΙΚΑ|ΞΕΩ|ΞΙ|Ο|ΟΑ|ΟΑΠ|ΟΔΟ|ΟΕ|ΟΖΟ|ΟΗΕ|ΟΙ|ΟΙΑ|ΟΙΗ|ΟΚΑ|ΟΛΟΓΥΡΑ|ΟΛΟΝΕΝ|ΟΛΟΤΕΛΑ|ΟΛΩΣΔΙΟΛΟΥ|ΟΜΩΣ|ΟΝ|ΟΝΕ|ΟΝΟ|ΟΠΑ|ΟΠΕ|ΟΠΗ|ΟΠΟ|ΟΠΟΙΑΔΗΠΟΤΕ|ΟΠΟΙΑΝΔΗΠΟΤΕ|ΟΠΟΙΑΣΔΗΠΟΤΕ|ΟΠΟΙΔΗΠΟΤΕ|ΟΠΟΙΕΣΔΗΠΟΤΕ|ΟΠΟΙΟΔΗΠΟΤΕ|ΟΠΟΙΟΝΔΗΠΟΤΕ|ΟΠΟΙΟΣΔΗΠΟΤΕ|ΟΠΟΙΟΥΔΗΠΟΤΕ|ΟΠΟΙΟΥΣΔΗΠΟΤΕ|ΟΠΟΙΩΝΔΗΠΟΤΕ|ΟΠΟΤΕΔΗΠΟΤΕ|ΟΠΟΥ|ΟΠΟΥΔΗΠΟΤΕ|ΟΠΩΣ|ΟΡΑ|ΟΡΕ|ΟΡΗ|ΟΡΟ|ΟΡΦ|ΟΡΩ|ΟΣΑ|ΟΣΑΔΗΠΟΤΕ|ΟΣΕ|ΟΣΕΣΔΗΠΟΤΕ|ΟΣΗΔΗΠΟΤΕ|ΟΣΗΝΔΗΠΟΤΕ|ΟΣΗΣΔΗΠΟΤΕ|ΟΣΟΔΗΠΟΤΕ|ΟΣΟΙΔΗΠΟΤΕ|ΟΣΟΝΔΗΠΟΤΕ|ΟΣΟΣΔΗΠΟΤΕ|ΟΣΟΥΔΗΠΟΤΕ|ΟΣΟΥΣΔΗΠΟΤΕ|ΟΣΩΝΔΗΠΟΤΕ|ΟΤΑΝ|ΟΤΕ|ΟΤΙ|ΟΤΙΔΗΠΟΤΕ|ΟΥ|ΟΥΔΕ|ΟΥΚ|ΟΥΣ|ΟΥΤΕ|ΟΥΦ|ΟΧΙ|ΟΨΑ|ΟΨΕ|ΟΨΗ|ΟΨΙ|ΟΨΟ|ΠΑ|ΠΑΛΙ|ΠΑΝ|ΠΑΝΤΟΤΕ|ΠΑΝΤΟΥ|ΠΑΝΤΩΣ|ΠΑΠ|ΠΑΡ|ΠΑΡΑ|ΠΕΙ|ΠΕΡ|ΠΕΡΑ|ΠΕΡΙ|ΠΕΡΙΠΟΥ|ΠΕΡΣΙ|ΠΕΡΥΣΙ|ΠΕΣ|ΠΙ|ΠΙΑ|ΠΙΘΑΝΟΝ|ΠΙΚ|ΠΙΟ|ΠΙΣΩ|ΠΙΤ|ΠΙΩ|ΠΛΑΙ|ΠΛΕΟΝ|ΠΛΗΝ|ΠΛΩ|ΠΜ|ΠΟΑ|ΠΟΕ|ΠΟΛ|ΠΟΛΥ|ΠΟΠ|ΠΟΤΕ|ΠΟΥ|ΠΟΥΘΕ|ΠΟΥΘΕΝΑ|ΠΡΕΠΕΙ|ΠΡΙ|ΠΡΙΝ|ΠΡΟ|ΠΡΟΚΕΙΜΕΝΟΥ|ΠΡΟΚΕΙΤΑΙ|ΠΡΟΠΕΡΣΙ|ΠΡΟΣ|ΠΡΟΤΟΥ|ΠΡΟΧΘΕΣ|ΠΡΟΧΤΕΣ|ΠΡΩΤΥΤΕΡΑ|ΠΥΑ|ΠΥΞ|ΠΥΟ|ΠΥΡ|ΠΧ|ΠΩ|ΠΩΛ|ΠΩΣ|ΡΑ|ΡΑΙ|ΡΑΠ|ΡΑΣ|ΡΕ|ΡΕΑ|ΡΕΕ|ΡΕΙ|ΡΗΣ|ΡΘΩ|ΡΙΟ|ΡΟ|ΡΟΐ|ΡΟΕ|ΡΟΖ|ΡΟΗ|ΡΟΘ|ΡΟΙ|ΡΟΚ|ΡΟΛ|ΡΟΝ|ΡΟΣ|ΡΟΥ|ΣΑΙ|ΣΑΝ|ΣΑΟ|ΣΑΣ|ΣΕ|ΣΕΙΣ|ΣΕΚ|ΣΕΞ|ΣΕΡ|ΣΕΤ|ΣΕΦ|ΣΗΜΕΡΑ|ΣΙ|ΣΙΑ|ΣΙΓΑ|ΣΙΚ|ΣΙΧ|ΣΚΙ|ΣΟΙ|ΣΟΚ|ΣΟΛ|ΣΟΝ|ΣΟΣ|ΣΟΥ|ΣΡΙ|ΣΤΑ|ΣΤΗ|ΣΤΗΝ|ΣΤΗΣ|ΣΤΙΣ|ΣΤΟ|ΣΤΟΝ|ΣΤΟΥ|ΣΤΟΥΣ|ΣΤΩΝ|ΣΥ|ΣΥΓΧΡΟΝΩΣ|ΣΥΝ|ΣΥΝΑΜΑ|ΣΥΝΕΠΩΣ|ΣΥΝΗΘΩΣ|ΣΧΕΔΟΝ|ΣΩΣΤΑ|ΤΑ|ΤΑΔΕ|ΤΑΚ|ΤΑΝ|ΤΑΟ|ΤΑΥ|ΤΑΧΑ|ΤΑΧΑΤΕ|ΤΕ|ΤΕΙ|ΤΕΛ|ΤΕΛΙΚΑ|ΤΕΛΙΚΩΣ|ΤΕΣ|ΤΕΤ|ΤΖΟ|ΤΗ|ΤΗΛ|ΤΗΝ|ΤΗΣ|ΤΙ|ΤΙΚ|ΤΙΜ|ΤΙΠΟΤΑ|ΤΙΠΟΤΕ|ΤΙΣ|ΤΝΤ|ΤΟ|ΤΟΙ|ΤΟΚ|ΤΟΜ|ΤΟΝ|ΤΟΠ|ΤΟΣ|ΤΟΣ?Ν|ΤΟΣΑ|ΤΟΣΕΣ|ΤΟΣΗ|ΤΟΣΗΝ|ΤΟΣΗΣ|ΤΟΣΟ|ΤΟΣΟΙ|ΤΟΣΟΝ|ΤΟΣΟΣ|ΤΟΣΟΥ|ΤΟΣΟΥΣ|ΤΟΤΕ|ΤΟΥ|ΤΟΥΛΑΧΙΣΤΟ|ΤΟΥΛΑΧΙΣΤΟΝ|ΤΟΥΣ|ΤΣ|ΤΣΑ|ΤΣΕ|ΤΥΧΟΝ|ΤΩ|ΤΩΝ|ΤΩΡΑ|ΥΑΣ|ΥΒΑ|ΥΒΟ|ΥΙΕ|ΥΙΟ|ΥΛΑ|ΥΛΗ|ΥΝΙ|ΥΠ|ΥΠΕΡ|ΥΠΟ|ΥΠΟΨΗ|ΥΠΟΨΙΝ|ΥΣΤΕΡΑ|ΥΦΗ|ΥΨΗ|ΦΑ|ΦΑΐ|ΦΑΕ|ΦΑΝ|ΦΑΞ|ΦΑΣ|ΦΑΩ|ΦΕΖ|ΦΕΙ|ΦΕΤΟΣ|ΦΕΥ|ΦΙ|ΦΙΛ|ΦΙΣ|ΦΟΞ|ΦΠΑ|ΦΡΙ|ΧΑ|ΧΑΗ|ΧΑΛ|ΧΑΝ|ΧΑΦ|ΧΕ|ΧΕΙ|ΧΘΕΣ|ΧΙ|ΧΙΑ|ΧΙΛ|ΧΙΟ|ΧΛΜ|ΧΜ|ΧΟΗ|ΧΟΛ|ΧΡΩ|ΧΤΕΣ|ΧΩΡΙΣ|ΧΩΡΙΣΤΑ|ΨΕΣ|ΨΗΛΑ|ΨΙ|ΨΙΤ|Ω|ΩΑ|ΩΑΣ|ΩΔΕ|ΩΕΣ|ΩΘΩ|ΩΜΑ|ΩΜΕ|ΩΝ|ΩΟ|ΩΟΝ|ΩΟΥ|ΩΣ|ΩΣΑΝ|ΩΣΗ|ΩΣΟΤΟΥ|ΩΣΠΟΥ|ΩΣΤΕ|ΩΣΤΟΣΟ|ΩΤΑ|ΩΧ|ΩΩΝ)$/';
 
 		if (preg_match($stop_words, $token))
 		{
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// step1list is used in Step 1. 41 stems
@@ -231,7 +166,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'IΖ';
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S2. 7 stems
@@ -249,7 +184,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'ΩΝ';
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S3. 7 stems
@@ -275,7 +210,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 
@@ -294,7 +229,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S5. 11 stems
@@ -318,7 +253,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . 'Ι';
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S6. 6 stems
@@ -353,7 +288,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = str_replace('ΙΝ', "", $token);
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S7. 4 stems
@@ -370,7 +305,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "AΡΑΚ";
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 
@@ -400,7 +335,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΤΣ";
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S9. 3 stems
@@ -423,7 +358,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΔ";
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step S10. 4 stems
@@ -440,7 +375,7 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 				$token = $token . "ΙΣΚ";
 			}
 
-			return $this->returnStem($token, $w_CASE);
+			return $this->toLowerCase($token, $w_CASE);
 		}
 
 		// Step 1
@@ -883,109 +818,151 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 			$token = $stem;
 		}
 
-		return $this->returnStem($token, $w_CASE);
+		return $this->toLowerCase($token, $w_CASE);
 	}
 
-	protected function returnStem($w, $w_CASE)
+	/**
+	 * Converts the token to uppercase, suppressing accents and diaeresis. The array $w_CASE contains a special map of
+	 * the uppercase rule used to convert each character at each position.
+	 *
+	 * @param   string  $token
+	 * @param   array   $w_CASE
+	 *
+	 * @return  string
+	 */
+	protected function toUpperCase($token, &$w_CASE)
 	{
-		// Convert case back to initial by reading $w_CASE
-		$unacceptedLetters = array(
-			"α",
-			"β",
-			"γ",
-			"δ",
-			"ε",
-			"ζ",
-			"η",
-			"θ",
-			"ι",
-			"κ",
-			"λ",
-			"μ",
-			"ν",
-			"ξ",
-			"ο",
-			"π",
-			"ρ",
-			"σ",
-			"τ",
-			"υ",
-			"φ",
-			"χ",
-			"ψ",
-			"ω",
-			"ά",
-			"έ",
-			"ή",
-			"ί",
-			"ό",
-			"ύ",
-			"ς",
-			"ώ",
-			"ϊ",
-		);
-		$acceptedLetters   = array(
-			"Α",
-			"Β",
-			"Γ",
-			"Δ",
-			"Ε",
-			"Ζ",
-			"Η",
-			"Θ",
-			"Ι",
-			"Κ",
-			"Λ",
-			"Μ",
-			"Ν",
-			"Ξ",
-			"Ο",
-			"Π",
-			"Ρ",
-			"Σ",
-			"Τ",
-			"Υ",
-			"Φ",
-			"Χ",
-			"Ψ",
-			"Ω",
-			"Α",
-			"Ε",
-			"Η",
-			"Ι",
-			"Ο",
-			"Υ",
-			"Σ",
-			"Ω",
-			"Ι",
-		);
+		$w_CASE      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
+		$caseConvert = self::$caseConvert;
+		$newToken    = '';
 
-		for ($i = 0; $i <= mb_strlen($w, 'UTF-8') - 1; $i++)
+		for ($i = 0; $i < mb_strlen($token); $i++)
 		{
-			switch (@$w_CASE[$i])
+			$char    = mb_substr($token, $i, 1);
+			$isLower = array_key_exists($char, $caseConvert);
+
+			if (!$isLower)
 			{
-				default:
-					// Not converted, no action
-					break;
+				$newToken .= $char;
 
-				case 1:
-					// The latter was converted to uppercase, now it is converted back to lowercase
-					for ($k = 0; $k <= 32; $k = $k + 1)
-					{
-						if ($w[$i] == $acceptedLetters[$k])
-						{
-							$w[$i] = $unacceptedLetters[$k];
-						}
-					}
-					break;
+				continue;
+			}
 
-				case 2:
-					// Special case: final sigma was converted to uppercase sigma, converting back to final sigma
-					$w[$i] = "ς";
-					break;
+			$upperCase = $caseConvert[$char];
+			$newToken  .= $upperCase;
+
+			$w_CASE[$i] = 1;
+
+			if (in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς']))
+			{
+				$w_CASE[$i] = 2;
+			}
+
+			if (in_array($char, ['ϊ', 'ϋ']))
+			{
+				$w_CASE[$i] = 3;
+			}
+
+			if (in_array($char, ['ΐ', 'ΰ']))
+			{
+				$w_CASE[$i] = 4;
 			}
 		}
 
-		return $w;
+		return $newToken;
+	}
+
+	/**
+	 * Converts the suppressed uppercase token back to lowercase, using the $w_CASE map to add back the accents,
+	 * diaeresis and handle the special case of final sigma (different lowercase glyph than the regular sigma, only
+	 * used at the end of words).
+	 *
+	 * @param   string  $token
+	 * @param   array   $w_CASE
+	 *
+	 * @return  string
+	 */
+	protected function toLowerCase($token, $w_CASE)
+	{
+		$newToken    = '';
+
+		for ($i = 0; $i < mb_strlen($token); $i++)
+		{
+			$char    = mb_substr($token, $i, 1);
+
+			// Is $w_CASE not set at this position? We assume no case conversion ever took place.
+			if (!isset($w_CASE[$i]))
+			{
+				$newToken .= $char;
+
+				continue;
+			}
+
+			// The character was not case-converted
+			if ($w_CASE[$i] == 0)
+			{
+				$newToken .= $char;
+
+				continue;
+			}
+
+			// Case 1: Unaccented letter
+			if ($w_CASE[$i] == 1)
+			{
+				$newToken .= mb_strtolower($char);
+
+				continue;
+			}
+
+			// Case 2: Vowel with accent (tonos); or the special case of final sigma
+			if ($w_CASE[$i] == 2)
+			{
+				$charMap = [
+					'Α' => 'ά',
+					'Ε' => 'έ',
+					'Η' => 'ή',
+					'Ι' => 'ί',
+					'Ο' => 'ό',
+					'Υ' => 'ύ',
+					'Ω' => 'ώ',
+					'Σ' => 'ς'
+				];
+
+				$newToken .= $charMap[$char];
+
+				continue;
+			}
+
+			// Case 3: vowels with diaeresis (dialytika)
+			if ($w_CASE[$i] == 3)
+			{
+				$charMap = [
+					'Ι' => 'ϊ',
+					'Υ' => 'ϋ'
+				];
+
+				$newToken .= $charMap[$char];
+
+				continue;
+			}
+
+			// Case 4: vowels with both diaeresis (dialytika) and accent (tonos)
+			if ($w_CASE[$i] == 4)
+			{
+				$charMap = [
+					'Ι' => 'ΐ',
+					'Υ' => 'ΰ'
+				];
+
+				$newToken .= $charMap[$char];
+
+				continue;
+			}
+
+			// This should never happen!
+			$newToken .= $char;
+		}
+
+		return $newToken;
 	}
 }
