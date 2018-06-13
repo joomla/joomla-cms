@@ -21,21 +21,15 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			image
-		</div>
-		<div class="col-md-8">
 			<?php echo $this->item->event->afterDisplayTitle; ?>
 		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-8">
 			<?php echo $this->item->event->beforeDisplayContent; ?>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<p><?php echo $this->item->username; ?></p>
+<!--			<p>--><?php //echo $this->item->username; ?><!--</p>-->
 			<p><?php echo $this->item->email; ?></p>
 		</div>
 	</div>
