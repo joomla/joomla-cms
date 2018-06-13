@@ -190,6 +190,14 @@ class MediaModelList extends JModelLegacy
 							$images[] = $tmp;
 							break;
 
+						// SVG
+						case 'svg':
+							$tmp->mime = 'image/svg+xml'
+							$tmp->icon_32 = $tmp->path;
+							$tmp->icon_16 = $tmp->path;
+							$images[] = $tmp;
+							break;
+
 						// Video
 						case 'mp4':
 							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
