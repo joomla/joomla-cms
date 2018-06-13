@@ -74,6 +74,50 @@ class FinderIndexerLanguageel_GR extends FinderIndexerLanguage
 	);
 
 	/**
+	 * Method to tokenise a text string. It takes into account the odd punctuation commonly used in Greek text, mapping
+	 * it to ASCII punctuation.
+	 *
+	 * Reference: http://www.teicrete.gr/users/kutrulis/Glosika/Stixi.htm
+	 *
+	 * @param   string  $input  The input to tokenise.
+	 *
+	 * @return  array  An array of term strings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function tokenise($input)
+	{
+		// Replace Greek calligraphic double quotes (various styles) to dumb double quotes
+		$input = str_replace(['“', '”', '„', '«' ,'»'], '"', $input);
+
+		// Replace Greek calligraphic single quotes (various styles) to dumb single quotes
+		$input = str_replace(['‘','’','‚'], "'", $input);
+
+		// Replace the middle dot (ano teleia) with a comma, adequate for the purpose of stemming
+		$input = str_replace('·', ',', $input);
+
+		// Dot and dash (τελεία και παύλα), used to denote the end of a context at the end of a paragraph.
+		$input = str_replace('.–', '.', $input);
+
+		// Ellipsis, two styles (separate dots or single glyph)
+		$input = str_replace(['...', '…'], '.', $input);
+
+		// Cross. Marks the death date of a person. Removed.
+		$input = str_replace('†', '', $input);
+
+		// Star. Reference, supposition word (in philology), birth date of a person.
+		$input = str_replace('*', '', $input);
+
+		// Paragraph. Indicates change of subject.
+		$input = str_replace('§', '.', $input);
+
+		// Plus/minus. Shows approximation. Not relevant for the stemmer, hence its conversion to a space.
+		$input = str_replace('±', ' ', $input);
+
+		return parent::tokenise($input);
+	}
+
+	/**
 	 * Method to stem a token.
 	 *
 	 * @param   string  $token  The token to stem.
