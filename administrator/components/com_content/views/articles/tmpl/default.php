@@ -200,6 +200,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
 
+									<?php if ($parent_cattitle != 'ROOT') : ?>
 									<?php if ($canEdit || $canEditOwn) : ?>
 
 									<a class="hasTooltip"
@@ -207,16 +208,16 @@ $assoc = JLanguageAssociations::isEnabled();
 									   title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
 										<?php endif ?>
 
-										<?php if ($parent_cattitle != 'ROOT') :
-											echo '' . $parent_cattitle . '';
-										endif; ?>
+										<?php echo ' ' . $parent_cattitle; ?>
+
 
 										<?php if ($canEdit || $canEditOwn) : ?>
 									</a>
 
-								<?php echo ' » '; ?>
+									<?php echo ' » '; ?>
 
-								<?php endif ?>
+									<?php endif ?>
+									<?php endif ?>
 
 									<?php if ($canEdit || $canEditOwn) : ?>
 									<a class="hasTooltip"
