@@ -56,10 +56,10 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
-		$store = StringHelper::strlen($input) < 128 ? md5($input . '::' . $lang . '::' . $phrase) : null;
+		$store = md5($input . '::' . $lang . '::' . $phrase);
 
 		// Check if the string has been tokenized already.
-		if ($store && isset($cache[$store]))
+		if (isset($cache[$store]))
 		{
 			return $cache[$store];
 		}
@@ -118,16 +118,9 @@ class FinderIndexerHelper
 			}
 		}
 
-		if ($store)
-		{
-			$cache[$store] = $tokens;
+		$cache[$store] = $tokens;
 
-			return $cache[$store];
-		}
-		else
-		{
-			return $tokens;
-		}
+		return $cache[$store];
 	}
 
 	/**
