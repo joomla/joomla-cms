@@ -79,7 +79,7 @@ class ExtensionsListCommand extends AbstractCommand
 
 		$extensions = $this->getExtensionsNameAndId($extensions);
 
-		$this->ioStyle->title('Installed Extensions.');
+		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 		return 0;
 	}
@@ -94,7 +94,7 @@ class ExtensionsListCommand extends AbstractCommand
 	protected function initialise()
 	{
 		$this->setName('extension:list');
-		$this->setDescription('List installed Extensions');
+		$this->setDescription('List installed extensions');
 
 		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 

@@ -60,7 +60,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 		$response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-		if ($response === 'yes')
+		if (strtolower($response) === 'yes')
 		{
 			if ($extension->type && $extension->type != 'language')
 			{
@@ -72,7 +72,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 				}
 			}
 		}
-		elseif ($response === 'no')
+		elseif (strtolower($response) === 'no')
 		{
 			$this->ioStyle->note('Extension not removed.');
 			return 0;
@@ -98,10 +98,10 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$this->addArgument(
 			'extension_id',
 			InputArgument::REQUIRED,
-			'ID of extension to be Removed (Run extension:list command to check)'
+			'ID of extension to be removed (run extension:list command to check)'
 		);
 
-		$this->setDescription('Removes an Extension');
+		$this->setDescription('Removes an extension');
 
 		$help = "The <info>%command.name%</info> Removes an extension \n <info>php %command.full_name%</info>";
 		$this->setHelp($help);
