@@ -37,17 +37,33 @@ class ScriptsRenderer extends DocumentRenderer
 		$lnEnd        = $this->_doc->_getLineEnd();
 		$tab          = $this->_doc->_getTab();
 		$buffer       = '';
+		$nonce        = '';
 		$mediaVersion = $this->_doc->getMediaVersion();
 
 		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 		$html5NoValueAttributes = array('defer', 'async');
 
+		if ($this->_doc->scriptNonce)
+		{
+			$nonce = ' nonce="' . $this->_doc->scriptNonce . '"';
+		}
+
+		/**
+		 * Patch Safari 10:
+		 * https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
+		 */
+		if (count($this->_doc->_scripts))
+		{
+			$buffer .= '<script' . $nonce . '>'
+				. file_get_contents(JPATH_ROOT . '/media/system/js/safaripatch.min.js')
+				. '</script>';
+		}
+
 		// Generate script file links
 		foreach ($this->_doc->_scripts as $src => $attribs)
 		{
-			// Check if script uses IE conditional statements.
-			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
-
+			$currentScript    = '';
+			$currentEs6Script = '';
 			// Check if script uses media version.
 			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
 				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
@@ -55,15 +71,9 @@ class ScriptsRenderer extends DocumentRenderer
 				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
 			}
 
-			$buffer .= $tab;
+			$currentScript .= $tab;
 
-			// This is for IE conditional statements support.
-			if (!is_null($conditional))
-			{
-				$buffer .= '<!--[if ' . $conditional . ']>';
-			}
-
-			$buffer .= '<script src="' . $src . '"';
+			$currentScript .= '<script src="' . $src . '"';
 
 			// Add script tag attributes.
 			foreach ($attribs as $attrib => $value)
@@ -98,26 +108,36 @@ class ScriptsRenderer extends DocumentRenderer
 				}
 
 				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+				$currentScript .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
 
 				if (!($this->_doc->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
 				{
 					// Json encode value if it's an array.
 					$value = !is_scalar($value) ? json_encode($value) : $value;
 
-					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+					$currentScript .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				}
 			}
 
-			$buffer .= '></script>';
+			$currentScript .= '></script>';
 
-			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			// Check if ES6 version is available
+			if ($attribs['options'] && $attribs['options']['relative'])
 			{
-				$buffer .= '<![endif]-->';
+				$cleanSrc = '';
+				if ($attribs['options']['version']) {
+					preg_match('/(.+)\?/', str_replace('.min.js', '.es6.min.js', $src), $matches);
+					$cleanSrc = (count($matches) === 2) ? $matches[1] : str_replace('.min.js', '.es6.min.js', $src);
+				}
+
+				if (is_file(JPATH_ROOT . $cleanSrc))
+				{
+					$currentEs6Script = str_replace(['<script', '.min.js'], ['<script type="module"', '.es6.min.js'], $currentScript) . $lnEnd;
+					$currentEs6Script .= str_replace('<script', '<script nomodule', $currentScript) . $lnEnd;
+				}
 			}
 
-			$buffer .= $lnEnd;
+			$buffer .= !empty($currentEs6Script) ? $currentEs6Script : $currentScript . $lnEnd;
 		}
 
 		// Generate script declarations
@@ -132,7 +152,7 @@ class ScriptsRenderer extends DocumentRenderer
 
 			if ($this->_doc->scriptNonce)
 			{
-				$buffer .= ' nonce="' . $this->_doc->scriptNonce . '"';
+				$buffer .= $nonce;
 			}
 
 			$buffer .= '>' . $lnEnd;
