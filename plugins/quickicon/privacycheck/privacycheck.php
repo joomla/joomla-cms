@@ -43,19 +43,19 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		JHtml::_('jquery.framework');
 
 		$token    = JSession::getFormToken() . '=' . 1;
-		$url      = JUri::base() . 'index.php?option=com_privacy&' . $token;
-		$ajax_url = JUri::base() . 'index.php?option=com_privacy&task=ajax&' . $token;
-		$script   = array();
-		$script[] = 'var plg_quickicon_privacycheck_url = \'' . $url . '\';';
-		$script[] = 'var plg_quickicon_privacycheck_ajax_url = \'' . $ajax_url . '\';';
-		$script[] = 'var plg_quickicon_privacycheck_text = {'
-			. '"UPTODATE" : "' . JText::_('PLG_QUICKICON_PRIVACYCHECK_UPTODATE', true) . '",'
-			. '"UPDATEFOUND": "' . JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND', true) . '",'
-			. '"UPDATEFOUND_MESSAGE": "' . JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND_MESSAGE', true) . '",'
-			. '"UPDATEFOUND_BUTTON": "' . JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND_BUTTON', true) . '",'
-			. '"ERROR": "' . JText::_('PLG_QUICKICON_PRIVACYCHECK_ERROR', true) . '",'
-			. '};';
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+		$options  = array(
+			'plg_quickicon_privacycheck_url'      => JUri::base() . 'index.php?option=com_privacy&' . $token,
+			'plg_quickicon_privacycheck_ajax_url' => JUri::base() . 'index.php?option=com_privacy&task=ajax&' . $token,
+			'plg_quickicon_privacycheck_text'     => array(
+				"UPTODATE"            => JText::_('PLG_QUICKICON_PRIVACYCHECK_UPTODATE', true),
+				"UPDATEFOUND"         => JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND', true),
+				"UPDATEFOUND_MESSAGE" => JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND_MESSAGE', true),
+				"UPDATEFOUND_BUTTON"  => JText::_('PLG_QUICKICON_PRIVACYCHECK_UPDATEFOUND_BUTTON', true),
+				"ERROR"               => JText::_('PLG_QUICKICON_PRIVACYCHECK_ERROR', true),
+			)
+		);
+
+		JFactory::getDocument()->addScriptOptions('js-privacy-check', $options);
 		JHtml::_('script', 'plg_quickicon_privacycheck/privacycheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
