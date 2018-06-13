@@ -42,18 +42,18 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * ChangeSet of all extensions
 	 *
-	 * @var  array
+	 * @var    array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $changeSetList = array();
 
 	/**
 	 * Total of errors
 	 *
-	 * @var  integer
+	 * @var    integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $errorCount = 0;
 
@@ -130,7 +130,7 @@ class DatabaseModel extends InstallerModel
 		foreach ($results as $result)
 		{
 			$errorMessages = array();
-			$errorCount     = 0;
+			$errorCount    = 0;
 
 			if (strcmp($result->element, 'joomla') === 0)
 			{
@@ -153,9 +153,9 @@ class DatabaseModel extends InstallerModel
 				$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
 				$folderTmp       = (string) $installationXML->update->schemas->schemapath[0];
 
-				$a = explode("/", $folderTmp);
+				$a = explode('/', $folderTmp);
 				array_pop($a);
-				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . "/" . implode("/", $a);
+				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/' . implode('/', $a);
 			}
 
 			$changeSet = new ChangeSet($db, $folderTmp);
@@ -195,16 +195,16 @@ class DatabaseModel extends InstallerModel
 			$errorMessages = array_merge($errorMessages, $this->getOtherInformationMessage($changeSet->getStatus()));
 
 			// Set the total number of errors
-			$this->errorCount    += $errorCount;
+			$this->errorCount += $errorCount;
 
 			// Collect the extension details
 			$this->changeSetList[$result->extension_id] = array(
-				'folderTmp'      => $folderTmp,
-				'errorsMessage'  => $errorMessages,
-				'errorsCount'    => $errorCount,
-				'results'        => $changeSet->getStatus(),
-				'schema'         => $schema,
-				'extension'      => $result
+				'folderTmp'     => $folderTmp,
+				'errorsMessage' => $errorMessages,
+				'errorsCount'   => $errorCount,
+				'results'       => $changeSet->getStatus(),
+				'schema'        => $schema,
+				'extension'     => $result
 			);
 		}
 	}
@@ -261,7 +261,7 @@ class DatabaseModel extends InstallerModel
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
 			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
-			if ($i === "com_admin")
+			if ($i === 'com_admin')
 			{
 				$installer = new \JoomlaInstallerScript;
 				$installer->deleteUnexistingFiles();
@@ -539,13 +539,13 @@ class DatabaseModel extends InstallerModel
 
 		foreach ($errors as $line => $error)
 		{
-			$key     = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
-			$msgs    = $error->msgElements;
-			$file    = basename($error->file);
-			$msg0    = isset($msgs[0]) ? $msgs[0] : ' ';
-			$msg1    = isset($msgs[1]) ? $msgs[1] : ' ';
-			$msg2    = isset($msgs[2]) ? $msgs[2] : ' ';
-			$errorMessages[] = Text::sprintf($key, $file, $msg0, $msg1, $msg2);
+			$key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
+			$messages        = $error->msgElements;
+			$file            = basename($error->file);
+			$message0        = isset($messages[0]) ? $messages[0] : ' ';
+			$message1        = isset($messages[1]) ? $messages[1] : ' ';
+			$message2        = isset($messages[2]) ? $messages[2] : ' ';
+			$errorMessages[] = Text::sprintf($key, $file, $message0, $message1, $message2);
 		}
 
 		return $errorMessages;
@@ -614,11 +614,11 @@ class DatabaseModel extends InstallerModel
 	 * For version 2.5.x only
 	 * Check if com_config parameters are blank. If so, populate with com_content text filters.
 	 *
-	 * @return  mixed  boolean true if params are updated, null otherwise.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fixDefaultTextFilters()
+	private function fixDefaultTextFilters()
 	{
 		$table = new Extension($this->getDbo());
 		$table->load($table->find(array('name' => 'com_config')));
@@ -635,8 +635,6 @@ class DatabaseModel extends InstallerModel
 				$newParams->set('filters', $contentParams->get('filters'));
 				$table->params = (string) $newParams;
 				$table->store();
-
-				return true;
 			}
 		}
 	}
