@@ -80,6 +80,22 @@ class ErrorDocument extends HtmlDocument
 	}
 
 	/**
+	 * Load a renderer
+	 *
+	 * @param   string  $type  The renderer type
+	 *
+	 * @return  RendererInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function loadRenderer($type)
+	{
+		// Need to force everything to go to the HTML renderers or we duplicate all the things
+		return $this->factory->createRenderer($this, $type, 'html');
+	}
+
+	/**
 	 * Render the document
 	 *
 	 * @param   boolean  $cache   If true, cache the output
