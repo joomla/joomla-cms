@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
+
 /**
  * Privacy Controller
  *
@@ -53,20 +58,20 @@ class PrivacyController extends JControllerLegacy
 	 */
 	public function ajax()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
-		if (!JSession::checkToken('get'))
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('get'))
 		{
-			$app->setHeader('status', 403, true);
+			$response = new JsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
 			$app->sendHeaders();
-			echo JText::_('JINVALID_TOKEN');
+			echo json_encode($response);
 			$app->close();
 		}
 
 		/** @var PrivacyModelRequests $model */
 		$model    = $this->getModel('requests');	
 		$requests = $model->getOlder();
-
 		echo json_encode($requests);
 
 		$app->close();
