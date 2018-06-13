@@ -537,7 +537,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function disableModuleMainMenu()
 	{
 		// Create a new db object.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Disable main menu module with Home set to ALL languages.
