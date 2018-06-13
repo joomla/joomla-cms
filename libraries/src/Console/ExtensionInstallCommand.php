@@ -65,12 +65,6 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		$from = $this->cliInput->getArgument('from');
 
-//		if (!in_array($from, ['path', 'url']))
-//		{
-//			$this->ioStyle->error('You can either specify a path or url.');
-//			return 2;
-//		}
-
 		if ($from === 'path')
 		{
 			$result = $this->processPathInstallation($this->cliInput->getOption('path'));
