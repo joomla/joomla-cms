@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 ?>
 
-<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
+<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
 	<?php if ($params->get('showHere', 1)) : ?>
-		<li class="float-left">
+		<li class="mod-breadcrumbs__here float-left">
 			<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 		</li>
 	<?php else : ?>
-		<li class="float-left">
+		<li class="mod-breadcrumbs__divider float-left">
 			<span class="divider fa fa-location" aria-hidden="true"></span>
 		</li>
 	<?php endif; ?>
@@ -51,13 +51,13 @@ use Joomla\CMS\Language\Text;
 				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
 			endif;
 			// Render all but last item - along with separator ?>
-			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item"><?php echo $breadcrumbItem; ?>
+			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item"><?php echo $breadcrumbItem; ?>
 				<meta itemprop="position" content="<?php echo $key + 1; ?>">
 			</li>
 		<?php elseif ($show_last) :
 			$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
 			// Render last item if reqd. ?>
-			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-item active"><?php echo $breadcrumbItem; ?>
+			<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 				<meta itemprop="position" content="<?php echo $key + 1; ?>">
 			</li>
 		<?php endif;
