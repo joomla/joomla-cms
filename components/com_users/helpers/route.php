@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @since       1.6
  * @deprecated  4.0
  */
-class UsersHelperRoute
+abstract class UsersHelperRoute
 {
 	/**
 	 * Method to get the menu items for the component.
@@ -195,5 +195,26 @@ class UsersHelperRoute
 		}
 
 		return null;
+	}
+
+	/**
+	 * Method to get a route configuration for the user view
+	 *
+	 * @param   integer  $id        The route of the user item.
+	 * @param   integer  $groupId   The id of the group.
+	 * @param   integer  $language  The language code.
+	 *
+	 * @return  string  The user's route
+	 */
+	public static function getUserRoute($id, $groupId, $language)
+	{
+		$link = 'index.php?option=com_users&view=user&id=' . $id . '&groupId=' . $groupId;
+
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
+
+		return $link;
 	}
 }

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 /**
  * Base controller class for Users.
@@ -33,7 +35,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->getCmd('view', 'login');
@@ -47,12 +49,12 @@ class DisplayController extends BaseController
 			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -61,7 +63,7 @@ class DisplayController extends BaseController
 					if (ComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 					{
 						// Registration is disabled - Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -74,12 +76,12 @@ class DisplayController extends BaseController
 				case 'profile':
 
 					// If the user is a guest, redirect to the login page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') == 1)
 					{
 						// Redirect to login page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 						return;
 					}
@@ -94,12 +96,12 @@ class DisplayController extends BaseController
 
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
@@ -109,16 +111,24 @@ class DisplayController extends BaseController
 
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 
 					if ($user->get('guest') != 1)
 					{
 						// Redirect to profile page.
-						$this->setRedirect(\JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 
 						return;
 					}
 
+					$model = $this->getModel($vName);
+					break;
+
+				case 'users':
+					$model = $this->getModel($vName);
+					break;
+
+				case 'user':
 					$model = $this->getModel($vName);
 					break;
 
