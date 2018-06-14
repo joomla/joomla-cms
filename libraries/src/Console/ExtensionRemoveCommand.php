@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Table\Table;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -118,7 +119,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 */
 	protected function getExtension($extension_id)
 	{
-		$row       = Table::getInstance('extension');
+		$row       = MVCFactory::createTable('extension');
 		return $row;
 	}
 }

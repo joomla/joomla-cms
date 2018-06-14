@@ -280,19 +280,4 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	{
 		(new Version)->refreshMediaVersion();
 	}
-
-	/**
-	 * Gets a configuration
-	 *
-	 * @param   string  $key  The configuration to be gotten
-	 *
-	 * @return mixed
-	 *
-	 * @since 4.0
-	 */
-	public function getCfg($key)
-	{
-		$config = Factory::getConfig();
-		return $config->get($key);
-	}
 }

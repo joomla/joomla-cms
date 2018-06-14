@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\Console\AbstractCommand;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -146,7 +145,7 @@ class ExtensionInstallCommand extends AbstractCommand
 			exit(2);
 		}
 
-		$tmp_path = Factory::getApplication()->get('tmp_path');
+		$tmp_path = $this->getApplication()->get('tmp_path');
 		$tmp_path     = $tmp_path . '/' . basename($path);
 		$package  = InstallerHelper::unpack($path, true);
 
@@ -178,7 +177,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	{
 		$filename = InstallerHelper::downloadPackage($url);
 
-		$tmp_path = Factory::getApplication()->get('tmp_path');
+		$tmp_path = $this->getApplication()->get('tmp_path');
 
 		$path     = $tmp_path . '/' . basename($filename);
 		$package  = InstallerHelper::unpack($path, true);
@@ -194,4 +193,5 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		return $result;
 	}
+
 }
