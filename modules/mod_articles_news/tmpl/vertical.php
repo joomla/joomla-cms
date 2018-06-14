@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 ?>
-<ul class="newsflash-vert">
+<ul class="mod-articlesnews-vertical newsflash-vert">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
 		<?php $item = $list[$i]; ?>
 		<li class="newsflash-item">
