@@ -87,6 +87,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onSampledataGetOverview()
 	{
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+
+		if (count($languages) < 2)
+		{
+			return;
+		}
+
 		$data              = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');

@@ -32,6 +32,6 @@ abstract class SampledataHelper
 	{
 		PluginHelper::importPlugin('sampledata');
 
-		return Factory::getApplication()->triggerEvent('onSampledataGetOverview', array('test', 'foo'));
+		return array_filter(Factory::getApplication()->triggerEvent('onSampledataGetOverview'));
 	}
 }
