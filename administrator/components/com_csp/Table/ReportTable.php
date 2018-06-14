@@ -10,13 +10,24 @@ namespace Joomla\Component\Csp\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Csp;
+use Joomla\CMS\Table\Table;
 
 /**
  * Report table
  *
  * @since  __DEPLOY_VERSION__
  */
-class ReportTable extends Csp
+class ReportTable extends Table
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(\JDatabaseDriver $db)
+	{
+		parent::__construct('#__csp', 'id', $db);
+	}
 }
