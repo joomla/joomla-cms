@@ -210,7 +210,7 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over parent category title
-		$query->select('p.title AS parent_category_title')
+		$query->select('p.title AS parent_category_title, p.parent_id AS parent_parent_category_id')
 			->join('LEFT', '#__categories AS p ON p.id = c.parent_id');
 
 		// Join over the users for the author.

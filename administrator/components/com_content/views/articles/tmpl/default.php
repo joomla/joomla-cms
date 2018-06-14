@@ -192,8 +192,10 @@ $assoc = JLanguageAssociations::isEnabled();
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
+									
+										<?php if ($item->parent_parent_category_id != '0')  : ?>
 
-										<?php if ($item->parent_category_title != 'ROOT')  : ?>
+											<?php echo ' » '; ?>
 
 											<?php if ($canEdit || $canEditOwn) : ?>
 
@@ -230,7 +232,7 @@ $assoc = JLanguageAssociations::isEnabled();
 											</a>
 
 										<?php endif; ?>
-									
+
 								</div>
 							</div>
 						</td>
