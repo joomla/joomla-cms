@@ -119,7 +119,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 */
 	protected function getExtension($extension_id)
 	{
-		$row       = MVCFactory::createTable('extension');
+		$row       = Table::getInstance('extension');
 		return $row;
 	}
 }
