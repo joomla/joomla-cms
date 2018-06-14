@@ -194,4 +194,37 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		return $domain;
 	}
+
+/**
+	 * Processes a remove request for Joomla core user data
+	 * 
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  PrivacyRemoveResponse[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request)
+	{
+		if (!$request->user_id)
+		{
+			return array();
+		}
+
+		$user = JFactory::getUser($request->user_id);
+
+		$response = array();
+		$response['cannotRemove'] = false;
+		$response['message']      = '';
+
+		// Check for not remove a Super Admin
+		if ($user->authorise('core.admin'))
+		{
+			$response['cannotRemove'] = true;
+			$response['message']      = JText::_('PLG_PRIVACY_ERROR_CANNOT_REMOVE_SUPER');
+			
+		}
+
+		return $response;
+	}
 }
