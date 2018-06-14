@@ -16,6 +16,7 @@ use Joomla\CMS\Uri\Uri;
 
 /**
  * Plugin to check privacy requests older than 14 days
+ * 
  * @since  3.9.0
  */
 class PlgQuickiconPrivacyCheck extends JPlugin
@@ -61,7 +62,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		);
 
 		Factory::getDocument()->addScriptOptions('js-privacy-check', $options);
- 
+
 		JHtml::_('script', 'plg_quickicon_privacycheck/privacycheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
