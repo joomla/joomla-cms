@@ -350,7 +350,8 @@ trait CoreButtonsTrait
 	public function apply(string $task, string $text = 'JTOOLBAR_APPLY'): StandardButton
 	{
 		return $this->standardButton('apply', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -367,7 +368,8 @@ trait CoreButtonsTrait
 	public function save(string $task, string $text = 'JTOOLBAR_SAVE'): StandardButton
 	{
 		return $this->standardButton('save', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -384,7 +386,8 @@ trait CoreButtonsTrait
 	public function save2new(string $task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
 	{
 		return $this->standardButton('save-new', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -402,7 +405,8 @@ trait CoreButtonsTrait
 	public function save2copy(string $task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
 	{
 		return $this->standardButton('save-copy', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
