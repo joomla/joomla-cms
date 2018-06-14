@@ -63,8 +63,8 @@ class DatabaseModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see    ListModel
-	 * @since  __DEPLOY_VERSION__
+	 * @see     ListModel
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
@@ -409,7 +409,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @return  mixed  the return value from the query, or null if the query fails.
 	 *
-	 * @throws \Exception
+	 * @throws  \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
