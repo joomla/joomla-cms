@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 	<?php foreach ($users as $user) : ?>
 		<li class="d-flex justify-content-start list-group-item">
 			<div class="flex-grow-1">
-				<?php if ($user->client_id == 0) :?>
+				<?php if ($user->client_id == 0) : ?>
 					<a title="<?php echo HTMLHelper::_('tooltipText', 'MOD_LOGGED_LOGOUT'); ?>"
 					   href="<?php echo $user->logoutLink; ?>" 
 					   class="mr-2 btn btn-danger btn-xs hasTooltip">
