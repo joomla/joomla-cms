@@ -19,9 +19,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<div class="flex-grow-1">
 				<?php if ($user->client_id == 0) : ?>
 					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs">
-						<span class="icon-remove icon-white" aria-hidden="true">
-							<span class="sr-only"><?php echo Text::_('JLOGOUT'); ?></span>
-						</span>
+						<span class="icon-remove icon-white" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('JLOGOUT'); ?></span>
 					</a>
 				<?php endif; ?>
 				<strong class="mr-2 row-title">
@@ -43,9 +42,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 			</div>
 			<span class="badge badge-secondary badge-pill ml-auto">
 				<span class="small">
-					<span class="icon-calendar" aria-hidden="true">
-						<span class="sr-only"><?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?></span>
-					</span>
+					<span class="icon-calendar" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?></span>
 					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
 				</span>
 			</span>
