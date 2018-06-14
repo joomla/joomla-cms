@@ -60,11 +60,11 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param  array                $config   An optional associative array of configuration settings.
+	 * @param  MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     ListModel
-	 * @since   __DEPLOY_VERSION__
+	 * @see    ListModel
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
 	{
