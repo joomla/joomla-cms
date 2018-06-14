@@ -660,6 +660,7 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (485, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (486, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (487, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0, ''),
+(488, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0, ''),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, ''),
@@ -807,7 +808,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `published` tinyint(1) NOT NULL DEFAULT 1,
   `state` int(5) DEFAULT 1,
   `access` int(5) DEFAULT 0,
-  `language` varchar(8) NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
   `publish_start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -828,235 +829,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__finder_links_terms0`
+-- Table structure for table `#__finder_links_terms`
 --
 
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms1`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms2`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms3`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms4`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms5`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms6`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms7`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms8`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_terms9`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termsa`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termsb`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termsc`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termsd`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termse`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
-  PRIMARY KEY (`link_id`,`term_id`),
-  KEY `idx_term_weight` (`term_id`,`weight`),
-  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__finder_links_termsf`
---
-
-CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
+CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
   `link_id` int(10) unsigned NOT NULL,
   `term_id` int(10) unsigned NOT NULL,
   `weight` float unsigned NOT NULL,
@@ -1122,7 +898,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `weight` float unsigned NOT NULL DEFAULT 0,
   `soundex` varchar(75) NOT NULL,
   `links` int(10) NOT NULL DEFAULT 0,
-  `language` char(3) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `idx_term` (`term`),
   KEY `idx_term_phrase` (`term`,`phrase`),
@@ -1138,7 +914,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `term` varchar(75) NOT NULL,
-  `language` varchar(3) NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
   KEY `idx_word_lang` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
@@ -1148,116 +924,116 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
 --
 
 INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
-('a', 'en'),
-('about', 'en'),
-('after', 'en'),
-('ago', 'en'),
-('all', 'en'),
-('am', 'en'),
-('an', 'en'),
-('and', 'en'),
-('any', 'en'),
-('are', 'en'),
-('aren''t', 'en'),
-('as', 'en'),
-('at', 'en'),
-('be', 'en'),
-('but', 'en'),
-('by', 'en'),
-('for', 'en'),
-('from', 'en'),
-('get', 'en'),
-('go', 'en'),
-('how', 'en'),
-('if', 'en'),
-('in', 'en'),
-('into', 'en'),
-('is', 'en'),
-('isn''t', 'en'),
-('it', 'en'),
-('its', 'en'),
-('me', 'en'),
-('more', 'en'),
-('most', 'en'),
-('must', 'en'),
-('my', 'en'),
-('new', 'en'),
-('no', 'en'),
-('none', 'en'),
-('not', 'en'),
-('nothing', 'en'),
-('of', 'en'),
-('off', 'en'),
-('often', 'en'),
-('old', 'en'),
-('on', 'en'),
-('onc', 'en'),
-('once', 'en'),
-('only', 'en'),
-('or', 'en'),
-('other', 'en'),
-('our', 'en'),
-('ours', 'en'),
-('out', 'en'),
-('over', 'en'),
-('page', 'en'),
-('she', 'en'),
-('should', 'en'),
-('small', 'en'),
-('so', 'en'),
-('some', 'en'),
-('than', 'en'),
-('thank', 'en'),
-('that', 'en'),
-('the', 'en'),
-('their', 'en'),
-('theirs', 'en'),
-('them', 'en'),
-('then', 'en'),
-('there', 'en'),
-('these', 'en'),
-('they', 'en'),
-('this', 'en'),
-('those', 'en'),
-('thus', 'en'),
-('time', 'en'),
-('times', 'en'),
-('to', 'en'),
-('too', 'en'),
-('true', 'en'),
-('under', 'en'),
-('until', 'en'),
-('up', 'en'),
-('upon', 'en'),
-('use', 'en'),
-('user', 'en'),
-('users', 'en'),
-('version', 'en'),
-('very', 'en'),
-('via', 'en'),
-('want', 'en'),
-('was', 'en'),
-('way', 'en'),
-('were', 'en'),
-('what', 'en'),
-('when', 'en'),
-('where', 'en'),
-('which', 'en'),
-('who', 'en'),
-('whom', 'en'),
-('whose', 'en'),
-('why', 'en'),
-('wide', 'en'),
-('will', 'en'),
-('with', 'en'),
-('within', 'en'),
-('without', 'en'),
-('would', 'en'),
-('yes', 'en'),
-('yet', 'en'),
-('you', 'en'),
-('your', 'en'),
-('yours', 'en');
+('a', 'en-GB'),
+('about', 'en-GB'),
+('after', 'en-GB'),
+('ago', 'en-GB'),
+('all', 'en-GB'),
+('am', 'en-GB'),
+('an', 'en-GB'),
+('and', 'en-GB'),
+('any', 'en-GB'),
+('are', 'en-GB'),
+('aren''t', 'en-GB'),
+('as', 'en-GB'),
+('at', 'en-GB'),
+('be', 'en-GB'),
+('but', 'en-GB'),
+('by', 'en-GB'),
+('for', 'en-GB'),
+('from', 'en-GB'),
+('get', 'en-GB'),
+('go', 'en-GB'),
+('how', 'en-GB'),
+('if', 'en-GB'),
+('in', 'en-GB'),
+('into', 'en-GB'),
+('is', 'en-GB'),
+('isn''t', 'en-GB'),
+('it', 'en-GB'),
+('its', 'en-GB'),
+('me', 'en-GB'),
+('more', 'en-GB'),
+('most', 'en-GB'),
+('must', 'en-GB'),
+('my', 'en-GB'),
+('new', 'en-GB'),
+('no', 'en-GB'),
+('none', 'en-GB'),
+('not', 'en-GB'),
+('nothing', 'en-GB'),
+('of', 'en-GB'),
+('off', 'en-GB'),
+('often', 'en-GB'),
+('old', 'en-GB'),
+('on', 'en-GB'),
+('onc', 'en-GB'),
+('once', 'en-GB'),
+('only', 'en-GB'),
+('or', 'en-GB'),
+('other', 'en-GB'),
+('our', 'en-GB'),
+('ours', 'en-GB'),
+('out', 'en-GB'),
+('over', 'en-GB'),
+('page', 'en-GB'),
+('she', 'en-GB'),
+('should', 'en-GB'),
+('small', 'en-GB'),
+('so', 'en-GB'),
+('some', 'en-GB'),
+('than', 'en-GB'),
+('thank', 'en-GB'),
+('that', 'en-GB'),
+('the', 'en-GB'),
+('their', 'en-GB'),
+('theirs', 'en-GB'),
+('them', 'en-GB'),
+('then', 'en-GB'),
+('there', 'en-GB'),
+('these', 'en-GB'),
+('they', 'en-GB'),
+('this', 'en-GB'),
+('those', 'en-GB'),
+('thus', 'en-GB'),
+('time', 'en-GB'),
+('times', 'en-GB'),
+('to', 'en-GB'),
+('too', 'en-GB'),
+('true', 'en-GB'),
+('under', 'en-GB'),
+('until', 'en-GB'),
+('up', 'en-GB'),
+('upon', 'en-GB'),
+('use', 'en-GB'),
+('user', 'en-GB'),
+('users', 'en-GB'),
+('version', 'en-GB'),
+('very', 'en-GB'),
+('via', 'en-GB'),
+('want', 'en-GB'),
+('was', 'en-GB'),
+('way', 'en-GB'),
+('were', 'en-GB'),
+('what', 'en-GB'),
+('when', 'en-GB'),
+('where', 'en-GB'),
+('which', 'en-GB'),
+('who', 'en-GB'),
+('whom', 'en-GB'),
+('whose', 'en-GB'),
+('why', 'en-GB'),
+('wide', 'en-GB'),
+('will', 'en-GB'),
+('with', 'en-GB'),
+('within', 'en-GB'),
+('without', 'en-GB'),
+('would', 'en-GB'),
+('yes', 'en-GB'),
+('yet', 'en-GB'),
+('you', 'en-GB'),
+('your', 'en-GB'),
+('yours', 'en-GB');
 
 -- --------------------------------------------------------
 
@@ -1272,7 +1048,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `weight` float unsigned NOT NULL DEFAULT 1,
   `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
-  `language` char(3) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
   KEY `idx_word` (`term`),
   KEY `idx_context` (`context`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
@@ -1285,7 +1061,6 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `term_id` int(10) unsigned NOT NULL,
-  `map_suffix` char(1) NOT NULL,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -1294,7 +1069,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
   `context_weight` float unsigned NOT NULL,
   `total_weight` float unsigned NOT NULL,
-  `language` char(3) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
   KEY `token` (`term`),
   KEY `keyword_id` (`term_id`)
 ) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
@@ -1346,7 +1121,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 --
 
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
-(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 1);
+(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en-GB', 'en_gb', '', '', '', '', 1, 1, 1);
 
 -- --------------------------------------------------------
 
