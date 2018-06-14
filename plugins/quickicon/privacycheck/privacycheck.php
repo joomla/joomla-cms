@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Plugin to check privacy requests older than 14 days
  * @since  3.9.0
@@ -24,7 +29,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Check the PHP version after the admin component has been dispatched.
+	 * Check privacy requests older than 14 days.
 	 *
 	 * @param   string  $context  The calling context
 	 *
@@ -34,28 +39,28 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_privacy'))
 		{
 			return;
 		}
 
 		JHtml::_('jquery.framework');
 
-		$token    = JSession::getFormToken() . '=' . 1;
+		$token    = Session::getFormToken() . '=' . 1;
 	
 		$options  = array(
-			'plg_quickicon_privacycheck_url'      => JUri::base() . 'index.php?option=com_privacy&' . $token,
-			'plg_quickicon_privacycheck_ajax_url' => JUri::base() . 'index.php?option=com_privacy&task=ajax&' . $token,
+			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&' . $token,
+			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=ajax&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
-				"NOREQUEST"            => JText::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
-				"REQUESTFOUND"         => JText::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND', true),
-				"REQUESTFOUND_MESSAGE" => JText::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE', true),
-				"REQUESTFOUND_BUTTON"  => JText::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON', true),
-				"ERROR"                => JText::_('PLG_QUICKICON_PRIVACYCHECK_ERROR', true),
+				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
+				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND', true),
+				"REQUESTFOUND_MESSAGE" => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE', true),
+				"REQUESTFOUND_BUTTON"  => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON', true),
+				"ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR', true),
 			)
 		);
 
-		JFactory::getDocument()->addScriptOptions('js-privacy-check', $options);
+		Factory::getDocument()->addScriptOptions('js-privacy-check', $options);
  
 		JHtml::_('script', 'plg_quickicon_privacycheck/privacycheck.js', array('version' => 'auto', 'relative' => true));
 
@@ -64,11 +69,10 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 				'link'  => 'index.php?option=com_privacy&view=requests&' . $token,
 				'image' => 'users',
 				'icon'  => 'header/icon-48-user.png',
-				'text'  => JText::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
+				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)
 		);
 	}
 }
-
