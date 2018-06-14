@@ -199,8 +199,8 @@ $assoc = JLanguageAssociations::isEnabled();
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
 
-										<?php if ($item->parent_parent_category_id != '0')  : ?>
-
+										<?php if ($item->parent_category_id != '1')  : ?>
+										
 											<?php echo ' » '; ?>
 
 											<?php if ($canEditParCat || $canEditOwnParCat) : ?>

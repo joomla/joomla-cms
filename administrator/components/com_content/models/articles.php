@@ -205,21 +205,13 @@ class ContentModelArticles extends JModelList
 		$query->select('ag.title AS access_level')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
-		// Join over the categories and parent categories.
-		$query->select('c.title AS category_title, c.parent_id AS parent_category_id')
+		// Join over the categories.
+		$query->select('c.title AS category_title, c.created_user_id as category_uid')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		// Join over parent category title
-		$query->select('p.title AS parent_category_title, p.parent_id AS parent_parent_category_id')
-			->join('LEFT', '#__categories AS p ON p.id = c.parent_id');
-
-		// Join over parent category creator
-		$query->select('puid.created_user_id AS parent_category_uid')
-			->join('LEFT', '#__categories AS puid ON puid.id = c.parent_id');
-
-		// Join over category creator
-		$query->select('cuid.created_user_id AS category_uid')
-			->join('LEFT', '#__categories AS cuid ON cuid.id = a.catid');
+		// Join over the parent categories.
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, parent.created_user_id AS parent_category_uid')
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
