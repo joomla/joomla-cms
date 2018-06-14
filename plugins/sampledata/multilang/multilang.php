@@ -960,6 +960,15 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new category.
 		$category = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
@@ -967,6 +976,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data = array(
 			'extension'       => 'com_content',
 			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'           => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
@@ -1026,12 +1036,22 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 		$currentDate = Factory::getDate()->toSql();
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new article.
 		$article = Table::getInstance('ArticleTable', '\\Joomla\\Component\\Content\\Administrator\\Table\\');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'            => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
 										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
 										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
