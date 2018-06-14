@@ -8,33 +8,40 @@ jQuery(document).ready(function() {
 	    plg_quickicon_privacycheck_ajax_url = variables.plg_quickicon_privacycheck_ajax_url,
 	    plg_quickicon_privacycheck_url = variables.plg_quickicon_privacycheck_url,
 	    plg_quickicon_privacycheck_text = variables.plg_quickicon_privacycheck_text;
-
 	var ajax_structure = {
 		success: function(data, textStatus, jqXHR) {
 			var link = jQuery('#plg_quickicon_privacycheck').find('span.j-links-link');
 
 			try {
-				var updateInfoList = jQuery.parseJSON(data);
+				var requestList = jQuery.parseJSON(data);
 			} catch (e) {
 				// An error occurred
 				link.html(plg_quickicon_privacycheck_text.ERROR);
 			}
 
-			if (updateInfoList instanceof Array) {
-				if (updateInfoList.length == 0) {
-					// No updates
-					link.html(plg_quickicon_privacycheck_text.UPTODATE);
+			if (requestList instanceof Array) {
+				if (requestList.length == 0) {
+					// No requests
+					link.html(plg_quickicon_privacycheck_text.NOREQUEST);
 				} else {
-					var updateString = plg_quickicon_privacycheck_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfoList.length);
+					// Requests
+					var msgString = '<span class="label label-important">'
+						+ requestList.length + '</span>&nbsp;'
+						+ plg_quickicon_privacycheck_text.REQUESTFOUND_MESSAGE;
+					
 					jQuery('#system-message-container').prepend(
 						'<div class="alert alert-error alert-joomlaupdate">'
-						+ updateString
+						+ msgString
 						+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_privacycheck_url + '\'">'
-						+ plg_quickicon_privacycheck_text.UPDATEFOUND_BUTTON + '</button>'
+						+ plg_quickicon_privacycheck_text.REQUESTFOUND_BUTTON + '</button>'
 						+ '</div>'
 					);
-					var updateString = plg_quickicon_privacycheck_text.UPDATEFOUND.replace("%s", updateInfoList.length);
-					link.html(updateString);
+					
+					var msgString = plg_quickicon_privacycheck_text.REQUESTFOUND
+						+ '&nbsp;<span class="label label-important">'
+						+ requestList.length + '</span>'
+					
+					link.html(msgString);
 				}
 			} else {
 				// An error occurred
