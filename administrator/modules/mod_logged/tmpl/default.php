@@ -30,7 +30,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php  if (isset($user->editLink)) : ?>
 						<?php echo HtmlHelper::_('link', $user->editLink, htmlspecialchars($user->name, ENT_COMPAT, 'UTF-8'), []); ?>
 					<?php else : ?>
-						<?php echo htmlspecialchars($user->name, ENT_COMPAT, 'UTF-8');; ?>
+						<?php echo htmlspecialchars($user->name, ENT_COMPAT, 'UTF-8'); ?>
 					<?php endif; ?>
 				</strong>
 				<small class="mr-2 small">
@@ -43,10 +43,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php endif; ?>
 				</small>
 			</div>
-			<span class="badge badge-secondary badge-pill ml-auto" >
+			<span class="badge badge-secondary badge-pill ml-auto">
 				<span class="small">
 					<span class="icon-calendar" aria-hidden="true">
-					<span class="sr-only"><?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?></span></span>
+						<span class="sr-only"><?php echo JText::_('MOD_LOGGED_LAST_ACTIVITY'); ?></span>
+					</span>
 					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
 				</span>
 			</span>
