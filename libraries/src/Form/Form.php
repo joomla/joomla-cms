@@ -2113,17 +2113,21 @@ class Form
 		if ($valid === false)
 		{
 			// Does the field have a defined error message?
-			$message = $element['message'] ? \JText::_($element['message']) : $rule->message;
+			$message = (string) $element['message'];
 
 			if ($message)
 			{
+				$message = \JText::_($element['message']);
+
 				return new \UnexpectedValueException($message);
 			}
+			else
+			{
+				$message = \JText::_($element['label']);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
 
-			$message = \JText::_($element['label']);
-			$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
-
-			return new \UnexpectedValueException($message);
+				return new \UnexpectedValueException($message);
+			}
 		}
 
 		return true;
