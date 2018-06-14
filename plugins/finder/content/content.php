@@ -347,7 +347,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
-			->select('a.state, a.catid, a.created AS start_date, a.created, a.created_by')
+			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
