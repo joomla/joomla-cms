@@ -68,7 +68,23 @@ class PrivacyModelRemove extends JModelLegacy
 		if ($table->user_id)
 		{
 			JPluginHelper::importPlugin('privacy');
-			JFactory::getApplication()->triggerEvent('onPrivacyBeforeRemoveRequest', array($table));
+			$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table));
+
+			$remove = true;
+
+			foreach ($pluginResults as $pluginResponse)
+			{
+				if ($pluginResponse['cannotRemove'])
+				{
+					$remove = false;
+					$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_MANUAL_ACTION'));
+				}
+			}
+
+			if (!$remove)
+			{
+				return false;
+			}
 
 			$userToRemove = JUser::getInstance($table->user_id);
 			
@@ -93,7 +109,7 @@ class PrivacyModelRemove extends JModelLegacy
 				return false;
 			}
 
-			JFactory::getApplication()->triggerEvent('onPrivacyAfterRemoveRequest', array($table));
+			JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table));
 		}
 
 		return true;
@@ -142,7 +158,7 @@ class PrivacyModelRemove extends JModelLegacy
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
 	}
 
 	/**
