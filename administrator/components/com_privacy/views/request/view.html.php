@@ -128,6 +128,15 @@ class PrivacyViewRequest extends JViewLegacy
 						);
 					}
 
+					if ($this->item->request_type === 'remove')
+					{
+						JToolbarHelper::link(
+							JRoute::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $this->item->id . $return),
+							'COM_PRIVACY_ACTION_REMOVE_DATA',
+							'mail'
+						);
+					}
+
 					break;
 
 				// Item is in a "locked" state and cannot transition
