@@ -45,16 +45,15 @@ JFactory::getDocument()->addScriptDeclaration(
 			cm.defineInitHook(function (editor)
 			{
 				// Try to set up the mode
-				var mode = cm.findModeByName(editor.options.mode || '');
+				var mode = cm.findModeByMIME(editor.options.mode || '') ||
+							cm.findModeByName(editor.options.mode || '') ||
+							cm.findModeByExtension(editor.options.mode || '');
+
+				cm.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
 				if (mode)
 				{
-					cm.autoLoadMode(editor, mode.mode);
-					editor.setOption('mode', mode.mime);
-				}
-				else
-				{
-					cm.autoLoadMode(editor, editor.options.mode);
+					editor.setOption('mode', mode.mode);
 				}
 
 				// Handle gutter clicks (place or remove a marker).
