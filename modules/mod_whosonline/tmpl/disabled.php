@@ -10,4 +10,6 @@
 defined('_JEXEC') or die;
 
 ?>
-<p><?php echo JText::_('MOD_WHOSONLINE_NO_SESSION_METADATA'); ?></p>
+<div class="mod-whosonline-disabled">
+	<p><?php echo JText::_('MOD_WHOSONLINE_NO_SESSION_METADATA'); ?></p>
+</div>
