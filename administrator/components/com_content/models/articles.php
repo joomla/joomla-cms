@@ -188,7 +188,7 @@ class ContentModelArticles extends JModelList
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, c.parent_id, p.title'
+				', a.publish_up, a.publish_down, c.parent_id, c.title, p.title'
 			)
 		);
 		$query->from('#__content AS a');
@@ -212,6 +212,14 @@ class ContentModelArticles extends JModelList
 		// Join over parent category title
 		$query->select('p.title AS parent_category_title, p.parent_id AS parent_parent_category_id')
 			->join('LEFT', '#__categories AS p ON p.id = c.parent_id');
+
+		// Join over parent category creator
+		$query->select('puid.created_user_id AS parent_category_uid')
+			->join('LEFT', '#__categories AS puid ON puid.id = c.parent_id');
+
+		// Join over category creator
+		$query->select('cuid.created_user_id AS category_uid')
+			->join('LEFT', '#__categories AS cuid ON cuid.id = a.catid'); 
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
