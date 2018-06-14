@@ -118,6 +118,22 @@ class UsersController extends JControllerLegacy
 					$model = $this->getModel($vName);
 					break;
 
+				case 'delete':
+					// If the user is not logged in, redirect to the login page.
+					$user = JFactory::getUser();
+
+					if (($user->get('guest') == 1) && ($lName == 'default'))
+					{
+						// Redirect to login page.
+						$return = base64_encode(JUri::getInstance());
+						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&return=' . $return, false));
+
+						return;
+					}
+
+					$model = $this->getModel($vName);
+					break;
+
 				default:
 					$model = $this->getModel('Login');
 					break;
