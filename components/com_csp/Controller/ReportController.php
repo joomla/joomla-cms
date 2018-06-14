@@ -38,9 +38,14 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$data   = $this->input->json->get('csp-report', array(), 'Array');
-		$report = new \stdClass;
+		$data = $this->input->json->get('csp-report', array(), 'Array');
 
+		if (empty($data))
+		{
+			$this->app->close();
+		}
+
+		$report = new \stdClass;
 		$report->document_uri = $data['document-uri'];
 		$report->blocked_uri  = $data['blocked-uri'];
 
