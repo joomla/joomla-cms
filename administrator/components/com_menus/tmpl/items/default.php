@@ -245,7 +245,7 @@ if ($menuType == '')
 								<?php if ($assoc) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php if ($item->association) : ?>
-											<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
+											<?php echo JHtml::_('menus.association', $item->id); ?>
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
