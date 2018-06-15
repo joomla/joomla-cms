@@ -1,7 +1,7 @@
 SET IDENTITY_INSERT #__extensions  ON;
 
 INSERT INTO [#__extensions] ([extension_id], [package_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state]) VALUES
-(36, 0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":"0","csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users","com_privacy"]}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
+(36, 0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":"0","csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (483, 0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 0, 1, 0, '', '{"logDeletePeriod":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0),
 (484, 0, 'plg_actionlog_joomla', 'plugin', 'joomla', 'actionlog', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
@@ -70,9 +70,7 @@ SELECT 15, 'com_tags'
 UNION ALL
 SELECT 16, 'com_templates'
 UNION ALL
-SELECT 17, 'com_users'
-UNION ALL
-SELECT 18, 'com_privacy';
+SELECT 17, 'com_users';
 
 SET IDENTITY_INSERT [#__action_logs_extensions]  OFF;
 /****** Object:  Table [#__action_logs_tables_data] ******/
@@ -127,8 +125,6 @@ SELECT 16, 'module', 'com_modules.module', 'id' ,'title', '#__modules', 'PLG_ACT
 UNION ALL
 SELECT 17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'
 UNION ALL
-SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'
-UNION ALL
-SELECT 19, 'privacy_request', 'com_privacy.request', 'id', 'email', '#__privacy_requests', 'PLG_ACTIONLOG_JOOMLA';
+SELECT 18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA';
 
 SET IDENTITY_INSERT [#__action_logs_tables_data]  OFF;
