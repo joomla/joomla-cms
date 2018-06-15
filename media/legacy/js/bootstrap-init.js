@@ -1,3 +1,4 @@
+
 ;(function() {
 	"use strict";
 
@@ -67,7 +68,29 @@
 		if (modal.length) {
 			$.each($('.joomla-modal'), function() {
 				var $self = $(this);
+
+				// element.id is mandatory for modals!!!
+				var element = $self.get(0);
+
+				// Comply with the Joomla API
+				// Bound element.open()
+				if (element) {
+					element.open = function () {
+						return $self.modal('show');
+					};
+
+					// Bound element.close()
+					element.close = function () {
+						return $self.modal('hide');
+					};
+				}
+
 				$self.on('show.bs.modal', function() {
+					// Comply with the Joomla API
+					// Set the current Modal ID
+					Joomla.Modal.setCurrent(element);
+
+					// @TODO throw the standard Joomla event
 					if ($self.data('url')) {
 						var modalBody = $self.find('.modal-body');
 						modalBody.find('iframe').remove();
@@ -102,9 +125,16 @@
 							$('.iframe').css('max-height', maxModalBodyHeight-modalBodyPadding);
 						}
 					}
-				}).on('hide.bs.modal', function () {
+					// @TODO throw the standard Joomla event
+				}).on('hide.bs.modal', function() {
 					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
 					$('.modalTooltip').tooltip('dispose');
+					// @TODO throw the standard Joomla event
+				}).on('hidden.bs.modal', function() {
+					// Comply with the Joomla API
+					// Remove the current Modal ID
+					Joomla.Modal.setCurrent('');
+					// @TODO throw the standard Joomla event
 				});
 			});
 		}
