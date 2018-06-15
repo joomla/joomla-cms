@@ -173,43 +173,28 @@ class PrivacyModelRequests extends JModelList
 	}
 
 	/**
-	 * Method to return older privacy requests.
+	 * Method to return number privacy requests older than X days.
 	 *
-	 * @return  array
+	 * @return  int
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getOlder()
+	public function getNumberUrgentRequests()
 	{
-
 		// Load the parameters.
 		$params = ComponentHelper::getComponent('com_privacy')->getParams();
 		$notify = (int) $params->get('notify', 14);
-		$items  = array();
 		$now    = JFactory::getDate()->toSql();
 		$period = '-' . $notify;
 
-		// Create a new query object.
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
+		$query = $db->getQuery(true)
+			->select('COUNT(*)');
 		$query->from($db->quoteName('#__privacy_requests'));
 		$query->where($db->quoteName('status') . ' = 1 ');
 		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
 		$db->setQuery($query);
-		
-		$count = $db->loadRow();
 
-		if (!$count['0'] > 0)
-		{
-			return array();
-		}
-
-		for ($i=0; $i < $count['0']; $i++) 
-		{ 
-			$items[] = $count['0'];
-		}
-
-		return $items;
+		return (int) $db->loadResult();
 	}
 }

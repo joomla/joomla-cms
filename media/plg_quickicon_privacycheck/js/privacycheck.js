@@ -19,33 +19,28 @@ jQuery(document).ready(function() {
 				link.html(plg_quickicon_privacycheck_text.ERROR);
 			}
 
-			if (requestList instanceof Array) {
-				if (requestList.length == 0) {
-					// No requests
-					link.html(plg_quickicon_privacycheck_text.NOREQUEST);
-				} else {
-					// Requests
-					var msgString = '<span class="label label-important">'
-						+ requestList.length + '</span>&nbsp;'
-						+ plg_quickicon_privacycheck_text.REQUESTFOUND_MESSAGE;
-					
-					jQuery('#system-message-container').prepend(
-						'<div class="alert alert-error alert-joomlaupdate">'
-						+ msgString
-						+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_privacycheck_url + '\'">'
-						+ plg_quickicon_privacycheck_text.REQUESTFOUND_BUTTON + '</button>'
-						+ '</div>'
-					);
-					
-					var msgString = plg_quickicon_privacycheck_text.REQUESTFOUND
-						+ '&nbsp;<span class="label label-important">'
-						+ requestList.length + '</span>'
-					
-					link.html(msgString);
-				}
+			if (requestList.data.number_urgent_requests == 0) {
+				// No requests
+				link.html(plg_quickicon_privacycheck_text.NOREQUEST);
 			} else {
-				// An error occurred
-				link.html(plg_quickicon_privacycheck_text.ERROR);
+				// Requests
+				var msgString = '<span class="label label-important">'
+					+ requestList.data.number_urgent_requests + '</span>&nbsp;'
+					+ plg_quickicon_privacycheck_text.REQUESTFOUND_MESSAGE;
+
+				jQuery('#system-message-container').prepend(
+					'<div class="alert alert-error alert-joomlaupdate">'
+					+ msgString
+					+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_privacycheck_url + '\'">'
+					+ plg_quickicon_privacycheck_text.REQUESTFOUND_BUTTON + '</button>'
+					+ '</div>'
+				);
+
+				var msgString = plg_quickicon_privacycheck_text.REQUESTFOUND
+					+ '&nbsp;<span class="label label-important">'
+					+ requestList.data.number_urgent_requests + '</span>'
+
+				link.html(msgString);
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {

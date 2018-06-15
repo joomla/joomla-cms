@@ -34,7 +34,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	 *
 	 * @param   string  $context  The calling context
 	 *
-	 * @return  void
+	 * @return  array   A list of icon definition associative arrays
 	 *
 	 * @since   3.9.0
 	 */
@@ -50,8 +50,8 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		$token    = Session::getFormToken() . '=' . 1;
 	
 		$options  = array(
-			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&' . $token,
-			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=ajax&' . $token,
+			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&view=requests',
+			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=get_number_urgent_requests&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND', true),
@@ -67,7 +67,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 
 		return array(
 			array(
-				'link'  => 'index.php?option=com_privacy&view=requests&' . $token,
+				'link'  => 'index.php?option=com_privacy&view=requests',
 				'image' => 'users',
 				'icon'  => 'header/icon-48-user.png',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
