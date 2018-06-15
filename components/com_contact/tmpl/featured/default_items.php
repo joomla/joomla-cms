@@ -22,11 +22,11 @@ $params = &$this->item->params;
 
 <div class="com-contact-featured__items">
 	<?php if (empty($this->items)) : ?>
-		<p class="con-contact-featured__message"> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
+		<p class="com-contact-featured__message"> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 	<?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-		<fieldset class="con-contact-featured__filters filters">
+		<fieldset class="com-contact-featured__filters filters">
 		<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<div class="display-limit">
@@ -38,7 +38,7 @@ $params = &$this->item->params;
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 		</fieldset>
 
-		<table class="con-contact-featured__table table">
+		<table class="com-contact-featured__table table">
 			<?php if ($this->params->get('show_headings')) : ?>
 			<thead class="thead-default">
 				<tr>
