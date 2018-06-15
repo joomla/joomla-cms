@@ -92,6 +92,7 @@ class ExtensionHelper
 		array('module', 'mod_menu', '', 1),
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
+		array('module', 'mod_privacy_dashboard', '', 1),
 		array('module', 'mod_quickicon', '', 1),
 		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
