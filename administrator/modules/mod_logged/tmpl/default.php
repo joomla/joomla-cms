@@ -19,8 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<div class="flex-grow-1">
 				<?php if ($user->client_id == 0) : ?>
 					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs">
-						<span class="icon-remove icon-white" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('JLOGOUT'); ?></span>
+						<?php echo Text::_('JLOGOUT'); ?>
 					</a>
 				<?php endif; ?>
 				<strong class="mr-2 row-title">
