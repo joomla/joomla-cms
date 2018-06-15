@@ -17,7 +17,7 @@ $maxsize = $params->get('maxsize', 2);
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
-<div class="tagspopular tagscloud">
+<div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
 if (!count($list)) : ?>
 	<joomla-alert type="info"><?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></joomla-alert>

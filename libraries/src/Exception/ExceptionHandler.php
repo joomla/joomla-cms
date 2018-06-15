@@ -127,6 +127,9 @@ class ExceptionHandler
 				$renderer = AbstractRenderer::getRenderer('html');
 			}
 
+			// Reset the document object in the factory, this gives us a clean slate and lets everything render properly
+			Factory::$document = $renderer->getDocument();
+
 			$data = $renderer->render($error);
 
 			// If nothing was rendered, just use the message from the Exception
