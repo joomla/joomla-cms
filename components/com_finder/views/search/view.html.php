@@ -291,11 +291,6 @@ class FinderViewSearch extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->get('MetaAuthor') == '1')
-		{
-			$author = $this->item->created_by_alias ?: $this->item->author;
-			$this->document->setMetaData('author', $author);
-		}
 		// Add feed link to the document head.
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
