@@ -3,7 +3,8 @@
 	<fieldset
 		name="privacy"
 		label="COM_PRIVACY_OPTION_LABEL"
-		description="COM_PRIVACY_OPTION_FIELDSET_DESC">
+		description="COM_PRIVACY_OPTION_FIELDSET_DESC"
+	>
 
 		<field
 			name="notify"
@@ -14,7 +15,7 @@
 			last="29"
 			step="1"
 			default="14"
-		</field>
+		/>
 
     </fieldset>
 </config>
