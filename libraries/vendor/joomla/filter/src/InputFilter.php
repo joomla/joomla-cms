@@ -864,7 +864,7 @@ class InputFilter
 			}
 
 			// Remove all symbols
-			$attrSubSet[0] = preg_replace('/[^\p{L}\p{N}\s]/u', '', $attrSubSet[0]);
+			$attrSubSet[0] = preg_replace('/[^\p{L}\p{N}\-\s]/u', '', $attrSubSet[0]);
 
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes
