@@ -147,7 +147,7 @@ class ChecksModel extends BaseInstallationModel
 
 		foreach ($options as $option)
 		{
-			if ($option->state === false)
+			if ($option->state === true)
 			{
 				$result = $option->state;
 			}
