@@ -27,7 +27,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function userDataRemove($id = null)
+	public function removeDataForRequest($id = null)
 	{
 		$id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
@@ -87,7 +87,7 @@ class PrivacyModelRemove extends JModelLegacy
 			}
 
 			$userToRemove = JUser::getInstance($table->user_id);
-			
+
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
 			$query->update($db->quoteName('#__users'))

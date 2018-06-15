@@ -359,8 +359,8 @@ class PrivacyControllerRequest extends JControllerForm
 		$model = $this->getModel('Remove');
 
 		$recordId = $this->input->getUint('id');
-		
-		if (!$model->userDataRemove($recordId))
+
+		if (!$model->removeDataForRequest($recordId))
 		{
 			// Redirect back to the edit screen.
 			$this->setError(\JText::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
@@ -370,20 +370,20 @@ class PrivacyControllerRequest extends JControllerForm
 		{
 			$this->setMessage(\JText::_('COM_PRIVACY_DATA_REMOVED'));
 		}
-		
+
 		$url = 'index.php?option=com_privacy&view=requests';
-		
+
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
-		
+
 		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
-		
+
 		// Redirect to the list screen.
 		$this->setRedirect(\JRoute::_($url, false));
-		
+
 		return true;
 	}
 }
