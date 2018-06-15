@@ -72,7 +72,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 				<?php else : ?>
-					<span class="label"><?php echo strtoupper($language->sef); ?></span>
+					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
