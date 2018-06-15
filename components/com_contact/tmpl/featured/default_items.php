@@ -20,13 +20,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $params = &$this->item->params;
 ?>
 
-<div class="com-contact-featured__items">
+<div class="con-contact-featured__items">
 	<?php if (empty($this->items)) : ?>
-		<p class="com-contact-featured__message"> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
+		<p class="con-contact-featured__message"> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 	<?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-		<fieldset class="com-contact-featured__filters filters">
+		<fieldset class="con-contact-featured__filters filters">
 		<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<div class="display-limit">
@@ -38,7 +38,7 @@ $params = &$this->item->params;
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
 		</fieldset>
 
-		<table class="com-contact-featured__table table">
+		<table class="con-contact-featured__table table">
 			<?php if ($this->params->get('show_headings')) : ?>
 			<thead class="thead-default">
 				<tr>
@@ -118,73 +118,6 @@ $params = &$this->item->params;
 						</td>
 
 						<?php if ($this->params->get('show_position_headings')) : ?>
-						<th class="item-position">
-							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_email_headings')) : ?>
-						<th class="item-email">
-							<?php echo JText::_('JGLOBAL_EMAIL'); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_telephone_headings')) : ?>
-						<th class="item-phone">
-							<?php echo JText::_('COM_CONTACT_TELEPHONE'); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_mobile_headings')) : ?>
-						<th class="item-phone">
-							<?php echo JText::_('COM_CONTACT_MOBILE'); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_fax_headings')) : ?>
-						<th class="item-phone">
-							<?php echo JText::_('COM_CONTACT_FAX'); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_suburb_headings')) : ?>
-						<th class="item-suburb">
-							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_state_headings')) : ?>
-						<th class="item-state">
-							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
-						</th>
-						<?php endif; ?>
-
-						<?php if ($this->params->get('show_country_headings')) : ?>
-						<th class="item-state">
-							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
-						</th>
-						<?php endif; ?>
-					</tr>
-				</thead>
-				<?php endif; ?>
-
-				<tbody>
-					<?php foreach ($this->items as $i => $item) : ?>
-						<tr class="<?php echo ($i % 2) ? 'odd' : 'even'; ?>" itemscope itemtype="https://schema.org/Person">
-							<td class="item-num">
-								<?php echo $i; ?>
-							</td>
-
-							<td class="item-title">
-								<?php if ($this->items[$i]->published == 0) : ?>
-									<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-								<?php endif; ?>
-								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>" itemprop="url">
-									<span itemprop="name"><?php echo $item->name; ?></span>
-								</a>
-							</td>
-
-						<?php if ($this->params->get('show_position_headings')) : ?>
 							<td class="item-position" itemprop="jobTitle">
 								<?php echo $item->con_position; ?>
 							</td>
@@ -239,4 +172,3 @@ $params = &$this->item->params;
 	</form>
 	<?php endif; ?>
 </div>
-
