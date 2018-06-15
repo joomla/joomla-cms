@@ -69,7 +69,7 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
 		$option->state  = extension_loaded('zlib');
-		$option->state ? null : \JText::_('INSTL_NOTICE_ZLIB_COMPRESSION_SUPPORT');
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_ZLIB_COMPRESSION_SUPPORT');
 		$options[] = $option;
 
 		// Check for XML support.
