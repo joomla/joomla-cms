@@ -158,7 +158,7 @@ class PrivacyModelRemove extends JModelLegacy
 		$user = JFactory::getUser();
 
 		$message = array(
-			'action'      => 'remove',
+			'action'      => 'remove-blocked',
 			'id'          => $request->id,
 			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
 			'userid'      => $user->id,
