@@ -50,7 +50,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
 										<th class="d-none d-md-table-cell text-center" style="width: 10%">
-											<?php echo Text::_('COM_INSTALLER_HEADING_ERRORS'); ?>
+											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
 										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"

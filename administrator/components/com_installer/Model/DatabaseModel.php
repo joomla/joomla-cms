@@ -166,7 +166,7 @@ class DatabaseModel extends InstallerModel
 
 			if ($result->version_id !== $schema)
 			{
-				$errorMessages[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $result->name, $schema);
+				$errorMessages[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema);
 				$errorCount++;
 			}
 
