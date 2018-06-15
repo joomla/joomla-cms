@@ -52,22 +52,22 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<th class="d-none d-md-table-cell text-center" style="width: 10%">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width: 10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width: 10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
 											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
-										<th class="d-none d-md-table-cell text-center" style="width: 10%">
+										<th class="d-none d-md-table-cell text-center" style="width:10%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th class="nowrap d-none d-md-table-cell text-center" style="width: 1%">
+										<th class="nowrap d-none d-md-table-cell text-center" style="width:1%">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
