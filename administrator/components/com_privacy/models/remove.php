@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
+JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
 /**
  * Remove model class.
@@ -62,55 +63,34 @@ class PrivacyModelRemove extends JModelLegacy
 			return false;
 		}
 
-		// Log the remove
+		$canRemove = true;
+
+		JPluginHelper::importPlugin('privacy');
+
+		/** @var PrivacyRemovalStatus[] $pluginResults */
+		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table));
+
+		foreach ($pluginResults as $status)
+		{
+			if (!$status->canRemove)
+			{
+				$this->setError($status->reason ?: JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_DATA'));
+
+				$canRemove = false;
+			}
+		}
+
+		if (!$canRemove)
+		{
+			$this->logRemoveBlocked($table, $this->getErrors());
+
+			return false;
+		}
+
+		// Log the removal
 		$this->logRemove($table);
 
-		if ($table->user_id)
-		{
-			JPluginHelper::importPlugin('privacy');
-			$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table));
-
-			$remove = true;
-
-			foreach ($pluginResults as $pluginResponse)
-			{
-				if ($pluginResponse['cannotRemove'])
-				{
-					$remove = false;
-					$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_MANUAL_ACTION'));
-				}
-			}
-
-			if (!$remove)
-			{
-				return false;
-			}
-
-			$userToRemove = JUser::getInstance($table->user_id);
-
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote(''))
-				->set($db->quoteName('username') . ' = ' . $db->quote(microtime()))
-				->set($db->quoteName('email') . ' = ' . $db->quote(microtime()))
-				->set($db->quoteName('block') . ' = 1')
-				->where($db->quoteName('id') . ' = ' . (int) $userToRemove->id);
-
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_REQUEST'));
-				return false;
-			}
-
-			JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table));
-		}
+		JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table));
 
 		return true;
 	}
@@ -133,7 +113,7 @@ class PrivacyModelRemove extends JModelLegacy
 	}
 
 	/**
-	 * Log the data remove to the action log system.
+	 * Log the data removal to the action log system.
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
 	 *
@@ -159,6 +139,37 @@ class PrivacyModelRemove extends JModelLegacy
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
+	}
+
+	/**
+	 * Log the data removal being blocked to the action log system.
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   string[]             $reasons  The reasons given why the record could not be removed.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function logRemoveBlocked(PrivacyTableRequest $request, array $reasons)
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'      => 'remove',
+			'id'          => $request->id,
+			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'reasons'     => $reasons,
+		);
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
 	}
 
 	/**

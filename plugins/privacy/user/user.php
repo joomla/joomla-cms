@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
+JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
 /**
  * Privacy plugin managing Joomla user data
@@ -26,6 +27,37 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
+
+	/**
+	 * Performs validation to determine if the data associated with a remove information request can be processed
+	 *
+	 * This event will not allow a super user account to be removed
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  PrivacyRemovalStatus
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request)
+	{
+		$status = new PrivacyRemovalStatus;
+
+		if (!$request->user_id)
+		{
+			return $status;
+		}
+
+		$user = JUser::getInstance($request->user_id);
+
+		if ($user->authorise('core.admin'))
+		{
+			$status->canRemove = false;
+			$status->reason    = JText::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
+		}
+
+		return $status;
+	}
 
 	/**
 	 * Processes an export request for Joomla core user data
@@ -61,6 +93,42 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$domains[] = $this->createUserCustomFieldsDomain($user);
 
 		return $domains;
+	}
+
+	/**
+	 * Removes the data associated with a remove information request
+	 *
+	 * This event will pseudoanonymise the user account
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyRemoveData(PrivacyTableRequest $request)
+	{
+		// This plugin only processes data for registered user accounts
+		if (!$request->user_id)
+		{
+			return;
+		}
+
+		$user = JUser::getInstance($request->user_id);
+
+		$pseudoanonymisedData = array_merge(
+			$user->getProperties(),
+			array(
+				'name'     => 'User ID ' . $user->id,
+				'username' => bin2hex(random_bytes(12)),
+				'email'    => 'removed@email.removed',
+				'block'    => true,
+			)
+		);
+
+		$user->bind($pseudoanonymisedData);
+
+		$user->save();
 	}
 
 	/**
@@ -193,38 +261,5 @@ class PlgPrivacyUser extends PrivacyPlugin
 		}
 
 		return $domain;
-	}
-
-/**
-	 * Processes a remove request for Joomla core user data
-	 * 
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 *
-	 * @return  PrivacyRemoveResponse[]
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request)
-	{
-		if (!$request->user_id)
-		{
-			return array();
-		}
-
-		$user = JFactory::getUser($request->user_id);
-
-		$response = array();
-		$response['cannotRemove'] = false;
-		$response['message']      = '';
-
-		// Check for not remove a Super Admin
-		if ($user->authorise('core.admin'))
-		{
-			$response['cannotRemove'] = true;
-			$response['message']      = JText::_('PLG_PRIVACY_ERROR_CANNOT_REMOVE_SUPER');
-			
-		}
-
-		return $response;
 	}
 }
