@@ -130,7 +130,7 @@ class PrivacyViewRequest extends JViewLegacy
 
 					if ($this->item->request_type === 'remove')
 					{
-						$bar->appendButton('Standard', 'delete', 'COM_PRIVACY_ACTION_REMOVE_DATA', 'request.remove', false);
+						$bar->appendButton('Standard', 'delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove', false);
 					}
 
 					break;
