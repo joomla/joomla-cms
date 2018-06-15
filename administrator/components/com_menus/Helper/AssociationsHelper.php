@@ -12,6 +12,8 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Table;
 
 /**
  * Menu associations helper.
@@ -64,7 +66,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 		$context = $this->extension . '.item';
 
 		// Get the associations.
-		$associations = JLanguageAssociations::getAssociations(
+		$associations = Associations::getAssociations(
 			$this->extension,
 			$type['tables']['a'],
 			$context,
@@ -99,7 +101,7 @@ class AssociationsHelper extends AssociationExtensionHelper
 		switch ($typeName)
 		{
 			case 'item':
-				$table = JTable::getInstance('menu');
+				$table = Table::getInstance('menu');
 				break;
 		}
 
