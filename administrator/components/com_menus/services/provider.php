@@ -24,7 +24,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * The menus service provider.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 return new class implements ServiceProviderInterface
 {
@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function register(Container $container)
 	{
