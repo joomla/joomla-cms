@@ -2,25 +2,28 @@
 /**
  * Part of the Joomla Framework DI Package
  *
- * @copyright  Copyright (C) 2013 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2013 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\DI;
 
 use Joomla\DI\Exception\DependencyResolutionException;
+use Joomla\DI\Exception\KeyNotFoundException;
+use Joomla\DI\Exception\ProtectedKeyException;
+use Psr\Container\ContainerInterface;
 
 /**
  * The Container class.
  *
  * @since  1.0
  */
-class Container
+class Container implements ContainerInterface
 {
 	/**
 	 * Holds the key aliases.
 	 *
-	 * @var    array  $aliases
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $aliases = array();
@@ -28,7 +31,7 @@ class Container
 	/**
 	 * Holds the shared instances.
 	 *
-	 * @var    array  $instances
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $instances = array();
@@ -37,7 +40,7 @@ class Container
 	 * Holds the keys, their callbacks, and whether or not
 	 * the item is meant to be a shared resource.
 	 *
-	 * @var    array  $dataStore
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $dataStore = array();
@@ -45,19 +48,27 @@ class Container
 	/**
 	 * Parent for hierarchical containers.
 	 *
-	 * @var    Container
+	 * @var    Container|ContainerInterface
 	 * @since  1.0
 	 */
 	protected $parent;
 
 	/**
+	 * Holds the service tag mapping.
+	 *
+	 * @var    array
+	 * @since  1.5.0
+	 */
+	protected $tags = array();
+
+	/**
 	 * Constructor for the DI Container
 	 *
-	 * @param   Container  $parent  Parent for hierarchical containers.
+	 * @param   ContainerInterface  $parent  Parent for hierarchical containers.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(Container $parent = null)
+	public function __construct(ContainerInterface $parent = null)
 	{
 		$this->parent = $parent;
 	}
@@ -104,6 +115,60 @@ class Container
 	}
 
 	/**
+	 * Assign a tag to services.
+	 *
+	 * @param   string  $tag   The tag name
+	 * @param   array   $keys  The service keys to tag
+	 *
+	 * @return  Container  This object for chaining.
+	 *
+	 * @since   1.5.0
+	 */
+	public function tag($tag, array $keys)
+	{
+		foreach ($keys as $key)
+		{
+			$resolvedKey = $this->resolveAlias($key);
+
+			if (!isset($this->tags[$tag]))
+			{
+				$this->tags[$tag] = array();
+			}
+
+			$this->tags[$tag][] = $resolvedKey;
+		}
+
+		// Prune duplicates
+		$this->tags[$tag] = array_unique($this->tags[$tag]);
+
+		return $this;
+	}
+
+	/**
+	 * Fetch all services registered to the given tag.
+	 *
+	 * @param   string  $tag  The tag name
+	 *
+	 * @return  array  The resolved services for the given tag
+	 *
+	 * @since   1.5.0
+	 */
+	public function getTagged($tag)
+	{
+		$services = array();
+
+		if (isset($this->tags[$tag]))
+		{
+			foreach ($this->tags[$tag] as $service)
+			{
+				$services[] = $this->get($service);
+			}
+		}
+
+		return $services;
+	}
+
+	/**
 	 * Build an object of class $key;
 	 *
 	 * @param   string   $key     The class name to build.
@@ -116,13 +181,43 @@ class Container
 	 */
 	public function buildObject($key, $shared = false)
 	{
+		static $buildStack = array();
+
+		$resolvedKey = $this->resolveAlias($key);
+
+		if (in_array($resolvedKey, $buildStack, true))
+		{
+			$buildStack = array();
+
+			throw new DependencyResolutionException("Can't resolve circular dependency");
+		}
+
+		$buildStack[] = $resolvedKey;
+
+		if ($this->has($resolvedKey))
+		{
+			$resource = $this->get($resolvedKey);
+			array_pop($buildStack);
+
+			return $resource;
+		}
+
 		try
 		{
-			$reflection = new \ReflectionClass($key);
+			$reflection = new \ReflectionClass($resolvedKey);
 		}
 		catch (\ReflectionException $e)
 		{
+			array_pop($buildStack);
+
 			return false;
+		}
+
+		if (!$reflection->isInstantiable())
+		{
+			$buildStack = array();
+
+			throw new DependencyResolutionException("$resolvedKey can not be instantiated.");
 		}
 
 		$constructor = $reflection->getConstructor();
@@ -130,8 +225,8 @@ class Container
 		// If there are no parameters, just return a new object.
 		if ($constructor === null)
 		{
-			$callback = function () use ($key) {
-				return new $key;
+			$callback = function () use ($resolvedKey) {
+				return new $resolvedKey;
 			};
 		}
 		else
@@ -144,7 +239,12 @@ class Container
 			};
 		}
 
-		return $this->set($key, $callback, $shared)->get($key);
+		$this->set($resolvedKey, $callback, $shared);
+
+		$resource = $this->get($resolvedKey);
+		array_pop($buildStack);
+
+		return $resource;
 	}
 
 	/**
@@ -186,7 +286,7 @@ class Container
 	 * @return  void
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  KeyNotFoundException
 	 */
 	public function extend($key, \Closure $callable)
 	{
@@ -195,10 +295,10 @@ class Container
 
 		if ($raw === null)
 		{
-			throw new \InvalidArgumentException(sprintf('The requested key %s does not exist to extend.', $key));
+			throw new KeyNotFoundException(sprintf('The requested key %s does not exist to extend.', $key));
 		}
 
-		$closure = function ($c) use($callable, $raw) {
+		$closure = function ($c) use ($callable, $raw) {
 			return $callable($raw['callback']($c), $c);
 		};
 
@@ -270,15 +370,14 @@ class Container
 	 *
 	 * @return  Container  This object for chaining.
 	 *
-	 * @throws  \OutOfBoundsException  Thrown if the provided key is already set and is protected.
-	 *
 	 * @since   1.0
+	 * @throws  ProtectedKeyException  Thrown if the provided key is already set and is protected.
 	 */
 	public function set($key, $value, $shared = false, $protected = false)
 	{
 		if (isset($this->dataStore[$key]) && $this->dataStore[$key]['protected'] === true)
 		{
-			throw new \OutOfBoundsException(sprintf('Key %s is protected and can\'t be overwritten.', $key));
+			throw new ProtectedKeyException(sprintf("Key %s is protected and can't be overwritten.", $key));
 		}
 
 		// If the provided $value is not a closure, make it one now for easy resolution.
@@ -301,33 +400,33 @@ class Container
 	/**
 	 * Convenience method for creating protected keys.
 	 *
-	 * @param   string    $key       Name of dataStore key to set.
-	 * @param   callable  $callback  Callable function to run when requesting the specified $key.
-	 * @param   bool      $shared    True to create and store a shared instance.
+	 * @param   string   $key     Name of dataStore key to set.
+	 * @param   mixed    $value   Callable function to run or string to retrive when requesting the specified $key.
+	 * @param   boolean  $shared  True to create and store a shared instance.
 	 *
 	 * @return  Container  This object for chaining.
 	 *
 	 * @since   1.0
 	 */
-	public function protect($key, $callback, $shared = false)
+	public function protect($key, $value, $shared = false)
 	{
-		return $this->set($key, $callback, $shared, true);
+		return $this->set($key, $value, $shared, true);
 	}
 
 	/**
 	 * Convenience method for creating shared keys.
 	 *
-	 * @param   string    $key        Name of dataStore key to set.
-	 * @param   callable  $callback   Callable function to run when requesting the specified $key.
-	 * @param   bool      $protected  True to create and store a shared instance.
+	 * @param   string   $key        Name of dataStore key to set.
+	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
+	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
 	 *
 	 * @return  Container  This object for chaining.
 	 *
 	 * @since   1.0
 	 */
-	public function share($key, $callback, $protected = false)
+	public function share($key, $value, $protected = false)
 	{
-		return $this->set($key, $callback, true, $protected);
+		return $this->set($key, $value, true, $protected);
 	}
 
 	/**
@@ -339,7 +438,7 @@ class Container
 	 * @return  mixed   Results of running the $callback for the specified $key.
 	 *
 	 * @since   1.0
-	 * @throws  \InvalidArgumentException
+	 * @throws  KeyNotFoundException
 	 */
 	public function get($key, $forceNew = false)
 	{
@@ -348,7 +447,7 @@ class Container
 
 		if ($raw === null)
 		{
-			throw new \InvalidArgumentException(sprintf('Key %s has not been registered with the container.', $key));
+			throw new KeyNotFoundException(sprintf('Key %s has not been registered with the container.', $key));
 		}
 
 		if ($raw['shared'])
@@ -371,13 +470,35 @@ class Container
 	 *
 	 * @return  boolean  True for success
 	 *
-	 * @since   1.0
+	 * @since   1.5.0
 	 */
-	public function exists($key)
+	public function has($key)
 	{
 		$key = $this->resolveAlias($key);
 
-		return (bool) $this->getRaw($key);
+		$exists = (bool) $this->getRaw($key);
+
+		if ($exists === false && $this->parent instanceof ContainerInterface)
+		{
+			$exists = $this->parent->has($key);
+		}
+
+		return $exists;
+	}
+
+	/**
+	 * Method to check if specified dataStore key exists.
+	 *
+	 * @param   string  $key  Name of the dataStore key to check.
+	 *
+	 * @return  boolean  True for success
+	 *
+	 * @since   1.0
+	 * @deprecated  3.0  Use ContainerInterface::has() instead
+	 */
+	public function exists($key)
+	{
+		return $this->has($key);
 	}
 
 	/**
@@ -406,6 +527,24 @@ class Container
 		if ($this->parent instanceof Container)
 		{
 			return $this->parent->getRaw($key);
+		}
+
+		if ($this->parent instanceof ContainerInterface && $this->parent->has($key))
+		{
+			$callback = $this->parent->get($key);
+
+			if (!is_callable($callback))
+			{
+				$callback = function () use ($callback) {
+					return $callback;
+				};
+			}
+
+			return array(
+				'callback'  => $callback,
+				'shared'    => true,
+				'protected' => true,
+			);
 		}
 
 		return null;
@@ -440,5 +579,17 @@ class Container
 		$provider->register($this);
 
 		return $this;
+	}
+
+	/**
+	 * Retrieve the keys for services assigned to this container.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5.0
+	 */
+	public function getKeys()
+	{
+		return array_unique(array_merge(array_keys($this->aliases), array_keys($this->dataStore)));
 	}
 }
