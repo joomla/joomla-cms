@@ -222,7 +222,7 @@ if ($menuType == '')
 													<?php if ($item->language_image) : ?>
 														<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
-														<span class="label"
+														<span class="badge badge-secondary"
 														      title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
 													<?php endif; ?>
 												</a>
@@ -230,7 +230,7 @@ if ($menuType == '')
 												<?php if ($item->language_image) : ?>
 													<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
-													<span class="label"
+													<span class="badge badge-secondary"
 													      title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>
