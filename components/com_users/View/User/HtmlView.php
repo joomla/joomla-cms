@@ -57,7 +57,9 @@ class HtmlView extends BaseHtmlView
 	{
 		$app        = Factory::getApplication();
 		$this->item  = $this->get('Item');
-		$this->state      = $this->get('State');
+		$state      = $this->get('State');
+		$params     = $state->get('params');
+
 		$user = Factory::getUser();
 
 		/**
@@ -75,7 +77,7 @@ class HtmlView extends BaseHtmlView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		$offset = $this->state->get('list.offset');
+		$offset = $state->get('list.offset');
 
 		$this->item = (object) $this->item;
 
@@ -91,6 +93,21 @@ class HtmlView extends BaseHtmlView
 		$results = $app->triggerEvent('onContentAfterDisplay', array('com_users.user', &$this->item, &$this->item->params, $offset));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
+		$this->_prepareDocument();
+
 		return parent::display($tpl);
+	}
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 */
+	protected function _prepareDocument()
+	{
+		$app     = \JFactory::getApplication();
+		$pathway = $app->getPathway();
+
+		$pathway->addItem($this->item->name, "");
+
 	}
 }
