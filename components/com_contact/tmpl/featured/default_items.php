@@ -20,7 +20,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $params = &$this->item->params;
 ?>
 
-<div class="con-contact-featured__items">
+<div class="com-contact-featured__items">
 	<?php if (empty($this->items)) : ?>
 		<p class="con-contact-featured__message"> <?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
 	<?php else : ?>
