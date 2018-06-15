@@ -10,34 +10,20 @@
 defined('_JEXEC') or die;
 ?>
 <div class="item-page">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="page-header">
-				<h2 itemprop="headline">
-					<?php echo $this->item->name; ?>
-				</h2>
-			</div>
-		</div>
+	<div class="page-header">
+		<h2 itemprop="headline">
+			<?php echo $this->item->name; ?>
+		</h2>
 	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<?php echo $this->item->event->afterDisplayTitle; ?>
-		</div>
-		<div class="col-md-8">
-			<?php echo $this->item->event->beforeDisplayContent; ?>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-<!--			<p>--><?php //echo $this->item->username; ?><!--</p>-->
-			<p><?php echo $this->item->email; ?></p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<?php echo $this->item->event->afterDisplayContent; ?>
-		</div>
-	</div>
+
+	<?php echo $this->item->event->afterDisplayTitle; ?>
+
+	<?php echo $this->item->event->beforeDisplayContent; ?>
+
+	<p><?php echo $this->item->username; ?></p>
+	<p><?php echo $this->item->email; ?></p>
+
+	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
 
 
