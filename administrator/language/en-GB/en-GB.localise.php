@@ -26,18 +26,17 @@ abstract class En_GBLocalise
 	 */
 	public static function getPluralSuffixes($count)
 	{
-		if ($count == 0)
-		{
-			return array('0');
-		}
-		elseif ($count == 1)
-		{
-			return array('1');
-		}
-		else
+		/*
+		 * The language handler will attempt to suffix a language string with the item count before
+		 * applying suffixes given by this handler, therefore we only need to return extra suffixes
+		 * to be attempted if a string for the item count does not exist.
+		 */
+		if ($count == 0 || $count >= 2)
 		{
 			return array('MORE');
 		}
+
+		return array();
 	}
 
 	/**
