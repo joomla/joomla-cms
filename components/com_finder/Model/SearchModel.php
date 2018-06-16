@@ -294,8 +294,7 @@ class SearchModel extends ListModel
 		{
 			$required = call_user_func_array('array_merge', $this->requiredTerms);
 			$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r ON r.link_id = l.link_id')
-					->where('r.term_id IN (' . implode(',', $required) . ')')
-					->having('COUNT(DISTINCT r.term_id) = ' . count($required));
+					->where('r.term_id IN (' . implode(',', $required) . ')');
 		}
 
 		return $query;

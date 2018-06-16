@@ -1186,7 +1186,7 @@ class FinderIndexerQuery
 		{
 			// Tokenize the phrase.
 			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
-			$token = $this->getTokenData($token);
+			$token = $this->getTokenData(array_shift($token));
 
 			// Set the required flag.
 			$token->required = true;
