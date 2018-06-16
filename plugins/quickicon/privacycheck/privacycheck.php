@@ -48,10 +48,11 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		JHtml::_('jquery.framework');
 
 		$token    = Session::getFormToken() . '=' . 1;
+		$privacy  = 'index.php?option=com_privacy';
 	
 		$options  = array(
-			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=getNumberUrgentRequests&' . $token,
+			'plg_quickicon_privacycheck_url'      => Uri::base() . $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
+			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . $privacy . '&task=getNumberUrgentRequests&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND', true),
@@ -67,7 +68,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 
 		return array(
 			array(
-				'link'  => 'index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
+				'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
 				'image' => 'users',
 				'icon'  => 'header/icon-48-user.png',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
