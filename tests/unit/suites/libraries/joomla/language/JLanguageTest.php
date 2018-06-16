@@ -275,13 +275,13 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testGetPluralSuffixes()
 	{
 		$this->assertEquals(
-			array('0'),
+			array('MORE'),
 			$this->object->getPluralSuffixes(0),
 			'Line: ' . __LINE__
 		);
 
 		$this->assertEquals(
-			array('1'),
+			array(),
 			$this->object->getPluralSuffixes(1),
 			'Line: ' . __LINE__
 		);
