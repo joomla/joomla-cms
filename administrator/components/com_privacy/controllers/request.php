@@ -105,6 +105,9 @@ class PrivacyControllerRequest extends JControllerForm
 			return false;
 		}
 
+		// Log the request completed
+		$model->logRequestCompleted($recordId);
+
 		$this->setMessage(\JText::_('COM_PRIVACY_REQUEST_COMPLETED'));
 
 		$url = 'index.php?option=com_privacy&view=requests';
@@ -253,7 +256,57 @@ class PrivacyControllerRequest extends JControllerForm
 			return false;
 		}
 
+		// Log the request invalidated
+		$model->logRequestInvalidated($recordId);
+
 		$this->setMessage(\JText::_('COM_PRIVACY_REQUEST_INVALIDATED'));
+
+		$url = 'index.php?option=com_privacy&view=requests';
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(\JRoute::_($url, false));
+
+		return true;
+	}
+
+	/**
+	 * Method to remove the user data for a privacy remove request.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function remove()
+	{
+		/** @var PrivacyModelRemove $model */
+		$model = $this->getModel('Remove');
+
+		$recordId = $this->input->getUint('id');
+
+		if (!$model->removeDataForRequest($recordId))
+		{
+			// Redirect back to the edit screen.
+			$this->setError(\JText::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				\JRoute::_(
+					'index.php?option=com_privacy&view=request&id=' . $recordId, false
+				)
+			);
+
+			return false;
+		}
+
+		$this->setMessage(\JText::_('COM_PRIVACY_DATA_REMOVED'));
 
 		$url = 'index.php?option=com_privacy&view=requests';
 
@@ -283,10 +336,18 @@ class PrivacyControllerRequest extends JControllerForm
 	 */
 	protected function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
-		// Only process an email for a new record
+		// This hook only processes new items
 		if (!$model->getState($model->getName() . '.new', false))
 		{
 			return;
+		}
+
+		if (!$model->logRequestCreated($model->getState($model->getName() . '.id')))
+		{
+			if ($error = $model->getError())
+			{
+				JFactory::getApplication()->enqueueMessage($error, 'warning');
+			}
 		}
 
 		if (!$model->notifyUserAdminCreatedRequest($model->getState($model->getName() . '.id')))
