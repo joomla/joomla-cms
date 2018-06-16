@@ -50,7 +50,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 		$token    = Session::getFormToken() . '=' . 1;
 	
 		$options  = array(
-			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&view=requests',
+			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
 			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=getNumberUrgentRequests&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
@@ -67,7 +67,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 
 		return array(
 			array(
-				'link'  => 'index.php?option=com_privacy&view=requests',
+				'link'  => 'index.php?option=com_privacy&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
 				'image' => 'users',
 				'icon'  => 'header/icon-48-user.png',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
