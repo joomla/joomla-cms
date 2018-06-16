@@ -71,7 +71,7 @@ class SuggestionsModel extends ListModel
 			->from($db->quoteName('#__finder_terms') . ' AS t')
 			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
 			->where('t.common = 0')
-			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
+			->where('t.language IN (' . $db->quote($db->escape(\FinderIndexerHelper::getPrimaryLanguage($this->getState('language')), true)) . ', ' . $db->quote('*') . ')')
 			->order('t.links DESC')
 			->order('t.weight DESC');
 
