@@ -121,7 +121,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			array(
 				'name'      => 'User ID ' . $user->id,
 				'username'  => bin2hex(random_bytes(12)),
-				'email'     => 'removed@email.removed',
+				'email'     => 'UserID' . $user->id . 'removed@email.removed',
 				'block'     => true,
 				'password2' => $user->password,
 			)
