@@ -152,24 +152,24 @@ Joomla = window.Joomla || {};
             case PreUpdateChecker.STATE.COMPATIBLE:
                 if (extensionData.compatibleVersion == extensionData.currentVersion) {
                     // The compatible version matches the current version -> diplay success label.
-                    html = '<span class="label label-success">' + Joomla.JText._('JYES') + '</span>';
+                    html = '<span class="badge badge-success">' + Joomla.JText._('JYES') + '</span>';
                 } else {
                     // The compatible version does not match the current version => display warning label.
-                    html = '<span class="label label-warning">' + Joomla.JText._('JYES')
+                    html = '<span class="badge badge-warning">' + Joomla.JText._('JYES')
                         + ' (' + extensionData.compatibleVersion + ')</span>';
                 }
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
                 // No compatible version found -> display error label
-                html = '<span class="label label-important">' + Joomla.JText._('JNO') + '</span>';
+                html = '<span class="badge badge-danger">' + Joomla.JText._('JNO') + '</span>';
                 break;
             case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
                 // Could not check compatibility state -> display warning
-                html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING') + '</span>';
+                html = '<span class="badge badge-secondary">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING') + '</span>';
                 break;
             default:
                 // An error occured -> show unknown error note
-                html = '<span class="label">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
+                html = '<span class="badge badge-secondary">' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN') + '</span>';
         }
         // Insert the generated html
         extensionData.$element.html(html);
