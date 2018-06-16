@@ -132,16 +132,17 @@ class PlgExtensionFinder extends CMSPlugin
 
 		$file_content = file_get_contents($path);
 		$words = explode("\n", $file_content);
-		$words = array_map(function ($word) {
-
-			// Remove comments
-			if (StringHelper::strpos($word, ';') !== false)
+		$words = array_map(function ($word)
 			{
-				$word = StringHelper::substr($word, 0, StringHelper::strpos($word, ';'));
-			}
+				// Remove comments
+				if (StringHelper::strpos($word, ';') !== false)
+				{
+					$word = StringHelper::substr($word, 0, StringHelper::strpos($word, ';'));
+				}
 
-			return $word;
-		}, $words);
+				return $word;
+			}
+			, $words);
 
 		$words = array_filter(array_map('trim', $words));
 		$db = Factory::getDbo();
@@ -157,10 +158,13 @@ class PlgExtensionFinder extends CMSPlugin
 			$query->values($db->q($word) . $template);
 		}
 
-		try {
+		try
+		{
 			$db->setQuery($query);
 			$db->execute();
-		} catch (Exception $ex) {
+		}
+		catch (Exception $ex)
+		{
 			// It would be nice if the common word is stored to the DB, but it isn't super important
 		}
 	}
