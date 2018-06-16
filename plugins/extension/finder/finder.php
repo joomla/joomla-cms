@@ -87,7 +87,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 * 
 	 * @param   integer  $eid  Extensuon id
 	 * 
-	 * @return  object;
+	 * @return  object
 	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
