@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Requests management model class.
  *
@@ -168,5 +170,31 @@ class PrivacyModelRequests extends JModelList
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to return number privacy requests older than X days.
+	 *
+	 * @return  int
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getNumberUrgentRequests()
+	{
+		// Load the parameters.
+		$params = ComponentHelper::getComponent('com_privacy')->getParams();
+		$notify = (int) $params->get('notify', 14);
+		$now    = JFactory::getDate()->toSql();
+		$period = '-' . $notify;
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)');
+		$query->from($db->quoteName('#__privacy_requests'));
+		$query->where($db->quoteName('status') . ' = 1 ');
+		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$db->setQuery($query);
+
+		return (int) $db->loadResult();
 	}
 }
