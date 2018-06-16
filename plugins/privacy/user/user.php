@@ -116,15 +116,17 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$user = JUser::getInstance($request->user_id);
 
-		$pseudoanonymisedData = array_merge(
-			$user->getProperties(),
-			array(
-				'name'      => 'User ID ' . $user->id,
-				'username'  => bin2hex(random_bytes(12)),
-				'email'     => 'UserID' . $user->id . 'removed@email.removed',
-				'block'     => true,
-				'password2' => $user->password,
-			)
+		// If there was an error loading the user do nothing here
+		if ($user->guest)
+		{
+			return;
+		}
+
+		$pseudoanonymisedData = array(
+			'name'      => 'User ID ' . $user->id,
+			'username'  => bin2hex(random_bytes(12)),
+			'email'     => 'UserID' . $user->id . 'removed@email.removed',
+			'block'     => true,
 		);
 
 		$user->bind($pseudoanonymisedData);
