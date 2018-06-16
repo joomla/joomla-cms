@@ -123,7 +123,7 @@ class ContenthistoryModelHistory extends JModelList
 				if ($table->keep_forever === "1")
 				{
 					unset($pks[$i]);
-					continue;	
+					continue;
 				}
 
 				if ($this->canEdit($table))
