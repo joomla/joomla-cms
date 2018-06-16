@@ -51,10 +51,6 @@ class TagsViewTag extends JViewLegacy
 				$title = $this->escape($item->core_title);
 				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-				// URL link to tagged item
-				// Change to new routing once it is merged
-				$link = JRoute::_($item->link);
-
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
 				$author      = $item->core_created_by_alias ?: $item->author;
@@ -63,7 +59,7 @@ class TagsViewTag extends JViewLegacy
 				// Load individual item creator class
 				$feeditem              = new JFeedItem;
 				$feeditem->title       = $title;
-				$feeditem->link        = $link;
+				$feeditem->link        = JRoute::_($item->link);
 				$feeditem->description = $description;
 				$feeditem->date        = $date;
 				$feeditem->category    = $title;
