@@ -51,7 +51,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	
 		$options  = array(
 			'plg_quickicon_privacycheck_url'      => Uri::base() . 'index.php?option=com_privacy&view=requests',
-			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=get_number_urgent_requests&' . $token,
+			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . 'index.php?option=com_privacy&task=getNumberUrgentRequests&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST', true),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND', true),

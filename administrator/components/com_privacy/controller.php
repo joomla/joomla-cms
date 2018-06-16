@@ -56,7 +56,7 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function get_number_urgent_requests()
+	public function getNumberUrgentRequests()
 	{
 		$app = Factory::getApplication();
 
@@ -65,7 +65,7 @@ class PrivacyController extends JControllerLegacy
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo JText::_('JINVALID_TOKEN');
+			echo new JsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
 			$app->close();
 		}
 
