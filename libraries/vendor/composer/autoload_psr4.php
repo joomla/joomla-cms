@@ -7,6 +7,7 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
+    'Wamania\\Snowball\\' => array($vendorDir . '/wamania/php-stemmer/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),

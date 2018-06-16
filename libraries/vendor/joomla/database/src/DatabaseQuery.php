@@ -1640,8 +1640,8 @@ abstract class DatabaseQuery implements QueryInterface
 	 * Combine a select statement to the current query by one of the set operators.
 	 * Operators: UNION, UNION ALL, EXCEPT or INTERSECT.
 	 *
-	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
 	 * @param   string                $name   The name of the set operator with parentheses.
+	 * @param   DatabaseQuery|string  $query  The DatabaseQuery object or string.
 	 *
 	 * @return  $this
 	 *

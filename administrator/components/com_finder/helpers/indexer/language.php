@@ -13,10 +13,8 @@ use Joomla\String\StringHelper;
 
 /**
  * Language support class for the Finder indexer package.
- * Language teams should extend this class to support language
- * specific stemming and tokenisation
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class FinderIndexerLanguage
 {
@@ -24,9 +22,25 @@ class FinderIndexerLanguage
 	 * Language support instances container.
 	 *
 	 * @var    FinderIndexerLanguage[]
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $instances = array();
+
+	/**
+	 * Language locale of the class
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $language;
+
+	/**
+	 * Spacer to use between terms
+	 * 
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $spacer = ' ';
 
 	/**
 	 * Method to get a language support object.
@@ -35,7 +49,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  FinderIndexerLanguage  A FinderIndexerLanguage instance.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstance($language)
 	{
@@ -51,8 +65,9 @@ class FinderIndexerLanguage
 			return $instances[$language];
 		}
 
-		$class = 'FinderIndexerLanguage' . str_replace('-', '_', $language);
-		$path = JPATH_ROOT . '/language/' . $language . '/' . $language . '.finder.php';
+		$locale = FinderIndexerHelper::getPrimaryLanguage($language);
+		$class = 'FinderIndexerLanguage' . $locale;
+		$path = __DIR__ . '/language/' . $locale . '.php';
 
 		if (is_file($path))
 		{
@@ -66,6 +81,7 @@ class FinderIndexerLanguage
 		else
 		{
 			$instances[$language] = new FinderIndexerLanguage;
+			$instances[$language]->language = $locale;
 		}
 
 		return $instances[$language];
@@ -78,7 +94,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  array  An array of term strings.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function tokenise($input)
 	{
@@ -121,7 +137,7 @@ class FinderIndexerLanguage
 	 *
 	 * @return  string  The stemmed token.
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function stem($token)
 	{

@@ -289,23 +289,19 @@ abstract class FinderIndexer
 		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->clear()
-				->update($db->quoteName('#__finder_terms', 't'))
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
-				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query)->execute();
+		// Update the link counts for the terms.
+		$query->clear()
+			->update($db->quoteName('#__finder_terms', 't'))
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON m.term_id = t.term_id')
+			->set('t.links = t.links - 1')
+			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
 
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query)->execute();
-		}
+		// Remove all records from the mapping tables.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
 
 		// Delete all orphaned terms.
 		$query->clear()
@@ -468,6 +464,11 @@ abstract class FinderIndexer
 
 		// Tokenize the input.
 		$tokens = FinderIndexerHelper::tokenize($input, $lang);
+
+		if (count($tokens) == 0)
+		{
+			return $count;
+		}
 
 		// Add the tokens to the database.
 		$count += $this->addTokensToDb($tokens, $context);

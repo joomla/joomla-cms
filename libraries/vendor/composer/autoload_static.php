@@ -32,6 +32,10 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         array (
             'Zend\\Diactoros\\' => 15,
         ),
+        'W' => 
+        array (
+            'Wamania\\Snowball\\' => 17,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -102,6 +106,10 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Zend\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
+        'Wamania\\Snowball\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wamania/php-stemmer/src',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
@@ -491,6 +499,7 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Joomla\\CMS\\Extension\\ExtensionManagerInterface' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerInterface.php',
         'Joomla\\CMS\\Extension\\ExtensionManagerTrait' => __DIR__ . '/../../..' . '/libraries/src/Extension/ExtensionManagerTrait.php',
         'Joomla\\CMS\\Extension\\LegacyComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/LegacyComponent.php',
+        'Joomla\\CMS\\Extension\\MVCComponent' => __DIR__ . '/../../..' . '/libraries/src/Extension/MVCComponent.php',
         'Joomla\\CMS\\Extension\\Service\\Provider\\DispatcherFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/DispatcherFactory.php',
         'Joomla\\CMS\\Extension\\Service\\Provider\\MVCFactoryFactory' => __DIR__ . '/../../..' . '/libraries/src/Extension/Service/Provider/MVCFactoryFactory.php',
         'Joomla\\CMS\\Factory' => __DIR__ . '/../../..' . '/libraries/src/Factory.php',
@@ -1161,6 +1170,21 @@ class ComposerStaticInita4c4383b02fcf9dfb95cc0397c641cf1
         'Symfony\\Component\\Yaml\\Unescaper' => __DIR__ . '/..' . '/symfony/yaml/Unescaper.php',
         'Symfony\\Component\\Yaml\\Yaml' => __DIR__ . '/..' . '/symfony/yaml/Yaml.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
+        'Wamania\\Snowball\\Danish' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Danish.php',
+        'Wamania\\Snowball\\Dutch' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Dutch.php',
+        'Wamania\\Snowball\\English' => __DIR__ . '/..' . '/wamania/php-stemmer/src/English.php',
+        'Wamania\\Snowball\\French' => __DIR__ . '/..' . '/wamania/php-stemmer/src/French.php',
+        'Wamania\\Snowball\\German' => __DIR__ . '/..' . '/wamania/php-stemmer/src/German.php',
+        'Wamania\\Snowball\\Italian' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Italian.php',
+        'Wamania\\Snowball\\Norwegian' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Norwegian.php',
+        'Wamania\\Snowball\\Portuguese' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Portuguese.php',
+        'Wamania\\Snowball\\Romanian' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Romanian.php',
+        'Wamania\\Snowball\\Russian' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Russian.php',
+        'Wamania\\Snowball\\Spanish' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Spanish.php',
+        'Wamania\\Snowball\\Stem' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Stem.php',
+        'Wamania\\Snowball\\Stemmer' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Stemmer.php',
+        'Wamania\\Snowball\\Swedish' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Swedish.php',
+        'Wamania\\Snowball\\Utf8' => __DIR__ . '/..' . '/wamania/php-stemmer/src/Utf8.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',
         'Zend\\Diactoros\\Exception\\DeprecatedMethodException' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Exception/DeprecatedMethodException.php',
