@@ -119,10 +119,11 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$pseudoanonymisedData = array_merge(
 			$user->getProperties(),
 			array(
-				'name'     => 'User ID ' . $user->id,
-				'username' => bin2hex(random_bytes(12)),
-				'email'    => 'removed@email.removed',
-				'block'    => true,
+				'name'      => 'User ID ' . $user->id,
+				'username'  => bin2hex(random_bytes(12)),
+				'email'     => 'removed@email.removed',
+				'block'     => true,
+				'password2' => $user->password,
 			)
 		);
 
