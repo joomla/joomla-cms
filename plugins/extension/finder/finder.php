@@ -132,7 +132,8 @@ class PlgExtensionFinder extends CMSPlugin
 
 		$file_content = file_get_contents($path);
 		$words = explode("\n", $file_content);
-		$words = array_map(function ($word)
+		$words = array_map(
+			function ($word)
 			{
 				// Remove comments
 				if (StringHelper::strpos($word, ';') !== false)
@@ -141,8 +142,8 @@ class PlgExtensionFinder extends CMSPlugin
 				}
 
 				return $word;
-			}
-			, $words);
+			}, $words
+		);
 
 		$words = array_filter(array_map('trim', $words));
 		$db = Factory::getDbo();
