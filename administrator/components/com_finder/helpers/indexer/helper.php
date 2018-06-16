@@ -57,6 +57,9 @@ class FinderIndexerHelper
 	public static function tokenize($input, $lang, $phrase = false)
 	{
 		static $cache;
+		static $multilingual;
+		static $defaultLanguage;
+
 		$store = md5($input . '::' . $lang . '::' . $phrase);
 
 		// Check if the string has been tokenized already.
@@ -65,7 +68,35 @@ class FinderIndexerHelper
 			return $cache[$store];
 		}
 
-		$language = FinderIndexerLanguage::getInstance($lang);
+		if (is_null($multilingual))
+		{
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$defaultLanguage = FinderIndexerLanguage::getInstance('*');
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$lconfig = ComponentHelper::getParams('com_languages');
+				$defaultLanguage = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($lconfig->get('site')));
+			}
+			else
+			{
+				$defaultLanguage = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('language_default')));
+			}
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$language = $defaultLanguage;
+		}
+		else
+		{
+			$language = FinderIndexerLanguage::getInstance($lang);
+		}
+
 		$tokens = array();
 		$terms = $language->tokenise($input);
 		$terms = array_filter($terms);
@@ -151,11 +182,11 @@ class FinderIndexerHelper
 			elseif ($config->get('stemmer_default', '') == '-1')
 			{
 				$lconfig = ComponentHelper::getParams('com_languages');
-				$defaultStemmer = FinderIndexerLanguage::getInstance($lconfig->get('site'));
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($lconfig->get('site')));
 			}
 			else
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('stemmer_default'));
+				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getPrimaryLanguage($config->get('stemmer_default')));
 			}
 		}
 
