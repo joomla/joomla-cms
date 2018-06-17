@@ -10,7 +10,7 @@ namespace Joomla\Component\Csp\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\Factory;
+use Joomla\CMS\Factory;
 
 /**
  * Reporter component helper.
