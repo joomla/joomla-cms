@@ -106,5 +106,7 @@ class PrivacyViewDashboard extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_DASHBOARD'), 'dashboard');
 
 		JToolbarHelper::preferences('com_privacy');
+
+		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_DASHBOARD');
 	}
 }

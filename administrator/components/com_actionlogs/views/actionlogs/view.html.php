@@ -112,6 +112,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_actionlogs');
 		}
+		JToolbarHelper::help('JHELP_COMPONENTS_ACTIONLOGS');
 
 		JToolBarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
 		JToolBarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);

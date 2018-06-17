@@ -111,6 +111,9 @@ class PrivacyViewRequests extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'dashboard');
 
 		JToolbarHelper::addNew('request.add');
+		
 		JToolbarHelper::preferences('com_privacy');
+		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');
+
 	}
 }

@@ -111,5 +111,7 @@ class PrivacyViewConsents extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'dashboard');
 
 		JToolbarHelper::preferences('com_privacy');
+
+		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
 	}
 }
