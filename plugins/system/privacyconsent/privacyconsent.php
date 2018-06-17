@@ -308,6 +308,34 @@ class PlgSystemPrivacyconsent extends JPlugin
 	}
 
 	/**
+	 * Event to specify whether a privacy policy has been published.
+	 *
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
+	{
+		// If another plugin has already indicated a policy is published, we won't change anything here
+		if ($policy['published'])
+		{
+			return;
+		}
+
+		$articleId = $this->params->get('privacy_article');
+
+		if (!$articleId)
+		{
+			return;
+		}
+
+		$policy['published'] = true;
+		$policy['editLink']  = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $articleId);
+	}
+
+	/**
 	 * Returns the configured redirect message and falls back to the default version.
 	 *
 	 * @return  string  redirect message

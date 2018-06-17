@@ -3,7 +3,6 @@
 	<fieldset
 		name="privacy"
 		label="COM_PRIVACY_OPTION_LABEL"
-		description="COM_PRIVACY_OPTION_FIELDSET_DESC"
 	>
 
 		<field

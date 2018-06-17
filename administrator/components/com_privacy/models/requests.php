@@ -175,7 +175,7 @@ class PrivacyModelRequests extends JModelList
 	/**
 	 * Method to return number privacy requests older than X days.
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
