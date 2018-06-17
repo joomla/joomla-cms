@@ -163,7 +163,6 @@ class JoomlaInstallerScript
 					return false;
 				}
 			}
-
 		}
 
 		return true;
@@ -2312,6 +2311,7 @@ class JoomlaInstallerScript
 			'com_fields',
 			'com_associations',
 			'com_privacy',
+			'com_actionlogs',
 		);
 
 		foreach ($newComponents as $component)
