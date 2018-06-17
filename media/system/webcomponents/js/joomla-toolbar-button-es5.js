@@ -87,7 +87,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           // Watch on list selection
           this.formElement.boxchecked.addEventListener('change', function (event) {
             // Check whether we have selected something
-            _this2.setDisabled(!event.target.value);
+            _this2.setDisabled(event.target.value < 1);
           });
         }
       }
@@ -112,6 +112,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           return false;
         }
 
+        // eslint-disable-next-line no-restricted-globals
         if (this.confirmMessage && !confirm(this.confirmMessage)) {
           return false;
         }
