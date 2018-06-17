@@ -115,6 +115,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 
 		/** @var MessagesModelMessage $messageModel */
 		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
