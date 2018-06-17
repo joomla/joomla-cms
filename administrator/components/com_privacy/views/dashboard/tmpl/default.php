@@ -79,13 +79,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->privacyPolicyInfo['published']) : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SUCCESSFUL'); ?>">
-									<span class="icon-publish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-success">
+								<span class="icon-checkbox" aria-hidden="true"></span>
+								<?php echo JText::_('JPUBLISHED'); ?>
+							</label>
 							<?php else : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_UNSUCCESSFUL'); ?>">
-									<span class="icon-unpublish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-warning">
+								<span class="icon-warning" aria-hidden="true"></span>
+								<?php echo JText::_('JUNPUBLISHED'); ?>
+							</label>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -98,13 +100,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->requestFormPublished['published']) : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SUCCESSFUL'); ?>">
-									<span class="icon-publish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-success">
+								<span class="icon-checkbox" aria-hidden="true"></span>
+								<?php echo JText::_('JPUBLISHED'); ?>
+							</label>
 							<?php else : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_UNSUCCESSFUL'); ?>">
-									<span class="icon-unpublish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-warning">
+								<span class="icon-warning" aria-hidden="true"></span>
+								<?php echo JText::_('JUNPUBLISHED'); ?>
+							</label>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -117,13 +121,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->numberOfUrgentRequests === 0) : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SUCCESSFUL'); ?>">
-									<span class="icon-publish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-success">
+								<span class="icon-checkbox" aria-hidden="true"></span>
+								<?php echo JText::_('JNONE'); ?>
+							</label>
 							<?php else : ?>
-								<button type="button" class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_PRIVACY_STATUS_CHECK_UNSUCCESSFUL'); ?>">
-									<span class="icon-unpublish" aria-hidden="true"></span>
-								</button>
+							<label class="label label-important">
+								<span class="icon-warning" aria-hidden="true"></span>
+								<?php echo JText::_('WARNING'); ?>
+							</label>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
