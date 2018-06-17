@@ -24,6 +24,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $now       = JFactory::getDate();
 
+$urgentRequestDate= clone $now;
+$urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
@@ -77,7 +79,8 @@ $now       = JFactory::getDate();
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php
-						$canView = $user->authorise('core.manage', 'com_privacy');
+						$canView         = $user->authorise('core.manage', 'com_privacy');
+						$itemRequestedAt = new JDate($item->requested_at);
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
@@ -102,6 +105,9 @@ $now       = JFactory::getDate();
 								<?php else : ?>
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 								<?php endif; ?>
+								<?php if ($urgentRequestDate >= $itemRequestedAt) : ?>
+									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+								<?php endif; ?>
 							</td>
 							<td class="break-word">
 								<?php echo $item->user_id ? $this->escape($item->username) : JText::_('JGLOBAL_NONAPPLICABLE'); ?>
@@ -111,7 +117,7 @@ $now       = JFactory::getDate();
 							</td>
 							<td class="break-word">
 								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->requested_at, JText::_('DATE_FORMAT_LC6')); ?>">
-									<?php echo JHtml::_('date.relative', new JDate($item->requested_at), null, $now); ?>
+									<?php echo JHtml::_('date.relative', $itemRequestedAt, null, $now); ?>
 								</span>
 							</td>
 							<td class="hidden-phone">
