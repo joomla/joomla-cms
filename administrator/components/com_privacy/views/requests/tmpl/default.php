@@ -105,7 +105,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php else : ?>
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 								<?php endif; ?>
-								<?php if ($urgentRequestDate >= $itemRequestedAt) : ?>
+								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
 									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
 							</td>
