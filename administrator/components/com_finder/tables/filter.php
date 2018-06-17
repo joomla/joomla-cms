@@ -22,7 +22,7 @@ class FinderTableFilter extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  JDatabaseDriver connector object.
+	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
