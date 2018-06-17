@@ -946,11 +946,11 @@ class User extends \JObject
 		if (isset(self::$instances[$this->id]))
 		{
 			// Duplicate user instance
-			foreach(self::$instances[$this->id] as $k => $v)
+			foreach (self::$instances[$this->id] as $k => $v)
 			{
 				if (is_object($v))
 				{
-					$this->$k = clone($v);
+					$this->$k = clone $v;
 				}
 				else
 				{
