@@ -389,7 +389,7 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   JUpdate  $update     An update definition
+	 * @param   JUpdate  $update  An update definition
 	 *
 	 * @return  boolean   Result of install
 	 *
