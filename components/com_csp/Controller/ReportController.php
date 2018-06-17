@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Table\Csp;
+use Joomla\Component\Csp\Administrator\Table\ReportTable;
 
 /**
  * Csp Controller
@@ -77,7 +77,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$table = new Csp(Factory::getDbo());
+		$table = new ReportTable(Factory::getDbo());
 
 		$table->bind($report);
 		$table->store();
