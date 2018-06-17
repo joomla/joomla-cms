@@ -242,7 +242,6 @@ class SysInfoModel extends BaseDatabaseModel
 		}
 
 		$this->php_settings = array(
-			'safe_mode'          => ini_get('safe_mode') == '1',
 			'display_errors'     => ini_get('display_errors') == '1',
 			'short_open_tag'     => ini_get('short_open_tag') == '1',
 			'file_uploads'       => ini_get('file_uploads') == '1',
