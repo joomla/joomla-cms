@@ -248,6 +248,7 @@ class ExtensionHelper
 		array('plugin', 'contactcreator', 'user', 0),
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
+		array('plugin', 'terms', 'user', 0),
 
 		// Core template extensions - administrator
 		array('template', 'hathor', '', 1),
