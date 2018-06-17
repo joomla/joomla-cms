@@ -67,6 +67,14 @@ class PrivacyViewRequests extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The age of urgent requests
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $urgentRequestAge;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -80,11 +88,12 @@ class PrivacyViewRequests extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise variables
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->items            = $this->get('Items');
+		$this->pagination       = $this->get('Pagination');
+		$this->state            = $this->get('State');
+		$this->filterForm       = $this->get('FilterForm');
+		$this->activeFilters    = $this->get('ActiveFilters');
+		$this->urgentRequestAge = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -111,7 +120,7 @@ class PrivacyViewRequests extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'dashboard');
 
 		JToolbarHelper::addNew('request.add');
-		
+
 		JToolbarHelper::preferences('com_privacy');
 		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');
 
