@@ -18,19 +18,19 @@ $activeRequests = 0;
 <div class="row-striped">
 	<?php if (count($list)) : ?>
 		<div class="row-fluid">
-			<div class="span4"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></strong></div>
-			<div class="span4"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></strong></div>
-			<div class="span4"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></strong></div>
+			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></strong></div>
+			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></strong></div>
+			<div class="span2"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></strong></div>
 		</div>
 		<?php foreach ($list as $row) : ?>
 			<div class="row-fluid">
-				<div class="span4"><span class="badge badge-info"><?php echo $row->count; ?></span></div>
-				<div class="span4"><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $row->status); ?></div>
-				<div class="span4">
+				<div class="span5">
 					<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo JText::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
 						<strong><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $row->request_type); ?></strong>
 					</a>
 				</div>
+				<div class="span5"><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $row->status); ?></div>
+				<div class="span2"><span class="badge badge-info"><?php echo $row->count; ?></span></div>
 			</div>
 			<?php if (in_array($row->status, array(0, 1))) : ?>
 				<?php $activeRequests += $row->count; ?>
