@@ -604,6 +604,7 @@ class TemplateModel extends FormModel
 				$item->extension_id = $this->getState('extension.id');
 				$item->filename = $fileName;
 				$item->source = file_get_contents($filePath);
+				$item->filePath = $filePath;
 
 				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
 				{
