@@ -83,7 +83,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 						</tfoot>
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
-							$canEdit        = $user->authorise('core.edit',   'com_menus.menu.' . (int) $item->id);
+							$canEdit = $user->authorise('core.edit', 'com_menus.menu.' . (int) $item->id);
 							$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
@@ -94,7 +94,7 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>" title="<?php echo JText::_('COM_MENUS_MANAGE_MENU'); ?>">
 											<span class="fa fa-list mr-2" aria-hidden="true"></span>
-											<span class="sr-only"><?php echo JText::_('COM_MENUS_MENU_MANAGE'); ?></span>
+											<span class="sr-only"><?php echo JText::_('COM_MENUS_MANAGE_MENU'); ?></span>
 											<?php echo $this->escape($item->title); ?>
 										</a>
 									<?php else : ?>
@@ -102,10 +102,10 @@ JHtml::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'a
 									<?php endif; ?>
 									<div class="small">
 										<?php if ($canEdit) : ?>
-											 <?php  $tmp = JText::_('COM_MENUS_EDIT_MENU') . ': ' . $this->escape($item->description); ?>
-											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $tmp; ?>"
+											<?php $edit_txt = JText::_('COM_MENUS_EDIT_MENU') . ': ' . $this->escape($item->description); ?>
+											<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $edit_txt; ?>"
 												<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>
-												<span class="sr-only"><?php echo $tmp; ?></span>
+												<span class="sr-only"><?php echo $edit_txt; ?></span>
 												<?php echo $this->escape($item->menutype); ?>
 											</a>
 										<?php else : ?>
