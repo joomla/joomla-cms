@@ -80,6 +80,7 @@
     ],
     "elements": [
       "field-media",
+      "field-modal",
       "field-user",
       "field-switcher",
       "field-send-test-mail",
@@ -94,6 +95,9 @@
     "webcomponents": {
       "field-media": {
         "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-modal": {
         "js": "media/system/webcomponents/js"
       },
       "field-switcher": {
