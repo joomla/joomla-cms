@@ -26,7 +26,7 @@ extract($displayData, EXTR_IF_EXISTS & EXTR_REFS);
 
 // Add the modal field script to the document head.
 HTMLHelper::_('jquery.framework');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-modal.es6.min.js', ['version' => 'auto', 'detectDebug' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-modal.min.js', ['version' => 'auto', 'detectDebug' => true]);
 
 $attribs = array_merge($attribs, [
 	'id' => $id,
