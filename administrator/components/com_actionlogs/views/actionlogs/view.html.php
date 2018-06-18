@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -66,17 +67,14 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if (PluginHelper::isEnabled('system', 'actionlogs'))
-		{
-			$params   = new Registry(PluginHelper::getPlugin('system', 'actionlogs')->params);
-			$this->ip = (bool) $params->get('ip_logging', 0);
-		}
+		$params = ComponentHelper::getParams('com_actionlogs');
 
 		$this->items         = $this->get('Items');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->pagination    = $this->get('Pagination');
+		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
 
 		if (count($errors = $this->get('Errors')))
 		{
