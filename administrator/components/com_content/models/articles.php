@@ -206,7 +206,7 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title, c.created_user_id as category_uid')
+		$query->select('c.title AS category_title, c.created_user_id as category_uid, c.level as category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
