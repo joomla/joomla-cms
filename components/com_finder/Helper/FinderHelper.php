@@ -23,18 +23,23 @@ class FinderHelper
 	/**
 	 * Method to log searches to the database
 	 *
-	 * @param   string   $searchquery  The search query
-	 * @param   integer  $resultCount  The number of results for this search
+	 * @param   FinderIndexerQuery  $searchquery  The search query
+	 * @param   integer             $resultCount  The number of results for this search
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function logSearch($searchquery, $resultCount = 0)
+	public static function logSearch(FinderIndexerQuery $searchquery, $resultCount = 0)
 	{
 		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
 
 		if (!$enable_log_searches)
+		{
+			return;
+		}
+
+		if (trim($searchquery->input) == '' && !$searchquery->empty)
 		{
 			return;
 		}
