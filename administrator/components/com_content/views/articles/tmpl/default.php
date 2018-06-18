@@ -198,7 +198,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
-										<?php if ($item->parent_category_id != '1') : ?>
+										<?php if ($item->parent_category_title != 'ROOT') : ?>
 											<?php echo ' » '; ?>
 											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
 												<a 	class="hasTooltip"
