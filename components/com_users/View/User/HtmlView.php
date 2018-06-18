@@ -55,10 +55,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = Factory::getApplication();
-		$this->item  = $this->get('Item');
-		$state      = $this->get('State');
-		$params     = $state->get('params');
+		$app            = Factory::getApplication();
+		$this->item     = $this->get('Item');
+		$this->state    = $this->get('State');
+		$this->params   = $this->state->get('params');
 
 		$user = Factory::getUser();
 
@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
 
 		// Process the content plugins.
 		PluginHelper::importPlugin('content');
-		$offset = $state->get('list.offset');
+		$offset = $this->state->get('list.offset');
 
 		$this->item = (object) $this->item;
 
@@ -104,10 +104,33 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = \JFactory::getApplication();
+		$app     = Factory::getApplication();
 		$pathway = $app->getPathway();
+		$menus   = $app->getMenu();
+		$menu    = $menus->getActive();
 
-		$pathway->addItem($this->item->name, "");
+		if ($menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+		}
+		else
+		{
+			$this->params->def('page_heading', Text::_('COM_USERS_DEFAULT_PAGE_TITLE'));
+		}
 
+		$title = $this->params->get('page_title', '');
+
+		$id = (int) @$menu->query['id'];
+
+		// If the menu item does not concern this user
+		if ($menu && ($menu->query['option'] !== 'com_users' || $menu->query['view'] !== 'user' || $id != $this->item->id))
+		{
+			// If this is not a single user menu item, set the page title to the user title
+			if ($this->item->name)
+			{
+				$title = $this->item->name;
+			}
+			$pathway->addItem($title, '');
+		}
 	}
 }

@@ -35,6 +35,14 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  4.0.0
+	 */
+	protected $params = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -47,6 +55,8 @@ class HtmlView extends BaseHtmlView
 	{
 		$app        = Factory::getApplication();
 		$this->items  = $this->get('Items');
+		$this->state      = $this->get('State');
+		$this->params = $this->state->get('params');
 
 		PluginHelper::importPlugin('content');
 
@@ -73,5 +83,4 @@ class HtmlView extends BaseHtmlView
 
 		return parent::display($tpl);
 	}
-
 }
