@@ -419,14 +419,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
 
         // Don't even show the modal until the iframe loads
+        function frameLoaded() {
+          modalWrapper.classList.remove('sr-only');
+          iframe.removeEventListener('load', frameLoaded);
+        }
         if (iframe) {
-          var _frameLoaded = function _frameLoaded() {
-            modalWrapper.classList.remove('sr-only');
-            iframe.removeEventListener('load', _frameLoaded);
-          };
-
           modalWrapper.classList.add('sr-only');
-          iframe.addEventListener('load', _frameLoaded);
+          iframe.addEventListener('load', frameLoaded);
         }
 
         var selected = null;
@@ -441,14 +440,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         };
 
         var resolveItem = function resolveItem(event) {
-          var task = event.target.getAttribute('data-task') || 'cancel',
-              itemType = (_this6.getAttribute('item-type') || 'item').toLowerCase(),
-              formId = _this6.getAttribute('form-id') || itemType + '-form',
-              idFieldId = _this6.getAttribute('id-field-id') || 'jform_id',
-              titleFieldId = _this6.getAttribute('title-field-id') || 'jform_title',
-              iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift(),
-              iframeWin = iframe.contentWindow,
-              iframeDoc = iframe.contentDocument;
+          var task = event.target.getAttribute('data-task') || 'cancel';
+          var itemType = (_this6.getAttribute('item-type') || 'item').toLowerCase();
+          var formId = _this6.getAttribute('form-id') || itemType + '-form';
+          var idFieldId = _this6.getAttribute('id-field-id') || 'jform_id';
+          var titleFieldId = _this6.getAttribute('title-field-id') || 'jform_title';
+          var iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
+          var iframeWin = iframe.contentWindow;
+          var iframeDoc = iframe.contentDocument;
 
           if (task === 'cancel') {
             iframeWin.Joomla.submitbutton(itemType + '.' + task);
@@ -461,17 +460,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           }
 
           // When the frame reloads
-          function frameLoaded(evt) {
+          function frameLoaded() {
             iframe.removeEventListener('load', frameLoaded);
 
-            var iframeDoc = iframe.contentDocument,
-                idField = iframeDoc.getElementById(idFieldId),
-                titleField = iframeDoc.getElementById(titleFieldId);
+            var iframeDoc = iframe.contentDocument;
+            var idField = iframeDoc.getElementById(idFieldId);
+            var titleField = iframeDoc.getElementById(titleFieldId);
 
-            if (idField && idField.value != '0') {
+            if (idField && idField.value !== '0') {
               selected = [idField.value, titleField && titleField.value];
 
-              // If Save & Close (save task), submit the edit close action (so we don't have checked out items).
+              // If Save & Close (save task), submit the edit close action
+              // (so we don't have checked out items).
               if (task === 'save') {
                 iframeWin.Joomla.submitbutton(itemType + '.cancel');
                 $(modalWrapper).modal('hide');

@@ -1,8 +1,8 @@
 ;((customElements, Joomla, $) => {
 
-  const ALLOW_NEW    = 1;
-  const ALLOW_EDIT   = 2;
-  const ALLOW_CLEAR  = 4;
+  const ALLOW_NEW = 1;
+  const ALLOW_EDIT = 2;
+  const ALLOW_CLEAR = 4;
   const ALLOW_SELECT = 8;
 
   /**
@@ -108,7 +108,7 @@
      * @return  {void}
      */
     createElements() {
-      let hasValue = !!this.getAttribute('value');
+      const hasValue = !!this.getAttribute('value');
 
       this.elements = {};
 
@@ -132,7 +132,7 @@
         required: this.getAttribute('required'),
       });
 
-      let modalButtonAttr = {
+      const modalButtonAttr = {
         role: 'button',
         class: 'btn',
         'aria-hidden': 'true',
@@ -153,8 +153,7 @@
       this.elements.modalButtonApply.classList.add('btn-success');
       this.elements.modalButtonApply.setAttribute('data-task', 'apply');
 
-      if (!this.allow)
-      {
+      if (!this.allow) {
         return;
       }
 
@@ -174,7 +173,7 @@
 
         this.elements.buttonSelect.classList.add('btn-primary');
         this.elements.buttonSelect.classList[hasValue ? 'add' : 'remove']('sr-only');
-        this.elements.buttonSelect.addEventListener('click', (evt) => this.modalSelect(evt), true);
+        this.elements.buttonSelect.addEventListener('click', evt => this.modalSelect(evt), true);
       }
 
       if (this.allow & ALLOW_NEW) {
@@ -186,7 +185,7 @@
 
         this.elements.buttonNew.classList.add('btn-secondary');
         this.elements.buttonNew.classList[hasValue ? 'add' : 'remove']('sr-only');
-        this.elements.buttonNew.addEventListener('click', (evt) => this.modalNew(evt), true);
+        this.elements.buttonNew.addEventListener('click', evt => this.modalNew(evt), true);
       }
 
       if (this.allow & ALLOW_EDIT) {
@@ -198,7 +197,7 @@
 
         this.elements.buttonEdit.classList.add('btn-secondary');
         this.elements.buttonEdit.classList[hasValue ? 'remove' : 'add']('sr-only');
-        this.elements.buttonEdit.addEventListener('click', (evt) => this.modalEdit(evt), true);
+        this.elements.buttonEdit.addEventListener('click', evt => this.modalEdit(evt), true);
       }
 
       if (this.allow & ALLOW_CLEAR) {
@@ -210,7 +209,7 @@
 
         this.elements.buttonClear.classList.add('btn-secondary');
         this.elements.buttonClear.classList[hasValue ? 'remove' : 'add']('sr-only');
-        this.elements.buttonClear.addEventListener('click', (evt) => this.clear(evt), true);
+        this.elements.buttonClear.addEventListener('click', evt => this.clear(evt), true);
       }
     }
 
@@ -254,7 +253,7 @@
      * @return  {void}
      */
     modalSelect(evt) {
-      let title = this.getAttribute('text-title-select');
+      const title = this.getAttribute('text-title-select');
       let body = getElement('iframe', {
         class: 'iframe',
         src: this.getAttribute('url-select'),
@@ -268,7 +267,7 @@
         },
         'Close'
       );
-      let modalOptions = {
+      const modalOptions = {
         closeButton: true,
       };
 
@@ -284,7 +283,7 @@
      * @return  {void}
      */
     modalNew(evt) {
-      let title = this.getAttribute('text-title-new');
+      const title = this.getAttribute('text-title-new');
       let body = getElement('iframe', {
         class: 'iframe',
         src: this.getAttribute('url-new'),
@@ -295,7 +294,7 @@
         this.elements.modalButtonSave,
         this.elements.modalButtonApply,
       ];
-      let modalOptions = {
+      const modalOptions = {
         backdrop: 'static',
         keyboard: false,
         closeButton: false,
@@ -313,9 +312,9 @@
      * @return  {void}
      */
     modalEdit(evt) {
-      let tmpl = templateFactory(this.getAttribute('url-edit'));
+      const tmpl = templateFactory(this.getAttribute('url-edit'));
 
-      let title = this.getAttribute('text-title-edit');
+      const title = this.getAttribute('text-title-edit');
       let body = getElement('iframe', {
         class: 'iframe',
         src: tmpl(this.elements.fieldId.value),
@@ -326,7 +325,7 @@
         this.elements.modalButtonSave,
         this.elements.modalButtonApply,
       ];
-      let modalOptions = {
+      const modalOptions = {
         backdrop: 'static',
         keyboard: false,
         closeButton: false,
@@ -362,54 +361,62 @@
       body = (body instanceof Array) ? body : [body];
       footer = (footer instanceof Array) ? footer : [footer];
 
-      let modalWrapper = getElement('div',
+      const modalWrapper = getElement(
+		'div',
         {
           role: 'dialog',
           tabindex: '-1',
           class: 'joomla-modal modal fade show',
         },
-        getElement('div',
+        getElement(
+		  'div',
           {
             class: 'modal-dialog modal-lg jviewport-width80',
             role: 'document',
           },
-          getElement('div',
-            {class: 'modal-content'},
-            getElement('div',
-              {class: 'modal-header'},
-              getElement('h3',
-                {class: 'modal-title'},
-                title || 'Title'
+          getElement(
+		    'div',
+            { class: 'modal-content' },
+            getElement(
+			  'div',
+              { class: 'modal-header' },
+              getElement(
+			    'h3',
+                { class: 'modal-title' },
+                title || 'Title',
               ),
-              modalOptions.closeButton ? getElement('button',
+              modalOptions.closeButton ? getElement(
+			    'button',
                 {
                   type: 'button',
                   class: 'close novalidate',
                   'data-dismiss': 'modal',
                 },
-                '×'
-              ) : ''
+                '×',
+			  ) : '',
             ),
-            getElement('div',
-              {class: 'modal-body jviewport-height70'},
+            getElement(
+			  'div',
+              { class: 'modal-body jviewport-height70' },
               ...body
             ),
-            getElement('div',
-              {class: 'modal-footer'},
-              ...footer
-            )
-          )
-        )
+            getElement(
+			  'div',
+              { class: 'modal-footer' },
+              ...footer,
+		    ),
+		  ),
+	    ),
       );
 
-      let iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
+      const iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
 
       // Don't even show the modal until the iframe loads
+	  function frameLoaded() {
+		  modalWrapper.classList.remove('sr-only');
+		  iframe.removeEventListener('load', frameLoaded);
+	  }
       if (iframe) {
-        function frameLoaded () {
-          modalWrapper.classList.remove('sr-only');
-          iframe.removeEventListener('load', frameLoaded);
-        }
         modalWrapper.classList.add('sr-only');
         iframe.addEventListener('load', frameLoaded);
       }
@@ -421,18 +428,18 @@
         $(modalWrapper).modal('hide');
       };
 
-      let resolveItem = (event) => {
-        let task = event.target.getAttribute('data-task') || 'cancel',
-          itemType = (this.getAttribute('item-type') || 'item').toLowerCase(),
-          formId = this.getAttribute('form-id') || itemType + '-form',
-          idFieldId = this.getAttribute('id-field-id') || 'jform_id',
-          titleFieldId = this.getAttribute('title-field-id') || 'jform_title',
-          iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift(),
-          iframeWin = iframe.contentWindow,
-          iframeDoc = iframe.contentDocument;
+      const resolveItem = (event) => {
+        const task = event.target.getAttribute('data-task') || 'cancel';
+        const itemType = (this.getAttribute('item-type') || 'item').toLowerCase();
+        const formId = this.getAttribute('form-id') || `${itemType}-form`;
+        const idFieldId = this.getAttribute('id-field-id') || 'jform_id';
+        const titleFieldId = this.getAttribute('title-field-id') || 'jform_title';
+        const iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
+        const iframeWin = iframe.contentWindow;
+        const iframeDoc = iframe.contentDocument;
 
         if (task === 'cancel') {
-          iframeWin.Joomla.submitbutton(itemType + '.' + task);
+          iframeWin.Joomla.submitbutton(`${itemType}.${task}`);
           $(modalWrapper).modal('hide');
         }
 
@@ -442,17 +449,18 @@
         }
 
         // When the frame reloads
-        function frameLoaded (evt) {
+        function frameLoaded() {
           iframe.removeEventListener('load', frameLoaded);
 
-          let iframeDoc = iframe.contentDocument,
-            idField = iframeDoc.getElementById(idFieldId),
-            titleField = iframeDoc.getElementById(titleFieldId);
+          const iframeDoc = iframe.contentDocument;
+          const idField = iframeDoc.getElementById(idFieldId);
+          const titleField = iframeDoc.getElementById(titleFieldId);
 
-          if (idField && idField.value != '0') {
+          if (idField && idField.value !== '0') {
             selected = [idField.value, titleField && titleField.value];
 
-            // If Save & Close (save task), submit the edit close action (so we don't have checked out items).
+            // If Save & Close (save task), submit the edit close action
+            // (so we don't have checked out items).
             if (task === 'save') {
               iframeWin.Joomla.submitbutton(`${itemType}.cancel`);
               $(modalWrapper).modal('hide');
@@ -481,7 +489,7 @@
           return;
         }
 
-        let tmp = el.cloneNode(true);
+        const tmp = el.cloneNode(true);
         el.parentNode.replaceChild(tmp, el);
 
         tmp.addEventListener('click', evt => resolveItem(evt));
@@ -494,8 +502,8 @@
         // When the modal is hidden, get rid of it. We will make a new one each time.
         .one('hidden.bs.modal', () => modalWrapper.parentNode.removeChild(modalWrapper));
 
-      let promise = new Promise((resolve, reject) => {
-        $(modalWrapper).one('hide.bs.modal', (evt) => selected ? resolve(selected) : reject());
+      const promise = new Promise((resolve, reject) => {
+        $(modalWrapper).one('hide.bs.modal', evt => selected ? resolve(selected) : reject());
       });
 
       promise.finally(() => { window.jModalSelect = null; });
