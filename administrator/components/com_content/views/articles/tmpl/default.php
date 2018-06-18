@@ -199,7 +199,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
 										<?php if ($item->category_level != '1') : ?>
+											<?php if ($item->parent_category_level != '1') : ?>
 												<?php echo ' » '; ?>
+											<?php endif; ?>
 											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
 												<a 	class="hasTooltip"
 													href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content'); ?>"
