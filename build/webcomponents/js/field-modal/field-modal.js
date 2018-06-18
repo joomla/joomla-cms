@@ -17,11 +17,9 @@
   function getElement(type, attributes, ...wrapped) {
     let el = document.createElement(type);
 
-    if (attributes)
-    {
+    if (attributes) {
       for (let prop in attributes) {
-        if (attributes.hasOwnProperty(prop))
-        {
+        if (attributes.hasOwnProperty(prop)) {
           el.setAttribute(prop, attributes[prop]);
         }
       }
@@ -170,8 +168,7 @@
         type: 'button',
       };
 
-      if (this.allow & ALLOW_SELECT)
-      {
+      if (this.allow & ALLOW_SELECT) {
         this.elements.buttonSelect = getElement('button',
           buttonAttr,
           getElement('span', {class: 'icon-file', 'aria-hidden': 'true'}),
@@ -183,8 +180,7 @@
         this.elements.buttonSelect.addEventListener('click', (evt) => this.modalSelect(evt), true);
       }
 
-      if (this.allow & ALLOW_NEW)
-      {
+      if (this.allow & ALLOW_NEW) {
         this.elements.buttonNew = getElement('button',
           buttonAttr,
           getElement('span', {class: 'icon-new', 'aria-hidden': 'true'}),
@@ -196,8 +192,7 @@
         this.elements.buttonNew.addEventListener('click', (evt) => this.modalNew(evt), true);
       }
 
-      if (this.allow & ALLOW_EDIT)
-      {
+      if (this.allow & ALLOW_EDIT) {
         this.elements.buttonEdit = getElement('button',
           buttonAttr,
           getElement('span', {class: 'icon-edit', 'aria-hidden': 'true'}),
@@ -209,8 +204,7 @@
         this.elements.buttonEdit.addEventListener('click', (evt) => this.modalEdit(evt), true);
       }
 
-      if (this.allow & ALLOW_CLEAR)
-      {
+      if (this.allow & ALLOW_CLEAR) {
         this.elements.buttonClear = getElement('button',
           buttonAttr,
           getElement('span', {class: 'icon-remove', 'aria-hidden': 'true'}),
@@ -228,8 +222,7 @@
      *
      * @return  {void}
      */
-    assembleElements()
-    {
+    assembleElements() {
       this.elements.wrapper.appendChild(this.elements.fieldId);
       this.elements.wrapper.appendChild(this.elements.fieldTitle);
 
@@ -522,7 +515,7 @@
         )
       );
 
-      promise.finally(r => window.jModalSelect = null);
+      promise.finally(r => { window.jModalSelect = null; });
 
       return promise;
     }
@@ -540,36 +533,23 @@
      * @return  {void}
      */
     processResult(id = '', title = '', catid = '', object = '', url = '', language = '') {
-      // Default values.
-      id       = id || '';
-      title    = title || '';
-      catid    = catid || '';
-      object   = object || '';
-      url      = url || '';
-      language = language || '';
-
       this.elements.fieldId.value    = id || '';
       this.elements.fieldTitle.value = id ? title : '';
 
-      if (this.elements.buttonSelect)
-      {
+      if (this.elements.buttonSelect) {
         this.elements.buttonSelect.classList[id ? 'add' : 'remove']('sr-only');
       }
-      if (this.elements.buttonNew)
-      {
+      if (this.elements.buttonNew) {
         this.elements.buttonNew.classList[id ? 'add' : 'remove']('sr-only');
       }
-      if (this.elements.buttonEdit)
-      {
+      if (this.elements.buttonEdit) {
         this.elements.buttonEdit.classList[id ? 'remove' : 'add']('sr-only');
       }
-      if (this.elements.buttonClear)
-      {
+      if (this.elements.buttonClear) {
         this.elements.buttonClear.classList[id ? 'remove' : 'add']('sr-only');
       }
 
-      if (this.elements.fieldId.getAttribute('data-required') == '1')
-      {
+      if (this.elements.fieldId.getAttribute('data-required') == '1') {
         document.formvalidator.validate(this.elements.fieldId);
         document.formvalidator.validate(this.elements.fieldTitle);
       }
