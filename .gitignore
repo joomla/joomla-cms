@@ -84,6 +84,7 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor
 /libraries/vendor/fig/link-util/test
 /libraries/vendor/fig/link-util/composer.json
 /libraries/vendor/fig/link-util/phpcs.xml
