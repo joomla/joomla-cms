@@ -26,7 +26,7 @@
     }
 
     wrapped.forEach(n => {
-      if (typeof n == 'string') {
+      if (typeof n === 'string') {
         el.appendChild(document.createTextNode(n));
       } else if (n instanceof HTMLElement) {
         el.appendChild(n);
@@ -52,7 +52,7 @@
       // Template function, takes any number of values as replacements for template tokens
       return (...values) => {
           let result = keys.map((key, i) => strings[i] + values[parseInt(key)]);
-        result.push(strings[strings.length - 1]);
+          result.push(strings[strings.length - 1]);
 
           return result.join('');
       };
@@ -78,21 +78,18 @@
       this.innerText = '';
 
       // Allow a custom rendering function. Should we?
-      if (typeof Joomla.renderModalField == 'function')
-      {
+      if (typeof Joomla.renderModalField === 'function') {
         Joomla.renderModalField.call(this);
-      }
-      else
-      {
+      } else {
         this.render();
       }
     }
 
     get allow() {
-      return (this.getAttribute('allow-new') == 'true' ? ALLOW_NEW : 0) |
-        (this.getAttribute('allow-edit') == 'true' ? ALLOW_EDIT : 0) |
-        (this.getAttribute('allow-clear') != 'false' ? ALLOW_CLEAR : 0) |
-        (this.getAttribute('allow-select') != 'false' ? ALLOW_SELECT : 0);
+      return (this.getAttribute('allow-new') === 'true' ? ALLOW_NEW : 0) |
+        (this.getAttribute('allow-edit') === 'true' ? ALLOW_EDIT : 0) |
+        (this.getAttribute('allow-clear') !== 'false' ? ALLOW_CLEAR : 0) |
+        (this.getAttribute('allow-select') !== 'false' ? ALLOW_SELECT : 0);
     }
 
     /**
@@ -226,27 +223,22 @@
       this.elements.wrapper.appendChild(this.elements.fieldId);
       this.elements.wrapper.appendChild(this.elements.fieldTitle);
 
-      if (this.elements.buttonGroup)
-      {
+      if (this.elements.buttonGroup) {
         this.elements.wrapper.appendChild(this.elements.buttonGroup);
 
-        if (this.elements.buttonSelect)
-        {
+        if (this.elements.buttonSelect) {
           this.elements.buttonGroup.appendChild(this.elements.buttonSelect);
         }
 
-        if (this.elements.buttonNew)
-        {
+        if (this.elements.buttonNew) {
           this.elements.buttonGroup.appendChild(this.elements.buttonNew);
         }
 
-        if (this.elements.buttonEdit)
-        {
+        if (this.elements.buttonEdit) {
           this.elements.buttonGroup.appendChild(this.elements.buttonEdit);
         }
 
-        if (this.elements.buttonClear)
-        {
+        if (this.elements.buttonClear) {
           this.elements.buttonGroup.appendChild(this.elements.buttonClear);
         }
       }
@@ -413,8 +405,7 @@
       let iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
 
       // Don't even show the modal until the iframe loads
-      if (iframe)
-      {
+      if (iframe) {
         function frameLoaded () {
           modalWrapper.classList.remove('sr-only');
           iframe.removeEventListener('load', frameLoaded);
@@ -431,24 +422,22 @@
       };
 
       let resolveItem = (event) => {
-        let task         = event.target.getAttribute('data-task') || 'cancel',
-          itemType     = (this.getAttribute('item-type') || 'item').toLowerCase(),
-          formId       = this.getAttribute('form-id') || itemType + '-form',
-          idFieldId    = this.getAttribute('id-field-id') || 'jform_id',
+        let task = event.target.getAttribute('data-task') || 'cancel',
+          itemType = (this.getAttribute('item-type') || 'item').toLowerCase(),
+          formId = this.getAttribute('form-id') || itemType + '-form',
+          idFieldId = this.getAttribute('id-field-id') || 'jform_id',
           titleFieldId = this.getAttribute('title-field-id') || 'jform_title',
-          iframe       = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift(),
-          iframeWin    = iframe.contentWindow,
-          iframeDoc    = iframe.contentDocument;
+          iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift(),
+          iframeWin = iframe.contentWindow,
+          iframeDoc = iframe.contentDocument;
 
-        if (task === 'cancel')
-        {
+        if (task === 'cancel') {
           iframeWin.Joomla.submitbutton(itemType + '.' + task);
           $(modalWrapper).modal('hide');
         }
 
         // Don't need to do anything else with an invalid form.
-        if (!iframeDoc.formvalidator.isValid(iframeDoc.getElementById(formId)))
-        {
+        if (!iframeDoc.formvalidator.isValid(iframeDoc.getElementById(formId))) {
           return;
         }
 
@@ -460,14 +449,12 @@
             idField = iframeDoc.getElementById(idFieldId),
             titleField = iframeDoc.getElementById(titleFieldId);
 
-          if (idField && idField.value != '0')
-          {
+          if (idField && idField.value != '0') {
             selected = [idField.value, titleField && titleField.value];
 
             // If Save & Close (save task), submit the edit close action (so we don't have checked out items).
-            if (task === 'save')
-            {
-              iframeWin.Joomla.submitbutton(itemType + '.cancel');
+            if (task === 'save') {
+              iframeWin.Joomla.submitbutton(`${itemType}.cancel`);
               $(modalWrapper).modal('hide');
             }
           }
@@ -477,12 +464,11 @@
 
         iframe.addEventListener('load', frameLoaded);
 
-        if (task === 'save')
-        {
+        if (task === 'save') {
           iframe.classList.add('sr-only');
         }
 
-        iframeWin.Joomla.submitbutton(itemType + '.apply');
+        iframeWin.Joomla.submitbutton(`${itemType}.apply`);
       };
 
       // If we're using these buttons, clone them to remove old listeners add the new one
@@ -491,8 +477,7 @@
         this.elements.modalButtonSave,
         this.elements.modalButtonApply,
       ].forEach(el => {
-        if (!el.parentNode)
-        {
+        if (!el.parentNode) {
           return;
         }
 
@@ -509,13 +494,11 @@
         // When the modal is hidden, get rid of it. We will make a new one each time.
         .one('hidden.bs.modal', () => modalWrapper.parentNode.removeChild(modalWrapper));
 
-      var promise = new Promise((resolve, reject) =>
-        $(modalWrapper).one('hide.bs.modal', (evt) =>
-          selected ? resolve(selected) : reject()
-        )
-      );
+      let promise = new Promise((resolve, reject) => {
+        $(modalWrapper).one('hide.bs.modal', (evt) => selected ? resolve(selected) : reject());
+      });
 
-      promise.finally(r => { window.jModalSelect = null; });
+      promise.finally(() => { window.jModalSelect = null; });
 
       return promise;
     }
@@ -533,7 +516,7 @@
      * @return  {void}
      */
     processResult(id = '', title = '', catid = '', object = '', url = '', language = '') {
-      this.elements.fieldId.value    = id || '';
+      this.elements.fieldId.value = id || '';
       this.elements.fieldTitle.value = id ? title : '';
 
       if (this.elements.buttonSelect) {
@@ -549,7 +532,7 @@
         this.elements.buttonClear.classList[id ? 'remove' : 'add']('sr-only');
       }
 
-      if (this.elements.fieldId.getAttribute('data-required') == '1') {
+      if (this.elements.fieldId.getAttribute('data-required') === '1') {
         document.formvalidator.validate(this.elements.fieldId);
         document.formvalidator.validate(this.elements.fieldTitle);
       }

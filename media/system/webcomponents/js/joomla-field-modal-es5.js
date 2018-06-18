@@ -43,7 +43,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
 
     wrapped.forEach(function (n) {
-      if (typeof n == 'string') {
+      if (typeof n === 'string') {
         el.appendChild(document.createTextNode(n));
       } else if (n instanceof HTMLElement) {
         el.appendChild(n);
@@ -109,7 +109,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       _this.innerText = '';
 
       // Allow a custom rendering function. Should we?
-      if (typeof Joomla.renderModalField == 'function') {
+      if (typeof Joomla.renderModalField === 'function') {
         Joomla.renderModalField.call(_this);
       } else {
         _this.render();
@@ -513,12 +513,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         });
 
         var promise = new Promise(function (resolve, reject) {
-          return $(modalWrapper).one('hide.bs.modal', function (evt) {
+          $(modalWrapper).one('hide.bs.modal', function (evt) {
             return selected ? resolve(selected) : reject();
           });
         });
 
-        promise.finally(function (r) {
+        promise.finally(function () {
           window.jModalSelect = null;
         });
 
@@ -564,7 +564,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           this.elements.buttonClear.classList[id ? 'remove' : 'add']('sr-only');
         }
 
-        if (this.elements.fieldId.getAttribute('data-required') == '1') {
+        if (this.elements.fieldId.getAttribute('data-required') === '1') {
           document.formvalidator.validate(this.elements.fieldId);
           document.formvalidator.validate(this.elements.fieldTitle);
         }
@@ -572,7 +572,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }, {
       key: 'allow',
       get: function get() {
-        return (this.getAttribute('allow-new') == 'true' ? ALLOW_NEW : 0) | (this.getAttribute('allow-edit') == 'true' ? ALLOW_EDIT : 0) | (this.getAttribute('allow-clear') != 'false' ? ALLOW_CLEAR : 0) | (this.getAttribute('allow-select') != 'false' ? ALLOW_SELECT : 0);
+        return (this.getAttribute('allow-new') === 'true' ? ALLOW_NEW : 0) | (this.getAttribute('allow-edit') === 'true' ? ALLOW_EDIT : 0) | (this.getAttribute('allow-clear') !== 'false' ? ALLOW_CLEAR : 0) | (this.getAttribute('allow-select') !== 'false' ? ALLOW_SELECT : 0);
       }
     }]);
 
