@@ -80,6 +80,7 @@ class PlgSystemActionLogs extends JPlugin
 		$allowedFormNames = array(
 			'com_users.profile',
 			'com_admin.profile',
+			'com_users.user',
 		);
 
 		if (!in_array($formName, $allowedFormNames) || !JFactory::getUser()->authorise('core.viewlogs'))
