@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_USERS_" option="COM_USERS_LIS">
+		<message>
+			<![CDATA[COM_USERS_LIST_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request">
+			<field name="id"
+				   type="user"
+				   label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>
+
