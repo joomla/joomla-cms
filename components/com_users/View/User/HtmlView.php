@@ -106,31 +106,8 @@ class HtmlView extends BaseHtmlView
 	{
 		$app     = Factory::getApplication();
 		$pathway = $app->getPathway();
-		$menus   = $app->getMenu();
-		$menu    = $menus->getActive();
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_USERS_DEFAULT_PAGE_TITLE'));
-		}
+		$pathway->addItem($this->item->name, '');
 
-		$title = $this->params->get('page_title', '');
-
-		$id = (int) @$menu->query['id'];
-
-		// If the menu item does not concern this user
-		if ($menu && ($menu->query['option'] !== 'com_users' || $menu->query['view'] !== 'user' || $id != $this->item->id))
-		{
-			// If this is not a single user menu item, set the page title to the user title
-			if ($this->item->name)
-			{
-				$title = $this->item->name;
-			}
-			$pathway->addItem($title, '');
-		}
 	}
 }
