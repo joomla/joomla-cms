@@ -198,47 +198,28 @@ $assoc = JLanguageAssociations::isEnabled();
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' ?>
-
-										<?php if ($item->parent_category_id != '1')  : ?>
-										
+										<?php if ($item->parent_category_id != '1') : ?>
 											<?php echo ' » '; ?>
-
 											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
-
-												<a  class="hasTooltip"
-									                href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content'); ?>"
-									                title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
-
-											<?php endif ?>
-
-											<?php echo '' . $item->parent_category_title . ''; ?>
-
-											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
-
-												</a>
-
+												<a 	class="hasTooltip"
+													href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content'); ?>"
+													title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
 											<?php endif; ?>
-
+											<?php echo $item->parent_category_title ; ?>
+											<?php if ($canEditParCat || $canEditOwnParCat) : ?>
+												</a>
+											<?php endif; ?>
 											<?php echo ' » '; ?>
-
 										<?php endif; ?>
-
 										<?php if ($canEditCat || $canEditOwnCat) : ?>
-
-											<a  class="hasTooltip"
-									            href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content'); ?>"
-									            title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
-
+											<a	class="hasTooltip"
+												href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content'); ?>"
+												title="<?php echo JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY'); ?>">
 										<?php endif; ?>
-
 											<?php echo $this->escape($item->category_title); ?>
-
 										<?php if ($canEditCat || $canEditOwnCat) : ?>
-
 											</a>
-
 										<?php endif; ?>
-
 								</div>
 							</div>
 						</td>
