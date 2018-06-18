@@ -43,7 +43,7 @@
         // Watch on list selection
         this.formElement.boxchecked.addEventListener('change', (event) => {
           // Check whether we have selected something
-          this.setDisabled(!event.target.value);
+          this.setDisabled(event.target.value < 1);
         });
       }
     }

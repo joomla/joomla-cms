@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * jicon-text, jicon-none, jicon-icon
  */
 ?>
-<dl class="contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+<dl class="com-contact__address contact-address dl-horizontal" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
 	<?php if (($this->params->get('address_check') > 0) &&
 		($this->contact->address || $this->contact->suburb  || $this->contact->state || $this->contact->country || $this->contact->postcode)) : ?>
 		<dt>

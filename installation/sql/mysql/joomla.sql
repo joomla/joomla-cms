@@ -1103,7 +1103,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 --
 
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
-(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en-GB', 'en_gb', '', '', '', '', 1, 1, 1);
+(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 1);
 
 -- --------------------------------------------------------
 

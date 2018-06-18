@@ -15,7 +15,7 @@ $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 ?>
 
-<div class="contact" itemscope itemtype="https://schema.org/Person">
+<div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
 	<?php if ($tparams->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($tparams->get('page_heading')); ?>
@@ -26,7 +26,7 @@ $tparams = $this->item->params;
 		<div class="page-header">
 			<h2>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+					<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->contact->name; ?></span>
 			</h2>
@@ -58,8 +58,10 @@ $tparams = $this->item->params;
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+		<div class="com-contact__tags">
+			<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+		</div>
 	<?php endif; ?>
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
@@ -82,13 +84,13 @@ $tparams = $this->item->params;
 		<?php endif; ?>
 
 		<?php if ($this->contact->image && $tparams->get('show_image')) : ?>
-			<div class="thumbnail float-right">
+			<div class="com-contact__thumbnail thumbnail float-right">
 				<?php echo JHtml::_('image', $this->contact->image, $this->contact->name, array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->contact->con_position && $tparams->get('show_position')) : ?>
-			<dl class="contact-position dl-horizontal">
+			<dl class="com-contact__position contact-position dl-horizontal">
 				<dt><?php echo JText::_('COM_CONTACT_POSITION'); ?>:</dt>
 				<dd itemprop="jobTitle">
 					<?php echo $this->contact->con_position; ?>
@@ -241,7 +243,7 @@ $tparams = $this->item->params;
 			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 		<?php endif; ?>
 
-		<div class="contact-miscinfo">
+		<div class="com-contact__miscinfo contact-miscinfo">
 			<dl class="dl-horizontal">
 				<dt>
 					<span class="<?php echo $tparams->get('marker_class'); ?>">
