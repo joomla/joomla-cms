@@ -787,7 +787,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "url" varchar(255) DEFAULT '' NOT NULL,
   "route" varchar(255) DEFAULT '' NOT NULL,
   "title" varchar(400) DEFAULT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "indexdate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "md5sum" varchar(32) DEFAULT NULL,
   "published" smallint DEFAULT 1 NOT NULL,
