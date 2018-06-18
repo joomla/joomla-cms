@@ -35,7 +35,7 @@
 			cols="80"
 			syntax="php"
 			filter="raw"
-		        readonly="true"
+			readonly="true"
 		/>
 	</fieldset>
 </form>
