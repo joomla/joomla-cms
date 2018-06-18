@@ -17,12 +17,12 @@ $lang  = Factory::getLanguage();
 ?>
 
 <?php foreach ($this->items as $item) : ?>
-	<div class="user-item">
+	<div class="user-item" itemscope itemtype="https://schema.org/Person">
 		<div class="user-item-content"><!-- Double divs required for IE11 grid fallback -->
 			<div class="item-content">
-				<h2>
+				<h2 itemprop="name">
 					<a href="<?php echo Route::_(UsersHelperRoute::getUserRoute($item->slug, $item->group_id, $lang)); ?>" itemprop="url">
-						<?php echo $item->name; ?>
+						<?php echo $this->escape($item->name); ?>
 					</a>
 				</h2>
 				<?php echo $item->event->afterDisplayTitle; ?>
