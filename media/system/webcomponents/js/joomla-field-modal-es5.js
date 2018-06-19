@@ -11,8 +11,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-;(function (customElements, Joomla, $) {
-
+/* global Joomla, jQuery */
+(function (customElements, Joomla, $) {
   var ALLOW_NEW = 1;
   var ALLOW_EDIT = 2;
   var ALLOW_CLEAR = 4;
@@ -28,14 +28,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
    * @return  {HTMLElement}
    */
   function getElement(type, attributes) {
+    /* eslint-disable no-prototype-builtins */
     var el = document.createElement(type);
 
     if (attributes) {
-      for (var prop in attributes) {
-        if (attributes.hasOwnProperty(prop)) {
-          el.setAttribute(prop, attributes[prop]);
-        }
-      }
+      Object.keys(attributes).forEach(function (prop) {
+        return el.setAttribute(prop, attributes[prop]);
+      });
     }
 
     for (var _len = arguments.length, wrapped = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
@@ -61,8 +60,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
    * @return  {function}
    */
   function templateFactory(tmpl) {
+    /* eslint-disable no-eval, no-unused-vars */
     // Escape all dangerous things
-    tmpl = tmpl.replace(/\\|`/g, '\\$&');
+    var safe = tmpl.replace(/\\|`/g, '\\$&');
 
     // Tag function for a template literal
     function template(strings) {
@@ -77,7 +77,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         var result = keys.map(function (key, i) {
-          return strings[i] + values[parseInt(key)];
+          return strings[i] + values[parseInt(key, 10)];
         });
         result.push(strings[strings.length - 1]);
 
@@ -86,7 +86,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }
 
     // I know, right?
-    return eval('template`' + tmpl + '`');
+    return eval('template`' + safe + '`');
   }
 
   customElements.define('joomla-field-modal', function (_HTMLElement) {
@@ -195,13 +195,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           type: 'button'
         };
 
+        /* eslint no-bitwise: ["error", { "allow": ["&"] }] */
+        /* jshint bitwise: false */
         if (this.allow & ALLOW_SELECT) {
           this.elements.buttonSelect = getElement('button', buttonAttr, getElement('span', { class: 'icon-file', 'aria-hidden': 'true' }), ' ', this.getAttribute('text-button-select'));
 
           this.elements.buttonSelect.classList.add('btn-primary');
           this.elements.buttonSelect.classList[hasValue ? 'add' : 'remove']('sr-only');
-          this.elements.buttonSelect.addEventListener('click', function (evt) {
-            return _this2.modalSelect(evt);
+          this.elements.buttonSelect.addEventListener('click', function () {
+            return _this2.modalSelect();
           }, true);
         }
 
@@ -210,8 +212,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           this.elements.buttonNew.classList.add('btn-secondary');
           this.elements.buttonNew.classList[hasValue ? 'add' : 'remove']('sr-only');
-          this.elements.buttonNew.addEventListener('click', function (evt) {
-            return _this2.modalNew(evt);
+          this.elements.buttonNew.addEventListener('click', function () {
+            return _this2.modalNew();
           }, true);
         }
 
@@ -220,8 +222,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           this.elements.buttonEdit.classList.add('btn-secondary');
           this.elements.buttonEdit.classList[hasValue ? 'remove' : 'add']('sr-only');
-          this.elements.buttonEdit.addEventListener('click', function (evt) {
-            return _this2.modalEdit(evt);
+          this.elements.buttonEdit.addEventListener('click', function () {
+            return _this2.modalEdit();
           }, true);
         }
 
@@ -230,8 +232,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
           this.elements.buttonClear.classList.add('btn-secondary');
           this.elements.buttonClear.classList[hasValue ? 'remove' : 'add']('sr-only');
-          this.elements.buttonClear.addEventListener('click', function (evt) {
-            return _this2.clear(evt);
+          this.elements.buttonClear.addEventListener('click', function () {
+            return _this2.clear();
           }, true);
         }
       }
@@ -274,14 +276,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
       /**
        * Click handler for the 'select' button. Opens a modal selector.
        *
-       * @param   {Event}  evt  The click event
-       *
        * @return  {void}
        */
 
     }, {
       key: 'modalSelect',
-      value: function modalSelect(evt) {
+      value: function modalSelect() {
         var _this3 = this;
 
         var title = this.getAttribute('text-title-select');
@@ -302,20 +302,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         this.openModal(title, body, footer, modalOptions).then(function (r) {
           return _this3.processResult.apply(_this3, _toConsumableArray(r));
-        }, function (r) {});
+        }, function () {});
       }
 
       /**
        * Click handler for the 'new' button. Opens a modal for creating a new item.
-       *
-       * @param   {Event}  evt  The click event
        *
        * @return  {void}
        */
 
     }, {
       key: 'modalNew',
-      value: function modalNew(evt) {
+      value: function modalNew() {
         var _this4 = this;
 
         var title = this.getAttribute('text-title-new');
@@ -333,20 +331,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         this.openModal(title, body, footer, modalOptions).then(function (r) {
           return _this4.processResult.apply(_this4, _toConsumableArray(r));
-        }, function (r) {});
+        }, function () {});
       }
 
       /**
        * Click handler for the 'edit' button. Opens a modal editor.
-       *
-       * @param   {Event}  evt  The click event
        *
        * @return  {void}
        */
 
     }, {
       key: 'modalEdit',
-      value: function modalEdit(evt) {
+      value: function modalEdit() {
         var _this5 = this;
 
         var tmpl = templateFactory(this.getAttribute('url-edit'));
@@ -366,20 +362,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
         this.openModal(title, body, footer, modalOptions).then(function (r) {
           return _this5.processResult.apply(_this5, _toConsumableArray(r));
-        }, function (r) {});
+        }, function () {});
       }
 
       /**
        * Click handler for the 'clear' button. Clears the current value.
-       *
-       * @param   {Event}  evt  The click event
        *
        * @return  {void}
        */
 
     }, {
       key: 'clear',
-      value: function clear(evt) {
+      value: function clear() {
         this.processResult();
       }
 
@@ -400,8 +394,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var _this6 = this;
 
         // Need arrays
-        body = body instanceof Array ? body : [body];
-        footer = footer instanceof Array ? footer : [footer];
+        var aBody = body instanceof Array ? body : [body];
+        var aFooter = footer instanceof Array ? footer : [footer];
 
         var modalWrapper = getElement('div', {
           role: 'dialog',
@@ -414,7 +408,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           type: 'button',
           class: 'close novalidate',
           'data-dismiss': 'modal'
-        }, '×') : ''), getElement.apply(undefined, ['div', { class: 'modal-body jviewport-height70' }].concat(_toConsumableArray(body))), getElement.apply(undefined, ['div', { class: 'modal-footer' }].concat(_toConsumableArray(footer))))));
+        }, '×') : ''), getElement.apply(undefined, ['div', { class: 'modal-body jviewport-height70' }].concat(_toConsumableArray(aBody))), getElement.apply(undefined, ['div', { class: 'modal-footer' }].concat(_toConsumableArray(aFooter))))));
 
         var iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
 
@@ -445,7 +439,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           var formId = _this6.getAttribute('form-id') || itemType + '-form';
           var idFieldId = _this6.getAttribute('id-field-id') || 'jform_id';
           var titleFieldId = _this6.getAttribute('title-field-id') || 'jform_title';
-          var iframe = [].slice.call(modalWrapper.getElementsByTagName('iframe')).shift();
           var iframeWin = iframe.contentWindow;
           var iframeDoc = iframe.contentDocument;
 
@@ -460,12 +453,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
           }
 
           // When the frame reloads
-          function frameLoaded() {
-            iframe.removeEventListener('load', frameLoaded);
+          function frameReload() {
+            iframe.removeEventListener('load', frameReload);
 
-            var iframeDoc = iframe.contentDocument;
-            var idField = iframeDoc.getElementById(idFieldId);
-            var titleField = iframeDoc.getElementById(titleFieldId);
+            var frameDoc = iframe.contentDocument;
+            var idField = frameDoc.getElementById(idFieldId);
+            var titleField = frameDoc.getElementById(titleFieldId);
 
             if (idField && idField.value !== '0') {
               selected = [idField.value, titleField && titleField.value];
@@ -481,7 +474,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             iframe.classList.remove('sr-only');
           }
 
-          iframe.addEventListener('load', frameLoaded);
+          iframe.addEventListener('load', frameReload);
 
           if (task === 'save') {
             iframe.classList.add('sr-only');
@@ -513,8 +506,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         });
 
         var promise = new Promise(function (resolve, reject) {
-          $(modalWrapper).one('hide.bs.modal', function (evt) {
-            return selected ? resolve(selected) : reject();
+          $(modalWrapper).one('hide.bs.modal', function () {
+            if (selected) {
+              resolve(selected);
+            } else {
+              reject();
+            }
           });
         });
 
@@ -572,6 +569,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     }, {
       key: 'allow',
       get: function get() {
+        /* eslint no-bitwise: "off" */
+        /* jshint bitwise: false */
         return (this.getAttribute('allow-new') === 'true' ? ALLOW_NEW : 0) | (this.getAttribute('allow-edit') === 'true' ? ALLOW_EDIT : 0) | (this.getAttribute('allow-clear') !== 'false' ? ALLOW_CLEAR : 0) | (this.getAttribute('allow-select') !== 'false' ? ALLOW_SELECT : 0);
       }
     }]);
