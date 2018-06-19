@@ -14,7 +14,7 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 $class = ' class="first"';
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
-<ul class="list-striped list-condensed">
+<ul class="com-contact-category__children list-striped list-condensed">
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 	<?php
 	if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :

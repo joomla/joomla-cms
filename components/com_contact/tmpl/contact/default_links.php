@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 	<?php echo '<h3>' . JText::_('COM_CONTACT_LINKS') . '</h3>'; ?>
 <?php endif; ?>
 
-<div class="contact-links">
+<div class="com-contact__links contact-links">
 	<ul class="nav nav-pills flex-column">
 		<?php
 		// Letters 'a' to 'e'
