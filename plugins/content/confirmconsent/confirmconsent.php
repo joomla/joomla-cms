@@ -112,8 +112,8 @@ class PlgContentConfirmConsent extends CMSPlugin
 	/**
 	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @param   integer  $articleId       The form to be altered.
-	 * @param   string   $consentboxLabel The consent box label
+	 * @param   integer  $articleId        The form to be altered.
+	 * @param   string   $consentboxLabel  The consent box label
 	 *
 	 * @return  string  Returns the a tag containing everything for the modal
 	 *
