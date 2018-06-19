@@ -101,11 +101,11 @@ class PlgSystemPrivacyconsent extends JPlugin
 		JForm::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
 
-		$privacyarticle = $this->params->get('privacy_article');
-		$privacynote    = $this->params->get('privacy_note');
+		$privacyArticleId = $this->getPrivacyArticleId();
+		$privacynote      = $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
-		$form->setFieldAttribute('privacy', 'article', $privacyarticle, 'privacyconsent');
+		$form->setFieldAttribute('privacy', 'article', $privacyArticleId, 'privacyconsent');
 		$form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
 	}
 
@@ -293,9 +293,17 @@ class PlgSystemPrivacyconsent extends JPlugin
 			$task   = $this->app->input->get('task');
 			$view   = $this->app->input->getString('view', '');
 			$layout = $this->app->input->getString('layout', '');
+			$id     = $this->app->input->getInt('id');
 
-			// If user is already on edit profile screen or press update button, do nothing to avoid infinite redirect
-			if ($task == 'profile.save' || ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
+			$privacyArticleId = $this->getPrivacyArticleId();
+
+			/*
+			 * If user is already on edit profile screen or view privacy article
+			 * or press update button, do nothing to avoid infinite redirect
+			 */
+			if ($task == 'profile.save'
+				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
+				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
 				return;
 			}
@@ -372,5 +380,29 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$this->db->setQuery($query);
 
 		return (int) $this->db->loadResult() > 0;
+	}
+
+	/**
+	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
+	 * current language, ID of the associlated article will be returned
+	 *
+	 * @return  int
+	 */
+	private function getPrivacyArticleId()
+	{
+		$privacyArticleId = $this->params->get('privacy_article');
+
+		if ($privacyArticleId > 0 && JLanguageAssociations::isEnabled())
+		{
+			$privacyAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyArticleId);
+			$currentLang = JFactory::getLanguage()->getTag();
+
+			if (isset($privacyAssociated[$currentLang]))
+			{
+				$privacyArticleId = $privacyAssociated[$currentLang]->id;
+			}
+		}
+
+		return $privacyArticleId;
 	}
 }
