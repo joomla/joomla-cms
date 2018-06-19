@@ -55,9 +55,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = Factory::getApplication();
-		$this->item  = $this->get('Item');
-		$this->state      = $this->get('State');
+		$app            = Factory::getApplication();
+		$this->item     = $this->get('Item');
+		$this->state    = $this->get('State');
+		$this->params   = $this->state->get('params');
 		$user = Factory::getUser();
 
 		/**
@@ -91,6 +92,21 @@ class HtmlView extends BaseHtmlView
 		$results = $app->triggerEvent('onContentAfterDisplay', array('com_users.user', &$this->item, &$this->item->params, $offset));
 		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
 
+		$this->_prepareDocument();
+
 		return parent::display($tpl);
+	}
+	/**
+	 * Prepares the document.
+	 *
+	 * @return  void
+	 */
+	protected function _prepareDocument()
+	{
+		$app     = Factory::getApplication();
+		$pathway = $app->getPathway();
+
+		$pathway->addItem($this->item->name, '');
+
 	}
 }
