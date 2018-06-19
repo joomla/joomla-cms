@@ -110,14 +110,14 @@ class ChecksModel extends BaseInstallationModel
 		// Check for a missing native parse_ini_file implementation.
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
-		$option->state  = function_exists('json_encode') && function_exists('json_decode');
+		$option->state  = $this->getIniParserAvailability();
 		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_PARSE_INI_FILE_AVAILABLE');
 		$options[] = $option;
 
 		// Check for missing native json_encode / json_decode support.
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
-		$option->state  = false;
+		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_JSON_SUPPORT_AVAILABLE');
 		$options[] = $option;
 
@@ -147,7 +147,7 @@ class ChecksModel extends BaseInstallationModel
 
 		foreach ($options as $option)
 		{
-			if ($option->state === true)
+			if ($option->state === false)
 			{
 				$result = $option->state;
 			}
