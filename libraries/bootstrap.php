@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,7 +48,7 @@ spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Register the global exception handler.
-set_exception_handler(['JErrorPage', 'render']);
+\Symfony\Component\Debug\ExceptionHandler::register(false);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

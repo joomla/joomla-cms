@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -295,23 +295,19 @@ abstract class FinderIndexer
 		$db    = $this->db;
 		$query = $db->getQuery(true);
 
-		// Update the link counts and remove the mapping records.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Update the link counts for the terms.
-			$query->clear()
-				->update($db->quoteName('#__finder_terms', 't'))
-				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i), 'm') . ' ON m.term_id = t.term_id')
-				->set('t.links = t.links - 1')
-				->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query)->execute();
+		// Update the link counts for the terms.
+		$query->clear()
+			->update($db->quoteName('#__finder_terms', 't'))
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON m.term_id = t.term_id')
+			->set('t.links = t.links - 1')
+			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
 
-			// Remove all records from the mapping tables.
-			$query->clear()
-				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
-				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
-			$db->setQuery($query)->execute();
-		}
+		// Remove all records from the mapping tables.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
 
 		// Delete all orphaned terms.
 		$query->clear()
@@ -526,7 +522,7 @@ abstract class FinderIndexer
 					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
-					. (float) $token->weight . ', '
+					. $db->quote($token->weight) . ', '
 					. (int) $context . ', '
 					. $db->quote($token->language)
 				);

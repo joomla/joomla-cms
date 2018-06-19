@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $listDirn        = $this->escape($this->state->get('list.direction'));
 $enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $userRequired    = (int) $input->get('required', 0, 'int');
-$onClick         = "window.parent.jSelectUser(this);window.parent.jQuery('.modal.in').modal('hide');";
+$onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
 ?>
 <div class="container-popup">

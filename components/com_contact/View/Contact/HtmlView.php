@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Contact\Site\View\Contact;
@@ -119,12 +119,16 @@ class HtmlView extends BaseHtmlView
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
- 		$params     = $state->get('params');
+		$params     = $state->get('params');
 
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
-		$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+
+		if (empty($item->catid))
+		{
+			$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
+		}
 
 		if ($active)
 		{
@@ -199,7 +203,7 @@ class HtmlView extends BaseHtmlView
 		if ($item->params->get('show_street_address') || $item->params->get('show_suburb') || $item->params->get('show_state')
 			|| $item->params->get('show_postcode') || $item->params->get('show_country'))
 		{
-			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
+			if (!empty($item->address) || !empty($item->suburb) || !empty($item->state) || !empty($item->country) || !empty($item->postcode))
 			{
 				$item->params->set('address_check', 1);
 			}
@@ -418,6 +422,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->_prepareDocument();
+
 		return parent::display($tpl);
 	}
 
@@ -509,16 +514,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->metakey)
 		{
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetaData('keywords', $this->item->metakey);
 		}
 		elseif ($this->params->get('menu-meta_keywords'))
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		$mdata = $this->item->metadata->toArray();
@@ -527,7 +532,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($v)
 			{
-				$this->document->setMetadata($k, $v);
+				$this->document->setMetaData($k, $v);
 			}
 		}
 	}

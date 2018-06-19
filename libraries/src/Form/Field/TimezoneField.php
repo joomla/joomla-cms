@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -153,7 +154,7 @@ class TimezoneField extends \JFormFieldGroupedList
 				// Only add options where a locale exists.
 				if (!empty($locale))
 				{
-					$groups[$group][$zone] = \JHtml::_('select.option', $zone, str_replace('_', ' ', $locale), 'value', 'text', false);
+					$groups[$group][$zone] = HTMLHelper::_('select.option', $zone, str_replace('_', ' ', $locale), 'value', 'text', false);
 				}
 			}
 		}

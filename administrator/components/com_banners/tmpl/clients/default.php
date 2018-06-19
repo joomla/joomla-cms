@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,7 +130,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php echo $item->count_published; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
-										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
+										<a class="badge <?php if ($item->count_unpublished > 0) echo 'badge-danger'; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									</td>
 									<td class="center btns d-none d-lg-table-cell">
