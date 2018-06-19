@@ -131,7 +131,7 @@ class UpdateCoreCommand extends AbstractCommand
 		if (!empty($updateInformation['hasUpdate']))
 		{
 			$packagefile = InstallerHelper::downloadPackage($updateInformation['object']->downloadurl->_data);
-			$tmp_path    = $app->get('tmp_path');
+			$tmp_path    = $this->getApplication()->get('tmp_path');
 			$packagefile = $tmp_path . '/' . $packagefile;
 			$package     = InstallerHelper::unpack($packagefile, true);
 			Folder::copy($package['extractdir'], JPATH_BASE, '', true);
