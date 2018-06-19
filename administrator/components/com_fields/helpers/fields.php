@@ -611,12 +611,12 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);
 
-		return $db->loadColumn();
+		return array_filter($db->loadColumn());
 	}
 
 	/**
