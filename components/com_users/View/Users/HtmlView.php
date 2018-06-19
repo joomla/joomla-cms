@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Language\Text;
 
 /**
  * Users List view class for Users.
@@ -68,11 +69,7 @@ class HtmlView extends BaseHtmlView
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
 
-		$menus   = $app->getMenu();
-		$menu = $menus->getActive();
 
-		$this->group = new CMSObject;
-		$this->group->title = $menu->title;
 
 		PluginHelper::importPlugin('content');
 
@@ -96,6 +93,50 @@ class HtmlView extends BaseHtmlView
 			$results = $app->triggerEvent('onContentAfterDisplay', array('com_users.user', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
+
+		$menus   = $app->getMenu();
+		$menu = $menus->getActive();
+
+		$this->group = new CMSObject;
+		$this->group->title = $menu->title;
+		$this->group->id = $this->state->get('user.group');
+
+		if ($menu
+			&& $menu->component == 'com_users'
+			&& isset($menu->query['view'], $menu->query['id'])
+			&& $menu->query['view'] == 'users'
+			&& $menu->query['id'] == $this->group->id)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+			$title = $this->params->get('page_title', $menu->title);
+		}
+		else
+		{
+			$this->params->def('page_heading', $this->group->title);
+			$title = $this->group->title;
+			$this->params->set('page_title', $title);
+		}
+
+		// Check for empty title and add site name if param is set
+		if (empty($title))
+		{
+			$title = $app->get('sitename');
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		{
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+		}
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		{
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+		}
+
+		if (empty($title))
+		{
+			$title = $this->group->title;
+		}
+
+		$this->document->setTitle($title);
 
 		return parent::display($tpl);
 	}
