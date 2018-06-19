@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Users List view class for Users.
@@ -25,14 +26,31 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\Registry\Registry
 	 */
 	protected $state;
 
 	/**
+	 * User items data
+	 *
 	 * @var array
 	 */
 	protected $items;
+
+	/**
+	 * The group
+	 *
+	 * @var CMSObject
+	 */
+	protected $group;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  4.0.0
+	 */
+	protected $params = null;
 
 	/**
 	 * Execute and display a template script.
@@ -45,8 +63,16 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app        = Factory::getApplication();
+		$app          = Factory::getApplication();
 		$this->items  = $this->get('Items');
+		$this->state  = $this->get('State');
+		$this->params = $this->state->get('params');
+
+		$menus   = $app->getMenu();
+		$menu = $menus->getActive();
+
+		$this->group = new CMSObject;
+		$this->group->title = $menu->title;
 
 		PluginHelper::importPlugin('content');
 
