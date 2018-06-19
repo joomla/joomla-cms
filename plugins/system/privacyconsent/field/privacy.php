@@ -104,24 +104,9 @@ class JFormFieldprivacy extends JFormFieldRadio
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
-			if (JLanguageAssociations::isEnabled())
-			{
-				$privacyassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $privacyarticle);
-			}
-
-			$current_lang = Factory::getLanguage()->getTag();
-
-			if (isset($privacyassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $privacyassociated))
-			{
-				$url  = ContentHelperRoute::getArticleRoute($privacyassociated[$current_lang]->id, $privacyassociated[$current_lang]->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $privacyassociated[$current_lang]->language), $text, $attribs);
-			}
-			else
-			{
-				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
-			}
+			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
+			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
 		}
 		else
 		{
