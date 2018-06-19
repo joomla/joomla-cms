@@ -448,13 +448,13 @@ class LanguageHelper
 
 		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
 		{
-			$contents = file_get_contents($filename);
+			$contents = file_get_contents($fileName);
 			$contents = str_replace('_QQ_', '"\""', $contents);
 			$strings = @parse_ini_string($contents);
 		}
 		else
 		{
-			$strings = @parse_ini_file($filename);
+			$strings = @parse_ini_file($fileName);
 		}
 
 		// Restore error tracking to what it was before.
