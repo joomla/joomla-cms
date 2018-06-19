@@ -61,8 +61,6 @@ class UsersModel extends ListModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 
-		// $u = Access::getUsersByGroup((int)$this->getState('user.group'));
-
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -89,4 +87,25 @@ class UsersModel extends ListModel
 		return $query;
 	}
 
+	/**
+	 * Method to get group name for the current group
+	 *
+	 * @return  string
+	 */
+	public function getGroup()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			'a.id, a.title'
+		);
+
+		$query->from($db->quoteName('#__usergroups') . ' AS a')
+			->where('a.id = (' . $this->getState('user.group') . ')');
+
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
 }

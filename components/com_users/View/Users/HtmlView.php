@@ -68,8 +68,7 @@ class HtmlView extends BaseHtmlView
 		$this->items  = $this->get('Items');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
-
-
+		$this->group = $this->get('Group');
 
 		PluginHelper::importPlugin('content');
 
@@ -96,10 +95,6 @@ class HtmlView extends BaseHtmlView
 
 		$menus   = $app->getMenu();
 		$menu = $menus->getActive();
-
-		$this->group = new CMSObject;
-		$this->group->title = $menu->title;
-		$this->group->id = $this->state->get('user.group');
 
 		if ($menu
 			&& $menu->component == 'com_users'
