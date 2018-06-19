@@ -40,7 +40,7 @@ class UsersModel extends ListModel
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// List state information
 		$groupId = $app->input->get('id');
