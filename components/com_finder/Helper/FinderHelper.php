@@ -30,7 +30,7 @@ class FinderHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function logSearch(FinderIndexerQuery $searchquery, $resultCount = 0)
+	public static function logSearch(\FinderIndexerQuery $searchquery, $resultCount = 0)
 	{
 		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
 
