@@ -170,35 +170,35 @@ class ChecksModel extends BaseInstallationModel
 		// Check for display errors.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
-		$setting->state = false;
+		$setting->state = (bool) ini_get('display_errors');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for file uploads.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_FILE_UPLOADS');
-		$setting->state = false;
+		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
 		// Check for output buffering.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = false;
+		$setting->state = (bool) ini_get('output_buffering');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for session auto-start.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_SESSION_AUTO_START');
-		$setting->state = false;
+		$setting->state = (bool) ini_get('session.auto_start');
 		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for native ZIP support.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
-		$setting->state = false;
+		$setting->state = function_exists('zip_open') && function_exists('zip_read');
 		$setting->recommended = true;
 		$settings[] = $setting;
 
