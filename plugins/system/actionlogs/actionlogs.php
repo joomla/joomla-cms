@@ -83,6 +83,11 @@ class PlgSystemActionLogs extends JPlugin
 			'com_users.user',
 		);
 
+		if (!in_array($formName, $allowedFormNames))
+		{
+			return true;
+		}
+
 		$canView = false;
 
 		if (isset($data->id))
@@ -90,7 +95,7 @@ class PlgSystemActionLogs extends JPlugin
 			$canView = JUser::getInstance($data->id)->authorise('core.admin');
 		}
 
-		if (!in_array($formName, $allowedFormNames) || !$canView)
+		if (!$canView)
 		{
 			return true;
 		}
