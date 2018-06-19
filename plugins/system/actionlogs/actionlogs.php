@@ -83,7 +83,7 @@ class PlgSystemActionLogs extends JPlugin
 			'com_users.user',
 		);
 
-		$canView = JFactory::getUser()->authorise('core.viewlogs');
+		$canView = false;
 
 		if (isset($data->id))
 		{
