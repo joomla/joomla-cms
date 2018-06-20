@@ -17,7 +17,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 	<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<?php if (!isset($this->items[$this->parent->id][$id + 1])) : ?>
-				<?php $class = ' class="last"'; ?>
+				<?php $class = 'last'; ?>
 			<?php endif; ?>
 			<div class="com-newsfeeds-categories__items <?php echo $class; ?>">
 				<?php $class = ''; ?>
