@@ -13,7 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
 ?>
-<div class="contact-form">
+<div class="com-contact__form contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>

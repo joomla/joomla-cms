@@ -69,14 +69,14 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_ZLIB_COMPRESSION_SUPPORT');
 		$option->state  = extension_loaded('zlib');
-		$option->notice = null;
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_ZLIB_COMPRESSION_SUPPORT');
 		$options[] = $option;
 
 		// Check for XML support.
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_XML_SUPPORT');
 		$option->state  = extension_loaded('xml');
-		$option->notice = null;
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_XML_SUPPORT');
 		$options[] = $option;
 
 		// Check for database support.
@@ -86,7 +86,7 @@ class ChecksModel extends BaseInstallationModel
 		$option->label  = \JText::_('INSTL_DATABASE_SUPPORT');
 		$option->label .= '<br>(' . implode(', ', $available) . ')';
 		$option->state  = count($available);
-		$option->notice = null;
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_DATABASE_SUPPORT');
 		$options[] = $option;
 
 		// Check for mbstring options.
@@ -96,14 +96,14 @@ class ChecksModel extends BaseInstallationModel
 			$option = new \stdClass;
 			$option->label  = \JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
 			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
-			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
+			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_MBLANG_NOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new \stdClass;
 			$option->label  = \JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
 			$option->state  = (ini_get('mbstring.func_overload') == 0);
-			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
+			$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_MBSTRING_OVERLOAD_OFF');
 			$options[] = $option;
 		}
 
@@ -111,14 +111,14 @@ class ChecksModel extends BaseInstallationModel
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
 		$option->state  = $this->getIniParserAvailability();
-		$option->notice = null;
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_PARSE_INI_FILE_AVAILABLE');
 		$options[] = $option;
 
 		// Check for missing native json_encode / json_decode support.
 		$option = new \stdClass;
 		$option->label  = \JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
-		$option->notice = null;
+		$option->notice = $option->state ? null : \JText::_('INSTL_NOTICE_JSON_SUPPORT_AVAILABLE');
 		$options[] = $option;
 
 		// Check for configuration file writable.
@@ -167,13 +167,6 @@ class ChecksModel extends BaseInstallationModel
 	{
 		$settings = array();
 
-		// Check for safe mode.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_SAFE_MODE');
-		$setting->state = (bool) ini_get('safe_mode');
-		$setting->recommended = false;
-		$settings[] = $setting;
-
 		// Check for display errors.
 		$setting = new \stdClass;
 		$setting->label = \JText::_('INSTL_DISPLAY_ERRORS');
@@ -186,13 +179,6 @@ class ChecksModel extends BaseInstallationModel
 		$setting->label = \JText::_('INSTL_FILE_UPLOADS');
 		$setting->state = (bool) ini_get('file_uploads');
 		$setting->recommended = true;
-		$settings[] = $setting;
-
-		// Check for magic quotes runtimes.
-		$setting = new \stdClass;
-		$setting->label = \JText::_('INSTL_MAGIC_QUOTES_RUNTIME');
-		$setting->state = (bool) ini_get('magic_quotes_runtime');
-		$setting->recommended = false;
 		$settings[] = $setting;
 
 		// Check for output buffering.

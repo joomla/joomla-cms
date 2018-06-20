@@ -9,30 +9,24 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 // Load tooltips behavior
 JHtml::_('behavior.formvalidator');
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('application-form'))) {
-			Joomla.submitform(task, document.getElementById('application-form'));
-		}
-	}
-");
+HTMLHelper::_('script', 'com_config/config-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate"  data-cancel-task="config.cancel.component">
 
 	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">
-			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.apply')">
+			<button type="button" class="btn btn-primary" data-submit-task="config.apply">
 				<span class="fa fa-check" aria-hidden="true"></span>
 				<?php echo JText::_('JSAVE') ?>
 			</button>
 		</div>
 		<div class="btn-group">
-			<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('config.cancel')">
+			<button type="button" class="btn btn-danger" data-submit-task="config.cancel">
 				<span class="fa fa-times" aria-hidden="true"></span>
 				<?php echo JText::_('JCANCEL') ?>
 			</button>

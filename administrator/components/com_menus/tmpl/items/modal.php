@@ -42,7 +42,7 @@ if (!empty($editor))
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?></joomla-alert>
+			<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-striped table-sm">
 				<thead>
@@ -134,7 +134,7 @@ if (!empty($editor))
 									<?php if ($item->language_image) : ?>
 										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>

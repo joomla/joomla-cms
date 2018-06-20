@@ -9,5 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$this->subtemplatename = 'items';
-echo JLayoutHelper::render('joomla.content.category_default', $this);
+?>
+
+<div class="com-contact-category">
+	<?php 
+		$this->subtemplatename = 'items';
+		echo JLayoutHelper::render('joomla.content.category_default', $this);
+	?>
+</div>

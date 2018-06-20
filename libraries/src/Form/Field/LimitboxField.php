@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -98,7 +99,7 @@ class LimitboxField extends \JFormFieldList
 				{
 					$options[] = (object) array(
 						'value' => $value,
-						'text' => ($value != 0) ? \JText::_('J' . $value) : \JText::_('JALL'),
+						'text' => ($value != 0) ? Text::_('J' . $value) : Text::_('JALL'),
 					);
 				}
 

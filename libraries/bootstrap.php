@@ -36,11 +36,6 @@ JLoader::setup();
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Register the extension root paths.
-JLoader::registerExtensionRootFolder('', JPATH_SITE);
-JLoader::registerExtensionRootFolder('Site', JPATH_SITE);
-JLoader::registerExtensionRootFolder('Administrator', JPATH_ADMINISTRATOR);
-
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
@@ -53,7 +48,7 @@ spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Register the global exception handler.
-set_exception_handler(['JErrorPage', 'render']);
+\Symfony\Component\Debug\ExceptionHandler::register(false);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

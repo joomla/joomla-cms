@@ -35,7 +35,8 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	 */
 	public function createButton(Toolbar $toolbar, string $type): ToolbarButton
 	{
-		$buttonClass = $this->loadButtonClass($type);
+		$normalisedType = ucfirst($type);
+		$buttonClass    = $this->loadButtonClass($normalisedType);
 
 		if (!$buttonClass)
 		{
@@ -59,7 +60,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 
 		if (!class_exists($buttonClass))
 		{
-			throw new \InvalidArgumentException(sprintf('Class `%1$s` does not exist, could not create a toolbar button.'));
+			throw new \InvalidArgumentException(sprintf('Class `%1$s` does not exist, could not create a toolbar button.', $buttonClass));
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
@@ -69,7 +70,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 		}
 
 		/** @var ToolbarButton $button */
-		$button = new $buttonClass;
+		$button = new $buttonClass($normalisedType);
 
 		return $button->setParent($toolbar);
 	}
@@ -91,7 +92,7 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	/**
 	 * Load the button class including the deprecated ones.
 	 *
-	 * @param   string  $type  Button Type
+	 * @param   string  $type  Button Type (normalized)
 	 *
 	 * @return  string|null
 	 *
@@ -100,9 +101,9 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 	private function loadButtonClass(string $type)
 	{
 		$buttonClasses = [
-			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
+			'Joomla\\CMS\\Toolbar\\Button\\' . $type . 'Button',
 			// @deprecated 5.0
-			'JToolbarButton' . ucfirst($type),
+			'JToolbarButton' . $type,
 		];
 
 		foreach ($buttonClasses as $buttonClass)

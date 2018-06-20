@@ -10,6 +10,9 @@
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
+		<filename>error.php</filename>
+		<filename>error_full.php</filename>
+		<filename>error_login.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>login.php</filename>

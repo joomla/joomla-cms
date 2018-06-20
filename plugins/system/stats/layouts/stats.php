@@ -21,7 +21,7 @@ extract($displayData);
 
 $versionFields = array('php_version', 'db_version', 'cms_version');
 ?>
-<table class="table table-striped mb-1 js-pstats-data-details d-none">
+<table class="table table-striped mb-1 d-none" id="js-pstats-data-details">
 	<?php foreach ($statsData as $key => $value) : ?>
 	<tr>
 		<td><b><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></b></td>

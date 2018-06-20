@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Form Field to load a list of predefined values
@@ -77,7 +78,7 @@ abstract class PredefinedlistField extends ListField
 			{
 				if (empty($filter) || in_array($value, $filter))
 				{
-					$text = $this->translate ? \JText::_($text) : $text;
+					$text = $this->translate ? Text::_($text) : $text;
 
 					$options[] = (object) array(
 						'value' => $value,
