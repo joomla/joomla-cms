@@ -19,8 +19,8 @@ class UsersControllerActivation extends JControllerForm
 	/**
 	 * Method to Active the user and send an email notification
 	 *
-	 * @param   string   &$message  The message that will be returned
-	 * @param   boolean  &$error    If there was an error obtaining the data
+	 * @param   string   $message  The message that will be returned
+	 * @param   boolean  $error    If there was an error obtaining the data
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
