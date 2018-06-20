@@ -9,118 +9,34 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\Router\RouterBase;
+use Joomla\CMS\Component\Router\RouterView;
+use Joomla\CMS\Component\Router\RouterViewConfiguration;
+use Joomla\CMS\Component\Router\Rules\MenuRules;
+use Joomla\CMS\Component\Router\Rules\NomenuRules;
+use Joomla\CMS\Component\Router\Rules\StandardRules;
 
 /**
  * Routing class from com_finder
  *
  * @since  3.3
  */
-class FinderRouter extends RouterBase
+class FinderRouter extends RouterView
 {
 	/**
-	 * Build the route for the com_finder component
+	 * Finder Component router constructor
 	 *
-	 * @param   array  &$query  An array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
 	 */
-	public function build(&$query)
+	public function __construct($app = null, $menu = null)
 	{
-		$segments = array();
+		$search = new RouterViewConfiguration('search');
+		$this->registerView($search);
 
-		/*
-		 * First, handle menu item routes first. When the menu system builds a
-		 * route, it only provides the option and the menu item id. We don't have
-		 * to do anything to these routes.
-		 */
-		if (count($query) === 2 && isset($query['Itemid'], $query['option']))
-		{
-			return $segments;
-		}
+		parent::__construct($app, $menu);
 
-		/*
-		 * Next, handle a route with a supplied menu item id. All system generated
-		 * routes should fall into this group. We can assume that the menu item id
-		 * is the best possible match for the query but we need to go through and
-		 * see which variables we can eliminate from the route query string because
-		 * they are present in the menu item route already.
-		 */
-		if (!empty($query['Itemid']))
-		{
-			// Get the menu item.
-			$item = $this->menu->getItem($query['Itemid']);
-
-			// Check if the view matches.
-			if ($item && isset($item->query['view']) && isset($query['view']) && $item->query['view'] === $query['view'])
-			{
-				unset($query['view']);
-			}
-
-			// Check if the search query filter matches.
-			if ($item && isset($item->query['f']) && isset($query['f']) && $item->query['f'] === $query['f'])
-			{
-				unset($query['f']);
-			}
-
-			// Check if the search query string matches.
-			if ($item && isset($item->query['q']) && isset($query['q']) && $item->query['q'] === $query['q'])
-			{
-				unset($query['q']);
-			}
-
-			return $segments;
-		}
-
-		/*
-		 * Lastly, handle a route with no menu item id. Fortunately, we only need
-		 * to deal with the view as the other route variables are supposed to stay
-		 * in the query string.
-		 */
-		if (isset($query['view']))
-		{
-			// Add the view to the segments.
-			$segments[] = $query['view'];
-			unset($query['view']);
-		}
-
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
-		}
-
-		return $segments;
-	}
-
-	/**
-	 * Parse the segments of a URL.
-	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
-	 *
-	 * @return  array  The URL attributes to be used by the application.
-	 *
-	 * @since   3.3
-	 */
-	public function parse(&$segments)
-	{
-		$total = count($segments);
-		$vars = array();
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
-
-		// Check if the view segment is set and it equals search or advanced.
-		if (isset($segments[0]) && ($segments[0] === 'search' || $segments[0] === 'advanced'))
-		{
-			$vars['view'] = $segments[0];
-		}
-
-		return $vars;
+		$this->attachRule(new MenuRules($this));
+		$this->attachRule(new StandardRules($this));
+		$this->attachRule(new NomenuRules($this));
 	}
 }

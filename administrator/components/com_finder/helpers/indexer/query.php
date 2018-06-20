@@ -108,6 +108,14 @@ class FinderIndexerQuery
 	public $terms;
 
 	/**
+	 * Allow empty searches
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $empty;
+
+	/**
 	 * The static filter id.
 	 *
 	 * @var    string
@@ -181,7 +189,6 @@ class FinderIndexerQuery
 
 		// Get the input language.
 		$this->language = !empty($options['language']) ? $options['language'] : FinderIndexerHelper::getDefaultLanguage();
-		$this->language = FinderIndexerHelper::getPrimaryLanguage($this->language);
 
 		// Get the matching mode.
 		$this->mode = 'AND';
@@ -979,7 +986,7 @@ class FinderIndexerQuery
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					$token = $this->getTokenData($token);
+					$token = $this->getTokenData(array_shift($token));
 
 					// Set the required flag.
 					$token->required = true;
@@ -993,7 +1000,7 @@ class FinderIndexerQuery
 
 					// Tokenize the term after the next term (current plus two).
 					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
-					$other = $this->getTokenData($other);
+					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
 					$other->required = true;
@@ -1131,7 +1138,7 @@ class FinderIndexerQuery
 
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
-				$other = $this->getTokenData($other);
+				$other = $this->getTokenData(array_shift($other));
 
 				// Set the required flag.
 				$other->required = false;
@@ -1171,7 +1178,7 @@ class FinderIndexerQuery
 		{
 			// Tokenize the phrase.
 			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
-			$token = $this->getTokenData($token);
+			$token = $this->getTokenData(array_shift($token));
 
 			// Set the required flag.
 			$token->required = true;
