@@ -18,16 +18,13 @@ defined('JPATH_PLATFORM') or die;
 final class Registry
 {
 	/**
-	 * Mapping array of the core CMS JHtml helpers
-	 *
-	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
+	 * Array holding the registered services
 	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	private $coreServiceMap = [
+	private $serviceMap = [
 		'access'          => \JHtmlAccess::class,
-		'actionsdropdown' => \JHtmlActionsDropdown::class,
 		'batch'           => \JHtmlBatch::class,
 		'behavior'        => \JHtmlBehavior::class,
 		'bootstrap'       => \JHtmlBootstrap::class,
@@ -60,12 +57,43 @@ final class Registry
 	];
 
 	/**
-	 * Array holding the registered services
+	 * Class loader method
 	 *
-	 * @var    array
-	 * @since  4.0.0
+	 * Additional arguments may be supplied and are passed to the sub-class.
+	 * Additional include paths are also able to be specified for third-party use
+	 *
+	 * @param   string  $key         The name of helper method to load, service.function.
+	 * @param   array   $methodArgs  The arguments to pass forward to the method being called
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
 	 */
-	private $serviceMap = [];
+	public function _(string $key, ...$methodArgs)
+	{
+		$parts = explode('.', $key);
+
+		// Last element is the function
+		$function = array_pop($parts);
+
+		// The rest is the service
+		$service = implode('.', $parts);
+
+		if (!$this->hasService($service))
+		{
+			return HTMLHelper::_($key, $methodArgs);
+		}
+
+		$toCall = [$this->getService($service), $function];
+
+		if (!is_callable($toCall))
+		{
+			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $function), 500);
+		}
+
+		return call_user_func_array($toCall, $methodArgs);
+	}
 
 	/**
 	 * Get the service for a given key

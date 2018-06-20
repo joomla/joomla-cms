@@ -39,7 +39,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo JHtml::_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo $this->getRegistry()->_('content.icon.print_screen', $this->item, $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -68,7 +68,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo JHtml::_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo $this->getRegistry()->_('content.icon.print_screen', $this->item, $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -130,7 +130,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-	<?php echo JHtml::_('content.prepare', $this->item->introtext); ?>
+	<?php echo $this->getRegistry()->_('content.prepare', $this->item->introtext); ?>
 	<?php // Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) : ?>
 	<?php $menu = JFactory::getApplication()->getMenu(); ?>
@@ -147,13 +147,13 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
+				echo $this->getRegistry()->_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 		else :
 			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
+			echo $this->getRegistry()->_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>
 	</p>

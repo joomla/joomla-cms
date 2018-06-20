@@ -112,19 +112,20 @@ abstract class HTMLHelper
 	 * Additional arguments may be supplied and are passed to the sub-class.
 	 * Additional include paths are also able to be specified for third-party use
 	 *
-	 * @param   string  $key         The name of helper method to load, (prefix).(class).function
+	 * @param   string  $serviceKey  The name of helper method to load, (prefix).(class).function
 	 *                               prefix and class are optional and can be used to load custom
 	 *                               html helpers.
 	 * @param   array   $methodArgs  The arguments to pass forward to the method being called
 	 *
 	 * @return  mixed  Result of HTMLHelper::call($function, $args)
 	 *
-	 * @since   1.5
-	 * @throws  \InvalidArgumentException
+	 * @since       1.5
+	 * @throws      \InvalidArgumentException
+	 * @deprecated  5.0 Use the HTML Registry instead
 	 */
-	final public static function _(string $key, ...$methodArgs)
+	final public static function _(string $serviceKey, ...$methodArgs)
 	{
-		list($key, $prefix, $file, $func) = static::extract($key);
+		list($key, $prefix, $file, $func) = static::extract($serviceKey);
 
 		if (array_key_exists($key, static::$registry))
 		{
@@ -133,24 +134,12 @@ abstract class HTMLHelper
 			return static::call($function, $methodArgs);
 		}
 
-		/*
-		 * Support fetching services from the registry if a custom class prefix was not given (a three segment key),
-		 * the service comes from a class other than this one, and a service has been registered for the file.
-		 */
-		if ($prefix === 'JHtml' && $file !== '' && static::getServiceRegistry()->hasService($file))
+		$registry = self::getServiceRegistry();
+
+		if ($registry->hasService($file) || $registry->hasService($prefix . '.' . $file))
 		{
-			$service = static::getServiceRegistry()->getService($file);
-
-			$toCall = array($service, $func);
-
-			if (!is_callable($toCall))
-			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
-			}
-
-			static::register($key, $toCall);
-
-			return static::call($toCall, $methodArgs);
+			array_unshift($methodArgs, $serviceKey);
+			return call_user_func_array([$registry, '_'], $methodArgs);
 		}
 
 		$className = $prefix . ucfirst($file);

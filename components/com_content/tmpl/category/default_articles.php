@@ -254,7 +254,7 @@ if (!empty($this->items))
 			<?php if ($isEditable) : ?>
 				<td headers="categorylist_header_edit" class="list-edit">
 					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo JHtml::_('contenticon.edit', $article, $params); ?>
+						<?php echo JHtml::_('content.icon.edit', $article, $params); ?>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>
@@ -266,7 +266,7 @@ if (!empty($this->items))
 
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
-	<?php echo JHtml::_('contenticon.create', $this->category, $this->category->params); ?>
+	<?php echo JHtml::_('content.icon.create', $this->category, $this->category->params); ?>
 <?php endif; ?>
 
 <?php // Add pagination links ?>
