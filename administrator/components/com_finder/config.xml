@@ -270,29 +270,6 @@
 		/>
 
 		<field
-			name="stem"
-			type="radio"
-			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="stemmer"
-			type="list"
-			label="COM_FINDER_CONFIG_STEMMER_LABEL"
-			default="snowball"
-			showon="stem:1" 
-			>
-			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
-			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
-			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>
-		</field>
-
-		<field
 			name="enable_logging"
 			type="radio"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
